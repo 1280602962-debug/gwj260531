@@ -100,6 +100,27 @@ def curate_isoform_raw(
     return pd.DataFrame(rows)
 
 
+RDKIT_DESC_NAMES = [
+    "MolWt",
+    "MolLogP",
+    "TPSA",
+    "NumHDonors",
+    "NumHAcceptors",
+    "NumRotatableBonds",
+    "RingCount",
+    "NumAromaticRings",
+    "FractionCSP3",
+    "BertzCT",
+    "NumHeteroatoms",
+    "QED",
+]
+
+
+def feature_names(morgan_bits: int = 2048) -> list[str]:
+    """Ordered feature names matching featurize_smiles output."""
+    return [f"Bit_{i}" for i in range(morgan_bits)] + RDKIT_DESC_NAMES
+
+
 def featurize_smiles(smiles_list: list[str], morgan_bits: int = 2048) -> np.ndarray:
     from rdkit import Chem, DataStructs
     from rdkit.Chem import AllChem

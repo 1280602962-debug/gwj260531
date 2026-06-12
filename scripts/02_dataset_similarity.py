@@ -18,6 +18,7 @@ from __future__ import annotations
 import argparse
 import json
 import logging
+import sys
 from pathlib import Path
 
 import matplotlib.pyplot as plt
@@ -27,10 +28,12 @@ import seaborn as sns
 from scipy.stats import ks_2samp
 from sklearn.decomposition import PCA
 
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "scripts"))
+from plot_style import FIGSIZE_DOUBLE, FIGSIZE_SINGLE, apply_journal_style, save_figure  # noqa: E402
+
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger(__name__)
-
-ROOT = Path(__file__).resolve().parents[1]
 
 
 def morgan_fp(smiles: str, radius: int = 2, n_bits: int = 2048):
@@ -203,24 +206,22 @@ def plot_umap(datasets: dict[str, pd.DataFrame], output_dir: Path, sample_n: int
     combined["x"] = coords[:, 0]
     combined["y"] = coords[:, 1]
 
-    fig, ax = plt.subplots(figsize=(10, 8))
-    sns.scatterplot(data=combined, x="x", y="y", hue="isoform", alpha=0.5, s=15, ax=ax)
+    apply_journal_style()
+    fig, ax = plt.subplots(figsize=FIGSIZE_DOUBLE)
+    sns.scatterplot(data=combined, x="x", y="y", hue="isoform", alpha=0.5, s=12, ax=ax)
     ax.set_title(f"JNK1/2/3 Chemical Space ({method})")
     ax.set_xlabel(f"{method} 1")
     ax.set_ylabel(f"{method} 2")
-    fig.tight_layout()
-    fig.savefig(output_dir / "chemical_space.png", dpi=200)
-    plt.close(fig)
+    save_figure(output_dir / "chemical_space.png", fig)
     logger.info("Saved chemical space plot (%s)", method)
 
 
 def plot_similarity_heatmap(matrix: pd.DataFrame, output_dir: Path):
-    fig, ax = plt.subplots(figsize=(6, 5))
-    sns.heatmap(matrix.astype(float), annot=True, fmt=".3f", cmap="YlOrRd", ax=ax)
+    apply_journal_style()
+    fig, ax = plt.subplots(figsize=FIGSIZE_SINGLE)
+    sns.heatmap(matrix.astype(float), annot=True, fmt=".3f", cmap="YlOrRd", ax=ax, annot_kws={"size": 7})
     ax.set_title("Cross-Dataset Mean Tanimoto Similarity")
-    fig.tight_layout()
-    fig.savefig(output_dir / "cross_similarity_heatmap.png", dpi=200)
-    plt.close(fig)
+    save_figure(output_dir / "cross_similarity_heatmap.png", fig)
 
 
 def analyze_paired(paired_path: Path, output_dir: Path):
@@ -228,18 +229,17 @@ def analyze_paired(paired_path: Path, output_dir: Path):
         logger.warning("Paired set not found: %s", paired_path)
         return
     paired = pd.read_csv(paired_path)
-    fig, axes = plt.subplots(1, 2, figsize=(12, 5))
+    apply_journal_style()
+    fig, axes = plt.subplots(1, 2, figsize=FIGSIZE_DOUBLE)
     for ax, col in zip(axes, ["delta_12", "delta_13"]):
         if col in paired.columns:
-            paired[col].dropna().hist(bins=40, ax=ax, edgecolor="black")
-            ax.axvline(1.0, color="red", linestyle="--", label="Δ=1 (10× SI)")
-            ax.set_xlabel(col)
+            paired[col].dropna().hist(bins=40, ax=ax, edgecolor="black", linewidth=0.5)
+            ax.axvline(1.0, color="red", linestyle="--", label="Δ = 1.0 (10× SI)")
+            ax.set_xlabel(f"{col} (log units)")
             ax.set_ylabel("Count")
-            ax.legend()
-    fig.suptitle("Selectivity Distribution (Paired Compounds)")
-    fig.tight_layout()
-    fig.savefig(output_dir / "selectivity_distribution.png", dpi=200)
-    plt.close(fig)
+            ax.legend(fontsize=7)
+    fig.suptitle("Selectivity Distribution (Paired Compounds)", fontsize=9)
+    save_figure(output_dir / "selectivity_distribution.png", fig)
 
     if "sel_class" in paired.columns:
         counts = paired["sel_class"].value_counts()

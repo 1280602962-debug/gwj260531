@@ -71,9 +71,10 @@ min_assay_confidence: 6
 
 # Selectivity thresholds (log10 molar units, i.e. ΔpActivity)
 selectivity:
-  delta_log_threshold: 1.0      # 10-fold selectivity
-  jnk1_active_threshold_pchembl: 6.5   # ~316 nM
-  jnk23_inactive_threshold_pchembl: 5.5  # ~3.16 µM
+  delta_log_threshold: 0.35      # ~2.2-fold selectivity (data-driven for paired labels)
+  jnk1_active_threshold_pchembl: 6.0   # ~1 µM
+  jnk23_inactive_threshold_pchembl: 6.0  # JNK2/3 below this when labeled selective
+  jnk1_min_for_delta: 5.5        # minimum JNK1 pActivity to compute delta labels
 
 # Benchmark compounds for retrospective validation
 benchmarks:

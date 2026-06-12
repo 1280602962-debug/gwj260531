@@ -40,9 +40,25 @@
     ├── 04_train_selectivity_model.py # XGBoost 多任务 + 选择性模型
     ├── 04b_train_chemprop_mtl.py     # Chemprop 2.0 原生 MTL
     ├── 05_model_interpretation.py    # SHAP / 子结构归因
-    ├── 06_virtual_screening.py       # 百万分子库筛选
-    └── 07_compare_models.py          # Chemprop vs XGBoost 对比 + 选优
+    ├── 06_virtual_screening.py       # Virtual screening funnel
+    ├── 07_compare_models.py          # Chemprop vs XGBoost comparison
+    ├── build_demo_library.py         # Build demo SMILES library
+    ├── plot_style.py                 # Journal figure style (Arial, 300 dpi)
+    └── run_selectivity_pipeline.py   # End-to-end 04→05→06 pipeline
 ```
+
+## Selectivity pipeline (04 → 05 → 06)
+
+```bash
+# Full pipeline: data prep + train + SHAP + screening
+python3 scripts/run_selectivity_pipeline.py
+
+# Or skip data prep if processed CSVs already exist
+python3 scripts/run_selectivity_pipeline.py --skip-data-prep
+```
+
+All pipeline figures use **Arial**, **English labels**, and **300 dpi** (see `scripts/plot_style.py`).
+For Arial on Linux: `sudo apt-get install ttf-mscorefonts-installer`
 
 ## 快速开始
 

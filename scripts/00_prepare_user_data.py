@@ -46,6 +46,7 @@ def build_paired(datasets: dict[str, pd.DataFrame], config: dict) -> pd.DataFram
     threshold_active = config["selectivity"]["jnk1_active_threshold_pchembl"]
     threshold_inactive = config["selectivity"]["jnk23_inactive_threshold_pchembl"]
     delta_threshold = config["selectivity"]["delta_log_threshold"]
+    jnk1_min = config["selectivity"].get("jnk1_min_for_delta", 5.5)
 
     merged = None
     for iso, df in datasets.items():
@@ -62,21 +63,31 @@ def build_paired(datasets: dict[str, pd.DataFrame], config: dict) -> pd.DataFram
     merged["delta_min"] = merged["pAct_JNK1"] - merged[["pAct_JNK2", "pAct_JNK3"]].max(axis=1)
 
     def classify(row):
-        if pd.isna(row["pAct_JNK1"]):
+        if pd.isna(row["pAct_JNK1"]) or row["pAct_JNK1"] < jnk1_min:
             return "unknown"
         jnk1_active = row["pAct_JNK1"] >= threshold_active
-        jnk2_inactive = pd.isna(row["pAct_JNK2"]) or row["pAct_JNK2"] < threshold_inactive
-        jnk3_inactive = pd.isna(row["pAct_JNK3"]) or row["pAct_JNK3"] < threshold_inactive
+        d12 = row.get("delta_12")
+        d13 = row.get("delta_13")
+        dmin = row.get("delta_min")
+
         delta_ok = (
-            (not pd.isna(row["delta_min"]) and row["delta_min"] >= delta_threshold)
-            or (not pd.isna(row["delta_12"]) and row["delta_12"] >= delta_threshold)
-            or (not pd.isna(row["delta_13"]) and row["delta_13"] >= delta_threshold)
+            (not pd.isna(dmin) and dmin >= delta_threshold)
+            or (not pd.isna(d12) and d12 >= delta_threshold)
+            or (not pd.isna(d13) and d13 >= delta_threshold)
         )
-        if jnk1_active and jnk2_inactive and jnk3_inactive and delta_ok:
+
+        if jnk1_active and delta_ok:
             return "JNK1-selective"
-        if jnk1_active and not jnk2_inactive and not jnk3_inactive:
-            return "pan-JNK"
-        return "non-selective"
+        if jnk1_active and not pd.isna(d12) and d12 <= -delta_threshold:
+            return "JNK2-biased"
+        if jnk1_active and not pd.isna(d13) and d13 <= -delta_threshold:
+            return "JNK3-biased"
+        if jnk1_active and not pd.isna(row["pAct_JNK2"]) and not pd.isna(row["pAct_JNK3"]):
+            if abs(d12 or 0) < delta_threshold and abs(d13 or 0) < delta_threshold:
+                return "pan-JNK"
+        if jnk1_active:
+            return "non-selective"
+        return "unknown"
 
     merged["sel_class"] = merged.apply(classify, axis=1)
     return merged
