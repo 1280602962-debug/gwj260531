@@ -1,0 +1,55 @@
+# ChEMBL target definitions for human JNK isoforms
+# Used by scripts/01_download_chembl_data.py
+
+targets:
+  JNK1:
+    chembl_id: CHEMBL2276
+    gene: MAPK8
+    uniprot: P45983
+    pref_name: Mitogen-activated protein kinase 8
+    aliases: [JNK1, SAPK1, PRKM8]
+
+  JNK2:
+    chembl_id: CHEMBL4179
+    gene: MAPK9
+    uniprot: P45984
+    pref_name: Mitogen-activated protein kinase 9
+    aliases: [JNK2, SAPK2, PRKM9]
+
+  JNK3:
+    chembl_id: CHEMBL2637
+    gene: MAPK10
+    uniprot: P53779
+    pref_name: Mitogen-activated protein kinase 10
+    aliases: [JNK3, SAPK3, PRKM10]
+
+# Standard activity types retained after curation
+activity_types:
+  - IC50
+  - Ki
+  - Kd
+  - EC50
+
+# Assay confidence filter (ChEMBL assay confidence score)
+min_assay_confidence: 6
+
+# Selectivity thresholds (log10 molar units, i.e. ΔpActivity)
+selectivity:
+  delta_log_threshold: 1.0      # 10-fold selectivity
+  jnk1_active_threshold_pchembl: 6.5   # ~316 nM
+  jnk23_inactive_threshold_pchembl: 5.5  # ~3.16 µM
+
+# Benchmark compounds for retrospective validation
+benchmarks:
+  - name: CC-90001
+    role: JNK1-biased
+    chembl_id: CHEMBL3989871
+  - name: SP600125
+    role: pan-JNK
+    chembl_id: CHEMBL471
+  - name: JNK-IN-8
+    role: JNK1/JNK2 covalent
+    chembl_id: CHEMBL1088639
+  - name: BIRB-796
+    role: p38/JNK dual (JNK2-strong)
+    chembl_id: CHEMBL261
