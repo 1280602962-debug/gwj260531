@@ -1,13 +1,12 @@
 #!/usr/bin/env python3
 """
-Phase 3b: Train Chemprop 2.0 native multitask model on JNK1/2/3.
+Train Chemprop 2.0 single-target models for JNK1, JNK2, JNK3.
 
-Uses pre-generated scaffold splits from 00_prepare_user_data.py.
+Uses per-isoform scaffold splits from data/processed/splits/{jnk1,jnk2,jnk3}/.
 
 Usage:
-    python scripts/04b_train_chemprop_mtl.py \
-        --splits-dir data/processed/splits \
-        --output models/chemprop
+    python3 scripts/04b_train_chemprop_mtl.py
+    python3 scripts/04b_train_chemprop_mtl.py --isoform JNK1 --epochs 100
 """
 
 from __future__ import annotations
@@ -17,36 +16,29 @@ import json
 import logging
 import shutil
 import subprocess
-import sys
 from pathlib import Path
 
-import numpy as np
 import pandas as pd
+import yaml
+
+import sys
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "scripts"))
+from utils_ml import regression_metrics  # noqa: E402
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger(__name__)
 
-ROOT = Path(__file__).resolve().parents[1]
-TARGET_COLS = ["pAct_JNK1", "pAct_JNK2", "pAct_JNK3"]
+ISOFORMS = ["JNK1", "JNK2", "JNK3"]
 
 
-def regression_metrics(y_true: np.ndarray, y_pred: np.ndarray) -> dict:
-    mask = ~np.isnan(y_true) & ~np.isnan(y_pred)
-    if mask.sum() == 0:
-        return {"rmse": np.nan, "mae": np.nan, "r2": np.nan, "spearman": np.nan, "n": 0}
-    yt, yp = y_true[mask], y_pred[mask]
-    rmse = float(np.sqrt(np.mean((yt - yp) ** 2)))
-    mae = float(np.mean(np.abs(yt - yp)))
-    ss_res = np.sum((yt - yp) ** 2)
-    ss_tot = np.sum((yt - yt.mean()) ** 2)
-    r2 = float(1 - ss_res / ss_tot) if ss_tot else np.nan
-    from scipy.stats import spearmanr
-
-    rho, _ = spearmanr(yt, yp)
-    return {"rmse": rmse, "mae": mae, "r2": r2, "spearman": float(rho), "n": int(mask.sum())}
+def load_config() -> dict:
+    with open(ROOT / "config" / "targets.yaml") as f:
+        return yaml.safe_load(f)
 
 
-def train_via_cli(train_path, val_path, test_path, output_dir, epochs=40, batch_size=64):
+def train_chemprop(train_path, val_path, test_path, target_col, output_dir, cfg):
     output_dir.mkdir(parents=True, exist_ok=True)
     chemprop_bin = shutil.which("chemprop") or "chemprop"
     cmd = [
@@ -59,15 +51,21 @@ def train_via_cli(train_path, val_path, test_path, output_dir, epochs=40, batch_
         "-s",
         "smiles",
         "--target-columns",
-        *TARGET_COLS,
+        target_col,
         "--metrics",
         "rmse",
         "mae",
         "r2",
         "--epochs",
-        str(epochs),
+        str(cfg.get("epochs", 100)),
         "--batch-size",
-        str(batch_size),
+        str(cfg.get("batch_size", 50)),
+        "--patience",
+        str(cfg.get("patience", 20)),
+        "--ffn-hidden-dim",
+        str(cfg.get("ffn_hidden_dim", 500)),
+        "--depth",
+        str(cfg.get("depth", 4)),
         "--accelerator",
         "cpu",
         "--num-workers",
@@ -75,23 +73,16 @@ def train_via_cli(train_path, val_path, test_path, output_dir, epochs=40, batch_
         "-o",
         str(output_dir),
     ]
-    logger.info("Running: %s", " ".join(cmd))
+    logger.info("Chemprop train [%s]: %s", target_col, " ".join(cmd))
     result = subprocess.run(cmd, capture_output=True, text=True)
     if result.returncode != 0:
-        logger.error("Chemprop CLI stderr:\n%s", result.stderr[-3000:])
-        raise RuntimeError(f"chemprop train failed (exit {result.returncode})")
-    logger.info("Chemprop training completed")
-    return result.stdout
+        logger.error(result.stderr[-4000:])
+        raise RuntimeError(f"chemprop train failed for {target_col}")
+    return output_dir
 
 
-def predict_via_cli(model_dir: Path, test_path: Path, pred_path: Path):
+def predict_chemprop(model_pt, test_path, pred_path):
     chemprop_bin = shutil.which("chemprop") or "chemprop"
-    # Chemprop saves checkpoints in output dir; use the directory or .pt files
-    model_paths = list(model_dir.rglob("*.pt"))
-    if not model_paths:
-        model_paths = [model_dir]
-    else:
-        model_paths = [model_paths[0]]
     cmd = [
         chemprop_bin,
         "predict",
@@ -100,105 +91,82 @@ def predict_via_cli(model_dir: Path, test_path: Path, pred_path: Path):
         "-s",
         "smiles",
         "--model-paths",
-        *[str(p) for p in model_paths],
+        str(model_pt),
         "-o",
         str(pred_path),
     ]
-    logger.info("Predicting: %s", " ".join(cmd))
-    result = subprocess.run(cmd, capture_output=True, text=True)
-    if result.returncode != 0:
-        logger.error("Chemprop predict stderr:\n%s", result.stderr[-3000:])
-        raise RuntimeError(f"chemprop predict failed (exit {result.returncode})")
+    subprocess.run(cmd, check=True, capture_output=True, text=True)
 
 
-def find_model_dir(output_dir: Path) -> Path:
-    for p in sorted(output_dir.rglob("model_0")):
-        return p.parent
-    checkpoints = list(output_dir.rglob("*.pt"))
-    if checkpoints:
-        return checkpoints[0].parent
-    return output_dir
+def find_best_pt(output_dir: Path) -> Path:
+    pts = list(output_dir.rglob("best.pt"))
+    if not pts:
+        pts = list(output_dir.rglob("*.pt"))
+    if not pts:
+        raise FileNotFoundError(f"No checkpoint in {output_dir}")
+    return pts[0]
 
 
-def evaluate_predictions(test_df: pd.DataFrame, pred_df: pd.DataFrame) -> dict:
-    merged = test_df.merge(pred_df, on="smiles", suffixes=("_true", "_pred"), how="inner")
-    metrics = {}
-    for col in TARGET_COLS:
-        true_col = col
-        pred_col = f"{col}_pred" if f"{col}_pred" in merged.columns else col
-        # chemprop may name predictions same as targets
-        if pred_col not in merged.columns:
-            for c in merged.columns:
-                if col in c and c != col and "pred" in c.lower():
-                    pred_col = c
-                    break
-        if true_col not in merged.columns:
-            continue
-        # After merge with suffixes
-        tcol = true_col if true_col in merged.columns else f"{true_col}_true"
-        pcol = None
-        for candidate in [f"{col}_pred", col, f"{col}_pred_pred"]:
-            if candidate in merged.columns:
-                pcol = candidate
-                break
-        if pcol is None:
-            # chemprop output columns often match target names exactly in separate file
-            pred_only = pred_df.set_index("smiles")
-            y_true = merged[tcol].values.astype(float)
-            y_pred = pred_only.loc[merged["smiles"], col].values.astype(float)
-        else:
-            y_true = merged[tcol].values.astype(float)
-            y_pred = merged[pcol].values.astype(float)
-        metrics[col] = regression_metrics(y_true, y_pred)
+def train_isoform(isoform: str, splits_dir: Path, output_root: Path, cfg: dict) -> dict:
+    iso_dir = splits_dir / isoform.lower()
+    target_col = f"pAct_{isoform}"
+    out_dir = output_root / isoform.lower()
+    if out_dir.exists():
+        shutil.rmtree(out_dir)
+
+    train_chemprop(
+        iso_dir / "train.csv",
+        iso_dir / "val.csv",
+        iso_dir / "test.csv",
+        target_col,
+        out_dir,
+        cfg,
+    )
+    model_pt = find_best_pt(out_dir)
+    pred_path = out_dir / "test_predictions.csv"
+    predict_chemprop(model_pt, iso_dir / "test.csv", pred_path)
+
+    test_df = pd.read_csv(iso_dir / "test.csv")
+    pred_df = pd.read_csv(pred_path)
+
+    merged = test_df.merge(pred_df, on="smiles", suffixes=("_true", "_pred"))
+    true_col = f"{target_col}_true" if f"{target_col}_true" in merged.columns else target_col
+    pred_col = f"{target_col}_pred" if f"{target_col}_pred" in merged.columns else target_col
+    if true_col not in merged.columns or pred_col not in merged.columns:
+        # fallback: second pAct column after merge
+        pcols = [c for c in merged.columns if "pAct" in c]
+        true_col, pred_col = pcols[0], pcols[1]
+
+    y_true = merged[true_col].values.astype(float)
+    y_pred = merged[pred_col].values.astype(float)
+    metrics = regression_metrics(y_true, y_pred)
+    metrics_path = out_dir / "metrics.json"
+    with open(metrics_path, "w") as f:
+        json.dump({"isoform": isoform, "holdout_test": metrics}, f, indent=2)
+    logger.info("%s Chemprop holdout R²=%.3f Spearman=%.3f", isoform, metrics["r2"], metrics["spearman"])
     return metrics
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Train Chemprop 2.0 MTL model")
+    parser = argparse.ArgumentParser(description="Train Chemprop per isoform")
     parser.add_argument("--splits-dir", type=Path, default=ROOT / "data" / "processed" / "splits")
     parser.add_argument("--output", type=Path, default=ROOT / "models" / "chemprop")
-    parser.add_argument("--epochs", type=int, default=40)
-    parser.add_argument("--batch-size", type=int, default=64)
+    parser.add_argument("--isoform", choices=ISOFORMS, default=None)
+    parser.add_argument("--epochs", type=int, default=None)
     args = parser.parse_args()
 
-    train_path = args.splits_dir / "train.csv"
-    val_path = args.splits_dir / "val.csv"
-    test_path = args.splits_dir / "test.csv"
-    for p in [train_path, val_path, test_path]:
-        if not p.exists():
-            raise SystemExit(f"Missing split file: {p}. Run 00_prepare_user_data.py first.")
+    config = load_config()
+    cp_cfg = dict(config.get("training", {}).get("chemprop", {}))
+    if args.epochs:
+        cp_cfg["epochs"] = args.epochs
 
-    if args.output.exists():
-        shutil.rmtree(args.output)
-    train_via_cli(train_path, val_path, test_path, args.output, args.epochs, args.batch_size)
+    isoforms = [args.isoform] if args.isoform else ISOFORMS
+    all_metrics = {}
+    for iso in isoforms:
+        all_metrics[iso] = train_isoform(iso, args.splits_dir, args.output, cp_cfg)
 
-    model_dir = find_model_dir(args.output)
-    pred_path = args.output / "test_predictions.csv"
-    predict_via_cli(model_dir, test_path, pred_path)
-
-    test_df = pd.read_csv(test_path)
-    pred_df = pd.read_csv(pred_path)
-
-    # Align predictions: chemprop output has smiles + target columns
-    metrics = {}
-    pred_indexed = pred_df.set_index("smiles")
-    for col in TARGET_COLS:
-        if col not in pred_indexed.columns:
-            continue
-        rows = test_df[test_df[col].notna()].copy()
-        if len(rows) == 0:
-            continue
-        y_true = rows[col].values.astype(float)
-        y_pred = pred_indexed.loc[rows["smiles"], col].values.astype(float)
-        metrics[col] = regression_metrics(y_true, y_pred)
-
-    report = {"model": "Chemprop 2.0 MTL", "test_metrics": metrics}
     with open(args.output / "chemprop_metrics.json", "w") as f:
-        json.dump(report, f, indent=2)
-
-    logger.info("Chemprop test metrics:")
-    for k, v in metrics.items():
-        logger.info("  %s: R²=%.3f, RMSE=%.3f, Spearman=%.3f (n=%d)", k, v["r2"], v["rmse"], v["spearman"], v["n"])
+        json.dump({"model": "Chemprop 2.0 single-target", "holdout_test": all_metrics}, f, indent=2)
 
 
 if __name__ == "__main__":

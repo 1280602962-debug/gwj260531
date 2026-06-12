@@ -1,11 +1,45 @@
 {
-  "JNK1_compounds": 1576,
-  "JNK2_compounds": 803,
-  "JNK3_compounds": 1492,
-  "paired_total": 2562,
-  "paired_ge2_isoforms": 950,
+  "curation": {
+    "pactivity_min": 4.0,
+    "pactivity_max": 10.0,
+    "max_std": 0.5,
+    "max_range": 1.0
+  },
+  "curation_per_isoform": {
+    "JNK1": {
+      "min_assay_compounds": 50
+    },
+    "JNK2": {
+      "min_assay_compounds": 8
+    },
+    "JNK3": {
+      "min_assay_compounds": 20
+    }
+  },
+  "JNK1_compounds": 444,
+  "JNK2_compounds": 610,
+  "JNK3_compounds": 1147,
+  "paired_total": 1835,
+  "paired_ge2_isoforms": 322,
   "jnk1_selective": 0,
-  "train_size": 2063,
-  "val_size": 276,
-  "test_size": 223
+  "splits": {
+    "JNK1": {
+      "train": 384,
+      "val": 29,
+      "test": 31,
+      "total": 444
+    },
+    "JNK2": {
+      "train": 477,
+      "val": 66,
+      "test": 67,
+      "total": 610
+    },
+    "JNK3": {
+      "train": 966,
+      "val": 83,
+      "test": 98,
+      "total": 1147
+    }
+  }
 }

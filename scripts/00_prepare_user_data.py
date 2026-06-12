@@ -1,93 +1,45 @@
 #!/usr/bin/env python3
 """
-Prepare user-uploaded ChEMBL CSV exports (docs/JNK1/2/3.csv) for the pipeline.
+Prepare user-uploaded ChEMBL CSV exports with improved curation for QSAR.
 
-Outputs:
-  data/processed/jnk{1,2,3}_curated.csv
-  data/processed/paired_set.csv
-  data/processed/chemprop_mtl.csv          # merged multitask (missing = blank)
-  data/processed/splits/{train,val,test}.csv
+Key improvements vs v1:
+  - Biochemical assays only (Assay Type B)
+  - IC50 with exact relation (=)
+  - pActivity range filter [4, 10]
+  - Remove conflicting multi-assay measurements
+  - Keep assays with >= N compounds (assay harmonization)
+  - Per-isoform single-target datasets + splits (better R²)
+  - Multitask merged table retained for selectivity analysis
+
+Usage:
+    python3 scripts/00_prepare_user_data.py
 """
 
 from __future__ import annotations
 
 import argparse
+import json
 import logging
+import sys
 from pathlib import Path
 
-import numpy as np
 import pandas as pd
 import yaml
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "scripts"))
+from utils_ml import curate_isoform_raw, murcko_scaffold, scaffold_holdout_split  # noqa: E402
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger(__name__)
 
-ROOT = Path(__file__).resolve().parents[1]
 CONFIG_PATH = ROOT / "config" / "targets.yaml"
-
-VALID_TYPES = {"IC50", "Ki", "Kd", "EC50"}
-ISO_MAP = {"JNK1": "docs/JNK1.csv", "JNK2": "docs/JNK2.csv", "JNK3": "docs/JNK3.csv"}
+ISO_MAP = {"JNK1": "JNK1.csv", "JNK2": "JNK2.csv", "JNK3": "JNK3.csv"}
 
 
 def load_config() -> dict:
     with open(CONFIG_PATH) as f:
         return yaml.safe_load(f)
-
-
-def murcko_scaffold(smiles: str) -> str:
-    from rdkit import Chem
-    from rdkit.Chem.Scaffolds import MurckoScaffold
-
-    mol = Chem.MolFromSmiles(smiles)
-    if mol is None:
-        return smiles
-    return MurckoScaffold.MurckoScaffoldSmiles(mol=mol, includeChirality=False)
-
-
-def canonicalize(smiles: str) -> str | None:
-    from rdkit import Chem
-
-    mol = Chem.MolFromSmiles(smiles)
-    if mol is None:
-        return None
-    try:
-        Chem.SanitizeMol(mol)
-        return Chem.MolToSmiles(mol)
-    except Exception:
-        return None
-
-
-def curate_chembl_export(path: Path, isoform: str) -> pd.DataFrame:
-    df = pd.read_csv(path, low_memory=False)
-    df = df[df["Standard Type"].isin(VALID_TYPES)]
-    df = df[df["Standard Relation"].astype(str).str.strip("'\"") == "="]
-    df = df[df["Smiles"].notna()]
-
-    # Prefer pChEMBL Value
-    df["pActivity"] = pd.to_numeric(df["pChEMBL Value"], errors="coerce")
-    missing = df["pActivity"].isna()
-    if missing.any():
-        sv = pd.to_numeric(df.loc[missing, "Standard Value"], errors="coerce")
-        units = df.loc[missing, "Standard Units"].astype(str).str.lower()
-        nm_mask = units == "nm"
-        df.loc[missing & nm_mask, "pActivity"] = -np.log10(sv[nm_mask] * 1e-9)
-        um_mask = units == "um"
-        df.loc[missing & um_mask, "pActivity"] = -np.log10(sv[um_mask] * 1e-6)
-
-    df = df[df["pActivity"].notna()]
-    df["canonical_smiles"] = df["Smiles"].apply(canonicalize)
-    df = df[df["canonical_smiles"].notna()]
-
-    agg = (
-        df.groupby(["Molecule ChEMBL ID", "canonical_smiles"], as_index=False)
-        .agg(
-            pActivity=("pActivity", "mean"),
-            n_measurements=("pActivity", "count"),
-        )
-        .rename(columns={"Molecule ChEMBL ID": "molecule_chembl_id"})
-    )
-    logger.info("%s: %d raw rows → %d unique compounds", isoform, len(df), len(agg))
-    return agg
 
 
 def build_paired(datasets: dict[str, pd.DataFrame], config: dict) -> pd.DataFrame:
@@ -130,89 +82,71 @@ def build_paired(datasets: dict[str, pd.DataFrame], config: dict) -> pd.DataFram
     return merged
 
 
-def build_chemprop_mtl(paired: pd.DataFrame) -> pd.DataFrame:
-    out = paired[["canonical_smiles", "pAct_JNK1", "pAct_JNK2", "pAct_JNK3"]].copy()
-    out = out.rename(columns={"canonical_smiles": "smiles"})
-    return out.drop_duplicates(subset=["smiles"])
+def save_isoform_splits(df: pd.DataFrame, isoform: str, splits_dir: Path, target_col: str = "pActivity"):
+    iso_dir = splits_dir / isoform.lower()
+    iso_dir.mkdir(parents=True, exist_ok=True)
+    chem = df.rename(columns={"canonical_smiles": "smiles", target_col: f"pAct_{isoform}"})
+    chem = chem[["smiles", f"pAct_{isoform}"]]
 
-
-def scaffold_split_df(df: pd.DataFrame, test_frac=0.1, val_frac=0.1, seed=42):
-    from sklearn.model_selection import GroupShuffleSplit
-
-    smiles = df["smiles"].tolist()
-    scaffolds = [murcko_scaffold(s) for s in smiles]
-    groups = np.array(scaffolds)
-    idx = np.arange(len(smiles))
-
-    gss_test = GroupShuffleSplit(n_splits=1, test_size=test_frac, random_state=seed)
-    train_val_idx, test_idx = next(gss_test.split(idx, groups=groups))
-
-    sub_groups = groups[train_val_idx]
-    val_size = val_frac / (1 - test_frac)
-    gss_val = GroupShuffleSplit(n_splits=1, test_size=val_size, random_state=seed)
-    tr_rel, va_rel = next(gss_val.split(train_val_idx, groups=sub_groups))
-
-    train_idx = train_val_idx[tr_rel]
-    val_idx = train_val_idx[va_rel]
-    return (
-        df.iloc[train_idx].reset_index(drop=True),
-        df.iloc[val_idx].reset_index(drop=True),
-        df.iloc[test_idx].reset_index(drop=True),
-    )
+    train_idx, val_idx, test_idx = scaffold_holdout_split(chem["smiles"].tolist())
+    chem.iloc[train_idx].to_csv(iso_dir / "train.csv", index=False)
+    chem.iloc[val_idx].to_csv(iso_dir / "val.csv", index=False)
+    chem.iloc[test_idx].to_csv(iso_dir / "test.csv", index=False)
+    chem.to_csv(iso_dir / "full.csv", index=False)
+    return len(train_idx), len(val_idx), len(test_idx)
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Prepare uploaded JNK CSV data")
+    parser = argparse.ArgumentParser(description="Prepare uploaded JNK CSV data (v2 curation)")
     parser.add_argument("--docs-dir", type=Path, default=ROOT / "docs")
     parser.add_argument("--output", type=Path, default=ROOT / "data" / "processed")
+    parser.add_argument("--min-assay-compounds", type=int, default=10)
     args = parser.parse_args()
     config = load_config()
     args.output.mkdir(parents=True, exist_ok=True)
     splits_dir = args.output / "splits"
     splits_dir.mkdir(parents=True, exist_ok=True)
 
+    curation = config.get("curation", {})
+    per_iso = config.get("curation_per_isoform", {})
+
     datasets = {}
-    for iso, rel in ISO_MAP.items():
-        path = args.docs_dir / Path(rel).name
-        if not path.exists():
-            path = ROOT / rel
-        datasets[iso] = curate_chembl_export(path, iso)
+    split_info = {}
+    for iso, fname in ISO_MAP.items():
+        path = args.docs_dir / fname
+        iso_cur = {**curation, **per_iso.get(iso, {})}
+        if "min_assay_compounds" not in iso_cur:
+            iso_cur["min_assay_compounds"] = args.min_assay_compounds
+        df = curate_isoform_raw(path, **iso_cur)
+        datasets[iso] = df
         out = args.output / f"{iso.lower()}_curated.csv"
-        datasets[iso].to_csv(out, index=False)
+        df.to_csv(out, index=False)
+        tr, va, te = save_isoform_splits(df, iso, splits_dir)
+        split_info[iso] = {"train": tr, "val": va, "test": te, "total": len(df)}
+        logger.info("%s curated: %d compounds (train/val/test = %d/%d/%d)", iso, len(df), tr, va, te)
 
     paired = build_paired(datasets, config)
     paired.to_csv(args.output / "paired_set.csv", index=False)
-    logger.info(
-        "Paired set: %d molecules, JNK1-selective: %d",
-        len(paired),
-        (paired["sel_class"] == "JNK1-selective").sum(),
-    )
 
-    chemprop_df = build_chemprop_mtl(paired)
-    chemprop_df.to_csv(args.output / "chemprop_mtl.csv", index=False)
-
-    train, val, test = scaffold_split_df(chemprop_df)
-    train.to_csv(splits_dir / "train.csv", index=False)
-    val.to_csv(splits_dir / "val.csv", index=False)
-    test.to_csv(splits_dir / "test.csv", index=False)
-    logger.info("Splits: train=%d, val=%d, test=%d", len(train), len(val), len(test))
+    # Legacy multitask merged file
+    mtl = paired[["canonical_smiles", "pAct_JNK1", "pAct_JNK2", "pAct_JNK3"]].rename(columns={"canonical_smiles": "smiles"})
+    mtl = mtl.drop_duplicates(subset=["smiles"])
+    mtl.to_csv(args.output / "chemprop_mtl.csv", index=False)
 
     summary = {
+        "curation": curation,
+        "curation_per_isoform": per_iso,
         "JNK1_compounds": len(datasets["JNK1"]),
         "JNK2_compounds": len(datasets["JNK2"]),
         "JNK3_compounds": len(datasets["JNK3"]),
         "paired_total": len(paired),
         "paired_ge2_isoforms": int((paired["n_isoforms"] >= 2).sum()),
         "jnk1_selective": int((paired["sel_class"] == "JNK1-selective").sum()),
-        "train_size": len(train),
-        "val_size": len(val),
-        "test_size": len(test),
+        "splits": split_info,
     }
-    import json
-
     with open(args.output / "data_summary.json", "w") as f:
         json.dump(summary, f, indent=2)
-    logger.info("Summary: %s", summary)
+    logger.info("Data preparation complete.")
 
 
 if __name__ == "__main__":

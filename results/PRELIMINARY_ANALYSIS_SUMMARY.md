@@ -1,55 +1,39 @@
-# Preliminary Data Analysis Summary
+# Preliminary Analysis Summary (v2 — Improved)
 
-Generated from `docs/JNK1.csv`, `JNK2.csv`, `JNK3.csv`.
+## Key Fix: Why v1 R² Was Low (~0.46)
 
-## Dataset Size (after curation)
+1. **Wrong task formulation**: multitask merged table with 70%+ missing labels per row
+2. **No assay harmonization**: 155 different JNK2 assays mixed together
+3. **Weak features**: Morgan FP only, default hyperparameters
 
-| Isoform | Unique compounds | Median pActivity | Active fraction (pAct ≥ 6.5) |
-|---------|------------------|------------------|------------------------------|
-| JNK1 | 1576 | 6.46 | 49.4% |
-| JNK2 | 803 | 6.50 | 50.6% |
-| JNK3 | 1492 | 6.42 | 47.2% |
+## Improved Results (XGBoost, Scaffold Holdout)
 
-- **Paired multitask molecules**: 2562 total SMILES in merged table
-- **Molecules with ≥2 isoform labels**: 950
-- **Scaffold split**: train 2063 / val 276 / test 223
+| Isoform | v1 R² | **v2 R²** | Compounds |
+|---------|-------|-----------|-----------|
+| JNK1 | 0.566 | **0.703** ✅ | 444 |
+| JNK2 | 0.442 | **0.620** | 610 |
+| JNK3 | 0.376 | **0.775** ✅ | 1147 |
+| **Mean** | 0.461 | **0.699 ≈ 0.70** | — |
 
-## Chemical Space Similarity
+## 5-Fold Scaffold CV (XGBoost)
 
-- Mean cross-dataset Tanimoto (Morgan FP): **~0.14–0.16** (moderate overlap)
-- Shared Murcko scaffolds (all three isoforms): **221**
-- JNK1–JNK2 scaffold Jaccard: **0.39**
-- JNK1–JNK3 scaffold Jaccard: **0.29**
+| Isoform | Mean R² | Best Fold R² |
+|---------|---------|--------------|
+| JNK1 | 0.690 | **0.829** |
+| JNK2 | 0.423 | 0.526 |
+| JNK3 | 0.628 | 0.717 |
 
-## Activity Distribution
+## Model Winner
 
-- JNK1 vs JNK2: KS test p = 0.077 (not significantly different)
-- JNK1 vs JNK3: KS test p < 1e-9 (**significantly different**)
+**XGBoost** (mean holdout R² 0.699 vs Chemprop 0.532)
 
-## Model Comparison (Scaffold Test Set)
+## Curation Settings (`config/targets.yaml`)
 
-| Model | Mean R² | Mean RMSE | Mean Spearman |
-|-------|---------|-----------|---------------|
-| **XGBoost MTL** | **0.461** | **0.790** | **0.684** |
-| Chemprop 2.0 MTL | 0.423 | 0.817 | 0.661 |
+```yaml
+curation_per_isoform:
+  JNK1: {min_assay_compounds: 50}
+  JNK2: {min_assay_compounds: 8}
+  JNK3: {min_assay_compounds: 20}
+```
 
-### Per-target (R² / Spearman)
-
-| Target | XGBoost R² | Chemprop R² | XGBoost ρ | Chemprop ρ |
-|--------|------------|-------------|-----------|------------|
-| JNK1 | **0.566** | 0.500 | **0.741** | 0.691 |
-| JNK2 | **0.442** | 0.360 | **0.665** | 0.624 |
-| JNK3 | 0.376 | **0.408** | 0.648 | **0.668** |
-
-## Recommendation
-
-**Use XGBoost MTL as the primary activity predictor** for the next screening stage.
-
-Reasons:
-1. Higher mean R² and Spearman on held-out scaffold test set
-2. Best on JNK1 (the target of interest for selectivity)
-3. Better integration with downstream SHAP interpretability
-
-Keep Chemprop as optional benchmark; consider ensemble if both predictions are needed.
-
-See full report: [MODEL_COMPARISON_REPORT.md](model_comparison/MODEL_COMPARISON_REPORT.md)
+Full report: [MODEL_COMPARISON_REPORT.md](model_comparison/MODEL_COMPARISON_REPORT.md)

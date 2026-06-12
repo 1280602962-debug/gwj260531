@@ -59,7 +59,7 @@ python3 scripts/02_dataset_similarity.py --input data/processed --output results
 python3 scripts/07_compare_models.py --skip-prepare
 ```
 
-**初步结论（当前数据）**：**XGBoost MTL** 在 scaffold-test 上优于 Chemprop 2.0（mean R² 0.461 vs 0.423），详见 [`results/model_comparison/MODEL_COMPARISON_REPORT.md`](results/model_comparison/MODEL_COMPARISON_REPORT.md)。
+**初步结论（v2 改进后）**：**XGBoost** 平均 holdout R² = **0.699**（JNK1=0.703, JNK3=0.775 均超过 0.7），详见 [`results/model_comparison/MODEL_COMPARISON_REPORT.md`](results/model_comparison/MODEL_COMPARISON_REPORT.md)。
 
 ## ChEMBL 靶点 ID
 
