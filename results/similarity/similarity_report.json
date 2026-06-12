@@ -1,0 +1,71 @@
+{
+  "cross_similarity": {
+    "JNK1": {
+      "JNK1": 0.16439108666467192,
+      "JNK2": 0.1603168935304752,
+      "JNK3": 0.15298380261764008
+    },
+    "JNK2": {
+      "JNK1": 0.16031689353047524,
+      "JNK2": 0.1560498890851746,
+      "JNK3": 0.13791763079145802
+    },
+    "JNK3": {
+      "JNK1": 0.15298380261764008,
+      "JNK2": 0.13791763079145802,
+      "JNK3": 0.14928033554977493
+    }
+  },
+  "scaffold_overlap": {
+    "unique_scaffolds": {
+      "JNK1": 684,
+      "JNK2": 448,
+      "JNK3": 799
+    },
+    "shared_all_three": 221,
+    "pairwise_jaccard": {
+      "JNK1-JNK2": 0.3906633906633907,
+      "JNK1-JNK3": 0.28956521739130436,
+      "JNK2-JNK3": 0.27505112474437626
+    }
+  },
+  "activity_distribution": [
+    {
+      "isoform": "JNK1",
+      "n": 1576,
+      "median": 6.46,
+      "mean": 6.479841342069657,
+      "std": 1.0581855170788623,
+      "active_frac": 0.4936548223350254
+    },
+    {
+      "isoform": "JNK2",
+      "n": 803,
+      "median": 6.5,
+      "mean": 6.473532339575187,
+      "std": 1.019333482799516,
+      "active_frac": 0.5056039850560399
+    },
+    {
+      "isoform": "JNK3",
+      "n": 1492,
+      "median": 6.415,
+      "mean": 6.340855775777693,
+      "std": 1.2543401210650682,
+      "active_frac": 0.4718498659517426
+    }
+  ],
+  "ks_tests": {
+    "JNK1_vs_JNK2": {
+      "statistic": 0.05488776226207559,
+      "p_value": 0.077320922275599
+    },
+    "JNK1_vs_JNK3": {
+      "statistic": 0.12001571834896095,
+      "p_value": 4.410543280819047e-10
+    }
+  },
+  "recommendations": [
+    "Many shared scaffolds \u2192 strict scaffold split required"
+  ]
+}

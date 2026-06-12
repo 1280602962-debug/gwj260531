@@ -17,6 +17,7 @@
 | 文档 | 说明 |
 |------|------|
 | [**完整流程思路**](docs/JNK1_selectivity_screening_workflow.md) | 科学设计、分步操作、评分函数、参考文献 |
+| [**模型对比报告**](results/model_comparison/MODEL_COMPARISON_REPORT.md) | Chemprop vs XGBoost 初步结果 |
 | [**参考文献**](docs/REFERENCES.md) | 格式化文献列表 |
 | [**配置说明**](config/targets.yaml) | ChEMBL 靶点 ID 与阈值 |
 
@@ -32,41 +33,33 @@
 │   ├── JNK1_selectivity_screening_workflow.md
 │   └── REFERENCES.md
 └── scripts/
-    ├── 01_download_chembl_data.py      # ChEMBL 数据下载与清洗
-    ├── 02_dataset_similarity.py        # JNK1/2/3 数据集相似性比较
-    ├── 03_sar_analysis.py              # SAR / MMP / 药效团分析
-    ├── 04_train_selectivity_model.py   # 多任务 + 选择性模型训练
-    ├── 05_model_interpretation.py      # SHAP / 子结构归因
-    └── 06_virtual_screening.py         # 百万分子库筛选
+    ├── 00_prepare_user_data.py       # 解析 docs/JNK*.csv → processed 数据
+    ├── 01_download_chembl_data.py    # ChEMBL API 下载（可选）
+    ├── 02_dataset_similarity.py      # JNK1/2/3 数据集相似性比较
+    ├── 03_sar_analysis.py            # SAR / MMP / 药效团分析
+    ├── 04_train_selectivity_model.py # XGBoost 多任务 + 选择性模型
+    ├── 04b_train_chemprop_mtl.py     # Chemprop 2.0 原生 MTL
+    ├── 05_model_interpretation.py    # SHAP / 子结构归因
+    ├── 06_virtual_screening.py       # 百万分子库筛选
+    └── 07_compare_models.py          # Chemprop vs XGBoost 对比 + 选优
 ```
 
 ## 快速开始
 
 ```bash
-# 1. 安装依赖（建议 conda 环境）
+# 0. 数据已在 docs/JNK1.csv, JNK2.csv, JNK3.csv
 pip install -r requirements.txt
 
-# 2. 下载 ChEMBL 数据
-python scripts/01_download_chembl_data.py --output data/raw
+# 1. 一键：数据预处理 + 相似性分析 + 模型对比
+python3 scripts/07_compare_models.py
 
-# 3. 数据集相似性分析
-python scripts/02_dataset_similarity.py --input data/processed --output results/similarity
-
-# 4. SAR 分析
-python scripts/03_sar_analysis.py --input data/processed --output results/sar
-
-# 5. 训练选择性模型
-python scripts/04_train_selectivity_model.py --input data/processed --output models/
-
-# 6. SHAP 可解释性分析
-python scripts/05_model_interpretation.py --model models/best_model.joblib --output results/shap
-
-# 7. 百万分子库虚拟筛选
-python scripts/06_virtual_screening.py \
-    --model models/best_model.joblib \
-    --library data/libraries/enamine_real.smi \
-    --output results/screening
+# 或分步运行：
+python3 scripts/00_prepare_user_data.py
+python3 scripts/02_dataset_similarity.py --input data/processed --output results/similarity
+python3 scripts/07_compare_models.py --skip-prepare
 ```
+
+**初步结论（当前数据）**：**XGBoost MTL** 在 scaffold-test 上优于 Chemprop 2.0（mean R² 0.461 vs 0.423），详见 [`results/model_comparison/MODEL_COMPARISON_REPORT.md`](results/model_comparison/MODEL_COMPARISON_REPORT.md)。
 
 ## ChEMBL 靶点 ID
 
