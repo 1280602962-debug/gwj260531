@@ -1,0 +1,10 @@
+name,alias,smiles,chembl_id,expected_profile,must_pass_F1,use_f3_validation,jnk1_ic50_nM,jnk2_ic50_nM,jnk3_ic50_nM,fold_note,source,note,p_family_pred
+AS602801,Bentamapimod,N#CC(c1ccnc(OCc2ccc(CN3CCOCC3)cc2)n1)c1nc2ccccc2s1,CHEMBL3545213,pan-JNK,True,yes,80.0,90.0,230.0,JNK3 ~2.9x weaker than JNK1,J Med Chem 2023; user figure,Slight JNK3 weakness; within pan-JNK cutoff,6.6824074
+CC-401,,c1cc(OCCN2CCCCC2)cc(-c2n[nH]c3ccc(-c4nnc[nH]4)cc23)c1,CHEMBL1614713,unknown-isoform,True,no,,,,Ki 25-50 nM (total JNK),Patent/literature,F1 recall only; no isoform IC50 split,6.4358945
+SP600125,,O=C1c2ccccc2-c2n[nH]c3cccc1c23,CHEMBL7064,pan-JNK,True,yes,40.0,40.0,90.0,Classic pan-JNK tool compound,User figure / literature,Negative control for isoform-selective claims,6.1339006
+TCS JNK 6O,TCS JNK 6o,CCOc1nc(NC(=O)Cc2cc(OC)ccc2OC)cc(N)c1C#N,CHEMBL210618,JNK1-preferring,True,yes,45.0,160.0,,JNK2/JNK1=3.6x,J Med Chem 2024; user figure,Key positive control for JNK1 enzyme bias,6.974053
+CC-930,Tanzisertib,O[C@H]1CC[C@H](Nc2ncc3nc(Nc4c(F)cc(F)cc4F)n([C@H]4CCOC4)c3n2)CC1,CHEMBL1950289,JNK2/JNK3-biased,True,yes,61.0,7.0,6.0,JNK1/JNK2~8.7x,User figure / J Med Chem 2021,Opposite direction vs TCS JNK 6O,7.471461
+JNK-IN-8,,Cc1cc(NC(=O)c2cccc(NC(=O)/C=C/CN(C)C)c2)ccc1Nc1nccc(-c2cccnc2)n1,CHEMBL2216824,JNK3-preferring,True,yes,4.7,18.7,1.0,Covalent; JNK3 strongest,Cell Chem Biol 2012; user figure,Contains acrylamide warhead,7.2848477
+CC-90001,,C[C@@H]1CC[C@@H](Nc2nc(NC(C)(C)C)ncc2C(N)=O)C[C@H]1O,CHEMBL4847106,pan-JNK,True,yes,11.0,31.0,,JNK2/JNK1=2.8x (weak),J Med Chem 2021; user figure,Enzyme pan-JNK; cell JNK1 functional bias,7.223921
+Q63,,CC(C)(C)CNc1ncc(Br)c(Nc2ccccc2C(N)=O)n1,CHEMBL5403766,JNK1/JNK3-over-JNK2,True,yes,33.5,112.9,33.2,JNK2 ~3.4x weaker,J Med Chem 2024; user figure,JNK1 and JNK3 similar potency,7.3688936
+E1,,COc1ccc(Nc2ncc(Br)c(Nc3ccc(OCCN(C)C)cc3C(N)=O)n2)cc1,CHEMBL6177556,JNK1-preferring,True,yes,2.7,19.0,9.0,JNK2/JNK1=7.0x; JNK3/JNK1=3.3x,J Med Chem 2024; user Figure 5,Strong JNK1 enzyme bias; same chemotype as Q63 series,7.5579333

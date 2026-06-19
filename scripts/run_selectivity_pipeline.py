@@ -83,12 +83,12 @@ def main() -> None:
         [
             py,
             str(SCRIPTS / "06_virtual_screening.py"),
-            "--model",
-            str(ROOT / "models" / "best_model.joblib"),
+            "--models-dir",
+            str(ROOT / "models" / "xgboost"),
             "--library",
             str(args.library),
             "--output",
-            str(ROOT / "results" / "screening"),
+            str(ROOT / "results" / "screening_v2"),
         ],
         "Virtual screening (06)",
     )

@@ -1,16 +1,17 @@
 #!/usr/bin/env python3
 """
-Phase 4: Virtual screening for JNK1-selective hits.
+Phase 4: Virtual screening — F1 ML pre-filter + F2 drug-like + ranking.
 
-Funnel:
-  F1 preprocess → F2 drug-like → F3 JNK1 activity → F4 selectivity
-  → F5 SA/QED → F6 diversity selection
+Funnel (v2, benchmark-calibrated):
+  F0 preprocess → F2 drug-like → F1 p_family ≥ threshold → F5 SA/QED → rank
+
+Isoform selectivity is NOT filtered by ML delta (use F3 docking downstream).
 
 Usage:
-    python scripts/06_virtual_screening.py \
-        --model models/best_model.joblib \
+    python3 scripts/06_virtual_screening.py \
+        --models-dir models/xgboost \
         --library data/libraries/screening_demo.smi \
-        --output results/screening
+        --output results/screening_v2
 """
 
 from __future__ import annotations
@@ -39,6 +40,9 @@ logger = logging.getLogger(__name__)
 
 CONFIG_PATH = ROOT / "config" / "targets.yaml"
 DEFAULT_LIBRARY = ROOT / "data" / "libraries" / "screening_demo.smi"
+DEFAULT_MODELS_DIR = ROOT / "models" / "xgboost"
+DEFAULT_BENCHMARKS = ROOT / "data" / "benchmarks" / "literature_benchmarks.csv"
+ISOFORMS = ["JNK1", "JNK2", "JNK3"]
 
 
 def load_config() -> dict:
@@ -100,62 +104,40 @@ def compute_sa_qed(smiles: str) -> tuple[float, float]:
 
         sa = float(sascorer.calculateScore(mol))
     except Exception:
-        # Fallback: map Bertz complexity to ~1–10 (lower = easier to synthesize)
         sa = min(10.0, max(1.0, Descriptors.BertzCT(mol) / 150.0))
     return sa, qed
 
 
-def get_morgan_bits(bundle: dict) -> int:
-    if isinstance(bundle, dict) and "feature_spec" in bundle:
-        return int(bundle["feature_spec"].get("morgan_bits", 2048))
-    return 2048
+def load_xgboost_models(model_dir: Path) -> dict[str, object]:
+    models = {}
+    for iso in ISOFORMS:
+        path = model_dir / f"xgboost_{iso.lower()}.joblib"
+        if not path.exists():
+            raise FileNotFoundError(f"Missing model: {path}. Run scripts/07_compare_models.py first.")
+        models[iso] = joblib.load(path)
+    return models
 
 
-def predict_batch(bundle: dict, X: np.ndarray) -> dict[str, np.ndarray]:
-    mtl = bundle.get("mtl")
-    delta = bundle.get("delta")
-    clf = bundle.get("classifier")
-    single = bundle.get("single_target") or {}
-
-    out: dict[str, np.ndarray] = {}
-
-    if single and all(k in single for k in ("JNK1", "JNK2", "JNK3")):
-        out["pred_pAct_JNK1"] = single["JNK1"].predict(X)
-        out["pred_pAct_JNK2"] = single["JNK2"].predict(X)
-        out["pred_pAct_JNK3"] = single["JNK3"].predict(X)
-        out["pred_delta_min_computed"] = out["pred_pAct_JNK1"] - np.nanmax(
-            np.vstack([out["pred_pAct_JNK2"], out["pred_pAct_JNK3"]]),
-            axis=0,
-        )
-    elif mtl is not None:
-        preds = mtl.predict(X)
-        out["pred_pAct_JNK1"] = preds[:, 0]
-        out["pred_pAct_JNK2"] = preds[:, 1]
-        out["pred_pAct_JNK3"] = preds[:, 2]
-        out["pred_delta_min_computed"] = preds[:, 0] - np.nanmax(preds[:, 1:3], axis=1)
-
-    if delta is not None:
-        out["pred_delta_min"] = delta.predict(X)
-    if clf is not None:
-        out["prob_JNK1_selective"] = clf.predict_proba(X)[:, 1]
-    return out
+def predict_batch(models: dict[str, object], smiles: list[str]) -> pd.DataFrame:
+    X = featurize_smiles(smiles)
+    out = {"smiles": smiles}
+    for iso in ISOFORMS:
+        out[f"pred_pAct_{iso}"] = models[iso].predict(X)
+    df = pd.DataFrame(out)
+    df["p_family"] = df[[f"pred_pAct_{iso}" for iso in ISOFORMS]].max(axis=1)
+    df["pred_delta_min_computed"] = df["pred_pAct_JNK1"] - df[["pred_pAct_JNK2", "pred_pAct_JNK3"]].max(axis=1)
+    return df
 
 
 def compute_final_score(row: pd.Series, weights: dict) -> float:
-    score = 0.0
+    score = weights.get("w_p_family", 0.55) * row["p_family"] / 10.0
     if "pred_pAct_JNK1" in row and not pd.isna(row["pred_pAct_JNK1"]):
-        score += weights["w_pAct_JNK1"] * row["pred_pAct_JNK1"] / 10.0
-    delta = row.get("pred_delta_min", row.get("pred_delta_min_computed", 0))
-    if not pd.isna(delta):
-        score += weights["w_delta_min"] * max(0, delta) / 3.0
-    jnk23 = max(row.get("pred_pAct_JNK2", 0), row.get("pred_pAct_JNK3", 0))
-    if not pd.isna(jnk23):
-        score -= weights["w_neg_JNK23"] * max(0, jnk23 - 5.0) / 5.0
+        score += weights.get("w_pAct_JNK1", 0.15) * row["pred_pAct_JNK1"] / 10.0
     if "qed" in row:
-        score += weights["w_qed"] * row["qed"]
+        score += weights.get("w_qed", 0.20) * row["qed"]
     if "sa" in row:
-        score += weights["w_sa"] * row["sa"] / 10.0
-    return score
+        score += weights.get("w_sa", 0.10) * (10.0 - row["sa"]) / 10.0
+    return float(score)
 
 
 def butina_diverse_selection(df: pd.DataFrame, n: int = 100, cutoff: float = 0.7) -> pd.DataFrame:
@@ -172,20 +154,19 @@ def butina_diverse_selection(df: pd.DataFrame, n: int = 100, cutoff: float = 0.7
         dists.extend([1 - s for s in sims])
     clusters = Butina.ClusterData(dists, nf, 1 - cutoff, isDistData=True)
     selected_idx = [cluster[0] for cluster in clusters]
-    ranked = df.iloc[selected_idx].sort_values("final_score", ascending=False).head(n)
-    return ranked
+    return df.iloc[selected_idx].sort_values("final_score", ascending=False).head(n)
 
 
 def plot_funnel(stats: dict, output_dir: Path) -> None:
     apply_journal_style()
-    stages = ["Input", "Preprocessed", "Drug-like", "JNK1 Active", "Selective"]
-    keys = ["input", "preprocessed", "druglike", "active", "selective"]
+    stages = ["Input", "Preprocessed", "Drug-like", "F1 p_family", "SA/QED"]
+    keys = ["input", "preprocessed", "druglike", "f1_pass", "sa_qed_pass"]
     values = [stats[k] for k in keys]
     fig, ax = plt.subplots(figsize=FIGSIZE_DOUBLE)
     bars = ax.bar(stages, values, color="#55A868", edgecolor="black", linewidth=0.5)
     ax.set_ylabel("Compound Count")
-    ax.set_title("Virtual Screening Funnel")
-    ax.tick_params(axis="x", rotation=20)
+    ax.set_title("Virtual Screening Funnel (F1 p_family + F2 drug-like)")
+    ax.tick_params(axis="x", rotation=25)
     for bar, val in zip(bars, values):
         ax.text(bar.get_x() + bar.get_width() / 2, bar.get_height(), f"{val:,}", ha="center", va="bottom", fontsize=7)
     save_figure(output_dir / "screening_funnel.png", fig)
@@ -203,88 +184,86 @@ def plot_score_distribution(hits: pd.DataFrame, output_dir: Path) -> None:
     save_figure(output_dir / "score_distribution.png", fig)
 
 
-def annotate_benchmarks(hits: pd.DataFrame, config: dict, processed_dir: Path) -> pd.DataFrame:
-    """Tag known benchmark compounds if present in curated data."""
-    if hits.empty:
-        return hits
-    bench_rows = []
-    for bench in config.get("benchmarks", []):
-        chembl_id = bench.get("chembl_id")
-        for iso in ["jnk1", "jnk2", "jnk3"]:
-            path = processed_dir / f"{iso}_curated.csv"
-            if not path.exists():
-                continue
-            sub = pd.read_csv(path)
-            row = sub[sub["molecule_chembl_id"] == chembl_id]
-            if len(row):
-                smi = row["canonical_smiles"].iloc[0]
-                match = hits[hits["smiles"] == smi]
-                if len(match):
-                    bench_rows.append(
-                        {
-                            "name": bench["name"],
-                            "role": bench["role"],
-                            "smiles": smi,
-                            "final_score": float(match["final_score"].iloc[0]),
-                            "pred_pAct_JNK1": float(match.get("pred_pAct_JNK1", pd.Series([np.nan])).iloc[0]),
-                            "pred_delta_min": float(
-                                match.get("pred_delta_min", match.get("pred_delta_min_computed", pd.Series([np.nan]))).iloc[0]
-                            ),
-                        }
-                    )
-                break
-    if bench_rows:
-        pd.DataFrame(bench_rows).to_csv(process_dir.parent / "screening" / "benchmark_validation.csv", index=False)
-    return hits
+def validate_literature_benchmarks(
+    all_smiles: set[str],
+    hits: pd.DataFrame,
+    benchmarks_path: Path,
+    models: dict[str, object],
+    p_family_threshold: float,
+) -> list[dict]:
+    if not benchmarks_path.exists():
+        return []
+
+    bench = pd.read_csv(benchmarks_path)
+    preds = predict_batch(models, bench["smiles"].tolist())
+    rows = []
+    for i, b in bench.iterrows():
+        smi = bench.loc[i, "smiles"]
+        in_library = smi in all_smiles
+        p_family = float(preds.loc[i, "p_family"])
+        f1_pass = p_family >= p_family_threshold
+        in_hits = smi in set(hits["smiles"]) if not hits.empty else False
+        rows.append(
+            {
+                "name": b["name"],
+                "expected_profile": b.get("expected_profile", ""),
+                "in_demo_library": in_library,
+                "p_family_pred": p_family,
+                "f1_pass": f1_pass,
+                "in_final_hits": in_hits,
+                "pred_pAct_JNK1": float(preds.loc[i, "pred_pAct_JNK1"]),
+                "pred_pAct_JNK2": float(preds.loc[i, "pred_pAct_JNK2"]),
+                "pred_pAct_JNK3": float(preds.loc[i, "pred_pAct_JNK3"]),
+            }
+        )
+    return rows
 
 
-def main():
-    parser = argparse.ArgumentParser(description="Virtual screening for JNK1-selective inhibitors")
-    parser.add_argument("--model", type=Path, default=ROOT / "models" / "best_model.joblib")
+def main() -> None:
+    parser = argparse.ArgumentParser(description="Virtual screening — F1 p_family pre-filter (v2)")
+    parser.add_argument("--models-dir", type=Path, default=DEFAULT_MODELS_DIR, help="Per-isoform XGBoost models")
     parser.add_argument("--library", type=Path, default=DEFAULT_LIBRARY, help="SMILES file (.smi/.csv/.smi.gz)")
-    parser.add_argument("--output", type=Path, default=ROOT / "results" / "screening")
+    parser.add_argument("--output", type=Path, default=ROOT / "results" / "screening_v2")
+    parser.add_argument("--benchmarks", type=Path, default=DEFAULT_BENCHMARKS)
     parser.add_argument("--batch-size", type=int, default=50000)
     parser.add_argument("--top-n", type=int, default=500)
     parser.add_argument("--diverse-n", type=int, default=100)
-    parser.add_argument("--processed", type=Path, default=ROOT / "data" / "processed")
+    parser.add_argument("--p-family-threshold", type=float, default=None, help="Override config screening.p_family_threshold")
     args = parser.parse_args()
     args.output.mkdir(parents=True, exist_ok=True)
 
     config = load_config()
-    thresholds = config["selectivity"]
-    if not args.model.exists():
-        raise SystemExit(f"Model not found: {args.model}")
-
-    bundle = joblib.load(args.model)
-    weights = bundle.get(
+    screening = config.get("screening", {})
+    p_family_threshold = args.p_family_threshold or screening.get("p_family_threshold", 6.0)
+    sa_max = screening.get("sa_max", 6.0)
+    qed_min = screening.get("qed_min", 0.35)
+    weights = screening.get(
         "scoring_weights",
-        {
-            "w_pAct_JNK1": 0.35,
-            "w_delta_min": 0.30,
-            "w_neg_JNK23": 0.20,
-            "w_qed": 0.10,
-            "w_sa": -0.05,
-        },
+        {"w_p_family": 0.55, "w_pAct_JNK1": 0.15, "w_qed": 0.20, "w_sa": 0.10},
     )
-    morgan_bits = get_morgan_bits(bundle)
+
+    models = load_xgboost_models(args.models_dir)
+    logger.info("Loaded XGBoost models from %s", args.models_dir)
+    logger.info("F1 threshold: p_family >= %.1f", p_family_threshold)
 
     if not args.library.exists():
-        raise SystemExit(f"Library not found: {args.library}. Run run_selectivity_pipeline.py first.")
+        raise SystemExit(f"Library not found: {args.library}. Run scripts/build_demo_library.py first.")
 
-    logger.info("Reading library: %s", args.library)
-    all_smiles = read_smiles_library(args.library)
-    logger.info("Total input SMILES: %d", len(all_smiles))
+    all_smiles_raw = read_smiles_library(args.library)
+    logger.info("Reading library: %s (%d SMILES)", args.library, len(all_smiles_raw))
 
-    hits = []
-    stats = {"input": len(all_smiles), "preprocessed": 0, "druglike": 0, "active": 0, "selective": 0}
+    hits: list[pd.DataFrame] = []
+    stats = {"input": len(all_smiles_raw), "preprocessed": 0, "druglike": 0, "f1_pass": 0, "sa_qed_pass": 0}
+    canonical_seen: set[str] = set()
 
-    for start in tqdm(range(0, len(all_smiles), args.batch_size), desc="Screening batches"):
-        batch_smi = all_smiles[start : start + args.batch_size]
+    for start in tqdm(range(0, len(all_smiles_raw), args.batch_size), desc="Screening batches"):
+        batch_smi = all_smiles_raw[start : start + args.batch_size]
 
         clean = []
         for s in batch_smi:
             cs = preprocess_smiles(s)
-            if cs:
+            if cs and cs not in canonical_seen:
+                canonical_seen.add(cs)
                 clean.append(cs)
         stats["preprocessed"] += len(clean)
 
@@ -293,41 +272,42 @@ def main():
         if not druglike:
             continue
 
-        X = featurize_smiles(druglike, morgan_bits=morgan_bits)
-        preds = predict_batch(bundle, X)
-        batch_df = pd.DataFrame({"smiles": druglike, **preds})
-
-        jnk1_col = "pred_pAct_JNK1"
-        if jnk1_col in batch_df.columns:
-            batch_df = batch_df[batch_df[jnk1_col] >= 7.0]
-        stats["active"] += len(batch_df)
-
-        delta_col = "pred_delta_min" if "pred_delta_min" in batch_df.columns else "pred_delta_min_computed"
-        if delta_col in batch_df.columns:
-            batch_df = batch_df[batch_df[delta_col] >= thresholds["delta_log_threshold"]]
-        if "pred_pAct_JNK2" in batch_df.columns:
-            batch_df = batch_df[
-                batch_df["pred_pAct_JNK2"] < batch_df.get("pred_pAct_JNK1", 99) - thresholds["delta_log_threshold"] * 0.5
-            ]
-        if "pred_pAct_JNK3" in batch_df.columns:
-            batch_df = batch_df[
-                batch_df["pred_pAct_JNK3"] < batch_df.get("pred_pAct_JNK1", 99) - thresholds["delta_log_threshold"] * 0.5
-            ]
-        stats["selective"] += len(batch_df)
+        batch_df = predict_batch(models, druglike)
+        batch_df = batch_df[batch_df["p_family"] >= p_family_threshold]
+        stats["f1_pass"] += len(batch_df)
+        if batch_df.empty:
+            continue
 
         sa_qed = [compute_sa_qed(s) for s in batch_df["smiles"]]
+        batch_df = batch_df.copy()
         batch_df["sa"] = [x[0] for x in sa_qed]
         batch_df["qed"] = [x[1] for x in sa_qed]
-        batch_df = batch_df[(batch_df["sa"] <= 6.0) & (batch_df["qed"] >= 0.35)]
+        batch_df = batch_df[(batch_df["sa"] <= sa_max) & (batch_df["qed"] >= qed_min)]
+        stats["sa_qed_pass"] += len(batch_df)
+        if batch_df.empty:
+            continue
 
         batch_df["final_score"] = batch_df.apply(lambda r: compute_final_score(r, weights), axis=1)
         hits.append(batch_df)
 
+    bench_rows = validate_literature_benchmarks(
+        canonical_seen, pd.DataFrame(), args.benchmarks, models, p_family_threshold
+    )
+
     if not hits:
-        logger.warning("No hits passed the funnel. Check model and thresholds.")
+        logger.warning("No hits passed the funnel.")
         plot_funnel(stats, args.output)
+        report = {
+            "funnel_stats": stats,
+            "p_family_threshold": p_family_threshold,
+            "sa_max": sa_max,
+            "qed_min": qed_min,
+            "benchmarks": bench_rows,
+        }
         with open(args.output / "screening_report.json", "w") as f:
-            json.dump({"funnel_stats": stats, "thresholds": thresholds}, f, indent=2)
+            json.dump(report, f, indent=2)
+        if bench_rows:
+            pd.DataFrame(bench_rows).to_csv(args.output / "benchmark_validation.csv", index=False)
         return
 
     all_hits = pd.concat(hits, ignore_index=True).sort_values("final_score", ascending=False)
@@ -342,48 +322,31 @@ def main():
     plot_funnel(stats, args.output)
     plot_score_distribution(all_hits, args.output)
 
-    bench_rows = []
-    for bench in config.get("benchmarks", []):
-        chembl_id = bench.get("chembl_id")
-        for iso in ["jnk1", "jnk2", "jnk3"]:
-            path = args.processed / f"{iso}_curated.csv"
-            if not path.exists():
-                continue
-            sub = pd.read_csv(path)
-            row = sub[sub["molecule_chembl_id"] == chembl_id]
-            if len(row):
-                smi = row["canonical_smiles"].iloc[0]
-                match = all_hits[all_hits["smiles"] == smi]
-                bench_rows.append(
-                    {
-                        "name": bench["name"],
-                        "role": bench["role"],
-                        "smiles": smi,
-                        "in_hits": bool(len(match)),
-                        "final_score": float(match["final_score"].iloc[0]) if len(match) else np.nan,
-                        "pred_pAct_JNK1": float(match["pred_pAct_JNK1"].iloc[0]) if len(match) else np.nan,
-                        "pred_delta_min": float(
-                            match.get("pred_delta_min", match.get("pred_delta_min_computed", pd.Series([np.nan]))).iloc[0]
-                        )
-                        if len(match)
-                        else np.nan,
-                    }
-                )
-                break
+    bench_rows = validate_literature_benchmarks(
+        canonical_seen, all_hits, args.benchmarks, models, p_family_threshold
+    )
     if bench_rows:
         pd.DataFrame(bench_rows).to_csv(args.output / "benchmark_validation.csv", index=False)
 
     report = {
         "funnel_stats": stats,
-        "thresholds": thresholds,
+        "p_family_threshold": p_family_threshold,
+        "sa_max": sa_max,
+        "qed_min": qed_min,
         "weights": weights,
-        "top10": top.head(10)[["smiles", "final_score"]].to_dict(orient="records"),
+        "top10": top.head(10)[["smiles", "p_family", "final_score"]].to_dict(orient="records"),
         "benchmarks": bench_rows,
     }
     with open(args.output / "screening_report.json", "w") as f:
         json.dump(report, f, indent=2, default=str)
 
-    logger.info("Screening complete: %d hits → Top %d → Diverse %d", len(all_hits), len(top), len(diverse))
+    logger.info(
+        "Screening complete: %d hits → Top %d → Diverse %d",
+        len(all_hits),
+        len(top),
+        len(diverse),
+    )
+    logger.info("Funnel: %s", stats)
     logger.info("Results → %s", args.output)
 
 
