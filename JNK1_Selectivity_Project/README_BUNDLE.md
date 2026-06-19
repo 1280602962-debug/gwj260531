@@ -2,7 +2,7 @@
 
 This folder is a **complete snapshot** of the JNK1/2/3 selectivity virtual screening project, including:
 
-- `data/benchmarks/literature_benchmarks.csv` — 8 reference inhibitors for threshold calibration
+- `data/benchmarks/literature_benchmarks.csv` — 9 reference inhibitors for threshold calibration
 - `scripts/calibrate_threshold.py` — Benchmark-calibrated F1 threshold scanner
 - `scripts/` — Full pipeline (00–07, plot_style, run_selectivity_pipeline)
 - `config/`, `docs/`, `data/processed/`, `results/`
@@ -25,7 +25,7 @@ python3 scripts/run_selectivity_pipeline.py
 
 ## Benchmark panel
 
-See `data/benchmarks/README.md` for the 8-compound isoform reference set (SP600125, CC-90001, CC-930, JNK-IN-8, TCS JNK 6O, Q63, etc.).
+See `data/benchmarks/README.md` for the 9-compound isoform reference set (SP600125, CC-90001, CC-930, JNK-IN-8, TCS JNK 6O, Q63, E1, etc.).
 
 ## Note
 

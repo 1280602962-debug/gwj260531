@@ -6,7 +6,7 @@ Curated reference inhibitors for **F1 threshold calibration** and **F3 docking d
 
 | File | Purpose |
 |------|---------|
-| `literature_benchmarks.csv` | Primary benchmark panel (8 compounds) |
+| `literature_benchmarks.csv` | Primary benchmark panel (9 compounds) |
 
 ## Usage
 
