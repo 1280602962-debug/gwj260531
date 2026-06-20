@@ -114,7 +114,7 @@ Use these citations in manuscripts, thesis, and reports.
 | Isoform | PDB ID | Co-crystal ligand | Resolution | KLIFS Q | Missing | Conformation | Reference |
 |---------|--------|-------------------|------------|---------|---------|--------------|-----------|
 | JNK1 | 3ELJ | Bis-anilino-pyrrolopyrimidine (GS7) | 1.80 Å | 9.3 | 1 | DFG-in | Chamberlain SD et al. *Bioorg Med Chem Lett.* 2009 |
-| JNK1 | 2NO3 | 4-anilinopyrimidine (859) | 3.20 Å | 8.0 | 0 | DFG-in | Liu M et al. *Bioorg Med Chem Lett.* 2007 |
+| JNK1 | 4L7F | AX13587 (1V5) | 1.95 Å | 9.8 | 0 | DFG-in | *Bioorg Med Chem Lett.* 2013;23(18):5217-5222 |
 | JNK2 | 3E7O | Indazole inhibitor (35F) | 2.14 Å | 8.0 | 0 | DFG-in | Shaw D et al. *J Mol Biol.* 2008 |
 | JNK2 | 7N8T | AMP | 1.69 Å | 8.0 | 0 | DFG-in | Li L et al. *J Med Chem.* 2023 |
 | JNK3 | 3TTI | CC-930 / tanzisertib (KBI) | 2.20 Å | 8.0 | 0 | DFG-in | Plantevin-Krenitsky V et al. *Bioorg Med Chem Lett.* 2012 |

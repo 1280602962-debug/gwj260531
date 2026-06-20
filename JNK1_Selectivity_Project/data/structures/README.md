@@ -11,14 +11,14 @@ Curated **6-receptor panel** for F3 ensemble docking (Type I / DFG-in).
 
 | Isoform | Primary | Secondary |
 |---------|---------|-----------|
-| JNK1 | 3ELJ | 2NO3 |
+| JNK1 | 3ELJ | 4L7F |
 | JNK2 | 3E7O | 7N8T |
 | JNK3 | 3TTI | 4WHZ |
 
 ## Scoring
 
 ```text
-Score_JNK1 = mean(dock_3ELJ, dock_2NO3)
+Score_JNK1 = mean(dock_3ELJ, dock_4L7F)
 Score_JNK2 = mean(dock_3E7O, dock_7N8T)
 Score_JNK3 = mean(dock_3TTI, dock_4WHZ)
 Selectivity = Score_JNK1 - max(Score_JNK2, Score_JNK3)

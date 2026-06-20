@@ -1,5 +1,5 @@
 # Ensemble docking receptor panel for JNK1-selective virtual screening (F3)
-# Curated from KLIFS + RCSB verification (2026-03-31)
+# Curated from KLIFS + RCSB verification (updated 2026-04-01: JNK1 secondary 2NO3 -> 4L7F)
 # Table: data/structures/docking_ensemble_pdb.csv
 
 version: 1
@@ -12,7 +12,7 @@ scoring:
   per_isoform: mean
   selectivity: Score_JNK1 - max(Score_JNK2, Score_JNK3)
   formulas:
-    Score_JNK1: mean(dock_3ELJ, dock_2NO3)
+    Score_JNK1: mean(dock_3ELJ, dock_4L7F)
     Score_JNK2: mean(dock_3E7O, dock_7N8T)
     Score_JNK3: mean(dock_3TTI, dock_4WHZ)
 
@@ -20,8 +20,6 @@ validation_gate:
   required_before_screening: true
   co_crystal_redock_rmsd_angstrom:
     default: 2.0
-    per_pdb:
-      2NO3: 2.5  # 3.2 Å resolution
   benchmark_direction_compounds:
     - SP600125
     - CC-930
@@ -44,18 +42,19 @@ structures:
     grid_reference_ligand: true
 
   - isoform: JNK1
-    pdb_id: 2NO3
+    pdb_id: 4L7F
     gene: MAPK8
     uniprot: P45983
     chain: A
     klifs_model: A
-    ligand_ccd: "859"
-    resolution_angstrom: 3.20
-    klifs_quality_score: 8.0
+    ligand_ccd: 1V5
+    resolution_angstrom: 1.95
+    klifs_quality_score: 9.8
     missing_residues: 0
+    missing_atoms: 2
     ensemble_role: secondary
     grid_reference_ligand: true
-    notes: Redock gate required; omit from mean if validation fails
+    notes: Single-chain monomer; no JIP1 scaffold peptide
 
   - isoform: JNK2
     pdb_id: 3E7O
@@ -110,6 +109,9 @@ structures:
     grid_reference_ligand: true
 
 alternates:
+  JNK1:
+    - pdb_id: 2NO3
+      reason: Not recommended — 3.20 Å resolution; dual kinase copies + JIP1 peptide
   JNK3:
     - pdb_id: 2WAJ
       reason: JNK3-selective isoquinoline co-crystal; KLIFS Q=7.2 if 4WHZ fails validation
