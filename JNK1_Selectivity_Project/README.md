@@ -20,7 +20,7 @@
 | [**技术报告**](docs/PROJECT_TECHNICAL_REPORT.md) | 描述符、建模方法、模型性能、筛选策略与结果解读 |
 | [**模型对比报告**](results/model_comparison/MODEL_COMPARISON_REPORT.md) | Chemprop vs XGBoost 初步结果 |
 | [**参考文献**](docs/REFERENCES.md) | 格式化文献列表 |
-| [**对接受体表**](data/structures/docking_ensemble_pdb.csv) | 6 PDB ensemble（KLIFS 筛选定稿） |
+| [**对接受体表**](data/structures/docking_ensemble_pdb.csv) | 5 PDB ensemble（KLIFS 筛选定稿） |
 | [**配置说明**](config/targets.yaml) | ChEMBL 靶点 ID 与阈值 |
 | [**对接配置**](config/docking_ensemble.yaml) | Ensemble docking 受体与评分公式 |
 
@@ -35,7 +35,7 @@
 │   └── docking_ensemble.yaml
 ├── data/
 │   └── structures/
-│       ├── docking_ensemble_pdb.csv   # 6 PDB 受体主表
+│       ├── docking_ensemble_pdb.csv   # 5 PDB 受体主表
 │       └── README.md
 ├── docs/
 │   ├── JNK1_selectivity_screening_workflow.md

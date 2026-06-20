@@ -109,14 +109,15 @@ Use these citations in manuscripts, thesis, and reports.
 
 > **注意**：所有 PDB ID 均已在 RCSB 核对蛋白身份。此前误引的 `4L00`（JAK1 假激酶域）、`8AS3`（Arrestin2–CCR5 复合物）、`4OBO`（MAP4K4）**不是 JNK 结构**，已删除。CC-90001 目前**无公开共晶 PDB**（Bennett et al. 2021 主要基于 CC-930/3TTI 等已有结构做 SBDD）。
 
-### Ensemble docking（Type I / DFG-in，每亚型 2 个受体）
+### Ensemble docking panel（Type I / DFG-in，共 5 个受体）
+
+> JNK1/JNK3 各 2 个结构取平均；**JNK2 仅用 3E7O（chain A）**。
 
 | Isoform | PDB ID | Co-crystal ligand | Resolution | KLIFS Q | Missing | Conformation | Reference |
 |---------|--------|-------------------|------------|---------|---------|--------------|-----------|
 | JNK1 | 3ELJ | Bis-anilino-pyrrolopyrimidine (GS7) | 1.80 Å | 9.3 | 1 | DFG-in | Chamberlain SD et al. *Bioorg Med Chem Lett.* 2009 |
 | JNK1 | 4L7F | AX13587 (1V5) | 1.95 Å | 9.8 | 0 | DFG-in | *Bioorg Med Chem Lett.* 2013;23(18):5217-5222 |
 | JNK2 | 3E7O | Indazole inhibitor (35F) | 2.14 Å | 8.0 | 0 | DFG-in | Shaw D et al. *J Mol Biol.* 2008 |
-| JNK2 | 7N8T | AMP | 1.69 Å | 8.0 | 0 | DFG-in | Li L et al. *J Med Chem.* 2023 |
 | JNK3 | 3TTI | CC-930 / tanzisertib (KBI) | 2.20 Å | 8.0 | 0 | DFG-in | Plantevin-Krenitsky V et al. *Bioorg Med Chem Lett.* 2012 |
 | JNK3 | 4WHZ | Pyrazole inhibitor (3NL) | 1.79 Å | 8.0 | 0 | DFG-in | PubMed 25393557 |
 
@@ -126,8 +127,11 @@ Use these citations in manuscripts, thesis, and reports.
 
 | Isoform | PDB ID | Note |
 |---------|--------|------|
-| JNK2 | 3NPC | DFG-**out**（BIRB796）；仅适用于 Type II 抑制剂，**勿与上方 DFG-in ensemble 混用** |
+| JNK2 | 3NPC | DFG-**out**（BIRB796）；仅适用于 Type II 抑制剂，**勿与上方 DFG-in panel 混用** |
+| JNK2 | 7N8T | **不推荐** — AMP 核苷酸 holo，非药物共晶；与同文共价抑制剂研究相关 |
+| JNK2 | 8ELC | **不推荐** — 共价抑制剂 YL2056（Cys116） |
 | JNK3 | 2WAJ | JNK3-selective isoquinoline；KLIFS Q=7.2，**4WHZ 验证失败时备选** |
+| JNK1 | 2NO3 | **不推荐** — 3.20 Å；A/B 双激酶 + JIP1 肽 |
 | JNK3 | 3FI2 | **不推荐** — KLIFS Q=5.6，缺 6 残基 |
 
 ---

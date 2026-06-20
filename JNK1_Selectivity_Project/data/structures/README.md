@@ -1,6 +1,6 @@
 # JNK Ensemble Docking Structures
 
-Curated **6-receptor panel** for F3 ensemble docking (Type I / DFG-in).
+Curated **5-receptor panel** for F3 ensemble docking (Type I / DFG-in).
 
 | File | Description |
 |------|-------------|
@@ -9,17 +9,17 @@ Curated **6-receptor panel** for F3 ensemble docking (Type I / DFG-in).
 
 ## Selected panel
 
-| Isoform | Primary | Secondary |
-|---------|---------|-----------|
-| JNK1 | 3ELJ | 4L7F |
-| JNK2 | 3E7O | 7N8T |
-| JNK3 | 3TTI | 4WHZ |
+| Isoform | Primary | Secondary | Note |
+|---------|---------|-----------|------|
+| JNK1 | 3ELJ | 4L7F | 2-structure ensemble |
+| JNK2 | 3E7O | — | **sole** drug co-crystal (chain A) |
+| JNK3 | 3TTI | 4WHZ | 2-structure ensemble |
 
 ## Scoring
 
 ```text
 Score_JNK1 = mean(dock_3ELJ, dock_4L7F)
-Score_JNK2 = mean(dock_3E7O, dock_7N8T)
+Score_JNK2 = dock_3E7O
 Score_JNK3 = mean(dock_3TTI, dock_4WHZ)
 Selectivity = Score_JNK1 - max(Score_JNK2, Score_JNK3)
 ```

@@ -435,7 +435,7 @@ Final_Score = α * MTL_pAct_JNK1
 | 亚型 | 推荐 PDB | 共晶配体 | 备注 |
 |------|----------|----------|------|
 | JNK1 | 3ELJ, 4L7F | GS7; AX13587 (1V5) | DFG-in；3ELJ (Q=9.3) + 4L7F (Q=9.8, 1.95 Å, 单链) |
-| JNK2 | 3E7O, 7N8T | indazole (35F); AMP | DFG-in；7N8T 1.69 Å holo |
+| JNK2 | 3E7O | indazole (35F) | DFG-in；**仅 chain A**（sole receptor） |
 | JNK3 | 3TTI, 4WHZ | CC-930 (KBI); pyrazole (3NL) | DFG-in；4WHZ 占 selectivity pocket |
 
 - 序列比对找 **差异残基**（尤其 gatekeeper、hinge、back pocket）

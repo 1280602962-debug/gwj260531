@@ -1,19 +1,19 @@
 # Ensemble docking receptor panel for JNK1-selective virtual screening (F3)
-# Curated from KLIFS + RCSB verification (updated 2026-04-01: JNK1 secondary 2NO3 -> 4L7F)
+# Curated from KLIFS + RCSB verification
+# Updated 2026-04-01: JNK1 secondary 2NO3 -> 4L7F; JNK2 sole 3E7O (dropped 7N8T AMP)
 # Table: data/structures/docking_ensemble_pdb.csv
 
-version: 1
+version: 2
 inhibitor_type: type_I_ATP_competitive
 conformation_filter:
   dfg: in
   ac_helix: in
 
 scoring:
-  per_isoform: mean
   selectivity: Score_JNK1 - max(Score_JNK2, Score_JNK3)
   formulas:
     Score_JNK1: mean(dock_3ELJ, dock_4L7F)
-    Score_JNK2: mean(dock_3E7O, dock_7N8T)
+    Score_JNK2: dock_3E7O
     Score_JNK3: mean(dock_3TTI, dock_4WHZ)
 
 validation_gate:
@@ -66,21 +66,9 @@ structures:
     resolution_angstrom: 2.14
     klifs_quality_score: 8.0
     missing_residues: 0
-    ensemble_role: primary
+    ensemble_role: sole
     grid_reference_ligand: true
-
-  - isoform: JNK2
-    pdb_id: 7N8T
-    gene: MAPK9
-    uniprot: P45984
-    chain: A
-    klifs_model: A
-    ligand_ccd: AMP
-    resolution_angstrom: 1.69
-    klifs_quality_score: 8.0
-    missing_residues: 0
-    ensemble_role: secondary
-    grid_reference_ligand: true
+    notes: Use chain A only; chain B has gaps in activation loop (res 172-179)
 
   - isoform: JNK3
     pdb_id: 3TTI
@@ -112,6 +100,13 @@ alternates:
   JNK1:
     - pdb_id: 2NO3
       reason: Not recommended — 3.20 Å resolution; dual kinase copies + JIP1 peptide
+  JNK2:
+    - pdb_id: 7N8T
+      reason: Not recommended — AMP nucleotide holo (not drug co-crystal); same paper as covalent 8ELC
+    - pdb_id: 8ELC
+      reason: Not recommended — covalent inhibitor YL2056 bound to Cys116
+    - pdb_id: 3NPC
+      reason: Not recommended — DFG-out (Type II); do not mix with Type I panel
   JNK3:
     - pdb_id: 2WAJ
       reason: JNK3-selective isoquinoline co-crystal; KLIFS Q=7.2 if 4WHZ fails validation
