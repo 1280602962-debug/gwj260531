@@ -17,6 +17,7 @@
 | 文档 | 说明 |
 |------|------|
 | [**完整流程思路**](docs/JNK1_selectivity_screening_workflow.md) | 科学设计、分步操作、评分函数、参考文献 |
+| [**技术报告**](docs/PROJECT_TECHNICAL_REPORT.md) | 描述符、建模方法、模型性能、筛选策略与结果解读 |
 | [**模型对比报告**](results/model_comparison/MODEL_COMPARISON_REPORT.md) | Chemprop vs XGBoost 初步结果 |
 | [**参考文献**](docs/REFERENCES.md) | 格式化文献列表 |
 | [**配置说明**](config/targets.yaml) | ChEMBL 靶点 ID 与阈值 |
