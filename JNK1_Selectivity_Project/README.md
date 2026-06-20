@@ -40,8 +40,9 @@
     ├── 04_train_selectivity_model.py # XGBoost 多任务 + 选择性模型
     ├── 04b_train_chemprop_mtl.py     # Chemprop 2.0 原生 MTL
     ├── 05_model_interpretation.py    # SHAP / 子结构归因
-    ├── 06_virtual_screening.py       # Virtual screening funnel
+    ├── 06_virtual_screening.py       # F1 p_family screening (v2, million-scale CSV)
     ├── 07_compare_models.py          # Chemprop vs XGBoost comparison
+    ├── calibrate_threshold.py        # Benchmark F1 threshold calibration
     ├── build_demo_library.py         # Build demo SMILES library
     ├── plot_style.py                 # Journal figure style (Arial, 300 dpi)
     └── run_selectivity_pipeline.py   # End-to-end 04→05→06 pipeline
@@ -50,10 +51,31 @@
 ## Selectivity pipeline (04 → 05 → 06)
 
 ```bash
-# Full pipeline: data prep + train + SHAP + screening
-python3 scripts/run_selectivity_pipeline.py
+# Train per-isoform XGBoost models (first time)
+python3 scripts/07_compare_models.py --skip-prepare --skip-similarity --skip-chemprop
 
-# Or skip data prep if processed CSVs already exist
+# Calibrate F1 threshold on 9 benchmark inhibitors
+python3 scripts/calibrate_threshold.py
+
+# Virtual screening (F1 p_family >= 6.0, no ML selectivity filter)
+python3 scripts/build_demo_library.py
+python3 scripts/06_virtual_screening.py \
+  --library data/libraries/screening_demo.smi \
+  --output results/screening_v2
+
+# Million-compound CSV (local path, not uploaded to GitHub)
+python3 scripts/06_virtual_screening.py \
+  --library data/libraries/taosu_100w.csv \
+  --output results/screening_taosu_1M \
+  --batch-size 50000 \
+  --top-n 5000
+```
+
+See `data/libraries/README.md` for copying large libraries from Windows/WSL.
+
+Or run end-to-end:
+
+```bash
 python3 scripts/run_selectivity_pipeline.py --skip-data-prep
 ```
 
