@@ -107,12 +107,28 @@ Use these citations in manuscripts, thesis, and reports.
 
 ## Recommended PDB Structures for JNK Isoforms
 
-| Isoform | PDB ID | Ligand | Resolution | Reference |
-|---------|--------|--------|------------|-----------|
-| JNK1 | 3ELJ | Inhibitor | 1.8 Å | Willson TM et al. *Bioorg Med Chem Lett.* 2007 |
-| JNK1 | 4L00 | CC-90001 analog | — | Bennett et al. 2021 |
-| JNK2 | 3NPC | Inhibitor | 2.0 Å | — |
-| JNK3 | 1PMV | Inhibitor | 2.2 Å | — |
+> **注意**：所有 PDB ID 均已在 RCSB 核对蛋白身份。此前误引的 `4L00`（JAK1 假激酶域）、`8AS3`（Arrestin2–CCR5 复合物）、`4OBO`（MAP4K4）**不是 JNK 结构**，已删除。CC-90001 目前**无公开共晶 PDB**（Bennett et al. 2021 主要基于 CC-930/3TTI 等已有结构做 SBDD）。
+
+### Ensemble docking（Type I / DFG-in，每亚型 2 个受体）
+
+| Isoform | PDB ID | Co-crystal ligand | Resolution | KLIFS Q | Missing | Conformation | Reference |
+|---------|--------|-------------------|------------|---------|---------|--------------|-----------|
+| JNK1 | 3ELJ | Bis-anilino-pyrrolopyrimidine (GS7) | 1.80 Å | 9.3 | 1 | DFG-in | Chamberlain SD et al. *Bioorg Med Chem Lett.* 2009 |
+| JNK1 | 2NO3 | 4-anilinopyrimidine (859) | 3.20 Å | 8.0 | 0 | DFG-in | Liu M et al. *Bioorg Med Chem Lett.* 2007 |
+| JNK2 | 3E7O | Indazole inhibitor (35F) | 2.14 Å | 8.0 | 0 | DFG-in | Shaw D et al. *J Mol Biol.* 2008 |
+| JNK2 | 7N8T | AMP | 1.69 Å | 8.0 | 0 | DFG-in | Li L et al. *J Med Chem.* 2023 |
+| JNK3 | 3TTI | CC-930 / tanzisertib (KBI) | 2.20 Å | 8.0 | 0 | DFG-in | Plantevin-Krenitsky V et al. *Bioorg Med Chem Lett.* 2012 |
+| JNK3 | 4WHZ | Pyrazole inhibitor (3NL) | 1.79 Å | 8.0 | 0 | DFG-in | PubMed 25393557 |
+
+完整字段表见 [`data/structures/docking_ensemble_pdb.csv`](../data/structures/docking_ensemble_pdb.csv)；脚本配置见 [`config/docking_ensemble.yaml`](../config/docking_ensemble.yaml)。
+
+### 备选 / 特殊用途
+
+| Isoform | PDB ID | Note |
+|---------|--------|------|
+| JNK2 | 3NPC | DFG-**out**（BIRB796）；仅适用于 Type II 抑制剂，**勿与上方 DFG-in ensemble 混用** |
+| JNK3 | 2WAJ | JNK3-selective isoquinoline；KLIFS Q=7.2，**4WHZ 验证失败时备选** |
+| JNK3 | 3FI2 | **不推荐** — KLIFS Q=5.6，缺 6 残基 |
 
 ---
 

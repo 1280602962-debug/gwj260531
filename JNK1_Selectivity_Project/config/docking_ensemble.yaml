@@ -1,0 +1,125 @@
+# Ensemble docking receptor panel for JNK1-selective virtual screening (F3)
+# Curated from KLIFS + RCSB verification (2026-03-31)
+# Table: data/structures/docking_ensemble_pdb.csv
+
+version: 1
+inhibitor_type: type_I_ATP_competitive
+conformation_filter:
+  dfg: in
+  ac_helix: in
+
+scoring:
+  per_isoform: mean
+  selectivity: Score_JNK1 - max(Score_JNK2, Score_JNK3)
+  formulas:
+    Score_JNK1: mean(dock_3ELJ, dock_2NO3)
+    Score_JNK2: mean(dock_3E7O, dock_7N8T)
+    Score_JNK3: mean(dock_3TTI, dock_4WHZ)
+
+validation_gate:
+  required_before_screening: true
+  co_crystal_redock_rmsd_angstrom:
+    default: 2.0
+    per_pdb:
+      2NO3: 2.5  # 3.2 Å resolution
+  benchmark_direction_compounds:
+    - SP600125
+    - CC-930
+    - TCS_JNK_6O
+    - E1
+  on_failure: drop_structure_from_ensemble
+
+structures:
+  - isoform: JNK1
+    pdb_id: 3ELJ
+    gene: MAPK8
+    uniprot: P45983
+    chain: A
+    klifs_model: A
+    ligand_ccd: GS7
+    resolution_angstrom: 1.80
+    klifs_quality_score: 9.3
+    missing_residues: 1
+    ensemble_role: primary
+    grid_reference_ligand: true
+
+  - isoform: JNK1
+    pdb_id: 2NO3
+    gene: MAPK8
+    uniprot: P45983
+    chain: A
+    klifs_model: A
+    ligand_ccd: "859"
+    resolution_angstrom: 3.20
+    klifs_quality_score: 8.0
+    missing_residues: 0
+    ensemble_role: secondary
+    grid_reference_ligand: true
+    notes: Redock gate required; omit from mean if validation fails
+
+  - isoform: JNK2
+    pdb_id: 3E7O
+    gene: MAPK9
+    uniprot: P45984
+    chain: A
+    klifs_model: A
+    ligand_ccd: 35F
+    resolution_angstrom: 2.14
+    klifs_quality_score: 8.0
+    missing_residues: 0
+    ensemble_role: primary
+    grid_reference_ligand: true
+
+  - isoform: JNK2
+    pdb_id: 7N8T
+    gene: MAPK9
+    uniprot: P45984
+    chain: A
+    klifs_model: A
+    ligand_ccd: AMP
+    resolution_angstrom: 1.69
+    klifs_quality_score: 8.0
+    missing_residues: 0
+    ensemble_role: secondary
+    grid_reference_ligand: true
+
+  - isoform: JNK3
+    pdb_id: 3TTI
+    gene: MAPK10
+    uniprot: P53779
+    chain: A
+    klifs_model: A
+    ligand_ccd: KBI
+    resolution_angstrom: 2.20
+    klifs_quality_score: 8.0
+    missing_residues: 0
+    ensemble_role: primary
+    grid_reference_ligand: true
+
+  - isoform: JNK3
+    pdb_id: 4WHZ
+    gene: MAPK10
+    uniprot: P53779
+    chain: A
+    klifs_model: A
+    ligand_ccd: 3NL
+    resolution_angstrom: 1.79
+    klifs_quality_score: 8.0
+    missing_residues: 0
+    ensemble_role: secondary
+    grid_reference_ligand: true
+
+alternates:
+  JNK3:
+    - pdb_id: 2WAJ
+      reason: JNK3-selective isoquinoline co-crystal; KLIFS Q=7.2 if 4WHZ fails validation
+    - pdb_id: 3FI2
+      reason: Not recommended — KLIFS Q=5.6 and 6 missing residues
+
+excluded_misannotations:
+  - pdb_id: 4L00
+    actual: JAK1 pseudokinase domain (apo)
+  - pdb_id: 8AS3
+    actual: Arrestin2 + CCR5 phosphopeptide + Fab30
+  - pdb_id: 4OBO
+    actual: MAP4K4

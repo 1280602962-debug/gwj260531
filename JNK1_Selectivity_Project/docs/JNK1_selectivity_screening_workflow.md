@@ -432,14 +432,14 @@ Final_Score = α * MTL_pAct_JNK1
 
 #### 4.5.1 结构准备
 
-| 亚型 | 推荐 PDB | 配体 | 备注 |
-|------|----------|------|------|
-| JNK1 | 3ELJ, 4L00 | 共晶抑制剂 | DFG-in |
-| JNK2 | 3NPC, 8AS3 | 共晶抑制剂 | |
-| JNK3 | 1PMV, 4OBO | 共晶抑制剂 | gatekeeper 更小 |
+| 亚型 | 推荐 PDB | 共晶配体 | 备注 |
+|------|----------|----------|------|
+| JNK1 | 3ELJ, 2NO3 | GS7; 859 (4-anilinopyrimidine) | DFG-in；主结构 3ELJ (Q=9.3) |
+| JNK2 | 3E7O, 7N8T | indazole (35F); AMP | DFG-in；7N8T 1.69 Å holo |
+| JNK3 | 3TTI, 4WHZ | CC-930 (KBI); pyrazole (3NL) | DFG-in；4WHZ 占 selectivity pocket |
 
 - 序列比对找 **差异残基**（尤其 gatekeeper、hinge、back pocket）
-- 参考 CC-90001 共晶（JNK1 选择性设计案例）[Bennett et al., 2021]
+- CC-90001 为 JNK1 偏选择性临床候选 [Bennett et al., 2021]，但**目前无公开 JNK1 共晶 PDB**；对接验证可借用同系列 CC-930/3TTI 结合模式
 
 #### 4.5.2 Ensemble Docking
 
