@@ -1,32 +1,45 @@
 # JNK1 Selectivity CADD Project (Full Bundle)
 
-This folder is a **complete snapshot** of the JNK1/2/3 selectivity virtual screening project, including:
+This folder is a **standalone snapshot** of the JNK1/2/3 selectivity virtual screening project.
 
-- `data/benchmarks/literature_benchmarks.csv` — 9 reference inhibitors for threshold calibration
-- `scripts/calibrate_threshold.py` — Benchmark-calibrated F1 threshold scanner
-- `scripts/` — Full pipeline (00–07, plot_style, run_selectivity_pipeline)
-- `config/`, `docs/`, `data/processed/`, `results/`
+**Run all commands from this directory** (`JNK1_Selectivity_Project/`), not the parent repo root.
+
+## Contents
+
+- `scripts/06_virtual_screening.py` — F1 `p_family ≥ 6.0` + drug-like + SA/QED (v2, supports million-scale CSV)
+- `scripts/07_compare_models.py` — Train per-isoform XGBoost models
+- `scripts/calibrate_threshold.py` — Benchmark F1 threshold calibration
+- `data/benchmarks/literature_benchmarks.csv` — 9 reference inhibitors
+- `config/targets.yaml` — Includes `screening.p_family_threshold: 6.0`
 
 ## Quick start
 
 ```bash
-# 1. Install dependencies
+cd JNK1_Selectivity_Project
 pip install -r requirements.txt
 
-# 2. Train per-isoform XGBoost models (if models/ missing)
-python3 scripts/07_compare_models.py
+# Train models (first time)
+python3 scripts/07_compare_models.py --skip-prepare --skip-similarity --skip-chemprop
 
-# 3. Calibrate F1 threshold on benchmark panel
+# Calibrate F1 on benchmarks (optional)
 python3 scripts/calibrate_threshold.py
 
-# 4. Run selectivity pipeline (when docking module is ready)
-python3 scripts/run_selectivity_pipeline.py
+# Demo screening
+python3 scripts/build_demo_library.py
+python3 scripts/06_virtual_screening.py \
+  --library data/libraries/screening_demo.smi \
+  --output results/screening_v2
+
+# Million-compound CSV (e.g. Taosu library)
+python3 scripts/06_virtual_screening.py \
+  --library data/libraries/taosu_100w.csv \
+  --output results/screening_taosu_1M \
+  --batch-size 50000 \
+  --top-n 5000
 ```
 
-## Benchmark panel
-
-See `data/benchmarks/README.md` for the 9-compound isoform reference set (SP600125, CC-90001, CC-930, JNK-IN-8, TCS JNK 6O, Q63, E1, etc.).
+See `data/libraries/README.md` for copying large libraries from Windows/WSL paths.
 
 ## Note
 
-The git repository root is the parent directory (`gwj260531`). This subfolder mirrors the full project for local organization and sharing.
+The git repository root is the parent directory (`gwj260531`). This subfolder is kept in sync with root `scripts/` and `config/` for offline/local use.

@@ -76,6 +76,18 @@ selectivity:
   jnk23_inactive_threshold_pchembl: 6.0  # JNK2/3 below this when labeled selective
   jnk1_min_for_delta: 5.5        # minimum JNK1 pActivity to compute delta labels
 
+# Virtual screening funnel (06_virtual_screening.py)
+# F1 calibrated on data/benchmarks/literature_benchmarks.csv (9 compounds, 100% recall)
+screening:
+  p_family_threshold: 6.0        # max(pred_JNK1, pred_JNK2, pred_JNK3) >= threshold
+  sa_max: 6.0                    # synthetic accessibility (lower = easier)
+  qed_min: 0.35
+  scoring_weights:
+    w_p_family: 0.55
+    w_pAct_JNK1: 0.15            # tie-break toward JNK1 without ML selectivity filter
+    w_qed: 0.20
+    w_sa: 0.10                   # rewards lower SA (applied as (10 - sa) / 10)
+
 # Benchmark compounds for retrospective validation
 # Full panel: data/benchmarks/literature_benchmarks.csv
 benchmarks:
