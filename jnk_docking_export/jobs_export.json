@@ -4,31 +4,37 @@
     {
       "pdb": "3ELJ",
       "kinase": "JNK1",
-      "pose_glob": "**/*3ELJ*_pv.maegz"
+      "pose_glob": "**/benchmarks_3ELJ*_pv.maegz",
+      "extra_globs": ["**/GS7_3ELJ*_pv.maegz"]
     },
     {
       "pdb": "4L7F",
       "kinase": "JNK1",
-      "pose_glob": "**/*4L7F*_pv.maegz"
+      "pose_glob": "**/benchmarks_4L7F*_pv.maegz",
+      "extra_globs": ["**/AX13587_4L7F*_pv.maegz"]
     },
     {
       "pdb": "3E7O",
       "kinase": "JNK2",
-      "pose_glob": "**/*3E7O*_pv.maegz"
+      "pose_glob": "**/benchmarks_3E7O*_pv.maegz",
+      "extra_globs": ["**/35F_3E7O*_pv.maegz"]
     },
     {
       "pdb": "3TTI",
       "kinase": "JNK3",
-      "pose_glob": "**/*3TTI*_pv.maegz"
+      "pose_glob": "**/benchmarks_3TTI*_pv.maegz",
+      "extra_globs": ["**/ACC-930_3TTI*_pv.maegz"]
     },
     {
       "pdb": "4WHZ",
       "kinase": "JNK3",
-      "pose_glob": "**/*4WHZ*_pv.maegz"
+      "pose_glob": "**/benchmarks_4WHZ*_pv.maegz",
+      "extra_globs": ["**/3NL_4WHZ*_pv.maegz"]
     }
   ],
   "options": {
     "top_pose_only": true,
-    "format": "pdb"
+    "format": "pdb",
+    "exclude_substrings": ["vsw", "top_5000", "prime_mmgbsa", "xp_out", "-dock_xp_"]
   }
 }

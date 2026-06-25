@@ -23,6 +23,16 @@ from schrodinger.application.glide import poseviewconvert
 GLIDE_SCORE_PROP = "r_i_glide_gscore"
 DEFAULT_PDBS = ("3ELJ", "4L7F", "3E7O", "3TTI", "4WHZ")
 
+# Substrings that mark non-target pv files (virtual screens, MMGBSA, batched VSW, etc.)
+DEFAULT_EXCLUDE_SUBSTRINGS = (
+    "vsw",
+    "top_5000",
+    "prime_mmgbsa",
+    "xp_out",
+    "-dock_xp_",
+    "xp_out_",
+)
+
 
 def sanitize_filename(name: str) -> str:
     name = re.sub(r'[<>:"/\\|?*]', "_", name.strip())
@@ -58,6 +68,19 @@ def ligand_identity(st: structure.Structure) -> str:
     return title
 
 
+def should_exclude_pv(pv: Path, exclude_substrings: tuple[str, ...]) -> bool:
+    text = f"{pv.parent.name}/{pv.name}".lower()
+    return any(s in text for s in exclude_substrings)
+
+
+def filter_pv_files(
+    files: list[Path],
+    exclude_substrings: tuple[str, ...] | None = None,
+) -> list[Path]:
+    excl = exclude_substrings or DEFAULT_EXCLUDE_SUBSTRINGS
+    return [f for f in files if not should_exclude_pv(f, excl)]
+
+
 def glob_recursive(root: Path, pattern: str) -> list[Path]:
     """Match pattern in root and all subdirectories."""
     pattern = pattern.replace("\\", "/").lstrip("/")
@@ -83,8 +106,14 @@ def resolve_pose_files(job: dict, root: Path) -> list[Path]:
     if not files and job.get("pose_glob"):
         files = glob_recursive(root, job["pose_glob"])
 
+    for pattern in job.get("extra_globs", []):
+        files.extend(glob_recursive(root, pattern))
+
     if not files and job.get("pdb"):
         files = glob_recursive(root, f"*{job['pdb']}*_pv.maegz")
+
+    excl = tuple(job.get("exclude_substrings", DEFAULT_EXCLUDE_SUBSTRINGS))
+    files = filter_pv_files(files, excl)
 
     seen: set[str] = set()
     unique: list[Path] = []
@@ -96,7 +125,7 @@ def resolve_pose_files(job: dict, root: Path) -> list[Path]:
     return unique
 
 
-def build_jobs_from_auto(root: Path) -> list[dict]:
+def build_jobs_from_auto(root: Path, exclude_substrings: tuple[str, ...] | None = None) -> list[dict]:
     """Discover pv files and group by PDB id embedded in filename."""
     kinase_map = {
         "3ELJ": "JNK1",
@@ -105,13 +134,17 @@ def build_jobs_from_auto(root: Path) -> list[dict]:
         "3TTI": "JNK3",
         "4WHZ": "JNK3",
     }
-    all_pv = glob_recursive(root, "*_pv.maegz")
+    excl = exclude_substrings or DEFAULT_EXCLUDE_SUBSTRINGS
+    all_pv = filter_pv_files(glob_recursive(root, "*_pv.maegz"), excl)
     by_pdb: dict[str, list[Path]] = defaultdict(list)
     for pv in all_pv:
         name = pv.name.upper()
         for pdb in DEFAULT_PDBS:
             if pdb in name:
-                by_pdb[pdb].append(pv)
+                # Prefer benchmark / single-ligand glide-dock jobs only
+                low = name.lower()
+                if low.startswith("benchmarks_") or "glide-dock" in low:
+                    by_pdb[pdb].append(pv)
                 break
 
     jobs = []
@@ -202,8 +235,10 @@ def main() -> int:
         if not root.exists():
             root = config_path.parent.resolve()
 
+    global_excl = tuple(options.get("exclude_substrings", DEFAULT_EXCLUDE_SUBSTRINGS))
+
     if args.auto or not cfg.get("jobs"):
-        cfg["jobs"] = build_jobs_from_auto(root)
+        cfg["jobs"] = build_jobs_from_auto(root, global_excl)
         if not cfg["jobs"]:
             print("ERROR: no *_pv.maegz found under", root, file=sys.stderr)
             return 1
