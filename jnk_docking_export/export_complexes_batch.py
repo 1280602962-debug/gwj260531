@@ -3,6 +3,8 @@
 Batch-export merged protein-ligand complexes from Glide *_pv.maegz files.
 
 Requires Schrödinger Python (run via %SCHRODINGER%\\run.exe python3).
+
+Searches subfolders recursively (e.g. _XP_1\\*_pv.maegz).
 """
 
 from __future__ import annotations
@@ -19,6 +21,7 @@ from schrodinger import structure
 from schrodinger.application.glide import poseviewconvert
 
 GLIDE_SCORE_PROP = "r_i_glide_gscore"
+DEFAULT_PDBS = ("3ELJ", "4L7F", "3E7O", "3TTI", "4WHZ")
 
 
 def sanitize_filename(name: str) -> str:
@@ -38,7 +41,6 @@ def get_glide_score(st: structure.Structure) -> float:
 
 
 def ligand_identity(st: structure.Structure) -> str:
-    """Stable key to group poses of the same ligand."""
     for key in (
         "s_m_original_mae_title",
         "s_m_entry_name",
@@ -49,7 +51,6 @@ def ligand_identity(st: structure.Structure) -> str:
             return str(st.property[key])
 
     title = st.title or "ligand"
-    # pv merged titles often look like "receptor:ligand" or "receptor:ligand:pose"
     if ":" in title:
         parts = title.split(":")
         if len(parts) >= 2:
@@ -57,8 +58,19 @@ def ligand_identity(st: structure.Structure) -> str:
     return title
 
 
+def glob_recursive(root: Path, pattern: str) -> list[Path]:
+    """Match pattern in root and all subdirectories."""
+    pattern = pattern.replace("\\", "/").lstrip("/")
+    if pattern.startswith("**/"):
+        hits = sorted(root.glob(pattern))
+    else:
+        hits = sorted(set(root.glob(pattern)) | set(root.glob(f"**/{pattern}")))
+    return hits
+
+
 def resolve_pose_files(job: dict, root: Path) -> list[Path]:
     files: list[Path] = []
+
     for item in job.get("pose_files", []):
         p = Path(item)
         if not p.is_absolute():
@@ -66,13 +78,15 @@ def resolve_pose_files(job: dict, root: Path) -> list[Path]:
         if p.exists():
             files.append(p)
             continue
-        # glob fallback, e.g. benchmarks_3ELJ_*_pv.maegz
-        matches = sorted(root.glob(str(item)))
-        files.extend(matches)
+        files.extend(glob_recursive(root, str(item)))
+
     if not files and job.get("pose_glob"):
-        files = sorted(root.glob(job["pose_glob"]))
-    # de-duplicate while preserving order
-    seen = set()
+        files = glob_recursive(root, job["pose_glob"])
+
+    if not files and job.get("pdb"):
+        files = glob_recursive(root, f"*{job['pdb']}*_pv.maegz")
+
+    seen: set[str] = set()
     unique: list[Path] = []
     for f in files:
         key = str(f.resolve())
@@ -82,10 +96,38 @@ def resolve_pose_files(job: dict, root: Path) -> list[Path]:
     return unique
 
 
-def collect_complexes(
-    pv_path: Path,
-    top_pose_only: bool,
-) -> list[structure.Structure]:
+def build_jobs_from_auto(root: Path) -> list[dict]:
+    """Discover pv files and group by PDB id embedded in filename."""
+    kinase_map = {
+        "3ELJ": "JNK1",
+        "4L7F": "JNK1",
+        "3E7O": "JNK2",
+        "3TTI": "JNK3",
+        "4WHZ": "JNK3",
+    }
+    all_pv = glob_recursive(root, "*_pv.maegz")
+    by_pdb: dict[str, list[Path]] = defaultdict(list)
+    for pv in all_pv:
+        name = pv.name.upper()
+        for pdb in DEFAULT_PDBS:
+            if pdb in name:
+                by_pdb[pdb].append(pv)
+                break
+
+    jobs = []
+    for pdb in DEFAULT_PDBS:
+        if pdb in by_pdb:
+            jobs.append(
+                {
+                    "pdb": pdb,
+                    "kinase": kinase_map.get(pdb, ""),
+                    "pose_files": [str(p.relative_to(root)) for p in sorted(by_pdb[pdb])],
+                }
+            )
+    return jobs
+
+
+def collect_complexes(pv_path: Path, top_pose_only: bool) -> list[structure.Structure]:
     poses_by_ligand: dict[str, list[structure.Structure]] = defaultdict(list)
     merged = list(poseviewconvert.get_pv_file_merged_structures(str(pv_path)))
 
@@ -98,10 +140,7 @@ def collect_complexes(
     for st in merged:
         poses_by_ligand[ligand_identity(st)].append(st)
 
-    best_poses: list[structure.Structure] = []
-    for poses in poses_by_ligand.values():
-        best_poses.append(min(poses, key=get_glide_score))
-    return best_poses
+    return [min(poses, key=get_glide_score) for poses in poses_by_ligand.values()]
 
 
 def write_structure(st: structure.Structure, out_path: Path, fmt: str) -> None:
@@ -122,12 +161,24 @@ def load_config(path: Path) -> dict:
         return json.load(fh)
 
 
+def rel_display(path: Path, root: Path) -> str:
+    try:
+        return str(path.relative_to(root))
+    except ValueError:
+        return str(path)
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(
         description="Export merged receptor-ligand complexes from Glide pv.maegz files."
     )
     parser.add_argument("--config", default="jobs_export.json", help="JSON config file")
     parser.add_argument("--out", default="complexes", help="Output directory")
+    parser.add_argument(
+        "--auto",
+        action="store_true",
+        help="Auto-discover *_pv.maegz under root (ignore missing config jobs)",
+    )
     parser.add_argument(
         "--all-poses",
         action="store_true",
@@ -141,15 +192,21 @@ def main() -> int:
     )
     args = parser.parse_args()
 
-    config_path = Path(args.config).resolve()
-    if not config_path.exists():
-        print(f"ERROR: config not found: {config_path}", file=sys.stderr)
-        return 1
+    root = Path(".").resolve()
+    cfg: dict = {"root": ".", "jobs": [], "options": {}}
 
-    cfg = load_config(config_path)
-    root = Path(cfg.get("root", ".")).resolve()
-    if not root.exists():
-        root = config_path.parent.resolve()
+    config_path = Path(args.config)
+    if config_path.exists():
+        cfg = load_config(config_path.resolve())
+        root = Path(cfg.get("root", ".")).resolve()
+        if not root.exists():
+            root = config_path.parent.resolve()
+
+    if args.auto or not cfg.get("jobs"):
+        cfg["jobs"] = build_jobs_from_auto(root)
+        if not cfg["jobs"]:
+            print("ERROR: no *_pv.maegz found under", root, file=sys.stderr)
+            return 1
 
     out_root = Path(args.out)
     if not out_root.is_absolute():
@@ -180,7 +237,7 @@ def main() -> int:
 
         pose_files = resolve_pose_files(job, root)
         if not pose_files:
-            msg = f"[{pdb_id}] no pose files found"
+            msg = f"[{pdb_id}] no pose files found (searched recursively under {root})"
             print(f"  ERROR: {msg}")
             errors.append(msg)
             continue
@@ -189,10 +246,10 @@ def main() -> int:
         ligand_count = 0
 
         for pv_path in pose_files:
-            print(f"  reading {pv_path.name}")
+            print(f"  reading {rel_display(pv_path, root)}")
             try:
                 complexes = collect_complexes(pv_path, top_pose_only=top_pose_only)
-            except Exception as exc:  # noqa: BLE001 - report and continue
+            except Exception as exc:  # noqa: BLE001
                 msg = f"[{pdb_id}] failed on {pv_path.name}: {exc}"
                 print(f"  ERROR: {exc}")
                 errors.append(msg)
@@ -206,7 +263,6 @@ def main() -> int:
                     out_name = f"{pdb_id}_{lig_name}{ext}"
 
                 out_path = pdb_out / out_name
-                # avoid accidental overwrite when names collide
                 if out_path.exists():
                     out_path = pdb_out / f"{pdb_id}_{lig_name}_{idx:02d}{ext}"
 
@@ -260,6 +316,8 @@ def main() -> int:
     print(f"Complexes exported : {exported}")
     print(f"Summary            : {summary_path}")
     print(f"Errors             : {error_log} ({len(errors)} lines)")
+    if exported == 0:
+        return 1
     return 0 if not errors else 2
 
 
