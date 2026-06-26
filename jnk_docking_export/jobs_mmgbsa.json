@@ -1,0 +1,63 @@
+{
+  "root": ".",
+  "mode": "parse_existing",
+  "complex_dir": "complexes_prepped",
+  "out_dir": "mmgbsa_results",
+  "ligand_asl": "ligand",
+  "ligand_exclude": ["JNK-IN-8", "JNK_IN_8", "JNKIN8"],
+  "ligand_include": [
+    "AS602801",
+    "CC-401",
+    "CC-90001",
+    "CC-930",
+    "E1",
+    "Q63",
+    "SP600125",
+    "TCS JNK 6O",
+    "TCS_JNK_6O"
+  ],
+  "kinase_by_pdb": {
+    "3ELJ": "JNK1",
+    "4L7F": "JNK1",
+    "3E7O": "JNK2",
+    "3TTI": "JNK3",
+    "4WHZ": "JNK3"
+  },
+  "existing_results": {
+    "comment": "MM-GBSA already computed in Schrödinger — only parse, do not resubmit",
+    "search_roots": [
+      ".",
+      "mmgbsa_results"
+    ],
+    "search_globs": [
+      "**/*prime_mmgbsa*",
+      "**/*mmgbsa*",
+      "**/benchmarks_*/*mmgbsa*"
+    ],
+    "exclude_substrings": [
+      "vsw",
+      "top_5000",
+      "xp_out"
+    ]
+  },
+  "mmgbsa": {
+    "comment": "Used only if mode=submit (optional)",
+    "job_type": "REAL_MIN",
+    "rflexdist": 5.0,
+    "use_membrane": false,
+    "extra_flags": []
+  },
+  "ddg": {
+    "jnk1_pdbs": ["3ELJ", "4L7F"],
+    "jnk2_pdbs": ["3E7O"],
+    "jnk3_pdbs": ["3TTI", "4WHZ"],
+    "energy_column_candidates": [
+      "MMGBSA dG Bind",
+      "dG_Bind",
+      "DG_BIND",
+      "mmgbsa_dg_bind",
+      "Binding energy",
+      "Delta G Bind"
+    ]
+  }
+}

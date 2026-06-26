@@ -235,6 +235,7 @@ def main() -> int:
         if not root.exists():
             root = config_path.parent.resolve()
 
+    options = cfg.get("options", {})
     global_excl = tuple(options.get("exclude_substrings", DEFAULT_EXCLUDE_SUBSTRINGS))
 
     if args.auto or not cfg.get("jobs"):
@@ -248,7 +249,6 @@ def main() -> int:
         out_root = root / out_root
     out_root.mkdir(parents=True, exist_ok=True)
 
-    options = cfg.get("options", {})
     top_pose_only = not args.all_poses and options.get("top_pose_only", True)
     fmt = args.format or options.get("format", "pdb")
     ext = {"pdb": ".pdb", "mae": ".mae", "maegz": ".maegz"}[fmt]
