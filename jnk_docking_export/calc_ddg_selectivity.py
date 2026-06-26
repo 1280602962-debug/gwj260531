@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
 """
-Parse Prime MM-GBSA outputs and compute per-ligand ΔΔG across JNK1/2/3.
+Parse existing Prime MM-GBSA outputs and compute per-ligand ΔΔG across JNK1/2/3.
+
+MM-GBSA jobs are NOT submitted here — only existing Schrödinger results are read.
 
 Usage:
-  %SCHRODINGER%\\run.exe python3 calc_ddg_selectivity.py --config jobs_mmgbsa.json
+  python3 calc_ddg_selectivity.py --config jobs_mmgbsa.json
+  python3 calc_ddg_selectivity.py --config jobs_mmgbsa.json --inventory mmgbsa_results/mmgbsa_inventory.tsv
 """
 
 from __future__ import annotations
@@ -14,7 +17,20 @@ import json
 import re
 import statistics
 import sys
+from dataclasses import dataclass
 from pathlib import Path
+
+PDB_IDS = ("3ELJ", "4L7F", "3E7O", "3TTI", "4WHZ")
+
+
+@dataclass
+class MmgbsaRecord:
+    ligand: str
+    pdb_id: str
+    energy: float | None
+    energy_file: Path
+    source_dir: Path
+    status: str
 
 
 def load_config(path: Path) -> dict:
@@ -26,12 +42,19 @@ def normalize_ligand(name: str) -> str:
     return re.sub(r"[^A-Z0-9]+", "_", name.upper()).strip("_")
 
 
-def parse_stem(stem: str) -> tuple[str, str]:
-    base = stem.replace("_prepped", "")
-    parts = base.split("_", 1)
-    if len(parts) == 2:
-        return parts[0].upper(), parts[1]
-    return base.upper(), base
+def ligand_matches(name: str, include: list[str], exclude: list[str]) -> bool:
+    upper = name.upper()
+    for ex in exclude:
+        if ex.upper().replace("-", "_") in upper.replace("-", "_"):
+            return False
+    if not include:
+        return True
+    norm = upper.replace("-", "_").replace(" ", "_")
+    for inc in include:
+        token = inc.upper().replace("-", "_").replace(" ", "_")
+        if token in norm or norm in token:
+            return True
+    return False
 
 
 def read_text(path: Path) -> str:
@@ -47,11 +70,11 @@ def parse_energy_from_file(path: Path, column_candidates: list[str]) -> float | 
     text = read_text(path)
     lower = text.lower()
 
-    # Prime .out / log style: "MMGBSA dG Bind:  -12.34"
     patterns = [
         r"mmgbsa\s+dg\s+bind\s*[:=]\s*([+-]?\d+\.?\d*)",
         r"dg\s*bind\s*[:=]\s*([+-]?\d+\.?\d*)",
         r"binding\s+energy\s*[:=]\s*([+-]?\d+\.?\d*)",
+        r"delta\s+g\s+bind\s*[:=]\s*([+-]?\d+\.?\d*)",
     ]
     for pat in patterns:
         m = re.search(pat, lower, flags=re.IGNORECASE)
@@ -73,7 +96,8 @@ def parse_energy_from_file(path: Path, column_candidates: list[str]) -> float | 
                     break
             if col is None:
                 for f in reader.fieldnames:
-                    if "bind" in f.lower() and "dg" in f.lower():
+                    fl = f.lower()
+                    if ("bind" in fl and "dg" in fl) or fl in {"mmgbsa_dg_bind", "dg_bind"}:
                         col = f
                         break
             if col is None:
@@ -88,68 +112,183 @@ def parse_energy_from_file(path: Path, column_candidates: list[str]) -> float | 
     return None
 
 
-def find_energy_file(job_dir: Path) -> Path | None:
-    preferred = [
+def find_energy_files(root_dir: Path) -> list[Path]:
+    patterns = [
         "*_mmgbsa.csv",
         "*mmgbsa*.csv",
         "*_out.csv",
-        "*.csv",
+        "*-out.csv",
         "*_mmgbsa.out",
         "*mmgbsa*.out",
         "*.out",
         "*.log",
+        "*.csv",
     ]
-    for pattern in preferred:
-        hits = sorted(job_dir.glob(pattern))
-        if hits:
-            return hits[0]
+    hits: list[Path] = []
+    for pattern in patterns:
+        hits.extend(root_dir.glob(pattern))
+    return sorted(set(hits), key=lambda p: (0 if "mmgbsa" in p.name.lower() else 1, p.name))
+
+
+def infer_pdb_id(text: str) -> str | None:
+    upper = text.upper()
+    for pdb in PDB_IDS:
+        if pdb in upper:
+            return pdb
     return None
 
 
-def collect_rows(root: Path, cfg: dict) -> list[dict]:
+def infer_ligand_name(text: str, include: list[str]) -> str | None:
+    norm_path = text.upper().replace("-", "_").replace(" ", "_")
+    for lig in include:
+        token = lig.upper().replace("-", "_").replace(" ", "_")
+        if token in norm_path:
+            return lig
+    return None
+
+
+def path_should_skip(path: Path, exclude_substrings: list[str]) -> bool:
+    low = str(path).lower()
+    return any(s.lower() in low for s in exclude_substrings)
+
+
+def discover_mmgbsa_records(root: Path, cfg: dict) -> list[MmgbsaRecord]:
+    existing = cfg.get("existing_results", {})
     ddg_cfg = cfg.get("ddg", {})
     col_candidates = ddg_cfg.get("energy_column_candidates", [])
-    kinase_map = cfg.get("kinase_by_pdb", {})
+    include = cfg.get("ligand_include", [])
+
+    search_roots = existing.get("search_roots", [".", "mmgbsa_results"])
+    search_globs = existing.get(
+        "search_globs",
+        ["**/*prime_mmgbsa*", "**/*mmgbsa*", "**/mmgbsa_results/**"],
+    )
+    exclude_substrings = existing.get("exclude_substrings", ["vsw", "top_5000", "xp_out"])
+
+    candidate_dirs: set[Path] = set()
+
     out_dir = Path(cfg.get("out_dir", "mmgbsa_results"))
     if not out_dir.is_absolute():
         out_dir = root / out_dir
+    if out_dir.exists():
+        for job_dir in out_dir.glob("**/*"):
+            if job_dir.is_dir() and find_energy_files(job_dir):
+                candidate_dirs.add(job_dir)
+
+    for rel_root in search_roots:
+        base = Path(rel_root)
+        if not base.is_absolute():
+            base = root / base
+        if not base.exists():
+            continue
+        for pattern in search_globs:
+            for hit in base.glob(pattern):
+                if hit.is_dir():
+                    candidate_dirs.add(hit)
+                elif hit.is_file() and hit.suffix.lower() in {".csv", ".out", ".log", ".tsv"}:
+                    candidate_dirs.add(hit.parent)
+
+    records: list[MmgbsaRecord] = []
+    seen_energy_files: set[str] = set()
+
+    for job_dir in sorted(candidate_dirs):
+        if path_should_skip(job_dir, exclude_substrings):
+            continue
+
+        energy_file = None
+        for candidate in find_energy_files(job_dir):
+            if path_should_skip(candidate, exclude_substrings):
+                continue
+            energy_file = candidate
+            if "mmgbsa" in candidate.name.lower():
+                break
+        if energy_file is None:
+            continue
+
+        key = str(energy_file.resolve())
+        if key in seen_energy_files:
+            continue
+        seen_energy_files.add(key)
+
+        try:
+            context = str(job_dir.relative_to(root))
+        except ValueError:
+            context = str(job_dir)
+
+        pdb_id = infer_pdb_id(context) or infer_pdb_id(energy_file.name) or "UNKNOWN"
+        ligand = infer_ligand_name(context, include) or infer_ligand_name(energy_file.name, include)
+        if ligand is None:
+            ligand = job_dir.name
+
+        energy = parse_energy_from_file(energy_file, col_candidates)
+        status = "ok" if energy is not None else "no_energy"
+        records.append(
+            MmgbsaRecord(
+                ligand=ligand,
+                pdb_id=pdb_id,
+                energy=energy,
+                energy_file=energy_file,
+                source_dir=job_dir,
+                status=status,
+            )
+        )
+
+    return records
+
+
+def load_inventory(path: Path, root: Path) -> list[MmgbsaRecord]:
+    records: list[MmgbsaRecord] = []
+    with path.open(encoding="utf-8-sig", newline="") as fh:
+        reader = csv.DictReader(fh, delimiter="\t")
+        for row in reader:
+            energy_file = root / row["energy_file"]
+            source_dir = root / row.get("source_dir", row["energy_file"])
+            dg = row.get("dg_bind", "").strip()
+            energy = float(dg) if dg else None
+            records.append(
+                MmgbsaRecord(
+                    ligand=row["ligand"],
+                    pdb_id=row["pdb_id"].upper(),
+                    energy=energy,
+                    energy_file=energy_file,
+                    source_dir=source_dir,
+                    status=row.get("parse_status", "ok"),
+                )
+            )
+    return records
+
+
+def build_tables(records: list[MmgbsaRecord], cfg: dict) -> tuple[list[dict], dict[str, dict[str, float]], dict]:
+    kinase_map = cfg.get("kinase_by_pdb", {})
+    include = cfg.get("ligand_include", [])
+    exclude = cfg.get("ligand_exclude", ["JNK-IN-8"])
 
     per_ligand_pdb: dict[str, dict[str, float]] = {}
     detail_rows: list[dict] = []
 
-    for job_dir in sorted(out_dir.glob("**/*")):
-        if not job_dir.is_dir():
+    for rec in records:
+        if rec.energy is None or rec.status != "ok":
             continue
-        energy_file = find_energy_file(job_dir)
-        if energy_file is None:
+        if not ligand_matches(rec.ligand, include, exclude):
             continue
-
-        # job_dir layout: mmgbsa_results/<PDB>/<ligand>/
-        try:
-            rel = job_dir.relative_to(out_dir)
-            pdb_id = rel.parts[0].upper()
-            lig_name = rel.parts[1] if len(rel.parts) > 1 else job_dir.name
-        except ValueError:
+        if rec.pdb_id == "UNKNOWN":
             continue
 
-        energy = parse_energy_from_file(energy_file, col_candidates)
-        if energy is None:
-            continue
-
-        lig_key = normalize_ligand(lig_name)
-        per_ligand_pdb.setdefault(lig_key, {})[pdb_id] = energy
+        lig_key = normalize_ligand(rec.ligand)
+        per_ligand_pdb.setdefault(lig_key, {})[rec.pdb_id] = rec.energy
         detail_rows.append(
             {
-                "ligand": lig_name,
+                "ligand": rec.ligand,
                 "ligand_key": lig_key,
-                "pdb_id": pdb_id,
-                "kinase": kinase_map.get(pdb_id, ""),
-                "dg_bind": f"{energy:.3f}",
-                "energy_file": str(energy_file.relative_to(root)),
+                "pdb_id": rec.pdb_id,
+                "kinase": kinase_map.get(rec.pdb_id, ""),
+                "dg_bind": f"{rec.energy:.3f}",
+                "energy_file": str(rec.energy_file),
+                "source_dir": str(rec.source_dir),
             }
         )
 
-    return detail_rows, per_ligand_pdb, ddg_cfg
+    return detail_rows, per_ligand_pdb, cfg.get("ddg", {})
 
 
 def avg(values: list[float]) -> float | None:
@@ -161,17 +300,33 @@ def fmt(val: float | None) -> str:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Compute JNK1/2/3 ΔΔG from MM-GBSA outputs.")
+    parser = argparse.ArgumentParser(description="Compute JNK1/2/3 ΔΔG from existing MM-GBSA outputs.")
     parser.add_argument("--config", default="jobs_mmgbsa.json")
+    parser.add_argument("--inventory", default="", help="Optional pre-built mmgbsa_inventory.tsv")
     parser.add_argument("--out-prefix", default="mmgbsa_results/ddg_selectivity")
     args = parser.parse_args()
 
     cfg = load_config(Path(args.config).resolve())
     root = Path(cfg.get("root", ".")).resolve()
-    detail_rows, per_ligand_pdb, ddg_cfg = collect_rows(root, cfg)
+
+    if args.inventory:
+        inv_path = Path(args.inventory)
+        if not inv_path.is_absolute():
+            inv_path = root / inv_path
+        records = load_inventory(inv_path, root)
+    else:
+        records = discover_mmgbsa_records(root, cfg)
+
+    detail_rows, per_ligand_pdb, ddg_cfg = build_tables(records, cfg)
 
     if not detail_rows:
-        print("ERROR: no MM-GBSA energies found. Run run_mmgbsa_batch.py first.", file=sys.stderr)
+        print(
+            "ERROR: no MM-GBSA energies parsed.\n"
+            "  1) Run: python3 scan_mmgbsa_inventory.py --config jobs_mmgbsa.json\n"
+            "  2) Edit jobs_mmgbsa.json -> existing_results.search_roots / search_globs\n"
+            "  3) Re-run calc_ddg_selectivity.py",
+            file=sys.stderr,
+        )
         return 1
 
     jnk1 = [p.upper() for p in ddg_cfg.get("jnk1_pdbs", ["3ELJ", "4L7F"])]
@@ -188,7 +343,6 @@ def main() -> int:
         d13 = (e1 - e3) if (e1 is not None and e3 is not None) else None
         d23 = (e2 - e3) if (e2 is not None and e3 is not None) else None
 
-        # Display name: first seen ligand string
         lig_display = next(r["ligand"] for r in detail_rows if r["ligand_key"] == lig_key)
 
         summary_rows.append(
@@ -217,7 +371,15 @@ def main() -> int:
     with detail_path.open("w", newline="", encoding="utf-8") as fh:
         writer = csv.DictWriter(
             fh,
-            fieldnames=["ligand", "ligand_key", "pdb_id", "kinase", "dg_bind", "energy_file"],
+            fieldnames=[
+                "ligand",
+                "ligand_key",
+                "pdb_id",
+                "kinase",
+                "dg_bind",
+                "energy_file",
+                "source_dir",
+            ],
             delimiter="\t",
         )
         writer.writeheader()

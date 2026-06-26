@@ -12,9 +12,10 @@
 | `calc_ifp_batch.py` | SIFt IFP 批量计算 |
 | `run_step1.ps1` / `run_step1.bat` | 一键执行第 1 步 |
 | `jobs_mmgbsa.json` | MM-GBSA + ΔΔG 配置 |
-| `run_mmgbsa_batch.py` | Prime MM-GBSA 批量提交 |
-| `calc_ddg_selectivity.py` | 解析 MM-GBSA，输出 ΔΔG(JNK1/2/3) |
-| `run_step2.ps1` / `run_step2.bat` | 一键执行第 2 步 |
+| `run_mmgbsa_batch.py` | Prime MM-GBSA 批量提交（可选，已有结果时跳过） |
+| `scan_mmgbsa_inventory.py` | 扫描已有 MM-GBSA 结果清单 |
+| `calc_ddg_selectivity.py` | 解析已有 MM-GBSA，输出 ΔΔG(JNK1/2/3) |
+| `run_step2.ps1` / `run_step2_parse_only.ps1` | 第 2 步（支持 `-ParseOnly` 仅解析） |
 
 ## 一键运行
 
@@ -25,8 +26,11 @@ Set-ExecutionPolicy -Scope Process Bypass
 # 第 1 步：导出 → Prep → SIFt IFP
 .\run_step1.ps1 -DockingDir "D:\CADD paper exercise\JNK1_2_3\Docking"
 
-# 第 2 步：MM-GBSA → ΔΔG（需先完成第 1 步 prep）
-.\run_step2.ps1 -DockingDir "D:\CADD paper exercise\JNK1_2_3\Docking"
+# 第 2 步：解析已有 MM-GBSA（不重算）→ ΔΔG
+.\run_step2_parse_only.ps1 -DockingDir "D:\CADD paper exercise\JNK1_2_3\Docking"
+
+# 或
+.\run_step2.ps1 -ParseOnly -DockingDir "D:\CADD paper exercise\JNK1_2_3\Docking"
 ```
 
 ## 分步运行

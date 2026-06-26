@@ -1,5 +1,6 @@
 {
   "root": ".",
+  "mode": "parse_existing",
   "complex_dir": "complexes_prepped",
   "out_dir": "mmgbsa_results",
   "ligand_asl": "ligand",
@@ -22,7 +23,25 @@
     "3TTI": "JNK3",
     "4WHZ": "JNK3"
   },
+  "existing_results": {
+    "comment": "MM-GBSA already computed in Schrödinger — only parse, do not resubmit",
+    "search_roots": [
+      ".",
+      "mmgbsa_results"
+    ],
+    "search_globs": [
+      "**/*prime_mmgbsa*",
+      "**/*mmgbsa*",
+      "**/benchmarks_*/*mmgbsa*"
+    ],
+    "exclude_substrings": [
+      "vsw",
+      "top_5000",
+      "xp_out"
+    ]
+  },
   "mmgbsa": {
+    "comment": "Used only if mode=submit (optional)",
     "job_type": "REAL_MIN",
     "rflexdist": 5.0,
     "use_membrane": false,
@@ -37,7 +56,8 @@
       "dG_Bind",
       "DG_BIND",
       "mmgbsa_dg_bind",
-      "Binding energy"
+      "Binding energy",
+      "Delta G Bind"
     ]
   }
 }
