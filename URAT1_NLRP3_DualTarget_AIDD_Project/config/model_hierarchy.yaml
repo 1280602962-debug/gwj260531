@@ -1,4 +1,9 @@
-# STAD-AIDD 模型层级配置
+# TAPE-GATE 模型层级配置 v2.0
+
+framework: TAPE-GATE
+
+# 默认：独立双模型（ChEMBL 实测 0 重叠 SMILES）
+modeling_strategy: independent_dual_evidence  # alternative: mtl_ablation
 
 foundation_models:
   primary:
@@ -6,69 +11,94 @@ foundation_models:
     reference: "Ahmadi et al., 2024; arXiv:2404.14986"
     params_M: 10
     pretrain_tasks: 3300
-    usage: fingerprint_extraction + MLP_head
+    usage: fingerprint_extraction
   alternatives:
     - name: Chemprop
       reference: "Heid et al., J Chem Inf Model 2024"
-    - name: Graphium_GNN
-      reference: "Beaini et al., ICLR 2024"
 
-mtl_architecture:
-  # 多任务学习：URAT1 + NLRP3 + 辅助 SLC22 任务
-  backbone: minimol_fingerprint  # 768-dim
+urat1_arm:
+  task: regression
+  target: pIC50
+  encoder: minimol_fingerprint
+  head: mlp
+  loss: mse
+  uncertainty:
+    method: split_conformal
+    alpha: 0.1
+  transfer_learning:
+    enabled: true
+    auxiliary: slc22_family  # CHEMBL1906 OCT1, CHEMBL210 OCT2
+    method: sequential_finetune
+  baselines:
+    - XGBoost_ECFP4
+    - Chemprop_single_task
+
+nlrp3_arm:
+  task: assay_conditioned_classification
+  target: p_active  # binary: pIC50 >= 6
+  encoder: minimol_fingerprint  # or chemprop_dmpnn
+  assay_embedding:
+    features: [assay_type, cell_line, assay_id]
+    dim: 64
+  implementations:
+    mvp: chemprop_with_assay_id
+    advanced: clamp_or_twinbooster
+  loss: weighted_bce  # inverse frequency per assay
+  confidence_metric: ensemble_max_prob
+  # 明确不作为主路径
+  deprecated_primary:
+    - anchor_ecfp_maxpool
+    - esm2_pocket_only
+
+fusion:
+  method: reliability_weighted_pareto
+  ml_weights:
+    urat1: inverse_conformal_width
+    nlrp3: assay_confidence
+  struct_gamma: 0.35
+  pareto_objectives: [S_dual, QED, neg_SA, Novelty]
+  # 消融对照
+  ablation_fixed_fusion: equal_weight_0.5
+
+mtl_ablation:
+  enabled: false
+  backbone: minimol_fingerprint
   heads:
     - task: urat1_pactivity
-      type: regression
-      loss: mse
       weight: 1.0
     - task: nlrp3_pactivity
-      type: regression
-      loss: mse
       weight: 1.0
     - task: dual_active
-      type: classification
-      loss: bce
       weight: 0.5
       label_rule: "p_urat1>=6 AND p_nlrp3>=6"
-  auxiliary_pretrain:
-    enabled: true
-    tasks_from: slc22_family
-    method: sequential_finetune  # 先 SLC22 辅助，再 URAT1/NLRP3
-
-transfer_learning:
-  # 小数据策略
-  stage1: foundation_fingerprint  # 冻结 backbone
-  stage2: mlp_finetune            # 仅训 head
-  stage3: partial_unfreeze        # 解冻最后 1 层（可选）
-  regularization:
-    dropout: 0.2
-    weight_decay: 1.0e-4
-    early_stopping_patience: 20
 
 cv_protocol:
   split: murcko_scaffold_groupkfold
   n_folds: 5
-  metrics: [rmse, mae, r2, spearman, ef_1pct]
-  significance_test: wilcoxon_signed_rank  # 与 baseline 比较
+  metrics: [rmse, mae, r2, spearman, ef_1pct, auroc, auprc]
+  significance_test: wilcoxon_signed_rank
 
 generative:
   method: rl_finetuned_clm
   base_model: molgpt_or_chemgpt
   reward_function:
     components:
-      - predicted_dual_pactivity
-      - urat1_ensemble_docking
+      - urat1_predicted_pactivity
+      - nlrp3_assay_conditioned_prob
+      - urat1_S_trap
       - nlrp3_ensemble_docking
       - qed
       - sa_score
       - novelty_vs_training
-    reference: "POLYGON (Nature Commun 2024); CLM dual-target (Nature Commun 2024)"
+      - conformal_width_penalty
   iterations: 5000
   batch_size: 64
 
 baselines:
   - name: XGBoost_ECFP4
   - name: Chemprop_single_task
-  - name: RandomForest_Morgan
+  - name: PLK1_style_SVR_anchor_similarity  # negative control
   - name: Docking_only
   - name: ML_only_no_structure
+  - name: Path_A_only
+  - name: Path_B_only

@@ -1,8 +1,9 @@
-# STAD-AIDD 项目总体设计
+# TAPE-GATE 项目总体设计
 
-> **版本**: 1.0  
+> **版本**: 2.0（TAPE-GATE）  
 > **更新**: 2026-06  
-> **类型**: 纯计算方法学（无湿实验）
+> **类型**: 纯计算方法学（无湿实验）  
+> **前身**: STAD-AIDD v1.0
 
 ---
 
@@ -25,8 +26,6 @@
 - **代谢调控层**：肾脏近曲小管 **URAT1（SLC22A12）** 重吸收约 90% 滤过尿酸（Dai et al., *Cell Res* 2024; Fedor et al., *Nat Commun* 2025）。
 - **炎症效应层**：**MSU 晶体** 激活 **NLRP3 炎症小体** 是痛风急性发作的核心机制（Martinon et al., *Nature* 2006; Chen et al., *J Inflamm Res* 2023）。
 
-临床流行病学显示约 **80%–90%** HUA 患者为尿酸排泄障碍型，促尿酸排泄（URAT1 抑制）符合多数患者病理生理；但 **单纯降尿酸不能迅速终止已启动的炎症级联**，而单独抗炎不能消除 MSU 持续刺激（Frontiers in Immunology 2023 综述）。
-
 ### 1.2 双靶协同的合理性
 
 | 靶点 | 层级 | 作用 | 代表药物/工具 |
@@ -34,188 +33,156 @@
 | URAT1 | 代谢 | 减少尿酸重吸收，降低 MSU 形成风险 | lesinurad, verinurad, dotinurad |
 | NLRP3 | 炎症 | 阻断 IL-1β 释放，抑制急性/慢性炎症 | MCC950, GDC-2394, NT-0796 |
 
-**论文核心论点**：URAT1 与 NLRP3 不是孤立靶点，而是疾病网络中 **上游代谢压力** 与 **下游炎症放大** 的耦合节点；双靶小分子可实现协同治疗，优于单靶或简单联合用药（依从性、DDI 风险）。
+**论文核心论点**：URAT1 与 NLRP3 是疾病网络中 **上游代谢压力** 与 **下游炎症放大** 的耦合节点；双靶小分子可实现协同治疗。
 
 ### 1.3 研究空白（Gap）
 
-1. URAT1 与 NLRP3 抑制剂均有临床/临床前进展，但 **URAT1/NLRP3 双靶小分子系统研究极少**。
-2. 公开活性数据均有限（URAT1 ChEMBL 约 **数十至百余条**；NLRP3 合并专利后约 **400–1200 条**），难以直接训练大模型。
-3. **URAT1 是膜转运蛋白**，抑制依赖构象捕获而非催化位点阻断，传统酶导向对接易失效。
-4. 缺乏面向 **小数据 + 多靶点 + 转运体结构约束** 的统一 AI 框架。
+1. URAT1/NLRP3 双靶小分子系统计算研究极少。
+2. 公开数据 **无重叠化合物**（ChEMBL 实测 0 shared SMILES），标准双靶 QSAR/MTL 失效。
+3. URAT1 是 **膜转运蛋白**，须构象系综评分，不能用激酶式单结构对接。
+4. NLRP3 存在 **严重 assay 异质性**（47% 多 assay 化合物 >1 log 差），全局回归不可靠。
+5. 现有 PLK1/NLRP3 类不对称框架采用锚点相似性 + 固定融合，**不适用于 URAT1 转运体场景**，且方法学创新性不足。
 
 ---
 
-## 二、STAD-AIDD 框架总览
+## 二、TAPE-GATE 框架总览
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                    STAD-AIDD 四阶段流水线                          │
+│                    TAPE-GATE 五阶段 + 双路径                        │
 ├─────────────────────────────────────────────────────────────────┤
 │  Stage 0: 数据层                                                  │
-│    ChEMBL + 专利 + 文献 → 清洗 → 骨架分组划分                      │
-│    + SLC22 家族辅助数据（迁移学习）                                 │
+│    URAT1(822) + NLRP3(503) + assay 元数据 + SLC22 辅助            │
 ├─────────────────────────────────────────────────────────────────┤
-│  Stage 1: 表示学习层（AI 核心）                                    │
-│    MiniMol/Chemprop 预训练指纹 → 多任务头（URAT1 + NLRP3 + dual）  │
-│    小样本鲁棒微调 + 不确定性估计                                    │
+│  Stage 1: 不对称双证据建模                                        │
+│    URAT1: 回归 + Conformal UQ + SLC22 迁移                        │
+│    NLRP3: Assay-conditioned 分类（非锚点相似性）                   │
 ├─────────────────────────────────────────────────────────────────┤
-│  Stage 2: 结构约束层（转运体关键）                                  │
-│    URAT1 构象系综对接 + 转运循环阻断评分                            │
-│    NLRP3 NACHT 变构口袋对接 + MM-GBSA/MD 稳定性                    │
+│  Stage 2: 双路径候选生成 ★                                        │
+│    Path A 库筛: Enamine ~10⁶ → ML/UQ → 对接                       │
+│    Path B 生成: CLM cross-fine-tune + RL 双靶奖励                  │
+│    → 合并候选池 C_union                                            │
 ├─────────────────────────────────────────────────────────────────┤
-│  Stage 3: 生成优化层（创新亮点）                                    │
-│    RL 微调化学语言模型 → 双靶奖励函数 → 候选 de novo 设计           │
+│  Stage 3: 结构约束层                                              │
+│    URAT1 $S_{\text{trap}}$ 构象系综 + NLRP3 NACHT 变构对接         │
 ├─────────────────────────────────────────────────────────────────┤
-│  Stage 4: 验证层（无湿实验的替代）                                  │
-│    文献 benchmark 回顾 / 骨架分组 CV / 外部专利集 / 消融实验        │
+│  Stage 4: 可靠性加权融合 + Pareto 排序                             │
+├─────────────────────────────────────────────────────────────────┤
+│  Stage 5: 回顾性验证 + 消融（含 PLK1-style 阴性对照）              │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
+详细算法见 [`TAPE_GATE_FRAMEWORK.md`](TAPE_GATE_FRAMEWORK.md)、[`ALGORITHM_FRAMEWORK.md`](ALGORITHM_FRAMEWORK.md)。  
+与 PLK1/NLRP3 差异化见 [`DIFFERENTIATION_VS_PLK1_NLRP3.md`](DIFFERENTIATION_VS_PLK1_NLRP3.md)。
+
 ---
 
-## 三、为什么这是「稳健型」而非「空想型」
+## 三、为什么这是「稳健 + 创新」平衡型
 
-| 稳健性设计 | 具体做法 |
-|-----------|---------|
-| 不夸大 ML 精度 | 报告骨架分组 CV + 置信区间；与 XGBoost/单任务 Chemprop 严格对比 |
-| 转运体不被当酶处理 | 单独章节 + 构象系综 + 转运抑制评分（见 `URAT1_TRANSPORTER_VALIDATION.md`） |
-| 无湿实验仍有说服力 | 已知药物（lesinurad, MCC950 等）必须被漏斗 **回顾性回收** |
-| 可复现 | 固定随机种子、公开配置、WelQrate 式数据清洗协议 |
-| 创新可辩护 | 框架是 **组合创新**（foundation model + transporter ensemble + dual-target RL），非黑箱 |
+| 设计 | 做法 |
+|------|------|
+| 不夸大 ML | 骨架 CV + conformal 区间；vs XGBoost / PLK1-style baseline |
+| 转运体专属 | $S_{\text{trap}}$ 构象系综，单独章节论证 |
+| NLRP3 异质性 | Assay-conditioned 分类，保留 assay 元数据 |
+| 双路径 | 库筛（稳健）+ 生成式（创新），分别报告贡献 |
+| 融合可辩护 | 可靠性动态权重 + Pareto，非黑箱 0.5/0.5 |
+| 可复现 | 固定种子、公开配置、PLK1-style 消融对照 |
+| 无湿实验 | lesinurad、MCC950 等 benchmark 强制回收 |
 
 ---
 
 ## 四、分阶段实施计划
 
-### Phase 0：数据准备（1–2 周）
-
-**目标**：构建可发表质量的训练/测试集。
+### Phase 0：数据准备
 
 | 数据源 | URAT1 | NLRP3 |
 |--------|-------|-------|
-| ChEMBL | CHEMBL6120，约 20–100 化合物级记录 | CHEMBL1741208，约 400–530 条（清洗后） |
-| 专利 WO | lesinurad/verinurad 系列 | NLRP3 抑制剂专利（参考 Zhao et al. 2024 九项专利） |
-| 文献补充 | Dai 2024 共晶配体、Verinurad 系列 SAR | MCC950、GDC-2394、NP3-562 等 |
+| ChEMBL（用户 CSV） | **822** 独特 SMILES | **503**（IL-1β + Assay B） |
+| 专利/文献 | verinurad 系列 | WO2021214284A1（外部验证） |
+| 辅助 | SLC22A1/A2 摄取数据 | THP-1 子集 ~359 |
 
-**清洗规则**（与 JNK1 项目一致，见 `config/targets.yaml`）：
-- 仅保留 `Standard Relation = '='`
-- pActivity 4.0–10.0
-- 同 SMILES 冲突丢弃
-- **Murcko 骨架分组** 划分 train/val/test
+**关键**：NLRP3 导出时保留 `assay_id`, `assay_type`, `cell_line`
 
-**预期样本量**（清洗后）：
-- URAT1：**80–150** 独特分子（需专利扩充）
-- NLRP3：**350–800** 独特分子
-- 双靶重叠：**< 10**（预期极少 → 这正是方法学动机）
+### Phase 1：数据集表征
 
-### Phase 1：数据集表征（3–5 天）
+- UMAP 化学空间（URAT1 vs NLRP3，证明正交）
+- NLRP3 assay 冲突热图（支撑条件化建模）
+- **0 重叠** → 论证独立模型 + 双路径必要性
 
-- 化学空间 PCA/UMAP（URAT1 vs NLRP3 vs 双活性交集）
-- 骨架多样性、活性分布、Murcko 唯一性
-- **关键图表**：证明两靶点化学空间部分正交 → 需要生成式/结构约束而非简单拼药效团
+### Phase 2：不对称双证据模型
 
-### Phase 2：多任务活性模型（1–2 周）
+**URAT1**：MiniMol/Chemprop + conformal + SLC22 迁移  
+**NLRP3**：Assay-conditioned Chemprop/CLAMP  
+**对照**：PLK1-style（SVR + 锚点相似性 + 0.5 融合）
 
-**主模型**：MiniMol 指纹 + MLP 多任务头  
-**Baseline**：XGBoost (ECFP4)、Chemprop 单任务、Random Forest
+### Phase 3：双路径候选生成
 
-**评估协议**（参考 ChemRxiv 2024 方法比较指南）：
-- 5-fold 骨架 GroupKFold
-- 指标：RMSE, MAE, R², Spearman, EF@1%
-- Wilcoxon 符号秩检验 vs baseline
+**Path A**：Enamine REAL 库筛漏斗  
+**Path B**：CLM + RL 生成 500–2000 分子  
+**合并**：去重 + 来源标注
 
-**小数据策略**：
-1. 冻结 MiniMol，仅训 MLP head
-2. 辅助任务：SLC22A1/A2 摄取抑制数据预训练
-3. 不确定性：ensemble 或 conformal prediction 区间
+### Phase 4：结构约束与融合排序
 
-### Phase 3：结构约束虚拟筛选（2–3 周）
+- URAT1 9B1H/9DKB/9JDZ 系综
+- NLRP3 7ALV/8ETR + MM-GBSA/MD
+- 可靠性加权 + Pareto → Top 50–100
 
-**URAT1**（重点）：
-- 下载 PDB 9B1H / 9DKB / 9JDZ
-- 准备 outward-open、inward-open、occluded 代表构象
-- 对接 + **构象捕获评分**（见算法文档）
+### Phase 5：回顾性验证与论文
 
-**NLRP3**：
-- PDB 7ALV、8ETR，NACHT 域口袋
-- Glide SP/XP 或 AutoDock Vina + 50 ns MD + MM-GBSA
-
-**漏斗**：ML 预测 → 双靶几何平均 → 结构评分 → 多样性聚类 → Top 50–100 候选
-
-### Phase 4：生成式双靶优化（2–4 周，可选但建议做）
-
-- 基于已知 URAT1 与 NLRP3 活性分子 fine-tune 化学语言模型
-- RL 奖励：双靶预测活性 + 双靶对接 + QED + SA
-- 参考：POLYGON (Nat Commun 2024)、CLM dual-target (Nat Commun 2024)
-
-### Phase 5：回顾性验证与论文撰写（2–3 周）
-
-- Benchmark 回收率：lesinurad, benzbromarone, MCC950, GDC-2394 等
-- 消融：去掉结构约束 / 去掉迁移学习 / 单靶 vs 双靶
-- 输出最终候选 + 可合成性评估
+- Benchmark 回收（分 Path A/B/union）
+- 7 组消融（见 TAPE_GATE_FRAMEWORK.md）
+- 撰写与开源
 
 ---
 
 ## 五、目标期刊策略
 
-### 5.1 稳健型首选（方法学 + 应用平衡）
+### 5.1 稳健型首选
 
-| 期刊 | IF 区间 | 适配理由 |
-|------|---------|---------|
-| **Journal of Cheminformatics** | ~7 | 开放获取，接受计算流程 + 开源代码 |
-| **Journal of Chemical Information and Modeling** | ~5 | 小数据 ML + 对接方法经典阵地 |
-| **Briefings in Bioinformatics** | ~7 | 若强调 AI 框架与 benchmark 协议 |
-| **Pharmaceutics** (MDPI) | ~5 | 痛风治疗背景 + 计算药学，审稿相对快 |
+| 期刊 | 适配理由 |
+|------|---------|
+| **Journal of Cheminformatics** | 开源 pipeline + 双路径方法学 |
+| **JCIM** | 小数据 ML + 转运体对接经典阵地 |
+| **Briefings in Bioinformatics** | 强调 assay-conditioned + 消融协议 |
 
-### 5.2 冲高创新（AI 偏重）
+### 5.2 冲高创新
 
-| 期刊 | 风险 | 条件 |
-|------|------|------|
-| **Nature Communications** (子刊级方法) | 高 | 需强消融 + 可能需合作方验证 |
-| **Artificial Intelligence in Chemistry** | 中 | 生成式模块完整、对比充分 |
-| **Computers in Biology and Medicine** | 中 | 疾病网络叙事 + 完整 pipeline |
+| 期刊 | 条件 |
+|------|------|
+| **Artificial Intelligence in Chemistry** | Path B 生成模块完整 + PLK1-style 对照显著优 |
+| **Computers in Biology and Medicine** | 疾病网络叙事 + 双路径结果 |
 
-### 5.3 建议策略
+### 5.3 标题角度
 
-**主投**：Journal of Cheminformatics 或 JCIM  
-**备投**：Pharmaceutics / Briefings in Bioinformatics  
-**标题角度**：强调 **transporter-aware** + **small-data dual-target** + **reproducible benchmark**，而非「发现了新药」。
+强调 **transporter-aware conformation-ensemble** + **assay-conditioned** + **paired-path generative**，避免仅用 "reliability-driven asymmetric"（与 PLK1/NLRP3 撞车）。
 
 ---
 
-## 六、无湿实验时的「结果」应如何表述
+## 六、无湿实验时的结果表述
 
-### 可以写的（Computational findings）
+### 可以写
 
-- 框架在骨架 CV 上优于 baseline（统计显著）
-- 回顾性回收已知 URAT1/NLRP3 抑制剂
-- 生成候选具有合理 ADMET、合成可及性、双靶对接模式
-- 构象系综对接比单结构对接提升 benchmark 回收率（消融证明）
+- TAPE-GATE 在骨架 CV 与 benchmark 回收上优于 PLK1-style baseline
+- Path B 生成候选的化学空间覆盖度与新颖性
+- $S_{\text{trap}}$ 消融提升 URAT1 药物回收率
+- Assay-conditioned NLRP3 优于锚点相似性（Abl-2）
 
-### 不能写的（需避免过度声称）
+### 不能写
 
 - ❌ 「发现了新型双靶先导化合物」并暗示已实验验证
-- ❌ 「体内有效」
-- ✅ 「computational prioritization of dual-target candidates warranting experimental validation」
-
-### 增强可信度的补充（仍无需自建 lab）
-
-1. **SwissADME / pkCSM** 预测理化性质
-2. **SwissTargetPrediction** 脱靶风险
-3. **合成可及性 SA score** + 逆合成分析（AiZynthFinder 等）
-4. 在 Discussion 中明确列出 **建议实验验证方案**（见 `URAT1_TRANSPORTER_VALIDATION.md`）
+- ✅ 「computational prioritization via paired-path evidence fusion」
 
 ---
 
-## 七、与现有 JNK1 项目的差异
+## 七、与 PLK1/NLRP3 及 JNK1 项目的差异
 
-| 维度 | JNK1 选择性项目 | URAT1/NLRP3 双靶项目 |
-|------|----------------|---------------------|
-| 靶点关系 | 同源激酶亚型 | 跨通路（代谢 + 炎症） |
-| 数据量 | 444–1147/靶点 | 80–800/靶点（更少） |
-| 结构挑战 | 激酶保守 ATP 口袋 | 转运体构象动态 + NLRP3 变构 |
-| 核心创新 | 选择性 ML + 对接 | 转运体感知 + 双靶 MTL + 生成式 |
-| 验证重点 | 亚型选择性 | 构象捕获 + 双靶协同评分 |
+| 维度 | PLK1/NLRP3 | JNK1 项目 | **TAPE-GATE** |
+|------|-----------|----------|---------------|
+| 主靶类型 | 激酶 | 激酶亚型 | **转运体** |
+| NLRP3 策略 | 锚点相似性 | N/A | **Assay-conditioned** |
+| 融合 | 0.5/0.5 | 选择性评分 | **可靠性 + Pareto** |
+| 候选来源 | 仅库筛 | 库筛 | **库筛 + 生成式** |
+| 结构核心 | 单结构对接 | 激酶口袋 | **$S_{\text{trap}}$ 系综** |
 
 ---
 
@@ -223,18 +190,18 @@
 
 | 风险 | 缓解 |
 |------|------|
-| URAT1 数据过少 | 专利数据 + SLC22 迁移 + 结构对接主导后期漏斗 |
-| 双靶无重叠训练样本 | 多任务学习 + 生成式 RL + 分别验证后融合评分 |
-| 审稿人质疑无实验 | 强回顾性 benchmark + 消融 + 透明局限性讨论 |
-| 对接假阳性 | 系综 + MD + 与共晶配体 RMSD 对照 |
-| 生成分子不可合成 | SA/QED 约束 + 文献相似性过滤 |
+| 与 PLK1/NLRP3 审稿撞车 | 差异化文档 + PLK1-style 消融对照 |
+| NLRP3 assay 噪声 | 条件化建模 + THP-1 子集 + 结构加权 |
+| 0 双靶重叠 | 独立模型 + 双路径 + 融合评分 |
+| 生成不可合成 | SA/QED + 逆合成 + 与库筛候选对比 |
+| 算力 | Path B 可降采样；Path A 单独可发 JCIM |
 
 ---
 
 ## 九、下一步行动
 
-详见 [`PREPARATION_CHECKLIST.md`](PREPARATION_CHECKLIST.md) 与 [`ALGORITHM_FRAMEWORK.md`](ALGORITHM_FRAMEWORK.md)。
+详见 [`PREPARATION_CHECKLIST.md`](PREPARATION_CHECKLIST.md)。
 
-**最小可行发表（MVP）路径**：
-1. 完成 Phase 0–3 + 回顾验证（不做生成式也可发 JCIM 级别）
-2. 若加入 Phase 4 生成模块 + 完整消融 → 可冲 Briefings in Bioinformatics / 更高档期刊
+**MVP 路径**：
+1. Phase 0–2 + Path A + 验证 → JCIM 级别
+2. 加入 Path B + PLK1-style 消融 → Briefings in Bioinformatics / AI in Chemistry

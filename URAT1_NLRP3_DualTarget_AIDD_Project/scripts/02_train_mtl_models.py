@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 """
-STAD-AIDD Stage 2: Multi-task learning for URAT1 + NLRP3 activity prediction.
+TAPE-GATE ablation only: Multi-task learning (Abl-6).
 
-Architecture (see docs/ALGORITHM_FRAMEWORK.md):
+Primary training path is 02_train_asymmetric_models.py (independent dual evidence).
+MTL is optional because ChEMBL data has 0 overlapping URAT1/NLRP3 SMILES.
+
+Architecture (see docs/ALGORITHM_FRAMEWORK.md §3.3):
   MiniMol fingerprint (frozen) + MLP heads (urat1, nlrp3, dual)
-  Baselines: XGBoost, Chemprop single-task
 """
 from __future__ import annotations
 

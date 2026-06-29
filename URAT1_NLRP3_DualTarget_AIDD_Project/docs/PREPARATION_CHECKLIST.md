@@ -1,6 +1,8 @@
-# 项目准备清单
+# 项目准备清单（TAPE-GATE v2.0）
 
 > 按优先级排列。打勾项为发表 **最低要求**；加星项为 **冲高期刊建议**。
+
+**v2.0 变更**：主路径为不对称双证据 + 库筛/生成双路径；MTL 降为消融；须准备 PLK1-style baseline 对照。
 
 ---
 
@@ -10,15 +12,14 @@
 
 | 任务 | 来源 | 操作 | 状态 |
 |------|------|------|------|
-| URAT1 ChEMBL 下载 | CHEMBL6120 | `scripts/00_prepare_data.py` 或手动导出 CSV | ☐ |
-| NLRP3 ChEMBL 下载 | CHEMBL1741208 | 同上，过滤 IL-1β 终点 | ☐ |
-| NLRP3 专利数据 | WO2021214284A1 等 9 项专利 | 参考 Zhao et al. 2024 列表，ChemDraw 录入 | ☐ |
-| URAT1 专利/文献 SAR | lesinurad, verinurad 系列 | 从 J Med Chem 论文 SI 补充 | ☐ |
-| SLC22 辅助数据 | CHEMBL1906 (OCT1), CHEMBL210 (OCT2) | 迁移学习用 | ☐ |
-| 数据清洗 | 按 `config/targets.yaml` | 去冲突、标准化 pActivity | ☐ |
-| 骨架划分 | Murcko + GroupKFold | 导出 train/val/test CSV | ☐ |
+| URAT1 ChEMBL | CHEMBL6120 / 用户 CSV | 清洗后 **822** SMILES | ☐ |
+| NLRP3 ChEMBL | CHEMBL1741208 / 用户 CSV | IL-1β + Assay B，**503** SMILES | ☐ |
+| NLRP3 assay 元数据 | ChEMBL 导出列 | 保留 assay_id, cell_line, assay_type | ☐ |
+| 重叠检查 | — | 确认 0 shared SMILES → 独立双模型 | ☐ |
+| SLC22 辅助数据 | OCT1/OCT2 ChEMBL | URAT1 迁移学习 | ☐ |
+| 骨架划分 | Murcko + GroupKFold | train/val/test CSV | ☐ |
 
-**预期输出**：`data/processed/urat1_curated.csv`, `nlrp3_curated.csv`, `splits/`
+**预期输出**：`data/processed/urat1_curated.csv`, `nlrp3_curated.csv`（含 assay 列）, `splits/`
 
 ### 1.2 结构数据 ✅
 

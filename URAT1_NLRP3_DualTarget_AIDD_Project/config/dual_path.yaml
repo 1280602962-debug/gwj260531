@@ -1,0 +1,64 @@
+# TAPE-GATE 双路径候选发现配置
+
+framework: TAPE-GATE
+version: "2.0"
+
+path_a_library_screening:
+  enabled: true
+  library:
+    primary: enamine_real
+    scale: 1_000_000
+    fallback: chembl_druglike
+  prefilters:
+    - rdkit_valid
+    - pains
+    - lipinski
+    - reactive_groups
+  ml_filters:
+    urat1:
+      predictor: urat1_regressor_conformal
+      threshold_pactivity: 6.0
+      use_lower_bound: true  # conformal conservative filter
+    nlrp3:
+      predictor: nlrp3_assay_conditioned
+      threshold_p_active: 0.5
+      assay_ensemble: [THP1_IL1b, primary_assay_B]
+  post_ml_top_n: 10000
+  docking: true
+  diversity:
+    method: butina
+    tanimoto_threshold: 0.4
+  output_max: 500
+
+path_b_generative:
+  enabled: true
+  clm:
+    base_model: molgpt_or_chemgpt
+    cross_finetune:
+      alpha_logits: 0.5  # URAT1 vs NLRP3 interpolation
+      urat1_min_pactivity: 6.0
+      nlrp3_min_pactivity: 6.0
+  rl:
+    algorithm: reinforce  # or ppo
+    iterations: 5000
+    batch_size: 64
+    docking_every_n_steps: 100  # save compute
+  postprocess:
+    min_valid_rate: 0.95
+    max_sa: 6.0
+    max_tanimoto_vs_chembl: 0.85
+    retrosynthesis: aizynthfinder
+  output_max: 2000
+
+merge:
+  dedupe_by: canonical_smiles
+  tag_source: true  # library | generative | both
+  fusion_method: reliability_pareto  # NOT fixed_0.5_0.5
+
+plk1_style_baseline:
+  # 仅用于消融对照，非主流程
+  enabled_for_ablation: true
+  urat1: SVR_PCA50_Optuna
+  nlrp3: anchor_similarity_ecfp4_maxpool
+  n_anchors: 5
+  fusion: equal_weight_0.5

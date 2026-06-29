@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
 """
-STAD-AIDD Stage 4: RL-guided dual-target molecular generation.
+TAPE-GATE Stage 4 / Path B: RL-guided dual-target molecular generation.
 
-Reward: MTL predictions + ensemble docking + QED + SA + novelty
+Reward: URAT1 regression + NLRP3 assay-conditioned prob + S_trap + NLRP3 struct
+        + QED + SA + novelty + conformal penalty
+
 Reference: POLYGON (Nat Commun 2024), CLM dual-target (Nat Commun 2024)
+See config/dual_path.yaml path_b_generative
 """
 from __future__ import annotations
 
@@ -23,17 +26,20 @@ def main() -> None:
 
     report = {
         "status": "skeleton",
-        "method": "CLM + REINFORCE",
+        "path": "B_generative",
+        "method": "CLM cross-fine-tune + REINFORCE",
         "reward_components": [
-            "predicted_pActivity_URAT1",
-            "predicted_pActivity_NLRP3",
+            "urat1_predicted_pactivity_conformal",
+            "nlrp3_assay_conditioned_P_active",
             "S_trap_URAT1",
             "S_struct_NLRP3",
             "QED",
             "SA_score",
             "novelty",
+            "conformal_width_penalty",
         ],
-        "compute_tip": "Compute docking reward every 500 RL steps to save CPU",
+        "compute_tip": "Compute docking reward every 100 RL steps (see dual_path.yaml)",
+        "differentiation": "PLK1/NLRP3 paper has no generative path — this is TAPE-GATE innovation",
     }
     out = args.output / "generation_report.json"
     with open(out, "w") as f:
