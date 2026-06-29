@@ -1,17 +1,19 @@
 # Model Quality & Benchmark Backtest Report
 
-**Overall verdict: CONDITIONAL_GO**
+**Overall verdict: URAT1_NO_GO**
 
-Internal CV is strong; benchmark recovery is partial. Use ML as coarse filter; rely more on docking for URAT1 novel scaffolds.
+NLRP3 model is screening-ready; URAT1 model fails strict CV and/or benchmark recovery. URAT1 library filtering must NOT rely on ML alone — use $S_trap$ conformational ensemble docking as primary evidence.
 
 ## 1. Cross-validation (scaffold GroupKFold, 5 folds)
 
 ### URAT1 regression + conformal UQ
-- RMSE: 0.661
-- R²: 0.442
-- Spearman: 0.650
-- EF@10%: 1.82
-- CV screening suitable: True
+- RMSE (OOF): 0.663
+- R² (OOF): 0.508
+- Spearman (OOF): 0.726
+- ROC-AUC (p≥7): 0.852
+- EF@5% (p≥7, strong actives): 3.29
+- EF@10% (p≥6): 1.71 — **misleading** (theoretical max ≈1.75 at 57% base rate)
+- Strict CV pass: True
 
 ### NLRP3 assay-conditioned classifier
 - AUROC: 0.893
@@ -44,7 +46,14 @@ URAT1 must-recover binary pass: 2/4
 
 NLRP3 must-recover binary pass: 2/2
 
-## 3. Interpretation notes
+## 3. Why the previous URAT1 table was misleading
+
+1. **EF@10% at p≥6 is capped near 1.75** when 57% of training compounds are already actives — even a perfect ranker cannot exceed ~1.75.
+2. **Thresholds were too lenient** (R²≥0.25, EF≥1.5), allowing a mediocre model to show all green checks.
+3. **Fold-averaged R² (0.44) understates OOF R² (0.51)** but both are only moderate for prospective screening.
+4. **Benchmark backtest contradicts** the pass table: lesinurad/dotinurad fail despite CV pass.
+
+## 4. Interpretation notes
 
 - **lesinurad / benzbromarone** were dropped during ChEMBL curation due to >1 log assay conflict; ChEMBL median pActivity (~5.1–6.5) is lower than literature references used in benchmarks.
 - **verinurad** is in the training set; model prediction is consistent with held-in data.

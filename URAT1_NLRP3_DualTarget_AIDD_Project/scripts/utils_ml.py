@@ -240,6 +240,15 @@ def regression_enrichment_factor(
     return enrichment_factor(y_bin, y_pred, fraction=fraction)
 
 
+def roc_auc_binary(y_true: np.ndarray, y_score: np.ndarray, threshold: float = 6.0) -> float:
+    from sklearn.metrics import roc_auc_score
+
+    y_bin = (y_true >= threshold).astype(int)
+    if len(np.unique(y_bin)) < 2:
+        return float("nan")
+    return float(roc_auc_score(y_bin, y_score))
+
+
 def scaffold_cv_indices(smiles: list[str], n_splits: int = 5) -> list[tuple[np.ndarray, np.ndarray]]:
     groups = [murcko_scaffold(s) for s in smiles]
     gkf = GroupKFold(n_splits=n_splits)

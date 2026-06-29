@@ -30,6 +30,7 @@ from utils_ml import (
     murcko_scaffold,
     regression_enrichment_factor,
     regression_metrics,
+    roc_auc_binary,
     save_json,
     scaffold_cv_indices,
     scaffold_holdout_split,
@@ -39,16 +40,20 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 PROCESSED = PROJECT_ROOT / "data" / "processed"
 RESULTS = PROJECT_ROOT / "results" / "training"
 
-# Screening suitability thresholds (conservative but achievable for ~500-800 compound QSAR)
+# URAT1: strict QSAR / virtual-screening criteria
+# NOTE: EF@10% at p>=6 is misleading when base active rate ~57% (theoretical max EF ~1.75).
+# Use strong-active enrichment (p>=7) and OOF-level metrics instead.
 URAT1_THRESHOLDS = {
-    "spearman": 0.50,
-    "r2": 0.25,
-    "ef_10pct": 1.5,
-    "rmse": 1.0,
+    "spearman_oof": 0.65,
+    "r2_oof": 0.45,
+    "rmse_oof": 0.70,
+    "roc_auc_p7": 0.80,
+    "ef_5pct_p7": 2.5,
+    "fold_spearman_min": 0.45,  # worst fold must not collapse
 }
 NLRP3_THRESHOLDS = {
-    "auroc": 0.65,
-    "auprc": 0.60,
+    "auroc": 0.70,
+    "auprc": 0.65,
     "ef_10pct": 1.5,
 }
 
@@ -126,17 +131,32 @@ def train_urat1_cv(df: pd.DataFrame, n_splits: int = 5, seed: int = 42) -> dict:
 
         m = regression_metrics(y_te, y_te_pred)
         m["fold"] = fold_i
-        m["ef_10pct"] = regression_enrichment_factor(y_te, y_te_pred, threshold=6.0, fraction=0.1)
+        m["ef_10pct_p6"] = regression_enrichment_factor(y_te, y_te_pred, threshold=6.0, fraction=0.1)
+        m["ef_5pct_p7"] = regression_enrichment_factor(y_te, y_te_pred, threshold=7.0, fraction=0.05)
+        m["roc_auc_p7"] = roc_auc_binary(y_te, y_te_pred, threshold=7.0)
         m["mean_interval_width"] = float(np.mean(hi - lo))
         fold_metrics.append(m)
 
+    oof_metrics = regression_metrics(y, oof_pred)
+    oof_metrics["ef_10pct_p6"] = regression_enrichment_factor(y, oof_pred, threshold=6.0, fraction=0.1)
+    oof_metrics["ef_5pct_p7"] = regression_enrichment_factor(y, oof_pred, threshold=7.0, fraction=0.05)
+    oof_metrics["roc_auc_p7"] = roc_auc_binary(y, oof_pred, threshold=7.0)
+    oof_metrics["active_rate_p6"] = float((y >= 6).mean())
+    oof_metrics["active_rate_p7"] = float((y >= 7).mean())
+    oof_metrics["ef_p6_theoretical_max"] = float(1.0 / max((y >= 6).mean(), 1e-6))
+
     agg = {
-        "rmse": float(np.mean([m["rmse"] for m in fold_metrics])),
-        "mae": float(np.mean([m["mae"] for m in fold_metrics])),
-        "r2": float(np.mean([m["r2"] for m in fold_metrics])),
-        "spearman": float(np.mean([m["spearman"] for m in fold_metrics])),
-        "ef_10pct": float(np.mean([m["ef_10pct"] for m in fold_metrics])),
-        "mean_interval_width": float(np.mean([m["mean_interval_width"] for m in fold_metrics])),
+        "rmse": oof_metrics["rmse"],
+        "mae": oof_metrics["mae"],
+        "r2": oof_metrics["r2"],
+        "spearman": oof_metrics["spearman"],
+        "ef_10pct_p6": oof_metrics["ef_10pct_p6"],
+        "ef_5pct_p7": oof_metrics["ef_5pct_p7"],
+        "roc_auc_p7": oof_metrics["roc_auc_p7"],
+        "active_rate_p6": oof_metrics["active_rate_p6"],
+        "active_rate_p7": oof_metrics["active_rate_p7"],
+        "ef_p6_theoretical_max": oof_metrics["ef_p6_theoretical_max"],
+        "mean_interval_width": float(np.mean(oof_hi - oof_lo)),
         "n_compounds": int(len(df)),
         "n_folds": n_splits,
         "fold_metrics": fold_metrics,
@@ -291,14 +311,22 @@ def fit_nlrp3_final(df: pd.DataFrame, top_assay_ids: list[str], seed: int = 42) 
 
 def assess_screening_suitability(target: str, metrics: dict) -> dict:
     if target == "urat1":
+        fold_spearmans = [f["spearman"] for f in metrics.get("fold_metrics", [])]
+        worst_fold_spearman = min(fold_spearmans) if fold_spearmans else float("nan")
         checks = {
-            "spearman_ok": metrics["spearman"] >= URAT1_THRESHOLDS["spearman"],
-            "r2_ok": metrics["r2"] >= URAT1_THRESHOLDS["r2"],
-            "ef_ok": metrics["ef_10pct"] >= URAT1_THRESHOLDS["ef_10pct"],
-            "rmse_ok": metrics["rmse"] <= URAT1_THRESHOLDS["rmse"],
+            "spearman_oof_ok": metrics["spearman"] >= URAT1_THRESHOLDS["spearman_oof"],
+            "r2_oof_ok": metrics["r2"] >= URAT1_THRESHOLDS["r2_oof"],
+            "rmse_oof_ok": metrics["rmse"] <= URAT1_THRESHOLDS["rmse_oof"],
+            "roc_auc_p7_ok": metrics["roc_auc_p7"] >= URAT1_THRESHOLDS["roc_auc_p7"],
+            "ef_5pct_p7_ok": metrics["ef_5pct_p7"] >= URAT1_THRESHOLDS["ef_5pct_p7"],
+            "fold_stability_ok": worst_fold_spearman >= URAT1_THRESHOLDS["fold_spearman_min"],
         }
         passed = sum(checks.values())
-        suitable = passed >= 3  # at least 3/4 criteria
+        suitable = passed >= 5  # require 5/6 strict checks
+        note = (
+            "EF@10% at p>=6 is NOT used: with ~57% actives the theoretical maximum EF is only ~1.75, "
+            "so values near 1.8 do not indicate good virtual screening performance."
+        )
     else:
         checks = {
             "auroc_ok": metrics["auroc"] >= NLRP3_THRESHOLDS["auroc"],
@@ -306,17 +334,20 @@ def assess_screening_suitability(target: str, metrics: dict) -> dict:
             "ef_ok": metrics["ef_10pct"] >= NLRP3_THRESHOLDS["ef_10pct"],
         }
         passed = sum(checks.values())
-        suitable = passed >= 2  # at least 2/3 criteria
+        suitable = passed >= 2
+        note = None
 
     return {
         "suitable_for_screening": bool(suitable),
         "checks": checks,
         "criteria_passed": int(passed),
+        "criteria_total": len(checks),
         "thresholds": URAT1_THRESHOLDS if target == "urat1" else NLRP3_THRESHOLDS,
+        "metric_note": note,
         "recommendation": (
-            "Model meets minimum CV criteria; usable as primary ML filter before docking."
+            "Passes strict OOF scaffold-CV criteria; still requires benchmark backtest before library screening."
             if suitable
-            else "Model below screening thresholds; use with caution or rely more on structure evidence."
+            else "Does NOT meet strict screening criteria. Do not use as primary ML filter; rely on structure-based scoring."
         ),
     }
 
@@ -353,7 +384,15 @@ def main() -> None:
         "framework": "TAPE-GATE",
         "urat1": {
             "model": "XGBoost regression + split conformal (alpha=0.1)",
-            "cv_metrics": {k: urat1_cv[k] for k in ["rmse", "mae", "r2", "spearman", "ef_10pct", "mean_interval_width", "n_compounds"]},
+            "cv_metrics": {
+            k: urat1_cv[k]
+            for k in [
+                "rmse", "mae", "r2", "spearman",
+                "ef_10pct_p6", "ef_5pct_p7", "roc_auc_p7",
+                "active_rate_p6", "active_rate_p7", "ef_p6_theoretical_max",
+                "mean_interval_width", "n_compounds",
+            ]
+        },
             "fold_metrics": urat1_cv["fold_metrics"],
             "screening_assessment": urat1_suit,
         },
@@ -363,19 +402,28 @@ def main() -> None:
             "fold_metrics": nlrp3_cv["fold_metrics"],
             "screening_assessment": nlrp3_suit,
         },
-        "overall_screening_ready": bool(urat1_suit["suitable_for_screening"] and nlrp3_suit["suitable_for_screening"]),
+        "overall_screening_ready": bool(
+            urat1_suit["suitable_for_screening"]
+            and nlrp3_suit["suitable_for_screening"]
+        ),
+        "warning": (
+            "CV pass alone is insufficient for URAT1. Run 07_benchmark_backtest.py; "
+            "URAT1 requires benchmark recovery before library screening."
+        ),
     }
 
     # remove nested oof from json (saved as CSV)
     save_json(args.output / "training_report.json", report)
 
-    print("\n=== URAT1 CV ===")
-    print(f"  RMSE={urat1_cv['rmse']:.3f}  R2={urat1_cv['r2']:.3f}  Spearman={urat1_cv['spearman']:.3f}  EF@10%={urat1_cv['ef_10pct']:.2f}")
-    print(f"  Screening suitable: {urat1_suit['suitable_for_screening']} ({urat1_suit['recommendation']})")
+    print("\n=== URAT1 CV (OOF, scaffold split) ===")
+    print(f"  RMSE={urat1_cv['rmse']:.3f}  R2={urat1_cv['r2']:.3f}  Spearman={urat1_cv['spearman']:.3f}")
+    print(f"  ROC-AUC(p>=7)={urat1_cv['roc_auc_p7']:.3f}  EF@5%(p>=7)={urat1_cv['ef_5pct_p7']:.2f}")
+    print(f"  EF@10%(p>=6)={urat1_cv['ef_10pct_p6']:.2f}  [misleading: theoretical max={urat1_cv['ef_p6_theoretical_max']:.2f} at 57% actives]")
+    print(f"  Strict screening suitable: {urat1_suit['suitable_for_screening']} ({urat1_suit['criteria_passed']}/{urat1_suit['criteria_total']} checks)")
 
     print("\n=== NLRP3 CV ===")
     print(f"  AUROC={nlrp3_cv['auroc']:.3f}  AUPRC={nlrp3_cv['auprc']:.3f}  EF@10%={nlrp3_cv['ef_10pct']:.2f}")
-    print(f"  Screening suitable: {nlrp3_suit['suitable_for_screening']} ({nlrp3_suit['recommendation']})")
+    print(f"  Strict screening suitable: {nlrp3_suit['suitable_for_screening']} ({nlrp3_suit['criteria_passed']}/{nlrp3_suit['criteria_total']} checks)")
 
     print(f"\nOverall ML screening ready: {report['overall_screening_ready']}")
     print(f"Models saved to {args.output}")

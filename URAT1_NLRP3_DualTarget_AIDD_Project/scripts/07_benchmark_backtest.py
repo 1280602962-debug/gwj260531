@@ -209,16 +209,16 @@ def overall_verdict(training_report: dict, urat1_bt: dict, nlrp3_bt: dict) -> di
     nlrp3_bench = nlrp3_bt["pass_binary"]
 
     if urat1_cv and nlrp3_cv and urat1_bench and nlrp3_bench:
-        verdict, text = "GO", "CV and benchmark binary criteria passed. ML-first screening is supported with structure follow-up."
-    elif urat1_cv and nlrp3_cv and (urat1_bench or nlrp3_bench):
-        verdict, text = "CONDITIONAL_GO", (
-            "Internal CV is strong; benchmark recovery is partial. "
-            "Use ML as coarse filter; rely more on docking for URAT1 novel scaffolds."
+        verdict, text = "GO", "Strict CV and benchmark criteria passed."
+    elif nlrp3_cv and nlrp3_bench and not (urat1_cv and urat1_bench):
+        verdict, text = "URAT1_NO_GO", (
+            "NLRP3 model is screening-ready; URAT1 model fails strict CV and/or benchmark recovery. "
+            "URAT1 library filtering must NOT rely on ML alone — use $S_trap$ conformational ensemble docking as primary evidence."
         )
     elif urat1_cv or nlrp3_cv:
-        verdict, text = "CONDITIONAL_GO", "At least one model passes CV; review per-target benchmark tables before screening."
+        verdict, text = "CONDITIONAL_GO", "Partial pass; see per-target tables."
     else:
-        verdict, text = "NO_GO", "Models fail CV or benchmark criteria; revise before library screening."
+        verdict, text = "NO_GO", "Both models fail strict criteria."
 
     return {
         "verdict": verdict,
@@ -244,11 +244,13 @@ def write_markdown_report(report: dict, path: Path) -> None:
         "## 1. Cross-validation (scaffold GroupKFold, 5 folds)",
         "",
         "### URAT1 regression + conformal UQ",
-        f"- RMSE: {cv['urat1']['rmse']:.3f}",
-        f"- R²: {cv['urat1']['r2']:.3f}",
-        f"- Spearman: {cv['urat1']['spearman']:.3f}",
-        f"- EF@10%: {cv['urat1']['ef_10pct']:.2f}",
-        f"- CV screening suitable: {report['training_cv_summary'] and v['cv_pass']['urat1']}",
+        f"- RMSE (OOF): {cv['urat1']['rmse']:.3f}",
+        f"- R² (OOF): {cv['urat1']['r2']:.3f}",
+        f"- Spearman (OOF): {cv['urat1']['spearman']:.3f}",
+        f"- ROC-AUC (p≥7): {cv['urat1'].get('roc_auc_p7', float('nan')):.3f}",
+        f"- EF@5% (p≥7, strong actives): {cv['urat1'].get('ef_5pct_p7', float('nan')):.2f}",
+        f"- EF@10% (p≥6): {cv['urat1'].get('ef_10pct_p6', float('nan')):.2f} — **misleading** (theoretical max ≈{cv['urat1'].get('ef_p6_theoretical_max', 1.75):.2f} at {cv['urat1'].get('active_rate_p6', 0.57)*100:.0f}% base rate)",
+        f"- Strict CV pass: {v['cv_pass']['urat1']}",
         "",
         "### NLRP3 assay-conditioned classifier",
         f"- AUROC: {cv['nlrp3']['auroc']:.3f}",
@@ -291,7 +293,14 @@ def write_markdown_report(report: dict, path: Path) -> None:
         "",
         f"NLRP3 must-recover binary pass: {n['must_recover_binary_pass']}/{n['must_recover_count']}",
         "",
-        "## 3. Interpretation notes",
+        "## 3. Why the previous URAT1 table was misleading",
+        "",
+        "1. **EF@10% at p≥6 is capped near 1.75** when 57% of training compounds are already actives — even a perfect ranker cannot exceed ~1.75.",
+        "2. **Thresholds were too lenient** (R²≥0.25, EF≥1.5), allowing a mediocre model to show all green checks.",
+        "3. **Fold-averaged R² (0.44) understates OOF R² (0.51)** but both are only moderate for prospective screening.",
+        "4. **Benchmark backtest contradicts** the pass table: lesinurad/dotinurad fail despite CV pass.",
+        "",
+        "## 4. Interpretation notes",
         "",
         "- **lesinurad / benzbromarone** were dropped during ChEMBL curation due to >1 log assay conflict; "
         "ChEMBL median pActivity (~5.1–6.5) is lower than literature references used in benchmarks.",

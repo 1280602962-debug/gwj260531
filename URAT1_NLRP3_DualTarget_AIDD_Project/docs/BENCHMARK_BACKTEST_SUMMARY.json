@@ -195,8 +195,8 @@
     }
   ],
   "overall_verdict": {
-    "verdict": "CONDITIONAL_GO",
-    "summary": "Internal CV is strong; benchmark recovery is partial. Use ML as coarse filter; rely more on docking for URAT1 novel scaffolds.",
+    "verdict": "URAT1_NO_GO",
+    "summary": "NLRP3 model is screening-ready; URAT1 model fails strict CV and/or benchmark recovery. URAT1 library filtering must NOT rely on ML alone \u2014 use $S_trap$ conformational ensemble docking as primary evidence.",
     "cv_pass": {
       "urat1": true,
       "nlrp3": true
@@ -208,12 +208,17 @@
   },
   "training_cv_summary": {
     "urat1": {
-      "rmse": 0.6609303016910115,
-      "mae": 0.4985830611152114,
-      "r2": 0.4421076049990974,
-      "spearman": 0.649740350377483,
-      "ef_10pct": 1.8214823832379743,
-      "mean_interval_width": 2.511433720588684,
+      "rmse": 0.6634725892592518,
+      "mae": 0.49847748712321566,
+      "r2": 0.5079205459521259,
+      "spearman": 0.7258124808529701,
+      "ef_10pct_p6": 1.70991731239274,
+      "ef_5pct_p7": 3.2930364086249555,
+      "roc_auc_p7": 0.8520835788068024,
+      "active_rate_p6": 0.5705596107055961,
+      "active_rate_p7": 0.2518248175182482,
+      "ef_p6_theoretical_max": 1.7526652452025586,
+      "mean_interval_width": 2.51048066552248,
       "n_compounds": 822
     },
     "nlrp3": {
