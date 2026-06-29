@@ -1,0 +1,48 @@
+#!/usr/bin/env python3
+"""
+STAD-AIDD Stage 2: Multi-task learning for URAT1 + NLRP3 activity prediction.
+
+Architecture (see docs/ALGORITHM_FRAMEWORK.md):
+  MiniMol fingerprint (frozen) + MLP heads (urat1, nlrp3, dual)
+  Baselines: XGBoost, Chemprop single-task
+"""
+from __future__ import annotations
+
+import argparse
+import json
+from pathlib import Path
+
+import yaml
+
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--config", type=Path, default=PROJECT_ROOT / "config" / "model_hierarchy.yaml")
+    parser.add_argument("--output", type=Path, default=PROJECT_ROOT / "results" / "training")
+    args = parser.parse_args()
+    args.output.mkdir(parents=True, exist_ok=True)
+
+    with open(args.config) as f:
+        model_cfg = yaml.safe_load(f)
+
+    report = {
+        "status": "skeleton",
+        "mtl_architecture": model_cfg.get("mtl_architecture"),
+        "cv_protocol": model_cfg.get("cv_protocol"),
+        "baselines": model_cfg.get("baselines"),
+        "implementation_notes": [
+            "Use Murcko GroupKFold (n=5)",
+            "Report RMSE, MAE, R2, Spearman, EF@1%",
+            "Wilcoxon test vs XGBoost baseline",
+        ],
+    }
+    out = args.output / "training_report.json"
+    with open(out, "w") as f:
+        json.dump(report, f, indent=2)
+    print(f"Training config snapshot: {out}")
+
+
+if __name__ == "__main__":
+    main()

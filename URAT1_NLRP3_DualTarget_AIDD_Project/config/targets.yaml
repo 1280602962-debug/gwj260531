@@ -1,0 +1,81 @@
+# STAD-AIDD 靶点与数据清洗配置
+# 更新日期: 2026-06
+
+targets:
+  urat1:
+    gene: SLC22A12
+    uniprot: Q96S37
+    chembl_id: CHEMBL6120
+    target_class: electrochemical_transporter  # SLC22 有机阴离子转运体
+    mechanism: urate_reabsorption_inhibition   # 促尿酸排泄
+  nlrp3:
+    gene: NLRP3
+    uniprot: Q96P20
+    chembl_id: CHEMBL1741208   # ChEMBL v31 常用 ID（以 API 查询为准）
+    target_class: inflammasome_sensor
+    mechanism: nacht_domain_allosteric_lock     # NACHT 域变构锁定
+
+# 辅助迁移学习靶点（扩充小数据场景）
+auxiliary_targets:
+  slc22_family:
+    - gene: SLC22A1
+      chembl_id: CHEMBL1906
+      note: OCT1，SLC22 家族，构象机制可参考
+    - gene: SLC22A2
+      chembl_id: CHEMBL210
+      note: OCT2
+  inflammasome_related:
+    - gene: CASP1
+      note: 下游酶，仅作机制注释，不作为主要训练靶点
+
+data_curation:
+  # 活性类型：URAT1 常见 Ki/IC50（细胞摄取抑制）；NLRP3 常见 IL-1β 释放 IC50
+  standard_types: [IC50, Ki, EC50]
+  standard_relation: "="
+  pactivity_range: [4.0, 10.0]
+  # 同一 SMILES 冲突：std > 0.5 log 或 range > 1.0 log → 丢弃
+  conflict_std_threshold: 0.5
+  conflict_range_threshold: 1.0
+  multi_value_aggregation: median
+
+  urat1:
+  # URAT1 数据极少（ChEMBL 约数十至百余条），需合并专利/文献
+    include_patents: true
+    assay_keywords_include: [urate, uric, uptake, transport, inhibition]
+    min_compounds_per_assay: 5   # 数据少，适当放宽
+
+  nlrp3:
+    include_patents: true
+    assay_endpoint: IL-1beta     # 仅保留 IL-1β 相关测定
+    exclude_assay_keywords: [pyroptosis_only, ASC_only]
+    min_compounds_per_assay: 10
+
+splits:
+  method: murcko_scaffold_group   # 骨架分组，避免数据泄漏
+  train_ratio: 0.8
+  val_ratio: 0.1
+  test_ratio: 0.1
+  n_folds: 5
+
+benchmark_compounds:
+  # 已知 URAT1 抑制剂（回顾验证用）
+  urat1:
+    - name: lesinurad
+      chembl_id: CHEMBL3301572
+      pdb_complex: 9DKB
+    - name: verinurad
+      pdb_complex: null
+    - name: dotinurad
+      pdb_complex: null
+    - name: benzbromarone
+      chembl_id: CHEMBL892
+      pdb_complex: 9DKB
+  # 已知 NLRP3 抑制剂
+  nlrp3:
+    - name: MCC950
+      chembl_id: CHEMBL3989876
+      pdb_complex: 7ALV
+    - name: GDC-2394
+      pdb_complex: 8ETR
+    - name: NT-0796
+      note: 脑穿透 NLRP3 抑制剂，J Med Chem 2023

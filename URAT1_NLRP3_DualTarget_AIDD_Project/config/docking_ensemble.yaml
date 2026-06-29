@@ -1,0 +1,96 @@
+# STAD-AIDD 结构约束对接系综配置
+# URAT1: 转运体 — 必须覆盖 inward-facing / occluded / outward-facing
+# NLRP3: NACHT 域 — 变构抑制剂结合口袋
+
+urat1_ensemble:
+  description: >
+    URAT1 抑制机制为占据底物口袋并锁定 inward-facing/occluded 构象，
+    阻断交替开放转运循环（alternating access）。对接须使用构象系综而非单静态结构。
+  pdb_structures:
+    - pdb_id: 9B1H
+      state: inward_open
+      ligand: lesinurad
+      resolution_A: 2.74
+      reference: "Dai et al., Cell Res 2024; doi:10.1038/s41422-024-01023-1"
+    - pdb_id: 9DKB
+      state: inward_open
+      ligand: lesinurad
+      resolution_A: 2.55
+      reference: "Fedor et al., Nat Commun 2025"
+    - pdb_id: 9JDZ
+      state: inward_open
+      ligand: lesinurad
+      reference: "Wu & Xu, bioRxiv 2024"
+    # 建议补充 outward-open / occluded apo 或底物结合态（同一 primary citation）
+  binding_site:
+    method: co-crystal_ligand_center
+    key_residues: [Phe241, Arg477, Tyr527]  # 文献报道 gating / 高亲和力关键残基
+    box_size_A: [22, 22, 22]
+  scoring:
+    # 转运体专用：不仅看对接分数，还看构象捕获一致性
+    components:
+      - name: vina_score
+        weight: 0.25
+      - name: glide_sp
+        weight: 0.20
+        optional: true
+      - name: conformation_trapping
+        weight: 0.30
+        description: >
+          配体在 inward-facing 结构中稳定结合且与 outward-open 态结合能差 > 阈值，
+          提示可锁定转运循环
+      - name: key_residue_contacts
+        weight: 0.15
+        description: 与 Phe-rich cage、Arg477 等药效团关键残基接触
+      - name: substrate_competition
+        weight: 0.10
+        description: 与尿酸共晶位点空间重叠（竞争性抑制）
+
+nlrp3_ensemble:
+  description: >
+    NLRP3 小分子抑制剂主要结合 NACHT 域 Walker B 附近变构口袋，
+    通过分子胶机制锁定 inactive conformation。
+  pdb_structures:
+    - pdb_id: 7ALV
+      domain: NACHT
+      ligand: inhibitor
+      resolution_A: 2.8
+      reference: "Coll et al., Nat Commun 2019"
+    - pdb_id: 8ETR
+      domain: NACHT
+      ligand: GDC-2394
+      method: cryo-EM
+      reference: "Murray et al., J Med Chem 2023"
+  binding_site:
+    method: co-crystal_ligand_center
+    subdomain: Walker_B_allosteric_pocket
+    box_size_A: [20, 20, 20]
+  scoring:
+    components:
+      - name: vina_score
+        weight: 0.30
+      - name: mm_gbsa
+        weight: 0.25
+        md_length_ns: 50
+      - name: nacht_subdomain_stability
+        weight: 0.25
+        description: MD 后 NACHT 亚域间距离方差低 → 变构锁定
+      - name: admet_filter
+        weight: 0.20
+
+dual_target_funnel:
+  # 双靶协同筛选漏斗（无湿实验时的核心输出）
+  stage1_ml:
+    urat1_pactivity_min: 5.5
+    nlrp3_pactivity_min: 5.5
+    dual_task_score: geometric_mean   # sqrt(p_urat1 * p_nlrp3)
+  stage2_structure:
+    urat1_ensemble_percentile: 80
+    nlrp3_ensemble_percentile: 80
+  stage3_synergy:
+    formula: "S_dual = w1*S_URAT1 + w2*S_NLRP3 + w3*S_URAT1*S_NLRP3"
+    weights: [0.35, 0.35, 0.30]
+  stage4_diversity:
+    method: butina_cluster
+    tanimoto_cutoff: 0.4
+    top_per_cluster: 3
