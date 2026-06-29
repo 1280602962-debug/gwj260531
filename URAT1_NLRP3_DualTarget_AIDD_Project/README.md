@@ -33,6 +33,7 @@
 | [**URAT1 转运体验证**](docs/URAT1_TRANSPORTER_VALIDATION.md) | 转运体 vs 酶验证要求 |
 | [**论文大纲**](docs/MANUSCRIPT_OUTLINE.md) | SCI 稿件结构、图表清单 |
 | [**准备清单**](docs/PREPARATION_CHECKLIST.md) | 数据、软件、结构 |
+| [**模型质量报告**](docs/MODEL_QUALITY_REPORT.md) | CV 指标 + benchmark 回测结论（**已运行**） |
 | [**参考文献**](docs/REFERENCES.md) | 可核验文献列表 |
 
 ---
@@ -78,6 +79,8 @@ URAT1_NLRP3_DualTarget_AIDD_Project/
     ├── 04_generative_optimization.py   # Path B
     ├── 05_fusion_and_ranking.py        # 可靠性 Pareto 融合
     ├── 06_retrospective_validation.py  # 含 PLK1-style baseline
+    ├── 07_benchmark_backtest.py          # benchmark 回测
+    ├── run_model_build_and_validate.py   # 数据+训练+回测一键脚本
     ├── run_tape_gate_pipeline.py
     └── run_stad_pipeline.py            # v1.0 兼容入口
 ```
@@ -90,14 +93,14 @@ URAT1_NLRP3_DualTarget_AIDD_Project/
 cd URAT1_NLRP3_DualTarget_AIDD_Project
 pip install -r requirements.txt
 
-# 端到端 TAPE-GATE 流水线
+# 1) 建模 + 质量评估 + benchmark 回测（推荐先跑）
+python3 scripts/run_model_build_and_validate.py
+
+# 2) 端到端 TAPE-GATE 流水线
 python3 scripts/run_tape_gate_pipeline.py
 
 # 仅库筛路径（算力有限时）
 python3 scripts/run_tape_gate_pipeline.py --skip-generative
-
-# 指定筛选库
-python3 scripts/run_tape_gate_pipeline.py --library /path/to/enamine_real.smi
 ```
 
 ---

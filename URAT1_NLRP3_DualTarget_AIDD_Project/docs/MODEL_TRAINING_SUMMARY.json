@@ -1,0 +1,148 @@
+{
+  "framework": "TAPE-GATE",
+  "urat1": {
+    "model": "XGBoost regression + split conformal (alpha=0.1)",
+    "cv_metrics": {
+      "rmse": 0.6609303016910115,
+      "mae": 0.4985830611152114,
+      "r2": 0.4421076049990974,
+      "spearman": 0.649740350377483,
+      "ef_10pct": 1.8214823832379743,
+      "mean_interval_width": 2.511433720588684,
+      "n_compounds": 822
+    },
+    "fold_metrics": [
+      {
+        "rmse": 0.5752767573375747,
+        "mae": 0.4254818649291992,
+        "r2": 0.3377831402699074,
+        "spearman": 0.478775970816229,
+        "n": 165,
+        "fold": 0,
+        "ef_10pct": 1.0893485915492958,
+        "mean_interval_width": 1.9974853992462158
+      },
+      {
+        "rmse": 0.6765377199637405,
+        "mae": 0.48490243588071885,
+        "r2": 0.4827625231411845,
+        "spearman": 0.7381533697179082,
+        "n": 165,
+        "fold": 1,
+        "ef_10pct": 1.7368421052631577,
+        "mean_interval_width": 2.242053270339966
+      },
+      {
+        "rmse": 0.6692101442508086,
+        "mae": 0.5552477416759584,
+        "r2": 0.5769284223598345,
+        "spearman": 0.7663980626395088,
+        "n": 164,
+        "fold": 2,
+        "ef_10pct": 1.842696629213483,
+        "mean_interval_width": 1.9161626100540161
+      },
+      {
+        "rmse": 0.7544164491145245,
+        "mae": 0.5436160039901734,
+        "r2": 0.29447302036710044,
+        "spearman": 0.5502203136336032,
+        "n": 164,
+        "fold": 3,
+        "ef_10pct": 1.75,
+        "mean_interval_width": 4.436159133911133
+      },
+      {
+        "rmse": 0.6292104377884095,
+        "mae": 0.48366725910000685,
+        "r2": 0.5185909188574604,
+        "spearman": 0.7151540350801654,
+        "n": 164,
+        "fold": 4,
+        "ef_10pct": 2.6885245901639343,
+        "mean_interval_width": 1.9653081893920898
+      }
+    ],
+    "screening_assessment": {
+      "suitable_for_screening": true,
+      "checks": {
+        "spearman_ok": true,
+        "r2_ok": true,
+        "ef_ok": true,
+        "rmse_ok": true
+      },
+      "criteria_passed": 4,
+      "thresholds": {
+        "spearman": 0.5,
+        "r2": 0.25,
+        "ef_10pct": 1.5,
+        "rmse": 1.0
+      },
+      "recommendation": "Model meets minimum CV criteria; usable as primary ML filter before docking."
+    }
+  },
+  "nlrp3": {
+    "model": "Assay-conditioned XGBoost classifier (top-25 assays one-hot)",
+    "cv_metrics": {
+      "auroc": 0.8934017784193573,
+      "auprc": 0.9143469018214805,
+      "ef_10pct": 1.5706359287488578,
+      "n_compounds": 513,
+      "n_records": 609,
+      "n_assays_used": 25
+    },
+    "fold_metrics": [
+      {
+        "auroc": 0.943351691581432,
+        "auprc": 0.9654681820700037,
+        "n": 103,
+        "fold": 0,
+        "ef_10pct": 1.6612903225806452
+      },
+      {
+        "auroc": 0.9285714285714286,
+        "auprc": 0.9359886832663735,
+        "n": 103,
+        "fold": 1,
+        "ef_10pct": 1.9074074074074074
+      },
+      {
+        "auroc": 0.8782201405152226,
+        "auprc": 0.9028451152326918,
+        "n": 103,
+        "fold": 2,
+        "ef_10pct": 1.5196721311475412
+      },
+      {
+        "auroc": 0.7948190789473685,
+        "auprc": 0.8449282318932392,
+        "n": 102,
+        "fold": 3,
+        "ef_10pct": 1.434375
+      },
+      {
+        "auroc": 0.9220465524813352,
+        "auprc": 0.9225042966450939,
+        "n": 102,
+        "fold": 4,
+        "ef_10pct": 1.3304347826086955
+      }
+    ],
+    "screening_assessment": {
+      "suitable_for_screening": true,
+      "checks": {
+        "auroc_ok": true,
+        "auprc_ok": true,
+        "ef_ok": true
+      },
+      "criteria_passed": 3,
+      "thresholds": {
+        "auroc": 0.65,
+        "auprc": 0.6,
+        "ef_10pct": 1.5
+      },
+      "recommendation": "Model meets minimum CV criteria; usable as primary ML filter before docking."
+    }
+  },
+  "overall_screening_ready": true
+}

@@ -1,9 +1,8 @@
-compound_name,smiles_placeholder,target,activity_type,pactivity_literature,source,validation_role
-lesinurad,CHEMBL3301572,URAT1,IC50,7.0,approved_drug,retrospective_must_recover
-benzbromarone,CHEMBL892,URAT1,IC50,7.5,approved_drug,retrospective_must_recover
-verinurad,NA,URAT1,IC50,8.0,clinical,retrospective_must_recover
-dotinurad,NA,URAT1,IC50,8.2,approved_JP,retrospective_must_recover
-MCC950,NA,NLRP3,IC50,7.8,tool_compound,retrospective_must_recover
-GDC-2394,NA,NLRP3,IC50,8.5,clinical_candidate,retrospective_must_recover
-colchicine,NA,NLRP3,indirect,NA,anti_inflammatory,negative_control_not_nlrp3_direct
-allopurinol,NA,none,XO_inhibitor,NA,uric_acid_lowering,negative_control_not_urat1
+compound_name,canonical_smiles,target,activity_type,pactivity_literature,source,validation_role
+lesinurad,O=C(O)CSc1nnc(Br)n1-c1ccc(C2CC2)c2ccccc12,URAT1,IC50,7.0,approved_drug,retrospective_must_recover
+benzbromarone,CCc1oc2ccccc2c1C(=O)c1cc(Br)c(O)c(Br)c1,URAT1,IC50,7.5,approved_drug,retrospective_must_recover
+verinurad,CC(C)(Sc1ccncc1-c1ccc(C#N)c2ccccc12)C(=O)O,URAT1,IC50,8.0,clinical,retrospective_must_recover
+dotinurad,O=C(c1cc(Cl)c(O)c(Cl)c1)N1CS(=O)(=O)c2ccccc21,URAT1,IC50,8.2,approved_JP,retrospective_must_recover
+MCC950,CC(C)(O)c1coc(S(=O)(=O)NC(=O)Nc2c3c(cc4c2CCC4)CCC3)c1,NLRP3,IC50,8.09,tool_compound,retrospective_must_recover
+GDC-2394,CN[C@@H]1COc2c(S(=O)(=O)NC(=O)Nc3c4c(cc5c3CCC5)CCC4)cnn2C1,NLRP3,IC50,8.5,clinical_candidate,retrospective_must_recover
+allopurinol,Oc1ncnc2c1ncn2C,none,XO_inhibitor,NA,uric_acid_lowering,negative_control_not_urat1
