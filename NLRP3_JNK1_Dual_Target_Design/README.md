@@ -7,8 +7,10 @@
 | 文件 | 内容 |
 |------|------|
 | [NLRP3_JNK1_Dual_Target_Design_Considerations.md](./NLRP3_JNK1_Dual_Target_Design_Considerations.md) | **主文档**：科学合理性、设计考量、PK/PD、时空起效、亲和力平衡、常见误区 |
+| [LITERATURE_REVIEW_DUAL_TARGET_2020_2025.md](./LITERATURE_REVIEW_DUAL_TARGET_2020_2025.md) | **文献综述**：近五年类似双靶点高水平论文总结（含 CADD/AIDD 方法） |
+| [LITERATURE_REFERENCES_2020_2025.md](./LITERATURE_REFERENCES_2020_2025.md) | **文献综述参考文献**：L1–L21 条目（DOI / PMID 核对） |
 | [EXPERIMENTAL_VALIDATION_CHECKLIST.md](./EXPERIMENTAL_VALIDATION_CHECKLIST.md) | **实验验证清单**：分阶段实验、对照设置、通过/失败判据 |
-| [REFERENCES.md](./REFERENCES.md) | **参考文献**：所有论断对应的可追溯文献（含 DOI / PMID） |
+| [REFERENCES.md](./REFERENCES.md) | **设计指南参考文献**：主文档引用编号 [1]–[53] |
 
 ## 使用说明
 
