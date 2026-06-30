@@ -68,7 +68,7 @@ URAT1 为 **尿酸/有机阴离子 antiporter**：摄取尿酸进入细胞，同
 | **MD 稳定性** | 50–100 ns，膜嵌入体系 | 配体 RMSD < 2.5 Å，结合能趋势稳定 |
 | **MM-GBSA/PBSA** | 系综各构象分别计算 | inward 态 ΔG 绑定最有利 |
 | **丙氨酸突变（in silico）** | Arg477Ala 等 | 高活性配体结合能应显著减弱（与 Dai 2024 功能实验趋势一致） |
-| **选择性 vs 其他 SLC22** | OCT1/OCT2 对接 | 优先 URAT1，降低 OCT 脱靶 |
+| **选择性 vs 其他 SLC22** | OAT1/OAT3 化学重叠；OCT1/OCT2 对接 | OAT 为迁移/选择性主讨论；OCT 为阳离子脱靶 |
 
 ### ⚪ 可选加分（Tier 3）
 
@@ -139,13 +139,15 @@ Coll et al., *Nat Commun* 2019; doi:10.1038/s41467-019-11431-1
 
 ## 八、与 SLC22 家族其他成员的数据迁移合理性
 
-| 成员 | ChEMBL | 与 URAT1 关系 | 迁移价值 |
+| 成员 | ChEMBL | 与 URAT1 关系 | 项目角色 |
 |------|--------|--------------|---------|
-| OCT1 (SLC22A1) | CHEMBL2073664 | 同家族，阳离子摄取 | 学习 SLC22 fold 与底物识别 |
-| OCT2 (SLC22A2) | CHEMBL1770032 | 肾转运体 | 肾排泄相关 |
-| OAT1/3 | — | 阴离子转运 | 阴离子底物化学空间 |
+| **OAT1** (SLC22A6) | CHEMBL1641347 | 同 **OAT 阴离子** 亚家族 | **主迁移**（Tier A） |
+| **OAT3** (SLC22A8) | CHEMBL1641348 | 肾阴离子分泌 | **主迁移**（Tier A） |
+| OCT1 (SLC22A1) | CHEMBL2073664 | SLC22 折叠相似，**阳离子**底物 | **脱靶**（Tier B） |
+| OCT2 (SLC22A2) | CHEMBL1770032 | 肾阳离子转运 | **脱靶**（Tier B） |
+| OAT4 (SLC22A11) | — | apical OAT；lesinurad 亦抑制 | 可选讨论 |
 
-**注意**：迁移是 **表示学习层面**，不能假设 OCT 抑制剂直接抑制 URAT1 → 需在论文中明确。
+**注意**：迁移是 **表示学习**；OAT 抑制剂与 URAT1 活性有部分重叠但 **不可等同**；OCT 抑制剂 **更不能** 推断 URAT1 活性。详见 `docs/SLC22_AUXILIARY_RATIONALE.md`。
 
 ---
 

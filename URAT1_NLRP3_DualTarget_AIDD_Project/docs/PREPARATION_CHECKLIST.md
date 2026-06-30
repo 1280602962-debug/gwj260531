@@ -16,7 +16,7 @@
 | NLRP3 ChEMBL | CHEMBL1741208 / 用户 CSV | IL-1β + Assay B，**513** SMILES（609 records） | ☐ |
 | NLRP3 assay 元数据 | ChEMBL 导出列 | 保留 assay_id, cell_line, assay_type | ☐ |
 | 重叠检查 | — | 确认 0 shared SMILES → 独立双模型 | ☐ |
-| SLC22 辅助数据 | OCT1 `CHEMBL2073664`、OCT2 `CHEMBL1770032` | URAT1 迁移学习 + OCT 脱靶讨论 | ☐ |
+| SLC22 辅助 | OAT1 `CHEMBL1641347`、OAT3 `CHEMBL1641348`（**主迁移**）；OCT1/2（**脱靶**） | 见 `SLC22_AUXILIARY_RATIONALE.md` | ☐ |
 | 骨架划分 | Murcko + GroupKFold | train/val/test CSV | ☐ |
 
 **预期输出**：`data/processed/urat1_curated.csv`, `nlrp3_records.csv`（含 assay 列）, `splits/`, `data_summary.json`

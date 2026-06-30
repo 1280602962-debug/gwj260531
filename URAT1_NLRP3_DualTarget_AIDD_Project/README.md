@@ -37,6 +37,7 @@
 | [**模型质量报告**](docs/MODEL_QUALITY_REPORT.md) | CV 指标 + benchmark 回测结论（**已运行**） |
 | [**Benchmark 选择标准**](docs/BENCHMARK_SELECTION_CRITERIA.md) | 化合物合理性、分层考试、文献来源 |
 | [**数据事实核验**](docs/DATA_FACT_CHECK.md) | ChEMBL/PDB/PMID 与规模数字（**投稿前必读**） |
+| [**SLC22 辅助库逻辑**](docs/SLC22_AUXILIARY_RATIONALE.md) | OAT 主迁移 vs OCT 脱靶；错误来源与可信边界 |
 | [**参考文献**](docs/REFERENCES.md) | 可核验文献列表 |
 
 ---

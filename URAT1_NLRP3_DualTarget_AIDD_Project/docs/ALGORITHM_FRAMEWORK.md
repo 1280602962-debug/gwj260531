@@ -36,7 +36,7 @@ $$
 
 1. 仅保留 IL-1β / IL-1beta / interleukin-1 终点
 2. 推荐子集：**Assay Type B**（用户数据验证，同质性更高）
-3. 可选 THP-1 子集（~359 分子）作高置信训练集
+3. 可选 THP-1 子集（curated 约 **302** 独特 SMILES / 313 条记录）作高置信训练域
 4. **保留 assay_id、cell_line、assay_type** 用于条件化建模
 5. 活性二值化：$y^N_{\text{bin}} = \mathbb{1}[y^N \geq 6]$（分类主任务）
 
@@ -67,11 +67,13 @@ $$
 
 **筛选规则**：$\hat{y}^U \geq t_U$ 且 **下界** $\geq t_U^{\text{lo}}$（保守策略）
 
-**SLC22 迁移**（三阶段）：
+**SLC22 迁移**（三阶段；**OAT 优先**）：
 
-1. SLC22A1/A2 摄取抑制数据上微调 MLP head
+1. **OAT1/OAT3**（SLC22A6/A8）摄取/抑制数据上微调 MLP head — 阴离子底物化学空间，与 URAT1 亚家族一致
 2. URAT1 数据上继续微调 head
 3. 可选解冻 MiniMol 末层，lr = 1e-5
+
+**OCT1/OCT2** 数据 **不** 作为主迁移源；仅用于脱靶对接与 $R_{\text{sel}}$（Tier 3）。须做消融：无 OAT 迁移 vs 无 OCT 脱靶特征。
 
 ### 3.2 NLRP3 臂：Assay-conditioned 分类
 

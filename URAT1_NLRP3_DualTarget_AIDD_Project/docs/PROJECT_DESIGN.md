@@ -99,7 +99,8 @@
 |--------|-------|-------|
 | ChEMBL（用户 CSV） | **822** 独特 SMILES | **513**（IL-1β + Assay B） |
 | 专利/文献 | verinurad 系列 | WO2021214284A1（外部验证） |
-| 辅助 | SLC22A1/A2 摄取数据 | THP-1 子集 ~359 |
+| 辅助（URAT1） | OAT1/OAT3 迁移 + OCT1/2 脱靶 | — |
+| NLRP3 子集 | THP-1 assay 约 302 SMILES | 全库 513 SMILES |
 
 **关键**：NLRP3 导出时保留 `assay_id`, `assay_type`, `cell_line`
 

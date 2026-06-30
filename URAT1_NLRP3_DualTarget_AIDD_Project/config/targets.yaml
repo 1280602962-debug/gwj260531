@@ -6,7 +6,8 @@ targets:
     gene: SLC22A12
     uniprot: Q96S37
     chembl_id: CHEMBL6120
-    target_class: electrochemical_transporter  # SLC22 有机阴离子转运体
+    target_class: electrochemical_transporter
+    transporter_subfamily: oat   # OAT 有机阴离子/尿酸交换体（非 OCT 阳离子）
     mechanism: urate_reabsorption_inhibition   # 促尿酸排泄
   nlrp3:
     gene: NLRP3
@@ -15,17 +16,36 @@ targets:
     target_class: inflammasome_sensor
     mechanism: nacht_domain_allosteric_lock     # NACHT 域变构锁定
 
-# 辅助迁移学习靶点（扩充小数据场景）
+# 辅助库：OAT 主迁移 + OCT 脱靶（见 docs/SLC22_AUXILIARY_RATIONALE.md）
 auxiliary_targets:
-  slc22_family:
+  slc22_oat_transfer:   # Tier A — 与 URAT1 同属 OAT 阴离子亚家族，优先用于 ML 迁移
+    - gene: SLC22A6
+      uniprot: O95742
+      chembl_id: CHEMBL1641347   # human OAT1（勿用 CHEMBL1777665=大鼠 OAT1）
+      role: primary_transfer
+      note: 肾基底侧有机阴离子摄取；与 probenecid/uricosuric 化学空间重叠
+    - gene: SLC22A8
+      uniprot: O95816
+      chembl_id: CHEMBL1641348   # human OAT3
+      role: primary_transfer
+      note: 肾有机阴离子分泌；与 URAT1 通路并列的肾处置环节
+  slc22_oct_detargeting:   # Tier B — 阳离子转运脱靶，非主迁移来源
     - gene: SLC22A1
       uniprot: O15245
-      chembl_id: CHEMBL2073664   # OCT1 / hOCT1（勿用 CHEMBL242=ESR2、CHEMBL1906=RAF1）
-      note: OCT1，SLC22 家族有机阳离子摄取/抑制，TC-Encoder 迁移与 URAT1 vs OCT 脱靶讨论
+      chembl_id: CHEMBL2073664   # OCT1（勿用 CHEMBL242=ESR2、CHEMBL1906=RAF1）
+      role: detargeting_tier3
+      note: 肝有机阳离子摄取；对接 R_sel 与 DDI 讨论
     - gene: SLC22A2
       uniprot: O15244
-      chembl_id: CHEMBL1770032   # OCT2 / hOCT2（勿用 CHEMBL3968=PLA2G1B、CHEMBL210=ADRB2）
-      note: OCT2，肾近端小管有机阳离子转运，摄取/抑制活性
+      chembl_id: CHEMBL1770032   # OCT2（勿用 CHEMBL3968=PLA2G1B、CHEMBL210=ADRB2）
+      role: detargeting_tier3
+      note: 肾有机阳离子分泌脱靶
+  # 向后兼容：旧键名指向 OAT+OCT 合并列表（脚本可读取）
+  slc22_family:
+    - {gene: SLC22A6, chembl_id: CHEMBL1641347, role: primary_transfer}
+    - {gene: SLC22A8, chembl_id: CHEMBL1641348, role: primary_transfer}
+    - {gene: SLC22A1, chembl_id: CHEMBL2073664, role: detargeting_tier3}
+    - {gene: SLC22A2, chembl_id: CHEMBL1770032, role: detargeting_tier3}
   inflammasome_related:
     - gene: CASP1
       note: 下游酶，仅作机制注释，不作为主要训练靶点
@@ -41,7 +61,7 @@ data_curation:
   multi_value_aggregation: median
 
   urat1:
-  # URAT1 数据极少（ChEMBL 约数十至百余条），需合并专利/文献
+    # 用户 ChEMBL 导出经清洗后约 822 条；仍建议合并专利/文献 assay
     include_patents: true
     assay_keywords_include: [urate, uric, uptake, transport, inhibition]
     min_compounds_per_assay: 5   # 数据少，适当放宽
@@ -50,7 +70,7 @@ data_curation:
     include_patents: true
     assay_endpoint: IL-1beta     # 仅保留 IL-1β 相关测定
     exclude_assay_keywords: [pyroptosis_only, ASC_only]
-    min_compounds_per_assay: 10
+    min_compounds_per_assay: 5   # 与 scripts/00_prepare_data.py 默认一致
 
 splits:
   method: murcko_scaffold_group   # 骨架分组，避免数据泄漏

@@ -27,7 +27,8 @@ urat1_arm:
     alpha: 0.1
   transfer_learning:
     enabled: true
-    auxiliary: slc22_family  # CHEMBL2073664 OCT1, CHEMBL1770032 OCT2
+    auxiliary: slc22_oat_transfer  # primary: CHEMBL1641347 OAT1, CHEMBL1641348 OAT3
+    auxiliary_detargeting: slc22_oct_detargeting  # OCT1/OCT2 Tier-3 off-target only
     method: sequential_finetune
   baselines:
     - XGBoost_ECFP4

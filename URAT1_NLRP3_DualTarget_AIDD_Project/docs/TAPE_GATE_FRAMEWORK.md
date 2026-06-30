@@ -73,7 +73,7 @@ TAPE-GATE 是面向 **URAT1 + NLRP3** 双靶、**纯计算**、**小数据不对
 |------|------|
 | 表示 | MiniMol 指纹（冻结）或 Chemprop D-MPNN |
 | 任务 | pIC50 回归 |
-| 迁移 | SLC22A1/A2 摄取抑制 → URAT1 序贯微调 |
+| 迁移 | **OAT1/OAT3** 摄取抑制 → URAT1 微调；**OCT1/2** 仅脱靶讨论 |
 | 不确定性 | **Split conformal prediction**（90% 预测区间） |
 | 结构证据 | 构象系综 $S_{\text{trap}}$（见算法文档 §4） |
 
