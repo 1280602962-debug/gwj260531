@@ -26,7 +26,7 @@
 | 文档 | 内容 |
 |------|------|
 | [**TAPE-GATE 框架总览**](docs/TAPE_GATE_FRAMEWORK.md) | v2.0 架构、双路径、融合策略（**入口**） |
-| [**MASFL v3.0 完整流程**](docs/MASFL_V3_WORKFLOW.md) | v3.0 修订版：T-S CPDL + FIM-Lite + LEF-Cal（**推荐**） |
+| [**MASFL v3.1 完整流程**](docs/MASFL_V3_WORKFLOW.md) | v3.1：PC-Student + DFIM + 可行域 Pareto + 模块门槛（**推荐**） |
 | [**算法框架详解**](docs/ALGORITHM_FRAMEWORK.md) | 公式、伪代码、各 Stage 技术细节 |
 | [**与 PLK1/NLRP3 差异化**](docs/DIFFERENTIATION_VS_PLK1_NLRP3.md) | 模块对照、避雷同清单（**重要**） |
 | [**项目总体设计**](docs/PROJECT_DESIGN.md) | 科学逻辑、实施计划、期刊策略 |
