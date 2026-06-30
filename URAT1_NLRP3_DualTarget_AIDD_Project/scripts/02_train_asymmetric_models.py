@@ -3,6 +3,7 @@
 TAPE-GATE Stage 2: Train asymmetric dual-evidence models.
 
 URAT1: XGBoost regression + split conformal UQ (5-fold scaffold CV)
+       Optional OAT1/OAT3 sequential pretrain → URAT1 fine-tune (--oat-transfer)
 NLRP3: Assay-conditioned XGBoost classifier (5-fold scaffold CV by molecule)
 
 Outputs models, CV metrics, and screening suitability verdict under results/training/.
@@ -38,6 +39,7 @@ from utils_ml import (
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 PROCESSED = PROJECT_ROOT / "data" / "processed"
+AUXILIARY = PROJECT_ROOT / "data" / "auxiliary"
 RESULTS = PROJECT_ROOT / "results" / "training"
 
 # URAT1: strict QSAR / virtual-screening criteria
@@ -72,6 +74,38 @@ def _xgb_regressor(seed: int = 42) -> xgb.XGBRegressor:
     )
 
 
+def load_oat_transfer_data(path: Path | None = None) -> pd.DataFrame:
+    oat_path = path or (AUXILIARY / "oat_combined_transfer.csv")
+    if not oat_path.exists():
+        raise FileNotFoundError(
+            f"OAT transfer file not found: {oat_path}. Run scripts/00b_prepare_auxiliary_data.py first."
+        )
+    df = pd.read_csv(oat_path)
+    required = {"canonical_smiles", "pActivity"}
+    missing = required - set(df.columns)
+    if missing:
+        raise ValueError(f"OAT transfer CSV missing columns: {sorted(missing)}")
+    return df.dropna(subset=["canonical_smiles", "pActivity"]).reset_index(drop=True)
+
+
+def _pretrain_xgb_on_oat(
+    oat_df: pd.DataFrame,
+    scaler: StandardScaler,
+    exclude_smiles: set[str],
+    seed: int,
+) -> xgb.XGBRegressor | None:
+    mask = ~oat_df["canonical_smiles"].isin(exclude_smiles)
+    oat_fold = oat_df.loc[mask]
+    if len(oat_fold) < 10:
+        return None
+
+    x_oat = scaler.transform(featurize_smiles(oat_fold["canonical_smiles"].tolist()))
+    y_oat = oat_fold["pActivity"].values.astype(float)
+    model = _xgb_regressor(seed=seed)
+    model.fit(x_oat, y_oat)
+    return model
+
+
 def _xgb_classifier(seed: int = 42) -> xgb.XGBClassifier:
     return xgb.XGBClassifier(
         n_estimators=400,
@@ -86,7 +120,13 @@ def _xgb_classifier(seed: int = 42) -> xgb.XGBClassifier:
     )
 
 
-def train_urat1_cv(df: pd.DataFrame, n_splits: int = 5, seed: int = 42) -> dict:
+def train_urat1_cv(
+    df: pd.DataFrame,
+    n_splits: int = 5,
+    seed: int = 42,
+    oat_df: pd.DataFrame | None = None,
+    use_oat_transfer: bool = False,
+) -> dict:
     smiles = df["canonical_smiles"].tolist()
     y = df["pActivity"].values.astype(float)
     x_mol = featurize_smiles(smiles)
@@ -117,8 +157,16 @@ def train_urat1_cv(df: pd.DataFrame, n_splits: int = 5, seed: int = 42) -> dict:
         x_cal = scaler.transform(x_mol[cal_idx])
         x_te_s = scaler.transform(x_te)
 
+        test_smiles = {smiles[i] for i in te_idx}
+        oat_pretrain = None
+        if use_oat_transfer and oat_df is not None:
+            oat_pretrain = _pretrain_xgb_on_oat(oat_df, scaler, exclude_smiles=test_smiles, seed=seed + fold_i)
+
         model = _xgb_regressor(seed=seed + fold_i)
-        model.fit(x_fit, y[fit_idx])
+        if oat_pretrain is not None:
+            model.fit(x_fit, y[fit_idx], xgb_model=oat_pretrain.get_booster())
+        else:
+            model.fit(x_fit, y[fit_idx])
 
         y_cal_pred = model.predict(x_cal)
         conformal = SplitConformalRegressor(alpha=0.1).fit(y[cal_idx], y_cal_pred)
@@ -135,6 +183,7 @@ def train_urat1_cv(df: pd.DataFrame, n_splits: int = 5, seed: int = 42) -> dict:
         m["ef_5pct_p7"] = regression_enrichment_factor(y_te, y_te_pred, threshold=7.0, fraction=0.05)
         m["roc_auc_p7"] = roc_auc_binary(y_te, y_te_pred, threshold=7.0)
         m["mean_interval_width"] = float(np.mean(hi - lo))
+        m["oat_pretrain_used"] = oat_pretrain is not None
         fold_metrics.append(m)
 
     oof_metrics = regression_metrics(y, oof_pred)
@@ -159,6 +208,8 @@ def train_urat1_cv(df: pd.DataFrame, n_splits: int = 5, seed: int = 42) -> dict:
         "mean_interval_width": float(np.mean(oof_hi - oof_lo)),
         "n_compounds": int(len(df)),
         "n_folds": n_splits,
+        "oat_transfer": bool(use_oat_transfer and oat_df is not None),
+        "oat_pretrain_compounds": int(len(oat_df)) if oat_df is not None else 0,
         "fold_metrics": fold_metrics,
         "oof_predictions": {
             "canonical_smiles": smiles,
@@ -171,7 +222,12 @@ def train_urat1_cv(df: pd.DataFrame, n_splits: int = 5, seed: int = 42) -> dict:
     return agg
 
 
-def fit_urat1_final(df: pd.DataFrame, seed: int = 42) -> dict:
+def fit_urat1_final(
+    df: pd.DataFrame,
+    seed: int = 42,
+    oat_df: pd.DataFrame | None = None,
+    use_oat_transfer: bool = False,
+) -> dict:
     smiles = df["canonical_smiles"].tolist()
     y = df["pActivity"].values.astype(float)
     x_mol = featurize_smiles(smiles)
@@ -181,13 +237,26 @@ def fit_urat1_final(df: pd.DataFrame, seed: int = 42) -> dict:
     x_tr = scaler.fit_transform(x_mol[tr_idx])
     x_cal = scaler.transform(x_mol[cal_idx])
 
+    oat_pretrain = None
+    if use_oat_transfer and oat_df is not None:
+        oat_pretrain = _pretrain_xgb_on_oat(oat_df, scaler, exclude_smiles=set(), seed=seed)
+
     model = _xgb_regressor(seed=seed)
-    model.fit(x_tr, y[tr_idx])
+    if oat_pretrain is not None:
+        model.fit(x_tr, y[tr_idx], xgb_model=oat_pretrain.get_booster())
+    else:
+        model.fit(x_tr, y[tr_idx])
 
     y_cal_pred = model.predict(x_cal)
     conformal = SplitConformalRegressor(alpha=0.1).fit(y[cal_idx], y_cal_pred)
 
-    return {"model": model, "scaler": scaler, "conformal": conformal, "feature_type": "morgan2048+rdkit"}
+    return {
+        "model": model,
+        "scaler": scaler,
+        "conformal": conformal,
+        "feature_type": "morgan2048+rdkit",
+        "oat_transfer": bool(oat_pretrain is not None),
+    }
 
 
 def train_nlrp3_cv(df: pd.DataFrame, n_splits: int = 5, seed: int = 42, top_assays: int = 25) -> dict:
@@ -358,16 +427,41 @@ def main() -> None:
     parser.add_argument("--output", type=Path, default=RESULTS)
     parser.add_argument("--n-splits", type=int, default=5)
     parser.add_argument("--seed", type=int, default=42)
+    parser.add_argument(
+        "--oat-transfer",
+        action=argparse.BooleanOptionalAction,
+        default=True,
+        help="OAT1/OAT3 sequential pretrain before URAT1 fine-tune (default: enabled)",
+    )
+    parser.add_argument("--oat-csv", type=Path, default=AUXILIARY / "oat_combined_transfer.csv")
     args = parser.parse_args()
     args.output.mkdir(parents=True, exist_ok=True)
 
     urat1 = pd.read_csv(args.data_dir / "urat1_curated.csv")
     nlrp3 = pd.read_csv(args.data_dir / "nlrp3_records.csv")
 
+    oat_df = None
+    if args.oat_transfer:
+        oat_df = load_oat_transfer_data(args.oat_csv)
+        print(f"OAT transfer enabled: {len(oat_df)} auxiliary compounds from {args.oat_csv.name}")
+    else:
+        print("OAT transfer disabled (URAT1 baseline from scratch)")
+
     print("Training URAT1 regression model (scaffold CV + conformal UQ)...")
-    urat1_cv = train_urat1_cv(urat1, n_splits=args.n_splits, seed=args.seed)
+    urat1_cv = train_urat1_cv(
+        urat1,
+        n_splits=args.n_splits,
+        seed=args.seed,
+        oat_df=oat_df,
+        use_oat_transfer=args.oat_transfer,
+    )
     urat1_suit = assess_screening_suitability("urat1", urat1_cv)
-    urat1_final = fit_urat1_final(urat1, seed=args.seed)
+    urat1_final = fit_urat1_final(
+        urat1,
+        seed=args.seed,
+        oat_df=oat_df,
+        use_oat_transfer=args.oat_transfer,
+    )
 
     print("Training NLRP3 assay-conditioned classifier (scaffold CV)...")
     nlrp3_cv = train_nlrp3_cv(nlrp3, n_splits=args.n_splits, seed=args.seed)
@@ -384,15 +478,23 @@ def main() -> None:
         "framework": "TAPE-GATE",
         "urat1": {
             "model": "XGBoost regression + split conformal (alpha=0.1)",
+            "transfer_learning": {
+                "enabled": bool(args.oat_transfer),
+                "method": "sequential_finetune",
+                "auxiliary": "slc22_oat_transfer",
+                "oat_pretrain_compounds": int(len(oat_df)) if oat_df is not None else 0,
+                "final_model_oat_transfer": bool(urat1_final.get("oat_transfer", False)),
+            },
             "cv_metrics": {
-            k: urat1_cv[k]
-            for k in [
-                "rmse", "mae", "r2", "spearman",
-                "ef_10pct_p6", "ef_5pct_p7", "roc_auc_p7",
-                "active_rate_p6", "active_rate_p7", "ef_p6_theoretical_max",
-                "mean_interval_width", "n_compounds",
-            ]
-        },
+                k: urat1_cv[k]
+                for k in [
+                    "rmse", "mae", "r2", "spearman",
+                    "ef_10pct_p6", "ef_5pct_p7", "roc_auc_p7",
+                    "active_rate_p6", "active_rate_p7", "ef_p6_theoretical_max",
+                    "mean_interval_width", "n_compounds",
+                    "oat_transfer", "oat_pretrain_compounds",
+                ]
+            },
             "fold_metrics": urat1_cv["fold_metrics"],
             "screening_assessment": urat1_suit,
         },
@@ -422,6 +524,7 @@ def main() -> None:
     print(f"  RMSE={urat1_cv['rmse']:.3f}  R2={urat1_cv['r2']:.3f}  Spearman={urat1_cv['spearman']:.3f}")
     print(f"  ROC-AUC(p>=7)={urat1_cv['roc_auc_p7']:.3f}  EF@5%(p>=7)={urat1_cv['ef_5pct_p7']:.2f}")
     print(f"  EF@10%(p>=6)={urat1_cv['ef_10pct_p6']:.2f}  [misleading: theoretical max={urat1_cv['ef_p6_theoretical_max']:.2f} at 57% actives]")
+    print(f"  OAT transfer: {urat1_cv.get('oat_transfer', False)}")
     print(f"  Strict screening suitable: {urat1_suit['suitable_for_screening']} ({urat1_suit['criteria_passed']}/{urat1_suit['criteria_total']} checks)")
 
     print("\n=== NLRP3 CV ===")
