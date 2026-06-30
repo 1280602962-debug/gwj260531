@@ -19,11 +19,13 @@ targets:
 auxiliary_targets:
   slc22_family:
     - gene: SLC22A1
-      chembl_id: CHEMBL1906
-      note: OCT1，SLC22 家族，构象机制可参考
+      uniprot: O15245
+      chembl_id: CHEMBL2073664   # OCT1 / hOCT1（勿用 CHEMBL242=ESR2、CHEMBL1906=RAF1）
+      note: OCT1，SLC22 家族有机阳离子摄取/抑制，TC-Encoder 迁移与 URAT1 vs OCT 脱靶讨论
     - gene: SLC22A2
-      chembl_id: CHEMBL210
-      note: OCT2
+      uniprot: O15244
+      chembl_id: CHEMBL1770032   # OCT2 / hOCT2（勿用 CHEMBL3968=PLA2G1B、CHEMBL210=ADRB2）
+      note: OCT2，肾近端小管有机阳离子转运，摄取/抑制活性
   inflammasome_related:
     - gene: CASP1
       note: 下游酶，仅作机制注释，不作为主要训练靶点

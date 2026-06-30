@@ -27,7 +27,7 @@ urat1_arm:
     alpha: 0.1
   transfer_learning:
     enabled: true
-    auxiliary: slc22_family  # CHEMBL1906 OCT1, CHEMBL210 OCT2
+    auxiliary: slc22_family  # CHEMBL2073664 OCT1, CHEMBL1770032 OCT2
     method: sequential_finetune
   baselines:
     - XGBoost_ECFP4
