@@ -21,7 +21,7 @@ from pathlib import Path
 import pandas as pd
 import yaml
 
-from utils_ml import canonicalize, curate_urat1_raw
+from utils_ml import canonicalize, curate_urat1_raw, fill_pactivity_column, _clean_relation
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 CONFIG_PATH = PROJECT_ROOT / "config" / "targets.yaml"
@@ -40,8 +40,8 @@ def load_config() -> dict:
 
 
 UPLOAD_NAME_MAP = {
-    "OAT1_chembl_cf12.csv": ["OAT1_chembl_cf12.csv", "OAT1_0f82.csv", "OAT1.csv"],
-    "OAT3_chembl_cf12.csv": ["OAT3_chembl_cf12.csv", "OAT3_74e9.csv", "OAT3.csv"],
+    "OAT1_chembl_cf12.csv": ["OAT1_chembl_cf12.csv", "OAT1_ALL_2a82.csv", "OAT1_0f82.csv", "OAT1.csv"],
+    "OAT3_chembl_cf12.csv": ["OAT3_chembl_cf12.csv", "OAT3_ALL_aa9d.csv", "OAT3_74e9.csv", "OAT3.csv"],
     "OCT1_chembl_cf12.csv": ["OCT1_chembl_cf12.csv", "OCT1_54fb.csv", "OCT1.csv"],
     "OCT2_chembl_cf12.csv": ["OCT2_chembl_cf12.csv", "OCT2_eea2.csv", "OCT2.csv"],
 }
@@ -69,15 +69,24 @@ def curate_auxiliary(
     *,
     source_target: str,
     target_ids: set[str],
+    standard_types: list[str],
     pactivity_min: float,
     pactivity_max: float,
     max_std: float,
     max_range: float,
-) -> pd.DataFrame:
+) -> tuple[pd.DataFrame, pd.DataFrame]:
     raw = pd.read_csv(path, low_memory=False)
     raw = filter_target(raw, target_ids)
+    raw_filt = raw[
+        raw["Standard Type"].isin(standard_types)
+        & (_clean_relation(raw["Standard Relation"]) == "=")
+        & raw["Smiles"].notna()
+    ].copy()
+    raw_filt["pChEMBL Value"] = fill_pactivity_column(raw_filt)
+    raw_filt = raw_filt[raw_filt["pChEMBL Value"].between(pactivity_min, pactivity_max)]
+
     tmp = path.parent / f"_tmp_{source_target}.csv"
-    raw.to_csv(tmp, index=False)
+    raw_filt.to_csv(tmp, index=False)
     out = curate_urat1_raw(
         tmp,
         pactivity_min=pactivity_min,
@@ -88,7 +97,7 @@ def curate_auxiliary(
     tmp.unlink(missing_ok=True)
     out["source_target"] = source_target
     out["source_chembl_id"] = raw["Target ChEMBL ID"].astype(str).mode().iloc[0]
-    return out
+    return out, raw
 
 
 def main() -> None:
@@ -106,6 +115,7 @@ def main() -> None:
     out_dir.mkdir(parents=True, exist_ok=True)
     raw_dir.mkdir(parents=True, exist_ok=True)
 
+    standard_types = config["standard_types"]
     specs = {
         "OAT1": (args.oat1_csv, "OAT1_chembl_cf12.csv", {"CHEMBL1641347"}),
         "OAT3": (args.oat3_csv, "OAT3_chembl_cf12.csv", {"CHEMBL1641348"}),
@@ -119,23 +129,28 @@ def main() -> None:
     for name, (arg_path, default_name, target_ids) in specs.items():
         src = resolve_raw(arg_path, default_name)
         if args.copy_raw:
-            shutil.copy2(src, raw_dir / default_name)
+            dest = raw_dir / default_name
+            if src.resolve() != dest.resolve():
+                shutil.copy2(src, dest)
         raw = pd.read_csv(src, low_memory=False)
+        rel_eq = _clean_relation(raw["Standard Relation"]) == "="
+        inhib = raw[raw["Standard Type"].isin(standard_types) & rel_eq]
         raw_stats[name] = {
             "source_file": str(src),
             "n_rows": int(len(raw)),
             "target_ids_in_file": sorted(raw["Target ChEMBL ID"].astype(str).unique().tolist()),
+            "standard_type_counts": raw["Standard Type"].value_counts().astype(int).to_dict(),
+            "inhibition_ic50_ki_ec50_rows": int(len(inhib)),
+            "inhibition_unique_smiles": int(inhib["Smiles"].nunique()),
             "ic50_equals_smiles": int(
-                raw[
-                    (raw["Standard Type"] == "IC50")
-                    & (raw["Standard Relation"].astype(str).str.strip("'\"") == "=")
-                ]["Smiles"].nunique()
+                raw[(raw["Standard Type"] == "IC50") & rel_eq]["Smiles"].nunique()
             ),
         }
-        curated[name] = curate_auxiliary(
+        curated[name], _ = curate_auxiliary(
             src,
             source_target=name,
             target_ids=target_ids,
+            standard_types=standard_types,
             pactivity_min=config["pactivity_range"][0],
             pactivity_max=config["pactivity_range"][1],
             max_std=config["conflict_std_threshold"],
@@ -172,10 +187,10 @@ def main() -> None:
         "oat_combined_overlap_urat1": int(len(set(oat_combined["canonical_smiles"]) & urat1_smiles)),
         "raw": raw_stats,
         "notes": [
-            "IC50-only ChEMBL exports are often <100 compounds after curation; "
-            "for transfer learning re-export with IC50+Ki+EC50 and broader assay filters.",
-            "OCT exports may use legacy ChEMBL target IDs CHEMBL5685 / CHEMBL1743122 "
-            "(same SLC22A1/A2 as CHEMBL2073664 / CHEMBL1770032).",
+            "OAT curation uses standard_types IC50/Ki/EC50 only; Km/Activity/%Inhibition excluded.",
+            "pChEMBL missing values filled from Standard Value when units are nM or µM.",
+            "ChEMBL human OAT1/OAT3 total bioactivities ~280/254 — curated scale often <150 combined.",
+            "OCT exports may use legacy ChEMBL target IDs CHEMBL5685 / CHEMBL1743122.",
         ],
     }
     summary_path = out_dir / "auxiliary_data_summary.json"

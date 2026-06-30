@@ -14,12 +14,11 @@
 
 | 靶点 | 基因 | UniProt | ChEMBL ID | **当前清洗后规模** | 建议规模 | 活性类型 |
 |------|------|---------|-----------|-------------------|----------|----------|
-| **OAT1** | SLC22A6 | O95742 | **CHEMBL1641347** | **48** SMILES（2026-06 用户导出） | 500–2000 条 | 摄取/抑制 IC50、Ki |
-| **OAT3** | SLC22A8 | O95816 | **CHEMBL1641348** | **23** SMILES | 500–2000 条 | 同上 |
-| **OAT 合并** | — | — | — | **55** unique（`oat_combined_transfer.csv`） | — | — |
+| **OAT1** | SLC22A6 | O95742 | **CHEMBL1641347** | **63** SMILES（全库 280 条，2026-06） | 500–2000（ChEMBL 上限） | IC50、Ki |
+| **OAT3** | SLC22A8 | O95816 | **CHEMBL1641348** | **41** SMILES（全库 254 条） | 同上 | 同上 |
+| **OAT 合并** | — | — | — | **73** unique（`oat_combined_transfer.csv`） | — | — |
 
-> **重要**：当前仅为 **IC50 子集**，清洗后远小于论文建议规模；迁移学习前请 **重新导出**（含 Ki/EC50、Assay Type B 优先）。  
-> 运行：`python3 scripts/00b_prepare_auxiliary_data.py --copy-raw` → 见 `auxiliary_data_summary.json`
+> **ChEMBL 全量已下载**：再扩类型无法超过库内 ~280/254 条记录；合并清洗后 **73** 条，**低于** 500 目标，迁移学习须写清「小样本辅助预训练」。
 
 - OAT1: https://www.ebi.ac.uk/chembl/explore/target/CHEMBL1641347  
 - OAT3: https://www.ebi.ac.uk/chembl/explore/target/CHEMBL1641348  

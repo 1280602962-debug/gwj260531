@@ -81,6 +81,22 @@ def _clean_relation(series: pd.Series) -> pd.Series:
     return series.astype(str).str.strip("'\"")
 
 
+def fill_pactivity_column(df: pd.DataFrame) -> pd.Series:
+    """Use pChEMBL Value; if missing, derive from Standard Value + Units (nM/µM)."""
+    pact = pd.to_numeric(df["pChEMBL Value"], errors="coerce")
+    miss = pact.isna()
+    if not miss.any():
+        return pact
+    units = df.loc[miss, "Standard Units"].astype(str).str.lower()
+    vals = pd.to_numeric(df.loc[miss, "Standard Value"], errors="coerce")
+    derived = pd.Series(np.nan, index=df.index, dtype=float)
+    nm = miss & units.str.contains("nm", na=False) & vals.notna() & (vals > 0)
+    derived.loc[nm] = 9.0 - np.log10(vals.loc[nm])
+    um = miss & units.str.contains(r"um|µm|microm", na=False, regex=True) & vals.notna() & (vals > 0)
+    derived.loc[um] = 6.0 - np.log10(vals.loc[um])
+    return pact.fillna(derived)
+
+
 def curate_urat1_raw(
     path: str | Path,
     *,
@@ -93,7 +109,7 @@ def curate_urat1_raw(
     df = pd.read_csv(path, low_memory=False)
     df = df[_clean_relation(df["Standard Relation"]) == "="]
     df = df[df["Smiles"].notna()]
-    df["pActivity"] = pd.to_numeric(df["pChEMBL Value"], errors="coerce")
+    df["pActivity"] = fill_pactivity_column(df)
     df = df[df["pActivity"].between(pactivity_min, pactivity_max)]
 
     rows = []

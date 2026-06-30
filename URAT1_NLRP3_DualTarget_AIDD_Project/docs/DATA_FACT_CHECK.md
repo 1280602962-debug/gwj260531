@@ -35,6 +35,16 @@
 | OAT1 | SLC22A6 | O95742 | CHEMBL1641347 |
 | OAT3 | SLC22A8 | O95816 | CHEMBL1641348 |
 
+### OAT 辅助库清洗后规模（`auxiliary_data_summary.json`，全量 ChEMBL 导出）
+
+| 库 | 原始行数 | 清洗后 SMILES | 与 URAT1 重叠 |
+|----|----------|---------------|---------------|
+| OAT1 | 280 | **63** | 13 |
+| OAT3 | 254 | **41** | 5 |
+| OAT 合并 | — | **73** | 13 |
+
+清洗规则：仅 IC50/Ki/EC50；`=`；pActivity 4–10；冲突丢弃；缺 pChEMBL 时由 nM/µM 换算。
+
 ### ChEMBL 靶点 ID 别名（OCT 导出常见）
 
 | 配置 ID | 导出中常见 ID | 基因 | 说明 |
