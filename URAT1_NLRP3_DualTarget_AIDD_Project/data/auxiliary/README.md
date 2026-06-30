@@ -12,10 +12,14 @@
 
 ## Tier A — OAT 迁移预训练（优先导出）
 
-| 靶点 | 基因 | UniProt | ChEMBL ID | 建议规模 | 活性类型 |
-|------|------|---------|-----------|----------|----------|
-| **OAT1** | SLC22A6 | O95742 | **CHEMBL1641347** | 500–2000 条 | 摄取/抑制 IC50、Ki |
-| **OAT3** | SLC22A8 | O95816 | **CHEMBL1641348** | 500–2000 条 | 同上 |
+| 靶点 | 基因 | UniProt | ChEMBL ID | **当前清洗后规模** | 建议规模 | 活性类型 |
+|------|------|---------|-----------|-------------------|----------|----------|
+| **OAT1** | SLC22A6 | O95742 | **CHEMBL1641347** | **48** SMILES（2026-06 用户导出） | 500–2000 条 | 摄取/抑制 IC50、Ki |
+| **OAT3** | SLC22A8 | O95816 | **CHEMBL1641348** | **23** SMILES | 500–2000 条 | 同上 |
+| **OAT 合并** | — | — | — | **55** unique（`oat_combined_transfer.csv`） | — | — |
+
+> **重要**：当前仅为 **IC50 子集**，清洗后远小于论文建议规模；迁移学习前请 **重新导出**（含 Ki/EC50、Assay Type B 优先）。  
+> 运行：`python3 scripts/00b_prepare_auxiliary_data.py --copy-raw` → 见 `auxiliary_data_summary.json`
 
 - OAT1: https://www.ebi.ac.uk/chembl/explore/target/CHEMBL1641347  
 - OAT3: https://www.ebi.ac.uk/chembl/explore/target/CHEMBL1641348  
@@ -30,10 +34,10 @@
 
 ## Tier B — OCT 脱靶（非主迁移）
 
-| 靶点 | 基因 | UniProt | ChEMBL ID | 建议规模 | 用途 |
-|------|------|---------|-----------|----------|------|
-| OCT1 | SLC22A1 | O15245 | CHEMBL2073664 | 500–2000 条 | 肝摄取脱靶 |
-| OCT2 | SLC22A2 | O15244 | CHEMBL1770032 | 500–2000 条 | 肾阳离子分泌脱靶 |
+| 靶点 | 基因 | UniProt | ChEMBL ID（配置） | **导出常见 ID** | **当前清洗后** | 用途 |
+|------|------|---------|-------------------|-----------------|---------------|------|
+| OCT1 | SLC22A1 | O15245 | CHEMBL2073664 | **CHEMBL5685**（同基因别名） | **108** SMILES | 肝摄取脱靶 |
+| OCT2 | SLC22A2 | O15244 | CHEMBL1770032 | **CHEMBL1743122**（同基因别名） | **105** SMILES | 肾阳离子分泌脱靶 |
 
 输出：
 

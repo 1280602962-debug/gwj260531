@@ -1,0 +1,80 @@
+{
+  "curated": {
+    "OAT1": {
+      "n_compounds": 48,
+      "n_scaffolds": 29,
+      "pactivity_mean": 4.973541666666667,
+      "pactivity_std": 0.5214780123609111,
+      "n_pactivity_ge_6": 2,
+      "source_chembl_id": "CHEMBL1641347",
+      "overlap_urat1_smiles": 13
+    },
+    "OAT3": {
+      "n_compounds": 23,
+      "n_scaffolds": 14,
+      "pactivity_mean": 5.275217391304348,
+      "pactivity_std": 0.6217560875544903,
+      "n_pactivity_ge_6": 3,
+      "source_chembl_id": "CHEMBL1641348",
+      "overlap_urat1_smiles": 5
+    },
+    "OCT1": {
+      "n_compounds": 108,
+      "n_scaffolds": 73,
+      "pactivity_mean": 4.782638888888889,
+      "pactivity_std": 0.48563353858709446,
+      "n_pactivity_ge_6": 3,
+      "source_chembl_id": "CHEMBL5685",
+      "overlap_urat1_smiles": 0
+    },
+    "OCT2": {
+      "n_compounds": 105,
+      "n_scaffolds": 56,
+      "pactivity_mean": 5.327523809523811,
+      "pactivity_std": 0.8651331388782584,
+      "n_pactivity_ge_6": 24,
+      "source_chembl_id": "CHEMBL1743122",
+      "overlap_urat1_smiles": 0
+    }
+  },
+  "oat_combined_n": 55,
+  "oat_combined_overlap_urat1": 13,
+  "raw": {
+    "OAT1": {
+      "source_file": "/home/ubuntu/.cursor/projects/workspace/uploads/OAT1_0f82.csv",
+      "n_rows": 76,
+      "target_ids_in_file": [
+        "CHEMBL1641347"
+      ],
+      "ic50_equals_smiles": 60
+    },
+    "OAT3": {
+      "source_file": "/home/ubuntu/.cursor/projects/workspace/uploads/OAT3_74e9.csv",
+      "n_rows": 36,
+      "target_ids_in_file": [
+        "CHEMBL1641348"
+      ],
+      "ic50_equals_smiles": 26
+    },
+    "OCT1": {
+      "source_file": "/home/ubuntu/.cursor/projects/workspace/uploads/OCT1_54fb.csv",
+      "n_rows": 156,
+      "target_ids_in_file": [
+        "CHEMBL5685"
+      ],
+      "ic50_equals_smiles": 125
+    },
+    "OCT2": {
+      "source_file": "/home/ubuntu/.cursor/projects/workspace/uploads/OCT2_eea2.csv",
+      "n_rows": 160,
+      "target_ids_in_file": [
+        "CHEMBL1743122"
+      ],
+      "ic50_equals_smiles": 117
+    }
+  },
+  "notes": [
+    "IC50-only ChEMBL exports are often <100 compounds after curation; for transfer learning re-export with IC50+Ki+EC50 and broader assay filters.",
+    "OCT exports may use legacy ChEMBL target IDs CHEMBL5685 / CHEMBL1743122 (same SLC22A1/A2 as CHEMBL2073664 / CHEMBL1770032)."
+  ]
+}
