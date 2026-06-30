@@ -35,6 +35,7 @@
 | [**论文大纲**](docs/MANUSCRIPT_OUTLINE.md) | SCI 稿件结构、图表清单 |
 | [**准备清单**](docs/PREPARATION_CHECKLIST.md) | 数据、软件、结构 |
 | [**模型质量报告**](docs/MODEL_QUALITY_REPORT.md) | CV 指标 + benchmark 回测结论（**已运行**） |
+| [**Benchmark 选择标准**](docs/BENCHMARK_SELECTION_CRITERIA.md) | 化合物合理性、分层考试、文献来源 |
 | [**参考文献**](docs/REFERENCES.md) | 可核验文献列表 |
 
 ---

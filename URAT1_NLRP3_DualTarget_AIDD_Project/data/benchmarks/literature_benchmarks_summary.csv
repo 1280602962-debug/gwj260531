@@ -1,0 +1,9 @@
+compound_id,compound_name,target,validation_role,validation_tier,primary_ic50_nM,primary_pactivity,primary_assay,primary_pmid,primary_doi,pdb_primary,has_structure,in_train_project,scaffold_novel,approval_status
+URAT1_POS_01,lesinurad,URAT1,URAT1_positive_must_recover,Tier1a,3530,8.45,HEK293-URAT1 urate uptake (Burns 2016),27716403,10.1186/s13075-016-1107-x,9B1H,true,false,true,FDA approved 2015 (US later withdrawn)
+URAT1_POS_02,benzbromarone,URAT1,URAT1_positive_must_recover,Tier1a,290,9.54,HEK293-URAT1 urate uptake (Burns 2016),27716403,10.1186/s13075-016-1107-x,9DKA,true,false,true,Approved multiple regions
+URAT1_POS_03,verinurad,URAT1,URAT1_positive_must_recover,Tier1b,25,10.60,Human URAT1 transport (Sci Rep 2017),28386072,10.1038/s41598-017-00706-7,9JDY,true,true,false,Phase 3 clinical
+URAT1_POS_04,dotinurad,URAT1,URAT1_positive_must_recover,Tier1a,37.2,10.43,MDCKII-hURAT1 (JPET 2019),31371478,10.1124/jpet.119.262741,9JE1,true,false,true,Approved Japan 2020
+NLRP3_POS_01,MCC950,NLRP3,NLRP3_positive_must_recover,Tier1b,7.5,11.12,mouse BMDM IL-1beta LPS+ATP (Nat Med 2015),25686105,10.1038/nm.3806,7ALV,true,true,false,Investigational tool
+NLRP3_POS_02,GDC-2394,NLRP3,NLRP3_positive_must_recover,Tier1b,16,10.80,human MDM IL-1beta (J Med Chem 2022),36279149,10.1021/acs.jmedchem.2c01250,8ETR,true,true,false,Phase 1 terminated (DILI)
+NEG_01,allopurinol,XDH,negative_control_not_URAT1,Tier_neg,1700,5.77,bovine XOR IC50 (review),16507884,10.1007/s00775-014-1210-x,none,false,false,false,FDA approved
+NEG_02,colchicine,NLRP3_indirect,negative_control_not_direct_NLRP3,Tier_neg,24000,4.62,tubulin Ki (Clin Ther 2014),24669241,10.1016/j.clinthera.2014.07.017,none,false,false,false,FDA approved
