@@ -21,10 +21,11 @@ Download from RCSB PDB:
 
 | PDB | Description | DOI |
 |-----|-------------|-----|
-| [7ALV](https://www.rcsb.org/structure/7ALV) | NACHT + inhibitor, 2.8 Å X-ray | 10.2210/pdb7ALV/pdb |
+| [7ALV](https://www.rcsb.org/structure/7ALV) | NACHT + MCC950-class analog NP3-146, 2.84 Å X-ray | 10.2210/pdb7ALV/pdb |
 | [8ETR](https://www.rcsb.org/structure/8ETR) | NACHT + GDC-2394, cryo-EM | 10.2210/pdb8ETR/pdb |
 
 ## Key references
 
-- Dai et al., *Cell Res* 2024 — URAT1 transport cycle
-- Coll et al., *Nat Commun* 2019 — NLRP3 NACHT inhibitor binding
+- Dai et al., *Cell Res* 2024 — URAT1 transport cycle (PDB 9B1H 等)
+- Dekker A et al., *J Mol Biol* 2021 — NLRP3 NACHT + inhibitor analog（PDB 7ALV；配体为 NP3-146，非 MCC950）
+- McBride CJ et al., *J Med Chem* 2022 — GDC-2394（PDB 8ETR）

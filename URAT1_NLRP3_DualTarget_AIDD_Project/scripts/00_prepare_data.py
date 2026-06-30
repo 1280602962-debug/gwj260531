@@ -88,6 +88,8 @@ def main() -> None:
     nlrp3_multi = nlrp3_by_smiles[nlrp3_by_smiles["count"] > 1]
     nlrp3_conflict = nlrp3_multi[(nlrp3_multi["max"] - nlrp3_multi["min"]) > 1.0]
     n_compounds = int(nlrp3["canonical_smiles"].nunique())
+    thp_mask = nlrp3["assay_cell_type"].astype(str).str.contains("THP", case=False, na=False)
+    thp_df = nlrp3[thp_mask]
     summary = {
         "urat1": {
             "n_compounds": int(len(urat1)),
@@ -104,6 +106,8 @@ def main() -> None:
             "n_conflict_gt_1log_compounds": int(len(nlrp3_conflict)),
             "pct_conflict_gt_1log": round(100.0 * len(nlrp3_conflict) / n_compounds, 1),
             "active_rate": float(nlrp3["active"].mean()),
+            "thp1_n_records": int(len(thp_df)),
+            "thp1_n_compounds": int(thp_df["canonical_smiles"].nunique()),
             "source": str(nlrp3_src),
         },
         "overlap_smiles": int(len(overlap)),

@@ -10,7 +10,7 @@
 | 靶点 | 化合物 (unique SMILES) | 记录数 | 其他 |
 |------|------------------------|--------|------|
 | URAT1 | **822** | 822（每 SMILES 一条，median 聚合） | 218 Murcko scaffolds |
-| NLRP3 | **513** | **609**（assay-conditioned 记录） | **39** assays（IL-1β + Assay B + ≥5 化合物/assay） |
+| NLRP3 | **513** | **609**（assay-conditioned 记录） | **39** assays；THP-1 子集 **302** SMILES / **313** records |
 | 重叠 | **0** shared SMILES | — | 独立双模型依据 |
 
 ### NLRP3 assay 异质性（实测，非估计）
@@ -95,3 +95,19 @@
 2. 新增 benchmark 行须填 **真实 PMID**，不得用 ChEMBL compound ID / IUPHAR ligand ID 冒充。  
 3. 论文 Methods 引用规模数字时写：`data_summary.json` 生成日期 + 清洗过滤器字符串。  
 4. 结构 redock 使用 7ALV 时须写明 **analog-based template**，不得称 MCC950 共晶。
+
+---
+
+## 7. 实现状态与审计记录（2026-06-29）
+
+| 类别 | 状态 |
+|------|------|
+| 数据清洗 822/513/39 assays/7.2% 冲突 | ✅ `00_prepare_data.py` 可复现 |
+| NLRP3 THP-1 子集 | **302** unique SMILES，**313** records | `data_summary.json` → `nlrp3.thp1_*`（`assay_cell_type` 含 THP） |
+| 双模型训练 + benchmark | ✅ `run_model_build_and_validate.py` |
+| ChEMBL/PDB/PMID 黑名单 | ✅ 见 §2–§5 |
+| $S_{\text{trap}}$、Path A/B、PLK1 消融 | ☐ 骨架脚本，**不可写进 Results** |
+| OAT 辅助库 CSV | ☐ 待 ChEMBL 导出 |
+| MASFL v3.1 全管线 | ☐ 设计稿 |
+
+**维护**：每次改清洗规则或 benchmark 行后更新本节日期并重跑 `00_prepare_data.py`。

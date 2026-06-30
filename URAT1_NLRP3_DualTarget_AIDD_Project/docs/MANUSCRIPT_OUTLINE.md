@@ -20,7 +20,7 @@
 
 1. **Background**：HUA/痛风；URAT1 代谢 + NLRP3 炎症；数据无重叠 + assay 异质性 + 转运体机制
 2. **Methods**：TAPE-GATE = 不对称双证据（conformal URAT1 + assay-conditioned NLRP3）+ $S_{\text{trap}}$ 系综 + **库筛/生成双路径** + 可靠性 Pareto 融合
-3. **Results**：vs PLK1-style baseline 的 benchmark 回收；Path A/B 贡献；Top 候选性质
+3. **Results**（仅写已实现部分）：NLRP3 OOF AUROC ≈0.89；URAT1 benchmark 2/4 与 URAT1_NO_GO；Path A/B、$S_{\text{trap}}$、PLK1 baseline 对比 **待模块跑通后补充**
 4. **Conclusions**：paired-path 计算优先策略；待实验验证
 
 ---

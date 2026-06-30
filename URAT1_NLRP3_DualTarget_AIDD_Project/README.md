@@ -17,9 +17,23 @@
 | NLRP3 **7.2% 跨 assay 活性离散（curated 39 assays）** | **Assay-conditioned 分类**（非锚点 ECFP 相似性） |
 | 候选化学空间局限 | **Path A 库筛** + **Path B CLM+RL 生成** |
 | 与 PLK1/NLRP3 方法撞车 | 差异化模块 + **PLK1-style 阴性对照**消融 |
-| 无湿实验 | 分路径 benchmark 回收 + 7 组消融 |
+| 无湿实验 | 分路径 benchmark 回收 + 7 组消融（消融脚本为骨架） |
 
 ---
+
+## 实现状态（GitHub 可核验）
+
+| 模块 | 状态 | 证据 |
+|------|------|------|
+| 数据清洗 `00_prepare_data.py` | ✅ 已实现 | 822/513/0 重叠 |
+| 双模型训练 + conformal | ✅ 已实现 | `02_train_asymmetric_models.py` |
+| Benchmark 回测 | ✅ 已实现 | `07_benchmark_backtest.py` → URAT1_NO_GO |
+| $S_{\text{trap}}$ / 对接系综 | ☐ 设计+配置 | `03_structure_screening.py` 骨架 |
+| Path A/B 库筛/生成 | ☐ 骨架 | `03_library_screening.py` 等 |
+| OAT 迁移训练 | ☐ 配置已写 | 辅助 CSV 待 ChEMBL 导出 |
+| MASFL v3.1 | ☐ 设计稿 | 见 `MASFL_V3_WORKFLOW.md` |
+
+事实与 ID 黑名单见 [**数据事实核验**](docs/DATA_FACT_CHECK.md)。
 
 ## 文档导航
 
@@ -27,7 +41,7 @@
 |------|------|
 | [**完整流程与文件清单**](docs/COMPLETE_WORKFLOW_AND_FILES.md) | **端到端流程、数据库、文件树（主索引）** |
 | [**TAPE-GATE 框架总览**](docs/TAPE_GATE_FRAMEWORK.md) | v2.0 架构、双路径、融合策略 |
-| [**MASFL v3.1 完整流程**](docs/MASFL_V3_WORKFLOW.md) | v3.1：PC-Student + DFIM + 可行域 Pareto + 模块门槛（**推荐**） |
+| [**MASFL v3.1 完整流程**](docs/MASFL_V3_WORKFLOW.md) | v3.1 扩展路线（**设计稿**，多数脚本未实现） |
 | [**算法框架详解**](docs/ALGORITHM_FRAMEWORK.md) | 公式、伪代码、各 Stage 技术细节 |
 | [**与 PLK1/NLRP3 差异化**](docs/DIFFERENTIATION_VS_PLK1_NLRP3.md) | 模块对照、避雷同清单（**重要**） |
 | [**项目总体设计**](docs/PROJECT_DESIGN.md) | 科学逻辑、实施计划、期刊策略 |

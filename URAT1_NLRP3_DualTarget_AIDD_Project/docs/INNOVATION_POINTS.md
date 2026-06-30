@@ -19,7 +19,7 @@
 
 ---
 
-### C2：转运体感知的构象捕获评分 $S_{\text{trap}}$（方法创新 — 核心）
+### C2：转运体感知的构象捕获评分 $S_{\text{trap}}$（方法创新 — 核心，**v2 设计 / 待实现**）
 
 **内容**：利用 URAT1 2024 年多构象 cryo-EM，区分真实转运抑制与静态对接假阳性。
 
@@ -57,7 +57,7 @@ $$
 
 ---
 
-### C5：双路径候选发现：库筛 + 生成式（AI 创新亮点）
+### C5：双路径候选发现：库筛 + 生成式（AI 创新亮点，**Path 脚本为骨架**）
 
 **Path A（库筛）**：Enamine ~10⁶，稳健覆盖已知化学空间  
 **Path B（生成）**：CLM cross-fine-tune + RL，奖励嵌入 $S_{\text{trap}}$ 与 assay-conditioned NLRP3 概率
@@ -68,7 +68,7 @@ $$
 
 ---
 
-### C6：SLC22 OAT 优先迁移 + OCT 脱靶分层（算法 + 药理学）
+### C6：SLC22 OAT 优先迁移 + OCT 脱靶分层（算法 + 药理学，**迁移训练待接**）
 
 **内容**：**OAT1/OAT3 → URAT1** 序贯微调（阴离子亚家族）；**OCT1/OCT2** 仅用于阳离子脱靶 Tier 3，不作主迁移叙事。
 
@@ -78,9 +78,9 @@ $$
 
 ---
 
-### C7：可证伪的 PLK1-style 阴性对照协议（稳健性创新）
+### C7：可证伪的 PLK1-style 阴性对照协议（稳健性创新，**待 `06_retrospective_validation.py` 跑通**）
 
-**内容**：在同一 URAT1/NLRP3 数据与 benchmark 上复现 PLK1/NLRP3 方法指纹（SVR + 锚点相似性 + 0.5 融合），定量证明 TAPE-GATE 更优。
+**内容**：在同一 URAT1/NLRP3 数据与 benchmark 上复现 PLK1/NLRP3 方法指纹（SVR + 锚点相似性 + 0.5 融合），**计划**定量对比 TAPE-GATE 与 baseline。
 
 **对齐**：WelQrate (2024)；ChemRxiv method comparison protocol (2024)
 
@@ -94,7 +94,7 @@ $$
 | 框架整合 | ★★★★★ | 首次 URAT1/NLRP3 双路径统一 pipeline |
 | 领域适配 | ★★★★★ | 转运体 + assay 异质性是最大差异化 |
 | vs PLK1/NLRP3 | ★★★★☆ | 模块级刻意区分 + 阴性对照 |
-| 可发表性 | ★★★★☆ | JCIM/J Cheminf 稳健；双路径完整可冲高 |
+| 可发表性 | ★★★★☆ | JCIM/J Cheminf 稳健；双路径与 MASFL 完整实现后可冲高 |
 
 ---
 
@@ -123,4 +123,4 @@ $$
 
 ## 五、Abstract 创新句（英文模板）
 
-> We present TAPE-GATE, a transporter-aware paired-path framework for URAT1/NLRP3 dual-target prioritization under assay-heterogeneous, non-overlapping bioactivity data. Unlike kinase-oriented asymmetric pipelines that rely on anchor fingerprint similarity and fixed-score fusion, TAPE-GATE integrates conformation-trapping ensemble scoring for the urate transporter URAT1, assay-conditioned NLRP3 classification with conformal uncertainty, parallel library and reinforcement-learning generative screening, and reliability-weighted Pareto ranking. Retrospective benchmarking demonstrates superior recovery of clinical uricosurics and NLRP3 inhibitors compared to a PLK1/NLRP3-style baseline, supporting paired-path evidence fusion for hyperuricemia drug discovery.
+> We present TAPE-GATE, a transporter-aware paired-path framework for URAT1/NLRP3 dual-target prioritization under assay-heterogeneous, non-overlapping bioactivity data. Unlike kinase-oriented asymmetric pipelines that rely on anchor fingerprint similarity and fixed-score fusion, TAPE-GATE integrates (planned) conformation-trapping ensemble scoring for URAT1, assay-conditioned NLRP3 classification with conformal uncertainty, parallel library and generative screening modules, and reliability-weighted Pareto ranking. On implemented stages, NLRP3 assay-conditioned models reach OOF AUROC ≈0.89 while URAT1 ML fails scaffold-novel benchmark recovery (2/4), motivating structure-first URAT1 triage; full paired-path and PLK1-style baseline comparisons await completion of structure and ablation pipelines.

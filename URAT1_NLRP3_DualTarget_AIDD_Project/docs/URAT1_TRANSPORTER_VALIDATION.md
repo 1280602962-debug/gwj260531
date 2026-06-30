@@ -103,7 +103,7 @@ NLRP3 虽非转运体，但也有 **构象动态** 问题：
 | 分子胶机制 | 配体同时接触多个 NACHT 亚域 |
 | 阴性对照 | colchicine（抗炎但非直接 NLRP3 结合剂）排名应低 |
 
-Coll et al., *Nat Commun* 2019; doi:10.1038/s41467-019-11431-1
+结构引用：**7ALV** — Dekker A et al., *J Mol Biol* 2021; doi:10.1016/j.jmb.2021.167189（配体为 MCC950 类类似物 NP3-146）。**8ETR** — McBride CJ et al., *J Med Chem* 2022; doi:10.1021/acs.jmedchem.2c01250。MCC950 细胞活性 — Coll RC et al., *Nat Med* 2015; doi:10.1038/nm.3806。
 
 ---
 

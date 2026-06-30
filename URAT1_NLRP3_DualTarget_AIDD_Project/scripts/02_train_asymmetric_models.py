@@ -414,6 +414,9 @@ def main() -> None:
 
     # remove nested oof from json (saved as CSV)
     save_json(args.output / "training_report.json", report)
+    docs_dir = PROJECT_ROOT / "docs"
+    docs_dir.mkdir(parents=True, exist_ok=True)
+    save_json(docs_dir / "MODEL_TRAINING_SUMMARY.json", report)
 
     print("\n=== URAT1 CV (OOF, scaffold split) ===")
     print(f"  RMSE={urat1_cv['rmse']:.3f}  R2={urat1_cv['r2']:.3f}  Spearman={urat1_cv['spearman']:.3f}")

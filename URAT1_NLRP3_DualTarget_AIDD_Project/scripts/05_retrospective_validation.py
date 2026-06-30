@@ -22,6 +22,17 @@ def load_benchmarks() -> list[dict]:
         return list(csv.DictReader(f))
 
 
+def load_must_recover_names(benchmarks: list[dict]) -> list[str]:
+    names: list[str] = []
+    seen: set[str] = set()
+    for b in benchmarks:
+        role = b.get("validation_role", "")
+        if "must_recover" in role and b.get("compound_name") not in seen:
+            names.append(b["compound_name"])
+            seen.add(b["compound_name"])
+    return names
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--candidates", type=Path, help="Ranked candidates CSV from screening")
@@ -31,7 +42,7 @@ def main() -> None:
     args.output.mkdir(parents=True, exist_ok=True)
 
     benchmarks = load_benchmarks()
-    must_recover = [b["compound_name"] for b in benchmarks if b.get("validation_role") == "retrospective_must_recover"]
+    must_recover = load_must_recover_names(benchmarks)
 
     report = {
         "status": "skeleton",

@@ -22,6 +22,18 @@ def load_benchmarks() -> list[dict]:
         return list(csv.DictReader(f))
 
 
+def load_must_recover_names(benchmarks: list[dict]) -> list[str]:
+    """Positive benchmark compounds from literature_benchmarks.csv."""
+    names: list[str] = []
+    seen: set[str] = set()
+    for b in benchmarks:
+        role = b.get("validation_role", "")
+        if "must_recover" in role and b.get("compound_name") not in seen:
+            names.append(b["compound_name"])
+            seen.add(b["compound_name"])
+    return names
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--candidates", type=Path, help="Fused ranked candidates CSV")
@@ -32,9 +44,7 @@ def main() -> None:
     args.output.mkdir(parents=True, exist_ok=True)
 
     benchmarks = load_benchmarks()
-    must_recover = [
-        b["compound_name"] for b in benchmarks if b.get("validation_role") == "retrospective_must_recover"
-    ]
+    must_recover = load_must_recover_names(benchmarks)
 
     report = {
         "status": "skeleton",
@@ -60,7 +70,7 @@ def main() -> None:
             "purpose": "negative control — not TAPE-GATE primary method",
         },
         "pass_criteria": {
-            "tape_gate_beats_plk1_style_on_benchmark": True,
+            "note": "Criteria apply after full pipeline implementation; not auto-passed in skeleton mode",
             "urat1_drugs_in_top500": ">= 2/4",
             "nlrp3_tools_in_top500": ">= 1/2",
         },

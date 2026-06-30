@@ -161,17 +161,26 @@
 
 ## 六、无湿实验时的结果表述
 
-### 可以写
+### 可以写（已实现并有脚本输出）
 
-- TAPE-GATE 在骨架 CV 与 benchmark 回收上优于 PLK1-style baseline
-- Path B 生成候选的化学空间覆盖度与新颖性
-- $S_{\text{trap}}$ 消融提升 URAT1 药物回收率
-- Assay-conditioned NLRP3 优于锚点相似性（Abl-2）
+- 数据规模与 0 重叠：822 URAT1 / 513 NLRP3 SMILES（`data_summary.json`）
+- NLRP3 assay-conditioned 分类：OOF AUROC ≈ 0.89（`results/training/training_report.json`）
+- URAT1 **URAT1_NO_GO**：benchmark 硬考 2/4（lesinurad、dotinurad 未过），ML 不能单独主筛
+- Benchmark 分层（Tier1a/1b）与文献 IC50/PDB 对照表
+
+### 仅可在对应模块实现并过 Gate 后写
+
+- TAPE-GATE vs **PLK1-style baseline** 的定量优劣（`06_retrospective_validation.py` 仍为骨架）
+- Path B 生成候选的化学空间覆盖度与新颖性（`04_generative_optimization.py` 骨架）
+- $S_{\text{trap}}$ 消融提升 URAT1 药物回收率（`03_structure_screening.py` 骨架）
+- Assay-conditioned NLRP3 vs 锚点相似性（Abl-2，待跑）
+- OAT1/OAT3 迁移微调相对无迁移的增益（配置已有，训练逻辑待接）
 
 ### 不能写
 
 - ❌ 「发现了新型双靶先导化合物」并暗示已实验验证
-- ✅ 「computational prioritization via paired-path evidence fusion」
+- ❌ OCT 对接分数 = 实验选择性
+- ✅ 「computational prioritization via paired-path evidence fusion」（标明计算阶段）
 
 ---
 

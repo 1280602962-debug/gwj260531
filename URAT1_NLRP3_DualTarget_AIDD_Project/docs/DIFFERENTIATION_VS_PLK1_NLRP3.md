@@ -149,7 +149,7 @@ $$
 2. **NLRP3 策略不同**：我们用 assay-conditioned 监督模型 + 结构证据，而非锚点指纹相似性。
 3. **候选空间不同**：库筛与生成式双路径扩展化学空间，非单库漏斗。
 4. **融合机制不同**：可靠性加权 + Pareto，非固定等权。
-5. **实证对照**：消融实验包含 PLK1-style pipeline，定量证明 TAPE-GATE 在 URAT1 benchmark 回收与双靶均衡性上更优。
+5. **实证对照**：消融实验 **计划** 包含 PLK1-style pipeline（`06_retrospective_validation.py` 骨架），跑通后再定量对比 benchmark 回收。
 
 ---
 

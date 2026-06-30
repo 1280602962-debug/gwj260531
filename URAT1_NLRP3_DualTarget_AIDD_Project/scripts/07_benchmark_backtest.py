@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import shutil
 from pathlib import Path
 
 import joblib
@@ -350,6 +351,10 @@ def main() -> None:
     pd.DataFrame(urat1_bt["benchmarks"]).to_csv(args.output / "urat1_benchmark_rankings.csv", index=False)
     pd.DataFrame(nlrp3_bt["benchmarks"]).to_csv(args.output / "nlrp3_benchmark_rankings.csv", index=False)
     write_markdown_report(report, args.output / "MODEL_QUALITY_REPORT.md")
+    docs_dir = PROJECT_ROOT / "docs"
+    docs_dir.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(args.output / "MODEL_QUALITY_REPORT.md", docs_dir / "MODEL_QUALITY_REPORT.md")
+    save_json(docs_dir / "BENCHMARK_BACKTEST_SUMMARY.json", report)
 
     print("\n=== URAT1 Benchmark ===")
     for r in urat1_bt["benchmarks"]:

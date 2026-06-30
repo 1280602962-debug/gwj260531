@@ -96,7 +96,7 @@ pip install shap matplotlib seaborn umap-learn
 
 1. Dai et al., 2024 — URAT1 cryo-EM (*Cell Res*)
 2. Fedor et al., 2025 — URAT1 药物结合 (*Nat Commun*)
-3. Coll et al., 2019 — NLRP3 NACHT 抑制剂结构
+3. Dekker A et al., 2021 — NLRP3 NACHT + inhibitor analog（PDB 7ALV；*J Mol Biol*）
 4. Beaini et al., 2024 — Graphium/MiniMol (ICLR)
 5. Zhao et al., 2024 — NLRP3 ML 筛选流程 (*BMC Chemistry*)
 6. Ferreira et al., 2024 — POLYGON (*Nat Commun*)

@@ -2,7 +2,8 @@
 
 > **MASFL** = **M**echanism-**A**ligned **S**tate and **F**unction **L**earning  
 > **版本**: 3.1-Verifiable | **前身**: v3.0-Practical → TAPE-GATE v2.0  
-> **定位**: 蛋白条件化多态蒸馏 + 去混杂功能学习 + 可行域 Pareto + **模块门槛降级**
+> **定位**: 蛋白条件化多态蒸馏 + 去混杂功能学习 + 可行域 Pareto + **模块门槛降级**  
+> **状态**: **设计稿 / 规划** — 除 `00_prepare_data.py` 与 v2 训练回测外，本文 Stage 1–8 脚本 **多数未实现**；数字以 `DATA_FACT_CHECK.md` 为准，勿将规划指标当作已跑结果。
 
 ---
 
@@ -108,13 +109,13 @@ n(assay_id) < 10 → "other"
 
 ### 0.4 NLRP3 药效团模板（L1 用）
 
-从 7ALV + MCC950 共晶提取 Catalyst/Phase 药效团 → `structures/NLRP3_pharmacophore.hyp`
+从 7ALV（**MCC950 类类似物 NP3-146** 共晶，非 MCC950 本身）提取 Catalyst/Phase 药效团 → `structures/NLRP3_pharmacophore.hyp`
 
 ### 0.5 输出
 
 ```text
 data/processed/urat1_curated.csv
-data/processed/nlrbp3_curated.csv
+data/processed/nlrp3_records.csv
 data/distill/distill_manifest.csv          # 分层来源标记
 data/splits/scaffold_fold_{0-4}.csv
 structures/pocket_graph_{in,occ,out}.pt
@@ -453,7 +454,7 @@ t_N = percentile({P_φ(MCC950, GDC)}, 50)
 
 **URAT1**：Teacher XP、Arg477/Phe、可选 50 ns 膜 MD（RMSD <2.5 Å）  
 **NLRP3**：7ALV XP、MM-GBSA、可选 MD  
-**OCT1/OCT2**：对接比值 $R_{\text{sel}}$ — **Tier 3 参考**，表述为 computational hypothesis
+**OCT1/OCT2**：对接比值 $R_{\text{sel}}$ — **Tier 3 脱靶假说**（阳离子转运；**非** OAT 主迁移）
 
 ---
 
