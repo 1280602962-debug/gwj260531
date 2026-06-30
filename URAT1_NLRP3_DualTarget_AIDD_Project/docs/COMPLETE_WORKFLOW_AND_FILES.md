@@ -201,7 +201,7 @@ python3 scripts/run_tape_gate_pipeline.py --skip-generative
 
 | # | 名称 | 规模 | 说明 |
 |---|------|------|------|
-| 11 | 蒸馏集（URAT1 构象标签） | 5k–20k | 含无活性负样本；`00b_build_distill_set.py` 待写 |
+| 11 | 蒸馏集（URAT1 构象标签） | 5k–20k | 含无活性负样本；`00b_build_distill_set.py` ✅ |
 | 12 | DUD-E / 自定义 decoys | 按靶点 | URAT1/NLRP3 对接特异性 |
 | 13 | 主动学习池 | 1k–5k | ChEMBL SLC22 邻域 FPS 采样 |
 
@@ -244,6 +244,9 @@ python3 scripts/run_tape_gate_pipeline.py --skip-generative
 |------|------|------|
 | `utils_ml.py` | ✅ | 清洗、特征、指标、Murcko 划分 |
 | `00_prepare_data.py` | ✅ | Stage 0 清洗 |
+| `00b_build_distill_set.py` | ✅ | MASFL 蒸馏集 A/B/C/E + 合并 D |
+| `00b_prepare_auxiliary_data.py` | ✅ | OAT/OCT 辅助库清洗 |
+| `sample_distill_subset_d.py` | ✅ | 蒸馏子集 D 百万库抽样 |
 | `01_dataset_analysis.py` | ✅ | UMAP、assay 热图 |
 | `02_train_asymmetric_models.py` | ✅ | URAT1+NLRP3 训练 |
 | `02_train_mtl_models.py` | 消融 | MTL 对照 |
