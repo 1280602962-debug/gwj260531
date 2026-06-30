@@ -86,9 +86,9 @@ n(assay_id) < 10 → "other"
 
 | 靶点 | PDB | 用途 |
 |------|-----|------|
-| URAT1 inward | 9B1H, 9DKB | Grid + 口袋图 $E_{\text{in}}$ |
-| URAT1 occluded | 9JDZ | $E_{\text{occ}}$ |
-| URAT1 outward | 9JDZ | $E_{\text{out}}$ |
+| URAT1 inward | **9DKB**（主）, 9B1H（备） | Grid + 口袋图 $E_{\text{in}}$ |
+| URAT1 occluded | **9B1K** | $E_{\text{occ}}$ |
+| URAT1 outward | **9B1L** | $E_{\text{out}}$ |
 | NLRP3 | 7ALV, 8ETR | 药效团模板 + L2 Grid |
 
 **离线一次**：从三态结合位点构建口袋图（残基类型、坐标、部分电荷）→ `structures/pocket_graph_{in,occ,out}.pt`

@@ -26,8 +26,10 @@
 
 | 任务 | PDB ID | 操作 |
 |------|--------|------|
-| URAT1 inward + lesinurad | 9B1H, 9DKB, 9JDZ | RCSB 下载，去配体/离子，加氢 |
-| URAT1 outward/occluded | 9JDZ（同研究多态） | 分离不同 EM map 对应构象 |
+| URAT1 inward（主 grid） | **9DKB**（lesinurad, 2.55 Å） | RCSB 下载 → Prep Wizard → Grid |
+| URAT1 occluded | **9B1K**（urate, occluded） | 独立 PDB；勿用 9JDZ |
+| URAT1 outward | **9B1L**（urate, outward-facing） | 独立 PDB；勿用 9JDZ |
+| 备用 inward / benchmark | 9B1H, 9DKA, 9JDY, 9JE1 | redock 与敏感性分析 |
 | NLRP3 NACHT + inhibitor | 7ALV | 提取 NACHT 域或全链 |
 | NLRP3 + GDC-2394 | 8ETR | cryo-EM 低分辨率，作补充 |
 | 膜蛋白准备 | — | CHARMM-GUI 或 OPM 取向，嵌入 POPC 脂双层（MD 用）|

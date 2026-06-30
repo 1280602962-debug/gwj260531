@@ -131,15 +131,21 @@ All entries include DOI or PMID where available.
 
 46. **PDB 9B1H** — Human URAT1 + lesinurad (inward-open). doi:10.2210/pdb9B1H/pdb. EMDB-44079.
 
-47. **PDB 9DKB** — Human URAT1 + lesinurad (inward-open). doi:10.2210/pdb9DKB/pdb. EMDB-46950.
+47. **PDB 9DKB** — Human URAT1 + lesinurad (inward-open, 2.55 Å). doi:10.2210/pdb9DKB/pdb. EMDB-46950. **Primary inward docking grid.**
 
-48. **PDB 9DKA** — Human URAT1 + benzbromarone (inward-open). doi:10.2210/pdb9DKA/pdb.
+48. **PDB 9B1K** — Urate-bound URAT1 (**occluded state**). doi:10.2210/pdb9B1K/pdb. EMDB-44082.
 
-49. **PDB 9JDZ** — Native hURAT1 + urate/inhibitor states. doi:10.2210/pdb9JDZ/pdb. EMDB-61402.
+49. **PDB 9B1L** — Urate-bound URAT1 (**outward-facing**). doi:10.2210/pdb9B1L/pdb. EMDB-44083.
 
-50. **PDB 7ALV** — NLRP3 NACHT + MCC950-class analog (NP3-146). doi:10.2210/pdb7ALV/pdb.
+50. **PDB 9B1J** — Urate-bound URAT1 (inward-facing). doi:10.2210/pdb9B1J/pdb. EMDB-44081.
 
-51. **PDB 8ETR** — NLRP3 NACHT + GDC-2394. doi:10.2210/pdb8ETR/pdb. EMDB-28596.
+51. **PDB 9DKA** — Human URAT1 + benzbromarone (inward-open). doi:10.2210/pdb9DKA/pdb.
+
+52. **PDB 9JDZ** — Native hURAT1 + lesinurad (**inward-open only**). doi:10.2210/pdb9JDZ/pdb. EMDB-61402.
+
+53. **PDB 7ALV** — NLRP3 NACHT + MCC950-class analog (NP3-146). doi:10.2210/pdb7ALV/pdb.
+
+54. **PDB 8ETR** — NLRP3 NACHT + GDC-2394. doi:10.2210/pdb8ETR/pdb. EMDB-28596.
 
 ---
 

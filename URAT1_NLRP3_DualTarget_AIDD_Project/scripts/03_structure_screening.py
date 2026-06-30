@@ -30,13 +30,16 @@ def main() -> None:
     with open(dock_cfg_path) as f:
         dock_cfg = yaml.safe_load(f)
 
+    three = dock_cfg["urat1_ensemble"].get("three_state_primary", {})
+    urat1_three = [three[k]["pdb_id"] for k in ("inward_open", "occluded", "outward_open") if k in three]
     report = {
         "status": "skeleton",
-        "urat1_ensemble": [s["pdb_id"] for s in dock_cfg["urat1_ensemble"]["pdb_structures"]],
+        "urat1_three_state_primary": urat1_three,
+        "urat1_ensemble_all": [s["pdb_id"] for s in dock_cfg["urat1_ensemble"]["pdb_structures"]],
         "nlrp3_ensemble": [s["pdb_id"] for s in dock_cfg["nlrp3_ensemble"]["pdb_structures"]],
         "funnel": dock_cfg["dual_target_funnel"],
         "scoring_formula": "S_dual = sqrt(S_U * S_N) + 0.2 * min(S_U, S_N)",
-        "transporter_note": "URAT1 requires S_trap; do NOT use single-structure enzyme-style docking",
+        "transporter_note": "URAT1 requires 3 grids: 9DKB (in) + 9B1K (occ) + 9B1L (out). See docs/URAT1_THREE_STATE_DOCKING.md",
     }
     out = args.output / "screening_report.json"
     with open(out, "w") as f:

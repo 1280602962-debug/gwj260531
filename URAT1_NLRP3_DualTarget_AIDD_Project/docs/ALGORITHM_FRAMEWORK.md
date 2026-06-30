@@ -198,9 +198,9 @@ for x in C_union:
 
 | PDB | 态 | 权重 |
 |-----|-----|------|
-| 9B1H / 9DKB | inward-open + inhibitor | $w_{\text{in}}$ |
-| 9JDZ | occluded | $w_{\text{occ}}$ |
-| 9JDZ | outward-open | $w_{\text{out}}$ |
+| **9DKB**（主）/ 9B1H | inward-open + inhibitor | $w_{\text{in}}$ |
+| **9B1K** | occluded (urate-bound) | $w_{\text{occ}}$ |
+| **9B1L** | outward-open (urate-bound) | $w_{\text{out}}$ |
 
 $$
 S_{\text{trap}} = w_{\text{in}} s_{\text{in}} + w_{\text{occ}} s_{\text{occ}} - w_{\text{out}} s_{\text{out}}

@@ -148,7 +148,7 @@ python3 scripts/run_tape_gate_pipeline.py --skip-generative
 
 | 组件 | 内容 | 工具 |
 |------|------|------|
-| URAT1 系综 | 9B1H, 9DKB, 9JDZ（inward-open） | Glide/IFD 或 Vina |
+| URAT1 三态系综 | **9DKB** inward + **9B1K** occluded + **9B1L** outward | Glide SP/XP；见 `URAT1_THREE_STATE_DOCKING.md` |
 | $S_{\text{trap}}$ | inward 稳定 + outward 不稳定 + Arg477/Phe 笼 | 自研评分 + MD 可选 |
 | NLRP3 系综 | 7ALV（类比物模板）, 8ETR（GDC-2394） | NACHT 变构口袋 |
 | OCT 脱靶 | OCT1/OCT2 对接比值 $R_{\text{sel}}$ | **Tier 3 假说**，非实验选择性 |
@@ -184,7 +184,7 @@ python3 scripts/run_tape_gate_pipeline.py --skip-generative
 | 1 | URAT1 主训练库 | CHEMBL6120 | 822 SMILES（已清洗） | `data/raw/URAT1_CHEMBL_cf12.csv` |
 | 2 | NLRP3 主训练库 | CHEMBL1741208，IL-1β + Assay B | 513/609 | `data/raw/NLRP3_CHEMBL_4807.csv` |
 | 3 | Benchmark 集 | 文献核验 | 8 化合物多行 | `data/benchmarks/literature_benchmarks.csv` |
-| 4 | URAT1 结构系综 | RCSB | 9B1H, 9DKB, 9JDZ, 9DKA, 9JDY, 9JE1 | `data/structures/` |
+| 4 | URAT1 结构系综 | RCSB | **9DKB, 9B1K, 9B1L**（三态主）; 9B1H, 9DKA, 9JDZ, 9JDY, 9JE1（备） | `data/structures/` |
 | 5 | NLRP3 结构 | RCSB | 7ALV, 8ETR | 同上 |
 
 ### P1 — 强烈建议（论文完整性）
@@ -282,6 +282,7 @@ python3 scripts/run_tape_gate_pipeline.py --skip-generative
 | `ALGORITHM_FRAMEWORK.md` | Methods 公式与伪代码 |
 | `BENCHMARK_SELECTION_CRITERIA.md` | Benchmark 分层标准 |
 | `URAT1_TRANSPORTER_VALIDATION.md` | 转运体验证要求 |
+| **`URAT1_THREE_STATE_DOCKING.md`** | **三态 PDB 映射与 Glide 流程（9DKB/9B1K/9B1L）** |
 | `URAT1_ML_MODEL_ASSESSMENT.md` | URAT1_NO_GO 证据 |
 | `MODEL_QUALITY_REPORT.md` | 训练+回测结论 |
 | `PREPARATION_CHECKLIST.md` | 准备打勾清单 |

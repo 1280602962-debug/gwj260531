@@ -124,7 +124,7 @@
 
 ### Phase 4：结构约束与融合排序
 
-- URAT1 9B1H/9DKB/9JDZ 系综
+- URAT1 **9DKB / 9B1K / 9B1L** 三态系综（见 `URAT1_THREE_STATE_DOCKING.md`）
 - NLRP3 7ALV/8ETR + MM-GBSA/MD
 - 可靠性加权 + Pareto → Top 50–100
 

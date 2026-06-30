@@ -82,9 +82,13 @@
 
 | PDB | 配体 / 说明 |
 |-----|-------------|
-| 9B1H | lesinurad（Dai 2024, *Cell Res*） |
-| 9DKB | lesinurad（Fedor/Suo 2025, *Nat Commun*） |
+| 9B1H | lesinurad inward（Dai 2024, *Cell Res*） |
+| 9DKB | lesinurad inward（Fedor/Suo 2025, *Nat Commun*）— **三态对接 inward 主 grid** |
+| 9B1K | urate **occluded**（Dai 2024）— **三态对接 occluded** |
+| 9B1L | urate **outward-facing**（Dai 2024）— **三态对接 outward** |
+| 9B1J | urate inward-facing（Dai 2024） |
 | 9DKA | **benzbromarone**（勿与 9DKB 混淆） |
+| 9JDZ | lesinurad inward（Wu 2025, *Cell Discov*）— **非** occluded/outward |
 | 9JDY / 9JE1 | verinurad / dotinurad |
 | 7ALV | **MCC950 类类似物 NP3-146**（非 MCC950 共晶；药效团模板） |
 | 8ETR | GDC-2394（McBride 2022, *J Med Chem*） |

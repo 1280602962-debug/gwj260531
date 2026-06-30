@@ -55,7 +55,7 @@
 
 1. Dai Y, Lee CH. *Cell Res* 2024;34:776-787. doi:10.1038/s41422-024-01023-1 — PDB 9B1H/9B1G 等  
 2. Suo Y et al. *Nat Commun* 2025;16:5178. doi:10.1038/s41467-025-60480-3 — PDB 9DKA/9DKB  
-3. Wu C et al. bioRxiv 2024 / native URAT1 — PDB 9JDZ/9JDY/9JE1  
+3. Wu C et al. *Cell Discov* 2025 — native URAT1 drug inward structures (9JDZ/9JDY/9JE1); urate occ/out **not** separate PDB — use Dai 9B1K/9B1L
 4. Burns RL et al. *Arthritis Res Ther* 2016;18:214. doi:10.1186/s13075-016-1107-x — 细胞 IC50 面板  
 5. Nakamura M et al. *J Pharmacol Exp Ther* 2019;371:162-177. doi:10.1124/jpet.119.262741 — dotinurad 选择性  
 6. Tan PK, Liu S, Gunic E, et al. *Sci Rep* 2017;7:665. doi:10.1038/s41598-017-00706-7 — verinurad 25 nM  

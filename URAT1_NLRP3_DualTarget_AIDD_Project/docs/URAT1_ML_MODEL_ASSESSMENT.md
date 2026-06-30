@@ -91,7 +91,7 @@ Random Forest 在 EF@5%(p≥7) 上略好（3.39 vs 3.10），但 **benchmark 仍
 ```
 URAT1 证据层级（推荐）：
 
-  主证据：S_trap 构象系综对接（9B1H / 9DKB / 9JDZ）
+  主证据：S_trap 构象系综对接（**9DKB** inward / **9B1K** occluded / **9B1L** outward）
   辅证据：ML 回归（仅作弱过滤，不设硬阈值淘汰）
   禁止：  单独用 ML 排名决定 URAT1 候选去留
 

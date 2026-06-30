@@ -55,7 +55,7 @@ URAT1 为 **尿酸/有机阴离子 antiporter**：摄取尿酸进入细胞，同
 
 | 验证项 | 方法 | 通过标准 |
 |--------|------|---------|
-| **构象系综对接** | 9B1H/9JDZ inward + outward + occluded | inward 分数优于 outward ≥ 1.5 kcal/mol |
+| **构象系综对接** | **9DKB** inward + **9B1K** occluded + **9B1L** outward | inward 分数优于 outward ≥ 1.5 kcal/mol |
 | **共晶配体重现** | 对 lesinurad 重新对接 | RMSD < 2.0 Å，关键相互作用保留 |
 | **已知药物回收** | lesinurad, benzbromarone, verinurad | 在 Top 500 候选内 |
 | **关键残基接触** | 距离 Phe cage, Arg477 < 4 Å | ≥ 2 个关键接触 |
