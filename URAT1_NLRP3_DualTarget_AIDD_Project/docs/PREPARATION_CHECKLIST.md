@@ -13,14 +13,15 @@
 | 任务 | 来源 | 操作 | 状态 |
 |------|------|------|------|
 | URAT1 ChEMBL | CHEMBL6120 / 用户 CSV | 清洗后 **822** SMILES | ☐ |
-| NLRP3 ChEMBL | CHEMBL1741208 / 用户 CSV | IL-1β + Assay B，**503** SMILES | ☐ |
+| NLRP3 ChEMBL | CHEMBL1741208 / 用户 CSV | IL-1β + Assay B，**513** SMILES（609 records） | ☐ |
 | NLRP3 assay 元数据 | ChEMBL 导出列 | 保留 assay_id, cell_line, assay_type | ☐ |
 | 重叠检查 | — | 确认 0 shared SMILES → 独立双模型 | ☐ |
 | SLC22 辅助数据 | OCT1 `CHEMBL2073664`、OCT2 `CHEMBL1770032` | URAT1 迁移学习 + OCT 脱靶讨论 | ☐ |
 | 骨架划分 | Murcko + GroupKFold | train/val/test CSV | ☐ |
 
-**预期输出**：`data/processed/urat1_curated.csv`, `nlrp3_curated.csv`（含 assay 列）, `splits/`
+**预期输出**：`data/processed/urat1_curated.csv`, `nlrp3_records.csv`（含 assay 列）, `splits/`, `data_summary.json`
 
+> 所有规模与 ChEMBL ID 以 [`docs/DATA_FACT_CHECK.md`](DATA_FACT_CHECK.md) 为准；改清洗规则后须重跑 `scripts/00_prepare_data.py`。
 ### 1.2 结构数据 ✅
 
 | 任务 | PDB ID | 操作 |

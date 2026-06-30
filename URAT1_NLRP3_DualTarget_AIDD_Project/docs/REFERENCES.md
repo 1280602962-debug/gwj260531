@@ -25,7 +25,7 @@ All entries include DOI or PMID where available.
 
 ## URAT1 Structure, Transport Mechanism, and Inhibitors
 
-8. **Dai Y**, Fedor JG, Yao XQ, et al. **Transport mechanism and structural pharmacology of human urate transporter URAT1.** *Cell Res.* 2024;34(10):704-717. doi:10.1038/s41422-024-01023-1. PMID: 39245778.
+8. **Dai Y**, Lee CH. **Transport mechanism and structural pharmacology of human urate transporter URAT1.** *Cell Res.* 2024;34:776-787. doi:10.1038/s41422-024-01023-1. PMID: 39245778.
 
 9. **Fedor JG**, Suo Y, Zhang H, et al. **Molecular basis of the urate transporter URAT1 inhibition by gout drugs.** *Nat Commun.* 2025;16:5178. doi:10.1038/s41467-025-60480-3. PMID: 40467597. (PMC: PMC12137875)
 
@@ -51,9 +51,9 @@ All entries include DOI or PMID where available.
 
 ## NLRP3 Inhibitors: Biology, Structure, Medicinal Chemistry
 
-17. **Coll RC**, Hill JR, Day CJ, et al. **Crystal Structure of NLRP3 NACHT Domain With an Inhibitor Defines Mechanism of Inflammasome Inhibition.** *Nat Commun.* 2019;10:5430. doi:10.1038/s41467-019-11431-1. PMID: 31792236. (PDB 7ALV)
+17. **Dekker A**, Coll RC, Hill JR, et al. **Crystal structure of NLRP3 NACHT domain with an inhibitor defines mechanism of inflammasome inhibition.** *J Mol Biol.* 2021;433(20):167189. doi:10.1016/j.jmb.2021.167189. PMID: 34687713. (PDB 7ALV; ligand is MCC950-class analog NP3-146)
 
-18. **Murray J**, Johnson MC, et al. **Overcoming Preclinical Safety Obstacles to Discover GDC-2394: A Potent and Selective NLRP3 Inhibitor.** *J Med Chem.* 2023;66(19):13428-13451. doi:10.1021/acs.jmedchem.3c02098. (PDB 8ETR)
+18. **McBride CJ**, Johnson MC, Murray J, et al. **Overcoming Preclinical Safety Obstacles to Discover GDC-2394: A Potent and Selective NLRP3 Inhibitor.** *J Med Chem.* 2022;65(23):14721-14739. doi:10.1021/acs.jmedchem.2c01250. PMID: 36279149. (PDB 8ETR)
 
 19. **Harrison DA**, Billinton A, Bock MG, et al. **Discovery of Clinical Candidate NT-0796, a Brain-Penetrant and Highly Potent NLRP3 Inflammasome Inhibitor.** *J Med Chem.* 2023;66(21):14897-14911. doi:10.1021/acs.jmedchem.3c01398.
 
@@ -87,7 +87,7 @@ All entries include DOI or PMID where available.
 
 ## Generative AI & Dual-Target Drug Design
 
-31. **Schneider P**, Schneider G, et al. **Automated design of multi-target ligands by generative deep learning.** *Nat Commun.* 2024;15:75681. doi:10.1038/s41467-024-52060-8.
+31. **Moret M**, Schneider G, Merk D, et al. **Automated design of multi-target ligands by generative deep learning.** *Nat Commun.* 2024;15:8003. doi:10.1038/s41467-024-52060-8.
 
 32. **Ferreira HS**, Correia BE, et al. **De novo generation of multi-target compounds using deep generative chemistry.** *Nat Commun.* 2024;15:1248. doi:10.1038/s41467-024-47120-y. (POLYGON)
 
@@ -131,13 +131,15 @@ All entries include DOI or PMID where available.
 
 46. **PDB 9B1H** — Human URAT1 + lesinurad (inward-open). doi:10.2210/pdb9B1H/pdb. EMDB-44079.
 
-47. **PDB 9DKB** — URAT1 + lesinurad/benzbromarone. doi:10.2210/pdb9DKB/pdb. EMDB-46950.
+47. **PDB 9DKB** — Human URAT1 + lesinurad (inward-open). doi:10.2210/pdb9DKB/pdb. EMDB-46950.
 
-48. **PDB 9JDZ** — Native hURAT1 + anti-gout drugs + urate states. doi:10.2210/pdb9JDZ/pdb. EMDB-61402.
+48. **PDB 9DKA** — Human URAT1 + benzbromarone (inward-open). doi:10.2210/pdb9DKA/pdb.
 
-49. **PDB 7ALV** — NLRP3 NACHT + inhibitor. doi:10.2210/pdb7ALV/pdb.
+49. **PDB 9JDZ** — Native hURAT1 + urate/inhibitor states. doi:10.2210/pdb9JDZ/pdb. EMDB-61402.
 
-50. **PDB 8ETR** — NLRP3 NACHT + GDC-2394. doi:10.2210/pdb8ETR/pdb. EMDB-28596.
+50. **PDB 7ALV** — NLRP3 NACHT + MCC950-class analog (NP3-146). doi:10.2210/pdb7ALV/pdb.
+
+51. **PDB 8ETR** — NLRP3 NACHT + GDC-2394. doi:10.2210/pdb8ETR/pdb. EMDB-28596.
 
 ---
 

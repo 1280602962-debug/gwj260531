@@ -14,7 +14,7 @@
 |------|---------------|
 | URAT1/NLRP3 **0 重叠** SMILES | 独立双模型 + 证据融合（MTL 仅作消融） |
 | URAT1 是转运体而非激酶 | **$S_{\text{trap}}$ 构象系综**（非 PLK1 式单结构对接） |
-| NLRP3 **47% assay 冲突** | **Assay-conditioned 分类**（非锚点 ECFP 相似性） |
+| NLRP3 **7.2% 跨 assay 活性离散（curated 39 assays）** | **Assay-conditioned 分类**（非锚点 ECFP 相似性） |
 | 候选化学空间局限 | **Path A 库筛** + **Path B CLM+RL 生成** |
 | 与 PLK1/NLRP3 方法撞车 | 差异化模块 + **PLK1-style 阴性对照**消融 |
 | 无湿实验 | 分路径 benchmark 回收 + 7 组消融 |
@@ -36,6 +36,7 @@
 | [**准备清单**](docs/PREPARATION_CHECKLIST.md) | 数据、软件、结构 |
 | [**模型质量报告**](docs/MODEL_QUALITY_REPORT.md) | CV 指标 + benchmark 回测结论（**已运行**） |
 | [**Benchmark 选择标准**](docs/BENCHMARK_SELECTION_CRITERIA.md) | 化合物合理性、分层考试、文献来源 |
+| [**数据事实核验**](docs/DATA_FACT_CHECK.md) | ChEMBL/PDB/PMID 与规模数字（**投稿前必读**） |
 | [**参考文献**](docs/REFERENCES.md) | 可核验文献列表 |
 
 ---

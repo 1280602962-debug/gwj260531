@@ -56,8 +56,8 @@ PLK1/NLRP3 论文对 NLRP3 采用「5 个已知抑制剂作锚点、ECFP4+物化
 
 | 指标 | 数值 |
 |------|------|
-| 清洗后独特 SMILES（IL-1β + Assay B） | **503** |
-| 不同 assay 间 >1 log 差异的化合物比例 | **~47%** |
+| 清洗后独特 SMILES（IL-1β + Assay B） | **513**（609 records；39 assays） |
+| 不同 assay 间 >1 log 差异的化合物比例 | **~7.2%** |
 | 与 URAT1 重叠 SMILES | **0** |
 
 **结论**：

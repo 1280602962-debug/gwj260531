@@ -25,7 +25,7 @@ TAPE-GATE 是面向 **URAT1 + NLRP3** 双靶、**纯计算**、**小数据不对
 │                         TAPE-GATE Pipeline                                │
 ├──────────────────────────────────────────────────────────────────────────┤
 │  Stage 0  数据层                                                          │
-│    URAT1 (822) + NLRP3 (503, IL-1β+B) + SLC22 辅助 + 专利扩充             │
+│    URAT1 (822) + NLRP3 (513, IL-1β+B) + SLC22 辅助 + 专利扩充             │
 │    Murcko 骨架 GroupKFold + assay 元数据保留（NLRP3）                      │
 ├──────────────────────────────────────────────────────────────────────────┤
 │  Stage 1  不对称双证据建模层                                               │
@@ -59,9 +59,9 @@ TAPE-GATE 是面向 **URAT1 + NLRP3** 双靶、**纯计算**、**小数据不对
 | 数据集 | 清洗后独特 SMILES | 建模策略 |
 |--------|------------------|---------|
 | URAT1 | **822** | 监督回归 + conformal UQ（数据充足） |
-| NLRP3 | **503**（IL-1β + Assay B） | Assay-conditioned 分类（避免全局回归） |
+| NLRP3 | **513**（IL-1β + Assay B） | Assay-conditioned 分类（避免全局回归） |
 | 双靶重叠 | **0** | 独立模型 + 证据融合（MTL 非主路径） |
-| NLRP3 assay 异质性 | 92 assays，47% 多 assay 化合物 >1 log 差 | 必须条件化，禁用锚点相似性主策略 |
+| NLRP3 assay 异质性 | 39 assays，7.2% 化合物跨 assay pActivity 极差 >1 log（37/513；见 data_summary.json） | 必须条件化，禁用锚点相似性主策略 |
 
 ---
 

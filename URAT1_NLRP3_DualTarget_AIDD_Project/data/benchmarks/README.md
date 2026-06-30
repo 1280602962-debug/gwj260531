@@ -30,14 +30,14 @@
 |--------|----------------|--------|-----|------|
 | **lesinurad** | 3.53 µM (HEK-URAT1) 或 39 µM (Dai EM) | Burns 2016 / Dai 2024 | 9B1H, 9DKB | 1a |
 | **benzbromarone** | 0.29 µM | Burns 2016 | 9DKA | 1a |
-| **verinurad** | 25 nM | Perez-Ruiz 2017 | 9JDY | 1b（在训练集） |
+| **verinurad** | 25 nM | Tan et al. 2017 (*Sci Rep*) | 9JDY | 1b（在训练集） |
 | **dotinurad** | 37.2 nM | Nakamura 2019 | 9JE1, 9B1G | 1a |
 
 ### NLRP3 阳性（必回收）
 
 | 化合物 | 主 IC50（推荐） | 主文献 | PDB | Tier |
 |--------|----------------|--------|-----|------|
-| **MCC950** | 7.5 nM IL-1β (BMDM) | Coll 2015 | 7ALV | 1b |
+| **MCC950** | 7.5 nM IL-1β (BMDM) | Coll 2015 | 7ALV（MCC950 类类似物共晶，非 MCC950 本身） | 1b |
 | **GDC-2394** | 16 nM IL-1β (HMDM) | McBride 2022 | 8ETR | 1b |
 
 ### 阴性对照
@@ -58,13 +58,13 @@
 3. Wu C et al. bioRxiv 2024 / native URAT1 — PDB 9JDZ/9JDY/9JE1  
 4. Burns RL et al. *Arthritis Res Ther* 2016;18:214. doi:10.1186/s13075-016-1107-x — 细胞 IC50 面板  
 5. Nakamura M et al. *J Pharmacol Exp Ther* 2019;371:162-177. doi:10.1124/jpet.119.262741 — dotinurad 选择性  
-6. Perez-Ruiz X et al. *Sci Rep* 2017;7:665. doi:10.1038/s41598-017-00706-7 — verinurad 25 nM  
+6. Tan PK, Liu S, Gunic E, et al. *Sci Rep* 2017;7:665. doi:10.1038/s41598-017-00706-7 — verinurad 25 nM  
 
 ### NLRP3
 
 1. Coll RC et al. *Nat Med* 2015;21:248-255. doi:10.1038/nm.3806 — MCC950  
 2. McBride C et al. *J Med Chem* 2022;65:14721-14739. doi:10.1021/acs.jmedchem.2c01250 — GDC-2394  
-3. Coll G et al. *Nat Commun* 2019 — 7ALV 结构背景  
+3. Dekker A et al. *J Mol Biol* 2021 — 7ALV（NP3-146 类抑制剂，MCC950 药效团模板）  
 
 ---
 

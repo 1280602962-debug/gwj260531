@@ -35,7 +35,7 @@
 
 ### C3：Assay-conditioned NLRP3 证据建模（算法创新 — 避雷同）
 
-**内容**：针对 92 assays、47% 多 assay 冲突，采用 **测定条件化分类** 而非 PLK1/NLRP3 的 **5-anchor ECFP max-pooling**。
+**内容**：针对 39 assays、7.2% 跨 assay >1 log 离散（37/513），采用 **测定条件化分类** 而非 PLK1/NLRP3 的 **5-anchor ECFP max-pooling**。
 
 $$
 P_{\text{active}}(x \mid a) = \sigma(f(\phi(x), \mathbf{e}_a))
@@ -43,7 +43,7 @@ $$
 
 **差异化**：
 - 锚点相似性：无监督外推，对 assay 异质性敏感
-- Assay-conditioned：监督学习，503 样本足够，可报告置信度 $c_N$ 用于融合
+- Assay-conditioned：监督学习，513 样本足够，可报告置信度 $c_N$ 用于融合
 
 **明确不作为主创新**：ESM-2 口袋 embedding（留给 PLK1-style 消融）
 
@@ -113,7 +113,7 @@ $$
 | 质疑 | 反驳 |
 |------|------|
 | 「与 PLK1/NLRP3 只是换靶」 | 转运体 $S_{\text{trap}}$、assay-conditioned、双路径、Pareto 融合；含 PLK1-style 定量对照 |
-| 「NLRP3 为何不用相似性」 | 503 样本够监督学习；47% assay 冲突使相似性外推不可靠；Abl-2 定量对比 |
+| 「NLRP3 为何不用相似性」 | 513 样本够监督学习；7.2% 跨 assay 活性离散（curated 39 assays）使相似性外推不可靠；Abl-2 定量对比 |
 | 「生成模块是否噱头」 | Abl-4/5 分解 Path A/B 贡献；报告新颖性与 benchmark 回收 |
 | 「无实验验证」 | 方法论文定位；分路径回顾性回收 + 7 组消融 |
 

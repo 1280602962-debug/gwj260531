@@ -37,7 +37,7 @@ BENCHMARKS = [
     {"name": "benzbromarone", "target": "URAT1", "smiles": "CCc1oc2ccccc2c1C(=O)c1cc(Br)c(O)c(Br)c1", "role": "must_recover", "pactivity_ref": 7.5},
     {"name": "verinurad", "target": "URAT1", "smiles": "CC(C)(Sc1ccncc1-c1ccc(C#N)c2ccccc12)C(=O)O", "role": "must_recover", "pactivity_ref": 8.0},
     {"name": "dotinurad", "target": "URAT1", "smiles": "O=C(c1cc(Cl)c(O)c(Cl)c1)N1CS(=O)(=O)c2ccccc21", "role": "must_recover", "pactivity_ref": 8.2},
-    {"name": "MCC950", "target": "NLRP3", "smiles": "CC(C)(O)c1coc(S(=O)(=O)NC(=O)Nc2c3c(cc4c2CCC4)CCC3)c1", "role": "must_recover", "pactivity_ref": 8.09},
+    {"name": "MCC950", "target": "NLRP3", "smiles": "CC(C)(O)c1coc(S(=O)(=O)NC(=O)Nc2c3c(cc4c2CCC4)CCC3)c1", "role": "must_recover", "pactivity_ref": 11.12},
     {"name": "GDC-2394", "target": "NLRP3", "smiles": "CN[C@@H]1COc2c(S(=O)(=O)NC(=O)Nc3c4c(cc5c3CCC5)CCC4)cnn2C1", "role": "must_recover", "pactivity_ref": 8.5},
     {"name": "allopurinol", "target": "URAT1", "smiles": "Oc1ncnc2c1ncn2C", "role": "negative_control", "pactivity_ref": None},
 ]

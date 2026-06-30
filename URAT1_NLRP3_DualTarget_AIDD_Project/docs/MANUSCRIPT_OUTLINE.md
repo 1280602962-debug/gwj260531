@@ -32,7 +32,7 @@
 
 ### 1.5 计算药物发现的挑战
 - URAT1 转运体 vs 激酶对接范式
-- NLRP3 assay 异质性（引用用户数据统计：503 化合物、47% 冲突）
+- NLRP3 assay 异质性（引用用户数据统计：513 化合物、7.2% 跨 assay 离散）
 - **0 重叠 SMILES** → 标准 MTL 失效
 - PLK1/NLRP3 类 asymmetric 框架的局限（**不点名攻击，客观对比**）
 
@@ -43,7 +43,7 @@
 ## 2. Materials and Methods（~2800 words）
 
 ### 2.1 Data collection and curation
-- ChEMBL 822 URAT1 / 503 NLRP3（IL-1β + Assay B）
+- ChEMBL 822 URAT1 / 513 NLRP3（IL-1β + Assay B）
 - Assay 元数据保留策略
 - 0 重叠统计
 

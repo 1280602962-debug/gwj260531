@@ -72,7 +72,7 @@ Stage 8    模块门槛评估 + 多 split 验证 + 算力-精度曲线
 | 数据集 | 规模 | 操作 |
 |--------|------|------|
 | URAT1 | 822 | pIC50；Murcko GroupKFold($k=5$) |
-| NLRP3 | 503 | IL-1β；粗粒度 $a_{\text{coarse}}$ |
+| NLRP3 | 513 | IL-1β；粗粒度 $a_{\text{coarse}}$ |
 | NLRP3 主训子集 | ~359 | THP-1 + IL-1β（DFIM 主域） |
 | 重叠 | 0 | 独立双模型 |
 

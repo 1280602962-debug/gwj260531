@@ -10,7 +10,7 @@
 设两个 **无标签重叠** 的单靶数据集：
 
 - $\mathcal{D}_U = \{(x_i, y_i^U)\}$，URAT1 pIC50，$|\mathcal{D}_U| \approx 822$
-- $\mathcal{D}_N = \{(x_j, y_j^{N}, a_j)\}$，NLRP3 活性 + **assay 条件** $a_j$，$|\mathcal{D}_N| \approx 503$
+- $\mathcal{D}_N = \{(x_j, y_j^{N}, a_j)\}$，NLRP3 活性 + **assay 条件** $a_j$，$|\mathcal{D}_N| \approx 513$（609 条记录）
 
 **目标**：从库筛与生成式两条路径得到候选池 $\mathcal{C}$，最大化双靶优先排序：
 
@@ -89,7 +89,7 @@ $$
 P_{\text{active}}(x \mid a) = \sigma\big( \text{MLP}([\phi(x); \mathbf{e}_a]) \big)
 $$
 
-**训练**：加权 BCE，按 assay 样本量逆频率加权，缓解 92 assays 长尾
+**训练**：加权 BCE，按 assay 样本量逆频率加权，缓解 39 assays 长尾
 
 **推理（库筛）**：对关键 assay 集合 $\mathcal{A}^*$（如 THP-1 + IL-1β）取：
 
@@ -316,7 +316,7 @@ ablation = run_ablations(include_plk1_style_baseline=True)
 ## 九、算法创新点（论文 Contribution）
 
 1. **Transporter-aware $S_{\text{trap}}$** 与 PLK1 式激酶对接本质区分
-2. **Assay-conditioned NLRP3 证据** 替代锚点相似性，应对 47% 多 assay 冲突
+2. **Assay-conditioned NLRP3 证据** 替代锚点相似性，应对 7.2% 跨 assay >1 log 离散（37/513）
 3. **Paired-path discovery**：库筛 + 生成式并行，扩展双靶化学空间
 4. **Reliability-weighted Pareto fusion** 替代固定 0.5/0.5 线性加权
 5. **PLK1-style 阴性对照消融**：可证伪的差异化验证协议

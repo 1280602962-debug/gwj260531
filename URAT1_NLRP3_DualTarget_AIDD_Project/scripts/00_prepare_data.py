@@ -84,6 +84,10 @@ def main() -> None:
     nlrp3.to_csv(nlrp3_path, index=False)
 
     overlap = set(urat1["canonical_smiles"]) & set(nlrp3["canonical_smiles"].unique())
+    nlrp3_by_smiles = nlrp3.groupby("canonical_smiles")["pActivity"].agg(["count", "min", "max"])
+    nlrp3_multi = nlrp3_by_smiles[nlrp3_by_smiles["count"] > 1]
+    nlrp3_conflict = nlrp3_multi[(nlrp3_multi["max"] - nlrp3_multi["min"]) > 1.0]
+    n_compounds = int(nlrp3["canonical_smiles"].nunique())
     summary = {
         "urat1": {
             "n_compounds": int(len(urat1)),
@@ -94,8 +98,11 @@ def main() -> None:
         },
         "nlrp3": {
             "n_records": int(len(nlrp3)),
-            "n_compounds": int(nlrp3["canonical_smiles"].nunique()),
+            "n_compounds": n_compounds,
             "n_assays": int(nlrp3["Assay ChEMBL ID"].nunique()),
+            "n_multi_assay_compounds": int(len(nlrp3_multi)),
+            "n_conflict_gt_1log_compounds": int(len(nlrp3_conflict)),
+            "pct_conflict_gt_1log": round(100.0 * len(nlrp3_conflict) / n_compounds, 1),
             "active_rate": float(nlrp3["active"].mean()),
             "source": str(nlrp3_src),
         },
