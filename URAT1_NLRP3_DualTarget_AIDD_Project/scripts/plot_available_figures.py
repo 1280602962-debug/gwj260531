@@ -43,6 +43,7 @@ from jmm_style import (  # noqa: E402
     legend_below,
     legend_lower_left,
     legend_lower_right,
+    legend_upper_center,
     save_figure,
     set_axis_labels,
     subplot_xlabel_centered,
@@ -253,12 +254,13 @@ def plot_urat1_benchmark(bench: pd.DataFrame) -> dict:
     ax.bar(x + w / 2, bench["ml_percentile_vs_8973"], width=w, label="URAT1 ML", color=URAT1_LIGHT, edgecolor=NEUTRAL, linewidth=0.3)
     ax.axhline(90, color=THRESHOLD, linestyle=(0, (4, 3)), linewidth=0.7)
     ax.set_xticks(x)
-    ax.set_xticklabels(bench["compound"], rotation=40, ha="right")
+    ax.set_xticklabels(bench["compound"], rotation=42, ha="center", rotation_mode="anchor")
+    ax.tick_params(axis="x", pad=7)
     clean_axes(ax)
     set_axis_labels(ax, "Benchmark URAT1 inhibitor", "Percentile on 8973 library")
-    ax.set_ylim(0, 115)
-    legend_below(ax, ncol=2, y=-0.38)
-    fig.subplots_adjust(**{**MARGIN_WIDE_X, "bottom": 0.34})
+    ax.set_ylim(0, 122)
+    legend_upper_center(ax, ncol=2, y=0.99)
+    fig.subplots_adjust(**{**MARGIN_WIDE_X, "bottom": 0.30})
     paths = save_figure(fig, "urat1_fig03d_benchmark_ml_vs_docking", "urat1")
     return {"id": "urat1_fig03d", "target": "URAT1", "description": "Four-drug ML vs docking recovery", **paths}
 
@@ -494,17 +496,27 @@ def plot_fig03_composite(dock: pd.DataFrame, summary: dict, bench: pd.DataFrame)
     ax.bar(x + w / 2, bench["ml_percentile_vs_8973"], width=w, color=URAT1_LIGHT, label="ML", edgecolor=NEUTRAL, linewidth=0.3)
     ax.axhline(90, color=THRESHOLD, linestyle=(0, (4, 3)), linewidth=0.7)
     ax.set_xticks(x)
-    ax.set_xticklabels(bench["compound"], rotation=38, ha="right")
+    ax.set_xticklabels(bench["compound"], rotation=35, ha="right", rotation_mode="anchor")
+    ax.tick_params(axis="x", pad=4)
     clean_axes(ax)
-    set_axis_labels(ax, "Benchmark inhibitor", "Percentile on 8973 library", xpad=12, ypad=6)
-    ax.set_ylim(0, 118)
-    ax.margins(x=0.08)
-    legend_lower_left(ax, ncol=1, x=0.02, y=0.04)
+    ax.set_xlabel("")
+    set_axis_labels(ax, "", "Percentile on 8973 library", ypad=6)
+    ax.set_ylim(0, 122)
+    ax.margins(x=0.10)
+    ax.legend(
+        loc="center",
+        bbox_to_anchor=(0.36, 0.62),
+        ncol=2,
+        fontsize=FONT_SIZE_PT,
+        frameon=False,
+        borderaxespad=0.0,
+    )
 
-    fig.subplots_adjust(**{**MARGIN_COMPOSITE, "top": 0.86, "bottom": 0.19, "left": 0.15, "right": 0.93, "hspace": 0.80, "wspace": 0.58})
+    fig.subplots_adjust(**{**MARGIN_COMPOSITE, "top": 0.86, "bottom": 0.26, "left": 0.15, "right": 0.93, "hspace": 0.80, "wspace": 0.58})
     apply_panel_tags(fig, axes, ("a", "b", "c", "d"))
     subplot_xlabel_centered(fig, axes[0, 0], "8973 distill subset", pad=0.042)
     subplot_xlabel_centered(fig, axes[1, 0], "Enrichment metric", pad=0.040)
+    subplot_xlabel_centered(fig, axes[1, 1], "Benchmark inhibitor", pad=0.028, tick_clearance=0.040)
     paths = save_figure(fig, "fig03_urat1_retrospective_composite", "main", tight=False)
     return {"id": "fig03_composite", "target": "URAT1", "description": "Main Fig 3 composite (URAT1 retrospective)", **paths}
 
@@ -544,7 +556,7 @@ def main() -> None:
         "style": {
             "font": "Arial 8 pt",
             "grid": "none",
-            "notes": "v5: aligned axis labels, unified panel tags/legends, hbar grid fix, print margins",
+            "notes": "v5.1: Fig03d legend above bars; centered x-axis title",
         },
         "figures": entries,
     }

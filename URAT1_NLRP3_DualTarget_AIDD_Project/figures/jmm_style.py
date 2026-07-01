@@ -171,12 +171,40 @@ def legend_lower_right(ax, handles=None, labels=None, ncol: int = 1, x: float = 
         ax.legend(**kwargs)
 
 
-def subplot_xlabel_centered(fig: plt.Figure, ax, text: str, pad: float = 0.028) -> None:
+def legend_upper_center(ax, handles=None, labels=None, ncol: int = 2, y: float = 0.97) -> None:
+    """Legend in the upper margin of the axes, clear of bar tops."""
+    kwargs = dict(
+        loc="upper center",
+        bbox_to_anchor=(0.5, y),
+        ncol=ncol,
+        fontsize=FONT_SIZE_PT,
+        frameon=False,
+        borderaxespad=0.0,
+    )
+    if handles is not None:
+        ax.legend(handles=handles, labels=labels, **kwargs)
+    elif labels is not None:
+        ax.legend(labels=labels, **kwargs)
+    else:
+        ax.legend(**kwargs)
+
+
+def subplot_xlabel_centered(
+    fig: plt.Figure, ax, text: str, pad: float = 0.028, tick_clearance: float = 0.0
+) -> None:
     """Center an x-axis title under one subplot (not under a single tick)."""
     ax.set_xlabel("")
     fig.canvas.draw()
     bb = ax.get_position()
-    fig.text(bb.x0 + bb.width / 2, bb.y0 - pad, text, ha="center", va="top", fontsize=FONT_SIZE_PT, color=NEUTRAL)
+    fig.text(
+        bb.x0 + bb.width / 2,
+        bb.y0 - pad - tick_clearance,
+        text,
+        ha="center",
+        va="top",
+        fontsize=FONT_SIZE_PT,
+        color=NEUTRAL,
+    )
 
 
 def legend_below(ax, handles=None, labels=None, ncol: int = 2, y: float = -0.24) -> None:
