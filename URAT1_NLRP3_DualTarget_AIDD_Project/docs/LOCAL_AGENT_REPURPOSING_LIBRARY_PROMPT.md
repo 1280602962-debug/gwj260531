@@ -106,18 +106,33 @@ python3 scripts/build_repurposing_library.py \
 
 ## 四、后续筛选命令（库建好后）
 
-```bash
-# NLRP3 ML 预测（示例，模型训练完成后）
-python3 scripts/02_train_asymmetric_models.py --predict-only \
-  --input data/repurposing/repurposing_primary.csv \
-  --smiles-col canonical_smiles \
-  --output results/repurposing/nlrp3_scores.csv
+完整流程见 [`WORKFLOW_CURRENT.md`](WORKFLOW_CURRENT.md)。
 
-# URAT1 9DKB XP 对接（本地 Schrödinger 环境）
-# 用 repurposing_primary.csv 的 canonical_smiles 列生成配体 → Glide XP @ 9DKB
+```bash
+# Step 1: NLRP3 ML 全临床库 + 导出 P(active)≥0.5 对接池
+python3 scripts/screen_repurposing_library.py \
+  --input data/repurposing/repurposing_manifest.csv \
+  --panel clinical_all \
+  --export-p05-pool \
+  --skip-tanimoto
+# → results/repurposing/docking_pool_p05.csv（n≈1588）
+
+# Step 2: Maestro 双靶对接（本地 Schrödinger）
+# 输入：docking_pool_p05.csv 的 canonical_smiles
+# URAT1 @ 9DKB XP；NLRP3 @ 8ETR XP
+
+# Step 3: Pareto 整合
+python3 scripts/merge_docking_pareto.py \
+  --ml-scores results/repurposing/nlrp3_ml_scores_clinical_all.csv \
+  --urat1-dock results/repurposing/docking_raw/urat1_9dkb_p05.csv \
+  --nlrp3-dock results/repurposing/docking_raw/nlrp3_8etr_p05.csv \
+  --pool results/repurposing/docking_pool_p05.csv
 ```
 
-双证据整合：对同一 `canonical_smiles` 做 URAT1 对接百分位 + NLRP3 P(active) 百分位 → **Pareto 前沿**（见 `docs/PAPER_A_PRIME_PLUS_LOGIC.md`）。
+**主筛选库**：全临床 manifest（`clinical_all`，n=8319），不是仅 `repurposing_primary.csv`。  
+**SI 敏感性**：`--panel phase_ge3`（III 期+上市子集）。
+
+**不要**：把 manifest 与 8973 distill 合并；不要在 8973 上跑 NLRP3 ML。
 
 ---
 

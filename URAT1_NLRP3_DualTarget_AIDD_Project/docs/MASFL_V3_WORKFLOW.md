@@ -1,5 +1,7 @@
 # MASFL v3.1 完整流程（可证伪修订版）
 
+> **⚠️ 已归档（2026-07）**：Teacher/三态蒸馏规划稿，**非当前论文路线**。见 [`LEGACY_ARCHIVE.md`](LEGACY_ARCHIVE.md)
+
 > **MASFL** = **M**echanism-**A**ligned **S**tate and **F**unction **L**earning  
 > **版本**: 3.1-Verifiable | **前身**: v3.0-Practical → TAPE-GATE v2.0  
 > **定位**: 蛋白条件化多态蒸馏 + 去混杂功能学习 + 可行域 Pareto + **模块门槛降级**  

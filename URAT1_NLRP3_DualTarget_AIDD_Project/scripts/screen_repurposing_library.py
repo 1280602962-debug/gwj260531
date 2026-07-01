@@ -87,6 +87,11 @@ def main() -> None:
     parser.add_argument("--with-urat1-ml", action="store_true", help="Also score URAT1 ML (auxiliary)")
     parser.add_argument("--n-ensemble-assays", type=int, default=5)
     parser.add_argument("--skip-tanimoto", action="store_true", help="Skip slow applicability-domain Tanimoto")
+    parser.add_argument(
+        "--export-p05-pool",
+        action="store_true",
+        help="Export all compounds with P(active)>=threshold as docking_pool_p05.csv (main workflow)",
+    )
     args = parser.parse_args()
     args.output_dir.mkdir(parents=True, exist_ok=True)
 
@@ -137,6 +142,13 @@ def main() -> None:
     dock_path = args.output_dir / f"nlrp3_top_for_dual_docking_{args.panel}.csv"
     docking_pool.to_csv(dock_path, index=False)
 
+    p05_path = None
+    if args.export_p05_pool:
+        p05_pool = out[out["nlrp3_pred_active"]].copy()
+        p05_pool["selection_reason"] = "nlrp3_p_active_ge_threshold"
+        p05_path = args.output_dir / "docking_pool_p05.csv"
+        p05_pool.to_csv(p05_path, index=False)
+
     # Known controls in library
     controls = ["lesinurad", "benzbromarone", "verinurad", "dotinurad", "colchicine", "allopurinol", "febuxostat"]
     name_col = "name" if "name" in out.columns else "pref_name"
@@ -168,10 +180,11 @@ def main() -> None:
         "outputs": {
             "full_scores": str(scores_path),
             "docking_shortlist": str(dock_path),
+            **({"docking_pool_p05": str(p05_path)} if p05_path else {}),
         },
         "next_step": (
-            "Dock shortlist at URAT1 9DKB XP and NLRP3 7ALV/8ETR; "
-            "integrate by Pareto on docking-derived S_U and S_N (or ML S_N + dock S_U)."
+            "Dock docking_pool_p05.csv (P>=0.5) at URAT1 9DKB XP and NLRP3 8ETR XP; "
+            "integrate with scripts/merge_docking_pareto.py."
         ),
     }
     summary_path = args.output_dir / f"nlrp3_screening_summary_{args.panel}.json"

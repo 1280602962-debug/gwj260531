@@ -118,19 +118,16 @@ python3 scripts/08_urat1_model_comparison.py
 - 不要用 8973 对接分数直接当全库 NLRP3 标签
 
 ═══════════════════════════════════════
-Phase 4 — 为双靶 Pareto 准备（A′+ 主图，对接整理后立即做）
+Phase 4 — 与主筛选路线衔接（勿在 8973 上做 NLRP3 Pareto）
 ═══════════════════════════════════════
 
-对同一 8973 manifest 批量 NLRP3 ML（快，不需对接）：
+8973 对接结果 **仅用于 URAT1 回顾验证**（Results R3）。
+主筛选在 **ChEMBL 临床库 8319** 上完成：
 
-# 若 02_train 尚无 predict 模式，写一小脚本或用 joblib 加载 nlrp3_model.joblib
-# 对 data/docking/8973_9DKB_with_manifest.csv 的 canonical_smiles 预测 P_active
-# 输出 results/docking/8973_nlrp3_ml_scores.csv
+1. `screen_repurposing_library.py --export-p05-pool` → docking_pool_p05.csv
+2. 对 P≥0.5 池做双靶对接 → `merge_docking_pareto.py`
 
-然后合并：
-- S_U  = s_u_percentile（来自对接 merged 表）
-- S_N  = NLRP3 P_active 百分位
-→ Pareto 前沿 + 标注六药（见 docs/PAPER_A_PRIME_PLUS_LOGIC.md）
+详见 docs/WORKFLOW_CURRENT.md。不要对 8973 批量 NLRP3 ML 或双靶 Pareto。
 
 ═══════════════════════════════════════
 Phase 5 — 四药/对照补充（若 Phase 1 QC 有漏）

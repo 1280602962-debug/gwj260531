@@ -1,5 +1,8 @@
 # 本地 Agent 离线完成 P1/P2 指南
 
+> **⚠️ 已归档（2026-07）**：本文档描述 **OAT 迁移 / P1P2 旧路线**，**不再作为论文主流程**。  
+> 当前工作流：[`WORKFLOW_CURRENT.md`](WORKFLOW_CURRENT.md) | 归档说明：[`LEGACY_ARCHIVE.md`](LEGACY_ARCHIVE.md)
+
 **适用场景**：本地 agent 无法访问 GitHub，项目已通过 U 盘 / ZIP / `git pull`（由你手动执行）同步到本机。
 
 ---

@@ -1,5 +1,7 @@
 # TAPE-GATE 框架总览
 
+> **⚠️ 已归档（2026-07）**：旧版双路径融合路线，**请勿再执行**。当前流程：[`WORKFLOW_CURRENT.md`](WORKFLOW_CURRENT.md)
+
 > **T**ransporter-**A**ware **P**aired-path **E**vidence fusion with **G**enerative **A**nd library screening for dual-**T**arget **E**valuation  
 > **版本**: 2.0 | **更新**: 2026-06 | **前身**: STAD-AIDD v1.0
 

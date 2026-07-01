@@ -1,5 +1,7 @@
 # 论文 A′+ 完整逻辑 — 不对称双证据 + 共享库双靶优先（修订版）
 
+> **⚠️ 已归档（2026-07）**：文中 8973 双靶 Pareto 部分已废弃；8973 **仅作 URAT1 回顾**。当前提纲：[`MANUSCRIPT_OUTLINE_CURRENT.md`](MANUSCRIPT_OUTLINE_CURRENT.md)
+
 > **回应漏洞**：仅 6 药 MD 不够；不做 geometric mean 主图则「双靶抑制剂从哪来」；OAT 迁移不能当创新。  
 > **首投**：*Journal of Molecular Modeling*（Subscription / 非 OA）  
 > **前置文档**：`DUAL_TARGET_AND_FAST_JOURNALS.md`、`PAPER_A_PRIME_JMM_ACTION_PLAN.md`

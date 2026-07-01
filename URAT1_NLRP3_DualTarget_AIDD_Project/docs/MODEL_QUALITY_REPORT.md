@@ -7,11 +7,11 @@ NLRP3 model is screening-ready; URAT1 model fails strict CV and/or benchmark rec
 ## 1. Cross-validation (scaffold GroupKFold, 5 folds)
 
 ### URAT1 regression + conformal UQ
-- RMSE (OOF): 0.663
-- R² (OOF): 0.508
-- Spearman (OOF): 0.726
-- ROC-AUC (p≥7): 0.852
-- EF@5% (p≥7, strong actives): 3.29
+- RMSE (OOF): 0.667
+- R² (OOF): 0.503
+- Spearman (OOF): 0.722
+- ROC-AUC (p≥7): 0.854
+- EF@5% (p≥7, strong actives): 3.10
 - EF@10% (p≥6): 1.71 — **misleading** (theoretical max ≈1.75 at 57% base rate)
 - Strict CV pass: True
 
@@ -27,11 +27,11 @@ NLRP3 model is screening-ready; URAT1 model fails strict CV and/or benchmark rec
 
 | Compound | In train | Max Tc | Pred | Lit. | Pass |
 |----------|----------|--------|------|------|------|
-| lesinurad | False | 0.689 | 5.642 | 7.0 | False |
-| benzbromarone | False | 0.75 | 6.559 | 7.5 | True |
-| verinurad | True | 1.0 | 7.083 | 8.0 | True |
-| dotinurad | False | 0.837 | 5.071 | 8.2 | False |
-| allopurinol | False | 0.22 | 5.416 | — | True |
+| lesinurad | False | 0.689 | 5.57 | 7.0 | False |
+| benzbromarone | False | 0.75 | 6.553 | 7.5 | True |
+| verinurad | True | 1.0 | 7.152 | 8.0 | True |
+| dotinurad | False | 0.837 | 5.278 | 8.2 | False |
+| allopurinol | False | 0.22 | 5.035 | — | True |
 
 URAT1 must-recover binary pass: 2/4
 - In training set: 1/1

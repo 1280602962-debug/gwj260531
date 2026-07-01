@@ -1,8 +1,15 @@
 # 完整流程与文件清单（经核验版）
 
+> **⚠️ 已归档（2026-07）**：本文档描述 **旧版 TAPE-GATE / MASFL / 8973 双靶 Pareto** 路线，**请勿再按此执行**。  
+> **当前唯一工作流**：[`WORKFLOW_CURRENT.md`](WORKFLOW_CURRENT.md)  
+> **旧路线说明**：[`LEGACY_ARCHIVE.md`](LEGACY_ARCHIVE.md)  
+> **论文提纲**：[`MANUSCRIPT_OUTLINE_CURRENT.md`](MANUSCRIPT_OUTLINE_CURRENT.md)
+
+---
+
 > **版本**：TAPE-GATE v2.0（已实现） + MASFL v3.1（部分设计）  
 > **更新**：2026-06 | 数字与 ID 以 `DATA_FACT_CHECK.md` 为准  
-> **用途**：从零搭建项目、准备数据、跑通脚本、写论文 Methods 的 **单一索引**
+> **用途**：从零搭建项目、准备数据、跑通脚本、写论文 Methods 的 **单一索引**（历史参考）
 
 ---
 

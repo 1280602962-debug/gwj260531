@@ -1,108 +1,81 @@
-# URAT1/NLRP3 双靶点 AI 辅助药物发现项目（TAPE-GATE）
+# URAT1 / NLRP3 痛风双节点 — 临床药物重定位计算项目
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-**TAPE-GATE**（**T**ransporter-**A**ware **P**aired-path **E**vidence fusion with **G**enerative **A**nd library screening for dual-**T**arget **E**valuation）是一套面向 **高尿酸血症/痛风** 的 **URAT1（代谢层）+ NLRP3（炎症层）** 双靶点小分子发现的 **纯计算** 方法学框架。
+面向 **高尿酸血症/痛风** 的 **URAT1（代谢）+ NLRP3（炎症）** 双节点，在 ChEMBL **临床药物库** 上做 **NLRP3 ML 预筛 → 双靶对接 → Pareto 短名单**，并用 **8973 蒸馏集** 单独完成 URAT1 对接回顾验证。
 
-> **v2.0 升级**：相对 STAD-AIDD v1.0 与 PLK1/NLRP3 类不对称框架，引入 **库筛 + 生成式双路径**、**assay-conditioned NLRP3 建模**、**可靠性加权 Pareto 融合**，并刻意避开锚点相似性 + 固定 0.5/0.5 融合等雷同设计。
+> **当前论文路线（2026-07）**：见 [`docs/MANUSCRIPT_OUTLINE_CURRENT.md`](docs/MANUSCRIPT_OUTLINE_CURRENT.md)  
+> **旧版 TAPE-GATE / MASFL / 8973 双靶 Pareto / OAT 迁移** 已归档，**不再按该路线执行**：[`docs/LEGACY_ARCHIVE.md`](docs/LEGACY_ARCHIVE.md)
 
----
-
-## 核心问题
-
-| 挑战 | TAPE-GATE 应对 |
-|------|---------------|
-| URAT1/NLRP3 **0 重叠** SMILES | 独立双模型 + 证据融合（MTL 仅作消融） |
-| URAT1 是转运体而非激酶 | **$S_{\text{trap}}$ 构象系综**（非 PLK1 式单结构对接） |
-| NLRP3 **7.2% 跨 assay 活性离散（curated 39 assays）** | **Assay-conditioned 分类**（非锚点 ECFP 相似性） |
-| 候选化学空间局限 | **Path A 库筛** + **Path B CLM+RL 生成** |
-| 与 PLK1/NLRP3 方法撞车 | 差异化模块 + **PLK1-style 阴性对照**消融 |
-| 无湿实验 | 分路径 benchmark 回收 + 7 组消融（消融脚本为骨架） |
+**目标期刊**：*Journal of Molecular Modeling*（计算药理学 + 重定位，非湿实验 hit 发现）
 
 ---
 
-## 实现状态（GitHub 可核验）
+## 科学定位（一句话）
 
-| 模块 | 状态 | 证据 |
-|------|------|------|
-| 数据清洗 `00_prepare_data.py` | ✅ 已实现 | 822/513/0 重叠 |
-| 双模型训练 + conformal | ✅ 已实现 | `02_train_asymmetric_models.py` |
-| Benchmark 回测 | ✅ 已实现 | `07_benchmark_backtest.py` → URAT1_NO_GO |
-| $S_{\text{trap}}$ / 对接系综 | ☐ 设计+配置 | `03_structure_screening.py` 骨架 |
-| Path A/B 库筛/生成 | ☐ 骨架 | `03_library_screening.py` 等 |
-| OAT 迁移训练 | ☐ 配置已写 | 辅助 CSV 待 ChEMBL 导出 |
-| MASFL v3.1 | ☐ 设计稿 | 见 `MASFL_V3_WORKFLOW.md` |
+> 在 ChEMBL 训练 **0 SMILES 重叠** 条件下，用 **NLRP3 ML** 筛临床药物库，对 **P(active)≥0.5** 命中分子做 **URAT1@9DKB + NLRP3@8ETR** 双靶对接并 Pareto 整合；用 **8973** 仅证明 URAT1 应对接而非 ML；用 **代表药 MD（2+2）** 解释机制。
 
-事实与 ID 黑名单见 [**数据事实核验**](docs/DATA_FACT_CHECK.md)。
+**不是**：双靶新药发现、Teacher M-CPDL、百万库虚筛、OAT 迁移创新。
 
-## 文档导航
+---
+
+## 三套数据（禁止混用）
+
+| 数据集 | 规模 | 用途 |
+|--------|------|------|
+| **`data/repurposing/repurposing_manifest.csv`** | 8319 | **主筛选**：NLRP3 ML → 对接 → Pareto |
+| **`data/distill/distill_manifest.csv`** | 8973 | **仅 URAT1 回顾**：A vs D 富集（已 9DKB XP） |
+| **Benchmark 六药** | 4 URAT1 + 2 NLRP3 | 对照定位 + MD |
+
+---
+
+## 当前计算流程
+
+```
+ChEMBL 临床药物库 (8319)
+    → NLRP3 ML 全库打分                    [screen_repurposing_library.py]
+    → P(active) ≥ 0.5  (n≈1588)           [对接池]
+    → URAT1 @ 9DKB XP + NLRP3 @ 8ETR XP   [Maestro / 本地]
+    → Pareto 双证据短名单                  [merge_docking_pareto.py]
+    → 代表药 MD 2+2                       [benzbromarone, dotinurad, MCC950, GDC]
+
+并行（独立一节，不用于 NLRP3 筛选）：
+    8973 @ 9DKB XP → URAT1 ML vs 对接回顾  [merge_8973_docking_results.py]
+```
+
+详见 [**当前工作流**](docs/WORKFLOW_CURRENT.md)。
+
+---
+
+## 实现状态
+
+| 模块 | 状态 | 脚本 / 输出 |
+|------|------|-------------|
+| 数据清洗 URAT1/NLRP3 | ✅ | `00_prepare_data.py` |
+| NLRP3 + URAT1 模型训练 | ✅ | `02_train_asymmetric_models.py` |
+| Benchmark 回测 | ✅ | `07_benchmark_backtest.py` |
+| ChEMBL 重定位库 manifest | ✅ | `data/repurposing/repurposing_manifest.csv` |
+| **NLRP3 ML 全库筛选** | ✅ | `screen_repurposing_library.py` |
+| 8973 对接合并 + 回顾分析 | ✅ | `merge_8973_docking_results.py`, `analyze_urat1_docking_vs_ml.py` |
+| 重定位库双靶对接 | ⏳ 本地 Maestro | 输入：`docking_pool_p05.csv` |
+| Pareto 整合 | ✅ 脚本就绪 | `merge_docking_pareto.py`（待本地对接 CSV） |
+| 代表药 MD | ⏳ | 2+2 benchmark |
+
+事实数字见 [`docs/DATA_FACT_CHECK.md`](docs/DATA_FACT_CHECK.md)。
+
+---
+
+## 文档导航（按当前路线）
 
 | 文档 | 内容 |
 |------|------|
-| [**完整流程与文件清单**](docs/COMPLETE_WORKFLOW_AND_FILES.md) | **端到端流程、数据库、文件树（主索引）** |
-| [**TAPE-GATE 框架总览**](docs/TAPE_GATE_FRAMEWORK.md) | v2.0 架构、双路径、融合策略 |
-| [**MASFL v3.1 完整流程**](docs/MASFL_V3_WORKFLOW.md) | v3.1 扩展路线（**设计稿**，多数脚本未实现） |
-| [**算法框架详解**](docs/ALGORITHM_FRAMEWORK.md) | 公式、伪代码、各 Stage 技术细节 |
-| [**与 PLK1/NLRP3 差异化**](docs/DIFFERENTIATION_VS_PLK1_NLRP3.md) | 模块对照、避雷同清单（**重要**） |
-| [**项目总体设计**](docs/PROJECT_DESIGN.md) | 科学逻辑、实施计划、期刊策略 |
-| [**创新点与差异化**](docs/INNOVATION_POINTS.md) | 论文 Contribution、对比表 |
-| [**URAT1 转运体验证**](docs/URAT1_TRANSPORTER_VALIDATION.md) | 转运体 vs 酶验证要求 |
-| [**论文大纲**](docs/MANUSCRIPT_OUTLINE.md) | SCI 稿件结构、图表清单 |
-| [**准备清单**](docs/PREPARATION_CHECKLIST.md) | 数据、软件、结构 |
-| [**模型质量报告**](docs/MODEL_QUALITY_REPORT.md) | CV 指标 + benchmark 回测结论（**已运行**） |
-| [**Benchmark 选择标准**](docs/BENCHMARK_SELECTION_CRITERIA.md) | 化合物合理性、分层考试、文献来源 |
-| [**数据事实核验**](docs/DATA_FACT_CHECK.md) | ChEMBL/PDB/PMID 与规模数字（**投稿前必读**） |
-| [**SLC22 辅助库逻辑**](docs/SLC22_AUXILIARY_RATIONALE.md) | OAT 主迁移 vs OCT 脱靶；错误来源与可信边界 |
-| [**参考文献**](docs/REFERENCES.md) | 可核验文献列表 |
-
----
-
-## 双路径流水线概览
-
-```
-Path A (库筛)                    Path B (生成式)
-Enamine ~10⁶                     CLM cross-fine-tune + RL
-    │                                │
-    ├─ URAT1 conformal 过滤           ├─ 双靶 ML 奖励
-    ├─ NLRP3 assay-conditioned       ├─ S_trap + NLRP3 对接奖励
-    └─ 构象系综对接                   └─ QED/SA/新颖性
-              │                                │
-              └──────────┬─────────────────────┘
-                         ▼
-              可靠性加权 + Pareto 融合
-                         ▼
-              回顾性 benchmark 验证
-```
-
----
-
-## 目录结构
-
-```
-URAT1_NLRP3_DualTarget_AIDD_Project/
-├── README.md
-├── config/
-│   ├── targets.yaml
-│   ├── docking_ensemble.yaml
-│   ├── model_hierarchy.yaml      # 不对称双证据模型配置
-│   └── dual_path.yaml            # 库筛 + 生成式双路径配置
-├── data/
-│   ├── structures/
-│   └── benchmarks/
-├── docs/
-└── scripts/
-    ├── 00_prepare_data.py
-    ├── 01_dataset_analysis.py
-    ├── 02_train_asymmetric_models.py   # URAT1 + NLRP3 独立模型
-    ├── 03_library_screening.py         # Path A
-    ├── 04_generative_optimization.py   # Path B
-    ├── 05_fusion_and_ranking.py        # 可靠性 Pareto 融合
-    ├── 06_retrospective_validation.py  # 含 PLK1-style baseline
-    ├── 07_benchmark_backtest.py          # benchmark 回测
-    ├── run_model_build_and_validate.py   # 数据+训练+回测一键脚本
-    ├── run_tape_gate_pipeline.py
-    └── run_stad_pipeline.py            # v1.0 兼容入口
-```
+| [**当前工作流**](docs/WORKFLOW_CURRENT.md) | **主索引**：命令、路径、阶段 |
+| [**论文定稿思路**](docs/MANUSCRIPT_OUTLINE_CURRENT.md) | Results 结构、主图、不写清单 |
+| [**重定位库指南**](docs/REPURPOSING_DRUG_LIBRARY_GUIDE.md) | ChEMBL manifest、对接池 |
+| [**8973 对接整理**](docs/LOCAL_AGENT_8973_DOCKING_PROMPT.md) | URAT1 回顾验证 only |
+| [**模型质量报告**](docs/MODEL_QUALITY_REPORT.md) | URAT1_NO_GO / NLRP3 可用 |
+| [**数据事实核验**](docs/DATA_FACT_CHECK.md) | 投稿前必读 |
+| [**旧路线归档**](docs/LEGACY_ARCHIVE.md) | TAPE-GATE、MASFL 等（勿再执行） |
 
 ---
 
@@ -112,22 +85,54 @@ URAT1_NLRP3_DualTarget_AIDD_Project/
 cd URAT1_NLRP3_DualTarget_AIDD_Project
 pip install -r requirements.txt
 
-# 1) 建模 + 质量评估 + benchmark 回测（推荐先跑）
-python3 scripts/run_model_build_and_validate.py
+# 1) 训练模型（若尚无 results/training/*.joblib）
+python3 scripts/00_prepare_data.py
+python3 scripts/02_train_asymmetric_models.py --no-oat-transfer
 
-# 2) 端到端 TAPE-GATE 流水线
-python3 scripts/run_tape_gate_pipeline.py
+# 2) NLRP3 ML 筛临床库 + 导出 P≥0.5 对接池
+python3 scripts/screen_repurposing_library.py \
+  --input data/repurposing/repurposing_manifest.csv \
+  --panel clinical_all --export-p05-pool --skip-tanimoto
 
-# 仅库筛路径（算力有限时）
-python3 scripts/run_tape_gate_pipeline.py --skip-generative
+# 3) 8973 URAT1 回顾（可选，已完成则跳过）
+python3 scripts/merge_8973_docking_results.py \
+  --glide-csv results/docking/raw/9DKB_glide-dock_XP_8000_343e.csv
+python3 scripts/analyze_urat1_docking_vs_ml.py
+```
+
+---
+
+## 目录结构（当前相关）
+
+```
+URAT1_NLRP3_DualTarget_AIDD_Project/
+├── README.md
+├── config/
+│   ├── targets.yaml
+│   └── docking_ensemble.yaml      # 9DKB, 7ALV, 8ETR
+├── data/
+│   ├── repurposing/               # ChEMBL 临床药物 manifest
+│   ├── distill/                   # 8973（仅 URAT1 回顾）
+│   ├── docking/                   # 8973 合并分（已提交）
+│   └── benchmarks/
+├── docs/
+│   ├── WORKFLOW_CURRENT.md        # ★ 主流程
+│   ├── MANUSCRIPT_OUTLINE_CURRENT.md
+│   └── LEGACY_ARCHIVE.md
+└── scripts/
+    ├── screen_repurposing_library.py
+    ├── merge_docking_pareto.py
+    ├── merge_8973_docking_results.py
+    ├── analyze_urat1_docking_vs_ml.py
+    ├── build_repurposing_library.py
+    └── 02_train_asymmetric_models.py
 ```
 
 ---
 
 ## 推荐论文题目
 
-1. *TAPE-GATE: Transporter-aware paired-path evidence fusion for URAT1/NLRP3 dual-target discovery under assay-heterogeneous conditions*
-2. *Assay-conditioned and conformation-ensemble dual evidence for hyperuricemia dual-target screening with generative augmentation*
+*Clinical drug repurposing for gout-related URAT1 and NLRP3 targets: NLRP3 machine-learning prescreening, dual-target docking, and molecular dynamics of benchmark inhibitors*
 
 ---
 

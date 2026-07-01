@@ -8,7 +8,7 @@
 
 ## 0. 一句话
 
-在全临床药物库上用 **NLRP3 ML 快筛** → **Top 命中双靶对接** → **Pareto 短名单**；用 **8973 仅证明 URAT1 应对接**；用 **代表药 MD** 解释机制。
+在全临床药物库上用 **NLRP3 ML 快筛** → **P(active)≥0.5（n≈1588）双靶对接** → **Pareto 短名单**；用 **8973 仅证明 URAT1 应对接**；用 **代表药 MD（2+2）** 解释机制。
 
 ---
 
@@ -27,13 +27,11 @@
 ```
 ChEMBL 临床药物库 (n=8319)
         │
-        ▼  【Step 1】NLRP3 assay-conditioned ML（~20 s，已完成）
+        ▼  【Step 1】NLRP3 assay-conditioned ML（~20 s）
         │   → nlrp3_ml_scores_clinical_all.csv
-        │   → Top 5% / Top150：nlrp3_top_for_dual_docking_clinical_all.csv (n=416)
         ▼
-        │  【Step 2】对短名单双靶对接（本地 Maestro）
-        │   • URAT1 @ 9DKB Glide XP  → S_U^dock
-        │   • NLRP3 @ 7ALV 或 8ETR XP → S_N^dock（交叉验证 ML）
+        │  【Step 2】P(active) ≥ 0.5 → n≈1588（对接池）
+        │   → URAT1 @ 9DKB XP + NLRP3 @ 8ETR XP
         ▼
         │  【Step 3】整合
         │   • 主图：P(S_U^dock) vs P(S_N^ML) 或双对接 Pareto
@@ -46,26 +44,26 @@ ChEMBL 临床药物库 (n=8319)
    计算重定位短名单 + 机制讨论（无湿实验）
 ```
 
-**与经典「先 ML 再对接」的关系**：  
-这是 **单靶 ML 预筛（NLRP3）→ 双靶结构确认（URAT1+NLRP3 对接）**，符合重定位文献（如 2697 FDA 药全库对接；你先用 ML 缩小到 ~400 再对接，**更省算力、更好写**）。
+**与经典「先 ML 再对接」**：NLRP3 ML 预筛 → 命中分子双靶结构对接（对标 FDA 2697 全库对接，但先用 ML 缩至 ~1588）。
 
 ---
 
-## 3. NLRP3 ML 筛选结果（已跑通）
+## 3. NLRP3 ML 筛选（已跑通）
 
-**命令**：
 ```bash
 python3 scripts/screen_repurposing_library.py \
   --input data/repurposing/repurposing_manifest.csv \
-  --panel clinical_all --top-n 150 --top-pct 5 --skip-tanimoto
+  --panel clinical_all --export-p05-pool --skip-tanimoto
 ```
 
 | 指标 | 数值 |
 |------|------|
 | 全库打分 | **8319** |
-| P(active)≥0.5 | **1588** |
-| 对接短名单 | **416**（Top 5%） |
-| 耗时 | ~20 s |
+| **P(active)≥0.5（对接池）** | **1588** |
+| max_phase≥3 子集（SI） | 247 |
+| Top 5%（可选对照） | 416 |
+
+输出：`results/repurposing/docking_pool_p05.csv`
 
 **已知对照药排名（全库）**：
 
@@ -83,7 +81,7 @@ python3 scripts/screen_repurposing_library.py \
 python3 scripts/screen_repurposing_library.py --panel phase_ge3 ...
 ```
 
-或在 416 短名单中 **过滤 max_phase≥3** 再对接（主文更稳）。
+或在 **P≥0.5 对接池** 中 **过滤 max_phase≥3**（247 条）作 SI 敏感性分析。
 
 ---
 
@@ -94,19 +92,13 @@ python3 scripts/screen_repurposing_library.py --panel phase_ge3 ...
 - 流程图：**NLRP3 ML 筛临床库 → 双靶对接 → Pareto**
 
 ### R2. NLRP3 ML 筛选临床药物库
-- 8319 全库分布、1588 阳性预测  
+- 8319 全库；**1588** 条 P≥0.5 进入对接池  
 - 对照药排名表  
-- 导出 416 对接短名单的理由（Top 5%）
 
-### R3. URAT1 对接回顾验证（8973，独立一节）
-- A vs D EF@5%≈4.2；四药百分位  
-- **说明**：为何 URAT1 在 Step 2 用对接、不用 ML  
-- **不参与** NLRP3 筛选叙事
-
-### R4. 短名单双靶对接 + Pareto（主图）
-- 416（或 phase≥3 子集）@ 9DKB + 7ALV/8ETR  
+### R4. 对接池双靶对接 + Pareto（主图）
+- **1588** @ 9DKB + 8ETR（SI：phase≥3 子集 247）  
 - $S_U$–$S_N$ 平面；已知药标注  
-- SI：NLRP3 对接 vs ML 在短名单上的 Spearman
+- SI：NLRP3 对接 vs ML 在对接池上的 Spearman
 
 ### R5. 代表药 MD（2+2）
 - 结合稳定性；**不声称**全库 hit 验证
@@ -128,22 +120,27 @@ python3 scripts/screen_repurposing_library.py --panel phase_ge3 ...
 
 ## 6. 本地 Agent 下一步命令
 
-```
-# 1. 已完成：NLRP3 ML 全库
-# 输出：results/repurposing/nlrp3_top_for_dual_docking_clinical_all.csv
+```bash
+# 1. NLRP3 ML 全库 + 导出 P≥0.5 对接池（若未跑）
+python3 scripts/screen_repurposing_library.py \
+  --input data/repurposing/repurposing_manifest.csv \
+  --panel clinical_all --export-p05-pool --skip-tanimoto
+# → results/repurposing/docking_pool_p05.csv（n≈1588）
 
-# 2. 可选：只要 III 期+上市进入对接
-python3 -c "
-import pandas as pd
-df=pd.read_csv('results/repurposing/nlrp3_top_for_dual_docking_clinical_all.csv')
-sub=df[df.max_phase>=3].copy()
-sub.to_csv('results/repurposing/docking_shortlist_phase_ge3.csv', index=False)
-print(len(sub), 'compounds')
-"
+# 2. Maestro：对 docking_pool_p05 跑 URAT1 9DKB XP + NLRP3 8ETR XP
+# 导出至 results/repurposing/docking_raw/
 
-# 3. 对 docking_shortlist 跑 URAT1 9DKB XP + NLRP3 7ALV/8ETR XP（Maestro）
+# 3. Pareto 整合
+python3 scripts/merge_docking_pareto.py \
+  --ml-scores results/repurposing/nlrp3_ml_scores_clinical_all.csv \
+  --urat1-dock results/repurposing/docking_raw/urat1_9dkb_p05.csv \
+  --nlrp3-dock results/repurposing/docking_raw/nlrp3_8etr_p05.csv \
+  --pool results/repurposing/docking_pool_p05.csv
 
-# 4. 合并对接分 → Pareto 脚本（待建 merge_docking_pareto.py）
+# 4. SI：仅 III 期+上市子集
+python3 scripts/screen_repurposing_library.py \
+  --input data/repurposing/repurposing_manifest.csv \
+  --panel phase_ge3 --export-p05-pool --skip-tanimoto
 ```
 
 ---

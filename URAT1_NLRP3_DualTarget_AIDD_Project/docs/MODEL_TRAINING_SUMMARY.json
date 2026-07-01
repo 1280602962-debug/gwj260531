@@ -2,6 +2,13 @@
   "framework": "TAPE-GATE",
   "urat1": {
     "model": "XGBoost regression + split conformal (alpha=0.1)",
+    "transfer_learning": {
+      "enabled": false,
+      "method": "sequential_finetune",
+      "auxiliary": "slc22_oat_transfer",
+      "oat_pretrain_compounds": 0,
+      "final_model_oat_transfer": false
+    },
     "cv_metrics": {
       "rmse": 0.6634725892592518,
       "mae": 0.49847748712321566,
@@ -14,7 +21,9 @@
       "active_rate_p7": 0.2518248175182482,
       "ef_p6_theoretical_max": 1.7526652452025586,
       "mean_interval_width": 2.51048066552248,
-      "n_compounds": 822
+      "n_compounds": 822,
+      "oat_transfer": false,
+      "oat_pretrain_compounds": 0
     },
     "fold_metrics": [
       {
@@ -27,7 +36,8 @@
         "ef_10pct_p6": 1.0893485915492958,
         "ef_5pct_p7": 2.0625,
         "roc_auc_p7": 0.7184920634920635,
-        "mean_interval_width": 1.9974853992462158
+        "mean_interval_width": 1.9974853992462158,
+        "oat_pretrain_used": false
       },
       {
         "rmse": 0.6765377199637405,
@@ -39,7 +49,8 @@
         "ef_10pct_p6": 1.7368421052631577,
         "ef_5pct_p7": 2.4264705882352944,
         "roc_auc_p7": 0.8874269005847953,
-        "mean_interval_width": 2.242053270339966
+        "mean_interval_width": 2.242053270339966,
+        "oat_pretrain_used": false
       },
       {
         "rmse": 0.6692101442508086,
@@ -51,7 +62,8 @@
         "ef_10pct_p6": 1.842696629213483,
         "ef_5pct_p7": 3.075,
         "roc_auc_p7": 0.8616935483870968,
-        "mean_interval_width": 1.9161626100540161
+        "mean_interval_width": 1.9161626100540161,
+        "oat_pretrain_used": false
       },
       {
         "rmse": 0.7544164491145245,
@@ -63,7 +75,8 @@
         "ef_10pct_p6": 1.75,
         "ef_5pct_p7": 3.53448275862069,
         "roc_auc_p7": 0.8367816091954023,
-        "mean_interval_width": 4.436159133911133
+        "mean_interval_width": 4.436159133911133,
+        "oat_pretrain_used": false
       },
       {
         "rmse": 0.6292104377884095,
@@ -75,7 +88,8 @@
         "ef_10pct_p6": 2.6885245901639343,
         "ef_5pct_p7": 5.314814814814815,
         "roc_auc_p7": 0.9071370640713707,
-        "mean_interval_width": 1.9653081893920898
+        "mean_interval_width": 1.9653081893920898,
+        "oat_pretrain_used": false
       }
     ],
     "screening_assessment": {
