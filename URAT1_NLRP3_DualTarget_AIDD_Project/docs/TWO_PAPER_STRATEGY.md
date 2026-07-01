@@ -307,6 +307,7 @@ flowchart LR
 | 文件 | 用途 |
 |------|------|
 | `TWO_PAPER_STRATEGY.md` | 本文件 — 双轨总策略 |
+| `DUAL_TARGET_AND_FAST_JOURNALS.md` | 双靶如何诚实写入 + JMGM 标准 + 非 OA 快刊排序 |
 | `MANUSCRIPT_OUTLINE_BENCHMARK.md` | 论文 B 大纲 |
 | `URAT1_THREE_STATE_BENCHMARK_PLAN.md` | 论文 B 计算计划 |
 | `PAPER_PIVOT_BENCHMARK.md` | 为何不做算法文 |

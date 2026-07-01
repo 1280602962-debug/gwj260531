@@ -1,6 +1,6 @@
 # 快速发表线论文大纲 — URAT1 抑制剂 @ 9DKB（论文 A）
 
-> **策略总览**：`TWO_PAPER_STRATEGY.md`  
+> **双靶叙事 + JMGM/非OA 选刊**：`DUAL_TARGET_AND_FAST_JOURNALS.md`  
 > **目标期刊**：*J. Comput.-Aided Mol. Des.*（首选）或 *Molecular Diversity*  
 > **类型**：Computational characterization / Case study（**非** hit discovery，**非** 新算法）  
 > **与论文 B（JCIM）关系**：仅覆盖 **9DKB 单态**；三态失败与 decoy benchmark 全部留给论文 B
