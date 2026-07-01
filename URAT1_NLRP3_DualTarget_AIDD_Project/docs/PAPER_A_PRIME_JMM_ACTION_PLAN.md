@@ -1,8 +1,8 @@
 # 论文 A′ 执行清单 — 双靶平行 · 首投 J. Molecular Modeling
 
-> **叙事**：痛风代谢–炎症双节点下，URAT1 四药 @ 9DKB 与 NLRP3 两药 @ 8ETR/7ALV 的 **paired computational pharmacology**  
-> **期刊**：*Journal of Molecular Modeling*（Springer，**Subscription / 非 OA**）  
-> **与 8000 条 XP 对接的关系**：见下文 §3 —— **主文不依赖全库结果**
+> **⚠️ 逻辑已升级为 A′+**：见 **`PAPER_A_PRIME_PLUS_LOGIC.md`**（共享库不对称双证据 + Pareto 短名单；OAT 删除；8000+A 必做）  
+> **叙事**：痛风代谢–炎症双节点下，**共享库**上 URAT1 结构分 + NLRP3 ML 分 → 双靶计算短名单  
+> **期刊**：*Journal of Molecular Modeling*（Springer，**Subscription / 非 OA**）
 
 ---
 
