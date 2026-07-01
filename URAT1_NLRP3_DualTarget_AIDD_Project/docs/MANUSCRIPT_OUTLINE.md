@@ -1,7 +1,17 @@
-# SCI 论文大纲（TAPE-GATE v2.0）
+# SCI 论文大纲（TAPE-GATE v2.0）— 已降级
 
-> 建议目标：**Journal of Cheminformatics** 或 **JCIM**  
-> 文章类型：Original Research / Methodology  
+> **⚠️ 2026-06 起不再作为主投稿叙事。**  
+> 务实方向已调整为 **URAT1 三态对接 benchmark**，见：  
+> - [`PAPER_PIVOT_BENCHMARK.md`](PAPER_PIVOT_BENCHMARK.md) — 方向调整与不可行原因  
+> - [`MANUSCRIPT_OUTLINE_BENCHMARK.md`](MANUSCRIPT_OUTLINE_BENCHMARK.md) — **新写作大纲**  
+> - [`URAT1_THREE_STATE_BENCHMARK_PLAN.md`](URAT1_THREE_STATE_BENCHMARK_PLAN.md) — 执行计划  
+>
+> 下文保留作历史参考（双靶 TAPE-GATE），勿直接用于投稿。
+
+---
+
+> 原建议目标：**Journal of Cheminformatics** 或 **JCIM**  
+> 原文章类型：Original Research / Methodology  
 > 预计字数：6500–8500 words + SI
 
 ---
