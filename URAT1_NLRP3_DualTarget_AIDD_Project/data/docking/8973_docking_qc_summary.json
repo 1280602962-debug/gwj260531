@@ -1,0 +1,71 @@
+{
+  "n_manifest": 8973,
+  "n_unique_docked": 8920,
+  "n_merged_docked": 8928,
+  "coverage_pct": 99.5,
+  "subset_coverage": {
+    "A": {
+      "n_manifest": 822,
+      "n_docked": 822,
+      "coverage_pct": 100.0
+    },
+    "C": {
+      "n_manifest": 59,
+      "n_docked": 58,
+      "coverage_pct": 98.31
+    },
+    "D": {
+      "n_manifest": 8000,
+      "n_docked": 7957,
+      "coverage_pct": 99.46
+    },
+    "E": {
+      "n_manifest": 92,
+      "n_docked": 91,
+      "coverage_pct": 98.91
+    }
+  },
+  "benchmark_panel_9dkb": [
+    {
+      "compound_name": "lesinurad",
+      "canonical_smiles": "O=C(O)CSc1nnc(Br)n1-c1ccc(C2CC2)c2ccccc12",
+      "docked": true,
+      "glide_score_xp": -6.71483,
+      "s_u_percentile": 24.910394265232974
+    },
+    {
+      "compound_name": "benzbromarone",
+      "canonical_smiles": "CCc1oc2ccccc2c1C(=O)c1cc(Br)c(O)c(Br)c1",
+      "docked": true,
+      "glide_score_xp": -10.3405,
+      "s_u_percentile": 98.02867383512545
+    },
+    {
+      "compound_name": "verinurad",
+      "canonical_smiles": "CC(C)(Sc1ccncc1-c1ccc(C#N)c2ccccc12)C(=O)O",
+      "docked": true,
+      "glide_score_xp": -9.43087,
+      "s_u_percentile": 91.20183691756273
+    },
+    {
+      "compound_name": "dotinurad",
+      "canonical_smiles": "O=C(c1cc(Cl)c(O)c(Cl)c1)N1CS(=O)(=O)c2ccccc21",
+      "docked": true,
+      "glide_score_xp": -9.23519,
+      "s_u_percentile": 88.64247311827957
+    }
+  ],
+  "missing_smiles_count": 45,
+  "join_method_counts": {
+    "title": 8927,
+    "NaN": 45,
+    "inchikey": 1
+  },
+  "inputs": [
+    "results/docking/raw/9DKB_glide-dock_XP_8000_343e.csv"
+  ],
+  "outputs": {
+    "merged": "/workspace/URAT1_NLRP3_DualTarget_AIDD_Project/data/docking/8973_9DKB_with_manifest.csv",
+    "dock_best_pose": "/workspace/URAT1_NLRP3_DualTarget_AIDD_Project/data/docking/8973_9DKB_merged.csv"
+  }
+}
