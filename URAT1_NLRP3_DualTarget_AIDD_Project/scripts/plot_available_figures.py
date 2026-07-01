@@ -46,6 +46,7 @@ from jmm_style import (  # noqa: E402
     legend_upper_center,
     save_figure,
     set_axis_labels,
+    subplot_legend_centered,
     subplot_xlabel_centered,
     tag_panel,
     target_header,
@@ -503,20 +504,14 @@ def plot_fig03_composite(dock: pd.DataFrame, summary: dict, bench: pd.DataFrame)
     set_axis_labels(ax, "", "Percentile on 8973 library", ypad=6)
     ax.set_ylim(0, 122)
     ax.margins(x=0.10)
-    ax.legend(
-        loc="center",
-        bbox_to_anchor=(0.36, 0.62),
-        ncol=2,
-        fontsize=FONT_SIZE_PT,
-        frameon=False,
-        borderaxespad=0.0,
-    )
+    legend_upper_center(ax, ncol=2, y=0.99)
 
-    fig.subplots_adjust(**{**MARGIN_COMPOSITE, "top": 0.86, "bottom": 0.26, "left": 0.15, "right": 0.93, "hspace": 0.80, "wspace": 0.58})
+    fig.subplots_adjust(**{**MARGIN_COMPOSITE, "top": 0.86, "bottom": 0.28, "left": 0.15, "right": 0.93, "hspace": 0.80, "wspace": 0.58})
     apply_panel_tags(fig, axes, ("a", "b", "c", "d"))
     subplot_xlabel_centered(fig, axes[0, 0], "8973 distill subset", pad=0.042)
     subplot_xlabel_centered(fig, axes[1, 0], "Enrichment metric", pad=0.040)
     subplot_xlabel_centered(fig, axes[1, 1], "Benchmark inhibitor", pad=0.028, tick_clearance=0.040)
+    subplot_legend_centered(fig, axes[1, 1], ncol=2, pad=0.088)
     paths = save_figure(fig, "fig03_urat1_retrospective_composite", "main", tight=False)
     return {"id": "fig03_composite", "target": "URAT1", "description": "Main Fig 3 composite (URAT1 retrospective)", **paths}
 

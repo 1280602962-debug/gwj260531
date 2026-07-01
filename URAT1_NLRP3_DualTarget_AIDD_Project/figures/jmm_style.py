@@ -189,6 +189,28 @@ def legend_upper_center(ax, handles=None, labels=None, ncol: int = 2, y: float =
         ax.legend(**kwargs)
 
 
+def subplot_legend_centered(
+    fig: plt.Figure, ax, ncol: int = 2, pad: float = 0.088, handles=None, labels=None
+) -> None:
+    """Place legend centered below a subplot (under the x-axis title)."""
+    if ax.get_legend() is not None:
+        leg = ax.get_legend()
+        if handles is None:
+            handles, labels = ax.get_legend_handles_labels()
+        leg.remove()
+    fig.canvas.draw()
+    bb = ax.get_position()
+    fig.legend(
+        handles=handles,
+        labels=labels,
+        loc="upper center",
+        bbox_to_anchor=(bb.x0 + bb.width / 2, bb.y0 - pad),
+        ncol=ncol,
+        fontsize=FONT_SIZE_PT,
+        frameon=False,
+    )
+
+
 def subplot_xlabel_centered(
     fig: plt.Figure, ax, text: str, pad: float = 0.028, tick_clearance: float = 0.0
 ) -> None:
