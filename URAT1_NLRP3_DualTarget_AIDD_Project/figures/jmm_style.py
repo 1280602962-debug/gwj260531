@@ -5,6 +5,7 @@ from pathlib import Path
 
 import matplotlib as mpl
 import matplotlib.pyplot as plt
+import numpy as np
 from matplotlib.patches import Patch
 
 try:
@@ -27,6 +28,8 @@ MUTED = "#AAAAAA"
 WARN = "#CC6677"
 
 FONT_SIZE_PT = 8
+PANEL_TAG_OFFSET_X = 0.014  # figure coords left of subplot
+PANEL_TAG_OFFSET_Y = 0.010  # figure coords above subplot top
 SINGLE_COL_MM = 84
 DOUBLE_COL_MM = 174
 
@@ -65,7 +68,7 @@ def apply_style() -> None:
             "ps.fonttype": 42,
             "figure.dpi": 300,
             "savefig.dpi": 300,
-            "savefig.pad_inches": 0.06,
+            "savefig.pad_inches": 0.12,
             "figure.facecolor": "white",
             "axes.facecolor": "white",
         }
@@ -80,18 +83,30 @@ def figsize_double(height_mm: float = 78) -> tuple[float, float]:
     return (mm_to_in(DOUBLE_COL_MM), mm_to_in(height_mm))
 
 
+def set_axis_labels(ax, xlabel: str, ylabel: str, xpad: float = 5.0, ypad: float = 5.0) -> None:
+    ax.set_xlabel(xlabel, labelpad=xpad)
+    ax.set_ylabel(ylabel, labelpad=ypad)
+
+
 def clean_axes(ax) -> None:
-    """Minimal axes: left/bottom spines only, no grid, no top/right ticks."""
+    """Minimal axes: left/bottom spines only, no grid."""
     ax.spines["top"].set_visible(False)
     ax.spines["right"].set_visible(False)
     ax.grid(False)
-    ax.set_axisbelow(False)
+    ax.xaxis.grid(False)
+    ax.yaxis.grid(False)
+    ax.set_axisbelow(True)
     ax.tick_params(top=False, right=False, which="both")
 
 
-def set_axis_labels(ax, xlabel: str, ylabel: str) -> None:
-    ax.set_xlabel(xlabel, labelpad=5)
-    ax.set_ylabel(ylabel, labelpad=5)
+def clean_hbar_axes(ax, y_grid: bool = False) -> None:
+    """Horizontal bar axes: never show vertical (x) grid lines."""
+    clean_axes(ax)
+    ax.xaxis.grid(False)
+    if y_grid:
+        ax.yaxis.grid(True, linestyle=(0, (2, 4)), color=GRID, alpha=0.55, linewidth=0.4)
+    else:
+        ax.yaxis.grid(False)
 
 
 def target_header(fig: plt.Figure, text: str, color: str, y: float = 0.97) -> None:
@@ -99,7 +114,69 @@ def target_header(fig: plt.Figure, text: str, color: str, y: float = 0.97) -> No
 
 
 def tag_panel(ax, label: str) -> None:
-    ax.text(-0.08, 1.12, label, transform=ax.transAxes, fontsize=FONT_SIZE_PT, fontweight="bold", va="top", ha="left", clip_on=False)
+    """Legacy per-axes tag; prefer apply_panel_tags for composites."""
+    ax.text(-0.11, 1.10, label, transform=ax.transAxes, fontsize=FONT_SIZE_PT, fontweight="bold", va="bottom", ha="right", clip_on=False)
+
+
+def apply_panel_tags(fig: plt.Figure, axes, labels: tuple[str, ...]) -> None:
+    """Place a/b/c/d labels at a uniform offset from each subplot corner (figure coords)."""
+    fig.canvas.draw()
+    for ax, lab in zip(np.ravel(axes), labels):
+        bb = ax.get_position()
+        fig.text(
+            bb.x0 - PANEL_TAG_OFFSET_X,
+            bb.y1 + PANEL_TAG_OFFSET_Y,
+            lab,
+            ha="right",
+            va="bottom",
+            fontsize=FONT_SIZE_PT,
+            fontweight="bold",
+            color=NEUTRAL,
+        )
+
+
+def legend_lower_left(ax, handles=None, labels=None, ncol: int = 1, x: float = 0.02, y: float = 0.04) -> None:
+    """Unified in-panel legend anchored to lower-left empty corner."""
+    kwargs = dict(
+        loc="lower left",
+        bbox_to_anchor=(x, y),
+        ncol=ncol,
+        fontsize=FONT_SIZE_PT,
+        frameon=False,
+        borderaxespad=0.0,
+    )
+    if handles is not None:
+        ax.legend(handles=handles, labels=labels, **kwargs)
+    elif labels is not None:
+        ax.legend(labels=labels, **kwargs)
+    else:
+        ax.legend(**kwargs)
+
+
+def legend_lower_right(ax, handles=None, labels=None, ncol: int = 1, x: float = 0.98, y: float = 0.04) -> None:
+    """Unified in-panel legend anchored to lower-right empty corner."""
+    kwargs = dict(
+        loc="lower right",
+        bbox_to_anchor=(x, y),
+        ncol=ncol,
+        fontsize=FONT_SIZE_PT,
+        frameon=False,
+        borderaxespad=0.0,
+    )
+    if handles is not None:
+        ax.legend(handles=handles, labels=labels, **kwargs)
+    elif labels is not None:
+        ax.legend(labels=labels, **kwargs)
+    else:
+        ax.legend(**kwargs)
+
+
+def subplot_xlabel_centered(fig: plt.Figure, ax, text: str, pad: float = 0.028) -> None:
+    """Center an x-axis title under one subplot (not under a single tick)."""
+    ax.set_xlabel("")
+    fig.canvas.draw()
+    bb = ax.get_position()
+    fig.text(bb.x0 + bb.width / 2, bb.y0 - pad, text, ha="center", va="top", fontsize=FONT_SIZE_PT, color=NEUTRAL)
 
 
 def legend_below(ax, handles=None, labels=None, ncol: int = 2, y: float = -0.24) -> None:
@@ -213,13 +290,13 @@ def save_figure(fig: plt.Figure, stem: str, subdir: str = "", tight: bool = True
             dpi=300 if ext == "png" else None,
             facecolor="white",
             bbox_inches="tight" if tight else None,
-            pad_inches=0.08,
+            pad_inches=0.12,
         )
         paths[ext] = str(p)
     plt.close(fig)
     return paths
 
-# Standard margins (fraction of figure)
-MARGIN_SINGLE = dict(left=0.17, right=0.96, top=0.76, bottom=0.18)
-MARGIN_WIDE_X = dict(left=0.15, right=0.96, top=0.76, bottom=0.26)
-MARGIN_COMPOSITE = dict(left=0.12, right=0.98, top=0.86, bottom=0.14, hspace=0.72, wspace=0.52)
+# Standard margins (fraction of figure) — extra padding for print (~0.5–1 cm)
+MARGIN_SINGLE = dict(left=0.17, right=0.94, top=0.76, bottom=0.18)
+MARGIN_WIDE_X = dict(left=0.15, right=0.94, top=0.76, bottom=0.28)
+MARGIN_COMPOSITE = dict(left=0.14, right=0.94, top=0.84, bottom=0.16, hspace=0.76, wspace=0.56)

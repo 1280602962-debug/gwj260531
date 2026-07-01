@@ -31,16 +31,21 @@ from jmm_style import (  # noqa: E402
     WARN,
     FONT_SIZE_PT,
     annotate_threshold_hist,
+    apply_panel_tags,
     apply_style,
     clean_axes,
+    clean_hbar_axes,
     figsize_double,
     figsize_single,
     label_bars_horizontal_outside,
     label_bars_vertical,
     label_hbars_counts,
     legend_below,
+    legend_lower_left,
+    legend_lower_right,
     save_figure,
     set_axis_labels,
+    subplot_xlabel_centered,
     tag_panel,
     target_header,
     ylim_headroom,
@@ -75,7 +80,7 @@ def _nlrp3_control_rows(ml: pd.DataFrame) -> list[dict]:
 def _funnel_counts(summary: dict) -> tuple[list[int], list[str]]:
     n_scored = summary["n_scored"]
     n_active = summary["n_pred_active_ge_threshold"]
-    pending_stub = max(int(n_active * 0.06), 120)
+    pending_stub = 80
     counts = [n_scored, n_active, pending_stub]
     labels = [f"{n_scored:,}", f"{n_active:,}", "pending"]
     return counts, labels
@@ -168,7 +173,7 @@ def plot_screening_funnel(summary: dict) -> dict:
     ax.set_yticks(y)
     ax.set_yticklabels(stages)
     ax.invert_yaxis()
-    clean_axes(ax)
+    clean_hbar_axes(ax, y_grid=True)
     set_axis_labels(ax, "Number of compounds", "Screening stage")
     fig.subplots_adjust(**{**MARGIN_SINGLE, "left": 0.32})
     paths = save_figure(fig, "nlrp3_fig02d_screening_funnel", "nlrp3")
@@ -356,8 +361,13 @@ def plot_library_phase(manifest: pd.DataFrame) -> dict:
 
 
 def plot_fig02_composite(ml: pd.DataFrame, summary: dict) -> dict:
-    fig, axes = plt.subplots(2, 2, figsize=figsize_double(152))
-    target_header(fig, "Target: NLRP3 — clinical library machine-learning prescreen", NLRP3_COLOR, y=0.985)
+    fig, axes = plt.subplots(2, 2, figsize=figsize_double(158))
+    target_header(fig, "Target: NLRP3 — clinical library machine-learning prescreen", NLRP3_COLOR, y=0.975)
+
+    control_legend = [
+        Patch(facecolor=MUTED, edgecolor=NEUTRAL, label="Gout co-medication"),
+        Patch(facecolor=WARN, edgecolor=NEUTRAL, label="Indirect / off-target"),
+    ]
 
     # (a) histogram
     ax = axes[0, 0]
@@ -365,13 +375,13 @@ def plot_fig02_composite(ml: pd.DataFrame, summary: dict) -> dict:
     ax.hist(ml["p_active_nlrp3"], bins=40, color=NLRP3_COLOR, alpha=0.85, edgecolor="white", linewidth=0.15)
     ax.axvline(0.5, color=THRESHOLD, linestyle=(0, (4, 3)), linewidth=0.9)
     clean_axes(ax)
-    set_axis_labels(ax, "Predicted probability P(active)", "Number of compounds")
+    set_axis_labels(ax, "Predicted probability P(active)", "Number of compounds", xpad=6, ypad=6)
     ax.set_xlim(0, 1)
+    ax.margins(x=0.02)
     ylim_headroom(ax, 0.06)
     annotate_threshold_hist(ax, n_ge)
-    tag_panel(ax, "a")
 
-    # (b) controls — legend below panel, value labels in fixed column
+    # (b) controls
     ax = axes[0, 1]
     rows = _nlrp3_control_rows(ml)
     drugs = [r["drug"] for r in rows]
@@ -381,34 +391,38 @@ def plot_fig02_composite(ml: pd.DataFrame, summary: dict) -> dict:
     ax.axvline(0.5, color=THRESHOLD, linestyle=(0, (4, 3)), linewidth=0.9)
     ax.set_xlim(0, 1.05)
     label_bars_horizontal_outside(ax, bars, vals, label_col=1.08)
-    clean_axes(ax)
-    set_axis_labels(ax, "Predicted probability P(active)", "Reference compound")
-    tag_panel(ax, "b")
+    clean_hbar_axes(ax)
+    set_axis_labels(ax, "Predicted probability P(active)", "Reference compound", xpad=6, ypad=6)
+    legend_lower_right(ax, handles=control_legend, ncol=1, x=0.98, y=0.03)
 
-    control_legend = [
-        Patch(facecolor=MUTED, edgecolor=NEUTRAL, label="Gout co-medication"),
-        Patch(facecolor=WARN, edgecolor=NEUTRAL, label="Indirect / off-target"),
-    ]
-
-    # (c) phase boxplot
+    # (c) phase boxplot — wider tick spacing
     ax = axes[1, 0]
     phase_keys = [1.0, 2.0, 3.0, 4.0]
     phase_labels = ["Phase I", "Phase II", "Phase III", "Approved"]
     sub = ml[ml["max_phase"].isin(phase_keys)]
     data = [sub.loc[sub["max_phase"] == k, "p_active_nlrp3"].values for k in phase_keys]
-    bp = ax.boxplot(data, tick_labels=phase_labels, patch_artist=True, widths=0.45, showfliers=False, medianprops={"color": NEUTRAL, "linewidth": 0.9})
+    positions = [1.0, 2.6, 4.2, 5.8]
+    bp = ax.boxplot(
+        data,
+        positions=positions,
+        widths=0.55,
+        patch_artist=True,
+        showfliers=False,
+        medianprops={"color": NEUTRAL, "linewidth": 0.9},
+    )
     for patch in bp["boxes"]:
         patch.set_facecolor(NLRP3_COLOR)
         patch.set_alpha(0.5)
         patch.set_edgecolor(NEUTRAL)
     ax.axhline(0.5, color=THRESHOLD, linestyle=(0, (4, 3)), linewidth=0.9)
+    ax.set_xticks(positions)
+    ax.set_xticklabels(phase_labels, rotation=28, ha="right")
+    ax.set_xlim(0.2, 6.6)
     clean_axes(ax)
-    set_axis_labels(ax, "Clinical development stage", "Predicted probability P(active)")
-    plt.setp(ax.get_xticklabels(), rotation=35, ha="right")
+    set_axis_labels(ax, "Clinical development stage", "Predicted probability P(active)", xpad=10, ypad=6)
     ax.text(0.55, 0.97, "Threshold 0.5", transform=ax.transAxes, ha="center", va="top", fontsize=FONT_SIZE_PT, color=THRESHOLD)
-    tag_panel(ax, "c")
 
-    # (d) funnel
+    # (d) funnel — no vertical grid
     ax = axes[1, 1]
     stages = ["Library scored", "P(active) ≥ 0.5", "Dual docking"]
     counts, funnel_labels = _funnel_counts(summary)
@@ -419,19 +433,18 @@ def plot_fig02_composite(ml: pd.DataFrame, summary: dict) -> dict:
     ax.set_yticks(y)
     ax.set_yticklabels(stages)
     ax.invert_yaxis()
-    clean_axes(ax)
-    set_axis_labels(ax, "Number of compounds", "Screening stage")
-    tag_panel(ax, "d")
+    clean_hbar_axes(ax, y_grid=True)
+    set_axis_labels(ax, "Number of compounds", "Screening stage", xpad=6, ypad=6)
 
-    fig.subplots_adjust(**{**MARGIN_COMPOSITE, "top": 0.88, "bottom": 0.14, "left": 0.14, "right": 0.94, "hspace": 0.78, "wspace": 0.56})
-    fig.legend(handles=control_legend, loc="center", bbox_to_anchor=(0.73, 0.54), ncol=2, fontsize=FONT_SIZE_PT, frameon=False)
+    fig.subplots_adjust(**{**MARGIN_COMPOSITE, "top": 0.86, "bottom": 0.15, "left": 0.15, "right": 0.93, "hspace": 0.80, "wspace": 0.58})
+    apply_panel_tags(fig, axes, ("a", "b", "c", "d"))
     paths = save_figure(fig, "fig02_nlrp3_screening_composite", "main", tight=False)
     return {"id": "fig02_composite", "target": "NLRP3", "description": "Main Fig 2 composite (NLRP3 screening)", **paths}
 
 
 def plot_fig03_composite(dock: pd.DataFrame, summary: dict, bench: pd.DataFrame) -> dict:
-    fig, axes = plt.subplots(2, 2, figsize=figsize_double(152))
-    target_header(fig, "Target: URAT1 — 8973 retrospective docking (9DKB XP)", URAT1_COLOR, y=0.985)
+    fig, axes = plt.subplots(2, 2, figsize=figsize_double(158))
+    target_header(fig, "Target: URAT1 — 8973 retrospective docking (9DKB XP)", URAT1_COLOR, y=0.975)
 
     sub = dock[(dock["subset"].isin(["A", "D"])) & dock["docked"]]
     d_scores = sub.loc[sub["subset"] == "D", "glide_score_xp"]
@@ -446,8 +459,9 @@ def plot_fig03_composite(dock: pd.DataFrame, summary: dict, bench: pd.DataFrame)
     ax.set_xticks([0, 1])
     ax.set_xticklabels(["Decoy D", "Active A"])
     clean_axes(ax)
-    set_axis_labels(ax, "8973 distill subset", "Glide XP score (kcal/mol)")
-    tag_panel(ax, "a")
+    ax.set_xlabel("")
+    set_axis_labels(ax, "", "Glide XP score (kcal/mol)", xpad=6, ypad=6)
+    ax.margins(x=0.12)
 
     ax = axes[0, 1]
     y = (sub["subset"] == "A").astype(int)
@@ -456,11 +470,10 @@ def plot_fig03_composite(dock: pd.DataFrame, summary: dict, bench: pd.DataFrame)
     ax.plot(fpr, tpr, color=URAT1_COLOR, linewidth=1.1, label=f"AUC = {roc_auc:.3f}")
     ax.plot([0, 1], [0, 1], color=GRID, linestyle=(0, (4, 3)), linewidth=0.7, label="Random")
     clean_axes(ax)
-    set_axis_labels(ax, "False positive rate (decoy D)", "True positive rate (active A)")
-    ax.set_xlim(0, 1)
-    ax.set_ylim(0, 1)
-    ax.legend(loc="lower right", fontsize=FONT_SIZE_PT)
-    tag_panel(ax, "b")
+    set_axis_labels(ax, "False positive rate (decoy D)", "True positive rate (active A)", xpad=6, ypad=6)
+    ax.set_xlim(-0.02, 1.02)
+    ax.set_ylim(-0.02, 1.02)
+    legend_lower_right(ax, ncol=1, x=0.97, y=0.05)
 
     ax = axes[1, 0]
     enr = summary["enrichment"]
@@ -469,10 +482,10 @@ def plot_fig03_composite(dock: pd.DataFrame, summary: dict, bench: pd.DataFrame)
     bars = ax.bar(ef_labels, ef_vals, color=URAT1_COLOR, width=0.44, edgecolor=NEUTRAL, linewidth=0.3)
     ax.axhline(1, color=GRID, linestyle=(0, (4, 3)), linewidth=0.7)
     clean_axes(ax)
-    set_axis_labels(ax, "Enrichment metric", "Enrichment factor (A vs D)")
+    ax.set_xlabel("")
+    set_axis_labels(ax, "", "Enrichment factor (A vs D)", ypad=6)
     ylim_headroom(ax, 0.22)
     label_bars_vertical(ax, bars)
-    tag_panel(ax, "c")
 
     ax = axes[1, 1]
     x = np.arange(len(bench))
@@ -481,14 +494,17 @@ def plot_fig03_composite(dock: pd.DataFrame, summary: dict, bench: pd.DataFrame)
     ax.bar(x + w / 2, bench["ml_percentile_vs_8973"], width=w, color=URAT1_LIGHT, label="ML", edgecolor=NEUTRAL, linewidth=0.3)
     ax.axhline(90, color=THRESHOLD, linestyle=(0, (4, 3)), linewidth=0.7)
     ax.set_xticks(x)
-    ax.set_xticklabels(bench["compound"], rotation=40, ha="right")
+    ax.set_xticklabels(bench["compound"], rotation=38, ha="right")
     clean_axes(ax)
-    set_axis_labels(ax, "Benchmark inhibitor", "Percentile on 8973 library")
+    set_axis_labels(ax, "Benchmark inhibitor", "Percentile on 8973 library", xpad=12, ypad=6)
     ax.set_ylim(0, 118)
-    ax.legend(loc="lower center", bbox_to_anchor=(0.5, 1.02), ncol=2, fontsize=FONT_SIZE_PT, frameon=False)
-    tag_panel(ax, "d")
+    ax.margins(x=0.08)
+    legend_lower_left(ax, ncol=1, x=0.02, y=0.04)
 
-    fig.subplots_adjust(**{**MARGIN_COMPOSITE, "top": 0.88, "bottom": 0.18, "left": 0.13, "right": 0.98, "hspace": 0.78, "wspace": 0.52})
+    fig.subplots_adjust(**{**MARGIN_COMPOSITE, "top": 0.86, "bottom": 0.19, "left": 0.15, "right": 0.93, "hspace": 0.80, "wspace": 0.58})
+    apply_panel_tags(fig, axes, ("a", "b", "c", "d"))
+    subplot_xlabel_centered(fig, axes[0, 0], "8973 distill subset", pad=0.042)
+    subplot_xlabel_centered(fig, axes[1, 0], "Enrichment metric", pad=0.040)
     paths = save_figure(fig, "fig03_urat1_retrospective_composite", "main", tight=False)
     return {"id": "fig03_composite", "target": "URAT1", "description": "Main Fig 3 composite (URAT1 retrospective)", **paths}
 
@@ -528,7 +544,7 @@ def main() -> None:
         "style": {
             "font": "Arial 8 pt",
             "grid": "none",
-            "notes": "v4: legends below panels; threshold in histogram tail; aligned bar labels",
+            "notes": "v5: aligned axis labels, unified panel tags/legends, hbar grid fix, print margins",
         },
         "figures": entries,
     }
