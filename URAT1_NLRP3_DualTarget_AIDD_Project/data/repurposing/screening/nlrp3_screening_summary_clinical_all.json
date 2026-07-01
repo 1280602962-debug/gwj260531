@@ -1,0 +1,66 @@
+{
+  "input": "data/repurposing/repurposing_manifest.csv",
+  "panel": "clinical_all",
+  "n_scored": 8319,
+  "n_pred_active_ge_threshold": 1588,
+  "threshold": 0.5,
+  "ensemble_assays": [
+    "CHEMBL5549264",
+    "CHEMBL5149834",
+    "CHEMBL5374758",
+    "CHEMBL6157329",
+    "CHEMBL5374759"
+  ],
+  "top_n_export": 416,
+  "top_pct": 5.0,
+  "known_controls": [
+    {
+      "name": "lesinurad",
+      "rank_nlrp3": 1513,
+      "p_active_nlrp3": 0.5970427393913269,
+      "nlrp3_percentile": 81.82473855030653
+    },
+    {
+      "name": "benzbromarone",
+      "rank_nlrp3": 4522,
+      "p_active_nlrp3": 0.0,
+      "nlrp3_percentile": 35.40088952999159
+    },
+    {
+      "name": "verinurad",
+      "rank_nlrp3": 595,
+      "p_active_nlrp3": 0.9166666865348816,
+      "nlrp3_percentile": 90.38946988820771
+    },
+    {
+      "name": "dotinurad",
+      "rank_nlrp3": 2795,
+      "p_active_nlrp3": 0.0,
+      "nlrp3_percentile": 35.40088952999159
+    },
+    {
+      "name": "colchicine",
+      "rank_nlrp3": 1038,
+      "p_active_nlrp3": 0.9166666865348816,
+      "nlrp3_percentile": 90.38946988820771
+    },
+    {
+      "name": "allopurinol",
+      "rank_nlrp3": 4551,
+      "p_active_nlrp3": 0.0,
+      "nlrp3_percentile": 35.40088952999159
+    },
+    {
+      "name": "febuxostat",
+      "rank_nlrp3": 4436,
+      "p_active_nlrp3": 0.0,
+      "nlrp3_percentile": 35.40088952999159
+    }
+  ],
+  "outputs": {
+    "full_scores": "/workspace/URAT1_NLRP3_DualTarget_AIDD_Project/results/repurposing/nlrp3_ml_scores_clinical_all.csv",
+    "docking_shortlist": "/workspace/URAT1_NLRP3_DualTarget_AIDD_Project/results/repurposing/nlrp3_top_for_dual_docking_clinical_all.csv",
+    "docking_pool_p05": "/workspace/URAT1_NLRP3_DualTarget_AIDD_Project/results/repurposing/docking_pool_p05.csv"
+  },
+  "next_step": "Dock docking_pool_p05.csv (P>=0.5) at URAT1 9DKB XP and NLRP3 8ETR XP; integrate with scripts/merge_docking_pareto.py."
+}

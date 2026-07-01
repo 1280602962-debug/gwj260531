@@ -1,0 +1,16 @@
+{
+  "enrichment": {
+    "n_subset_a_docked": 822,
+    "n_subset_d_docked": 7957,
+    "n_active_ge6_in_a": 469,
+    "roc_auc_active_a_vs_decoy_d": NaN,
+    "ef_5pct_a_vs_d": 4.234,
+    "ef_10pct_a_vs_d": 3.163,
+    "spearman_pactivity_vs_su_on_a": -0.0519
+  },
+  "benchmark_recovery": {
+    "docking_top10pct_pass": "2/4",
+    "ml_pred_ge6_pass": "2/4"
+  },
+  "recommendation": "Use 9DKB XP (S_U) as primary URAT1 evidence on 8973; keep ML as auxiliary unless hybrid ablation shows clear gain."
+}

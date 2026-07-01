@@ -1,5 +1,7 @@
-# Generated model artifacts (large)
+# Generated model artifacts (large) — project training copies in data/models/ are tracked
 models/
+!URAT1_NLRP3_DualTarget_AIDD_Project/data/models/
+!URAT1_NLRP3_DualTarget_AIDD_Project/data/models/**
 
 # Python
 __pycache__/
@@ -19,6 +21,7 @@ Thumbs.db
 # Large binary artifacts
 *.npy
 *.joblib
+!URAT1_NLRP3_DualTarget_AIDD_Project/data/models/*.joblib
 *.h5
 *.pt
 *.ckpt

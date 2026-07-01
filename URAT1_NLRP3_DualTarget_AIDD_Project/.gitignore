@@ -1,7 +1,9 @@
 results/
-data/processed/
 data/libraries/
 *.pyc
 __pycache__/
 .venv/
 *.log
+
+# Large raw Maestro exports stay local only (merged tables are in data/docking/)
+results/docking/raw/

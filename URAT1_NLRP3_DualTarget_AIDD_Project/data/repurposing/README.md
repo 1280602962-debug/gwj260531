@@ -3,6 +3,8 @@
 | 文件 | 说明 |
 |------|------|
 | `repurposing_manifest.csv` | 主库 **8319** 条（ChEMBL Phase + ATC 导出合并） |
+| **`screening/docking_pool_p05.csv`** | **P≥0.5 对接池，1588 条**（已提交 Git） |
+| `screening/` | NLRP3 ML 全库分数与 SI 子集（见 `screening/README.md`） |
 
 ## 生成对接池
 
@@ -12,10 +14,7 @@ python3 scripts/screen_repurposing_library.py \
   --panel clinical_all --export-p05-pool --skip-tanimoto
 ```
 
-输出在 `results/repurposing/`（gitignore）：
-
-- `nlrp3_ml_scores_clinical_all.csv`
-- `docking_pool_p05.csv`（P≥0.5，约 1588 条）
+输出默认写入 `results/repurposing/`；请同步复制到 `data/repurposing/screening/` 后提交 Git。
 
 ## 勿与以下混淆
 

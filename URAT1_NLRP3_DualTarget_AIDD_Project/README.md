@@ -57,7 +57,7 @@ ChEMBL 临床药物库 (8319)
 | ChEMBL 重定位库 manifest | ✅ | `data/repurposing/repurposing_manifest.csv` |
 | **NLRP3 ML 全库筛选** | ✅ | `screen_repurposing_library.py` |
 | 8973 对接合并 + 回顾分析 | ✅ | `merge_8973_docking_results.py`, `analyze_urat1_docking_vs_ml.py` |
-| 重定位库双靶对接 | ⏳ 本地 Maestro | 输入：`docking_pool_p05.csv` |
+| 重定位库双靶对接 | ⏳ 本地 Maestro | 输入：`data/repurposing/screening/docking_pool_p05.csv` |
 | Pareto 整合 | ✅ 脚本就绪 | `merge_docking_pareto.py`（待本地对接 CSV） |
 | 代表药 MD | ⏳ | 2+2 benchmark |
 
@@ -111,9 +111,13 @@ URAT1_NLRP3_DualTarget_AIDD_Project/
 │   ├── targets.yaml
 │   └── docking_ensemble.yaml      # 9DKB, 7ALV, 8ETR
 ├── data/
-│   ├── repurposing/               # ChEMBL 临床药物 manifest
+│   ├── repurposing/               # ChEMBL 临床药物 manifest + screening 输出
+│   │   └── screening/             # docking_pool_p05.csv（1588，已提交 Git）
+│   ├── models/                    # 训练模型副本（已提交 Git）
+│   ├── benchmarks/backtest/       # 六药回测（已提交 Git）
+│   ├── processed/                 # 训练集（已提交 Git）
 │   ├── distill/                   # 8973（仅 URAT1 回顾）
-│   ├── docking/                   # 8973 合并分（已提交）
+│   ├── docking/                   # 8973 合并分 + 回顾分析
 │   └── benchmarks/
 ├── docs/
 │   ├── WORKFLOW_CURRENT.md        # ★ 主流程

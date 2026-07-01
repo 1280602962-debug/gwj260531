@@ -66,7 +66,7 @@ python3 scripts/screen_repurposing_library.py \
 | 输出 | 说明 |
 |------|------|
 | `results/repurposing/nlrp3_ml_scores_clinical_all.csv` | 8319 全部分数 |
-| `results/repurposing/docking_pool_p05.csv` | **P≥0.5，约 1588 条 → 对接输入** |
+| `results/repurposing/docking_pool_p05.csv` | **P≥0.5，约 1588 条 → 对接输入**（Git 副本：`data/repurposing/screening/docking_pool_p05.csv`） |
 | `results/repurposing/nlrp3_screening_summary_clinical_all.json` | 统计 + 对照药排名 |
 
 **敏感性（SI）**：

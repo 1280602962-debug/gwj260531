@@ -146,7 +146,11 @@ def main() -> None:
     if args.export_p05_pool:
         p05_pool = out[out["nlrp3_pred_active"]].copy()
         p05_pool["selection_reason"] = "nlrp3_p_active_ge_threshold"
-        p05_path = args.output_dir / "docking_pool_p05.csv"
+        p05_path = args.output_dir / (
+            "docking_pool_p05.csv"
+            if args.panel == "clinical_all"
+            else f"docking_pool_p05_{args.panel}.csv"
+        )
         p05_pool.to_csv(p05_path, index=False)
 
     # Known controls in library
