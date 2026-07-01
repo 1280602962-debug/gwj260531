@@ -2,7 +2,8 @@
 
 > **状态**：2026-06 定稿方向  
 > **替代**：原 TAPE-GATE / 双靶 AIDD 算法论文主线（见 `MANUSCRIPT_OUTLINE.md` 旧版，**不再作为投稿叙事**）  
-> **执行计划**：`URAT1_THREE_STATE_BENCHMARK_PLAN.md`
+> **执行计划**：`URAT1_THREE_STATE_BENCHMARK_PLAN.md`  
+> **双轨策略（快速发表 + JCIM）**：`TWO_PAPER_STRATEGY.md`
 
 ---
 
