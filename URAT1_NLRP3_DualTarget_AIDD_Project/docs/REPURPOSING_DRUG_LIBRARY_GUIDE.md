@@ -66,6 +66,8 @@
 
 ---
 
-## 5. 待建脚本
+## 5. 构建脚本
 
-`scripts/build_repurposing_library.py` — 从 ChEMBL SQLite 筛 max_phase≥3 并输出 manifest。
+`scripts/build_repurposing_library.py` — 合并 ChEMBL 导出的三个 Excel（Phase + Level1/2 ATC），清洗并输出 manifest。
+
+本地 Agent 操作说明：`docs/LOCAL_AGENT_REPURPOSING_LIBRARY_PROMPT.md`
