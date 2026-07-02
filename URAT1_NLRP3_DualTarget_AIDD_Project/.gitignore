@@ -6,4 +6,6 @@ __pycache__/
 *.log
 
 # Large raw Maestro exports stay local only (merged tables are in data/docking/)
-results/docking/raw/
+# Downloaded docking binaries (see scripts/setup_gnina_wsl_cpu.sh)
+tools/gnina
+tools/vina

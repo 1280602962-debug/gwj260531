@@ -19,6 +19,16 @@ smina:
   num_modes: 9
   custom_scoring: vinardo  # optional: vinardo | default
 
+gnina:
+  binary: gnina  # or tools/gnina after setup_gnina_wsl_cpu.sh
+  no_gpu: true       # WSL without NVIDIA: must be true
+  exhaustiveness: 16 # CPU: 16; GPU: 32
+  num_modes: 9
+  cpu: 2
+  cnn_scoring: rescore  # none | rescore | refinement | all
+  score_mode: affinity  # affinity (kcal/mol, lower=better) | cnnaff
+  extra_args: []
+
 receptor_prep:
   remove_waters: true
   remove_hetatm: true
