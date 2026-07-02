@@ -17,7 +17,7 @@ Example:
   python3 scripts/merge_docking_pareto.py \\
     --ml-scores results/repurposing/nlrp3_ml_scores_clinical_all.csv \\
     --urat1-dock results/repurposing/docking_raw/urat1_9dkb_p05.csv \\
-    --nlrp3-dock results/repurposing/docking_raw/nlrp3_8etr_p05.csv \\
+    --nlrp3-dock results/repurposing/docking_raw/nlrp3_7alv_p05.csv \\
     --pool results/repurposing/docking_pool_p05.csv
 """
 from __future__ import annotations
@@ -63,6 +63,7 @@ def _load_dock_table(path: Path, pdb_label: str) -> pd.DataFrame:
     smi_col = _pick_col(raw, SMILES_ALIASES)
     score_col = _pick_col(raw, SCORE_ALIASES)
     status_col = _pick_col(raw, STATUS_ALIASES)
+    pdb_col = _pick_col(raw, ["pdb_id", "pdb", "structure_id"])
     if smi_col is None:
         raise ValueError(f"{path}: no SMILES column found (tried {SMILES_ALIASES})")
     if score_col is None:
@@ -76,7 +77,10 @@ def _load_dock_table(path: Path, pdb_label: str) -> pd.DataFrame:
         out["docking_status"] = out[status_col].astype(str)
     else:
         out["docking_status"] = np.where(out["glide_score_xp"].notna(), "docked", "missing")
-    out["pdb_id"] = pdb_label
+    if pdb_col:
+        out["pdb_id"] = out[pdb_col].astype(str).str.upper()
+    else:
+        out["pdb_id"] = pdb_label
 
     # Best pose per compound (Glide XP: more negative = better)
     out = out.sort_values("glide_score_xp", ascending=True, na_position="last")
@@ -109,7 +113,8 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Merge dual docking + NLRP3 ML for Pareto shortlist")
     parser.add_argument("--ml-scores", type=Path, required=True, help="nlrp3_ml_scores_*.csv")
     parser.add_argument("--urat1-dock", type=Path, required=True, help="URAT1 9DKB XP export")
-    parser.add_argument("--nlrp3-dock", type=Path, required=True, help="NLRP3 8ETR XP export")
+    parser.add_argument("--nlrp3-dock", type=Path, required=True, help="NLRP3 7ALV (or 8ETR) XP export")
+    parser.add_argument("--nlrp3-pdb", type=str, default=None, help="NLRP3 PDB label (default: from dock file or 7ALV)")
     parser.add_argument("--pool", type=Path, default=None, help="docking_pool_p05.csv (optional filter)")
     parser.add_argument("--output-dir", type=Path, default=DEFAULT_OUT)
     parser.add_argument("--sn-mode", choices=["ml", "dock", "both"], default="both", help="S_N axis source")
@@ -131,7 +136,8 @@ def main() -> None:
         pool_keys = set(pool["canonical_smiles"].dropna().astype(str))
 
     urat1 = _load_dock_table(args.urat1_dock, "9DKB")
-    nlrp3 = _load_dock_table(args.nlrp3_dock, "8ETR")
+    nlrp3_pdb = args.nlrp3_pdb or "7ALV"
+    nlrp3 = _load_dock_table(args.nlrp3_dock, nlrp3_pdb)
 
     merged = ml.merge(urat1, on="canonical_smiles", how="inner", suffixes=("", "_urat1"))
     merged = merged.merge(

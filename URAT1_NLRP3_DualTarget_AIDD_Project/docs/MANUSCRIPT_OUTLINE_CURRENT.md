@@ -1,14 +1,15 @@
-# 论文定稿思路（2026-07 修订）
+# 论文定稿思路（2026-07 修订 · 9DKB + 7ALV）
 
 > **首投**：*Journal of Molecular Modeling*  
 > **定位**：痛风 URAT1–NLRP3 双节点下的 **临床药物重定位 + 不对称双证据漏斗**  
-> **不是**：双靶新药发现、8973 百万虚筛、Teacher/OAT 创新
+> **对接结构**：URAT1 **9DKB** + NLRP3 **7ALV**（主文）；8ETR 不作硬性要求  
+> **不是**：双靶新药发现、8973 双靶 Pareto、Teacher/OAT 创新
 
 ---
 
 ## 0. 一句话
 
-在全临床药物库上用 **NLRP3 ML 快筛** → **P(active)≥0.5（n≈1588）双靶对接** → **Pareto 短名单**；用 **8973 仅证明 URAT1 应对接**；用 **代表药 MD（2+2）** 解释机制。
+在全临床药物库上用 **NLRP3 ML 快筛** → **P(active)≥0.5（n≈1588）双靶对接（9DKB+7ALV）** → **Pareto 短名单（n=6）**；用 **8973 仅证明 URAT1 应对接**；用 **代表药 MD（2+2）** 解释机制。
 
 ---
 
@@ -16,144 +17,108 @@
 
 | 数据集 | n | 用途 | 是否双靶筛选 |
 |--------|---|------|-------------|
-| **ChEMBL 临床药物 manifest** | 8319（III期+上市 1283） | **主筛选库**：NLRP3 ML → 对接漏斗 → Pareto | ✅ |
-| **8973 distill** | 8928 docked | **仅 URAT1 回顾**：A vs D 富集、四药百分位 | ❌ 不做 NLRP3 ML |
-| **Benchmark 六药 + MD** | 4+2 | 方法验证与机制图 | 平行表征，非筛库 |
+| **ChEMBL 临床药物 manifest** | 8319 | **主筛选库**：NLRP3 ML → 9DKB+7ALV → Pareto | ✅ |
+| **8973 distill** | 8928 docked | **仅 URAT1 回顾**：A vs D 富集、四药百分位 | ❌ |
+| **Benchmark + MD** | 4+2 | 方法验证与机制图 | 平行表征 |
 
 ---
 
-## 2. 计算流程（你采纳的新流程）
+## 2. 计算流程（已定稿）
 
 ```
 ChEMBL 临床药物库 (n=8319)
         │
-        ▼  【Step 1】NLRP3 assay-conditioned ML（~20 s）
-        │   → nlrp3_ml_scores_clinical_all.csv
-        ▼
-        │  【Step 2】P(active) ≥ 0.5 → n≈1588（对接池）
-        │   → URAT1 @ 9DKB XP + NLRP3 @ 8ETR XP
-        ▼
-        │  【Step 3】整合
-        │   • 主图：P(S_U^dock) vs P(S_N^ML) 或双对接 Pareto
-        │   • 标注：lesinurad、colchicine、MCC950 等对照
-        ▼
-        │  【Step 4】MD（主文 2+2，非全库）
-        │   URAT1：benzbromarone + dotinurad（或 +lesinurad SI）
-        │   NLRP3：MCC950 + GDC-2394
-        ▼
-   计算重定位短名单 + 机制讨论（无湿实验）
+        ▼  NLRP3 ML（~20 s）
+        ▼  P(active) ≥ 0.5 → n=1588
+        ▼  URAT1 @ 9DKB XP  +  NLRP3 @ 7ALV XP
+        ▼  双靶合并 n=1451 → Pareto 前沿 n=6
+        ▼  MD：benzbromarone + dotinurad (URAT1)；MCC950 + 1 Pareto lead (NLRP3)
 ```
 
-**与经典「先 ML 再对接」**：NLRP3 ML 预筛 → 命中分子双靶结构对接（对标 FDA 2697 全库对接，但先用 ML 缩至 ~1588）。
+**已完成对接结果**：见 [`RESULTS_DOCKING_9DKB_7ALV.md`](RESULTS_DOCKING_9DKB_7ALV.md)
 
 ---
 
-## 3. NLRP3 ML 筛选（已跑通）
-
-```bash
-python3 scripts/screen_repurposing_library.py \
-  --input data/repurposing/repurposing_manifest.csv \
-  --panel clinical_all --export-p05-pool --skip-tanimoto
-```
-
-| 指标 | 数值 |
-|------|------|
-| 全库打分 | **8319** |
-| **P(active)≥0.5（对接池）** | **1588** |
-| max_phase≥3 子集（SI） | 247 |
-| Top 5%（可选对照） | 416 |
-
-输出：`results/repurposing/docking_pool_p05.csv`
-
-**已知对照药排名（全库）**：
-
-| 药物 | NLRP3 rank | P(active) | 备注 |
-|------|------------|-----------|------|
-| verinurad | 595 | 0.92 | 高（训练集内药） |
-| colchicine | 1038 | 0.92 | 炎症相关，非直接 NLRP3 |
-| lesinurad | 1513 | 0.60 | 中等 |
-| benzbromarone / dotinurad / allopurinol / febuxostat | >4400 | ~0 | 预期偏低（非 NLRP3 药） |
-
-**写作注意**：Top10 多为 **Phase 1–2 早期候选**，对接前建议加一层：
-
-```bash
-# 可选：仅 III 期+上市子集再筛
-python3 scripts/screen_repurposing_library.py --panel phase_ge3 ...
-```
-
-或在 **P≥0.5 对接池** 中 **过滤 max_phase≥3**（247 条）作 SI 敏感性分析。
-
----
-
-## 4. 文章结构（五节 Results）
+## 3. Results 五节（含 R3）
 
 ### R1. 数据不对称与方法设计
-- ChEMBL 0 重叠；URAT1 ML 2/4 vs NLRP3 AUROC 0.89  
-- 流程图：**NLRP3 ML 筛临床库 → 双靶对接 → Pareto**
+- ChEMBL 0 重叠；URAT1 ML 2/4 benchmark fail vs NLRP3 AUROC ~0.89  
+- 流程图：ML → 9DKB+7ALV → Pareto；8973 独立回顾轨
 
-### R2. NLRP3 ML 筛选临床药物库
-- 8319 全库；**1588** 条 P≥0.5 进入对接池  
-- 对照药排名表  
+### R2. NLRP3 ML 预筛（Fig 2）
+- 8319 → 1588；对照药：colchicine/verinurad 高 P（局限）；痛风药低 P  
+- Phase 组成偏倚（Phase I 偏高）— Discussion 去混淆
 
-### R4. 对接池双靶对接 + Pareto（主图）
-- **1588** @ 9DKB + 8ETR（SI：phase≥3 子集 247）  
-- $S_U$–$S_N$ 平面；已知药标注  
-- SI：NLRP3 对接 vs ML 在对接池上的 Spearman
+### R3. URAT1 8973 回顾（Fig 3）
+- AUC 0.705；EF@5% 4.23；dotinurad 对接高 / ML 极低 → **URAT1 用对接**
 
-### R5. 代表药 MD（2+2）
-- 结合稳定性；**不声称**全库 hit 验证
+### R4. 双靶对接 Pareto（Fig 4）— **主贡献**
+- **1451** 双靶合并；**6** Pareto 分子（表 1）  
+- 轴：$S_U$（9DKB 百分位）vs $S_N=\max(P_{ML}, P_{7ALV})$  
+- 标注：lesinurad、verinurad、colchicine  
+- **不写** benzbromarone/dotinurad 在 Pareto 内（未进 P≥0.5 池）
 
----
-
-## 5. 主图方案（6 张）
-
-| 图 | 内容 |
-|----|------|
-| Fig 1 | 双节点 + **ML→双对接→Pareto** 流程 |
-| Fig 2 | NLRP3 ML 全库分数分布 + 对照药 |
-| Fig 3 | 8973 URAT1 回顾富集（与 R3 绑定） |
-| Fig 4 | 短名单双靶对接 Pareto（**主贡献**） |
-| Fig 5 | URAT1 代表药 pose + MD |
-| Fig 6 | NLRP3 代表药 pose + MD |
+### R5. 代表药 MD（Fig 5–6）
+- URAT1：benzbromarone、dotinurad @ 9DKB（单独 pose，因未进 ML 池）  
+- NLRP3：MCC950 @ 7ALV（analog 模板说明）+ EGCG 或 FOSIGOTIFATOR（Pareto 代表）  
+- 50–100 ns；RMSD、关键相互作用、MM-GBSA 定性
 
 ---
 
-## 6. 本地 Agent 下一步命令
+## 4. 主图（6 张）
+
+| 图 | 内容 | 状态 |
+|----|------|------|
+| Fig 1 | 双节点 + ML→9DKB/7ALV→Pareto 流程 | 待画 |
+| Fig 2 | NLRP3 ML 分布 + 对照 + 漏斗（1451 双靶完成） | ✅ |
+| Fig 3 | 8973 URAT1 回顾 | ✅ |
+| Fig 4 | **9DKB–7ALV Pareto** | ✅ |
+| Fig 5 | URAT1 MD（benz + dotinurad） | 待本地 MD |
+| Fig 6 | NLRP3 MD（MCC950 + lead） | 待本地 MD |
+
+---
+
+## 5. Discussion 要点
+
+1. **不对称双证据**合理：NLRP3 ML 缩库 + URAT1 结构过滤。  
+2. **7ALV** 为 MCC950-class analog 口袋；与 8ETR 差异可放 SI（若日后补算）。  
+3. **colchicine** 与 **phase 偏倚** 为方法局限，非生物学“Phase I 富集”。  
+4. **Pareto 六分子** 为计算假设，需临床阶段与安全性文献支撑。  
+5. **不声称**发现首个双靶痛风抑制剂。
+
+---
+
+## 6. 本地下一步（MD + 投稿）
 
 ```bash
-# 1. NLRP3 ML 全库 + 导出 P≥0.5 对接池（若未跑）
-python3 scripts/screen_repurposing_library.py \
-  --input data/repurposing/repurposing_manifest.csv \
-  --panel clinical_all --export-p05-pool --skip-tanimoto
-# → results/repurposing/docking_pool_p05.csv（n≈1588）
+# 已完成
+python3 scripts/merge_docking_pareto.py ...  # 9DKB + 7ALV
+python3 scripts/analyze_pareto_benchmarks.py
+python3 scripts/plot_available_figures.py
 
-# 2. Maestro：对 docking_pool_p05 跑 URAT1 9DKB XP + NLRP3 8ETR XP
-# 导出至 results/repurposing/docking_raw/
+# 本地 Maestro：单独对接 benchmark（未在 P05 池）
+# benzbromarone, dotinurad @ 9DKB；MCC950 @ 7ALV
 
-# 3. Pareto 整合
-python3 scripts/merge_docking_pareto.py \
-  --ml-scores results/repurposing/nlrp3_ml_scores_clinical_all.csv \
-  --urat1-dock results/repurposing/docking_raw/urat1_9dkb_p05.csv \
-  --nlrp3-dock results/repurposing/docking_raw/nlrp3_8etr_p05.csv \
-  --pool results/repurposing/docking_pool_p05.csv
-
-# 4. SI：仅 III 期+上市子集
-python3 scripts/screen_repurposing_library.py \
-  --input data/repurposing/repurposing_manifest.csv \
-  --panel phase_ge3 --export-p05-pool --skip-tanimoto
+# Desmond/GROMACS：2+2 MD → 导出 Fig 5–6
 ```
 
 ---
 
-## 7. 标题方向
+## 7. 标题
 
-*Clinical drug repurposing for gout-related URAT1 and NLRP3 targets: NLRP3 machine-learning prescreening, dual-target docking, and molecular dynamics of benchmark inhibitors*
+*Clinical drug repurposing for gout-related URAT1 and NLRP3 targets: NLRP3 machine-learning prescreening, dual-target docking at 9DKB and 7ALV, and molecular dynamics of benchmark inhibitors*
+
+**完整英文稿：** [`MANUSCRIPT_DRAFT_CURRENT.md`](MANUSCRIPT_DRAFT_CURRENT.md)
 
 ---
 
-## 8. 明确不写的
+## 8. 明确不写
 
 - 8973 上 NLRP3 ML / Pareto  
 - OAT 迁移、Teacher 8973×三态  
 - 「发现双靶抑制剂」  
 - 全库 MD  
+
+---
+
+*数据与数字：[`RESULTS_DOCKING_9DKB_7ALV.md`](RESULTS_DOCKING_9DKB_7ALV.md)*

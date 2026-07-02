@@ -15,7 +15,7 @@ flowchart TB
     M2[NLRP3 ML 全库]
     M3["P(active)≥0.5 n≈1588"]
     M4[URAT1 9DKB XP]
-    M5[NLRP3 8ETR XP]
+    M5[NLRP3 7ALV XP]
     M6[Pareto 短名单]
     M7[MD 2+2 benchmark]
     M1 --> M2 --> M3 --> M4
@@ -85,34 +85,42 @@ python3 scripts/screen_repurposing_library.py --panel phase_ge3 --export-p05-poo
 | 靶点 | 结构 | 方法 |
 |------|------|------|
 | URAT1 | 9DKB | Glide SP→XP |
-| NLRP3 | 8ETR（主）；7ALV（SI） | Glide SP→XP |
+| NLRP3 | **7ALV**（主文） | Glide SP→XP |
 
-**导出列**：`canonical_smiles`, `glide_score_xp`, `docking_status`, `pdb_id`
+Maestro Canvas 导出用 `scripts/normalize_canvas_docking_export.py`（`repurposing_id` 关联池）。
 
 建议目录：
 
 ```
 results/repurposing/docking_raw/
   urat1_9dkb_p05.csv
-  nlrp3_8etr_p05.csv
+  nlrp3_7alv_p05.csv
 ```
+
+**当前已完成**：1455 @ 9DKB，1517 @ 7ALV，双靶合并 **1451**（见 `docs/RESULTS_DOCKING_9DKB_7ALV.md`）。
 
 ---
 
 ### Phase 3 — Pareto 整合
 
 ```bash
-# 对接 CSV 就绪后
+python3 scripts/normalize_canvas_docking_export.py --input ... --pdb 9DKB --output results/repurposing/docking_raw/urat1_9dkb_p05.csv
+python3 scripts/normalize_canvas_docking_export.py --input ... --pdb 7ALV --output results/repurposing/docking_raw/nlrp3_7alv_p05.csv
+
 python3 scripts/merge_docking_pareto.py \
-  --ml-scores results/repurposing/nlrp3_ml_scores_clinical_all.csv \
+  --ml-scores data/repurposing/screening/nlrp3_ml_scores_clinical_all.csv \
   --urat1-dock results/repurposing/docking_raw/urat1_9dkb_p05.csv \
-  --nlrp3-dock results/repurposing/docking_raw/nlrp3_8etr_p05.csv \
-  --pool results/repurposing/docking_pool_p05.csv
+  --nlrp3-dock results/repurposing/docking_raw/nlrp3_7alv_p05.csv \
+  --pool data/repurposing/screening/docking_pool_p05.csv \
+  --sn-mode both
+
+python3 scripts/analyze_pareto_benchmarks.py
+python3 scripts/plot_available_figures.py
 ```
 
-输出：`results/repurposing/pareto_shortlist.csv`（待脚本接分后生成）
+输出：`results/repurposing/pareto_shortlist.csv`（**n=6** 前沿）、`pareto_merged_scores.csv`、`fig04_pareto_*`
 
-**主图**：横轴 URAT1 对接百分位 $S_U$，纵轴 NLRP3 ML 或对接百分位 $S_N$；标注 lesinurad、colchicine、febuxostat 等。
+**主图**：横轴 URAT1 9DKB 百分位 $S_U$，纵轴 $\max(S_N^{ML}, S_N^{7ALV})$；标注 lesinurad、colchicine 等。
 
 ---
 

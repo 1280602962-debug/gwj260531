@@ -82,10 +82,11 @@ def _nlrp3_control_rows(ml: pd.DataFrame) -> list[dict]:
 def _funnel_counts(summary: dict) -> tuple[list[int], list[str]]:
     n_scored = summary["n_scored"]
     n_active = summary["n_pred_active_ge_threshold"]
+    n_dual = summary.get("n_dual_docked")
+    if n_dual is not None:
+        return [n_scored, n_active, n_dual], [f"{n_scored:,}", f"{n_active:,}", f"{n_dual:,}"]
     pending_stub = 80
-    counts = [n_scored, n_active, pending_stub]
-    labels = [f"{n_scored:,}", f"{n_active:,}", "pending"]
-    return counts, labels
+    return [n_scored, n_active, pending_stub], [f"{n_scored:,}", f"{n_active:,}", "pending"]
 
 
 def _control_color(group: str, p: float) -> str:
@@ -516,11 +517,73 @@ def plot_fig03_composite(dock: pd.DataFrame, summary: dict, bench: pd.DataFrame)
     return {"id": "fig03_composite", "target": "URAT1", "description": "Main Fig 3 composite (URAT1 retrospective)", **paths}
 
 
+def plot_fig04_pareto(merged_path: Path | None = None) -> dict | None:
+    """Fig 4: dual docking Pareto (9DKB S_U vs 7ALV/ML S_N)."""
+    merged_path = merged_path or (RESULTS / "repurposing" / "pareto_merged_scores.csv")
+    if not merged_path.exists():
+        merged_path = DATA / "repurposing" / "pareto" / "pareto_merged_scores.csv"
+    if not merged_path.exists():
+        return None
+
+    merged = pd.read_csv(merged_path, low_memory=False)
+    name_col = _name_col(merged)
+
+    fig, ax = plt.subplots(figsize=figsize_single(88))
+    target_header(fig, "Dual-target evidence: URAT1 @ 9DKB vs NLRP3 @ 7ALV (+ ML)", NEUTRAL, y=0.97)
+
+    base = merged[~merged["pareto_front"]]
+    front = merged[merged["pareto_front"]]
+    ax.scatter(base["s_u_percentile"], base["s_n_percentile"], s=10, alpha=0.25, color=MUTED, edgecolors="none", rasterized=True, label="Pool (dual docked)")
+    ax.scatter(front["s_u_percentile"], front["s_n_percentile"], s=36, alpha=0.9, color=NLRP3_COLOR, edgecolor=NEUTRAL, linewidth=0.4, label="Pareto front", zorder=3)
+
+    annotate_drugs = {
+        "lesinurad": URAT1_COLOR,
+        "verinurad": URAT1_COLOR,
+        "colchicine": WARN,
+        "SLV-334": NLRP3_COLOR,
+        "EPIGALOCATECHIN GALLATE": NLRP3_COLOR,
+    }
+    for drug, color in annotate_drugs.items():
+        hit = merged[merged[name_col].astype(str).str.upper() == drug.upper()]
+        if not len(hit):
+            continue
+        r = hit.iloc[0]
+        ax.scatter(r["s_u_percentile"], r["s_n_percentile"], s=50, facecolors="none", edgecolors=color, linewidth=1.0, zorder=4)
+        ax.annotate(
+            drug if len(drug) < 14 else drug[:12] + "…",
+            (r["s_u_percentile"], r["s_n_percentile"]),
+            xytext=(4, 4),
+            textcoords="offset points",
+            fontsize=FONT_SIZE_PT,
+            color=color,
+        )
+
+    clean_axes(ax)
+    set_axis_labels(ax, "URAT1 docking percentile (9DKB XP, S_U)", "NLRP3 evidence percentile (max ML, 7ALV XP)", xpad=6, ypad=6)
+    ax.set_xlim(-2, 102)
+    ax.set_ylim(-2, 102)
+    ax.legend(loc="lower left", fontsize=FONT_SIZE_PT, frameon=False)
+    fig.subplots_adjust(**{**MARGIN_SINGLE, "top": 0.78, "bottom": 0.18})
+    paths = save_figure(fig, "fig04_pareto_dual_docking_9dkb_7alv", "main")
+    return {
+        "id": "fig04_pareto",
+        "target": "both",
+        "description": "Pareto dual docking 9DKB + 7ALV",
+        "n_merged": int(len(merged)),
+        "n_pareto": int(merged["pareto_front"].sum()),
+        **paths,
+    }
+
+
 def main() -> None:
     apply_style()
 
     ml = pd.read_csv(DATA / "repurposing" / "screening" / "nlrp3_ml_scores_clinical_all.csv", low_memory=False)
     nlrp3_summary = json.loads((DATA / "repurposing" / "screening" / "nlrp3_screening_summary_clinical_all.json").read_text())
+    pareto_path = RESULTS / "repurposing" / "pareto_summary.json"
+    if pareto_path.exists():
+        ps = json.loads(pareto_path.read_text())
+        nlrp3_summary = {**nlrp3_summary, "n_dual_docked": ps.get("n_merged_dual_dock")}
     dock = pd.read_csv(DATA / "docking" / "8973_9DKB_with_manifest.csv", low_memory=False)
     urat1_summary = json.loads((DATA / "docking" / "urat1_docking_vs_ml_summary.json").read_text())
     bench = pd.read_csv(DATA / "docking" / "urat1_benchmark_rankings_docking.csv")
@@ -546,6 +609,9 @@ def main() -> None:
         plot_fig02_composite(ml, nlrp3_summary),
         plot_fig03_composite(dock, urat1_summary, bench),
     ]
+    fig04 = plot_fig04_pareto()
+    if fig04:
+        entries.append(fig04)
 
     manifest_out = {
         "style": {
