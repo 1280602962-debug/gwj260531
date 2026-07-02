@@ -23,11 +23,20 @@ echo "=== [4/6] Download GNINA binary (Ubuntu 22.04 x86_64) ==="
 mkdir -p tools
 GNINA_URL="https://github.com/gnina/gnina/releases/download/v1.3.1/gnina-1.3.1-x86_64-ubuntu22.04"
 if [ ! -x tools/gnina ]; then
-  curl -fsSL -o tools/gnina "$GNINA_URL" || {
-    echo "Direct download failed. Try manually from https://github.com/gnina/gnina/releases"
+  if curl -fsSL -o tools/gnina "$GNINA_URL"; then
+    chmod +x tools/gnina
+  else
+    echo ""
+    echo ">>> curl 下载 GNINA 失败（可能无法访问 GitHub）。"
+    echo ">>> 请在 Windows 浏览器打开："
+    echo ">>>   $GNINA_URL"
+    echo ">>> 下载后复制到 WSL："
+    echo ">>>   mkdir -p tools"
+    echo ">>>   cp /mnt/c/Users/你的用户名/Downloads/gnina-1.3.1-x86_64-ubuntu22.04 tools/gnina"
+    echo ">>>   chmod +x tools/gnina"
+    echo ">>> 然后重新运行: bash scripts/setup_gnina_wsl_cpu.sh"
     exit 1
-  }
-  chmod +x tools/gnina
+  fi
 fi
 tools/gnina --help | head -5 || true
 
