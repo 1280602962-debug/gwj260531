@@ -73,6 +73,7 @@ ChEMBL 临床药物库 (8319)
 | [**论文定稿思路**](docs/MANUSCRIPT_OUTLINE_CURRENT.md) | Results 结构、主图、不写清单 |
 | [**重定位库指南**](docs/REPURPOSING_DRUG_LIBRARY_GUIDE.md) | ChEMBL manifest、对接池 |
 | [**8973 对接整理**](docs/LOCAL_AGENT_8973_DOCKING_PROMPT.md) | URAT1 回顾验证 only |
+| [**XP 对接后处理**](docs/LOCAL_AGENT_POST_DOCKING_PROMPT.md) | 1588 双靶合并、Pareto、Fig4（本地 Agent 可复制） |
 | [**模型质量报告**](docs/MODEL_QUALITY_REPORT.md) | URAT1_NO_GO / NLRP3 可用 |
 | [**数据事实核验**](docs/DATA_FACT_CHECK.md) | 投稿前必读 |
 | [**旧路线归档**](docs/LEGACY_ARCHIVE.md) | TAPE-GATE、MASFL 等（勿再执行） |
