@@ -76,17 +76,12 @@ python "$GNINA_ROOT/scripts/prepare_docking.py" \
   --ligand-smiles "O=C(O)CSc1nnc(Br)n1-c1ccc(C2CC2)c2ccccc12" \
   --out-dir "$GNINA_ROOT/output/benchmark/9dkb/prepare_lesinurad"
 
-# Step B: 对接（autobox 用参考配体；exhaustiveness 建议 16，CPU 加 --no_gpu）
-bash "$GNINA_ROOT/scripts/run_docking.sh" \
-  -r "$GNINA_ROOT/output/benchmark/9dkb/prepare_lesinurad/receptor.pdb" \
+# Step B: 对接（Glide-XP–like：exhaustiveness=32，只保留 1 个最佳 pose，CNN rescore）
+gnina -r "$GNINA_ROOT/output/benchmark/9dkb/prepare_lesinurad/receptor.pdb" \
   -l "$GNINA_ROOT/output/benchmark/9dkb/prepare_lesinurad/query_ligand.sdf" \
-  --autobox-ligand "$GNINA_ROOT/output/benchmark/9dkb/prepare_lesinurad/ref_ligand.sdf" \
+  --autobox_ligand "$GNINA_ROOT/output/benchmark/9dkb/prepare_lesinurad/ref_ligand.sdf" \
   -o "$GNINA_ROOT/output/benchmark/9dkb/dock_lesinurad/docked.sdf" \
-  --exhaustiveness 16
-
-# 若 run_docking.sh 不支持传 --no_gpu，直接：
-gnina -r ... -l ... --autobox_ligand ... -o ... \
-  --exhaustiveness 16 --num_modes 9 --cnn_scoring rescore --no_gpu \
+  --exhaustiveness 32 --num_modes 1 --cnn_scoring rescore --no_gpu \
   --log "$GNINA_ROOT/output/benchmark/9dkb/dock_lesinurad/dock.log"
 
 7ALV 模板相同，换：
@@ -113,10 +108,10 @@ gnina -r ... -l ... --autobox_ligand ... -o ... \
 
 ---
 
-## 二、更短版 Agent 指令（推荐 · 一键脚本）
+## 二、更短版 Agent 指令（推荐 · 一键脚本 · Glide-XP–like）
 
 ```text
-你在 WSL 中工作。
+你在 WSL 中工作。建议在 tmux 中运行（CPU 约 1.5–3 小时）。
 
 GNINA_ROOT="/mnt/d/CADD paper exercise/gnina"
 REPO_URL="https://github.com/1280602962-debug/gwj260531.git"
@@ -124,11 +119,31 @@ WORK_DIR="$HOME/gwj260531"
 git clone --depth 1 "$REPO_URL" "$WORK_DIR" 2>/dev/null || (cd "$WORK_DIR" && git pull)
 PROJECT="$WORK_DIR/URAT1_NLRP3_DualTarget_AIDD_Project"
 
-export GNINA_ROOT PROJECT_ROOT="$PROJECT"
-cd "$PROJECT"
-bash scripts/benchmark_gnina_redock.sh
+任务：对 9DKB（URAT1）和 7ALV（NLRP3）做 6 个 benchmark GNINA 对接测试，不要跑 1588 全库。
 
-对 9DKB+7ALV 做 6 个 benchmark GNINA 对接（lesinurad,benz,dotinurad,EGCG @9DKB；MCC950,EGCG @7ALV），autobox 分别用 A1AIL 和 RM5，exhaustiveness=16，--no_gpu。汇总表：$PROJECT/results/gnina_benchmark/benchmark_redock_summary.csv。不要跑 1588 全库。完成后贴汇总 CSV 与各 dock.log 前 30 行。
+对接列表：
+- 9DKB：lesinurad, benzbromarone, dotinurad, EGCG（autobox 残基 A1AIL）
+- 7ALV：MCC950, EGCG（autobox 残基 RM5）
+
+参数（Glide-XP–like，只保留最佳构象）：
+  exhaustiveness=32
+  num_modes=1
+  cnn_scoring=rescore
+  --no_gpu（无 NVIDIA GPU 时）
+
+执行：
+  export GNINA_ROOT
+  export PROJECT_ROOT="$PROJECT"
+  export EXHAUST=32 NUM_MODES=1 CNN_SCORING=rescore
+  cd "$PROJECT"
+  bash scripts/benchmark_gnina_redock.sh
+
+说明：分数不与历史 Glide XP 混用；log 中 mode 1 的 affinity (kcal/mol) 为 dock_score。
+
+完成后汇报：
+- $PROJECT/results/gnina_benchmark/benchmark_redock_summary.csv
+- 每个 dock.log 前 30 行
+- lesinurad @ 9DKB：若可行，报告重对接 RMSD（相对晶体 pose）
 ```
 
 ---
@@ -165,13 +180,26 @@ $PROJECT/results/gnina_benchmark/
 
 ---
 
-## 五、预期耗时（CPU --no_gpu）
+## 五、预期耗时（CPU --no_gpu，exhaustiveness=32）
 
-单分子约 5–15 分钟 × 6 ≈ **0.5–1.5 小时**。建议 `tmux` 挂机。
+单分子约 15–30 分钟 × 6 ≈ **1.5–3 小时**。建议 `tmux` 挂机。
 
 ---
 
-## 六、常见问题
+## 六、GNINA 参数与 Glide XP 对照
+
+| 目的 | GNINA 设置 | 说明 |
+|------|------------|------|
+| 搜索深度（≈ Glide SP 量级） | `--exhaustiveness 32` | 非 XP 经验势，但采样更充分 |
+| 只保留最佳 pose | `--num_modes 1` | 虚筛 / Pareto 用 mode 1 affinity |
+| CNN 精修打分 | `--cnn_scoring rescore` | Vina 采样 + CNN 重打分 |
+| CPU | `--no_gpu` | 有 GPU 时可去掉以加速 |
+
+**勿将** GNINA affinity 与历史 `r_glide_XP_GScore` 混在同一分析中。
+
+---
+
+## 七、常见问题
 
 | 问题 | 处理 |
 |------|------|

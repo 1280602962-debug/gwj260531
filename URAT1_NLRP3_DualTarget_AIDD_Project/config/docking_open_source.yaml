@@ -22,8 +22,8 @@ smina:
 gnina:
   binary: gnina  # or tools/gnina after setup_gnina_wsl_cpu.sh
   no_gpu: true       # WSL without NVIDIA: must be true
-  exhaustiveness: 16 # CPU: 16; GPU: 32
-  num_modes: 9
+  exhaustiveness: 32 # Glide-SP–like search; not identical to Glide XP scoring
+  num_modes: 1       # single best pose per ligand (VS / Pareto ranking)
   cpu: 2
   cnn_scoring: rescore  # none | rescore | refinement | all
   score_mode: affinity  # affinity (kcal/mol, lower=better) | cnnaff

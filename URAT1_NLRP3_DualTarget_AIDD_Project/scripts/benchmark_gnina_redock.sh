@@ -10,7 +10,10 @@ GNINA_ROOT="${GNINA_ROOT:-/mnt/d/CADD paper exercise/gnina}"
 PROJECT_ROOT="${PROJECT_ROOT:-$(cd "$(dirname "$0")/.." && pwd)}"
 OUT_BASE="${OUT_BASE:-$GNINA_ROOT/output/benchmark}"
 SUMMARY="${SUMMARY:-$PROJECT_ROOT/results/gnina_benchmark/benchmark_redock_summary.csv}"
-EXHAUST="${EXHAUST:-16}"
+# Glide-XP–like GNINA: thorough search + single best pose (see docs/GNINA_BENCHMARK_REDOCK_WSL.md)
+EXHAUST="${EXHAUST:-32}"
+NUM_MODES="${NUM_MODES:-1}"
+CNN_SCORING="${CNN_SCORING:-rescore}"
 
 source "$GNINA_ROOT/activate.sh"
 
@@ -61,8 +64,8 @@ dock_one() {
   "$GNINA_BIN" -r "$r" -l "$l" \
     --autobox_ligand "$ref" \
     -o "$out_sdf" \
-    --exhaustiveness "$EXHAUST" --num_modes 9 \
-    --cnn_scoring rescore --no_gpu \
+    --exhaustiveness "$EXHAUST" --num_modes "$NUM_MODES" \
+    --cnn_scoring "$CNN_SCORING" --no_gpu \
     --log "$log" 2>&1 | tee "$dockdir/stdout.txt" || true
 
   # Parse mode 1 from log (best effort)
