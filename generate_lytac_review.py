@@ -116,8 +116,8 @@ BODY_SECTION1 = [
     "再进一步分选到溶酶体，靶蛋白最终被水解（图1）。"
     "Chen等（2023）在Trends in Pharmacological Sciences上发表的综述指出，"
     "LYTAC属于依赖溶酶体的胞外蛋白降解策略，与PROTAC依赖蛋白酶体的路径明显不同。"
-    "Sun等（2024）在Signal Transduction and Targeted Therapy的综述中，"
-    "也把LYTAC列为近年来靶向蛋白降解的重要进展之一。",
+    "Li等（2025）在Acta Pharmacologica Sinica的综述中，"
+    "把LYTAC列为靶向蛋白降解领域较新的技术方向之一。",
     "Li等（2025）在Acta Pharmacologica Sinica的综述里进一步说明，"
     "胞外蛋白和膜蛋白在肿瘤、自身免疫病和神经退行性疾病中都很常见，"
     "因此LYTAC补上的并不只是一个技术空白，而是药物研发中长期以来较难处理的一类靶点。",
@@ -131,7 +131,7 @@ BODY_SECTION1 = [
     "而不是仅仅挡住它的一部分功能，理论上对疾病的控制可能更彻底。"
     "当然，实际效果还要看降解效率、靶蛋白更新速度以及组织分布等因素。",
     "目前已报道的LTR包括CI-M6PR（也称IGF2R）、ASGPR、整合素以及部分细胞因子受体等。"
-    "Zhou等（2024）在Journal of Medicinal Chemistry讨论了LYTAC可选择的受体空间，"
+    "Chen等（2023）在综述中归纳了多种LTR及其在胞外蛋白降解中的应用，"
     "说明受体类型正在不断增加。"
     "不同受体在组织分布和内吞特性上差别较大，"
     "所以受体选择会直接影响LYTAC作用的位置和效率。",
@@ -157,15 +157,14 @@ BODY_SECTION1 = [
     "说明组织分布是决定降解位置的重要因素。"
     "连接子长度和柔性会影响两个功能模块之间的空间排布，过长或过短都可能降低降解效率。"
     "近年来也有研究通过定点偶联提高抗体-配体偶联物的均一性，以改善体内稳定性。"
-    "Caianiello等（2021）在Nature Chemical Biology还报道了降解胞外蛋白的小分子策略MoDE，"
-    "说明除了经典LYTAC，相关思路还在向不同分子类型扩展。",
+    "Caianiello等（2021）在Nature Chemical Biology报道了小分子降解胞外蛋白的MoDE-A策略，"
+    "通过ASGPR把靶蛋白送入溶酶体，说明除抗体-聚糖偶联物外，小分子也可介导胞外蛋白降解。",
     "Li等（2025）在总结影响降解效率的因素时，"
     "提到了配体价态、连接子长度和结合表位等分子层面的变量，"
     "并强调分子设计和细胞环境需要同时考虑，而不是单独优化某一个环节。",
-    "Bekes等（2022）在回顾PROTAC发展时也提到，"
-    "靶向蛋白降解药物的成功往往不只来自化学创新，"
-    "还来自对细胞内蛋白稳态机制的深入理解。"
-    "我觉得这句话同样适用于LYTAC，"
+    "Bekes等（2022）在回顾PROTAC发展时指出，"
+    "该领域已从学术研究走向产业开发，并有PROTAC分子进入临床前和早期临床试验阶段。",
+    "我觉得这一判断对理解LYTAC的未来路径也有参考价值，"
     "因为溶酶体途径、受体内吞和循环回收都属于细胞自身已经存在的生物学过程，"
     "药物研发本质上是在借助这些过程完成靶蛋白清除。",
     "为了更好地理解LYTAC，我结合Chen等（2023）的综述把它和PROTAC做了一个简单对比。"
@@ -176,7 +175,8 @@ BODY_SECTION1 = [
     "这两种技术并不是谁替代谁，更像是针对不同蛋白位置的互补工具。",
     "在课程学习过程中，我觉得理解这种互补关系很重要，"
     "因为它能帮助判断一个靶点到底更适合哪一类降解策略。",
-    "另外，Zhou等（2024）提到LYTAC的靶点空间还在扩大，"
+    "另外，Chen等（2023）提到，"
+    "整合素、清道夫受体和细胞因子受体等也被用于开发组织选择性更强的降解分子，"
     "未来可能会有更多受体和结合剂组合被开发出来，"
     "但这也意味着研究者需要更系统地比较不同组合之间的优劣，"
     "而不是只追求某一个分子在单一细胞系里的最高降解率。",
@@ -219,7 +219,7 @@ BODY_SECTION2 = [
     "论文题目为Lysosome-targeting chimaeras for degradation of extracellular proteins。"
     "Li等（2025）在Acta Pharmacologica Sinica的综述中，把这项工作称为LYTAC技术发展的起点。"
     "作者将靶向模块与CI-M6PR配体通过连接子连接，构建了首批LYTAC分子。"
-    "他们还利用CRISPR筛选研究了LYTAC的内吞通路，发现外泌体复合体参与这一过程，"
+    "他们还利用CRISPR筛选研究了LYTAC的内吞通路，发现exocyst复合体参与CI-M6PR的膜面呈现，"
     "说明这项研究并不只是做分子，也在补充受体介导内吞的基础认识。"
     "实验中，LYTAC成功降解了ApoE4、EGFR、CD71和PD-L1等蛋白。"
     "以EGFR为例，处理后受体水平在数小时内明显下降，溶酶体抑制剂可以阻断这一效应，"
@@ -296,7 +296,7 @@ BODY_SECTION2 = [
     "KineTAC需要解决蛋白药物的免疫原性和稳定性问题，"
     "适体则要考虑体内核酸酶降解和靶向特异性。",
     "Banik等最初的Nature论文除了验证多个靶点，"
-    "还通过CRISPR筛选找到了外泌体复合体参与内吞的证据，"
+    "还通过CRISPR筛选找到了exocyst复合体参与CI-M6PR膜面呈现的证据，"
     "这说明早期工作就已经在追问“分子进入细胞后究竟走哪条路”。"
     "Ahn等2023年的Science论文则把这一问题推进到了全基因组层面，"
     "不仅找到了retromer回收这一“阻力因素”，"
@@ -355,8 +355,8 @@ BODY_SECTION3 = [
     "Chen等（2023）和Li等（2025）都提到，分泌蛋白和膜蛋白是LYTAC较有潜力的靶点类型，"
     "但现有证据主要来自细胞和动物实验，真正进入临床阶段的项目仍然很少。"
     "这说明该方向虽然研究较多，但离实际应用还有距离。",
-    "Sun等（2024）在总结靶向蛋白降解技术时也指出，"
-    "LYTAC仍属于较新的方向，其长期安全性和有效性还需要更多研究验证。",
+    "Li等（2025）在综述中也指出，"
+    "LYTAC目前仍主要处于临床前阶段，其长期安全性和有效性还需要更多研究验证。",
     "虽然LYTAC研究进展较快，但要真正用于新药开发仍有不少问题。"
     "含聚糖的LYTAC结构复杂，化学合成和生物偶联产物不够均一，给质量控制带来困难。",
     "对于以后如果要做产业化的人来说，这个问题可能比体外活性本身更棘手，"
@@ -371,8 +371,8 @@ BODY_SECTION3 = [
     "连接子设计、受体占用和细胞内吞分选都会影响最终降解效果。"
     "Li等（2025）也总结了LYTAC目前面临的主要问题，"
     "包括分子制备复杂、组织选择性不足以及临床前数据仍不够充分。"
-    "Zhou等（2024）进一步从可成药靶点空间角度讨论了LYTAC的发展前景，"
-    "认为受体和结合剂的选择仍然是最核心的设计环节。",
+    "Chen等（2023）从受体和结合剂选择角度讨论了胞外蛋白降解策略的设计要点，"
+    "认为受体类型和靶点结合方式仍是核心环节。",
     "根据Chen等和Li等发表的综述，截至本文写作时，"
     "LYTAC仍主要处于临床前研究阶段，尚未见正式发表的人体临床试验结果。"
     "因此，这一技术虽然值得继续跟踪，但距离真正成药还有较长距离，"
@@ -406,9 +406,9 @@ BODY_SECTION3 = [
     "不同批次之间若均一性不足，就可能影响体内结果的可重复性。"
     "相比之下，KineTAC等基因编码平台在制备上更接近生物药生产路线，"
     "但同样要面对表达、纯化和稳定性等问题。",
-    "Bekes等（2022）回顾PROTAC时曾强调，"
-    "蛋白降解药物从实验室走向临床，需要跨越的不只是活性筛选，"
-    "还包括药代、毒理、制剂和监管认可等多个环节。"
+    "Bekes等（2022）回顾PROTAC时指出，"
+    "随着临床概念验证的取得，该领域正在探索更多靶点类型和E3连接酶种类，"
+    "并逐步向肿瘤以外的疾病领域扩展。",
     "我觉得LYTAC目前正处在类似的前临床积累阶段，"
     "已有不少概念验证和动物实验，但系统性的开发数据仍然偏少。",
     "如果未来要推进到临床试验，"
@@ -423,10 +423,10 @@ BODY_SECTION3 = [
     "今后如果继续关注这一方向，"
     "我会优先阅读正式期刊发表的研究，"
     "并留意是否有新的受体类型、更简单的制备方法以及更系统的毒理和药代数据出现。",
-    "另外，Caianiello等（2021）报道的MoDE策略说明，"
+    "另外，Caianiello等（2021）报道的MoDE-A策略说明，"
     "小分子也可能介导胞外蛋白降解，"
-    "这为未来开发口服或更易制备的降解药物提供了另一种可能。"
-    "不过MoDE和经典LYTAC在分子大小、靶点类型和体内行为上仍有差别，"
+    "这为未来开发更易制备的降解药物提供了另一种可能。"
+    "不过MoDE-A和经典LYTAC在分子大小、靶点类型和体内行为上仍有差别，"
     "能否成为主流路线还需要更多研究验证。",
     "总体而言，LYTAC把生物医学中早已存在的受体介导内吞和溶酶体降解过程，"
     "重新包装成可设计的药物工具，"
@@ -452,18 +452,16 @@ CONCLUSION = [
 
 REFS = [
     "[1] Banik S M, Pedram K, Wisnovsky S, Riley N M, Bertozzi C R. Lysosome-targeting chimaeras for degradation of extracellular proteins[J]. Nature, 2020, 584(7820): 291-297. https://doi.org/10.1038/s41586-020-2545-9",
-    "[2] Ahn G, Banik S M, Miller C L, Cornean L, Gray M A, Bertozzi C R. LYTACs that engage the asialoglycoprotein receptor for targeted protein degradation[J]. Nature Chemical Biology, 2021, 17(9): 937-946. https://doi.org/10.1038/s41589-021-00770-1",
-    "[3] Ahn G, Banik S M, Riley N M, Cochran R V, Bertozzi C R. Elucidating the cellular determinants of targeted membrane protein degradation by lysosome-targeting chimeras[J]. Science, 2023, 382(6668): eadf6249. https://doi.org/10.1126/science.adf6249",
+    "[2] Ahn G, Banik S M, Miller C L, Riley N M, Cochran J R, Bertozzi C R. LYTACs that engage the asialoglycoprotein receptor for targeted protein degradation[J]. Nature Chemical Biology, 2021, 17(9): 937-946. https://doi.org/10.1038/s41589-021-00770-1",
+    "[3] Ahn G, Riley N M, Kamber R A, Wisnovsky S, Moncayo von Hase S, Bassik M C, Banik S M, Bertozzi C R. Elucidating the cellular determinants of targeted membrane protein degradation by lysosome-targeting chimeras[J]. Science, 2023, 382(6668): eadf6249. https://doi.org/10.1126/science.adf6249",
     "[4] Pance K, Gramespacher J A, Byrnes J R, et al. Modular cytokine receptor-targeting chimeras for targeted degradation of cell surface and extracellular proteins[J]. Nature Biotechnology, 2023, 41(2): 273-281. https://doi.org/10.1038/s41587-022-01456-2",
     "[5] Li Y, Liu X, Yu L, Huang X, Wang X, Han D, et al. Covalent LYTAC enabled by DNA aptamers for immune checkpoint degradation therapy[J]. Journal of the American Chemical Society, 2023, 145(45): 24506-24521. https://doi.org/10.1021/jacs.3c03899",
     "[6] Liu Z, Deng Q, Qin G, Yang J, Zhang H, Ren J, Qu X. Biomarker-activated multifunctional lysosome-targeting chimeras mediated selective degradation of extracellular amyloid fibrils[J]. Chem, 2023, 9(7): 2016-2038. https://doi.org/10.1016/j.chempr.2023.06.003",
     "[7] Wu Y, Lu Y, Li L, Deng K, Zhang S, Yang C, Zhu Z. Aptamer-LYTACs for targeted degradation of extracellular and membrane proteins[J]. Angewandte Chemie International Edition, 2023, 62(15): e202218106. https://doi.org/10.1002/anie.202218106",
     "[8] Li Y Y, Yang Y, Zhang R S, Ge R X, Xie S B. Targeted degradation of membrane and extracellular proteins with LYTACs[J]. Acta Pharmacologica Sinica, 2025, 46: 1-7. https://doi.org/10.1038/s41401-024-01364-y",
     "[9] Chen X, Zhou Y, Zhao Y, Tang W. Targeted degradation of extracellular secreted and membrane proteins[J]. Trends in Pharmacological Sciences, 2023, 44(11): 762-775. https://doi.org/10.1016/j.tips.2023.08.013",
-    "[10] Sun D, Lu Y, Hu Y, et al. Targeted protein degradation: advances in drug discovery and clinical practice[J]. Signal Transduction and Targeted Therapy, 2024, 9: 308. https://doi.org/10.1038/s41392-024-02004-x",
-    "[11] Caianiello D F, Miller C L, Ahn G, Riley N M, Bertozzi C R. Bifunctional small molecules that mediate the degradation of extracellular proteins[J]. Nature Chemical Biology, 2021, 17(8): 947-953. https://doi.org/10.1038/s41589-021-00832-2",
-    "[12] Bekes M, Langley D R, Crews C M. PROTAC targeted protein degraders: the past is prologue[J]. Nature Reviews Drug Discovery, 2022, 21(3): 181-200. https://doi.org/10.1038/s41573-021-00686-6",
-    "[13] Zhou Y, Zhang Y, Lazerwith S E, et al. Exploring the target space of lysosome-targeting chimeras[J]. Journal of Medicinal Chemistry, 2024, 67(5): 3654-3675. https://doi.org/10.1021/acs.jmedchem.3c02156",
+    "[10] Caianiello D F, Zhang M, Ray J D, et al. Bifunctional small molecules that mediate the degradation of extracellular proteins[J]. Nature Chemical Biology, 2021, 17(9): 947-953. https://doi.org/10.1038/s41589-021-00851-1",
+    "[11] Bekes M, Langley D R, Crews C M. PROTAC targeted protein degraders: the past is prologue[J]. Nature Reviews Drug Discovery, 2022, 21(3): 181-200. https://doi.org/10.1038/s41573-021-00371-6",
 ]
 
 
