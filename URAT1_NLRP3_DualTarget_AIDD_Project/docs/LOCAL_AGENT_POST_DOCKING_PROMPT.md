@@ -13,7 +13,32 @@
 
 ## 一、人工准备（对接刚算完时做）
 
-### 1. 从 Maestro 导出 CSV
+### Maestro Canvas 导出（你当前的格式）
+
+若文件来自 **Canvas / VSW**，列名通常为：
+
+| 含义 | 列名 |
+|------|------|
+| 化合物 ID（对接池键） | `s_canvas_repurposing_id`（如 `REP_06358`） |
+| XP 分 | `r_glide_XP_GScore` |
+| Grid | `s_i_glide_gridfile`（如 `9DKBglide-grid_1` 或 `7ALV_glide-grid`） |
+| 名称 | `s_canvas_name` / `s_m_title` |
+
+**不要直接用 `s_canvas_scaffold` 当 SMILES 去 merge**——须用 `repurposing_id` 关联 `docking_pool_p05.csv` 取 `canonical_smiles`。项目已提供：
+
+```bash
+python3 scripts/normalize_canvas_docking_export.py \
+  --input <你的9DKB_XP_OUT.csv> \
+  --pdb 9DKB \
+  --output results/repurposing/docking_raw/urat1_9dkb_p05.csv
+
+python3 scripts/normalize_canvas_docking_export.py \
+  --input <你的7ALV_XP_OUT.csv> \
+  --pdb 7ALV \
+  --output results/repurposing/docking_raw/nlrp3_7alv_p05.csv
+```
+
+### 1. 从 Maestro 导出 CSV（通用）
 
 每个靶点导出 **XP 分数表**（可含多 pose；脚本会按 SMILES 保留最佳 pose）。
 
@@ -29,8 +54,9 @@
 
 ```text
 URAT1_NLRP3_DualTarget_AIDD_Project/results/repurposing/docking_raw/
-  urat1_9dkb_p05.csv      # 1588 @ 9DKB XP
-  nlrp3_8etr_p05.csv      # 1588 @ 8ETR XP
+  urat1_9dkb_p05.csv      # 1588 @ 9DKB XP（URAT1 轴 S_U）
+  nlrp3_8etr_p05.csv      # 1588 @ 8ETR XP（主文 NLRP3 对接轴，若已算）
+  nlrp3_7alv_p05.csv      # 1588 @ 7ALV XP（SI / 敏感性，可选）
 ```
 
 **路线 B（8973 回顾，若尚未合并）**：
