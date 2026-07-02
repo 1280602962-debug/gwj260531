@@ -26,8 +26,11 @@ shap>=0.44
 # Cheminformatics utilities
 # mordred-community  # optional descriptors
 
-# Docking (system-level, not pip)
-# autodock-vina, gromacs - install via conda/apt
+# Docking (open source — install separately)
+# AutoDock Vina 1.2.5 binary: https://github.com/ccsb-scripps/AutoDock-Vina/releases
+meeko>=0.5.0
+gemmi>=0.6.0
+openbabel-wheel>=3.1.0
 
 # API
 requests>=2.31

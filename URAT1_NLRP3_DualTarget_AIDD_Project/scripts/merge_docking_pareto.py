@@ -4,8 +4,8 @@ Merge URAT1 + NLRP3 docking scores on the P(active)>=0.5 pool and build Pareto s
 
 Inputs:
   - NLRP3 ML scores (full clinical library or pool subset)
-  - URAT1 Glide XP export for docking pool
-  - NLRP3 Glide XP export for docking pool
+  - URAT1 docking export (Vina/smina or legacy Glide)
+  - NLRP3 docking export (Vina/smina or legacy Glide)
   - Optional explicit pool manifest (docking_pool_p05.csv)
 
 Outputs:
@@ -29,70 +29,49 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+from dock_score_utils import (
+    DOCK_SCORE_ALIASES,
+    NAME_ALIASES,
+    SMILES_ALIASES,
+    STATUS_ALIASES,
+    best_pose_per_compound,
+    docking_status_from_score,
+    ensure_dock_score_column,
+    percentile_rank,
+    pick_col,
+)
 from utils_ml import canonicalize
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUT = PROJECT_ROOT / "results" / "repurposing"
 
-SMILES_ALIASES = ["canonical_smiles", "smiles", "ligprep_smiles", "r_m_chemaxon_smiles"]
-SCORE_ALIASES = [
-    "glide_score_xp",
-    "r_glide_xp_gscore",
-    "r_i_glide_xp",
-    "r_i_glide xp",
-    "glide xp gscore",
-    "glide_xp",
-    "xp gscore",
-    "docking score",
-    "r_i_docking_score",
-]
-STATUS_ALIASES = ["docking_status", "pose", "pose_status", "status", "r_i_glide_pose"]
-NAME_ALIASES = ["name", "pref_name", "title", "s_m_title", "compound_name"]
-
-
-def _pick_col(df: pd.DataFrame, aliases: list[str]) -> str | None:
-    norm = {c.lower().strip(): c for c in df.columns}
-    for a in aliases:
-        if a.lower() in norm:
-            return norm[a.lower()]
-    return None
-
 
 def _load_dock_table(path: Path, pdb_label: str) -> pd.DataFrame:
     raw = pd.read_csv(path, low_memory=False)
-    smi_col = _pick_col(raw, SMILES_ALIASES)
-    score_col = _pick_col(raw, SCORE_ALIASES)
-    status_col = _pick_col(raw, STATUS_ALIASES)
-    pdb_col = _pick_col(raw, ["pdb_id", "pdb", "structure_id"])
+    smi_col = pick_col(raw.columns, SMILES_ALIASES)
+    score_col = pick_col(raw.columns, DOCK_SCORE_ALIASES)
+    status_col = pick_col(raw.columns, STATUS_ALIASES)
+    pdb_col = pick_col(raw.columns, ["pdb_id", "pdb", "structure_id"])
     if smi_col is None:
         raise ValueError(f"{path}: no SMILES column found (tried {SMILES_ALIASES})")
     if score_col is None:
-        raise ValueError(f"{path}: no Glide XP score column found (tried {SCORE_ALIASES})")
+        raise ValueError(f"{path}: no docking score column found (tried {DOCK_SCORE_ALIASES})")
 
     out = raw.copy()
     out["canonical_smiles"] = out[smi_col].map(lambda s: canonicalize(s) if pd.notna(s) else None)
     out = out[out["canonical_smiles"].notna()].copy()
-    out["glide_score_xp"] = pd.to_numeric(out[score_col], errors="coerce")
-    if status_col:
-        out["docking_status"] = out[status_col].astype(str)
-    else:
-        out["docking_status"] = np.where(out["glide_score_xp"].notna(), "docked", "missing")
+    out = ensure_dock_score_column(out, score_col)
+    out["docking_status"] = docking_status_from_score(
+        out["dock_score"],
+        out[status_col] if status_col else None,
+    )
     if pdb_col:
         out["pdb_id"] = out[pdb_col].astype(str).str.upper()
     else:
         out["pdb_id"] = pdb_label
 
-    # Best pose per compound (Glide XP: more negative = better)
-    out = out.sort_values("glide_score_xp", ascending=True, na_position="last")
-    best = out.groupby("canonical_smiles", as_index=False).first()
-    return best[["canonical_smiles", "glide_score_xp", "docking_status", "pdb_id"]]
-
-
-def _percentile_rank(series: pd.Series, higher_is_better: bool) -> pd.Series:
-    if higher_is_better:
-        return series.rank(method="average", pct=True, na_option="bottom") * 100.0
-    # Glide: lower score is better → invert rank
-    return (1.0 - series.rank(method="average", pct=True, na_option="bottom")) * 100.0
+    out = best_pose_per_compound(out, score_col="dock_score")
+    return out[["canonical_smiles", "dock_score", "glide_score_xp", "docking_status", "pdb_id"]]
 
 
 def pareto_front(su: np.ndarray, sn: np.ndarray) -> np.ndarray:
@@ -125,7 +104,7 @@ def main() -> None:
 
     ml = pd.read_csv(args.ml_scores, low_memory=False)
     if "canonical_smiles" not in ml.columns:
-        smi = _pick_col(ml, SMILES_ALIASES)
+        smi = pick_col(ml.columns, SMILES_ALIASES)
         if smi is None:
             raise ValueError("--ml-scores: missing canonical_smiles")
         ml["canonical_smiles"] = ml[smi].map(lambda s: canonicalize(s) if pd.notna(s) else None)
@@ -143,6 +122,7 @@ def main() -> None:
     merged = merged.merge(
         nlrp3.rename(
             columns={
+                "dock_score": "nlrp3_dock_score",
                 "glide_score_xp": "nlrp3_glide_score_xp",
                 "docking_status": "nlrp3_docking_status",
                 "pdb_id": "nlrp3_pdb_id",
@@ -154,9 +134,12 @@ def main() -> None:
     if pool_keys is not None:
         merged = merged[merged["canonical_smiles"].astype(str).isin(pool_keys)].copy()
 
-    merged["s_u_percentile"] = _percentile_rank(merged["glide_score_xp"], higher_is_better=False)
+  # Prefer dock_score; glide_score_xp kept as identical legacy alias
+    su_col = "dock_score" if "dock_score" in merged.columns else "glide_score_xp"
+    sn_col = "nlrp3_dock_score" if "nlrp3_dock_score" in merged.columns else "nlrp3_glide_score_xp"
+    merged["s_u_percentile"] = percentile_rank(merged[su_col], higher_is_better=False)
     merged["s_n_ml_percentile"] = merged["p_active_nlrp3"].rank(method="average", pct=True) * 100.0
-    merged["s_n_dock_percentile"] = _percentile_rank(merged["nlrp3_glide_score_xp"], higher_is_better=False)
+    merged["s_n_dock_percentile"] = percentile_rank(merged[sn_col], higher_is_better=False)
 
     if args.sn_mode == "ml":
         merged["s_n_percentile"] = merged["s_n_ml_percentile"]
@@ -181,7 +164,7 @@ def main() -> None:
     shortlist_path = args.output_dir / "pareto_shortlist.csv"
     shortlist.to_csv(shortlist_path, index=False)
 
-    name_col = _pick_col(merged, NAME_ALIASES) or "name"
+    name_col = pick_col(merged.columns, NAME_ALIASES) or "name"
     controls = ["lesinurad", "benzbromarone", "verinurad", "dotinurad", "colchicine", "allopurinol", "febuxostat"]
     ctrl_hits = []
     if name_col in merged.columns:

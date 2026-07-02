@@ -1,5 +1,7 @@
 # 双靶对接结果：9DKB + 7ALV（2026-07 定稿）
 
+> **⚠️ 引擎迁移**：下文数值来自 **Glide XP 开发跑**（历史）。投稿前须用 **AutoDock Vina 1.2.5** 全量重对接并更新本文件（见 [`OPEN_SOURCE_DOCKING.md`](OPEN_SOURCE_DOCKING.md)）。Pareto **逻辑与 benchmark 行为**（colchicine 失败、lesinurad 非前沿）在池内百分位框架下应保持稳定。
+
 > **结构选择**：URAT1 **9DKB**（inward-open cryo-EM）+ NLRP3 **7ALV**（NACHT + MCC950-class analog 共晶模板）。  
 > **不再要求 8ETR** 作为主对接结构；8ETR 可作为未来 SI。
 
@@ -10,9 +12,9 @@
 | 阶段 | n | 说明 |
 |------|---|------|
 | 临床库 NLRP3 ML 打分 | 8319 | Phase 0–1 |
-| P(active) ≥ 0.5 对接池 | 1588 | 进入 Maestro |
-| 9DKB XP 有分 | 1455 | 缺 133（对接失败/未导出） |
-| 7ALV XP 有分 | 1517 | 缺 71 |
+| P(active) ≥ 0.5 对接池 | 1588 | 进入 Vina 批量对接 |
+| 9DKB 有分 | 1455 | Glide 开发跑；Vina 待重跑 |
+| 7ALV 有分 | 1517 | Glide 开发跑；Vina 待重跑 |
 | **双靶均有分（合并）** | **1451** | Pareto 输入 |
 | **Pareto 前沿** | **6** | 短名单 |
 

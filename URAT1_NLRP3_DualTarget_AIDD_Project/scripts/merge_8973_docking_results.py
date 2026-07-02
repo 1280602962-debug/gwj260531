@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Merge Maestro/Glide 8973 @ 9DKB XP exports with distill_manifest.csv.
+Merge Vina/smina (or legacy Glide) 8973 @ 9DKB exports with distill_manifest.csv.
 
 Inputs (flexible Maestro CSV):
   - One or more Glide XP score tables (per-ligand best pose kept)
@@ -25,6 +25,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+from dock_score_utils import DOCK_SCORE_ALIASES, pick_col
 from utils_ml import canonicalize
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
@@ -39,18 +40,7 @@ SMILES_ALIASES = [
     "r_m_chemaxon_smiles",
     "s_m_entry_name",
 ]
-SCORE_ALIASES = [
-    "r_glide_xp_gscore",
-    "r_i_glide_xp",
-    "r_i_glide xp",
-    "glide xp gscore",
-    "glide_score_xp",
-    "glide_xp",
-    "xp gscore",
-    "docking score",
-    "r_i_docking_score",
-    "r_i_glide_gscore",
-]
+SCORE_ALIASES = DOCK_SCORE_ALIASES
 STATUS_ALIASES = [
     "docking_status",
     "pose",
@@ -113,7 +103,8 @@ def read_glide_table(path: Path) -> pd.DataFrame:
 
     out = pd.DataFrame()
     out["smiles_raw"] = df[smi_col].astype(str)
-    out["glide_score_xp"] = pd.to_numeric(df[score_col], errors="coerce")
+    out["dock_score"] = pd.to_numeric(df[score_col], errors="coerce")
+    out["glide_score_xp"] = out["dock_score"]
     out["pose_status"] = df[status_col].astype(str) if status_col else "unknown"
     out["compound_name"] = df[name_col].astype(str) if name_col else out["smiles_raw"]
     out["dock_title"] = df[title_col].astype(str) if title_col else None

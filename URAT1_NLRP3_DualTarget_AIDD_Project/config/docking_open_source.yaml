@@ -1,0 +1,57 @@
+# Open-source docking configuration (AutoDock Vina 1.2.x / smina)
+# Replaces Schrödinger Glide XP for reproducibility without commercial licenses.
+#
+# Score convention: dock_score / minimizedAffinity in kcal/mol (lower = better).
+# Ranking uses within-pool percentiles — absolute values are NOT compared to Glide XP.
+
+default_engine: vina
+
+vina:
+  binary: vina  # or absolute path, e.g. /opt/vina/vina_1.2.5_linux_x86_64
+  exhaustiveness: 32  # Glide-SP–like thoroughness; increase to 64 for sensitivity
+  num_modes: 9
+  energy_range: 3.0
+  cpu: 1
+
+smina:
+  binary: smina.static
+  exhaustiveness: 32
+  num_modes: 9
+  custom_scoring: vinardo  # optional: vinardo | default
+
+receptor_prep:
+  remove_waters: true
+  remove_hetatm: true
+  protonate_ph: 7.4
+  chain: A
+
+targets:
+  urat1_9dkb:
+    pdb_id: 9DKB
+    structure_file: data/structures/pdb/9DKB.cif
+    ligand_resn: A1AIL
+    center: [99.966, 102.967, 105.699]
+    size: [22, 22, 22]
+    reference: "Suo et al., Nat Commun 2025; inward-open URAT1 + lesinurad"
+    prepared_receptor: data/structures/prepared/9DKB_receptor.pdbqt
+
+  nlrp3_7alv:
+    pdb_id: 7ALV
+    structure_file: data/structures/pdb/7ALV.pdb
+    ligand_resn: RM5
+    center: [16.756, 35.449, 125.714]
+    size: [20, 20, 20]
+    reference: "Dekker et al., J Mol Biol 2021; NACHT sulfonylurea-class pocket"
+    prepared_receptor: data/structures/prepared/7ALV_receptor.pdbqt
+
+benchmark_redock:
+  urat1:
+    - name: lesinurad
+      smiles: "CC(C)(C)OC(=O)N[C@@H](CS)c1nc(-c2cccc3ccccc23)no1"
+    - name: benzbromarone
+      smiles: "Oc1ccc(C(=O)c2ccc(Br)cc2)cc1C(=O)Nc1ccc(Cl)cc1"
+    - name: dotinurad
+      smiles: "CC(C)(C)c1cc(C(=O)Nc2ccc(C(=O)O)cc2)ccc1O"
+  nlrp3:
+    - name: MCC950
+      smiles: "Cc1nc(C(=O)Nc2ccc(S(=O)(=O)N3CCOCC3)cc2)s1"

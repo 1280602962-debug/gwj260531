@@ -13,7 +13,7 @@
 
 ## 科学定位（一句话）
 
-> 在 ChEMBL 训练 **0 SMILES 重叠** 条件下，用 **NLRP3 ML** 筛临床药物库，对 **P(active)≥0.5** 命中分子做 **URAT1@9DKB + NLRP3@8ETR** 双靶对接并 Pareto 整合；用 **8973** 仅证明 URAT1 应对接而非 ML；用 **代表药 MD（2+2）** 解释机制。
+> 在 ChEMBL 训练 **0 SMILES 重叠** 条件下，用 **NLRP3 ML** 筛临床药物库，对 **P(active)≥0.5** 命中分子做 **URAT1@9DKB + NLRP3@7ALV** 开源 Vina 对接并 Pareto 整合；用 **8973** 仅证明 URAT1 应对接而非 ML；用 **代表药 MD（2+2）** 解释机制。
 
 **不是**：双靶新药发现、Teacher M-CPDL、百万库虚筛、OAT 迁移创新。
 
@@ -24,7 +24,7 @@
 | 数据集 | 规模 | 用途 |
 |--------|------|------|
 | **`data/repurposing/repurposing_manifest.csv`** | 8319 | **主筛选**：NLRP3 ML → 对接 → Pareto |
-| **`data/distill/distill_manifest.csv`** | 8973 | **仅 URAT1 回顾**：A vs D 富集（已 9DKB XP） |
+| **`data/distill/distill_manifest.csv`** | 8973 | **仅 URAT1 回顾**：A vs D 富集（Vina 重对接） |
 | **Benchmark 六药** | 4 URAT1 + 2 NLRP3 | 对照定位 + MD |
 
 ---
@@ -35,7 +35,7 @@
 ChEMBL 临床药物库 (8319)
     → NLRP3 ML 全库打分                    [screen_repurposing_library.py]
     → P(active) ≥ 0.5  (n≈1588)           [对接池]
-    → URAT1 @ 9DKB XP + NLRP3 @ 8ETR XP   [Maestro / 本地]
+    → URAT1 @ 9DKB + NLRP3 @ 7ALV Vina   [run_vina_batch.py]
     → Pareto 双证据短名单                  [merge_docking_pareto.py]
     → 代表药 MD 2+2                       [benzbromarone, dotinurad, MCC950, GDC]
 
@@ -57,7 +57,7 @@ ChEMBL 临床药物库 (8319)
 | ChEMBL 重定位库 manifest | ✅ | `data/repurposing/repurposing_manifest.csv` |
 | **NLRP3 ML 全库筛选** | ✅ | `screen_repurposing_library.py` |
 | 8973 对接合并 + 回顾分析 | ✅ | `merge_8973_docking_results.py`, `analyze_urat1_docking_vs_ml.py` |
-| 重定位库双靶对接 | ⏳ 本地 Maestro | 输入：`data/repurposing/screening/docking_pool_p05.csv` |
+| 重定位库双靶对接 | ⏳ Vina 批量 | `scripts/run_vina_batch.py`；输入：`docking_pool_p05.csv` |
 | Pareto 整合 | ✅ 脚本就绪 | `merge_docking_pareto.py`（待本地对接 CSV） |
 | 代表药 MD | ⏳ | 2+2 benchmark |
 

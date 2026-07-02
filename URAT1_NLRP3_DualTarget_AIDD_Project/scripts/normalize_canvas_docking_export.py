@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 """Normalize Maestro Canvas docking CSV (XP_OUT) for merge_docking_pareto.py.
 
+DEPRECATED: Project now uses open-source AutoDock Vina. Prefer:
+  scripts/normalize_docking_export.py
+See docs/OPEN_SOURCE_DOCKING.md
+
 Maestro exports use s_canvas_repurposing_id + r_glide_XP_GScore, not canonical_smiles.
 This script joins docking_pool_p05.csv to attach canonical_smiles.
 

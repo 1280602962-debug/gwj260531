@@ -185,8 +185,9 @@ def plot_screening_funnel(summary: dict) -> dict:
 
 def plot_urat1_a_vs_d_violin(dock: pd.DataFrame) -> dict:
     sub = dock[(dock["subset"].isin(["A", "D"])) & dock["docked"]]
-    d_scores = sub.loc[sub["subset"] == "D", "glide_score_xp"].dropna()
-    a_scores = sub.loc[sub["subset"] == "A", "glide_score_xp"].dropna()
+    score_col = "dock_score" if "dock_score" in sub.columns else "glide_score_xp"
+    d_scores = sub.loc[sub["subset"] == "D", score_col].dropna()
+    a_scores = sub.loc[sub["subset"] == "A", score_col].dropna()
 
     fig, ax = plt.subplots(figsize=figsize_single(76))
     target_header(fig, "Target: URAT1 (SLC22A12, 9DKB XP)", URAT1_COLOR)
@@ -199,7 +200,7 @@ def plot_urat1_a_vs_d_violin(dock: pd.DataFrame) -> dict:
     ax.set_xticks([0, 1])
     ax.set_xticklabels(["Decoy D", "Active A"])
     clean_axes(ax)
-    set_axis_labels(ax, "8973 distill subset", "Glide XP score (kcal/mol)")
+    set_axis_labels(ax, "8973 distill subset", "Docking score (kcal/mol, Vina)")
     ax.text(0.5, 0.02, f"D: n = {len(d_scores):,}; A: n = {len(a_scores):,}", transform=ax.transAxes, ha="center", va="bottom", fontsize=FONT_SIZE_PT, color=NEUTRAL)
     fig.subplots_adjust(**{**MARGIN_WIDE_X, "bottom": 0.22})
     paths = save_figure(fig, "urat1_fig03a_a_vs_d_violin", "urat1")
@@ -252,7 +253,7 @@ def plot_urat1_benchmark(bench: pd.DataFrame) -> dict:
 
     x = np.arange(len(bench))
     w = 0.34
-    ax.bar(x - w / 2, bench["s_u_percentile"], width=w, label="9DKB XP docking", color=URAT1_COLOR, edgecolor=NEUTRAL, linewidth=0.3)
+    ax.bar(x - w / 2, bench["s_u_percentile"], width=w, label="9DKB Vina docking", color=URAT1_COLOR, edgecolor=NEUTRAL, linewidth=0.3)
     ax.bar(x + w / 2, bench["ml_percentile_vs_8973"], width=w, label="URAT1 ML", color=URAT1_LIGHT, edgecolor=NEUTRAL, linewidth=0.3)
     ax.axhline(90, color=THRESHOLD, linestyle=(0, (4, 3)), linewidth=0.7)
     ax.set_xticks(x)
@@ -448,11 +449,12 @@ def plot_fig02_composite(ml: pd.DataFrame, summary: dict) -> dict:
 
 def plot_fig03_composite(dock: pd.DataFrame, summary: dict, bench: pd.DataFrame) -> dict:
     fig, axes = plt.subplots(2, 2, figsize=figsize_double(158))
-    target_header(fig, "Target: URAT1 — 8973 retrospective docking (9DKB XP)", URAT1_COLOR, y=0.975)
+    target_header(fig, "Target: URAT1 — 8973 retrospective docking (9DKB, Vina)", URAT1_COLOR, y=0.975)
 
     sub = dock[(dock["subset"].isin(["A", "D"])) & dock["docked"]]
-    d_scores = sub.loc[sub["subset"] == "D", "glide_score_xp"]
-    a_scores = sub.loc[sub["subset"] == "A", "glide_score_xp"]
+    score_col = "dock_score" if "dock_score" in sub.columns else "glide_score_xp"
+    d_scores = sub.loc[sub["subset"] == "D", score_col]
+    a_scores = sub.loc[sub["subset"] == "A", score_col]
 
     ax = axes[0, 0]
     parts = ax.violinplot([d_scores, a_scores], positions=[0, 1], showmedians=True, widths=0.58)
@@ -464,7 +466,7 @@ def plot_fig03_composite(dock: pd.DataFrame, summary: dict, bench: pd.DataFrame)
     ax.set_xticklabels(["Decoy D", "Active A"])
     clean_axes(ax)
     ax.set_xlabel("")
-    set_axis_labels(ax, "", "Glide XP score (kcal/mol)", xpad=6, ypad=6)
+    set_axis_labels(ax, "", "Docking score (kcal/mol, Vina)", xpad=6, ypad=6)
     ax.margins(x=0.12)
 
     ax = axes[0, 1]

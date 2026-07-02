@@ -14,8 +14,8 @@ flowchart TB
     M1[repurposing_manifest.csv n=8319]
     M2[NLRP3 ML 全库]
     M3["P(active)≥0.5 n≈1588"]
-    M4[URAT1 9DKB XP]
-    M5[NLRP3 7ALV XP]
+    M4[URAT1 9DKB Vina]
+    M5[NLRP3 7ALV Vina]
     M6[Pareto 短名单]
     M7[MD 2+2 benchmark]
     M1 --> M2 --> M3 --> M4
@@ -27,7 +27,7 @@ flowchart TB
 
   subgraph RETRO [独立：URAT1 方法回顾]
     R1[distill_manifest 8973]
-    R2[9DKB XP 已完成]
+    R2[9DKB Vina]
     R3[A vs D 富集 EF@5%]
     R1 --> R2 --> R3
   end
@@ -78,35 +78,53 @@ python3 scripts/screen_repurposing_library.py --panel phase_ge3 --export-p05-poo
 
 ---
 
-### Phase 2 — 双靶对接（Maestro，本地）
+### Phase 2 — 双靶对接（AutoDock Vina，开源）
 
-**输入**：`results/repurposing/docking_pool_p05.csv` 的 `canonical_smiles`
+**无需 Schrödinger 许可。** 完整说明：[`OPEN_SOURCE_DOCKING.md`](OPEN_SOURCE_DOCKING.md)
 
-| 靶点 | 结构 | 方法 |
+**输入**：`data/repurposing/screening/docking_pool_p05.csv`
+
+| 靶点 | 结构 | 引擎 |
 |------|------|------|
-| URAT1 | 9DKB | Glide SP→XP |
-| NLRP3 | **7ALV**（主文） | Glide SP→XP |
+| URAT1 | 9DKB | Vina 1.2.5, exhaustiveness=32 |
+| NLRP3 | 7ALV | 同上 |
 
-Maestro Canvas 导出用 `scripts/normalize_canvas_docking_export.py`（`repurposing_id` 关联池）。
+```bash
+# 受体 PDBQT
+python3 scripts/prepare_receptor_vina.py --target urat1_9dkb
+python3 scripts/prepare_receptor_vina.py --target nlrp3_7alv
 
-建议目录：
+# 配体 PDBQT（1588）
+python3 scripts/prepare_ligands_vina.py \
+  --input data/repurposing/screening/docking_pool_p05.csv \
+  --output-dir results/repurposing/ligands_p05
 
+# 批量对接
+python3 scripts/run_vina_batch.py --target urat1_9dkb \
+  --manifest results/repurposing/ligands_p05/ligand_manifest.csv \
+  --output-dir results/repurposing/docking_vina/9dkb --jobs 8
+python3 scripts/run_vina_batch.py --target nlrp3_7alv \
+  --manifest results/repurposing/ligands_p05/ligand_manifest.csv \
+  --output-dir results/repurposing/docking_vina/7alv --jobs 8
+
+# 规范化
+python3 scripts/normalize_docking_export.py \
+  --input results/repurposing/docking_vina/9dkb/docking_9dkb_vina.csv \
+  --pdb 9DKB --engine vina \
+  --output results/repurposing/docking_raw/urat1_9dkb_p05.csv
+python3 scripts/normalize_docking_export.py \
+  --input results/repurposing/docking_vina/7alv/docking_7alv_vina.csv \
+  --pdb 7ALV --engine vina \
+  --output results/repurposing/docking_raw/nlrp3_7alv_p05.csv
 ```
-results/repurposing/docking_raw/
-  urat1_9dkb_p05.csv
-  nlrp3_7alv_p05.csv
-```
 
-**当前已完成**：1455 @ 9DKB，1517 @ 7ALV，双靶合并 **1451**（见 `docs/RESULTS_DOCKING_9DKB_7ALV.md`）。
+**迁移状态**：`data/repurposing/pareto/` 中现有 Pareto 数字来自 **Glide 开发跑**；投稿前须用 Vina 重跑并替换。
 
 ---
 
 ### Phase 3 — Pareto 整合
 
 ```bash
-python3 scripts/normalize_canvas_docking_export.py --input ... --pdb 9DKB --output results/repurposing/docking_raw/urat1_9dkb_p05.csv
-python3 scripts/normalize_canvas_docking_export.py --input ... --pdb 7ALV --output results/repurposing/docking_raw/nlrp3_7alv_p05.csv
-
 python3 scripts/merge_docking_pareto.py \
   --ml-scores data/repurposing/screening/nlrp3_ml_scores_clinical_all.csv \
   --urat1-dock results/repurposing/docking_raw/urat1_9dkb_p05.csv \
@@ -126,9 +144,11 @@ python3 scripts/plot_available_figures.py
 
 ### Phase 4 — 8973 URAT1 回顾（独立 Results 一节）
 
+对 `distill_manifest.csv` 用 **同一 Vina 协议** 重对接后：
+
 ```bash
 python3 scripts/merge_8973_docking_results.py \
-  --glide-csv results/docking/raw/9DKB_glide-dock_XP_8000_343e.csv
+  --glide-csv results/docking/vina_8973/docking_9dkb_vina.csv
 
 python3 scripts/analyze_urat1_docking_vs_ml.py \
   --merged data/docking/8973_9DKB_with_manifest.csv
@@ -138,14 +158,14 @@ python3 scripts/analyze_urat1_docking_vs_ml.py \
 
 ---
 
-### Phase 5 — MD（主文 2+2）
+### Phase 5 — MD（主文 2+2，GROMACS）
 
 | 靶点 | 化合物 | 结构 |
 |------|--------|------|
-| URAT1 | benzbromarone, dotinurad | 9DKB |
-| NLRP3 | MCC950, GDC-2394 | 7ALV / 8ETR |
+| URAT1 | benzbromarone, dotinurad, EGCG | 9DKB |
+| NLRP3（SI） | MCC950 | 7ALV |
 
-50–100 ns；报告 RMSD、关键残基距离、MM-GBSA（定性）。
+50–100 ns；报告 RMSD、关键残基距离、MM-PBSA（定性）。
 
 ---
 

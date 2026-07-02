@@ -59,6 +59,8 @@ def _benchmark_table(merged: pd.DataFrame, pool: pd.DataFrame, manifest: pd.Data
                     "s_n_percentile": float(r["s_n_percentile"]),
                     "s_n_ml_percentile": float(r["s_n_ml_percentile"]),
                     "s_n_dock_percentile": float(r["s_n_dock_percentile"]),
+                    "urat1_dock_score": float(r.get("dock_score", r["glide_score_xp"])),
+                    "nlrp3_dock_score": float(r.get("nlrp3_dock_score", r["nlrp3_glide_score_xp"])),
                     "urat1_glide_xp": float(r["glide_score_xp"]),
                     "nlrp3_glide_xp": float(r["nlrp3_glide_score_xp"]),
                     "pareto_front": bool(r["pareto_front"]),
@@ -84,7 +86,8 @@ def main() -> None:
     pareto_summary = json.loads(args.summary.read_text()) if args.summary.exists() else {}
 
     name_col = _name_col(merged)
-    r_sp, p_sp = spearmanr(merged["p_active_nlrp3"], merged["nlrp3_glide_score_xp"], nan_policy="omit")
+    sn_dock = merged.get("nlrp3_dock_score", merged["nlrp3_glide_score_xp"])
+    r_sp, p_sp = spearmanr(merged["p_active_nlrp3"], sn_dock, nan_policy="omit")
 
     bench_rows = _benchmark_table(merged, pool, manifest, bench)
     shortlist_records = short.to_dict(orient="records")
