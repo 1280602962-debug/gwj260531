@@ -10,6 +10,9 @@ conformation_filter:
   ac_helix: in
 
 scoring:
+  # NOTE: mean() formulas below are DESIGN DRAFT for ensemble docking (not used in VSW).
+  # Actual VSW/MD uses single PDB per isoform: 3ELJ / 3E7O / 3TTI (see JNK1_PROJECT_REPORT.md §3.1).
+  # pass_consistency (cross-PDB Δsel sign agreement) was abandoned with ensemble; not required for screening.
   selectivity: Score_JNK1 - max(Score_JNK2, Score_JNK3)
   formulas:
     Score_JNK1: mean(dock_3ELJ, dock_4L7F)
