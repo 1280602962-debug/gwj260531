@@ -1,6 +1,6 @@
 # JNK1/2/3 亚型抑制剂计算筛选项目报告
 
-> **版本**: 2.0  
+> **版本**: 2.1  
 > **日期**: 2026-07-03  
 > **原则**: 本报告所有数值均来自仓库内可复现文件、对接工作区归档 CSV 或 MD QC 结果；未在数据中出现的结论一律不作断言。
 
@@ -452,6 +452,223 @@ kinome 面板 + 细胞 p-c-Jun；对 top 1–2 考虑 **FEP+**（690 已在推�
 7. Friesner RA, et al. Glide. *J. Med. Chem.* 2004;47(7):1739-1749. doi:10.1021/jm0306430  
 8. Manning BD, Davis RJ. Targeting JNK. *Nat. Rev. Drug Discov.* 2003;2(7):554-565. doi:10.1038/nrd1132  
 9. Chen T, Guestrin C. XGBoost. *Proc. 22nd ACM SIGKDD* 2016. doi:10.1145/2939672.2939785  
+
+---
+
+## 12. 方法学局限与审稿人预判
+
+本章汇总外部 CADD 审阅中对本筛选流程的**主要质疑**，并给出**书面回复**与**可执行解决方案**。目的不是回避问题，而是预先在文稿/答辩中主动披露局限，并说明哪些已通过策略调整（pivot 至实验）规避，哪些仍需补算。
+
+**严重程度图例**：🔴 严重（影响结论可信度）｜🟡 中等（逻辑张力，需讲清）｜🟢 可接受（措辞/补充说明即可）
+
+**执行优先级**：P0 = 湿实验前/并行必做｜P1 = 论文投稿前建议完成｜P2 = hit 后或补充材料
+
+---
+
+### 12.1 严重质疑（🔴）
+
+#### Q1. F1 阈值只校准阳性、无阴性对照 → 假阳性率未知
+
+| 维度 | 内容 |
+|------|------|
+| **质疑** | 9/9 benchmark 在 p_family ≥ 6.0 时全部通过，但 9 个均为**已知活性**化合物，只证明**召回率**，未测**特异性**。Demo 库（1835 个 ChEMBL JNK 分子）F1 通过率 84%，属于**循环验证**，对 Enamine 商业库无参考意义。 |
+| **数据依据** | `threshold_recommendation.json`（9/9 recall）；`screening_v2/screening_report.json`（demo 84% 通过） |
+| **我们的回复** | 同意。本项目将 F1 明确定位为 **「去掉明显无 JNK 家族活性」的粗筛**，而非「高置信 hit 过滤器」。最终采购决策**不依赖** F1 单独通过，而依赖对接 + ADMET + MD + G3 对照实验回溯。但文稿中「9/9 benchmark 校准」表述易误导审稿人以为特异性已验证——应改为 **「活性召回校准」**。 |
+| **解决方案** | **P1**：对 ML 预测在 **DUD-E / DEKOIS JNK1** 或 property-matched decoy 集上计算 **EF1%、ROC-AUC**；报告 p_family ≥ 6.0 时的特异性。脚本可接 `scripts/calibrate_threshold.py` 扩展 decoy 输入。 |
+| **状态** | ⬜ 待补算 |
+
+---
+
+#### Q2. 跨 PDB 比较 Glide 绝对分做 Δsel — 方法学根本局限
+
+| 维度 | 内容 |
+|------|------|
+| **质疑** | Δsel_dock 使用三个 isoform **不同 PDB、不同网格、不同共晶配体**的 Glide XP 绝对分；跨受体比较引入系统偏差。JNK1 活性排序 Spearman ρ = **−0.43**；方向准确率 **29%**；Δsel 幅度 1–3 kcal/mol 处于噪声区。233 个 pass_selectivity 的「精确数字」可能**缺乏区分意义**。 |
+| **数据依据** | `isoform_rank_correlations_299a.csv`；`direction_confusion_27c3.csv`；`validation_report.md` |
+| **我们的回复** | **完全同意**，且本项目已用 benchmark 数据**否定**将 Δsel 用于 isoform 分型或采购排序。报告结论应为：「Δsel 在数值上**不能**作为选择性决策依据」，而非「不够可靠」。233/Tier 数字仅作**家族内富集探索**的遗留统计，**未用于** MD 短名单硬筛（`md_shortlist_report_23c8.md` 明确未用 Δsel 作主排序）及采购单。 |
+| **解决方案** | **P0（措辞）**：全文将「233 严格选择性通过」改为「对接能量差超过任意阈值的候选（**未经 isoform 方向验证**）」。**P1**：对 top 15 Tier1 做 **FEP+** 相对 ΔΔG（JNK1 vs JNK2/JNK3），替代 Δsel 叙事。**P2**：不再扩展基于 Δsel 的新筛选。 |
+| **状态** | ✅ 策略已调整（MD/采购不用 Δsel）；⬜ FEP+ 待做 |
+
+---
+
+#### Q3. `pass_consistency` 为占位符却计入 Tier1 定义
+
+| 维度 | 内容 |
+|------|------|
+| **质疑** | Tier1 要求 pass_consistency，但 5000 库**未**在 4L7F/4WHZ 重跑 VSW；selective 通过时 consistency **默认为 True**。Tier1 = 57 部分基于**未真正计算的条件**。 |
+| **数据依据** | `JNK1_SELECTIVITY_FINAL_REPORT_41d9.md` §5.4；`config/docking_ensemble.yaml` |
+| **我们的回复** | 同意。这是流水线实现上的**技术债**：Tier 分级在 VSW 阶段生成，但 consistency gate 未落地。当前工作**不以 Tier1 作为采购依据**（采购来自 MD QC + G3 分组），因此不影响 10 分子决策；但**不宜在论文中宣称「57 个 Tier1 高置信选择性 hit」**。 |
+| **解决方案** | **P1（二选一）**：① **重新定义 Tier**：Tier1' = pose + potency + selectivity（去掉 consistency），在 `candidates_ranked` 上重算并更新数字；② 对 **25 个 MD shortlist**（或 top 15）在 **4L7F/4WHZ** 补跑 XP，实算 `sign(Δsel_3ELJ) == sign(Δsel_4L7F)` 等一致性。**推荐①+②组合**：文稿用 Tier1'，补充材料给一致性子集结果。 |
+| **状态** | ⬜ 待补算或改口径 |
+
+---
+
+#### Q4. MD 仅用单 PDB，与对接 ensemble 设计不一致
+
+| 维度 | 内容 |
+|------|------|
+| **质疑** | 对接：JNK1 = mean(3ELJ, 4L7F)，JNK3 = mean(3TTI, 4WHZ)；MD 仅 3ELJ / 3E7O / 3TTI。选择性论证依赖 ensemble 降噪，下游却退回单结构，**前后不自洽**。690 三 isoform MD pass 未在备用 PDB 上验证。 |
+| **数据依据** | `config/docking_ensemble.yaml`；`MD_QC_report_cf26.md` |
+| **我们的回复** | 同意存在不一致。选择单结构 MD 是出于 **算力与通量**（48 作业已覆盖 16×3）；ensemble 用于**对接打分聚合**，MD 用于**单受体 pose 动力学稳定性**，二者目的不同，但应在文稿中**明确区分**，避免读者以为 MD 验证了 ensemble 一致性。 |
+| **解决方案** | **P1**：对采购清单 **top 2**（690, 2232）在 **4L7F（JNK1）** 和 **4WHZ（JNK3）** 各补 **20–50 ns MD** 或至少 XP redock + 单点 MM-GBSA，报告 RMSD/ΔG 方向是否一致。**P2**：全文 Methods 增加「MD 为单受体 pose QC，非 ensemble 一致性验证」一句。 |
+| **状态** | ⬜ 备用 PDB MD 待补 |
+
+---
+
+#### Q5. MD 单副本、单轨迹 → pose 稳定性统计功效不足
+
+| 维度 | 内容 |
+|------|------|
+| **质疑** | 每体系一条轨迹（20–50 ns），RMSD/hinge occupancy 无重复；G2「0/6 pass」等结论可能受初速/种子偶然性影响，存在**误杀**真结合剂风险。 |
+| **数据依据** | `MD_QC_report_cf26.md`（单轨迹分析协议） |
+| **我们的回复** | 部分同意。MD QC 在本项目中的定位是 **pose 可信度粗筛**，不是热力学定量；单轨迹在工业界先导优化中常见，但**不应将 G2 0/6 写成统计显著结论**，应表述为「本批次 MD 条件下未观察到稳定 pose」。G3 对照（E1 pass、SP600125 fail）说明指标与活性**非单调相关**，支持「MD 为辅助而非裁决」的定位。 |
+| **解决方案** | **P1**：对 **690 + E1（阳性）+ 1 个 G2（2231）** 各跑 **≥2 个独立 replica**（不同 seed），报告 RMSD/hinge 均值±SD。**P0**：文稿将「G2 0/6 fail」改为「G2 在本 MD 协议下 0/6 通过 overall QC」。 |
+| **状态** | ⬜ Replica 待补；✅ 措辞可在定稿时调整 |
+
+---
+
+### 12.2 中等质疑（🟡）
+
+#### Q6. 过滤器净效应偏向 pan-JNK，与「选择性」初始目标矛盾
+
+| 维度 | 内容 |
+|------|------|
+| **质疑** | pass_md_overall = JNK1 pass **且**（JNK2 **或** JNK3 pass）→ 结构上**奖励 pan 结合**。690 三 isoform 全 pass，但对接 Tier 标为「JNK1 偏好」（Δsel +1.08），同一分子两个相反标签。 |
+| **我们的回复** | 同意标签冲突。这是项目 **中期 pivot** 的必然结果：计算证明无法可靠预测选择性后，有意将过滤器改为「**JNK 家族结合剂 + pose 可信**」，而非「JNK1 selective hit」。690 应描述为「**pan-JNK 结合模式在 MD 中稳定**」，而非选择性候选。 |
+| **解决方案** | **P0**：摘要/结论统一用语：**「JNK 家族结合剂筛选」**；删除对采购分子的「计算 JNK1 选择性」暗示。**P0**：湿实验同批次 IC50 作为唯一选择性判定。 |
+| **状态** | ✅ 报告 v2 已 pivot；定稿时统一术语 |
+
+---
+
+#### Q7. Hinge HB ≥ 30% 对非经典 hinge binder 有系统性偏见
+
+| 维度 | 内容 |
+|------|------|
+| **质疑** | SP600125、CC-930 有已知活性但 MD hinge HB < 30%；G2 0/6 可能部分源于**新骨架结合模式**与 hinge 指标不匹配，而非完全不结合。 |
+| **数据依据** | `MD_QC_report_cf26.md` G3 表；`md_pose_qc_summary_5ffb.csv` |
+| **我们的回复** | 同意。铰链 HB 是**必要非充分**条件的尝试，已被 G3 数据**负向校准**（活性可存在而 hinge fail）。因此 G3 **强制纳入采购**，且不以 hinge 作为活性预测指标。 |
+| **解决方案** | **P0**：Methods 将 hinge HB 定为 **「经典 Type I 结合模式参考指标」**，非普适硬门槛。**P1**：对 fail 分子做 Maestro 目视 + 非 hinge 接触（salt bridge、疏水）定性备注。**P2**：按 chemotype 分层设不同 QC 规则（工作量大，仅在有 hit 后考虑）。 |
+| **状态** | ✅ G3 已强制采购；⬜ 目视备注可选 |
+
+---
+
+#### Q8. 活性门槛数值前后不一致（−7.43 vs −6.65）
+
+| 维度 | 内容 |
+|------|------|
+| **质疑** | MD shortlist 写 score_JNK1 ≤ **−7.43**（benchmark 中位数）；VSW 报告写 pass_potency ≤ **−6.65**（也称 benchmark 中位数）。差 0.78 kcal/mol。 |
+| **数据依据** | `md_shortlist_report_23c8.md`；`JNK1_SELECTIVITY_FINAL_REPORT_41d9.md` §1.3 |
+| **我们的回复** | 差异来自**聚合口径不同**：−6.65  likely 为 **单结构 3ELJ** 或 9 benchmark 在某一打分协议下的中位数；−7.43 可能基于 **shortlist 子集**、**ensemble mean(score_JNK1)** 或 **含 MM-GBSA 联合筛选**时的另一统计。并非随意取数，但**未在文稿中注明定义**，属表述漏洞。 |
+| **解决方案** | **P1**：在 `benchmark_deltas_51c1.csv` 上重算并**固定一种定义**写入 Methods（建议：`median(score_JNK1)`，ensemble 聚合，9 benchmark）；统一 shortlist 与 VSW 文档中的阈值或明确标注「MD 短名单使用更严子集阈值」。**P0**：本报告统一引用 −7.43 仅指 MD shortlist 阶段，−6.65 仅指 VSW pass_potency 阶段。 |
+| **状态** | ⬜ 需重算并写清定义 |
+
+---
+
+#### Q9. MM-GBSA 选择性门槛（≥ 2 kcal/mol）未经 benchmark 标定
+
+| 维度 | 内容 |
+|------|------|
+| **质疑** | pass_selectivity = Δsel_dock + Δsel_MMGBSA ≥ 2；9 个 benchmark **未跑 MM-GBSA**，门槛为假设级，却决定 233 个「双通过」候选的一半判据。 |
+| **数据依据** | `validation_report.md` §3.4；`benchmark_deltas_51c1.csv`（mmgbsa_available=False） |
+| **我们的回复** | 同意。这是 VSW 阶段的**探索性门槛**，且已因 Q2 整体弱化选择性叙事。MD 短名单与采购**未依赖**该双门槛（见 `md_shortlist_report` 声明）。 |
+| **解决方案** | **P1**：对 **9 benchmark** 在 3ELJ/3E7O/3TTI 跑 Prime MM-GBSA，计算 Δsel_MMGBSA 分布；用 E1/CC-930 等对照检验 ≥2 kcal/mol 是否分离方向；若不分离则**废弃**该门槛并更新 VSW 统计。**成本**：低（9 化合物 × 3 PDB）。 |
+| **状态** | ⬜ 待补算 |
+
+---
+
+#### Q10. Benchmark 统计功效弱（n ≤ 9）
+
+| 维度 | 内容 |
+|------|------|
+| **质疑** | Spearman 0.786（p=0.02, n=8）置信区间极宽；「秩相关尚可」证据薄弱，不宜过度强调；方向准确率 29%（2/7）才是更稳健的否定性结论。 |
+| **数据依据** | `validation_report.md`；`benchmark_deltas_51c1.csv` |
+| **我们的回复** | 同意。n=9 的 benchmark 面板**足以否定**「对接可预测 isoform 方向」（29% << 55% 阈值），但**不足以肯定**任何正相关。文稿应强调**否定结论**（方向失败、JNK1 ρ 为负），弱化 Spearman 0.79 的「成功」叙事。 |
+| **解决方案** | **P1**：对 Spearman 做 **bootstrap 95% CI**（n=8 重采样），报告区间是否跨 0。**P2**：扩充 benchmark 至 **15–20** 个有 isoform IC50 的 JNK 抑制剂（ChEMBL + 文献），提高功效（非必须，若有发表计划）。 |
+| **状态** | ⬜ Bootstrap 待做 |
+
+---
+
+### 12.3 可接受质疑（🟢）
+
+#### Q11. 「G1 骨架模仿」名不副实（Tc ≈ 0.22）
+
+| 维度 | 内容 |
+|------|------|
+| **质疑** | G1 对 E1/Q63/TCS JNK 6O 的 Tanimoto 仅 **0.217**；通常 Tc < 0.35 不算 scaffold 相似。 |
+| **我们的回复** | 同意命名过强。G1 vs G2（0.22 vs 0.12）差异**真实且显著**，支持分组假说，但应改称 **「G1：相对更接近文献 chemotype」**，非「骨架模仿」。 |
+| **解决方案** | **P0**：全文 G1 改名为 **「G1_rel_chemotype」** 或「文献 chemotype 邻近组」。 |
+| **状态** | ✅ 可在定稿时改术语 |
+
+---
+
+#### Q12. 再对接 5/5 不能外推至选择性筛选有效性
+
+| 维度 | 内容 |
+|------|------|
+| **质疑** | RMSD < 2 Å 仅证明 **self-docking** 复现共晶 pose，不证明打分能区分活性/非活性或跨 isoform 可比。 |
+| **我们的回复** | 同意。再对接仅支持「**受体网格可用于 pose 叠加与 MD 起点**」，不构成选择性方法验证。选择性否定证据来自 **benchmark 方向测试**（Q2），非再对接。 |
+| **解决方案** | **P0**：Methods 将再对接定位为 **「结构准备质量门」**；Discussion 引用 benchmark 29% 作为选择性无效的主证据。 |
+| **状态** | ✅ 报告已分节表述，定稿保持 |
+
+---
+
+#### Q13. JNK2 仅单结构，ensemble 不对称
+
+| 维度 | 内容 |
+|------|------|
+| **质疑** | JNK1/JNK3 双 PDB 均值，JNK2 仅 3E7O；Δsel = min(JNK2,JNK3)−JNK1 中 JNK2 噪声权重不成比例。 |
+| **我们的回复** | 合理关注。JNK2 第二结构（如文献共晶）可改善 ensemble 对称性；当前受 **可用高质量共晶** 限制（`docking_ensemble_pdb.csv` 仅列 3E7O 为 sole）。 |
+| **解决方案** | **P2**：检索 JNK2 第二 DFG-in 共晶（排除 3NPC DFG-out）补入 ensemble；**P0**：Limitations 明确写出 JNK2 单结构不对称。 |
+| **状态** | ⬜ 结构扩充可选 |
+
+---
+
+#### Q14. ATP 竞争性 JNK1 选择性在生物物理上先天困难
+
+| 维度 | 内容 |
+|------|------|
+| **质疑** | 三 isoform 口袋高度保守；Gly87（JNK1 unique）距配体 ~0.6–1.2 Å（自检）但**无选择性判别力**（E1/TCS 均 occ 且无预测力）。选择性抑制剂设计本身极难。 |
+| **数据依据** | `gly87_selfcheck_16be.csv`；`validation_report.md` §5 |
+| **我们的回复** | **同意且已纳入项目逻辑**。这解释了为何计算选择性全面失败，以及为何 pivot 到 **pan-JNK 家族结合剂 + 实验测定** 是理性决策而非补救。CC-90001（临床）亦显示酶学 pan-JNK、细胞功能 JNK1 偏向——选择性可在**细胞/组织层面**而非纯 ATP 口袋几何实现。 |
+| **解决方案** | **P0**：Introduction/Discussion 增加一段 **「JNK isoform 选择性 CADD 可行性」** 负向结果作为方法学贡献。**P0**：不承诺计算 deliver JNK1 selective hit。 |
+| **状态** | ✅ 报告已体现；可加强 Discussion |
+
+---
+
+### 12.4 质疑—回复—行动总表
+
+| ID | 严重程度 | 质疑摘要 | 是否影响 10 分子采购？ | 优先级 | 状态 |
+|----|----------|----------|------------------------|--------|------|
+| Q1 | 🔴 | F1 无 decoy，特异性未知 | 否（多层过滤） | P1 | ⬜ |
+| Q2 | 🔴 | Δsel 跨 PDB 不可比 | 否（已不用 Δsel 采购） | P0 改措辞 | ✅/⬜ FEP+ |
+| Q3 | 🔴 | Tier1 consistency 占位 | 否（采购看 MD） | P1 | ⬜ |
+| Q4 | 🔴 | MD 单 PDB vs ensemble | 否（定性 QC） | P1 | ⬜ |
+| Q5 | 🔴 | MD 无 replica | 弱影响 G2 结论 | P1 | ⬜ |
+| Q6 | 🟡 | 过滤器偏 pan-JNK | 否（已 pivot） | P0 | ✅ |
+| Q7 | 🟡 | Hinge HB 偏见 | 否（G3 校准） | P0 | ✅ |
+| Q8 | 🟡 | 阈值 −7.43 vs −6.65 | 否（阶段不同） | P1 | ⬜ |
+| Q9 | 🟡 | MM-GBSA 未标定 | 否（未用于采购） | P1 | ⬜ |
+| Q10 | 🟡 | n=9 统计弱 | 否（否定结论仍成立） | P1 | ⬜ |
+| Q11 | 🟢 | G1 命名过强 | 否 | P0 | ⬜ 改术语 |
+| Q12 | 🟢 | 再对接外推过度 | 否 | P0 | ✅ |
+| Q13 | 🟢 | JNK2 单结构 | 弱 | P2 | ⬜ |
+| Q14 | 🟢 | 选择性先天难 | 否（解释 pivot） | P0 | ✅ |
+
+---
+
+### 12.5 若只做三件事（审稿人预判后的最小补强包）
+
+在**不推迟 P1 湿实验**的前提下，建议优先完成：
+
+1. **P0 文稿**：统一术语（pan-JNK 结合剂、Δsel 不作选择性依据、Tier1 含未实现 consistency 的 caveat）；G1 改名「chemotype 邻近组」。
+2. **P1 计算**：9 benchmark **MM-GBSA 标定**（Q9）+ ML **decoy EF1%**（Q1）；bootstrap Spearman CI（Q10）。
+3. **P1 实验**：**同批次 JNK1/2/3 IC50**（10 分子）——这是对所有计算质疑的**最终裁决**，也是本报告的核心落脚点。
+
+---
+
+### 12.6 给答辩委员会的一句话预判
+
+> 「审稿人可能质疑 F1 无特异性、Δsel 跨 PDB 不可比、Tier1 含占位条件、MD 单轨迹。我们的回应是：**这些局限已在 benchmark 与 G3 对照中被主动检测并导致策略 pivot**；计算管线用于富集 JNK 家族结合剂与 pose QC，**isoform 选择性仅由同批次酶学实验回答**。负向结果（对接方向 29%、Gly87 失败、ML 方向错误）构成方法学贡献，而非隐藏失败。」
 
 ---
 
