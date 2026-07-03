@@ -1,21 +1,35 @@
 # JNK1/2/3 亚型抑制剂计算筛选项目报告
 
-> **版本**: 1.0  
+> **版本**: 2.0  
 > **日期**: 2026-07-03  
-> **原则**: 本报告所有数值均来自仓库内可复现文件或已归档的 MD QC 结果；未在数据中出现的结论一律不作断言。
+> **原则**: 本报告所有数值均来自仓库内可复现文件、对接工作区归档 CSV 或 MD QC 结果；未在数据中出现的结论一律不作断言。
 
 ---
 
 ## 摘要
 
-本项目以 **JNK（c-Jun N-terminal kinase）三个亚型 JNK1、JNK2、JNK3** 为对象，基于 ChEMBL 公开生化 IC50 数据构建机器学习（ML）活性预测模型，对商业化合物库进行 **JNK 家族活性粗筛**；随后在本地 Schrödinger 环境中完成结构对接、MM-GBSA 与 ADMET 过滤，并对 **16 个候选分子** 开展 Desmond 分子动力学（MD）pose 质量控制（QC）。最终推荐 **10 个分子** 进入同批次 JNK1/2/3 酶学 IC50 湿实验。
+本项目以 **JNK（c-Jun N-terminal kinase）三个亚型 JNK1、JNK2、JNK3** 为对象，构建 **ML 活性粗筛 → Glide XP 5000 化合物 VSW → MM-GBSA/ADMET 短名单 → Desmond MD pose QC** 四级计算漏斗，最终推荐 **10 个分子** 进入同批次 JNK1/2/3 酶学 IC50 湿实验。
+
+**端到端漏斗（有数据支撑的各阶段）**：
+
+| 阶段 | 数量 | 数据来源 |
+|------|------|----------|
+| ML 初筛后对接库（F0） | **4983** | `md_shortlist_report_23c8.md` |
+| Glide XP VSW 有效记录 | **4979** | `JNK1_SELECTIVITY_FINAL_REPORT_41d9.md` |
+| VSW pass_selectivity（Δsel_dock + MM-GBSA） | **233** | 同上 |
+| VSW Tier 1 | **57** | 同上 |
+| MD shortlist（ADMET 后） | **25** | `md_shortlist_report_23c8.md` |
+| MD pose QC 输入 | **16** | `MD_QC_report_cf26.md` |
+| 最终采购推荐 | **10** | `data/purchase/purchase_after_md.csv` |
 
 **核心结论**：
 
-1. **ML 模型适合判断“是否具有 JNK 家族结合潜力”**（9/9 文献 benchmark 在 p_family ≥ 6.0 时全部通过 F1 预筛），但 **不能可靠预测亚型选择性方向**（例如 E1、TCS JNK 6O 的预测最高活性亚型与实验不符）。
-2. ChEMBL 配对数据中 **JNK1-selective 标注仅 8 个化合物**，选择性分类模型在测试集上 **F1 = 0**，不具备筛选选择性先导物的统计基础。
-3. MD QC 表明：**G1（与文献 JNK1 抑制剂 chemotype 相近的类似物）3/4 通过整体 pose 质控，G2（新骨架）0/6 通过**；**没有任何候选分子的选择性可被计算确认**。
-4. 花钱购买 10 个分子的理由不是“已算出 JNK1 选择性 hit”，而是：**用 G3 对照校准实验、用 G1 验证 chemotype 假说、用 G2 探索新骨架并结合 MD 信息价值最大化**。
+1. **受体准备可信**：5/5 共晶再对接 RMSD < 2 Å（`redocking_summary_7725.csv`）。
+2. **Glide XP 对接选择性方向不可靠**：Spearman(Δsel_dock, −ΔpIC50_sel) = **0.786**（p = 0.021），但 isoform 方向准确率仅 **29%**（2/7）；TCS JNK 6O、SP600125 方向预测失败（`direction_confusion_27c3.csv`）。
+3. **ML 同样不能预测亚型方向**（E1、TCS JNK 6O 预测错误）；ChEMBL **JNK1-selective 标注仅 8 个**，选择性分类器测试 F1 = **0**。
+4. **Gly87（KLIFS b.l.37）占据策略回顾性失败**：5/5 benchmark `occ_JNK1=True`，但配体距 Gly87 **0.59–1.18 Å**，无选择性判别力（`gly87_selfcheck_16be.csv`）。
+5. MD QC：**G1 3/4、G2 0/6** 通过 `pass_md_overall`；**没有任何分子的 JNK1 选择性可被计算确认**。
+6. 采购 10 个分子的理由：**G3 实验校准 + G1/G2 chemotype 假说检验 + MD pose 可信度分层**，而非“已算出选择性 hit”。
 
 ---
 
@@ -23,384 +37,446 @@
 
 ### 1.1 生物学与成药背景
 
-JNK 家族包含三个高度同源的丝/苏氨酸激酶：
-
 | 亚型 | 基因 | ChEMBL Target ID |
 |------|------|------------------|
 | JNK1 | MAPK8 | CHEMBL2276 |
 | JNK2 | MAPK9 | CHEMBL4179 |
 | JNK3 | MAPK10 | CHEMBL2637 |
 
-JNK1 在代谢、炎症与纤维化等疾病中具有明确病理角色；临床上 **CC-90001** 为 JNK1 功能偏向的临床候选化合物（特发性肺纤维化 IPF），见 Bennett et al., *J. Med. Chem.* 2021（PMID: 33404223）。经典 pan-JNK 工具药 **SP600125** 见 Bennett et al., *Proc. Natl. Acad. Sci. USA* 2001（PMID: 11717429）。
+JNK1 在 IPF、NASH 等疾病中有明确证据；**CC-90001** 为 JNK1 功能偏向临床候选（Bennett et al., *J. Med. Chem.* 2021, PMID: 33404223）。**SP600125** 为经典 pan-JNK 工具药（Bennett et al., *PNAS* 2001, PMID: 11717429）。**E1** 为 Pan et al. 报道的 JNK1 强抑制剂（IC50 = 2.7 nM，*J. Med. Chem.* 2024, doi:10.1021/acs.jmedchem.4c01764）。
 
-### 1.2 项目初始目标与策略调整
+### 1.2 策略演进
 
-**初始目标**：发现 **JNK1 亚型选择性** 小分子抑制剂。
-
-**策略调整（基于数据）**：当 ML 与对接均无法可靠排序 isoform 选择性后，项目目标转为：
-
-- 发现 **结构多样、计算上结合模式可信的 JNK 家族结合剂**；
-- 通过 **G1（已知 chemotype 类似物）vs G2（新骨架）** 分组设计湿实验；
-- 用 **G3 文献对照** 校准“计算 pose 质量 vs 真实活性”的相关性。
+| 阶段 | 目标 | 数据结论 |
+|------|------|----------|
+| 初期 | 计算筛选 JNK1 选择性 hit | ML + 对接 benchmark 均否定 |
+| 中期 | Glide Δsel + MM-GBSA 选择性分级 | 233 个严格通过，但方向准确率 29% |
+| 后期 | MD pose QC + 湿实验 | 以 **pan-JNK 家族结合剂** 为主假说，选择性靠酶学 |
 
 ---
 
 ## 2. 训练数据与 ML 模型
 
-### 2.1 数据来源与清洗
+### 2.1 数据清洗结果
 
-数据来自 ChEMBL 导出（`docs/JNK1.csv`, `JNK2.csv`, `JNK3.csv`），经 `scripts/00_prepare_user_data.py` 清洗。清洗后化合物数（`data/processed/data_summary.json`）：
+| 亚型 | 化合物数 | Holdout R² | Holdout Spearman ρ |
+|------|----------|------------|-------------------|
+| JNK1 | 444 | **0.697** | **0.858** |
+| JNK2 | 610 | **0.574** | **0.780** |
+| JNK3 | 1147 | **0.774** | **0.869** |
 
-| 亚型 | 化合物数 | 训练/验证/测试 |
-|------|----------|----------------|
-| JNK1 | 444 | 384 / 29 / 31 |
-| JNK2 | 610 | 477 / 66 / 67 |
-| JNK3 | 1147 | 966 / 83 / 98 |
+数据来源：`data/processed/data_summary.json`，`results/model_comparison/comparison.json`。
 
-清洗规则（详见 `docs/PROJECT_TECHNICAL_REPORT.md`）：
+### 2.2 选择性标签稀缺性
 
-- 仅保留生化测定（Assay Type = B）、精确 IC50（Relation = '='）
-- pActivity 范围 4.0–10.0
-- 同 SMILES 多测定冲突：std > 0.5 或 range > 1.0 log 时丢弃
-- 按亚型 assay harmonization：JNK1 assay ≥ 50 化合物、JNK2 ≥ 8、JNK3 ≥ 20
+- 配对分子（≥2 亚型）：**322** 个
+- JNK1-selective 标注：**8** 个（`sel_class_counts.csv`）
+- 选择性分类器：训练正例 8，测试正例 0，**F1 = 0**（`training_report.json`）
 
-### 2.2 化学空间与选择性标签稀缺性
+### 2.3 ML 虚拟筛选（F1）
 
-`results/similarity/` 分析显示三数据集化学空间部分重叠但可区分：
+9 个文献 benchmark 在 **p_family ≥ 6.0** 时 **9/9 全部通过**（`threshold_recommendation.json`）。
 
-- 交叉 Tanimoto 中位相似度：JNK1–JNK2 **0.172**，JNK1–JNK3 **0.149**
-- 三数据集共享 Murcko 骨架：**38** 个（`scaffold_overlap.json`）
-- 配对分子（≥2 个亚型有数据）：**322** 个；其中 **JNK1-selective 仅 8 个**（`sel_class_counts.csv`）
-
-这说明：**公开数据中“JNK1 选择性”标签极度稀缺**，是后续选择性 ML 失败的根本原因之一。
-
-### 2.3 模型架构与性能
-
-采用 **三个独立 XGBoost 回归器**，输入为 Morgan-2/2048 bit 指纹 + 12 个 RDKit 2D 描述符（共 2060 维），预测各亚型 pActivity。性能（`results/model_comparison/comparison.json`，骨架 holdout）：
-
-| 亚型 | Holdout R² | Holdout Spearman ρ | n_test |
-|------|------------|-------------------|--------|
-| JNK1 | **0.697** | **0.858** | 31 |
-| JNK2 | **0.574** | **0.780** | 67 |
-| JNK3 | **0.774** | **0.869** | 98 |
-| 平均 | **0.682** | **0.836** | — |
-
-5-fold 骨架 CV 平均 R²：JNK1 **0.662**，JNK2 **0.443**，JNK3 **0.633**（`MODEL_COMPARISON_REPORT.md`）。
-
-**解读**：模型对 **绝对活性排序** 在 JNK1/JNK3 上较可靠，适合 **粗筛**；JNK2 因 assay 异质性 CV 偏弱。XGBoost 平均 holdout R² **0.682**，优于 Chemprop（**0.532**，同报告）。
-
-### 2.4 多任务/选择性模型（未用于筛选）
-
-`results/training/training_report.json`：
-
-| 任务 | 结果 | 结论 |
-|------|------|------|
-| MTL（Chemprop）JNK2/JNK3 holdout R² | ~0.25 | 不可用 |
-| Δ 选择性回归（测试集） | n = **4**，R² = 0.64 | 样本过少，不具泛化性 |
-| JNK1 选择性二分类 | 训练正例 **8**，测试正例 **0**，F1 = **0** | 不可用 |
-
----
-
-## 3. 虚拟筛选漏斗（ML 阶段）
-
-### 3.1 F1 阈值校准
-
-在 **9 个文献 benchmark**（`data/benchmarks/literature_benchmarks.csv`）上扫描 p_family = max(pred_JNK1, pred_JNK2, pred_JNK3) 阈值（`results/calibration/threshold_scan.csv`）：
-
-| 阈值 | Benchmark 通过率 |
-|------|------------------|
-| 6.0 | **9/9（100%）** |
-| 6.5 | 7/9 |
-| 7.0 | 5/9 |
-
-推荐阈值：**p_family ≥ 6.0**（`threshold_recommendation.json`）。
-
-### 3.2 漏斗设计（v2）
-
-```
-输入 SMILES
-  → F0 预处理（RDKit 标准化、去重）
-  → F2 Lipinski 类药（MW 200–600, logP −1~5, HBD≤5, HBA≤10）
-  → F1 ML：p_family ≥ 6.0
-  → F5 成药性：SA ≤ 6.0, QED ≥ 0.35
-  → 综合评分 + Butina 多样性挑选
-```
-
-综合评分（`screening_v2/screening_report.json`）：
-
-```
-final_score = 0.55×(p_family/10) + 0.15×(pred_JNK1/10) + 0.20×QED + 0.10×(10−SA)/10
-```
-
-**设计理由**：用 p_family 保留 pan-JNK 工具化合物；**不用 ML 选择性硬筛**（见第 4 节）。
-
-### 3.3 Demo 库筛选结果（仓库内基准）
-
-在 ChEMBL 衍生的 demo 库（1835 分子）上（`screening_v2/screening_report.json`）：
+Demo 库（1835 分子）漏斗：`screening_v2/screening_report.json`
 
 | 阶段 | 数量 |
 |------|------|
-| 输入 | 1835 |
 | Lipinski 通过 | 1541 |
-| F1（p_family ≥ 6.0）通过 | 1292 |
-| SA/QED 通过（最终 hit） | **1211** |
+| F1 通过 | 1292 |
+| SA/QED 通过 | 1211 |
 
-> 注：百万级 Enamine 库 ML 初筛在本地 WSL 完成（`docs/PROJECT_TECHNICAL_REPORT.md` 第 8.2 节），完整漏斗统计未纳入本仓库 Git；后续对接与 MD 以本地工作流为准。
+**ML 用途**：去除无 JNK 家族活性潜力的分子；**不用于 isoform 方向判断**。
 
----
+### 2.4 ML vs 对接：benchmark 方向对比
 
-## 4. 亚型选择性：问题、尝试与失败原因
+| 化合物 | 实验 profile | ML 预测最高亚型 | 对接 Δsel 预测方向 | 实验方向（IC50） |
+|--------|--------------|-----------------|-------------------|------------------|
+| E1 | JNK1 偏好 | **JNK2**（7.56） | **JNK1**（Δsel +3.05） | JNK1 |
+| TCS JNK 6O | JNK1 偏好 | **JNK3**（6.97） | **JNK23**（Δsel −1.18） | JNK1 |
+| CC-930 | JNK2/3 偏好 | JNK2（7.47） | JNK23（Δsel −4.90） | JNK23 |
+| SP600125 | pan-JNK | JNK1（6.13） | JNK23（Δsel −2.57） | pan |
 
-### 4.1 问题一：ML 无法预测 isoform 方向
-
-9 个 benchmark 的 ML 预测与实验 profile 对比（`benchmark_predictions_detailed.csv`）：
-
-| 化合物 | 实验 profile | 实验 IC50 关系 | ML 预测最高亚型 | 方向是否正确 |
-|--------|--------------|----------------|-----------------|--------------|
-| E1 | JNK1-preferring | JNK1 2.7 nM；JNK2 19 nM（**7.0×**） | **JNK2**（pred 7.56） | **否** |
-| TCS JNK 6O | JNK1-preferring | JNK2/JNK1 = 3.6× | **JNK3**（pred 6.97） | **否** |
-| CC-930 | JNK2/3-biased | JNK1/JNK2 ~8.7× | JNK2（pred 7.47） | 是 |
-| SP600125 | pan-JNK | 各亚型相近 | JNK1（pred 6.13） | 大致合理 |
-| CC-90001 | pan-JNK（酶学） | JNK2/JNK1 = 2.8×（弱） | JNK2（pred 7.22） | 部分合理 |
-
-E1 的实验数据来自 Pan et al., *J. Med. Chem.* **2024**, doi:[10.1021/acs.jmedchem.4c01764](https://doi.org/10.1021/acs.jmedchem.4c01764)（化合物 E1，JNK1 IC50 = 2.7 nM）。TCS JNK 6O 的 JNK1/JNK2 IC50（45/160 nM）见项目 benchmark 表，与文献/vendor 数据一致；原始报道见 Szczepankiewicz et al., *J. Med. Chem.* 2006, 49, 3563（PMID: 16759099）。
-
-**结论**：F1 预筛可靠；**亚型方向预测不可靠**，因此 v2 漏斗明确放弃 ML 选择性过滤。
-
-### 4.2 问题二：选择性训练标签极度不平衡
-
-- 配对数据 322 个分子中，JNK1-selective 仅 **8** 个
-- 选择性分类器：训练正例 8 个，测试正例 **0** 个 → F1 = 0
-- SHAP 分析（`results/shap/top_shap_features.csv`）基于极少正例，仅作探索性参考
-
-### 4.3 问题三：结构对接选择性评分（规划 vs 执行）
-
-仓库中规划了 ensemble docking 方案（`config/docking_ensemble.yaml`）：
-
-- JNK1：3ELJ + 4L7F 平均分
-- JNK2：3E7O
-- JNK3：3TTI + 4WHZ 平均分
-- 选择性指标：Δsel = Score_JNK1 − max(Score_JNK2, Score_JNK3)
-
-**MD QC 阶段明确不使用 Δsel、MD-ΔΔG 或 Gly87 IFP 进行选择性排序**（`MD_QC_report_cf26.md`），原因是前期 benchmark 验证表明对接选择性指标对 isoform 方向判别不足（该验证在本地对接报告中完成，具体数值未纳入本 Git 仓库）。
-
-实际 MD 使用单结构：**3ELJ（JNK1）、3E7O（JNK2）、3TTI（JNK3）**，共 48 个 Desmond 任务（16 化合物 × 3 PDB）。
-
-### 4.4 问题四：Gly87 / KLIFS 非保守位点策略未落地
-
-曾规划利用 JNK1 特有 Gly87（KLIFS b.l.37）设计选择性接触，但 occupancy 自检未通过（该分析在本地完成，未纳入仓库）。MD QC 报告亦将 Gly87 IFP 排除在决策指标之外。
+→ ML 与对接在关键对照上**均不能一致预测 isoform 方向**；对接对 E1 方向正确、ML 错误；对 TCS JNK 6O 两者均错误。
 
 ---
 
-## 5. 结构筛选与 MD 短名单
+## 3. Glide XP 结构对接与 5000 化合物 VSW
 
-### 5.1 进入 MD 的 16 个化合物分组
+### 3.1 结构 Ensemble（`config/docking_ensemble.yaml`）
 
-在完成 **ML 初筛 + 本地 Glide XP 对接 + MM-GBSA + QikProp ADMET** 后，**16 个化合物** 进入 MD pose QC（`MD_QC_report_cf26.md`）：
+| Isoform | PDB | 聚合 | VSW 主结构 |
+|---------|-----|------|------------|
+| JNK1 | 3ELJ, 4L7F | 均值 | 3ELJ |
+| JNK2 | 3E7O | 单结构 | 3E7O |
+| JNK3 | 3TTI, 4WHZ | 均值 | 3TTI |
 
-| 组别 | 数量 | 定义 |
-|------|------|------|
-| G1 | 4 | 与 E1/Q63/TCS JNK 6O chemotype 相似度较高的类似物（butina Tanimoto ~0.22–0.26） |
-| G2 | 6 | 新骨架（butina 聚类不同，chemotype_sim 低） |
-| G3_control | 4 | 文献对照：SP600125, CC-90001, CC-930, E1 |
-| G4_anchor | 2 | 对接打分差的阴性锚点：3237, 3411 |
+对接得分：**Glide XP `r_i_glide_gscore`**（非 SP 中间分）。
 
-G1 的 chemotype_sim 来自 `md_pose_qc_summary_5ffb.csv`（以 E1 为参照时 E1 = 1.0；G1 约 **0.23**）。
+### 3.2 共晶再对接验证
 
-### 5.2 MD QC 方法
+**5/5 通过**（RMSD 阈值 2.0 Å，`results/docking_validation/redocking_summary_7725.csv`）：
 
-- 软件：Desmond MD；分析 Amber cpptraj/MMPBSA
-- 蛋白对齐后配体 RMSD：丢弃前 20% 平衡，分析剩余后 50%
-- **通过标准**：
-  - pass_md_JNK1：RMSD_JNK1 ≤ **3.0 Å** 且 hinge H-bond occupancy ≥ **30%**
-  - pass_md_JNK2/3：RMSD ≤ **4.0 Å** 且 hinge HB ≥ 30%
-  - pass_md_overall：pass_md_JNK1 **且**（pass_md_JNK2 **或** pass_md_JNK3）
+| PDB | 靶标 | 配体 | Glide XP 得分 | RMSD (Å) |
+|-----|------|------|---------------|----------|
+| 3ELJ | JNK1 | GS7 | −12.79 | **0.66** |
+| 4L7F | JNK1 | AX13587 | −12.21 | **0.92** |
+| 3E7O | JNK2 | 35F | −11.27 | **0.26** |
+| 3TTI | JNK3 | CC-930 | −12.86 | **1.50** |
+| 4WHZ | JNK3 | 3NL | −10.09 | **1.88** |
 
----
+**结论**：prepared 受体网格可信，可用于 pose 比较与 VSW。
 
-## 6. MD Pose QC 结果
+### 3.3 选择性指标定义
 
-### 6.1 总漏斗
+```
+Δsel_dock = min(score_JNK2, score_JNK3) − score_JNK1
+```
+
+- 得分越负 = 结合越强  
+- **Δsel_dock > 0** → 计算上偏向 JNK1
+
+严格选择性门槛：`pass_selectivity` = Δsel_dock > 0 **且** Δsel_MMGBSA ≥ 2.0 kcal/mol。  
+**注意**：9 个 benchmark **未运行 Prime MM-GBSA**，MM-GBSA 选择性门槛**未经 benchmark 标定**（`validation_report.md` §3.4）。
+
+### 3.4 5000 化合物 VSW 漏斗
+
+数据来源：`JNK1_SELECTIVITY_FINAL_REPORT_41d9.md`，`candidates_ranked_befe.csv`（4979 条）
 
 | 阶段 | 数量 |
 |------|------|
-| MD 输入化合物 | **16** |
-| pass_md_JNK1 | **6** |
-| pass_md_overall | **5** |
-| 最终采购推荐 | **10** |
+| 输入库 | **4979** |
+| pass_pose | 3234 |
+| pass_potency（score_JNK1 ≤ 中位数 **−6.65** kcal/mol） | 1681 |
+| **pass_selectivity**（Δsel + MM-GBSA 双通过） | **233** |
+| has_selectivity_contact（IFP 代理） | 63 |
 
-### 6.2 分组表现
+**Tier 分布**：
 
-| 组别 | n | pass_md_JNK1 | pass_md_overall | pose grade 分布 |
-|------|---|--------------|-----------------|-----------------|
-| G1 | 4 | 3 | **3** | A×3, F×1 |
-| G2 | 6 | 1 | **0** | C×1, F×5 |
-| G3_control | 4 | 2 | 2 | A×1, B×1, F×2 |
-| G4_anchor | 2 | 0 | **0** | F×2 |
+| Tier | 数量 | 含义 |
+|------|------|------|
+| **Tier 1** | **57** | pose + potency + selectivity + consistency + contact 代理 |
+| Tier 2 | 92 | 能量选择性通过，机制/一致性待确认 |
+| Tier 3 | 1191 | JNK1 有活性，选择性在噪声区 |
+| Tier 0 | 3639 | 未达 Tier3 |
 
-- G1 中位 RMSD_JNK1 = **0.64 Å**（3/4 通过 overall）
-- G2 中位 RMSD_JNK1 = **0.65 Å**，但 **0/6 通过 overall**（pose 稳定性不足以支持三靶点结合模式一致）
-- G4 两组均 fail → **阴性验证成立**（对接差 + MD 差）
+**泛 JNK + 计算 JNK1 偏好子集**（`panJNK_JNK1bias_ba7c.csv`）：
 
-### 6.3 G3 对照：MD 与活性的校准意义
+| 子集 | 数量 |
+|------|------|
+| pass_potency ∧ Δsel_dock > 0 | **679** |
+| 上述 + 三 isoform score 均 ≤ −6 | **431**（更可能 pan-JNK） |
+| pass_selectivity（严格双门槛） | **233** |
 
-| 对照 | 已知活性 | pass_md_overall | 主要失败原因 |
-|------|----------|-----------------|--------------|
-| CC-90001 | JNK 家族活性（酶学 pan-JNK，细胞 JNK1 偏向） | **通过** | — |
-| E1 | JNK1 IC50 = 2.7 nM（强 JNK1 偏好） | **通过** | JNK3 hinge HB 偏低 |
-| CC-930 | JNK2/3 强（7/6 nM） | 未通过 | JNK1 hinge HB ≈ 0% |
-| SP600125 | pan-JNK（40/40/90 nM） | 未通过 | JNK1/JNK2 hinge HB < 30% |
+> “计算 JNK1 偏好”仅表示 Δsel_dock > 0，**不等于实验 JNK1 选择性**。
 
-**解读**：hinge HB ≥ 30% 门槛对 **经典 hinge binder** 合理，但对 **SP600125（吡唑并喹啉酮，非典型 hinge 氢键）** 和 **CC-930** 偏严。因此 **G3 必须全部购买**——它们的作用是 **酶学活性标尺**，而非 MD-QC 标尺。
+### 3.5 Top 选择性候选（pass_selectivity，Δsel 降序前 5）
 
-### 6.4 G1 候选（MD 支持度最高）
+| compound_id | Δsel_dock | score_JNK1 | Tier |
+|-------------|-----------|------------|------|
+| 4931 | 3.67 | −7.97 | 1 |
+| 2627 | 3.65 | −6.83 | 1 |
+| 1941 | 3.37 | −7.01 | 1 |
+| 2749 | 3.09 | −10.21 | 1 |
+| 2760 | 2.68 | −10.19 | 1 |
 
-| ID | pass_md_overall | RMSD_JNK1 (Å) | hinge_occ_JNK1 | JNK2/JNK3 pass | 备注 |
-|----|-----------------|---------------|----------------|----------------|------|
-| **690** | **是** | 0.72 | **100%** | **两者均通过** | 唯一三 isoform 全 pass 的 hit |
-| 2232 | 是 | 0.57 | 100% | JNK2 pass | JNK3 hinge HB 低 |
-| 2157 | 是 | 0.49 | 84.9% | JNK2 pass | JNK3 hinge HB 低 |
-| 2389 | 否 | 1.00 | 28.2% | 均未 pass | JNK1 hinge 差 1.8% 至阈值 |
+`top_selective_f4a0.csv`：50 个 Butina 聚类代表（Tanimoto 0.5），其中 Tier1 = **15**。
 
-### 6.5 G2 候选
+---
 
-| ID | pass_md_overall | 说明 |
-|----|-----------------|------|
-| 2231 | 否（grade C） | 唯一 JNK1 grade A，但 JNK2/3 hinge 未通过 |
-| 1280, 4795 | 否 | JNK1 fail，JNK2/3 pose 相对稳定（“off-target backup”假说） |
-| 其余 3 个 | 否 | 三靶点 pose 均不可靠 |
+## 4. 文献 Benchmark 对接选择性验证
+
+### 4.1 定量结果（9 化合物，`benchmark_deltas_51c1.csv`）
+
+| 指标 | 数值 | 阈值 | 达标 |
+|------|------|------|------|
+| Spearman(Δsel_dock, −ΔpIC50_sel) | **0.786** (p = 0.021, n = 8) | \|ρ\| ≥ 0.35 | ✓ |
+| 方向准确率（全部有 IC50） | **22%** (2/9) | ≥ 55% | ✗ |
+| 方向准确率（JNK1/JNK23/PAN 标签） | **29%** (2/7) | ≥ 55% | ✗ |
+
+**Spearman 与方向准确率的“分裂”**：连续变量秩相关尚可，但离散 isoform 方向标签预测失败率高 → **Glide Δscore 不宜作为 isoform 分型决策依据**。
+
+### 4.2 四个关键对照（`direction_confusion_27c3.csv`）
+
+| 化合物 | 实验 profile | Δsel_dock | ΔpIC50_sel | 实验方向 | 预测方向 | 匹配 |
+|--------|--------------|-----------|------------|----------|----------|------|
+| **E1** | JNK1 偏好 | **+3.05** | −0.85 | JNK1 | JNK1 | **✓** |
+| **CC-930** | JNK2/3 偏好 | **−4.90** | +0.94 | JNK23 | JNK23 | **✓** |
+| TCS JNK 6O | JNK1 偏好 | −1.18 | −0.55 | JNK1 | JNK23 | ✗ |
+| SP600125 | pan-JNK | −2.57 | −0.35 | pan | JNK23 | ✗ |
+
+### 4.3 各 isoform 活性排序（对接分 vs pIC50）
+
+| Isoform | Spearman ρ | n |
+|---------|------------|---|
+| JNK1 | **−0.429** | 8 |
+| JNK2 | +0.190 | 8 |
+| JNK3 | +0.371 | 6 |
+
+JNK1 排序呈**负相关**，说明跨 PDB 绝对得分比较存在**系统偏差**（`isoform_rank_correlations_299a.csv`）。
+
+### 4.4 验证结论
+
+**对接选择性方向不能可靠用于 isoform 分型。** 建议将 VSW 命中视为 **JNK 家族活性/构象假设**，选择性须由 **同批次 JNK1/2/3 IC50** 确认。
+
+---
+
+## 5. 选择性策略尝试与失败记录
+
+### 5.1 尝试一览
+
+| # | 策略 | 结果 | 数据依据 |
+|---|------|------|----------|
+| 1 | ML 三模型 ΔpActivity 选择性过滤 | **失败** | E1/TCS JNK 6O 方向错误 |
+| 2 | 选择性二分类模型 | **失败** | 正例 n=8，F1=0 |
+| 3 | Glide Δsel_dock 排序 | **不可靠** | 方向准确率 29% |
+| 4 | Δsel_dock + MM-GBSA ≥ 2 kcal/mol | **未标定** | Benchmark 无 MM-GBSA |
+| 5 | KLIFS 非保守位点 / Gly87 IFP | **放弃** | 见 §5.2 |
+| 6 | MD pose QC（RMSD + hinge HB） | **部分可用** | 验证 pose，非选择性 |
+| 7 | Tier 1 + FEP+ 推荐 | **待做** | 15 个 Tier1 候选含 690 |
+
+### 5.2 Gly87（b.l.37）占据策略 — 回顾性自检失败
+
+`results/docking_validation/gly87_selfcheck_16be.csv`（5 个 benchmark）：
+
+| 配体 | d_Gly87 (Å) | occ_JNK1 | 预测 JNK1 选择性 | 实验 profile | 匹配 |
+|------|-------------|----------|------------------|--------------|------|
+| E1 | 0.744 | True | False | JNK1 偏好（7.0×） | False |
+| TCS JNK 6O | 0.899 | True | False | JNK1 偏好（3.6×） | False |
+| CC-930 | 1.180 | True | False | JNK2/3 偏好 | True* |
+| SP600125 | 1.009 | True | False | pan | True* |
+| CC-90001 | 0.590 | True | False | 近 pan（2.8×） | True* |
+
+\* CC-930/SP600125/CC-90001 的 `match=True` 来自反向/近 pan 标签，**不是** JNK1 选择性验证。
+
+**失败原因**：所有 benchmark 的配体距 JNK1 Gly87（JNK2 对应 Ser87）仅 **0.59–1.18 Å**，铰链区高度保守，**b.l.37 位点无法区分 isoform**。该策略在 MD shortlist 阶段被明确排除（`md_shortlist_report_23c8.md`）。
+
+### 5.3 方法局限（来自 `JNK1_SELECTIVITY_FINAL_REPORT_41d9.md`）
+
+1. ATP 口袋高度保守，Glide 得分差 1–3 kcal/mol 常处噪声水平  
+2. 跨 PDB 蛋白准备差异引入 spurious Δsel  
+3. MM-GBSA 选择性门槛未 benchmark 标定  
+4. `has_selectivity_contact` 仅为铰链 H-bond + Δsel 启发式，非完整 IFP  
+5. 5000 库未在备用结构 4L7F/4WHZ 上重跑 VSW；`pass_consistency` 为占位  
+6. JNK-IN-8（共价）等不符合简单 Δsel 逻辑  
+
+---
+
+## 6. MD 短名单与 Pose QC
+
+### 6.1 MD 短名单漏斗（`md_shortlist_report_23c8.md`）
+
+**声明**：未使用 Δsel_dock/MMGBSA 选择性方向、Gly87 IFP 作为硬筛；短名单为 **JNK 家族结合剂** pose QC，非最终采购单。
+
+| 阶段 | 数量 |
+|------|------|
+| 输入（F0 后） | **4983** |
+| F1 pose QC 通过 | 3125 |
+| F2 活性 + 配体效率通过 | 182 |
+| **F1 ∧ F2 通过** | **157** |
+| F7 QikProp ADMET 剔除 | 9 |
+| ADMET backfill | 9 |
+| **ADMET 后 shortlist** | **25** |
+
+**门槛**：
+- score_JNK1 ≤ **−7.43**（活性 benchmark 中位数）
+- MMGBSA_JNK1 ≤ **−51.60**
+
+**F2（基础成药性）**：MW、cLogP、HBD/HBA、QED、SA、PAINS  
+**F7（QikProp @3ELJ）**：hERG、口服吸收、Caco-2、溶解度、#stars ≤ 0  
+**G3 对照**：ADMET 豁免保留
+
+**分组（25 个 shortlist）**：
+
+| 组 | 数量 | 进入 MD（16） |
+|----|------|---------------|
+| G1 骨架模仿 | 9 | **4**（690, 2232, 2157, 2389） |
+| G2 新骨架 | 10 | **6** |
+| G3 对照 | 4 | **4**（全部） |
+| G4 阴性锚点 | 2 | **2**（全部） |
+
+chemotype_sim（ECFP4 Tanimoto vs E1/Q63/TCS JNK 6O）：
+- G1 mean = **0.217**（median 0.213）
+- G2 mean = **0.120**（median 0.114）
+
+### 6.2 MD QC 方法与结果（`MD_QC_report_cf26.md`）
+
+- 48 个 Desmond 任务（16 × 3 PDB：3ELJ / 3E7O / 3TTI）
+- pass_md_JNK1：RMSD ≤ 3 Å + hinge HB ≥ 30%
+- pass_md_overall：JNK1 pass + (JNK2 **或** JNK3 pass)
+
+| 阶段 | 数量 |
+|------|------|
+| MD 输入 | 16 |
+| pass_md_JNK1 | 6 |
+| pass_md_overall | 5 |
+| 采购推荐 | 10 |
+
+| 组 | n | pass_overall | pose grade |
+|----|---|--------------|------------|
+| G1 | 4 | **3/4** | A×3, F×1 |
+| G2 | 6 | **0/6** | C×1, F×5 |
+| G3 | 4 | 2/4 | — |
+| G4 | 2 | **0/2** | F×2（阴性验证 ✓） |
+
+### 6.3 采购分子对接背景（VSW 数据）
+
+| ID | 组 | Tier | Δsel_dock | score_JNK1 | pass_selectivity | MD pass_overall |
+|----|-----|------|-----------|------------|------------------|-----------------|
+| **690** | G1 | **1** | **+1.08** | −7.76 | **Yes** | **Yes**（三 isoform 全 pass） |
+| 2232 | G1 | 1 | +1.32 | −8.13 | Yes | Yes |
+| 2157 | G1 | 3 | −1.05 | −8.46 | No | Yes |
+| 2231 | G2 | 3 | +3.37 | −11.22 | No | No（JNK1-only） |
+| 4795 | G2 | 1 | +1.57 | −8.38 | Yes | No |
+| 1280 | G2 | 3 | +0.89 | −7.85 | No | No |
+
+690 同时出现在：**Tier 1**、**top_selective 聚类代表**、**FEP+ 推荐 15 清单**、**panJNK_JNK1bias 子集**（`candidates_ranked_befe.csv`）。
+
+> 注意：2157 的 Δsel_dock 为负（计算偏向 JNK2/3），但 MD 仍 pass overall——再次说明 **Δsel 与 MD pose 可不一致**，不宜混用。
 
 ---
 
 ## 7. 采购清单与花钱理由
 
-完整表格见 `data/purchase/purchase_after_md.csv`（10 个分子，SMILES 经 RDKit 验证）。
+完整表格：`data/purchase/purchase_after_md.csv`（10 分子，SMILES 经 RDKit 验证）
 
 ### 7.1 采购结构
 
-| 类别 | 数量 | 化合物 | 花钱理由 |
-|------|------|--------|----------|
-| **G3 对照** | 4 | SP600125, CC-90001, CC-930, E1 | **实验校准必需**：建立“酶学 IC50 vs MD pose”参考系；无论 MD 是否通过均购买 |
-| **G1 主力** | 3 | 690, 2232, 2157 | **MD pass_md_overall = True，grade A**；验证“已知 chemotype 类似物是否更易出 JNK 活性” |
-| **G2 探索** | 3 | 2231, 1280, 4795 | 2231 为 G2 中最优（JNK1-only pass）；1280/4795 用于检验“JNK2/3 pose 稳、JNK1 pose 不稳”是否仍对应 pan-JNK 活性 |
+| 类别 | n | 化合物 | 理由 |
+|------|---|--------|------|
+| G3 对照 | 4 | SP600125, CC-90001, CC-930, E1 | **酶学校准尺**（无论 MD 是否通过） |
+| G1 主力 | 3 | 690, 2232, 2157 | MD pass_overall + 对接 Tier1/活性 |
+| G2 探索 | 3 | 2231, 1280, 4795 | G2 最优 + off-target pose 假说 |
 
-### 7.2 为什么不是“买选择性 hit”
+### 7.2 花钱的逻辑链（可向合作者说明）
 
-必须向合作者/审稿人明确：
+```
+4979 化合物 VSW
+  → 233 严格选择性通过（但方向 benchmark 仅 29% 准确）
+  → 157 活性+pose 通过
+  → 25 ADMET shortlist
+  → 16 MD QC
+  → 10 采购（含 4 个已知活性对照）
+```
 
-1. **没有任何一个采购分子的 JNK1 选择性被计算确认**；MD pass 仅表示 **结合位姿在动力学模拟中可信**。
-2. 采购的核心信息目标是：
-   - G3：校准实验体系
-   - G1 vs G2：检验 **chemotype 假说**（G1 chemotype_sim ~0.23，与 E1 仍属低-中等相似，并非 E1 类似物）
-   - 690：优先验证是否 **pan-JNK** 或 **JNK1 偏好**（三 isoform MD 全 pass）
+**花钱买的不是“选择性 hit”**，而是：
 
-### 7.3 预算优化建议（可选）
-
-若需压缩至 8 个：可暂缓 **1280** 和 **4795**（MD 假说性强、JNK1 pose 已 fail）。
-
----
-
-## 8. 当前“选择性”状况评估
-
-### 8.1 计算层面：选择性不可判定
-
-| 方法 | 对选择性的支持 | 依据 |
-|------|----------------|------|
-| ML 三模型 ΔpActivity | **不支持** | E1、TCS JNK 6O 方向错误 |
-| 选择性分类器 | **不支持** | 正例 n=8，测试 F1=0 |
-| 对接 Δsel | **未采用** | 本地 benchmark 方向判别差；MD 阶段明确排除 |
-| MD pose QC | **不支持选择性** | 仅验证 pose；G3 中 2/4 MD-fail 仍有已知活性 |
-| Gly87 IFP | **未采用** | 自检未通过 |
-
-**诚实表述**：截至目前，**没有任何计算管线能对“JNK1 选择性”给出可采购级别的排序**；项目产出的是 **JNK 家族结合剂候选 + 实验设计**。
-
-### 8.2 各候选分子的选择性“先验”
-
-以下仅为 **待实验检验的假说**，不是计算结论：
-
-| 分子 | 选择性先验 | 依据 |
-|------|------------|------|
-| 690 | 可能 pan-JNK 或弱 JNK1 偏好 | 三 isoform MD 均 pass；无实验 IC50 |
-| 2232, 2157 | 未知；可能 pan-JNK | JNK1/JNK2 MD 好，JNK3 hinge 弱 |
-| 2231 | 未知 | 仅 JNK1 MD pass |
-| 1280, 4795 | 可能 JNK2/3 ≥ JNK1 | JNK1 MD fail、JNK2/3 相对稳定 |
+1. **验证计算管线**：G3 对照建立 IC50 vs MD 的相关性  
+2. **检验 chemotype 假说**：G1（Tc~0.22）是否比 G2（Tc~0.12）更易出 JNK 活性  
+3. **捕捉最有信息量的候选**：690（Tier1 + MD 三 isoform pass + FEP+ 推荐）  
+4. **探索性 backup**：2231（G2 中 JNK1 MD 最好）、1280/4795（JNK2/3 pose 稳、JNK1 不稳）
 
 ---
 
-## 9. 湿实验方案与结果预测
+## 8. 当前选择性状况（诚实评估）
 
-### 9.1 必做实验
+### 8.1 计算层面
 
-**同批次 JNK1、JNK2、JNK3 重组酶生化 IC50**（10 个分子 + 建议复测 1 个 DMSO 空白），检测格式与 G3 文献条件尽量一致。
+| 问题 | 答案 |
+|------|------|
+| 能否计算确认 JNK1 选择性？ | **不能** |
+| 最强计算证据是什么？ | 690：Tier1 + Δsel>0 + MD 三 isoform pass → 更支持 **pan-JNK 结合** |
+| 对接“233 个选择性通过”有意义吗？ | 仅作 **家族内优先级**，不能作 isoform 标签 |
 
-### 9.2 基于数据的预测（保守）
+### 8.2 各分子选择性先验（待实验，非结论）
 
-| 场景 | 预测 | 若成立的意义 |
-|------|------|--------------|
-| G3 有活性但 MD-fail（CC-930, SP600125） | **较可能** | 证明 hinge HB 门槛不能代替活性判断；计算 QC 需降级为辅助 |
-| G1（690/2232/2157）至少 1 个 IC50 < 1 µM | **中等可能** | ML F1 + 对接 + MD 三级过滤后，具合理命中率 |
-| G1 活性优于 G2 | **不确定** | G2 的 MD 支持度明显弱于 G1（0/6 vs 3/4 overall pass） |
-| 出现 JNK1 选择性 ≥ 10× | **低可能** | 所有计算选择性方法均失败；无先验支持 |
-| 690 为 pan-JNK | **需实验区分** | 三 isoform MD 全 pass 更支持“多亚型结合”而非“选择性” |
-| G4 阴性锚点若被测 | 应无活性或 IC50 > 10 µM | G4 MD 0/2 pass，作阴性对照 |
+| 分子 | 先验假说 | 依据 |
+|------|----------|------|
+| 690 | pan-JNK 或弱 JNK1 偏好 | Tier1, Δsel+1.08, MD 三 isoform pass |
+| 2232 | 可能 pan-JNK | MD JNK1/JNK2 极好 |
+| 2157 | 未知 | Δsel 为负但 MD pass |
+| 2231 | 未知 | 仅 JNK1 MD A 级 |
+| 1280/4795 | 可能 JNK2/3 ≥ JNK1 | JNK1 MD fail |
+
+---
+
+## 9. 湿实验预测
+
+### 9.1 必做
+
+**同批次 JNK1 + JNK2 + JNK3 重组酶 IC50**（10 分子 + DMSO 空白）
+
+### 9.2 保守预测
+
+| 场景 | 可能性 | 若成立的意义 |
+|------|--------|--------------|
+| G3 有活性但 MD-fail（CC-930, SP600125） | **较可能** | hinge HB 门槛偏严；MD 不能代替活性 |
+| G1 ≥1 个 IC50 < 1 µM | **中等** | 三级漏斗后合理命中率 |
+| G1 活性 > G2 | **不确定** | G2 MD 0/6 overall pass |
+| ≥10× JNK1 选择性 | **低** | 所有计算选择性方法均失败 |
+| 690 为 pan-JNK | **需实验区分** | 与 MD/对接数据一致 |
+| G4 无活性 | **预期** | 阴性锚点验证 |
 
 ### 9.3 后续（若有 hit）
 
-对 top 1–2 分子考虑：**kinome 面板** + **细胞 p-c-Jun**（与 JNK 药理相关，见 Manning & Davis, *Nat. Rev. Drug Discov.* 2003, PMID: 12838265）。
+kinome 面板 + 细胞 p-c-Jun；对 top 1–2 考虑 **FEP+**（690 已在推荐清单）。
 
 ---
 
-## 10. 方法学贡献与局限
+## 10. 数据文件索引
 
-### 10.1 可写入论文的正面贡献
+### 10.1 仓库内（Git）
 
-1. **激酶 isoform 选择性可行性评估框架**：从数据稀缺性（8 个 selective 标签）到 ML、对接、MD 的分层否定，系统记录 **何种计算证据不足以支持选择性采购**。
-2. **benchmark 驱动的漏斗设计**：p_family ≥ 6.0 保证 9/9 文献化合物 F1 召回。
-3. **MD pose QC + G3 校准实验设计**：将“pose 可信”与“选择性”解耦，避免过度解读。
-
-### 10.2 主要局限
-
-| 局限 | 说明 |
+| 路径 | 内容 |
 |------|------|
-| JNK1 测试集小 | holdout n=31，R² 置信区间宽 |
-| JNK2 模型偏弱 | CV R² = 0.443 |
-| 本地对接漏斗未入 Git | 4983→…→16 等中间统计需从本地工作区补充归档 |
-| MD 仅用单 PDB/isoform | 未执行 ensemble 平均 |
-| 无湿实验数据 | 本报告预测均为假说 |
+| `docs/JNK1_PROJECT_REPORT.md` | **本报告** |
+| `data/benchmarks/literature_benchmarks.csv` | 9 个文献 benchmark |
+| `results/calibration/` | ML F1 阈值校准 |
+| `results/screening_v2/` | ML 虚拟筛选 demo |
+| `results/model_comparison/` | XGBoost 性能 |
+| `results/docking_validation/` | 再对接、benchmark Δ、Gly87 自检 |
+| `config/docking_ensemble.yaml` | Ensemble 与门槛配置 |
+| `data/purchase/purchase_after_md.csv` | 10 分子采购表 |
 
----
+### 10.2 对接工作区归档（本地 + 已摘要入本报告）
 
-## 11. 数据与文件索引
-
-| 内容 | 路径 |
+| 文件 | 内容 |
 |------|------|
-| 文献 benchmark（9 个） | `data/benchmarks/literature_benchmarks.csv` |
-| ML 阈值校准 | `results/calibration/` |
-| 虚拟筛选 v2 | `results/screening_v2/` |
-| 模型性能 | `results/model_comparison/` |
-| 对接 ensemble 配置 | `config/docking_ensemble.yaml` |
-| MD QC 汇总（本地归档） | `md_pose_qc_summary_5ffb.csv` |
-| MD QC 报告（本地归档） | `MD_QC_report_cf26.md` |
-| 采购清单 | `data/purchase/purchase_after_md.csv` |
-| 参考文献列表 | `docs/REFERENCES.md` |
+| `JNK1_SELECTIVITY_FINAL_REPORT_41d9.md` | VSW 综合报告 |
+| `candidates_ranked_befe.csv` | 4979 化合物全量排名 |
+| `top_selective_f4a0.csv` | 50 聚类代表 |
+| `panJNK_JNK1bias_ba7c.csv` | 679 pan-JNK + 计算 JNK1 偏好 |
+| `md_shortlist_report_23c8.md` | MD 短名单漏斗 |
+| `MD_QC_report_cf26.md` | MD pose QC |
+| `md_pose_qc_summary_5ffb.csv` | 16 化合物 MD 汇总 |
 
 ---
 
-## 12. 参考文献
+## 11. 参考文献
 
-1. Zdrazil B, et al. The ChEMBL Database in 2023. *Nucleic Acids Res.* 2024;52(D1):D1180-D1192. doi:10.1093/nar/gkad1004  
-2. Bennett BL, et al. Discovery of CC-90001, a JNK1-Selective Inhibitor for IPF. *J. Med. Chem.* 2021;64(3):1776-1795. doi:10.1021/acs.jmedchem.0c01843  
-3. Bennett BL, et al. SP600125, an anthrapyrazolone inhibitor of JNK. *Proc. Natl. Acad. Sci. USA* 2001;98(24):13681-13686. doi:10.1073/pnas.251194298  
-4. Pan X, et al. Structure Optimization of c-Jun N-terminal Kinase 1 Inhibitors for Treating Idiopathic Pulmonary Fibrosis. *J. Med. Chem.* 2024. doi:10.1021/acs.jmedchem.4c01764（化合物 **E1**）  
-5. Szczepankiewicz BG, et al. Aminopyridine-based c-Jun N-terminal kinase inhibitors with cellular activity. *J. Med. Chem.* 2006;49(14):3563-3566. doi:10.1021/jm060150w（**TCS JNK 6o**）  
-6. Plantevin-Krenitsky V, et al. CC-930/Tanzisertib JNK3 co-crystal (3TTI). *Bioorg. Med. Chem. Lett.* 2012;22(3):1433-1438  
-7. Friesner RA, et al. Glide docking. *J. Med. Chem.* 2004;47(7):1739-1749. doi:10.1021/jm0306430  
-8. Manning BD, Davis RJ. Targeting JNK for therapeutic benefit. *Nat. Rev. Drug Discov.* 2003;2(7):554-565. doi:10.1038/nrd1132  
+1. Zdrazil B, et al. ChEMBL 2023. *Nucleic Acids Res.* 2024;52(D1):D1180-D1192. doi:10.1093/nar/gkad1004  
+2. Bennett BL, et al. CC-90001. *J. Med. Chem.* 2021;64(3):1776-1795. doi:10.1021/acs.jmedchem.0c01843  
+3. Bennett BL, et al. SP600125. *PNAS* 2001;98(24):13681-13686. doi:10.1073/pnas.251194298  
+4. Pan X, et al. JNK1 inhibitors for IPF (compound E1). *J. Med. Chem.* 2024. doi:10.1021/acs.jmedchem.4c01764  
+5. Szczepankiewicz BG, et al. TCS JNK 6o. *J. Med. Chem.* 2006;49(14):3563-3566. doi:10.1021/jm060150w  
+6. Plantevin-Krenitsky V, et al. 3TTI/CC-930 co-crystal. *Bioorg. Med. Chem. Lett.* 2012;22(3):1433-1438  
+7. Friesner RA, et al. Glide. *J. Med. Chem.* 2004;47(7):1739-1749. doi:10.1021/jm0306430  
+8. Manning BD, Davis RJ. Targeting JNK. *Nat. Rev. Drug Discov.* 2003;2(7):554-565. doi:10.1038/nrd1132  
 9. Chen T, Guestrin C. XGBoost. *Proc. 22nd ACM SIGKDD* 2016. doi:10.1145/2939672.2939785  
-10. Rogers D, Hahn M. Extended-Connectivity Fingerprints. *J. Chem. Inf. Model.* 2010;50(5):742-754. doi:10.1021/ci100050t  
 
 ---
 
-## 附录：一句话给合作者/答辩用
+## 附录 A：端到端筛选流程图
 
-> 我们用 ChEMBL 训练了 JNK1/2/3 活性 ML 模型（holdout R² 约 0.70/0.57/0.77），以文献 benchmark 校准的 p_family ≥ 6.0 对化合物库做 JNK 家族粗筛，再经本地 Glide 对接与 Desmond MD pose QC，从 16 个分子中选出 10 个采购。**计算无法确认 JNK1 选择性**——采购是为了用 G3 对照校准实验，并检验 G1 chemotype 类似物是否比 G2 新骨架更易获得 JNK 活性；**选择性只能由同批次 JNK1/2/3 IC50 回答**。
+```mermaid
+flowchart TD
+    A[ChEMBL 444/610/1147] --> B[XGBoost 三靶点模型]
+    B --> C[ML F1: p_family >= 6.0]
+    C --> D[4983 化合物 F0]
+    D --> E[Glide XP VSW 4979]
+    E --> F{pass_selectivity?}
+    F -->|233| G[Tier1=57]
+    F -->|679 panJNK+bias| H[计算JNK1偏好 未验证]
+    G --> I[F1+F2: 157]
+    I --> J[QikProp ADMET: 25]
+    J --> K[MD QC: 16]
+    K --> L[采购: 10]
+    L --> M[湿实验 JNK1/2/3 IC50]
+    
+    B -.->|方向错误| X1[ML选择性 放弃]
+    E -.->|方向29%| X2[Δsel 不作硬筛]
+    J -.->|Gly87失败| X3[IFP策略 放弃]
+```
+
+## 附录 B：一句话答辩版
+
+> 我们从 ChEMBL 训练 JNK1/2/3 活性模型（holdout R² 0.70/0.57/0.77），经 ML 粗筛后对 **4979** 个化合物做 Glide XP 对接，再对接 benchmark 证明 **isoform 方向准确率仅 29%**；因此将 hit 定位为 **pan-JNK 家族结合剂**，经 ADMET 缩至 25 个、MD 验证 16 个，最终采购 10 个（含 4 个文献对照）做同批次三 isoform IC50——**选择性只能由实验回答，不能由计算采购**。
