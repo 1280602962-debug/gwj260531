@@ -1,0 +1,76 @@
+{
+  "n_total": 11219,
+  "n_actives": 1219,
+  "n_decoys": 10000,
+  "n_benchmarks": 9,
+  "n_chembl_actives": 1210,
+  "roc_auc": 0.8759214520098442,
+  "ef1pct": 9.203445447087777,
+  "p_family_threshold": 6.0,
+  "confusion_full": {
+    "threshold": 6.0,
+    "TP": 1211,
+    "FP": 9528,
+    "TN": 472,
+    "FN": 8,
+    "sensitivity_recall": 0.9934372436423298,
+    "specificity": 0.0472,
+    "precision": 0.11276655182046745,
+    "false_positive_rate": 0.9528,
+    "pass_rate_decoys": 0.9528,
+    "pass_rate_actives": 0.9934372436423298
+  },
+  "seed": 42,
+  "benchmark_only": {
+    "n_total": 9,
+    "n_pass": 9,
+    "recall": 1.0,
+    "details": [
+      {
+        "mol_id": "AS602801",
+        "p_family": 6.725738525390625,
+        "expected_profile": "pan-JNK"
+      },
+      {
+        "mol_id": "CC-401",
+        "p_family": 6.498744010925293,
+        "expected_profile": "unknown-isoform"
+      },
+      {
+        "mol_id": "SP600125",
+        "p_family": 6.205318450927734,
+        "expected_profile": "pan-JNK"
+      },
+      {
+        "mol_id": "TCS JNK 6O",
+        "p_family": 7.127107620239258,
+        "expected_profile": "JNK1-preferring"
+      },
+      {
+        "mol_id": "CC-930",
+        "p_family": 7.533754348754883,
+        "expected_profile": "JNK2/JNK3-biased"
+      },
+      {
+        "mol_id": "JNK-IN-8",
+        "p_family": 7.274543762207031,
+        "expected_profile": "JNK3-preferring"
+      },
+      {
+        "mol_id": "CC-90001",
+        "p_family": 7.278462886810303,
+        "expected_profile": "pan-JNK"
+      },
+      {
+        "mol_id": "Q63",
+        "p_family": 7.398113250732422,
+        "expected_profile": "JNK1/JNK3-over-JNK2"
+      },
+      {
+        "mol_id": "E1",
+        "p_family": 7.699812412261963,
+        "expected_profile": "JNK1-preferring"
+      }
+    ]
+  }
+}

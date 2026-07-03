@@ -1,6 +1,6 @@
 # JNK1/2/3 亚型抑制剂计算筛选项目报告
 
-> **版本**: 2.3  
+> **版本**: 2.4  
 > **日期**: 2026-07-03  
 > **原则**: 本报告所有数值均来自仓库内可复现文件、对接工作区归档 CSV 或 MD QC 结果；未在数据中出现的结论一律不作断言。
 
@@ -84,7 +84,7 @@ JNK1 在 IPF、NASH 等疾病中有明确证据；**CC-90001** 为 JNK1 功能�
 
 ### 2.3 ML 虚拟筛选（F1）
 
-9 个文献 benchmark 在 **p_family ≥ 6.0** 时 **9/9 全部通过**（`threshold_recommendation.json`）。
+9 个文献 benchmark 在 **p_family ≥ 6.0** 时 **9/9 全部通过**（`threshold_recommendation.json`）。该步骤定位为 **「活性召回校准」**，而非特异性验证（见 §2.4）。
 
 Demo 库（1835 分子）漏斗：`screening_v2/screening_report.json`
 
@@ -96,7 +96,90 @@ Demo 库（1835 分子）漏斗：`screening_v2/screening_report.json`
 
 **ML 用途**：去除无 JNK 家族活性潜力的分子；**不用于 isoform 方向判断**。
 
-### 2.4 ML vs 对接：benchmark 方向对比
+### 2.4 外部 decoy 验证（回应 §12 Q1）
+
+为回应「F1 仅校准阳性、无阴性对照」的质疑，补充 **10,000 Taosu 外部 decoy** 验证（`results/ml_external_validation/`）。设计要点：
+
+| 组分 | 来源 | n | 标签 |
+|------|------|---|------|
+| Decoys | Taosu 随机抽样 | 10,000 | 假定无活性 (0) |
+| Benchmarks | `literature_benchmarks.csv` | 9 | 已知活性 (1) |
+| ChEMBL actives | pActivity ≥ 6.0 | 1,210 | 已知活性 (1) |
+
+**排除**：已对接 top-5000、ChEMBL demo/训练库 1835 条（避免与 demo 84% 循环验证混用）。**未使用** demo 库作特异性评估。
+
+#### 阈值 `p_family ≥ 6.0` 的完整混淆矩阵
+
+|  | 预测活性 | 预测无活性 |
+|--|---------|-----------|
+| **真活性** (n=1,219) | TP=**1,211** | FN=8 |
+| **真 decoy** (n=10,000) | FP=**9,528** | TN=472 |
+
+| 指标 | 数值 | 解读 |
+|------|------|------|
+| Sensitivity (recall) | **99.3%** | 与 9/9 benchmark 一致 |
+| Specificity | **4.7%** | decoy 中仅 4.7% 被正确拒绝 |
+| **Decoy FPR** | **95.3%** | 9,528/10,000 decoy 通过 F1 |
+| Precision | **11.3%** | 通过 F1 者中约 1/9 为真活性 |
+| ROC-AUC (`p_family`) | **0.876** | 排序区分力尚可 |
+| EF1% | **9.20** | Top 1% 富集约 9 倍 |
+
+数据来源：`ml_external_validation_metrics_9bd8.json`、`all_predictions_0350.csv`。
+
+**结论**：F1@6.0 是 **高召回、极低特异性** 的粗筛门槛；去假阳性靠 **排序（EF1%）+ SA/QED + 对接**，不靠 F1 硬阈值。
+
+### 2.5 `p_family` 分布：为何 FPR 95% 而 Top-5000 最低仅 6.28？
+
+百万 Taosu 库筛选后，**Top-5000 分子中 `p_family` 最低约 6.28**（按 `final_score` 排序后观察）。这与 decoy FPR 95.3% **并不矛盾**，原因如下。
+
+#### （1）多数分子不在 6.0–6.2，而在 6.2–6.6
+
+对 10,000 Taosu decoy 的 `p_family` 分布（商业可合成库的良好代理）：
+
+| 分位数 / 区间 | `p_family` | 占比 |
+|---------------|------------|------|
+| P5 | 6.01 | — |
+| P25 | 6.26 | — |
+| **中位数** | **6.39** | — |
+| P75 | 6.55 | — |
+| P95 | 6.99 | — |
+| [6.0, 6.2) | — | **13.0%** |
+| **[6.2, 6.6)** | — | **62.0%**（主峰） |
+| [6.6, 7.0) | — | 15.4% |
+| ≥ 7.0 | — | 4.9% |
+
+→ 模型对类药分子的 `p_family` 预测 **压缩在约 5.5–7.5**，**主体在 6.2–6.6**，而非挤在 6.0–6.2。6.0 阈值落在分布 **左尾**，故约 95% decoy 能通过 F1。
+
+#### （2）F1 是宽松门槛；Top-5000 靠综合分排序
+
+百万库漏斗（`06_virtual_screening.py`）：
+
+```
+~1M → Lipinski → F1 (p_family≥6.0, ~95% 通过) → SA/QED → final_score 排序 → Top 5000
+```
+
+`final_score` 公式：
+
+```
+final_score = 0.55×(p_family/10) + 0.15×(pred_JNK1/10) + 0.20×QED + 0.10×(10−SA)/10
+```
+
+Top-5000 按 **综合分** 选取，**不是**按 `p_family` 单独排序。因此：
+
+- `p_family` 仅 6.28（约 decoy 的 P25）的分子，若 **QED 高、SA 低、pred_JNK1 偏高**，仍可进入 Top-5000；
+- 若只按 `p_family` 取 Top-5000（从约 95 万 F1 通过者中），decoy 分布估算阈值约 **≥ 7.3**——远高于 6.28。
+
+#### （3）两阶段角色分工
+
+| 阶段 | 作用 | 典型表现 |
+|------|------|----------|
+| **F1 (≥6.0)** | 保证文献对照与已知活性 **不被漏掉** | ~95% 随机 decoy 通过 |
+| **final_score Top-N** | 在通过者中 **排序富集** | EF1%=9.2；Top-5000 min p_family≈6.28 |
+| **Glide 对接** | 结构层面缩库 | 4979 → 233 → 25 → 16 |
+
+Enamine ~5000 → ML F1 后 **4983**（99.4% 通过）亦符合此逻辑：输入已是 Top-N 子集，F1 几乎不再缩库。
+
+### 2.6 ML vs 对接：benchmark 方向对比
 
 | 化合物 | 实验 profile | ML 预测最高亚型 | 对接 Δsel 预测方向 | 实验方向（IC50） |
 |--------|--------------|-----------------|-------------------|------------------|
@@ -586,6 +669,7 @@ kinome 面板 + 细胞 p-c-Jun；对 top 1–2 考虑 **FEP+**（690 已在推�
 | `docs/JNK1_PROJECT_REPORT.md` | **本报告** |
 | `data/benchmarks/literature_benchmarks.csv` | 9 个文献 benchmark |
 | `results/calibration/` | ML F1 阈值校准 |
+| `results/ml_external_validation/` | **外部 decoy 验证**（FPR、ROC-AUC、EF1%） |
 | `results/screening_v2/` | ML 虚拟筛选 demo |
 | `results/model_comparison/` | XGBoost 性能 |
 | `results/docking_validation/` | 再对接、benchmark Δ、Gly87 自检、**MM-GBSA 标定** |
@@ -638,10 +722,10 @@ kinome 面板 + 细胞 p-c-Jun；对 top 1–2 考虑 **FEP+**（690 已在推�
 | 维度 | 内容 |
 |------|------|
 | **质疑** | 9/9 benchmark 在 p_family ≥ 6.0 时全部通过，但 9 个均为**已知活性**化合物，只证明**召回率**，未测**特异性**。Demo 库（1835 个 ChEMBL JNK 分子）F1 通过率 84%，属于**循环验证**，对 Enamine 商业库无参考意义。 |
-| **数据依据** | `threshold_recommendation.json`（9/9 recall）；`screening_v2/screening_report.json`（demo 84% 通过） |
-| **我们的回复** | 同意。本项目将 F1 明确定位为 **「去掉明显无 JNK 家族活性」的粗筛**，而非「高置信 hit 过滤器」。最终采购决策**不依赖** F1 单独通过，而依赖对接 + ADMET + MD + G3 对照实验回溯。但文稿中「9/9 benchmark 校准」表述易误导审稿人以为特异性已验证——应改为 **「活性召回校准」**。 |
-| **解决方案** | **P1**：对 ML 预测在 **DUD-E / DEKOIS JNK1** 或 property-matched decoy 集上计算 **EF1%、ROC-AUC**；报告 p_family ≥ 6.0 时的特异性。脚本可接 `scripts/calibrate_threshold.py` 扩展 decoy 输入。 |
-| **状态** | ⬜ 待补算 |
+| **数据依据** | `threshold_recommendation.json`（9/9 recall）；`screening_v2/screening_report.json`（demo 84% 通过）；**`results/ml_external_validation/ml_external_validation_metrics_9bd8.json`**（decoy FPR、ROC-AUC、EF1%） |
+| **我们的回复** | **同意原质疑成立**，且已补算外部验证。10,000 Taosu decoy（排除对接 top-5000 与 ChEMBL 训练/demo 库）显示：F1@6.0 时 recall **99.3%**，decoy FPR **95.3%**，specificity **4.7%**，ROC-AUC **0.876**，EF1% **9.20**（§2.4）。这**证实** F1 是 **高召回、低特异性** 的粗筛，**不能**单独去假阳性；特异性由 **final_score 排序 + SA/QED + 对接** 承担。FPR 95% 与 Top-5000 最低 p_family≈6.28 **不矛盾**：类药分子预测值压缩在 6.2–6.6（§2.5），6.0 阈值落在左尾；Top-5000 按综合分排序，低 p_family 分子可凭 QED/SA 入围。文稿应将「9/9 benchmark 校准」改为 **「活性召回校准 + 外部 decoy 特异性评估」**。 |
+| **解决方案** | **P1 已完成（decoy）**：Taosu 10k decoy + EF1%/ROC-AUC/FPR（`results/ml_external_validation/`）。**P2（可选）**：DUD-E / property-matched decoy 复核。**P0（措辞）**：摘要与 §2 明确 F1 不保证特异性。 |
+| **状态** | ✅ 外部 decoy 验证已完成；⬜ DUD-E 复核（可选） |
 
 ---
 
@@ -805,7 +889,7 @@ kinome 面板 + 细胞 p-c-Jun；对 top 1–2 考虑 **FEP+**（690 已在推�
 
 | ID | 严重程度 | 质疑摘要 | 是否影响 10 分子采购？ | 优先级 | 状态 |
 |----|----------|----------|------------------------|--------|------|
-| Q1 | 🔴 | F1 无 decoy，特异性未知 | 否（多层过滤） | P1 | ⬜ |
+| Q1 | 🔴 | F1 无 decoy，特异性未知 | 否（多层过滤） | P1 | ✅ decoy 已补；⬜ DUD-E 可选 |
 | Q2 | 🔴 | Δsel 跨 PDB 不可比 | 否（已不用 Δsel 采购） | P0 改措辞 | ✅/⬜ FEP+ |
 | Q3 | 🔴 | Tier1 consistency 占位 | 否（采购看 MD） | P1 | ⬜ |
 | Q4 | 🔴 | VSW/MD 单 PDB vs yaml ensemble 草案 | 否 | P0 | ✅ 已澄清 |
@@ -827,14 +911,14 @@ kinome 面板 + 细胞 p-c-Jun；对 top 1–2 考虑 **FEP+**（690 已在推�
 在**不推迟 P1 湿实验**的前提下，建议优先完成：
 
 1. **P0 文稿**：统一术语（pan-JNK 结合剂、Δsel 不作选择性依据、Tier1 含未实现 consistency 的 caveat）；G1 改名「chemotype 邻近组」。
-2. **P1 计算**：ML **decoy EF1%**（Q1）；bootstrap Spearman CI（Q10）。MM-GBSA 标定 **已完成**（Q9）。
+2. **P1 计算**：ML **decoy EF1%**（Q1）**已完成**；bootstrap Spearman CI（Q10）。MM-GBSA 标定 **已完成**（Q9）。
 3. **P1 实验**：**同批次 JNK1/2/3 IC50**（10 分子）——这是对所有计算质疑的**最终裁决**，也是本报告的核心落脚点。
 
 ---
 
 ### 12.6 给答辩委员会的一句话预判
 
-> 「审稿人可能质疑 F1 无特异性、Δsel 跨 PDB 不可比、Tier1 含占位条件、MD 单轨迹。我们的回应是：**这些局限已在 benchmark 与 G3 对照中被主动检测并导致策略 pivot**；计算管线用于富集 JNK 家族结合剂与 pose QC，**isoform 选择性仅由同批次酶学实验回答**。负向结果（对接方向 29%、Gly87 失败、ML 方向错误）构成方法学贡献，而非隐藏失败。」
+> 「审稿人可能质疑 F1 无特异性、Δsel 跨 PDB 不可比、Tier1 含占位条件、MD 单轨迹。我们的回应是：**F1@6.0 的外部 decoy 验证已量化 FPR（95.3%），证实其为高召回粗筛而非特异性过滤器**；这些局限已在 benchmark 与 G3 对照中被主动检测并导致策略 pivot；计算管线用于富集 JNK 家族结合剂与 pose QC，**isoform 选择性仅由同批次酶学实验回答**。负向结果（对接方向 29%、Gly87 失败、ML 方向错误）构成方法学贡献，而非隐藏失败。」
 
 ---
 
