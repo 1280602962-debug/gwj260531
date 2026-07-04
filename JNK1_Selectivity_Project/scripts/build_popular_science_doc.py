@@ -52,8 +52,6 @@ def synthesize_tables() -> None:
   pd.DataFrame([
     {"阶段": "ML初筛后对接库(F0)", "数量": 4983, "数据来源": "md_shortlist_report_23c8.md"},
     {"阶段": "Glide XP VSW有效记录", "数量": 4979, "数据来源": "JNK1_SELECTIVITY_FINAL_REPORT_41d9.md"},
-    {"阶段": "VSW pass_selectivity(遗留探索)", "数量": 233, "数据来源": "同上;未用于MD短名单"},
-    {"阶段": "VSW Tier 1′", "数量": 57, "数据来源": "同上"},
     {"阶段": "MD短名单 F1∧F2(ADMET前)", "数量": 157, "数据来源": "md_shortlist_report_23c8.md"},
     {"阶段": "MD shortlist(ADMET后)", "数量": 25, "数据来源": "同上"},
     {"阶段": "MD pose QC输入", "数量": 16, "数据来源": "MD_QC_report_cf26.md"},
@@ -67,7 +65,7 @@ def synthesize_tables() -> None:
     {"阶段": "pass_potency", "数量": 1681, "条件": "score_JNK1 ≤ -7.43"},
     {"阶段": "pass_selectivity(遗留)", "数量": 233, "条件": "Δsel_dock>0 且 Δsel_MMGBSA≥2"},
     {"阶段": "has_selectivity_contact", "数量": 63, "条件": "铰链H-bond代理+Δsel启发式"},
-  ]).to_csv(DATA_DIR / "16_VSW分支A各阶段数量.csv", index=False, encoding="utf-8-sig")
+  ]).to_csv(DATA_DIR / "16_VSW选择性探索各阶段数量.csv", index=False, encoding="utf-8-sig")
 
   pd.DataFrame([
     {"Tier": "Tier 1′", "数量": 57, "条件": "pose+potency+pass_selectivity+contact"},
@@ -85,7 +83,7 @@ def synthesize_tables() -> None:
     {"阶段": "ADMET后shortlist", "数量": 25},
     {"阶段": "进入MD", "数量": 16},
     {"阶段": "采购推荐", "数量": 10},
-  ]).to_csv(DATA_DIR / "18_MD分支B漏斗.csv", index=False, encoding="utf-8-sig")
+  ]).to_csv(DATA_DIR / "18_MD短名单漏斗.csv", index=False, encoding="utf-8-sig")
 
   pd.DataFrame([
     {"指标": "Spearman(Δsel_dock_vsw, -ΔpIC50_sel)", "数值": 0.750, "n": 7},
@@ -143,7 +141,7 @@ def setup_data_folder() -> None:
 
 本文件夹收录 JNK1/2/3 计算筛选项目报告中引用的全部可复现数据表。
 所有数值均可回溯至仓库内原始文件；合成汇总表（00、16–24 号）的字段与
-`docs/JNK1_PROJECT_REPORT.md`（v2.7）正文一致。
+`docs/JNK1_PROJECT_REPORT.md`（v2.8）正文一致。
 
 ## 文件索引
 
@@ -351,16 +349,15 @@ JNK 三个亚型由不同基因编码（JNK1/MAPK8、JNK2/MAPK9、JNK3/MAPK10）
 项目初期目标：通过计算筛选找到 preferentially 抑制 JNK1 的候选分子。
 项目后期结论：计算无法可靠区分亚型方向，因此把候选定位为「JNK 家族结合剂」，用同批次 JNK1/2/3 酶学 IC50 实验做最终判断（参考文献 [8] 综述了 JNK 成药挑战）。
 """),
-    ("二、整体筛选流程（双分支设计）", """
+    ("二、整体筛选流程（单一主线漏斗）", """
 从 Enamine 商业库约 5000 个分子出发，经过以下主链路：
 
 步骤 1 — 机器学习粗筛：用三个亚型活性模型判断分子是否「可能有 JNK 家族活性」，保留 4983 个。
 步骤 2 — Glide XP 对接：把每个分子分别对接到 JNK1/JNK2/JNK3 三个蛋白结构，得到 4979 个有效结果。
-步骤 3 — 分叉：
-  • 分支 A（遗留探索标签）：根据对接分数打 Tier、pass_selectivity 等标签，得到 233/57 等统计数字，仅用于回顾分析，不决定买哪些分子。
-  • 分支 B（真正采购决策链）：按 pose 质量、JNK1 活性门槛、成药性、ADMET 筛选 → 157 → 25 → 16 个做 MD → 最终 10 个采购。
+步骤 3 — MD 短名单筛选：按 pose 质量、JNK1 活性门槛、成药性、ADMET 筛选 → 157 → 25 → 16 个做 MD → 最终 10 个采购。
+步骤 4 — 湿实验：同批次 JNK1/JNK2/JNK3 酶学 IC50。
 
-为什么要有两个分支？因为早期流水线曾尝试用「对接能量差 Δsel」判断 JNK1 选择性，但文献 benchmark 证明该指标方向准确率仅 43%（VSW 单结构）或 29%（双结构平均），不能用于采购决策。MD 短名单因此完全不用 Δsel 标签。
+主线漏斗不使用 Δsel、pass_selectivity 或 Tier 分级。项目早期曾尝试用对接能量差 Δsel 判断 JNK1 选择性，但文献 benchmark 证明该指标方向准确率仅 43%（VSW 单结构）或 29%（双结构平均），不能用于采购决策。这些失败的探索尝试完整保留于第五章，供回顾分析。
 """),
     ("三、机器学习：如何粗筛「可能有活性」的分子？", """
 3.1 训练数据与模型
@@ -393,9 +390,16 @@ ChEMBL 中明确标注 JNK1-selective 的分子仅 8 个（数据表 10），数
 4.3 选择性指标 Δsel 的含义与失败
 Δsel_dock = min(score_JNK2, score_JNK3) − score_JNK1。若 > 0，计算上「更偏向 JNK1」。
 对 9 个有实验 IC50 的文献分子做回顾：Spearman 秩相关尚可，但离散方向准确率仅 43%（3/7），低于 55% 可用线（数据表 19、图 6）。
-因此：233 个 pass_selectivity 和 57 个 Tier 1′ 只是探索性统计，不用于 MD 进门。
+因此：233 个 pass_selectivity 和 57 个 Tier 1′ 属于选择性探索统计（详见第五章），不用于 MD 进门。
 """),
     ("五、曾尝试的选择性策略与失败原因", """
+5.0 VSW 对接后选择性探索（未用于采购）
+项目在对接完成后曾尝试多种选择性标签，均经 benchmark 标定后从决策链移除，但统计数字保留供回顾（数据表 16、17）：
+• pass_selectivity：233 个（Δsel_dock>0 且 Δsel_MMGBSA≥2）
+• Tier 1′：57 个（pose + potency + pass_selectivity + contact）
+• has_selectivity_contact：63 个（铰链 H-bond 代理）
+这些标签不能可靠预测真实的 JNK1/JNK2/JNK3 选择性，不参与 MD 短名单或采购排序。
+
 5.1 Gly87 占据假说
 JNK1 在铰链区有甘氨酸 Gly87，JNK2/JNK3 分别为 Ser/Met，体积更大。曾假设：配体占据 JNK1 特有的小空间可得选择性（机制类比参考文献 [10]）。
 回顾测试显示：所有 benchmark 配体距 Gly87 仅 0.59–1.18 Å，E1 与 CC-930 均显示占据，无法区分（数据表 08）。策略放弃。
@@ -405,13 +409,13 @@ JNK1 在铰链区有甘氨酸 Gly87，JNK2/JNK3 分别为 Ser/Met，体积更大
 注意：MMGBSA_JNK1 ≤ −51.6 作为「JNK1 单点活性」门槛仍用于 MD 短名单，与选择性差值无关。
 """),
     ("六、MD 短名单与成药性：如何选出 25 个、再做 16 个 MD？", """
-6.1 分支 B 漏斗（数据表 18）
+6.1 MD 短名单漏斗（数据表 18）
 3125 个通过 pose 质量 → 182 个通过 JNK1 活性双门槛（Glide ≤ −7.43 且 MMGBSA_JNK1 ≤ −51.6）→ 157 个 F1∧F2 → ADMET 剔除 9 个 → 25 个 shortlist。
 25 个按化学策略分四组：G1 文献 chemotype 邻近组(9)、G2 新骨架(10)、G3 已知活性对照(4)、G4 阴性锚点(2)。
 按组配额取 16 个做 Desmond 分子动力学（48 个任务 = 16 分子 × 3 蛋白）。
 
 6.2 为什么 2231 能进 MD 但 pass_selectivity=No？
-2231 的 JNK1 对接分极强（−11.22），满足活性门槛；未过 pass_selectivity 是因为遗留双门槛中的 Δsel_MMGBSA 探索标签，MD 短名单从不读取该标签（详见技术报告 §6.3.1）。
+2231 的 JNK1 对接分极强（−11.22），满足活性门槛；未过 pass_selectivity 是因为探索性双门槛中的 Δsel_MMGBSA 标签，MD 短名单从不读取该标签（详见技术报告 §6.3.1）。
 """),
     ("七、分子动力学 QC：结合姿势稳不稳？", """
 对每个分子在三个亚型各跑一条 MD 轨迹（约 20–50 ns），用两项指标质检：
@@ -498,8 +502,8 @@ JNK1 中 Asn108–配体氧原子氢键占有率约 68%（技术报告 §6.5.4�
   add_table(doc, pd.read_csv(DATA_DIR / "06_benchmark方向混淆矩阵.csv"), "表3 Benchmark 方向混淆")
   add_table(doc, pd.read_csv(DATA_DIR / "22_ML模型性能汇总.csv"), "表4 ML 模型 holdout 性能")
   add_table(doc, pd.read_csv(DATA_DIR / "24_外部decoy验证指标汇总.csv"), "表5 外部 decoy 验证指标")
-  add_table(doc, pd.read_csv(DATA_DIR / "18_MD分支B漏斗.csv"), "表6 MD 短名单漏斗（分支 B）")
-  add_table(doc, pd.read_csv(DATA_DIR / "17_Tier分布.csv"), "表7 VSW Tier 分布（分支 A，探索用）")
+  add_table(doc, pd.read_csv(DATA_DIR / "18_MD短名单漏斗.csv"), "表6 MD 短名单漏斗")
+  add_table(doc, pd.read_csv(DATA_DIR / "17_Tier分布.csv"), "表7 VSW Tier 分布（选择性探索，未用于采购）")
   add_image(doc, fig_paths["hinge"], "图5 采购分子铰链氢键占有率（数据表 20）")
   add_table(doc, pd.read_csv(DATA_DIR / "11_采购清单purchase_after_md.csv"), "表8 最终采购清单（完整）")
   add_image(doc, fig_paths["2231_rmsd"], "图6 化合物 2231 延伸 MD 配体 RMSD 对比（数据表 12）")
@@ -508,7 +512,7 @@ JNK1 中 Asn108–配体氧原子氢键占有率约 68%（技术报告 §6.5.4�
 
   add_table(doc, pd.read_csv(DATA_DIR / "01_文献benchmark化合物.csv"), "表11 九个文献 benchmark 化合物与实验活性")
   add_table(doc, pd.read_csv(DATA_DIR / "08_Gly87自检.csv"), "表12 Gly87 占据策略回顾性测试")
-  add_table(doc, pd.read_csv(DATA_DIR / "16_VSW分支A各阶段数量.csv"), "表13 VSW 分支 A 各过滤阶段数量")
+  add_table(doc, pd.read_csv(DATA_DIR / "16_VSW选择性探索各阶段数量.csv"), "表13 VSW 选择性探索各过滤阶段数量")
   add_table(doc, pd.read_csv(DATA_DIR / "20_采购分子铰链占有率.csv"), "表14 采购分子铰链氢键占有率")
   add_table(doc, pd.read_csv(DATA_DIR / "21_采购分子配体RMSD中位数_Angstrom.csv"), "表15 采购分子配体 RMSD 中位数 (Å)")
 
@@ -566,7 +570,7 @@ def build_word_detailed(fig_paths: dict[str, Path]) -> None:
   title.alignment = WD_ALIGN_PARAGRAPH.CENTER
   doc.add_paragraph("版本：2.8（成段叙述版，面向完全不懂计算机辅助药物设计的读者）")
   doc.add_paragraph("数据来源：项目仓库 JNK1_Selectivity_Project；全部数值均可回溯到本文件配套的 data_tables/ 文件夹。")
-  doc.add_paragraph("技术报告原文：docs/JNK1_PROJECT_REPORT.md（v2.7）")
+  doc.add_paragraph("技术报告原文：docs/JNK1_PROJECT_REPORT.md（v2.8）")
   doc.add_page_break()
 
   sections = [
@@ -585,11 +589,11 @@ def build_word_detailed(fig_paths: dict[str, Path]) -> None:
        "“MD”是分子动力学模拟。它不是简单给分子打分，而是让蛋白和小分子在计算机里随时间运动，观察小分子是否能在口袋里保持稳定。RMSD 是 MD 中常用的指标，表示结构相对初始位置偏离多少，单位是埃（Å）。铰链氢键占有率表示小分子在模拟过程中有多少比例的时间与激酶铰链区保持氢键接触。",
        "“ADMET”是药物研发中对吸收、分布、代谢、排泄和毒性的总称。本项目用 QikProp 预测 hERG、口服吸收、Caco-2 通透性、溶解度等指标。QikProp、Desmond、Prime MM-GBSA 属于 Schrödinger 商业软件套件；本报告只说明其用途和项目参数，不为商业软件额外编造文献。",
      ]),
-    ("3. 总体流程：为什么报告里会有“分支 A”和“分支 B”",
+    ("3. 总体流程：从 5000 个分子到 10 个采购",
      [
-       "整个筛选流程可以概括为：机器学习粗筛 → Glide XP 三亚型对接 → 分支 A 遗留选择性标签分析 / 分支 B MD 短名单筛选 → ADMET 成药性过滤 → 分子动力学验证 → 采购 10 个分子做实验。端到端数量是：4983 个进入对接库，4979 个有有效对接结果，分支 B 中 157 个进入 ADMET 前短名单，25 个进入 ADMET 后 shortlist，16 个进入 MD，最终推荐 10 个采购。",
-       "分支 A 是项目早期留下来的探索性分析。它根据对接分、MM-GBSA 差值和接触特征给分子打 pass_selectivity 或 Tier 标签。例如分支 A 得到 233 个 pass_selectivity 分子，Tier 1′ 为 57 个。但后续 benchmark 验证证明，这些标签不能可靠预测真实的 JNK1/JNK2/JNK3 选择性。因此分支 A 的结果只作为“历史记录”和“探索性排序”，不能决定哪些分子进入 MD 或采购。",
-       "分支 B 才是真正的采购决策链。它不读取 pass_selectivity、Tier 1′、Tier 2 或 Δsel 方向，而是用 JNK1 活性门槛、pose 质量、ADMET 和 MD pose QC 来选择要做实验的分子。这个拆分非常关键，因为它解释了为什么 2231 虽然是 Tier 3、pass_selectivity 为 No，却仍然可以进入 MD：2231 走的是分支 B，而不是分支 A。",
+       "整个筛选流程可以概括为一条主线：机器学习粗筛 → Glide XP 三亚型对接 → pose QC 与 JNK1 活性筛选 → ADMET 成药性过滤 → 分子动力学验证 → 采购 10 个分子做实验。端到端数量是：4983 个进入对接库，4979 个有有效对接结果，157 个进入 ADMET 前短名单，25 个进入 ADMET 后 shortlist，16 个进入 MD，最终推荐 10 个采购。",
+       "主线筛选不使用 pass_selectivity、Tier 1′、Tier 2 或 Δsel 方向，而是用 JNK1 活性门槛、pose 质量、ADMET 和 MD pose QC 来选择要做实验的分子。这解释了为什么 2231 虽然是 Tier 3、pass_selectivity 为 No，却仍然可以进入 MD：2231 凭 JNK1 对接分和 pose QC 满足 MD 短名单条件，而非依赖选择性探索标签。",
+       "项目早期曾尝试用对接分、MM-GBSA 差值和接触特征给分子打 pass_selectivity 或 Tier 标签，得到 233 个 pass_selectivity 分子、Tier 1′ 为 57 个。但后续 benchmark 验证证明这些标签不能可靠预测真实的 JNK1/JNK2/JNK3 选择性。这些失败的探索尝试完整保留于技术报告第五章，供回顾分析，但不参与采购决策。",
      ]),
     ("4. 第一步：机器学习粗筛，目标是“不漏掉可能有活性的分子”",
      [
@@ -609,12 +613,12 @@ def build_word_detailed(fig_paths: dict[str, Path]) -> None:
     ("6. 第三步：为什么 MM-GBSA 和 Gly87 策略也没有成为选择性硬门槛",
      [
        "MM-GBSA 是一种在对接 pose 基础上估算结合自由能的方法。本项目中 MM-GBSA 有两种用途，必须分开理解。第一种是 MMGBSA_JNK1 单点活性门槛，用于判断一个分子是否可能在 JNK1 上有足够结合能力，门槛是 ≤ −51.6。第二种是 Δsel_MMGBSA，也就是比较 JNK1 与 JNK2/JNK3 的差值，早期曾用于 pass_selectivity。",
-       "Benchmark 标定显示，Δsel_MMGBSA 的 |Δsel| 中位数噪声为 8.13 kcal/mol，而早期门槛只有 2.0 kcal/mol，远低于噪声水平。MM-GBSA 方向准确率也只有 43%。因此，Δsel_MMGBSA 不再作为选择性硬筛。但 MMGBSA_JNK1 单点活性门槛仍可用于分支 B，因为它回答的是“这个分子是否可能结合 JNK1”，而不是“它是否选择性偏向 JNK1”。",
+       "Benchmark 标定显示，Δsel_MMGBSA 的 |Δsel| 中位数噪声为 8.13 kcal/mol，而早期门槛只有 2.0 kcal/mol，远低于噪声水平。MM-GBSA 方向准确率也只有 43%。因此，Δsel_MMGBSA 不再作为选择性硬筛。但 MMGBSA_JNK1 单点活性门槛仍可用于 MD 短名单，因为它回答的是“这个分子是否可能结合 JNK1”，而不是“它是否选择性偏向 JNK1”。",
        "项目还尝试过 Gly87 占据策略。JNK1 在铰链附近有 Gly87，JNK2/JNK3 对应位置是 Ser/Met，体积和化学性质不同。理论上，如果一个分子占据 JNK1 特有的小空间，可能带来 JNK1 选择性。这个思路与文献中 JNK2/3 选择性机制的讨论有关 [10]。但回顾测试发现，E1、TCS JNK 6O、CC-930、SP600125、CC-90001 等 benchmark 都靠近 Gly87，距离约 0.59–1.18 Å，无法区分 JNK1 选择性与 pan 或 JNK2/3 偏好。因此 Gly87 指标被放弃。",
      ]),
     ("7. 第四步：MD 短名单和 ADMET，目标是把候选变成可以买、可测的分子",
      [
-       "分支 B 的 MD 短名单不是从 pass_selectivity 来的，而是从实际可用于采购和验证的角度设计。首先，4983 个 F0 分子经过 pose QC，3125 个通过；再经过 JNK1 活性和配体效率过滤，182 个通过；F1 与 F2 同时满足后为 157 个；再经过 QikProp ADMET 过滤和分组策略，得到 25 个 shortlist。",
+       "MD 短名单不是从 pass_selectivity 来的，而是从实际可用于采购和验证的角度设计。首先，4983 个 F0 分子经过 pose QC，3125 个通过；再经过 JNK1 活性和配体效率过滤，182 个通过；F1 与 F2 同时满足后为 157 个；再经过 QikProp ADMET 过滤和分组策略，得到 25 个 shortlist。",
        "ADMET 过滤的原因很实际：即使一个分子在对接中得分很好，如果预测溶解性很差、hERG 风险高、口服吸收差，后续实验和成药开发价值也会降低。本项目考虑 hERG、口服吸收、Caco-2 通透性、溶解度和 #stars 等指标。G3 文献对照分子即使 ADMET 不完美也会保留，因为它们的作用是校准实验体系，而不是作为新药候选。",
        "25 个 shortlist 被分成四组：G1 是相对接近文献 chemotype 的分子，G2 是新骨架，G3 是已知活性对照，G4 是阴性锚点。进入 MD 的 16 个分子按组配额选择：G1 取 4/9，G2 取 6/10，G3 和 G4 全部进入。这种设计不是只追求最高分，而是兼顾验证管线、探索新骨架和设置阳性/阴性校准。",
      ]),
@@ -627,7 +631,7 @@ def build_word_detailed(fig_paths: dict[str, Path]) -> None:
      ]),
     ("9. 2231 的 200 ns Amber 延伸 MD：为什么做、看到了什么、不能说明什么",
      [
-       "2231 是一个特殊案例。它在分支 A 中是 Tier 3、pass_selectivity 为 No，但在分支 B 中通过 JNK1 活性门槛和 pose QC，进入 25 个 shortlist，并因 G2 配额进入 MD。短 MD 显示它在 JNK1 上 pose 相对更稳，所以项目又为 2231 补做了 200 ns Amber 延伸 MD，三个亚型各一条轨迹。",
+       "2231 是一个特殊案例。它在选择性探索中是 Tier 3、pass_selectivity 为 No，但通过 JNK1 活性门槛和 pose QC 进入 25 个 shortlist，并因 G2 配额进入 MD。短 MD 显示它在 JNK1 上 pose 相对更稳，所以项目又为 2231 补做了 200 ns Amber 延伸 MD，三个亚型各一条轨迹。",
        "延伸 MD 的目的不是证明 2231 已经是 JNK1 选择性抑制剂，而是检验短 MD 中“JNK1 pose 更稳”的方向是否可重复观察。50–200 ns 生产期统计显示，2231 在 JNK1 中的配体 heavy-atom RMSD 中位数为 0.57 Å，JNK2 为 1.74 Å，JNK3 为 1.08 Å。这个排序与短 Desmond MD 中 JNK1 最稳、JNK2 相对较差的方向一致。",
        "此外，cpptraj 氢键分析显示，JNK1 中 MOL@O2 与 Asn108@ND2 的接触占有率为 68.4%，是本轨迹中最突出的结构特征。MM-GBSA 分量中 JNK1 ΔG_total 为 −31.9 kcal/mol，JNK2 为 −16.8，JNK3 为 −16.2。但报告明确禁止把这些 MM-GBSA 差值解读为“2231 对 JNK1 有 −15 kcal/mol 选择性优势”，因为 benchmark 已经证明跨亚型 MM-GBSA 差值噪声大，且本次计算有 internal potential 警告。",
        "2231 延伸 MD 的限制也必须写清楚：它仍然是单副本，不足以做统计显著性判断；生产期对配体施加了位置 restraint，因此配体 RMSD 反映的是受约束姿态相对初帧的偏离；Amber 与 Desmond 的力场和分析口径不同，数值不能直接等同。正确结论是：2231 是值得实验验证的 JNK1 偏好假说分子，但计算不能确认其选择性。",
@@ -676,8 +680,8 @@ def build_word_detailed(fig_paths: dict[str, Path]) -> None:
   add_table(doc, pd.read_csv(DATA_DIR / "06_benchmark方向混淆矩阵.csv"), "表3 Benchmark 方向混淆")
   add_table(doc, pd.read_csv(DATA_DIR / "22_ML模型性能汇总.csv"), "表4 ML 模型 holdout 性能")
   add_table(doc, pd.read_csv(DATA_DIR / "24_外部decoy验证指标汇总.csv"), "表5 外部 decoy 验证指标")
-  add_table(doc, pd.read_csv(DATA_DIR / "18_MD分支B漏斗.csv"), "表6 MD 短名单漏斗（分支 B）")
-  add_table(doc, pd.read_csv(DATA_DIR / "17_Tier分布.csv"), "表7 VSW Tier 分布（分支 A，探索用）")
+  add_table(doc, pd.read_csv(DATA_DIR / "18_MD短名单漏斗.csv"), "表6 MD 短名单漏斗")
+  add_table(doc, pd.read_csv(DATA_DIR / "17_Tier分布.csv"), "表7 VSW Tier 分布（选择性探索，未用于采购）")
   add_image(doc, fig_paths["hinge"], "图5 采购分子铰链氢键占有率（数据表 20）")
   add_table(doc, pd.read_csv(DATA_DIR / "11_采购清单purchase_after_md.csv"), "表8 最终采购清单（完整）")
   add_image(doc, fig_paths["2231_rmsd"], "图6 化合物 2231 延伸 MD 配体 RMSD 对比（数据表 12）")
@@ -685,7 +689,7 @@ def build_word_detailed(fig_paths: dict[str, Path]) -> None:
   add_table(doc, pd.read_csv(DATA_DIR / "13_2231延伸MD_MMGBSA分量.csv"), "表10 2231 MM-GBSA 分量（辅助记录，不作选择性裁决）")
   add_table(doc, pd.read_csv(DATA_DIR / "01_文献benchmark化合物.csv"), "表11 九个文献 benchmark 化合物与实验活性")
   add_table(doc, pd.read_csv(DATA_DIR / "08_Gly87自检.csv"), "表12 Gly87 占据策略回顾性测试")
-  add_table(doc, pd.read_csv(DATA_DIR / "16_VSW分支A各阶段数量.csv"), "表13 VSW 分支 A 各过滤阶段数量")
+  add_table(doc, pd.read_csv(DATA_DIR / "16_VSW选择性探索各阶段数量.csv"), "表13 VSW 选择性探索各过滤阶段数量")
   add_table(doc, pd.read_csv(DATA_DIR / "20_采购分子铰链占有率.csv"), "表14 采购分子铰链氢键占有率")
   add_table(doc, pd.read_csv(DATA_DIR / "21_采购分子配体RMSD中位数_Angstrom.csv"), "表15 采购分子配体 RMSD 中位数 (Å)")
 
