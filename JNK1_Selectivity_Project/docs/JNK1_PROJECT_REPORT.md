@@ -1,9 +1,9 @@
 # JNK1/2/3 亚型抑制剂计算筛选项目报告
 
-> **版本**: 2.6  
+> **版本**: 2.7  
 > **日期**: 2026-07-04  
 > **原则**: 本报告所有数值均来自仓库内可复现文件、对接工作区归档 CSV 或 MD QC 结果；未在数据中出现的结论一律不作断言。  
-> **v2.6 更新**: 新增 §6.5 化合物 **2231** 的 200 ns Amber MD 延伸验证（三 isoform、单副本）；数据见 `results/md_2231_200ns/`。
+> **v2.7 更新**: 统一 VSW 单 PDB 方向准确率 **43%** 与 ensemble 归档 **29%** 口径；摘要 Spearman 分项修正；摘要漏斗补 **157**；**附录 A** 重写为双分支流程图（保留 §6.5 2231 延伸 MD）。
 
 ---
 
@@ -19,14 +19,15 @@
 | Glide XP VSW 有效记录 | **4979** | `JNK1_SELECTIVITY_FINAL_REPORT_41d9.md` |
 | VSW `pass_selectivity`（遗留探索标签） | **233** | 同上；**未用于** MD 短名单（§3.4、§6.1） |
 | VSW Tier 1′（对接能量+接触分级） | **57** | 同上；**不含**未实现的 `pass_consistency`（§3.4、§12 Q3） |
-| MD shortlist（ADMET 后） | **25** | `md_shortlist_report_23c8.md` |
+| MD 短名单（F1∧F2，ADMET 前） | **157** | `md_shortlist_report_23c8.md`；**分支 B**，不用 Δsel / pass_selectivity |
+| MD shortlist（ADMET 后） | **25** | 同上 |
 | MD pose QC 输入 | **16** | `MD_QC_report_cf26.md` |
 | 最终采购推荐 | **10** | `data/purchase/purchase_after_md.csv` |
 
 **核心结论**：
 
 1. **受体准备可信**：5/5 共晶再对接 RMSD < 2 Å（`redocking_summary_7725.csv`）。
-2. **Glide XP 对接选择性方向不可靠**：Spearman(Δsel_dock, −ΔpIC50_sel) = **0.786**（p = 0.021），但 isoform **方向准确率仅 29%**（2/7）；MM-GBSA 标定后方向准确率 **43%**（3/7），仍不达标（§3.3、§4）。
+2. **Glide XP 对接选择性方向不可靠**：Spearman(Δsel_dock, −ΔpIC50_sel) = **0.750**（n=7）；Spearman(Δsel_MMGBSA, −ΔpIC50_sel) = **0.786**（n=7）——秩相关尚可，但 **VSW 单 PDB 方向准确率仅 43%**（3/7），归档 ensemble 口径 **29%**（2/7），均 << 55% 阈值（§3.3、§4）。
 3. **ML 同样不能预测亚型方向**（E1、TCS JNK 6O 预测错误）；ChEMBL **JNK1-selective 标注仅 8 个**，选择性分类器测试 F1 = **0**。
 4. **Gly87（KLIFS b.l.37）占据策略回顾性失败**：5/5 benchmark `occ_JNK1=True`，但配体距 Gly87 **0.59–1.18 Å**，无选择性判别力（`gly87_selfcheck_16be.csv`）。
 5. MD QC：**G1 3/4、G2 0/6** 通过 `pass_md_overall`；**没有任何分子的 JNK1 选择性可被计算确认**。
@@ -177,7 +178,7 @@ Top-5000 按 **综合分** 选取，**不是**按 `p_family` 单独排序。因�
 |------|------|----------|
 | **F1 (≥6.0)** | 保证文献对照与已知活性 **不被漏掉** | ~95% 随机 decoy 通过 |
 | **final_score Top-N** | 在通过者中 **排序富集** | EF1%=9.2；Top-5000 min p_family≈6.28 |
-| **Glide 对接** | 结构层面缩库 | 4979 → 233 → 25 → 16 |
+| **Glide 对接** | 结构层面缩库 | 4979 →【A】233 / Tier 1′=57；【B】157 → 25 → 16 |
 
 Enamine ~5000 → ML F1 后 **4983**（99.4% 通过）亦符合此逻辑：输入已是 Top-N 子集，F1 几乎不再缩库。
 
@@ -282,7 +283,7 @@ score_JNK3 = Glide_XP_gscore @ 3TTI
 
 | 遗留标签 `pass_selectivity` 分量 | 门槛 | 标定结论 |
 |----------------------------------|------|----------|
-| Δsel_dock | > 0 | 方向准确率 **29%**（2/7）→ 不作硬筛 |
+| Δsel_dock | > 0 | VSW 方向准确率 **43%**（3/7）；ensemble 归档 **29%**（2/7）→ 不作硬筛 |
 | Δsel_MMGBSA | ≥ **2.0** | \|Δsel\| 噪声中位数 **8.1**；方向准确率 **43%** → **门槛无判别力，已废弃** |
 
 **9 个 benchmark 已完成 Prime MM-GBSA**（`results/docking_validation/benchmark_mmgbsa_calibration.csv`）：
@@ -349,13 +350,13 @@ Enamine ~5000 → ML F1 (p_family≥6.0) → 4983
 
 ### 3.5 Top 选择性候选（pass_selectivity，Δsel 降序前 5）
 
-| compound_id | Δsel_dock | score_JNK1 | Tier |
-|-------------|-----------|------------|------|
-| 4931 | 3.67 | −7.97 | 1 |
-| 2627 | 3.65 | −6.83 | 1 |
-| 1941 | 3.37 | −7.01 | 1 |
-| 2749 | 3.09 | −10.21 | 1 |
-| 2760 | 2.68 | −10.19 | 1 |
+| compound_id | Δsel_dock | score_JNK1 | Tier（文稿口径） |
+|-------------|-----------|------------|------------------|
+| 4931 | 3.67 | −7.97 | 1′ |
+| 2627 | 3.65 | −6.83 | 1′ |
+| 1941 | 3.37 | −7.01 | 1′ |
+| 2749 | 3.09 | −10.21 | 1′ |
+| 2760 | 2.68 | −10.19 | 1′ |
 
 `top_selective_f4a0.csv`：50 个 Butina 聚类代表（Tanimoto 0.5），其中 Tier 1′ = **15**。
 
@@ -408,7 +409,7 @@ JNK1 排序呈**负相关**，说明跨 PDB 绝对得分比较存在**系统偏�
 |---|------|------|----------|
 | 1 | ML 三模型 ΔpActivity 选择性过滤 | **失败** | E1/TCS JNK 6O 方向错误 |
 | 2 | 选择性二分类模型 | **失败** | 正例 n=8，F1=0 |
-| 3 | Glide Δsel_dock 排序 | **不可靠** | 方向准确率 29% |
+| 3 | Glide Δsel_dock 排序 | **不可靠** | VSW 方向准确率 43%；ensemble 29% |
 | 4 | Δsel_dock + MM-GBSA ≥ 2 kcal/mol | **门槛过宽** | Benchmark MM-GBSA 标定：\|Δsel\| 中位数 8.1，方向准确率 43%（§3.3） |
 | 5 | KLIFS 非保守位点 / Gly87 IFP | **放弃** | 见 §5.2 |
 | 6 | MD pose QC（RMSD + hinge HB） | **部分可用** | 验证 pose，非选择性 |
@@ -528,11 +529,11 @@ chemotype_sim（ECFP4 Tanimoto vs E1/Q63/TCS JNK 6O）：
 
 | ID | 组 | Tier | Δsel_dock | score_JNK1 | pass_selectivity（遗留） | MD pass_overall |
 |----|-----|------|-----------|------------|--------------------------|-----------------|
-| **690** | G1 | **1** | **+1.08** | −7.76 | **Yes** | **Yes**（三 isoform 全 pass） |
-| 2232 | G1 | 1 | +1.32 | −8.13 | Yes | Yes |
+| **690** | G1 | **1′** | **+1.08** | −7.76 | **Yes** | **Yes**（三 isoform 全 pass） |
+| 2232 | G1 | 1′ | +1.32 | −8.13 | Yes | Yes |
 | 2157 | G1 | 3 | −1.05 | −8.46 | No | Yes |
 | **2231** | G2 | 3 | **+3.37** | **−11.22** | **No**† | No（JNK1-only） |
-| 4795 | G2 | 1 | +1.57 | −8.38 | Yes | No |
+| 4795 | G2 | 1′ | +1.57 | −8.38 | Yes | No |
 | 1280 | G2 | 3 | +0.89 | −7.85 | No | No |
 
 † **2231**：Δsel_dock 极强（+3.37），但遗留 `pass_selectivity` 要求 Δsel_MMGBSA≥2；该分量经 benchmark 标定**已废弃**（§3.3）。**No 不表示「不应做 MD」**——2231 经分支 B（score_JNK1 + MMGBSA_JNK1 活性 + pose QC）进入 shortlist。
@@ -548,7 +549,7 @@ chemotype_sim（ECFP4 Tanimoto vs E1/Q63/TCS JNK 6O）：
 | ML F1 | ✅ | 在 4983 对接库内 |
 | Glide pose QC（MD-F1） | ✅ | 进入 3125 |
 | score_JNK1 ≤ −7.43 | ✅ | **−11.22**（极强） |
-| MMGBSA_JNK1 ≤ −51.6（**活性**，非 Δsel） | ✅ | 满足 MD-F2 活性门（与遗留 Δsel_MMGBSA≥2 **无关**） |
+| MMGBSA_JNK1 ≤ −51.6（**活性**，非 Δsel） | ✅ | 满足 MD-F2 活性门（与遗留 Δsel_MMGBSA≥2 **无关**；门槛见 `md_shortlist_report_23c8.md`） |
 | F2 成药性 | ✅ | 进入 **157** |
 | ADMET（F7） | ✅ | 进入 **25** shortlist，归 **G2 新骨架** |
 | G2 → MD 配额 | ✅ | G2 共 10 个 shortlist，取 **6** 个做 MD；2231 为其中之一 |
@@ -731,7 +732,7 @@ Per-residue decomposition（frame 15001–20000，**仅列 top 5 蛋白残基**�
 | 2231 在 JNK1 pose 是否相对更稳？ | **是（方向性）**：JNK1 配体 RMSD 中位数 0.57 Å，为三 isoform 最低；与 Desmond 一致 | 是否为统计显著、是否无 restraint 仍成立 |
 | 能否改写 G2 overall MD fail？ | **否**：仍为单副本 + 不同协议；**不改变** §6.2 中 2231 grade C / pass_overall No 的 QC 记录 |
 | 是否确认 JNK1 选择性？ | **否**：无任何酶学 IC50；计算选择性方法（§3.3）已整体失败 |
-| 对采购/实验的启示 | 支持将 2231 作为 **JNK1 偏好假说的优先验证分子**（与 §6.4.4、§7 一致）；**2157** 仍为 hinge 不对称性第二候选 | 不能替代 690 等 Tier1 的活性验证角色 |
+| 对采购/实验的启示 | 支持将 2231 作为 **JNK1 偏好假说的优先验证分子**（与 §6.4.4、§7 一致）；**2157** 仍为 hinge 不对称性第二候选 | 不能替代 690 等 Tier 1′ 的活性验证角色 |
 
 **待补工作（§12 Q5）**：2231（及 690、E1）的 **≥2 独立 replica**、以及**无配体 restraint** 的确认 MD。
 
@@ -888,7 +889,7 @@ kinome 面板 + 细胞 p-c-Jun；对 top 1–2 考虑 **FEP+**（690 已在推�
 
 | 维度 | 内容 |
 |------|------|
-| **质疑** | Δsel_dock 使用三个 isoform **不同 PDB、不同网格、不同共晶配体**的 Glide XP 绝对分；跨受体比较引入系统偏差。JNK1 活性排序 Spearman ρ = **−0.43**；方向准确率 **29%**；Δsel 幅度 1–3 kcal/mol 处于噪声区。233 个 pass_selectivity 的「精确数字」可能**缺乏区分意义**。 |
+| **质疑** | Δsel_dock 使用三个 isoform **不同 PDB、不同网格、不同共晶配体**的 Glide XP 绝对分；跨受体比较引入系统偏差。JNK1 活性排序 Spearman ρ = **−0.43**；VSW 单 PDB 方向准确率 **43%**（ensemble 归档 **29%**）；Δsel 幅度 1–3 kcal/mol 处于噪声区。233 个 pass_selectivity 的「精确数字」可能**缺乏区分意义**。 |
 | **数据依据** | `isoform_rank_correlations_299a.csv`；`direction_confusion_27c3.csv`；`validation_report.md` |
 | **我们的回复** | **完全同意**，且本项目已用 benchmark 数据**否定**将 Δsel 用于 isoform 分型或采购排序。报告结论应为：「Δsel 在数值上**不能**作为选择性决策依据」，而非「不够可靠」。233/Tier 数字仅作**家族内富集探索**的遗留统计，**未用于** MD 短名单硬筛（`md_shortlist_report_23c8.md` 明确未用 Δsel 作主排序）及采购单。 |
 | **解决方案** | **P0（措辞）**：全文将「233 严格选择性通过」改为「对接能量差超过任意阈值的候选（**未经 isoform 方向验证**）」。**P1**：对 top 15 Tier 1′ 做 **FEP+** 相对 ΔΔG（JNK1 vs JNK2/JNK3），替代 Δsel 叙事。**P2**：不再扩展基于 Δsel 的新筛选。 |
@@ -985,9 +986,9 @@ kinome 面板 + 细胞 p-c-Jun；对 top 1–2 考虑 **FEP+**（690 已在推�
 
 | 维度 | 内容 |
 |------|------|
-| **质疑** | Spearman 0.786（p=0.02, n=8）置信区间极宽；「秩相关尚可」证据薄弱，不宜过度强调；方向准确率 29%（2/7）才是更稳健的否定性结论。 |
+| **质疑** | Spearman(Δsel_dock)=0.750、Spearman(Δsel_MMGBSA)=0.786（n=7）置信区间极宽；「秩相关尚可」证据薄弱，不宜过度强调；**VSW 方向准确率 43%**（ensemble 29%）才是更稳健的否定性结论。 |
 | **数据依据** | `validation_report.md`；`benchmark_deltas_51c1.csv` |
-| **我们的回复** | 同意。n=9 的 benchmark 面板**足以否定**「对接可预测 isoform 方向」（29% << 55% 阈值），但**不足以肯定**任何正相关。文稿应强调**否定结论**（方向失败、JNK1 ρ 为负），弱化 Spearman 0.79 的「成功」叙事。 |
+| **我们的回复** | 同意。n=9 的 benchmark 面板**足以否定**「对接可预测 isoform 方向」（VSW 43%、ensemble 29%，均 << 55% 阈值），但**不足以肯定**任何正相关。文稿应强调**否定结论**（方向失败、JNK1 ρ 为负），弱化 Spearman 的「成功」叙事。 |
 | **解决方案** | **P1**：对 Spearman 做 **bootstrap 95% CI**（n=8 重采样），报告区间是否跨 0。**P2**：扩充 benchmark 至 **15–20** 个有 isoform IC50 的 JNK 抑制剂（ChEMBL + 文献），提高功效（非必须，若有发表计划）。 |
 | **状态** | ⬜ Bootstrap 待做 |
 
@@ -1012,7 +1013,7 @@ kinome 面板 + 细胞 p-c-Jun；对 top 1–2 考虑 **FEP+**（690 已在推�
 |------|------|
 | **质疑** | RMSD < 2 Å 仅证明 **self-docking** 复现共晶 pose，不证明打分能区分活性/非活性或跨 isoform 可比。 |
 | **我们的回复** | 同意。再对接仅支持「**受体网格可用于 pose 叠加与 MD 起点**」，不构成选择性方法验证。选择性否定证据来自 **benchmark 方向测试**（Q2），非再对接。 |
-| **解决方案** | **P0**：Methods 将再对接定位为 **「结构准备质量门」**；Discussion 引用 benchmark 29% 作为选择性无效的主证据。 |
+| **解决方案** | **P0**：Methods 将再对接定位为 **「结构准备质量门」**；Discussion 引用 benchmark **VSW 方向 43% / ensemble 29%** 作为选择性无效的主证据。 |
 | **状态** | ✅ 报告已分节表述，定稿保持 |
 
 ---
@@ -1080,23 +1081,50 @@ kinome 面板 + 细胞 p-c-Jun；对 top 1–2 考虑 **FEP+**（690 已在推�
 ## 附录 A：端到端筛选流程图
 
 ```mermaid
-flowchart TD
-    A[ChEMBL 444/610/1147] --> B[XGBoost 三靶点模型]
-    B --> C[ML F1: p_family >= 6.0]
-    C --> D[4983 化合物 F0]
-    D --> E[Glide XP VSW 4979]
-    E --> A1[分支A: 遗留标签 Tier/pass_selectivity 233]
-  E --> B1[分支B: MD短名单 F1+F2 157]
-    B1 --> J[QikProp ADMET: 25]
-    J --> K[按G1-G4分组取样 MD: 16]
-    K --> L[采购: 10]
-    L --> M[湿实验 JNK1/2/3 IC50]
-    
-    B -.->|方向错误| X1[ML选择性 放弃]
-    A1 -.->|方向29% 仅探索| X2[pass_selectivity 不作MD门]
-    J -.->|Gly87失败| X3[IFP策略 放弃]
+flowchart TB
+    subgraph S1["① ML 训练与初筛"]
+        A["ChEMBL 活性数据<br/>JNK1 444 / JNK2 610 / JNK3 1147"] --> B[XGBoost 三靶点模型]
+        B --> C["ML F1: p_family ≥ 6.0<br/>（高召回、低特异性，§2.4）"]
+        C --> D[4983 化合物 F0]
+    end
+
+    D --> E["Glide XP VSW @ 3ELJ / 3E7O / 3TTI<br/>4979 有效记录"]
+
+    E --> BA["分支 A：VSW 遗留标签<br/>（仅探索统计）"]
+    E --> BB["分支 B：MD 短名单 → 采购<br/>（决策链）"]
+
+    BA --> A1[pass_pose 3234]
+    A1 --> A2["pass_potency 1681<br/>score_JNK1 ≤ −7.43"]
+    A2 --> A3["pass_selectivity 233<br/>Δsel_dock>0 ∧ Δsel_MMGBSA≥2"]
+    A3 --> A4["Tier 1′ 57<br/>+ has_selectivity_contact"]
+    A4 --> AX["遗留探索 / FEP+ 候选池<br/>不作 MD 进门条件"]
+
+    BB --> B1[MD-F1 pose QC 3125]
+    B1 --> B2["MD-F2 活性门<br/>score_JNK1 ≤ −7.43<br/>MMGBSA_JNK1 ≤ −51.6"]
+    B2 --> B3[F1 ∧ F2 通过 157]
+    B3 --> B4[QikProp ADMET 25]
+    B4 --> B5["G1–G4 化学策略分组<br/>Desmond MD pose QC 16"]
+    B5 --> B6[采购推荐 10]
+    B6 --> B7[湿实验 JNK1 / JNK2 / JNK3 IC50]
+
+    BM["Benchmark 标定<br/>VSW Δsel 方向 43% 3/7<br/>ensemble 归档 29% 2/7<br/>→ 选择性不算采购依据"]
+    E -.-> BM
+
+    B -.->|正例 n=8, F1=0| MLX[ML 选择性分类器 放弃]
+    A3 -.->|benchmark 已否定| XA[pass_selectivity 不作 MD 门]
+    B5 -.->|无判别力| XG[Gly87 IFP 策略 放弃]
+
+    NOTE["例：2231 — Tier 3 / pass_selectivity No<br/>仍经分支 B 进 G2 MD<br/>（§6.3.1）"]
+    B2 -.-> NOTE
 ```
+
+### 读图要点
+
+1. **双漏斗并行、互不读取**：分支 A 产出 Tier / `pass_selectivity` 等**遗留标签**；分支 B 的 MD 短名单**从不使用** Δsel 方向、`pass_selectivity` 或 Tier 2/1′（`md_shortlist_report_23c8.md`）。
+2. **Benchmark 否定选择性决策**：VSW 单 PDB Δsel 方向准确率 **43%**（3/7），归档 ensemble 口径 **29%**（2/7），均远低于 55% 阈值 → 233 / Tier 1′=57 **仅作家族内探索**，不能作 isoform 分型或采购排序。
+3. **2231 个案**：Δsel_dock 极强（+3.37）但遗留 `pass_selectivity`=No（未过探索性 Δsel_MMGBSA≥2）；仍凭 **score_JNK1 + MMGBSA_JNK1 活性 + pose QC** 进入 157→25→G2 MD（§6.3.1）；§6.5 延伸 MD 不改变 G2 overall fail 的 QC 记录。
+4. **采购终点**：10 分子含 4 个 G3 酶学校准对照；花钱买的是 **pan-JNK 家族结合假说 + pose 可信度分层**，选择性**只能**由同批次 IC50 回答。
 
 ## 附录 B：一句话答辩版
 
-> 我们从 ChEMBL 训练 JNK1/2/3 活性模型（holdout R² 0.70/0.57/0.77），经 ML 粗筛后对 **4979** 个化合物做 Glide XP 对接，再对接 benchmark 证明 **isoform 方向准确率仅 29%**；因此将 hit 定位为 **pan-JNK 家族结合剂**，经 ADMET 缩至 25 个、MD 验证 16 个，最终采购 10 个（含 4 个文献对照）做同批次三 isoform IC50——**选择性只能由实验回答，不能由计算采购**。
+> 我们从 ChEMBL 训练 JNK1/2/3 活性模型（holdout R² 0.70/0.57/0.77），经 ML 粗筛后对 **4979** 个化合物做 Glide XP 对接；benchmark 证明 **VSW 单 PDB isoform 方向准确率仅 43%**（ensemble 归档 29%），故将 hit 定位为 **pan-JNK 家族结合剂**。MD 短名单走独立分支 B（**157→25→16**），**不用** Δsel / pass_selectivity；最终采购 10 个（含 4 个文献对照）做同批次三 isoform IC50——**选择性只能由实验回答，不能由计算采购**。
