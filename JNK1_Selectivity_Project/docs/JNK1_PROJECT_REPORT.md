@@ -1,8 +1,9 @@
 # JNK1/2/3 亚型抑制剂计算筛选项目报告
 
 > **版本**: 2.6  
-> **日期**: 2026-07-03  
-> **原则**: 本报告所有数值均来自仓库内可复现文件、对接工作区归档 CSV 或 MD QC 结果；未在数据中出现的结论一律不作断言。
+> **日期**: 2026-07-04  
+> **原则**: 本报告所有数值均来自仓库内可复现文件、对接工作区归档 CSV 或 MD QC 结果；未在数据中出现的结论一律不作断言。  
+> **v2.6 更新**: 新增 §6.5 化合物 **2231** 的 200 ns Amber MD 延伸验证（三 isoform、单副本）；数据见 `results/md_2231_200ns/`。
 
 ---
 
@@ -30,6 +31,7 @@
 4. **Gly87（KLIFS b.l.37）占据策略回顾性失败**：5/5 benchmark `occ_JNK1=True`，但配体距 Gly87 **0.59–1.18 Å**，无选择性判别力（`gly87_selfcheck_16be.csv`）。
 5. MD QC：**G1 3/4、G2 0/6** 通过 `pass_md_overall`；**没有任何分子的 JNK1 选择性可被计算确认**。
 6. 采购 10 个分子的理由：**G3 实验校准 + G1/G2 chemotype 假说检验 + MD pose 可信度分层**，而非“已算出选择性 hit”。
+7. **2231 延伸 MD（v2.6）**：200 ns Amber 单轨迹（三 isoform）显示 **JNK1 配体 RMSD 中位数最低（0.57 Å）**，与 Desmond 短 MD 中 JNK1 最低档（0.48 Å）**方向一致**；仍**不能**据此改写 G2 overall MD fail 或确认选择性——见 §6.5。
 
 ---
 
@@ -627,6 +629,112 @@ chemotype_sim（ECFP4 Tanimoto vs E1/Q63/TCS JNK 6O）：
 
 MM-GBSA 柱状图标注 **「group-relative only; NOT for isoform selectivity」**。9 benchmark 标定（§3.3）显示：方向准确率 43%，\|Δsel\| 噪声中位数 8.1 kcal/mol——**未标定前不宜跨 isoform 比较**；标定后结论仍是**不能单独用于选择性裁决**。
 
+### 6.5 化合物 2231 延伸 MD 验证（200 ns Amber，三 isoform）
+
+针对 §6.4.4 中 MD 相对排序 **#1** 的 G2 分子 **2231**，以及 §12 Q5 提出的「对优先 G2 分子做更长轨迹/更多 replica」建议，补做了 **200 ns × 3 isoform** 的 Amber 生产 MD 及后处理分析。原始轨迹与输入文件位于本地工作区 `2231_200nsMD/`；汇总图表与 CSV 已归档至 **`results/md_2231_200ns/`**。
+
+#### 6.5.1 模拟与分析方法（与 §6.2 Desmond 短 MD 的区别）
+
+| 项目 | Desmond MD（§6.2） | 本延伸 MD（§6.5） |
+|------|-------------------|-------------------|
+| 软件 | Desmond | **AMBER**（HMR，`dt=4 fs`） |
+| 时长 | ~20–50 ns（48 任务面板） | **200 ns** × 3 体系 |
+| 副本数 | 单轨迹 | **单轨迹**（replica 仍待补） |
+| 配体约束 | Desmond 标准协议 | 生产期对 **`:MOL` 施加 2.0 kcal/mol/Å² 位置 restraint** |
+| 分析 | RMSD + hinge HB（QC 门槛） | cpptraj：蛋白/配体/复合物 RMSD、RMSF、RoG、SASA、H-bond；MMPBSA.py（igb=8，frame 15001–20000） |
+
+**重要限制（必须同时阅读）**：
+
+1. **单副本**：仍不满足统计功效要求；结论仅限「本轨迹观察到的 pose 行为」，不能升级为显著性检验。
+2. **配体 restraint**：配体 RMSD 反映的是**受约束姿态相对初帧的偏离**，不是无约束结合模式采样；跨 isoform 比较配体 RMSD 时，起始 pose 与蛋白骨架波动亦会引入差异。
+3. **MM-GBSA**：沿用 §6.4.5 原则——**不宜用于 isoform 选择性裁决**；且 `gbsa.dat` 均含 internal potential inconsistency 警告，分量数值仅作辅助参考。
+4. **与 Desmond 数值不可直接等同**：力场、积分器、约束与分析口径不同；仅比较**相对排序方向**是否一致。
+
+#### 6.5.2 生产期结构稳定性（50–200 ns）
+
+统计窗口：舍弃前 50 ns，取 50–200 ns（15,000 帧）。完整分位数见 `results/md_2231_200ns/tables/09_production_rmsd_percentiles.csv`。
+
+**蛋白 Cα RMSD（Å，mean ± SD）**
+
+| Isoform | PDB | Mean ± SD | Median | p5–p95 |
+|---------|-----|-----------|--------|--------|
+| JNK1 | 3ELJ | 3.32 ± 0.31 | 3.30 | 2.82–3.85 |
+| JNK2 | 3E7O | **2.58 ± 0.42** | 2.56 | 1.98–3.31 |
+| JNK3 | 3TTI | 3.75 ± 0.92 | 3.80 | 2.37–5.13 |
+
+**配体 heavy-atom RMSD（Å，mean ± SD）**
+
+| Isoform | Mean ± SD | Median | p5–p95 | Desmond 中位数（§6.4.2） |
+|---------|-----------|--------|--------|------------------------|
+| **JNK1** | **0.63 ± 0.20** | **0.57** | 0.44–1.09 | **0.48** |
+| JNK2 | 1.77 ± 0.34 | 1.74 | 1.20–2.26 | 1.17 |
+| JNK3 | 1.10 ± 0.22 | 1.08 | 0.77–1.46 | 0.66 |
+
+![2231 配体 RMSD 分布（50–200 ns）](../results/md_2231_200ns/figures/10_ligand_rmsd_violin.png)
+
+**与 Desmond 短 MD 的对照**：两种独立协议下，**2231 在 JNK1 的配体 pose 均为三 isoform 中最稳定、JNK2 均为最不稳定**，方向一致。JNK3 在 Desmond 中略优于 JNK2（0.66 vs 1.17 Å），在本 Amber 轨迹中 JNK3（1.08 Å）亦介于 JNK1 与 JNK2 之间——**不支持**「JNK3 比 JNK2 更不稳定」的强断言，但 JNK1 最低档的结论在两次 MD 中可重复观察。
+
+**复合物 heavy-atom RMSD**：JNK1 体系 median 达 **12.6 Å**（JNK2/JNK3 约 3.2–4.0 Å），提示 JNK1 轨迹中**蛋白整体相对初帧发生较大构象偏移**（配体仍受 restraint 锚定），该指标**不宜**与另两 isoform 做简单数值对比；解读时应以蛋白 Cα 与配体 RMSD 为主。
+
+![RMSD 时间序列对比](../results/md_2231_200ns/figures/01_rmsd_comparison.png)
+
+#### 6.5.3 蛋白柔性（RMSF）与动态相关性
+
+- **JNK2** 仅 4 个残基 Cα RMSF > 3 Å（最高 Leu274，4.20 Å），骨架整体最刚性。
+- **JNK3** 有 16 个残基 > 3 Å，C 端区域（残基 315–325）波动最大（最高 15.3 Å），与蛋白 Cα RMSD 偏高一致。
+- **JNK1** 有 13 个残基 > 3 Å，C 端与 N 端均有高柔性区。
+
+配体 vs 蛋白 Cα RMSD 的 Pearson 相关（生产期）：JNK1 **r = −0.23**；JNK2 **r = +0.38**；JNK3 **r = +0.33**。即 JNK2/3 中蛋白波动增大时配体偏离亦倾向增大，而 JNK1 呈弱负相关——可能与 JNK1 中配体–Asn108 等稳定接触有关，但**单次轨迹不足以作机制定论**。
+
+![RMSF 高柔性残基](../results/md_2231_200ns/figures/12_rmsf_highlights.png)
+
+#### 6.5.4 蛋白–配体氢键（2231 为 acceptor/donor）
+
+cpptraj `hbond` 统计（全轨迹平均占有率，口径与 Desmond hinge occupancy **不同**，不可数值对比）：
+
+| Isoform | 主要接触（占有率） | 备注 |
+|---------|-------------------|------|
+| JNK1 | MOL@O2 ↔ **Asn108@ND2**（**68.4%**）；MOL@N4 ↔ Met105@N（6.8%）；Ile26 → MOL@N2（4.5%） | Asn108/Ile26 位于 ATP 口袋/铰链邻近 |
+| JNK2 | Ser153@OG → MOL@N2（7.8%）；MOL@O2 ↔ Asn106@ND2（7.1%） | 与 Desmond hinge JNK1=0.91/JNK2=0.00 **方向一致**（JNK1 接触更持久） |
+| JNK3 | MOL@O2 ↔ Gln30@NE2（18.5%）；Gln110@OE1 → MOL@N2（7.1%） | 接触模式与 JNK1/2 不同 |
+
+![Top H-bond 占有率](../results/md_2231_200ns/figures/14_hbond_top3.png)
+
+JNK1 中 **Asn108–配体 O2** 的高占有率（68%）为本轨迹中最突出的结构特征，可作为「2231 在 JNK1 口袋内形成较稳定极性接触」的**单轨迹证据**；仍需 replica 与无 restraint MD 验证。
+
+#### 6.5.5 MM-GBSA 残基分解（辅助，非选择性裁决）
+
+Per-residue decomposition（frame 15001–20000，**仅列 top 5 蛋白残基**）：
+
+| Isoform | Top 5 蛋白残基（ΔG, kcal/mol） |
+|---------|-------------------------------|
+| JNK1 | Asn108 −3.46, Leu104 −2.35, **Ile26 −2.15**, Val152 −1.86, Leu162 −1.86 |
+| JNK2 | Val110 −1.80, Met113 −1.72, Val151 −1.10, Ser153 −1.01, Ala105 −0.69 |
+| JNK3 | Ile25 −2.70, Asn107 −1.40, Ala106 −1.15, Val33 −0.87, Gln110 −0.76 |
+
+![残基分解](../results/md_2231_200ns/figures/13_decomp_top5.png)
+
+**结合自由能分量（Δ，kcal/mol）**——见 `14_mm_gbsa_components.csv`；**禁止用于 isoform 选择性排序**（§6.4.5），此处仅作记录：
+
+| Isoform | ΔG_VDW | ΔG_EEL | ΔG_EGB | ΔG_ESURF | ΔG_total |
+|---------|--------|--------|--------|----------|----------|
+| JNK1 | −44.0 | −10.5 | +28.2 | −5.6 | **−31.9** |
+| JNK2 | −28.1 | −6.9 | +22.0 | −3.8 | −16.8 |
+| JNK3 | −29.3 | −8.2 | +25.2 | −3.9 | −16.2 |
+
+上述 ΔG_total 跨 isoform 的数值差**远大于** benchmark 标定的 MM-GBSA 噪声（\|Δsel\| 中位数 8.1 kcal/mol），且存在 internal potential 警告——**不得**解读为「2231 对 JNK1 有 −15 kcal/mol 选择性优势」。
+
+#### 6.5.6 小结：对项目决策的含义
+
+| 问题 | 本延伸 MD 能回答什么 | 仍不能回答什么 |
+|------|---------------------|----------------|
+| 2231 在 JNK1 pose 是否相对更稳？ | **是（方向性）**：JNK1 配体 RMSD 中位数 0.57 Å，为三 isoform 最低；与 Desmond 一致 | 是否为统计显著、是否无 restraint 仍成立 |
+| 能否改写 G2 overall MD fail？ | **否**：仍为单副本 + 不同协议；**不改变** §6.2 中 2231 grade C / pass_overall No 的 QC 记录 |
+| 是否确认 JNK1 选择性？ | **否**：无任何酶学 IC50；计算选择性方法（§3.3）已整体失败 |
+| 对采购/实验的启示 | 支持将 2231 作为 **JNK1 偏好假说的优先验证分子**（与 §6.4.4、§7 一致）；**2157** 仍为 hinge 不对称性第二候选 | 不能替代 690 等 Tier1 的活性验证角色 |
+
+**待补工作（§12 Q5）**：2231（及 690、E1）的 **≥2 独立 replica**、以及**无配体 restraint** 的确认 MD。
+
 ---
 
 ## 7. 采购清单与花钱理由
@@ -675,7 +783,7 @@ MM-GBSA 柱状图标注 **「group-relative only; NOT for isoform selectivity」
 
 | 分子 | 先验假说 | 依据 |
 |------|----------|------|
-| **2231** | **最可能 JNK1 偏好**（MD 相对排序 #1） | hinge JNK1=0.91 / JNK2=0；RMSD JNK1 0.48 vs JNK2 1.17（§6.4） |
+| **2231** | **最可能 JNK1 偏好**（MD 相对排序 #1） | hinge JNK1=0.91 / JNK2=0；RMSD JNK1 0.48 vs JNK2 1.17（§6.4）；**200 ns Amber 延伸 MD 中 JNK1 配体 RMSD 中位数 0.57 Å 仍为最低**（§6.5） |
 | **2157** | **次可能 JNK1 偏好**（MD 相对排序 #2） | hinge JNK1=0.85、JNK3=0.02；Δsel_dock 为负故对接不支持 |
 | 690 | pan-JNK 或弱 JNK1 偏好 | Tier 1′；hinge 三 isoform 均高；更适合活性验证 |
 | 2232 | 可能 pan-JNK（JNK1/2 双高 hinge） | hinge JNK1=JNK2=1.00；**最不像 JNK1 选择性** |
@@ -721,6 +829,7 @@ kinome 面板 + 细胞 p-c-Jun；对 top 1–2 考虑 **FEP+**（690 已在推�
 | `results/docking_validation/` | 再对接、benchmark Δ、Gly87 自检、**MM-GBSA 标定** |
 | `config/docking_ensemble.yaml` | Ensemble 与门槛配置 |
 | `data/purchase/purchase_after_md.csv` | 10 分子采购表 |
+| `results/md_2231_200ns/` | **2231 延伸 MD**（200 ns Amber × 3 isoform）：图表、CSV、README |
 
 ### 10.2 对接工作区归档（本地 + 已摘要入本报告）
 
@@ -819,7 +928,7 @@ kinome 面板 + 细胞 p-c-Jun；对 top 1–2 考虑 **FEP+**（690 已在推�
 | **数据依据** | `MD_QC_report_cf26.md`（单轨迹分析协议） |
 | **我们的回复** | 部分同意。MD QC 在本项目中的定位是 **pose 可信度粗筛**，不是热力学定量；单轨迹在工业界先导优化中常见，但**不应将 G2 0/6 写成统计显著结论**，应表述为「本批次 MD 条件下未观察到稳定 pose」。G3 对照（E1 pass、SP600125 fail）说明指标与活性**非单调相关**，支持「MD 为辅助而非裁决」的定位。 |
 | **解决方案** | **P1**：对 **690 + E1（阳性）+ 1 个 G2（2231）** 各跑 **≥2 个独立 replica**（不同 seed），报告 RMSD/hinge 均值±SD。**P0**：文稿将「G2 0/6 fail」改为「G2 在本 MD 协议下 0/6 通过 overall QC」。 |
-| **状态** | ⬜ Replica 待补；✅ 措辞可在定稿时调整 |
+| **状态** | 🟡 **2231 已补 200 ns Amber 单轨迹（§6.5）**；replica 与无 restraint MD 仍 ⬜ 待补 |
 
 ---
 
@@ -939,7 +1048,7 @@ kinome 面板 + 细胞 p-c-Jun；对 top 1–2 考虑 **FEP+**（690 已在推�
 | Q2 | 🔴 | Δsel 跨 PDB 不可比 | 否（已不用 Δsel 采购） | P0 改措辞 | ✅/⬜ FEP+ |
 | Q3 | 🔴 | Tier1 consistency 占位 | 否（采购看 MD） | P0 | ✅ Tier 1′ 已修正 |
 | Q4 | 🔴 | VSW/MD 单 PDB vs yaml ensemble 草案 | 否 | P0 | ✅ 已澄清 |
-| Q5 | 🔴 | MD 无 replica | 弱影响 G2 结论 | P1 | ⬜ |
+| Q5 | 🔴 | MD 无 replica | 弱影响 G2 结论 | P1 | 🟡 2231 延伸 MD 已做（§6.5）；replica ⬜ |
 | Q6 | 🟡 | 过滤器偏 pan-JNK | 否（已 pivot） | P0 | ✅ |
 | Q7 | 🟡 | Hinge HB 偏见 | 否（G3 校准） | P0 | ✅ |
 | Q8 | 🟡 | 阈值 −7.43 vs −6.65 | 否 | P0 | ✅ |
