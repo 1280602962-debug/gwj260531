@@ -1,0 +1,171 @@
+{
+  "funnel_stats": {
+    "input": 1835,
+    "preprocessed": 1835,
+    "druglike": 1541,
+    "f1_pass": 1292,
+    "sa_qed_pass": 1211
+  },
+  "p_family_threshold": 6.0,
+  "sa_max": 6.0,
+  "qed_min": 0.35,
+  "weights": {
+    "w_p_family": 0.55,
+    "w_pAct_JNK1": 0.15,
+    "w_qed": 0.2,
+    "w_sa": 0.1
+  },
+  "top10": [
+    {
+      "smiles": "COc1ccc(Nc2ncc(Cl)c(Nc3ccccc3C(N)=O)n2)cc1",
+      "p_family": 9.25677490234375,
+      "final_score": 0.8071636595970484
+    },
+    {
+      "smiles": "N#Cc1ccc(Nc2ncc(Cl)c(Nc3ccccc3C(N)=O)n2)cc1",
+      "p_family": 9.107745170593262,
+      "final_score": 0.8055449778016297
+    },
+    {
+      "smiles": "NC(=O)c1ccccc1Nc1nc(Nc2ccc(N3CCCC3=O)cc2)ncc1Cl",
+      "p_family": 9.473748207092285,
+      "final_score": 0.8015424993805849
+    },
+    {
+      "smiles": "NC(=O)c1ccccc1Nc1nc(Nc2ccc(N3CCOCC3)cc2)ncc1Cl",
+      "p_family": 9.435006141662598,
+      "final_score": 0.800417414225944
+    },
+    {
+      "smiles": "Cc1cc(Nc2ncc(Cl)c(Nc3ccccc3C(N)=O)n2)ccc1N1CCOCC1",
+      "p_family": 9.45592212677002,
+      "final_score": 0.798270066361487
+    },
+    {
+      "smiles": "NC(=O)c1ccccc1Nc1nc(Nc2ccc(N3CCOCC3)c(F)c2)ncc1Cl",
+      "p_family": 9.481242179870605,
+      "final_score": 0.7981643377965543
+    },
+    {
+      "smiles": "NC(=O)c1ccccc1Nc1nc(Nc2ccc(N3CCOCC3)cc2F)ncc1Cl",
+      "p_family": 9.368386268615723,
+      "final_score": 0.7911921944718268
+    },
+    {
+      "smiles": "NC(=O)c1ccccc1Nc1nc(Nc2ccc(F)cc2)ncc1Cl",
+      "p_family": 8.824373245239258,
+      "final_score": 0.787685330461027
+    },
+    {
+      "smiles": "COc1cc(Nc2ncc(Cl)c(Nc3ccccc3C(N)=O)n2)ccc1N1CCOCC1",
+      "p_family": 9.388724327087402,
+      "final_score": 0.7867516487125352
+    },
+    {
+      "smiles": "NC(=O)c1ccccc1Nc1nc(Nc2ccc(Cl)cc2)ncc1Cl",
+      "p_family": 8.822305679321289,
+      "final_score": 0.7812704209833115
+    }
+  ],
+  "benchmarks": [
+    {
+      "name": "AS602801",
+      "expected_profile": "pan-JNK",
+      "in_demo_library": false,
+      "p_family_pred": 6.682407379150391,
+      "f1_pass": true,
+      "in_final_hits": false,
+      "pred_pAct_JNK1": 6.682407379150391,
+      "pred_pAct_JNK2": 6.432627201080322,
+      "pred_pAct_JNK3": 4.762841701507568
+    },
+    {
+      "name": "CC-401",
+      "expected_profile": "unknown-isoform",
+      "in_demo_library": false,
+      "p_family_pred": 6.43589448928833,
+      "f1_pass": true,
+      "in_final_hits": false,
+      "pred_pAct_JNK1": 6.43589448928833,
+      "pred_pAct_JNK2": 6.143931865692139,
+      "pred_pAct_JNK3": 5.603485107421875
+    },
+    {
+      "name": "SP600125",
+      "expected_profile": "pan-JNK",
+      "in_demo_library": true,
+      "p_family_pred": 6.1339006423950195,
+      "f1_pass": true,
+      "in_final_hits": true,
+      "pred_pAct_JNK1": 6.1339006423950195,
+      "pred_pAct_JNK2": 5.477789878845215,
+      "pred_pAct_JNK3": 4.946105003356934
+    },
+    {
+      "name": "TCS JNK 6O",
+      "expected_profile": "JNK1-preferring",
+      "in_demo_library": true,
+      "p_family_pred": 6.974052906036377,
+      "f1_pass": true,
+      "in_final_hits": true,
+      "pred_pAct_JNK1": 5.703476905822754,
+      "pred_pAct_JNK2": 6.622176170349121,
+      "pred_pAct_JNK3": 6.974052906036377
+    },
+    {
+      "name": "CC-930",
+      "expected_profile": "JNK2/JNK3-biased",
+      "in_demo_library": true,
+      "p_family_pred": 7.471460819244385,
+      "f1_pass": true,
+      "in_final_hits": true,
+      "pred_pAct_JNK1": 6.395030975341797,
+      "pred_pAct_JNK2": 7.471460819244385,
+      "pred_pAct_JNK3": 6.306020259857178
+    },
+    {
+      "name": "JNK-IN-8",
+      "expected_profile": "JNK3-preferring",
+      "in_demo_library": true,
+      "p_family_pred": 7.284847736358643,
+      "f1_pass": true,
+      "in_final_hits": false,
+      "pred_pAct_JNK1": 5.964423656463623,
+      "pred_pAct_JNK2": 7.284847736358643,
+      "pred_pAct_JNK3": 7.20378303527832
+    },
+    {
+      "name": "CC-90001",
+      "expected_profile": "pan-JNK",
+      "in_demo_library": true,
+      "p_family_pred": 7.223920822143555,
+      "f1_pass": true,
+      "in_final_hits": true,
+      "pred_pAct_JNK1": 6.516373634338379,
+      "pred_pAct_JNK2": 7.223920822143555,
+      "pred_pAct_JNK3": 5.205979347229004
+    },
+    {
+      "name": "Q63",
+      "expected_profile": "JNK1/JNK3-over-JNK2",
+      "in_demo_library": false,
+      "p_family_pred": 7.368893623352051,
+      "f1_pass": true,
+      "in_final_hits": false,
+      "pred_pAct_JNK1": 6.360897064208984,
+      "pred_pAct_JNK2": 7.368893623352051,
+      "pred_pAct_JNK3": 6.879848957061768
+    },
+    {
+      "name": "E1",
+      "expected_profile": "JNK1-preferring",
+      "in_demo_library": false,
+      "p_family_pred": 7.557933330535889,
+      "f1_pass": true,
+      "in_final_hits": false,
+      "pred_pAct_JNK1": 6.52450704574585,
+      "pred_pAct_JNK2": 7.557933330535889,
+      "pred_pAct_JNK3": 7.481521129608154
+    }
+  ]
+}
