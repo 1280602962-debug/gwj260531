@@ -341,6 +341,10 @@ JNK1 在 MTL 测试集仅 **n=4**，R² 为 NaN，不足以支持用深度学习
 
 **结论**：在「**小样本、Murcko 骨架划分、需要 SHAP、百万库粗筛**」的项目约束下，**XGBoost 是经比较后的合理选型**；深度学习代表 Chemprop 已纳入对比脚本与探索性 MTL，但**归档数字与 MTL 结果均不支持其替代 XGBoost 作为 F1 活性模型**。无论活性模型如何选型，选择性探索（Δ 回归 / 分类 + SHAP）仍沿用 XGBoost（`MODEL_COMPARISON_REPORT.md` Notes）。
 
+![XGBoost vs Chemprop 模型对比（5-fold CV 与 holdout R²）](../results/model_comparison/model_comparison_r2.png)
+
+*图：由 `scripts/plot_model_comparison.py` 生成。左：XGBoost 5-fold scaffold CV；右：holdout R²。归档 `comparison.json` 无 Chemprop 单靶点指标时，右图以斜线柱显示探索性 Chemprop MTL holdout（`training_report.json`）。*
+
 ### 2.2 数据清洗与模型性能
 
 | 亚型 | 化合物数 | Holdout R² | Holdout Spearman ρ | Holdout n |
@@ -1099,7 +1103,7 @@ kinome 面板 + 细胞 p-c-Jun；对 top 1–2 考虑 **FEP+**（690 已在推�
 | `results/calibration/` | ML F1 阈值校准 |
 | `results/ml_external_validation/` | **外部 decoy 验证**（FPR、ROC-AUC、EF1%） |
 | `results/screening_v2/` | ML 虚拟筛选 demo |
-| `results/model_comparison/` | XGBoost 性能 |
+| `results/model_comparison/` | XGBoost 性能；对比图 `model_comparison_r2.png`（`scripts/plot_model_comparison.py`） |
 | `results/docking_validation/` | 再对接、benchmark Δ、Gly87 自检、**MM-GBSA 标定** |
 | `config/docking_ensemble.yaml` | Ensemble 与门槛配置 |
 | `data/purchase/purchase_after_md.csv` | 10 分子采购表 |

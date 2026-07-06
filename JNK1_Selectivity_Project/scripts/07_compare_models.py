@@ -308,6 +308,14 @@ def main():
     with open(results / "comparison.json", "w") as f:
         json.dump(out, f, indent=2, default=str)
 
+    try:
+        from plot_model_comparison import generate_comparison_figure
+
+        png_path, _ = generate_comparison_figure()
+        logger.info("Wrote comparison figure: %s", png_path)
+    except Exception as exc:
+        logger.warning("Could not generate comparison figure: %s", exc)
+
     logger.info("=" * 60)
     logger.info("XGBoost  mean CV R²=%.3f  holdout R²=%.3f", xgb_res["summary"]["mean_cv_r2"], xgb_res["summary"]["mean_holdout_r2"])
     logger.info("Chemprop mean holdout R²=%.3f", cp_res["summary"]["mean_holdout_r2"])

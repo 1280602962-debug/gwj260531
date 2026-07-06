@@ -50,6 +50,7 @@
     ├── 05_model_interpretation.py    # SHAP / 子结构归因
     ├── 06_virtual_screening.py       # F1 p_family screening (v2, million-scale CSV)
     ├── 07_compare_models.py          # Chemprop vs XGBoost comparison
+    ├── plot_model_comparison.py      # XGBoost vs Chemprop R² figure
     ├── calibrate_threshold.py        # Benchmark F1 threshold calibration
     ├── build_demo_library.py         # Build demo SMILES library
     ├── plot_style.py                 # Journal figure style (Arial, 300 dpi)
@@ -105,7 +106,7 @@ python3 scripts/02_dataset_similarity.py --input data/processed --output results
 python3 scripts/07_compare_models.py --skip-prepare
 ```
 
-**初步结论（v2 改进后）**：**XGBoost** 平均 holdout R² = **0.699**（JNK1=0.703, JNK3=0.775 均超过 0.7），详见 [`results/model_comparison/MODEL_COMPARISON_REPORT.md`](results/model_comparison/MODEL_COMPARISON_REPORT.md)。
+**初步结论（v2 改进后）**：**XGBoost** 平均 holdout R² = **0.699**（JNK1=0.703, JNK3=0.775 均超过 0.7），详见 [`results/model_comparison/MODEL_COMPARISON_REPORT.md`](results/model_comparison/MODEL_COMPARISON_REPORT.md)。对比图：`python3 scripts/plot_model_comparison.py` → [`model_comparison_r2.png`](results/model_comparison/model_comparison_r2.png)。
 
 ## ChEMBL 靶点 ID
 
