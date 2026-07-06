@@ -1,8 +1,9 @@
 # JNK1/2/3 亚型抑制剂计算筛选项目报告
 
-> **版本**: 2.8  
-> **日期**: 2026-07-04  
+> **版本**: 2.9  
+> **日期**: 2026-07-06  
 > **原则**: 本报告所有数值均来自仓库内可复现文件、对接工作区归档 CSV 或 MD QC 结果；未在数据中出现的结论一律不作断言。  
+> **v2.9 更新**: 新增 §1.3「JNK 亚型选择性抑制剂文献背景调研」；扩充 §11 参考文献（含 DOI / PDB 链接）。  
 > **v2.8 更新**: 摘要与正文统一为**单一主线筛选漏斗**（ML → Glide → 157 → 25 → 16 → 10）；选择性探索（Δsel、pass_selectivity、Tier、Gly87 等）**保留于 §5**，与采购决策链分离；附录 A 重写为单线流程图。
 
 ---
@@ -53,6 +54,135 @@ JNK1 在 IPF、NASH 等疾病中有明确证据；**CC-90001** 为 JNK1 功能�
 | 初期 | 计算筛选 JNK1 选择性 hit | ML + 对接 benchmark 均否定 |
 | 中期 | Glide Δsel + MM-GBSA 选择性分级 | 233 个**遗留标签**（探索性双门槛）；benchmark 否定后**不作 MD/采购门** |
 | 后期 | MD pose QC + 湿实验 | 以 **pan-JNK 家族结合剂** 为主假说，选择性靠酶学 |
+
+### 1.3 JNK 亚型选择性抑制剂文献背景调研
+
+本节汇总**同时具备**（1）三亚型酶学/生化选择性数据，与（2）小分子结合模式及蛋白残基层面结构解释（共晶、突变或经 SBDD/对接验证）的 JNK 抑制剂文献。目的在于为本项目 benchmark 选择、对接面板设计（§3）及 Gly87/Leu106 等策略讨论（§5）提供背景，**不**作为本项目已验证的计算结论。
+
+#### 1.3.1 证据分级标准
+
+| 等级 | 要求 | 代表 |
+|------|------|------|
+| **A** | 三亚型 IC50/Ki **+** 公开共晶 **+** 关键残基突变/SAR 验证 | 氨基吡唑 SR 系列、YL5084、CC-930、JNK-IN-8 |
+| **B** | 三亚型 IC50 **+** SBDD/对接/MD，**无**该先导化合物公开共晶 | E1、CC-90001、TCS JNK 6O |
+| **C** | 有共晶与结合解释，但 isoform 选择性弱或为 pan-JNK | SP600125 |
+
+#### 1.3.2 共性机制：ATP 口袋内的 isoform 差异残基
+
+JNK1/JNK2/JNK3 在 ATP 结合口袋序列同一性极高（~98%）。文献中可重复的 isoform 选择性来源，几乎都来自 **1–2 个非完全保守残基**的立体或诱导-fit 差异，而非铰链区本身：
+
+| 位点（KLIFS/编号） | JNK1 | JNK2 | JNK3 | 典型作用 |
+|-------------------|------|------|------|----------|
+| 疏水口袋 I（HR-I） | **Ile106** | **Leu106** | **Leu144** | 芳环/疏水延伸：**Leu 容纳，Ile 位阻** → JNK2/3 偏好 |
+| 铰链近邻 b.l.37 | **Gly87** | Ser87 | Met115 | 体积差异；本项目 Gly87 回顾测试显示**不能区分**已知 benchmark（§5.2） |
+| Gatekeeper | Met108 | Met108 | Met146 | Met146 翻转开放疏水子袋（CC-930 等） |
+| 后袋 / 共价 | — | Lys55 + **Cys116** | Cys154 | YL5084 后袋占据 + 共价锚定 |
+| DFG 构象 | DFG-in（Type I 面板） | DFG-in / DFG-out（3NPC） | DFG-in | Type I 与 Type II **不可混用**（§3.1） |
+
+#### 1.3.3 A 级：酶学选择性 + 共晶 + 残基解释
+
+**（1）氨基吡唑系列 — JNK3 / JNK2 偏好于 JNK1**
+
+| 项目 | 内容 |
+|------|------|
+| 代表化合物 | SR-12326、SR-11165、aminopyrazole 60 等 |
+| 酶学选择性 | JNK3 对 JNK1 约 **20–30 倍**；JNK3 **L144I** 突变后 IC50 升 **>20 倍** |
+| 共晶 PDB | [4W4V](https://www.rcsb.org/structure/4W4V) 等（JNK3:aminopyrazole 60） |
+| 小分子特征 | 氨基吡唑铰链氢键 + **苯环伸入疏水口袋 I** |
+| 蛋白解释 | **Leu144（JNK3）/ Leu106（JNK2）** vs **Ile106（JNK1）**：Ile 侧链更大，对位取代苯环产生立体冲突；Met146 诱导-fit 开放子口袋 |
+| 参考文献 | Park et al., *Sci. Rep.* 2015 — [doi:10.1038/srep08047](https://doi.org/10.1038/srep08047)；Kamenecka et al., *J. Biol. Chem.* 2009 — [doi:10.1074/jbc.M809430200](https://doi.org/10.1074/jbc.M809430200) |
+
+**（2）YL5084 / YL2056 — JNK2/JNK3 偏好于 JNK1（共价）**
+
+| 项目 | 内容 |
+|------|------|
+| 代表化合物 | YL2056（前体）、**YL5084**（优化体，JNK-IN-8 系列衍生物） |
+| 酶学/动力学 | 共价抑制剂；YL5084 对 JNK2 的 **kinact/KI** 显著高于 JNK1；细胞 pull-down 显示 JNK2 占据、JNK1 弱 |
+| 共晶 PDB | [8ELC](https://www.rcsb.org/structure/8ELC)（JNK2:YL2056）；[7N8T](https://www.rcsb.org/structure/7N8T)（AMP 对照） |
+| 小分子特征 | 铰链 **Met111** 氢键 + **后袋 Lys55** 氢键 + **Cys116 共价**；疏水臂占后袋 |
+| 蛋白解释 | **Leu106 vs Ile106** 后袋立体匹配；Val54 主链在 JNK2 可平移 ~0.6 Å 容纳配体；Ile50/Arg50 影响 P-loop 柔性；Glide 对接 + Desmond MD 支持 JNK2/JNK3 优于 JNK1 |
+| 构象归类 | **DFG-in + 后袋延伸**（非 3NPC/BIRB796 经典 DFG-out） |
+| 参考文献 | Bennett et al., *J. Med. Chem.* 2022 — [doi:10.1021/acs.jmedchem.2c01834](https://doi.org/10.1021/acs.jmedchem.2c01834) |
+
+**（3）CC-930（Tanzisertib）— JNK2/JNK3 偏好于 JNK1**
+
+| 项目 | 内容 |
+|------|------|
+| 酶学（本项目 benchmark） | JNK1 **61** / JNK2 **7** / JNK3 **6** nM（`literature_benchmarks.csv`）→ JNK1/JNK2 ≈ **8.7×** |
+| 共晶 PDB | [3TTI](https://www.rcsb.org/structure/3TTI)（JNK3:CC-930） |
+| 小分子特征 | 氨基嘌呤/嘧啶铰链双齿氢键 + C8 芳胺/THF 环取代 |
+| 蛋白解释 | **Gatekeeper Met146 诱导-fit** 开放疏水子口袋；THF 氧与 Asn152 有利静电（同系列 aminopyrimidine SAR） |
+| 参考文献 | Plantevin-Krenitsky et al., *Bioorg. Med. Chem. Lett.* 2012 — [doi:10.1016/j.bmcl.2011.12.111](https://doi.org/10.1016/j.bmcl.2011.12.111) |
+
+**（4）JNK-IN-8 — JNK3 最强（共价 pan-JNK 优化前体）**
+
+| 项目 | 内容 |
+|------|------|
+| 酶学（本项目 benchmark） | JNK1 **4.7** / JNK2 **18.7** / JNK3 **1.0** nM |
+| 共晶 PDB | [3V6R](https://www.rcsb.org/structure/3V6R)（JNK3，JNK-IN-8 类似物） |
+| 小分子特征 | 苯胺基嘧啶铰链氢键 + **丙烯酰胺 warhead** |
+| 蛋白解释 | **Cys154（JNK3）/ Cys116（JNK2）** 共价修饰；Type I 模式下 warhead 朝向 DFG 前保守 Cys |
+| 参考文献 | Zhang et al., *Cell Chem. Biol.* 2012 — [doi:10.1016/j.chembiol.2012.04.013](https://doi.org/10.1016/j.chembiol.2012.04.013) |
+
+**（5）其他 A 级文献（未纳入本项目 9-compound benchmark）**
+
+| 系列 | 选择性方向 | 关键 PDB | 核心机制 | 参考文献 |
+|------|-----------|----------|----------|----------|
+| 三唑酮 compound 42 | JNK3 > JNK1/JNK2 ~10× | [3OY1](https://www.rcsb.org/structure/3OY1) | 萘环深入疏水区 + Met146 S–π | Elan 系列；见 Duong et al. 2020 综述 [5] |
+| 6-苯胺基吲唑 compound 49 | JNK3 >> JNK1 | 共晶系列 | Met146 开放容纳苯胺 | 同上 [5] |
+| 二氢异喹啉 | JNK3 选择性 | [2WAJ](https://www.rcsb.org/structure/2WAJ) | 3-Cl 苯基占选择性口袋；**Leu144** 接触 | Christopher et al., *Bioorg. Med. Chem. Lett.* 2009 — [doi:10.1016/j.bmcl.2009.02.098](https://doi.org/10.1016/j.bmcl.2009.02.098) |
+| BIRB796 @ JNK2 | 对 p38 选择性；JNK isoform 间**非**工具性选择性 | [3NPC](https://www.rcsb.org/structure/3NPC) | **DFG-out Type II** | Kuglstatter et al., *Bioorg. Med. Chem. Lett.* 2010 — [doi:10.1016/j.bmcl.2010.06.157](https://doi.org/10.1016/j.bmcl.2010.06.157) |
+
+#### 1.3.4 B 级：有酶学选择性，结构解释以 SBDD/MD 为主
+
+**（6）E1 — JNK1 酶学偏好（Pan 2024）**
+
+| 项目 | 内容 |
+|------|------|
+| 酶学（benchmark） | JNK1 **2.7** / JNK2 **19.0** / JNK3 **9.0** nM → JNK2/JNK1 **7.0×** |
+| 结构解释 | 嘧啶-2,4-二胺骨架；**SBDD + SAR**（二甲胺侧链增强 c-Jun 磷酸化抑制）；MD 结合自由能 −50.46 kcal/mol |
+| 局限 | **无公开 E1 共晶 PDB**；未给出 L144I 类突变验证 |
+| 参考文献 | Pan et al., *J. Med. Chem.* 2024 — [doi:10.1021/acs.jmedchem.4c01764](https://doi.org/10.1021/acs.jmedchem.4c01764) |
+| 同系列 | **Q63**（JNK1/JNK3 > JNK2；benchmark IC50 33.5/112.9/33.2 nM） |
+
+**（7）CC-90001 — 酶学近 pan，细胞功能 JNK1 偏向**
+
+| 项目 | 内容 |
+|------|------|
+| 酶学（benchmark） | JNK1 **11** / JNK2 **31** nM → JNK2/JNK1 **2.8×**（弱） |
+| 功能选择性 | 细胞 c-Jun 磷酸化、IPF 模型中 JNK1 功能偏向强于 CC-930 |
+| 结构解释 | 基于 CC-930/3TTI 结合模式的 2,4-二烷胺嘧啶 SAR；**无公开 CC-90001 共晶**（`REFERENCES.md`） |
+| 参考文献 | Bennett et al., *J. Med. Chem.* 2021 — [doi:10.1021/acs.jmedchem.0c01843](https://doi.org/10.1021/acs.jmedchem.0c01843) |
+
+**（8）TCS JNK 6O — JNK1 酶学偏好，isoform 结构解释较弱**
+
+| 项目 | 内容 |
+|------|------|
+| 酶学（benchmark） | JNK1 **45** / JNK2 **160** nM → JNK2/JNK1 **3.6×** |
+| 结构解释 | 氨基吡啶 ATP 竞争抑制剂；原始文献以全家族 JNK 活性与 cross-kinase 选择性为主，**缺乏** isoform 共晶或 HR-I 残基级解释 |
+| 参考文献 | Szczepankiewicz et al., *J. Med. Chem.* 2006 — [doi:10.1021/jm060150w](https://doi.org/10.1021/jm060150w) |
+
+#### 1.3.5 C 级与对照：有结构、弱 isoform 选择性
+
+| 化合物 | 酶学 profile（benchmark） | 结构 PDB | 说明 |
+|--------|--------------------------|----------|------|
+| **SP600125** | pan（40/40/90 nM） | [1UKI](https://www.rcsb.org/structure/1UKI)（JNK1）、[1PMV](https://www.rcsb.org/structure/1PMV)（JNK3） | 疏水口袋范德华接触解释**泛 JNK 活性**；本项目 G3 阴性/校准对照 |
+| **AS602801** | 近 pan（JNK3 略弱 ~2.9×） | — | 不构成强 isoform 案例 |
+| **CC-401** | 仅 total JNK Ki | — | 无三亚型拆分 |
+
+#### 1.3.6 与本项目的关系
+
+| 化合物 | 选择性方向 | 证据等级 | 对本项目 Δsel / VSW 的启示 |
+|--------|-----------|----------|---------------------------|
+| CC-930 | JNK2/3 偏好 | A | 对接 Δsel 方向正确；MD hinge 与酶学同向 |
+| E1 | JNK1 偏好 | B | 对接 Δsel 方向正确；MD hinge **反向**（§6.3） |
+| JNK-IN-8 | JNK3 偏好 | A（共价） | 不符合简单可逆 Δsel 逻辑 |
+| YL5084 | JNK2/3 偏好 | A | **未入 benchmark**；后袋+共价，与 DFG-in 可逆面板不匹配 |
+| TCS JNK 6O | JNK1 偏好 | B− | ML 与 Δsel 均方向错误（§2.6、§4） |
+| CC-90001 | 酶学近 pan | B | 细胞 JNK1 偏向 ≠ 酶学 isoform 差 |
+| SP600125 | pan | C | 选择性阴性对照 |
+
+**小结**：文献中证据最完整的 isoform 选择性机制是 **Leu144/Ile106 疏水口袋 I**（JNK3/2 偏好）与 **后袋 + Leu106 + 共价 Cys**（YL5084）。**JNK1 偏好**化合物（E1、CC-90001）有酶学或功能数据，但缺乏与氨基吡唑或 YL5084 同等级的「共晶 + 突变」证据链——这与本项目常规 Type I Glide 对接难以复现文献选择性机制相一致（§4、§12）。
 
 ---
 
@@ -385,13 +515,13 @@ JNK ATP 口袋铰链近邻存在**非完全保守**残基（KLIFS **b.l.37**）�
 | JNK2 | **Ser87** | −OH |
 | JNK3 | **Met115** | 疏水 |
 
-**假说**：配体占据 JNK1 特有的小体积 Gly87 邻域，可对 JNK2/3 产生位阻差异 → JNK1 选择性（类比 JNK2/3 选择性化合物利用 Leu106/Ile 差异，Bennett et al., *J. Med. Chem.* 2022）。
+**假说**：配体占据 JNK1 特有的小体积 Gly87 邻域，可对 JNK2/3 产生位阻差异 → JNK1 选择性（机制类比文献中 JNK2/3 选择性化合物的 Leu106/Ile106 差异，§1.3；Bennett et al., *J. Med. Chem.* 2022 [8]）。
 
 **可计算代理**（`gly87_selfcheck_16be.csv`）：`d_Gly87`（配体中心–Gly87 Cα 距离）、`occ_JNK1`（近邻占据）、`predicts_JNK1_selectivity`（启发式组合）。
 
 #### 为什么要测试？
 
-在将 Gly87 作为 MD 硬筛前，用**已知选择性谱的 benchmark** 做回顾性 gate：JNK1 偏好应对应 True，JNK2/3/pan 应对应 False。
+在将 Gly87 作为 MD 硬筛前，用**已知选择性谱的 benchmark** 做回顾性 gate：JNK1 偏好应对应 True，JNK2/3/pan 应对应 False（背景见 §1.3）。
 
 #### 测试结果
 
@@ -838,16 +968,30 @@ kinome 面板 + 细胞 p-c-Jun；对 top 1–2 考虑 **FEP+**（690 已在推�
 
 ## 11. 参考文献
 
-1. Zdrazil B, et al. ChEMBL 2023. *Nucleic Acids Res.* 2024;52(D1):D1180-D1192. doi:10.1093/nar/gkad1004  
-2. Bennett BL, et al. CC-90001. *J. Med. Chem.* 2021;64(3):1776-1795. doi:10.1021/acs.jmedchem.0c01843. PMID: 33404223  
-3. Bennett BL, et al. SP600125. *Proc. Natl. Acad. Sci. USA* 2001;98(24):13681-13686. doi:10.1073/pnas.251194298. PMID: 11717429  
-4. Pan X, et al. Discovery of JNK1 inhibitors for IPF (compound **E1**). *J. Med. Chem.* 2024. doi:10.1021/acs.jmedchem.4c01764  
-5. Szczepankiewicz BG, et al. Discovery of aminopyrazole inhibitors of JNK (**TCS JNK 6o**). *J. Med. Chem.* 2006;49(14):3563-3566. doi:10.1021/jm060150w  
-6. Plantevin-Krenitsky V, et al. CC-930 (tanzisertib) co-crystal **3TTI**. *Bioorg. Med. Chem. Lett.* 2012;22(3):1433-1438. doi:10.1016/j.bmcl.2011.12.111  
-7. Friesner RA, et al. Glide. *J. Med. Chem.* 2004;47(7):1739-1749. doi:10.1021/jm0306430  
-8. Manning BD, Davis RJ. Targeting JNK. *Nat. Rev. Drug Discov.* 2003;2(7):554-565. doi:10.1038/nrd1132  
-9. Chen T, Guestrin C. XGBoost. *Proc. 22nd ACM SIGKDD* 2016. doi:10.1145/2939672.2939785  
-10. Bennett BL, et al. JNK2/3-selective covalent inhibitor YL5084. *J. Med. Chem.* 2022. doi:10.1021/acs.jmedchem.2c01834（Gly87/Leu106 选择性机制参考）
+### 数据库、方法与项目数据
+
+1. Zdrazil B, et al. ChEMBL 2023. *Nucleic Acids Res.* 2024;52(D1):D1180-D1192. [doi:10.1093/nar/gkad1004](https://doi.org/10.1093/nar/gkad1004)  
+2. Friesner RA, et al. Glide. *J. Med. Chem.* 2004;47(7):1739-1749. [doi:10.1021/jm0306430](https://doi.org/10.1021/jm0306430)  
+3. Manning BD, Davis RJ. Targeting JNK. *Nat. Rev. Drug Discov.* 2003;2(7):554-565. [doi:10.1038/nrd1132](https://doi.org/10.1038/nrd1132)  
+4. Chen T, Guestrin C. XGBoost. *Proc. 22nd ACM SIGKDD* 2016. [doi:10.1145/2939672.2939785](https://doi.org/10.1145/2939672.2939785)  
+
+### JNK 抑制剂与结构（§1.3 背景调研）
+
+5. Duong MTH, Lee JH, Ahn HC. C-Jun N-terminal kinase inhibitors: Structural insight into kinase-inhibitor complexes. *Comput. Struct. Biotechnol. J.* 2020;18:1440-1457. [doi:10.1016/j.csbj.2020.06.013](https://doi.org/10.1016/j.csbj.2020.06.013) · [PMC7327381](https://pmc.ncbi.nlm.nih.gov/articles/PMC7327381/)  
+6. Park H, Iqbal S, Hernandez P, et al. Structural basis and biological consequences for JNK2/3 isoform selective aminopyrazoles. *Sci. Rep.* 2015;5:8047. [doi:10.1038/srep08047](https://doi.org/10.1038/srep08047) · PDB [4W4V](https://www.rcsb.org/structure/4W4V)  
+7. Kamenecka T, Habel J, Duckett D, et al. Structure-activity relationships and X-ray structures describing the selectivity of aminopyrazole inhibitors for JNK3 over p38. *J. Biol. Chem.* 2009;284:12853-12861. [doi:10.1074/jbc.M809430200](https://doi.org/10.1074/jbc.M809430200)  
+8. Bennett BL, et al. Development of a covalent inhibitor of JNK 2/3 with selectivity over JNK1 (YL5084/YL2056). *J. Med. Chem.* 2022. [doi:10.1021/acs.jmedchem.2c01834](https://doi.org/10.1021/acs.jmedchem.2c01834) · PDB [8ELC](https://www.rcsb.org/structure/8ELC), [7N8T](https://www.rcsb.org/structure/7N8T)  
+9. Plantevin-Krenitsky V, et al. Discovery of CC-930 (tanzisertib). *Bioorg. Med. Chem. Lett.* 2012;22(3):1433-1438. [doi:10.1016/j.bmcl.2011.12.111](https://doi.org/10.1016/j.bmcl.2011.12.111) · PDB [3TTI](https://www.rcsb.org/structure/3TTI)  
+10. Zhang C, et al. Definition of the substrate specificity of kinase JNK-IN-8. *Cell Chem. Biol.* 2012;19(5):682-693. [doi:10.1016/j.chembiol.2012.04.013](https://doi.org/10.1016/j.chembiol.2012.04.013) · PDB [3V6R](https://www.rcsb.org/structure/3V6R)  
+11. Christopher JA, et al. 1-Aryl-3,4-dihydroisoquinoline inhibitors of JNK3. *Bioorg. Med. Chem. Lett.* 2009;19:2230-2234. [doi:10.1016/j.bmcl.2009.02.098](https://doi.org/10.1016/j.bmcl.2009.02.098) · PDB [2WAJ](https://www.rcsb.org/structure/2WAJ)  
+12. Kuglstatter A, et al. X-ray crystal structure of JNK2 complexed with BIRB796 (DFG-out). *Bioorg. Med. Chem. Lett.* 2010;20:5217-5220. [doi:10.1016/j.bmcl.2010.06.157](https://doi.org/10.1016/j.bmcl.2010.06.157) · PDB [3NPC](https://www.rcsb.org/structure/3NPC)  
+
+### 本项目 benchmark 化合物（§4、§6 G3）
+
+13. Bennett BL, et al. Discovery of CC-90001. *J. Med. Chem.* 2021;64(3):1776-1795. [doi:10.1021/acs.jmedchem.0c01843](https://doi.org/10.1021/acs.jmedchem.0c01843) · PMID [33404223](https://pubmed.ncbi.nlm.nih.gov/33404223/)  
+14. Bennett BL, et al. SP600125. *Proc. Natl. Acad. Sci. USA* 2001;98(24):13681-13686. [doi:10.1073/pnas.251194298](https://doi.org/10.1073/pnas.251194298) · PDB [1UKI](https://www.rcsb.org/structure/1UKI), [1PMV](https://www.rcsb.org/structure/1PMV)  
+15. Pan X, et al. Structure optimization of JNK1 inhibitors for IPF (compound **E1**). *J. Med. Chem.* 2024. [doi:10.1021/acs.jmedchem.4c01764](https://doi.org/10.1021/acs.jmedchem.4c01764)  
+16. Szczepankiewicz BG, et al. Aminopyridine-based JNK inhibitors (**TCS JNK 6o**). *J. Med. Chem.* 2006;49(12):3563-3580. [doi:10.1021/jm060150w](https://doi.org/10.1021/jm060150w)  
 
 ---
 
