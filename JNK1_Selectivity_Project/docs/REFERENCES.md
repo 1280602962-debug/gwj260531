@@ -31,7 +31,7 @@ Use these citations in manuscripts, thesis, and reports.
 
 10. **Pargellis C**, Tong L, Churchill L, Cirillo PF, Gilmore D, Graham AG, Grob PM, McLaughlin MM, Memmoli S, Cox S, Hwang J. **Inhibition of p38 MAP kinase by utilizing a novel allosteric binding site.** *Nat Struct Biol.* 2002;9(4):268-272. doi:10.1038/nsb770. PMID: 11896401.
 
-### JNK isoform selectivity — structures & mechanisms (background survey, report §1.3)
+### JNK isoform selectivity — structures & mechanisms (background survey, report §1.4)
 
 11. **Duong MTH**, Lee JH, Ahn HC. **C-Jun N-terminal kinase inhibitors: Structural insight into kinase-inhibitor complexes.** *Comput Struct Biotechnol J.* 2020;18:1440-1457. doi:10.1016/j.csbj.2020.06.013. [PMC7327381](https://pmc.ncbi.nlm.nih.gov/articles/PMC7327381/).
 

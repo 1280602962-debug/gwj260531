@@ -1,6 +1,6 @@
 # JNK1 项目汇报 — 演讲备注（备用幻灯片）
 
-> 与 `JNK1_Project_Presentation_v2.9.pptx` 内演讲者备注同步。重新生成：`python3 scripts/build_project_pptx.py`
+> 与 `JNK1_Project_Presentation_v3.0.pptx` 内演讲者备注同步。重新生成：`python3 scripts/build_project_pptx.py`
 
 ## 第 1 页｜【备用】ML 外部 Decoy 验证
 
@@ -47,14 +47,14 @@
 
 ---
 
-## 第 4 页｜【备用】§1.3 文献抑制剂证据分级
+## 第 4 页｜【备用】§1.4 文献抑制剂证据分级
 
 ### 幻灯片要点
 
 - A 级：氨基吡唑、YL5084、CC-930、JNK-IN-8
 - B 级：E1、CC-90001、TCS JNK 6O
 - C 级：SP600125（pan 对照）
-- 详见报告 §1.3 与 §11 参考文献
+- 详见报告 §1.4 与 §11 参考文献
 
 ### 演讲备注
 

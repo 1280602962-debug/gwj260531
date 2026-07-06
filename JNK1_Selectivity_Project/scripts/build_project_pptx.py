@@ -11,7 +11,7 @@ from pptx.enum.text import MSO_ANCHOR, PP_ALIGN
 from pptx.util import Inches, Pt
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / "docs" / "presentation" / "JNK1_Project_Presentation_v2.9.pptx"
+OUT = ROOT / "docs" / "presentation" / "JNK1_Project_Presentation_v3.0.pptx"
 
 # (title, bullets, speaker_notes)
 SLIDES: list[tuple[str, list[str], str]] = [
@@ -19,7 +19,7 @@ SLIDES: list[tuple[str, list[str], str]] = [
         "JNK1/2/3 亚型抑制剂计算筛选项目汇报",
         [
             "ML → Glide VSW → MD → 湿实验",
-            "报告版本 v2.9 | 2026-07-06",
+            "报告版本 v3.0 | 2026-07-06",
         ],
         "开场自我介绍，说明本次汇报覆盖计算筛选全流程及 pivot 结论。"
         "强调：这不是「已找到 JNK1 选择性 hit」的庆功汇报，而是带否定性标定的完整漏斗复盘。",
@@ -45,10 +45,24 @@ SLIDES: list[tuple[str, list[str], str]] = [
             "工具药：SP600125（经典 pan-JNK 抑制剂）",
         ],
         "交代成药动机：JNK1 有疾病证据，但 pan-JNK 抑制可能带来系统毒性，"
-        "因此最初项目目标是 JNK1 偏向化合物。引用 Bennett 2021、Plantevin-Krenitsky 2012。",
+        "因此最初项目目标是 JNK1 偏向化合物。引用 Bennett 2021、Plantevin-Krenitsky 2012。"
+        "完整设计分析见报告 §1.2。",
     ),
     (
-        "文献背景：JNK 选择性有多难做（§1.3）",
+        "设计分析：为何做 JNK1 选择性筛选（§1.2）",
+        [
+            "生物学：IPF/NASH + CC-90001 先例 → JNK1 而非 pan-JNK",
+            "计算分层：ML 粗筛活性；对接/MD 检选择性假说；酶学终裁",
+            "为何仍对接三亚型：计算 Δsel + 同批次 IC50 比较",
+            "G1 贴近 E1/Q63 chemotype；G3 酶学校准",
+            "已知风险：ChEMBL JNK1-selective 仅 8 个；结构难度高于 JNK2/3",
+        ],
+        "本页回答「为什么立项做 JNK1 选择性」。"
+        "强调：生物学目标合理，但 Δsel/Gly87/ML 选择性经 benchmark 否定后 pivot 为 pan-JNK 结合剂筛选。"
+        "详见报告 §1.2.1–§1.2.7。",
+    ),
+    (
+        "文献背景：JNK 选择性有多难做（§1.4）",
         [
             "ATP 口袋序列同一性 ~98%，仅 1–2 个残基差异",
             "JNK2/3 > JNK1：证据强（Leu106/Ile106 + 共晶 + 突变验证）",
@@ -150,7 +164,7 @@ SLIDES: list[tuple[str, list[str], str]] = [
             "真正选择性更可能来自远 pocket（Leu144/Ile106）",
         ],
         "Gly87 策略在 MD 硬筛前被 benchmark 否定。"
-        "与 §1.3 文献机制对照：铰链近邻差异不足以区分 isoform。",
+        "与 §1.4 文献机制对照：铰链近邻差异不足以区分 isoform。",
     ),
     (
         "MD 短名单漏斗（§6.1）",
@@ -318,12 +332,12 @@ BACKUP_SLIDES: list[tuple[str, list[str], str]] = [
         "回应「233 个选择性 hit 去哪了」。",
     ),
     (
-        "【备用】§1.3 文献抑制剂证据分级",
+        "【备用】§1.4 文献抑制剂证据分级",
         [
             "A 级：氨基吡唑、YL5084、CC-930、JNK-IN-8",
             "B 级：E1、CC-90001、TCS JNK 6O",
             "C 级：SP600125（pan 对照）",
-            "详见报告 §1.3 与 §11 参考文献",
+            "详见报告 §1.4 与 §11 参考文献",
         ],
         "领域背景深问时使用。",
     ),
