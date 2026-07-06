@@ -1,0 +1,77 @@
+# JNK2 covalent selectivity screening — structure & benchmark config
+# Version: 1.0 (2026-07)
+
+project:
+  name: JNK2_Covalent_Selectivity
+  target_gene: MAPK9
+  uniprot: P45984
+  covalent_site:
+    residue: Cys116
+    domain: kinase catalytic domain
+    warhead: acrylamide  # Michael acceptor, JNK-IN-8 / YL5084 series
+
+# Primary receptor: DFG-in covalent co-crystal (NOT DFG-out 3NPC for covalent docking)
+receptors:
+  primary:
+    pdb: 8ELC
+    chain: A
+    ligand: YL2056
+    dfg: in
+    resolution_A: 2.0
+    note: "JNK2 covalent inhibitor co-crystal; Cys116-SG bonded; use for covalent Glide/AF3"
+  secondary:
+    - pdb: 7N8T
+      ligand: AMP
+      dfg: in
+      note: "Apo-like AMP-bound; activation loop reference"
+    - pdb: 3E7O
+      ligand: 35F
+      dfg: in
+      note: "Non-covalent indazole; cross-validate non-covalent pose only"
+  exclude_for_covalent:
+    - pdb: 3NPC
+      reason: "DFG-out; used as MR search model in 8ELC structure determination, not covalent pose"
+
+isoform_structures:
+  JNK1:
+    pdbs: [3ELJ, 4L7F]
+    cys: Cys116
+    selectivity_residue: Ile106  # vs Leu106 in JNK2
+  JNK2:
+    pdbs: [8ELC, 3E7O]
+    cys: Cys116
+    selectivity_residue: Leu106
+  JNK3:
+    pdbs: [3TTI, 4WHZ]
+    cys: Cys154  # JNK3 equivalent position
+    selectivity_residue: Leu144
+
+tier0_controls:
+  covalent_pan:
+    - name: JNK-IN-8
+      role: pan-JNK covalent positive; selectivity baseline (non-selective)
+  covalent_jnk2_selective:
+    - name: YL5084
+      role: primary positive; kinact/KI JNK2/JNK1 ~21×
+    - name: YL2056
+      role: co-crystal ligand (8ELC); high JNK2/JNK1 IC50 ratio in fixed-time assay
+  reversible_controls:
+    - name: CC-930
+      role: reversible JNK inhibitor; non-covalent engagement control
+    - name: YL5084R
+      role: saturated-warhead negative; covalent mechanism control
+  mutants:
+    - name: JNK2_C116S
+      role: covalent engagement rescue (expect ≥100× IC50 shift for JNK-IN-8 class)
+
+selectivity_metrics:
+  primary: kinact_over_KI_ratio  # JNK1 / JNK2; target >= 10 (YL5084 ~21)
+  secondary:
+    - fixed_time_IC50_ratio  # JNK1/JNK2 at 1 h; target >= 20
+    - cellular_biotin_probe_competition  # JNK2 EC50 << JNK1
+    - C116S_mutation_rescue
+
+# Do NOT use non-covalent Δsel gates from JNK1 project (benchmark invalidated)
+deprecated_metrics:
+  - delta_sel_docking
+  - pass_selectivity_mmgbsa
