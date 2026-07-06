@@ -106,7 +106,7 @@ SLIDES: list[tuple[str, list[str], str]] = [
             "ChEMBL JNK1-selective 仅 8 个；选择性分类器 F1 = 0",
         ],
         "回应审稿人 Q1：F1 是召回校准，不是特异性验证；特异性靠后续对接与排序。"
-        "ML 三模型对 E1、TCS JNK 6O 的亚型方向预测错误（§2.6）。",
+        "ML 三模型对 E1、TCS JNK 6O 的亚型方向预测错误（§2.7）。",
     ),
     (
         "对接设置：受体可信，选择性不可信",

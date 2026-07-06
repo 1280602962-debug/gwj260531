@@ -1,8 +1,9 @@
 # JNK1/2/3 亚型抑制剂计算筛选项目报告
 
-> **版本**: 3.0  
+> **版本**: 3.1  
 > **日期**: 2026-07-06  
 > **原则**: 本报告所有数值均来自仓库内可复现文件、对接工作区归档 CSV 或 MD QC 结果；未在数据中出现的结论一律不作断言。  
+> **v3.1 更新**: 新增 §2.1「为何选择 XGBoost 而非深度学习」——说明立项时对 **XGBoost vs Chemprop 2.0** 的模型比较协议、归档结果与选型理由；原 §2.1–§2.6 顺延为 §2.2–§2.7。  
 > **v3.0 更新**: 新增 §1.2「JNK1 选择性筛选的设计分析」——从生物学动机、计算分层、假说选型到已知风险，说明**为何立项做 JNK1 选择性筛选**及管线为何如此设计；原 §1.2/§1.3 顺延为 §1.3/§1.4。  
 > **v2.9 更新**: 新增 §1.4「JNK 亚型选择性抑制剂文献背景调研」；扩充 §11 参考文献（含 DOI / PDB 链接）。  
 > **v2.8 更新**: 摘要与正文统一为**单一主线筛选漏斗**（ML → Glide → 157 → 25 → 16 → 10）；选择性探索（Δsel、pass_selectivity、Tier、Gly87 等）**保留于 §5**，与采购决策链分离；附录 A 重写为单线流程图。
@@ -77,11 +78,11 @@ JNK1 在 IPF、NASH 等疾病中有明确证据；**CC-90001** 为 JNK1 功能�
 
 #### 1.2.3 计算策略的分层设计：「活性 ML + 选择性对接」
 
-立项时 ChEMBL 数据审查（§2.1–§2.2）显示：
+立项时 ChEMBL 数据审查（§2.2–§2.3）显示：
 
 | 观察 | 数值/来源 | 设计响应 |
 |------|-----------|----------|
-| 单亚型数据量不均 | JNK1 **444** / JNK2 **610** / JNK3 **1147** | 采用**三个单靶点 XGBoost**，而非单一 pan-JNK 模型（`similarity/`：化学空间相关但不冗余） |
+| 单亚型数据量不均 | JNK1 **444** / JNK2 **610** / JNK3 **1147** | 采用**三个单靶点 XGBoost**（§2.1 与 Chemprop 对比后选定），而非单一 pan-JNK 模型（`similarity/`：化学空间相关但不冗余） |
 | 配对测定稀缺 | 同分子 ≥2 亚型仅 **322**；JNK1-selective 标注 **8** | **不宜**用 ML 直接回归 isoform 方向；选择性交给**结构方法** |
 | 共享骨架有限 | 三靶点共享 Murcko 骨架 **38** 个 | 支持分亚型建模，但配对 SAR 不足以训练稳健选择性分类器 |
 
@@ -91,7 +92,7 @@ JNK1 在 IPF、NASH 等疾病中有明确证据；**CC-90001** 为 JNK1 功能�
 
 | 层级 | 工具 | 承担任务 | 不承担任务 |
 |------|------|----------|------------|
-| **L1 召回** | ML `p_family ≥ 6.0` | 筛出可能有 **JNK 家族活性** 的分子 | isoform 方向、特异性去假阳性（§2.4） |
+| **L1 召回** | ML `p_family ≥ 6.0` | 筛出可能有 **JNK 家族活性** 的分子 | isoform 方向、特异性去假阳性（§2.5） |
 | **L2 结构活性** | Glide XP 三亚型 VSW | 三口袋结合模式、JNK1 活性门槛（−7.43） | 单独作为选择性裁决（§4） |
 | **L3 选择性探索** | Δsel、MM-GBSA 差值、Tier、Gly87 | **假说检验**与遗留标签 | MD/采购硬门槛（§5、§6） |
 | **L4 构象可信度** | Desmond MD pose QC | pose 是否稳定、铰链接触模式 | 替代酶学 IC50 |
@@ -117,7 +118,7 @@ JNK1 在 IPF、NASH 等疾病中有明确证据；**CC-90001** 为 JNK1 功能�
 |------|----------|----------------------|
 | **Gly87（KLIFS b.l.37）占据** | JNK1 为 **Gly87**（最小侧链），JNK2/JNK3 为 Ser/Met；类比 §1.4 中 Leu106/Ile106 **位阻选择性**逻辑，假设占据 JNK1 特有空间 → JNK1 偏好 | §5.2：**回顾性失败**（所有 benchmark 距 Gly87 0.59–1.18 Å） |
 | **Glide Δsel + MM-GBSA 双门槛** | 跨三 PDB 打分差反映 isoform 结合差异；MM-GBSA 作能量校正 | §3.3、§4：方向准确率 **43%**；MM-GBSA 门槛过宽 |
-| **ML 选择性分类 / ΔpActivity** | 322 配对分子含选择性信息；SHAP 提示 hinge/back-pocket 特征（CC-90001 系列） | §2.2：正例 **n=8**，分类器 **F1=0** |
+| **ML 选择性分类 / ΔpActivity** | 322 配对分子含选择性信息；SHAP 提示 hinge/back-pocket 特征（CC-90001 系列） | §2.3：正例 **n=8**，分类器 **F1=0** |
 | **文献 chemotype 分组 G1** | E1/Q63/TCS JNK 6O 为 JNK1 酶学偏向参考；G1 Tanimoto **~0.22** > G2 **~0.12** | §6：G1 MD pass 率高于 G2，支持**化学策略**而非选择性计算 |
 
 **要点**：这些假说均服务于**同一立项问题**——「能否在算力可承受范围内富集 JNK1 偏好化合物」；经 benchmark 否定后**从采购链移除**，但保留于 §5 作方法学记录。
@@ -276,7 +277,7 @@ JNK1/JNK2/JNK3 在 ATP 结合口袋序列同一性极高（~98%）。文献中�
 | E1 | JNK1 偏好 | B | 对接 Δsel 方向正确；MD hinge **反向**（§6.3） |
 | JNK-IN-8 | JNK3 偏好 | A（共价） | 不符合简单可逆 Δsel 逻辑 |
 | YL5084 | JNK2/3 偏好 | A | **未入 benchmark**；后袋+共价，与 DFG-in 可逆面板不匹配 |
-| TCS JNK 6O | JNK1 偏好 | B− | ML 与 Δsel 均方向错误（§2.6、§4） |
+| TCS JNK 6O | JNK1 偏好 | B− | ML 与 Δsel 均方向错误（§2.7、§4） |
 | CC-90001 | 酶学近 pan | B | 细胞 JNK1 偏向 ≠ 酶学 isoform 差 |
 | SP600125 | pan | C | 选择性阴性对照 |
 
@@ -286,7 +287,61 @@ JNK1/JNK2/JNK3 在 ATP 结合口袋序列同一性极高（~98%）。文献中�
 
 ## 2. 训练数据与 ML 模型
 
-### 2.1 数据清洗与模型性能
+### 2.1 为何选择 XGBoost 而非深度学习（Chemprop）
+
+活性预测模型**并非默认采用 XGBoost**，而是立项阶段做了**显式模型比较**。候选为：
+
+| 路线 | 代表实现 | 输入表示 | 在本项目中的角色 |
+|------|----------|----------|------------------|
+| **梯度提升树** | XGBoost | 2048-bit Morgan 指纹 + 12 个 RDKit 理化描述符（**2060** 维） | 三亚型**各自独立**回归器，承担 F1 活性粗筛 |
+| **图神经网络（深度学习）** | Chemprop 2.0（D-MPNN） | 分子图消息传递 | 同数据、同划分的对照组；探索性 MTL 版本用于验证「联合表」是否更优 |
+
+比较脚本：`scripts/07_compare_models.py`（XGBoost 全评估 + 可选 Chemprop）、`scripts/04b_train_chemprop_mtl.py`（Chemprop 单靶点 holdout）。详细技术说明见 `docs/PROJECT_TECHNICAL_REPORT.md` §4–§5。
+
+#### 比较协议
+
+- **数据**：仅生化 IC50（`Assay Type = B`）、精确关系（`Standard Relation = =`）、pActivity ∈ [4, 10]；按亚型 assay 调和（JNK1/JNK2/JNK3 分别 **444 / 610 / 1147** 化合物，`comparison.json` → `data_summary`）。
+- **划分**：Murcko 骨架 split（80/10/10 train/val/test），避免相似分子同时出现在训练与测试集。
+- **主指标**：**5-fold scaffold CV** 平均 R²（激酶 QSAR 推荐指标，避免随机划分虚高）；辅指标为独立 holdout R² / Spearman。
+- **选型规则**：优先 CV 均值 R²，再看 holdout（`MODEL_COMPARISON_REPORT.md` → Model Selection）。
+
+#### 项目内对比结果
+
+**XGBoost（已归档，`results/model_comparison/comparison.json`）**
+
+| 亚型 | 5-fold CV 均值 R² (σ) | Holdout R² | Holdout Spearman ρ | Holdout n |
+|------|----------------------|------------|-------------------|-----------|
+| JNK1 | **0.662** (0.086) | **0.697** | **0.858** | 31 |
+| JNK2 | **0.443** (0.074) | **0.574** | **0.780** | 67 |
+| JNK3 | **0.633** (0.089) | **0.774** | **0.869** | 98 |
+| **三亚型均值** | **0.579** | **0.682** | **0.836** | — |
+
+**Chemprop 2.0（同协议对照）**
+
+归档的 `comparison.json` 中 `chemprop` 字段为**空**（CV / holdout 均为 NaN），`MODEL_COMPARISON_REPORT.md` 亦未列出有效 Chemprop 折线指标——表明当时对比流水线**未产出**可写入归档的 Chemprop holdout 结果（常见情形：环境未安装 `chemprop` CLI，或运行 `07_compare_models.py` 时带 `--skip-chemprop`）。尽管如此，报告仍将 **Winner 标为 XGBoost**（因对照组无可用指标）。
+
+此外，探索性 **Stage B 多任务 Chemprop**（稀疏联合表，非正式 F1 模型）在 `results/training/training_report.json` 的 holdout 上表现明显弱于单靶点 XGBoost：
+
+| 靶点 | Stage B MTL holdout R² | 单靶点 XGBoost holdout R²（§2.2） |
+|------|------------------------|-----------------------------------|
+| JNK2 | **0.247** | **0.574** |
+| JNK3 | **0.248** | **0.774** |
+
+JNK1 在 MTL 测试集仅 **n=4**，R² 为 NaN，不足以支持用深度学习多任务表直接做筛选。
+
+#### 选择 XGBoost 的理由（先验约束 + 项目内实证）
+
+| 维度 | XGBoost | 深度学习（Chemprop / GNN） |
+|------|---------|---------------------------|
+| **样本量** | JNK1 仅 444 条；树模型在激酶 QSAR 文献中常见且对小样本相对稳健 | GNN 通常受益于更大训练集；本项目规模偏少 |
+| **评估可信度** | 骨架 CV + holdout 均有完整归档数字（上表） | 正式单靶点对比未在 `comparison.json` 中胜出；MTL 探索 R² ≈ 0.25 |
+| **可解释性** | TreeExplainer / SHAP 可直接作用于 Morgan 位与理化描述符（§5 选择性 SHAP） | GNN 归因成本高；选择性正例仅 **8** 个时不稳健 |
+| **工程成本** | CPU 可训练，百万库推理快，模型 `joblib` 易部署 | 依赖 GPU / Chemprop 生态，训练与超参搜索成本高 |
+| **管线分工** | ML 仅承担 **JNK 家族活性召回**（§2.4–§2.5），不裁决 isoform 方向 | 亚型方向本就不应由 ML 单独决定（§1.2.3） |
+
+**结论**：在「**小样本、Murcko 骨架划分、需要 SHAP、百万库粗筛**」的项目约束下，**XGBoost 是经比较后的合理选型**；深度学习代表 Chemprop 已纳入对比脚本与探索性 MTL，但**归档数字与 MTL 结果均不支持其替代 XGBoost 作为 F1 活性模型**。无论活性模型如何选型，选择性探索（Δ 回归 / 分类 + SHAP）仍沿用 XGBoost（`MODEL_COMPARISON_REPORT.md` Notes）。
+
+### 2.2 数据清洗与模型性能
 
 | 亚型 | 化合物数 | Holdout R² | Holdout Spearman ρ | Holdout n |
 |------|----------|------------|-------------------|-----------|
@@ -305,15 +360,15 @@ JNK1/JNK2/JNK3 在 ATP 结合口袋序列同一性极高（~98%）。文献中�
 
 > **常见误解**：把 CV 均值（0.662）与 holdout R²（0.697）混用。本报告统一采用 **holdout** 指标，与 `MODEL_COMPARISON_REPORT.md` 一致。
 
-### 2.2 选择性标签稀缺性
+### 2.3 选择性标签稀缺性
 
 - 配对分子（≥2 亚型）：**322** 个
 - JNK1-selective 标注：**8** 个（`sel_class_counts.csv`）
 - 选择性分类器：训练正例 8，测试正例 0，**F1 = 0**（`training_report.json`）
 
-### 2.3 ML 虚拟筛选（F1）
+### 2.4 ML 虚拟筛选（F1）
 
-9 个文献 benchmark 在 **p_family ≥ 6.0** 时 **9/9 全部通过**（`threshold_recommendation.json`）。该步骤定位为 **「活性召回校准」**，而非特异性验证（见 §2.4）。
+9 个文献 benchmark 在 **p_family ≥ 6.0** 时 **9/9 全部通过**（`threshold_recommendation.json`）。该步骤定位为 **「活性召回校准」**，而非特异性验证（见 §2.5）。
 
 Demo 库（1835 分子）漏斗：`screening_v2/screening_report.json`
 
@@ -325,7 +380,7 @@ Demo 库（1835 分子）漏斗：`screening_v2/screening_report.json`
 
 **ML 用途**：去除无 JNK 家族活性潜力的分子；**不用于 isoform 方向判断**。
 
-### 2.4 外部 decoy 验证（回应 §12 Q1）
+### 2.5 外部 decoy 验证（回应 §12 Q1）
 
 为回应「F1 仅校准阳性、无阴性对照」的质疑，补充 **10,000 Taosu 外部 decoy** 验证（`results/ml_external_validation/`）。设计要点：
 
@@ -357,7 +412,7 @@ Demo 库（1835 分子）漏斗：`screening_v2/screening_report.json`
 
 **结论**：F1@6.0 是 **高召回、极低特异性** 的粗筛门槛；去假阳性靠 **排序（EF1%）+ SA/QED + 对接**，不靠 F1 硬阈值。
 
-### 2.5 `p_family` 分布：为何 FPR 95% 而 Top-5000 最低仅 6.28？
+### 2.6 `p_family` 分布：为何 FPR 95% 而 Top-5000 最低仅 6.28？
 
 百万 Taosu 库筛选后，**Top-5000 分子中 `p_family` 最低约 6.28**（按 `final_score` 排序后观察）。这与 decoy FPR 95.3% **并不矛盾**，原因如下。
 
@@ -408,7 +463,7 @@ Top-5000 按 **综合分** 选取，**不是**按 `p_family` 单独排序。因�
 
 Enamine ~5000 → ML F1 后 **4983**（99.4% 通过）亦符合此逻辑：输入已是 Top-N 子集，F1 几乎不再缩库。
 
-### 2.6 ML vs 对接：benchmark 方向对比
+### 2.7 ML vs 对接：benchmark 方向对比
 
 | 化合物 | 实验 profile | ML 预测最高亚型 | 对接 Δsel 预测方向 | 实验方向（IC50） |
 |--------|--------------|-----------------|-------------------|------------------|
@@ -1111,7 +1166,7 @@ kinome 面板 + 细胞 p-c-Jun；对 top 1–2 考虑 **FEP+**（690 已在推�
 |------|------|
 | **质疑** | 9/9 benchmark 在 p_family ≥ 6.0 时全部通过，但 9 个均为**已知活性**化合物，只证明**召回率**，未测**特异性**。Demo 库（1835 个 ChEMBL JNK 分子）F1 通过率 84%，属于**循环验证**，对 Enamine 商业库无参考意义。 |
 | **数据依据** | `threshold_recommendation.json`（9/9 recall）；`screening_v2/screening_report.json`（demo 84% 通过）；**`results/ml_external_validation/ml_external_validation_metrics_9bd8.json`**（decoy FPR、ROC-AUC、EF1%） |
-| **我们的回复** | **同意原质疑成立**，且已补算外部验证。10,000 Taosu decoy（排除对接 top-5000 与 ChEMBL 训练/demo 库）显示：F1@6.0 时 recall **99.3%**，decoy FPR **95.3%**，specificity **4.7%**，ROC-AUC **0.876**，EF1% **9.20**（§2.4）。这**证实** F1 是 **高召回、低特异性** 的粗筛，**不能**单独去假阳性；特异性由 **final_score 排序 + SA/QED + 对接** 承担。FPR 95% 与 Top-5000 最低 p_family≈6.28 **不矛盾**：类药分子预测值压缩在 6.2–6.6（§2.5），6.0 阈值落在左尾；Top-5000 按综合分排序，低 p_family 分子可凭 QED/SA 入围。文稿应将「9/9 benchmark 校准」改为 **「活性召回校准 + 外部 decoy 特异性评估」**。 |
+| **我们的回复** | **同意原质疑成立**，且已补算外部验证。10,000 Taosu decoy（排除对接 top-5000 与 ChEMBL 训练/demo 库）显示：F1@6.0 时 recall **99.3%**，decoy FPR **95.3%**，specificity **4.7%**，ROC-AUC **0.876**，EF1% **9.20**（§2.5）。这**证实** F1 是 **高召回、低特异性** 的粗筛，**不能**单独去假阳性；特异性由 **final_score 排序 + SA/QED + 对接** 承担。FPR 95% 与 Top-5000 最低 p_family≈6.28 **不矛盾**：类药分子预测值压缩在 6.2–6.6（§2.6），6.0 阈值落在左尾；Top-5000 按综合分排序，低 p_family 分子可凭 QED/SA 入围。文稿应将「9/9 benchmark 校准」改为 **「活性召回校准 + 外部 decoy 特异性评估」**。 |
 | **解决方案** | **P1 已完成（decoy）**：Taosu 10k decoy + EF1%/ROC-AUC/FPR（`results/ml_external_validation/`）。**P2（可选）**：DUD-E / property-matched decoy 复核。**P0（措辞）**：摘要与 §2 明确 F1 不保证特异性。 |
 | **状态** | ✅ 外部 decoy 验证已完成；⬜ DUD-E 复核（可选） |
 
@@ -1316,7 +1371,7 @@ kinome 面板 + 细胞 p-c-Jun；对 top 1–2 考虑 **FEP+**（690 已在推�
 flowchart TB
     subgraph S1["① ML 训练与初筛"]
         A["ChEMBL 活性数据<br/>JNK1 444 / JNK2 610 / JNK3 1147"] --> B[XGBoost 三靶点模型]
-        B --> C["ML F1: p_family ≥ 6.0<br/>（高召回、低特异性，§2.4）"]
+        B --> C["ML F1: p_family ≥ 6.0<br/>（高召回、低特异性，§2.5）"]
         C --> D[4983 化合物 F0]
     end
 
