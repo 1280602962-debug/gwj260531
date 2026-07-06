@@ -8,12 +8,17 @@
 |-------------|------|
 | `JNK1筛选项目通俗解读报告.docx` | **主文档**：全流程通俗解读、术语表、方法原理、图表与核心数据表、参考文献 |
 | `data_tables/` | **全部数据表**（25 个 CSV/JSON + README），与报告数值一一对应 |
-| `figures/` | Word 文档中嵌入的统计图（由仓库数据自动生成） |
+| `figures/` | Word 文档与 ML 流程配图（见 `figures/README.md`） |
 
 ## 如何重新生成
 
 ```bash
 cd JNK1_Selectivity_Project
+# ML 建模 / 筛选 / decoy 配图（plot_style.py，300 dpi）
+python3 scripts/plot_ml_pipeline_figures.py
+# 通俗解读 fig01–06 + 刷新 data_tables
+python3 scripts/build_popular_science_doc.py --figures-only
+# 完整 Word 文档
 python3 scripts/build_popular_science_doc.py
 ```
 

@@ -51,6 +51,7 @@
     ├── 06_virtual_screening.py       # F1 p_family screening (v2, million-scale CSV)
     ├── 07_compare_models.py          # Chemprop vs XGBoost comparison
     ├── plot_model_comparison.py      # XGBoost vs Chemprop R² figure
+    ├── plot_ml_pipeline_figures.py   # ML funnel / decoy / benchmark figures
     ├── calibrate_threshold.py        # Benchmark F1 threshold calibration
     ├── build_demo_library.py         # Build demo SMILES library
     ├── plot_style.py                 # Journal figure style (Arial, 300 dpi)

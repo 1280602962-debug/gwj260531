@@ -709,9 +709,16 @@ def build_word_detailed(fig_paths: dict[str, Path]) -> None:
 
 
 def main():
+  import argparse
+  parser = argparse.ArgumentParser(description="Build popular-science Word doc and figures")
+  parser.add_argument("--figures-only", action="store_true", help="Only refresh data_tables and figures")
+  args = parser.parse_args()
+
   setup_data_folder()
   figs = make_figures()
-  build_word_detailed(figs)
+  if not args.figures_only:
+    build_word_detailed(figs)
+    print(f"Wrote detailed {DOC_PATH}")
   print(f"Data tables: {DATA_DIR}")
   print(f"Figures: {FIG_DIR}")
 
