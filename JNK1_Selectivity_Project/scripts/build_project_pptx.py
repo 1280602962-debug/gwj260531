@@ -1,0 +1,427 @@
+#!/usr/bin/env python3
+"""Generate JNK1 project presentation PPTX from report v2.9 outline."""
+
+from __future__ import annotations
+
+from pathlib import Path
+
+from pptx import Presentation
+from pptx.dml.color import RGBColor
+from pptx.enum.text import MSO_ANCHOR, PP_ALIGN
+from pptx.util import Inches, Pt
+
+ROOT = Path(__file__).resolve().parents[1]
+OUT = ROOT / "docs" / "presentation" / "JNK1_Project_Presentation_v2.9.pptx"
+
+# (title, bullets, speaker_notes)
+SLIDES: list[tuple[str, list[str], str]] = [
+    (
+        "JNK1/2/3 亚型抑制剂计算筛选项目汇报",
+        [
+            "ML → Glide VSW → MD → 湿实验",
+            "报告版本 v2.9 | 2026-07-06",
+        ],
+        "开场自我介绍，说明本次汇报覆盖计算筛选全流程及 pivot 结论。"
+        "强调：这不是「已找到 JNK1 选择性 hit」的庆功汇报，而是带否定性标定的完整漏斗复盘。",
+    ),
+    (
+        "汇报提纲",
+        [
+            "1. 项目背景与文献调研",
+            "2. 端到端筛选漏斗（4983 → 10）",
+            "3. ML 与 Glide 对接结果",
+            "4. 选择性计算为何失败",
+            "5. MD 结果与 10 分子采购逻辑",
+            "6. 湿实验计划与答辩要点",
+        ],
+        "用 30 秒预告结构，让听众知道「失败记录」会单独成章，不是遗漏。",
+    ),
+    (
+        "生物学背景：为什么关注 JNK1",
+        [
+            "JNK 三亚型：JNK1 (MAPK8)、JNK2 (MAPK9)、JNK3 (MAPK10)",
+            "JNK1 与 IPF、NASH 等疾病病理相关",
+            "临床参考：CC-90001（JNK1 功能偏向）、CC-930（pan-JNK）",
+            "工具药：SP600125（经典 pan-JNK 抑制剂）",
+        ],
+        "交代成药动机：JNK1 有疾病证据，但 pan-JNK 抑制可能带来系统毒性，"
+        "因此最初项目目标是 JNK1 偏向化合物。引用 Bennett 2021、Plantevin-Krenitsky 2012。",
+    ),
+    (
+        "文献背景：JNK 选择性有多难做（§1.3）",
+        [
+            "ATP 口袋序列同一性 ~98%，仅 1–2 个残基差异",
+            "JNK2/3 > JNK1：证据强（Leu106/Ile106 + 共晶 + 突变验证）",
+            "JNK1 > JNK2：证据弱（E1、CC-90001 多为 SBDD，缺共晶）",
+            "启示：结构上 JNK2/3 选择性比 JNK1 更容易设计",
+        ],
+        "这一页为后续「计算失败」铺垫：不是我们 pipeline 独有困难，而是领域共性难题。"
+        "可举例：Park 2015 L144I 突变 >20× 失活 vs E1 仅酶学 7× 且无共晶。",
+    ),
+    (
+        "项目目标与策略演进（Pivot）",
+        [
+            "初期：计算筛选 JNK1 选择性 hit → ML + Δsel 均否定",
+            "中期：Δsel + MM-GBSA 分级 → 233 个遗留标签，不作采购依据",
+            "后期：MD QC + 湿实验 → 定位为 pan-JNK 家族结合剂",
+            "金句：花钱买的不是「已算出选择性 hit」",
+        ],
+        "强调 pivot 是数据驱动的，不是目标放弃。"
+        "233、Tier 57 等数字保留在 §5 作失败探索记录，不参与采购链。",
+    ),
+    (
+        "端到端筛选漏斗（核心）",
+        [
+            "4983 (ML F0) → 4979 (Glide VSW)",
+            "→ 157 (pose QC + JNK1 活性) → 25 (ADMET)",
+            "→ 16 (MD pose QC) → 10 (采购) → 湿实验 IC50",
+            "主线不使用 Δsel、pass_selectivity、Tier",
+            "选择性探索（233/57 等）旁路记录，见 §5",
+        ],
+        "本页应停留 30 秒以上。用手势沿漏斗向下指。"
+        "强调 157 的进门条件是 score_JNK1 ≤ −7.43 与 MMGBSA，不是 Δsel。"
+        "可引用附录 A 流程图（若现场有打印版）。",
+    ),
+    (
+        "ML 模型：活性可以，选择性不行",
+        [
+            "训练数据：JNK1/2/3 = 444 / 610 / 1147 化合物",
+            "Holdout R²：0.70 / 0.57 / 0.77",
+            "F1@6.0：9/9 benchmark 全部召回（活性校准）",
+            "外部 decoy：FPR 95%，特异性 4.7% → 高召回粗筛",
+            "ChEMBL JNK1-selective 仅 8 个；选择性分类器 F1 = 0",
+        ],
+        "回应审稿人 Q1：F1 是召回校准，不是特异性验证；特异性靠后续对接与排序。"
+        "ML 三模型对 E1、TCS JNK 6O 的亚型方向预测错误（§2.6）。",
+    ),
+    (
+        "对接设置：受体可信，选择性不可信",
+        [
+            "VSW 受体：3ELJ (JNK1) / 3E7O (JNK2) / 3TTI (JNK3)，DFG-in",
+            "5/5 共晶再对接 RMSD < 2 Å（3E7O 最低 0.26 Å）",
+            "活性门槛：score_JNK1 ≤ −7.43；MMGBSA_JNK1 ≤ −51.6",
+            "再对接通过 ≠ 选择性预测有效（Q12）",
+        ],
+        "再对接只证明网格能复现共晶 pose，不能外推跨 isoform 打分可比性。"
+        "3NPC/8ELC 未纳入面板：DFG-out 与共价配体不与 Type I 可逆库混用。",
+    ),
+    (
+        "Δsel 定义与 Benchmark 标定",
+        [
+            "Δsel_dock = score_JNK2/3 − score_JNK1",
+            "Spearman(Δsel, −ΔpIC50_sel) = 0.75 / 0.79 (n=7)",
+            "方向准确率：VSW 单 PDB 43% (3/7)，ensemble 29% (2/7)",
+            "结论：Δsel 不能用于 isoform 分型或采购排序",
+        ],
+        "秩相关「尚可」但方向准确率远低于 55% 阈值——文稿应强调否定结论。"
+        "Spearman 置信区间宽（n=7），不宜过度解读正相关。",
+    ),
+    (
+        "Benchmark 四个关键对照",
+        [
+            "E1（JNK1 偏好）→ Δsel 预测 JNK1 ✓",
+            "CC-930（JNK2/3 偏好）→ 预测 JNK23 ✓",
+            "TCS JNK 6O（JNK1 偏好）→ 预测 JNK23 ✗",
+            "SP600125（pan）→ 阴性对照",
+            "连文献对照都仅 43% 准确率，不能对 4979 库做选择性硬筛",
+        ],
+        "这页是反驳「为何不用 Δsel 筛 233 个」的核心证据。"
+        "TCS JNK 6O 与 E1 方向相反，说明方法对 JNK1 偏好化合物也不稳健。",
+    ),
+    (
+        "选择性策略失败一览（§5）",
+        [
+            "ML ΔpActivity 过滤 → 失败",
+            "选择性二分类模型 → F1 = 0",
+            "Glide Δsel 排序 → 方向准确率 43%",
+            "Δsel + MM-GBSA ≥ 2 → 噪声中位数 8.1 kcal/mol，过宽",
+            "Gly87 占据 → 5/5 benchmark 无法区分",
+            "MD hinge HB → 仅验证 pose，非选择性",
+        ],
+        "快速过表，每项 5 秒。强调：这些不是「没做」，而是「做了并否定」。"
+        "对合作者说明：负面标定同样有价值，减少湿实验错误预期。",
+    ),
+    (
+        "Gly87 案例：合理假说为何失败",
+        [
+            "假说：JNK1 特有 Gly87（JNK2 Ser87、JNK3 Met115）→ 位阻差异",
+            "回顾：E1、TCS JNK 6O、CC-930 等距 Gly87 仅 0.59–1.18 Å",
+            "Type I 抑制剂必然靠近铰链 → occ_JNK1 全为 True",
+            "真正选择性更可能来自远 pocket（Leu144/Ile106）",
+        ],
+        "Gly87 策略在 MD 硬筛前被 benchmark 否定。"
+        "与 §1.3 文献机制对照：铰链近邻差异不足以区分 isoform。",
+    ),
+    (
+        "MD 短名单漏斗（§6.1）",
+        [
+            "157 → 25：ADMET + G1–G4 化学策略分组",
+            "25 → 16：组内配额（G1 4/9、G2 6/10、G3/G4 全取）",
+            "与 pass_selectivity / Tier 无关",
+            "MD QC：RMSD ≤ 3 Å + hinge HB ≥ 30%",
+        ],
+        "G1：相对更接近文献 chemotype（Tc~0.22）；G2：新骨架（Tc~0.12）。"
+        "命名已从「骨架模仿」改为「文献 chemotype 邻近组」（Q11）。",
+    ),
+    (
+        "MD QC 结果（§6.2、§6.4）",
+        [
+            "G1：3/4 pass overall；G2：0/6 pass overall",
+            "G3：SP600125、CC-930 有活性但 hinge 可 fail",
+            "2231：JNK1 hinge 0.91，JNK2 0.00（相对排序 #1）",
+            "2157：JNK1 hinge 0.85（#2）",
+            "690：三 isoform hinge 均高 → 更像 pan-JNK",
+        ],
+        "MD 是 pose 可信度工具，不能代替活性或选择性实验。"
+        "G2 全军覆没说明新骨架风险高，但 2231 仍有探索价值。",
+    ),
+    (
+        "个案：2231 的决策路径（§6.3.1、§6.5）",
+        [
+            "pass_selectivity = No（探索性双门槛未过）",
+            "仍进 MD：score_JNK1 + MMGBSA + pose QC（主线路径）",
+            "200 ns Amber：JNK1 配体 RMSD 最低（0.57 Å）",
+            "仍不能改写 G2 overall fail，不能确认 JNK1 选择性",
+        ],
+        "预判评委问：「Δsel 最强为何 pass_selectivity No 还采购？」"
+        "答：探索标签与主线脱钩；2231 凭活性+pose 进 G2，采购为假说检验。",
+    ),
+    (
+        "10 分子采购清单（§7）",
+        [
+            "G3 对照 (4)：SP600125, CC-90001, CC-930, E1",
+            "G1 主力 (3)：690, 2232, 2157",
+            "G2 探索 (3)：2231, 1280, 4795",
+            "完整表：data/purchase/purchase_after_md.csv",
+        ],
+        "G3 无论 MD 是否通过都采购——酶学校准尺。"
+        "4 个对照 + 6 个探索分子，同批次三 isoform IC50。",
+    ),
+    (
+        "花钱的逻辑链（§7.2）",
+        [
+            "1. 验证计算管线：G3 建立 IC50 vs MD 相关性",
+            "2. 检验 chemotype 假说：G1 vs G2",
+            "3. 最有信息量候选：690（Tier 1′ + MD 三 isoform pass）",
+            "4. 探索性 backup：2231（G2 中 JNK1 MD 最好）",
+        ],
+        "向合作者/资助方说明：预算买的是信息，不是阳性结论。"
+        "即使 G2 全 fail，G3 对照也能回答「MD 能否预测活性」。",
+    ),
+    (
+        "诚实评估：计算能说什么、不能说什么（§8）",
+        [
+            "能否计算确认 JNK1 选择性？→ 不能",
+            "690 最强证据 → 更支持 pan-JNK 结合",
+            "「233 个选择性通过」→ 仅探索标签，非 isoform 依据",
+            "JNK1 偏好假说（待实验）：2231 > 2157 > 690",
+        ],
+        "主动披露局限比被动答辩得分更高。"
+        "所有「选择性先验」必须加「待 IC50 验证」限定语。",
+    ),
+    (
+        "湿实验计划与保守预测（§9）",
+        [
+            "必做：同批次 JNK1 + JNK2 + JNK3 重组酶 IC50",
+            "G3 有活性但 MD-fail：较可能",
+            "G1 ≥1 个 IC50 < 1 µM：中等可能",
+            "≥10× JNK1 选择性：低可能",
+            "G4 阴性锚点无活性：预期",
+        ],
+        "实验设计要点：同批次、同条件、三亚型平行，才能算选择性。"
+        "若有 hit：kinome + p-c-Jun；690 可考虑 FEP+。",
+    ),
+    (
+        "方法学局限与答辩预判（§12 精华）",
+        [
+            "Q1 F1 高 FPR → 已补外部 decoy 验证",
+            "Q2 Δsel 跨 PDB 偏差 → benchmark 否定，不用于采购",
+            "Q7 hinge 偏严 → G3 强制采购，不以 hinge 代活性",
+            "Q9 MM-GBSA ≥2 门槛 → 已标定废弃",
+        ],
+        "备用深答：Q4 Tier/pass_consistency 占位问题 → 已改用 Tier 1′ 语义。",
+    ),
+    (
+        "核心结论",
+        [
+            "ML 可靠做 JNK 家族活性粗筛，不能预测 isoform 方向",
+            "Glide 受体可信；Δsel 方向准确率仅 43%",
+            "Gly87、pass_selectivity、Tier 等均已否定",
+            "主线漏斗 4983 → 10，不含选择性硬筛",
+            "选择性只能由同批次 IC50 回答",
+        ],
+        "用附录 B 一句话版收尾前重复这 5 条。"
+        "数字 4983→10 建议大字显示。",
+    ),
+    (
+        "后续工作",
+        [
+            "P0：10 分子三 isoform IC50；统一 pan-JNK 术语",
+            "P1：2231/690/E1 replica MD；bootstrap Spearman CI",
+            "若有 hit：kinome、p-c-Jun、FEP+（690 已在推荐清单）",
+        ],
+        "按优先级排列，P0 与湿实验同步。",
+    ),
+    (
+        "数据与代码索引",
+        [
+            "报告：docs/JNK1_PROJECT_REPORT.md (v2.9)",
+            "Benchmark：data/benchmarks/literature_benchmarks.csv",
+            "采购：data/purchase/purchase_after_md.csv",
+            "工具：XGBoost, Glide XP, Prime MM-GBSA, Desmond",
+        ],
+        "现场有人问复现路径时指向这些文件。",
+    ),
+    (
+        "Q & A",
+        [
+            "附录 B 一句话答辩版：",
+            "4979 化合物 Glide VSW；isoform 方向准确率 43%；",
+            "pivot 为 pan-JNK 家族结合剂；",
+            "采购 10 个（含 4 文献对照）做同批次 IC50；",
+            "选择性只能由实验回答。",
+        ],
+        "留 3–5 分钟提问。常见题：为何不做 FEP、为何不用双 PDB ensemble、690 为何像 pan 还采购。"
+        "均可在 §12 找到书面回复。",
+    ),
+]
+
+BACKUP_SLIDES: list[tuple[str, list[str], str]] = [
+    (
+        "【备用】ML 外部 Decoy 验证",
+        [
+            "Recall@6.0：99.3%",
+            "Decoy FPR：95.3%；Specificity：4.7%",
+            "ROC-AUC：0.876；EF1%：9.20",
+            "结论：F1 是高召回粗筛，特异性由对接承担",
+        ],
+        "回应 Q1：9/9 benchmark 循环验证质疑。",
+    ),
+    (
+        "【备用】9-Compound Benchmark 全表",
+        [
+            "SP600125 / CC-930 / E1 / TCS JNK 6O / JNK-IN-8",
+            "CC-90001 / Q63 / AS602801 / CC-401",
+            "酶学 IC50 见 literature_benchmarks.csv",
+            "对接方向见 benchmark_deltas_51c1.csv",
+        ],
+        "被问标定细节时展开。",
+    ),
+    (
+        "【备用】选择性探索遗留数字（§5.4）",
+        [
+            "pass_selectivity：233",
+            "Tier 1′：57；Tier 2：92；Tier 3：1191",
+            "均未用于 MD 短名单或采购排序",
+            "保留作失败探索记录",
+        ],
+        "回应「233 个选择性 hit 去哪了」。",
+    ),
+    (
+        "【备用】§1.3 文献抑制剂证据分级",
+        [
+            "A 级：氨基吡唑、YL5084、CC-930、JNK-IN-8",
+            "B 级：E1、CC-90001、TCS JNK 6O",
+            "C 级：SP600125（pan 对照）",
+            "详见报告 §1.3 与 §11 参考文献",
+        ],
+        "领域背景深问时使用。",
+    ),
+]
+
+
+def _set_notes(slide, text: str) -> None:
+    notes = slide.notes_slide
+    tf = notes.notes_text_frame
+    tf.clear()
+    tf.text = text
+
+
+def _add_title_slide(prs: Presentation, title: str, bullets: list[str], notes: str) -> None:
+    layout = prs.slide_layouts[0]
+    slide = prs.slides.add_slide(layout)
+    slide.shapes.title.text = title
+    if len(slide.placeholders) > 1:
+        sub = slide.placeholders[1]
+        sub.text = "\n".join(bullets)
+        for p in sub.text_frame.paragraphs:
+            p.font.size = Pt(20)
+    _set_notes(slide, notes)
+
+
+def _add_content_slide(prs: Presentation, title: str, bullets: list[str], notes: str) -> None:
+    layout = prs.slide_layouts[1]
+    slide = prs.slides.add_slide(layout)
+    slide.shapes.title.text = title
+    body = slide.placeholders[1].text_frame
+    body.clear()
+    for i, bullet in enumerate(bullets):
+        p = body.paragraphs[0] if i == 0 else body.add_paragraph()
+        p.text = bullet
+        p.level = 0
+        p.font.size = Pt(18)
+        p.space_after = Pt(6)
+    _set_notes(slide, notes)
+
+
+def _add_section_slide(prs: Presentation, title: str, notes: str) -> None:
+    layout = prs.slide_layouts[5] if len(prs.slide_layouts) > 5 else prs.slide_layouts[0]
+    slide = prs.slides.add_slide(layout)
+    if slide.shapes.title:
+        slide.shapes.title.text = title
+    _set_notes(slide, notes)
+
+
+def export_speaker_notes_md(slides: list[tuple[str, list[str], str]], path: Path, heading: str) -> None:
+    lines = [f"# {heading}", "", f"> 与 `{OUT.name}` 内演讲者备注同步。重新生成：`python3 scripts/build_project_pptx.py`", ""]
+    for i, (title, bullets, notes) in enumerate(slides, start=1):
+        lines.append(f"## 第 {i} 页｜{title}")
+        lines.append("")
+        lines.append("### 幻灯片要点")
+        lines.append("")
+        for b in bullets:
+            lines.append(f"- {b}")
+        lines.append("")
+        lines.append("### 演讲备注")
+        lines.append("")
+        lines.append(notes)
+        lines.append("")
+        lines.append("---")
+        lines.append("")
+    path.write_text("\n".join(lines), encoding="utf-8")
+
+
+def build() -> Path:
+    prs = Presentation()
+    prs.slide_width = Inches(13.333)
+    prs.slide_height = Inches(7.5)
+
+    # Title slide
+    t0, b0, n0 = SLIDES[0]
+    _add_title_slide(prs, t0, b0, n0)
+
+    for title, bullets, notes in SLIDES[1:]:
+        _add_content_slide(prs, title, bullets, notes)
+
+    _add_section_slide(
+        prs,
+        "备用幻灯片",
+        "以下 4 页按需插入答辩，默认跳过。",
+    )
+    for title, bullets, notes in BACKUP_SLIDES:
+        _add_content_slide(prs, title, bullets, notes)
+
+    OUT.parent.mkdir(parents=True, exist_ok=True)
+    prs.save(str(OUT))
+
+    notes_path = OUT.parent / "SPEAKER_NOTES.md"
+    export_speaker_notes_md(SLIDES, notes_path, "JNK1 项目汇报 — 演讲备注（主幻灯片）")
+    backup_path = OUT.parent / "SPEAKER_NOTES_BACKUP.md"
+    export_speaker_notes_md(BACKUP_SLIDES, backup_path, "JNK1 项目汇报 — 演讲备注（备用幻灯片）")
+
+    return OUT
+
+
+if __name__ == "__main__":
+    path = build()
+    print(f"Wrote {path} ({len(SLIDES) + len(BACKUP_SLIDES) + 1} slides)")
