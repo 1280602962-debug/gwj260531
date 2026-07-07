@@ -412,7 +412,8 @@ JNK1 在铰链区有甘氨酸 Gly87，JNK2/JNK3 分别为 Ser/Met，体积更大
 6.1 MD 短名单漏斗（数据表 18）
 3125 个通过 pose 质量 → 182 个通过 JNK1 活性双门槛（Glide ≤ −7.43 且 MMGBSA_JNK1 ≤ −51.6）→ 157 个 F1∧F2 → ADMET 剔除 9 个 → 25 个 shortlist。
 25 个按化学策略分四组：G1 文献 chemotype 邻近组(9)、G2 新骨架(10)、G3 已知活性对照(4)、G4 阴性锚点(2)。
-按组配额取 16 个做 Desmond 分子动力学（48 个任务 = 16 分子 × 3 蛋白）。
+按组配额取 16 个做 Desmond 分子动力学（48 个任务 = 16 分子 × 3 蛋白）。组内排序键：pose QC → score_JNK1（越低越好）→ MMGBSA_JNK1 单点活性 → 骨架多样性；不用 Δsel/pass_selectivity/Tier（技术报告 §6.1.1）。
+G1 进 MD：690、2232、2157、2389；G2 进 MD 已知：2231、1280、4795、2747 等 6 人；G1 落选 5 人、G2 落选 4 人完整 ID 待 md_shortlist_report_23c8.md 归档（数据表 25）。
 
 6.2 为什么 2231 能进 MD 但 pass_selectivity=No？
 2231 的 JNK1 对接分极强（−11.22），满足活性门槛；未过 pass_selectivity 是因为探索性双门槛中的 Δsel_MMGBSA 标签，MD 短名单从不读取该标签（详见技术报告 §6.3.1）。
@@ -620,7 +621,7 @@ def build_word_detailed(fig_paths: dict[str, Path]) -> None:
      [
        "MD 短名单不是从 pass_selectivity 来的，而是从实际可用于采购和验证的角度设计。首先，4983 个 F0 分子经过 pose QC，3125 个通过；再经过 JNK1 活性和配体效率过滤，182 个通过；F1 与 F2 同时满足后为 157 个；再经过 QikProp ADMET 过滤和分组策略，得到 25 个 shortlist。",
        "ADMET 过滤的原因很实际：即使一个分子在对接中得分很好，如果预测溶解性很差、hERG 风险高、口服吸收差，后续实验和成药开发价值也会降低。本项目考虑 hERG、口服吸收、Caco-2 通透性、溶解度和 #stars 等指标。G3 文献对照分子即使 ADMET 不完美也会保留，因为它们的作用是校准实验体系，而不是作为新药候选。",
-       "25 个 shortlist 被分成四组：G1 是相对接近文献 chemotype 的分子，G2 是新骨架，G3 是已知活性对照，G4 是阴性锚点。进入 MD 的 16 个分子按组配额选择：G1 取 4/9，G2 取 6/10，G3 和 G4 全部进入。这种设计不是只追求最高分，而是兼顾验证管线、探索新骨架和设置阳性/阴性校准。",
+       "25 个 shortlist 被分成四组：G1 是相对接近文献 chemotype 的分子，G2 是新骨架，G3 是已知活性对照，G4 是阴性锚点。进入 MD 的 16 个分子按组配额选择：G1 取 4/9，G2 取 6/10，G3 和 G4 全部进入。组内排序以 pose QC、score_JNK1、MMGBSA_JNK1 单点活性和骨架多样性为主，不使用 Δsel 或 pass_selectivity（§6.1.1）。G1 进 MD 的 4 人为 690、2232、2157、2389；G2 已知进 MD 的包括 2231、1280、4795、2747 等；G1 落选 5 人、G2 落选 4 人的完整 ID 待本地 shortlist 报告归档（数据表 25）。",
      ]),
     ("8. 第五步：分子动力学 MD，目标是看结合姿势是否稳定",
      [
@@ -694,14 +695,14 @@ def build_word_detailed(fig_paths: dict[str, Path]) -> None:
   add_table(doc, pd.read_csv(DATA_DIR / "21_采购分子配体RMSD中位数_Angstrom.csv"), "表15 采购分子配体 RMSD 中位数 (Å)")
 
   doc.add_heading("14. 完整数据附录（00–24 号文件逐一嵌入）", level=1)
-  doc.add_paragraph("本章把 data_tables/ 文件夹中的 00–24 号 CSV/JSON 文件逐一嵌入 Word。若表格较宽，建议在 Word 中横向页面查看；原始机器可读文件同时保存在 data_tables/ 文件夹中。")
+  doc.add_paragraph("本章把 data_tables/ 文件夹中的 00–25 号 CSV/JSON 文件逐一嵌入 Word。若表格较宽，建议在 Word 中横向页面查看；原始机器可读文件同时保存在 data_tables/ 文件夹中。")
   for path in sorted(DATA_DIR.glob("*")):
     if path.name == "README.md" or path.suffix.lower() not in {".csv", ".json"}:
       continue
     add_data_file_to_doc(doc, path, path.name)
 
   doc.add_heading("15. 数据文件夹说明", level=1)
-  doc.add_paragraph("所有数据表格文件位于 docs/popular_science/data_tables/。该文件夹包含 25 个 CSV/JSON 文件和 README.md，既可以供 Word 阅读，也可以供后续 Excel、Python 或统计软件复核。")
+  doc.add_paragraph("所有数据表格文件位于 docs/popular_science/data_tables/。该文件夹包含 26 个 CSV/JSON 文件和 README.md，既可以供 Word 阅读，也可以供后续 Excel、Python 或统计软件复核。")
   doc.add_paragraph("生成脚本：scripts/build_popular_science_doc.py。重新生成命令：python3 scripts/build_popular_science_doc.py。")
 
   doc.save(DOC_PATH)

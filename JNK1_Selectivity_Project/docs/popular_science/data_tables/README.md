@@ -26,5 +26,6 @@
 
 | 00_端到端漏斗汇总.csv | 摘要漏斗各阶段数量 | 报告§摘要 |
 | 16–24 号 CSV | 报告正文汇总表 | 报告对应章节 |
+| 25_shortlist_25to16.csv | 25→16 shortlist/MD 明细（含 G1/G2 落选占位） | 报告§6.1.2；待 `md_shortlist_report_23c8.md` 补全 |
 
 生成脚本：`scripts/build_popular_science_doc.py`

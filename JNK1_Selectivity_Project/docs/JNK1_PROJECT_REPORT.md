@@ -1,8 +1,9 @@
 # JNK1/2/3 亚型抑制剂计算筛选项目报告
 
-> **版本**: 3.1  
-> **日期**: 2026-07-06  
+> **版本**: 3.2  
+> **日期**: 2026-07-07  
 > **原则**: 本报告所有数值均来自仓库内可复现文件、对接工作区归档 CSV 或 MD QC 结果；未在数据中出现的结论一律不作断言。  
+> **v3.2 更新**: §6.1 增补 **25→16 组内排序键**、**16 人 MD 完整名单**及 G1/G2 shortlist 落选说明；完整 9+10 人 ID 明细待 `md_shortlist_report_23c8.md` 入库（见 §6.1.2、数据表 `25_shortlist_25to16.csv`）。  
 > **v3.1 更新**: 新增 §2.1「为何选择 XGBoost 而非深度学习」——说明立项时对 **XGBoost vs Chemprop 2.0** 的模型比较协议、归档结果与选型理由；原 §2.1–§2.6 顺延为 §2.2–§2.7。  
 > **v3.0 更新**: 新增 §1.2「JNK1 选择性筛选的设计分析」——从生物学动机、计算分层、假说选型到已知风险，说明**为何立项做 JNK1 选择性筛选**及管线为何如此设计；原 §1.2/§1.3 顺延为 §1.3/§1.4。  
 > **v2.9 更新**: 新增 §1.4「JNK 亚型选择性抑制剂文献背景调研」；扩充 §11 参考文献（含 DOI / PDB 链接）。  
@@ -779,6 +780,75 @@ chemotype_sim（ECFP4 Tanimoto vs E1/Q63/TCS JNK 6O）：
 - G1 mean = **0.217**（median 0.213）
 - G2 mean = **0.120**（median 0.114）
 
+#### 6.1.1 组内排序键（25 → 16，`balanced_quota`）
+
+**声明**：以下排序键来自 `md_shortlist_report_23c8.md` 与本地对接漏斗脚本口径；**明确不使用** Δsel_dock、`pass_selectivity`、Tier 1′/2 或 Gly87 IFP（§5、§6.3.1）。
+
+**（1）157 → 25：化学策略分组键**
+
+| 步骤 | 键 / 规则 | 用途 |
+|------|-----------|------|
+| 分组标签 | `chemotype_sim` = max(ECFP4 Tanimoto vs **E1 / Q63 / TCS JNK 6O**) | G1「文献 chemotype 邻近」vs G2「新骨架」 |
+| G1 入选 | `chemotype_sim` 位于 G1 簇（mean **0.217**，median 0.213） | 9 人 shortlist |
+| G2 入选 | butina 聚类与 G1 不同且 `chemotype_sim` 较低（mean **0.120**，median 0.114） | 10 人 shortlist |
+| G3 / G4 | 文献对照与阴性锚点 **强制纳入**（G3 ADMET 豁免） | 4 + 2 人 |
+
+**（2）25 → 16：组内排序键（配额取样）**
+
+| 优先级 | 排序键 | 方向 | 说明 |
+|--------|--------|------|------|
+| 1 | F1 **pose QC**（Glide pose 质量） | 通过者优先 | 与 157 进门条件一致 |
+| 2 | **`score_JNK1` @ 3ELJ** | 越低（越负）越好 | 主活性排序；例：2231 **−11.22** |
+| 3 | **`MMGBSA_JNK1` @ 3ELJ** | ≤ **−51.6** 且越低越好 | **单点家族活性**，非 Δsel |
+| 4 | **骨架多样性** | 组内 butina / Murcko 去冗余 | G1 取 4/9、G2 取 6/10 时避免同簇重复 |
+| — | **排除项** | — | Δsel、`pass_selectivity`、Tier、Gly87 |
+
+**配额**：G1 **4/9**、G2 **6/10**、G3/G4 **全取**（4+2）→ 共 **16** 人 MD。
+
+#### 6.1.2 25 人 shortlist 与 16 人 MD 明细
+
+**16 人 MD 完整名单**（48 Desmond 任务 = 16 × 3 PDB）：
+
+| 组 | shortlist n | 进 MD n | 化合物 ID（库内 Enamine ID） |
+|----|-------------|---------|------------------------------|
+| G1 | 9 | **4** | **690, 2232, 2157, 2389** |
+| G2 | 10 | **6** | **2231, 1280, 4795, 2747** + **另 2 个**† |
+| G3 | 4 | **4** | SP600125, CC-90001, CC-930, E1 |
+| G4 | 2 | **2** | **3237, 3411** |
+
+† G2 另 2 个 MD 成员在 `MD_QC_report_cf26.md` / `md_pose_qc_summary_5ffb.csv` 中有 QC 记录，但 **ID 未入库**；见 §10.2 归档说明。
+
+**G1 shortlist 落选 5 人（9 − 4）**
+
+| 状态 | ID | 组内排序依据（有据部分） |
+|------|-----|--------------------------|
+| **进 MD** | 690, 2232, 2157, 2389 | `score_JNK1` + pose QC + 骨架多样性配额内前 4 |
+| **未进 MD** | **5 个 ID 待归档**‡ | 同组内排序键下排名 **5–9**；完整名单见 `md_shortlist_report_23c8.md` |
+
+‡ 仓库内**尚无** G1 全部 9 人 ID 列表；`candidates_ranked_befe.csv` 未入库，**不得编造**落选 5 人编号。归档后填入数据表 `docs/popular_science/data_tables/25_shortlist_25to16.csv`。
+
+**G2 shortlist 落选 4 人（10 − 6）**
+
+| 状态 | ID | 组内排序依据（有据部分） |
+|------|-----|--------------------------|
+| **进 MD** | 2231, 1280, 4795, 2747 + 另 2 个† | 2231：`score_JNK1` 组内最强（−11.22）；1280/4795：off-target pose 备份假说；2747：RMSD 不对称性探索（§6.4.2，未采购） |
+| **未进 MD** | **4 个 ID 待归档**‡ | 同组内排序键下排名 **7–10**；完整名单见 `md_shortlist_report_23c8.md` |
+
+**已入库可核对的部分 G1/G2 对接背景**（§6.3；选择性标签**不作** MD 进门依据）：
+
+| ID | 组 | score_JNK1 | 进 MD | 备注 |
+|----|-----|------------|-------|------|
+| 690 | G1 | −7.76 | ✅ | MD pass_overall；采购 |
+| 2232 | G1 | −8.13 | ✅ | MD pass_overall；采购 |
+| 2157 | G1 | −8.46 | ✅ | MD pass_overall；采购 |
+| 2389 | G1 | — | ✅ | MD fail（hinge 28.2%，差阈值 1.8%）；未采购 |
+| 2231 | G2 | **−11.22** | ✅ | G2 内 JNK1 活性最强；采购 |
+| 1280 | G2 | −7.85 | ✅ | JNK2/3 pose 备份；采购 |
+| 4795 | G2 | −8.38 | ✅ | JNK2/3 pose 备份；采购 |
+| 2747 | G2 | — | ✅ | RMSD 不对称性最强；未采购 |
+
+> **数据缺口（P0 归档）**：将本地 `md_shortlist_report_23c8.md` 与 `candidates_ranked_befe.csv` 提交至 `data/shortlist/` 后，可补全 G1 落选 5 人、G2 落选 4 人及 G2 另 2 个 MD ID 的组内排名与 `score_JNK1`/`MMGBSA_JNK1` 字段。
+
 ### 6.2 MD QC 方法与结果（`MD_QC_report_cf26.md`）
 
 - 48 个 Desmond 任务（16 × 3 PDB：3ELJ / 3E7O / 3TTI）
@@ -1118,6 +1188,7 @@ kinome 面板 + 细胞 p-c-Jun；对 top 1–2 考虑 **FEP+**（690 已在推�
 | `top_selective_f4a0.csv` | 50 聚类代表 |
 | `panJNK_JNK1bias_ba7c.csv` | 679 pan-JNK + 计算 JNK1 偏好 |
 | `md_shortlist_report_23c8.md` | MD 短名单漏斗 |
+| `docs/popular_science/data_tables/25_shortlist_25to16.csv` | 25→16 组内排序与 MD/落选明细（**部分 ID 待归档**） |
 | `MD_QC_report_cf26.md` | MD pose QC |
 | `md_pose_qc_summary_5ffb.csv` | 16 化合物 MD 汇总 |
 
