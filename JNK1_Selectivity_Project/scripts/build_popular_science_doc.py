@@ -434,7 +434,7 @@ JNK1 在铰链区有甘氨酸 Gly87，JNK2/JNK3 分别为 Ser/Met，体积更大
     ("六、MD 短名单与成药性：如何选出 25 个、再做 16 个 MD？", """
 6.1 MD 短名单漏斗（数据表 18）
 3125 个通过 pose 质量 → 182 个通过 JNK1 活性双门槛（Glide ≤ −7.43 且 MMGBSA_JNK1 ≤ −51.6）→ 157 个 F1∧F2 → ADMET 剔除 9 个 → 25 个 shortlist。
-25 个按化学策略分四组：G1 文献 chemotype 邻近组(9)、G2 新骨架(10)、G3 已知活性对照(4)、G4 阴性锚点(2)。
+25 个按化学策略分四组：G1 文献活性分子相似性邻近组(9)、G2 文献 chemotype 相似性较弱组(10)、G3 酶学校准对照(4)、G4 阴性锚点(2)。
 按组配额取 16 个做 Desmond 分子动力学（48 个任务 = 16 分子 × 3 蛋白）。组内排序键：pose QC → score_JNK1（越低越好）→ MMGBSA_JNK1 单点活性 → 骨架多样性；不用 Δsel/pass_selectivity/Tier（技术报告 §6.1.1）。
 G1 进 MD：690、2232、2157、2389；G2 进 MD：**2231、1280、4795、2747、1555、1762**（见 `data/shortlist/md_shortlist_final.csv`）；G1 落选 5 人、G2 落选 4 人完整 ID 待 `candidates_ranked_befe.csv` 归档（数据表 25）。16 人 MD 后 JNK1 偏好排序与 HIT 报价见数据表 27（hinge/RMSD 不对称，非 Δsel）。
 
@@ -463,7 +463,7 @@ JNK1 中 Asn108–配体氧原子氢键占有率约 68%（技术报告 §6.5.4�
 采购清单见数据表 11，分为：
 • G3 对照 4 个：SP600125、CC-90001、CC-930、E1——用于校准实验体系
 • G1 主力 3 个：690、2232、2157——MD 总体通过、接近文献 chemotype
-• G2 探索 3 个：2231、1280、4795——新骨架与 off-target pose 假说
+• G2 探索 3 个：2231、1280、4795——低 chemotype 相似度系列与 off-target pose 假说
 
 花钱买的不是「已经算出的选择性 hit」，而是：
 1) 验证计算管线能否富集有活性分子；2) 比较 G1 与 G2 哪类骨架更易出活性；3) 用 2231/2157 等检验 JNK1 偏好假说。
@@ -647,7 +647,7 @@ def build_word_detailed(fig_paths: dict[str, Path]) -> None:
      [
        "MD 短名单不是从 pass_selectivity 来的，而是从实际可用于采购和验证的角度设计。首先，4983 个 F0 分子经过 pose QC，3125 个通过；再经过 JNK1 活性和配体效率过滤，182 个通过；F1 与 F2 同时满足后为 157 个；再经过 QikProp ADMET 过滤和分组策略，得到 25 个 shortlist。",
        "ADMET 过滤的原因很实际：即使一个分子在对接中得分很好，如果预测溶解性很差、hERG 风险高、口服吸收差，后续实验和成药开发价值也会降低。本项目考虑 hERG、口服吸收、Caco-2 通透性、溶解度和 #stars 等指标。G3 文献对照分子即使 ADMET 不完美也会保留，因为它们的作用是校准实验体系，而不是作为新药候选。",
-       "25 个 shortlist 被分成四组：G1 是相对接近文献 chemotype 的分子，G2 是新骨架，G3 是已知活性对照，G4 是阴性锚点。进入 MD 的 16 个分子按组配额选择：G1 取 4/9，G2 取 6/10，G3 和 G4 全部进入。组内排序以 pose QC、score_JNK1、MMGBSA_JNK1 单点活性和骨架多样性为主，不使用 Δsel 或 pass_selectivity（§6.1.1）。G1 进 MD 的 4 人为 690、2232、2157、2389；G2 进 MD 的 6 人为 2231、1280、4795、2747、1555、1762（数据表 25、`data/shortlist/md_shortlist_final.csv`）。G1 落选 5 人、G2 落选 4 人的完整 ID 仍待 candidates_ranked_befe.csv 归档。16 人按 MD 后 hinge/RMSD JNK1 偏好相对排序与 HIT 报价对照见数据表 27（2231、2157 居前；Δsel_dock 仅参考）。",
+       "25 个 shortlist 被分成四组：G1 是文献活性分子相似性邻近组，G2 是文献 chemotype 相似性较弱组（与 G1 不同 butina 簇、Tc 更低，并非「新骨架」），G3 是酶学校准对照，G4 是阴性锚点。进入 MD 的 16 个分子按组配额选择：G1 取 4/9，G2 取 6/10，G3 和 G4 全部进入。组内排序以 pose QC、score_JNK1、MMGBSA_JNK1 单点活性和骨架多样性为主，不使用 Δsel 或 pass_selectivity（§6.1.1）。G1 进 MD 的 4 人为 690、2232、2157、2389；G2 进 MD 的 6 人为 2231、1280、4795、2747、1555、1762（数据表 25、`data/shortlist/md_shortlist_final.csv`）。G1 落选 5 人、G2 落选 4 人的完整 ID 仍待 candidates_ranked_befe.csv 归档。16 人按 MD 后 hinge/RMSD JNK1 偏好相对排序与 HIT 报价对照见数据表 27（2231、2157 居前；Δsel_dock 仅参考）。",
      ]),
     ("8. 第五步：分子动力学 MD，目标是看结合姿势是否稳定",
      [
@@ -665,8 +665,8 @@ def build_word_detailed(fig_paths: dict[str, Path]) -> None:
      [
        "最终采购清单包含 10 个分子，并不是因为这 10 个都被计算确认有 JNK1 选择性，而是因为它们共同组成了一个可解释、可验证的实验面板。G3 对照包括 SP600125、CC-90001、CC-930 和 E1，用于确认实验体系能否重现已知活性趋势。没有这些对照，即使新分子测出结果，也很难判断是管线有效还是实验体系本身有偏差。",
        "G1 主力分子包括 690、2232、2157。它们在 MD 中整体表现更稳，且相对接近文献 chemotype。690 同时出现在 Tier 1′、top selective 聚类代表、FEP+ 推荐清单和 panJNK_JNK1bias 子集中，但由于三亚型 hinge 均不低，更适合被描述为 pan-JNK 活性验证分子。2157 虽然 Δsel_dock 为负，但 MD hinge 不对称性支持其作为 JNK1 偏好假说的第二候选。",
-       "G2 探索分子包括 2231、1280、4795。G2 overall MD 通过率为 0/6，风险更高，但它们提供了新骨架和 off-target pose 假说。2231 尤其值得关注，因为短 MD 与 200 ns 延伸 MD 都显示 JNK1 pose 相对更稳。1280 和 4795 更像 JNK2/JNK3 或 off-target pose 备份，买它们的目的不是“押中 JNK1”，而是帮助检验计算模型的边界。",
-       "因此，花钱购买这 10 个分子的核心逻辑是：用 G3 校准实验，用 G1 检验相对稳妥的家族活性，用 G2 检验新骨架假说，用 G4 阴性锚点检查假阳性。最终真正有无 JNK1 选择性，必须由同批次 JNK1/JNK2/JNK3 IC50 回答。",
+       "G2 探索分子包括 2231、1280、4795。G2 overall MD 通过率为 0/6，风险更高，但它们代表文献 chemotype 相似性较弱的系列，并用于 off-target pose 假说检验。2231 尤其值得关注，因为短 MD 与 200 ns 延伸 MD 都显示 JNK1 pose 相对更稳。1280 和 4795 更像 JNK2/JNK3 或 off-target pose 备份，买它们的目的不是“押中 JNK1”，而是帮助检验计算模型的边界。",
+       "因此，花钱购买这 10 个分子的核心逻辑是：用 G3 校准实验，用 G1 检验相对稳妥的家族活性，用 G2 检验低 chemotype 相似度系列假说，用 G4 阴性锚点检查假阳性。最终真正有无 JNK1 选择性，必须由同批次 JNK1/JNK2/JNK3 IC50 回答。",
      ]),
     ("11. 本项目最重要的负面结论：计算选择性失败本身也是结果",
      [

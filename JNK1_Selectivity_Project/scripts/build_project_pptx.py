@@ -174,8 +174,8 @@ SLIDES: list[tuple[str, list[str], str]] = [
             "与 pass_selectivity / Tier 无关",
             "MD QC：RMSD ≤ 3 Å + hinge HB ≥ 30%",
         ],
-        "G1：相对更接近文献 chemotype（Tc~0.22）；G2：新骨架（Tc~0.12）。"
-        "命名已从「骨架模仿」改为「文献 chemotype 邻近组」（Q11）。",
+        "G1：文献活性分子相似性邻近（Tc~0.22）；G2：文献 chemotype 相似性较弱（Tc~0.12，非新骨架）。"
+        "命名已从「骨架模仿」改为「文献活性分子相似性邻近组」（Q11）。",
     ),
     (
         "MD QC 结果（§6.2、§6.4）",
@@ -187,7 +187,7 @@ SLIDES: list[tuple[str, list[str], str]] = [
             "690：三 isoform hinge 均高 → 更像 pan-JNK",
         ],
         "MD 是 pose 可信度工具，不能代替活性或选择性实验。"
-        "G2 全军覆没说明新骨架风险高，但 2231 仍有探索价值。",
+        "G2 全军覆没说明低 chemotype 相似度系列 pose 风险较高，但 2231 仍有探索价值。",
     ),
     (
         "个案：2231 的决策路径（§6.3.1、§6.5）",
