@@ -23,6 +23,9 @@
 | 13_2231延伸MD_MMGBSA分量.csv | 见文件名 | `results/md_2231_200ns/tables/14_mm_gbsa_components.csv` |
 | 14_ML阈值校准threshold.json | 见文件名 | `results/calibration/threshold_recommendation.json` |
 | 15_ML虚拟筛选demo_screening.json | 见文件名 | `results/screening_v2/screening_report.json` |
+| 25_shortlist_25to16.csv | 25→16 组内排序与 MD/落选明细 | `data/shortlist/md_shortlist_final.csv`；G1/G2 落选 ID 部分待归档 |
+| 26_对接后筛选漏斗.csv | 对接后主线筛选各阶段数量 | 报告 §3.5 |
+| 27_MD16_选择性排序与报价.csv | 16 人 Δsel_dock 排序 + HIT 报价对照 | `data/shortlist/md_shortlist_final.csv` + 供应商报价单 |
 
 | 00_端到端漏斗汇总.csv | 摘要漏斗各阶段数量 | 报告§摘要 |
 | 16–24 号 CSV | 报告正文汇总表 | 报告对应章节 |
