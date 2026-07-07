@@ -164,11 +164,13 @@ Abramson J, Adler J, Dunger J, Evans R, Green T, Pritzel A, et al. Accurate stru
 
 ### [R20] Wydra 2025 — JNK2/3 ligand-first 共价（56d）
 
-Wydra VR, Plank N, Zwirner S, Selig R, Rasch A, Masberg B, et al. A "Ligand First" Approach toward Selective, Covalent JNK2/3 Inhibitors. *Journal of Medicinal Chemistry.* 2025.
+Wydra VR, Plank N, Zwirner S, Selig R, Rasch A, Masberg B, et al. A "Ligand First" Approach toward Selective, Covalent JNK2/3 Inhibitors. *Journal of Medicinal Chemistry.* 2025;68(11):12004-12028.
 
 - **DOI:** [10.1021/acs.jmedchem.5c00884](https://doi.org/10.1021/acs.jmedchem.5c00884)
+- **PMID:** [40404564](https://pubmed.ncbi.nlm.nih.gov/40404564/)
+- **PMC:** [PMC12169684](https://pmc.ncbi.nlm.nih.gov/articles/PMC12169684/)
 - **SI:** [10.1021/acs.jmedchem.5c00884.s001](https://doi.org/10.1021/acs.jmedchem.5c00884.s001)
-- **关键内容:** 氨基吡唑可逆先导 >100× vs JNK1 → 丙烯酰胺共价化；56d kinact/KI(JNK2)=38,200 M⁻¹s⁻¹；细胞 JNK2/3 选择性；clean kinome
+- **关键内容:** 可逆先导 21b 148× vs JNK1 → 丙烯酰胺 56d；kinact/KI(JNK2)=38,200、JNK3=70,100 M⁻¹s⁻¹；PhosphoSens 预孵育 IC50 JNK2=25 nM；IPMS；NanoBRET washout；GSH t½=88.9 h；KINOMEscan 97 kin @ 500 nM clean
 
 ### [R21] Tóth 2024 — 环己烯酮可逆共价 JNK（JNK-IN-8 衍生）
 
@@ -199,6 +201,88 @@ Wydra VR. Entwicklung neuartiger isoform-selektiver Inhibitoren der c-Jun N-term
 - **DOI:** [10.15496/publikation-115042](https://doi.org/10.15496/publikation-115042)
 - **Note:** ligand-first 策略与肝再生 JNK2 探针动机
 
+### [R25] Du 2019 — JNK2C116S 化学遗传（黑色素瘤）
+
+Du Y, Engelke V, Zhang T, et al. JNK2 Is Required for the Tumorigenic Properties of Melanoma Cells. *ACS Chemical Biology.* 2019;14(5):994-1003.
+
+- **DOI:** [10.1021/acschembio.9b00083](https://doi.org/10.1021/acschembio.9b00083)
+- **关键内容:** C116S + JNK-IN-8 分离 JNK1/JNK2 功能；JNK2 驱动黑色素瘤致瘤性
+
+### [R26] Qian 2019 — JNK-IN-8 衍生 live-cell 探针
+
+Qian L, Pan S, Lee J-S, Ge J, Li L, Yao SQ. Live-cell imaging and profiling of c-Jun N-terminal kinases using covalent inhibitor-derived probes. *Chemical Communications.* 2019;55:1092-1095.
+
+- **DOI:** [10.1039/C8CC09558B](https://doi.org/10.1039/C8CC09558B)
+- **关键内容:** JNK-IN-8 衍生双光子 Turn-ON 探针；chemoproteomics
+
+### [R27] Liu 2021 — MAPK Cys CpHMD（RSC Med Chem）
+
+Liu R, Zhan S, Che Y, Shen J. Profiling MAP kinase cysteines for targeted covalent inhibitor design. *RSC Medicinal Chemistry.* 2022;13:773-781.
+
+- **DOI:** [10.1039/D1MD00277E](https://doi.org/10.1039/D1MD00277E)
+- **关键内容:** 14 MAPK Cys 位点 CpHMD；JNK Cys116/154 reactive/hyper-reactive
+
+### [R28] Liu 2022 — FP Ncap Cys 反应性（JMC）
+
+Liu R, Zhan S, Che Y, Shen J. Reactivities of the Front Pocket N-Terminal Cap Cysteines in Human Kinases. *Journal of Medicinal Chemistry.* 2022;65(2):1525-1535.
+
+- **DOI:** [10.1021/acs.jmedchem.1c01186](https://doi.org/10.1021/acs.jmedchem.1c01186)
+- **PMC:** [PMC8812259](https://pmc.ncbi.nlm.nih.gov/articles/PMC8812259/)
+- **关键内容:** JNK1/2 Cys116 pKa 7.5/8.0；JNK3 Cys154 pKa 6.3
+
+### [R29] Zheng 2014 — 氨基吡唑 JNK3 SAR
+
+Zheng K, Iqbal S, Hernandez P, Park H, LoGrasso PV, Feng Y. Design and Synthesis of Highly Potent and Isoform Selective JNK3 Inhibitors: SAR Studies on Aminopyrazole Derivatives. *Journal of Medicinal Chemistry.* 2014;57(23):10013-10030.
+
+- **DOI:** [10.1021/jm501256y](https://doi.org/10.1021/jm501256y)
+- **PDB:** 4WHZ (26k–JNK3, 1.8 Å)
+- **关键内容:** 氨基吡唑 JNK3 选择性；464 kinome 26n；Wydra A-1 前体
+
+### [R30] Wen 2023 — Indazole 25c（JC16I 可逆前体）
+
+Wen S, Yang P, Xiao H, Zhu Y, Bu F, Wang A, et al. Discovery of Novel Indazole Chemotypes as Isoform-Selective JNK3 Inhibitors for the Treatment of Parkinson's Disease. *Journal of Medicinal Chemistry.* 2023;66(2):1273-1300.
+
+- **DOI:** [10.1021/acs.jmedchem.2c01410](https://doi.org/10.1021/acs.jmedchem.2c01410)
+- **关键内容:** 25c JNK3 IC50=85 nM；>100× vs JNK1/2；非共价；JC16I 前体
+
+### [R31] Reynders 2021 — JNK3 光控共价 PAL
+
+Reynders M, Chaikuad A, Berger B-T, Bauer K, Koch P, Laufer S, Knapp S, Trauner D. Controlling the Covalent Reactivity of a Kinase Inhibitor with Light. *Angewandte Chemie International Edition.* 2021;60(37):20178-20183.
+
+- **DOI:** [10.1002/anie.202103767](https://doi.org/10.1002/anie.202103767)
+- **PDB:** 7ORE
+- **关键内容:** diazocine 光开关 JNK3 共价 PAL；Tübingen 系列
+
+### [R32] Hoffelner 2023 — JNK3 共价 photocaging
+
+Hoffelner BS, Andreev S, Plank N, Koch P. Photocaging of Pyridinylimidazole-Based Covalent JNK3 Inhibitors Affords Spatiotemporal Control of the Binding Affinity in Live Cells. *Pharmaceuticals.* 2023;16(2):264.
+
+- **DOI:** [10.3390/ph16020264](https://doi.org/10.3390/ph16020264)
+- **PMC:** [PMC9962329](https://pmc.ncbi.nlm.nih.gov/articles/PMC9962329/)
+- **关键内容:** 化合物 13 共价 JNK3；17 DMNB cage；NanoBRET C154A
+
+### [R33] Soleimani 2022 — JNK-IN-8 @ TNBC（off-target 警示）
+
+Soleimani A, Ebelt ND, Kaoud TS, et al. Covalent JNK Inhibitor, JNK-IN-8, Suppresses Tumor Growth in Triple-Negative Breast Cancer by Activating TFEB- and TFE3-Mediated Lysosome Biogenesis and Autophagy. *Molecular Cancer Therapeutics.* 2022;21(10):1847-1858.
+
+- **DOI:** [10.1158/1535-7163.MCT-21-1044](https://doi.org/10.1158/1535-7163.MCT-21-1044)
+- **PMID:** [35977156](https://pubmed.ncbi.nlm.nih.gov/35977156/)
+- **关键内容:** TFEB/TFE3 激活 **JNK 非依赖**；C116S 不能逆转；表型解读 caution
+
+### [R34] Koch/Gehringer 2014 — JNK 专利 landscape
+
+Gehringer M, Laufer SA. JNK Pathway Inhibitors: An Update on Recent Patent Applications (2009–2012). *Expert Opinion on Therapeutic Patents.* 2013;23(6):761-773.
+
+- **DOI:** [10.1517/13543776.2013.789063](https://doi.org/10.1517/13543776.2013.789063)
+- **Note:** JNK 抑制剂专利综述；背景
+
+### [R35] Dou et al. 2025 — JNK3 选择性综述（含共价进展）
+
+Dou X, Huang X, Wang Y, Jin H, et al. Explaining Isoform Selectivity of c-Jun N-Terminal Kinase 3 (JNK3) Inhibitors through Its Development and Structural Insights. *Journal of Medicinal Chemistry.* 2025.
+
+- **DOI:** [10.1021/acs.jmedchem.5c01488](https://doi.org/10.1021/acs.jmedchem.5c01488)
+- **Note:** 2025 JNK3 抑制剂结构分类与选择性机制综述；引用 YL5084、JC16I 等
+
 ---
 
 ## 八、引用映射（方案正文编号 → 本文件）
@@ -217,4 +301,4 @@ Wydra VR. Entwicklung neuartiger isoform-selektiver Inhibitoren der c-Jun N-term
 
 ---
 
-*Last updated: 2026-07-07*
+*Last updated: 2026-07-07 (v1.1 — 扩展至 R35)*

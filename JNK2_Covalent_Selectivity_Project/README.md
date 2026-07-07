@@ -13,7 +13,7 @@
 JNK2_Covalent_Selectivity_Project/
 ├── README.md                              # 本文件
 ├── JNK2选择性共价抑制剂筛选方案.md          # 主方案（计算 + 实验 + 里程碑）
-├── JNK2共价抑制剂文献调研综述.md            # 已发表共价 JNK 抑制剂文献复盘
+├── JNK2共价抑制剂文献调研综述.md            # 已发表共价 JNK 抑制剂文献复盘（v1.1, 35 refs）
 ├── REFERENCES.md                          # 参考文献（含 DOI / PDB）
 └── config/
     └── targets.yaml                       # 结构模板与 benchmark 配置
