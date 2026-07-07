@@ -651,10 +651,8 @@ def build_word_detailed(fig_paths: dict[str, Path]) -> None:
      ]),
     ("8. 第五步：分子动力学 MD，目标是看结合姿势是否稳定",
      [
-       "分子对接给出的是一个静态姿势，而真实蛋白和分子在水溶液中会不断运动。因此项目对 16 个分子分别在 JNK1、JNK2、JNK3 中做 MD，共 48 个 Desmond 任务。MD 的核心问题是：这个分子在模拟过程中是否能稳定留在口袋中，是否保持与激酶铰链区的关键接触。",
-       "本项目的 MD QC 使用两个主要指标。第一是配体 RMSD，门槛为 ≤ 3 Å；如果 RMSD 很大，通常表示分子姿势漂移甚至离开结合口袋。第二是 hinge H-bond occupancy，门槛为 ≥ 30%；它表示模拟过程中有多少比例的时间保持铰链氢键。pass_md_JNK1 要求 JNK1 上同时满足 RMSD 和 hinge；pass_md_overall 要求 JNK1 pass，并且 JNK2 或 JNK3 至少一个也 pass。",
-       "结果显示，G1 组 3/4 通过 overall，G2 组 0/6 通过 overall，G3 对照 2/4 通过，G4 阴性锚点 0/2 通过。这个结果支持 G1 作为更稳妥的活性验证组，也说明 G2 新骨架风险较高。但 MD 不能等同于活性实验，因为 SP600125 和 CC-930 等已知活性分子也可能在 hinge 指标上表现不好。也就是说，MD 是 pose 可信度工具，不是选择性或活性的最终裁判。",
-       "在六个新采购分子中，2231 的 JNK1 hinge occupancy 为 0.91、JNK2 为 0.00、JNK3 为 0.10，JNK1 配体 RMSD 也处于最低档。2157 的 JNK1 hinge 为 0.85，JNK3 几乎无 hinge。这些结果使 2231 和 2157 成为优先检验 JNK1 偏好假说的分子；而 690 虽然 Tier 1′ 且 MD overall 通过，但三亚型 hinge 都不低，更像 pan-JNK 结合模式。",
+       "分子对接给出静态 pose，因此在 3ELJ（JNK1）、3E7O（JNK2）、3TTI（JNK3）上对各分子运行约 50 ns Desmond MD，共 48 条轨迹（16 分子 × 3 受体）。QC 门槛：配体 RMSD ≤ 3 Å 且铰链氢键占有率 ≥ 30%（pass_md_JNK1）；pass_md_overall 要求 JNK1 通过且 JNK2 或 JNK3 至少其一通过。辅以 RMSD/hinge 热图、组间箱线图、雷达图等评估三亚型 pose 稳定性与不对称性。",
+       "结果显示 G1 3/4、G2 0/6 通过 overall；G3 2/4 通过（SP600125、CC-930 等已知活性分子 hinge 可 fail）；G4 0/2 通过（阴性校准）。MD 后 JNK1 偏好相对排序中 2231（hinge J1=0.91）与 2157（hinge J1≫J3）居前；690/2232 呈 pan-JNK 模式。MD 是构象可信度与 G1 vs G2 假说检验工具，不能替代酶学 IC50。2231 虽 JNK1 hinge 最强但 G2 overall 仍 fail；10 人湿实验单综合 MD 分层、G3 校准与化学策略，而非 Δsel 或 pass_selectivity。",
      ]),
     ("9. 2231 的 200 ns Amber 延伸 MD：为什么做、看到了什么、不能说明什么",
      [
