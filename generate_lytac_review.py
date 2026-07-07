@@ -102,6 +102,8 @@ INTRO = [
     "2020年，Bertozzi团队在Nature上提出了溶酶体靶向嵌合体（LYTAC）的概念。"
     "此后几年里，不同研究组在分子设计、受体选择、细胞机制和疾病模型等方面做了不少工作。"
     "Li等（2025）和Chen等（2023）发表的综述文章，对LYTAC技术的发展脉络和应用前景做了较系统的介绍。"
+    "Wells和Kumru（2024）在Nature Reviews Drug Discovery发表的综述则从更广的胞外靶向蛋白降解"
+    "（extracellular targeted protein degradation, eTPD）角度，把LYTAC与KineTAC、AbTAC等策略放在同一框架下讨论。",
     "本文是在阅读文献基础上整理的课程作业式综述，"
     "主要想说明生物医学认识怎样影响LYTAC这类新药的研发思路，"
     "并梳理几篇代表性论文的主要结论。",
@@ -212,6 +214,34 @@ BODY_SECTION1 = [
     "因此，同一个LYTAC技术平台面对不同疾病时，"
     "评价指标也不会完全一样，"
     "不能只用体外降解百分比来判断有没有开发价值。",
+    "Wells和Kumru（2024）在综述中指出，胞外靶向蛋白降解的核心逻辑是把靶蛋白送入溶酶体，"
+    "而不是像PROTAC那样依赖泛素-蛋白酶体系统。"
+    "他们按分子类型把现有策略分为偶联物、双特异性抗体和小分子等几类，"
+    "并强调组织分布、内吞效率和受体占用是影响成药性的关键参数。"
+    "Zhao等（2022）在Signal Transduction and Targeted Therapy发表的靶向蛋白降解综述中，"
+    "也提到溶酶体途径是拓展降解靶点范围的重要方向之一，"
+    "这为理解LYTAC在整个TPD领域中的位置提供了更宏观的背景。",
+    "在结合模块方面，Miao等（2021）较早报道了双特异性适体嵌合体，"
+    "用一条适体结合CI-M6PR、另一条结合膜蛋白MET或PTK7，"
+    "实现了膜蛋白向溶酶体的转运和降解。"
+    "这项工作的意义在于证明适体也可以承担LYTAC中“抓靶蛋白”和“抓受体”的双重功能，"
+    "而且适体分子量小、合成相对方便，为后续Wu等和Li等的适体LYTAC研究打下了基础。",
+    "从受体选择看，Chen等（2023）归纳的LTR类型已经覆盖肝特异性、肿瘤相关和广谱表达等不同需求。"
+    "CI-M6PR和ASGPR分别代表“作用面广”和“肝定向”两类典型设计，"
+    "而整合素、叶酸受体等则在肿瘤选择性降解中显示出潜力。"
+    "Zhou等（2024）在ChemMedChem和Nature Communications上的工作进一步说明，"
+    "通过选择肿瘤组织高表达的受体，有可能把降解限制在病灶相关细胞中，"
+    "这对减少正常组织脱靶降解具有重要意义。",
+    "在阅读Banik等（2020）的原始论文时，我对CI-M6PR的生理角色有了更具体的认识。"
+    "该受体原本负责把带有M6P修饰的溶酶体酶带入细胞内，"
+    "LYTAC实际上是借用了这条“货物分拣”通路。"
+    "因此，内源性M6P糖蛋白会和外源LYTAC竞争受体结合位点，"
+    "这一点在Ahn等（2023）的研究中得到了直接验证。",
+    "连接子设计方面，不同研究也给出了值得参考的经验。"
+    "Ahn等（2021）发现，在抗体Fc区进行定点偶联可以改善GalNAc-LYTAC的体内行为；"
+    "Hamada等（2023）则通过调整适体之间的连接长度来优化HER2降解效率。"
+    "这些细节说明，LYTAC开发往往需要在靶点结合、受体识别和分子构象之间反复调试，"
+    "很难指望一种固定连接子适用于所有靶点。",
 ]
 
 BODY_SECTION2 = [
@@ -322,6 +352,45 @@ BODY_SECTION2 = [
     "Bertozzi团队更强调受体化学、细胞机制和分子平台的系统搭建，"
     "国内和亚洲其他实验室则在适体偶联、病灶激活和疾病模型验证方面做了不少延伸。"
     "这种分工说明LYTAC已经从一个实验室的概念，逐渐变成多个团队共同参与的研究方向。",
+    "在适体方向，研究时间线也相对清晰。"
+    "Miao等（2021）用双特异性适体嵌合体降解MET和PTK7，"
+    "证明核酸适体可以替代抗体作为LYTAC的结合模块。"
+    "Hamada等（2023）在Cell Reports Physical Science进一步构建了HER2靶向的适体LYTAC，"
+    "用分别识别HER2和IGF2R（CI-M6PR）的两条DNA适体连接成嵌合体，"
+    "在乳腺癌细胞中实现了HER2降解并抑制细胞增殖。"
+    "溶酶体抑制剂和内吞阻断实验表明，这一降解过程依赖溶酶体途径，"
+    "说明适体LYTAC的作用机制与Banik等提出的经典路线一致。",
+    "Wu等（2023）的Apt-LYTAC则把适体与tri-GalNAc偶联，"
+    "在保留肝靶向特性的同时简化了分子制备。"
+    "Li等（2023）的共价适体LYTAC通过生物正交反应增强适体与PD-L1的结合，"
+    "在复杂体内环境中提高了降解效率，并在肿瘤模型中显示出免疫激活效应。",
+    "Li等（2025）在综述中把上述工作归纳为适体类LYTAC的重要进展，"
+    "认为这类分子在快速筛选靶点和调节连接子长度方面具有独特优势。",
+    "在组织选择性方面，Tang团队的工作尤其值得单独介绍。"
+    "Zhou等（2024）在ChemMedChem报道了整合素靶向嵌合体（ITAC），"
+    "把cRGD肽与抗体偶联，利用肿瘤高表达的整合素介导EGFR等靶点降解。"
+    "实验显示，ITAC在多种癌细胞中降解膜蛋白的效率高于正常角质形成细胞，"
+    "提示“癌选择性降解”是可以通过受体选择来实现的。"
+    "同年，Zhou等又在Nature Communications报道了叶酸受体靶向嵌合体（FRTAC），"
+    "用叶酸配体连接抗肿瘤抗体，在叶酸受体高表达的肿瘤细胞中降解胞外和膜蛋白。"
+    "动物实验表明，FRTAC在多种同系小鼠肿瘤模型中比单纯阻断抗体更能抑制肿瘤生长，"
+    "而且制备上只需利用商业化的叶酸偶联试剂和抗体，可及性较好。",
+    "Chen等（2023）和Wells等（2024）都把ITAC、FRTAC这类策略归入组织选择性LYTAC的延伸，"
+    "说明该领域正在从“能不能降解”走向“在哪个细胞里降解”。",
+    "如果把时间线拉长来看，"
+    "2010年代中后期PROTAC的快速发展为蛋白降解药物提供了重要参照。"
+    "Bekes等（2022）回顾这一历程时指出，"
+    "PROTAC在取得临床概念验证后，产业界投入明显增加。"
+    "LYTAC目前似乎处于类似但更早期的阶段："
+    "已有高质量概念验证论文，也有多个并行平台，但还缺少系统的临床数据。",
+    "从研究方法上看，这个领域对遗传学和蛋白质组学工具的依赖越来越强。"
+    "Banik等用CRISPRi筛选内吞相关基因，"
+    "Ahn等用全基因组CRISPR敲除筛选调节因子，"
+    "都说明LYTAC研究已经不只是“做一个偶联分子看能不能降解”，"
+    "而是在追问哪些细胞过程决定了降解效率。",
+    "对我个人而言，这种研究方式很有启发："
+    "它把药物化学和细胞生物学放在同等重要的位置，"
+    "也更符合生物医学专业对“机制导向药物研发”的理解。",
 ]
 
 BODY_SECTION3 = [
@@ -431,6 +500,78 @@ BODY_SECTION3 = [
     "总体而言，LYTAC把生物医学中早已存在的受体介导内吞和溶酶体降解过程，"
     "重新包装成可设计的药物工具，"
     "这一点让我觉得它既有创新性，也高度依赖基础学科知识的长期积累。",
+    "在肿瘤选择性降解方向，Zhou等（2024）的FRTAC研究提供了较完整的体内证据。"
+    "叶酸受体在多种恶性肿瘤细胞表面高表达，而在多数正常组织中表达较低，"
+    "因此把叶酸作为受体配体，有望把降解主要限制在肿瘤细胞。"
+    "论文中报道，FRTAC可在体外和体内降解肿瘤相关蛋白，"
+    "并在三种同系小鼠肿瘤模型中显示出比阻断抗体更强的抑瘤效果。"
+    "对我个人而言，这类研究的意义在于把“精准医学”和蛋白降解技术直接联系起来，"
+    "不再只是泛泛地降解某个靶点，而是尽量在病灶相关细胞中完成清除。",
+    "ITAC策略则从另一个角度实现肿瘤选择性。"
+    "Zhou等（2024）把cRGD肽连接到抗体上，利用整合素在癌细胞表面的高表达，"
+    "促进EGFR等膜蛋白的内吞和溶酶体降解。"
+    "实验比较了癌细胞系和正常角质形成细胞，"
+    "发现ITAC在癌细胞中的降解效率更高。"
+    "这说明受体表达差异可以成为药物设计的重要依据，"
+    "也呼应了Ahn等通过换用ASGPR实现肝靶向的思路。",
+    "在适体平台方面，除了前面提到的Wu等和Li等，"
+    "Miao等（2021）和Hamada等（2023）的工作说明适体LYTAC已经覆盖MET、PTK7和HER2等多个靶点。"
+    "适体的优势是分子小、修饰灵活，"
+    "劣势则是在体内可能面临核酸酶降解和药代动力学方面的挑战。"
+    "因此，如何把适体LYTAC的稳定性和靶向性做到可开发水平，仍是后续研究的重点。",
+    "Wells和Kumru（2024）在讨论eTPD临床转化时指出，"
+    "胞外降解药物需要同时解决分子设计、组织分布、免疫原性和制备可放大性等问题。"
+    "这些判断与LYTAC目前面临的困境基本一致。"
+    "Zhao等（2022）在回顾靶向蛋白降解技术时也强调，"
+    "任何新平台都要经过较充分的机制验证、药代毒理评估和制剂研究，"
+    "才有可能进入临床开发阶段。",
+    "从课程作业的角度，我觉得LYTAC领域近几年最明显的变化是“平台多样化”。"
+    "除了Banik等提出的聚糖-抗体偶联路线，"
+    "现在已经出现了KineTAC、Apt-LYTAC、MoDE-A、ITAC、FRTAC和病灶激活前体等多种形式。"
+    "不同平台各有适用场景："
+    "肝靶向疾病可能更适合GalNAc或Apt-LYTAC，"
+    "肿瘤免疫可能关注PD-L1和HER2降解，"
+    "神经退行性疾病则更强调血脑屏障穿透和局部激活。",
+    "因此，评价一种LYTAC有没有前景，"
+    "不能只看体外降解率，还要结合靶点、受体、给药途径和疾病模型来综合判断。",
+    "展望未来，我认为该领域仍有几条主线值得跟踪："
+    "一是更多组织特异性受体的开发和验证，"
+    "二是更简单、均一性更好的制备方法，"
+    "三是系统的体内药效、毒理和药代研究。"
+    "只有把这些环节的数据逐步补齐，"
+    "LYTAC才有可能从实验室概念真正走向候选药物。",
+    "在自身免疫和炎症领域，胞外细胞因子和膜受体也是重要靶点，"
+    "但公开文献中针对这类靶点的LYTAC研究仍相对有限。"
+    "Chen等（2023）在综述中提到，细胞因子受体、生长因子受体和免疫检查点分子"
+    "都属于胞外降解值得关注的对象，"
+    "未来是否能开发出组织选择性更好的降解剂，还需要更多实验验证。",
+    "在工艺和质量控制方面，我认为这是LYTAC成药前必须面对的“硬问题”。"
+    "抗体-聚糖偶联物往往存在偶联位点和偶联数不一致的问题，"
+    "不同批次分子的降解活性可能出现波动。"
+    "Pance等提出的KineTAC和Miao等、Hamada等采用的适体路线，"
+    "在一定程度上是为了绕开复杂化学偶联带来的制备困难，"
+    "但每种替代方案也会带来新的稳定性或免疫原性风险。",
+    "因此，未来哪种平台最适合产业化，"
+    "可能不取决于哪篇论文的体外数据最高，"
+    "而取决于能否建立稳定、可重复、可放大的生产工艺。",
+    "最后，我想补充一点关于文献阅读的体会。"
+    "这个领域的论文往往同时涉及化学结构、细胞实验和动物模型，"
+    "对读者的知识背景要求比较综合。"
+    "例如，要理解Ahn等（2023）的Science论文，"
+    "需要知道retromer复合体、M6P生物合成和CUL3 neddylation分别意味着什么；"
+    "要理解Liu等（2023）的Chem论文，"
+    "则需要了解Aβ沉积、铜离子催化的点击反应和血脑屏障递送等概念。"
+    "这也让我意识到，新药研发并不是某一个学科的“独角戏”，"
+    "而是生物医学、药学和化学共同作用的结果。",
+    "作为课程作业，我把LYTAC理解为一个仍在快速演进的技术方向："
+    "它的核心思想并不复杂，即借助溶酶体清除胞外和膜蛋白；"
+    "但真正做好，需要把受体生物学、分子设计和疾病模型三个层面结合起来。"
+    "目前公开文献已经提供了较丰富的概念验证，"
+    "但距离临床药物仍有明显差距。"
+    "我会继续跟踪正式期刊发表的研究进展，"
+    "尤其关注是否有新的受体类型、更简单的制备路线以及更完整的临床前数据发表。",
+    "总体而言，LYTAC代表了靶向蛋白降解向胞外靶点拓展的重要尝试，"
+    "其发展过程充分体现了基础生物医学研究对新药研发的推动作用。",
 ]
 
 CONCLUSION = [
@@ -462,6 +603,12 @@ REFS = [
     "[9] Chen X, Zhou Y, Zhao Y, Tang W. Targeted degradation of extracellular secreted and membrane proteins[J]. Trends in Pharmacological Sciences, 2023, 44(11): 762-775. https://doi.org/10.1016/j.tips.2023.08.013",
     "[10] Caianiello D F, Zhang M, Ray J D, et al. Bifunctional small molecules that mediate the degradation of extracellular proteins[J]. Nature Chemical Biology, 2021, 17(9): 947-953. https://doi.org/10.1038/s41589-021-00851-1",
     "[11] Bekes M, Langley D R, Crews C M. PROTAC targeted protein degraders: the past is prologue[J]. Nature Reviews Drug Discovery, 2022, 21(3): 181-200. https://doi.org/10.1038/s41573-021-00371-6",
+    "[12] Wells J A, Kumru K. Extracellular targeted protein degradation: an emerging modality for drug discovery[J]. Nature Reviews Drug Discovery, 2024, 23(2): 126-140. https://doi.org/10.1038/s41573-023-00833-z",
+    "[13] Miao Y, Gao Q, Mao M, Zhang C, Yang L, Yang Y, Han D. Bispecific aptamer chimeras enable targeted protein degradation on cell membranes[J]. Angewandte Chemie International Edition, 2021, 60(20): 11267-11271. https://doi.org/10.1002/anie.202102170",
+    "[14] Zhou Y, Liao Y, Zhao Y, Tang W. Development of integrin targeting chimeras (ITACs) for the lysosomal degradation of extracellular proteins[J]. ChemMedChem, 2024, 19(24): e202300643. https://doi.org/10.1002/cmdc.202300643",
+    "[15] Zhou Y, Li C, Chen X, Zhao Y, Liao Y, Huang P, et al. Development of folate receptor targeting chimeras for cancer selective degradation of extracellular proteins[J]. Nature Communications, 2024, 15: 8695. https://doi.org/10.1038/s41467-024-52685-9",
+    "[16] Hamada K, Hashimoto T, Iwashita R, Yamada Y, Kikkawa Y, Nomizu M. Development of a bispecific DNA-aptamer-based lysosome-targeting chimera for HER2 protein degradation[J]. Cell Reports Physical Science, 2023, 4(3): 101296. https://doi.org/10.1016/j.xcrp.2023.101296",
+    "[17] Zhao L, Zhao J, Zhong K, Tong A, Jia D. Targeted protein degradation: mechanisms, strategies and application[J]. Signal Transduction and Targeted Therapy, 2022, 7: 113. https://doi.org/10.1038/s41392-022-00966-4",
 ]
 
 
