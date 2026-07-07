@@ -160,7 +160,48 @@ Abramson J, Adler J, Dunger J, Evans R, Green T, Pritzel A, et al. Accurate stru
 
 ---
 
-## 七、引用映射（方案正文编号 → 本文件）
+## 七、扩展文献（文献调研综述专用）
+
+### [R20] Wydra 2025 — JNK2/3 ligand-first 共价（56d）
+
+Wydra VR, Plank N, Zwirner S, Selig R, Rasch A, Masberg B, et al. A "Ligand First" Approach toward Selective, Covalent JNK2/3 Inhibitors. *Journal of Medicinal Chemistry.* 2025.
+
+- **DOI:** [10.1021/acs.jmedchem.5c00884](https://doi.org/10.1021/acs.jmedchem.5c00884)
+- **SI:** [10.1021/acs.jmedchem.5c00884.s001](https://doi.org/10.1021/acs.jmedchem.5c00884.s001)
+- **关键内容:** 氨基吡唑可逆先导 >100× vs JNK1 → 丙烯酰胺共价化；56d kinact/KI(JNK2)=38,200 M⁻¹s⁻¹；细胞 JNK2/3 选择性；clean kinome
+
+### [R21] Tóth 2024 — 环己烯酮可逆共价 JNK（JNK-IN-8 衍生）
+
+Tóth M, Szőllősi D, Szabadkai M, et al. Reversible covalent c-Jun N-terminal kinase inhibitors targeting a specific cysteine by precision-guided Michael-acceptor warheads. *Nature Communications.* 2024;15:8269.
+
+- **DOI:** [10.1038/s41467-024-52573-2](https://doi.org/10.1038/s41467-024-52573-2)
+- **PDB:** 8PTA, 8PT9, 8PT8 (JNK1–cyclohexenone)
+- **关键内容:** 1aR-IN-8 可逆共价；C116S SPR；GSH 10 mM 挑战；1bR JNK1> JNK2 10×；1cR JNK3> JNK2 >10×
+
+### [R22] Muth 2016 — JNK3 吡啶咪唑共价
+
+Muth F, El-Gokha A, Ansideri F, Eitel M, Döring E, Sievers-Engler A, et al. Tri- and Tetrasubstituted Pyridinylimidazoles as Covalent Inhibitors of c-Jun N-Terminal Kinase 3. *Journal of Medicinal Chemistry.* 2016;60(2):594-607.
+
+- **DOI:** [10.1021/acs.jmedchem.6b01180](https://doi.org/10.1021/acs.jmedchem.6b01180)
+- **关键内容:** 化合物 7 JNK3 IC50=0.3 nM；C154A + MS 共价确证；410 kinome
+
+### [R23] Wen 2024 — JC16I JNK3 选择性共价
+
+Wen S, Yang P, Xiao H, Zhu Y, Bu F, Wang A, et al. Selective Covalent Inhibiting JNK3 by Small Molecules for Parkinson's Diseases. *Angewandte Chemie International Edition.* 2024;63(50):e202411037.
+
+- **DOI:** [10.1002/anie.202411037](https://doi.org/10.1002/anie.202411037)
+- **关键内容:** JC16I JNK3 IC50=5.31 nM；>160× vs JNK1/2；JC-P1 ABPP；PD 模型
+
+### [R24] Wydra 2024 博士论文（背景）
+
+Wydra VR. Entwicklung neuartiger isoform-selektiver Inhibitoren der c-Jun N-terminalen Kinase 2 und 3. Tübingen, 2024.
+
+- **DOI:** [10.15496/publikation-115042](https://doi.org/10.15496/publikation-115042)
+- **Note:** ligand-first 策略与肝再生 JNK2 探针动机
+
+---
+
+## 八、引用映射（方案正文编号 → 本文件）
 
 | 方案编号 | 本文件编号 |
 |----------|-----------|
@@ -176,4 +217,4 @@ Abramson J, Adler J, Dunger J, Evans R, Green T, Pritzel A, et al. Accurate stru
 
 ---
 
-*Last updated: 2026-07*
+*Last updated: 2026-07-07*
