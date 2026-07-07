@@ -86,6 +86,18 @@ def synthesize_tables() -> None:
   ]).to_csv(DATA_DIR / "18_MD短名单漏斗.csv", index=False, encoding="utf-8-sig")
 
   pd.DataFrame([
+    {"序号": 0, "阶段": "ML F1后对接库(F0)", "数量": 4983, "评判指标与门槛": "p_family ≥ 6.0", "指标类别": "ML活性召回", "用于采购链": "是", "数据来源": "md_shortlist_report_23c8.md", "备注": ""},
+    {"序号": 1, "阶段": "VSW有效", "数量": 4979, "评判指标与门槛": "三isoform均有Glide XP gscore", "指标类别": "对接有效性", "用于采购链": "是", "数据来源": "JNK1_SELECTIVITY_FINAL_REPORT_41d9.md", "备注": "4个对接失败"},
+    {"序号": 2, "阶段": "pass_pose(VSW pose门)", "数量": 3234, "评判指标与门槛": "Glide pose质量布尔门", "指标类别": "pose可信度(对接层A)", "用于采购链": "间接", "数据来源": "同上", "备注": "与MD-F1部分重叠"},
+    {"序号": 3, "阶段": "pass_potency(单活性门)", "数量": 1681, "评判指标与门槛": "score_JNK1 ≤ -7.43", "指标类别": "JNK1活性单点", "用于采购链": "是(分量)", "数据来源": "同上", "备注": "可与pass_pose独立计数"},
+    {"序号": 4, "阶段": "MD-F1 pose QC", "数量": 3125, "评判指标与门槛": "更严Glide pose质量门", "指标类别": "pose可信度(对接层B)", "用于采购链": "是", "数据来源": "md_shortlist_report_23c8.md", "备注": "比pass_pose少109"},
+    {"序号": 5, "阶段": "MD-F2活性双门槛", "数量": 182, "评判指标与门槛": "score_JNK1 ≤ -7.43 且 MMGBSA_JNK1 ≤ -51.6", "指标类别": "JNK1活性双点", "用于采购链": "是", "数据来源": "同上", "备注": "非Δsel"},
+    {"序号": "5a", "阶段": "F2∩pass_pose(推断)", "数量": 165, "评判指标与门槛": "双门槛∩pass_pose", "指标类别": "pose+活性", "用于采购链": "推断", "数据来源": "未入库", "备注": "不得编造ID"},
+    {"序号": 6, "阶段": "F1∧F2(MD短名单ADMET前)", "数量": 157, "评判指标与门槛": "MD-F1 且 MD-F2", "指标类别": "pose+活性", "用于采购链": "是", "数据来源": "md_shortlist_report_23c8.md", "备注": ""},
+    {"序号": "—", "阶段": "pass_selectivity(探索)", "数量": 233, "评判指标与门槛": "Δsel_dock>0 且 Δsel_MMGBSA≥2", "指标类别": "选择性探索", "用于采购链": "否", "数据来源": "JNK1_SELECTIVITY_FINAL_REPORT_41d9.md", "备注": "benchmark否定"},
+  ]).to_csv(DATA_DIR / "26_对接后筛选漏斗.csv", index=False, encoding="utf-8-sig")
+
+  pd.DataFrame([
     {"指标": "Spearman(Δsel_dock_vsw, -ΔpIC50_sel)", "数值": 0.750, "n": 7},
     {"指标": "Spearman(Δsel_mmgbsa_vsw, -ΔpIC50_sel)", "数值": 0.786, "n": 7},
     {"指标": "方向准确率(docking,VSW PDB)", "数值": "43%(3/7)", "n": 7},
@@ -391,6 +403,17 @@ ChEMBL 中明确标注 JNK1-selective 的分子仅 8 个（数据表 10），数
 Δsel_dock = min(score_JNK2, score_JNK3) − score_JNK1。若 > 0，计算上「更偏向 JNK1」。
 对 9 个有实验 IC50 的文献分子做回顾：Spearman 秩相关尚可，但离散方向准确率仅 43%（3/7），低于 55% 可用线（数据表 19、图 6）。
 因此：233 个 pass_selectivity 和 57 个 Tier 1′ 属于选择性探索统计（详见第五章），不用于 MD 进门。
+
+4.4 对接后主线筛选漏斗（数据表 26，技术报告 §3.5）
+4979 个有效对接后，采购链逐层为：
+• pass_pose 3234：VSW Glide pose 质量门（探索统计，较宽）
+• pass_potency 1681：score_JNK1 ≤ −7.43（单活性门，可与 pose 独立计数）
+• MD-F1 3125：更严 pose QC（比 pass_pose 少 109 个）→ MD-F2 182：Glide + MM-GBSA 双活性门槛 → F1∧F2 共 157 个进入 ADMET
+活性门槛 −7.43 来自 8 个非共价 benchmark 在 3ELJ 的 Glide 中位数；MMGBSA_JNK1 ≤ −51.6 为 JNK1 单点能量门，与 Δsel 无关。
+
+4.5 两层 pose QC 的区别
+对接阶段：pass_pose（3234，较宽）与 MD-F1（3125，较严）均为 Glide pose 质量评判，精确 Schrödinger 规则待归档。
+MD 阶段：另用配体 RMSD ≤ 3 Å 与铰链氢键占有率 ≥ 30%（§7），与对接层数值不可直接对比。
 """),
     ("五、曾尝试的选择性策略与失败原因", """
 5.0 VSW 对接后选择性探索（未用于采购）
@@ -504,6 +527,7 @@ JNK1 中 Asn108–配体氧原子氢键占有率约 68%（技术报告 §6.5.4�
   add_table(doc, pd.read_csv(DATA_DIR / "22_ML模型性能汇总.csv"), "表4 ML 模型 holdout 性能")
   add_table(doc, pd.read_csv(DATA_DIR / "24_外部decoy验证指标汇总.csv"), "表5 外部 decoy 验证指标")
   add_table(doc, pd.read_csv(DATA_DIR / "18_MD短名单漏斗.csv"), "表6 MD 短名单漏斗")
+  add_table(doc, pd.read_csv(DATA_DIR / "26_对接后筛选漏斗.csv"), "表6b 对接后主线筛选漏斗（§3.5）")
   add_table(doc, pd.read_csv(DATA_DIR / "17_Tier分布.csv"), "表7 VSW Tier 分布（选择性探索，未用于采购）")
   add_image(doc, fig_paths["hinge"], "图5 采购分子铰链氢键占有率（数据表 20）")
   add_table(doc, pd.read_csv(DATA_DIR / "11_采购清单purchase_after_md.csv"), "表8 最终采购清单（完整）")
@@ -608,7 +632,8 @@ def build_word_detailed(fig_paths: dict[str, Path]) -> None:
      [
        "对接使用每个 JNK 亚型一个主结构：JNK1 使用 3ELJ，JNK2 使用 3E7O，JNK3 使用 3TTI。选择这些结构前，项目做了共晶再对接验证。所谓再对接，是把原来在晶体结构里已经看到的配体拿出来，再用计算方法放回同一个蛋白口袋，看能否复现实验姿势。若重对接 pose 与晶体 pose 的 RMSD 小于 2 Å，通常说明结构准备和网格设置是可信的。",
        "本项目 5 个结构再对接全部通过：3ELJ 为 0.66 Å，4L7F 为 0.92 Å，3E7O 为 0.26 Å，3TTI 为 1.50 Å，4WHZ 为 1.88 Å。这个结果支持用这些 PDB 建立对接网格。但必须强调，再对接通过只说明“能复现已知共晶 pose”，并不说明对接分数可以区分 JNK1/JNK2/JNK3 选择性。",
-       "对接后得到 4979 个有效记录。早期项目定义了 Δsel_dock = min(score_JNK2, score_JNK3) − score_JNK1。因为 Glide 分越负通常表示结合越强，所以如果 Δsel_dock 大于 0，计算上看起来像 JNK1 比 JNK2/JNK3 更有优势。这个定义在数学上容易理解，但它有一个根本问题：三个亚型来自不同 PDB、不同网格和不同蛋白环境，绝对对接分并不天然可比。",
+       "对接后得到 4979 个有效记录。主线采购链的逐层筛选为（数据表 26，技术报告 §3.5）：pass_pose 3234（VSW pose 质量门）→ MD-F1 3125（更严 pose QC）→ MD-F2 182（score_JNK1 ≤ −7.43 且 MMGBSA_JNK1 ≤ −51.6）→ F1∧F2 共 157 个。pass_potency 1681 为单 Glide 活性门，可与 pose 独立计数。",
+       "早期项目定义了 Δsel_dock = min(score_JNK2, score_JNK3) − score_JNK1。因为 Glide 分越负通常表示结合越强，所以如果 Δsel_dock 大于 0，计算上看起来像 JNK1 比 JNK2/JNK3 更有优势。这个定义在数学上容易理解，但它有一个根本问题：三个亚型来自不同 PDB、不同网格和不同蛋白环境，绝对对接分并不天然可比。",
        "为了检验 Δsel 是否可信，项目用文献中有 IC50 的 benchmark 分子做回顾验证。结果显示，VSW 单 PDB 口径的方向准确率只有 43%（3/7），归档 ensemble 口径只有 29%（2/7），都低于预设 55% 阈值。也就是说，尽管 Spearman 秩相关看起来有一定数值，真正判断“方向”时仍然不可靠。因此，所有基于 Δsel 的选择性标签都从采购决策中移除。",
      ]),
     ("6. 第三步：为什么 MM-GBSA 和 Gly87 策略也没有成为选择性硬门槛",
@@ -682,6 +707,7 @@ def build_word_detailed(fig_paths: dict[str, Path]) -> None:
   add_table(doc, pd.read_csv(DATA_DIR / "22_ML模型性能汇总.csv"), "表4 ML 模型 holdout 性能")
   add_table(doc, pd.read_csv(DATA_DIR / "24_外部decoy验证指标汇总.csv"), "表5 外部 decoy 验证指标")
   add_table(doc, pd.read_csv(DATA_DIR / "18_MD短名单漏斗.csv"), "表6 MD 短名单漏斗")
+  add_table(doc, pd.read_csv(DATA_DIR / "26_对接后筛选漏斗.csv"), "表6b 对接后主线筛选漏斗（§3.5）")
   add_table(doc, pd.read_csv(DATA_DIR / "17_Tier分布.csv"), "表7 VSW Tier 分布（选择性探索，未用于采购）")
   add_image(doc, fig_paths["hinge"], "图5 采购分子铰链氢键占有率（数据表 20）")
   add_table(doc, pd.read_csv(DATA_DIR / "11_采购清单purchase_after_md.csv"), "表8 最终采购清单（完整）")
@@ -694,15 +720,15 @@ def build_word_detailed(fig_paths: dict[str, Path]) -> None:
   add_table(doc, pd.read_csv(DATA_DIR / "20_采购分子铰链占有率.csv"), "表14 采购分子铰链氢键占有率")
   add_table(doc, pd.read_csv(DATA_DIR / "21_采购分子配体RMSD中位数_Angstrom.csv"), "表15 采购分子配体 RMSD 中位数 (Å)")
 
-  doc.add_heading("14. 完整数据附录（00–24 号文件逐一嵌入）", level=1)
-  doc.add_paragraph("本章把 data_tables/ 文件夹中的 00–25 号 CSV/JSON 文件逐一嵌入 Word。若表格较宽，建议在 Word 中横向页面查看；原始机器可读文件同时保存在 data_tables/ 文件夹中。")
+  doc.add_heading("14. 完整数据附录（00–26 号文件逐一嵌入）", level=1)
+  doc.add_paragraph("本章把 data_tables/ 文件夹中的 00–26 号 CSV/JSON 文件逐一嵌入 Word。若表格较宽，建议在 Word 中横向页面查看；原始机器可读文件同时保存在 data_tables/ 文件夹中。")
   for path in sorted(DATA_DIR.glob("*")):
     if path.name == "README.md" or path.suffix.lower() not in {".csv", ".json"}:
       continue
     add_data_file_to_doc(doc, path, path.name)
 
   doc.add_heading("15. 数据文件夹说明", level=1)
-  doc.add_paragraph("所有数据表格文件位于 docs/popular_science/data_tables/。该文件夹包含 26 个 CSV/JSON 文件和 README.md，既可以供 Word 阅读，也可以供后续 Excel、Python 或统计软件复核。")
+  doc.add_paragraph("所有数据表格文件位于 docs/popular_science/data_tables/。该文件夹包含 27 个 CSV/JSON 文件和 README.md，既可以供 Word 阅读，也可以供后续 Excel、Python 或统计软件复核。")
   doc.add_paragraph("生成脚本：scripts/build_popular_science_doc.py。重新生成命令：python3 scripts/build_popular_science_doc.py。")
 
   doc.save(DOC_PATH)

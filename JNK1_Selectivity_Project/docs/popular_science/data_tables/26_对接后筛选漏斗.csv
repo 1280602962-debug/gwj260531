@@ -1,0 +1,10 @@
+﻿序号,阶段,数量,评判指标与门槛,指标类别,用于采购链,数据来源,备注
+0,ML F1后对接库(F0),4983,p_family ≥ 6.0,ML活性召回,是,md_shortlist_report_23c8.md,
+1,VSW有效,4979,三isoform均有Glide XP gscore,对接有效性,是,JNK1_SELECTIVITY_FINAL_REPORT_41d9.md,4个对接失败
+2,pass_pose(VSW pose门),3234,Glide pose质量布尔门,pose可信度(对接层A),间接,同上,与MD-F1部分重叠
+3,pass_potency(单活性门),1681,score_JNK1 ≤ -7.43,JNK1活性单点,是(分量),同上,可与pass_pose独立计数
+4,MD-F1 pose QC,3125,更严Glide pose质量门,pose可信度(对接层B),是,md_shortlist_report_23c8.md,比pass_pose少109
+5,MD-F2活性双门槛,182,score_JNK1 ≤ -7.43 且 MMGBSA_JNK1 ≤ -51.6,JNK1活性双点,是,同上,非Δsel
+5a,F2∩pass_pose(推断),165,双门槛∩pass_pose,pose+活性,推断,未入库,不得编造ID
+6,F1∧F2(MD短名单ADMET前),157,MD-F1 且 MD-F2,pose+活性,是,md_shortlist_report_23c8.md,
+—,pass_selectivity(探索),233,Δsel_dock>0 且 Δsel_MMGBSA≥2,选择性探索,否,JNK1_SELECTIVITY_FINAL_REPORT_41d9.md,benchmark否定

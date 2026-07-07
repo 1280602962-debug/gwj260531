@@ -1,8 +1,9 @@
 # JNK1/2/3 亚型抑制剂计算筛选项目报告
 
-> **版本**: 3.2  
+> **版本**: 3.3  
 > **日期**: 2026-07-07  
 > **原则**: 本报告所有数值均来自仓库内可复现文件、对接工作区归档 CSV 或 MD QC 结果；未在数据中出现的结论一律不作断言。  
+> **v3.3 更新**: 新增 **§3.5 对接后筛选过程与评判指标**——逐层漏斗、活性/pose/选择性指标区分、两层 pose QC、门槛标定与数据缺口；数据表 `26_对接后筛选漏斗.csv`。  
 > **v3.2 更新**: §6.1 增补 **25→16 组内排序键**、**16 人 MD 完整名单**及 G1/G2 shortlist 落选说明；完整 9+10 人 ID 明细待 `md_shortlist_report_23c8.md` 入库（见 §6.1.2、数据表 `25_shortlist_25to16.csv`）。  
 > **v3.1 更新**: 新增 §2.1「为何选择 XGBoost 而非深度学习」——说明立项时对 **XGBoost vs Chemprop 2.0** 的模型比较协议、归档结果与选型理由；原 §2.1–§2.6 顺延为 §2.2–§2.7。  
 > **v3.0 更新**: 新增 §1.2「JNK1 选择性筛选的设计分析」——从生物学动机、计算分层、假说选型到已知风险，说明**为何立项做 JNK1 选择性筛选**及管线为何如此设计；原 §1.2/§1.3 顺延为 §1.3/§1.4。  
@@ -602,9 +603,141 @@ Enamine ~5000 → ML F1 (p_family≥6.0) → 4983
 | pass_pose | 3234 | Glide pose 质量门（与 MD-F1 部分重叠） |
 | pass_potency | 1681 | score_JNK1 @ 3ELJ ≤ **−7.43** |
 
-**门槛设置原因**：ML F1 保活性召回；−7.43 对齐 3ELJ benchmark 中位数。4979 个对接结果进入 §6.1 的 pose QC + JNK1 活性双门槛，**不使用** Δsel、`pass_selectivity` 或 Tier 分级。
+**门槛设置原因**：ML F1 保活性召回；−7.43 对齐 3ELJ benchmark 中位数。4979 个对接结果进入 §3.5 与 §6.1 的 pose QC + JNK1 活性双门槛，**不使用** Δsel、`pass_selectivity` 或 Tier 分级。逐层筛选细节、评判指标定义与两层 pose QC 区别见 **§3.5**；汇总数据表见 `docs/popular_science/data_tables/26_对接后筛选漏斗.csv`。
 
 > **选择性探索**：项目曾尝试用 Δsel、pass_selectivity、Tier 等对接后标签判断 isoform 方向，benchmark 标定后**全部否定决策价值**（§4、§5）。这些统计**保留于 §5.4**，供回顾分析，**不参与** MD 短名单或采购排序。
+
+### 3.5 对接后筛选过程、评判指标与两层 Pose QC
+
+本节把 **4979 → 157** 的主线对接后漏斗写清楚：每一层筛什么、用什么字段、门槛如何标定、哪些指标用于**活性**、哪些仅作**选择性探索**、以及 **pose QC 在对接阶段与 MD 阶段的两套口径**。采购决策链只走「活性 + pose 可信度 + 成药性」路径，**不读取** Δsel / `pass_selectivity` / Tier / Gly87（§5、§6.3.1）。
+
+#### 3.5.1 VSW 执行概要
+
+| 项目 | 内容 |
+|------|------|
+| 输入库 | Enamine REAL ~5000；ML F1（`p_family ≥ 6.0`）后 **4983** 个进入对接队列 |
+| 有效对接记录 | **4979**（三亚型均有 Glide XP 分；4 个失败/缺失） |
+| 软件 | Schrödinger：**Protein Preparation Wizard** → **Glide XP** VSW；活性门后选 **Prime MM-GBSA**（单 pose @ 各 PDB） |
+| 受体 | 每 isoform **单 PDB**：JNK1 **3ELJ**、JNK2 **3E7O**、JNK3 **3TTI**（§3.1） |
+| 网格 | 以各 PDB **共晶配体** 定义结合位点（`grid_reference_ligand: true`，`config/docking_ensemble.yaml`） |
+| 打分模式 | **Glide XP**；终分字段 **`r_i_glide_gscore`**（XP gscore，**非** SP 中间分） |
+| _pose 选取_ | 各 isoform 取 **Glide 排名第一** pose 用于 `score_*`、MM-GBSA 与后续 MD 起点 |
+| 数据来源 | `JNK1_SELECTIVITY_FINAL_REPORT_41d9.md`（VSW 数量与探索标签）；`md_shortlist_report_23c8.md`（MD 短名单漏斗） |
+
+#### 3.5.2 输出字段与指标分类
+
+对接批处理后，每个分子在归档表中至少包含下列字段（命名以工作区 CSV 为准）：
+
+| 字段 / 派生量 | 定义 | 指标类别 | 用于 MD 短名单？ |
+|---------------|------|----------|------------------|
+| `score_JNK1` | Glide XP gscore @ **3ELJ** | **JNK1 活性**（单点） | **是**（F2、排序） |
+| `score_JNK2` | Glide XP gscore @ 3E7O | 结构活性（off-target） | 否（仅算 Δsel 探索） |
+| `score_JNK3` | Glide XP gscore @ 3TTI | 结构活性（off-target） | 否 |
+| `MMGBSA_JNK1` | Prime MM-GBSA `dG_bind` @ 3ELJ，kcal/mol | **JNK1 活性**（单点能量） | **是**（F2、排序） |
+| `MMGBSA_JNK2/3` | 同上 @ 3E7O / 3TTI | off-target 能量 | 否（仅算 Δsel 探索） |
+| `Δsel_dock` | min(score_JNK2, score_JNK3) − score_JNK1 | **选择性探索** | **否** |
+| `Δsel_MMGBSA` | min(MMGBSA_JNK2, MMGBSA_JNK3) − MMGBSA_JNK1 | **选择性探索** | **否** |
+| `pass_pose` | VSW 后 **Glide pose 质量门**（布尔） | pose 可信度（对接层） | 间接（见 §3.5.4） |
+| `pass_potency` | score_JNK1 ≤ **−7.43** | JNK1 活性（单门槛） | 是（F2 分量之一） |
+| `pass_selectivity` | Δsel_dock > 0 **且** Δsel_MMGBSA ≥ 2 | **选择性探索（遗留）** | **否**（benchmark 否定） |
+
+**关键区分**：
+
+1. **活性指标**（单点 @ JNK1）：`score_JNK1`、`MMGBSA_JNK1`——回答「对 JNK1 口袋是否可能有结合」，**不**声称 isoform 方向。
+2. **选择性指标**（跨 isoform 差值）：`Δsel_*`、`pass_selectivity`——回答「计算上是否 JNK1 偏好」；benchmark 方向准确率 **43%**（§3.3、§4），**已从采购链移除**。
+3. **Pose 指标**：对接层 `pass_pose` / MD-F1；MD 层 RMSD + hinge（§6.2）——回答「pose 是否几何合理、MD 中是否稳定」，**不能**替代酶学 IC50。
+
+#### 3.5.3 主线筛选漏斗（4979 → 157）
+
+下表为**采购决策链**上的逐层数量；探索性并行标签（`pass_selectivity`、Tier）不计入此链。
+
+| 序号 | 阶段 | 数量 | 评判指标与门槛 | 数据来源 | 备注 |
+|------|------|------|----------------|----------|------|
+| 0 | ML F1 后对接库（F0） | **4983** | `p_family ≥ 6.0` | `md_shortlist_report_23c8.md` | ML 保活性召回 |
+| 1 | VSW 有效 | **4979** | 三 isoform 均有 XP gscore | `JNK1_SELECTIVITY_FINAL_REPORT_41d9.md` | 4 个对接失败 |
+| 2 | **pass_pose**（VSW pose 门） | **3234** | Glide pose 质量布尔门 | 同上 | 探索统计；与 MD-F1 **部分重叠** |
+| 3 | **pass_potency**（单活性门） | **1681** | score_JNK1 ≤ **−7.43** | 同上 | 可与 pass_pose **独立计数** |
+| 4 | **MD-F1** pose QC | **3125** | 更严 Glide pose 质量门 | `md_shortlist_report_23c8.md` | 比 pass_pose **少 109**（3234−3125） |
+| 5 | **MD-F2** 活性双门槛 | **182** | score_JNK1 ≤ −7.43 **且** MMGBSA_JNK1 ≤ **−51.6** | 同上 | **单点活性**，非 Δsel |
+| 5a | F2 ∩ pass_pose（**推断**†） | **165**† | 双门槛 ∩ pass_pose | **未入库** | 182−165=**17** 过 F2 但未过 pass_pose |
+| 6 | **F1 ∧ F2**（MD 短名单，ADMET 前） | **157** | MD-F1 **且** MD-F2 | 同上 | 165−157=**8** 推断为 pass_pose 与 MD-F1 间隙 |
+| 7 | F7 ADMET 剔除 | 9 | QikProp @3ELJ | 同上 | hERG、吸收等 |
+| 8 | ADMET 后 shortlist | **25** | 化学策略分组 | 同上 | §6.1 |
+| 9 | 进入 MD | **16** | 组内配额 + 排序键 | `MD_QC_report_cf26.md` | §6.1.1 |
+| 10 | 采购推荐 | **10** | MD + 化学策略 | `purchase_after_md.csv` | §7 |
+
+† **165 为逻辑还原、未单独入库**：由 **182（F2）** 与 **pass_pose（3234）** 的交集数量推断（182−165=17 个分子活性双门槛通过但 VSW pose 门未过；165−157=8 个推断为 pass_pose 通过但 MD-F1 更严门槛未过）。**不得**据此编造化合物 ID；待 `md_shortlist_report_23c8.md` / `candidates_ranked_befe.csv` 归档后可逐 ID 核对。
+
+**漏斗逻辑（文字版）**：
+
+```
+4983 (ML F1)
+  → 4979 (VSW 有效)
+  → 3125 (MD-F1 pose QC) ─┐
+  → 182 (MD-F2 活性双门槛) ─┼→ 157 (F1∧F2) → ADMET → 25 → 16 MD → 10 采购
+                           │
+  并行探索计数（不进采购链）：
+  pass_pose 3234 | pass_potency 1681 | pass_selectivity 233（§5.4）
+```
+
+#### 3.5.4 活性门槛标定
+
+| 门槛 | 数值 | 应用阶段 | 标定依据 |
+|------|------|----------|----------|
+| **score_JNK1 ≤ −7.43** | kcal/mol（Glide XP） | pass_potency、MD-F2、组内排序 | **8 个非共价 benchmark** 在 **3ELJ 单 PDB** Glide 中位数（§12 Q8）；与 VSW 实际口径一致 |
+| **MMGBSA_JNK1 ≤ −51.6** | kcal/mol（Prime dG_bind） | MD-F2、组内排序 | 短名单 F2 **历史门槛**；标定报告记 benchmark ensemble 中位数 ≈ **−46.4**，强 JNK1 对照 **E1 @ 3ELJ ≈ −63.4**（`benchmark_mmgbsa_calibration.md`） |
+| ~~score_JNK1 ≤ −6.65~~ | — | **已废弃** | 早期 **mean(3ELJ, 4L7F) ensemble** 验证脚本口径，**非** VSW 分数（§12 Q8） |
+
+**为何 F2 用「Glide + MM-GBSA」双门槛？** Glide 负责快速排序召回；MM-GBSA 在固定 pose 上作 Prime 能量重估，用于去掉「打分好但溶剂化/构象惩罚大」的伪阳性。**两者均为 JNK1 单点活性**，与 `Δsel_MMGBSA` 选择性分量无关（2231 个案 §6.3.1）。
+
+#### 3.5.5 Pose QC 两层口径（对接 vs MD）
+
+本项目在 **对接后** 与 **MD 后** 各有一套 pose 评判，名称相近但**字段、阈值、用途不同**：
+
+| 层次 | 名称 | 通过数 | 评判内容 | 典型阈值 / 字段 | 用于采购链？ |
+|------|------|--------|----------|-----------------|--------------|
+| **对接层 A** | `pass_pose` | **3234** | VSW 批处理 **Glide pose 质量**布尔门 | Schrödinger Pose 质量规则（**精确字段阈值未入库**） | 仅探索统计；F2∩pass_pose 推断用 |
+| **对接层 B** | **MD-F1** | **3125** | MD 短名单用 **更严** Glide pose QC | 同上，口径严于 pass_pose（**精确规则未入库**） | **是**（157 进门条件） |
+| **MD 层** | **pass_md_JNK1 / overall** | 6 / 5（16 人输入） | Desmond 轨迹 **配体 RMSD + 铰链 H-bond 占有率** | RMSD ≤ **3 Å**；hinge HB ≥ **30%** | **是**（采购分层，§6.2） |
+
+**两层对接 pose QC 的关系**：
+
+- **MD-F1（3125）⊂ pass_pose（3234）** 在数量上成立：更严门槛少 **109** 个。
+- **pass_pose 与 pass_potency 可独立计数**（3234 vs 1681）：活性好不等于 pose 合格，反之亦然。
+- **MD 层 hinge/RMSD 与对接层无同一数值**：例如 SP600125、E1 酶学活性已知，MD hinge 可 fail（§6.4.2、§12 Q7）。
+
+**对接 pose 几何参考（非 MD-F1 正式口径）**：Gly87 探索脚本 `gly87_selfcheck_16be.csv` 记录 `hinge_HB_dist`、`centroid_dist`（limit=**36.8 Å**）、`clash_*` 等，用于回顾性假说检验（§5.2），**未**作为 MD 短名单硬门槛。
+
+> **数据缺口（P0）**：`pass_pose` 与 MD-F1 在 Schrödinger 中的具体 Pose Review / IFP 规则（如 `r_i_glide_lipo`、`emodel`、氢键数等）**未**写入本仓库；归档 `md_shortlist_report_23c8.md` 入库后应补 Methods 表。
+
+#### 3.5.6 选择性探索标签（与主线脱钩）
+
+下列标签在 VSW 批处理中生成，**不参与** 157→25→16→10 主线（详见 §5.4）：
+
+| 标签 | 数量 | 条件 | benchmark 结论 |
+|------|------|------|----------------|
+| `pass_selectivity` | **233** | Δsel_dock > 0 **且** Δsel_MMGBSA ≥ **2.0** | 方向准确率 **43%**；Δsel 分量**废弃** |
+| Tier 1′ / 2 / 3 | 57 / 92 / 1191 | pose + potency +（可选）selectivity + contact | **探索分级**；2231 为 Tier 3 仍进 MD（§6.3.1） |
+| `has_selectivity_contact` | 63 | 铰链 H-bond 代理 + Δsel 启发式 | 非完整 IFP |
+
+**文稿禁忌**：不得写「233 个严格 JNK1 选择性通过」或「Tier 1′ = 高置信 hit」；应写「对接能量差超过任意阈值的**探索候选**（未经 isoform 方向验证）」（§12 Q2）。
+
+#### 3.5.7 MM-GBSA 与对接选择性标定摘要
+
+| 标定量 | 数值 | 对筛选的含义 |
+|--------|------|--------------|
+| \|Δsel_mmgbsa\| 中位数（非共价, VSW PDB） | **8.13** kcal/mol | 遗留门槛 2.0 **远低于噪声** |
+| 建议保守 Δsel_MMGBSA 门槛 | **≥ 22.2** kcal/mol | 若重做探索筛，亦**不能**替代湿实验 |
+| MM-GBSA 方向准确率 | **43%** (3/7) | 与 docking 相同，<< 55% 决策阈值 |
+| benchmark JNK1 MM-GBSA 中位数（ensemble） | **−46.4** kcal/mol | 参考「家族活性」量级，**非** F2 门（F2 用 −51.6） |
+
+完整表：`results/docking_validation/benchmark_mmgbsa_calibration.csv`；数据表 `07_benchmark_MMGBSA标定.csv`。
+
+#### 3.5.8 小结：读漏斗时的三条原则
+
+1. **采购链只看活性单点 + pose + ADMET**：`score_JNK1`、`MMGBSA_JNK1`、MD-F1、Desmond QC；**不看** Δsel / pass_selectivity / Tier / Gly87。
+2. **pass_pose（3234）与 MD-F1（3125）不是同一扇门**：前者用于 VSW 探索统计，后者是 157 的硬条件；中间 **109** 个差值代表更严 pose 规则。
+3. **165 为算术推断环节**：标明待归档，**禁止编造 ID**；F1∧F2 的 **157** 为有报告支撑的 MD 短名单入口。
 
 ---
 
@@ -747,7 +880,7 @@ JNK ATP 口袋铰链近邻存在**非完全保守**残基（KLIFS **b.l.37**）�
 
 ### 6.1 MD 短名单漏斗（`md_shortlist_report_23c8.md`）
 
-**声明**：MD 短名单是主线筛选的下一环节（§3.4），**不读取** `pass_selectivity`、Tier 2/1′、Δsel 方向或 Gly87 IFP（选择性探索见 §5）。
+**声明**：MD 短名单是主线筛选的下一环节（§3.4–§3.5），**不读取** `pass_selectivity`、Tier 2/1′、Δsel 方向或 Gly87 IFP（选择性探索见 §5）。对接后各层门槛与 pose QC 两层口径见 **§3.5**；汇总表 `26_对接后筛选漏斗.csv`。
 
 MD 短名单目标：**JNK 家族结合剂** pose QC + 成药性，非「计算选择性 hit 过滤器」。
 
@@ -1452,10 +1585,8 @@ flowchart TB
 
     D --> E["Glide XP VSW @ 3ELJ / 3E7O / 3TTI<br/>4979 有效记录"]
 
-    E --> B1[MD-F1 pose QC 3125]
-    B1 --> B2["MD-F2 活性门<br/>score_JNK1 ≤ −7.43<br/>MMGBSA_JNK1 ≤ −51.6"]
-    B2 --> B3[F1 ∧ F2 通过 157]
-    B3 --> B4[QikProp ADMET 25]
+    E --> B0["对接后筛选 §3.5<br/>MD-F1 3125 → MD-F2 182<br/>F1∧F2 157"]
+    B0 --> B4[QikProp ADMET 25]
     B4 --> B5["G1–G4 化学策略分组<br/>Desmond MD pose QC 16"]
     B5 --> B6[采购推荐 10]
     B6 --> B7[湿实验 JNK1 / JNK2 / JNK3 IC50]
