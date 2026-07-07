@@ -33,14 +33,31 @@ REF_TITLES = {
 
 
 def cite(*nums):
-    """在正文插入文献名标注，格式：（文献：《题名》[编号]）"""
-    parts = [f"《{REF_TITLES[n]}》[{n}]" for n in nums]
-    return "（文献：" + "；".join(parts) + "）"
+    """在段落文本中暂存文献编号；实际显示时集中移到段末。"""
+    return "".join(f"{{CITE:{n}}}" for n in nums)
+
+
+def format_citations(text):
+    """将分散在句中的引用集中为段末文献名标注，使正文阅读更连贯。"""
+    refs = []
+
+    def collect(match):
+        ref_id = int(match.group(1))
+        if ref_id not in refs:
+            refs.append(ref_id)
+        return ""
+
+    body = re.sub(r"\{CITE:(\d+)\}", collect, text)
+    if not refs:
+        return body
+    note = "（参考文献：" + "；".join(f"《{REF_TITLES[n]}》[{n}]" for n in refs) + "）"
+    return body + note
 
 
 def count_chinese_chars(text):
     """统计汉字数；排除文献名标注块"""
-    cleaned = re.sub(r"（文献：[^）]*）", "", text)
+    cleaned = re.sub(r"\{CITE:\d+\}", "", text)
+    cleaned = re.sub(r"（参考文献：[^）]*）", "", cleaned)
     return sum(1 for c in cleaned if "\u4e00" <= c <= "\u9fff")
 
 
@@ -59,7 +76,7 @@ def add_paragraph(doc, text, align=WD_ALIGN_PARAGRAPH.JUSTIFY, first_line_indent
     pf.space_after = Pt(6)
     if first_line_indent:
         pf.first_line_indent = Cm(0.74)
-    run = p.add_run(text)
+    run = p.add_run(format_citations(text))
     set_run_font(run, size_pt=size_pt, bold=bold)
     return p
 
