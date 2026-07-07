@@ -436,7 +436,7 @@ JNK1 在铰链区有甘氨酸 Gly87，JNK2/JNK3 分别为 Ser/Met，体积更大
 3125 个通过 pose 质量 → 182 个通过 JNK1 活性双门槛（Glide ≤ −7.43 且 MMGBSA_JNK1 ≤ −51.6）→ 157 个 F1∧F2 → ADMET 剔除 9 个 → 25 个 shortlist。
 25 个按化学策略分四组：G1 文献 chemotype 邻近组(9)、G2 新骨架(10)、G3 已知活性对照(4)、G4 阴性锚点(2)。
 按组配额取 16 个做 Desmond 分子动力学（48 个任务 = 16 分子 × 3 蛋白）。组内排序键：pose QC → score_JNK1（越低越好）→ MMGBSA_JNK1 单点活性 → 骨架多样性；不用 Δsel/pass_selectivity/Tier（技术报告 §6.1.1）。
-G1 进 MD：690、2232、2157、2389；G2 进 MD：**2231、1280、4795、2747、1555、1762**（见 `data/shortlist/md_shortlist_final.csv`）；G1 落选 5 人、G2 落选 4 人完整 ID 待 `candidates_ranked_befe.csv` 归档（数据表 25）。16 人 Δsel_dock 排序与 HIT 报价见数据表 27。
+G1 进 MD：690、2232、2157、2389；G2 进 MD：**2231、1280、4795、2747、1555、1762**（见 `data/shortlist/md_shortlist_final.csv`）；G1 落选 5 人、G2 落选 4 人完整 ID 待 `candidates_ranked_befe.csv` 归档（数据表 25）。16 人 MD 后 JNK1 偏好排序与 HIT 报价见数据表 27（hinge/RMSD 不对称，非 Δsel）。
 
 6.2 为什么 2231 能进 MD 但 pass_selectivity=No？
 2231 的 JNK1 对接分极强（−11.22），满足活性门槛；未过 pass_selectivity 是因为探索性双门槛中的 Δsel_MMGBSA 标签，MD 短名单从不读取该标签（详见技术报告 §6.3.1）。
@@ -646,7 +646,7 @@ def build_word_detailed(fig_paths: dict[str, Path]) -> None:
      [
        "MD 短名单不是从 pass_selectivity 来的，而是从实际可用于采购和验证的角度设计。首先，4983 个 F0 分子经过 pose QC，3125 个通过；再经过 JNK1 活性和配体效率过滤，182 个通过；F1 与 F2 同时满足后为 157 个；再经过 QikProp ADMET 过滤和分组策略，得到 25 个 shortlist。",
        "ADMET 过滤的原因很实际：即使一个分子在对接中得分很好，如果预测溶解性很差、hERG 风险高、口服吸收差，后续实验和成药开发价值也会降低。本项目考虑 hERG、口服吸收、Caco-2 通透性、溶解度和 #stars 等指标。G3 文献对照分子即使 ADMET 不完美也会保留，因为它们的作用是校准实验体系，而不是作为新药候选。",
-       "25 个 shortlist 被分成四组：G1 是相对接近文献 chemotype 的分子，G2 是新骨架，G3 是已知活性对照，G4 是阴性锚点。进入 MD 的 16 个分子按组配额选择：G1 取 4/9，G2 取 6/10，G3 和 G4 全部进入。组内排序以 pose QC、score_JNK1、MMGBSA_JNK1 单点活性和骨架多样性为主，不使用 Δsel 或 pass_selectivity（§6.1.1）。G1 进 MD 的 4 人为 690、2232、2157、2389；G2 进 MD 的 6 人为 2231、1280、4795、2747、1555、1762（数据表 25、`data/shortlist/md_shortlist_final.csv`）。G1 落选 5 人、G2 落选 4 人的完整 ID 仍待 candidates_ranked_befe.csv 归档。16 人按 Δsel_dock 的计算选择性排序与 HIT 报价对照见数据表 27。",
+       "25 个 shortlist 被分成四组：G1 是相对接近文献 chemotype 的分子，G2 是新骨架，G3 是已知活性对照，G4 是阴性锚点。进入 MD 的 16 个分子按组配额选择：G1 取 4/9，G2 取 6/10，G3 和 G4 全部进入。组内排序以 pose QC、score_JNK1、MMGBSA_JNK1 单点活性和骨架多样性为主，不使用 Δsel 或 pass_selectivity（§6.1.1）。G1 进 MD 的 4 人为 690、2232、2157、2389；G2 进 MD 的 6 人为 2231、1280、4795、2747、1555、1762（数据表 25、`data/shortlist/md_shortlist_final.csv`）。G1 落选 5 人、G2 落选 4 人的完整 ID 仍待 candidates_ranked_befe.csv 归档。16 人按 MD 后 hinge/RMSD JNK1 偏好相对排序与 HIT 报价对照见数据表 27（2231、2157 居前；Δsel_dock 仅参考）。",
      ]),
     ("8. 第五步：分子动力学 MD，目标是看结合姿势是否稳定",
      [

@@ -983,7 +983,7 @@ chemotype_sim（ECFP4 Tanimoto vs E1/Q63/TCS JNK 6O）：
 | 1555 | G2 | −8.15 | +0.50 | ❌ | G2 新骨架 Tier 2；有报价未采购 |
 | 1762 | G2 | −8.77 | +0.29 | ❌ | G2 新骨架 Tier 3；有报价未采购 |
 
-**选择性排序与报价对照**（探索性 Δsel_dock 秩，**非酶学结论**）：见 `docs/popular_science/data_tables/27_MD16_选择性排序与报价.csv`。10 条 HIT 可下单目录价合计 **8170 元**；含 2157/2232 国际运费后报价小计 **10 680 元**。
+**MD 后 JNK1 偏好相对排序与报价对照**（基于 §6.4 hinge/RMSD 不对称性，**非酶学结论**）：见 `docs/popular_science/data_tables/27_MD16_选择性排序与报价.csv`。排序键 `md_jnk1_bias_score` = 铰链占有率差（JNK1 − max(JNK2,JNK3)）+ RMSD 不对称项；`delta_sel_dock` 仅作并列参考列。10 条 HIT 可下单目录价合计 **8170 元**；含 2157/2232 国际运费后报价小计 **10 680 元**。
 
 > **数据缺口（P1 归档）**：`candidates_ranked_befe.csv` 入库后可补全 G1 落选 5 人、G2 落选 4 人的 shortlist 完整 ID 与组内排名。
 
