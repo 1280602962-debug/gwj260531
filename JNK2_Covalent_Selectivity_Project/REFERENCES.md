@@ -281,7 +281,30 @@ Gehringer M, Laufer SA. JNK Pathway Inhibitors: An Update on Recent Patent Appli
 Dou X, Huang X, Wang Y, Jin H, et al. Explaining Isoform Selectivity of c-Jun N-Terminal Kinase 3 (JNK3) Inhibitors through Its Development and Structural Insights. *Journal of Medicinal Chemistry.* 2025.
 
 - **DOI:** [10.1021/acs.jmedchem.5c01488](https://doi.org/10.1021/acs.jmedchem.5c01488)
-- **Note:** 2025 JNK3 抑制剂结构分类与选择性机制综述；引用 YL5084、JC16I 等
+- **Note:** 2025 JNK3 抑制剂结构分类与选择性机制综述；**背景阅读**（非 JNK2 主线）
+
+### [R36] Nagy 2021 — CC-90001（JNK1 > JNK2 可逆）
+
+Nagy MA, Hilgraf R, Mortensen DS, et al. Discovery of the c-Jun N-Terminal Kinase Inhibitor CC-90001. *Journal of Medicinal Chemistry.* 2021;64(24):18193-18208.
+
+- **DOI:** [10.1021/acs.jmedchem.1c01716](https://doi.org/10.1021/acs.jmedchem.1c01716)
+- **PMID:** [34894681](https://pubmed.ncbi.nlm.nih.gov/34894681/)
+- **关键内容:** Ki JNK1/2/3 = 0.3/0.4/0.6 nM；**细胞 JNK1 > JNK2 12.9×**（KO 纤维母细胞）；Phase II IPF (NCT03142191)
+
+### [R37] Chen 2026 — 6l（JNK2 激酶 + MKK7–JNK2 PPI 可逆）
+
+Chen Q, Dong K, Zhan Y, Huang N, et al. Discovery of 6l with a New Skeleton of 6-Oxo-N-(4-(Quinolin-4-yloxy)phenyl)-1,6-dihydropyridine-3-carboxamide as a Dual-Action Inhibitor against JNK2 and the MKK7-JNK2 Protein-Protein Interaction for Acute Lung Injury. *Journal of Medicinal Chemistry.* 2026;69(5):5648-5676.
+
+- **DOI:** [10.1021/acs.jmedchem.5c02860](https://doi.org/10.1021/acs.jmedchem.5c02860)
+- **PMID:** [41729167](https://pubmed.ncbi.nlm.nih.gov/41729167/)
+- **关键内容:** JNK2 IC50=0.99 μM；MKK7–JNK2 PPI Kd=81.6 μM；IL-6 IC50=0.14 μM (THP-1)；**非共价**；ALI 体内有效
+
+### [R38] Feng 2024 — JNK 专利 landscape 更新
+
+Feng G, Yang X, Wen S, Wang G, Ouyang L. Update on JNK inhibitor patents: 2015 to present. *Expert Opinion on Therapeutic Patents.* 2024.
+
+- **DOI:** [10.1080/13543776.2024.2400167](https://doi.org/10.1080/13543776.2024.2400167)
+- **Note:** 2015–present 专利综述；含 CC-90001、共价 JNK 进展
 
 ---
 
@@ -301,4 +324,18 @@ Dou X, Huang X, Wang Y, Jin H, et al. Explaining Isoform Selectivity of c-Jun N-
 
 ---
 
-*Last updated: 2026-07-07 (v1.1 — 扩展至 R35)*
+## 九、已排除文献（JNK3 共价 — v2.0 不纳入综述正文）
+
+以下条目保留 DOI 备查，**已从 `JNK2共价抑制剂文献调研综述.md` v2.0 正文移除**：
+
+| 编号 | 文献 | 排除原因 |
+|------|------|---------|
+| [R22] | Muth et al., *J. Med. Chem.* 2016 | JNK3 Cys154 共价（吡啶咪唑 7） |
+| [R23] | Wen et al., *Angew. Chem.* 2024 — JC16I | JNK3 选择性共价 |
+| [R30] | Wen et al., *J. Med. Chem.* 2023 — 25c | 纯 JNK3 可逆（非 JNK2 主线） |
+| [R31] | Reynders et al., *Angew. Chem.* 2021 | JNK3 光控共价 PAL |
+| [R32] | Hoffelner et al., *Pharmaceuticals* 2023 | JNK3 共价 photocaging |
+
+---
+
+*Last updated: 2026-07-07 (v2.0 — 扩展至 R38；排除 JNK3 共价 R22/R23/R30–R32)*

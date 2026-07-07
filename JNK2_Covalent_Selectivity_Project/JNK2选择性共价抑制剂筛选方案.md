@@ -354,14 +354,18 @@ JNK1 与 JNK2 在多种细胞情境下功能 **拮抗**（如 UV 应激、MM 细
 
 ---
 
-## 附录 B：已发表共价 JNK 抑制剂文献复盘
+## 附录 C：JNK2 抑制剂文献复盘（共价 + 可逆）
 
-完整逐篇调研（发现路径、优化策略、共价确证、亚型选择性 readout、活性数据表、湿实验清单）见：
+完整逐篇调研（发现路径、优化策略、共价/可逆确证、亚型选择性 readout、活性数据表、湿实验清单）见：
 
-**`JNK2共价抑制剂文献调研综述.md`**
+**`JNK2共价抑制剂文献调研综述.md`**（**v2.0**）
 
-涵盖 **15+ 篇** 核心文献（v1.1）：六条共价主线（JNK-IN-8、YL5084、Wydra 56d、Tóth、Muth、JC16I）+ 前体（Park/Zheng 氨基吡唑、Wen 25c）、工具（Du 化学遗传、Qian 探针、Liu CpHMD）、光控（Reynders/Hoffelner）、应用警示（Soleimani TNBC）及领域综述。
+涵盖：
+- **共价 JNK2 主线（4 篇）：** JNK-IN-8、YL5084、Wydra 56d、Tóth 环己烯酮
+- **可逆 JNK2 主线（6 篇）：** Park/Zheng 氨基吡唑、Wydra 21b/51d、SP600125、CC-930、CC-90001、Chen 2026 **6l**
+- **工具/警示：** Du 化学遗传、Qian 探针、Liu CpHMD、Soleimani TNBC off-target
+- **不含：** JNK3 共价（Muth、JC16I、Reynders、Hoffelner 等）
 
 ---
 
-*文档版本 v1.0 | 2026-07 | 文献综述 v1.1*
+*文档版本 v1.0 | 2026-07 | 文献综述 v2.0*

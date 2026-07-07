@@ -13,7 +13,7 @@
 JNK2_Covalent_Selectivity_Project/
 ├── README.md                              # 本文件
 ├── JNK2选择性共价抑制剂筛选方案.md          # 主方案（计算 + 实验 + 里程碑）
-├── JNK2共价抑制剂文献调研综述.md            # 已发表共价 JNK 抑制剂文献复盘（v1.1, 35 refs）
+├── JNK2共价抑制剂文献调研综述.md            # JNK2 抑制剂文献复盘（共价 + 可逆，v2.0, 38 refs）
 ├── REFERENCES.md                          # 参考文献（含 DOI / PDB）
 └── config/
     └── targets.yaml                       # 结构模板与 benchmark 配置
@@ -39,7 +39,7 @@ JNK2_Covalent_Selectivity_Project/
 ## 快速开始
 
 1. 阅读 `JNK2选择性共价抑制剂筛选方案.md` §一–§三 明确科学目标与 gate 标准  
-2. 阅读 `JNK2共价抑制剂文献调研综述.md` 了解已发表共价 JNK 抑制剂的发现路径、活性数据与湿实验范式  
+2. 阅读 `JNK2共价抑制剂文献调研综述.md` 了解 **共价 + 可逆** JNK2 抑制剂的发现路径、活性数据与湿实验范式  
 3. 按 `config/targets.yaml` 准备 **8ELC** 受体与阳性对照（YL5084、JNK-IN-8、YL5084R）  
 4. Phase 0：回顾性校准（YL5084 kinact/KI JNK2/JNK1 ≥ 10×）通过后，再扩大库筛选  
 
