@@ -546,6 +546,10 @@ BODY_SECTION_CASES = [
     "上述实例所建立的实验范式，"
     "包括溶酶体途径确证、组织定向验证和体内药效比较，"
     "可作为评价后续LYTAC研究质量的参照基准。",
+    "四篇实例分别对应Nature、Nature Chemical Biology、"
+    "Nature Biotechnology和Journal of the American Chemical Society，"
+    "均属于相关领域的一区高水平期刊，"
+    "具有较好的学术代表性和引用价值。",
 ]
 
 BODY_SECTION3 = [
