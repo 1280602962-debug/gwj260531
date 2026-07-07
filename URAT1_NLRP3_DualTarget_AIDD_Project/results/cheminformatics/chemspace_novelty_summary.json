@@ -1,0 +1,87 @@
+{
+  "module": "D_chemical_space_novelty",
+  "n_urat1_active": 822,
+  "n_nlrp3_active": 360,
+  "n_pool": 1451,
+  "n_shortlist": 6,
+  "pca_explained_variance_ratio": [
+    0.0502,
+    0.0269
+  ],
+  "shortlist_novelty": [
+    {
+      "name": "SLV-334",
+      "canonical_smiles": "O=C(O)CN1C(=O)[C@@H](NC(=O)C2(C[C@@H](CCc3cccc4ccccc34)C(=O)O)CCCC2)CCc2ccccc21",
+      "max_phase": 2.0,
+      "s_u_percentile": 99.93108201240524,
+      "s_n_percentile": 92.1433494141971,
+      "pareto_front": true,
+      "nn_tanimoto_urat1_active": 0.244,
+      "nn_tanimoto_nlrp3_active": 0.182,
+      "novel_vs_urat1_tc_lt_0.4": true,
+      "novel_vs_nlrp3_tc_lt_0.4": true
+    },
+    {
+      "name": "LANPROSTON",
+      "canonical_smiles": "O=C(O)CCC/C=C\\C[C@@H]1[C@@H](/C=C/C2(COc3cccc(Cl)c3)OCCO2)[C@H](O)C[C@@H]1O",
+      "max_phase": 2.0,
+      "s_u_percentile": 99.86216402481048,
+      "s_n_percentile": 96.82977257064094,
+      "pareto_front": true,
+      "nn_tanimoto_urat1_active": 0.233,
+      "nn_tanimoto_nlrp3_active": 0.178,
+      "novel_vs_urat1_tc_lt_0.4": true,
+      "novel_vs_nlrp3_tc_lt_0.4": true
+    },
+    {
+      "name": "LASALOCID",
+      "canonical_smiles": "CC[C@@H](C(=O)[C@@H](C)[C@@H](O)[C@H](C)CCc1ccc(C)c(O)c1C(=O)O)[C@H]1O[C@](CC)([C@H]2CC[C@](O)(CC)[C@H](C)O2)C[C@@H]1C",
+      "max_phase": 2.0,
+      "s_u_percentile": 99.65541006202618,
+      "s_n_percentile": 98.3459682977257,
+      "pareto_front": true,
+      "nn_tanimoto_urat1_active": 0.15,
+      "nn_tanimoto_nlrp3_active": 0.148,
+      "novel_vs_urat1_tc_lt_0.4": true,
+      "novel_vs_nlrp3_tc_lt_0.4": true
+    },
+    {
+      "name": "EPIGALOCATECHIN GALLATE",
+      "canonical_smiles": "O=C(O[C@@H]1Cc2c(O)cc(O)cc2O[C@@H]1c1cc(O)c(O)c(O)c1)c1cc(O)c(O)c(O)c1",
+      "max_phase": 3.0,
+      "s_u_percentile": 99.17298414886284,
+      "s_n_percentile": 99.72432804962096,
+      "pareto_front": true,
+      "nn_tanimoto_urat1_active": 0.217,
+      "nn_tanimoto_nlrp3_active": 0.172,
+      "novel_vs_urat1_tc_lt_0.4": true,
+      "novel_vs_nlrp3_tc_lt_0.4": true
+    },
+    {
+      "name": "FOSIGOTIFATOR",
+      "canonical_smiles": "O=C(COc1ccc(Cl)c(F)c1)NC12CCC(NC(=O)COc3ccc(Cl)c(F)c3)(CC1)[C@@H](OCOP(=O)(O)O)C2",
+      "max_phase": 2.0,
+      "s_u_percentile": 98.69055823569953,
+      "s_n_percentile": 99.79324603721572,
+      "pareto_front": true,
+      "nn_tanimoto_urat1_active": 0.256,
+      "nn_tanimoto_nlrp3_active": 0.187,
+      "novel_vs_urat1_tc_lt_0.4": true,
+      "novel_vs_nlrp3_tc_lt_0.4": true
+    },
+    {
+      "name": "FOSRAVUCONAZOLE",
+      "canonical_smiles": "C[C@@H](c1nc(-c2ccc(C#N)cc2)cs1)[C@@](Cn1cncn1)(OCOP(=O)(O)O)c1ccc(F)cc1F",
+      "max_phase": 2.0,
+      "s_u_percentile": 96.8986905582357,
+      "s_n_percentile": 99.93108201240524,
+      "pareto_front": true,
+      "nn_tanimoto_urat1_active": 0.253,
+      "nn_tanimoto_nlrp3_active": 0.214,
+      "novel_vs_urat1_tc_lt_0.4": true,
+      "novel_vs_nlrp3_tc_lt_0.4": true
+    }
+  ],
+  "pool_median_nn_tc_urat1": 0.217,
+  "pool_median_nn_tc_nlrp3": 0.205
+}
