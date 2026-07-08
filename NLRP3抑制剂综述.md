@@ -44,7 +44,7 @@ NLRP3（NOD样受体热蛋白结构域相关蛋白3）炎症小体是细胞内�
 
 ## 3 NLRP3抑制剂的药物化学与临床候选化合物
 
-结构生物学所揭示的构象变化路径，直接塑造了当前药物化学的主线：以MCC950为代表的磺酰脲类化合物结合于NACHT中央疏水口袋、稳定关闭构象并抑制ATP酶活性，是领域内最重要的参照系，但其临床失败也迫使研发方向走向多元化。MCC950（又称CRID3或CP-456773）属于磺酰脲类化合物，结合于NACHT结构域中央疏水口袋，靠近Walker A motif（图5）。Coll等人在2019年发表于*Nature Chemical Biology*的论文《MCC950 directly targets the NLRP3 ATP-hydrolysis motif for inflammasome inhibition》[11]证实，MCC950直接与NLRP3 NACHT域Walker B motif相互作用，阻断ATP水解；Hochheiser等人在2022年*Nature*发表的《Structure of the NLRP3 decamer bound to the cytokine release inhibitor CRID3》[14]则以冷冻电镜解析了CRID3/MCC950结合于非活性、ADP结合十聚体NLRP3的分子细节，显示其通过桥接NACHT与LRR过渡区将蛋白锁定于关闭构象。MCC950在多种动物炎症模型中显示出较好的抗炎效果，是NLRP3临床前研究中最为常见的阳性对照化合物，但MCC950最初由Pfizer发现后，临床开发因肝毒性而中止，Genentech开发的GDC-2394亦在I期试验中因药物性肝损伤而终止开发；Kennedy等人在2021年*SLAS Discovery*的研究[15]揭示，MCC950对碳酸酐酶II（CA2）具有非竞争性抑制活性，这一脱靶效应可能与不良反应有关。上述案例说明，临床前模型中的高活性并不能保证临床安全性，简单在MCC950骨架上做微小修饰已不足以支撑后续开发。
+结构生物学所揭示的构象变化路径，直接塑造了当前药物化学的主线：以MCC950为代表的磺酰脲类化合物结合于NACHT中央疏水口袋、稳定关闭构象并抑制ATP酶活性，是领域内最重要的参照系，但其临床失败也迫使研发方向走向多元化。MCC950（又称CRID3或CP-456773）属于磺酰脲类化合物，结合于NACHT结构域中央疏水口袋，靠近Walker A motif（图5）。Coll等人在2019年发表于*Nature Chemical Biology*的论文《MCC950 directly targets the NLRP3 ATP-hydrolysis motif for inflammasome inhibition》[11]证实，MCC950直接与NLRP3 NACHT域Walker B motif相互作用，阻断ATP水解；Hochheiser等人在2022年*Nature*发表的《Structure of the NLRP3 decamer bound to the cytokine release inhibitor CRID3》[14]则以冷冻电镜解析了CRID3/MCC950结合于非活性、ADP结合十聚体NLRP3的分子细节，显示其通过桥接NACHT与LRR过渡区将蛋白锁定于关闭构象。MCC950在多种动物炎症模型中显示出较好的抗炎效果，是NLRP3临床前研究中最为常见的阳性对照化合物，但MCC950最初由Pfizer发现后，临床开发因肝毒性而中止，Genentech开发的GDC-2394亦在I期试验中因药物性肝损伤而终止开发；Kennedy等人在2021年*ACS Chemical Biology*的研究[15]揭示，MCC950对碳酸酐酶II（CA2）具有非竞争性抑制活性，这一脱靶效应可能与不良反应有关。上述案例说明，临床前模型中的高活性并不能保证临床安全性，简单在MCC950骨架上做微小修饰已不足以支撑后续开发。
 
 ![图5 MCC950/CRID3与NLRP3十聚体结合（PDB 7PZC）](./NLRP3_review_figures/fig_mcc950.png)
 
@@ -96,7 +96,7 @@ NLRP3（NOD样受体热蛋白结构域相关蛋白3）炎症小体是细胞内�
 [4] Cabral A, Cabral JE, Wang A, et al. Differential binding of NLRP3 to non-oxidized and Ox-mtDNA mediates NLRP3 inflammasome activation. *Commun Biol*. 2023;6:578. doi:10.1038/s42003-023-04817-y  
 链接：https://doi.org/10.1038/s42003-023-04817-y
 
-[5] Lackner A, Leonidas L, Macapagal A, Lee H, McNulty R. How interactions between oxidized DNA and the NLRP3 inflammasome fuel inflammatory disease. *Trends Biochem Sci*. 2025;50(11):931-944. doi:10.1016/j.tibs.2025.07.007  
+[5] Lackner A, Leonidas L, Macapagal A, Lee H, McNulty R. How interactions between oxidized DNA and the NLRP3 inflammasome fuel inflammatory disease. *Trends Biochem Sci*. 2025;50(10):931-944. doi:10.1016/j.tibs.2025.07.007  
 链接：https://doi.org/10.1016/j.tibs.2025.07.007
 
 [6] Vande Walle L, Said MS, Paerewijck O, et al. Novel chemotype NLRP3 inhibitors that target the CRID3-binding pocket with high potency. *Life Sci Alliance*. 2024;7(6):e202402644. doi:10.26508/lsa.202402644  
@@ -117,8 +117,8 @@ NLRP3（NOD样受体热蛋白结构域相关蛋白3）炎症小体是细胞内�
 [11] Coll RC, Hill JR, Day CJ, et al. MCC950 directly targets the NLRP3 ATP-hydrolysis motif for inflammasome inhibition. *Nat Chem Biol*. 2019;15(6):556-559. doi:10.1038/s41589-019-0277-7  
 链接：https://doi.org/10.1038/s41589-019-0277-7
 
-[12] Hartman G, Humphries P, Hughes R, et al. The discovery of novel and potent indazole NLRP3 inhibitors enabled by DNA-encoded library screening. *Bioorg Med Chem Lett*. 2024;104:129454. doi:10.1016/j.bmcl.2024.129454  
-链接：https://doi.org/10.1016/j.bmcl.2024.129454
+[12] Hartman G, Humphries P, Hughes R, et al. The discovery of novel and potent indazole NLRP3 inhibitors enabled by DNA-encoded library screening. *Bioorg Med Chem Lett*. 2024;102:129675. doi:10.1016/j.bmcl.2024.129675  
+链接：https://doi.org/10.1016/j.bmcl.2024.129675
 
 [13] Wilhelmsen K, Deshpande A, Tronnes S, et al. Discovery of potent and selective inhibitors of human NLRP3 with a novel mechanism of action. *J Exp Med*. 2025;222(11):e20242403. doi:10.1084/jem.20242403  
 链接：https://doi.org/10.1084/jem.20242403
@@ -126,8 +126,8 @@ NLRP3（NOD样受体热蛋白结构域相关蛋白3）炎症小体是细胞内�
 [14] Hochheiser IV, Pilsl M, Hagelueken G, et al. Structure of the NLRP3 decamer bound to the cytokine release inhibitor CRID3. *Nature*. 2022;604(7904):184-189. doi:10.1038/s41586-022-04467-w  
 链接：https://doi.org/10.1038/s41586-022-04467-w
 
-[15] Kennedy CR, Tan YS, Muller M, et al. Unraveling the specificity of MCC950 activity, inhibition of the NLRP3 inflammasome and carbonic anhydrase 2. *SLAS Discov*. 2021;26(10):1264-1272. doi:10.1177/24725552211044351  
-链接：https://doi.org/10.1177/24725552211044351
+[15] Kennedy CR, Goya Grocin A, Kovačič T, et al. A probe for NLRP3 inflammasome inhibitor MCC950 identifies carbonic anhydrase 2 as a novel target. *ACS Chem Biol*. 2021;16(6):982-990. doi:10.1021/acschembio.1c00218  
+链接：https://doi.org/10.1021/acschembio.1c00218
 
 [16] Cosson C, Belot A, Lambotte O, et al. Functional diversity of NLRP3 gain-of-function mutants associated with CAPS autoinflammation. *J Exp Med*. 2024;221(5):e20231200. doi:10.1084/jem.20231200  
 链接：https://doi.org/10.1084/jem.20231200
