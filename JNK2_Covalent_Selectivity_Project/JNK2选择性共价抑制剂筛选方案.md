@@ -360,6 +360,8 @@ JNK1 与 JNK2 在多种细胞情境下功能 **拮抗**（如 UV 应激、MM 细
 
 **`JNK2共价抑制剂文献调研综述.md`**（**v2.0**）
 
+**共价抑制剂结构化主表（CSV）：** `JNK2_covalent_inhibitors_master_table.csv`（字段说明见 `JNK2_covalent_inhibitors_README.md`；格式对齐 NLRP3 主表）
+
 涵盖：
 - **共价 JNK2 主线（4 篇）：** JNK-IN-8、YL5084、Wydra 56d、Tóth 环己烯酮
 - **可逆 JNK2 主线（6 篇）：** Park/Zheng 氨基吡唑、Wydra 21b/51d、SP600125、CC-930、CC-90001、Chen 2026 **6l**

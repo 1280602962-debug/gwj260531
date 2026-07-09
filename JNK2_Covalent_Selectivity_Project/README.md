@@ -14,6 +14,8 @@ JNK2_Covalent_Selectivity_Project/
 ├── README.md                              # 本文件
 ├── JNK2选择性共价抑制剂筛选方案.md          # 主方案（计算 + 实验 + 里程碑）
 ├── JNK2共价抑制剂文献调研综述.md            # JNK2 抑制剂文献复盘（共价 + 可逆，v2.0, 38 refs）
+├── JNK2_covalent_inhibitors_master_table.csv # JNK2 共价抑制剂主表（对齐 NLRP3 格式，12 条）
+├── JNK2_covalent_inhibitors_README.md        # 主表字段说明 / Cys116 vs Cys154 编号
 ├── REFERENCES.md                          # 参考文献（含 DOI / PDB）
 └── config/
     └── targets.yaml                       # 结构模板与 benchmark 配置

@@ -20,7 +20,7 @@ Lu W, Liu Y, Gao Y, Geng Q, Gurbani D, Li L, et al. Development of a Covalent In
 Zhang T, Inesta-Vaquera F, Niepel M, Zhang J, Ficarro SB, Machleidt T, et al. Discovery of Potent and Selective Covalent Inhibitors of JNK. *Chemistry & Biology.* 2012;19(1):140-154.
 
 - **DOI:** [10.1016/j.chembiol.2011.11.010](https://doi.org/10.1016/j.chembiol.2011.11.010)
-- **PMID:** [22284325](https://pubmed.ncbi.nlm.nih.gov/22284325/) *(verify if needed)*
+- **PMID:** [22284361](https://pubmed.ncbi.nlm.nih.gov/22284361/)
 - **PMC:** [PMC3270411](https://pmc.ncbi.nlm.nih.gov/articles/PMC3270411/)
 - **关键内容:** 首个 JNK 不可逆抑制剂；Cys116（JNK1/2）共价；JNK-IN-8 选择性谱；C116S ≥100× IC50 右移
 
