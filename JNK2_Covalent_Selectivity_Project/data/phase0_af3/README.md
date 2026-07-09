@@ -13,26 +13,28 @@
 | `8ELC.pdb` | Glide 共价对接 / AF3 pose RMSD 对照受体 |
 | `phase0_compounds_seed.csv` | 分子种子表（含 SMILES、用途 `role`、AF3 是否需共价键） |
 | `COMPOUNDS.md` | **各分子用途中文说明**（阳性/阴性/decoy 锚点） |
+| `STRUCTURE_AUDIT.md` | **结构核对报告**（ChEMBL/PubChem/PDB 交叉验证） |
 | `pdb_references.csv` | 结构模板索引 |
 | `af3_input_template.json` | Cys 编号、`bondedAtomPairs`、gate 阈值 |
 | `decoy_property_targets.yaml` | COValid 6 性质 + Tc 过滤规则 |
 
-## 已获取 SMILES 的分子（5 个）
+## 已获取 SMILES 的分子（6 个，2026-07-09 核对）
 
 | 分子 | 角色 | 状态 |
 |------|------|------|
 | YL5084 | Phase 0 主阳性 + decoy 锚点 | ✅ confirmed |
-| YL2056 | 8ELC 共晶 / RMSD 对照 | ✅ confirmed |
+| YL2056 | 8ELC 共晶系列（见 STRUCTURE_AUDIT） | ✅ confirmed |
 | JNK-IN-8 | Pan-JNK 共价阳性 | ✅ confirmed |
-| 56d | Ligand-first 共价阳性 | ⚠️ 待 SI 复核 |
+| 56d | Ligand-first 共价阳性 | ✅ corrected (was wrong ChEMBL) |
 | YL5084R | 共价机制阴性 | ✅ confirmed |
+| JNK-IN-6 | 丙酰胺阴性 | ✅ added (PubChem 57340684) |
 
 ## 仍需准备
 
 | 类别 | 数量 | 状态 |
 |------|------|------|
 | Property-matched decoy | 50 × YL5084（Phase 0 最小） | ❌ 待生成 |
-| JNK-IN-6 / 56a 阴性 SMILES | 各 1 | ❌ 待 SI |
+| **56a** 阴性 SMILES | 1 | ❌ 待 Wydra SI |
 | AF3 运行 | ~57 jobs（5 分子 + 50 decoy） | ❌ 需算力 |
 | Glide baseline | 同上 | ❌ 需 Schrödinger |
 
