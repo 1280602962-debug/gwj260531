@@ -1,0 +1,8 @@
+id,name,label,role,anchor,chembl_id,pubchem_cid,smiles,smiles_status,mw,alogp,hbd,hba,rtb,warhead,af3_bonded_pairs,pdb_ref,notes
+ACT001,YL5084,active,Phase0主阳性+decoy锚点; JNK2> JNK1 gate核心; kinact/KI~21x,yes,CHEMBL5398852,153610906,C[C@H]1CN(C(=O)c2ccc(NC(=O)/C=C/CN(C)C)cc2)C[C@H]1Nc1nccc(-c2c(-c3ccccc3)nn3ccccc23)n1,confirmed,600.73,5.09,2,8,9,acrylamide,yes,8ELC (homology YL2056),Tier-0; decoy 6-property anchor; EF@1% gate reference
+ACT002,YL2056,active,8ELC共晶配体; Leu106选择性结构证据; AF3 pose RMSD对照,yes,CHEMBL5413843,,CN(C)C/C=C/C(=O)Nc1ccc(C(=O)N2CC[C@H](Nc3nccc(-c4c(-c5ccccc5)nn5ccccc45)n3)C2)cc1,confirmed,,,,,acrylamide,yes,8ELC ligand Y56,Co-crystal ligand Y56; no flag methyl vs YL5084
+ACT003,JNK-IN-8,active,Pan-JNK共价阳性; 跨scaffold AF3验证; 可选decoy第二锚点,no,CHEMBL2216824,57340686,Cc1cc(NC(=O)c2cccc(NC(=O)/C=C/CN(C)C)c2)ccc1Nc1nccc(-c2cccnc2)n1,confirmed,507.6,,,,,acrylamide,yes,3V6S series,Pan-JNK; no isoform selectivity; optional 50 decoys anchor
+ACT004,56d,active,Ligand-first共价阳性; JNK2/3>>JNK1第二scaffold; kinact/KI(JNK2)=38200,no,CHEMBL5947460,,Nc1ncnc2c1ccn2CC(=O)N(CC(=O)Nc1cccc(Br)n1)C1CC1,needs_si_check,,,,,,acrylamide,yes,,Verify SMILES vs Wydra 2025 SI (PMC12169684)
+NEG002,YL5084R,inactive,共价机制阴性; 饱和warhead无法Michael加成; 与YL5084配对,no,CHEMBL5436581,,C[C@H]1CN(C(=O)c2ccc(NC(=O)CCCN(C)C)cc2)C[C@H]1Nc1nccc(-c2c(-c3ccccc3)nn3ccccc23)n1,confirmed,,,,,saturated_amide,no,,Lu 2023 reduced analog; no bondedAtomPairs in AF3
+NEG001,JNK-IN-6,inactive,丙酰胺阴性; JNK-IN-5系列共价必要性~100x失活,no,,,,,pending,,,,,propionamide,no,,TODO: Zhang 2012 SI propionamide SMILES (JNK-IN-5 warhead swap)
+NEG003,56a,inactive,56系列丙酰胺阴性; 与56d配对验证共价贡献,no,,,,,pending,,,,,propionamide,no,,TODO: Wydra 2025 SI

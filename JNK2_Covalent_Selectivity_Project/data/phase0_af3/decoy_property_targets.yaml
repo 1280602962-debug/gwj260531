@@ -1,0 +1,46 @@
+# COValid-style property matching targets for decoy generation
+# Anchor: YL5084 (CHEMBL5398852)
+
+anchor_compound: YL5084
+anchor_id: ACT001
+
+match_properties:
+  - name: molecular_weight
+    value: 600.73
+    tolerance: 50        # Da
+  - name: alogp
+    value: 5.09
+    tolerance: 1.0
+  - name: hbd
+    value: 2
+    tolerance: 1
+  - name: hba
+    value: 8
+    tolerance: 2
+  - name: rotatable_bonds
+    value: 9
+    tolerance: 3
+  - name: formal_charge
+    value: 0
+    tolerance: 0
+
+topology_filter:
+  fingerprint: morgan
+  radius: 2
+  n_bits: 2048
+  max_tanimoto_to_anchor: 0.40
+
+warhead_smarts: "[CH2=CHC(=O)N]"
+
+decoys_per_anchor: 50
+recommended_total_phase0: 150   # 50 x 3 anchors (YL5084, JNK-IN-8, 56d)
+
+sources:
+  - ZINC20
+  - Enamine REAL
+  - internal_acrylamide_library
+
+negative_controls:
+  - YL5084R
+  - JNK-IN-6
+  - 56a

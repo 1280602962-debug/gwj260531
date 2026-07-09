@@ -1,0 +1,29 @@
+{
+  "protein": {
+    "recommended": "jnk2_kinase_domain_4-364.fasta",
+    "alternative": "jnk2_uniprot_P45984_full.fasta",
+    "covalent_site_uniprot": 116,
+    "covalent_site_in_kinase_4_364_construct": 113,
+    "note": "If using kinase domain 4-364, bondedAtomPairs residue index is 113; if using full UniProt/PDB numbering, use 116"
+  },
+  "bondedAtomPairs_example": [
+    [
+      [
+        "A",
+        113,
+        "SG"
+      ],
+      [
+        "B",
+        1,
+        "C_acrylamide_beta"
+      ]
+    ]
+  ],
+  "ranking_metric": "mPAE",
+  "gate_thresholds": {
+    "YL5084_mPAE_vs_decoy_median": "lower is better; active must beat median",
+    "EF_at_1pct": 2,
+    "adjusted_LogAUC_min": 0.5
+  }
+}
