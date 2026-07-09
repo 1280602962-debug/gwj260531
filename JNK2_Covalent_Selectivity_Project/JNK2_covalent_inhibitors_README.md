@@ -135,6 +135,64 @@ JNK 家族中，**结构同源半胱氨酸** 在不同亚型 UniProt 编号不�
 
 主表 CSV 的 `notes` 字段已追加 `[结构]` 标签，与本节一一对应。
 
+### 结构选择性总框架（读表前必读）
+
+JNK1/JNK2 ATP 口袋 **98% 同一**，仅两处差异氨基酸驱动可设计的亚型选择性：
+
+| 位点 | JNK1 | JNK2 | JNK3 | 结构角色 |
+|------|------|------|------|---------|
+| **106**（HR-I 后口袋） | **Ile106** | **Leu106** | **Leu106** | 芳环/scaffold 后口袋体积；JNK1 Ile 导致 **steric clash** → JNK2/3 优先 |
+| **77**（P-loop 附近） | Met77 | Leu77 | Met115 | 与 P-loop 动态、主链柔性相关（Lu MD） |
+| **54**（主链） | Ile54 | Val54 | Ile54 | JNK2 Val54 主链可移动 ~0.6 Å 容纳配体（8ELC） |
+| **116** | Cys116 | Cys116 | Cys154 | **共价成键位点**；三亚型均保守 → **提供 potency，不自带 JNK2> JNK1** |
+| **exon6 底物沟** | 序列差异 | 序列差异 | 序列差异 | Tóth C4 延伸可「编程」亚型偏好（1bR 路径） |
+
+**选择性两层逻辑：**
+
+1. **JNK 家族 vs 其他激酶（kinome 选择性）：** flag methyl（JNK-IN-8/YL5084）、末端芳环形状（JNK-IN-12 苯并噻唑）、环己烯酮 3D 形状（1aR）— 与 imatinib 经验类似，**不涉及 JNK2> JNK1**。
+2. **JNK1 vs JNK2 vs JNK3（亚型选择性）：** 共价 Cys116 提供锚定后，**非共价预定位（KI / back pocket fit）** 决定亚型；readout 用 **kinact/KI** 或固定时间 IC50，**非** 3ELJ 式 ΔΔG 排名（JNK1 非共价项目已证伪）[筛选方案 §1.3]。
+
+**为何 3ELJ 式对接不能解释/预测 JNK2 亚型选择性：**
+
+- 3ELJ 为 **非共价** DFG-in，不约束 Cys116 共价键，**不含 kinact/TDI** 维度；
+- 多数本表分子原文 **未用** 3ELJ 发现；YL/56d 选择性来自 **8ELC 共价 pose** 或 **4WHZ 可逆 fit + 叠合**；
+- JNK1 非共价 Δsel/MM-GBSA 对 benchmark 选择性方向 **无判别力**（通过率 43%）。
+
+---
+
+### 逐分子：对接/结构如何解释选择性
+
+| ID | 化合物 | 亚型选择性（实验） | 结构/对接解释 | 能否用 3ELJ 预测？ |
+|----|--------|------------------|--------------|-------------------|
+| 1 | JNK-IN-2 | **无**；pan-JNK ~μM | 3V6R：type-2 U 构象下 acrylamide 与 Cys154 **几何次优** → 低效共价（~1 μM）；**未利用** Leu106/Ile106 差异；末端无 flag methyl → kinome 宽 | ❌ 未设计亚型选择性 |
+| 2 | JNK-IN-7 | **无**；pan-JNK nM | 3V6S：优化 **linker 酰胺几何** 使 acrylamide 逼近 Cys154 → **potency↑**（~500× vs IN-2），三亚型 IC50 近等；选择性仍靠 **kinome 面板** 而非口袋差异 | ❌ |
+| 3 | JNK-IN-8 | **JNK vs kinome ✅**；**JNK2≈JNK1≈JNK3 ❌** | 叠合 3V6S/8ELC：**flag methyl** 占据 imatinib 式后口袋 → 剔除 IRAK1/PIK3C3 等（S(10)=0.031）；IN-8 骨架 **不区分** Ile106/Leu106 → 生化 JNK2 18.7 nM 甚至弱于 JNK1 4.67 nM | ❌ 3ELJ 看不到 flag methyl 对 kinome 的贡献 |
+| 4 | JNK-IN-11 | **无亚型**；kinome **差** | 大体积 **2-苯基吡唑并[1,5-a]吡啶** 填充满 ATP+后口袋 → pan-JNK nM + **p38/CK1** 等 off-target；C116S 仅 ~10× → 强抑制 **部分靠非共价** 结合，共价非唯一决定因素 | ❌ THZ-3-60-1 区域异构体曾 hint JNK2 趋势但 kinome 失败 |
+| 5 | JNK-IN-12 | **无亚型**；**kinome 最优** | 苯并噻唑乙腈末端 **形状互补** JNK 后口袋 → S(10)=0.025（系列最 clean）；仍 **pan-JNK** 生化（13/11.3/11.0 nM 近等） | ❌ |
+| 6 | JNK-IN-6 | 共价 **阴性** | 丙酰胺 **无法** Michael 加成 Cys116 → ~100× 失活；证明 Zhang 系列 potency 依赖共价，但 **不提供** 亚型信息 | — |
+| 7 | YL2056 | **JNK2/3 > JNK1 ~33×** | **8ELC 共晶直接证据：** (R)-3-氨基吡咯烷+芳环深入 **Leu106 后口袋**（JNK2）；JNK1 **Ile106 clash**；Val54 主链位移容纳配体；**Cys116 共价** 提 potency，**(R)-构型** 必需（YL2012 对映体选择性消失）。Glide/MD：JNK1 ΔG_binding 升高 ~2.5 kcal/mol | ❌ 须 **8ELC 共价 pose**；3ELJ 无共价+无 (R)-吡咯烷 fit |
+| 8 | YL5084 | **JNK2 > JNK1 ~21×（kinact/KI）** | 继承 YL2056 **Leu106/Ile106** 逻辑 + **flag methyl** 降 kinome；Glide→8ELC：JNK2 中 warhead **更优轨迹** 指向 Cys116；MD：**P-loop 更接近** 配体；JNK1 **Arg50–Glu109** 盐桥限制 P-loop → 共价效率低 → kinact/KI(JNK2)/kinact/KI(JNK1)≈21。JNK3 仍活性（84 nM）因 Leu106 共享 | ❌ 3ELJ 缺共价 TDI；Δsel 不可用 |
+| 9 | 56d | **JNK2/3 >> JNK1**；strict JNK2> JNK1 弱于 YL5084 | **Ligand-first：** 可逆 **21b/16a** 先优化 **氨基吡唑 + Leu106/Leu144** 后口袋 fit（4WHZ/Park 2015 机制）→ JNK1 无 reversible IC50；再叠合 **3V6S** 引入 meta-**acrylamide** 可达 Cys116 → **预定位 + 共价** → kinact/KI(JNK2)=38200。JNK1：无 fit → PhosphoSens 无活性 | ❌ 叠合设计，非 3ELJ 盲对接 |
+| 10 | 56b | **无有效选择性**（>T10 μM） | 同 56d scaffold 但 **para-** 取代 linker → 叠合/model 显示 acrylamide **偏离** Cys116 最优 Michael 角度 → 共价标记成功但 **TDI 效率极低**；说明 **warhead 矢量** 与选择性同等关键 | ❌ meta vs para 几何 lesson |
+| 11 | 1aR-IN-8 | **Pan-JNK 三亚型近等**；**kinome > JNK-IN-8** | 8PTA：**IN-8 ATP 口袋**（hinge H-bond，参照 3V6S）+ **环己烯酮** 可逆锁定 Cys116；刚性环己烯酮 **空间位阻** 降低 off-target 半胱氨酸反应；**未延伸** 至 Leu106 后口袋差异区 → 不区分 JNK1/2 | ❌ JNK1 共晶，跨 JNK2 需同源至 8ELC |
+| 12 | 1bR-IN-8 | **JNK1 > JNK2 ~10×（反向）** | 自 8PTA：**C4 丙炔酯** 投射入 **exon6 底物结合沟**（GGV 等残基三亚型差异）；环己烯酮 3D 形状 **感知** 沟槽 subtle 差异 → **可编程** 亚型偏好；与 Leu106 轴 **正交** — 设计 JNK2> JNK1 应 **避免** 此 C4 方向 | ❌ 底物沟非 3ELJ 标准 ATP 对接视野 |
+
+### 选择性机制速查（按设计策略）
+
+```
+                    ┌─ kinome 选择性（JNK vs 其他激酶）
+                    │   → flag methyl / 末端形状 / 环己烯酮 bulk
+                    │
+共价 Cys116 锚定 ───┼─ 亚型选择性 JNK2 vs JNK1
+                    │   → Leu106(Ile106) 后口袋 + P-loop 动态 [YL5084, 56d]
+                    │   → 须 kinact/KI 或 预孵育 IC50，非 Δsel
+                    │
+                    └─ 底物沟编程 [1bR] / 反向 JNK1> JNK2
+                        → exon6 差异，与 Leu106 轴独立
+```
+
+主表 CSV `notes` 已追加 `[选择性]` 标签，与本节对应。
+
 ## 关联文档
 
 - `JNK2共价抑制剂文献调研综述.md`（v2.0 逐篇复盘）
