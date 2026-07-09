@@ -22,7 +22,7 @@ JNK 家族中，**结构同源半胱氨酸** 在不同亚型 UniProt 编号不�
 |------|---------|---------|---------|
 | JNK1 | MAPK8 | **Cys116** | JNK-IN-2 MS 肽段（Zhang 2012） |
 | JNK2 | MAPK9 | **Cys116** | YL5084 CE-MS/MS；8ELC 共晶 |
-| JNK3 | MAPK10 | **Cys154** | JNK-IN-7 共晶 PDB 3V6R |
+| JNK3 | MAPK10 | **Cys154** | JNK-IN-2 共晶 PDB **3V6R**（2.60 Å）；JNK-IN-7 共晶 PDB **3V6S**（2.97 Å） |
 
 **统一写法：** 表格保留原文 `covalent_site` + `site_species`；跨亚型比较时 `human_ortholog_site` 统一写 **Cys116**（JNK1/2 编号），JNK3 晶体数据在 `notes` 标注 Cys154。
 
@@ -72,6 +72,25 @@ JNK 家族中，**结构同源半胱氨酸** 在不同亚型 UniProt 编号不�
 | Lu 2023 | 10.1021/acs.jmedchem.2c01834 | 36826833 | *J Med Chem* 2023;66(5):3356-3371 |
 | Wydra 2025 | 10.1021/acs.jmedchem.5c00884 | 40404564 | *J Med Chem* 2025;68(11):12004-12028 |
 | Tóth 2024 | 10.1038/s41467-024-52573-2 | 39366946 | *Nat Commun* 2024;15:8269 |
+
+## 数据核对状态（2026-07-09）
+
+主表数值已对照 **PMC 全文 Table 1 / 正文** 逐项审计。核对来源如下：
+
+| 化合物组 | 核对来源 | 状态 |
+|---------|---------|------|
+| JNK-IN-2/6/7/8/11/12 | Zhang 2012 Table 1（[PMC3270411](https://pmc.ncbi.nlm.nih.gov/articles/PMC3270411/)） | ✅ 已修正并填入精确 IC50 |
+| YL2056 / YL5084 | Lu 2023 Table 1–2 + 正文（[PMC11190964](https://pmc.ncbi.nlm.nih.gov/articles/PMC11190964/)） | ✅ 已确认 |
+| 56d / 56b | Wydra 2025 正文 + 综述 [P3]（PMC12169684） | ✅ 已确认 |
+| 1aR / 1bR-IN-8 | Tóth 2024 Table 1 + Fig 6 / Supp Fig 14（[PMC11452492](https://pmc.ncbi.nlm.nih.gov/articles/PMC11452492/)） | ✅ 已确认 |
+
+**本次修正要点：**
+
+1. **PDB 编号：** 3V6R = JNK-IN-2（2.60 Å）；3V6S = JNK-IN-7（2.97 Å）——原 JNK-IN-2 行误写「3V6R 系列」、JNK-IN-7 行误绑 3V6R，已更正。
+2. **JNK-IN-11 生化 IC50：** 1.34/0.50/0.50 nM（原 1.3/0.5/0.5 为四舍五入）；A375 EC50 **8.6 nM** 与原文一致。
+3. **JNK-IN-12：** 补全 Table 1 数值 13/11.3/11.0 nM 及细胞 EC50。
+4. **JNK-IN-2：** 补全 Table 1 精确 IC50（809/1140/709 nM），非仅「~1 μM」。
+5. **1aR-IN-8：** 补全 PhALC 22±6 nM、NanoBRET 11.5 nM 等 Tóth Table 1 数据。
 
 ## 关联文档
 
