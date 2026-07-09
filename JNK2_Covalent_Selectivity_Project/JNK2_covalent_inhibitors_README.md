@@ -1,8 +1,19 @@
-# JNK2 共价抑制剂主表
+# JNK2 抑制剂主表
 
-本目录数据文件：`JNK2_covalent_inhibitors_master_table.csv`
+本目录含 **两张主表**：
+
+| 文件 | 内容 | 条目数 |
+|------|------|--------|
+| `JNK2_covalent_inhibitors_master_table.csv` | Cys116 **共价** 抑制剂 | 12 |
+| `JNK2_reversible_inhibitors_master_table.csv` | **可逆** ATP 竞争 JNK2 相关抑制剂 | 13 |
 
 格式对齐 `NLRP3_covalent_inhibitors_master_table.csv`（分支 `cursor/nlrp3-covalent-master-table-cd8a`）。
+
+---
+
+# 表一：共价抑制剂
+
+数据文件：`JNK2_covalent_inhibitors_master_table.csv`
 
 ## 纳入标准
 
@@ -35,7 +46,7 @@ JNK 家族中，**结构同源半胱氨酸** 在不同亚型 UniProt 编号不�
 | `compound_type` | 合成药物 / 合成药物（阴性对照） |
 | `site_species` | 共价位点验证所用蛋白/实验体系 |
 | `human_ortholog_site` | 人源 JNK1/2 统一编号 Cys116 |
-| `mechanism_route` | `A_structure_based`（Zhang 咪唑啉骨架）/ `C_isoform_medchem`（YL 系列）/ `D_ligand_first`（56d）/ `B_reversible_covalent`（Tóth 环己烯酮） |
+| `mechanism_route` | **共价表：** `A_structure_based` / `C_isoform_medchem` / `D_ligand_first` / `B_reversible_covalent`；**可逆表：** `E_reversible_DFG_in` / `F_reversible_DFG_out` / `G_reversible_pan_JNK` / `H_reversible_jnk1_bias` / `I_reversible_dual_target` |
 | `irreversible` | `是` / `否` / `可逆共价` |
 | `af3_calibration_priority` | 8ELC 共价回顾校准推荐优先级 |
 | `pubmed_status` | 引用前建议复核；主文献 PMID 已标注 |
@@ -192,6 +203,75 @@ JNK1/JNK2 ATP 口袋 **98% 同一**，仅两处差异氨基酸驱动可设计的
 ```
 
 主表 CSV `notes` 已追加 `[选择性]` 标签，与本节对应。
+
+---
+
+# 表二：可逆 JNK2 抑制剂
+
+数据文件：`JNK2_reversible_inhibitors_master_table.csv`
+
+## 纳入标准
+
+**ATP 竞争性可逆** 小分子，且满足以下 **至少一项**：
+
+1. 报告 **JNK2 生化/细胞** 活性或 **JNK2/3 > JNK1** 亚型选择性数据
+2. 作为 **pan-JNK 可逆阴性对照**（CC-930、SP600125）或 **反向 JNK1> JNK2 参照**（CC-90001）
+3. 作为 **DFG-out / Type II** 结构-选择性经典案例（BIRB796 + 3NPC）
+
+**排除：** 纯 JNK3 选择性可逆（indazole 25c 等）；JNK3 共价文献。
+
+## 用户常见问题：哪个化合物用了 DFG-out（out 蛋白）对接？
+
+**是的——经典案例是 BIRB796（doramapimod）+ PDB 3NPC（JNK2 DFG-out 共晶）。**
+
+| 维度 | BIRB796 / 3NPC（DFG-out） | 21b / 51d / 26k（DFG-in） |
+|------|---------------------------|---------------------------|
+| 构象 | **Type II DFG-out**；Phe170 翻出，扩展后口袋 | **Type I DFG-in**；标准 ATP 口袋 |
+| 代表 PDB | **3NPC**（JNK2–BIRB796） | **4WHZ**（JNK3–26k 氨基吡唑） |
+| 对接文献 | MedChemComm 2016：AutoDock Vina 对接 **3NPC** + JNK1/JNK3 DFG-out **同源模型** | Park 2015 / Zheng 2014 / Wydra 2025：**叠合 + SAR**，基于 4WHZ 共晶 |
+| 选择性机制 | DFG-out 扩展口袋 **仅 JNK2 实验解析**；BIRB796 在 JNK2 中 fit 良好；JNK1 **Ile106+Met77** / JNK3 **Leu144+Met115** 使 DFG-out 口袋更小 → Vina 无法合理 pose → JNK2 IC50 ~6 nM vs JNK1 >10 μM | **Leu106(Ile106)** HR-I 后口袋：更大芳环/scaffold 在 JNK2/3 fit，JNK1 **steric clash**；51d **倒置酰胺** 完全消除 JNK1 |
+| 与本项目关系 | **共价筛选禁用** 3NPC（与 8ELC DFG-in 几何不一致） | 56d 可逆前体；Tier-1 可逆对照 |
+
+> **注意：** Wydra **21b/51d** 等 JNK2/3 选择性氨基吡唑走的是 **DFG-in（4WHZ）** 路线，**不是** 3NPC DFG-out。用户若记得「out 蛋白对接」，通常指 **BIRB796/3NPC** 或 MedChemComm 2016 同源建模对接研究。
+
+### 可逆对接范式（读表前必读）
+
+| 范式 | 代表 PDB | 代表化合物 | 选择性 readout |
+|------|---------|-----------|---------------|
+| **F. DFG-out Type II** | **3NPC** | BIRB796 | JNK2 >> JNK1/JNK3；扩展口袋体积 |
+| **E. DFG-in 氨基吡唑** | **4WHZ** | 26k, 21b, 51d | Leu106/Ile106 后口袋 fit；148–340× vs JNK1 |
+| **G. Pan-JNK 可逆** | 3TTI 等 | CC-930, SP600125 | 无亚型选择性（阴性对照） |
+| **H. 反向 JNK1 偏好** | — | CC-90001 | 生化 Ki 近等；**细胞 KO 12.9× JNK1** |
+| **I. 激酶 + PPI 双靶** | VS 模型 | 6l | JNK2 功能导向；非经典 Leu106 轴 |
+
+### 逐分子：可逆选择性机制摘要
+
+| ID | 化合物 | 亚型选择性 | 如何实现选择性（结构/对接） |
+|----|--------|-----------|---------------------------|
+| 1 | BIRB796 | JNK2 >> JNK1/JNK3 | **3NPC DFG-out**：tolyl + morpholino-naphthyl 填满 Type II 口袋；JNK1/JNK3 DFG-out 同源模型口袋更小（Ile106/Met77, Leu144/Met115）→ 对接失败/无结合 |
+| 2 | 26k | JNK2/3 > JNK1 | **4WHZ DFG-in**：Leu144 后口袋容受芳环；hinge H-bond 锚定 |
+| 3 | 26n | JNK3 导向 | 同 Leu144 轴 + kinome 优化 |
+| 4 | A-1 | ~30× vs JNK1 | Park 2015：氨基吡唑 + Leu106 后口袋；Wydra 化学起点 |
+| 5 | 16a | 114× | 倒置酰胺 + naphthyl → Leu106 fit |
+| 6 | **21b** | **148×** | Ligand-first：并行 JNK1/2/3 SAR → HR-II 苯甲酰胺深度占 Leu106 后口袋 |
+| 7 | 21h | 83× | 同 21 系列；PK 优化（t½ 3.33 h） |
+| 8 | 45a | JNK2/3 双强 (4/6 nM) | 可逆 potency 上限；选择性 ~12× |
+| 9 | **51d** | **>340×** | **倒置酰胺** 重定向 H-bond → JNK1 **完全无结合** |
+| 10 | SP600125 | Pan-JNK | 无亚型设计（40/40/90 nM） |
+| 11 | CC-930 | Pan-JNK | 临床 pan-JNK；无 Ile106/Leu106 利用 |
+| 12 | CC-90001 | **JNK1 > JNK2 12.9×（细胞）** | 纤维化生物学 + SAR；生化 Ki 近等 → 须 **isoform KO** readout |
+| 13 | 6l | JNK2 功能导向 | JNK2 激酶 + MKK7–JNK2 PPI 双靶；与共价 Leu106 轴正交 |
+
+### 可逆表统计（2026-07）
+
+- 总条目：**13**
+- **JNK2/3 > JNK1 可逆：** 21b（148×）、51d（>340×）、16a、26k 系列
+- **DFG-out 结构案例：** BIRB796（3NPC）
+- **Pan-JNK 阴性对照：** SP600125、CC-930
+- **反向参照：** CC-90001（JNK1 12.9×）
+- **双靶新策略：** 6l（2026）
+
+可逆表 CSV `notes` 已追加 `[结构]` / `[选择性]` 标签。
 
 ## 关联文档
 

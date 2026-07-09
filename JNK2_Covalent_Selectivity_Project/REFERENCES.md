@@ -57,11 +57,22 @@ Shaw D, Auld DS, et al. J Mol Biol. 2008;383(4):885-893. PDB **3E7O**.
 - **RCSB:** [https://www.rcsb.org/structure/3E7O](https://www.rcsb.org/structure/3E7O)
 - **Note:** DFG-in；本仓库 JNK2 非共价 sole receptor [JNK1 项目 v2.8]
 
-### [R7] JNK2 DFG-out（共价筛选禁用）
+### [R7] JNK2 DFG-out（共价筛选禁用；BIRB796 选择性对接参照）
 
-PDB **3NPC**. *Used only as MR model in [R1]; not for covalent docking.*
+PDB **3NPC**. JNK2 co-crystallized with **BIRB796 (doramapimod)** — first JNK family **DFG-out** structure.
 
 - **RCSB:** [https://www.rcsb.org/structure/3NPC](https://www.rcsb.org/structure/3NPC)
+- **Primary citation:** Kuglstatter A, et al. X-ray crystal structure of JNK2 complexed with the p38α inhibitor BIRB796. *Journal of Molecular Biology.* 2010;397(1):46-53. doi:[10.1016/j.jmb.2010.01.027](https://doi.org/10.1016/j.jmb.2010.01.027)
+- **Used as MR model in [R1]; not for covalent docking.**
+- **Docking / selectivity analysis:** Rogel A, et al. Insight into the selective inhibition of JNK family members through structure-based drug design. *MedChemComm.* 2016;7(6):1192-1199. doi:[10.1039/C5MD00562K](https://doi.org/10.1039/C5MD00562K) — AutoDock Vina to **3NPC** + SWISS-MODEL JNK1/JNK3 DFG-out homology models; explains JNK2 >> JNK1/JNK3 for BIRB796.
+
+### [R7b] JNK3–aminopyrazole 4WHZ（可逆 DFG-in 选择性模板）
+
+PDB **4WHZ**. Zheng 2014 / Park 2015 aminopyrazole co-crystal (26k, 1.8 Å).
+
+- **RCSB:** [https://www.rcsb.org/structure/4WHZ](https://www.rcsb.org/structure/4WHZ)
+- **Primary citation:** [R29], [R10]
+- **Note:** Wydra 21b/51d/56d ligand-first 系列的可逆 fit 参照；**DFG-in**，非 3NPC DFG-out。
 
 ---
 
