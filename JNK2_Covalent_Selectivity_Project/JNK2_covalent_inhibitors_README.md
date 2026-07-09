@@ -4,7 +4,7 @@
 
 | 文件 | 内容 | 条目数 |
 |------|------|--------|
-| `JNK2_covalent_inhibitors_master_table.csv` | Cys116 **共价** 抑制剂 | 12 |
+| `JNK2_covalent_inhibitors_master_table.csv` | **共价** 抑制剂 + **共晶+选择性** 结构参照 | 14 |
 | `JNK2_reversible_inhibitors_master_table.csv` | **可逆** ATP 竞争 JNK2 相关抑制剂 | 13 |
 
 格式对齐 `NLRP3_covalent_inhibitors_master_table.csv`（分支 `cursor/nlrp3-covalent-master-table-cd8a`）。
@@ -49,6 +49,8 @@ JNK 家族中，**结构同源半胱氨酸** 在不同亚型 UniProt 编号不�
 | `mechanism_route` | **共价表：** `A_structure_based` / `C_isoform_medchem` / `D_ligand_first` / `B_reversible_covalent`；**可逆表：** `E_reversible_DFG_in` / `F_reversible_DFG_out` / `G_reversible_pan_JNK` / `H_reversible_jnk1_bias` / `I_reversible_dual_target` |
 | `irreversible` | `是` / `否` / `可逆共价` |
 | `af3_calibration_priority` | 8ELC 共价回顾校准推荐优先级 |
+| `cocrystal_pdb` | 实验共晶 PDB ID（无则 `—`；同源 pose 标注如 `8ELC(同源pose)`） |
+| `cocrystal_selectivity_curated` | **`是`** = 同时满足 **实验共晶** + **明确 JNK 亚型选择性结构解释**（Leu106/Ile106、DFG-out 口袋等）；`否` = 缺一项或两项 |
 | `pubmed_status` | 引用前建议复核；主文献 PMID 已标注 |
 
 ## 机制路线与必要验证
@@ -69,11 +71,34 @@ JNK 家族中，**结构同源半胱氨酸** 在不同亚型 UniProt 编号不�
 
 ## 统计（2026-07）
 
-- 总条目：**12**（含 1 条阴性对照 JNK-IN-6）
-- 严格 **JNK2 > JNK1** 共价：**YL5084**（Tier-0）
+- 总条目：**14**（共价 12 + 可逆结构参照 2；含 1 条阴性对照 JNK-IN-6）
+- **共晶 + 选择性结构解释（`cocrystal_selectivity_curated=是`）：3 条** — 见下节
+- 严格 **JNK2 > JNK1** 共价：**YL5084**（Tier-0；无独立 PDB，pose 来自 8ELC）
 - JNK2/3 > JNK1 共价：**YL2056、56d**
 - Pan-JNK 共价：**JNK-IN-7/8/11/12、1aR-IN-8**
 - 可逆共价：**1aR-IN-8、1bR-IN-8**
+
+## 共晶 + 选择性结构解释子集（`cocrystal_selectivity_curated=是`）
+
+纳入标准：**① 该化合物（或 deposited 配体）有实验 X-ray 共晶 PDB；② 文献给出明确的 JNK1/2/3 亚型选择性结构机制**（非仅 kinome 或 potency 优化）。
+
+| ID | 化合物 | 共晶 PDB | 结合模式 | 选择性（实验） | 结构如何解释选择性 |
+|----|--------|---------|---------|---------------|-------------------|
+| **7** | **YL2056** | **8ELC** | 共价 DFG-in（JNK2） | JNK2/3 > JNK1 ~33× | (R)-氨基吡咯烷+芳环深入 **Leu106** 后口袋；JNK1 **Ile106 clash**；Val54 主链位移；Cys116 共价提 potency |
+| **13** | **BIRB796** | **3NPC** | 可逆 **DFG-out** Type II（JNK2） | JNK2 >> JNK1/JNK3 | DFG-out 扩展口袋仅 JNK2 实验解析；tolyl 占后疏水腔；JNK1/JNK3 DFG-out 同源模型口袋更小（Ile106/Met77, Leu144/Met115）→ 无法结合 |
+| **14** | **26k** | **4WHZ** | 可逆 DFG-in（JNK3 共晶） | JNK2/3 > JNK1 | **Leu106/Leu144** vs **Ile106** HR-I 后口袋；hinge H-bond 锚定；芳环 fit 驱动 JNK2/3 优先 |
+
+**未纳入子集但相关：**
+
+| 化合物 | 缺什么 | 备注 |
+|--------|--------|------|
+| YL5084 | 无独立 PDB | 选择性机制与 YL2056 相同，Glide pose 来自 **8ELC** |
+| 56d / 21b / 51d | 无共晶 | 选择性机制直接继承 **4WHZ（26k）** + 8ELC Cys116 几何 |
+| JNK-IN-2/7 | 有共晶（3V6R/3V6S） | **无** JNK 亚型选择性设计/解释（pan-JNK） |
+| 1aR-IN-8 | 有共晶（8PTA） | 共晶证实共价机制；**三亚型近等**，选择性在 kinome 非 JNK2 亚型 |
+| 1bR-IN-8 | 无独立 PDB | 有 JNK1>JNK2 解释（exon6 底物沟）但缺共晶 |
+
+> 可逆表 `JNK2_reversible_inhibitors_master_table.csv` 中 **BIRB796、26k** 已同步收录至共价主表 **id 13–14** 作为结构参照；其余可逆化合物仍保留在表二。
 
 ## 关键文献 DOI / PMID（2026-07 复核）
 
