@@ -87,4 +87,16 @@
 | `mcc950_pocket_inhibitors_reference.csv` | MCC950 口袋及临床对照化合物 |
 | `nlrp3_inhibitor_structures_timeline.csv` | PDB 结构时间线 |
 
+## 专利数据修正（2026-07-10 第二轮）
+
+| 项目 | 先前错误 | 更正 |
+|------|----------|------|
+| 五篇专利化学系列 | 误述为「5 条不同化学系列、非单一骨架」 | **均为 BAL 类 indazole-酰胺骨架**；166 个 Murcko 骨架是**同一药效团的取代基变体** |
+| WO2023147468 | 75/75 活性分子 SMILES 无法解析 | `N(O)→[N+]([O-])` 修复后 **105/106 可解析**，74 条有活性标签 |
+| 合并统计 | ~1042 SMILES / 169 Murcko | 更新为 **1039 独特 SMILES / 166 Murcko / 893 有标签** |
+| 对接策略 | 曾建议 MCC950 口袋对接 | BAL 化合物应对接 **Glu-switch 沟槽**，MCC950 口袋仅作阴性对照 |
+| 9IHN/9Q8V | 未收录或标注不清 | 已录入结构表；状态 **HPUB**；精修起点为 7PZC |
+
+完整课题方案见 [BAL_SITE_INHIBITOR_DISCOVERY_PROJECT.md](./BAL_SITE_INHIBITOR_DISCOVERY_PROJECT.md)。
+
 *最后更新：2026-07-10*
