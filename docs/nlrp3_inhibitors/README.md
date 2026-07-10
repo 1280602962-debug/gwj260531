@@ -6,7 +6,12 @@
 
 | 文件 | 行数/规模 | 用途 |
 |------|-----------|------|
+| [presentation/BAL_PROJECT_PRESENTATION_GUIDE.md](./presentation/BAL_PROJECT_PRESENTATION_GUIDE.md) | — | **课题汇报叙事指南（调研→决策→方案）** |
+| [presentation/SLIDES_OUTLINE.md](./presentation/SLIDES_OUTLINE.md) | 20 页 | **逐页幻灯片文字稿** |
+| [presentation/IMAGE_SOURCES.md](./presentation/IMAGE_SOURCES.md) | — | **PPT 图片清单与引用规范** |
+| [presentation/images/](./presentation/images/) | 11 张 PNG | **可直接插入 PPT 的本地图片** |
 | [BAL_SITE_INHIBITOR_DISCOVERY_PROJECT.md](./BAL_SITE_INHIBITOR_DISCOVERY_PROJECT.md) | — | **课题可行性分析、四阶段实施方案、资源清单** |
+| [BAL_ASSAY_PROTOCOLS.md](./BAL_ASSAY_PROTOCOLS.md) | — | **BAL 位点抑制剂测活方法汇总** |
 | [REFERENCES.md](./REFERENCES.md) | — | **完整参考文献链接（按主题分类）** |
 | [patent_bal_compounds_merged.csv](./patent_bal_compounds_merged.csv) | 1087 行 / 1039 独特 SMILES | 五篇 BAL 专利合并清洗数据 |
 | [patent_data_summary.json](./patent_data_summary.json) | — | 专利数据统计摘要 |
@@ -35,6 +40,11 @@
 | `activity_score` | 统一评分 0–3 |
 | `murcko_scaffold` | Murcko 骨架 |
 | `mw`, `logp`, `tpsa`, `hbd`, `hba` | 理化描述符 |
+
+## 课题汇报
+
+1. **汇报准备**：先读 `presentation/BAL_PROJECT_PRESENTATION_GUIDE.md`（叙事逻辑），再按 `SLIDES_OUTLINE.md` 制作 PPT。
+2. **图片资源**：`presentation/images/` 含结构图、流程图、数据图；论文原图索引见 `IMAGE_SOURCES.md`。
 
 ## 使用建议
 
