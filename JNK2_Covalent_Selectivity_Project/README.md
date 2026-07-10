@@ -18,6 +18,7 @@ JNK2_Covalent_Selectivity_Project/
 ├── JNK2_covalent_inhibitors_master_table.csv # JNK2 共价抑制剂主表（对齐 NLRP3 格式，12 条）
 ├── JNK2_covalent_inhibitors_README.md        # 主表字段说明 / Cys116 vs Cys154 编号
 ├── REFERENCES.md                          # 参考文献（含 DOI / PDB）
+├── docs/report/REPORT.md                  # 图文报告（参考文献结构图 + 五阶段示意）
 ├── config/
 │   └── targets.yaml                       # 结构模板与 benchmark 配置
 └── data/phase0_af3/                       # AF3 Phase 0 种子数据（见 COMPOUNDS.md 分子用途）
@@ -46,6 +47,7 @@ JNK2_Covalent_Selectivity_Project/
 ## 快速开始
 
 0. 阅读 `JNK2项目决策五阶段.md` 了解从文献到 **DFG-in 共价 + 禁用 DFG-out 主筛** 的完整推理  
+0b. 浏览 `docs/report/REPORT.md` 查看参考文献 PDB 结构图与五阶段流程图  
 1. 阅读 `JNK2选择性共价抑制剂筛选方案.md` §一–§三 明确科学目标与 gate 标准  
 2. 阅读 `JNK2共价抑制剂文献调研综述.md` 了解 **共价 + 可逆** JNK2 抑制剂的发现路径、活性数据与湿实验范式  
 3. 使用 `data/phase0_af3/` 中的 **8ELC**、FASTA 与分子种子（各分子用途见 `COMPOUNDS.md`）  
