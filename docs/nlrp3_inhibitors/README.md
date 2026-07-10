@@ -11,7 +11,8 @@
 | [presentation/IMAGE_SOURCES.md](./presentation/IMAGE_SOURCES.md) | — | **PPT 图片清单与引用规范** |
 | [presentation/images/](./presentation/images/) | 11 张 PNG | **可直接插入 PPT 的本地图片** |
 | [BAL_SITE_INHIBITOR_DISCOVERY_PROJECT.md](./BAL_SITE_INHIBITOR_DISCOVERY_PROJECT.md) | — | **课题可行性分析、四阶段实施方案、资源清单** |
-| [BAL_ASSAY_PROTOCOLS.md](./BAL_ASSAY_PROTOCOLS.md) | — | **BAL 位点抑制剂测活方法汇总** |
+| [BAL_PUBLICATION_TIMELINE.md](./BAL_PUBLICATION_TIMELINE.md) | — | **BAL 新位点分子发表时间线** |
+| [bal_publication_timeline.csv](./bal_publication_timeline.csv) | 19 事件 | 时间线机器可读 CSV |
 | [REFERENCES.md](./REFERENCES.md) | — | **完整参考文献链接（按主题分类）** |
 | [patent_bal_compounds_merged.csv](./patent_bal_compounds_merged.csv) | 1087 行 / 1039 独特 SMILES | 五篇 BAL 专利合并清洗数据 |
 | [patent_data_summary.json](./patent_data_summary.json) | — | 专利数据统计摘要 |
