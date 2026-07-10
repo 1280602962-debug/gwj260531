@@ -13,6 +13,7 @@
 JNK2_Covalent_Selectivity_Project/
 ├── README.md                              # 本文件
 ├── JNK2选择性共价抑制剂筛选方案.md          # 主方案（计算 + 实验 + 里程碑）
+├── JNK2项目决策五阶段.md                    # 五阶段决策脉络（含 DFG-out 不作共价主筛理由）
 ├── JNK2共价抑制剂文献调研综述.md            # JNK2 抑制剂文献复盘（共价 + 可逆，v2.0, 38 refs）
 ├── JNK2_covalent_inhibitors_master_table.csv # JNK2 共价抑制剂主表（对齐 NLRP3 格式，12 条）
 ├── JNK2_covalent_inhibitors_README.md        # 主表字段说明 / Cys116 vs Cys154 编号
@@ -44,6 +45,7 @@ JNK2_Covalent_Selectivity_Project/
 
 ## 快速开始
 
+0. 阅读 `JNK2项目决策五阶段.md` 了解从文献到 **DFG-in 共价 + 禁用 DFG-out 主筛** 的完整推理  
 1. 阅读 `JNK2选择性共价抑制剂筛选方案.md` §一–§三 明确科学目标与 gate 标准  
 2. 阅读 `JNK2共价抑制剂文献调研综述.md` 了解 **共价 + 可逆** JNK2 抑制剂的发现路径、活性数据与湿实验范式  
 3. 使用 `data/phase0_af3/` 中的 **8ELC**、FASTA 与分子种子（各分子用途见 `COMPOUNDS.md`）  
