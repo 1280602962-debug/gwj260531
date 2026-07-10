@@ -7,7 +7,7 @@ Figures for [`../REPORT.md`](../REPORT.md).
 - `fig01_five_stages_flow.png` — project five-stage workflow
 - `fig02_key_compounds_2d.png` — RDKit 2D structures from seed SMILES
 - `fig03_dfg_in_vs_out_schematic.png` — DFG-in (8ELC) vs DFG-out (3NPC) for covalent screening
-- `fig04_leu106_selectivity.png` — JNK2 Leu106 vs JNK1 Met146
+- `fig04_leu106_selectivity.png` — JNK2 Leu106 vs JNK1 Ile106
 - `fig05_pdb_structure_panel.png` — RCSB assembly images composite
 
 ## Source (RCSB)

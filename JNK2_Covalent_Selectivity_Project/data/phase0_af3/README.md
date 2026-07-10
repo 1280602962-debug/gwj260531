@@ -14,6 +14,7 @@
 | `phase0_compounds_seed.csv` | 分子种子表（含 SMILES、用途 `role`、AF3 是否需共价键） |
 | `COMPOUNDS.md` | **各分子用途中文说明**（阳性/阴性/decoy 锚点） |
 | `STRUCTURE_AUDIT.md` | **结构核对报告**（ChEMBL/PubChem/PDB 交叉验证） |
+| `COMPOUND_LITERATURE_AUDIT.md` | **化合物 + 文献 + PDB 全量审计** |
 | `pdb_references.csv` | 结构模板索引 |
 | `af3_input_template.json` | Cys 编号、`bondedAtomPairs`、gate 阈值 |
 | `decoy_property_targets.yaml` | COValid 6 性质 + Tc 过滤规则 |

@@ -1,6 +1,6 @@
 # Phase 0 分子结构核对报告
 
-核对日期：2026-07-09  
+核对日期：2026-07-10（更新 56a）  
 方法：ChEMBL / PubChem / PDB 8ELC Y56 / Lu 2023 & Zhang 2012 SI / RDKit InChIKey 比对
 
 ## 汇总
@@ -13,7 +13,7 @@
 | ACT004 | 56d | ❌ **原库错误** | 已换为用户/Wydra 结构 |
 | NEG002 | YL5084R | ✅ 正确 | 保持 |
 | NEG001 | JNK-IN-6 | ⚠️ 原为空 | 已补 PubChem 57340684 |
-| NEG003 | 56a | ❌ 仍缺 | 待 Wydra 2025 SI |
+| NEG003 | 56a | ✅ 已补 CHEMBL6151222 | 更新 seed CSV |
 
 ---
 
@@ -73,9 +73,11 @@ Lu 2023 正文：8ELC 为 YL2056 浸泡共晶，**Cys116 连续密度证实共�
 - **propionamide** 替换 JNK-IN-7 的 acrylamide；~100× 生化失活
 - 注意：基于 **JNK-IN-5/7 scaffold**，**非** JNK-IN-8（无 flag methyl）
 
-### NEG003 56a — ❌ 仍缺
+### NEG003 56a — ✅ 已补（2026-07-10）
 
-- Wydra 2025 56 系列 **丙酰胺**阴性；需 SI 补 SMILES
+- **ChEMBL6151222** — propionamide 版 56d；MW 518.58
+- SMILES: `CCC(=O)Nc1cccc(C(=O)Nc2cccc(-n3cc(NC(=O)Nc4cccc5ccccc45)cn3)c2)c1`
+- Wydra 2025 [R20] 56 系列丙酰胺阴性；与 56d 配对
 
 ---
 

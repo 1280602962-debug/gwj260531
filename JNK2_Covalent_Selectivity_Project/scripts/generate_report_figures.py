@@ -29,7 +29,7 @@ COMPOUNDS = [
     ("YL2056", "CN(C)C/C=C/C(=O)Nc1ccc(C(=O)N2CC[C@H](Nc3nccc(-c4c(-c5ccccc5)nn5ccccc45)n3)C2)cc1", "8ELC ligand [R3]"),
     ("JNK-IN-8", "Cc1cc(NC(=O)c2cccc(NC(=O)/C=C/CN(C)C)c2)ccc1Nc1nccc(-c2cccnc2)n1", "Pan-JNK covalent [R2]"),
     ("56d", "C=CC(=O)Nc1cccc(C(=O)Nc2cccc(-n3cc(NC(=O)Nc4cccc5ccccc45)cn3)c2)c1", "Ligand-first covalent [R1]"),
-    ("26k", "Cc1cc(Nc2nc(N)nc(Nc3ccc(C(F)(F)F)cc3)n2)ccc1F", "DFG-in reversible [R7b]"),
+    ("26k", "Clc1ccccc1NC(=O)Nc1cn(nc1)c2cccc(c2)C(=O)Nc2cn(nc2)[C@H]3CCNC3", "4WHZ ligand 26k/3NL [R7b]"),
     ("BIRB796", "CN1CCN(Cc2ccc(NC(=O)Nc3ccc(F)c(C(F)(F)F)c3)cc2C(F)(F)F)CC1=O", "DFG-out Type II [R7]"),
 ]
 
@@ -48,7 +48,7 @@ def fig01_five_stages() -> None:
     stages = [
         ("Stage 1\nLiterature & PDB", "8ELC / 4WHZ / 3NPC"),
         ("Stage 2\nSeeds & Decoys", "YL5084 + acrylamide decoys"),
-        ("Stage 3\nAF3 Gate", "mPAE + EF@1% >= 2 [R7b]"),
+        ("Stage 3\nAF3 Gate", "mPAE + EF@1% >= 2 [R15]"),
         ("Stage 4\nCovalent Dock", "DFG-in 8ELC only"),
         ("Stage 5\nSelectivity", "kinact/KI, C116S, cells"),
     ]
@@ -138,7 +138,7 @@ def fig04_leu106() -> None:
         ax.text(x, 2.8, pocket, ha="center", fontsize=9)
         ax.text(x, 1.8, sel, ha="center", fontsize=8.5, style="italic")
     ax.annotate("", xy=(5.5, 3), xytext=(4.5, 3), arrowprops=dict(arrowstyle="<->", color="#555", lw=2))
-    ax.text(5, 5.3, "Selectivity axis (Ward 2012; Wydra/Lu series)", ha="center", fontsize=11, fontweight="bold")
+    ax.text(5, 5.3, "Selectivity axis (Lu 2023; Wydra 2025; Zheng 2014)", ha="center", fontsize=11, fontweight="bold")
     fig.savefig(FIG_DIR / "fig04_leu106_selectivity.png", dpi=150, bbox_inches="tight")
     plt.close(fig)
 
