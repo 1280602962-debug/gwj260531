@@ -6,9 +6,9 @@
 
 | 文件 | 行数 | 用途 |
 |------|------|------|
-| [non_mcc950_site_inhibitors.csv](./non_mcc950_site_inhibitors.csv) | 17 | 非 MCC950 口袋或不同机制的 tool/clinical 化合物 |
+| [non_mcc950_site_inhibitors.csv](./non_mcc950_site_inhibitors.csv) | 18 | 非 MCC950 口袋或不同机制的 tool/clinical 化合物 |
 | [mcc950_pocket_inhibitors_reference.csv](./mcc950_pocket_inhibitors_reference.csv) | 14 | MCC950 口袋结合剂及临床管线对照 |
-| [nlrp3_inhibitor_structures_timeline.csv](./nlrp3_inhibitor_structures_timeline.csv) | 18 | PDB 结构条目与尚无结构的化合物标注 |
+| [nlrp3_inhibitor_structures_timeline.csv](./nlrp3_inhibitor_structures_timeline.csv) | 19 | PDB 结构条目与尚无结构的化合物标注 |
 | [CORRECTIONS.md](./CORRECTIONS.md) | — | 相对先前版本的勘误说明 |
 
 ## 字段定义
@@ -52,6 +52,7 @@
 | Oridonin | [10.1038/s41467-018-04947-6](https://doi.org/10.1038/s41467-018-04947-6) |
 | Tranilast | [10.15252/emmm.201708689](https://doi.org/10.15252/emmm.201708689) |
 | BAL-0028 机制 | [10.1084/jem.20242403](https://doi.org/10.1084/jem.20242403) |
+| BAL-1516 结构 | [10.1101/2025.07.01.662566](https://doi.org/10.1101/2025.07.01.662566) (PDB 9IHN/9Q8V) |
 | 4-OI / Itaconate | [10.1016/j.cmet.2020.07.016](https://doi.org/10.1016/j.cmet.2020.07.016) |
 | RRx-001 | [10.1038/s41423-021-00683-y](https://doi.org/10.1038/s41423-021-00683-y) |
 | VLX1570 | [10.1021/acschembio.3c00330](https://doi.org/10.1021/acschembio.3c00330) |
