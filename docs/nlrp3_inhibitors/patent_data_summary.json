@@ -1,14 +1,62 @@
 {
-  "total_rows": 1087,
-  "unique_smiles": 1039,
-  "murcko_scaffolds": 166,
-  "labeled_unique": 893,
-  "cross_patent_overlap": 13,
-  "patents": {
-    "WO2025207644": 346,
-    "WO2022204227": 382,
-    "WO2024064655": 222,
-    "WO2023147468": 105,
-    "WO2026054623": 32
+  "generated": "2026-07-13",
+  "note": "Activity-table compounds only (PDF IC50 tables). SMILES N-oxide / N-methyl-indazole OCR fixes applied. 3 activity labels corrected vs PDF.",
+  "total_rows": 939,
+  "parseable": 939,
+  "unique_smiles": 916,
+  "unique_murcko_scaffolds": 143,
+  "labeled_activity": 939,
+  "smiles_auto_fixed": 76,
+  "activity_pdf_corrected": 3,
+  "by_patent": [
+    {
+      "patent_id": "WO2022204227",
+      "n": 383,
+      "labeled": 383,
+      "unique_smiles": 374,
+      "scaffolds": 97
+    },
+    {
+      "patent_id": "WO2023147468",
+      "n": 75,
+      "labeled": 75,
+      "unique_smiles": 74,
+      "scaffolds": 8
+    },
+    {
+      "patent_id": "WO2024064655",
+      "n": 169,
+      "labeled": 169,
+      "unique_smiles": 168,
+      "scaffolds": 18
+    },
+    {
+      "patent_id": "WO2025207644",
+      "n": 286,
+      "labeled": 286,
+      "unique_smiles": 278,
+      "scaffolds": 29
+    },
+    {
+      "patent_id": "WO2026054623",
+      "n": 26,
+      "labeled": 26,
+      "unique_smiles": 25,
+      "scaffolds": 9
+    }
+  ],
+  "activity_scales": {
+    "WO2022204227_WO2023147468_WO2024064655": {
+      "+": 1,
+      "++": 2,
+      "+++": 3
+    },
+    "WO2025207644_WO2026054623": {
+      "A": 5,
+      "B": 4,
+      "C": 3,
+      "D": 2,
+      "E": 1
+    }
   }
 }

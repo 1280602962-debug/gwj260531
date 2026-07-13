@@ -97,6 +97,18 @@
 | 对接策略 | 曾建议 MCC950 口袋对接 | BAL 化合物应对接 **Glu-switch 沟槽**，MCC950 口袋仅作阴性对照 |
 | 9IHN/9Q8V | 未收录或标注不清 | 已录入结构表；状态 **HPUB**；精修起点为 7PZC |
 
+## 专利 SMILES / 活性第三轮修正（2026-07-13）
+
+以 PDF 活性表为准，重建「有 IC50 标签」子集，并修复 PatentPak OCR SMILES：
+
+| 项目 | 修正 |
+|------|------|
+| 数据范围 | 仅保留 PDF 活性表中的化合物（去掉无标签中间体等）→ **939 行 / 全部有活性标签** |
+| WO2023147468 SMILES | 75/75 `N(O)` OCR → `[N+]([O-])=`，现 **全部可解析** |
+| WO2022204227 #100 | `N=N(C)` OCR → 2-甲基吲唑 `nn(C)` |
+| 活性标签 vs PDF | #32（WO2023147468）`+`→`++`；#32（WO2024064655）`+`→`+++`；#193（WO2025207644）补 `A` |
+| 抽样 QA | 见 `PATENT_SMILES_QA.md` 与 `qa_smiles_samples/` |
+
 完整课题方案见 [BAL_SITE_INHIBITOR_DISCOVERY_PROJECT.md](./BAL_SITE_INHIBITOR_DISCOVERY_PROJECT.md)。
 
-*最后更新：2026-07-10*
+*最后更新：2026-07-13*

@@ -14,7 +14,10 @@
 | [BAL_PUBLICATION_TIMELINE.md](./BAL_PUBLICATION_TIMELINE.md) | — | **BAL 新位点分子发表时间线** |
 | [bal_publication_timeline.csv](./bal_publication_timeline.csv) | 19 事件 | 时间线机器可读 CSV |
 | [REFERENCES.md](./REFERENCES.md) | — | **完整参考文献链接（按主题分类）** |
-| [patent_bal_compounds_merged.csv](./patent_bal_compounds_merged.csv) | 1087 行 / 1039 独特 SMILES | 五篇 BAL 专利合并清洗数据 |
+| [patent_bal_compounds_merged.csv](./patent_bal_compounds_merged.csv) | **939 行 / 916 独特 SMILES**（全部有活性标签） | 五篇 BAL 专利 PDF 活性表合并清洗数据 |
+| [PATENT_SMILES_QA.md](./PATENT_SMILES_QA.md) | — | **SMILES 修复说明 + 抽样核对指南** |
+| [patent_smiles_sample_qa.csv](./patent_smiles_sample_qa.csv) | 48 | 分层抽样清单（高活 + 已修复 + 随机） |
+| [qa_smiles_samples/](./qa_smiles_samples/) | 结构 PNG | 抽样分子 2D 结构图（便于对照专利 PDF） |
 | [patent_data_summary.json](./patent_data_summary.json) | — | 专利数据统计摘要 |
 | [non_mcc950_site_inhibitors.csv](./non_mcc950_site_inhibitors.csv) | 18 | 非 MCC950 口袋抑制剂（含 BAL 系列） |
 | [mcc950_pocket_inhibitors_reference.csv](./mcc950_pocket_inhibitors_reference.csv) | 14 | MCC950 口袋及临床对照 |
@@ -25,7 +28,7 @@
 
 - **目标**：在原 indazole 骨架上发现活性类似物 + 拓展多骨架候选
 - **可行性**：★★★★☆（配体驱动可立即启动；结构驱动需约束验证）
-- **核心数据**：1039 独特分子，893 有活性标签，166 Murcko 骨架
+- **核心数据**：916 独特分子（939 行），**全部有活性标签**，143 Murcko 骨架（仅 PDF 活性表化合物）
 - **关键约束**：BAL 位点为变构沟槽，AI 共折叠需指定 Y258/H260；9IHN 仍 HPUB
 
 详见 [BAL_SITE_INHIBITOR_DISCOVERY_PROJECT.md](./BAL_SITE_INHIBITOR_DISCOVERY_PROJECT.md)。
@@ -38,7 +41,7 @@
 | `compound_number` | 化合物编号 |
 | `smiles` | 规范化 SMILES |
 | `activity_raw` | 原始活性标签 |
-| `activity_score` | 统一评分 0–3 |
+| `activity_score` | `+/++/+++` → 1–3；`A–E`（后两篇专利）→ 5–1 |
 | `murcko_scaffold` | Murcko 骨架 |
 | `mw`, `logp`, `tpsa`, `hbd`, `hba` | 理化描述符 |
 
