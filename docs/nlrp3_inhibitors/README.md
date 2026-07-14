@@ -15,6 +15,14 @@
 | [bal_publication_timeline.csv](./bal_publication_timeline.csv) | 19 事件 | 时间线机器可读 CSV |
 | [REFERENCES.md](./REFERENCES.md) | — | **完整参考文献链接（按主题分类）** |
 | [patent_bal_compounds_merged.csv](./patent_bal_compounds_merged.csv) | **939 行 / 916 独特 SMILES**（全部有活性标签） | 五篇 BAL 专利 PDF 活性表合并清洗数据 |
+| [PATENT_SAR_FEATURE_TABLES.md](./PATENT_SAR_FEATURE_TABLES.md) | — | **左/中/右结构特征 SAR 表说明 + 活性等级 IC50 范围** |
+| [patent_activity_scale_definitions.csv](./patent_activity_scale_definitions.csv) | 17 | 专利原文 `+/++/+++`、`A–E` → IC50 范围 |
+| [patent_activity_scale_practical_bins.csv](./patent_activity_scale_practical_bins.csv) | 11 | 实用互斥活性分箱 |
+| [patent_compounds_region_annotated.csv](./patent_compounds_region_annotated.csv) | 939 | 每分子左/中/右标注 + IC50 bin |
+| [patent_sar_by_region_feature.csv](./patent_sar_by_region_feature.csv) | ~100 | 按区域特征汇总活性分布 |
+| [patent_sar_feature_activity_counts.csv](./patent_sar_feature_activity_counts.csv) | ~100 | 特征 × 各活性等级计数/% |
+| [patent_sar_west_alkoxy_east_combinations.csv](./patent_sar_west_alkoxy_east_combinations.csv) | 63 | 西侧\|烷氧\|东侧组合（n≥3） |
+| [patent_activity_label_structure_summary.csv](./patent_activity_label_structure_summary.csv) | 16 | 每个活性等级对应的主要结构 |
 | [PATENT_SMILES_QA.md](./PATENT_SMILES_QA.md) | — | **SMILES 修复说明 + 抽样核对指南** |
 | [patent_smiles_sample_qa.csv](./patent_smiles_sample_qa.csv) | 48 | 分层抽样清单（高活 + 已修复 + 随机） |
 | [qa_smiles_samples/](./qa_smiles_samples/) | 结构 PNG | 抽样分子 2D 结构图（便于对照专利 PDF） |
@@ -40,8 +48,16 @@
 | `patent_id` | 专利号 |
 | `compound_number` | 化合物编号 |
 | `smiles` | 规范化 SMILES |
-| `activity_raw` | 原始活性标签 |
+| `activity_raw` | 原始活性标签（IC50 范围见下） |
 | `activity_score` | `+/++/+++` → 1–3；`A–E`（后两篇专利）→ 5–1 |
+
+### 活性标签 → IC50（专利原文）
+
+| 专利 | 标签 | IC50 |
+|------|------|------|
+| WO2022204227 / WO2023147468 / WO2024064655 | `+++` / `++` / `+` | `<1 μM` / `<10 μM` / `<50 μM`（原文嵌套；实用互斥分箱见 `patent_activity_scale_practical_bins.csv`） |
+| WO2025207644 | `A`–`E` | `<100 nM` / `100–500 nM` / `500 nM–1 μM` / `1–15 μM` / `>15 μM` |
+| WO2026054623 | `A` / `B` / `C` | `<50 nM` / `50–100 nM` / `>100 nM` |
 | `murcko_scaffold` | Murcko 骨架 |
 | `mw`, `logp`, `tpsa`, `hbd`, `hba` | 理化描述符 |
 
