@@ -43,3 +43,18 @@ Practical exclusive bins used in summaries:
 | `patent_sar_feature_activity_counts.csv` | Counts/% per activity label |
 | `patent_sar_west_alkoxy_east_combinations.csv` | west\|alkoxy\|east triad stats (n≥3) |
 | `patent_activity_label_structure_summary.csv` | Each activity label → top structures |
+
+
+## Figures
+
+All figures are in [`sar_figures/`](./sar_figures/).
+
+| Figure | File |
+|--------|------|
+| Region schematic (L/M/R) | `sar_figures/01_region_schematic.png` |
+| Activity → IC50 cards | `sar_figures/02_activity_scale_cards.png` |
+| West / alkoxy / east / linker bars | `sar_figures/03`–`06` |
+| Cross-patent top-bin rates | `sar_figures/10`–`12` |
+| Example molecule grids | `sar_figures/13`–`16` |
+| Highlighted example | `sar_figures/17_example_highlighted_regions.png` |
+| Overview dashboard | `sar_figures/18_overview_dashboard.png` |
