@@ -31,6 +31,8 @@
 | [mcc950_pocket_inhibitors_reference.csv](./mcc950_pocket_inhibitors_reference.csv) | 14 | MCC950 口袋及临床对照 |
 | [nlrp3_inhibitor_structures_timeline.csv](./nlrp3_inhibitor_structures_timeline.csv) | 19 | PDB 结构时间线 |
 | [CORRECTIONS.md](./CORRECTIONS.md) | — | 勘误与数据修正记录 |
+| [BGE102_STRUCTURE_SEARCH.md](./BGE102_STRUCTURE_SEARCH.md) | — | **BGE-102 精确结构公开检索结论**（US12509459；无官方代号等同） |
+| [bge102_structure_search/](./bge102_structure_search/) | 专利表页 PNG | US12509459 Table 1 示例页（含 Ex. 007 / 040） |
 
 ## 课题概要（BAL 位点新抑制剂发现）
 

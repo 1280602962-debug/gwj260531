@@ -14,6 +14,7 @@
 | A3 | Torp J et al. Inhibition of NLRP3 by a CNS-penetrating indazole scaffold. bioRxiv 2025 | https://doi.org/10.1101/2025.07.01.662566 | **BAL-1516** 结构；PDB 9IHN/9Q8V；7PZC 为精修起点 |
 | A4 | Wilhelmsen K et al. Discovery of a Potent and Selective Inhibitor of Human NLRP3 with a Novel Binding Modality. bioRxiv 2024 | https://doi.org/10.1101/2024.12.21.629867 | BAL-0028 机制预印本 |
 | A5 | WO2025207644 — Indazole NLRP3 inhibitors (BAL 专利) | https://patentscope.wipo.int/search/en/detail.jsf?docId=WO2025207644 | 专利数据来源之一 |
+| A6 | US 12,509,459 B2 — Inhibitors of NLRP3 inflammasome (BioAge; granted 2025-12-30) | https://patents.google.com/patent/US12509459B2/en | 5-azaindazole/biphenyl 系列完整实施例；Cmp 007 cryo-EM；Cmp 040 DIO；**未标注 BGE-102**。检索笔记见 [BGE102_STRUCTURE_SEARCH.md](./BGE102_STRUCTURE_SEARCH.md) |
 
 ---
 
