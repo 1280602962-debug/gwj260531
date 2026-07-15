@@ -1,0 +1,58 @@
+{
+  "engine": "AutoDock Vina 1.2.5",
+  "role": "open-source C2 fallback; does not replace Glide shortlist ranks",
+  "seeds": [
+    1,
+    2,
+    3
+  ],
+  "exhaustiveness": 16,
+  "boxes": {
+    "JNK1": {
+      "pdb": "3ELJ",
+      "cognate": "GS7:365",
+      "center": [
+        22.779866666666667,
+        8.341866666666666,
+        31.16666666666668
+      ],
+      "size": [
+        26.697,
+        27.503999999999998,
+        22.849
+      ],
+      "receptor_pdbqt": "/workspace/JNK1_Selectivity_Project/results/pose_consensus/vina_work/3ELJ_receptor.pdbqt"
+    },
+    "JNK2": {
+      "pdb": "3E7O",
+      "cognate": "35F:1",
+      "center": [
+        -30.941892857142854,
+        -32.67992857142857,
+        23.934321428571426
+      ],
+      "size": [
+        30.57,
+        20.822,
+        22.094
+      ],
+      "receptor_pdbqt": "/workspace/JNK1_Selectivity_Project/results/pose_consensus/vina_work/3E7O_receptor.pdbqt"
+    },
+    "JNK3": {
+      "pdb": "3TTI",
+      "cognate": "KBI:465",
+      "center": [
+        -21.579218750000003,
+        9.343593749999998,
+        -32.186875
+      ],
+      "size": [
+        27.223999999999997,
+        25.836,
+        22.913
+      ],
+      "receptor_pdbqt": "/workspace/JNK1_Selectivity_Project/results/pose_consensus/vina_work/3TTI_receptor.pdbqt"
+    }
+  },
+  "note": "Receptor prep is chain-ATOM pdbqt without full Protonation Wizard; interpret qualitatively."
+}

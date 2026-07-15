@@ -14,7 +14,12 @@
 | C1 | `results/chemotype_novelty/` | ECFP4/Murcko novelty for 690/2157 | Results — chemotype | maxTc vs refs/ChEMBL | Fingerprint ≠ pharmacophore proof |
 | C4 | `results/assay_analysis/` + `scripts/c4_preregistered_ic50_analysis.py` | Locked IC50/SI rules | Methods / Results — wet-lab | RQ-A/RQ-B endpoints | Post-hoc SI redefinition |
 | C5 | `results/selectivity_autopsy/` | Δsel/Gly87/ML failure table | Results — method autopsy | Purchase decoupling | Claiming predictors worked |
-| C2/C3 proto | `docs/protocols/C2_C3_pose_md_replica_protocol.md` | Redock/MD replica plan | Methods (pending runs) | Pose credibility | MD = selectivity |
+| C2/C3 proto | `docs/protocols/C2_C3_pose_md_replica_protocol.md` | Redock/MD replica plan | Methods | Pose credibility | MD = selectivity |
+| C2 Vina | `results/pose_consensus/` | Multi-seed Vina consensus | Results — pose QC | 690 pass-all; 2157 JNK2 weak | Vina score = Glide rank |
+| C7 | `results/purchase_risk/` | PAINS/physchem | Methods / SI | No PAINS on 690/2157 | Alert ≠ artifact proof |
+| C11 | `results/c11_2231_comparison/` | Unbought 2231 table | Discussion | Opportunity cost | 2231 inactive claim |
+| Blueprints | `paper_rewriting_output/section_blueprints.md` | Section plan | Writing | Option A structure | |
+| Draft | `paper_rewriting_output/draft_intro_methods_rqc_en.md` | EN draft Intro/RQ-C | Writing | Paste-ready prose | IC50 overclaim |
 | MD2231 | `results/md_2231_200ns/` | Extended MD for 2231 | Results — optional / SI | Directional JNK1 RMSD trend | Confirm selectivity; note **not purchased** |
 | Figs | `docs/popular_science/figures/` | Funnel, redock, direction, hinge | Main figures | Visual evidence of funnel + failures | |
 | Workflow | `docs/JNK1_selectivity_screening_workflow.md` | Original design intent | Intro historical design | Why JNK1 was chosen | Current computational success |

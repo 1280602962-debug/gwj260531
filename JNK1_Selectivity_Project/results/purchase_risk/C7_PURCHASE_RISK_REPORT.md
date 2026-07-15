@@ -1,0 +1,20 @@
+# C7 Purchase Assay-Risk Filters
+
+RDKit FilterCatalog PAINS (+ Brenk/NIH/ZINC when available).
+These are **alerts**, not proof of assay artifact.
+
+| compound_id   | role                | smiles                                               |     MW |   logP |   HBD |   HBA |   TPSA |   rotatable_bonds |   qed |   lipinski_violations | PAINS_hit   | PAINS_families   | BRENK_hit   | NIH_hit   | ZINC_hit   | risk_notes   |
+|:--------------|:--------------------|:-----------------------------------------------------|-------:|-------:|------:|------:|-------:|------------------:|------:|----------------------:|:------------|:-----------------|:------------|:----------|:-----------|:-------------|
+| 690           | purchased           | Cc1ccc(NC(=O)Nc2ncc3c(n2)CC(C)(C)CC3=O)cc1           | 324.38 |   3.58 |     2 |     4 |  83.98 |                 2 | 0.884 |                     0 | False       |                  | False       | False     | False      | none_flagged |
+| 2157          | purchased           | Cc1cnc(NCc2cccc3c2OCCCO3)nc1C                        | 285.35 |   2.87 |     1 |     5 |  56.27 |                 3 | 0.939 |                     0 | False       |                  | False       | False     | False      | none_flagged |
+| 2231          | comparator_unbought | COc1nc(NCc2ccccc2CN2CCCC2=O)ncc1F                    | 330.36 |   2.36 |     1 |     5 |  67.35 |                 6 | 0.881 |                     0 | False       |                  | False       | False     | False      | none_flagged |
+| E1            | positive_control    | COc1ccc(Nc2ncc(Br)c(Nc3ccc(OCCN(C)C)cc3C(N)=O)n2)cc1 | 501.39 |   3.77 |     3 |     8 | 114.63 |                10 | 0.385 |                     1 | False       |                  | False       | False     | False      | none_flagged |
+| CC-90001      | positive_control    | C[C@@H]1CC[C@@H](Nc2nc(NC(C)(C)C)ncc2C(N)=O)C[C@H]1O | 321.43 |   1.75 |     4 |     6 | 113.16 |                 4 | 0.672 |                     0 | False       |                  | False       | False     | False      | none_flagged |
+
+## Detail: PAINS / Brenk families
+
+- **690**: PAINS=`none`; notes=`none_flagged`
+- **2157**: PAINS=`none`; notes=`none_flagged`
+- **2231**: PAINS=`none`; notes=`none_flagged`
+- **E1**: PAINS=`none`; notes=`none_flagged`
+- **CC-90001**: PAINS=`none`; notes=`none_flagged`

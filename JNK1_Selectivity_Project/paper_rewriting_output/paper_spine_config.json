@@ -3,22 +3,26 @@
   "scene": "journal",
   "tier": "flash",
   "output_language": "en",
-  "target_name": "Journal of Chemical Information and Modeling / Molecules / ChemMedChem (mid-tier CADD; TBD after contribution confirm)",
+  "target_name": "Journal of Chemical Information and Modeling (primary); ChemMedChem / ACS Omega (fallback)",
   "materials_dir": "/workspace/JNK1_Selectivity_Project",
   "draft_path": "/workspace/JNK1_Selectivity_Project/docs/JNK1_PROJECT_REPORT.md",
-  "user_motivation": "Honest end-to-end ML–docking–MD–purchase pipeline for JNK-family binders from a commercial library, with a critical benchmark showing that common computational isoform-selectivity predictors (Δsel, Gly87 occupancy, ML selectivity) fail on near-identical ATP sites; wet-lab IC50 (690+2157 + E1/CC-90001) will validate family potency enrichment, not selectivity discovery.",
+  "user_motivation": "Near-homologous JNK1/2/3 ATP sites make cheap computational isoform-selectivity filters unreliable as purchase criteria; we need quantified failure evidence plus a practical JNK-family binder enrichment pipeline for enzymatic IC50 boards.",
+  "confirmed_option": "A",
+  "confirmed_motivation_path": "paper_rewriting_output/confirmed_motivation.md",
+  "confirmed_contribution_path": "paper_rewriting_output/confirmed_contribution.md",
   "official_urls": [
     "https://pubs.acs.org/journal/jcisd8",
-    "https://www.mdpi.com/journal/molecules",
-    "https://chemistry-europe.onlinelibrary.wiley.com/journal/18607187"
+    "https://chemistry-europe.onlinelibrary.wiley.com/journal/18607187",
+    "https://pubs.acs.org/journal/acsodf"
   ],
   "special_requirements": [
-    "Do NOT claim JNK1-selective hit discovery unless IC50 shows ≥3–10× isoform bias with adequate controls",
-    "Foreground negative methodological result: computational isoform selectivity prediction fails (43% Δsel direction accuracy; Gly87 non-discriminative; ML F1=0)",
-    "Purchase shortlist is n=2 new compounds (690, 2157) + in-hand positives E1 and CC-90001; kinome selectivity not yet measured",
-    "Separate isoform selectivity (JNK1 vs JNK2/3) from kinome selectivity (JNK vs p38/ERK)",
-    "All claims must map to archived project evidence in docs/ and results/",
-    "UI and planning communication in Chinese; manuscript English"
+    "Do NOT claim JNK1-selective hit discovery unless IC50 shows SI≥3 vs both JNK2 and JNK3 with pre-registered C4 rules",
+    "Foreground negative methodological result: Δsel / Gly87 / ML selectivity fail; purchase decoupled",
+    "Purchase shortlist n=2 (690, 2157) + E1/CC-90001; kinome not measured",
+    "Separate isoform selectivity from kinome selectivity",
+    "Schrödinger Methods only if license-compliant; else describe Vina C2 fallback for pose consensus",
+    "Prefer high-quality journal peers (JCIM/JMC); do not anchor to low-tier MDPI OA",
+    "All claims map to archived evidence in docs/ and results/"
   ],
   "word_output": "docx",
   "translation_package": "zh",
@@ -26,10 +30,11 @@
   "reference_paths": [
     "/workspace/JNK1_Selectivity_Project/docs",
     "/workspace/JNK1_Selectivity_Project/results",
-    "/workspace/JNK1_Selectivity_Project/data"
+    "/workspace/JNK1_Selectivity_Project/data",
+    "/workspace/JNK1_Selectivity_Project/paper_rewriting_output"
   ],
-  "citation_target_count": 20,
+  "citation_target_count": 25,
   "humanize_tier": "medium",
   "ui_language": "zh",
-  "paperspine_notes": "Invoked from Cursor Cloud Agent against WUBING2023/PaperSpine v4; stop at motivation/contribution confirmation gate before drafting."
+  "paperspine_notes": "Motivation/contribution confirmed Option A. Blueprints in section_blueprints.md; citation_bank.md ready. Drafting may proceed for Intro/Methods/RQ-C Results; IC50 Results gated on wet-lab."
 }
