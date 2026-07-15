@@ -61,6 +61,22 @@ This is the patent example whose **preclinical narrative** (oral NLRP3 inhibitor
 2. Whether clinical BGE-102 is a salt, deuterated analog (e.g. Compound 211 uses bis(methyl-d₃)amine), or a later example outside the highlighted DIO set.
 3. IR deck slides may show a structure drawing without naming CAS/SMILES; those large PDFs could not be retrieved here.
 
+## Candidate structure shared by user (labeled “BGE-102”)
+
+Drawn features match patent SMILES:
+
+`CCOc1cc(C(=O)N(C)Cc2cnc(CO)c3cn[nH]c23)ccc1-c1cc(F)cc(F)c1`
+
+| Field | Value |
+| --- | --- |
+| Exact patent hit | **WO2022204227 Example 239** |
+| Formula / MW | C24H22F2N4O3 / 452.46 |
+| InChIKey | CVFACOAUIYXPRE-UHFFFAOYSA-N |
+| Patent activity | `+++` |
+| Scaffold notes | Achiral **N–CH2** linker; **4-CH2OH** on 5-azaindazole; **2-OEt + 3′,5′-diF** biphenyl |
+
+**Verdict on identity:** this is a **real BioAge-series example**, but it is **not** the same molecule as US12509459 **Compound 007** (cryo-EM) or **Compound 040** (DIO). Those later examples use a **chiral** benzylic carbon (hydroxyethyl or dimethylaminoethyl) and usually **mono-F** biphenyl. No BioAge primary source retrieved here labels Ex. 239 as clinical BGE-102; treat the user-labeled drawing as an **unverified attribution** unless a primary source confirms it.
+
 ## Practical takeaway for SAR work
 
 - Treat **US12509459** (and related WO/US filings in the same family) as the public structure corpus for BioAge’s clinical chemotype.
