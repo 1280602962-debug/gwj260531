@@ -1,0 +1,35 @@
+{
+  "workflow": "build_from_materials",
+  "scene": "journal",
+  "tier": "flash",
+  "output_language": "en",
+  "target_name": "Journal of Chemical Information and Modeling / Molecules / ChemMedChem (mid-tier CADD; TBD after contribution confirm)",
+  "materials_dir": "/workspace/JNK1_Selectivity_Project",
+  "draft_path": "/workspace/JNK1_Selectivity_Project/docs/JNK1_PROJECT_REPORT.md",
+  "user_motivation": "Honest end-to-end ML–docking–MD–purchase pipeline for JNK-family binders from a commercial library, with a critical benchmark showing that common computational isoform-selectivity predictors (Δsel, Gly87 occupancy, ML selectivity) fail on near-identical ATP sites; wet-lab IC50 (690+2157 + E1/CC-90001) will validate family potency enrichment, not selectivity discovery.",
+  "official_urls": [
+    "https://pubs.acs.org/journal/jcisd8",
+    "https://www.mdpi.com/journal/molecules",
+    "https://chemistry-europe.onlinelibrary.wiley.com/journal/18607187"
+  ],
+  "special_requirements": [
+    "Do NOT claim JNK1-selective hit discovery unless IC50 shows ≥3–10× isoform bias with adequate controls",
+    "Foreground negative methodological result: computational isoform selectivity prediction fails (43% Δsel direction accuracy; Gly87 non-discriminative; ML F1=0)",
+    "Purchase shortlist is n=2 new compounds (690, 2157) + in-hand positives E1 and CC-90001; kinome selectivity not yet measured",
+    "Separate isoform selectivity (JNK1 vs JNK2/3) from kinome selectivity (JNK vs p38/ERK)",
+    "All claims must map to archived project evidence in docs/ and results/",
+    "UI and planning communication in Chinese; manuscript English"
+  ],
+  "word_output": "docx",
+  "translation_package": "zh",
+  "reference_mode": "local_first",
+  "reference_paths": [
+    "/workspace/JNK1_Selectivity_Project/docs",
+    "/workspace/JNK1_Selectivity_Project/results",
+    "/workspace/JNK1_Selectivity_Project/data"
+  ],
+  "citation_target_count": 20,
+  "humanize_tier": "medium",
+  "ui_language": "zh",
+  "paperspine_notes": "Invoked from Cursor Cloud Agent against WUBING2023/PaperSpine v4; stop at motivation/contribution confirmation gate before drafting."
+}
