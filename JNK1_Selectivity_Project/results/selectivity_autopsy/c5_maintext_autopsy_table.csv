@@ -1,0 +1,7 @@
+method,metric,value,pass_threshold,verdict,used_for_purchase
+Glide Δsel_dock direction (archived project report),direction accuracy,43% (3/7) VSW single-PDB; 29% (2/7) ensemble (project report),≥55%,FAIL,NO — decoupled; family shortlist only
+Glide Δsel_dock direction (recomputed from benchmark_deltas_51c1.csv),direction accuracy,2/8 = 25.0% on benchmark_deltas CSV (excl. NA dirs),≥55%,FAIL,NO
+Glide Δsel_dock (key controls SP600125/TCS/CC-930/E1),direction accuracy,2/4 = 50.0%,≥55%,FAIL,NO
+Gly87 (KLIFS b.l.37) occupancy heuristic,discriminative power,occ_JNK1 True for 5/5 benchmarks; pred_JNK1_sel any=False; d_occ range 0.59–1.18 Å,separates JNK1-preferring vs pan/opposite,FAIL (non-discriminative),NO
+ML isoform-selectivity classifier (ChEMBL paired),test F1 (selective class),0 (positives n_train≈8; reported in training_report / project report),usable precision/recall for purchase,FAIL,NO — ML used only as family pActivity recall gate
+ML family activity gate p_family≥6.0,benchmark recall / decoy FPR,recall 9/9; Taosu decoy FPR 95.3%; EF1%=9.20,high recall OK for early filter,PASS as recall filter; NOT a selectivity filter,YES (activity recall only)

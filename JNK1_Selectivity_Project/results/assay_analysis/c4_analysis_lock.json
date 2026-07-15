@@ -1,0 +1,13 @@
+{
+  "analysis_version": "c4_v1_locked_2026-07-15",
+  "primary_ic50_uM": 10.0,
+  "si_threshold": 3.0,
+  "n_numeric_ic50_cells": 0,
+  "status": "WAITING_FOR_ASSAY_DATA",
+  "rq_a_rule": "\u22651 of {690,2157} with any isoform IC50 \u2264 10 \u00b5M",
+  "rq_b_rule": "SI_J2\u22653 AND SI_J3\u22653 using IC50 ratios; else no preference claim",
+  "forbidden": [
+    "MD hinge as selectivity proof",
+    "post-hoc SI threshold changes"
+  ]
+}

@@ -1,0 +1,61 @@
+# Confirmed Core Contribution (Option A)
+
+**Status:** LOCKED  
+**Depends on IC50?** Strengthens RQ-A if active; **RQ-C stands without IC50**.
+
+---
+
+## Core contribution (one sentence)
+
+We deliver an end-to-end commercial-library pipeline (ML → Glide → ADMET → MD → purchase) that enriches **pose-credible JNK-family binder candidates**, and we show on a literature JNK benchmark that **common computational isoform-selectivity predictors (Δsel docking, Gly87 occupancy, ML selectivity labels) fail as purchase criteria**, decoupling selectivity filters from the shortlist used for wet-lab IC50.
+
+---
+
+## Evidence already in archive
+
+| Claim element | Evidence |
+|---------------|----------|
+| Funnel | ~4979 docked → 157 (F1∧F2) → 25 ADMET → 16 MD → purchase 690/2157 |
+| Δsel docking direction | VSW single-PDB accuracy **43%** (3/7); ensemble archive **29%** (2/7) |
+| Gly87 occupancy | 5/5 benchmarks `occ_JNK1=True`; distances 0.59–1.18 Å — non-discriminative |
+| ML selectivity classifier | Positive n=8; test **F1 = 0** |
+| ML family gate | High recall, decoy FPR 95.3% @ p_family≥6.0; enrichment via ranking (EF1%=9.2) |
+| MD QC ≠ selectivity | E1 hinge mis-rank; SP600125 active with low hinge — documented |
+| Purchase decoupling | Shortlist chosen for family activity / pose credibility, **not** pass_selectivity |
+
+## Evidence pending
+
+| Element | Status |
+|---------|--------|
+| JNK1/2/3 IC50 for 690, 2157, E1, CC-90001 | Wet-lab |
+| C1 chemotype novelty table | Scripted in this iteration |
+| C2 multi-seed redock | Protocol + needs licensed docking env |
+| C3 MD replicas | Protocol + needs MD compute |
+| C4 pre-registered SI analysis | Locked script in this iteration |
+| C5 main-text autopsy table | Built in this iteration |
+
+---
+
+## Allowed strong claims
+
+- Computational isoform-selectivity filters tested here are **insufficient** for JNK purchase decisions.  
+- Pipeline produces a **documented, pose-QC’d shortlist** suitable for family-activity assays.  
+- MD pass criteria are **pose/stability QC**, not isoform adjudication.
+
+## Forbidden / must-soften claims
+
+- “Discovered JNK1-selective inhibitors” (unless SI rule met *and* powered — currently not).  
+- “MD confirmed selectivity.”  
+- “Kinase-selective / kinome-clean.”  
+- Hit-rate statistics from n=2 new molecules.
+
+---
+
+## Contribution check (pre-writing)
+
+| Gate | Status |
+|------|--------|
+| Motivation ↔ contribution aligned | YES (Option A) |
+| Selective-discovery not core | YES |
+| Negative method result primary | YES |
+| Wet-lab framed as enrichment/calibration | YES |

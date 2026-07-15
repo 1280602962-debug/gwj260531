@@ -1,0 +1,32 @@
+{
+  "fingerprint": "Morgan/ECFP4 radius=2 nBits=2048",
+  "scaffold": "Bemis-Murcko (RDKit)",
+  "chembl_pool_n": 1835,
+  "purchased": {
+    "690": "Cc1ccc(NC(=O)Nc2ncc3c(n2)CC(C)(C)CC3=O)cc1",
+    "2157": "Cc1cnc(NCc2cccc3c2OCCCO3)nc1C"
+  },
+  "summary": [
+    {
+      "compound_id": "690",
+      "smiles": "Cc1ccc(NC(=O)Nc2ncc3c(n2)CC(C)(C)CC3=O)cc1",
+      "murcko": "O=C(Nc1ccccc1)Nc1ncc2c(n1)CCCC2=O",
+      "maxTc_vs_literature_refs": 0.2329,
+      "nearest_literature_ref": "Q63",
+      "maxTc_vs_chembl_jnk_pool": 0.2716,
+      "nearest_chembl_id": "CHEMBL101035",
+      "interpretation": "chemically distant from curated JNK set (ECFP4)"
+    },
+    {
+      "compound_id": "2157",
+      "smiles": "Cc1cnc(NCc2cccc3c2OCCCO3)nc1C",
+      "murcko": "c1cnc(NCc2cccc3c2OCCCO3)nc1",
+      "maxTc_vs_literature_refs": 0.2254,
+      "nearest_literature_ref": "Q63",
+      "maxTc_vs_chembl_jnk_pool": 0.2676,
+      "nearest_chembl_id": "CHEMBL1761572",
+      "interpretation": "chemically distant from curated JNK set (ECFP4)"
+    }
+  ],
+  "note": "AD_maxTc in shortlist CSV is vs training actives (project filter); this audit is independent and focused on literature refs + ChEMBL JNK pool."
+}
