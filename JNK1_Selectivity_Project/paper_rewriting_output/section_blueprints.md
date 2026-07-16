@@ -19,7 +19,7 @@ Computational Isoform-Selectivity Filters Fail on JNK1/2/3 Near-Identical ATP Si
 2. **Gap:** Cheap Δsel / residue heuristics / ML selective labels used as purchase criteria without hard negative tests.  
 3. **What we did:** ML family gate → Glide → ADMET → MD QC → purchase; benchmark autopsy on literature panel.  
 4. **Computational finding:** Δsel direction accuracy below usability; Gly87 non-discriminative; ML selective F1=0; purchase **decoupled**.  
-5. **Wet-lab status:** Pre-registered JNK1/2/3 IC50 on 690, 2157 + E1/CC-90001 *(fill numbers)*.  
+5. **Wet-lab status:** Pre-registered JNK1/2/3 IC50 on **690, 2231** + E1/CC-90001 *(fill numbers)*.  
 6. **Takeaway:** Family enrichment pipeline usable; isoform purchase filters not.
 
 **Citations:** CIT-A2, CIT-B2, DAT-E1.

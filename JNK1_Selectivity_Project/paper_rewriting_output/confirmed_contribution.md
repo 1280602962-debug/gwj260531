@@ -15,24 +15,22 @@ We deliver an end-to-end commercial-library pipeline (ML → Glide → ADMET →
 
 | Claim element | Evidence |
 |---------------|----------|
-| Funnel | ~4979 docked → 157 (F1∧F2) → 25 ADMET → 16 MD → purchase 690/2157 |
+| Funnel | ~4979 docked → 157 (F1∧F2) → 25 ADMET → 16 MD → purchase **690+2231** |
 | Δsel docking direction | VSW single-PDB accuracy **43%** (3/7); ensemble archive **29%** (2/7) |
 | Gly87 occupancy | 5/5 benchmarks `occ_JNK1=True`; distances 0.59–1.18 Å — non-discriminative |
 | ML selectivity classifier | Positive n=8; test **F1 = 0** |
 | ML family gate | High recall, decoy FPR 95.3% @ p_family≥6.0; enrichment via ranking (EF1%=9.2) |
 | MD QC ≠ selectivity | E1 hinge mis-rank; SP600125 active with low hinge — documented |
-| Purchase decoupling | Shortlist chosen for family activity / pose credibility, **not** pass_selectivity |
+| Purchase decoupling | Shortlist chosen for family activity / pose credibility / bias hypothesis, **not** pass_selectivity |
 
 ## Evidence pending
 
 | Element | Status |
 |---------|--------|
-| JNK1/2/3 IC50 for 690, 2157, E1, CC-90001 | Wet-lab |
-| C1 chemotype novelty table | Scripted in this iteration |
-| C2 multi-seed redock | Protocol + needs licensed docking env |
-| C3 MD replicas | Protocol + needs MD compute |
-| C4 pre-registered SI analysis | Locked script in this iteration |
-| C5 main-text autopsy table | Built in this iteration |
+| JNK1/2/3 IC50 for 690, 2231, E1, CC-90001 | Wet-lab (compounds on order) |
+| C2 Gnina layer + redock | Open-source; in wait-window plan |
+| C3 unrestrained MD replicas | Highest-priority compute |
+| C1/C4/C5/C7/C11 for 690+2231 | Largely done |
 
 ---
 

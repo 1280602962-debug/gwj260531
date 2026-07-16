@@ -1,0 +1,11 @@
+# Results-as-Validation Map (Option A, purchase 690+2231)
+
+| Results Unit | Contribution Claim Tested | Result/Evidence | Figure/Table | Confirmatory Condition | Allowed Interpretation | Interpretation NOT Allowed |
+|---|---|---|---|---|---|---|
+| R1 Screening funnel | Pipeline is documented and operable for shortlisting | ~4979→157→25→16→2 purchased | Fig. funnel | Historical Glide triage; archived counts | Cascade can produce a small assay panel | Do not claim numerical hit-rate from n=2 |
+| R2 Selectivity-method autopsy | Cheap isoform filters are not trustworthy purchase criteria on JNK1/2/3 | Δsel direction fail; Gly87 non-discriminative; ML selective F1=0; family ML recall-only | Table C5 | Literature benchmark panel; project score definitions | Filters insufficient for isoform purchase decisions | Do not claim all docking is useless for affinity triage |
+| R3 Purchase design (690 vs 2231) | Purchase was decoupled from failed filters; dual roles pre-specified | 690 grade-A overall-pass anchor; 2231 strongest MD bias despite grade-C/overall-fail | Table C11 | Locked buy set; pre-registered C4 endpoints | Design tests RQ-A primarily and RQ-B secondarily | Do not say MD proved selectivity hence purchase |
+| R4 Novelty / PAINS | Candidates are not trivial near-neighbors / alert scaffolds | ECFP4 maxTc≈0.22–0.23 vs literature JNK refs; PAINS negative | Tables C1/C7 | RDKit ECFP4/Murcko; FilterCatalog | Fingerprint-distant from curated set | Do not claim kinome-clean or novel binding mode |
+| R5 Open-source pose consensus | Pose reporting for purchased set is engine-checked | Vina multi-seed; Gnina confirmation (pending complete); 2231 JNK2 unstable | Tables C2 | Same boxes; multi-seed | Consensus/ambiguity of poses | Do not claim open tools discovered the molecules |
+| R6 Unrestrained MD replicas | Pose-QC repeatability beyond single/restrained runs | Mean±SD RMSD/hinge; pass flips (pending) | Table C3 | ≥2 seeds; no production ligand restraint | Stability uncertainty quantified | Do not equate hinge asymmetry with enzyme SI |
+| R7 JNK1/2/3 IC50 | RQ-A family enrichment; RQ-B only if SI rule met | IC50 matrix; SI_J2 & SI_J3 (pending wet-lab) | Table C4 | Pre-registered thresholds; E1/CC-90001 same plate | Activity/preference per locked rules | No post-hoc SI redefinition; no “MD confirmed selectivity” |
