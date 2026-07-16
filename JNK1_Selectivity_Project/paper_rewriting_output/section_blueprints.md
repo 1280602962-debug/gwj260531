@@ -45,12 +45,13 @@ Computational Isoform-Selectivity Filters Fail on JNK1/2/3 Near-Identical ATP Si
 |------------|--------------|--------|
 | 2.1 Data | ChEMBL curation; paired set; benchmark list | CIT-C1; DAT tables |
 | 2.2 ML | XGBoost pActivity; p_family≥6.0 as **recall** gate; selective classifier attempted | CIT-C6; training_report |
-| 2.3 Docking | Receptor panel 3ELJ/3E7O/3TTI (+ensemble for benchmark); **license-compliant** Glide wording or Vina C2 | CIT-D*; SOFTWARE_LICENSE_NOTE |
-| 2.4 Selectivity metrics tested | Δsel_dock definition; Gly87 occupancy; ML selective label | DAT-E1 |
-| 2.5 ADMET / shortlist | QikProp/filters; 157→25→16 | project report |
-| 2.6 MD QC | RMSD + hinge occupancy thresholds; pass_md_overall | MD docs |
-| 2.7 Purchase & analysis lock | 690/2157; C4 SI rules; C1 novelty; C7 alerts | DAT-E2–E6 |
-| 2.8 Enzymatic assays | JNK1/2/3 IC50 protocol *(lab fills)* | C4 |
+| 2.3 Docking (Selection) | Historical Glide XP triage; PDB panel; state institutional Glide as triage only | project report; SOFTWARE_LICENSE_NOTE |
+| 2.4 Selectivity metrics tested | Δsel_dock; Gly87; ML selective label — **not purchase gates** | DAT-E1 |
+| 2.5 ADMET / shortlist | 157→25→16 | project report |
+| 2.6 MD QC | RMSD + hinge; pass_md_overall | MD docs |
+| 2.7 Purchase rule | **690** (grade A anchor) + **2231** (bias hypothesis, grade C risk) | C11 |
+| 2.8 Open-source confirmation | Vina/Gnina multi-seed; unrestrained MD replicas | C2/C3 |
+| 2.9 Enzymatic assays | JNK1/2/3 IC50 + C4 lock | C4 |
 
 ---
 
@@ -70,8 +71,10 @@ ECFP4 maxTc ~0.23 vs literature refs; distant from E1/CC-90001; caveat pharmacop
 ### 3.4 Pose consensus (C2)
 Vina multi-seed RMSD consensus; Glide ranks historical. Soften if consensus fails.
 
-### 3.5 Purchase rationale & 2231 opportunity cost (C11)
-Grade A 690/2157 vs grade C 2231 strongest MD bias — design choice for RQ-A.
+### 3.5 Purchase rationale (690 + 2231)
+690 = pose-QC / pan-leaning RQ-A anchor (grade A).  
+2231 = strongest MD bias hypothesis for RQ-B despite grade C / overall MD fail.  
+Selectivity filters **not** used as purchase gates.
 
 ### 3.6 Assay risk filters (C7)
 PAINS/physchem clear/alert table.
