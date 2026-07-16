@@ -2,7 +2,8 @@
 
 **Status:** LOCKED for PaperSpine writing (default confirmation = Option A, recommended).  
 **Date:** 2026-07-15  
-**Purchase set:** HIT103871685 (690), HIT101201113 (2157) + literature positives E1, CC-90001.
+**Purchase set:** HIT103871685 (**690**), HIT100544184 (**2231**) + literature positives E1, CC-90001.  
+*(Supersedes earlier 690+2157 shortlist; 2157 retained only as in-silico comparator.)*
 
 ---
 

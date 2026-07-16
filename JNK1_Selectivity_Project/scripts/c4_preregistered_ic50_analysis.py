@@ -35,12 +35,14 @@ RAW = ASSAY_DIR / "ic50_raw.csv"
 TEMPLATE = ASSAY_DIR / "ic50_raw_TEMPLATE.csv"
 
 # --- LOCKED constants (do not edit after unblinding without version bump) ---
-ANALYSIS_VERSION = "c4_v1_locked_2026-07-15"
+ANALYSIS_VERSION = "c4_v2_locked_2026-07-16_purchase_690_2231"
 PRIMARY_IC50_UM = 10.0
 SI_THRESHOLD = 3.0
-NEW_COMPOUNDS = ("690", "2157")
+NEW_COMPOUNDS = ("690", "2231")
 CONTROLS = ("E1", "CC-90001")
 ISOFORMS = ("JNK1", "JNK2", "JNK3")
+# Purchase change note: 2157 dropped from wet-lab panel; 2231 added as MD-bias hypothesis test.
+PREVIOUS_NEW_COMPOUNDS = ("690", "2157")
 
 
 def write_template():
@@ -60,8 +62,19 @@ def write_template():
                 }
             )
     pd.DataFrame(rows).to_csv(TEMPLATE, index=False)
+    # Refresh RAW layout when purchase set changes and file is still empty of numeric data
     if not RAW.exists():
         pd.DataFrame(rows).to_csv(RAW, index=False)
+    else:
+        existing = pd.read_csv(RAW)
+        has_numeric = False
+        for col in ("ic50_uM", "ic50_nM"):
+            if col in existing.columns:
+                vals = existing[col].astype(str).str.strip()
+                has_numeric = has_numeric or bool((vals != "").any() and vals.str.lower().ne("nan").any())
+        ids = set(existing.get("compound_id", pd.Series(dtype=str)).astype(str))
+        if (not has_numeric) and (ids != set(list(NEW_COMPOUNDS) + list(CONTROLS))):
+            pd.DataFrame(rows).to_csv(RAW, index=False)
 
 
 def _to_float(x):
@@ -166,9 +179,11 @@ def main():
         "si_threshold": SI_THRESHOLD,
         "n_numeric_ic50_cells": int(filled),
         "status": "WAITING_FOR_ASSAY_DATA" if filled == 0 else "COMPUTED",
-        "rq_a_rule": "≥1 of {690,2157} with any isoform IC50 ≤ 10 µM",
-        "rq_b_rule": "SI_J2≥3 AND SI_J3≥3 using IC50 ratios; else no preference claim",
-        "forbidden": ["MD hinge as selectivity proof", "post-hoc SI threshold changes"],
+        "rq_a_rule": "≥1 of {690,2231} with any isoform IC50 ≤ 10 µM",
+        "rq_b_rule": "SI_J2≥3 AND SI_J3≥3 using IC50 ratios; preference hypothesis prioritized on 2231; else no preference claim",
+        "purchase_set": list(NEW_COMPOUNDS),
+        "supersedes": "c4_v1_locked_2026-07-15 (had 690+2157)",
+        "forbidden": ["MD hinge as selectivity proof", "post-hoc SI threshold changes", "claiming kinome selectivity"],
     }
     (OUT_DIR / "c4_analysis_lock.json").write_text(json.dumps(meta, indent=2), encoding="utf-8")
 

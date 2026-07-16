@@ -21,7 +21,7 @@ OUT_DIR.mkdir(parents=True, exist_ok=True)
 
 PURCHASED = {
     "690": "Cc1ccc(NC(=O)Nc2ncc3c(n2)CC(C)(C)CC3=O)cc1",
-    "2157": "Cc1cnc(NCc2cccc3c2OCCCO3)nc1C",
+    "2231": "COc1nc(NCc2ccccc2CN2CCCC2=O)ncc1F",
 }
 
 # Canonical literature references (same SMILES as project benchmark table)

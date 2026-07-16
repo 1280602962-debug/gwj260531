@@ -7,7 +7,7 @@
 
 ## Core contribution (one sentence)
 
-We deliver an end-to-end commercial-library pipeline (ML → Glide → ADMET → MD → purchase) that enriches **pose-credible JNK-family binder candidates**, and we show on a literature JNK benchmark that **common computational isoform-selectivity predictors (Δsel docking, Gly87 occupancy, ML selectivity labels) fail as purchase criteria**, decoupling selectivity filters from the shortlist used for wet-lab IC50.
+We deliver an end-to-end commercial-library pipeline (ML → Glide → ADMET → MD → purchase) that enriches **pose-credible JNK-family binder candidates**, and we show on a literature JNK benchmark that **common computational isoform-selectivity predictors (Δsel docking, Gly87 occupancy, ML selectivity labels) fail as purchase criteria**. Wet-lab purchases (**690** as family/pose-QC anchor; **2231** as the strongest MD JNK1-bias hypothesis despite grade-C overall MD flags) test family enrichment primarily and isoform preference only secondarily under pre-registered SI rules.
 
 ---
 
