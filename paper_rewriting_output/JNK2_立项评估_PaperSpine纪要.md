@@ -157,11 +157,14 @@ WSL: 建库 → decoy校准 → ADFR/DOCKovalent(≤2k) → TopN
 
 ---
 
-## 7. 下一步（需要你回复）
+## 7. 用户确认结果（2026-07-16）
 
-请选择：
-- **A.** Motivation Option 1（推荐：探针+框架）  
-- **B.** Option 1 为主 + Option 2 为升级条件  
-- **C.** 你自定义一句话 motivation  
+**已确认：B + 可复现框架必达**
 
-确认后 PaperSpine 才会写入 `confirmed_motivation.md` / `confirmed_contribution.md` 并继续 blueprint。
+- 已写入 `confirmed_motivation.md`
+- 已写入 `confirmed_contribution.md`
+- 双轨：
+  - **Framework（必达）：** 8ELC/Cys116 校准筛选—验证闭环（含 WSL 开源漏斗）
+  - **Chemistry（升级）：** ligand-first / 邻域扩展 → 可检验新共价候选
+
+下一阶段（若继续 PaperSpine）：section blueprints / 开题或技术报告写作，仍受 claim boundary 约束。
