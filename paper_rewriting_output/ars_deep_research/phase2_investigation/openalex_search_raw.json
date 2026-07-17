@@ -1,0 +1,2267 @@
+{
+  "covalent_vs_acrylamide": {
+    "query": "(\"covalent\" AND (\"virtual screening\" OR docking) AND (acrylamide OR warhead) AND kinase)",
+    "meta": {
+      "count": 1406,
+      "db_response_time_ms": 55,
+      "page": 1,
+      "per_page": 25,
+      "groups_count": null,
+      "x_query": {
+        "oql": "works where full text has (\n    stemmed \"covalent\"\n    and kinase\n    and (stemmed \"virtual screening\" or docking)\n    and (acrylamide or warhead)\n  )\n  and year >= (2019)\n  and year <= (2026)\n  and type is (article or review)",
+        "oqo": {
+          "get_rows": "works",
+          "filter_rows": [
+            {
+              "column_id": "fulltext.search",
+              "value": "\"covalent\"",
+              "operator": "has"
+            },
+            {
+              "column_id": "fulltext.search",
+              "value": "kinase",
+              "operator": "has"
+            },
+            {
+              "column_id": "publication_year",
+              "value": 2019,
+              "operator": ">="
+            },
+            {
+              "column_id": "publication_year",
+              "value": 2026,
+              "operator": "<="
+            },
+            {
+              "join": "or",
+              "filters": [
+                {
+                  "column_id": "fulltext.search",
+                  "value": "\"virtual screening\"",
+                  "operator": "has"
+                },
+                {
+                  "column_id": "fulltext.search",
+                  "value": "docking",
+                  "operator": "has"
+                }
+              ]
+            },
+            {
+              "join": "or",
+              "filters": [
+                {
+                  "column_id": "fulltext.search",
+                  "value": "acrylamide",
+                  "operator": "has"
+                },
+                {
+                  "column_id": "fulltext.search",
+                  "value": "warhead",
+                  "operator": "has"
+                }
+              ]
+            },
+            {
+              "join": "or",
+              "filters": [
+                {
+                  "column_id": "type",
+                  "value": "article"
+                },
+                {
+                  "column_id": "type",
+                  "value": "review"
+                }
+              ]
+            }
+          ],
+          "select": [
+            "id",
+            "doi",
+            "title",
+            "publication_year",
+            "cited_by_count",
+            "authorships",
+            "primary_location",
+            "open_access",
+            "type"
+          ],
+          "per_page": 25
+        },
+        "url": "/works?filter=fulltext.search:%22covalent%22,fulltext.search:kinase,publication_year:2019-2026,fulltext.search:%22virtual screening%22|docking,fulltext.search:acrylamide|warhead,type:article|review&select=id,doi,title,publication_year,cited_by_count,authorships,primary_location,open_access,type&per_page=25"
+      },
+      "cost_usd": 0.001
+    },
+    "n": 25,
+    "items": [
+      {
+        "title": "Advances in covalent drug discovery",
+        "year": 2022,
+        "doi": "https://doi.org/10.1038/s41573-022-00542-z",
+        "cited_by": 774,
+        "venue": "Nature Reviews Drug Discovery",
+        "oa": true,
+        "openalex": "https://openalex.org/W4293084539"
+      },
+      {
+        "title": "Enhancing intracellular accumulation and target engagement of PROTACs with reversible covalent chemistry",
+        "year": 2020,
+        "doi": "https://doi.org/10.1038/s41467-020-17997-6",
+        "cited_by": 207,
+        "venue": "Nature Communications",
+        "oa": true,
+        "openalex": "https://openalex.org/W3081170494"
+      },
+      {
+        "title": "Putative Inhibitors of SARS-CoV-2 Main Protease from A Library of Marine Natural Products: A Virtual Screening and Molecular Modeling Study",
+        "year": 2020,
+        "doi": "https://doi.org/10.3390/md18040225",
+        "cited_by": 323,
+        "venue": "Marine Drugs",
+        "oa": true,
+        "openalex": "https://openalex.org/W3013223828"
+      },
+      {
+        "title": "WIDOCK: a reactive docking protocol for virtual screening of covalent inhibitors",
+        "year": 2021,
+        "doi": "https://doi.org/10.1007/s10822-020-00371-5",
+        "cited_by": 31,
+        "venue": "Journal of Computer-Aided Molecular Design",
+        "oa": true,
+        "openalex": "https://openalex.org/W3122489865"
+      },
+      {
+        "title": "Rapid Covalent-Probe Discovery by Electrophile-Fragment Screening",
+        "year": 2019,
+        "doi": "https://doi.org/10.1021/jacs.9b02822",
+        "cited_by": 344,
+        "venue": "Journal of the American Chemical Society",
+        "oa": true,
+        "openalex": "https://openalex.org/W2949252818"
+      },
+      {
+        "title": "Computational approaches streamlining drug discovery",
+        "year": 2023,
+        "doi": "https://doi.org/10.1038/s41586-023-05905-z",
+        "cited_by": 1180,
+        "venue": "Nature",
+        "oa": true,
+        "openalex": "https://openalex.org/W4367049415"
+      },
+      {
+        "title": "Docking covalent targets for drug discovery: stimulating the computer-aided drug design community of possible pitfalls and erroneous practices",
+        "year": 2022,
+        "doi": "https://doi.org/10.1007/s11030-022-10523-4",
+        "cited_by": 54,
+        "venue": "Molecular Diversity",
+        "oa": true,
+        "openalex": "https://openalex.org/W4294556198"
+      },
+      {
+        "title": "An electrophilic warhead library for mapping the reactivity and accessibility of tractable cysteines in protein kinases",
+        "year": 2020,
+        "doi": "https://doi.org/10.1016/j.ejmech.2020.112836",
+        "cited_by": 49,
+        "venue": "European Journal of Medicinal Chemistry",
+        "oa": true,
+        "openalex": "https://openalex.org/W3085366992"
+      },
+      {
+        "title": "Recent Advances in Covalent Drug Discovery",
+        "year": 2023,
+        "doi": "https://doi.org/10.3390/ph16050663",
+        "cited_by": 88,
+        "venue": "Pharmaceuticals",
+        "oa": true,
+        "openalex": "https://openalex.org/W4367312050"
+      },
+      {
+        "title": "An update on the discovery and development of reversible covalent inhibitors",
+        "year": 2023,
+        "doi": "https://doi.org/10.1007/s00044-023-03065-3",
+        "cited_by": 87,
+        "venue": "Medicinal Chemistry Research",
+        "oa": true,
+        "openalex": "https://openalex.org/W4367394089"
+      },
+      {
+        "title": "DUckCov: a Dynamic Undocking‐Based Virtual Screening Protocol for Covalent Binders",
+        "year": 2019,
+        "doi": "https://doi.org/10.1002/cmdc.201900078",
+        "cited_by": 24,
+        "venue": "ChemMedChem",
+        "oa": true,
+        "openalex": "https://openalex.org/W2916067731"
+      },
+      {
+        "title": "E3 Ligase Ligands for PROTACs: How They Were Found and How to Discover New Ones",
+        "year": 2020,
+        "doi": "https://doi.org/10.1177/2472555220965528",
+        "cited_by": 378,
+        "venue": "SLAS DISCOVERY",
+        "oa": true,
+        "openalex": "https://openalex.org/W3095840616"
+      },
+      {
+        "title": "Fragment-based covalent ligand discovery",
+        "year": 2021,
+        "doi": "https://doi.org/10.1039/d0cb00222d",
+        "cited_by": 142,
+        "venue": "RSC Chemical Biology",
+        "oa": true,
+        "openalex": "https://openalex.org/W3128963846"
+      },
+      {
+        "title": "CovalentInDB: a comprehensive database facilitating the discovery of covalent inhibitors",
+        "year": 2020,
+        "doi": "https://doi.org/10.1093/nar/gkaa876",
+        "cited_by": 78,
+        "venue": "Nucleic Acids Research",
+        "oa": true,
+        "openalex": "https://openalex.org/W3093091145"
+      },
+      {
+        "title": "Pharmacoinformatics and molecular dynamics simulation studies reveal potential covalent and FDA-approved inhibitors of SARS-CoV-2 main protease 3CL <sup>pro</sup>",
+        "year": 2020,
+        "doi": "https://doi.org/10.1080/07391102.2020.1782768",
+        "cited_by": 124,
+        "venue": "Journal of Biomolecular Structure and Dynamics",
+        "oa": true,
+        "openalex": "https://openalex.org/W3035899817"
+      },
+      {
+        "title": "Systematic Exploration of Privileged Warheads for Covalent Kinase Drug Discovery",
+        "year": 2022,
+        "doi": "https://doi.org/10.3390/ph15111322",
+        "cited_by": 20,
+        "venue": "Pharmaceuticals",
+        "oa": true,
+        "openalex": "https://openalex.org/W4307546864"
+      },
+      {
+        "title": "Characterization of covalent binding of tyrosine kinase inhibitors to plasma proteins",
+        "year": 2020,
+        "doi": "https://doi.org/10.1016/j.dmpk.2020.07.002",
+        "cited_by": 31,
+        "venue": "Drug Metabolism and Pharmacokinetics",
+        "oa": false,
+        "openalex": "https://openalex.org/W3044159365"
+      },
+      {
+        "title": "A Comprehensive Review on Current Advances in Peptide Drug Development and Design",
+        "year": 2019,
+        "doi": "https://doi.org/10.3390/ijms20102383",
+        "cited_by": 690,
+        "venue": "International Journal of Molecular Sciences",
+        "oa": true,
+        "openalex": "https://openalex.org/W2945669687"
+      },
+      {
+        "title": "Reversible covalent c-Jun N-terminal kinase inhibitors targeting a specific cysteine by precision-guided Michael-acceptor warheads",
+        "year": 2024,
+        "doi": "https://doi.org/10.1038/s41467-024-52573-2",
+        "cited_by": 20,
+        "venue": "Nature Communications",
+        "oa": true,
+        "openalex": "https://openalex.org/W4403129841"
+      },
+      {
+        "title": "Large library docking for novel <scp>SARS‐CoV</scp> ‐2 main protease non‐covalent and covalent inhibitors",
+        "year": 2023,
+        "doi": "https://doi.org/10.1002/pro.4712",
+        "cited_by": 43,
+        "venue": "Protein Science",
+        "oa": true,
+        "openalex": "https://openalex.org/W4381839382"
+      },
+      {
+        "title": "Covalent Inhibition by a Natural Product-Inspired Latent Electrophile",
+        "year": 2023,
+        "doi": "https://doi.org/10.1021/jacs.3c00598",
+        "cited_by": 30,
+        "venue": "Journal of the American Chemical Society",
+        "oa": true,
+        "openalex": "https://openalex.org/W4376616634"
+      },
+      {
+        "title": "Recent advances in Alzheimer’s disease: mechanisms, clinical trials and new drug development strategies",
+        "year": 2024,
+        "doi": "https://doi.org/10.1038/s41392-024-01911-3",
+        "cited_by": 975,
+        "venue": "Signal Transduction and Targeted Therapy",
+        "oa": true,
+        "openalex": "https://openalex.org/W4401806028"
+      },
+      {
+        "title": "Covalent flexible peptide docking in Rosetta",
+        "year": 2021,
+        "doi": "https://doi.org/10.1039/d1sc02322e",
+        "cited_by": 26,
+        "venue": "Chemical Science",
+        "oa": true,
+        "openalex": "https://openalex.org/W3157455608"
+      },
+      {
+        "title": "A novel scaffold for EGFR inhibition: Introducing N-(3-(3-phenylureido)quinoxalin-6-yl) acrylamide derivatives",
+        "year": 2019,
+        "doi": "https://doi.org/10.1038/s41598-018-36846-7",
+        "cited_by": 50,
+        "venue": "Scientific Reports",
+        "oa": true,
+        "openalex": "https://openalex.org/W2909074919"
+      },
+      {
+        "title": "Bleeding by Bruton Tyrosine Kinase-Inhibitors: Dependency on Drug Type and Disease",
+        "year": 2021,
+        "doi": "https://doi.org/10.3390/cancers13051103",
+        "cited_by": 97,
+        "venue": "Cancers",
+        "oa": true,
+        "openalex": "https://openalex.org/W3135725497"
+      }
+    ]
+  },
+  "ligand_based_scaffold_hop": {
+    "query": "(\"scaffold hopping\" OR \"scaffold-hopping\") AND (\"virtual screening\" OR fingerprint OR pharmacophore) AND (kinase OR covalent)",
+    "meta": {
+      "count": 930,
+      "db_response_time_ms": 35,
+      "page": 1,
+      "per_page": 25,
+      "groups_count": null,
+      "x_query": {
+        "oql": "works where year >= (2019)\n  and year <= (2026)\n  and full text has (\n    (stemmed \"scaffold hopping\" or stemmed \"scaffold-hopping\")\n    and (stemmed \"virtual screening\" or fingerprint or pharmacophore)\n    and (covalent or kinase)\n  )\n  and type is (article or review)",
+        "oqo": {
+          "get_rows": "works",
+          "filter_rows": [
+            {
+              "column_id": "publication_year",
+              "value": 2019,
+              "operator": ">="
+            },
+            {
+              "column_id": "publication_year",
+              "value": 2026,
+              "operator": "<="
+            },
+            {
+              "join": "or",
+              "filters": [
+                {
+                  "column_id": "fulltext.search",
+                  "value": "\"scaffold hopping\"",
+                  "operator": "has"
+                },
+                {
+                  "column_id": "fulltext.search",
+                  "value": "\"scaffold-hopping\"",
+                  "operator": "has"
+                }
+              ]
+            },
+            {
+              "join": "or",
+              "filters": [
+                {
+                  "column_id": "fulltext.search",
+                  "value": "\"virtual screening\"",
+                  "operator": "has"
+                },
+                {
+                  "column_id": "fulltext.search",
+                  "value": "fingerprint",
+                  "operator": "has"
+                },
+                {
+                  "column_id": "fulltext.search",
+                  "value": "pharmacophore",
+                  "operator": "has"
+                }
+              ]
+            },
+            {
+              "join": "or",
+              "filters": [
+                {
+                  "column_id": "fulltext.search",
+                  "value": "covalent",
+                  "operator": "has"
+                },
+                {
+                  "column_id": "fulltext.search",
+                  "value": "kinase",
+                  "operator": "has"
+                }
+              ]
+            },
+            {
+              "join": "or",
+              "filters": [
+                {
+                  "column_id": "type",
+                  "value": "article"
+                },
+                {
+                  "column_id": "type",
+                  "value": "review"
+                }
+              ]
+            }
+          ],
+          "select": [
+            "id",
+            "doi",
+            "title",
+            "publication_year",
+            "cited_by_count",
+            "authorships",
+            "primary_location",
+            "open_access",
+            "type"
+          ],
+          "per_page": 25
+        },
+        "url": "/works?filter=publication_year:2019-2026,fulltext.search:%22scaffold hopping%22|%22scaffold-hopping%22,fulltext.search:%22virtual screening%22|fingerprint|pharmacophore,fulltext.search:covalent|kinase,type:article|review&select=id,doi,title,publication_year,cited_by_count,authorships,primary_location,open_access,type&per_page=25"
+      },
+      "cost_usd": 0.001
+    },
+    "n": 25,
+    "items": [
+      {
+        "title": "Deep scaffold hopping with multimodal transformer neural networks",
+        "year": 2021,
+        "doi": "https://doi.org/10.1186/s13321-021-00565-5",
+        "cited_by": 74,
+        "venue": "Journal of Cheminformatics",
+        "oa": true,
+        "openalex": "https://openalex.org/W3213530673"
+      },
+      {
+        "title": "Structure-Based Virtual Screening: From Classical to Artificial Intelligence",
+        "year": 2020,
+        "doi": "https://doi.org/10.3389/fchem.2020.00343",
+        "cited_by": 589,
+        "venue": "Frontiers in Chemistry",
+        "oa": true,
+        "openalex": "https://openalex.org/W3023126697"
+      },
+      {
+        "title": "The SwissSimilarity 2021 Web Tool: Novel Chemical Libraries and Additional Methods for an Enhanced Ligand-Based Virtual Screening Experience",
+        "year": 2022,
+        "doi": "https://doi.org/10.3390/ijms23020811",
+        "cited_by": 149,
+        "venue": "International Journal of Molecular Sciences",
+        "oa": true,
+        "openalex": "https://openalex.org/W4206533301"
+      },
+      {
+        "title": "Next generation 3D pharmacophore modeling",
+        "year": 2020,
+        "doi": "https://doi.org/10.1002/wcms.1468",
+        "cited_by": 275,
+        "venue": "Wiley Interdisciplinary Reviews Computational Molecular Science",
+        "oa": true,
+        "openalex": "https://openalex.org/W3006781192"
+      },
+      {
+        "title": "QSAR-derived affinity fingerprints (part 1): fingerprint construction and modeling performance for similarity searching, bioactivity classification and scaffold hopping",
+        "year": 2020,
+        "doi": "https://doi.org/10.1186/s13321-020-00443-6",
+        "cited_by": 48,
+        "venue": "Journal of Cheminformatics",
+        "oa": true,
+        "openalex": "https://openalex.org/W3029442503"
+      },
+      {
+        "title": "Combining structural and bioactivity-based fingerprints improves prediction performance and scaffold hopping capability",
+        "year": 2019,
+        "doi": "https://doi.org/10.1186/s13321-019-0376-1",
+        "cited_by": 39,
+        "venue": "Journal of Cheminformatics",
+        "oa": true,
+        "openalex": "https://openalex.org/W2967052368"
+      },
+      {
+        "title": "Sparse Topological Pharmacophore Graphs for Interpretable Scaffold Hopping",
+        "year": 2021,
+        "doi": "https://doi.org/10.1021/acs.jcim.1c00409",
+        "cited_by": 12,
+        "venue": "Journal of Chemical Information and Modeling",
+        "oa": true,
+        "openalex": "https://openalex.org/W3182043838"
+      },
+      {
+        "title": "Recent Advances in Alchemical Binding Free Energy Calculations for Drug Discovery",
+        "year": 2023,
+        "doi": "https://doi.org/10.1021/acsmedchemlett.2c00541",
+        "cited_by": 74,
+        "venue": "ACS Medicinal Chemistry Letters",
+        "oa": true,
+        "openalex": "https://openalex.org/W4321083912"
+      },
+      {
+        "title": "Scaffold Hopping with Generative Reinforcement Learning",
+        "year": 2025,
+        "doi": "https://doi.org/10.1021/acs.jcim.5c00029",
+        "cited_by": 15,
+        "venue": "Journal of Chemical Information and Modeling",
+        "oa": true,
+        "openalex": "https://openalex.org/W4411675819"
+      },
+      {
+        "title": "Link-INVENT: generative linker design with reinforcement learning",
+        "year": 2023,
+        "doi": "https://doi.org/10.1039/d2dd00115b",
+        "cited_by": 91,
+        "venue": "Digital Discovery",
+        "oa": true,
+        "openalex": "https://openalex.org/W4319164354"
+      },
+      {
+        "title": "Recent advances in molecular representation methods and their applications in scaffold hopping",
+        "year": 2025,
+        "doi": "https://doi.org/10.1038/s44386-025-00017-2",
+        "cited_by": 23,
+        "venue": "npj Drug Discovery.",
+        "oa": true,
+        "openalex": "https://openalex.org/W4411786077"
+      },
+      {
+        "title": "Design and Synthesis of DDR1 Inhibitors with a Desired Pharmacophore Using Deep Generative Models",
+        "year": 2020,
+        "doi": "https://doi.org/10.1002/cmdc.202000786",
+        "cited_by": 43,
+        "venue": "ChemMedChem",
+        "oa": true,
+        "openalex": "https://openalex.org/W3108822599"
+      },
+      {
+        "title": "Reinvent 4: Modern AI–driven generative molecule design",
+        "year": 2024,
+        "doi": "https://doi.org/10.1186/s13321-024-00812-5",
+        "cited_by": 256,
+        "venue": "Journal of Cheminformatics",
+        "oa": true,
+        "openalex": "https://openalex.org/W4392015344"
+      },
+      {
+        "title": "Leveraging molecular structure and bioactivity with chemical language models for de novo drug design",
+        "year": 2023,
+        "doi": "https://doi.org/10.1038/s41467-022-35692-6",
+        "cited_by": 159,
+        "venue": "Nature Communications",
+        "oa": true,
+        "openalex": "https://openalex.org/W4313703391"
+      },
+      {
+        "title": "Lead generation of cysteine based mesenchymal epithelial transition (c-Met) kinase inhibitors: Using structure-based scaffold hopping, 3D-QSAR pharmacophore modeling, virtual screening, molecular docking, and molecular dynamics simulation",
+        "year": 2022,
+        "doi": "https://doi.org/10.1016/j.compbiomed.2022.105526",
+        "cited_by": 19,
+        "venue": "Computers in Biology and Medicine",
+        "oa": false,
+        "openalex": "https://openalex.org/W4224242490"
+      },
+      {
+        "title": "Application of the SwissDrugDesign Online Resources in Virtual Screening",
+        "year": 2019,
+        "doi": "https://doi.org/10.3390/ijms20184612",
+        "cited_by": 102,
+        "venue": "International Journal of Molecular Sciences",
+        "oa": true,
+        "openalex": "https://openalex.org/W2973931523"
+      },
+      {
+        "title": "Applications of the Pharmacophore Concept in Natural Product inspired Drug Design",
+        "year": 2020,
+        "doi": "https://doi.org/10.1002/minf.202000059",
+        "cited_by": 95,
+        "venue": "Molecular Informatics",
+        "oa": true,
+        "openalex": "https://openalex.org/W3037048878"
+      },
+      {
+        "title": "Virtual screening web servers: designing chemical probes and drug candidates in the cyberspace",
+        "year": 2020,
+        "doi": "https://doi.org/10.1093/bib/bbaa034",
+        "cited_by": 129,
+        "venue": "Briefings in Bioinformatics",
+        "oa": true,
+        "openalex": "https://openalex.org/W3012320348"
+      },
+      {
+        "title": "How Ligands Interact with the Kinase Hinge",
+        "year": 2023,
+        "doi": "https://doi.org/10.1021/acsmedchemlett.3c00212",
+        "cited_by": 30,
+        "venue": "ACS Medicinal Chemistry Letters",
+        "oa": true,
+        "openalex": "https://openalex.org/W4387452990"
+      },
+      {
+        "title": "Accelerating discovery of bioactive ligands with pharmacophore-informed generative models",
+        "year": 2025,
+        "doi": "https://doi.org/10.1038/s41467-025-56349-0",
+        "cited_by": 24,
+        "venue": "Nature Communications",
+        "oa": true,
+        "openalex": "https://openalex.org/W4408293149"
+      },
+      {
+        "title": "Virtual Screening Algorithms in Drug Discovery: A Review Focused on Machine and Deep Learning Methods",
+        "year": 2023,
+        "doi": "https://doi.org/10.3390/ddc2020017",
+        "cited_by": 127,
+        "venue": "Drugs and Drug Candidates",
+        "oa": true,
+        "openalex": "https://openalex.org/W4372347027"
+      },
+      {
+        "title": "ScaffoldGVAE: scaffold generation and hopping of drug molecules via a variational autoencoder based on multi-view graph neural networks",
+        "year": 2023,
+        "doi": "https://doi.org/10.1186/s13321-023-00766-0",
+        "cited_by": 39,
+        "venue": "Journal of Cheminformatics",
+        "oa": true,
+        "openalex": "https://openalex.org/W4387334953"
+      },
+      {
+        "title": "A novel in silico scaffold-hopping method for drug repositioning in rare and intractable diseases",
+        "year": 2023,
+        "doi": "https://doi.org/10.1038/s41598-023-46648-1",
+        "cited_by": 9,
+        "venue": "Scientific Reports",
+        "oa": true,
+        "openalex": "https://openalex.org/W4388499117"
+      },
+      {
+        "title": "Relative free-energy calculations for scaffold hopping-type transformations with an automated RE-EDS sampling procedure",
+        "year": 2022,
+        "doi": "https://doi.org/10.1007/s10822-021-00436-z",
+        "cited_by": 17,
+        "venue": "Journal of Computer-Aided Molecular Design",
+        "oa": true,
+        "openalex": "https://openalex.org/W4205322734"
+      },
+      {
+        "title": "Fragment-based covalent ligand discovery",
+        "year": 2021,
+        "doi": "https://doi.org/10.1039/d0cb00222d",
+        "cited_by": 142,
+        "venue": "RSC Chemical Biology",
+        "oa": true,
+        "openalex": "https://openalex.org/W3128963846"
+      }
+    ]
+  },
+  "af3_covalent": {
+    "query": "(\"AlphaFold3\" OR \"AlphaFold 3\") AND covalent AND (ligand OR screening OR docking)",
+    "meta": {
+      "count": 1072,
+      "db_response_time_ms": 45,
+      "page": 1,
+      "per_page": 25,
+      "groups_count": null,
+      "x_query": {
+        "oql": "works where full text has (\n    covalent\n    and (stemmed \"AlphaFold 3\" or stemmed \"AlphaFold3\")\n    and (docking or ligand or screening)\n  )\n  and year >= (2019)\n  and year <= (2026)\n  and type is (article or review)",
+        "oqo": {
+          "get_rows": "works",
+          "filter_rows": [
+            {
+              "column_id": "fulltext.search",
+              "value": "covalent",
+              "operator": "has"
+            },
+            {
+              "column_id": "publication_year",
+              "value": 2019,
+              "operator": ">="
+            },
+            {
+              "column_id": "publication_year",
+              "value": 2026,
+              "operator": "<="
+            },
+            {
+              "join": "or",
+              "filters": [
+                {
+                  "column_id": "fulltext.search",
+                  "value": "\"AlphaFold 3\"",
+                  "operator": "has"
+                },
+                {
+                  "column_id": "fulltext.search",
+                  "value": "\"AlphaFold3\"",
+                  "operator": "has"
+                }
+              ]
+            },
+            {
+              "join": "or",
+              "filters": [
+                {
+                  "column_id": "fulltext.search",
+                  "value": "docking",
+                  "operator": "has"
+                },
+                {
+                  "column_id": "fulltext.search",
+                  "value": "ligand",
+                  "operator": "has"
+                },
+                {
+                  "column_id": "fulltext.search",
+                  "value": "screening",
+                  "operator": "has"
+                }
+              ]
+            },
+            {
+              "join": "or",
+              "filters": [
+                {
+                  "column_id": "type",
+                  "value": "article"
+                },
+                {
+                  "column_id": "type",
+                  "value": "review"
+                }
+              ]
+            }
+          ],
+          "select": [
+            "id",
+            "doi",
+            "title",
+            "publication_year",
+            "cited_by_count",
+            "authorships",
+            "primary_location",
+            "open_access",
+            "type"
+          ],
+          "per_page": 25
+        },
+        "url": "/works?filter=fulltext.search:covalent,publication_year:2019-2026,fulltext.search:%22AlphaFold 3%22|%22AlphaFold3%22,fulltext.search:docking|ligand|screening,type:article|review&select=id,doi,title,publication_year,cited_by_count,authorships,primary_location,open_access,type&per_page=25"
+      },
+      "cost_usd": 0.001
+    },
+    "n": 25,
+    "items": [
+      {
+        "title": "AlphaFold 3: an unprecedent opportunity for fundamental research and drug development",
+        "year": 2025,
+        "doi": "https://doi.org/10.1093/pcmedi/pbaf015",
+        "cited_by": 37,
+        "venue": "Precision Clinical Medicine",
+        "oa": true,
+        "openalex": "https://openalex.org/W4411873753"
+      },
+      {
+        "title": "PLIP 2025: introducing protein–protein interactions to the protein–ligand interaction profiler",
+        "year": 2025,
+        "doi": "https://doi.org/10.1093/nar/gkaf361",
+        "cited_by": 208,
+        "venue": "Nucleic Acids Research",
+        "oa": true,
+        "openalex": "https://openalex.org/W4410251219"
+      },
+      {
+        "title": "Unlocking the application potential of AlphaFold3-like approaches in virtual screening",
+        "year": 2025,
+        "doi": "https://doi.org/10.1039/d5sc06481c",
+        "cited_by": 13,
+        "venue": "Chemical Science",
+        "oa": true,
+        "openalex": "https://openalex.org/W4417213734"
+      },
+      {
+        "title": "Beyond rigid docking: deep learning approaches for fully flexible protein–ligand interactions",
+        "year": 2025,
+        "doi": "https://doi.org/10.1093/bib/bbaf454",
+        "cited_by": 26,
+        "venue": "Briefings in Bioinformatics",
+        "oa": true,
+        "openalex": "https://openalex.org/W4413953479"
+      },
+      {
+        "title": "Modeling glycans with AlphaFold 3: capabilities, caveats, and limitations",
+        "year": 2025,
+        "doi": "https://doi.org/10.1093/glycob/cwaf048",
+        "cited_by": 19,
+        "venue": "Glycobiology",
+        "oa": true,
+        "openalex": "https://openalex.org/W4413773933"
+      },
+      {
+        "title": "Reliability of AlphaFold2 Models in Virtual Drug Screening: A Focus on Selected Class A GPCRs",
+        "year": 2024,
+        "doi": "https://doi.org/10.3390/ijms251810139",
+        "cited_by": 22,
+        "venue": "International Journal of Molecular Sciences",
+        "oa": true,
+        "openalex": "https://openalex.org/W4402751976"
+      },
+      {
+        "title": "Discovery of Covalent Ligands with AlphaFold3",
+        "year": 2026,
+        "doi": "https://doi.org/10.1021/jacs.5c22222",
+        "cited_by": 1,
+        "venue": "Journal of the American Chemical Society",
+        "oa": true,
+        "openalex": "https://openalex.org/W7138892744"
+      },
+      {
+        "title": "Discovery of Thioether-Cyclized Macrocyclic Covalent Inhibitors by mRNA Display",
+        "year": 2024,
+        "doi": "https://doi.org/10.1021/jacs.4c07851",
+        "cited_by": 21,
+        "venue": "Journal of the American Chemical Society",
+        "oa": true,
+        "openalex": "https://openalex.org/W4401541522"
+      },
+      {
+        "title": "PRosettaC outperforms AlphaFold3 for modeling PROTAC ternary complexes",
+        "year": 2025,
+        "doi": "https://doi.org/10.1038/s41598-025-21502-8",
+        "cited_by": 6,
+        "venue": "Scientific Reports",
+        "oa": true,
+        "openalex": "https://openalex.org/W4415620002"
+      },
+      {
+        "title": "A Folding-Docking-Affinity framework for protein-ligand binding affinity prediction",
+        "year": 2025,
+        "doi": "https://doi.org/10.1038/s42004-025-01506-1",
+        "cited_by": 15,
+        "venue": "Communications Chemistry",
+        "oa": true,
+        "openalex": "https://openalex.org/W4409218613"
+      },
+      {
+        "title": "A comprehensive survey of scoring functions for protein docking models",
+        "year": 2025,
+        "doi": "https://doi.org/10.1186/s12859-024-05991-4",
+        "cited_by": 29,
+        "venue": "BMC Bioinformatics",
+        "oa": true,
+        "openalex": "https://openalex.org/W4406699368"
+      },
+      {
+        "title": "Covalent-Allosteric Inhibitors: Do We Get the Best of Both Worlds?",
+        "year": 2025,
+        "doi": "https://doi.org/10.1021/acs.jmedchem.4c02760",
+        "cited_by": 20,
+        "venue": "Journal of Medicinal Chemistry",
+        "oa": true,
+        "openalex": "https://openalex.org/W4407391971"
+      },
+      {
+        "title": "TBM preferred to AlphaFold 3 for functional models of insect odorant receptors",
+        "year": 2025,
+        "doi": "https://doi.org/10.1016/j.csbj.2025.08.028",
+        "cited_by": 4,
+        "venue": "Computational and Structural Biotechnology Journal",
+        "oa": true,
+        "openalex": "https://openalex.org/W4413682524"
+      },
+      {
+        "title": "Improving Stereochemical Limitations in Protein–Ligand Complex Structure Prediction",
+        "year": 2025,
+        "doi": "https://doi.org/10.1021/acsomega.5c07675",
+        "cited_by": 8,
+        "venue": "ACS Omega",
+        "oa": true,
+        "openalex": "https://openalex.org/W4416673658"
+      },
+      {
+        "title": "OpenDock: a pytorch-based open-source framework for protein–ligand docking and modelling",
+        "year": 2024,
+        "doi": "https://doi.org/10.1093/bioinformatics/btae628",
+        "cited_by": 4,
+        "venue": "Bioinformatics",
+        "oa": true,
+        "openalex": "https://openalex.org/W4403597814"
+      },
+      {
+        "title": "Structure comparison of heme-binding sites in heme protein predicted by AlphaFold3 and AlphaFold2",
+        "year": 2024,
+        "doi": "https://doi.org/10.1093/chemle/upae148",
+        "cited_by": 7,
+        "venue": "Chemistry Letters",
+        "oa": true,
+        "openalex": "https://openalex.org/W4401745254"
+      },
+      {
+        "title": "Can Deep Learning Blind Docking Methods be Used to Predict Allosteric Compounds?",
+        "year": 2025,
+        "doi": "https://doi.org/10.1021/acs.jcim.5c00331",
+        "cited_by": 8,
+        "venue": "Journal of Chemical Information and Modeling",
+        "oa": true,
+        "openalex": "https://openalex.org/W4409058846"
+      },
+      {
+        "title": "Natural Language Processing Methods for the Study of Protein–Ligand Interactions",
+        "year": 2025,
+        "doi": "https://doi.org/10.1021/acs.jcim.4c01907",
+        "cited_by": 27,
+        "venue": "Journal of Chemical Information and Modeling",
+        "oa": true,
+        "openalex": "https://openalex.org/W4403754891"
+      },
+      {
+        "title": "AI-guided competitive docking for virtual screening and compound efficacy prediction",
+        "year": 2026,
+        "doi": "https://doi.org/10.1038/s44386-026-00039-4",
+        "cited_by": 2,
+        "venue": "npj Drug Discovery.",
+        "oa": true,
+        "openalex": "https://openalex.org/W7129063096"
+      },
+      {
+        "title": "Revolutionizing biomolecular structure determination with artificial intelligence",
+        "year": 2024,
+        "doi": "https://doi.org/10.1093/nsr/nwae339",
+        "cited_by": 6,
+        "venue": "National Science Review",
+        "oa": true,
+        "openalex": "https://openalex.org/W4403322655"
+      },
+      {
+        "title": "CryptoBench: cryptic protein–ligand binding sites dataset and benchmark",
+        "year": 2024,
+        "doi": "https://doi.org/10.1093/bioinformatics/btae745",
+        "cited_by": 23,
+        "venue": "Bioinformatics",
+        "oa": true,
+        "openalex": "https://openalex.org/W4405531686"
+      },
+      {
+        "title": "The Current Toolbox for Covalent Inhibitors: From Hit Identification to Drug Discovery",
+        "year": 2025,
+        "doi": "https://doi.org/10.1021/jacsau.5c01134",
+        "cited_by": 12,
+        "venue": "JACS Au",
+        "oa": true,
+        "openalex": "https://openalex.org/W4416192893"
+      },
+      {
+        "title": "Chemical Evolution of Double Covalent Aptamers for Sustained Protein Degradation and Improved Cytotoxicity in NK-Cell-Mediated Tumor Therapy",
+        "year": 2025,
+        "doi": "https://doi.org/10.1021/jacs.5c11823",
+        "cited_by": 9,
+        "venue": "Journal of the American Chemical Society",
+        "oa": false,
+        "openalex": "https://openalex.org/W4414983243"
+      },
+      {
+        "title": "Discovery of Macrocyclic Peptide Binders, Covalent Modifiers, and Degraders of a Structured RNA by mRNA Display",
+        "year": 2025,
+        "doi": "https://doi.org/10.1021/jacs.5c05540",
+        "cited_by": 13,
+        "venue": "Journal of the American Chemical Society",
+        "oa": true,
+        "openalex": "https://openalex.org/W4414168429"
+      },
+      {
+        "title": "The covalent docking software landscape: features and applications in drug design",
+        "year": 2025,
+        "doi": "https://doi.org/10.1093/bib/bbaf697",
+        "cited_by": 1,
+        "venue": "Briefings in Bioinformatics",
+        "oa": true,
+        "openalex": "https://openalex.org/W7117897683"
+      }
+    ]
+  },
+  "jnk_covalent": {
+    "query": "(JNK2 OR \"JNK 2\" OR \"c-Jun N-terminal\") AND covalent AND (inhibitor OR acrylamide)",
+    "meta": {
+      "count": 3183,
+      "db_response_time_ms": 101,
+      "page": 1,
+      "per_page": 25,
+      "groups_count": null,
+      "x_query": {
+        "oql": "works where full text has (\n    covalent\n    and (JNK2 or stemmed \"JNK 2\" or stemmed \"c-Jun N-terminal\")\n    and (acrylamide or inhibitor)\n  )\n  and year >= (2019)\n  and year <= (2026)\n  and type is (article or review)",
+        "oqo": {
+          "get_rows": "works",
+          "filter_rows": [
+            {
+              "column_id": "fulltext.search",
+              "value": "covalent",
+              "operator": "has"
+            },
+            {
+              "column_id": "publication_year",
+              "value": 2019,
+              "operator": ">="
+            },
+            {
+              "column_id": "publication_year",
+              "value": 2026,
+              "operator": "<="
+            },
+            {
+              "join": "or",
+              "filters": [
+                {
+                  "column_id": "fulltext.search",
+                  "value": "JNK2",
+                  "operator": "has"
+                },
+                {
+                  "column_id": "fulltext.search",
+                  "value": "\"JNK 2\"",
+                  "operator": "has"
+                },
+                {
+                  "column_id": "fulltext.search",
+                  "value": "\"c-Jun N-terminal\"",
+                  "operator": "has"
+                }
+              ]
+            },
+            {
+              "join": "or",
+              "filters": [
+                {
+                  "column_id": "fulltext.search",
+                  "value": "acrylamide",
+                  "operator": "has"
+                },
+                {
+                  "column_id": "fulltext.search",
+                  "value": "inhibitor",
+                  "operator": "has"
+                }
+              ]
+            },
+            {
+              "join": "or",
+              "filters": [
+                {
+                  "column_id": "type",
+                  "value": "article"
+                },
+                {
+                  "column_id": "type",
+                  "value": "review"
+                }
+              ]
+            }
+          ],
+          "select": [
+            "id",
+            "doi",
+            "title",
+            "publication_year",
+            "cited_by_count",
+            "authorships",
+            "primary_location",
+            "open_access",
+            "type"
+          ],
+          "per_page": 25
+        },
+        "url": "/works?filter=fulltext.search:covalent,publication_year:2019-2026,fulltext.search:JNK2|%22JNK 2%22|%22c-Jun N-terminal%22,fulltext.search:acrylamide|inhibitor,type:article|review&select=id,doi,title,publication_year,cited_by_count,authorships,primary_location,open_access,type&per_page=25"
+      },
+      "cost_usd": 0.001
+    },
+    "n": 25,
+    "items": [
+      {
+        "title": "Development of a Covalent Inhibitor of c-Jun N-Terminal Protein Kinase (JNK) 2/3 with Selectivity over JNK1",
+        "year": 2023,
+        "doi": "https://doi.org/10.1021/acs.jmedchem.2c01834",
+        "cited_by": 27,
+        "venue": "Journal of Medicinal Chemistry",
+        "oa": true,
+        "openalex": "https://openalex.org/W4321749620"
+      },
+      {
+        "title": "Delayed Treatment With 4-Methylpyrazole Protects Against Acetaminophen Hepatotoxicity in Mice by Inhibition of c-Jun n-Terminal Kinase",
+        "year": 2019,
+        "doi": "https://doi.org/10.1093/toxsci/kfz077",
+        "cited_by": 109,
+        "venue": "Toxicological Sciences",
+        "oa": true,
+        "openalex": "https://openalex.org/W2937650113"
+      },
+      {
+        "title": "c-Jun N-Terminal Kinase Inhibitors as Potential Leads for New Therapeutics for Alzheimer’s Diseases",
+        "year": 2020,
+        "doi": "https://doi.org/10.3390/ijms21249677",
+        "cited_by": 54,
+        "venue": "International Journal of Molecular Sciences",
+        "oa": true,
+        "openalex": "https://openalex.org/W3112309290"
+      },
+      {
+        "title": "JNK‐IN‐8, a c‐Jun N‐terminal kinase inhibitor, improves functional recovery through suppressing neuroinflammation in ischemic stroke",
+        "year": 2019,
+        "doi": "https://doi.org/10.1002/jcp.29183",
+        "cited_by": 77,
+        "venue": "Journal of Cellular Physiology",
+        "oa": true,
+        "openalex": "https://openalex.org/W2973290426"
+      },
+      {
+        "title": "C-Jun N-terminal kinase inhibitors: Structural insight into kinase-inhibitor complexes",
+        "year": 2020,
+        "doi": "https://doi.org/10.1016/j.csbj.2020.06.013",
+        "cited_by": 33,
+        "venue": "Computational and Structural Biotechnology Journal",
+        "oa": true,
+        "openalex": "https://openalex.org/W3035237991"
+      },
+      {
+        "title": "Endoplasmic Reticulum Stress-Induced Upregulation of STARD1 Promotes Acetaminophen-Induced Acute Liver Failure",
+        "year": 2019,
+        "doi": "https://doi.org/10.1053/j.gastro.2019.04.023",
+        "cited_by": 137,
+        "venue": "Gastroenterology",
+        "oa": true,
+        "openalex": "https://openalex.org/W2942362005"
+      },
+      {
+        "title": "Reversible covalent c-Jun N-terminal kinase inhibitors targeting a specific cysteine by precision-guided Michael-acceptor warheads",
+        "year": 2024,
+        "doi": "https://doi.org/10.1038/s41467-024-52573-2",
+        "cited_by": 20,
+        "venue": "Nature Communications",
+        "oa": true,
+        "openalex": "https://openalex.org/W4403129841"
+      },
+      {
+        "title": "Protective Effects of a New C-Jun N-terminal Kinase Inhibitor in the Model of Global Cerebral Ischemia in Rats",
+        "year": 2019,
+        "doi": "https://doi.org/10.3390/molecules24091722",
+        "cited_by": 39,
+        "venue": "Molecules",
+        "oa": true,
+        "openalex": "https://openalex.org/W2943479452"
+      },
+      {
+        "title": "Targeting the MKK7–JNK (Mitogen-Activated Protein Kinase Kinase 7–c-Jun N-Terminal Kinase) Pathway with Covalent Inhibitors",
+        "year": 2019,
+        "doi": "https://doi.org/10.1021/acs.jmedchem.9b00102",
+        "cited_by": 29,
+        "venue": "Journal of Medicinal Chemistry",
+        "oa": true,
+        "openalex": "https://openalex.org/W2911726475"
+      },
+      {
+        "title": "NF-κB in biology and targeted therapy: new insights and translational implications",
+        "year": 2024,
+        "doi": "https://doi.org/10.1038/s41392-024-01757-9",
+        "cited_by": 1796,
+        "venue": "Signal Transduction and Targeted Therapy",
+        "oa": true,
+        "openalex": "https://openalex.org/W4392343318"
+      },
+      {
+        "title": "Combination therapy of BCR-ABL-positive B cell acute lymphoblastic leukemia by tyrosine kinase inhibitor dasatinib and c-JUN N-terminal kinase inhibition",
+        "year": 2020,
+        "doi": "https://doi.org/10.1186/s13045-020-00912-3",
+        "cited_by": 32,
+        "venue": "Journal of Hematology & Oncology",
+        "oa": true,
+        "openalex": "https://openalex.org/W3036129156"
+      },
+      {
+        "title": "JNK2 Is Required for the Tumorigenic Properties of Melanoma Cells",
+        "year": 2019,
+        "doi": "https://doi.org/10.1021/acschembio.9b00083",
+        "cited_by": 19,
+        "venue": "ACS Chemical Biology",
+        "oa": true,
+        "openalex": "https://openalex.org/W2943931351"
+      },
+      {
+        "title": "Non-kinase targeting of oncogenic c-Jun N-terminal kinase (JNK) signaling: the future of clinically viable cancer treatments",
+        "year": 2022,
+        "doi": "https://doi.org/10.1042/bst20220808",
+        "cited_by": 21,
+        "venue": "Biochemical Society Transactions",
+        "oa": true,
+        "openalex": "https://openalex.org/W4310569537"
+      },
+      {
+        "title": "The Mechanism of Acrylamide-Induced Neurotoxicity: Current Status and Future Perspectives",
+        "year": 2022,
+        "doi": "https://doi.org/10.3389/fnut.2022.859189",
+        "cited_by": 105,
+        "venue": "Frontiers in Nutrition",
+        "oa": true,
+        "openalex": "https://openalex.org/W4220713068"
+      },
+      {
+        "title": "Mechanism and Therapeutic Targets of c-Jun-N-Terminal Kinases Activation in Nonalcoholic Fatty Liver Disease",
+        "year": 2022,
+        "doi": "https://doi.org/10.3390/biomedicines10082035",
+        "cited_by": 19,
+        "venue": "Biomedicines",
+        "oa": true,
+        "openalex": "https://openalex.org/W4292548449"
+      },
+      {
+        "title": "Discovery of SARS-CoV-2 main protease covalent inhibitors from a DNA-encoded library selection",
+        "year": 2022,
+        "doi": "https://doi.org/10.1016/j.slasd.2022.01.001",
+        "cited_by": 42,
+        "venue": "SLAS DISCOVERY",
+        "oa": true,
+        "openalex": "https://openalex.org/W4207033747"
+      },
+      {
+        "title": "Functional Roles of JNK and p38 MAPK Signaling in Nasopharyngeal Carcinoma",
+        "year": 2022,
+        "doi": "https://doi.org/10.3390/ijms23031108",
+        "cited_by": 162,
+        "venue": "International Journal of Molecular Sciences",
+        "oa": true,
+        "openalex": "https://openalex.org/W4205781555"
+      },
+      {
+        "title": "&lt;p&gt;The Role of JNk Signaling Pathway in Obesity-Driven Insulin Resistance&lt;/p&gt;",
+        "year": 2020,
+        "doi": "https://doi.org/10.2147/dmso.s236127",
+        "cited_by": 113,
+        "venue": "Diabetes Metabolic Syndrome and Obesity",
+        "oa": true,
+        "openalex": "https://openalex.org/W3022573854"
+      },
+      {
+        "title": "A Highly Selective In Vitro JNK3 Inhibitor, FMU200, Restores Mitochondrial Membrane Potential and Reduces Oxidative Stress and Apoptosis in SH-SY5Y Cells",
+        "year": 2021,
+        "doi": "https://doi.org/10.3390/ijms22073701",
+        "cited_by": 80,
+        "venue": "International Journal of Molecular Sciences",
+        "oa": true,
+        "openalex": "https://openalex.org/W3147575886"
+      },
+      {
+        "title": "The Role of the Dysregulated JNK Signaling Pathway in the Pathogenesis of Human Diseases and Its Potential Therapeutic Strategies: A Comprehensive Review",
+        "year": 2024,
+        "doi": "https://doi.org/10.3390/biom14020243",
+        "cited_by": 96,
+        "venue": "Biomolecules",
+        "oa": true,
+        "openalex": "https://openalex.org/W4391946279"
+      },
+      {
+        "title": "A structure-based mechanism of cisplatin resistance mediated by glutathione transferase P1-1",
+        "year": 2019,
+        "doi": "https://doi.org/10.1073/pnas.1903297116",
+        "cited_by": 99,
+        "venue": "Proceedings of the National Academy of Sciences",
+        "oa": true,
+        "openalex": "https://openalex.org/W2949451864"
+      },
+      {
+        "title": "Role of C-Jun N-Terminal Kinases on a Stressed Epithelium: Time for Testing Isoform Specificity",
+        "year": 2025,
+        "doi": "https://doi.org/10.3390/biology14060649",
+        "cited_by": 5,
+        "venue": "Biology",
+        "oa": true,
+        "openalex": "https://openalex.org/W4411036887"
+      },
+      {
+        "title": "Profiling MAP kinase cysteines for targeted covalent inhibitor design",
+        "year": 2021,
+        "doi": "https://doi.org/10.1039/d1md00277e",
+        "cited_by": 19,
+        "venue": "RSC Medicinal Chemistry",
+        "oa": true,
+        "openalex": "https://openalex.org/W3209724370"
+      },
+      {
+        "title": "Selective Covalent Inhibiting JNK3 by Small Molecules for Parkinson's Diseases",
+        "year": 2024,
+        "doi": "https://doi.org/10.1002/anie.202411037",
+        "cited_by": 15,
+        "venue": "Angewandte Chemie International Edition",
+        "oa": false,
+        "openalex": "https://openalex.org/W4402536245"
+      },
+      {
+        "title": "Identification of Novel Inhibitors of DLK Palmitoylation and Signaling by High Content Screening",
+        "year": 2019,
+        "doi": "https://doi.org/10.1038/s41598-019-39968-8",
+        "cited_by": 41,
+        "venue": "Scientific Reports",
+        "oa": true,
+        "openalex": "https://openalex.org/W2918266586"
+      }
+    ]
+  },
+  "active_learning_vs": {
+    "query": "(\"active learning\") AND (\"virtual screening\") AND (docking OR enrichment)",
+    "meta": {
+      "count": 523,
+      "db_response_time_ms": 51,
+      "page": 1,
+      "per_page": 25,
+      "groups_count": null,
+      "x_query": {
+        "oql": "works where full text has (\n    stemmed \"active learning\"\n    and stemmed \"virtual screening\"\n    and (docking or enrichment)\n  )\n  and year >= (2019)\n  and year <= (2026)\n  and type is (article or review)",
+        "oqo": {
+          "get_rows": "works",
+          "filter_rows": [
+            {
+              "column_id": "fulltext.search",
+              "value": "\"active learning\"",
+              "operator": "has"
+            },
+            {
+              "column_id": "fulltext.search",
+              "value": "\"virtual screening\"",
+              "operator": "has"
+            },
+            {
+              "column_id": "publication_year",
+              "value": 2019,
+              "operator": ">="
+            },
+            {
+              "column_id": "publication_year",
+              "value": 2026,
+              "operator": "<="
+            },
+            {
+              "join": "or",
+              "filters": [
+                {
+                  "column_id": "fulltext.search",
+                  "value": "docking",
+                  "operator": "has"
+                },
+                {
+                  "column_id": "fulltext.search",
+                  "value": "enrichment",
+                  "operator": "has"
+                }
+              ]
+            },
+            {
+              "join": "or",
+              "filters": [
+                {
+                  "column_id": "type",
+                  "value": "article"
+                },
+                {
+                  "column_id": "type",
+                  "value": "review"
+                }
+              ]
+            }
+          ],
+          "select": [
+            "id",
+            "doi",
+            "title",
+            "publication_year",
+            "cited_by_count",
+            "authorships",
+            "primary_location",
+            "open_access",
+            "type"
+          ],
+          "per_page": 25
+        },
+        "url": "/works?filter=fulltext.search:%22active learning%22,fulltext.search:%22virtual screening%22,publication_year:2019-2026,fulltext.search:docking|enrichment,type:article|review&select=id,doi,title,publication_year,cited_by_count,authorships,primary_location,open_access,type&per_page=25"
+      },
+      "cost_usd": 0.001
+    },
+    "n": 25,
+    "items": [
+      {
+        "title": "Accelerating high-throughput virtual screening through molecular pool-based active learning",
+        "year": 2021,
+        "doi": "https://doi.org/10.1039/d0sc06805e",
+        "cited_by": 304,
+        "venue": "Chemical Science",
+        "oa": true,
+        "openalex": "https://openalex.org/W3112474878"
+      },
+      {
+        "title": "Artificial intelligence–enabled virtual screening of ultra-large chemical libraries with deep docking",
+        "year": 2022,
+        "doi": "https://doi.org/10.1038/s41596-021-00659-2",
+        "cited_by": 397,
+        "venue": "Nature Protocols",
+        "oa": true,
+        "openalex": "https://openalex.org/W4210617107"
+      },
+      {
+        "title": "Efficient Exploration of Chemical Space with Docking and Deep Learning",
+        "year": 2021,
+        "doi": "https://doi.org/10.1021/acs.jctc.1c00810",
+        "cited_by": 421,
+        "venue": "Journal of Chemical Theory and Computation",
+        "oa": false,
+        "openalex": "https://openalex.org/W3135642867"
+      },
+      {
+        "title": "An artificial intelligence accelerated virtual screening platform for drug discovery",
+        "year": 2024,
+        "doi": "https://doi.org/10.1038/s41467-024-52061-7",
+        "cited_by": 208,
+        "venue": "Nature Communications",
+        "oa": true,
+        "openalex": "https://openalex.org/W4402273478"
+      },
+      {
+        "title": "Computational approaches streamlining drug discovery",
+        "year": 2023,
+        "doi": "https://doi.org/10.1038/s41586-023-05905-z",
+        "cited_by": 1180,
+        "venue": "Nature",
+        "oa": true,
+        "openalex": "https://openalex.org/W4367049415"
+      },
+      {
+        "title": "ProLIF: a library to encode molecular interactions as fingerprints",
+        "year": 2021,
+        "doi": "https://doi.org/10.1186/s13321-021-00548-6",
+        "cited_by": 404,
+        "venue": "Journal of Cheminformatics",
+        "oa": true,
+        "openalex": "https://openalex.org/W3203735717"
+      },
+      {
+        "title": "Reducing false positive rate of docking-based virtual screening by active learning",
+        "year": 2023,
+        "doi": "https://doi.org/10.1093/bib/bbac626",
+        "cited_by": 22,
+        "venue": "Briefings in Bioinformatics",
+        "oa": true,
+        "openalex": "https://openalex.org/W4316340028"
+      },
+      {
+        "title": "Regression-Based Active Learning for Accessible Acceleration of Ultra-Large Library Docking",
+        "year": 2023,
+        "doi": "https://doi.org/10.1021/acs.jcim.3c01661",
+        "cited_by": 25,
+        "venue": "Journal of Chemical Information and Modeling",
+        "oa": true,
+        "openalex": "https://openalex.org/W4390400981"
+      },
+      {
+        "title": "Pareto optimization to accelerate multi-objective virtual screening",
+        "year": 2024,
+        "doi": "https://doi.org/10.1039/d3dd00227f",
+        "cited_by": 38,
+        "venue": "Digital Discovery",
+        "oa": true,
+        "openalex": "https://openalex.org/W4390886467"
+      },
+      {
+        "title": "Rapid traversal of vast chemical space using machine learning-guided docking screens",
+        "year": 2025,
+        "doi": "https://doi.org/10.1038/s43588-025-00777-x",
+        "cited_by": 60,
+        "venue": "Nature Computational Science",
+        "oa": true,
+        "openalex": "https://openalex.org/W4408413602"
+      },
+      {
+        "title": "Small data machine learning in materials science",
+        "year": 2023,
+        "doi": "https://doi.org/10.1038/s41524-023-01000-z",
+        "cited_by": 728,
+        "venue": "npj Computational Materials",
+        "oa": true,
+        "openalex": "https://openalex.org/W4360949780"
+      },
+      {
+        "title": "Thompson Sampling─An Efficient Method for Searching Ultralarge Synthesis on Demand Databases",
+        "year": 2024,
+        "doi": "https://doi.org/10.1021/acs.jcim.3c01790",
+        "cited_by": 57,
+        "venue": "Journal of Chemical Information and Modeling",
+        "oa": true,
+        "openalex": "https://openalex.org/W4391544324"
+      },
+      {
+        "title": "Deep Learning with Geometry-Enhanced Molecular Representation for Augmentation of Large-Scale Docking-Based Virtual Screening",
+        "year": 2023,
+        "doi": "https://doi.org/10.1021/acs.jcim.3c01371",
+        "cited_by": 21,
+        "venue": "Journal of Chemical Information and Modeling",
+        "oa": false,
+        "openalex": "https://openalex.org/W4387949318"
+      },
+      {
+        "title": "Recent Developments in Ultralarge and Structure-Based Virtual Screening Approaches",
+        "year": 2023,
+        "doi": "https://doi.org/10.1146/annurev-biodatasci-020222-025013",
+        "cited_by": 41,
+        "venue": "Annual Review of Biomedical Data Science",
+        "oa": true,
+        "openalex": "https://openalex.org/W4377692859"
+      },
+      {
+        "title": "Machine Learning-Boosted Docking Enables the Efficient Structure-Based Virtual Screening of Giga-Scale Enumerated Chemical Libraries",
+        "year": 2023,
+        "doi": "https://doi.org/10.1021/acs.jcim.3c01239",
+        "cited_by": 39,
+        "venue": "Journal of Chemical Information and Modeling",
+        "oa": true,
+        "openalex": "https://openalex.org/W4386346641"
+      },
+      {
+        "title": "Keeping pace with the explosive growth of chemical libraries with structure‐based virtual screening",
+        "year": 2023,
+        "doi": "https://doi.org/10.1002/wcms.1678",
+        "cited_by": 39,
+        "venue": "Wiley Interdisciplinary Reviews Computational Molecular Science",
+        "oa": true,
+        "openalex": "https://openalex.org/W4381435404"
+      },
+      {
+        "title": "Docking-based generative approaches in the search for new drug candidates",
+        "year": 2022,
+        "doi": "https://doi.org/10.1016/j.drudis.2022.103439",
+        "cited_by": 46,
+        "venue": "Drug Discovery Today",
+        "oa": true,
+        "openalex": "https://openalex.org/W4309413039"
+      },
+      {
+        "title": "Sample efficient reinforcement learning with active learning for molecular design",
+        "year": 2024,
+        "doi": "https://doi.org/10.1039/d3sc04653b",
+        "cited_by": 46,
+        "venue": "Chemical Science",
+        "oa": true,
+        "openalex": "https://openalex.org/W4391660409"
+      },
+      {
+        "title": "Automated discovery of noncovalent inhibitors of SARS-CoV-2 main protease by consensus Deep Docking of 40 billion small molecules",
+        "year": 2021,
+        "doi": "https://doi.org/10.1039/d1sc05579h",
+        "cited_by": 70,
+        "venue": "Chemical Science",
+        "oa": true,
+        "openalex": "https://openalex.org/W3214234430"
+      },
+      {
+        "title": "Machine Learning Guided AQFEP: A Fast and Efficient Absolute Free Energy Perturbation Solution for Virtual Screening",
+        "year": 2024,
+        "doi": "https://doi.org/10.1021/acs.jctc.4c00399",
+        "cited_by": 13,
+        "venue": "Journal of Chemical Theory and Computation",
+        "oa": true,
+        "openalex": "https://openalex.org/W4401608934"
+      },
+      {
+        "title": "Integrating Artificial Intelligence for Drug Discovery in the Context of Revolutionizing Drug Delivery",
+        "year": 2024,
+        "doi": "https://doi.org/10.3390/life14020233",
+        "cited_by": 254,
+        "venue": "Life",
+        "oa": true,
+        "openalex": "https://openalex.org/W4391617198"
+      },
+      {
+        "title": "PharmacoNet: deep learning-guided pharmacophore modeling for ultra-large-scale virtual screening",
+        "year": 2024,
+        "doi": "https://doi.org/10.1039/d4sc04854g",
+        "cited_by": 17,
+        "venue": "Chemical Science",
+        "oa": true,
+        "openalex": "https://openalex.org/W4404051067"
+      },
+      {
+        "title": "Benchmarking Active Learning Protocols for Ligand-Binding Affinity Prediction",
+        "year": 2024,
+        "doi": "https://doi.org/10.1021/acs.jcim.4c00220",
+        "cited_by": 33,
+        "venue": "Journal of Chemical Information and Modeling",
+        "oa": true,
+        "openalex": "https://openalex.org/W4392505331"
+      },
+      {
+        "title": "Learning protein-ligand binding affinity with atomic environment vectors",
+        "year": 2021,
+        "doi": "https://doi.org/10.1186/s13321-021-00536-w",
+        "cited_by": 72,
+        "venue": "Journal of Cheminformatics",
+        "oa": true,
+        "openalex": "https://openalex.org/W3194618792"
+      },
+      {
+        "title": "Integrated Molecular Modeling and Machine Learning for Drug Design",
+        "year": 2023,
+        "doi": "https://doi.org/10.1021/acs.jctc.3c00814",
+        "cited_by": 65,
+        "venue": "Journal of Chemical Theory and Computation",
+        "oa": true,
+        "openalex": "https://openalex.org/W4387965319"
+      }
+    ]
+  },
+  "warhead_reactivity": {
+    "query": "(acrylamide OR warhead) AND (GSH OR reactivity) AND covalent AND (kinase OR inhibitor)",
+    "meta": {
+      "count": 6763,
+      "db_response_time_ms": 45,
+      "page": 1,
+      "per_page": 25,
+      "groups_count": null,
+      "x_query": {
+        "oql": "works where full text has (\n    covalent\n    and (GSH or reactivity)\n    and (acrylamide or warhead)\n    and (inhibitor or kinase)\n  )\n  and year >= (2019)\n  and year <= (2026)\n  and type is (article or review)",
+        "oqo": {
+          "get_rows": "works",
+          "filter_rows": [
+            {
+              "column_id": "fulltext.search",
+              "value": "covalent",
+              "operator": "has"
+            },
+            {
+              "column_id": "publication_year",
+              "value": 2019,
+              "operator": ">="
+            },
+            {
+              "column_id": "publication_year",
+              "value": 2026,
+              "operator": "<="
+            },
+            {
+              "join": "or",
+              "filters": [
+                {
+                  "column_id": "fulltext.search",
+                  "value": "GSH",
+                  "operator": "has"
+                },
+                {
+                  "column_id": "fulltext.search",
+                  "value": "reactivity",
+                  "operator": "has"
+                }
+              ]
+            },
+            {
+              "join": "or",
+              "filters": [
+                {
+                  "column_id": "fulltext.search",
+                  "value": "acrylamide",
+                  "operator": "has"
+                },
+                {
+                  "column_id": "fulltext.search",
+                  "value": "warhead",
+                  "operator": "has"
+                }
+              ]
+            },
+            {
+              "join": "or",
+              "filters": [
+                {
+                  "column_id": "fulltext.search",
+                  "value": "inhibitor",
+                  "operator": "has"
+                },
+                {
+                  "column_id": "fulltext.search",
+                  "value": "kinase",
+                  "operator": "has"
+                }
+              ]
+            },
+            {
+              "join": "or",
+              "filters": [
+                {
+                  "column_id": "type",
+                  "value": "article"
+                },
+                {
+                  "column_id": "type",
+                  "value": "review"
+                }
+              ]
+            }
+          ],
+          "select": [
+            "id",
+            "doi",
+            "title",
+            "publication_year",
+            "cited_by_count",
+            "authorships",
+            "primary_location",
+            "open_access",
+            "type"
+          ],
+          "per_page": 25
+        },
+        "url": "/works?filter=fulltext.search:covalent,publication_year:2019-2026,fulltext.search:GSH|reactivity,fulltext.search:acrylamide|warhead,fulltext.search:inhibitor|kinase,type:article|review&select=id,doi,title,publication_year,cited_by_count,authorships,primary_location,open_access,type&per_page=25"
+      },
+      "cost_usd": 0.001
+    },
+    "n": 25,
+    "items": [
+      {
+        "title": "Advances in covalent drug discovery",
+        "year": 2022,
+        "doi": "https://doi.org/10.1038/s41573-022-00542-z",
+        "cited_by": 774,
+        "venue": "Nature Reviews Drug Discovery",
+        "oa": true,
+        "openalex": "https://openalex.org/W4293084539"
+      },
+      {
+        "title": "Reactive oxygen species, toxicity, oxidative stress, and antioxidants: chronic diseases and aging",
+        "year": 2023,
+        "doi": "https://doi.org/10.1007/s00204-023-03562-9",
+        "cited_by": 2335,
+        "venue": "Archives of Toxicology",
+        "oa": true,
+        "openalex": "https://openalex.org/W4385999933"
+      },
+      {
+        "title": "Characterising covalent warhead reactivity",
+        "year": 2019,
+        "doi": "https://doi.org/10.1016/j.bmc.2019.04.002",
+        "cited_by": 124,
+        "venue": "Bioorganic & Medicinal Chemistry",
+        "oa": true,
+        "openalex": "https://openalex.org/W2932449756"
+      },
+      {
+        "title": "Emerging and Re-emerging Warheads for Targeted Covalent Inhibitors: An Update",
+        "year": 2024,
+        "doi": "https://doi.org/10.1021/acs.jmedchem.3c01825",
+        "cited_by": 176,
+        "venue": "Journal of Medicinal Chemistry",
+        "oa": true,
+        "openalex": "https://openalex.org/W4396704910"
+      },
+      {
+        "title": "Bicyclobutanes: from curiosities to versatile reagents and covalent warheads",
+        "year": 2022,
+        "doi": "https://doi.org/10.1039/d2sc03948f",
+        "cited_by": 309,
+        "venue": "Chemical Science",
+        "oa": true,
+        "openalex": "https://openalex.org/W4293091292"
+      },
+      {
+        "title": "Enhancing intracellular accumulation and target engagement of PROTACs with reversible covalent chemistry",
+        "year": 2020,
+        "doi": "https://doi.org/10.1038/s41467-020-17997-6",
+        "cited_by": 207,
+        "venue": "Nature Communications",
+        "oa": true,
+        "openalex": "https://openalex.org/W3081170494"
+      },
+      {
+        "title": "Covalent inhibitors: a rational approach to drug discovery",
+        "year": 2020,
+        "doi": "https://doi.org/10.1039/d0md00154f",
+        "cited_by": 380,
+        "venue": "RSC Medicinal Chemistry",
+        "oa": true,
+        "openalex": "https://openalex.org/W3038238188"
+      },
+      {
+        "title": "Identification of pyrogallol as a warhead in design of covalent inhibitors for the SARS-CoV-2 3CL protease",
+        "year": 2021,
+        "doi": "https://doi.org/10.1038/s41467-021-23751-3",
+        "cited_by": 196,
+        "venue": "Nature Communications",
+        "oa": true,
+        "openalex": "https://openalex.org/W3168181021"
+      },
+      {
+        "title": "Kinase drug discovery 20 years after imatinib: progress and future directions",
+        "year": 2021,
+        "doi": "https://doi.org/10.1038/s41573-021-00195-4",
+        "cited_by": 1042,
+        "venue": "Nature Reviews Drug Discovery",
+        "oa": true,
+        "openalex": "https://openalex.org/W3161074857"
+      },
+      {
+        "title": "Alkynyl Benzoxazines and Dihydroquinazolines as Cysteine Targeting Covalent Warheads and Their Application in Identification of Selective Irreversible Kinase Inhibitors",
+        "year": 2020,
+        "doi": "https://doi.org/10.1021/jacs.9b13391",
+        "cited_by": 77,
+        "venue": "Journal of the American Chemical Society",
+        "oa": true,
+        "openalex": "https://openalex.org/W3025607841"
+      },
+      {
+        "title": "Rapid Covalent-Probe Discovery by Electrophile-Fragment Screening",
+        "year": 2019,
+        "doi": "https://doi.org/10.1021/jacs.9b02822",
+        "cited_by": 344,
+        "venue": "Journal of the American Chemical Society",
+        "oa": true,
+        "openalex": "https://openalex.org/W2949252818"
+      },
+      {
+        "title": "Nitriles: an attractive approach to the development of covalent inhibitors",
+        "year": 2022,
+        "doi": "https://doi.org/10.1039/d2md00204c",
+        "cited_by": 99,
+        "venue": "RSC Medicinal Chemistry",
+        "oa": true,
+        "openalex": "https://openalex.org/W4311807558"
+      },
+      {
+        "title": "Identification of highly selective covalent inhibitors by phage display",
+        "year": 2020,
+        "doi": "https://doi.org/10.1038/s41587-020-0733-7",
+        "cited_by": 141,
+        "venue": "Nature Biotechnology",
+        "oa": true,
+        "openalex": "https://openalex.org/W3104492196"
+      },
+      {
+        "title": "Selective and reversible modification of kinase cysteines with chlorofluoroacetamides",
+        "year": 2019,
+        "doi": "https://doi.org/10.1038/s41589-018-0204-3",
+        "cited_by": 143,
+        "venue": "Nature Chemical Biology",
+        "oa": false,
+        "openalex": "https://openalex.org/W2910570560"
+      },
+      {
+        "title": "Diacylfuroxans Are Masked Nitrile Oxides That Inhibit GPX4 Covalently",
+        "year": 2019,
+        "doi": "https://doi.org/10.1021/jacs.9b10769",
+        "cited_by": 121,
+        "venue": "Journal of the American Chemical Society",
+        "oa": true,
+        "openalex": "https://openalex.org/W2995059326"
+      },
+      {
+        "title": "Controlling the Covalent Reactivity of a Kinase Inhibitor with Light",
+        "year": 2021,
+        "doi": "https://doi.org/10.1002/anie.202103767",
+        "cited_by": 46,
+        "venue": "Angewandte Chemie International Edition",
+        "oa": true,
+        "openalex": "https://openalex.org/W3164808862"
+      },
+      {
+        "title": "Structure of papain-like protease from SARS-CoV-2 and its complexes with non-covalent inhibitors",
+        "year": 2021,
+        "doi": "https://doi.org/10.1038/s41467-021-21060-3",
+        "cited_by": 459,
+        "venue": "Nature Communications",
+        "oa": true,
+        "openalex": "https://openalex.org/W3126232912"
+      },
+      {
+        "title": "Electrophilic warheads in covalent drug discovery: an overview",
+        "year": 2022,
+        "doi": "https://doi.org/10.1080/17460441.2022.2034783",
+        "cited_by": 83,
+        "venue": "Expert Opinion on Drug Discovery",
+        "oa": false,
+        "openalex": "https://openalex.org/W4210935010"
+      },
+      {
+        "title": "Recent Advances in Selective and Irreversible Covalent Ligand Development and Validation",
+        "year": 2019,
+        "doi": "https://doi.org/10.1016/j.chembiol.2019.09.012",
+        "cited_by": 180,
+        "venue": "Cell chemical biology",
+        "oa": true,
+        "openalex": "https://openalex.org/W2980410567"
+      },
+      {
+        "title": "An electrophilic warhead library for mapping the reactivity and accessibility of tractable cysteines in protein kinases",
+        "year": 2020,
+        "doi": "https://doi.org/10.1016/j.ejmech.2020.112836",
+        "cited_by": 49,
+        "venue": "European Journal of Medicinal Chemistry",
+        "oa": true,
+        "openalex": "https://openalex.org/W3085366992"
+      },
+      {
+        "title": "Strategic Design of Catalytic Lysine‐Targeting Reversible Covalent BCR‐ABL Inhibitors**",
+        "year": 2021,
+        "doi": "https://doi.org/10.1002/anie.202105383",
+        "cited_by": 77,
+        "venue": "Angewandte Chemie International Edition",
+        "oa": false,
+        "openalex": "https://openalex.org/W3130357905"
+      },
+      {
+        "title": "Crystallographic and electrophilic fragment screening of the SARS-CoV-2 main protease",
+        "year": 2020,
+        "doi": "https://doi.org/10.1038/s41467-020-18709-w",
+        "cited_by": 543,
+        "venue": "Nature Communications",
+        "oa": true,
+        "openalex": "https://openalex.org/W3092125766"
+      },
+      {
+        "title": "Recent Advances in Covalent Drug Discovery",
+        "year": 2023,
+        "doi": "https://doi.org/10.3390/ph16050663",
+        "cited_by": 88,
+        "venue": "Pharmaceuticals",
+        "oa": true,
+        "openalex": "https://openalex.org/W4367312050"
+      },
+      {
+        "title": "The expanding repertoire of covalent warheads for drug discovery",
+        "year": 2023,
+        "doi": "https://doi.org/10.1016/j.drudis.2023.103799",
+        "cited_by": 64,
+        "venue": "Drug Discovery Today",
+        "oa": false,
+        "openalex": "https://openalex.org/W4387613681"
+      },
+      {
+        "title": "Structure–activity relationships of GPX4 inhibitor warheads",
+        "year": 2020,
+        "doi": "https://doi.org/10.1016/j.bmcl.2020.127538",
+        "cited_by": 62,
+        "venue": "Bioorganic & Medicinal Chemistry Letters",
+        "oa": true,
+        "openalex": "https://openalex.org/W3085720916"
+      }
+    ]
+  },
+  "covdock_dockovalent": {
+    "query": "(CovDock OR DOCKovalent OR \"covalent docking\") AND (\"virtual screening\" OR enrichment)",
+    "meta": {
+      "count": 622,
+      "db_response_time_ms": 39,
+      "page": 1,
+      "per_page": 25,
+      "groups_count": null,
+      "x_query": {
+        "oql": "works where year >= (2019)\n  and year <= (2026)\n  and full text has (\n    (CovDock or DOCKovalent or stemmed \"covalent docking\")\n    and (stemmed \"virtual screening\" or enrichment)\n  )\n  and type is (article or review)",
+        "oqo": {
+          "get_rows": "works",
+          "filter_rows": [
+            {
+              "column_id": "publication_year",
+              "value": 2019,
+              "operator": ">="
+            },
+            {
+              "column_id": "publication_year",
+              "value": 2026,
+              "operator": "<="
+            },
+            {
+              "join": "or",
+              "filters": [
+                {
+                  "column_id": "fulltext.search",
+                  "value": "CovDock",
+                  "operator": "has"
+                },
+                {
+                  "column_id": "fulltext.search",
+                  "value": "DOCKovalent",
+                  "operator": "has"
+                },
+                {
+                  "column_id": "fulltext.search",
+                  "value": "\"covalent docking\"",
+                  "operator": "has"
+                }
+              ]
+            },
+            {
+              "join": "or",
+              "filters": [
+                {
+                  "column_id": "fulltext.search",
+                  "value": "\"virtual screening\"",
+                  "operator": "has"
+                },
+                {
+                  "column_id": "fulltext.search",
+                  "value": "enrichment",
+                  "operator": "has"
+                }
+              ]
+            },
+            {
+              "join": "or",
+              "filters": [
+                {
+                  "column_id": "type",
+                  "value": "article"
+                },
+                {
+                  "column_id": "type",
+                  "value": "review"
+                }
+              ]
+            }
+          ],
+          "select": [
+            "id",
+            "doi",
+            "title",
+            "publication_year",
+            "cited_by_count",
+            "authorships",
+            "primary_location",
+            "open_access",
+            "type"
+          ],
+          "per_page": 25
+        },
+        "url": "/works?filter=publication_year:2019-2026,fulltext.search:CovDock|DOCKovalent|%22covalent docking%22,fulltext.search:%22virtual screening%22|enrichment,type:article|review&select=id,doi,title,publication_year,cited_by_count,authorships,primary_location,open_access,type&per_page=25"
+      },
+      "cost_usd": 0.001
+    },
+    "n": 25,
+    "items": [
+      {
+        "title": "Lead Discovery of SARS-CoV-2 Main Protease Inhibitors through Covalent Docking-Based Virtual Screening",
+        "year": 2021,
+        "doi": "https://doi.org/10.1021/acs.jcim.1c00184",
+        "cited_by": 57,
+        "venue": "Journal of Chemical Information and Modeling",
+        "oa": false,
+        "openalex": "https://openalex.org/W3145191353"
+      },
+      {
+        "title": "Putative Inhibitors of SARS-CoV-2 Main Protease from A Library of Marine Natural Products: A Virtual Screening and Molecular Modeling Study",
+        "year": 2020,
+        "doi": "https://doi.org/10.3390/md18040225",
+        "cited_by": 323,
+        "venue": "Marine Drugs",
+        "oa": true,
+        "openalex": "https://openalex.org/W3013223828"
+      },
+      {
+        "title": "DrugRep: an automatic virtual screening server for drug repurposing",
+        "year": 2022,
+        "doi": "https://doi.org/10.1038/s41401-022-00996-2",
+        "cited_by": 127,
+        "venue": "Acta Pharmacologica Sinica",
+        "oa": true,
+        "openalex": "https://openalex.org/W4303984105"
+      },
+      {
+        "title": "Covalent docking in CDOCKER",
+        "year": 2022,
+        "doi": "https://doi.org/10.1007/s10822-022-00472-3",
+        "cited_by": 32,
+        "venue": "Journal of Computer-Aided Molecular Design",
+        "oa": true,
+        "openalex": "https://openalex.org/W4292336335"
+      },
+      {
+        "title": "Virtual screening web servers: designing chemical probes and drug candidates in the cyberspace",
+        "year": 2020,
+        "doi": "https://doi.org/10.1093/bib/bbaa034",
+        "cited_by": 129,
+        "venue": "Briefings in Bioinformatics",
+        "oa": true,
+        "openalex": "https://openalex.org/W3012320348"
+      },
+      {
+        "title": "Docking covalent targets for drug discovery: stimulating the computer-aided drug design community of possible pitfalls and erroneous practices",
+        "year": 2022,
+        "doi": "https://doi.org/10.1007/s11030-022-10523-4",
+        "cited_by": 54,
+        "venue": "Molecular Diversity",
+        "oa": true,
+        "openalex": "https://openalex.org/W4294556198"
+      },
+      {
+        "title": "GNINA 1.3: the next increment in molecular docking with deep learning",
+        "year": 2025,
+        "doi": "https://doi.org/10.1186/s13321-025-00973-x",
+        "cited_by": 111,
+        "venue": "Journal of Cheminformatics",
+        "oa": true,
+        "openalex": "https://openalex.org/W4408084231"
+      },
+      {
+        "title": "Covalent Docking in Drug Discovery: Scope and Limitations",
+        "year": 2020,
+        "doi": "https://doi.org/10.2174/1381612824999201105164942",
+        "cited_by": 26,
+        "venue": "Current Pharmaceutical Design",
+        "oa": false,
+        "openalex": "https://openalex.org/W3094983846"
+      },
+      {
+        "title": "WIDOCK: a reactive docking protocol for virtual screening of covalent inhibitors",
+        "year": 2021,
+        "doi": "https://doi.org/10.1007/s10822-020-00371-5",
+        "cited_by": 31,
+        "venue": "Journal of Computer-Aided Molecular Design",
+        "oa": true,
+        "openalex": "https://openalex.org/W3122489865"
+      },
+      {
+        "title": "DUckCov: a Dynamic Undocking‐Based Virtual Screening Protocol for Covalent Binders",
+        "year": 2019,
+        "doi": "https://doi.org/10.1002/cmdc.201900078",
+        "cited_by": 24,
+        "venue": "ChemMedChem",
+        "oa": true,
+        "openalex": "https://openalex.org/W2916067731"
+      },
+      {
+        "title": "Virtual Screening Identifies Irreversible FMS-like Tyrosine Kinase 3 Inhibitors with Activity toward Resistance-Conferring Mutations",
+        "year": 2019,
+        "doi": "https://doi.org/10.1021/acs.jmedchem.8b01714",
+        "cited_by": 46,
+        "venue": "Journal of Medicinal Chemistry",
+        "oa": true,
+        "openalex": "https://openalex.org/W2914431119"
+      },
+      {
+        "title": "Two-Step Covalent Docking with Attracting Cavities",
+        "year": 2023,
+        "doi": "https://doi.org/10.1021/acs.jcim.3c01055",
+        "cited_by": 23,
+        "venue": "Journal of Chemical Information and Modeling",
+        "oa": true,
+        "openalex": "https://openalex.org/W4389323050"
+      },
+      {
+        "title": "Repurposing FDA-approved Drugs Targeting SARS-CoV2 3CL<sup>pro</sup>: AStudy by Applying Virtual Screening, Molecular Dynamics, MM-PBSACalculations and Covalent Docking",
+        "year": 2022,
+        "doi": "https://doi.org/10.2174/1570180819666220106110133",
+        "cited_by": 27,
+        "venue": "Letters in Drug Design & Discovery",
+        "oa": false,
+        "openalex": "https://openalex.org/W4206667643"
+      },
+      {
+        "title": "AutoDock Bias: improving binding mode prediction and virtual screening using known protein–ligand interactions",
+        "year": 2019,
+        "doi": "https://doi.org/10.1093/bioinformatics/btz152",
+        "cited_by": 78,
+        "venue": "Bioinformatics",
+        "oa": true,
+        "openalex": "https://openalex.org/W2920028964"
+      },
+      {
+        "title": "Design of SARS-CoV-2 Mpro, PLpro Dual-Target Inhibitors Based on Deep Reinforcement Learning and Virtual Screening",
+        "year": 2022,
+        "doi": "https://doi.org/10.4155/fmc-2021-0269",
+        "cited_by": 33,
+        "venue": "Future Medicinal Chemistry",
+        "oa": true,
+        "openalex": "https://openalex.org/W4214673699"
+      },
+      {
+        "title": "Haste makes waste: A critical review of docking‐based virtual screening in drug repurposing for SARS‐CoV‐2 main protease (M‐pro) inhibition",
+        "year": 2021,
+        "doi": "https://doi.org/10.1002/med.21862",
+        "cited_by": 100,
+        "venue": "Medicinal Research Reviews",
+        "oa": true,
+        "openalex": "https://openalex.org/W3209925230"
+      },
+      {
+        "title": "Merits and pitfalls of conventional and covalent docking in identifying new hydroxyl aryl aldehyde like compounds as human IRE1 inhibitors",
+        "year": 2019,
+        "doi": "https://doi.org/10.1038/s41598-019-39939-z",
+        "cited_by": 35,
+        "venue": "Scientific Reports",
+        "oa": true,
+        "openalex": "https://openalex.org/W2918328017"
+      },
+      {
+        "title": "Discovery of Immunoproteasome Inhibitors Using Large-Scale Covalent Virtual Screening",
+        "year": 2019,
+        "doi": "https://doi.org/10.3390/molecules24142590",
+        "cited_by": 13,
+        "venue": "Molecules",
+        "oa": true,
+        "openalex": "https://openalex.org/W2961305839"
+      },
+      {
+        "title": "Next generation 3D pharmacophore modeling",
+        "year": 2020,
+        "doi": "https://doi.org/10.1002/wcms.1468",
+        "cited_by": 275,
+        "venue": "Wiley Interdisciplinary Reviews Computational Molecular Science",
+        "oa": true,
+        "openalex": "https://openalex.org/W3006781192"
+      },
+      {
+        "title": "Identification of novel covalent JAK3 inhibitors through consensus scoring virtual screening: integration of common feature pharmacophore and covalent docking",
+        "year": 2024,
+        "doi": "https://doi.org/10.1007/s11030-024-10918-5",
+        "cited_by": 9,
+        "venue": "Molecular Diversity",
+        "oa": false,
+        "openalex": "https://openalex.org/W4400642630"
+      },
+      {
+        "title": "AutoDock Vina 1.2.0: New Docking Methods, Expanded Force Field, and Python Bindings",
+        "year": 2021,
+        "doi": "https://doi.org/10.1021/acs.jcim.1c00203",
+        "cited_by": 6839,
+        "venue": "Journal of Chemical Information and Modeling",
+        "oa": true,
+        "openalex": "https://openalex.org/W3168436232"
+      },
+      {
+        "title": "Pharmacoinformatics and molecular dynamics simulation studies reveal potential covalent and FDA-approved inhibitors of SARS-CoV-2 main protease 3CL <sup>pro</sup>",
+        "year": 2020,
+        "doi": "https://doi.org/10.1080/07391102.2020.1782768",
+        "cited_by": 124,
+        "venue": "Journal of Biomolecular Structure and Dynamics",
+        "oa": true,
+        "openalex": "https://openalex.org/W3035899817"
+      },
+      {
+        "title": "HCovDock: an efficient docking method for modeling covalent protein–ligand interactions",
+        "year": 2022,
+        "doi": "https://doi.org/10.1093/bib/bbac559",
+        "cited_by": 19,
+        "venue": "Briefings in Bioinformatics",
+        "oa": false,
+        "openalex": "https://openalex.org/W4312210814"
+      },
+      {
+        "title": "Pharmacophoric analogs of sotorasib-entrapped KRAS G12C in its inactive GDP-bound conformation: covalent docking and molecular dynamics investigations",
+        "year": 2022,
+        "doi": "https://doi.org/10.1007/s11030-022-10534-1",
+        "cited_by": 13,
+        "venue": "Molecular Diversity",
+        "oa": false,
+        "openalex": "https://openalex.org/W4307018392"
+      },
+      {
+        "title": "Virtual Screening and Molecular Docking Studies for Discovery of Potential RNA-Dependent RNA Polymerase Inhibitors",
+        "year": 2021,
+        "doi": "https://doi.org/10.3390/cryst11050471",
+        "cited_by": 16,
+        "venue": "Crystals",
+        "oa": true,
+        "openalex": "https://openalex.org/W3154574610"
+      }
+    ]
+  },
+  "chembl_enumeration_warhead": {
+    "query": "((enumeration OR \"building block\") AND acrylamide AND (library OR screening)) OR (\"REAL database\" AND covalent)",
+    "error": "HTTP Error 429: Too Many Requests"
+  }
+}
