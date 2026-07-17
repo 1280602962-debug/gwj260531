@@ -14,3 +14,8 @@
 主交付目录：`L7/L7_dock_ready_*.csv`  
 阈值：`config/thresholds.json`  
 校准：`L5_calibration.md`
+
+| **L7b（收紧 watch + Novel keep=yes）** | **8,543**：sim_yl 4198 + sim_56d 1800 + novel 2245 + pan 300 |
+
+主交付：`L7b/L7b_dock_ready_*.csv`；交接：`handoff_glide_af3/`
+

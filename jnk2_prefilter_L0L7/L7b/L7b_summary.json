@@ -1,0 +1,59 @@
+{
+  "L7_sizes": {
+    "sim_yl": 4200,
+    "sim_56d": 1800,
+    "novel": 3500,
+    "pan": 500
+  },
+  "L7b_delivered": {
+    "sim_yl": {
+      "n": 4198,
+      "ok": 456,
+      "soft_watch": 3742
+    },
+    "sim_56d": {
+      "n": 1800,
+      "ok": 610,
+      "soft_watch": 1190
+    },
+    "pan": {
+      "n": 300,
+      "ok": 11,
+      "soft_watch": 289
+    },
+    "novel": {
+      "n": 2245,
+      "ok": 2245,
+      "soft_watch": 0
+    }
+  },
+  "L7b_total": 8543,
+  "retention_vs_L7": {
+    "sim_yl": 1.0,
+    "sim_56d": 1.0,
+    "pan": 0.6,
+    "novel": 0.641
+  },
+  "targets": {
+    "sim_yl": 3000,
+    "sim_56d": 1200,
+    "novel": null,
+    "pan": 300
+  },
+  "caps": {
+    "sim_yl": 4200,
+    "sim_56d": 1800,
+    "novel": 3500,
+    "pan": 300
+  },
+  "novel_rule": "Step A heuristic keep==yes only; unsure held in novel_unsure_hold.csv; no discard backfill",
+  "track_id_intersections": {
+    "sim_yl∩sim_56d": 0,
+    "sim_yl∩pan": 0,
+    "sim_yl∩novel": 0,
+    "sim_56d∩pan": 0,
+    "sim_56d∩novel": 0,
+    "pan∩novel": 0
+  },
+  "note": "chemotype triage output; NOT activity hits"
+}
