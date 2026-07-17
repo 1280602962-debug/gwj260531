@@ -1,0 +1,68 @@
+{
+  "L6_counts": {
+    "in": 239990,
+    "novel": 103187,
+    "discard_other": 119536,
+    "pan": 9204,
+    "sim": 8063
+  },
+  "L6_track_sizes": {
+    "sim": 8063,
+    "novel": 103187,
+    "pan": 9204
+  },
+  "L7_requested_quotas": {
+    "sim_yl": 4200,
+    "sim_56d": 1800,
+    "novel": 3500,
+    "pan": 500
+  },
+  "L7_delivered": {
+    "sim_yl": 4200,
+    "sim_56d": 1800,
+    "novel": 3500,
+    "pan": 500
+  },
+  "L7_total": 10000,
+  "track_id_intersections": {
+    "sim_yl\u2229sim_56d": 0,
+    "sim_yl\u2229novel": 0,
+    "sim_yl\u2229pan": 0,
+    "sim_56d\u2229novel": 0,
+    "sim_56d\u2229pan": 0,
+    "novel\u2229pan": 0
+  },
+  "thresholds_used": {
+    "sim_tc_core_lo": 0.22,
+    "sim_tc_core_hi": 0.55,
+    "near_duplicate_tc_full": 0.7,
+    "novel_tc_core_max": 0.22,
+    "novel_tc_core_pref_lo": 0.08,
+    "novel_erg_min": 0.7344,
+    "novel_erg_rule": "erg_max >= p75 OR hinge_hits>=1",
+    "erg_p50": 0.6912,
+    "erg_p75": 0.7344,
+    "erg_p90": 0.767,
+    "watch_quota_frac": 0.2,
+    "quotas": {
+      "sim_yl": 4200,
+      "sim_56d": 1800,
+      "novel": 3500,
+      "pan": 500
+    },
+    "spearman_core_vs_full": {
+      "rho": 0.6625,
+      "p": 0.0
+    },
+    "jaccard_sim_core_vs_full_window": 0.2676,
+    "n_features": 239990,
+    "chosen_reason": "ARS initial window 0.22\u20130.55; ErG Novel gate at p75; confirmed by grid stability of Sim size"
+  },
+  "insufficient_fill": {
+    "sim_yl": 0,
+    "sim_56d": 0,
+    "novel": 0,
+    "pan": 0
+  },
+  "note": "Do not backfill from discard; report shortfall honestly."
+}
