@@ -1,6 +1,8 @@
 # 文章思路定稿（2026-07 修订）
 
-> **首投**：*Journal of Molecular Modeling*（Subscription / 非 OA）  
+> **首投**：*Journal of Computer-Aided Molecular Design*（Hybrid / 可选非 OA）  
+> **备选**：*Chemical Biology & Drug Design*（Wiley subscription + 可选 OA）  
+> **不推荐（当前数据包）**：*Journal of Molecular Modeling*（Aims 要求 ≥500 ns 级 MD / 多构象共识 / 商业对接 discouraged——见 `docs/paper_spine_ars_analysis/`）  
 > **定位**：痛风 URAT1–NLRP3 双节点下的 **临床库计算重定位漏斗**（假说生成，非新药发现）  
 > **主推候选**：**canagliflozin**（模块 F）  
 > **方法学案例**：**EGCG**（Pareto 盲筛 → PAINS/成药性降级）  
@@ -193,9 +195,11 @@
 
 | 优先级 | 期刊 | 理由 |
 |:---:|------|------|
-| 1 | **Journal of Molecular Modeling** | 与现稿匹配；对接+MD 案例友好；非 OA |
-| 2 | Chemical Biology & Drug Design | 疾病故事 + 重定位；可选非 OA |
-| 3 | J. Comput.-Aided Mol. Des. | 方法学漏斗叙事 |
+| 1 | **J. Comput.-Aided Mol. Des.** | 协议/回顾验证友好；Hybrid 可选非 OA；与不对称漏斗叙事匹配 |
+| 2 | Chemical Biology & Drug Design | 疾病双节点 + 重定位假说；subscription + 可选 OA |
+| 3 | J. Mol. Graph. Model. | 三级备选（Hybrid） |
+
+**暂缓**：**Journal of Molecular Modeling**——现行 Aims & Scope 对对接前 MD（≥500 ns）、≥3 构象共识、pose 稳定性（3×300 ns 或 1×500 ns）及商业对接工具有硬门槛；在仅计划 50–100 ns MD 时不宜作首投（详见 `docs/paper_spine_ars_analysis/target_journal_research.md`）。
 
 不上：JCIM / J Med Chem / Nat Commun（高度不够或需湿实验）。
 
