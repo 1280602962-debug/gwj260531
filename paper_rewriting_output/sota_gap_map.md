@@ -19,3 +19,17 @@
 2. **升级贡献候选：A** — 仅当 Layer1 库筛或 MedChem 产出 **区别于 YL5084/56d** 的新骨架/更优选择性或 developability 时，再升为文章主贡献。
 
 **明确放弃作为主贡献：D（疾病药效）**——应改写为「探针使争议场景可被提问」。
+
+---
+
+## Addendum 2026-07-17 — 对接前 Step0–7 初筛漏斗
+
+详见：`prefilter_pipeline_deep_research.md`
+
+| Candidate | SOTA 已有 | 本漏斗 | Real gap | Claim |
+|---|---|---|---|---|
+| G. ECFP+Murcko 胺→丙烯酰胺双轨 | 模块全是标配 | Step0–7 | **无方法缺口** | 低（勿作主创新） |
+| H. 经校准的 JNK2/8ELC prefilter（core-Tc+ErG/3Dpharm+反应性+UQ） | COValid/ErG/Kin-Cov 分散存在 | 尚未做 | **位点专用校准 triage** | 中（支撑 Framework） |
+| I. 选择性差分（JNK2 vs JNK1）接入枚举后分仓 | Lu MD/kinetics；少见大规模预筛 | 缺失 | **与贡献句对齐的关键缺口** | 中–高（若有数据） |
+
+**判决：** Step0–7 是工程 SOP；创新在 H/I + 湿实验，不在再写一套 Tc 阈值。
