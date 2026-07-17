@@ -186,7 +186,7 @@
 等 MD + redock
   5. Methods 2.7 + Results R6 + Fig 5–6
   6. Abstract / Discussion 定稿
-  7. 替换全部【待填】→ 投 JMM（Subscription）
+  7. 替换全部【待填】→ 投 JCAMD（Hybrid / 非 OA）
 ```
 
 ---
