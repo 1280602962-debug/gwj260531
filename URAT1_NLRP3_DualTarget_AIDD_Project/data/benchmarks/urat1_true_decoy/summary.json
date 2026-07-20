@@ -1,0 +1,128 @@
+{
+  "target": "URAT1",
+  "framing": "Gu et al. Nat Mach Intell 2025 TrueDecoy vs RandomDecoy",
+  "pactivity_min": 6.0,
+  "n_actives": 469,
+  "n_true_decoys": 6073,
+  "n_random_decoys": 6073,
+  "target_ratio": 30,
+  "achieved_true_ratio": 12.948827292110874,
+  "max_sim_to_active": 0.5,
+  "seed": 42,
+  "property_windows": {
+    "MolWt": 40.0,
+    "MolLogP": 1.0,
+    "TPSA": 25.0,
+    "NumHDonors": 1.5,
+    "NumHAcceptors": 2.5,
+    "NumRotatableBonds": 2.5
+  },
+  "relaxed_window_scale": 1.5,
+  "matching_algorithm": "round_robin_property_match_then_relaxed_1.5x",
+  "pool_source": "data/distill/distill_subset_d.csv",
+  "actives_source": "data/processed/urat1_curated.csv",
+  "n_pool_after_exclude": 8000,
+  "n_assignment_pairs": 6073,
+  "property_stats": {
+    "actives": {
+      "MolWt": {
+        "mean": 384.4944051172709,
+        "std": 52.734907032890966,
+        "median": 385.1970000000001,
+        "min": 259.33,
+        "max": 648.2000000000002
+      },
+      "MolLogP": {
+        "mean": 4.231227100213221,
+        "std": 0.953470675494225,
+        "median": 4.210560000000003,
+        "min": -2.0035999999999987,
+        "max": 6.486980000000005
+      },
+      "TPSA": {
+        "mean": 80.93848614072495,
+        "std": 20.75328628767215,
+        "median": 78.39,
+        "min": 37.3,
+        "max": 156.88
+      },
+      "NumHDonors": {
+        "mean": 1.11727078891258,
+        "std": 0.4630254327861919,
+        "median": 1.0,
+        "min": 0.0,
+        "max": 5.0
+      },
+      "NumHAcceptors": {
+        "mean": 4.268656716417911,
+        "std": 1.373018443241972,
+        "median": 4.0,
+        "min": 1.0,
+        "max": 8.0
+      },
+      "NumRotatableBonds": {
+        "mean": 4.466950959488273,
+        "std": 1.1706591912926358,
+        "median": 4.0,
+        "min": 1.0,
+        "max": 7.0
+      }
+    },
+    "true_decoys": {
+      "MolWt": {
+        "mean": 387.685355343323,
+        "std": 54.691918045704575,
+        "median": 385.5110000000002,
+        "min": 212.36199999999997,
+        "max": 499.99900000000036
+      },
+      "MolLogP": {
+        "mean": 3.1574685361435884,
+        "std": 0.990165724303027,
+        "median": 3.1457000000000006,
+        "min": -2.4857999999999945,
+        "max": 4.999020000000003
+      },
+      "TPSA": {
+        "mean": 74.84559196443273,
+        "std": 21.18932888903767,
+        "median": 73.91,
+        "min": 6.48,
+        "max": 164.73999999999998
+      },
+      "NumHDonors": {
+        "mean": 1.04561172402437,
+        "std": 0.8461773237944925,
+        "median": 1.0,
+        "min": 0.0,
+        "max": 4.0
+      },
+      "NumHAcceptors": {
+        "mean": 4.619627861024205,
+        "std": 1.5029111855909507,
+        "median": 5.0,
+        "min": 0.0,
+        "max": 10.0
+      },
+      "NumRotatableBonds": {
+        "mean": 4.87436192985345,
+        "std": 1.8556120969423588,
+        "median": 5.0,
+        "min": 0.0,
+        "max": 10.0
+      }
+    }
+  },
+  "mean_property_distance": 0.5113790706038436,
+  "actives_with_ge1_decoy": 460,
+  "decoys_per_active": {
+    "min": 1,
+    "median": 10.0,
+    "mean": 13.202173913043477,
+    "max": 30
+  },
+  "window_pass_counts": {
+    "strict": 5207,
+    "relaxed_1.5x": 866
+  }
+}

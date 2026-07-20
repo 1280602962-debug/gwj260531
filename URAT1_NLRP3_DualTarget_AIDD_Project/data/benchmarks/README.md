@@ -1,3 +1,22 @@
+# Benchmarks
+
+## URAT1 TrueDecoy enrichment set
+
+> **目录**：`urat1_true_decoy/`  
+> **脚本**：`scripts/build_urat1_true_decoy.py`  
+> **用途**：对接 / 打分富集（Gu *Nat Mach Intell* 2025 TrueDecoy vs RandomDecoy 框架）  
+> **非用途**：ML 训练负样本（decoy 为 putative inactive）
+
+| 集 | 内容（默认重建） |
+|----|------------------|
+| Actives | `pActivity ≥ 6`，n ≈ 469 |
+| TrueDecoy | 性质匹配（MW/logP/TPSA/HBD/HBA/可旋转键）+ TC≤0.5 近邻过滤 |
+| RandomDecoy | 同规模随机对照（来自 subset D） |
+
+详见 `urat1_true_decoy/README.md` 与 `summary.json`。
+
+---
+
 # Literature Benchmark 化合物库
 
 > **文件**：`literature_benchmarks.csv`（多行/多文献来源）  
