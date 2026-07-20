@@ -1,0 +1,33 @@
+# Dual-Target Docking
+
+独立课题目录：双靶/多靶小分子对接方法调研、打分融合设计、共晶编目与问答总结。  
+**与 `JNK1_Selectivity_Project/` 无关，请勿混入该目录。**
+
+## 目录结构
+
+```
+Dual_Target_Docking/
+├── README.md
+├── docs/
+│   ├── DUAL_MULTI_TARGET_DOCKING_SURVEY.md      # 文献调研
+│   ├── DUAL_TARGET_SCORING_IMPLEMENTATION.md    # 打分实现蓝图
+│   ├── DUAL_TARGET_COCRYSTAL_CATALOG_NOTES.md   # 共晶目录说明
+│   └── DUAL_TARGET_DOCKING_QA_SUMMARY.md        # 问答总结
+└── data/
+    └── dual_target_structures/
+        ├── README.md
+        └── dual_target_cocrystal_catalog.csv     # 共晶种子目录
+```
+
+## 快速入口
+
+| 文档 | 用途 |
+|------|------|
+| [问答总结](docs/DUAL_TARGET_DOCKING_QA_SUMMARY.md) | 问题诊断、创新点、指标、PROTAC 边界 |
+| [文献调研](docs/DUAL_MULTI_TARGET_DOCKING_SURVEY.md) | 方法与评价综述 |
+| [实现蓝图](docs/DUAL_TARGET_SCORING_IMPLEMENTATION.md) | 校准 + softmin + 硬负样本融合 |
+| [共晶说明](docs/DUAL_TARGET_COCRYSTAL_CATALOG_NOTES.md) | Tier / Morphy 分类要点 |
+
+## 核心结论（一句话）
+
+可发表增量在 **任务级校准与短板敏感融合**，不在再做一个通用 docking sampler；PROTAC 公开数据只验证 linked/双功能分支。
