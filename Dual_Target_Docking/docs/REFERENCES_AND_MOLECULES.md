@@ -53,6 +53,35 @@
 | R25 | *Bento: Benchmarking Classical and AI Docking on Drug Design–Relevant Data.* bioRxiv 2025/2026. | [bioRxiv 10.64898/2025.12.30.696741](https://www.biorxiv.org/content/10.64898/2025.12.30.696741v1) | 在药化更相关子集上对比经典与 AI 对接；强调药物设计相关过滤后，物理感知方法（如 Gnina）在 PB-valid 上仍有优势。 |
 | R26 | *Assessing interaction recovery of predicted protein-ligand poses.* **J. Cheminform.** 2025. | [doi:10.1186/s13321-025-01011-6](https://doi.org/10.1186/s13321-025-01011-6) | 在 PoseBusters 上增加 **PLIF（相互作用指纹）恢复率**：RMSD≤2 Å 且 PB-valid 仍可能丢关键相互作用；GOLD 等经典方法在 PLIF 上仍领先多数 ML。启发本课题用相互作用恢复作双端门控。 |
 
+### 1.5b VS 视角对接评测（**VSDS-VD 标准**及同系文献）
+
+> **漏检说明（为何上次未收录 Gu et al. 2025）：**  
+> 上一轮检索关键词偏重 `PoseBusters / CASF / DiffDock / docking RMSD`，未覆盖 `virtual screening enrichment`、`TrueDecoy`、`VSDS-VD`、`Nature Machine Intelligence docking`。该文主贡献是 **VS 富集协议 + 物理合理性联评**，而非再做一个 RMSD leaderboard，故被漏掉。以下按该文标准补全：  
+> **(i)** 再对接 RMSD；**(ii)** PoseBusters 物理合理性；**(iii)** TrueDecoy（实验活性/非活）上的 EF；**(iv)** RandomDecoy / MassiveDecoy（更接近真实库）上的 EF；**(v)** AI 对接 vs 物理对接 vs AI 重打分；**(vi)** 层级 VS 策略。
+
+| # | 文献 | 链接 | 内容简介 |
+|---|------|------|----------|
+| **R34** | **Gu S, Shen C, Zhang X et al.** *Benchmarking AI-powered docking methods from the perspective of virtual screening.* **Nat. Mach. Intell.** 2025, 7, 509–520. | [doi:10.1038/s42256-025-00993-0](https://doi.org/10.1038/s42256-025-00993-0) · [GitHub VSDS-VD](https://github.com/shukai1997/VSDS-VD) · [Zenodo 数据](https://doi.org/10.5281/zenodo.13684010) · [Zenodo 代码](https://doi.org/10.5281/zenodo.14649209) | **本系列标杆文**。构建 **VSDS-VD**：TrueDecoy / RandomDecoy / MassiveDecoy。评测 4 个 AI 对接（CarsiDock、KarmaDock、DiffDock、FlexPose）、4 个物理对接（Glide、Surflex、rDock、LeDock）、2 个 AI 重打分（RTMScore、EquiScore）。要点：① KarmaDock/CarsiDock 再对接精度常高于物理法；② 物理法 **PoseBusters 结构合理性**明显更好（CarsiDock 短板多在分子间有效性）；③ TrueDecoy 上 Glide 系 EF 最高，RTMScore 重打分有效；④ RandomDecoy（更像真实 VS）上 AI 工具明显优于 Glide；⑤ 配体后处理对构象/VS 帮助弱甚至负；⑥ 提出**层级 VS** 平衡通量与精度。双靶论文的单靶后端评测协议应直接对齐此文。 |
+| R35 | Cai H et al. **CarsiDock**: large-scale pre-training docking + screening. **Chem. Sci.** 2024. | [doi:10.1039/D3SC05552C](https://doi.org/10.1039/D3SC05552C) · [GitHub](https://github.com/carbonsilicon-ai/CarsiDock) | VSDS-VD 中精度领先的 AI 对接之一：~9M 复合物预训练 → 距离矩阵 → 几何优化构象；DEKOIS2.0 上与 RTMScore 联用早期识别强于 Glide SP。 |
+| R36 | Cao D et al. **EquiScore**: physical prior + data augmentation scoring. **Nat. Mach. Intell.** 2024. | [doi:10.1038/s42256-024-00849-z](https://doi.org/10.1038/s42256-024-00849-z) · [bioRxiv](https://www.biorxiv.org/content/10.1101/2023.06.18.545464) · [GitHub](https://github.com/CAODH/EquiScore) | VSDS-VD 重打分对照；等变异构图 + PDBscreen；在 DEKOIS2.0/DUD-E 未见蛋白上优于多种打分；对不同对接姿态的重打分稳健。 |
+| R37 | Dong T et al. **FlexPose**: equivariant flexible protein–ligand pose modeling. **J. Chem. Theory Comput.** 2023. | [doi:10.1021/acs.jctc.3c00273](https://doi.org/10.1021/acs.jctc.3c00273) · [GitHub](https://github.com/tiejundong/FlexPose) | VSDS-VD 纳入的 AI 对接之一；几何深度学习直接柔性建模结合姿态。 |
+| R38 | Zhang X et al. *Advancing ligand docking through deep learning: challenges and prospects in virtual screening.* **Acc. Chem. Res.** 2024. | [doi:10.1021/acs.accounts.4c00093](https://doi.org/10.1021/acs.accounts.4c00093) | 侯廷军组观点文：DL 对接在 VS 中的挑战（泛化、物理合理性、打分与排序脱节）与前景；与 VSDS-VD 叙事一致。 |
+| R39 | *SCORCH2*: heterogeneous consensus for high-enrichment interaction-based VS. **Adv. Sci.** 2025. | [doi:10.1002/advs.202508318](https://doi.org/10.1002/advs.202508318) · [bioRxiv](https://www.biorxiv.org/content/10.1101/2025.03.31.646332) | 在 **VSDS-vd TrueDecoy** 等上评测的共识重打分；强调相互作用特征与早期富集；与 RTMScore 并列提升 EF。 |
+| R40 | *PoseX*: self-docking + **cross-docking** open benchmark（23 方法）. | [arXiv:2505.01700](https://arxiv.org/abs/2505.01700) · [GitHub](https://github.com/CataAI/PoseX) | 718 self + 1312 cross；物理 / AI docking / co-folding；强调松弛后处理可大幅消除 AI clash；口袋指定显著提升。补强 VSDS-VD 未充分展开的**交叉对接**维度。 |
+| R41 | *UniDock-Pro*: GPU 高通量 SBVS/LBVS/hybrid VS. **JCIM** 2025/2026. | [doi:10.1021/acs.jcim.5c02587](https://doi.org/10.1021/acs.jcim.5c02587) | 在 DUDE-Z 与 **VSDS-vd TrueDecoy** 上报告早期富集；代表工程化高通量 VS 平台对照。 |
+| R42 | Mysinger et al. **DUD-E**；Bauer et al. **DEKOIS 2.0**；Tran-Nguyen et al. **LIT-PCBA**；Stein et al. property-unmatched decoys. | [DUD-E 10.1021/jm300687e](https://doi.org/10.1021/jm300687e) · [DEKOIS2.0 10.1021/ci400115b](https://doi.org/10.1021/ci400115b) · [LIT-PCBA 10.1021/acs.jcim.0c00155](https://doi.org/10.1021/acs.jcim.0c00155) · [property-unmatched 10.1021/acs.jcim.0c00598](https://doi.org/10.1021/acs.jcim.0c00598) | VSDS-VD 之前的经典 VS 基准；注意 **DUD-E 隐藏偏差**（Chen et al. *PLoS ONE* 2019, [10.1371/journal.pone.0220113](https://doi.org/10.1371/journal.pone.0220113)）与 Sieg et al. bias control（[10.1021/acs.jcim.8b00712](https://doi.org/10.1021/acs.jcim.8b00712)）。TrueDecoy/RandomDecoy 正是为更贴近真实 VS、降低误导性 EF 而设计。 |
+
+**按 VSDS-VD 标准写本课题评测时的最小清单：**
+
+| 维度 | 指标 | 说明 |
+|------|------|------|
+| 姿态精度 | RMSD ≤ 2 Å success | 双靶则两端分别报告 |
+| 物理合理性 | PoseBusters PB-valid | AI 对接必报；不可只报 RMSD |
+| 严格 VS | TrueDecoy 类：实验活性 vs 实验非活 | EF@0.5/1/5%、AUROC/BEDROC |
+| 真实库 VS | RandomDecoy / 商用库随机负例 | 与 TrueDecoy 结论可能**相反**（VSDS-VD 已证明） |
+| 协议消融 | 对接原生分 vs RTMScore/EquiScore 重打分 | 采样与打分解耦 |
+| 策略 | 层级筛选（快 AI → 物理/重打分精筛） | 大规模库实用路径 |
+
 ### 1.6 生成式双靶（前沿算法）
 
 | # | 文献 | 链接 | 内容简介 |
@@ -87,10 +116,11 @@
 
 ### 1.9 对本课题的直接启示（对接算法 / benchmark 更新后）
 
-1. **单靶引擎选型**：优先 Vina / **GNINA** / **RTMScore（重打分）**；DiffDock-L 可作采样对照，但必须过 PoseBusters / PLIF 门控。  
-2. **评价协议**：RMSD + **PB-valid** +（可选）相互作用恢复；双靶再叠加 dual-vs-single 与短板敏感融合。  
-3. **不要**把再训通用 pose scorer 当主创新；文献已在 CASF / PoseBusters / DUDE-Z 上高度内卷。  
-4. **可发表空白仍在任务层**：跨靶校准、阈值-边距 softmin、硬负样本、类型条件融合——可用上述新引擎作可插拔后端。
+1. **单靶引擎选型**：优先 Vina / **GNINA** / **RTMScore（重打分）**；DiffDock-L / CarsiDock / KarmaDock 可作采样对照，但必须过 PoseBusters / PLIF 门控。  
+2. **评价协议（对齐 VSDS-VD）**：RMSD + **PB-valid** + TrueDecoy 式 EF + RandomDecoy 式 EF；双靶再叠加 dual-vs-single 与短板敏感融合。**不要只在一种 decoy 设定上宣称 VS 优势。**  
+3. **不要**把再训通用 pose scorer 当主创新；CASF / PoseBusters / VSDS-VD / DUDE-Z 上单靶打分已高度内卷。  
+4. **可发表空白仍在任务层**：跨靶校准、阈值-边距 softmin、硬负样本、类型条件融合——可用上述新引擎作可插拔后端。  
+5. **层级 VS**：大规模筛选可走「快 AI 对接 → RTMScore/EquiScore 重打分 → 物理法精筛」；双靶版应对两端分别过阈值后再融合。
 
 ---
 
@@ -271,6 +301,21 @@
 - https://zenodo.org/records/10656052  
 - https://www.biorxiv.org/content/10.64898/2025.12.30.696741v1  
 - https://doi.org/10.1186/s13321-025-01011-6  
+- https://doi.org/10.1038/s42256-025-00993-0  
+- https://github.com/shukai1997/VSDS-VD  
+- https://doi.org/10.5281/zenodo.13684010  
+- https://doi.org/10.5281/zenodo.14649209  
+- https://doi.org/10.1039/D3SC05552C  
+- https://doi.org/10.1038/s42256-024-00849-z  
+- https://doi.org/10.1021/acs.jctc.3c00273  
+- https://doi.org/10.1021/acs.accounts.3c00750  
+- https://doi.org/10.1002/advs.202508318  
+- https://arxiv.org/abs/2505.01700  
+- https://doi.org/10.1021/acs.jcim.5c02587  
+- https://doi.org/10.1021/jm300687e  
+- https://doi.org/10.1021/ci400115b  
+- https://doi.org/10.1021/acs.jcim.0c00155  
+- https://doi.org/10.1371/journal.pone.0220113  
 - https://arxiv.org/abs/2410.20688  
 - https://arxiv.org/abs/2603.05567  
 
@@ -296,6 +341,10 @@
 - https://github.com/sc8668/RTMScore  
 - https://github.com/sc8668/GenScore  
 - https://github.com/schrojunzhang/KarmaDock  
+- https://github.com/carbonsilicon-ai/CarsiDock  
+- https://github.com/CAODH/EquiScore  
+- https://github.com/tiejundong/FlexPose  
+- https://github.com/CataAI/PoseX  
 - https://github.com/BioinfoMachineLearning/PoseBench  
 - https://posebusters.readthedocs.io/  
 
