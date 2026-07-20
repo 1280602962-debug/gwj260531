@@ -38,13 +38,20 @@
 | R10 | *Combining Data-Driven and Structure-Based Approaches in Designing Dual PARP1–BRD4 Inhibitors.* **JCIM** 2024. | [doi:10.1021/acs.jcim.4c01421](https://doi.org/10.1021/acs.jcim.4c01421) | PARP1–BRD4 双抑制剂：数据驱动 + 结构方法；明确主张优先 **merged 公共药效团** 而非简单 linking（linking 易抬高 MW/logP），并用对接优先筛选，有实验双靶活性分子。 |
 | R11 | CDK4/6–芳香化酶双抑制剂虚拟筛选案例（*Molecules* 等，2023 前后）. | 见调研文 Related Work；检索关键词 `CDK4/6 aromatase dual inhibitor docking` | 合并药效团/对接的双靶 VS 案例，说明 merged 路线在激酶–酶异构对上的常见写法。 |
 
-### 1.5 评价基准与共识打分
+### 1.5 评价基准、物理合理性与共识打分（含近年更新）
 
 | # | 文献 | 链接 | 内容简介 |
 |---|------|------|----------|
-| R12 | Li Y et al. **CASF** 系列（如 CASF-2016）：scoring / ranking / docking / screening power. | [CASF-2016 doi:10.1021/acs.jcim.7b00650](https://doi.org/10.1021/acs.jcim.7b00650) · [CASF 主页](http://www.pdbbind.org.cn/casf.php) | 单靶打分函数标准评测协议。双靶研究可迁移其组件指标（姿态成功率、排序、富集），但**尚无**官方“双靶 CASF”。 |
+| R12 | Su M et al. *Comparative Assessment of Scoring Functions: The CASF-2016 Update.* **JCIM** 2019. | [doi:10.1021/acs.jcim.8b00545](https://doi.org/10.1021/acs.jcim.8b00545) · [CASF 主页](http://www.pdbbind.org.cn/casf.php) | **CASF-2016**：scoring / ranking / docking / screening power 四维评测；285 高质量复合物。双靶研究可迁移组件指标，但**尚无**官方“双靶 CASF”。 |
+| R12b | Li Y et al. *Assessing protein–ligand interaction scoring functions with the CASF-2013 benchmark.* **Nat. Protoc.** 2018. | [doi:10.1038/nprot.2017.114](https://doi.org/10.1038/nprot.2017.114) | CASF-2013 操作协议：如何按统一脚本评测打分函数；写方法学 Methods 时的标准引用。 |
 | R13 | Ericksen SS et al. *Machine Learning Consensus Scoring Improves Performance Across Targets.* **JCIM** 2017. | [doi:10.1021/acs.jcim.7b00153](https://doi.org/10.1021/acs.jcim.7b00153) | 机器学习共识打分提升结构基 VS 跨靶稳健性；可嵌入双靶流水线的单靶侧打分层。 |
 | R14 | Consensus docking 综述 / 调查（多程序降低靶点依赖方差）. | [PMC9821981](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9821981/) | 共识对接降低单程序偏差；双靶场景可对每个靶做多引擎共识后再跨靶融合。 |
+| R21 | Buttenschoen M et al. *PoseBusters: AI-based docking methods fail to generate physically valid poses or generalise to novel sequences.* **Chem. Sci.** 2024. | [doi:10.1039/D3SC04185A](https://doi.org/10.1039/D3SC04185A) · [arXiv:2308.05777](https://arxiv.org/abs/2308.05777) · [文档](https://posebusters.readthedocs.io/) | **关键现代对接评测**：在 Astex Diverse + 2021 后 PoseBusters Benchmark（~308）上对比 DiffDock/EquiBind/TankBind/Uni-Mol 与 Vina/GOLD。结论：仅看 RMSD 不够；加入**物理合理性（PB-valid）**后，经典对接仍更稳，多数 DL 方法在未见复合物上有效预测少。本课题姿态门控应参考 PB 检查。 |
+| R22 | Harris C et al. *Benchmarking Generated Poses: How Rational is Structure-based Drug Design with Generative Models?*（PoseCheck）. | [arXiv:2308.07413](https://arxiv.org/abs/2308.07413) · [GitHub](https://github.com/cch1999/posecheck) | **PoseCheck**：评测生成式 SBDD 姿态的应变能、蛋白–配体 clash、相互作用；显示许多生成模型姿态“看起来对”但物理不合理，常需最小化/重对接。与 PoseBusters 互补。 |
+| R23 | Morehead A et al. *Assessing the potential of deep learning for protein-ligand docking*（**PoseBench**）. | [arXiv:2405.14108](https://arxiv.org/abs/2405.14108) · [GitHub](https://github.com/BioinfoMachineLearning/PoseBench) | 综合 benchmark：apo→holo、盲对接、多配体；对比 Vina、DiffDock、DynamicBind、NeuralPLexer、AF3/Chai/Boltz 等。结论：co-folding 整体更强，但对新颖姿态仍困难；强调化学特异性与结构精度的权衡。含 DockGen-E 扩展。 |
+| R24 | Corso G et al. **DockGen**（随 DiffDock-L / BindingMOAD 推广）：未见口袋泛化测试集. | [Zenodo DockGen](https://zenodo.org/records/10656052) · 见 DiffDock 仓库说明 | 强调训练/测试口袋不重叠的泛化评测；近年 PocketVina、PoseBench、Bento 等均引用。双靶论文写“泛化”时应避免仅用同源口袋。 |
+| R25 | *Bento: Benchmarking Classical and AI Docking on Drug Design–Relevant Data.* bioRxiv 2025/2026. | [bioRxiv 10.64898/2025.12.30.696741](https://www.biorxiv.org/content/10.64898/2025.12.30.696741v1) | 在药化更相关子集上对比经典与 AI 对接；强调药物设计相关过滤后，物理感知方法（如 Gnina）在 PB-valid 上仍有优势。 |
+| R26 | *Assessing interaction recovery of predicted protein-ligand poses.* **J. Cheminform.** 2025. | [doi:10.1186/s13321-025-01011-6](https://doi.org/10.1186/s13321-025-01011-6) | 在 PoseBusters 上增加 **PLIF（相互作用指纹）恢复率**：RMSD≤2 Å 且 PB-valid 仍可能丢关键相互作用；GOLD 等经典方法在 PLIF 上仍领先多数 ML。启发本课题用相互作用恢复作双端门控。 |
 
 ### 1.6 生成式双靶（前沿算法）
 
@@ -53,14 +60,23 @@
 | R15 | DualDiff / CompDiff. *Reprogramming Pretrained Target-Specific Diffusion Models for Dual-Target Drug Design.* **NeurIPS** 2024. | [arXiv:2410.20688](https://arxiv.org/abs/2410.20688) | 将单靶扩散模型重编程到双靶：口袋对齐策略（center / RMSD-anchor / score-anchor）；评估用 P1/P2 Vina、**Max Vina**、Dual High Affinity、双姿态 RMSD 等。偏生成，指标可借鉴。 |
 | R16 | FuseDiff. *Symmetry-Preserving Joint Diffusion for Dual-Target Structure-Based Drug Design.* | [arXiv:2603.05567](https://arxiv.org/abs/2603.05567) | 对称保持的联合扩散双靶 SBDD；与 DualDiff 同属生成式前沿，非本课题首选落地路径。 |
 
-### 1.7 讨论中提及的单靶深度打分（对比用，非双靶专用）
+### 1.7 新对接算法与单靶打分（引擎候选 / 对照，非双靶专用）
 
 | # | 文献 / 工具 | 链接 | 内容简介 |
 |---|-------------|------|----------|
-| R17 | OnionNet / OnionNet-2（蛋白–配体亲和力 CNN） | 检索 [OnionNet protein-ligand](https://pubmed.ncbi.nlm.nih.gov/?term=OnionNet+protein-ligand) | 基于旋转对称壳层特征的亲和力预测；可作为单靶侧 scorer 候选，但**不是**双靶融合方法本身。 |
-| R18 | DeepRMSD / SFCT 等姿态质量相关方法 | 检索对应关键词 | 偏姿态质量/打分校正；本课题建议作门控特征，而非主创新。 |
-| R19 | GNINA（CNN 辅助对接） | [github.com/gnina/gnina](https://github.com/gnina/gnina) | Vina 系采样 + CNN 亲和/姿态分；推荐作为可插拔引擎。 |
-| R20 | RTMScore 等现代结构基打分 | 检索 `RTMScore docking` | 可用于单靶侧替换/对照；创新仍在跨靶融合。 |
+| R17 | Zheng L et al. *OnionNet-2: … Residue-Atom Contacting Shells.* **Front. Chem.** 2021. | [doi:10.3389/fchem.2021.753002](https://doi.org/10.3389/fchem.2021.753002) | 残基–原子多层壳接触 CNN 预测亲和力；CASF-2016 上 Pearson r≈0.86。可作单靶侧亲和 scorer，**不是**双靶融合方法。 |
+| R18 | Wang Z et al. *DeepRMSD+Vina*：可微姿态优化框架. **Brief. Bioinform.** 2023. | [doi:10.1093/bib/bbac520](https://doi.org/10.1093/bib/bbac520) · [arXiv:2206.13345](https://arxiv.org/abs/2206.13345) | MLP 预测姿态 RMSD 并与 Vina 混合；CASF-2016 docking power 很高。适合作**姿态质量门控/重打分**，非主创新点。 |
+| R19 | McNutt A et al. *GNINA 1.0: molecular docking with deep learning.* **J. Cheminform.** 2021. | [doi:10.1186/s13321-021-00522-2](https://doi.org/10.1186/s13321-021-00522-2) · [GitHub](https://github.com/gnina/gnina) | Vina/Smina 采样 + CNN 姿态/亲和重打分；再对接与交叉对接均优于纯 Vina。**推荐可插拔引擎。** |
+| R19b | McNutt A et al. *GNINA 1.3: the next increment…* **J. Cheminform.** 2025. | [doi:10.1186/s13321-025-00973-x](https://doi.org/10.1186/s13321-025-00973-x) · [PMC11874439](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11874439/) | GNINA 后续版本与默认 CNN 集成更新；CACHE 挑战等应用见配套文。 |
+| R20 | Shen C et al. **RTMScore**：residue–atom 距离似然 + Graph Transformer. **J. Med. Chem.** 2022. | [doi:10.1021/acs.jmedchem.2c00991](https://doi.org/10.1021/acs.jmedchem.2c00991) · [GitHub](https://github.com/sc8668/RTMScore) | CASF-2016 上 docking/screening power 突出；可作交叉对接与大规模 VS 重打分。本课题推荐单靶侧对照 scorer。 |
+| R20b | Shen C et al. **GenScore**：广义蛋白–配体打分框架（RTMScore 扩展）. **Chem. Sci.** 2023. | [doi:10.1039/D3SC02044D](https://doi.org/10.1039/D3SC02044D) · [GitHub](https://github.com/sc8668/GenScore) | 在 scoring/ranking/docking/screening 间更均衡；适合与 RTMScore 并列作消融。 |
+| R27 | Corso G et al. *DiffDock: Diffusion Steps, Twists, and Turns for Molecular Docking.* **ICLR** 2023. | [arXiv:2210.01776](https://arxiv.org/abs/2210.01776) · [GitHub](https://github.com/gcorso/DiffDock) | 将对接建模为配体姿态流形上的扩散生成；PDBBind 上 top-1 RMSD\<2 Å 显著高于当时回归式 DL 与部分经典法；提供置信度。后续 PoseBusters 显示物理有效性仍不足，宜与经典/重打分配套。 |
+| R28 | Zhang X et al. *KarmaDock: … ultra-large library docking.* **Nat. Comput. Sci.** 2023. | [doi:10.1038/s43588-023-00511-5](https://doi.org/10.1038/s43588-023-00511-5) · [GitHub](https://github.com/schrojunzhang/KarmaDock) | EGNN 姿态生成/校正 + MDN 结合强度估计；面向超大库 VS，有实验验证案例。可作吞吐对照。 |
+| R29 | Cao D et al. *SurfDock is a surface-informed diffusion generative model…* **Nat. Methods** 2025. | [doi:10.1038/s41592-024-02516-y](https://doi.org/10.1038/s41592-024-02516-y) | 表面信息引导的扩散对接/复合物预测；代表最新生成式对接方向之一。 |
+| R30 | Wang Z et al. **IGModel**：几何 GNN 同时预测姿态 RMSD 与 pKd. **Brief. Bioinform.** 2024. | [doi:10.1093/bib/bbae145](https://doi.org/10.1093/bib/bbae145) · [bioRxiv](https://doi.org/10.1101/2023.11.01.565115) · [GitHub](https://github.com/zchwang/IGModel) | CASF-2016 docking power 极高；交叉对接与 AF2 结构上表现稳健。适合姿态排序/门控。 |
+| R31 | *Integrating ML-Based Pose Sampling with Established Scoring Functions for VS.* **JCIM** 2025. | [doi:10.1021/acs.jcim.5c00380](https://doi.org/10.1021/acs.jcim.5c00380) · [PMC12117556](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12117556/) | **DiffDock-L 采样 + Vina/GNINA/RTMScore 打分** 在 DUDE-Z 上的 VS 评估：采样与打分解耦；打分函数选择强烈影响 VS 成败。与本课题“引擎可插拔 + 融合头”高度同构（单靶版）。 |
+| R32 | *CompassDock / Compass*：PoseCheck + AA-Score 综合评估与微调. | [arXiv:2406.06841](https://arxiv.org/abs/2406.06841) | 将物理/化学检查与亲和经验分统一进 DiffDock 推理与微调；强调仅 RMSD 不够。 |
+| R33 | *PocketVina*：多口袋条件 + 搜索式物理有效对接. | [arXiv:2506.20043](https://arxiv.org/abs/2506.20043) | 口袋预测 + 系统多口袋搜索；在 PoseBusters/DockGen/Astex 等上强调 **PB-valid** 成功率；无需任务特异训练，适合大规模筛选对照。 |
 
 ### 1.8 调研流程工具（非学术论文）
 
@@ -68,6 +84,13 @@
 |---|------|------|------|
 | T01 | PaperSpine | [github.com/WUBING2023/PaperSpine](https://github.com/WUBING2023/PaperSpine) | 研究问题结构化、SOTA gap、证据分层 |
 | T02 | ACS Writer v2 | [github.com/Caosmart1979/acs-writer-v2](https://github.com/Caosmart1979/acs-writer-v2) | 文献探索与方法学评价工作流 |
+
+### 1.9 对本课题的直接启示（对接算法 / benchmark 更新后）
+
+1. **单靶引擎选型**：优先 Vina / **GNINA** / **RTMScore（重打分）**；DiffDock-L 可作采样对照，但必须过 PoseBusters / PLIF 门控。  
+2. **评价协议**：RMSD + **PB-valid** +（可选）相互作用恢复；双靶再叠加 dual-vs-single 与短板敏感融合。  
+3. **不要**把再训通用 pose scorer 当主创新；文献已在 CASF / PoseBusters / DUDE-Z 上高度内卷。  
+4. **可发表空白仍在任务层**：跨靶校准、阈值-边距 softmin、硬负样本、类型条件融合——可用上述新引擎作可插拔后端。
 
 ---
 
@@ -237,11 +260,44 @@
 - https://doi.org/10.2147/DDDT.S194276  
 - https://doi.org/10.3389/fchem.2020.00142  
 - https://doi.org/10.1021/acs.jcim.4c01421  
-- https://doi.org/10.1021/acs.jcim.7b00650  
+- https://doi.org/10.1021/acs.jcim.8b00545  
+- https://doi.org/10.1038/nprot.2017.114  
 - https://doi.org/10.1021/acs.jcim.7b00153  
 - https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9821981/  
+- https://doi.org/10.1039/D3SC04185A  
+- https://arxiv.org/abs/2308.05777  
+- https://arxiv.org/abs/2308.07413  
+- https://arxiv.org/abs/2405.14108  
+- https://zenodo.org/records/10656052  
+- https://www.biorxiv.org/content/10.64898/2025.12.30.696741v1  
+- https://doi.org/10.1186/s13321-025-01011-6  
 - https://arxiv.org/abs/2410.20688  
 - https://arxiv.org/abs/2603.05567  
+
+### 对接算法 / 打分（近年补充）
+
+- https://doi.org/10.3389/fchem.2021.753002  
+- https://doi.org/10.1093/bib/bbac520  
+- https://arxiv.org/abs/2206.13345  
+- https://doi.org/10.1186/s13321-021-00522-2  
+- https://doi.org/10.1186/s13321-025-00973-x  
+- https://doi.org/10.1021/acs.jmedchem.2c00991  
+- https://doi.org/10.1039/D3SC02044D  
+- https://arxiv.org/abs/2210.01776  
+- https://doi.org/10.1038/s43588-023-00511-5  
+- https://doi.org/10.1038/s41592-024-02516-y  
+- https://doi.org/10.1093/bib/bbae145  
+- https://doi.org/10.1101/2023.11.01.565115  
+- https://doi.org/10.1021/acs.jcim.5c00380  
+- https://arxiv.org/abs/2406.06841  
+- https://arxiv.org/abs/2506.20043  
+- https://github.com/gnina/gnina  
+- https://github.com/gcorso/DiffDock  
+- https://github.com/sc8668/RTMScore  
+- https://github.com/sc8668/GenScore  
+- https://github.com/schrojunzhang/KarmaDock  
+- https://github.com/BioinfoMachineLearning/PoseBench  
+- https://posebusters.readthedocs.io/  
 
 ### 分子/结构文献 DOI
 
