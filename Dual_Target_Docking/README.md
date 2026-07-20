@@ -12,7 +12,8 @@ Dual_Target_Docking/
 │   ├── DUAL_MULTI_TARGET_DOCKING_SURVEY.md      # 文献调研
 │   ├── DUAL_TARGET_SCORING_IMPLEMENTATION.md    # 打分实现蓝图
 │   ├── DUAL_TARGET_COCRYSTAL_CATALOG_NOTES.md   # 共晶目录说明
-│   └── DUAL_TARGET_DOCKING_QA_SUMMARY.md        # 问答总结
+│   ├── DUAL_TARGET_DOCKING_QA_SUMMARY.md        # 问答总结
+│   └── REFERENCES_AND_MOLECULES.md              # 文献链接 + 双靶分子总表
 └── data/
     └── dual_target_structures/
         ├── README.md
@@ -23,6 +24,7 @@ Dual_Target_Docking/
 
 | 文档 | 用途 |
 |------|------|
+| [文献与分子总表](docs/REFERENCES_AND_MOLECULES.md) | 全部参考文献链接、文章简介、双靶分子/PDB 信息 |
 | [问答总结](docs/DUAL_TARGET_DOCKING_QA_SUMMARY.md) | 问题诊断、创新点、指标、PROTAC 边界 |
 | [文献调研](docs/DUAL_MULTI_TARGET_DOCKING_SURVEY.md) | 方法与评价综述 |
 | [实现蓝图](docs/DUAL_TARGET_SCORING_IMPLEMENTATION.md) | 校准 + softmin + 硬负样本融合 |
