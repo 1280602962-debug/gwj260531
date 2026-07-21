@@ -1,202 +1,156 @@
-# Methods 正文草稿（中文）
+# 2 材料与方法
 
-> 接引言 [`INTRO_DRAFT_CN.md`](INTRO_DRAFT_CN.md)。只写设计与操作；协议胜出结果、富集终值与候选名单写入 Results。  
-> 作者备忘（勿进投稿正文）：先验三阶段、勿写换方法日记；旧 Glide 稿见 `MANUSCRIPT_DRAFT_CN.md`（已过时）。
+## 2.1 研究设计
 
----
-
-## 2.1 总体设计
-
-本研究将计算流程预先划分为三个衔接阶段，并在分析开始前固定各阶段的判定规则。
-
-第一阶段为对接协议筛选。以 URAT1 的 inward-open 结构（PDB 9DKB）为受体，分别构建性质匹配的 TrueDecoy 基准与等量随机的 RandomDecoy 对照；在预先定义的开源对接与重打分协议集合上计算富集及已知尿酸药回收，按下文“协议选优规则”选定用于后续生产排序的协议，记为 \(\Pi^{\ast}\)。
-
-第二阶段为不对称临床库漏斗。对 ChEMBL 临床阶段化合物库，先由 NLRP3 分类模型给出活性概率并按预设阈值缩库；对进入对接池的分子，在 9DKB 与 NLRP3 NACHT 结构（PDB 7ALV）上按 \(\Pi^{\ast}\) 计算双靶对接分，再转换为池内百分位得分 \(S_{U}\) 与 \(S_{N}\)，据此求 Pareto 非支配前沿。
-
-第三阶段为成药性审计与提名。对合并结果施加结构警报、类药性、化学适用域及模型稳健性检查。Pareto 前沿命中不自动等于最终提名：仅通过过滤器的分子进入假说短名单。
-
-URAT1 回归模型仅用于基准回收对照。若其对已知尿酸药的回收未达到预设门槛，则不参与第二阶段的临床库主排序。全文对接相关分数只用于同一配体池内的相对比较，不换算为实验亲和力。
-
----
+本研究的总体流程如图 1 所示。鉴于 URAT1 与 NLRP3 的数据基础不同，两类证据在筛选流程中承担不同功能：NLRP3 分类模型用于缩小临床化合物库，URAT1 则主要依靠结构对接完成排序。为避免临床库中的候选身份影响对接方法的选择，我们先在 URAT1 活性物–诱饵基准上比较不同搜索与打分组合；协议选优不使用临床库排名结果，并在解释临床库筛选结果之前完成。随后，NLRP3 模型筛得的分子分别对接至 URAT1 和 NLRP3，所得结构分与 NLRP3 模型分统一转换为候选集合内的百分位，再进行 Pareto 非支配分析。最后，对 Pareto 前沿进行化学适用域分析，并对前沿分子及双轴高分候选开展结构警报、类药性和排序敏感性审计，以区分数学意义上的非支配分子和具有较高跟进优先级的候选。URAT1 回归模型仅作为对照，不参与临床库的主要排序。
 
 ## 2.2 数据来源与分子预处理
 
-URAT1 活性记录取自 ChEMBL。清洗关系符、统一浓度单位并按分子聚合后，以负对数形式定义活性：
+URAT1 与 NLRP3 活性记录均取自 ChEMBL。URAT1 数据仅保留标准关系符为“=”且具有有效 SMILES 的记录。优先采用 ChEMBL 提供的 pChEMBL 值；当该值缺失且标准值为正、单位为 nM 或 µM 时，先换算为摩尔浓度，再按式（1）计算：
 
 \[
-\mathrm{pActivity}=9-\log_{10}(\mathrm{IC}_{50,\mathrm{nM}}).
+\mathrm{pActivity}=-\log_{10}C ,
+\tag{1}
 \]
 
-若原始单位为微摩尔，则等价采用 \(\mathrm{pActivity}=6-\log_{10}(\mathrm{IC}_{50,\mu\mathrm{M}})\)。TrueDecoy 活性集默认取 \(\mathrm{pActivity}\ge 6\)。
+其中，\(C\) 为以 mol/L 表示的标准活性浓度；若原始单位为 nM，则 \(\mathrm{pActivity}=9-\log_{10}C_{\mathrm{nM}}\)。活性值限定在 4–10 之间。重复记录先在来源 SMILES 层面聚合：标准差超过 0.5 或极差超过 1.0 个对数单位的记录组被视为测定冲突并剔除，其余记录取中位数；随后进行结构规范化并按规范 SMILES 去重。清洗后得到 822 个 URAT1 化合物和 218 个 Bemis–Murcko 骨架。
 
-NLRP3 训练表由多 assay 条件下的分类标签构建。临床重定位库由 ChEMBL 临床阶段小分子整理得到（\(n=8319\)）。诱饵候选池取自蒸馏子集中的未标记多样性分子。全部结构经 RDKit 解析、消毒并转为规范 SMILES；化学骨架按 Bemis–Murcko 定义。
+NLRP3 数据保留 assay 描述中含字符串“IL-1”、ChEMBL assay 类型为 B、标准关系符为“=”且 pChEMBL 值位于 4–10 的记录。仅纳入至少包含 5 个化合物的 assay，并以 \(\mathrm{pActivity}\ge6\) 定义活性。该数据集包含 609 条 assay–分子记录、513 个唯一化合物和 39 个 assay。全部 assay 标识在建模过程中保留。URAT1 与 NLRP3 清洗数据之间不存在相同的规范 SMILES，因而未构建共享训练集或多任务模型。
 
----
+临床重定位库由 ChEMBL 临床阶段导出集及一级、二级 ATC 导出集合并获得。结构去盐后保留重原子数最多的片段，并排除蛋白质、肽、寡核苷酸和抗体等非小分子实体。分子量过滤范围为 150–800 Da；若 ChEMBL 导出表提供分子量，则优先采用该值，否则根据标准化结构计算。通过 RDKit 消毒的结构转为规范 SMILES，并按 InChIKey 第一段去重。已知对照药若未出现在导出集中，则作为基准分子补入。最终临床库包含 8,319 个唯一小分子。
 
-## 2.3 TrueDecoy 与 RandomDecoy 基准
+## 2.3 URAT1 活性物–诱饵基准
 
-以 URAT1 活性分子集合 \(\mathcal{A}\) 为锚，从诱饵池中筛选性质匹配负样本。描述符集合取
+URAT1 活性基准由清洗数据中 \(\mathrm{pActivity}\ge6\) 的分子组成。诱饵候选取自蒸馏子集 D，并排除 URAT1 活性集、蒸馏子集 A 和文献对照药中已经出现的结构。TrueDecoy 根据分子量、\(\log P\)、拓扑极性表面积、氢键供体数、氢键受体数和可旋转键数进行性质匹配。对活性分子 \(a\) 与候选诱饵 \(x\)，归一化性质距离定义为
 
 \[
-\mathcal{D}=\{\mathrm{MW},\,\log P,\,\mathrm{TPSA},\,\mathrm{HBD},\,\mathrm{HBA},\,\mathrm{NRot}\},
+d(a,x)=
+\sqrt{
+\frac{1}{|\mathcal D|}
+\sum_{k\in\mathcal D}
+\left(\frac{a_k-x_k}{w_k}\right)^2
+},
+\tag{2}
 \]
 
-各描述符给定窗口半宽 \(w_{d}\)（默认：分子量 \(\pm 40\)，\(\log P\pm 1\)，拓扑极性表面积 \(\pm 25\)，氢键供体 \(\pm 1\)，氢键受体 \(\pm 2\)，可旋转键 \(\pm 2\)）。候选诱饵 \(x\) 须对全部 \(d\in\mathcal{D}\) 满足 \(|a_{d}-x_{d}|\le w_{d}\)。性质接近程度用归一化欧氏距离衡量：
+其中，\(\mathcal D\) 表示六项描述符的集合，严格匹配窗口 \(w_k\) 依次为 40 Da、1.0、25 Å\(^2\)、1.5、2.5 和 2.5。后三项描述符为整数，因此对应的实际允许差值分别不超过 1、2 和 2。为降低近邻活性类似物被误作诱饵的风险，以半径为 2、长度为 2,048 位的 Morgan 指纹计算候选分子相对全部活性分子的最大 Tanimoto 相似度：
 
 \[
-d(a,x)=\sqrt{\frac{1}{|\mathcal{D}|}\sum_{d\in\mathcal{D}}\left(\frac{a_{d}-x_{d}}{w_{d}}\right)^{2}}.
+\mathrm{TC}_{\max}(x)=
+\max_{a\in\mathcal A}
+\mathrm{Tanimoto}\!\left[fp(x),fp(a)\right],
+\qquad
+\mathrm{TC}_{\max}(x)\le0.50 .
+\tag{3}
 \]
 
-同时要求 Morgan 指纹（半径 2）相对活性集的最大 Tanimoto 相似度
+诱饵采用不重复的 round-robin 方式分配，使活性分子依次获得候选；每次从性质距离最近的 20 个合格分子中随机抽取 1 个，以减少确定性贪心匹配造成的结构集中。目标活性物–诱饵比例为 1:30；严格窗口不足时，使用 \(1.5w_k\) 补充匹配，随机种子固定为 42。最终共有 469 个活性分子和 6,073 个 TrueDecoy，其中 460 个活性分子获得至少 1 个匹配诱饵，实际比例为 1:12.95。
+
+RandomDecoy 与 TrueDecoy 共用同一批活性分子。其负样本从同一原始候选池中等量随机抽取，不施加性质窗口或最大 Tanimoto 阈值。程序优先从未被 TrueDecoy 使用的分子中抽样；当剩余数量不足时，改从完整候选池抽样，因此两类诱饵集合允许存在重叠。RandomDecoy 用于显示负样本构建方式对表观富集的影响，主要协议判断仍以 TrueDecoy 为依据。
+
+## 2.4 NLRP3 分类模型与 URAT1 对照模型
+
+分子表示由半径为 2 的 2,048 位 Morgan 指纹与 12 个 RDKit 描述符拼接而成。描述符包括分子量、\(\log P\)、拓扑极性表面积、氢键供体数、氢键受体数、可旋转键数、环数、芳香环数、sp\(^3\) 碳比例、Bertz 复杂度、杂原子数和 QED。NLRP3 模型进一步加入出现频率最高的 25 个 assay 标识及一个“其他 assay”类别的 one-hot 编码，并采用 XGBoost 二分类器。模型包含 400 棵树，最大深度为 5，学习率为 0.05，行采样率和列采样率均为 0.8，\(L_2\) 正则化系数为 1.0。每条训练记录的权重设为其所属 assay 样本数平方根的倒数，以降低大样本 assay 的支配作用。
+
+模型性能采用 5 折 Bemis–Murcko 骨架分组交叉验证评估，同一分子的全部 assay 记录始终位于同一折。各折中拼接后的全部特征仅使用训练折拟合 StandardScaler，再将相同变换应用于测试折。交叉验证中，同一测试分子在其已有 assay 记录上的预测值取最大值，得到分子级输出。报告指标包括 AUROC、AUPRC 和前 10% 富集因子。用于临床库筛选的最终模型在完整训练记录上拟合；等渗映射使用按骨架分组划出的校准子集拟合。对于每个临床库分子，模型分别在出现频率最高的 5 个 assay 条件下计算输出，取其中最大值作为 NLRP3 分类分数 \(q_N\)。由于该分数的交叉验证聚合方式与部署时的五-assay 推理方式并不完全相同，本文将其作为相对筛选分数，而不解释为严格校准的概率。满足 \(q_N\ge0.5\) 的分子进入双靶对接池。
+
+URAT1 对照模型采用相同的分子表示和 XGBoost 回归器，在未使用 OAT 辅助迁移的条件下训练，并通过 5 折骨架分组交叉验证计算均方根误差、决定系数和 Spearman 相关系数。另以 lesinurad、benzbromarone、verinurad 和 dotinurad 进行预设命名药物的回顾性检查。由于这些分子并非全部位于训练化学空间之外，该检查仅用于评价已知药物的回收行为，不作为严格的外部验证。URAT1 回归分数未用于临床库主排序。
+
+## 2.5 受体、配体与搜索空间准备
+
+URAT1 采用与 lesinurad 复合的 inward-open 结构 9DKB，NLRP3 采用 NACHT 结构 7ALV；后者的共晶配体为 MCC950 类类似物 NP3-146。两种结构均保留 A 链，并去除结晶水、共晶配体和其他异原子。蛋白结构使用 Gemmi 提取，经 Open Babel 在 pH 7.4 条件下加氢后转换为刚性受体 PDBQT。配体由规范 SMILES 出发，使用 RDKit ETKDGv3 生成三维构象，嵌入随机种子设为 `0xC0FFEE`，随后进行最多 200 步 MMFF 几何优化，并通过 Meeko 生成 PDBQT。
+
+URAT1 搜索盒以 9DKB 共晶配体的几何中心为中心，坐标为 \((99.966,\,102.967,\,105.699)\) Å，三个方向的边长均为 22 Å。NLRP3 搜索盒以 7ALV 共晶配体为中心，坐标为 \((16.756,\,35.449,\,125.714)\) Å，三个方向的边长均为 20 Å。
+
+9DKB 中直接提取的共晶配体用于自对接。为分别评价构象生成和排序能力，报告原生排名第一构象相对晶体配体的重原子 RMSD、多构象集合中的最低 RMSD，以及 RTMScore 所选构象的 RMSD。排名第一构象的几何通过阈值设为 2.0 Å。RMSD 根据完成原子对应后的配体重原子坐标计算；构象生成能力和打分排序能力分别解释。
+
+## 2.6 对接协议评价与选择
+
+AutoDock Vina 1.2.5 以 exhaustiveness 32 运行，每个配体最多输出 9 个构象，能量窗口设为 3.0 kcal/mol。gnina 使用相同受体和搜索盒，在 CPU 模式下以 exhaustiveness 32 运行，并启用 CNN rescoring。RTMScore 用于重新评价 Vina 与 gnina 产生的构象。比较的评分指标包括 gnina CNNscore、Vina affinity、gnina CNNaffinity、gnina affinity、Vina 构象的 RTMScore，以及 gnina 构象的 RTMScore。CNNscore 作为伴随比较指标，其余五项纳入生产协议选择。
+
+为消除不同评分方向带来的混淆，全部评分先转换为“数值越高、排名越前”的统一方向。对 Vina affinity 和 gnina affinity 等低值优指标，取 \(s=-E\)；对 CNNscore、CNNaffinity 和 RTMScore 等高值优指标，直接取原始分数。后续百分位与 Pareto 分析仅针对同时具有两靶数值评分的分子进行。
+
+设基准集中共有 \(N\) 个分子，其中 \(y_i=1\) 表示活性分子，\(y_i=0\) 表示诱饵。排名前比例 \(f\) 所含分子数为 \(n_f=\max(1,\lfloor fN\rfloor)\)，富集因子定义为
 
 \[
-\mathrm{TC}_{\max}(x)=\max_{a\in\mathcal{A}}\mathrm{Tanimoto}\!\left(fp(x),fp(a)\right)\le 0.5.
+\mathrm{EF}_{f}=
+\frac{\displaystyle
+\frac{1}{n_f}\sum_{i\in\mathrm{Top}(f)}y_i}
+{\displaystyle
+\frac{1}{N}\sum_{i=1}^{N}y_i}.
+\tag{4}
 \]
 
-匹配按 round-robin 分配，避免少数活性分子垄断诱饵；若严格窗口不足，再以 \(1.5\,w_{d}\) 放宽一轮补齐。由此得到 TrueDecoy 集后，从同一诱饵池无放回抽取等量分子构成 RandomDecoy。两套基准共用同一批活性分子，仅负样本生成方式不同。
+各评分指标在 TrueDecoy 与 RandomDecoy 上分别计算 ROC-AUC、EF\(_{1\%}\) 和 EF\(_{5\%}\)。协议选择不使用临床库排名或候选身份。TrueDecoy 的 EF\(_{1\%}\) 为首要判据；结果相同时依次比较 EF\(_{5\%}\) 和 ROC-AUC。RandomDecoy 作为伴随分析，用于识别仅在容易区分的随机负样本上出现的表观优势；若主要指标仍无法区分候选协议，则比较四种已知尿酸药的排名百分位。选定后，生产协议以相同的配体准备、搜索和评分设置应用于 9DKB 与 7ALV。
 
----
+## 2.7 临床库双靶排序与 Pareto 分析
 
-## 2.4 受体与配体准备及自对接报告
-
-URAT1 对接采用 9DKB；NLRP3 对接采用 7ALV（共晶配体为 MCC950 类类似物 NP3-146）。受体去除结晶水、加氢并导出对接格式；配体经统一的三维嵌入与准备流程。搜索盒以共晶或参考配体几何中心为原点，边长约 \(22\,\text{Å}\)（以配置文件为准）。
-
-自对接以 lesinurad–9DKB 为主。对重原子坐标，均方根偏差定义为
+NLRP3 分类筛选后的分子分别在 9DKB 和 7ALV 上按选定协议对接。由于不同靶点和评分指标的原始数值不具有直接可比性，所有有效分数均在同一对接成功集合内转换为平均秩百分位。令 \(\mathrm{PR}(x_i)\) 表示 \(x_i\) 的平均秩除以有效分子数，取值范围为 0–1，并列值采用平均秩。统一为高值优方向后，三个证据分量定义为
 
 \[
-\mathrm{RMSD}=\sqrt{\frac{1}{n}\sum_{k=1}^{n}\left\|\mathbf{r}_{k}^{\mathrm{dock}}-\mathbf{r}_{k}^{\mathrm{xtal}}\right\|^{2}}.
+\begin{aligned}
+S_U(i)&=100\,\mathrm{PR}\!\left[s_U(i)\right],\\
+S_{N,\mathrm{dock}}(i)&=100\,\mathrm{PR}\!\left[s_N(i)\right],\\
+S_{N,\mathrm{ML}}(i)&=100\,\mathrm{PR}\!\left[q_N(i)\right].
+\end{aligned}
+\tag{5}
 \]
 
-预先规定报告三类数值：（1）协议原生排序第一构象（top-1）的 RMSD；（2）多构象集合中相对晶体最优构象的 RMSD；（3）RTMScore 所选构象的 RMSD。几何门控阈值取 top-1 RMSD \(\le 2\,\text{Å}\)。若 top-1 未达标而集合内存在近晶体构象，则富集结果仅解释为排序协议表现；结合模式讨论改用集合最优构象、RTMScore 选姿或晶体坐标。
-
----
-
-## 2.5 候选对接与重打分协议
-
-在同一受体、同一搜索盒与同一配体准备条件下，预先定义下列协议：
-
-| 编号 | 构象来源 | 排序读出 | 角色 |
-|------|----------|----------|------|
-| P1 | AutoDock Vina | Vina affinity | 物理基线 |
-| P2 | gnina | CNNaffinity | 主候选之一 |
-| P3 | gnina | gnina affinity（kcal/mol） | 读出对照 |
-| P4 | Vina 多构象 | RTMScore | 搜索–打分解耦 |
-| P5 | gnina 多构象 | RTMScore | 搜索–打分解耦 |
-| P0 | gnina | CNNscore | 负对照（不进入生产排序） |
-
-每个分子保留不少于 9 个结合模式。富集评估与临床库排序使用各协议定义的排序构象分数；需要讨论几何时，另行报告 RTMScore 最高构象或晶体坐标。二者在设计上分离，不以单一 top-1 同时承担“排序最优”与“几何可信”两重主张。生产路径限定为上表开源协议；不将商业对接软件分数与开源分数做绝对值混比。
-
-对接能 \(E_{\mathrm{dock}}\) 以越低越好时，统一转换为“越高越好”的排序分
+其中，\(s_U\) 和 \(s_N\) 分别表示方向统一后的 URAT1 与 NLRP3 结构评分。主分析将 NLRP3 轴定义为
 
 \[
-s=-E_{\mathrm{dock}};
+S_N(i)=
+\max\left\{
+S_{N,\mathrm{ML}}(i),
+S_{N,\mathrm{dock}}(i)
+\right\}.
+\tag{6}
 \]
 
-对 CNNaffinity 等本身越高越好的读出，直接取 \(s\) 等于该读出。
+该定义保留分类证据或结构证据较强的分子，并在后续审计中进一步标明证据来源。作为敏感性分析，另分别使用 \(S_{N,\mathrm{ML}}\) 和 \(S_{N,\mathrm{dock}}\) 构建 NLRP3 单证据轴。
 
----
-
-## 2.6 富集指标与协议选优规则
-
-设标签 \(y\in\{0,1\}\)（1 表示活性），分数 \(s\) 越高越倾向活性。对库规模 \(N\)，取排名前比例 \(f\) 的分子（\(n_{f}=\lfloor Nf\rfloor\)），富集因子为
+在同时具有两靶有效分数的集合中，同时最大化 \(S_U\) 和 \(S_N\)。若不存在另一分子 \(j\) 满足
 
 \[
-\mathrm{EF}@f=\frac{\displaystyle\frac{1}{n_{f}}\sum_{i\in\mathrm{Top}\,f}y_{i}}{\displaystyle\frac{1}{N}\sum_{i=1}^{N}y_{i}}.
+S_U(j)\ge S_U(i),\qquad
+S_N(j)\ge S_N(i),
+\tag{7}
 \]
 
-主文预设报告 \(f=0.01\) 与 \(f=0.05\)，并同时给出 ROC-AUC。
+且至少一个不等式严格成立，则分子 \(i\) 被定义为 Pareto 非支配分子。除非另有说明，Pareto 前沿不施加额外分数阈值。排序敏感性通过两轴前 1%、2%、5% 和 10% 的交集，以及双轴阈值 85、90 和 95 下的候选集合进行比较。有放回重采样仅用于描述候选集合组成对抽样的敏感性，不解释为对接评分不确定性或重复对接稳定性。
 
-选优规则在对接完成前锁定：（1）以 TrueDecoy 上的 \(\mathrm{EF}@1\%\) 为主判据，并列时依次比较 \(\mathrm{EF}@5\%\) 与 AUC；（2）若某协议在 RandomDecoy 上相对其 TrueDecoy 表现明显变差，则否决该协议；（3）仍并列时，比较 lesinurad、benzbromarone、verinurad、dotinurad 四药在排序中的百分位回收。胜出协议记为 \(\Pi^{\ast}\)，固定用于第二阶段的 URAT1 轴；NLRP3 轴采用同一开源引擎与准备流程，以保持漏斗内相对尺度一致。
+## 2.8 化学适用域、结构警报与候选提名
 
----
-
-## 2.7 NLRP3 机器学习缩库与 URAT1 对照模型
-
-构建 assay-conditioned 的 NLRP3 二分类模型。以 Murcko 骨架为分组单位，进行 5 折 GroupKFold，报告受试者工作特征曲线下面积（AUROC）与精确率–召回率曲线下面积（AUPRC）。对临床库输出
+URAT1 化学适用域以 Morgan 指纹的最近邻 Tanimoto 相似度定义。首先对 822 个 URAT1 清洗分子执行 leave-one-out 最近邻计算，并将所得分布的第 5 百分位设为阈值：
 
 \[
-P(\mathrm{active})\in[0,1],
+\theta_{\mathrm{AD}}=
+Q_{0.05}
+\left(
+\left\{
+\max_{j\ne i}
+\mathrm{TC}\!\left[fp(i),fp(j)\right]
+\right\}_{i=1}^{n}
+\right).
+\tag{8}
 \]
 
-预设阈值 \(P(\mathrm{active})\ge 0.5\) 定义对接池。
+查询分子相对 URAT1 清洗集的最大相似度不低于 \(\theta_{\mathrm{AD}}\) 时，标记为位于该参照化学空间内。另分别计算候选分子相对 URAT1 清洗集和 NLRP3 已知活性分子的最近邻相似度，用于描述化学新颖性；这些相似度不作为活性分数。
 
-同步训练 URAT1 回归模型，报告均方根误差、决定系数 \(R^{2}\) 及 Spearman 相关系数，并检查已知尿酸药基准回收。按总体设计，该回归模型不参与临床库主排序，其作用限于检验“URAT1 轴应由对接主导”的数据前提。
+药物化学审计使用 RDKit FilterCatalog 标注 PAINS-A、PAINS-B、PAINS-C、Brenk 和 NIH 结构警报，并计算分子量、cLogP、拓扑极性表面积、氢键供体数、氢键受体数和 QED。Lipinski 条件包括分子量不超过 500 Da、cLogP 不超过 5、氢键供体数不超过 5 及氢键受体数不超过 10；违反项不多于 1 项时记为通过。Veber 条件定义为可旋转键数不超过 10 且拓扑极性表面积不超过 140 Å\(^2\)。潜在胶体聚集风险采用启发式标记：cLogP 不低于 3.5、芳香环数不少于 3 且拓扑极性表面积低于 75 Å\(^2\)。结构警报用于候选降级和结果解释，不被视为实验假阳性的直接证明。
 
----
-
-## 2.8 双靶百分位得分与 Pareto 整合
-
-对接池分子在 9DKB 与 7ALV 上按 \(\Pi^{\ast}\) 对接。对池 \(\mathcal{P}\) 内对接能 \(E\)（越低越好），百分位得分定义为
+候选提名在 Pareto 分析之后独立进行。首先保留同时满足 \(S_U\ge90\) 和 \(S_N\ge90\) 的双轴高分集合；对集合内每个分子标注是否命中 PAINS 或 Brenk、是否同时通过 Lipinski 与 Veber 条件，以及 NLRP3 对接百分位是否达到 90。无 PAINS、无 Brenk，且同时通过 Lipinski 和 Veber 条件者标记为清洁候选（clean candidate），但原始双阈值集合仍完整保留，以便报告候选被降级的原因。已知对照药另作标记，不与新重定位候选混为“新命中”。排序时依次优先考虑清洁候选、非已知对照药、较高临床阶段、较高的双结构平衡分
 
 \[
-S=100\times\mathrm{rankpct}(-E),
+B_{\mathrm{struct}}(i)=
+\min\left\{
+S_U(i),S_{N,\mathrm{dock}}(i)
+\right\},
+\tag{9}
 \]
 
-即能量越低，百分位越高。URAT1 轴取对接百分位
+以及较高 QED。该提名规则不使用未经验证的加权总分，因而能够保留每个候选的结构证据来源和降级原因。
 
-\[
-S_{U}=S_{\mathrm{URAT1\text{-}dock}}.
-\]
+## 2.9 软件与可复现性
 
-NLRP3 轴取机器学习百分位与对接百分位的较大值
-
-\[
-S_{N}=\max\bigl(S_{\mathrm{NLRP3\text{-}ML}},\,S_{\mathrm{NLRP3\text{-}dock}}\bigr),
-\]
-
-其中 \(S_{\mathrm{NLRP3\text{-}ML}}=100\times\mathrm{rankpct}\!\bigl(P(\mathrm{active})\bigr)\)。取最大值是为在两类近正交证据并存时避免单轴埋没；二者相关性的数值分析列入 Results。
-
-分子 \(i\) 位于 Pareto 非支配前沿，当且仅当不存在分子 \(j\) 同时满足
-
-\[
-S_{U}^{(j)}\ge S_{U}^{(i)}\quad\text{且}\quad S_{N}^{(j)}\ge S_{N}^{(i)},
-\]
-
-并且至少在一个坐标上严格更优。lesinurad、colchicine 等对照药进入同一百分位池，用于检查漏斗行为是否与机制预期一致。
-
----
-
-## 2.9 成药性审计与假说提名
-
-对合并结果标注 PAINS、Brenk 等结构警报，并计算类药性相关描述符。化学适用域采用相对训练集的最大 Morgan Tanimoto 相似度作简化判定：
-
-\[
-\mathrm{AD}=\mathbf{1}\!\left[\mathrm{TC}_{\max}\ge\theta_{\mathrm{AD}}\right],
-\]
-
-默认 \(\theta_{\mathrm{AD}}=0.35\)，敏感性分析置于补充材料。另进行标签置换（y-scrambling）及短名单稳健性检查。
-
-预先规定：Pareto 前沿不等于最终提名。命中结构警报或成药性明显不佳的分子降级；仅在通过过滤器的子集上，按综合提名分给出跟进假说。提名分的示意形式为
-
-\[
-\tau=\alpha S_{U}+\beta S_{N}+\gamma\,\mathbf{1}_{\mathrm{clean}},
-\]
-
-其中 \(\mathbf{1}_{\mathrm{clean}}\) 表示通过警报与适用域等过滤器；权重 \(\alpha,\beta,\gamma\) 以最终提名脚本设定为准。
-
----
-
-## 2.10 分子动力学（若纳入主文）
-
-对 URAT1 基准药、NLRP3 工具药及审计后提名候选，构建相应蛋白–配体复合物并运行分子动力学。分析配体与口袋骨架的 RMSD、关键残基接触；必要时估算结合自由能近似
-
-\[
-\Delta G_{\mathrm{bind}}\approx\langle E_{\mathrm{MM}}\rangle+\langle G_{\mathrm{PB/GB}}\rangle+\langle G_{\mathrm{SA}}\rangle-T\langle S\rangle.
-\]
-
-初始坐标优先采用晶体构象或 RTMScore 选姿。模拟时长、力场与软件版本在定稿时据实填写。动力学结果用于构象讨论，不作为实验活性证明。
-
----
-
-## 2.11 软件与可复现性
-
-化学信息学处理使用 RDKit；机器学习使用 scikit-learn；对接使用 AutoDock Vina 与 gnina；构象重打分使用 RTMScore；动力学软件版本写入正文或补充材料。关键随机种子与对接盒参数见 `config/docking_open_source.yaml` 及仓库脚本。凡未特别声明的阈值，以相应脚本的默认设置为准。
-
----
-
-## 附：投稿时公式取舍建议
-
-| 建议放入主文 Methods | 可放补充材料 |
-|----------------------|--------------|
-| pActivity；EF@f；\(S_{U}\)/\(S_{N}\)；Pareto 定义；RMSD | TrueDecoy 距离 \(d(a,x)\) 细节；MM-PBSA 展开；提名分权重敏感性 |
-| \(\mathrm{TC}_{\max}\le 0.5\)；适用域阈值 | 描述符窗口全表 |
+分子标准化、指纹、描述符和结构警报计算使用 RDKit；机器学习使用 scikit-learn、XGBoost 与 NumPy；受体处理使用 Gemmi 和 Open Babel；配体准备使用 RDKit 与 Meeko；对接使用 AutoDock Vina 1.2.5 和 gnina；候选构象重打分使用 RTMScore。TrueDecoy 构建、Vina/gnina 批处理、双靶分数合并、Pareto 分析及药物化学审计均由版本化脚本执行。搜索盒与 Vina/gnina 参数保存在 YAML 配置文件中，随机种子与其余分析阈值在相应脚本中显式记录。

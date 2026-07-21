@@ -1,39 +1,39 @@
-# Confirmed Contribution
+# Confirmed Contribution（V2）
 
-> PaperSpine V4 Contribution-First gate · 基于 **已有可投稿数据**（非 TAPE-GATE 愿景清单）  
-> 日期：2026-07-17 · 工具链：PaperSpine + ARS-Codex（deep-research / reviewer）
+> PaperSpine V4 Contribution-First gate · 2026-07-21 更新
+> 本页取代早期 Glide XP / 8973 主验证叙事。
 
 ## Core Contribution
 
 | Field | Content |
 |---|---|
-| Main contribution statement | We establish a **reproducible, asymmetric computational funnel** on a ChEMBL clinical library (n=8,319) that (i) uses NLRP3 classification to compress chemical space, (ii) ranks dual-node structural hypotheses with Glide XP at URAT1 9DKB and NLRP3 7ALV plus Pareto non-domination, (iii) independently validates docking-led URAT1 ranking on an 8,973-compound retrospective track, and (iv) applies non-docking chemical/model audits that **downgrade PAINS-prone Pareto hits (EGCG)** while **nominating cleaner pathway-adjacent candidates (canagliflozin)**—without claiming experimental dual-pocket inhibition. |
-| Contribution type | **new system / new analysis-or-benchmark**（可复现重定位流程 + 方法学审计），不是 new wet-drug discovery |
-| One-sentence reviewer payoff | A transparent dual-node gout repurposing pipeline that **explains why URAT1 cannot be ML-ranked alone**, and that **actively filters false-promiscuous Pareto hits** rather than overselling them. |
+| Main contribution statement | We establish a **protocol-selected, asymmetric computational funnel** for URAT1–NLRP3 clinical-library repurposing. The workflow first evaluates open docking/rescoring combinations for URAT1 9DKB against paired TrueDecoy and RandomDecoy benchmarks, then couples the selected ranking protocol to NLRP3 model-based library reduction, dual-structure percentile ranking, Pareto non-domination, and medicinal-chemistry-aware nomination. |
+| Contribution type | **new system / new analysis-or-benchmark**：靶点专属双诱饵协议评价 + 不对称双节点漏斗 + Pareto 与审计提名分离；不是新打分函数，也不是经实验验证的新药发现。 |
+| One-sentence reviewer payoff | The paper shows how a gout dual-node screen can choose rather than assume its URAT1 docking protocol, assign different evidential roles to transporter and inflammasome data, and retain the reason why a mathematically strong hit is promoted or downgraded. |
 
 ## Why This Contribution Is Needed
 
 | Field | Content |
 |---|---|
-| Field problem | Gout is managed on two largely separate axes (urate lowering via URAT1; inflammation via NLRP3/IL-1β), while dual-node chemistry is emerging (Eurycoma/Nat Commun 2025; NLRP3/URAT1-IN-1) but clinical-library **computational** dual-node funnels remain ad hoc. |
-| Specific gap | No published **asymmetric** clinical-library funnel that (a) refuses URAT1 ML as main ranker because of documented benchmark failure, (b) keeps an **independent** large URAT1 docking retrospective track, and (c) separates **Pareto mathematics** from **chemically audited nomination**. |
-| Concrete challenge | Data asymmetry: URAT1 regression recovers only 2/4 uricosuric benchmarks; NLRP3 assays are heterogeneous; transporter vs inflammasome pockets are not interchangeable; docking scores ≠ affinity. |
-| Why prior work leaves it unresolved | **Eurycoma 2025**: phenotypic → de novo dual inhibitors (wet + synthesis), not clinical-library reuse. **PLK1/NLRP3-style asymmetric VS**: kinase+NLRP3, fixed-weight fusion, commercial library—not gout transporter + clinical drugs. **Single-target NLRP3 ML+dock papers**: no URAT1 node, no Pareto/audit split. **SGLT2–gout epidemiology**: pharmacology without a dual-structure computational nomination protocol. |
+| Field problem | 痛风治疗同时涉及 URAT1 介导的尿酸重吸收与 NLRP3/IL-1β 炎症，但多数计算筛选将两靶视为同质任务，并直接采用单一默认对接分数。 |
+| Specific gap | 缺少一条同时满足以下条件的公开流程：用困难诱饵检验 URAT1 排序协议；显式处理 URAT1/NLRP3 数据不对称；将 Pareto 非支配与药物化学审计后的提名分开。 |
+| Concrete challenge | URAT1 命名药物回收不足以支持 ML 主排；NLRP3 标签跨 assay 异质；随机诱饵可能夸大富集；两个靶点的原始分数不可直接比较。 |
+| Why prior work leaves it unresolved | 湿法双靶研究解决的是合成与活性验证，不是临床库复用；PLK1/NLRP3 类不对称流程面对的是激酶而非膜转运体；单靶 NLRP3 ML/docking 研究不包含 URAT1 协议选择及 Pareto–审计分离。 |
 
 ## How This Paper Responds
 
 | Field | Content |
 |---|---|
-| Design response | Asymmetric funnel: NLRP3 ML gate → dual Glide XP → Pareto on (S_U, S_N) → modules A–F audit/nomination; 8973 URAT1-only retrospective track; MD on benchmarks + canagliflozin (not EGCG as lead). |
-| Evidence required | (1) Quantified ML asymmetry; (2) funnel counts 8319→1588→1451→6; (3) 8973 enrichment; (4) Pareto + control-drug behavior; (5) PAINS/ADMET/y-scramble/AD/nomination numbers; (6) redock RMSD; (7) MD pose stability for 5 systems. |
-| Evidence available | (1)–(5) largely available in repo; nomination of canagliflozin scripted; draft figures 2–4. |
-| Evidence missing | **P0**: 5× MD (canagliflozin lead); redock RMSD; full Methods versions/parameters; unify 【待填】 Glide numbers. Without these, contribution softens to “funnel architecture + nomination protocol” without conformational discussion. |
+| Design response | URAT1 TrueDecoy/RandomDecoy 协议评价 → NLRP3 分类分数缩库 → 9DKB/7ALV 双结构百分位 → Pareto 非支配 → PAINS/Brenk、类药性、证据来源和化学空间审计后的透明提名。 |
+| Evidence required | （1）双诱饵上各协议的 EF\(_{1\%}\)、EF\(_{5\%}\) 与 AUC；（2）自对接的 top-1、集合最优和重打分选姿 RMSD；（3）NLRP3 骨架交叉验证与缩库；（4）生产协议下的双靶合并、对照药与 Pareto；（5）审计前后候选变化；（6）完整版本和命令。 |
+| Evidence available | TrueDecoy/RandomDecoy 数据集及构建记录；NLRP3 模型与临床库分数；URAT1 ML 命名药物回顾；结构警报、类药性、化学空间、Pareto 敏感性和提名脚本。 |
+| Evidence missing | 开源协议 P0–P5 的完整服务器结果与最终协议锁定；生产协议下的临床库双靶重算；RTMScore 运行归档；若保留构象讨论，则还需实际 MD 参数和结果。 |
 
 ## Claim Boundary
 
 | Field | Content |
 |---|---|
-| Strong claims allowed | Asymmetric funnel is justified by data; Pareto front is mathematically defined; EGCG can be recovered then **downgraded** by explicit filters; canagliflozin is a **cleaner computational nominee**; 8973 supports docking-led URAT1 ranking. |
-| Claims to soften or avoid | Dual-pocket direct inhibition; 1+1>2 synergy; clinical recommendation; canagliflozin as lesinurad-like URAT1 inhibitor; EGCG as developable lead; “first dual URAT1–NLRP3 inhibitor discovered computationally.” |
-| Novelty risk | “Just another ML→dock→MD pipeline.” **Answer**: asymmetry + independent retrospective track + Pareto≠nomination split + explicit PAINS demotion. |
-| Significance risk | “No wet assay → so what?” **Answer**: hypothesis-generation + reproducible nomination for T2DM–gout comorbidity adjunct discussion; cite Eurycoma as complementary wet route. |
+| Strong claims allowed after completion | 双诱饵基准可以区分 URAT1 排序协议；数据不对称支持不同证据角色；Pareto 前沿与审计提名是两个不同决策层；最终名单为可追溯的计算假说。 |
+| Claims to soften or avoid | 双口袋直接抑制、药效协同、临床推荐、对接分数等同亲和力、富集证明结合位点、某候选已是 URAT1/NLRP3 双抑制剂。 |
+| Novelty risk | “只是 ML→dock→Pareto”。回答必须依赖：**先选协议而非默认协议 + 双诱饵困难度对照 + 不对称证据角色 + Pareto≠提名**。 |
+| Significance risk | 无湿实验。正文只能将产出定义为可证伪、供摄取实验与 MSU–IL-1β 实验检验的计算假说。 |
