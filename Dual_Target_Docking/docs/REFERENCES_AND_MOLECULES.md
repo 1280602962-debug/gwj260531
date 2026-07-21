@@ -82,6 +82,51 @@
 | 协议消融 | 对接原生分 vs RTMScore/EquiScore 重打分 | 采样与打分解耦 |
 | 策略 | 层级筛选（快 AI → 物理/重打分精筛） | 大规模库实用路径 |
 
+### 1.5c 侯廷军组系谱 + 同档高质量期刊对照
+
+> 检索策略：以 Hou/Kang/Shen/Zhang（浙大药学院 + CarbonSilicon）的 **AI 对接 / 打分 / VS 评测 / 层级筛选** 工作为中心，再补同档期刊（*Nat. Mach. Intell.*、*Nat. Methods*、*Nat. Comput. Sci.*、*Chem. Sci.*、*JCIM*、*JCTC*、*J. Cheminform.*、*Acc. Chem. Res.*、*TiPS*、*APSB*）上主题相近的竞品与评测文。
+
+#### A. 侯组 / CarbonSilicon 核心产出（按主题）
+
+| # | 文献 | 期刊 / 链接 | 内容简介 |
+|---|------|-------------|----------|
+| H01 | Gu et al. **VSDS-VD**（见 R34） | **Nat. Mach. Intell.** 2025 · [10.1038/s42256-025-00993-0](https://doi.org/10.1038/s42256-025-00993-0) | VS 视角系统评测 AI vs 物理对接；TrueDecoy/RandomDecoy；层级 VS。 |
+| H02 | Zhang et al. **KarmaDock**（见 R28） | **Nat. Comput. Sci.** 2023 · [10.1038/s43588-023-00511-5](https://doi.org/10.1038/s43588-023-00511-5) | 超大库 AI 对接：EGNN 姿态 + MDN 打分；实验验证 LTK 抑制剂。 |
+| H03 | Cai et al. **CarsiDock**（见 R35） | **Chem. Sci.** 2024 · [10.1039/D3SC05552C](https://doi.org/10.1039/D3SC05552C) | ~9M 预训练距离矩阵对接；与 RTMScore 联用 VS 早期识别强。 |
+| H04 | Shen et al. **RTMScore**（见 R20） | **J. Med. Chem.** 2022 · [10.1021/acs.jmedchem.2c00991](https://doi.org/10.1021/acs.jmedchem.2c00991) | 残基–原子距离似然 + Graph Transformer；CASF docking/screening 强。 |
+| H05 | Shen et al. **GenScore**（见 R20b） | **Chem. Sci.** 2023 · [10.1039/D3SC02044D](https://doi.org/10.1039/D3SC02044D) | 可调亲和项使 scoring/ranking/docking/screening 更均衡。 |
+| H06 | Zhang et al. DL docking 观点文（见 R38） | **Acc. Chem. Res.** 2024 · [10.1021/acs.accounts.4c00093](https://doi.org/10.1021/acs.accounts.4c00093) | 评指标、应用场景、物理合理性、生成 vs 回归；VS 实用导向。 |
+| H07 | Zhang, Shen, Hsieh, Hou. *Harnessing deep learning for enhanced ligand docking.* | **Trends Pharmacol. Sci.** 2024 · [10.1016/j.tips.2023.12.004](https://doi.org/10.1016/j.tips.2023.12.004) | 短评：DLLD 相对传统 search–score 范式的机会与局限。 |
+| H08 | Shen et al. **DrugFlow**：一站式 AI 药物发现平台. | **JCIM** 2024 · [10.1021/acs.jcim.4c00621](https://doi.org/10.1021/acs.jcim.4c00621) · [drugflow.com](https://www.drugflow.com) | 对接 / QSAR / 生成 / ADMET / VS 流水线工程化；体现「层级筛选」落地。 |
+| H09 | Zhang et al. **TB-IECS**：理论能量项 + XGBoost VS 打分. | **J. Cheminform.** 2023 · [10.1186/s13321-023-00731-x](https://doi.org/10.1186/s13321-023-00731-x) | Smina/NNScore2 能量组分组合；DUD-E / LIT-PCBA / ChemDiv 靶点集上优于/对标 Glide SP。 |
+| H10 | Cai, Shen, Hou et al. **CarsiDock-Cov**：共价对接与筛选. | **Acta Pharm. Sin. B** 2025 · [10.1016/j.apsb.2025.07.043](https://doi.org/10.1016/j.apsb.2025.07.043) | 将 CarsiDock 范式扩展到共价配体；公开共价对接/筛选基准上有竞争力。 |
+
+#### B. 同档高质量对照（竞品 / 评测 / 高通量）
+
+| # | 文献 | 期刊 / 链接 | 与侯组关系 |
+|---|------|-------------|------------|
+| H11 | Cao, Zheng et al. **EquiScore**（见 R36） | **Nat. Mach. Intell.** 2024 · [10.1038/s42256-024-00849-z](https://doi.org/10.1038/s42256-024-00849-z) | 中科院上海药物所；VSDS-VD 重打分对照；物理先验 + 数据增强。 |
+| H12 | Cao, Zheng et al. **SurfDock**（见 R29） | **Nat. Methods** 2025 · [10.1038/s41592-024-02516-y](https://doi.org/10.1038/s41592-024-02516-y) | 表面引导扩散对接；强调物理约束与真实 VS 发现案例（ALDH1B1）。 |
+| H13 | Li, Cao et al. *Decoding the limits of deep learning in molecular docking…* | **Chem. Sci.** 2025 · [10.1039/D5SC05395A](https://doi.org/10.1039/D5SC05395A) | 五维系统对比：姿态精度、物理合理性、相互作用恢复、VS、泛化；扩散/回归/混合优缺点与失败机制。与 VSDS-VD / PoseBusters 互补的「诊断型」综述评测。 |
+| H14 | Corso et al. **DiffDock-L / DockGen** 泛化 | **ICLR / arXiv** · [2402.18396](https://arxiv.org/abs/2402.18396) · DiffDock [2210.01776](https://arxiv.org/abs/2210.01776) | 未见口袋泛化；VSDS-VD 与 PoseBench 常作 AI 对接基线。 |
+| H15 | Yu et al. **Uni-Dock**：GPU 超大库物理对接. | **JCTC** 2023 · [10.1021/acs.jctc.2c01145](https://doi.org/10.1021/acs.jctc.2c01145) · [GitHub](https://github.com/dptech-corp/Uni-Dock) | 千倍加速 Vina 系；与 KarmaDock「AI 加速」并列的高通量物理路径；UniDock-Pro（R41）为其平台扩展。 |
+| H16 | Moon et al. **PIGNet2**：物理知情 GNN 打分 + VS. | **Digit. Discov.** 2024 · [10.1039/D3DD00149K](https://doi.org/10.1039/D3DD00149K) | 与 GenScore/RTMScore 同台比较；强调多任务均衡与数据增强。 |
+| H17 | Xia / Hou 系相关：**DiffDock-NMDN** 端到端盲对接 + VS. | **JCIM** 2024 · [10.1021/acs.jcim.4c01014](https://doi.org/10.1021/acs.jcim.4c01014) | DiffDock 采样 + 归一化距离似然打分（NMDN）；LIT-PCBA 上报告 EF；与「采样–打分解耦」路线一致。 |
+| H18 | Méndez-Lucio et al. **DeepDock**（距离似然早期代表）. | **Nat. Mach. Intell.** 2021 · [10.1038/s42256-021-00409-9](https://doi.org/10.1038/s42256-021-00409-9) | RTMScore/GenScore 方法论前身之一；几何深度学习预测结合构象。 |
+| H19 | Buttenschoen et al. **PoseBusters**（见 R21） | **Chem. Sci.** 2024 | 物理有效性评测标杆；VSDS-VD 再对接合理性分析直接依赖。 |
+| H20 | McNutt / Koes **GNINA**（见 R19/R19b） | **J. Cheminform.** 2021/2025 | 「经典采样 + DL 重打分」工程范式；与 RTMScore 重打分哲学相近、实现不同。 |
+
+#### C. 读这些文章时的对照表（写 Related Work 用）
+
+| 问题 | 优先读 |
+|------|--------|
+| AI 对接准不准、物理是否合理、VS 富集如何 | **H01 VSDS-VD** + **H13 Decoding limits** + **H19 PoseBusters** |
+| 要可插拔重打分 | **H04 RTMScore** / **H05 GenScore** / **H11 EquiScore** / **H20 GNINA** |
+| 要超大库通量 | **H02 KarmaDock**（AI）或 **H15 Uni-Dock**（GPU 物理）→ **H08 DrugFlow** 流水线 |
+| 要精度优先姿态 | **H03 CarsiDock** / **H12 SurfDock** / DiffDock-L |
+| 方法叙事与缺口 | **H06 Acc. Chem. Res.** + **H07 TiPS** |
+| 共价扩展 | **H10 CarsiDock-Cov** |
+
 ### 1.6 生成式双靶（前沿算法）
 
 | # | 文献 | 链接 | 内容简介 |
@@ -308,7 +353,7 @@
 - https://doi.org/10.1039/D3SC05552C  
 - https://doi.org/10.1038/s42256-024-00849-z  
 - https://doi.org/10.1021/acs.jctc.3c00273  
-- https://doi.org/10.1021/acs.accounts.3c00750  
+- https://doi.org/10.1021/acs.accounts.4c00093  
 - https://doi.org/10.1002/advs.202508318  
 - https://arxiv.org/abs/2505.01700  
 - https://doi.org/10.1021/acs.jcim.5c02587  
