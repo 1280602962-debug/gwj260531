@@ -1,9 +1,20 @@
 # 中文初稿（痛风 URAT1–NLRP3 双节点临床药物重定位）
 
-> **目标期刊**：*Journal of Molecular Modeling*（英文投稿；本文为中文写作底稿）  
-> **对接引擎**：**Schrödinger Glide XP**（Extra Precision；商业软件，标准化可复现）  
-> **结构**：URAT1 **9DKB** + NLRP3 **7ALV**  
-> **MD 进行中**：`9DKB_EGCG`、`benzbromarone_9DKB`、`dotinurad_9DKB`、`7ALV_MCC950`、`7ALV_EGCG`  
+> **⛔ 已过时 · 请勿再按本稿写作或投稿**（2026-07-21）  
+> 本稿全文仍以 **Schrödinger Glide XP** 为主叙事，与当前 **V2 协议筛选（Vina/gnina/RTMScore → Π\*）** 路线冲突。  
+> **请改用**：  
+> - 总规划：[`MANUSCRIPT_OUTLINE_V2.md`](MANUSCRIPT_OUTLINE_V2.md)  
+> - 中文大纲：[`MANUSCRIPT_OUTLINE_V2_CN_DRAFT.md`](MANUSCRIPT_OUTLINE_V2_CN_DRAFT.md)  
+> - 引言：[`INTRO_DRAFT_CN.md`](INTRO_DRAFT_CN.md)  
+> - Methods：[`METHODS_DRAFT_CN.md`](METHODS_DRAFT_CN.md)  
+> 本文件仅作历史参考，保留 Glide 开发跑数字备查。
+
+---
+
+> ~~目标期刊：*Journal of Molecular Modeling*~~（已取消作为首投）  
+> ~~对接引擎：Schrödinger Glide XP~~（已降级；非当前默认）  
+> **结构**：URAT1 **9DKB** + NLRP3 **7ALV**（结构设定仍有效）  
+> **MD**：代表体系仍可参考；lead 叙事以 V2（审计后假说）为准  
 > **定位**：不对称双证据漏斗 + Pareto 短名单 + 代表药 MD；**不声称**发现首个双靶抑制剂
 
 ---

@@ -1,6 +1,7 @@
 # Methods 中文大纲与正文草稿（V2 流程）
 
-> 接在引言之后。公式与步骤以仓库脚本为准：`build_urat1_true_decoy.py`、`utils_ml.py`、`merge_docking_pareto.py`、`run_vina_batch.py` / `run_gnina_batch.py`、模块 A–F。  
+> **这是当前中文 Methods 写作底稿**（取代旧稿 `MANUSCRIPT_DRAFT_CN.md` 中的 Glide XP Methods）。  
+> 接在引言 [`INTRO_DRAFT_CN.md`](INTRO_DRAFT_CN.md) 之后。公式与步骤以仓库脚本为准：`build_urat1_true_decoy.py`、`utils_ml.py`、`merge_docking_pareto.py`、`run_vina_batch.py` / `run_gnina_batch.py`、模块 A–F。  
 > 对接协议 Π\* 终值待服务器跑完回填；MD 时长按最终实验填写。
 
 ---
@@ -12,7 +13,7 @@
 | 2.1 | 数据来源与预处理 | ChEMBL URAT1/NLRP3；临床库 8319；蒸馏子集 D；标准化 SMILES |
 | 2.2 | URAT1 TrueDecoy / RandomDecoy 基准构建 | 性质匹配、近邻过滤、round-robin 分配 |
 | 2.3 | 受体与配体准备、自对接门控 | 9DKB / 7ALV；搜索盒；Top-1 / Best-in-ensemble / RTMScore 姿 RMSD |
-| 2.4 | 对接与重打分候选协议 | P0–P5（Vina、gnina、RTMScore）；可选 Glide |
+| 2.4 | 对接与重打分候选协议 | P0–P5（Vina、gnina、RTMScore）；主文不开源 Glide |
 | 2.5 | 富集指标与协议选优规则 | AUC、EF@f、四药百分位；预先锁定选优 |
 | 2.6 | NLRP3 机器学习缩库 | 骨架 GroupKFold；AUROC/AUPRC；P≥0.5 |
 | 2.7 | 双靶对接百分位与 Pareto 整合 | S_U、S_N、非支配前沿 |
@@ -203,7 +204,7 @@ URAT1 采用 inward-open 结构 9DKB；NLRP3 采用 NACHT 结构 7ALV（共晶�
 
 ### 2.4 对接与重打分协议
 
-候选协议包括：P1 AutoDock Vina affinity；P2 gnina CNNaffinity；P3 gnina affinity（kcal）；P4 Vina 姿 + RTMScore；P5 gnina 姿 + RTMScore；P0 gnina CNNscore（负对照）。每个分子保留多构象（num_modes≥9）。富集排序使用各协议原生 top-1（rank_pose）；结构分析优先使用 RTMScore 最高姿（struct_pose）或晶体坐标。有商业许可时可追加 Glide 对照，但不与开源分数做绝对值混比。
+候选协议包括：P1 AutoDock Vina affinity；P2 gnina CNNaffinity；P3 gnina affinity（kcal）；P4 Vina 姿 + RTMScore；P5 gnina 姿 + RTMScore；P0 gnina CNNscore（负对照）。每个分子保留多构象（num_modes≥9）。富集排序使用各协议原生 top-1（rank_pose）；结构分析优先使用 RTMScore 最高姿（struct_pose）或晶体坐标。**主文不以 Schrödinger Glide XP 为默认对接引擎**；历史 Glide 表仅作开发参考或 SI，不与开源分数混比、不写入 Methods 主流程。
 
 ### 2.5 协议选优
 

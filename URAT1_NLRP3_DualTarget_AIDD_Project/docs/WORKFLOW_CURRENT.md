@@ -2,7 +2,8 @@
 
 > **生效日期**：2026-07  
 > **替代**：`COMPLETE_WORKFLOW_AND_FILES.md` 中的 TAPE-GATE 双路径、MASFL Teacher、8973 双靶 Pareto  
-> **论文提纲**：[`MANUSCRIPT_OUTLINE_CURRENT.md`](MANUSCRIPT_OUTLINE_CURRENT.md)
+> **论文提纲（V2）**：[`MANUSCRIPT_OUTLINE_V2.md`](MANUSCRIPT_OUTLINE_V2.md) · Methods [`METHODS_DRAFT_CN.md`](METHODS_DRAFT_CN.md)  
+> ~~旧提纲 `MANUSCRIPT_OUTLINE_CURRENT.md` / Glide 稿 `MANUSCRIPT_DRAFT_CN.md` 已作废~~
 
 ---
 

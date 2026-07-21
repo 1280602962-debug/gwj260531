@@ -1,7 +1,8 @@
 # 已归档路线（请勿再按此执行）
 
-> 以下文档/脚本描述 **2026-06 及更早** 的 TAPE-GATE / MASFL / 双路径融合方案。  
-> **当前唯一执行标准**：[`WORKFLOW_CURRENT.md`](WORKFLOW_CURRENT.md)
+> 以下文档/脚本描述 **已废弃叙事**（TAPE-GATE / MASFL / **默认 Glide XP 主文** 等）。  
+> **当前论文主文档**：[`MANUSCRIPT_OUTLINE_V2.md`](MANUSCRIPT_OUTLINE_V2.md)  
+> **中文 Methods**：[`METHODS_DRAFT_CN.md`](METHODS_DRAFT_CN.md)
 
 ---
 
@@ -22,6 +23,11 @@
 
 | 文件 | 原用途 |
 |------|--------|
+| **`MANUSCRIPT_DRAFT_CN.md`** | **中文全文旧稿（Glide XP 主叙事）——易与 V2 混淆，已加过时横幅** |
+| `MANUSCRIPT_OUTLINE_REVISED.md` | 修订大纲（已被 V2 取代） |
+| `MANUSCRIPT_OUTLINE_CURRENT.md` | 旧「定稿思路」；现仅保留重定向页 |
+| `LOCAL_AGENT_POST_DOCKING_PROMPT.md` | Maestro/Glide XP 后处理 prompt |
+| `LOCAL_AGENT_8973_DOCKING_PROMPT.md` | 8973 Glide XP 回顾 prompt |
 | `TAPE_GATE_FRAMEWORK.md` | v2.0 双路径框架 |
 | `MASFL_V3_WORKFLOW.md` | Teacher 蒸馏 |
 | `ALGORITHM_FRAMEWORK.md` | 全阶段公式 |

@@ -2,20 +2,23 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-面向 **高尿酸血症/痛风** 的 **URAT1（代谢）+ NLRP3（炎症）** 双节点，在 ChEMBL **临床药物库** 上做 **NLRP3 ML 预筛 → 双靶对接 → Pareto 短名单**，并用 **8973 蒸馏集** 单独完成 URAT1 对接回顾验证。
+面向 **高尿酸血症/痛风** 的 **URAT1（代谢）+ NLRP3（炎症）** 双节点：先在 **TrueDecoy/RandomDecoy** 上为 URAT1（9DKB）选定开源对接协议 Π\*，再嵌入 **NLRP3 ML 缩库 → 双靶对接 → Pareto → 成药性审计** 的不对称临床库漏斗。
 
-> **当前论文路线（2026-07）**：见 [`docs/MANUSCRIPT_OUTLINE_CURRENT.md`](docs/MANUSCRIPT_OUTLINE_CURRENT.md)  
-> **旧版 TAPE-GATE / MASFL / 8973 双靶 Pareto / OAT 迁移** 已归档，**不再按该路线执行**：[`docs/LEGACY_ARCHIVE.md`](docs/LEGACY_ARCHIVE.md)
+> **当前论文路线（V2 · 2026-07-21）**：[`docs/MANUSCRIPT_OUTLINE_V2.md`](docs/MANUSCRIPT_OUTLINE_V2.md)  
+> **中文写作**：引言 [`docs/INTRO_DRAFT_CN.md`](docs/INTRO_DRAFT_CN.md) · Methods [`docs/METHODS_DRAFT_CN.md`](docs/METHODS_DRAFT_CN.md) · 大纲 [`docs/MANUSCRIPT_OUTLINE_V2_CN_DRAFT.md`](docs/MANUSCRIPT_OUTLINE_V2_CN_DRAFT.md)  
+> **已过时（含 Glide XP 主叙事）**：[`docs/MANUSCRIPT_DRAFT_CN.md`](docs/MANUSCRIPT_DRAFT_CN.md) — 勿再当正文  
+> **更旧归档**：[`docs/LEGACY_ARCHIVE.md`](docs/LEGACY_ARCHIVE.md)
 
-**目标期刊**：*Journal of Molecular Modeling*（计算药理学 + 重定位，非湿实验 hit 发现）
+**目标期刊（首投）**：*Journal of Computer-Aided Molecular Design*（Hybrid / 可选非 OA）；备选 *Molecular Diversity* 等。  
+**不以** Schrödinger Glide XP 为默认对接答案（有许可仅可作 SI 对照）。
 
 ---
 
 ## 科学定位（一句话）
 
-> 在 ChEMBL 训练 **0 SMILES 重叠** 条件下，用 **NLRP3 ML** 筛临床药物库，对 **P(active)≥0.5** 命中分子做 **URAT1@9DKB + NLRP3@7ALV** 开源 Vina 对接并 Pareto 整合；用 **8973** 仅证明 URAT1 应对接而非 ML；用 **代表药 MD（2+2）** 解释机制。
+> 先按双诱饵框架锁定 URAT1 开源对接排序协议，再以 **NLRP3 ML** 缩临床库并对 **P(active)≥0.5** 池做 **9DKB + 7ALV** 双靶对接与 Pareto，经模块 A–F 审计后给出可检验假说（如 canagliflozin 类），**不声称**已验证双口袋抑制剂。
 
-**不是**：双靶新药发现、Teacher M-CPDL、百万库虚筛、OAT 迁移创新。
+**不是**：双靶新药发现、默认 Glide XP 漏斗、Teacher M-CPDL、百万库虚筛、OAT 迁移创新。
 
 ---
 
@@ -32,18 +35,23 @@
 ## 当前计算流程
 
 ```
-ChEMBL 临床药物库 (8319)
+[协议筛选 · URAT1@9DKB]
+  TrueDecoy + RandomDecoy 基准
+    → P0–P5（Vina / gnina / RTMScore）富集选优 → 锁定 Π*
+
+[主漏斗 · 临床库]
+  ChEMBL 临床药物库 (8319)
     → NLRP3 ML 全库打分                    [screen_repurposing_library.py]
     → P(active) ≥ 0.5  (n≈1588)           [对接池]
-    → URAT1 @ 9DKB + NLRP3 @ 7ALV Vina   [run_vina_batch.py]
-    → Pareto 双证据短名单                  [merge_docking_pareto.py]
-    → 代表药 MD 2+2                       [benzbromarone, dotinurad, MCC950, GDC]
+    → URAT1 @ 9DKB + NLRP3 @ 7ALV（Π*）  [run_vina_batch / run_gnina_batch]
+    → Pareto + 模块 A–F 审计提名           [merge_docking_pareto.py]
+    → 代表药 MD（可选主文）
 
-并行（独立一节，不用于 NLRP3 筛选）：
-    8973 @ 9DKB XP → URAT1 ML vs 对接回顾  [merge_8973_docking_results.py]
+并行（可选 SI，不替代 TrueDecoy）：
+    8973 A vs D 敏感性 / 历史 Glide 表对照
 ```
 
-详见 [**当前工作流**](docs/WORKFLOW_CURRENT.md)。
+详见 [**当前工作流**](docs/WORKFLOW_CURRENT.md)（部分命令仍在更新中；论文叙事以 V2 为准）。
 
 ---
 
@@ -69,14 +77,15 @@ ChEMBL 临床药物库 (8319)
 
 | 文档 | 内容 |
 |------|------|
-| [**当前工作流**](docs/WORKFLOW_CURRENT.md) | **主索引**：命令、路径、阶段 |
-| [**论文定稿思路**](docs/MANUSCRIPT_OUTLINE_CURRENT.md) | Results 结构、主图、不写清单 |
+| [**论文大纲 V2**](docs/MANUSCRIPT_OUTLINE_V2.md) | **主规划**：协议筛选 + 不对称漏斗 |
+| [**中文 Methods**](docs/METHODS_DRAFT_CN.md) | 大纲、公式、§2 正文草稿 |
+| [**中文引言**](docs/INTRO_DRAFT_CN.md) | 引言草稿（原创表述） |
+| [**中文先行大纲**](docs/MANUSCRIPT_OUTLINE_V2_CN_DRAFT.md) | ✅/⏳ 可写章节 |
+| [**当前工作流**](docs/WORKFLOW_CURRENT.md) | 命令、路径、阶段 |
 | [**重定位库指南**](docs/REPURPOSING_DRUG_LIBRARY_GUIDE.md) | ChEMBL manifest、对接池 |
-| [**8973 对接整理**](docs/LOCAL_AGENT_8973_DOCKING_PROMPT.md) | URAT1 回顾验证 only |
-| [**XP 对接后处理**](docs/LOCAL_AGENT_POST_DOCKING_PROMPT.md) | 1588 双靶合并、Pareto、Fig4（本地 Agent 可复制） |
 | [**模型质量报告**](docs/MODEL_QUALITY_REPORT.md) | URAT1_NO_GO / NLRP3 可用 |
 | [**数据事实核验**](docs/DATA_FACT_CHECK.md) | 投稿前必读 |
-| [**旧路线归档**](docs/LEGACY_ARCHIVE.md) | TAPE-GATE、MASFL 等（勿再执行） |
+| [**旧路线归档**](docs/LEGACY_ARCHIVE.md) | TAPE-GATE、Glide XP 旧稿等（勿再执行） |
 
 ---
 
@@ -95,10 +104,9 @@ python3 scripts/screen_repurposing_library.py \
   --input data/repurposing/repurposing_manifest.csv \
   --panel clinical_all --export-p05-pool --skip-tanimoto
 
-# 3) 8973 URAT1 回顾（可选，已完成则跳过）
-python3 scripts/merge_8973_docking_results.py \
-  --glide-csv results/docking/raw/9DKB_glide-dock_XP_8000_343e.csv
-python3 scripts/analyze_urat1_docking_vs_ml.py
+# 3) URAT1 TrueDecoy 基准（协议筛选用）
+python3 scripts/build_urat1_true_decoy.py
+# 随后在服务器按 docs/MANUSCRIPT_OUTLINE_V2.md 跑 P0–P5 + RTMScore，锁定 Π*
 ```
 
 ---

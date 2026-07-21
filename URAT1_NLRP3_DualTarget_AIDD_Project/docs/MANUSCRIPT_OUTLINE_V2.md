@@ -16,10 +16,10 @@
 |--------|--------|
 | 主文 =「Glide XP 双靶漏斗发现 canagliflozin」 | 主文 =「**URAT1 对接协议如何选 + 不对称双节点漏斗如何用**」；canagliflozin 是审计后假说案例，不是发现叙事中心 |
 | 8973 上 A vs D（近 RandomDecoy）富集 ≈ 已证明对接能力 | A vs D / RandomDecoy **不够**；必须以 **TrueDecoy** 为主判决，RandomDecoy 作对照 |
-| 默认采用 Glide XP / 或默认 Vina 即可 | 必须先在 True/Random 上完成 **P0–P5（±Glide）协议筛选**，再锁定生产排序分 |
+| 默认采用 Glide XP / 或默认 Vina 即可 | 必须先在 True/Random 上完成 **P0–P5（Vina/gnina/RTMScore）协议筛选**，再锁定生产排序分；Glide **不是**主文默认 |
 | redock top-1 RMSD&lt;2 Å「通过」或可放宽算通过 | **严格 top-1 未过关**（Vina/gnina≈4.5–5 Å）；采样可达近晶体姿 → 只证明盒子/采样，**不证明原生排序可靠** |
 | 富集高 = 口袋/结合模式正确 | 富集 = **标签回收 / 排序协议考试**（9DKB 口袋假设下）；位点结论靠共晶 +（可选）RTMScore 选姿 / MD |
-| 必须复刻 Hou 文全工具表才算按文章做 | 对齐 Gu/Hou **范式**（双诱饵、搜索∥打分、EF）；工具用开源 **Vina/gnina + RTMScore（±Glide）** |
+| 必须复刻 Hou 文全工具表才算按文章做 | 对齐 Gu/Hou **范式**（双诱饵、搜索∥打分、EF）；工具用开源 **Vina/gnina + RTMScore** |
 | EGCG 可作主推 / 主文 MD lead | EGCG = **Pareto 盲筛 + PAINS 降级** 方法学负例；主推假说仍为更干净的 **canagliflozin**（机制边界写清） |
 | 首投 JMM | **取消**；改 JCAMD（非 OA 路径） |
 | 对接分数 ≈ 亲和力 / 双口袋直抑 | **禁止**；仅池内百分位与假说生成 |
@@ -101,7 +101,7 @@
 | P4 | Vina ensemble | RTMScore | 搜索∥打分 |
 | P5 | gnina ensemble | RTMScore | 同上 |
 | P0 | gnina | CNNscore | 负对照 |
-| P6–P8 | Glide ± RTMScore | （有许可） | 与 Hou 物理强项对照 |
+| P6–P8 | Glide ± RTMScore | （有许可 · **仅 SI**） | 可选对照；**不进主文 Methods 默认流程** |
 
 **门控与选姿**
 
@@ -151,7 +151,7 @@
 ```
 2.1 数据集：临床库；URAT1 活性集；TrueDecoy/RandomDecoy 构建规则
 2.2 受体/配体准备；9DKB/7ALV 搜索盒；redock 定义（双指标）
-2.3 候选协议 P0–P5（±Glide）；RTMScore ensemble 重打分
+2.3 候选协议 P0–P5；RTMScore ensemble 重打分（Glide 不进主文默认）
 2.4 富集指标与协议选优规则（预先锁定）
 2.5 NLRP3 ML 缩库；双靶对接与百分位；Pareto
 2.6 化学过滤器、适用域、y-scramble、提名规则（模块 A–F）
@@ -176,7 +176,7 @@
 3. 与 Gu/Hou：范式对齐、工具裁剪、hierarchical 启示。  
 4. EGCG vs canagliflozin：审计改变提名。  
 5. 机制边界与实验证伪路径。  
-6. Limitations：诱饵池规模、开源 vs Glide、单态口袋、无湿实验。
+6. Limitations：诱饵池规模、开源协议局限、单态口袋、无湿实验。
 
 ### Conclusions
 
@@ -218,7 +218,8 @@
 
 ### P2（加分）
 
-- [ ] 有许可则加 Glide 对照行  
+- [ ] （可选 SI）有许可再加 Glide 对照行；默认跳过  
+- **中文写作入口**：`INTRO_DRAFT_CN.md` + `METHODS_DRAFT_CN.md`（**不要**打开旧 `MANUSCRIPT_DRAFT_CN.md`）  
 - [ ] EquiScore 可选  
 - [ ] 扩大 decoy 池逼近 1:30–50 后敏感性分析  
 

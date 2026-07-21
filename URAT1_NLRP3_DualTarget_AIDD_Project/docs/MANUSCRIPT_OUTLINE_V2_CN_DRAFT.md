@@ -81,7 +81,8 @@
 - 受体 9DKB，统一搜索盒。
 
 ### 5.3 候选协议（✅ 已锁定设计，结果 ⏳）
-P1 Vina affinity｜P2 gnina CNNaffinity｜P3 gnina affinity(kcal)｜P4 Vina+RTMScore｜P5 gnina+RTMScore｜P0 gnina CNNscore(负对照)｜P6–P8 Glide±RTMScore(有许可)。
+P1 Vina affinity｜P2 gnina CNNaffinity｜P3 gnina affinity(kcal)｜P4 Vina+RTMScore｜P5 gnina+RTMScore｜P0 gnina CNNscore(负对照)。  
+（~~P6–P8 Glide~~：有许可才可进 SI；**主文 Methods 不写 Glide XP**。）
 
 ### 5.4 选优规则（✅ 预先锁定）
 主判 TrueDecoy EF@1%（并列 EF@5%、AUC）；否决 RandomDecoy 明显变差；平局四药回收百分位。→ 输出 Π\*（可含分层：快引擎粗排 + RTMScore 精排）。
@@ -96,7 +97,7 @@ P1 Vina affinity｜P2 gnina CNNaffinity｜P3 gnina affinity(kcal)｜P4 Vina+RTMS
 
 1. 8319 →（NLRP3 ML P≥0.5）→ 1588 ✅
 2. Π\* @ 9DKB + Π\* @ 7ALV ⏳
-3. Pareto(S_U, S_N) → 短名单 ⏳（现有 Glide 开发跑：1451→Pareto 6，仅作占位）
+3. Pareto(S_U, S_N) → 短名单 ⏳（历史 Glide 开发跑 1451→6 **仅备查，不写入主文 Methods**）
 4. 模块 A–F：过滤/适用域/稳健性 → EGCG 降级、canagliflozin 提名 ✅逻辑，⏳终表
 
 ---
@@ -114,7 +115,7 @@ P1 Vina affinity｜P2 gnina CNNaffinity｜P3 gnina affinity(kcal)｜P4 Vina+RTMS
 3. 两靶差异：为何 URAT1 对接主导、NLRP3 ML 主导——同一套对接协议、不同证据权重。
 4. EGCG vs canagliflozin：审计如何改提名。
 5. 机制边界与证伪路径（URAT1 摄取实验 / MSU–IL-1β）。
-6. 局限：诱饵池规模、开源 vs Glide、单态口袋、7ALV 非 MCC950 共晶、无湿实验。
+6. 局限：诱饵池规模、开源协议与商业对接差异、单态口袋、7ALV 非 MCC950 共晶、无湿实验。
 
 ---
 
