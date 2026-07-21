@@ -4,7 +4,7 @@
 
 ## 第一段｜痛风是什么、发病机制、涉及的靶点与两条治疗轴
 
-痛风是成人中最常见的炎症性关节炎，其发生以高尿酸血症为前提：血清尿酸持续升高并超过其体内饱和点（约 6.8 mg/dL）后，会在关节及关节周围组织沉积为针状单钠尿酸盐（MSU）晶体（Dalbeth et al., *Lancet* 2021, https://doi.org/10.1016/S0140-6736(21)00569-9 ；Leask et al., *Nat Rev Rheumatol* 2024, https://doi.org/10.1038/s41584-024-01137-1 ）。尿酸是肝脏嘌呤代谢的终产物，高尿酸血症在多数患者中主要源于肾脏与肠道排泄不足，而非生成过多；其中肾近端小管的重吸收由一组尿酸转运体调控，尿酸盐转运体 1（URAT1，*SLC22A12*）介导了约 90% 的尿酸重吸收，是降尿酸治疗的核心靶点（Dai & Lee, *Cell Res* 2024, https://doi.org/10.1038/s41422-024-01023-1 ；Sun et al., *Front Immunol* 2023, https://doi.org/10.3389/fimmu.2023.1167738 ）。沉积的 MSU 晶体作为损伤相关分子模式被巨噬细胞识别，经"预激—激活"两步过程触发 NLRP3 炎症小体组装，激活的复合体经 caspase-1 将 pro-IL-1β 剪切为活性 IL-1β，成为急性痛风发作的关键效应分子（Martinon et al., *Nature* 2006, https://doi.org/10.1038/nature04516 ；Chen et al., *J Inflamm Res* 2023, https://doi.org/10.2147/JIR.S413477 ）。由此，痛风的治疗自然分为两条互补的轴：针对代谢层面的**降尿酸治疗**（作用于 URAT1、黄嘌呤氧化酶等）与针对炎症层面的**抗炎治疗**（作用于 NLRP3–IL-1β 通路）。
+痛风是成人中最常见的炎症性关节炎，其发生以高尿酸血症为前提：血清尿酸持续升高并超过其体内饱和点（约 6.8 mg/dL）后，会在关节及关节周围组织沉积为针状单钠尿酸盐（MSU）晶体（Dalbeth et al., *Lancet* 2021, https://doi.org/10.1016/S0140-6736(21)00569-9 ；Leask et al., *Nat Rev Rheumatol* 2024, https://doi.org/10.1038/s41584-024-01137-1 ）。尿酸是肝脏嘌呤代谢的终产物，高尿酸血症在多数患者中主要源于肾脏与肠道排泄不足，而非生成过多；其中肾近端小管的重吸收由一组尿酸转运体调控，尿酸盐转运体 1（URAT1，*SLC22A12*）介导了约 90% 的尿酸重吸收，是降尿酸治疗的核心靶点（Dai & Lee, *Cell Res* 2024, https://doi.org/10.1038/s41422-024-01023-1 ；Lin et al., *Signal Transduct Target Ther* 2024, https://doi.org/10.1038/s41392-024-01916-y ）。沉积的 MSU 晶体作为损伤相关分子模式被巨噬细胞识别，经"预激—激活"两步过程触发 NLRP3 炎症小体组装，激活的复合体经 caspase-1 将 pro-IL-1β 剪切为活性 IL-1β，成为急性痛风发作的关键效应分子（Martinon et al., *Nature* 2006, https://doi.org/10.1038/nature04516 ；Zhao et al., *Front Immunol* 2023, https://doi.org/10.3389/fimmu.2023.1137822 ）。由此，痛风的治疗自然分为两条互补的轴：针对代谢层面的**降尿酸治疗**（作用于 URAT1、黄嘌呤氧化酶等）与针对炎症层面的**抗炎治疗**（作用于 NLRP3–IL-1β 通路）。
 
 ## 第二段｜两条轴的药物、局限性，以及为何仍需开发新的降尿酸药物
 
@@ -29,9 +29,9 @@
 1. Dalbeth N, et al. *Lancet* 2021. doi:10.1016/S0140-6736(21)00569-9
 2. Leask MP, et al. *Nat Rev Rheumatol* 2024;20:510-523. doi:10.1038/s41584-024-01137-1
 3. Dai Y, Lee CH. *Cell Res* 2024;34:776-787. doi:10.1038/s41422-024-01023-1
-4. Sun W, et al. *Front Immunol* 2023;14:1167738. doi:10.3389/fimmu.2023.1167738
+4. Lin X, et al. Hyperuricemia and its related diseases: mechanisms and advances in therapy. *Signal Transduct Target Ther* 2024;9:212. doi:10.1038/s41392-024-01916-y （替换原 fimmu.2023.1167738，该 DOI 无法核实）
 5. Martinon F, et al. *Nature* 2006;440:237-241. doi:10.1038/nature04516
-6. Chen Y, et al. *J Inflamm Res* 2023;16:3699-3713. doi:10.2147/JIR.S413477
+6. Zhao J, et al. Role of NLRP3 in the pathogenesis and treatment of gout arthritis. *Front Immunol* 2023;14:1137822. doi:10.3389/fimmu.2023.1137822 （替换原 JIR.S413477：该标题实际对应 Choe & Kim, *J Rheum Dis* 2022;29(3):140, doi:10.4078/jrd.2022.29.3.140）
 7. Fedor JG/Suo Y, et al. *Nat Commun* 2025;16:5178. doi:10.1038/s41467-025-60480-3
 8. Wu C, et al. *Cell Discov* 2025. doi:10.1038/s41421-025-00779-z
 9. Borghi C, et al. *Cardiol J* 2023 update.（高心血管风险高尿酸血症诊疗专家共识）

@@ -11,7 +11,7 @@ All entries include DOI or PMID where available.
 
 2. **Martinon F**, Pétrilli V, Mayor A, Tardivel A, Tschopp J. **Gout-associated uric acid crystals activate the NALP3 inflammasome.** *Nature.* 2006;440(7081):237-241. doi:10.1038/nature04516. PMID: 16407889.
 
-3. **Chen Y**, Guo Z, Liu Y, et al. **The Mechanism of the NLRP3 Inflammasome Activation and Pathogenic Implication in the Pathogenesis of Gout.** *J Inflamm Res.* 2023;16:3699-3713. doi:10.2147/JIR.S413477. PMID: 37521042.
+3. **Choe JY**, Kim SK. **The Mechanism of the NLRP3 Inflammasome Activation and Pathogenic Implication in the Pathogenesis of Gout.** *J Rheum Dis.* 2022;29(3):140-153. doi:10.4078/jrd.2022.29.3.140. PMC10324924. *(Corrected: earlier draft mislabeled this title as J Inflamm Res 10.2147/JIR.S413477, which does not resolve to this article.)*
 
 4. **Liu Y**, Li W, Deng Y. **Role of NLRP3 in the pathogenesis and treatment of gout arthritis.** *Front Immunol.* 2023;14:1137822. doi:10.3389/fimmu.2023.1137822. PMID: 36923456.
 
@@ -35,7 +35,7 @@ All entries include DOI or PMID where available.
 
 12. **Merriman TR**, Dalbeth N. **The genetic basis of hyperuricaemia and gout.** *Jt Bone Spine.* 2018;85(1):31-36. doi:10.1016/j.jbspin.2017.07.001.
 
-13. **Sun W**, Wu M, Wang Y, et al. **Uric acid transporters: molecular functional characterization and their roles in hyperuricemia and gout.** *Front Immunol.* 2023;14:1167738. doi:10.3389/fimmu.2023.1167738.
+13. **Lin X**, et al. **Hyperuricemia and its related diseases: mechanisms and advances in therapy.** *Signal Transduct Target Ther.* 2024;9:212. doi:10.1038/s41392-024-01916-y. *(Replaces an earlier entry citing Front Immunol 10.3389/fimmu.2023.1167738, a DOI that could not be verified; this review states URAT1 mediates ~90% of urate reabsorption.)*
 
 ---
 
