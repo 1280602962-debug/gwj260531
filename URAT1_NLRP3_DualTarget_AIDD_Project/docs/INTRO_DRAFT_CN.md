@@ -1,7 +1,9 @@
 # 引言初稿（中文；原创表述，基于本项目首次五段内容）
 
 > **更正说明**：此前一版过多沿用他文句式，接近换皮，已废弃。  
-> 本版只保留本项目首次引言的信息骨架，全部重新措辞；不套用他文原句与“天然产物双靶”路线。
+> 本版只保留本项目首次引言的信息骨架，全部重新措辞；不套用他文原句与“天然产物双靶”路线。  
+> **下一部分 Methods**：[`METHODS_DRAFT_CN.md`](METHODS_DRAFT_CN.md)（V2 · 非 Glide XP）。  
+> **勿打开**：[`MANUSCRIPT_DRAFT_CN.md`](MANUSCRIPT_DRAFT_CN.md)（旧全文，仍含 Glide XP，已过时）。
 
 痛风是成人常见的晶体性关节炎。血尿酸长期偏高时，单钠尿酸盐（MSU）可在关节及其周围沉积；巨噬细胞识别晶体后，NLRP3 炎症小体被激活，caspase-1 将 pro-IL-1β 加工为活性 IL-1β，从而引发红肿热痛的急性发作（Dalbeth et al., *Lancet* 2021, https://doi.org/10.1016/S0140-6736(21)00569-9；Leask et al., *Nat Rev Rheumatol* 2024, https://doi.org/10.1038/s41584-024-01137-1；Martinon et al., *Nature* 2006, https://doi.org/10.1038/nature04516）。尿酸来自肝脏嘌呤代谢。多数患者高尿酸血症主要因肾脏或肠道排泄不足，其中近端小管 URAT1（*SLC22A12*）承担约九成尿酸重吸收，因此是降尿酸药的关键靶点（Dai & Lee, *Cell Res* 2024, https://doi.org/10.1038/s41422-024-01023-1；Lin et al., *Signal Transduct Target Ther* 2024, https://doi.org/10.1038/s41392-024-01916-y）。与此相应，临床管理通常要同时处理两件事：降低血尿酸，以及抑制晶体驱动的炎症（Zhao et al., *Front Immunol* 2023, https://doi.org/10.3389/fimmu.2023.1137822）。
 
