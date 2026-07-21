@@ -1,5 +1,8 @@
 # 文章思路定稿（2026-07 修订）
 
+> **⚠️ 已被 V2 取代**：请以 **`MANUSCRIPT_OUTLINE_V2.md`** 为准（2026-07-21）。  
+> 本文件保留作历史参考。V2 推翻了「默认 Glide XP / 仅 A vs D 富集 / redock 放宽通过 / 主文=发现 canagliflozin」等旧结论，改为 **True/Random 协议筛选 + 不对称漏斗**，首投仍为 JCAMD（非 OA）。
+
 > **首投**：*Journal of Computer-Aided Molecular Design*（Hybrid / 可选非 OA）  
 > **备选**：*Chemical Biology & Drug Design*（Wiley subscription + 可选 OA）  
 > **不推荐（当前数据包）**：*Journal of Molecular Modeling*（Aims 要求 ≥500 ns 级 MD / 多构象共识 / 商业对接 discouraged——见 `docs/paper_spine_ars_analysis/`）  
