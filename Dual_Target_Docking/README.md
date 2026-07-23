@@ -36,6 +36,7 @@ Dual_Target_Docking/
 | [**NMI 对标文章**](docs/NMI_REFERENCE_PAPER_PLAYBOOK.md) | 流程最像的 NMI/高分文 + 章节骨架怎么抄 |
 | [**ResearchStudio 审计**](docs/researchstudio_audit/RESEARCHSTUDIO_AUDIT.md) | 思路漏洞、scoop、可完成性（Idea skills） |
 | [**ARS 课题分析**](docs/ars_audit/ARS_TOPIC_ANALYSIS.md) | FINER RQ、方法蓝图、DA 攻击面、AI 失败模式 |
+| [**K-Dense skills 映射**](docs/KDENSE_SKILLS_MAPPING.md) | scientific-agent-skills 对本课题能帮什么 |
 | [文献与分子总表](docs/REFERENCES_AND_MOLECULES.md) | 全部参考文献链接、文章简介、双靶分子/PDB 信息 |
 | [问答总结](docs/DUAL_TARGET_DOCKING_QA_SUMMARY.md) | 问题诊断、创新点、指标、PROTAC 边界 |
 | [文献调研](docs/DUAL_MULTI_TARGET_DOCKING_SURVEY.md) | 方法与评价综述 |
