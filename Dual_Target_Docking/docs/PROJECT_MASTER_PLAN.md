@@ -1,15 +1,16 @@
 # 课题总规划：双靶兼容性打分与 Dual-VSDS
 
-> 综合三套 skills 审计 + 既有 NMI 方案后的**唯一执行总览**。  
-> 读完应能回答：是什么 · 为什么 · 怎么做 · 新在哪 · 离落地多远。  
-> **立项依据专文：** [`TOPIC_ESTABLISHMENT_REPORT.md`](TOPIC_ESTABLISHMENT_REPORT.md)（问题如何推出、为何开展、与最初想法取舍）。
+> **现行投稿主线已更新：** 双药效团 / passenger 污染 + moiety-resolved 评测。  
+> → **NMI 执行规划：** [`NMI_SUBMISSION_PLAN_MOIETY.md`](NMI_SUBMISSION_PLAN_MOIETY.md)  
+> 下文保留早期「融合打假」总览；分数融合降为基线，fused/linked 为分层轴。  
+> **立项依据专文：** [`TOPIC_ESTABLISHMENT_REPORT.md`](TOPIC_ESTABLISHMENT_REPORT.md)。
 
 | 来源 | 文档 | 核心结论 |
 |------|------|----------|
-| ResearchStudio | [`researchstudio_audit/RESEARCHSTUDIO_AUDIT.md`](researchstudio_audit/RESEARCHSTUDIO_AUDIT.md) | Idea 67/100 strong；Scoop Level 3；JCIM 可完成，NMI 条件达成 |
-| ARS | [`ars_audit/ARS_TOPIC_ANALYSIS.md`](ars_audit/ARS_TOPIC_ANALYSIS.md) | FINER 4.4/5；主 RQ 锁定诊断句；有打假表前不写作 |
-| K-Dense | [`KDENSE_SKILLS_MAPPING.md`](KDENSE_SKILLS_MAPPING.md) | 执行层：ChEMBL/RDKit/统计力；无 GNINA 专用 skill |
-| 主方案 / 对标 | [`NMI_DUAL_COMPATIBILITY_PLAN.md`](NMI_DUAL_COMPATIBILITY_PLAN.md) · [`NMI_REFERENCE_PAPER_PLAYBOOK.md`](NMI_REFERENCE_PAPER_PLAYBOOK.md) | VSDS-VD × CleanSplit × EquiScore 叙事 |
+| **现行 NMI 规划** | [`NMI_SUBMISSION_PLAN_MOIETY.md`](NMI_SUBMISSION_PLAN_MOIETY.md) | passenger 诊断 + moiety-resolved + Dual-VSDS-Moiety |
+| ResearchStudio | [`researchstudio_audit/RESEARCHSTUDIO_AUDIT.md`](researchstudio_audit/RESEARCHSTUDIO_AUDIT.md) | 早期 fusion 路线；需按 moiety 重估 |
+| ARS | [`ars_audit/ARS_TOPIC_ANALYSIS.md`](ars_audit/ARS_TOPIC_ANALYSIS.md) | 有打假表前不写作（仍适用） |
+| 旧主方案 | [`NMI_DUAL_COMPATIBILITY_PLAN.md`](NMI_DUAL_COMPATIBILITY_PLAN.md) | 融合主线（历史） |
 
 ---
 
@@ -17,7 +18,8 @@
 
 ### 1.1 一句话
 
-**不是**发明新对接算法，**而是**：把「同一分子能不能同时对两个靶够好」做成可校准、可打假、可开源评测的**双靶兼容性排序任务**，并发布配套基准 **Dual-VSDS**。
+**现行：** 单分子双靶含两药效团；整分子单口袋打分被 passenger 污染 → **moiety-resolved 打分 + 分靶校准 + 短板双靶决策 + 开放基准**。  
+**历史表述：** 把「同一分子两端是否同时够好」做成可校准的双靶兼容性排序 + Dual-VSDS。
 
 ### 1.2 研究对象与非对象
 

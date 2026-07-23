@@ -1,9 +1,15 @@
 # 双靶兼容性打分冲击 NMI：完整思考、分析与执行方案
 
-本文档归纳本课题讨论中关于 **Nature Machine Intelligence（NMI）导向** 的全部思考：问题定位、与协同/DTI/对接算法的区别、创新点如何产生、数据与对接协议、难点、细胞/PK 数据用法、仓库课题优先级，以及后续可执行方案。
+> **状态（重要）：** 本文档保留「分数融合 / dual-compatibility」历史主线。  
+> **现行 NMI 投稿规划**已切换为 **双药效团 / passenger 污染 + moiety-resolved 评测**：  
+> → [`NMI_SUBMISSION_PLAN_MOIETY.md`](NMI_SUBMISSION_PLAN_MOIETY.md)  
+> 本文中的 fusion / softmin 等内容降为 **基线与组件**，不再作为封面级创新。
+
+本文档归纳本课题早期关于 **Nature Machine Intelligence（NMI）导向** 的思考：问题定位、与协同/DTI/对接算法的区别、数据与对接协议、难点、细胞/PK 数据用法等。
 
 相关已有文档：
 
+- **现行投稿规划：** [`NMI_SUBMISSION_PLAN_MOIETY.md`](NMI_SUBMISSION_PLAN_MOIETY.md)
 - 问答总结：[`DUAL_TARGET_DOCKING_QA_SUMMARY.md`](DUAL_TARGET_DOCKING_QA_SUMMARY.md)
 - 实现蓝图：[`DUAL_TARGET_SCORING_IMPLEMENTATION.md`](DUAL_TARGET_SCORING_IMPLEMENTATION.md)
 - 文献与分子：[`REFERENCES_AND_MOLECULES.md`](REFERENCES_AND_MOLECULES.md)
@@ -13,6 +19,8 @@
 ---
 
 ## 0. 一句话定调（全文最重要）
+
+**现行定调见 moiety 规划。** 下文为历史表述：
 
 **计算主线不是新对接算法，也不是药物协同预测，而是：**
 
