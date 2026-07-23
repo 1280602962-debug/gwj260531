@@ -9,12 +9,17 @@
 Dual_Target_Docking/
 ├── README.md
 ├── docs/
+│   ├── NMI_DUAL_COMPATIBILITY_PLAN.md           # ★ 总方案（问答+分析+路线图）
 │   ├── DUAL_MULTI_TARGET_DOCKING_SURVEY.md      # 文献调研
 │   ├── DUAL_TARGET_SCORING_IMPLEMENTATION.md    # 打分实现蓝图
 │   ├── DUAL_TARGET_COCRYSTAL_CATALOG_NOTES.md   # 共晶目录说明
 │   ├── DUAL_TARGET_DOCKING_QA_SUMMARY.md        # 问答总结
 │   └── REFERENCES_AND_MOLECULES.md              # 文献链接 + 双靶分子总表
 └── data/
+    ├── schema/                                  # CSV 表头模板
+    │   ├── activity_pairs.schema.csv
+    │   ├── docking_runs.schema.csv
+    │   └── metrics_report.schema.csv
     └── dual_target_structures/
         ├── README.md
         └── dual_target_cocrystal_catalog.csv     # 共晶种子目录
@@ -24,6 +29,7 @@ Dual_Target_Docking/
 
 | 文档 | 用途 |
 |------|------|
+| [**NMI 总方案**](docs/NMI_DUAL_COMPATIBILITY_PLAN.md) | 全部思考/分析/数据与对接方案/阶段路线（优先阅读） |
 | [文献与分子总表](docs/REFERENCES_AND_MOLECULES.md) | 全部参考文献链接、文章简介、双靶分子/PDB 信息 |
 | [问答总结](docs/DUAL_TARGET_DOCKING_QA_SUMMARY.md) | 问题诊断、创新点、指标、PROTAC 边界 |
 | [文献调研](docs/DUAL_MULTI_TARGET_DOCKING_SURVEY.md) | 方法与评价综述 |
