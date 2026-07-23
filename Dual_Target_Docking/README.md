@@ -12,6 +12,7 @@ Dual_Target_Docking/
 │   ├── NMI_DUAL_COMPATIBILITY_PLAN.md           # ★ 总方案（问答+分析+路线图）
 │   ├── NMI_REFERENCE_PAPER_PLAYBOOK.md          # ★ NMI/高分文：最可参考流程对标
 │   ├── researchstudio_audit/                    # ★ ResearchStudio 思路/可完成性审计
+│   ├── ars_audit/                               # ★ academic-research-skills (ARS) 课题分析
 │   ├── DUAL_MULTI_TARGET_DOCKING_SURVEY.md      # 文献调研
 │   ├── DUAL_TARGET_SCORING_IMPLEMENTATION.md    # 打分实现蓝图
 │   ├── DUAL_TARGET_COCRYSTAL_CATALOG_NOTES.md   # 共晶目录说明
