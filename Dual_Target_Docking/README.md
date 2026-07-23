@@ -10,6 +10,7 @@ Dual_Target_Docking/
 ├── README.md
 ├── docs/
 │   ├── NMI_DUAL_COMPATIBILITY_PLAN.md           # ★ 总方案（问答+分析+路线图）
+│   ├── NMI_REFERENCE_PAPER_PLAYBOOK.md          # ★ NMI/高分文：最可参考流程对标
 │   ├── DUAL_MULTI_TARGET_DOCKING_SURVEY.md      # 文献调研
 │   ├── DUAL_TARGET_SCORING_IMPLEMENTATION.md    # 打分实现蓝图
 │   ├── DUAL_TARGET_COCRYSTAL_CATALOG_NOTES.md   # 共晶目录说明
@@ -30,6 +31,7 @@ Dual_Target_Docking/
 | 文档 | 用途 |
 |------|------|
 | [**NMI 总方案**](docs/NMI_DUAL_COMPATIBILITY_PLAN.md) | 全部思考/分析/数据与对接方案/阶段路线（优先阅读） |
+| [**NMI 对标文章**](docs/NMI_REFERENCE_PAPER_PLAYBOOK.md) | 流程最像的 NMI/高分文 + 章节骨架怎么抄 |
 | [文献与分子总表](docs/REFERENCES_AND_MOLECULES.md) | 全部参考文献链接、文章简介、双靶分子/PDB 信息 |
 | [问答总结](docs/DUAL_TARGET_DOCKING_QA_SUMMARY.md) | 问题诊断、创新点、指标、PROTAC 边界 |
 | [文献调研](docs/DUAL_MULTI_TARGET_DOCKING_SURVEY.md) | 方法与评价综述 |
