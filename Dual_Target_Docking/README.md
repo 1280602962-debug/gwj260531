@@ -11,6 +11,7 @@ Dual_Target_Docking/
 ├── docs/
 │   ├── NMI_DUAL_COMPATIBILITY_PLAN.md           # ★ 总方案（问答+分析+路线图）
 │   ├── PROJECT_MASTER_PLAN.md                   # ★ 课题总规划（是什么/为什么/怎么做/多远）
+│   ├── TOPIC_ESTABLISHMENT_REPORT.md            # ★ 课题确立分析（问题推导与立项依据）
 │   ├── NMI_REFERENCE_PAPER_PLAYBOOK.md          # ★ NMI/高分文：最可参考流程对标
 │   ├── researchstudio_audit/                    # ★ ResearchStudio 思路/可完成性审计
 │   ├── ars_audit/                               # ★ academic-research-skills (ARS) 课题分析
@@ -34,6 +35,7 @@ Dual_Target_Docking/
 | 文档 | 用途 |
 |------|------|
 | [**课题确立分析报告**](docs/TOPIC_ESTABLISHMENT_REPORT.md) | 问题如何推出、为何立项、与「类型化对接」取舍 |
+| [**课题路线重审**](docs/TOPIC_ROUTE_RETHINK.md) | 拼分叙事问题、综述问题清单、B/C/D 可选主线 |
 | [**课题总规划**](docs/PROJECT_MASTER_PLAN.md) | 是什么 / 为什么 / 怎么做 / 创新点 / 离落地多远 |
 | [**数据收集（合成向）**](docs/DATA_COLLECTION_FOR_SYNTHETIC_CHEMISTS.md) | 大白话：要收什么表、怎么填、两周怎么干 |
 | [**双靶文献合并清单（138篇）**](docs/DUAL_TARGET_PAPERS_CATALOG.md) | JMC100 + JACS/Angew/Nat Commun 等高分刊 + EJMC 补充 |
