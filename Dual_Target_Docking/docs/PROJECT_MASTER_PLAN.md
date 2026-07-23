@@ -194,7 +194,7 @@ Scoop 等级：**Level 3（中等重叠）**——可辩护，但 Delta 后半�
 
 **本周（P0）**
 - [ ] 冻结 θ、主指标列表、引擎版本字符串  
-- [ ] 选定 ≥2 公开靶点对（写出 UniProt/ChEMBL ID）  
+- [x] 选定 ≥2 公开靶点对（写出 UniProt/ChEMBL ID）→ **已锁 3 对**：PIK3CA/mTOR、EGFR/HER2、Mcl-1/Bcl-xL（见 [`PUBLIC_TARGET_PAIR_SELECTION_REPORT.md`](PUBLIC_TARGET_PAIR_SELECTION_REPORT.md) / [`../data/public_pair_selection/FROZEN_PUBLIC_PAIRS.yaml`](../data/public_pair_selection/FROZEN_PUBLIC_PAIRS.yaml)）  
 - [ ] 写死：校准只用 train scaffolds  
 - [ ] 用 statistical-power 估 dual 最小 n；达不到则预设「降级期刊」开关  
 

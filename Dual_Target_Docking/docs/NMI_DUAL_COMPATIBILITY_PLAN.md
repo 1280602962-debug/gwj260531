@@ -233,8 +233,8 @@ DiffDock / CarsiDock / KarmaDock 等作消融，**不作唯一主引擎**（VSDS
 
 ### Phase 1｜数据
 
-1. 选定 2–3 个公开靶点对，ChEMBL 配对抽取 → D2-public  
-2. 文献 curated 30–80 分子 → D2-curated + design_type  
+1. ~~选定 2–3 个公开靶点对~~ → **已冻结** PIK3CA/mTOR、EGFR/HER2、Mcl-1/Bcl-xL（见 [`PUBLIC_TARGET_PAIR_SELECTION_REPORT.md`](PUBLIC_TARGET_PAIR_SELECTION_REPORT.md)）；下一步 ChEMBL 配对抽取 → D2-public  
+2. 文献 curated 30–80 分子 → D2-curated + design_type 
 3. 扩展 D1 共晶 catalog  
 4. 入库 D5（私有细胞）+ 与训练 InChIKey 去重  
 5. 实现划分与负例脚本  

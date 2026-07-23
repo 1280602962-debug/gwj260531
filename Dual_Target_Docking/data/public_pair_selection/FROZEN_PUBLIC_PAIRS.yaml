@@ -1,0 +1,120 @@
+# Frozen public Dual-VSDS target pairs (v1)
+# Locked: 2026-07-23 after ChEMBL + RCSB hard-gate audit.
+# Label rule: pChEMBL >= 6 = active; measured pChEMBL < 6 = inactive/weak for that target.
+# Untested ≠ inactive.
+
+version: "1.0"
+frozen_date: "2026-07-23"
+theta_pchembl_active: 6.0
+primary_activity_types: ["IC50", "Ki", "Kd", "EC50"]
+chembl_api_note: >
+  Per-molecule best (max) pChEMBL across qualifying activity rows on each
+  SINGLE PROTEIN ChEMBL target. Assay heterogeneity remains; do not treat as
+  identical-condition SAR.
+
+selected_public_pairs:
+  - pair_id: DTPAIR-01
+    role: primary_scale
+    name: PIK3CA / mTOR
+    target_A:
+      name: PIK3CA
+      uniprot: P42336
+      chembl: CHEMBL4005
+      suggested_holo_pdb_examples: ["9CMK", "7L1C", "9ASF"]
+    target_B:
+      name: MTOR
+      uniprot: P42345
+      chembl: CHEMBL2842
+      suggested_holo_pdb_examples: ["4DRI", "4DRJ", "3FAP"]
+    chembl_audit_2026-07-23:
+      n_A: 7732
+      n_B: 5209
+      paired_both_measured: 2713
+      dual: 2002
+      A_only: 266
+      B_only: 236
+      dual_weak: 209
+    both_end_same_ligand_cocrystal: false
+    docking_class: conventional_small_molecule_pockets
+    notes: >
+      Largest four-class ChEMBL paired set among audited pairs. Prefer classical
+      dual PI3K/mTOR inhibitors for curated design_type; keep PROTACs on a
+      separate sheet.
+
+  - pair_id: DTPAIR-02
+    role: kinase_dual_with_pose_gold
+    name: EGFR / HER2
+    target_A:
+      name: EGFR
+      uniprot: P00533
+      chembl: CHEMBL203
+      suggested_holo_pdb_examples: ["3POZ", "5HG8", "8A27"]
+    target_B:
+      name: HER2
+      uniprot: P04626
+      chembl: CHEMBL1824
+      suggested_holo_pdb_examples: ["3RCD", "7PCD", "8VB5"]
+    chembl_audit_2026-07-23:
+      n_A: 11198
+      n_B: 2619
+      paired_both_measured: 1751
+      dual: 1182
+      A_only: 207
+      B_only: 46
+      dual_weak: 316
+    both_end_same_ligand_cocrystal: true
+    pose_gold_ligand: TAK-285
+    pose_gold_pdbs: ["3POZ", "3RCD"]
+    pose_gold_doi: "10.1074/jbc.M110.209817"
+    docking_class: conventional_kinase_atp_pockets
+    notes: >
+      Homologous kinase pair; still has usable A-only/B-only. Use TAK-285 for
+      dual-end RMSD pose QC; single-target enrichment uses broader ChEMBL actives.
+
+  - pair_id: DTPAIR-03
+    role: disparate_fold_with_pose_gold
+    name: Mcl-1 / Bcl-xL
+    target_A:
+      name: MCL1
+      uniprot: Q07820
+      chembl: CHEMBL4361
+      suggested_holo_pdb_examples: ["3WIY", "6UDV", "8G3S"]
+    target_B:
+      name: BCL2L1
+      uniprot: Q07817
+      chembl: CHEMBL4625
+      suggested_holo_pdb_examples: ["3WIZ", "3SP7", "7LH7"]
+    chembl_audit_2026-07-23:
+      n_A: 3412
+      n_B: 1612
+      paired_both_measured: 305
+      dual: 82
+      A_only: 77
+      B_only: 24
+      dual_weak: 122
+    both_end_same_ligand_cocrystal: true
+    pose_gold_ligand: LC6_compound10_Tanaka
+    pose_gold_pdbs: ["3WIY", "3WIZ"]
+    pose_gold_doi: "10.1021/jm401170c"
+    docking_class: PPI_BH3_grooves
+    notes: >
+      Smaller paired N than kinase pairs but clear four-class + linked Tier-A
+      pose gold. Good mechanistic distance from NLRP3/JNK1 holdout.
+
+leave_pair_candidates_not_frozen:
+  - name: AChE / BChE
+    reason: Passes hard gates with large N; pockets homologous (cholinesterase). Keep as optional 4th / stress test, not one of the three frozen mains.
+  - name: AKT1 / p70S6K
+    reason: Passes three-class but A-only only n=11 (fragile). Backup only.
+  - name: Mcl-1 / Bcl-2
+    reason: Passes; overlaps chemically with DTPAIR-03. Prefer Bcl-xL for Tier-A same-ligand crystals.
+
+explicitly_rejected_as_public_main:
+  - NLRP3/JNK1: private holdout only
+  - BRD4/HDAC1: fails A-only (0); HDAC Zn pocket
+  - BRD4/HDAC6: fails A-only/B-only thresholds; metal
+  - JAK2/HDAC1: fails B-only
+  - PARP1/MET: almost no ChEMBL paired molecules
+  - CDK6/BRD4: paired n=6
+  - PIK3CA/PIK3CB: isoform pair too close for primary dual-compatibility narrative
+  - pure PROTAC ternary systems: separate table
