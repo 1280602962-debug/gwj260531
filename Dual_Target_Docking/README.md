@@ -36,6 +36,7 @@ Dual_Target_Docking/
 |------|------|
 | [**课题确立分析报告**](docs/TOPIC_ESTABLISHMENT_REPORT.md) | 问题如何推出、为何立项、与「类型化对接」取舍 |
 | [**课题路线重审**](docs/TOPIC_ROUTE_RETHINK.md) | 拼分叙事问题、综述问题清单、B/C/D 可选主线 |
+| [**高分文重定（skills 复审）**](docs/skills_reaudit/HIGH_IMPACT_REFRAME.md) | 复跑 ResearchStudio/ARS：主问题改为架构分层双对接审计 |
 | [**课题总规划**](docs/PROJECT_MASTER_PLAN.md) | 是什么 / 为什么 / 怎么做 / 创新点 / 离落地多远 |
 | [**数据收集（合成向）**](docs/DATA_COLLECTION_FOR_SYNTHETIC_CHEMISTS.md) | 大白话：要收什么表、怎么填、两周怎么干 |
 | [**双靶文献合并清单（138篇）**](docs/DUAL_TARGET_PAPERS_CATALOG.md) | JMC100 + JACS/Angew/Nat Commun 等高分刊 + EJMC 补充 |
