@@ -1,4 +1,6 @@
 # 双靶分子文献清单（优先 JMC，共 100 篇）
+
+> **扩展版（已合并 JACS / Nature 子刊 / Angew / EJMC 补充）：** 见 [`DUAL_TARGET_PAPERS_CATALOG.md`](DUAL_TARGET_PAPERS_CATALOG.md) · 机读合并表 [`../data/literature/dual_target_papers_merged.csv`](../data/literature/dual_target_papers_merged.csv)（共 138 篇）
 > 检索来源：PubMed（2026-07-23）  
 > 期刊优先：*Journal of Medicinal Chemistry*，不足时补 *Eur. J. Med. Chem.* / *ACS Med. Chem. Lett.*  
 > 关键词：`dual inhibitor` / `dual-target` / `dual target` / `bifunctional inhibitor`（题录/摘要）  

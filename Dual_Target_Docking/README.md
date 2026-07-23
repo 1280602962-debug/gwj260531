@@ -35,7 +35,8 @@ Dual_Target_Docking/
 |------|------|
 | [**课题总规划**](docs/PROJECT_MASTER_PLAN.md) | 是什么 / 为什么 / 怎么做 / 创新点 / 离落地多远 |
 | [**数据收集（合成向）**](docs/DATA_COLLECTION_FOR_SYNTHETIC_CHEMISTS.md) | 大白话：要收什么表、怎么填、两周怎么干 |
-| [**JMC级双靶文献100篇**](docs/DUAL_TARGET_PAPERS_JMC100.md) | 含DOI链接的文献池（优先新文） |
+| [**双靶文献合并清单（138篇）**](docs/DUAL_TARGET_PAPERS_CATALOG.md) | JMC100 + JACS/Angew/Nat Commun 等高分刊 + EJMC 补充 |
+| [**JMC级双靶文献100篇**](docs/DUAL_TARGET_PAPERS_JMC100.md) | 原核心池（优先新文，含DOI） |
 | [**摘要复核分类100篇**](docs/DUAL_TARGET_PAPERS_JMC100_INDEX.md) | 合成+活性确认，并标 fused/linked 等 |
 | [**NMI 总方案**](docs/NMI_DUAL_COMPATIBILITY_PLAN.md) | 全部思考/分析/数据与对接方案/阶段路线 |
 | [**NMI 对标文章**](docs/NMI_REFERENCE_PAPER_PLAYBOOK.md) | 流程最像的 NMI/高分文 + 章节骨架怎么抄 |
