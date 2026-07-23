@@ -33,7 +33,8 @@ Dual_Target_Docking/
 
 | 文档 | 用途 |
 |------|------|
-| [**NMI 总方案**](docs/NMI_DUAL_COMPATIBILITY_PLAN.md) | 全部思考/分析/数据与对接方案/阶段路线（优先阅读） |
+| [**课题总规划**](docs/PROJECT_MASTER_PLAN.md) | 是什么 / 为什么 / 怎么做 / 创新点 / 离落地多远 |
+| [**NMI 总方案**](docs/NMI_DUAL_COMPATIBILITY_PLAN.md) | 全部思考/分析/数据与对接方案/阶段路线 |
 | [**NMI 对标文章**](docs/NMI_REFERENCE_PAPER_PLAYBOOK.md) | 流程最像的 NMI/高分文 + 章节骨架怎么抄 |
 | [**ResearchStudio 审计**](docs/researchstudio_audit/RESEARCHSTUDIO_AUDIT.md) | 思路漏洞、scoop、可完成性（Idea skills） |
 | [**ARS 课题分析**](docs/ars_audit/ARS_TOPIC_ANALYSIS.md) | FINER RQ、方法蓝图、DA 攻击面、AI 失败模式 |
