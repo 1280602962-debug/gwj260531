@@ -194,6 +194,7 @@
 
 1. 冻结 moiety 标注 JSON schema（字段：target_A_moiety, target_B_moiety, linker, architecture）  
 2. 从 EGFR/HER2 共晶双靶配体做 **最小可行诊断 demo**（whole-mol vs moiety）  
+   → 操作细则：[`EGFR_HER2_DIAGNOSTIC_DEMO.md`](EGFR_HER2_DIAGNOSTIC_DEMO.md)  
 3. 实现分靶 rank/Z 校准 + softmin 短板  
 4. 导出一对靶点的 dual/A-only/B-only 评测表  
 5. 若 demo 诊断表成立 → 扩到三对；若不成立 → 先修协议再谈写作  
