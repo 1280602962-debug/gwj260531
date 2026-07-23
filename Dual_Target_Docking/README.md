@@ -10,6 +10,7 @@ Dual_Target_Docking/
 ├── README.md
 ├── docs/
 │   ├── NMI_DUAL_COMPATIBILITY_PLAN.md           # ★ 总方案（问答+分析+路线图）
+│   ├── PROJECT_MASTER_PLAN.md                   # ★ 课题总规划（是什么/为什么/怎么做/多远）
 │   ├── NMI_REFERENCE_PAPER_PLAYBOOK.md          # ★ NMI/高分文：最可参考流程对标
 │   ├── researchstudio_audit/                    # ★ ResearchStudio 思路/可完成性审计
 │   ├── ars_audit/                               # ★ academic-research-skills (ARS) 课题分析
