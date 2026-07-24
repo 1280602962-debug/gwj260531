@@ -30,6 +30,7 @@ Dual_Target_Docking/
 
 | 文档 | 用途 |
 |------|------|
+| [**方向重定报告**](docs/RESEARCH_DIRECTION_REFREEZE.md) | ★ PaperSpine/ResearchStudio/对接证据综合；权威方向 |
 | [**课题总览**](docs/PROJECT_MASTER_PLAN.md) | 到底解决什么问题 |
 | [**红队 + 下一步**](docs/CRITIQUE_AND_NEXT_STEPS.md) | 冻结方向与最小闭环 |
 | [**决策尺子投稿规划**](docs/NMI_SUBMISSION_PLAN_DECISION_RULER.md) | Claim ladder / Go-No-Go |

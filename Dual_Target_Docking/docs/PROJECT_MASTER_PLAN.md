@@ -1,11 +1,12 @@
 # 课题总览：架构无关的双靶对接决策尺子
 
-> **先读：** [`CRITIQUE_AND_NEXT_STEPS.md`](CRITIQUE_AND_NEXT_STEPS.md)  
+> **先读：** [`RESEARCH_DIRECTION_REFREEZE.md`](RESEARCH_DIRECTION_REFREEZE.md)（PaperSpine × ResearchStudio × 第一次对接证据）  
+> **红队：** [`CRITIQUE_AND_NEXT_STEPS.md`](CRITIQUE_AND_NEXT_STEPS.md)  
 > **投稿骨架：** [`NMI_SUBMISSION_PLAN_DECISION_RULER.md`](NMI_SUBMISSION_PLAN_DECISION_RULER.md)  
 > **诊断操作：** [`EGFR_HER2_DIAGNOSTIC_DEMO.md`](EGFR_HER2_DIAGNOSTIC_DEMO.md)
 
-**方向已冻结（2026-07-24）：不做乘客 / moiety 主线。**  
-双靶分子结构种类很多（merged / linked / 其它），课题必须用**同一套决策协议**覆盖，而不是假设某一种构效机制。
+**方向已冻结（2026-07-24）：架构无关双靶对接决策尺子；不做乘客 / moiety 主线。**  
+默认目标刊 **JCIM / J. Cheminform.**（非 NMI）。双靶分子结构种类很多（merged / linked / 其它），课题必须用**同一套决策协议**覆盖。
 
 ---
 

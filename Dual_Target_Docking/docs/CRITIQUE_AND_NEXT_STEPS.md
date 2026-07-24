@@ -1,14 +1,16 @@
 # 红队清单：决策尺子方向 + 现在最该干什么
 
 > 目的：冻结方向，避免再换主线。  
+> **权威重定：** [`RESEARCH_DIRECTION_REFREEZE.md`](RESEARCH_DIRECTION_REFREEZE.md)  
 > **现行主张：** [`NMI_SUBMISSION_PLAN_DECISION_RULER.md`](NMI_SUBMISSION_PLAN_DECISION_RULER.md) / [`PROJECT_MASTER_PLAN.md`](PROJECT_MASTER_PLAN.md)  
-> 日期：2026-07-24（乘客主线已废弃）
+> 日期：2026-07-24（乘客主线已废弃；skills 重调研后确认）
 
 ---
 
 ## 0. 一句话
 
-课题要解决的是：**双靶 VS 的决策/排序问题**（如何用同一套协议，把 dual 从硬负例里排出来），**不是**乘客药效团机制，也**不是**新对接引擎。
+课题要解决的是：**双靶 VS 的决策/排序问题**（如何用同一套协议，把 dual 从硬负例里排出来），**不是**乘客药效团机制，也**不是**新对接引擎。  
+Scoop **3.5/5**：融合本身不新；可守的是四类硬负例决策 + 可复现尺子。
 
 ---
 
@@ -77,8 +79,9 @@
 ## 5. 本周清单
 
 - [x] 明确放弃乘客主线  
+- [x] Skills 深度调研 + 方向重定报告  
 - [ ] 冻结协议 YAML（引擎、top-K、RTM、融合规则、指标）  
-- [ ] 完成 mean/min/shortfall 对照表  
+- [ ] 完成 mean/min/shortfall/门控对照表（专治 EH40_23）  
 - [ ] EH40_23 等硬负例 pose QC 一页纸  
 - [ ] Go 才启动 PIK3CA/mTOR  
 

@@ -22,9 +22,10 @@
 
 | 项 | 内容 |
 |----|------|
-| 默认目标刊 | **JCIM / Briefings in Bioinformatics** |
-| NMI 仅当 | 三对靶 + 强诊断 + 开放基准同时成立 |
-| 一句话 | Naive dual-end docking fusion fails to rank dual binders over single-target hard negatives; an architecture-agnostic decision protocol (ensemble/rescoring + calibration + shortfall) recovers discrimination on leakage-controlled public pairs |
+| 默认目标刊 | **JCIM / J. Cheminform. / Digital Discovery** |
+| NMI 仅当 | C3+C4+C5 全绿（三对靶 + 强决策增益 + 开放基准） |
+| Scoop | Level **3.5/5**（见 `RESEARCH_DIRECTION_REFREEZE.md`） |
+| 一句话 | Naive dual-end docking fusion fails to rank dual binders over single-target hard negatives; an architecture-agnostic decision protocol (ensemble/rescoring + calibration + shortfall/gating) recovers discrimination on leakage-controlled public pairs |
 
 ---
 
