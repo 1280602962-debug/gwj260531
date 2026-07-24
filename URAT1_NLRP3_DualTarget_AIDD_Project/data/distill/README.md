@@ -7,7 +7,7 @@
 | A | `distill_subset_a.csv` | URAT1 训练活性（pIC50） |
 | B | `distill_subset_b.csv` | Murcko 骨架代表（每骨架 1 条） |
 | C | `distill_subset_c.csv` | SLC22 邻域 FPS（URAT1 + OAT1/OAT3） |
-| D | `distill_subset_d.csv` | 百万库随机无活性多样性负样本 |
+| D | `distill_subset_d.csv` | 百万库随机无活性多样性负样本（**MASFL/蒸馏用**；**不是**现行 URAT1 TrueDecoy/RandomDecoy 协议筛选池——后者见 `data/benchmarks/urat1_true_decoy/`） |
 | E | `distill_subset_e.csv` | Benchmark 参考 + 类似物边界集 |
 
 合并去重表：`distill_manifest.csv`（按 A > E > B > C > D 优先级保留主标签）

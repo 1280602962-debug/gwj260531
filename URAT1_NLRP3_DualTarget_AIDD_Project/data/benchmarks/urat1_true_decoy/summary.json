@@ -27,8 +27,8 @@
   "relaxed_window_scale": 1.5,
   "matching_algorithm": "experimental_inactives_plus_round_robin_property_match",
   "random_sampling": "gu_style_random_from_remaining_pool_only_no_fallback",
-  "pool_source": "/mnt/d/CADD paper exercise/NLRP3_URAT1/URAT1 docking methond test/decoy_build/taosu_pool_prefiltered.csv",
-  "actives_source": "/tmp/gwj260531_push/URAT1_NLRP3_DualTarget_AIDD_Project/data/processed/urat1_curated.csv",
+  "pool_source": "taosu_20210823_100w \u2192 reservoir 200k \u2192 envelope-filtered 60k (see taosu_pool_prefilter_meta.json)",
+  "actives_source": "data/processed/urat1_curated.csv",
   "n_pool_after_exclude": 60000,
   "n_assignment_pairs": 4610,
   "property_stats": {
@@ -131,5 +131,7 @@
   },
   "window_pass_counts": {
     "strict": 4610
-  }
+  },
+  "official_set": true,
+  "supersedes": "prior distill_subset_d builds with overlapping RandomDecoys / incomplete 1:10"
 }

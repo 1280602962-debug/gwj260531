@@ -73,7 +73,7 @@
 ### 2.2 Compound panels
 - Gate 四药 SMILES（`teacher_gate_qc_panel_b_direction.csv`）
 - `literature_benchmarks.csv` Tier1a
-- Decoy 生成：从 `distill_subset_d.csv` 子采样 + 理化性质匹配规则
+- Decoy 生成（现行）：taosu 商业库预过滤池 + 实验弱活种子 + 性质匹配；Random 不重叠（见 `data/benchmarks/urat1_true_decoy/`）。旧 distill_subset_d 方案已废弃。
 
 ### 2.3 Docking protocols A–D
 - **A**：9DKB SP→XP  

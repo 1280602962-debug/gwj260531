@@ -4,7 +4,7 @@ Build a URAT1 TrueDecoy enrichment benchmark (Gu et al. Nat Mach Intell 2025 fra
 
 TrueDecoy negatives =
   (1) experimental weak/inactives from curated URAT1 (pActivity < inactive_max), plus
-  (2) property-matched unlabeled molecules from distill subset D
+  (2) property-matched unlabeled molecules from a large commercial-like pool
   to reach target active:decoy ratio (default 1:10).
 
 RandomDecoy companion (Gu-style library random draw) =
@@ -12,13 +12,17 @@ RandomDecoy companion (Gu-style library random draw) =
   NOT used in TrueDecoy (zero SMILES overlap). No fallback into TrueDecoy set.
 
 Default actives: curated URAT1 with pActivity >= 6.
-Default decoy pool: distill subset D (unlabeled diversity negatives).
+Default --pool: distill subset D (small local fallback only).
+  Production protocol-selection set uses a taosu-prefiltered ~60k pool
+  (see data/benchmarks/urat1_true_decoy/README.md); do not treat subset D
+  as the official VS benchmark pool.
 
 Matching descriptors (DUD-E-inspired windows):
   MolWt, MolLogP, TPSA, NumHDonors, NumHAcceptors, NumRotatableBonds
 
 Example:
-  python3 scripts/build_urat1_true_decoy.py --ratio 10 --inactive-pactivity-max 5 --seed 42
+  python3 scripts/build_urat1_true_decoy.py --pool taosu_pool_prefiltered.csv \\
+    --ratio 10 --inactive-pactivity-max 5 --seed 42
 """
 from __future__ import annotations
 
@@ -337,14 +341,14 @@ replica of Gu's multi-target BindingDB TrueDecoy.
 | Item | Choice |
 |------|--------|
 | Actives | Curated URAT1, `pActivity >= {pmin}` (n = {n_actives}) |
-| TrueDecoy negatives | (1) experimental weak/inactives `pActivity < {inactive_max}` (n = {n_true_exp}); (2) property-matched unlabeled from distill subset D (n = {n_true_matched}) |
-| Matching | Round-robin MW / logP / TPSA / HBD / HBA / rotatable bonds; 1.5× relaxed top-up |
+| TrueDecoy negatives | (1) experimental weak/inactives `pActivity < {inactive_max}` (n = {n_true_exp}); (2) property-matched unlabeled from commercial/library pool (n = {n_true_matched}) |
+| Matching | Round-robin MW / logP / TPSA / HBD / HBA / rotatable bonds; 1.5× relaxed top-up if needed |
 | Near-analog filter (matched only) | Max Morgan TC to any active ≤ {max_sim} |
 | Target ratio | 1 : {ratio_target} (active : TrueDecoy negative) |
 | Achieved TrueDecoy ratio | 1 : {ratio_achieved:.2f} (n_decoy = {n_true}) |
 | Actives with ≥1 matched decoy | {n_covered} / {n_actives} |
 | Matched decoys / covered active | min {decoys_per_active.get('min', 0)}, median {decoys_per_active.get('median', 0):.1f}, mean {decoys_per_active.get('mean', 0):.1f}, max {decoys_per_active.get('max', 0)} |
-| RandomDecoy | Gu-style random draw from **remaining** subset D only; target n = TrueDecoy negatives; **zero SMILES overlap** with TrueDecoy |
+| RandomDecoy | Gu-style random draw from **remaining** pool only; target n = TrueDecoy negatives; **zero SMILES overlap** with TrueDecoy |
 | Achieved RandomDecoy ratio | 1 : {ratio_random:.2f} (n_decoy = {n_random}); True∩Random decoy overlap = {overlap} |
 | Seed | {seed} |
 

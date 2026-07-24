@@ -106,8 +106,11 @@ python3 scripts/screen_repurposing_library.py \
   --input data/repurposing/repurposing_manifest.csv \
   --panel clinical_all --export-p05-pool --skip-tanimoto
 
-# 3) URAT1 TrueDecoy 基准（协议筛选用）
-python3 scripts/build_urat1_true_decoy.py
+# 3) URAT1 TrueDecoy / RandomDecoy 基准（协议筛选用；现行集已在 data/benchmarks/urat1_true_decoy/）
+# 重建需 taosu 预过滤大池，勿再用默认 distill_subset_d 当作正式 VS 基准：
+# python3 scripts/build_urat1_true_decoy.py --pool /path/to/taosu_pool_prefiltered.csv \
+#   --ratio 10 --inactive-pactivity-max 5 --seed 42
+# 对接请用 unique_docking_pool.csv（9849），不要对 true/random 两份 CSV 各跑一遍
 # 随后在服务器按 docs/MANUSCRIPT_OUTLINE_V2.md 跑 P0–P5 + RTMScore，锁定 Π*
 ```
 

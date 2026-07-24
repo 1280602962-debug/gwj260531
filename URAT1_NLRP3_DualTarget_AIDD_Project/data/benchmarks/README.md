@@ -5,15 +5,17 @@
 > **目录**：`urat1_true_decoy/`  
 > **脚本**：`scripts/build_urat1_true_decoy.py`  
 > **用途**：对接 / 打分富集（Gu *Nat Mach Intell* 2025 TrueDecoy vs RandomDecoy 框架）  
-> **非用途**：ML 训练负样本（decoy 为 putative inactive）
+> **非用途**：ML 训练负样本（库分子诱饵为 putative inactive）  
+> **现行版本**：taosu 商业库预过滤池；**1:10**；True/Random 诱饵 **零重叠**（见该目录 `summary.json`）
 
-| 集 | 内容（默认重建） |
+| 集 | 内容（现行） |
 |----|------------------|
-| Actives | `pActivity ≥ 6`，n ≈ 469 |
-| TrueDecoy | 性质匹配（MW/logP/TPSA/HBD/HBA/可旋转键）+ TC≤0.5 近邻过滤 |
-| RandomDecoy | 同规模随机对照（来自 subset D） |
+| Actives | `pActivity ≥ 6`，n = 469 |
+| TrueDecoy | 80 个实验弱活（`pActivity < 5`）+ 4610 个性质匹配库分子（TC≤0.5）→ 共 4690 |
+| RandomDecoy | 同规模（4690）商业库随机对照；与 TrueDecoy **不重叠** |
+| 对接并集 | `unique_docking_pool.csv`（9849）— 只对接一次 |
 
-详见 `urat1_true_decoy/README.md` 与 `summary.json`。
+详见 `urat1_true_decoy/README.md` 与 `summary.json`。旧版（蒸馏子集 D、诱饵可重叠、比例未满 1:10）已废弃。
 
 ---
 
