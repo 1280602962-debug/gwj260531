@@ -1,9 +1,17 @@
-# NMI 投稿规划：双药效团 / Passenger 污染范式
+# ~~NMI 投稿规划：双药效团 / Passenger 污染范式~~（已废弃）
 
-> **主线定调**  
+> **2026-07-24：本文件不再是主线。**  
+> 课题已改为**架构无关的双靶决策尺子**（覆盖 merged/linked/其它，不假设乘客机制）。  
+> 请改读：[`NMI_SUBMISSION_PLAN_DECISION_RULER.md`](NMI_SUBMISSION_PLAN_DECISION_RULER.md)、[`PROJECT_MASTER_PLAN.md`](PROJECT_MASTER_PLAN.md)。  
+> 下文仅作历史草稿保留。
+
+---
+
+# （历史）NMI 投稿规划：双药效团 / Passenger 污染范式
+
+> **旧主线定调（已废）**  
 > 单分子双靶配体含两个药效团；独立对接 + 整分子打分会把「乘客药效团」算进单口袋结合，系统误评。  
-> 本文提出 **moiety-resolved dual-target docking evaluation**，配开放基准与非循环案例验证。  
-> 朴素分数融合仅作 **基线对照**，不作封面创新。
+> 本文曾提出 **moiety-resolved dual-target docking evaluation**。
 
 总览见 [`PROJECT_MASTER_PLAN.md`](PROJECT_MASTER_PLAN.md)；诊断操作见 [`EGFR_HER2_DIAGNOSTIC_DEMO.md`](EGFR_HER2_DIAGNOSTIC_DEMO.md)。
 

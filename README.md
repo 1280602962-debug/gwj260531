@@ -5,7 +5,7 @@
 | 目录 | 说明 |
 |------|------|
 | [`JNK1_Selectivity_Project/`](JNK1_Selectivity_Project/README.md) | JNK1 选择性筛选与建模 |
-| [`Dual_Target_Docking/`](Dual_Target_Docking/README.md) | 双靶 moiety-resolved 对接评测与 Dual-VSDS 规划 |
+| [`Dual_Target_Docking/`](Dual_Target_Docking/README.md) | 架构无关的双靶对接决策尺子（Dual-VSDS-Decision） |
 
 ---
 

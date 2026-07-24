@@ -1,32 +1,32 @@
-# EGFR/HER2：whole-mol vs moiety 诊断 Demo 协议
+# EGFR/HER2：朴素双端融合失败诊断 Demo
 
 > 回答三问：**为什么选这对** · **诊断表要定什么** · **怎么跑**  
-> 对应 NMI 规划 WP：最小可行诊断（C1），不是全量 Dual-VSDS。
+> 对应决策尺子规划的 C1/C2（诊断 + 姿态/重打分必要性），不是全量基准。  
+> **不再以 passenger/moiety 为必做前提**；moiety 仅可选附录。
 
 ---
 
 ## 1. 为什么先选 EGFR / HER2
 
-不是因为它「最有药学故事」，而是因为它最适合 **用最少分子验证 passenger 假说**。
+不是因为它「最有药学故事」，而是因为它最适合 **用最少分子做姿态 QC + 证明朴素双端融合失败**。
 
 | 条件 | EGFR/HER2 | 对比 |
 |------|-----------|------|
 | **双端同配体共晶** | TAK-285：EGFR [3POZ](https://www.rcsb.org/structure/3POZ) + HER2 [3RCD](https://www.rcsb.org/structure/3RCD) | PIK3CA/mTOR **无**双端同配体共晶 → 无法先做姿态金标准 |
 | **口袋可对接** | 经典激酶 ATP，协议成熟 | Mcl-1/Bcl-xL 是 PPI，对接方差大，不宜做第一个诊断 |
 | **四类标签够用** | dual 1182 / A-only 207 / B-only 46（ChEMBL 审计） | 有硬负样本，诊断表不只看 dual |
-| **化学型可读** | TAK-285 为 merged 双 TKI，药效团分区文献清楚 | 便于手工 moiety 标注做 schema 试点 |
-| **demo 成本** | 先用共晶 + 小面板（~20–50 分子）即可出诊断 | PIK3CA/mTOR 更适合 **规模主表**，不适合第一枪 |
+| **demo 成本** | 共晶 + 小面板（~20–50 分子）即可出诊断 | PIK3CA/mTOR 更适合 **规模主表**，不适合第一枪 |
 
 **角色分工（不要搞反）：**
 
 | 对 | 角色 |
 |----|------|
-| **EGFR/HER2** | **协议 QC + passenger 诊断 demo**（先跑通） |
-| PIK3CA/mTOR | 主规模 dual-vs-single 表 |
-| Mcl-1/Bcl-xL | 异质口袋外推 + linked 姿态案例 |
+| **EGFR/HER2** | **姿态 QC + 朴素融合失败 / 重打分纠偏诊断**（先跑通） |
+| PIK3CA/mTOR | 主规模 dual-vs-single 外推 |
+| Mcl-1/Bcl-xL | 异质口袋外推；linked 仅分层附录 |
 | NLRP3/JNK1 | 外部锚点后的 holdout，不参与调参 |
 
-**已知风险（写进 Methods）：** EGFR/HER2 同源，交叉活性高 → dual 比例偏高属预期；主证据仍是 **A-only/B-only 是否被 whole-mol 抬高**，不是「dual 很多」。
+**已知风险（写进 Methods）：** EGFR/HER2 同源，交叉活性高 → dual 比例偏高属预期；主证据是 **A-only/B-only 是否被朴素融合抬进前列**，以及协议能否压下它们。
 
 ---
 
