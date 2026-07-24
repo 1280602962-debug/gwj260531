@@ -10,3 +10,4 @@ Protocol comparison for redocking (Vina / gnina / RTMScore), exhaustiveness 8 an
 - RMSD: heavy-atom pose RMSD in protein frame (symmetry-aware), ≤2 Å pass/fail
 - gnina: `--cnn_scoring rescore`, seed 42, CPU (`--no_gpu`)
 - RTMScore: model1, pocket 10 Å from crystal ligand
+- **Analysis / conclusions:** [`docs/REDOCK_SMOKE_ANALYSIS.md`](../../docs/REDOCK_SMOKE_ANALYSIS.md)
