@@ -48,7 +48,7 @@ echo "=== [6/6] Smoke test (lesinurad, CPU) ==="
 mkdir -p results/repurposing/smoke_gnina/ligands results/repurposing/smoke_gnina/dock
 cat > results/repurposing/smoke_gnina/pool.csv <<'CSV'
 repurposing_id,canonical_smiles,name
-BENCH_LES,CC(C)(C)OC(=O)N[C@@H](CS)c1nc(-c2cccc3ccccc23)no1,lesinurad
+BENCH_LES,O=C(O)CSc1nnc(Br)n1-c1ccc(C2CC2)c2ccccc12,lesinurad
 CSV
 python3 scripts/prepare_ligands_vina.py \
   --input results/repurposing/smoke_gnina/pool.csv \

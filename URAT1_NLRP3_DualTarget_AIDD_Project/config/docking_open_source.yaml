@@ -57,11 +57,11 @@ targets:
 benchmark_redock:
   urat1:
     - name: lesinurad
-      smiles: "CC(C)(C)OC(=O)N[C@@H](CS)c1nc(-c2cccc3ccccc23)no1"
+      smiles: "O=C(O)CSc1nnc(Br)n1-c1ccc(C2CC2)c2ccccc12"
     - name: benzbromarone
-      smiles: "Oc1ccc(C(=O)c2ccc(Br)cc2)cc1C(=O)Nc1ccc(Cl)cc1"
+      smiles: "CCc1oc2ccccc2c1C(=O)c1cc(Br)c(O)c(Br)c1"
     - name: dotinurad
-      smiles: "CC(C)(C)c1cc(C(=O)Nc2ccc(C(=O)O)cc2)ccc1O"
+      smiles: "O=C(c1cc(Cl)c(O)c(Cl)c1)N1CS(=O)(=O)c2ccccc21"
   nlrp3:
     - name: MCC950
-      smiles: "Cc1nc(C(=O)Nc2ccc(S(=O)(=O)N3CCOCC3)cc2)s1"
+      smiles: "CC(C)(O)c1coc(S(=O)(=O)NC(=O)Nc2c3c(cc4c2CCC4)CCC3)c1"

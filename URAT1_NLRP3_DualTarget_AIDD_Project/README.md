@@ -6,6 +6,7 @@
 
 > **当前论文路线（V2 · 2026-07-21）**：[`docs/MANUSCRIPT_OUTLINE_V2.md`](docs/MANUSCRIPT_OUTLINE_V2.md)  
 > **中文写作**：引言 [`docs/INTRO_DRAFT_CN.md`](docs/INTRO_DRAFT_CN.md) · Methods [`docs/METHODS_DRAFT_CN.md`](docs/METHODS_DRAFT_CN.md) · 大纲 [`docs/MANUSCRIPT_OUTLINE_V2_CN_DRAFT.md`](docs/MANUSCRIPT_OUTLINE_V2_CN_DRAFT.md)  
+> **本机重对接烟雾表（P0–P5）**：[`docs/REDOCK_SMOKE_TEST_SHEET.md`](docs/REDOCK_SMOKE_TEST_SHEET.md) · `bash scripts/run_redock_smoke_local.sh`  
 > **已过时（含 Glide XP 主叙事）**：[`docs/MANUSCRIPT_DRAFT_CN.md`](docs/MANUSCRIPT_DRAFT_CN.md) — 勿再当正文  
 > **更旧归档**：[`docs/LEGACY_ARCHIVE.md`](docs/LEGACY_ARCHIVE.md)
 
@@ -65,6 +66,7 @@
 | ChEMBL 重定位库 manifest | ✅ | `data/repurposing/repurposing_manifest.csv` |
 | **NLRP3 ML 全库筛选** | ✅ | `screen_repurposing_library.py` |
 | 8973 对接合并 + 回顾分析 | ✅ | `merge_8973_docking_results.py`, `analyze_urat1_docking_vs_ml.py` |
+| 重对接烟雾（lesinurad@9DKB） | ✅ 表+脚本 | `docs/REDOCK_SMOKE_TEST_SHEET.md`；`run_redock_smoke_local.sh` |
 | 重定位库双靶对接 | ⏳ Vina 批量 | `scripts/run_vina_batch.py`；输入：`docking_pool_p05.csv` |
 | Pareto 整合 | ✅ 脚本就绪 | `merge_docking_pareto.py`（待本地对接 CSV） |
 | 代表药 MD | ⏳ | 2+2 benchmark |
