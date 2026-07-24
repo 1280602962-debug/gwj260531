@@ -1,22 +1,23 @@
-# 自研双靶对接打分算法：实现指南
+# 双靶打分组件：实现笔记
 
-> 配套文献：`DUAL_MULTI_TARGET_DOCKING_SURVEY.md`  
-> 现有挂钩：`config/docking_ensemble.yaml`（公式已写，无 runner）、`scripts/06_virtual_screening.py`（ML 复合分）、`config/targets.yaml`（权重）
+> **地位：** 校准、短板融合、特征分量等 **基线/组件** 笔记。  
+> **现行课题主张**见 [`NMI_SUBMISSION_PLAN_MOIETY.md`](NMI_SUBMISSION_PLAN_MOIETY.md)（moiety-resolved 为主；整分子融合仅对照）。  
+> 配套文献：`DUAL_MULTI_TARGET_DOCKING_SURVEY.md`
 
 ---
 
 ## 1. 设计原则（先定“分什么”，再定“怎么合”）
 
-自研双靶打分 = **单靶能量/几何组件** × **跨靶聚合算子** × **可选药化惩罚**。
+自研双靶打分 = **单靶能量/几何组件** × **跨靶聚合算子** × **可选药化惩罚**（另加 **moiety 掩蔽**）。
 
 不要一开始就写“端到端神经网络对接”。更稳的路径：
 
 1. 用现成引擎（Vina / GNINA）只负责 **采样姿态**；
-2. 你自己定义 **重打分（rescoring）组件**；
-3. 用可学习或可调权重把两靶合成为 `S_dual`；
-4. 用已知双靶/单靶分子校准权重。
+2. 在姿态上做 **whole-mol vs moiety** 计分与分靶校准；
+3. 用 shortfall（min/softmin）做双靶决策，并与朴素 mean/sum 对照；
+4. 用 Dual / A-only / B-only 校准与外测。
 
-这正是文献里 consensus scoring、CompScore、DualDiff 评估协议的工程化版本。
+这正是文献里 consensus scoring、CompScore 等协议的工程化版本，并加上 moiety 决策层。
 
 ---
 

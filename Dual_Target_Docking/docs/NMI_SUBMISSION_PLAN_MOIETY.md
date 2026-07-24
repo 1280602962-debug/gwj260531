@@ -1,10 +1,11 @@
 # NMI 投稿规划：双药效团 / Passenger 污染范式
 
-> **主线定调（取代「分数融合」作为核心卖点）**  
+> **主线定调**  
 > 单分子双靶配体含两个药效团；独立对接 + 整分子打分会把「乘客药效团」算进单口袋结合，系统误评。  
-> 本文提出 **moiety-resolved dual-target docking evaluation**，配开放基准与非循环案例验证。
+> 本文提出 **moiety-resolved dual-target docking evaluation**，配开放基准与非循环案例验证。  
+> 朴素分数融合仅作 **基线对照**，不作封面创新。
 
-旧版融合主线见 [`NMI_DUAL_COMPATIBILITY_PLAN.md`](NMI_DUAL_COMPATIBILITY_PLAN.md)（保留作历史；分数融合降为基线对比，不作主创新）。
+总览见 [`PROJECT_MASTER_PLAN.md`](PROJECT_MASTER_PLAN.md)；诊断操作见 [`EGFR_HER2_DIAGNOSTIC_DEMO.md`](EGFR_HER2_DIAGNOSTIC_DEMO.md)。
 
 ---
 
@@ -181,11 +182,11 @@
 
 | 文档 | 关系 |
 |------|------|
-| [`TOPIC_ESTABLISHMENT_REPORT.md`](TOPIC_ESTABLISHMENT_REPORT.md) | 课题缘起；需把主张更新为 moiety |
-| [`TOPIC_ROUTE_RETHINK.md`](TOPIC_ROUTE_RETHINK.md) | 承认融合路径弱 |
-| [`skills_reaudit/HIGH_IMPACT_REFRAME.md`](skills_reaudit/HIGH_IMPACT_REFRAME.md) | fused/linked 审计 → **降为分层轴** |
-| [`NMI_DUAL_COMPATIBILITY_PLAN.md`](NMI_DUAL_COMPATIBILITY_PLAN.md) | 旧融合主线；保留对照 |
+| [`PROJECT_MASTER_PLAN.md`](PROJECT_MASTER_PLAN.md) | 精简总览 |
+| [`EGFR_HER2_DIAGNOSTIC_DEMO.md`](EGFR_HER2_DIAGNOSTIC_DEMO.md) | C1 诊断怎么跑 |
 | [`PUBLIC_TARGET_PAIR_SELECTION_REPORT.md`](PUBLIC_TARGET_PAIR_SELECTION_REPORT.md) | 公开对已冻结 |
+| [`NMI_REFERENCE_PAPER_PLAYBOOK.md`](NMI_REFERENCE_PAPER_PLAYBOOK.md) | 高分文流程对标 |
+| [`DUAL_TARGET_SCORING_IMPLEMENTATION.md`](DUAL_TARGET_SCORING_IMPLEMENTATION.md) | 校准/短板组件 |
 | 本文 | **现行 NMI 投稿执行规划** |
 
 ---

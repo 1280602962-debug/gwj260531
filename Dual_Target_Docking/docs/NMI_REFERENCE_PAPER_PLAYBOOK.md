@@ -3,7 +3,7 @@
 面向本课题（**双靶兼容性打分 + Dual-VSDS 基准**，冲击 *Nature Machine Intelligence*）的**叙事与实验设计对标**，不是泛泛文献列表。  
 判定标准：是否「纠偏主流做法 → 重定义任务/评测 → 泄漏控制基准 → 消融证明朴素基线失败 → 开放资源 ± 有限湿实验」。
 
-相关主方案见 [`NMI_DUAL_COMPATIBILITY_PLAN.md`](NMI_DUAL_COMPATIBILITY_PLAN.md)。
+相关主方案见 [`NMI_SUBMISSION_PLAN_MOIETY.md`](NMI_SUBMISSION_PLAN_MOIETY.md)。
 
 ---
 
