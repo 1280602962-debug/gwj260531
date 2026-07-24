@@ -1,21 +1,23 @@
-# URAT1 TrueDecoy Benchmark
+# URAT1 TrueDecoy / RandomDecoy Benchmark
 
-Property-matched enrichment set for URAT1 docking / scoring validation, framed after
-**Gu et al., *Nat. Mach. Intell.* 2025** (TrueDecoy vs RandomDecoy).
+Framed after **Gu et al., *Nat. Mach. Intell.* 2025** (hard negatives for protocol
+selection + library-random companion). This is a **single-target URAT1** set — not a
+replica of Gu's multi-target BindingDB TrueDecoy.
 
 ## Design
 
 | Item | Choice |
 |------|--------|
 | Actives | Curated URAT1, `pActivity >= 6.0` (n = 469) |
-| Decoy pool | Distill subset D (unlabeled diversity negatives) |
-| Matching | Round-robin MW / logP / TPSA / HBD / HBA / rotatable bonds (DUD-E-inspired windows); 1.5× relaxed top-up |
-| Near-analog filter | Max Morgan TC to any active ≤ 0.5 |
-| Target ratio | 1 : 30 (active : decoy) |
-| Achieved TrueDecoy ratio | 1 : 12.95 (n_decoy = 6073) |
-| Actives with ≥1 decoy | 460 / 469 |
-| Decoys / covered active | min 1, median 10.0, mean 13.2, max 30 |
-| RandomDecoy companion | Same size random sample from pool (n = 6073) |
+| TrueDecoy negatives | (1) experimental weak/inactives `pActivity < 5.0` (n = 80); (2) property-matched unlabeled from distill subset D (n = 4265) |
+| Matching | Round-robin MW / logP / TPSA / HBD / HBA / rotatable bonds; 1.5× relaxed top-up |
+| Near-analog filter (matched only) | Max Morgan TC to any active ≤ 0.5 |
+| Target ratio | 1 : 10 (active : TrueDecoy negative) |
+| Achieved TrueDecoy ratio | 1 : 9.26 (n_decoy = 4345) |
+| Actives with ≥1 matched decoy | 462 / 469 |
+| Matched decoys / covered active | min 1, median 10.0, mean 9.2, max 10 |
+| RandomDecoy | Gu-style random draw from **remaining** subset D only; target n = TrueDecoy negatives; **zero SMILES overlap** with TrueDecoy |
+| Achieved RandomDecoy ratio | 1 : 7.96 (n_decoy = 3735); True∩Random decoy overlap = 0 |
 | Seed | 42 |
 
 ### Property windows (strict)
@@ -34,26 +36,29 @@ Property-matched enrichment set for URAT1 docking / scoring validation, framed a
 | File | Content |
 |------|---------|
 | `actives.csv` | Potent URAT1 actives + descriptors |
-| `true_decoys.csv` | Property-matched decoys |
-| `true_decoy_benchmark.csv` | Combined set with `label` (1=active, 0=decoy) and `decoy_class=true` |
-| `random_decoys.csv` | Random unmatched decoys (same n when possible) |
-| `random_decoy_benchmark.csv` | Combined RandomDecoy set |
-| `matching_assignments.csv` | Active→decoy pairs with property distance / window pass |
-| `summary.json` | Counts, windows, property stats |
+| `experimental_inactives.csv` | Curated weak/inactives used as TrueDecoy negatives |
+| `true_decoys.csv` | All TrueDecoy negatives (`decoy_source` = experimental_inactive \| property_matched) |
+| `true_decoy_benchmark.csv` | Actives + TrueDecoy negatives (`label` 1/0) |
+| `random_decoys.csv` | Non-overlapping random library decoys |
+| `random_decoy_benchmark.csv` | Actives + RandomDecoy negatives |
+| `matching_assignments.csv` | Active→property-matched decoy pairs |
+| `summary.json` | Counts, windows, overlap check |
+| `unique_docking_pool.csv` | Unique SMILES across both benchmarks (dock once) |
 
 ## Usage notes
 
-- **TrueDecoy** is the harder test: physics-based docking/scoring should be judged here.
-- **RandomDecoy** mirrors easier / library-like enrichment (subset A vs raw D is closer to this).
-- Do **not** train ML models on these decoy labels; they are putative inactives for enrichment only.
-- Pool size (~8k subset D) limits the achievable ratio below the 1:30–50 ideal; rebuild with a larger `--pool` if needed.
+- **TrueDecoy** is the harder test (experimental weak + property-matched).
+- **RandomDecoy** is the easier / VS-like control; must not overlap TrueDecoy negatives.
+- Dock **`unique_docking_pool.csv` once**, then join scores into each benchmark for EF/AUC.
+- Do **not** train ML models on these decoy labels.
 
 ## Rebuild
 
 ```bash
 python3 scripts/build_urat1_true_decoy.py \
   --pactivity-min 6.0 \
-  --ratio 30 \
+  --inactive-pactivity-max 5.0 \
+  --ratio 10 \
   --max-sim-to-active 0.5 \
   --seed 42
 ```

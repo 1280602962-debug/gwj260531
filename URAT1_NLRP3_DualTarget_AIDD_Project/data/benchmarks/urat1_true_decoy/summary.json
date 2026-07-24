@@ -1,12 +1,19 @@
 {
   "target": "URAT1",
-  "framing": "Gu et al. Nat Mach Intell 2025 TrueDecoy vs RandomDecoy",
+  "framing": "Gu et al. Nat Mach Intell 2025 TrueDecoy vs RandomDecoy (single-target adaptation)",
   "pactivity_min": 6.0,
+  "inactive_pactivity_max": 5.0,
   "n_actives": 469,
-  "n_true_decoys": 6073,
-  "n_random_decoys": 6073,
-  "target_ratio": 30,
-  "achieved_true_ratio": 12.948827292110874,
+  "n_experimental_inactives": 80,
+  "n_property_matched_decoys": 4265,
+  "n_true_decoys": 4345,
+  "n_random_decoys": 3735,
+  "n_unique_docking_pool": 8549,
+  "target_ratio": 10,
+  "achieved_true_ratio": 9.264392324093816,
+  "achieved_random_ratio": 7.963752665245202,
+  "true_random_decoy_smiles_overlap": 0,
+  "random_non_overlapping": true,
   "max_sim_to_active": 0.5,
   "seed": 42,
   "property_windows": {
@@ -18,11 +25,12 @@
     "NumRotatableBonds": 2.5
   },
   "relaxed_window_scale": 1.5,
-  "matching_algorithm": "round_robin_property_match_then_relaxed_1.5x",
+  "matching_algorithm": "experimental_inactives_plus_round_robin_property_match",
+  "random_sampling": "gu_style_random_from_remaining_pool_only_no_fallback",
   "pool_source": "data/distill/distill_subset_d.csv",
   "actives_source": "data/processed/urat1_curated.csv",
   "n_pool_after_exclude": 8000,
-  "n_assignment_pairs": 6073,
+  "n_assignment_pairs": 4265,
   "property_stats": {
     "actives": {
       "MolWt": {
@@ -70,59 +78,59 @@
     },
     "true_decoys": {
       "MolWt": {
-        "mean": 387.685355343323,
-        "std": 54.691918045704575,
-        "median": 385.5110000000002,
-        "min": 212.36199999999997,
-        "max": 499.99900000000036
+        "mean": 392.20127433832,
+        "std": 54.64037927870169,
+        "median": 391.51500000000004,
+        "min": 219.247,
+        "max": 695.2000000000002
       },
       "MolLogP": {
-        "mean": 3.1574685361435884,
-        "std": 0.990165724303027,
-        "median": 3.1457000000000006,
+        "mean": 3.5437391438435,
+        "std": 0.8496156046173757,
+        "median": 3.5333000000000023,
         "min": -2.4857999999999945,
-        "max": 4.999020000000003
+        "max": 7.627500000000006
       },
       "TPSA": {
-        "mean": 74.84559196443273,
-        "std": 21.18932888903767,
-        "median": 73.91,
+        "mean": 73.91049712313004,
+        "std": 20.636211686167616,
+        "median": 72.95000000000002,
         "min": 6.48,
-        "max": 164.73999999999998
+        "max": 152.02999999999997
       },
       "NumHDonors": {
-        "mean": 1.04561172402437,
-        "std": 0.8461773237944925,
+        "mean": 1.011047180667434,
+        "std": 0.8225070064623299,
         "median": 1.0,
         "min": 0.0,
-        "max": 4.0
+        "max": 5.0
       },
       "NumHAcceptors": {
-        "mean": 4.619627861024205,
-        "std": 1.5029111855909507,
+        "mean": 4.6161104718066746,
+        "std": 1.4965762435299332,
         "median": 5.0,
         "min": 0.0,
         "max": 10.0
       },
       "NumRotatableBonds": {
-        "mean": 4.87436192985345,
-        "std": 1.8556120969423588,
+        "mean": 4.803222094361335,
+        "std": 1.763767471651888,
         "median": 5.0,
         "min": 0.0,
         "max": 10.0
       }
     }
   },
-  "mean_property_distance": 0.5113790706038436,
-  "actives_with_ge1_decoy": 460,
+  "mean_property_distance": 0.4858034739764774,
+  "actives_with_ge1_matched_decoy": 462,
   "decoys_per_active": {
     "min": 1,
     "median": 10.0,
-    "mean": 13.202173913043477,
-    "max": 30
+    "mean": 9.231601731601732,
+    "max": 10
   },
   "window_pass_counts": {
-    "strict": 5207,
-    "relaxed_1.5x": 866
+    "strict": 3740,
+    "relaxed_1.5x": 525
   }
 }
