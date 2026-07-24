@@ -1,7 +1,10 @@
 # 课题总览：Moiety-resolved 双靶对接评测
 
-> **现行唯一主线：** [`NMI_SUBMISSION_PLAN_MOIETY.md`](NMI_SUBMISSION_PLAN_MOIETY.md)  
-> **第一张诊断表：** [`EGFR_HER2_DIAGNOSTIC_DEMO.md`](EGFR_HER2_DIAGNOSTIC_DEMO.md)
+> **先读：** [`CRITIQUE_AND_NEXT_STEPS.md`](CRITIQUE_AND_NEXT_STEPS.md)（红队质疑 + 最小实验）  
+> **现行主线：** [`NMI_SUBMISSION_PLAN_MOIETY.md`](NMI_SUBMISSION_PLAN_MOIETY.md)  
+> **诊断操作：** [`EGFR_HER2_DIAGNOSTIC_DEMO.md`](EGFR_HER2_DIAGNOSTIC_DEMO.md)
+
+**当前优先级：** 用最小共晶锚点面板回答「乘客污染是否真实且能改排序」；有 Go 再扩尺子。规划文档已够，瓶颈是证据。
 
 ---
 

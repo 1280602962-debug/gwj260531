@@ -38,6 +38,7 @@ Dual_Target_Docking/
 
 | 文档 | 用途 |
 |------|------|
+| [**红队清单 + 现在最该干什么**](docs/CRITIQUE_AND_NEXT_STEPS.md) | 关键质疑与最小实验决策树（先做这个） |
 | [**NMI / 执行规划**](docs/NMI_SUBMISSION_PLAN_MOIETY.md) | 主张、实验骨架、Go/No-Go |
 | [**课题总览**](docs/PROJECT_MASTER_PLAN.md) | 是什么 / 做什么 / 不做什么 |
 | [**EGFR/HER2 诊断协议**](docs/EGFR_HER2_DIAGNOSTIC_DEMO.md) | whole-mol vs moiety 怎么跑 |
