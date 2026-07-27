@@ -35,3 +35,8 @@
 - `tables/warning_flags.csv` (panel48); also `../egfr_her2_panel40_v0/tables/warning_flags.csv`
 - `analysis/decision_ablation_v0/` — frozen thresholds; verdict **无法同时满足**
 - protocol YAML reporting_arms + Limitations updated
+
+## Bootstrap CI v0
+- Cross-pair: `../cross_pair_bootstrap_v0/` (N=2000 ligand bootstrap)
+- Local mirror: `analysis/bootstrap_ci_v0/`
+- Conclusion: `rtm_min_z` ΔAUROC vs vina **not 95%-significant** on either pair; EGFR rank-mean consensus ΔAUROC significant; hardneg Δ never significant

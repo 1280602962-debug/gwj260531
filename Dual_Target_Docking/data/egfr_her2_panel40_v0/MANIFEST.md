@@ -46,3 +46,7 @@
 - Updated `protocol/protocol.yaml`: fixed_global seed=20260727; exhaustiveness_v0_1=8
 - Added `analysis/exhaustiveness_sensitivity_v1/` (Exp A/B poses, tables, SENSITIVITY_VERDICT.md)
 - No second target pair; no LigPrep redo; no full-panel rerun
+
+## Decision ablation + bootstrap CI v0
+- `analysis/decision_ablation_v0/` — five frozen arms (same thresholds as panel48)
+- `analysis/bootstrap_ci_v0/` + `../cross_pair_bootstrap_v0/`

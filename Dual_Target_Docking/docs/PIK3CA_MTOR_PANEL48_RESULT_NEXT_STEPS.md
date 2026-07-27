@@ -16,6 +16,9 @@
 | 失败分型 v0 | 已有（T1/T2/T5） |
 | 化学型警告层 | `tables/warning_flags.csv`（诊断列；不进分） |
 | 冻结决策消融 | **无法同时满足**（见 `decision_ablation_v0`） |
+| Bootstrap CI | N=2000；见 `data/cross_pair_bootstrap_v0/BOOTSTRAP_CI_CONCLUSION_V0.md` |
+
+**CI 要点：** 两对靶上 `rtm_min_z−vina_mean` 的 ΔAUROC **均未**在 95% 排除 0（EGFR 接近边界）；仅 EGFR 的 `consensus_rank_mean` ΔAUROC 显著；硬负 Top10 降幅均不显著。
 
 **协议可迁移结论（弱正向）：** 朴素 Vina mean 不够；加 RTM/min_z 后 AUROC 略升。  
 **但失败模式与 EGFR 不同，不能宣称“同一尺子已外推成功”（C4 未闭环）。**
