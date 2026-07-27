@@ -57,3 +57,5 @@
 - [ ] 全面板 80 次对接  
 - [ ] moiety 标注（至少锚点）  
 - [ ] whole vs moiety 诊断表  
+
+Related freeze pack: `../egfr_her2_panel40_v0/` (uploaded 2026-07-27).
