@@ -20,12 +20,18 @@ selected_public_pairs:
       name: PIK3CA
       uniprot: P42336
       chembl: CHEMBL4005
-      suggested_holo_pdb_examples: ["9CMK", "7L1C", "9ASF"]
+      # Primary docking receptor (ATP-site, true α). Do NOT use 7L1C (HLA+peptide)
+      # or 9CMK (RBD molecular glue) for kinase docking.
+      primary_docking_pdb: "4L23"
+      suggested_holo_pdb_examples: ["4L23", "8EXL"]
     target_B:
       name: MTOR
       uniprot: P42345
       chembl: CHEMBL2842
-      suggested_holo_pdb_examples: ["4DRI", "4DRJ", "3FAP"]
+      # Primary docking receptor (kinase ATP site with PI-103). Do NOT use 4DRI
+      # (FKBP51 + rapamycin + FRB) as the ATP-competitive pocket.
+      primary_docking_pdb: "4JT6"
+      suggested_holo_pdb_examples: ["4JT6", "4JT5"]
     chembl_audit_2026-07-23:
       n_A: 7732
       n_B: 5209
@@ -34,12 +40,21 @@ selected_public_pairs:
       A_only: 266
       B_only: 236
       dual_weak: 209
-    both_end_same_ligand_cocrystal: false
-    docking_class: conventional_small_molecule_pockets
+    # Corrected 2026-07-27 via RCSB: same dual ligand PI-103 (chem_comp X6K)
+    # is co-crystallized on both ends — analogous to TAK-285 on EGFR/HER2.
+    both_end_same_ligand_cocrystal: true
+    pose_gold_ligand: PI-103
+    pose_gold_chem_comp: X6K
+    pose_gold_pdbs: ["4L23", "4JT6"]
+    pose_gold_note: >
+      4L23 = PIK3Cα (P42336) + PI-103, 2.5 Å; 4JT6 = mTOR (P42345) + PI-103,
+      3.6 Å. Pose QC: dual-end cognate/self-dock RMSD < 2 Å on both ends.
+    docking_class: conventional_kinase_atp_pockets
     notes: >
       Largest four-class ChEMBL paired set among audited pairs. Prefer classical
       dual PI3K/mTOR inhibitors for curated design_type; keep PROTACs on a
-      separate sheet.
+      separate sheet. Structure freeze corrected 2026-07-27: use 4L23/4JT6,
+      not 7L1C/9CMK/4DRI.
 
   - pair_id: DTPAIR-02
     role: kinase_dual_with_pose_gold

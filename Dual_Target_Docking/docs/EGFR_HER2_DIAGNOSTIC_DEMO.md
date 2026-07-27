@@ -12,7 +12,7 @@
 
 | 条件 | EGFR/HER2 | 对比 |
 |------|-----------|------|
-| **双端同配体共晶** | TAK-285：EGFR [3POZ](https://www.rcsb.org/structure/3POZ) + HER2 [3RCD](https://www.rcsb.org/structure/3RCD) | PIK3CA/mTOR **无**双端同配体共晶 → 无法先做姿态金标准 |
+| **双端同配体共晶** | TAK-285：EGFR [3POZ](https://www.rcsb.org/structure/3POZ) + HER2 [3RCD](https://www.rcsb.org/structure/3RCD) | PIK3CA/mTOR 也有：PI-103 双端 [4L23](https://www.rcsb.org/structure/4L23) + [4JT6](https://www.rcsb.org/structure/4JT6)；EGFR/HER2 仍作第一枪是因分辨率更好、协议更熟 |
 | **口袋可对接** | 经典激酶 ATP，协议成熟 | Mcl-1/Bcl-xL 是 PPI，对接方差大，不宜做第一个诊断 |
 | **四类标签够用** | dual 1182 / A-only 207 / B-only 46（ChEMBL 审计） | 有硬负样本，诊断表不只看 dual |
 | **demo 成本** | 共晶 + 小面板（~20–50 分子）即可出诊断 | PIK3CA/mTOR 更适合 **规模主表**，不适合第一枪 |
