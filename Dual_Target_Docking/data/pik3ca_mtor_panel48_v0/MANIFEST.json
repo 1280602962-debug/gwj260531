@@ -1,0 +1,35 @@
+{
+  "freeze_id": "pik3ca_mtor_panel48_v0",
+  "n": 48,
+  "class_counts": {
+    "dual": 18,
+    "A_only": 14,
+    "B_only": 12,
+    "neither": 4
+  },
+  "theta_pchembl": 6.0,
+  "targets": {
+    "A": "PIK3CA",
+    "B": "MTOR"
+  },
+  "pose_gold": {
+    "name": "PI-103",
+    "chembl": "CHEMBL573339",
+    "pdbs": [
+      "4L23",
+      "4JT6"
+    ]
+  },
+  "quota": {
+    "dual": 18,
+    "A_only": 14,
+    "B_only": 12,
+    "neither": 4
+  },
+  "filters": {
+    "mw_max": 750.0,
+    "ha_max": 55,
+    "max_per_scaffold": 2
+  },
+  "panel_csv": "data/pik3ca_mtor_panel48_v0/tables/panel_v0_48.csv"
+}
