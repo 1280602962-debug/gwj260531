@@ -97,6 +97,8 @@ reason: >
 
 > 保持全面板 No-Go。先做 4JT6 轻量 sanity；若无硬错误，**书面冻结本项目 exhaustiveness=16**（EGFR 仍为 8），用 seed `20260727`（外加 7/42 噪声）重做 PM48_01 双端 Phase B；两端 best9&lt;2 后再开 48×2（全 E=16）。
 
+**详细逐步操作（可粘贴任务块）：** [`PIK3CA_MTOR_AGENT_OPS_E16.md`](PIK3CA_MTOR_AGENT_OPS_E16.md)
+
 ---
 
 ## 5. 科学表述（写进 Methods 的口径）
