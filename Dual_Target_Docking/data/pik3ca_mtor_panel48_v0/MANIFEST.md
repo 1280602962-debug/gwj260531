@@ -22,3 +22,6 @@
 - tables: `scores_rtm.csv`, `scores_rtm_all_poses.csv`, `scores_rtm_4L23.csv`, `scores_rtm_4JT6.csv`
 - ablation: `ablation_metrics.csv`, `ablation_ligand_scores.csv`, `ablation_ranks.csv`, `ablation_key_ligand_ranks.csv`
 - primary arm (AUROC Dual vs rest): **rtm_min_z = 0.685** (vina_mean 0.633)
+
+## Case pose export (Maestro)
+- `analysis/rtm_best_pose_export_v1/` — 7 ligands × 2 targets RTM-best poses (pdbqt/sdf/pdb) + receptors
