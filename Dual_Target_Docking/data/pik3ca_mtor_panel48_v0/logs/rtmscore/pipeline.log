@@ -1,0 +1,28 @@
+convert 4L23: ...
+wrote /mnt/d/CADD paper exercise/dual target docking/results/pik3ca_mtor_panel48_v0/logs/rtmscore/4L23_all_poses.sdf n=432 rdkit_ok=432
+convert 4JT6: ...
+wrote /mnt/d/CADD paper exercise/dual target docking/results/pik3ca_mtor_panel48_v0/logs/rtmscore/4JT6_all_poses.sdf n=431 rdkit_ok=431
+wrote /mnt/d/CADD paper exercise/dual target docking/results/pik3ca_mtor_panel48_v0/tables/poses_index_rtm.csv n=863
+RTM 4L23 ...
+OK /mnt/d/CADD paper exercise/dual target docking/results/pik3ca_mtor_panel48_v0/logs/rtmscore/4L23_rtmscore_all_poses.csv
+RTM 4JT6 ...
+OK /mnt/d/CADD paper exercise/dual target docking/results/pik3ca_mtor_panel48_v0/logs/rtmscore/4JT6_rtmscore_all_poses.csv
+Wrote ablation tables:
+          arm  auroc_dual_vs_rest  top10_dual  top10_hardneg  top10_hardneg_frac  n_dual  n_rest
+    vina_mean            0.633333           5              5                 0.5      18      30
+     vina_min            0.605556           6              4                 0.4      18      30
+     rtm_mean            0.668519           6              4                 0.4      18      30
+      rtm_min            0.681481           6              4                 0.4      18      30
+    rtm_min_z            0.685185           6              4                 0.4      18      30
+gated_rtm_min            0.681481           6              4                 0.4      18      30
+
+Key ligand ranks:
+ ligand   class  vina_mean  vina_min  rtm_mean  rtm_min  rtm_min_z  gated_rtm_min
+PM48_01    dual          9         4         5        4          4              4
+PM48_02    dual          3         7        21       26         30             26
+PM48_04    dual          2         5        24       21         18             21
+PM48_10    dual          1         1        31       27         31             27
+PM48_19  A_only         48        48        42       47         45             47
+PM48_25  A_only         47        47        48       48         48             48
+PM48_34  B_only         10        13        36       39         40             39
+PM48_45 neither          7         3        13       16         15             16
