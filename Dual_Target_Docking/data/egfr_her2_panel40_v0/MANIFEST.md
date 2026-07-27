@@ -40,3 +40,9 @@
 - PoseBusters / GNINA / PLIP not available; structure gate = simple steric clash @ 2.2 Å (triggered 0 ligands).
 - Architecture: only EH40_01/02/05 labeled merged; remaining 37 = unknown (no invented fused/linked cuts).
 - No second target pair started (no PIK3CA/mTOR).
+
+## Update 2026-07-27 — exhaustiveness sensitivity v1
+- Added `protocol/seeds_as_run.csv` (80/80 as-run seeds) and `protocol/SEED_POLICY.md`
+- Updated `protocol/protocol.yaml`: fixed_global seed=20260727; exhaustiveness_v0_1=8
+- Added `analysis/exhaustiveness_sensitivity_v1/` (Exp A/B poses, tables, SENSITIVITY_VERDICT.md)
+- No second target pair; no LigPrep redo; no full-panel rerun

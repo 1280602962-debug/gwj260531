@@ -48,9 +48,16 @@ docking:
   engine: AutoDock_Vina
   version: "1.2.7"
   scoring_function: vina
-  exhaustiveness: 8
+  seed_policy_v0_pilot: as_run_per_job_random
+  seed_file: protocol/seeds_as_run.csv
+  seed_policy_v0_1_forward: fixed_global
+  seed_fixed_global: 20260727
   n_modes: 9
   energy_range: 3
+  exhaustiveness_as_run: 8
+  exhaustiveness_v0_1: 8
+  sensitivity_report: analysis/exhaustiveness_sensitivity_v1/SENSITIVITY_VERDICT.md
+  rmsd_definition: analysis/exhaustiveness_sensitivity_v1/tables/rmsd_definition.md
   cpu_per_job: 1
   top_K: 9
   seed: "per-job random; recorded in logs/vina/*.log and logs/vina_seeds.json (not fixed globally)"
