@@ -170,6 +170,7 @@ target,seed,exhaustiveness,rmsd_mode1,rmsd_best_of_9,best_of_9_mode,pass_mode1_l
 | 任一端 best_of_9 ≥ 2.0，但 9 个 mode 里有接近失败 | 先查盒子/质子化/配体映射/是否用错构象；**可**在同一 seed 下试 E=16 仅 PM48_01 诊断，**不**据此自动全面板升 E |
 | mode1 失败但 best_of_9 成功 | **仍算采样 QC 通过**（与 EGFR/TAK-285 在 3POZ 上相同现象）；全面板照开，但必须在报告里写明，并计划 RTM best-of-9 |
 | 两端 mode1 与 best_of_9 都失败 | **No-Go**：停全面板；修蛋白准备/盒子/配体后再重做 Phase B |
+| **E=8 采样失败、同设置 E=16 使 best_of_9&lt;2** | **允许书面确认后**将该靶对 `exhaustiveness_v0_1` 改为 **16**，重做 Phase B；通过后再全面板（全程 E=16）。**不**回改 EGFR/HER2 的 E=8。详见 [`PIK3CA_MTOR_COGNATE_QC_NEXT_STEP.md`](PIK3CA_MTOR_COGNATE_QC_NEXT_STEP.md) |
 
 写裁决文件：`analysis/cognate_redock_v0/COGNATE_QC_VERDICT.md`（必须含 Go/No-Go 一句结论）。
 
