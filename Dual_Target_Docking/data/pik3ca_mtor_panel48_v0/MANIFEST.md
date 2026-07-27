@@ -25,3 +25,8 @@
 
 ## Case pose export (Maestro)
 - `analysis/rtm_best_pose_export_v1/` — 7 ligands × 2 targets RTM-best poses (pdbqt/sdf/pdb) + receptors
+
+## Failure typology v0
+- `analysis/failure_typology_v0/` — pose QC + case reports + cross-pair table
+- entry: `FAILURE_TYPOLOGY_V0.md`, `NEXT_ACTIONS.md`
+- script: `analysis/failure_typology_v0/scripts/analyze_failure_typology_v0.py`
