@@ -50,11 +50,17 @@ selected_public_pairs:
       4L23 = PIK3Cα (P42336) + PI-103, 2.5 Å; 4JT6 = mTOR (P42345) + PI-103,
       3.6 Å. Pose QC: dual-end cognate/self-dock RMSD < 2 Å on both ends.
     docking_class: conventional_kinase_atp_pockets
+    panel_protocol_transfer:
+      freeze_id: pik3ca_mtor_panel48_v0
+      n: 48
+      path: data/pik3ca_mtor_panel48_v0/tables/panel_v0_48.csv
+      class_counts: {dual: 18, A_only: 14, B_only: 12, neither: 4}
+      pose_gold_panel_id: PM48_01
     notes: >
       Largest four-class ChEMBL paired set among audited pairs. Prefer classical
       dual PI3K/mTOR inhibitors for curated design_type; keep PROTACs on a
       separate sheet. Structure freeze corrected 2026-07-27: use 4L23/4JT6,
-      not 7L1C/9CMK/4DRI.
+      not 7L1C/9CMK/4DRI. Molecule panel frozen 2026-07-27 as panel48_v0.
 
   - pair_id: DTPAIR-02
     role: kinase_dual_with_pose_gold
