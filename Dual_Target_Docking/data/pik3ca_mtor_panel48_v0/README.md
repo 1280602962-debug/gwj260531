@@ -38,11 +38,16 @@ Includes **AZD-8055**, **Ku-0063794**, **WYE-132**, **OSI-027** + fingerprint-di
 
 ## What to do next (local docking)
 
-1. LigPrep the 48 SMILES (same settings as EGFR/HER2 panel40) → 1 PDBQT each  
-2. Prepare receptors 4L23 / 4JT6; boxes from PI-103 (X6K)  
-3. Cognate QC: PI-103 dual-end RMSD &lt; 2 Å  
-4. Dock all 48 × 2 ends with frozen Vina seed `20260727`  
-5. RTMScore best-of-9 → `rtm_min` / `rtm_min_z` ablation (same arms as panel40)
+完整操作单见：[`../../docs/PIK3CA_MTOR_PANEL48_LOCAL_DOCKING_SOP.md`](../../docs/PIK3CA_MTOR_PANEL48_LOCAL_DOCKING_SOP.md)
+
+**顺序硬约束：先 PI-103（PM48_01）双端 cognate QC，Go 后再 48×2。**
+
+给定本机输入：
+- LigPrep：`...\Maestro doc\pik3ca_mtor_panel48_v0_ligprep\pik3ca_mtor_panel48_v0_ligprep-out.maegz`
+- 蛋白：`4L23_PIK3CA_prepared.pdb` · `4JT6_mTOR_prepared.pdb`
+- 协议：Vina 1.2.7，`seed=20260727`，`exhaustiveness=8`，`n_modes=9`
+- 盒子：共晶 **X6K** AABB + 5 Å（min edge 20 Å）
+- QC：两端重原子 `best_of_9 RMSD < 2 Å`
 
 ## Explicitly not frozen here
 
