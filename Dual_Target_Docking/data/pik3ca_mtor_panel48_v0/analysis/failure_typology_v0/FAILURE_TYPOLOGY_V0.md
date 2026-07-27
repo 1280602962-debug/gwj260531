@@ -128,14 +128,11 @@
 2. ✅ 跨对靶诚实对照表  
 3. ✅ shortfall 预实验（阴性结果写入 Methods）
 
-### 下一步（P1，按序）
-1. **协议定稿回写**：主读数 `rtm_min_z` + **并列报告 `vina_mean`**；写明 T2/T5 边界；E=16 仅本对；PM48_34 8-mode  
-2. **化学型警告层（不改排序分）**：amino-triazine / morpholine-ATP / 对 PI-103 MCS 等旗标；输出 `warning_flags.csv`，与 EH40_23 警告层对齐  
-3. **有限决策消融（证明“增益来自规则还是换分”）**  
-   - 臂：vina_mean / rtm_min_z / rtm_min_z+shortfall(已阴性) / **consensus(min of ranks 或 AND Top%)**  
-   - 冻结：不调 clash；不因个案改阈值  
-   - 成功标准：硬负 Top10 降且 Torin1/Omipalisib 不崩，或诚实报告无法同时满足  
-4. **Torin1/Omipalisib 深挖（可选 1 页）**：4L23 全 9 mode 的 hinge/占用表，说明是采样不足还是 RTM 化学型盲区  
+### 下一步（P1，按序）— **已完成 2026-07-27**
+1. ✅ **协议定稿回写**：主读数 `rtm_min_z` + **并列报告 `vina_mean`**；写明 T2/T5 边界；E=16 仅本对；PM48_34 8-mode  
+2. ✅ **化学型警告层（不改排序分）**：`tables/warning_flags.csv`（panel48 + panel40）  
+3. ✅ **有限决策消融**：vina / rtm_min_z / shortfall / consensus → 见 `../decision_ablation_v0/DECISION_ABLATION_V0.md`（**无法同时满足**）  
+4. **Torin1/Omipalisib 深挖（可选 1 页）**：4L23 全 9 mode 的 hinge/占用表  
 
 ### 明确后做（P2）
 - 扩面板 120–200；第三对靶  
@@ -145,6 +142,7 @@
 - 全面板重跑 / E=32 化妆  
 - 乘客/moiety 主线  
 - 宣称 C4 已成功外推  
+- 拧 clash 打掉 PM48_26；把 warning flags 写进 gated score
 
 ---
 

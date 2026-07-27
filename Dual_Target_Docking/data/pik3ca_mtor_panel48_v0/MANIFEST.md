@@ -21,7 +21,7 @@
 - script: `scripts/run_rtm_and_ablation.py`
 - tables: `scores_rtm.csv`, `scores_rtm_all_poses.csv`, `scores_rtm_4L23.csv`, `scores_rtm_4JT6.csv`
 - ablation: `ablation_metrics.csv`, `ablation_ligand_scores.csv`, `ablation_ranks.csv`, `ablation_key_ligand_ranks.csv`
-- primary arm (AUROC Dual vs rest): **rtm_min_z = 0.685** (vina_mean 0.633)
+- primary **reporting** arms: **vina_mean** (0.633) **and** **rtm_min_z** (0.685) — never RTM alone
 
 ## Case pose export (Maestro)
 - `analysis/rtm_best_pose_export_v1/` — 7 ligands × 2 targets RTM-best poses (pdbqt/sdf/pdb) + receptors
@@ -30,3 +30,8 @@
 - `analysis/failure_typology_v0/` — pose QC + case reports + cross-pair table
 - entry: `FAILURE_TYPOLOGY_V0.md`, `NEXT_ACTIONS.md`
 - script: `analysis/failure_typology_v0/scripts/analyze_failure_typology_v0.py`
+
+## P1 protocol + warnings + decision ablation
+- `tables/warning_flags.csv` (panel48); also `../egfr_her2_panel40_v0/tables/warning_flags.csv`
+- `analysis/decision_ablation_v0/` — frozen thresholds; verdict **无法同时满足**
+- protocol YAML reporting_arms + Limitations updated

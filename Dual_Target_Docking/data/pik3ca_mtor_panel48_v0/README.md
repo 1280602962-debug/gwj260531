@@ -7,7 +7,10 @@ Local dual-target docking + RTMScore ablation pack for PIK3CA (4L23) / mTOR (4JT
 - Vina: 96/96 jobs (4JT6/PM48_34 has 8 valid modes)
 - RTMScore model1 best-of-9 + ablation tables under `tables/`
 - Rebuild: `scripts/run_rtm_and_ablation.py`
-- Primary ablation arm: `rtm_min_z` (AUROC Dual vs rest ≈ 0.685)
+- Primary **reporting** arms: `vina_mean` **and** `rtm_min_z` (never RTM alone)
+- Chemotype warnings: `tables/warning_flags.csv` (diagnostic; do not enter score)
+- Decision ablation: `analysis/decision_ablation_v0/` → frozen consensus/shortfall **cannot jointly** cut hardneg Top10 and spare T5 duals
+- Limitations: T2 (PM48_26/20/21), T5 (Torin1/Omipalisib), PM48_34 8-mode, clash gate null, no C4 claim
 
 ## Class roster (named anchors)
 

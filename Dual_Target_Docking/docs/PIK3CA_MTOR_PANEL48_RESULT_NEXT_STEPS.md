@@ -2,7 +2,7 @@
 
 > 数据：`data/pik3ca_mtor_panel48_v0/`（E=16，seed=20260727，RTM best-of-9）  
 > 对照：EGFR/HER2 panel40 v0  
-> **姿态分型已完成：** `analysis/failure_typology_v0/`
+> P1 已完成：协议回写 + `warning_flags.csv` + `analysis/decision_ablation_v0/`
 
 ---
 
@@ -10,46 +10,54 @@
 
 | 项 | 状态 |
 |----|------|
-| Cognate QC (PI-103) | **Go @ E=16** |
-| 全面板 + RTM 消融 | 完成；主臂 `rtm_min_z` AUROC 0.685 |
-| RTM-best pose 导出 | `analysis/rtm_best_pose_export_v1/` |
-| **失败分型 v0** | **完成**（T1/T2/T5 + 跨对靶表） |
+| Cognate QC (PI-103) | **Go @ E=16**（4L23 mode1=0.62；4JT6 mode1≈7.1 但 best9≈0.3–1.4） |
+| 全面板 | 96 作业完成（PM48_34@4JT6 仅 8 个有效 mode，已标注） |
+| RTM + 消融表 | 已有；**并列报告** `vina_mean` 与 `rtm_min_z` |
+| 失败分型 v0 | 已有（T1/T2/T5） |
+| 化学型警告层 | `tables/warning_flags.csv`（诊断列；不进分） |
+| 冻结决策消融 | **无法同时满足**（见 `decision_ablation_v0`） |
+
+**协议可迁移结论（弱正向）：** 朴素 Vina mean 不够；加 RTM/min_z 后 AUROC 略升。  
+**但失败模式与 EGFR 不同，不能宣称“同一尺子已外推成功”（C4 未闭环）。**
 
 ---
 
-## 2. 分型结论（决定下一步）
+## 2. 主表数字（Dual vs rest，N=48）
 
-| 类型 | 代表 | 含义 |
-|------|------|------|
-| T2 化学型同源假双靶 | PM48_26/20/21 | 弱端 pose 也干净（hinge+占用），RTM 两端都高；**clash/shortfall 压不住** |
-| T1 被救 B_only | WYE-132 | Vina Top10 → RTM #40 |
-| T5 误伤真 dual | Torin1 / Omipalisib | Vina #1/#3 → RTM #31/#30；4L23 RTM-best 离 hinge |
-| 金标准 | PI-103 | 两端 OK；4JT6 用 mode3 |
-
-**一句话：** 重打分必要，但第二对 **规则未闭环**；主文卖诊断+分型，不卖“尺子已外推成功”。
+| 臂 | AUROC | Top10 dual | Top10 硬负 |
+|----|-------|------------|------------|
+| vina_mean | 0.633 | 5 | **5** |
+| **rtm_min_z** | **0.685** | 6 | 4 |
+| rtm_shortfall (λ=0.5) | 0.687 | 6 | 4 |
+| consensus_rank_mean | 0.668 | 4 | **6** |
+| consensus_and_top25 | 0.696 | 6 | 4 |
 
 ---
 
-## 3. 接下来该干什么（更新后优先级）
+## 3. 关键发现（摘要）
 
-### P0 — 已完成
-- [x] 失败分型个案  
-- [x] 跨对靶对照表  
-- [x] shortfall 预实验（阴性：λ 怎么调，PM48_26 仍 #1）
+- RTM：**B_only 可压**（WYE-132），但 **A_only T2 抬头**（PM48_26/20/21）+ **T5 误伤**（Torin1/Omipalisib）
+- clash / shortfall / consensus（冻结阈值）：**不能**同时降低硬负 Top10 并保护 T5
+- 主文卖点：诊断尺子 + 跨对靶失败分型 + 化学型警告；不卖“规则已闭环”
 
-### P1 — 立即执行（无需重对接）
-1. **协议定稿回写**：E=16 仅本对；并列报告 `vina_mean` + `rtm_min_z`；写入 T2/T5 / PM48_34 8-mode Limitations  
-2. **化学型警告层**（只出旗标，不改分）：与 EH40_23 警告层对齐  
-3. **冻结阈值的决策消融**：vina / rtm_min_z / shortfall / consensus；证明增益是否来自“决策”而非换分  
+---
 
-### P2 — 分型与消融写入大纲之后
-- 扩面板 120–200；第三对靶  
+## 4. 下一步
+
+### 已完成（P1）
+1. ✅ 协议定稿回写（E 对靶特异；双报告臂；Limitations）
+2. ✅ 化学型警告层
+3. ✅ 冻结决策消融 + 诚实结论
+
+### 可选 / P2
+- Torin1/Omipalisib 全 9-mode hinge 一页纸（采样 vs RTM 盲区）
+- 扩面板 120–200；第三对靶（**分型语言进主文后再开对接**）
 
 ### 明确不做
-- 全面板重跑 / E=32；拧 clash 打 PM48_26；乘客主线；宣称 C4 成功  
+- 全面板重跑 / E=32 化妆；拧 clash 打 PM48_26；乘客主线；宣称 C4 成功外推
 
 ---
 
-## 4. 给本地 / 下一任 agent
+## 5. 给本地 / 下一任 agent
 
-> 分型已落地。下一步做 **协议回写 + 警告层 + 冻结消融**；仍不要开第三对对接。细节见 `analysis/failure_typology_v0/NEXT_ACTIONS.md`。
+> P1 已冻结：并列读 `vina_mean`+`rtm_min_z`，用 warning flags 标 T2/T5；决策规则未额外增益。下一步若动手，优先可选 T5 9-mode 深挖或扩面板设计——**不要**重跑 Vina / 升 E / 开第三对对接除非用户明确要求。

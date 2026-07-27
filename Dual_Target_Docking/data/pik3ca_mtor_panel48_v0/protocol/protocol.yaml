@@ -12,9 +12,22 @@ exhaustiveness_note: >
   Pair-specific. EGFR/HER2 panel40 remains exhaustiveness=8.
   Raised because PI-103@4JT6 E=8 best_of_9 failed (~5.0 A) while
   E=16 recovered best_of_9 ~0.445 A (seed 20260727).
+reporting_arms_primary:
+  - vina_mean
+  - rtm_min_z
+reporting_rule: >
+  Always report vina_mean AND rtm_min_z side-by-side. Do not report RTM alone.
+  Chemotype warning_flags are diagnostic columns only (flags_enter_score=0).
+limitations:
+  - "T2 chemotype homolog hardnegatives: PM48_26 / PM48_20 / PM48_21 (ATP-site cross-reactivity; clash gate null)"
+  - "T5 rescoring injury: Torin1 (PM48_10) / Omipalisib (PM48_02) drop under rtm_min_z"
+  - "PM48_34@4JT6 wrote only 8 valid Vina modes (phantom mode9)"
+  - "clash gating negative on panel48 case set (all clash_fail=0)"
+  - "shortfall pretest and frozen decision ablation: cannot jointly cut hardneg Top10 and spare T5 duals"
+  - "Do not claim C4 successful extrapolation to this pair"
 box_definition: "AABB(X6K) + 5A padding; min edge 20A"
 cognate_qc_gate: "both ends best_of_9 heavy-atom RMSD < 2.0 A"
-full_panel_blocked_until: "COGNATE_QC_VERDICT_E16.md says Go"
+full_panel_status: "complete @ E=16; see MANIFEST.md"
 targets:
   PIK3CA:
     pdb: 4L23

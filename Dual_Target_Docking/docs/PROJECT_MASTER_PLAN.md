@@ -71,11 +71,14 @@
 
 ## 4. 执行顺序（与乘客脱钩）
 
-1. **冻结读数**：mean vs min vs shortfall；AUROC / Top-k enrichment / 硬负例 top%  
-2. **打掉顽固假阳性**（如 EH40_23 类）：交互/几何门控或短板规则  
-3. **EGFR/HER2 协议定稿**（Vina ensemble + RTM 已显示必要）  
-4. **第二对靶重复** → 才谈开放基准与投稿档位  
-5. linked / moiety 仅当附录假说，**不进主 claim**
+1. **冻结读数**：并列报告 `vina_mean` **与** `rtm_min_z`（禁止只报 RTM）  
+2. **对靶特异 E**：EGFR/HER2 `exhaustiveness_v0_1=8`；PIK3CA/mTOR `=16`  
+3. **失败分型 + 化学型警告层**（flags 不改分）：T2/T5 写入 Limitations  
+4. **冻结阈值决策消融**：shortfall / consensus 若无法同时压硬负并保护误伤 dual → 诚实写边界（已见 panel48）  
+5. **第二对靶证据已在**；扩面板 / 第三对排在分型与协议回写之后  
+6. linked / moiety 仅当附录假说，**不进主 claim**
+
+**禁止：** 为打掉 T2 假阳性拧 clash；宣称 C4 已成功外推；乘客主线回归。
 
 ---
 

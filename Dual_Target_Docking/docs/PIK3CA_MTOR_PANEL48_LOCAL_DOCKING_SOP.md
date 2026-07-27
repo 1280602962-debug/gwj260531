@@ -1,8 +1,10 @@
 # 本地操作单：`pik3ca_mtor_panel48_v0` 对接（先重对接 QC，再全面板）
 
 > 给本地 agent / 本机执行。  
-> 对齐 EGFR/HER2 `panel40_v0` + 已冻结协议：`seed=20260727`，`exhaustiveness_v0_1=8`，`n_modes=9`。  
-> **硬门槛：PI-103 双端 cognate/self-dock 未过关前，禁止开全面板 48×2。**
+> **对靶特异 exhaustiveness（定稿）：** EGFR/HER2 `exhaustiveness_v0_1=8`；本对 PIK3CA/mTOR `exhaustiveness_v0_1=16`。  
+> 共用：`seed=20260727`，`n_modes=9`。  
+> **硬门槛：PI-103 双端 cognate/self-dock 未过关前，禁止开全面板 48×2。**（现已 Go @ E=16 并完成全面板。）  
+> **主文报告臂：并列 `vina_mean` 与 `rtm_min_z`（禁止只报 RTM）。**
 
 ---
 
@@ -32,21 +34,28 @@ D:\CADD paper exercise\dual target docking\results\pik3ca_mtor_panel48_v0\
 
 ## 1. 协议冻结值（直接照抄，不要改）
 
-来自 EGFR/HER2 exhaustiveness 敏感性裁决（`exhaustiveness_v0_1=8`）：
+对靶特异（**不要**把 EGFR 的 E=8 硬套到本对）：
 
 | 项 | 值 |
 |----|-----|
 | 引擎 | AutoDock Vina **1.2.7** |
 | seed | **`20260727`**（`fixed_global`；每作业同一 seed） |
-| exhaustiveness | **8** |
+| exhaustiveness | **16**（`exhaustiveness_v0_1`；EGFR/HER2 仍为 **8**） |
 | n_modes | **9** |
 | energy_range | **3** |
 | cpu_per_job | 1（可并行多作业，但单作业 1 CPU） |
 | 盒子定义 | 共晶配体 **X6K** 的 AABB + **5 Å** padding；任一边 **min edge = 20 Å** |
 | RMSD 门槛（重对接） | 重原子；**best_of_9 < 2.0 Å** 两端都过才算 QC 通过 |
-| 主报告指标 | 同时记录 `rmsd_mode1` 与 `rmsd_best_of_9`（及 RTM-best，若可用） |
+| 主报告臂 | **并列** `vina_mean` 与 `rtm_min_z`（禁止只报 RTM） |
+| 化学型警告 | `tables/warning_flags.csv`（诊断列；**不进** gated score） |
 
-**不要**在本轮改 LigPrep、不要为“好看分数”升 exhaustiveness。
+**不要**在本轮改 LigPrep、不要为“好看分数”升 E=32 全面板。
+
+### Limitations（写入主文）
+
+- T2：PM48_26/20/21；T5：Torin1/Omipalisib  
+- PM48_34@4JT6 仅 8 mode；clash 门控阴性；shortfall/consensus 冻结消融无法同时满足  
+- 不宣称 C4 已成功外推（见 `analysis/decision_ablation_v0/DECISION_ABLATION_V0.md`）
 
 ---
 

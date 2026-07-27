@@ -65,6 +65,13 @@ docking:
   conf_dir: logs/vina_confs/
   poses_layout: "poses/<3POZ|3RCD>/<LIGAND>/mode_XX.pdbqt"
 
+reporting_arms_primary:
+  - vina_mean
+  - rtm_min_z
+reporting_rule: >
+  Always report vina_mean AND rtm_min_z side-by-side. Do not report RTM alone.
+  Chemotype warning_flags (tables/warning_flags.csv) are diagnostic only.
+
 rescoring:
   method: RTMScore
   model: rtmscore_model1.pth
