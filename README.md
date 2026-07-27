@@ -1,6 +1,15 @@
 # gwj260531
 
-**完整项目均在 `JNK1_Selectivity_Project/` 目录内。**
+本仓库包含两个**相互独立**的课题目录：
+
+| 目录 | 说明 |
+|------|------|
+| [`JNK1_Selectivity_Project/`](JNK1_Selectivity_Project/README.md) | JNK1 选择性筛选与建模 |
+| [`Dual_Target_Docking/`](Dual_Target_Docking/README.md) | 架构无关的双靶对接决策尺子（Dual-VSDS-Decision） |
+
+---
+
+## JNK1 选择性
 
 ```bash
 cd JNK1_Selectivity_Project
@@ -10,3 +19,7 @@ python3 scripts/06_virtual_screening.py --library data/libraries/your_library.cs
 ```
 
 详见 [JNK1_Selectivity_Project/README.md](JNK1_Selectivity_Project/README.md)。
+
+## 双靶对接
+
+文档与数据均在 `Dual_Target_Docking/`，从 [Dual_Target_Docking/README.md](Dual_Target_Docking/README.md) 进入。

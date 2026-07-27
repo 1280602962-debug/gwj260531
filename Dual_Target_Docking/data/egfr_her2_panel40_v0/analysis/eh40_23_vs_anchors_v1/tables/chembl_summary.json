@@ -1,0 +1,96 @@
+{
+  "mol_meta": {
+    "EH40_23": {
+      "pref_name": null,
+      "molecule_type": "Small molecule",
+      "max_phase": null,
+      "first_approval": null,
+      "canonical_smiles": "N#CC(C#N)=CNc1ccc2ncnc(Nc3ccc(OCc4cccc(F)c4)c(Cl)c3)c2c1",
+      "inchi_key": "XAKLZFYPIQVZMO-UHFFFAOYSA-N"
+    },
+    "EH40_01": {
+      "pref_name": "TAK-285",
+      "molecule_type": "Small molecule",
+      "max_phase": "1.0",
+      "first_approval": null,
+      "canonical_smiles": "CC(C)(O)CC(=O)NCCn1ccc2ncnc(Nc3ccc(Oc4cccc(C(F)(F)F)c4)c(Cl)c3)c21",
+      "inchi_key": "ZYQXEVJIFYIBHZ-UHFFFAOYSA-N"
+    },
+    "EH40_02": {
+      "pref_name": "LAPATINIB",
+      "molecule_type": "Small molecule",
+      "max_phase": "4.0",
+      "first_approval": 2007,
+      "canonical_smiles": "CS(=O)(=O)CCNCc1ccc(-c2ccc3ncnc(Nc4ccc(OCc5cccc(F)c5)c(Cl)c4)c3c2)o1",
+      "inchi_key": "BCFGMOOMADDAQU-UHFFFAOYSA-N"
+    }
+  },
+  "per_target": {
+    "EH40_23": {
+      "EGFR": {
+        "n_activities": 1,
+        "n_with_pchembl": 1,
+        "pchembl_max": 6.35,
+        "pchembl_median": 6.35,
+        "pchembl_ge6_count": 1,
+        "assay_types": "B",
+        "standard_types": "IC50",
+        "has_mutant_kw": false
+      },
+      "HER2": {
+        "n_activities": 1,
+        "n_with_pchembl": 1,
+        "pchembl_max": 5.57,
+        "pchembl_median": 5.57,
+        "pchembl_ge6_count": 0,
+        "assay_types": "B",
+        "standard_types": "IC50",
+        "has_mutant_kw": false
+      }
+    },
+    "EH40_01": {
+      "EGFR": {
+        "n_activities": 5,
+        "n_with_pchembl": 5,
+        "pchembl_max": 9.0,
+        "pchembl_median": 7.64,
+        "pchembl_ge6_count": 4,
+        "assay_types": "B",
+        "standard_types": "IC50,Kd",
+        "has_mutant_kw": true
+      },
+      "HER2": {
+        "n_activities": 4,
+        "n_with_pchembl": 4,
+        "pchembl_max": 8.52,
+        "pchembl_median": 7.904999999999999,
+        "pchembl_ge6_count": 4,
+        "assay_types": "B",
+        "standard_types": "IC50",
+        "has_mutant_kw": true
+      }
+    },
+    "EH40_02": {
+      "EGFR": {
+        "n_activities": 209,
+        "n_with_pchembl": 138,
+        "pchembl_max": 10.22,
+        "pchembl_median": 7.995,
+        "pchembl_ge6_count": 124,
+        "assay_types": "A,B,F",
+        "standard_types": "% of inhibition,Activity,EC50,IC50,Inhibition,Kd,Ki,TIME,k_off,kon",
+        "has_mutant_kw": true
+      },
+      "HER2": {
+        "n_activities": 109,
+        "n_with_pchembl": 68,
+        "pchembl_max": 8.8,
+        "pchembl_median": 7.82,
+        "pchembl_ge6_count": 57,
+        "assay_types": "A,B,F",
+        "standard_types": "% of inhibition,Activity,EC50,IC50,Inhibition,Kd,Ki,k_off,kon",
+        "has_mutant_kw": true
+      }
+    }
+  }
+}

@@ -1,0 +1,129 @@
+{
+  "panel": {
+    "dual": 15,
+    "A_only": 12,
+    "B_only": 10,
+    "neither": 3
+  },
+  "metrics": {
+    "vina_mean": {
+      "auroc": 0.548,
+      "top10_dual": 4,
+      "top10_A": 2,
+      "top10_B": 4,
+      "hardneg_in_top10": 6
+    },
+    "rtm_mean": {
+      "auroc": 0.685,
+      "top10_dual": 6,
+      "top10_A": 1,
+      "top10_B": 3,
+      "hardneg_in_top10": 4
+    },
+    "rtm_min": {
+      "auroc": 0.691,
+      "top10_dual": 7,
+      "top10_A": 1,
+      "top10_B": 2,
+      "hardneg_in_top10": 3
+    },
+    "rtm_min_z": {
+      "auroc": 0.709,
+      "top10_dual": 7,
+      "top10_A": 1,
+      "top10_B": 2,
+      "hardneg_in_top10": 3
+    },
+    "rtm_mean_z": {
+      "auroc": 0.697,
+      "top10_dual": 6,
+      "top10_A": 1,
+      "top10_B": 3,
+      "hardneg_in_top10": 4
+    }
+  },
+  "pose_mode_shift": {
+    "egfr_best_rtm_ne_mode1": 36,
+    "her2_best_rtm_ne_mode1": 20
+  },
+  "key_molecules": [
+    {
+      "id": "EH40_01",
+      "label": "dual",
+      "vina_rank": 14,
+      "rtm_mean_rank": 1,
+      "rtm_min_rank": 1,
+      "min_z_rank": 1,
+      "mean_z_rank": 1,
+      "mean_rtm": 106.5,
+      "min_rtm": 98.97,
+      "modes": "2/3",
+      "pchembl": "9.0/8.52"
+    },
+    {
+      "id": "EH40_02",
+      "label": "dual",
+      "vina_rank": 5,
+      "rtm_mean_rank": 3,
+      "rtm_min_rank": 3,
+      "min_z_rank": 3,
+      "mean_z_rank": 3,
+      "mean_rtm": 95.63,
+      "min_rtm": 80.18,
+      "modes": "5/1",
+      "pchembl": "10.22/8.8"
+    },
+    {
+      "id": "EH40_18",
+      "label": "A_only",
+      "vina_rank": 2,
+      "rtm_mean_rank": 27,
+      "rtm_min_rank": 21,
+      "min_z_rank": 22,
+      "mean_z_rank": 27,
+      "mean_rtm": 44.05,
+      "min_rtm": 41.78,
+      "modes": "1/1",
+      "pchembl": "6.3/5.9"
+    },
+    {
+      "id": "EH40_23",
+      "label": "A_only",
+      "vina_rank": 4,
+      "rtm_mean_rank": 2,
+      "rtm_min_rank": 2,
+      "min_z_rank": 2,
+      "mean_z_rank": 2,
+      "mean_rtm": 96.21,
+      "min_rtm": 82.36,
+      "modes": "6/2",
+      "pchembl": "6.35/5.57"
+    },
+    {
+      "id": "EH40_28",
+      "label": "B_only",
+      "vina_rank": 3,
+      "rtm_mean_rank": 5,
+      "rtm_min_rank": 5,
+      "min_z_rank": 4,
+      "mean_z_rank": 5,
+      "mean_rtm": 78.88,
+      "min_rtm": 67.41,
+      "modes": "1/2",
+      "pchembl": "5.99/7.79"
+    },
+    {
+      "id": "EH40_33",
+      "label": "B_only",
+      "vina_rank": 7,
+      "rtm_mean_rank": 6,
+      "rtm_min_rank": 19,
+      "min_z_rank": 11,
+      "mean_z_rank": 7,
+      "mean_rtm": 73.31,
+      "min_rtm": 44.19,
+      "modes": "3/1",
+      "pchembl": "5.69/7.72"
+    }
+  ]
+}
