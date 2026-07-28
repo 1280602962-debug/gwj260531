@@ -328,6 +328,6 @@ B6  打包 DualFourClass-Bench + 写作投稿
 
 1. ~~冻结本文为权威；更新总览与红队引用。~~  
 2. ~~创建预注册臂清单草稿 `CANDIDATE_ARMS_V0.yaml`（B0）。~~  
-3. **执行 STEP0：** [`AGENT_COMMAND_STEP0_TRACK_A_STARTER.md`](AGENT_COMMAND_STEP0_TRACK_A_STARTER.md)（W1+W3）。  
-4. 可选 W2 prep 对照设计一页 SOP（另开命令）。  
-5. **在用户批准 Track B 之前，不启动新的同协议 EGFR 扩样对接。**
+3. ~~红队测量审计叙事：`PLAN_V2_REDTEAM_AND_REDESIGN.md`。~~  
+4. **执行 Stage M：** [`AGENT_COMMAND_STAGE_M.md`](AGENT_COMMAND_STAGE_M.md)（推荐先跳过 M4）。  
+5. Stage M 门控后再跑 STEP0 / 或批准 Track B；**禁止**同协议 EGFR 扩样赌显著。

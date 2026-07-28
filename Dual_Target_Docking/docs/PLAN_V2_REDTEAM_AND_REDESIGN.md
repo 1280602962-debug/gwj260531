@@ -180,7 +180,8 @@ Track B（多 pair）
 | 新 Fig4 | 标签边界直方图（各类 pChEMBL 距 6.0 的分布） |
 | 保留 | 分型 T1/T2/T5；旧40/新70 分裂降为「混杂未排除」的补充图 |
 
-**新的真正第一步 = Stage M 的 M1–M3**（本文已完成 M1/M3 的 v0 版与 M2 的边界普查），剩余：margin 面板重算、阈值敏感性、噪声天花板、以及 M4 的统一 prep 重跑（唯一需要对接的一项，约 80–220 次）。
+**新的真正第一步 = Stage M。** 可复制命令：[`AGENT_COMMAND_STAGE_M.md`](AGENT_COMMAND_STAGE_M.md)（M1–M3+M5 零对接；M4 可选本地对接）。  
+红队 v0 已完成 M1/M3 初版与 M2 边界普查；Stage M 命令负责固化为 `data/stage_m_v0/` 并给出 Track B 总门控。
 
 ---
 
