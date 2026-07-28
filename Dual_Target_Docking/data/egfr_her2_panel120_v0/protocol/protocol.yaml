@@ -1,0 +1,14 @@
+pair: EGFR/HER2
+structures: [3POZ, 3RCD]
+exhaustiveness: 8
+seed: 20260727
+n_modes: 9
+rtm: best-of-9
+vina: AutoDock Vina 1.2.7
+ligand_prep:
+  panel40_reused: LigPrep (as-run)
+  new_ligands: RDKit ETKDG + meeko
+panel_n: 110
+classes: {dual: 28, A_only: 38, B_only: 32, neither: 12}
+theta_pKi: 6
+murcko_cap_per_class: 5
