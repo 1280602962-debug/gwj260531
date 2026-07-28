@@ -1,6 +1,8 @@
 # Agent command — Step 0 / 第一步（Track A 启动包）
 
-> **本命令是规划 v2 批准后的第一件可执行任务。**  
+> **⚠ 2026-07-28 优先级下调：** 红队审计（[`PLAN_V2_REDTEAM_AND_REDESIGN.md`](PLAN_V2_REDTEAM_AND_REDESIGN.md)）表明真正的第一步是 **Stage M 测量审计**（M1 方向分解 / M2 margin 标签 / M3 平凡基线 / M4 统一 prep）。  
+> 本命令仍可执行，但其 `FIGURE_PLAN` 必须改用红队文 §6 的新主图，且 Track A 头条改为「测量与标签问题」而非「同系列外推失败」。  
+> **本命令是规划 v2 批准后的第一件可执行任务（现为第二步）。**  
 > 权威规划：[`EXPERIMENTAL_PLAN_DUALFOURCLASS_V2.md`](EXPERIMENTAL_PLAN_DUALFOURCLASS_V2.md)  
 > 对应工作包：**W1 + W3**（零对接）。W2 prep 对照、Track B 大批对接 **不在本命令内**。
 

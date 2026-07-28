@@ -1,6 +1,8 @@
 # DualFourClass 实验总规划（v2）— 探索 / 开发 / 验证分离
 
 > **本文件取代** [`EXPERIMENTAL_PLAN_DUALFOURCLASS_V1.md`](EXPERIMENTAL_PLAN_DUALFOURCLASS_V1.md) 作为权威实验规划。  
+> **⚠ 2026-07-28 修订：** 红队审计发现本 v2 修的是统计纪律，但**测量效度**问题未修（主指标自相抵消、标签贴阈值、体积基线未被超过、prep 未统一）。  
+> **Track B 之前必须先过 Stage M（测量审计）** — 见 [`PLAN_V2_REDTEAM_AND_REDESIGN.md`](PLAN_V2_REDTEAM_AND_REDESIGN.md)，其 §4 的 6 项重设计对本文 §2 / §5 / §7 具有优先效力。  
 > 约束：可大批对接；**无湿实验**。  
 > 期刊预期：JCIM / J. Cheminform.（不做 NMI 默认）。  
 > 日期：2026-07-28  
@@ -92,7 +94,11 @@ EGFR panel40 探索 → 见 rtm_min_z 好看 → 冻结 YAML → 同 pair 扩至
 
 ### P7 — 统计报告规范
 
-- 主指标：AUROC Dual vs A∪B（或 Dual vs rest；**每对靶预先写死一种**）。  
+> **修订（Stage M / M1）：** 池化 `Dual vs A∪B` 已被证明会抵消自身信号（EGFR/HER2：D/A=0.69 与 D/B=0.31 平均成 0.52）。  
+> **新主指标 = 方向分解**：`AUROC(dual vs A_only)` 与 `AUROC(dual vs B_only)` **分别报告**；需要单一数时取两者最小值或平均，且必须同时给出分项。  
+> 平凡基线（重原子数 / MW / cLogP）为**必报对照**。详见 [`PLAN_V2_REDTEAM_AND_REDESIGN.md`](PLAN_V2_REDTEAM_AND_REDESIGN.md) §4.1、§4.3。
+
+- 主指标（历史写法，已被上述修订取代）：AUROC Dual vs A∪B（或 Dual vs rest；**每对靶预先写死一种**）。  
 - 并列：Top10 dual 数、Top10 hardneg（A_only+B_only）数。  
 - 不确定性：配对 ligand-bootstrap 95% CI（B≥2000）。  
 - 跨 pair：森林图 +（若 K≥4）随机效应汇总 *或* 仅报 LOTO 分布，不假装独立同分布强假设。  
@@ -128,12 +134,12 @@ EGFR panel40 探索 → 见 rtm_min_z 好看 → 冻结 YAML → 同 pair 扩至
 
 | 项 | 最低要求 | 说明 |
 |----|----------|------|
-| 靶对 K | **≥4**（建议 4–6） | <3 无法做有意义的 LOTO |
+| 靶对 K | **≥4**（**修订：目标 6–8**） | 观测 per-pair ΔAUROC SE≈0.064–0.10；K=4 + 单 pair 确认几乎必然「点估计正、CI 含 0」 |
 | 每对 N | **≥80–120**（四类配额） | 硬负例每类建议 ≥15–20 |
 | Prep | 全库统一 | 旧 EGFR40 LigPrep 姿态不直接混入 Development |
 | 引擎 | Vina 必做；**≥1** 第二引擎（GNINA 优先）作预注册臂 | 证明不单吃 Vina+RTM |
 | 选规则 | LOTO 中位数 / 正向折数 | 预注册目标函数 |
-| 确认 | 1 个预留 pair **或** 预留化学块 | 只评一次 |
+| 确认 | **主估计量 = 跨 pair 汇总 Δ**；预留 pair 作复现检查 | 单 pair holdout 功效不足，不作唯一判据 |
 
 **目标刊：** JCIM full（仍无湿实验；靠新任务+基准+正确验证设计对冲）。
 
@@ -151,6 +157,9 @@ S1 已 No-Go
 ---
 
 ## 4. Track B 阶段路线图
+
+> **前置门（Stage M，2026-07-28 新增）：** M1 方向分解 / M2 margin 标签+阈值敏感性+噪声天花板 / M3 平凡基线组 / M4 统一 prep 重跑 / M5 清洗预注册清单。  
+> **M1–M5 未全过，不得进入 B0。** Stage M 的 No-Go 条件：margin 标签 + 方向分解 + 体积对照下无任何臂在 ≥2 对靶上超过体积基线 → 直接收 Track A。
 
 ```
 B0  预注册：候选臂 YAML + 选规则目标函数 + 靶对名单角色（dev/holdout）

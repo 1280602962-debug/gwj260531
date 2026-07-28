@@ -5,8 +5,15 @@
 
 meta:
   version: "CANDIDATE_ARMS_V0"
-  task: "Dual vs A_union_B (AUROC); report Top10 dual and hardneg counts"
+  # REVISED 2026-07-28 after Stage M measurement audit
+  # (docs/PLAN_V2_REDTEAM_AND_REDESIGN.md). Pooled Dual-vs-A_union_B cancels
+  # opposing directional signals and is no longer the primary readout.
+  task: "report AUROC(dual vs A_only) and AUROC(dual vs B_only) separately; summarise by min or mean of the two"
+  deprecated_task: "Dual vs A_union_B pooled AUROC"
   baseline_arm: "vina_mean"
+  mandatory_controls: ["heavy_atoms", "MW", "cLogP"]
+  arm_count_target: "3-4 primary arms (reduce selection noise)"
+  stage_m_gate: "M1 directional metric / M2 margin labels + noise ceiling / M3 trivial baselines / M4 unified prep / M5 de-leaked arm list must all pass before B0"
   selection_protocol: "leave_one_pair_out"
   selection_objective: "median_delta_auroc_vs_vina_mean"
   tie_break: "simpler_arm_first"  # fewer calibrations < consensus < ML
@@ -64,15 +71,44 @@ arms:
   - id: rank_consensus_mean
     family: consensus
     required: false
-    recommended_for_track_b: true
+    provenance: "EXPLORATION_DERIVED"
+    leakage_note: >
+      Was flagged promising only because it was the single arm of four whose
+      panel40 ΔAUROC CI excluded 0 (+0.103 [+0.002, +0.205]). That is
+      selection on an exploration set under multiple comparisons; report as
+      exploration-derived, not as an independently motivated candidate.
     definition: "mean of per-channel ranks across pre-listed channels (channels frozen before scoring)"
     channels_example: ["vina", "rtm", "gnina"]
 
   - id: rank_consensus_min
     family: consensus
     required: false
-    recommended_for_track_b: true
+    provenance: "EXPLORATION_DERIVED"
     definition: "min of per-channel ranks (penalize any weak channel)"
+
+mandatory_baseline_controls:
+  - id: heavy_atoms
+    definition: "heavy-atom count as sole ranking score"
+    note: >
+      On EGFR/HER2 (N=110) this reaches pooled AUROC 0.549, above vina_mean
+      (0.516) and rtm_min_z (0.464). Any decision arm that fails to beat this
+      under the directional metric must not enter the Track B competition.
+  - id: MW
+    definition: "molecular weight as sole ranking score"
+  - id: cLogP
+    definition: "cLogP as sole ranking score"
+
+mechanism_arms_to_add_before_more_fusion:
+  - id: size_deconfounded_score
+    definition: "residual of endpoint score after regressing on heavy-atom count"
+    rationale: "separates genuine complementarity signal from volume bias"
+    do_not_use: "naive per-heavy-atom division (vina_mean_LE inverts the working dual-vs-A_only direction: 0.689 -> 0.318)"
+  - id: endpoint_comparability_correction
+    definition: "per-target applicability-domain / score-comparability correction targeting the observed end asymmetry"
+    rationale: >
+      EGFR/HER2 shows dual-vs-B_only AUROC 0.311 (inverted) while dual-vs-A_only
+      is 0.689; PIK3CA/mTOR shows no such inversion. The failure is end
+      asymmetry, not the choice of mean vs min.
 
 post_hoc_diagnostic_only:
   - id: shortfall_gate
