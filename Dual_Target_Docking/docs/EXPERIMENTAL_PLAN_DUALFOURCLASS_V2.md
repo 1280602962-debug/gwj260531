@@ -317,8 +317,8 @@ B6  打包 DualFourClass-Bench + 写作投稿
 
 **立即下一步（文档/分析，默认）：**
 
-1. 冻结本文为权威；更新总览与红队引用。  
-2. 创建预注册臂清单草稿 `CANDIDATE_ARMS_V0.yaml`（B0）。  
-3. Track A：整理 S1 分裂与分型主图素材清单。  
-4. 可选 W2 prep 对照设计一页 SOP。  
+1. ~~冻结本文为权威；更新总览与红队引用。~~  
+2. ~~创建预注册臂清单草稿 `CANDIDATE_ARMS_V0.yaml`（B0）。~~  
+3. **执行 STEP0：** [`AGENT_COMMAND_STEP0_TRACK_A_STARTER.md`](AGENT_COMMAND_STEP0_TRACK_A_STARTER.md)（W1+W3）。  
+4. 可选 W2 prep 对照设计一页 SOP（另开命令）。  
 5. **在用户批准 Track B 之前，不启动新的同协议 EGFR 扩样对接。**
