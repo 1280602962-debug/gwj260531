@@ -175,11 +175,12 @@ Phase 2+ 见规划 v2 Track A / Track B（探索/开发/验证分离）
 
 | 文档 | 状态 |
 |------|------|
-| `NMI_SUBMISSION_PLAN_DECISION_RULER.md` | 现行投稿骨架（与本报告对齐） |
+| `EXPERIMENTAL_PLAN_DUALFOURCLASS_V2.md` | **现行实验权威** |
+| `NMI_SUBMISSION_PLAN_DECISION_RULER.md` | 投稿骨架（claim 强度随 v2 降级/重验） |
 | `PROJECT_MASTER_PLAN.md` | 现行总览 |
 | `CRITIQUE_AND_NEXT_STEPS.md` | 红队（乘客前置条件已废） |
 | `NMI_SUBMISSION_PLAN_MOIETY.md` | 废弃 |
-| 本文件 | **方向重定权威记录** |
+| 本文件 | **方向重定权威记录**（执行路线以 v2 为准） |
 
 ---
 
