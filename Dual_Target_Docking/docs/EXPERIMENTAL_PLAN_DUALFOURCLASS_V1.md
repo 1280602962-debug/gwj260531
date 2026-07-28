@@ -182,14 +182,20 @@ ML 强制消融：`分数 only` vs `分数+指纹`；若只有 +指纹才显著 
 
 ---
 
-## 7. 立即下一步（只做这一件直到 S1 判定）
+## 7. 阶段状态（2026-07-28 更新）
 
-**批准后开工阶段 1：**  
-将 EGFR/HER2 从 40 扩至 ~100–120，原协议重跑 RTM，配对 bootstrap 判定 Δ 是否显著。
+### S1 已判定：**No-Go**
+- 数据：`data/egfr_her2_panel120_v0/`（N=110）
+- 全面板 ΔAUROC(rtm_min_z−vina_mean)=−0.039，CI [−0.166,+0.085]
+- 分层：panel40 子集仍 Δ≈+0.17；**新70 上 Δ≈−0.19 且 CI 显著为负**
+- 详见：`data/egfr_her2_panel120_v0/analysis/STAGE1_VERDICT.md`、`STAGE1_EXPAND_ANALYSIS.md`
 
-未过 S1 前：不开第三对靶、不上复杂 ML、不全面多引擎铺开。
-
-给本地 agent 的命令见 `docs/AGENT_COMMAND_STAGE1_EGFR_EXPAND.md`（若尚未创建则与本文阶段1条文等价使用）。
+### 立即下一步（S1 No-Go 分支）
+1. **冻结**“同协议 RTM/min_z 为通用决策臂”的 claim；主文改诊断/外推失败叙事。  
+2. 可选低成本：抽 20 个新配体做 LigPrep vs RDKit prep 对照。  
+3. 收紧扩面板规则（assay/命名药/共价药）。  
+4. 若继续方法：必须换引擎（GNINA）或新决策协议，并预注册 held-out 化学空间成功标准——**禁止**再扩 EGFR 同协议赌显著性。  
+5. 多对靶仅作为 DualFourClass **基准发布**可选，不绑定 RTM 通吃假设。
 
 ---
 
