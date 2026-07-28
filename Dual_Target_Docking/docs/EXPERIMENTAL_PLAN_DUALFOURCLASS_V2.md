@@ -322,12 +322,13 @@ B6  打包 DualFourClass-Bench + 写作投稿
 | v1 S1 EGFR120 | **No-Go** |
 | `rtm_min_z` 通用主臂 | **撤销** |
 | 权威规划 | **本文 v2** |
-| Track 选择 | 待定（默认保底 Track A；Track B 需明确批准算力） |
+| Track 选择 | **Stage M → Track B Weak**；默认收 **Track A**（STEP0） |
+| Stage M | **完成** — `data/stage_m_v0/analysis/STAGE_M_VERDICT.md`（M4-min 已跑） |
 
 **立即下一步（文档/分析，默认）：**
 
 1. ~~冻结本文为权威；更新总览与红队引用。~~  
 2. ~~创建预注册臂清单草稿 `CANDIDATE_ARMS_V0.yaml`（B0）。~~  
 3. ~~红队测量审计叙事：`PLAN_V2_REDTEAM_AND_REDESIGN.md`。~~  
-4. **执行 Stage M：** [`AGENT_COMMAND_STAGE_M.md`](AGENT_COMMAND_STAGE_M.md)（推荐先跳过 M4）。  
-5. Stage M 门控后再跑 STEP0 / 或批准 Track B；**禁止**同协议 EGFR 扩样赌显著。
+4. ~~执行 Stage M：[`AGENT_COMMAND_STAGE_M.md`](AGENT_COMMAND_STAGE_M.md)。~~ → **已完成（Track B Weak）**  
+5. **跑 STEP0（Track A 启动包）：** [`AGENT_COMMAND_STEP0_TRACK_A_STARTER.md`](AGENT_COMMAND_STEP0_TRACK_A_STARTER.md)；**禁止**同协议 EGFR 扩样赌显著；**禁止**未经再门控开 Track B 大批对接。

@@ -1,0 +1,81 @@
+# DualFourClass candidate decision arms — Stage M cleaned list v1
+# Authoritative: docs/EXPERIMENTAL_PLAN_DUALFOURCLASS_V2.md + data/stage_m_v0/
+# Date: 2026-07-28
+# Replaces CANDIDATE_ARMS_V0 as the pre-registration draft for any future Track B.
+
+meta:
+  version: "CANDIDATE_ARMS_V1_STAGE_M"
+  supersedes: "CANDIDATE_ARMS_V0"
+  stage_m_pack: "data/stage_m_v0/"
+  task: "report AUROC(dual vs A_only) and AUROC(dual vs B_only) separately; summarise by min(D/A,D/B)"
+  deprecated_task: "Dual vs A_union_B pooled AUROC as sole headline"
+  selection_protocol: "leave_one_pair_out"
+  confirmation: "evaluate_selected_arm_once_on_holdout_pair"
+  track_b_status: "Weak"  # filled by Stage M
+  forbidden:
+    - "tune_thresholds_on_single_pair_then_extrapolate"
+    - "gate_warning_flags_or_architecture_into_primary_score"
+    - "restart_egfr_rtm_min_z_same_protocol_expansion_as_confirmation"
+    - "post_hoc_shortfall_clash_as_primary_arm"
+    - "treat_mixed_prep_panel120_rtm_split_as_method_conclusion"
+
+ligand_prep:
+  development_confirmation: "MUST_BE_UNIFORM"
+  frozen_choice: "rdkit_etkdg_meeko"
+  note: "M4-min re-docked EH40 under this prep; do not mix LigPrep scores into Development"
+
+# Primary competition arms (≤4). Controls are mandatory but not 'methods'.
+primary_competition_arms:
+  - id: vina_mean
+    family: docking_baseline
+    required: true
+    definition: "mean of per-target mode-1 Vina scores (higher-is-better = −affinity)"
+
+  - id: heavy_atoms
+    family: trivial_control
+    required: true
+    definition: "heavy-atom count as sole ranking score"
+    note: "Not a method claim; mandatory volume baseline under directional metric"
+
+  - id: rtm_min
+    family: rescoring
+    required: false
+    max_one_rescoring: true
+    definition: "min of per-target RTM best-of-K over Vina modes (no panel-wide z)"
+    note: >
+      Prefer rtm_min over rtm_min_z for primary competition: z-calibration must be
+      LOTO-train-only if used. rtm_min_z remains exploration-only after S1/M4.
+
+  - id: size_deconfounded_vina
+    family: mechanism_placeholder
+    required: false
+    max_one_mechanism: true
+    definition: >
+      residual of vina_mean after regressing on heavy_atoms
+      (fit ONLY inside LOTO train folds; apply to held-out ligands)
+    rationale: "separates complementarity-ish signal from volume bias on EGFR-like pairs"
+    status: "formula_defined; scores may be computed later — do not invent fusion formulas"
+
+# Explicitly demoted
+exploration_derived_not_primary:
+  - id: rank_consensus_mean
+    provenance: "EXPLORATION_DERIVED"
+    reason: "Selected after seeing panel40 ΔAUROC CI; multiple-comparison leakage"
+  - id: rank_consensus_min
+    provenance: "EXPLORATION_DERIVED"
+    reason: "Same leakage class as rank_consensus_mean"
+  - id: rtm_min_z
+    provenance: "EXPLORATION_DERIVED"
+    reason: "EGFR panel40 exploratory; S1 No-Go; prep-sensitive pending/after M4"
+
+mandatory_baseline_controls:
+  - heavy_atoms
+  - MW
+  - cLogP
+  - TPSA
+
+post_hoc_diagnostic_only:
+  - shortfall_gate
+  - clash_gate
+  - ml_decision_head
+  - warning_flags_gated_score
