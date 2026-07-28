@@ -73,7 +73,7 @@ Scoop **3.5/5**：融合本身不新；可守的是四类硬负例决策 + 可�
 | **失败分型 v0（T1/T2/T5）** | shortfall 预实验已阴性；共识臂待做 |
 | EH40_23 ↔ PM48_21/26 对照 | C4 外推成功声明（**不要宣称**） |
 
-瓶颈是 **样本量与跨对靶显著性（S1/S2）**，不是再调 shortfall。现行规划：[`EXPERIMENTAL_PLAN_DUALFOURCLASS_V1.md`](EXPERIMENTAL_PLAN_DUALFOURCLASS_V1.md)。
+瓶颈已从「同 pair 扩样求显著」纠偏为 **探索/开发/验证分离 + LOTO 选规则**。S1 No-Go 后禁止重启同协议 EGFR 扩样赌局。现行规划：[`EXPERIMENTAL_PLAN_DUALFOURCLASS_V2.md`](EXPERIMENTAL_PLAN_DUALFOURCLASS_V2.md)。
 
 ---
 

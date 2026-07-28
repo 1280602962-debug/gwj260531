@@ -1,0 +1,97 @@
+# DualFourClass candidate decision arms — pre-registration draft v0
+# Authoritative experimental plan: docs/EXPERIMENTAL_PLAN_DUALFOURCLASS_V2.md
+# Status: DRAFT for Track B / B0 freeze. Do not invent new primary arms after scoring starts.
+# Date: 2026-07-28
+
+meta:
+  version: "CANDIDATE_ARMS_V0"
+  task: "Dual vs A_union_B (AUROC); report Top10 dual and hardneg counts"
+  baseline_arm: "vina_mean"
+  selection_protocol: "leave_one_pair_out"
+  selection_objective: "median_delta_auroc_vs_vina_mean"
+  tie_break: "simpler_arm_first"  # fewer calibrations < consensus < ML
+  confirmation: "evaluate_selected_arm_once_on_holdout_pair"
+  forbidden:
+    - "tune_thresholds_on_single_pair_then_extrapolate"
+    - "gate_warning_flags_or_architecture_into_primary_score"
+    - "restart_egfr_rtm_min_z_same_protocol_expansion_as_confirmation"
+    - "post_hoc_shortfall_clash_as_primary_arm"
+
+ligand_prep:
+  development_confirmation: "MUST_BE_UNIFORM"
+  preferred: "rdkit_meeko"  # or ligprep — choose one before B1
+  exploratory_legacy_ligprep: "EGFR_panel40_only; do not mix into Development scores without re-prep"
+
+arms:
+  - id: vina_mean
+    family: baseline
+    required: true
+    definition: "mean of per-target representative Vina scores (top1 unless protocol overrides)"
+
+  - id: vina_min
+    family: baseline
+    required: true
+    definition: "min of per-target representative Vina scores (weak-end gate)"
+
+  - id: rtm_mean
+    family: rescoring
+    required: true
+    definition: "mean of per-target RTM best-of-K over Vina modes"
+
+  - id: rtm_min
+    family: rescoring
+    required: true
+    definition: "min of per-target RTM best-of-K"
+
+  - id: rtm_min_z
+    family: rescoring
+    required: false
+    definition: "per-target z-calibration then min; calibration fit ONLY inside LOTO train folds"
+    note: "exploratory win on EGFR panel40; NOT a frozen universal primary after S1 No-Go"
+
+  - id: gnina_mean
+    family: second_engine
+    required: false
+    recommended_for_track_b: true
+    definition: "mean of per-target GNINA (or equivalent) representative scores"
+
+  - id: gnina_min
+    family: second_engine
+    required: false
+    recommended_for_track_b: true
+    definition: "min of per-target GNINA representative scores"
+
+  - id: rank_consensus_mean
+    family: consensus
+    required: false
+    recommended_for_track_b: true
+    definition: "mean of per-channel ranks across pre-listed channels (channels frozen before scoring)"
+    channels_example: ["vina", "rtm", "gnina"]
+
+  - id: rank_consensus_min
+    family: consensus
+    required: false
+    recommended_for_track_b: true
+    definition: "min of per-channel ranks (penalize any weak channel)"
+
+post_hoc_diagnostic_only:
+  - id: shortfall_gate
+    reason: "decision ablation negative / threshold fishing risk"
+  - id: clash_gate
+    reason: "do not retune to kill stubborn hardnegs"
+  - id: ml_decision_head
+    reason: "allowed only under LOTO + score-only vs fingerprint ablation; not a default primary"
+
+pair_roles_draft:
+  exploration_done:
+    - EGFR_HER2_panel40_120
+    - PIK3CA_mTOR_panel48
+  development_candidates:
+    - EGFR_HER2_unified_prep_rebuild
+    - PIK3CA_mTOR_quota_panel
+    - AChE_BChE
+  confirmation_holdout_candidates_choose_one_before_scoring:
+    - Mcl1_BclxL
+    - AChE_BChE_if_not_in_development
+  never_use_in_arm_selection:
+    - NLRP3_JNK1_private_if_any

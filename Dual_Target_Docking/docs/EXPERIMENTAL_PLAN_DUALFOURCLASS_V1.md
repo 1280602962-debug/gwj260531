@@ -1,5 +1,7 @@
-# DualFourClass 后续实验总规划（v1）
+# DualFourClass 后续实验总规划（v1）— **已废止为权威**
 
+> **请改读权威规划：** [`EXPERIMENTAL_PLAN_DUALFOURCLASS_V2.md`](EXPERIMENTAL_PLAN_DUALFOURCLASS_V2.md)  
+> 本文保留作历史记录（含 S1 No-Go）。v1「小 panel 探索 → 冻结 → 同 pair 扩样确认」范式已纠偏。  
 > 约束：可大批对接；**无湿实验**。  
 > 目标结果：相对普通双端对接融合（`vina_mean`），有一套**架构无关**的决策/评分协议，能更好区分 **dual vs A-only/B-only**，且增益在统计上可辩护。  
 > 期刊预期：JCIM / J. Cheminform.（不做 NMI 默认）。  

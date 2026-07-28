@@ -150,29 +150,24 @@ NMI 买的是任务纠偏 + 大规模开放基准 + 强方法洞察。当前证�
 
 ## 4. 执行路线（按证据驱动，不再换故事）
 
+> **2026-07-28：** 下方 Phase 1→2「单 pair 闭环再外推」已被 S1 No-Go 证伪为验证设计。  
+> **现行执行权威：** [`EXPERIMENTAL_PLAN_DUALFOURCLASS_V2.md`](EXPERIMENTAL_PLAN_DUALFOURCLASS_V2.md)（Track A 诊断保底 / Track B 多 pair + LOTO）。  
+> 下文保留为历史路线图。
+
 ```text
 Phase 0  [DONE] 方向冻结；EGFR/HER2 cognate QC；Vina/RTM 基线
     │
-Phase 1  [NOW]  协议闭环（只在 EGFR/HER2 40±扩面板）
-    │           - 冻结 YAML：引擎/盒子/top-K/RTM/门控/融合
-    │           - 消融：Vina mean/min | RTM mean/min | z-校准 | shortfall
-    │                   | PoseBusters/PLIF 门控
-    │           - 专治 EH40_23：姿态与相互作用一页纸
-    │           - Go：硬负例 Top10 比例相对 Vina 下降 ≥30% 且 dual 回收不崩
+Phase 1  [DONE/FAIL]  协议闭环（EGFR/HER2 40→120）— S1 No-Go；不得重启同协议扩样
     │
-Phase 2  [GO后] 第二对靶外推（优先 PIK3CA/mTOR）
-    │           - 同一 YAML；重复 C1–C3
-    │
-Phase 3         第三对可选（Mcl-1/Bcl-xL）+ 架构分层标注
-    │
-Phase 4         打包 Dual-VSDS-Decision（数据+脚本+协议）→ 写 JCIM 稿
+Phase 2+ 见规划 v2 Track A / Track B（探索/开发/验证分离）
 ```
 
-### 本阶段唯一允许的实验问题
+### 本阶段唯一允许的实验问题（历史；已关闭）
 
 > 在 RTM 之上，**校准 + 弱端规则 + 姿态/相互作用门控**能否把 EH40_23 类压出前列，且不打崩 TAK-285 / lapatinib？
 
-若否 → 降级为「诊断+基准」资源文（方向 C），仍不回乘客。
+探索池结论：短板/clash 消融阴性；`rtm_min_z` 在 panel40 有点估计增益但 **panel120 不外推**。  
+若继续方法 → 必须走 v2 Track B，不回乘客。
 
 ---
 

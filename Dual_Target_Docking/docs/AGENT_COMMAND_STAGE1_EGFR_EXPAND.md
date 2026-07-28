@@ -1,7 +1,9 @@
 # Agent command — Stage 1 EGFR/HER2 expand (S1 gate)
 
 ```text
-【约束】可大批对接；无湿实验。权威规划见 docs/EXPERIMENTAL_PLAN_DUALFOURCLASS_V1.md。
+【约束】可大批对接；无湿实验。  
+【状态】本 Stage-1 扩样命令对应规划 v1；**S1 已 No-Go，本命令关闭，勿重启同协议扩样。**  
+权威规划见 docs/EXPERIMENTAL_PLAN_DUALFOURCLASS_V2.md。
 本阶段只做阶段1（S1），不要开第三对靶，不要上复杂ML，不要调clash/shortfall刷分。
 
 【任务】EGFR/HER2 panel40 → N≈100–120 扩展并对接重评。
