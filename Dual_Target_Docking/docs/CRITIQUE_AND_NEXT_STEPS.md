@@ -73,7 +73,7 @@ Scoop **3.5/5**：融合本身不新；可守的是四类硬负例决策 + 可�
 | **失败分型 v0（T1/T2/T5）** | shortfall 预实验已阴性；共识臂待做 |
 | EH40_23 ↔ PM48_21/26 对照 | C4 外推成功声明（**不要宣称**） |
 
-瓶颈是 **C3 决策规则（警告层+共识消融）把分型写进协议**，不是再开对接。
+瓶颈是 **样本量与跨对靶显著性（S1/S2）**，不是再调 shortfall。现行规划：[`EXPERIMENTAL_PLAN_DUALFOURCLASS_V1.md`](EXPERIMENTAL_PLAN_DUALFOURCLASS_V1.md)。
 
 ---
 
@@ -82,10 +82,11 @@ Scoop **3.5/5**：融合本身不新；可守的是四类硬负例决策 + 可�
 - [x] 明确放弃乘客主线  
 - [x] Skills 深度调研 + 方向重定报告  
 - [x] 启动并完成 PIK3CA/mTOR panel48 + 失败分型 v0  
-- [ ] 协议 YAML / SOP 回写（E 分对靶；双读数 vina+rtm）  
-- [ ] 化学型警告层（不改分）  
-- [ ] 冻结阈值的 consensus / shortfall 消融表  
-- [ ] 扩面板 / 第三对（排在消融之后）
+- [x] 协议回写；警告层；冻结消融；bootstrap CI；功效估算  
+- [x] DualFourClass 后续实验总规划 v1（含架构/归因难点条款）  
+- [ ] **阶段1：** EGFR/HER2 → ~100–120 + ΔAUROC CI（S1 门控）  
+- [ ] S1 Go 后：多对靶 → 第二引擎/共识/ML（leave-one-pair-out）  
+- [ ] S1 No-Go：降 claim 收诊断基准文，不堆复杂方法  
 
 ---
 
