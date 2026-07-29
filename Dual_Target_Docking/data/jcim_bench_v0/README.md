@@ -5,7 +5,7 @@ JCIM evaluation/benchmark aggregation after docking-phase scoring.
 Authorization: [`../protocols/PAIR_ROLES_APPROVED_JCIM.yaml`](../protocols/PAIR_ROLES_APPROVED_JCIM.yaml)  
 Claim ceiling: [`CLAIM_CEILING.md`](CLAIM_CEILING.md)  
 GNINA: [`analysis/GNINA_STATUS.md`](analysis/GNINA_STATUS.md) (**DONE**, mode_01 CNN rescore)  
-Directional forest: [`tables/directional_forest_v0.csv`](tables/directional_forest_v0.csv) · [`analysis/DIRECTIONAL_FOREST.md`](analysis/DIRECTIONAL_FOREST.md)
+Directional forest: [`tables/directional_forest_v0.csv`](tables/directional_forest_v0.csv) · **preferred** [`tables/directional_with_baselines_v1.csv`](tables/directional_with_baselines_v1.csv) · [`analysis/DIRECTIONAL_FOREST.md`](analysis/DIRECTIONAL_FOREST.md) · [`analysis/POST_DOCKING_VERDICT.md`](analysis/POST_DOCKING_VERDICT.md)
 
 | Pair | Pack | Vina | RTM | GNINA |
 |------|------|------|-----|-------|

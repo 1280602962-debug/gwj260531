@@ -1,14 +1,20 @@
-# Directional AUROC (docking-phase v0)
+# Directional AUROC — docking-phase forest (v1, with baselines)
 
-```
-         pair       channel  auroc_D_vs_A  auroc_D_vs_B  summary_min   n
-    AChE/BChE     vina_mean      0.530370      0.585317     0.530370  95
-    AChE/BChE     rtm_min_z      0.408889      0.462963     0.408889  96
-    AChE/BChE gnina_cnn_min      0.371852      0.494709     0.371852  96
-PIK3CA/PIK3CB     vina_mean      0.703042      0.411990     0.411990  99
-PIK3CA/PIK3CB     rtm_min_z      0.650510      0.438776     0.438776 100
-PIK3CA/PIK3CB gnina_cnn_min      0.557398      0.506378     0.506378 100
-  PIK3CA/mTOR     vina_mean      0.722222      0.671296     0.671296  48
-  PIK3CA/mTOR     rtm_min_z      0.519841      0.671296     0.519841  48
-  PIK3CA/mTOR gnina_cnn_min      0.563492      0.662037     0.563492  48
-```
+Supersedes the v0 snippet that omitted EGFR and trivial baselines.  
+Primary table: [`../tables/directional_with_baselines_v1.csv`](../tables/directional_with_baselines_v1.csv)  
+Verdict: [`POST_DOCKING_VERDICT.md`](POST_DOCKING_VERDICT.md)
+
+## Docking channels — `summary_min = min(D/A, D/B)`
+
+| pair | vina_mean | rtm_min_z | gnina_cnn_min | best baseline | docking vs baseline |
+|------|----------:|----------:|-------------:|---------------|---------------------|
+| PIK3CA/mTOR | **0.671** | 0.520 | 0.563 | heavy 0.463 | **PASS** (all three) |
+| AChE/BChE | 0.530 | 0.409 | 0.372 | TPSA 0.753 | FAIL |
+| PIK3CA/PIK3CB | 0.412 | 0.439 | 0.506 | heavy 0.599 | FAIL |
+| EGFR/HER2 | 0.282 | 0.253 | 0.263 | cLogP 0.482 | FAIL |
+
+Directional detail (vina): EGFR 0.680/0.282; PIK3CA/PIK3CB 0.703/0.412 — one-sided inversion on both kinase-like pairs.
+
+## Note on AChE/BChE TPSA
+
+TPSA alone reaches `summary_min` 0.753 on this strict panel (far above docking). Treat as a chemotype/polarity shortcut to discuss in Limitations; even vs heavy_atoms (0.547), vina (0.530) still fails the baseline gate.
