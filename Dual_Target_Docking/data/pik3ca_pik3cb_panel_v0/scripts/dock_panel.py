@@ -129,8 +129,16 @@ def run_one(root, target, lig, ligand_pdbqt, box, exhaust, timeout_s=600):
             "status": "exists",
             "n_modes": len(list(pose_dir.glob("mode_*.pdbqt"))),
         }
-    # High-flexibility ligands (peptide-like) thrash at E=8; soften + hard timeout
     td = torsdof(ligand_pdbqt)
+    # Peptide-scale ligands thrash Vina; skip rather than hang workers
+    if td >= 25:
+        return {
+            "target": target,
+            "ligand": lig,
+            "status": "fail",
+            "reason": f"skip_torsdof={td}_ge_25",
+            "n_modes": 0,
+        }
     use_e = exhaust
     use_to = timeout_s
     if td >= 20:
@@ -196,6 +204,8 @@ def main():
         pdbqt = root / "ligands_pdbqt" / f"{lig}.pdbqt"
         for t in args.targets:
             jobs.append((t, lig, pdbqt, boxes[t]))
+    # dock easy ligands first so high-TORSDOF cannot monopolize the pool
+    jobs.sort(key=lambda j: torsdof(j[2]))
 
     results = []
     with ThreadPoolExecutor(max_workers=args.workers) as ex:
