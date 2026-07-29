@@ -143,6 +143,8 @@ J5  GNINA rescore 全部对靶                     小（复用姿态）
 J6  方向分解 + 基线 + CI + 森林图 + 打包发布    零对接
 ```
 
+**可复制命令（J0+J1+Track A 素材，零对接）：** [`AGENT_COMMAND_NEXT_J0J1_TRACKA.md`](AGENT_COMMAND_NEXT_J0J1_TRACKA.md)
+
 任一步 No-Go 都能退到 **Mol. Inf. / JCAMD 版**（现有 2 对 + Stage M 已够），不至于全盘落空。
 
 ---
