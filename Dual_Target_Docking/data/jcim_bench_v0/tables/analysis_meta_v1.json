@@ -1,0 +1,136 @@
+{
+  "n_boot": 2000,
+  "seed": 20260729,
+  "primary_summary": "min(AUROC dual-vs-A_only, AUROC dual-vs-B_only)",
+  "pairs": [
+    "EGFR/HER2",
+    "AChE/BChE",
+    "PIK3CA/PIK3CB",
+    "PIK3CA/mTOR"
+  ],
+  "inventory": [
+    {
+      "pair": "EGFR/HER2",
+      "n": 110,
+      "n_dual": 28,
+      "n_A_only": 38,
+      "n_B_only": 32,
+      "n_neither": 12,
+      "n_with_gnina": 110,
+      "n_with_pchembl_both": 110,
+      "label_rule": "theta_6_panel120"
+    },
+    {
+      "pair": "AChE/BChE",
+      "n": 95,
+      "n_dual": 27,
+      "n_A_only": 25,
+      "n_B_only": 28,
+      "n_neither": 15,
+      "n_with_gnina": 95,
+      "n_with_pchembl_both": 95,
+      "label_rule": "strict_6.5_5.5"
+    },
+    {
+      "pair": "PIK3CA/PIK3CB",
+      "n": 99,
+      "n_dual": 28,
+      "n_A_only": 27,
+      "n_B_only": 28,
+      "n_neither": 16,
+      "n_with_gnina": 99,
+      "n_with_pchembl_both": 99,
+      "label_rule": "strict_6.5_5.5"
+    },
+    {
+      "pair": "PIK3CA/mTOR",
+      "n": 48,
+      "n_dual": 18,
+      "n_A_only": 14,
+      "n_B_only": 12,
+      "n_neither": 4,
+      "n_with_gnina": 48,
+      "n_with_pchembl_both": 48,
+      "label_rule": "theta_6_panel48"
+    }
+  ],
+  "baseline_gate_n_rows": 12,
+  "n_arms_bootstrapped": 28,
+  "n_top10_rows": 28,
+  "n_spearman_rows": 112,
+  "n_threshold_rows": 72,
+  "failure_modes": [
+    {
+      "pair": "EGFR/HER2",
+      "vina_summary_min": 0.2824,
+      "vina_summary_min_ci": [
+        0.1621,
+        0.417
+      ],
+      "best_baseline": "clogp",
+      "delta_vs_baseline": -0.1997,
+      "delta_ci": [
+        -0.3414,
+        -0.0346
+      ],
+      "modes": [
+        "directional_asymmetry_weak_B",
+        "significantly_below_best_baseline",
+        "pooled_masks_weak_arm"
+      ]
+    },
+    {
+      "pair": "AChE/BChE",
+      "vina_summary_min": 0.5304,
+      "vina_summary_min_ci": [
+        0.3686,
+        0.6769
+      ],
+      "best_baseline": "tpsa",
+      "delta_vs_baseline": -0.2029,
+      "delta_ci": [
+        -0.3978,
+        0.0115
+      ],
+      "modes": [
+        "point_estimate_below_best_baseline"
+      ]
+    },
+    {
+      "pair": "PIK3CA/PIK3CB",
+      "vina_summary_min": 0.412,
+      "vina_summary_min_ci": [
+        0.2626,
+        0.5566
+      ],
+      "best_baseline": "heavy",
+      "delta_vs_baseline": -0.2097,
+      "delta_ci": [
+        -0.3962,
+        -0.0127
+      ],
+      "modes": [
+        "directional_asymmetry_weak_B",
+        "significantly_below_best_baseline",
+        "pooled_masks_weak_arm"
+      ]
+    },
+    {
+      "pair": "PIK3CA/mTOR",
+      "vina_summary_min": 0.6713,
+      "vina_summary_min_ci": [
+        0.4286,
+        0.8077
+      ],
+      "best_baseline": "heavy",
+      "delta_vs_baseline": 0.2083,
+      "delta_ci": [
+        -0.0227,
+        0.4332
+      ],
+      "modes": [
+        "beats_baseline_point_but_CI_includes_0"
+      ]
+    }
+  ]
+}

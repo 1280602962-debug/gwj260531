@@ -15,11 +15,13 @@
 
 | 贡献块 | 现在状态 |
 |--------|----------|
-| 任务定义 + 池化会抵消 | 已有（EGFR/PM） |
+| 任务定义 + 池化会抵消 | 已有（EGFR/PM；PIK3CB 复现） |
 | 公开数据供给审计（49 对） | **已有**；待抓 22 靶可后补 |
-| 4 对靶对接证据 + 3 打分通道 + 基线 | **缺** ← 下面步骤补这个 |
-| prep 敏感性 | 已有（EGFR M4） |
-| 公开基准打包 | 对接完成后做 |
+| 4 对靶对接证据 + 3 打分通道 + 基线 | **已有**（K=4 打分完成） |
+| prep 敏感性 | 已有（EGFR M4 + PM48 LigPrepΔ） |
+| bootstrap CI + 失败诊断 + 主图 | **已有** → `data/jcim_bench_v0/analysis/BENCHMARK_ANALYSIS_V1.md` |
+| 公开基准打包 | 表/脚本齐；待 Zenodo DOI |
+| 英文稿 | **下一步** |
 
 **不卖：** 通用决策尺子已验证；再扩 EGFR 赌显著；乘客/湿实验。
 
@@ -84,17 +86,17 @@ EGFR：**跳过**（已齐）。
 
 ---
 
-### 第五步 — 分析成文 + 打包（云端可做）
+### 第五步 — 分析成文 + 打包（云端可做） — **分析侧已完成**
 
 对 K=4 统一出：
 
-- 方向分解 AUROC（D/A、D/B）+ 配对 bootstrap CI  
-- 平凡基线（重原子 / MW / cLogP / TPSA / 可选 Morgan）  
-- 跨对靶森林图  
+- 方向分解 AUROC（D/A、D/B）+ 配对 bootstrap CI → **有**  
+- 平凡基线（重原子 / MW / cLogP / TPSA）+ Δ CI 门控 → **有**  
+- 跨对靶森林图 → **有**（`figures/forest_summary_min_ci_v1.*`）  
 - 供给审计图（已有 49 对）+ prep 敏感性（已有）  
-- Zenodo/GitHub：**DualFourClass-Bench**  
+- Zenodo/GitHub：**DualFourClass-Bench** → 表/复现脚本齐，**待 DOI**  
 
-然后按 JCIM **Evaluation / Benchmark** 叙事投稿。
+然后按 JCIM **Evaluation / Benchmark** 叙事投稿（写作阶段）。
 
 ---
 
@@ -125,8 +127,9 @@ EGFR：**跳过**（已齐）。
 | 2B 新受体 cognate QC | **完成**（AChE=4EY7、BChE=4BDS、PIK3CB=2WXF） |
 | 3 新面板 Vina+RTM | **完成**（AChE 191/200；PIK3 199/200；超柔配体 skip） |
 | 4 GNINA CNN rescore | **完成**（mode_01；AChE/PAB/PM/EGFR） |
-| 5 基准包 | **主表 v0 已写入** `data/jcim_bench_v0/tables/directional_forest_v0.csv`；姿态大文件在本地 results |
+| 5a 基准分析包（CI/基线/诊断/图） | **完成** → `data/jcim_bench_v0/`（`BENCHMARK_ANALYSIS_V1.md`） |
+| 5b 英文稿 + Zenodo DOI | **下一步** |
 
 执行命令：[`AGENT_COMMAND_JCIM_DOCKING_PHASE.md`](AGENT_COMMAND_JCIM_DOCKING_PHASE.md)。
 
-**当前：** 对接打分阶段完成；PLK1/NLRP3 已另进程恢复。下一步可写作投稿或补平凡基线/bootstrap。
+**当前：** 对接 + CI 分析打包完成。不再缺一轮巨大对接。主线 = 写评测文；可选 PM 扩面收窄 CI。

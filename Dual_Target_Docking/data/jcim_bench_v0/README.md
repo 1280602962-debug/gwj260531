@@ -5,7 +5,8 @@ JCIM evaluation/benchmark aggregation after docking-phase scoring.
 Authorization: [`../protocols/PAIR_ROLES_APPROVED_JCIM.yaml`](../protocols/PAIR_ROLES_APPROVED_JCIM.yaml)  
 Claim ceiling: [`CLAIM_CEILING.md`](CLAIM_CEILING.md)  
 GNINA: [`analysis/GNINA_STATUS.md`](analysis/GNINA_STATUS.md) (**DONE**, mode_01 CNN rescore)  
-Directional forest: [`tables/directional_forest_v0.csv`](tables/directional_forest_v0.csv) · **preferred** [`tables/directional_with_baselines_v1.csv`](tables/directional_with_baselines_v1.csv) · [`analysis/DIRECTIONAL_FOREST.md`](analysis/DIRECTIONAL_FOREST.md) · [`analysis/POST_DOCKING_VERDICT.md`](analysis/POST_DOCKING_VERDICT.md)
+Post-dock verdict: [`analysis/POST_DOCKING_VERDICT.md`](analysis/POST_DOCKING_VERDICT.md)  
+**CI analysis pack (v1):** [`analysis/BENCHMARK_ANALYSIS_V1.md`](analysis/BENCHMARK_ANALYSIS_V1.md) · [`analysis/FIGURE_PLAN_V1.md`](analysis/FIGURE_PLAN_V1.md)
 
 | Pair | Pack | Vina | RTM | GNINA |
 |------|------|------|-----|-------|
@@ -17,11 +18,29 @@ Directional forest: [`tables/directional_forest_v0.csv`](tables/directional_fore
 Primary large pose workspaces remain under  
 `/mnt/d/CADD paper exercise/dual target docking/results/` (not all poses committed).
 
-## Reproduce main tables
+## Reproduce analysis pack (Zenodo-ready)
+
 ```bash
-# directional forest already in tables/directional_forest_v0.csv
-# per-pack scores: ablation_ligand_scores.csv + scores_gnina_best.csv
+cd Dual_Target_Docking
+python3 data/jcim_bench_v0/scripts/build_benchmark_analysis_v1.py
+python3 data/jcim_bench_v0/scripts/plot_forest_ci_v1.py
 ```
 
+Key outputs:
+
+| Artifact | Path |
+|----------|------|
+| Assembled ligands | `tables/assembled_all_pairs_long.csv` |
+| Bootstrap CIs | `tables/bootstrap_directional_ci_v1.csv`, `tables/forest_summary_min_ci_v1.csv` |
+| Baseline gate Δ±CI | `tables/baseline_gate_bootstrap_v1.csv` |
+| Forest / gate figures | `figures/forest_summary_min_ci_v1.{png,pdf}`, `figures/baseline_gate_delta_ci_v1.{png,pdf}` |
+| Meta + failure modes | `tables/analysis_meta_v1.json` |
+
+Older point-estimate tables (kept):  
+`tables/directional_forest_v0.csv` · `tables/directional_with_baselines_v1.csv`
+
 ## Status
-Docking-phase **scoring complete** (Vina + RTM + GNINA). Next: manuscript / trivial baselines polish if needed for submission.
+Docking-phase **scoring complete** (Vina + RTM + GNINA).  
+**Post-dock + CI pack:** only PIK3CA/mTOR beats trivial baselines on the **point estimate**; its Δ CI still spans 0. EGFR and PIK3CA/PIK3CB are significantly below their best trivial baselines. Supports an evaluation/benchmark JCIM narrative, not a universal scorer claim.
+
+**Next (writing, not docking):** English manuscript + Zenodo deposit; optional PM48 expand under strict quotas to tighten CIs.

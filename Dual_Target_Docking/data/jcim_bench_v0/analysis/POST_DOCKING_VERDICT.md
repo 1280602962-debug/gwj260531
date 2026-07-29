@@ -79,29 +79,31 @@ Claim 天花板：`jcim_bench_v0/CLAIM_CEILING.md`（正确：评测文，不卖
 - K=4 统一 prep × 三通道实证（含阴性）  
 - 开放 DualFourClass-Bench  
 
-### 现在仍偏紧的地方（投前建议补）
+### 投前缺口（2026-07-29 CI 包后更新）
 
-| 缺口 | 重要性 | 工作量 |
-|------|--------|--------|
-| 主文级 bootstrap CI / 森林图（含 EGFR + 基线） | 高 | 低（纯分析） |
-| AChE 上 TPSA 异常高的解释（描述符相关/化学型） | 高 | 低 |
-| Zenodo 正式打包 + 一键复现 | 高 | 低–中 |
-| PM 仍 N=48（未扩到 ~110） | 中 | 中（可选） |
-| 失败分型系统表扩到新两对 | 中 | 中 |
-| 英文稿 + JCIM 版式 | 必须 | 写作 |
+| 缺口 | 状态 |
+|------|------|
+| 主文级 bootstrap CI / 森林图（含 EGFR + 基线） | **已补** → `BENCHMARK_ANALYSIS_V1.md` + `figures/` |
+| AChE TPSA 化学型捷径诊断 | **已补** → `ache_feature_dual_vs_hardneg_v1.csv` |
+| 基线门控 Δ±CI / 失败模式 | **已补** → `baseline_gate_bootstrap_v1.csv`；**PM Δ CI 仍跨 0** |
+| Zenodo 正式 DOI 上传 | 表/脚本已齐；待人工 deposit |
+| 英文稿 + JCIM 版式 | **下一步（写作）** |
+| PM 扩到 ~110（收窄 CI） | 可选加分，非门槛 |
 
 ### 不要用现在的数据去卖
 
 - 「找到了通用双靶决策臂」  
 - 「GNINA/RTM 全面提升」  
-- 「四对靶上都验证了协议」——实际是 **一对有对接增量、三对暴露失败**
+- 「四对靶上都验证了协议」——实际是 **一对点估计有对接增量（CI 未显著）、三对暴露失败**  
+- 「对接显著优于平凡基线」——仅 PM 点估计为正，且 95% CI 跨 0
 
 ### 综合判断
 
 | 问题 | 答案 |
 |------|------|
 | 数据是否支持开始写 JCIM？ | **是（评测文）** |
-| 现在直接投稿是否稳？ | **偏紧**：先补 CI/基线主图、Zenodo、TPSA 讨论 |
+| 分析包是否够写主图主表？ | **是**（见 `BENCHMARK_ANALYSIS_V1.md` / `FIGURE_PLAN_V1.md`） |
+| 现在直接投稿是否稳？ | 分析侧可写；差英文稿 + Zenodo DOI |
 | 命中率（评测定位） | **中等可冲**；若审稿人要「新方法+显著提升」会拒——那不是你们该卖的 |
 | 保底刊 | 仍可用同一稿投 Molecular Informatics / JCAMD |
 
@@ -109,26 +111,24 @@ Claim 天花板：`jcim_bench_v0/CLAIM_CEILING.md`（正确：评测文，不卖
 
 ## 4. 下一步（白话）
 
-### 第一步（立刻，零对接）— 分析收束成投稿包
-- 把本文件的四对靶×基线表升格为 `jcim_bench_v0` 主图数据  
-- 补配对 bootstrap CI  
-- 写清 AChE–TPSA 与同工酶对的 Limitations  
-- Zenodo/GitHub release 说明  
+### 第一步 — 已完成（零对接分析收束）
+见 [`BENCHMARK_ANALYSIS_V1.md`](BENCHMARK_ANALYSIS_V1.md)：bootstrap CI、基线门控、TPSA、Top10、θ 敏感、prep、figure plan。
 
-### 第二步 — 写作
+### 第二步 — 写作（当前主线）
 - Intro：任务缺口（对标大库双靶发现文：他们有湿实验，你们补评测轴）  
-- Results：供给审计 → 方向抵消 → 基线对照森林图 → prep 敏感性 → 三通道  
+- Results：供给审计 → 方向抵消 → **带 CI 的基线对照森林图** → prep 敏感性 → 三通道  
+- 诚实写：PM 超过体积仅为点估计；EGFR/同工酶显著输基线  
 - 不写 Track B 选臂胜利  
 
 ### 第三步（可选，加分）
-- PM 按 strict 扩到 ~110  
-- 新两对抽做失败分型个案  
+- PM 按 strict 扩到 ~110 以收窄 Δ CI  
+- Zenodo DOI + GitHub release  
 
-**不建议再开：** 扩 EGFR、再找第 5 对赌方法赢、短板阈值调参。
+**不建议再开：** 扩 EGFR、再找第 5 对赌方法赢、短板阈值调参、再开一轮巨大对接。
 
 ---
 
 ## 5. 与路线文件的关系
 
-本轮结果 **符合** `JCIM_NEXT_ROUTE_PLAIN.md` 的第一步–第四步（第五步分析打包尚未完全收官）。  
+本轮结果 **符合** `JCIM_NEXT_ROUTE_PLAIN.md`；分析打包（CI/基线/诊断）已收官。  
 Track B 仍不必复活：阴性结果本身就是评测文的证据。
