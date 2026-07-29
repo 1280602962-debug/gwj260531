@@ -1,22 +1,12 @@
-# GNINA rescore — STATUS: SKIPPED
+# GNINA rescore — STATUS: DONE (mode_01 CNN minimize/rescore)
 
-**Date:** 2026-07-29  
-**Pack scope:** JCIM docking phase (EH110, PM48 RDKit, AChE/BChE, PIK3CA/PIK3CB)
+**Updated:** auto after JCIM gnina orchestrator
 
-## Status
+## Binary
+`/mnt/d/CADD paper exercise/gnina/bin/gnina` (v1.3.2), CPU `--no_gpu`
 
-`STATUS: SKIPPED`
-
-## Reason
-
-No usable `gnina` binary found on this host (`which gnina` empty; no install under `/home/gwj/miniconda3` or `/home/gwj`). Agent command allows Skip when GNINA is unavailable.
-
-## Impact
-
-- Scoring channels for primary tables remain **Vina** + **RTMScore** (best-of-K).
-- JCIM manuscript **Limitations** must state: sampling/scoring is single-engine (Vina) plus RTM rescore; CNN/GNINA channel not run — conclusions are not claimed to be score-function-invariant.
-- Does **not** block Step 5 bench pack assembly.
-
-## Resume condition
-
-Install GNINA (GPU or CPU build), then CNN-rescore existing pose PDBQTs without re-docking. Cover packs listed above; write `tables/gnina_rescore_*.csv` and update `jcim_bench_v0` channel count.
+## Protocol
+- Input: Vina `mode_01.pdbqt` → SDF (obabel)
+- `gnina --cnn_scoring rescore --minimize --seed 20260727 --cpu 1`
+- Packs: AChE/BChE, PIK3CA/PIK3CB, PM48 RDKit, EGFR if available
+- Tables: `tables/scores_gnina_long.csv`, `tables/scores_gnina_best.csv`

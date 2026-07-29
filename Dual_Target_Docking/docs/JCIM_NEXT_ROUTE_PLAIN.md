@@ -121,10 +121,12 @@ EGFR：**跳过**（已齐）。
 | 步骤 | 状态 |
 |------|------|
 | 1 授权 + 目录 | **完成** |
-| 2A PM48 RDKit Vina | **完成**（96/96）；RTM+LigPrep Δ 跑中 |
+| 2A PM48 RDKit Vina+RTM | **完成**（含 LigPrep Δ） |
 | 2B 新受体 cognate QC | **完成**（AChE=4EY7、BChE=4BDS、PIK3CB=2WXF） |
-| 3 新面板 Vina | **进行中**（各 N=100 strict；结果目录 `results/ache_bche_panel_v0`、`pik3ca_pik3cb_panel_v0`） |
-| 4 GNINA | **SKIPPED**（无二进制；见 `data/jcim_bench_v0/analysis/GNINA_STATUS.md`） |
-| 5 基准包 | 骨架有；主表待对接/RTM 齐 |
+| 3 新面板 Vina+RTM | **完成**（AChE 191/200；PIK3 199/200；超柔配体 skip） |
+| 4 GNINA CNN rescore | **完成**（mode_01；AChE/PAB/PM/EGFR） |
+| 5 基准包 | **主表 v0 已写入** `data/jcim_bench_v0/tables/directional_forest_v0.csv`；姿态大文件在本地 results |
 
 执行命令：[`AGENT_COMMAND_JCIM_DOCKING_PHASE.md`](AGENT_COMMAND_JCIM_DOCKING_PHASE.md)。
+
+**当前：** 对接打分阶段完成；PLK1/NLRP3 已另进程恢复。下一步可写作投稿或补平凡基线/bootstrap。

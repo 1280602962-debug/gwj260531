@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
-"""RTM best-of-K + Vina scores for a dual-target panel pack."""
+"""Panel RTM best-of-K + Vina tables (PM48-style SMILES-IDX SDF rebuild)."""
 from __future__ import annotations
 
 import argparse
-import csv
 import re
 import subprocess
 import sys
@@ -17,6 +16,24 @@ RTM_ROOT = Path("/home/gwj/software/RTMScore")
 RTM_PY = RTM_ROOT / "example" / "rtmscore.py"
 MODEL = RTM_ROOT / "trained_models" / "rtmscore_model1.pth"
 RTM_PYTHON = Path("/home/gwj/miniconda3/envs/rtmscore/bin/python")
+
+
+def pdbqt_xyz(path: Path):
+    xyz = []
+    for line in path.read_text().splitlines():
+        if line.startswith(("ATOM", "HETATM")):
+            xyz.append([float(line[30:38]), float(line[38:46]), float(line[46:54])])
+    return xyz
+
+
+def smiles_idx_pairs(path: Path):
+    nums = []
+    for line in path.read_text().splitlines():
+        if line.startswith("REMARK SMILES IDX"):
+            nums.extend(int(x) for x in line.split()[3:])
+    if not nums:
+        return None
+    return list(zip(nums[0::2], nums[1::2]))
 
 
 def vina_from_pdbqt(path: Path):
@@ -36,105 +53,197 @@ def auroc(pos, neg):
     return float(wins / (len(pos) * len(neg)))
 
 
-def write_pose_sdfs(root: Path, targets: list[str], panel: pd.DataFrame):
+def write_sdfs(root: Path, targets: list[str], panel: pd.DataFrame):
     logs = root / "logs" / "rtmscore"
     logs.mkdir(parents=True, exist_ok=True)
     for target in targets:
-        for _, r in panel.iterrows():
-            lig = r["panel_id"]
+        out_sdf = logs / f"{target}_poses.sdf"
+        if out_sdf.exists() and out_sdf.stat().st_size > 1000:
+            print("reuse", out_sdf, flush=True)
+            continue
+        w = Chem.SDWriter(str(out_sdf))
+        n = 0
+        for lig in panel["panel_id"]:
+            sdf_lig = root / "ligands_sdf" / f"{lig}.sdf"
             pose_dir = root / "poses" / target / lig
             modes = sorted(pose_dir.glob("mode_*.pdbqt"))
-            if not modes:
+            if not modes or not sdf_lig.exists():
                 continue
-            out_sdf = logs / f"{target}_{lig}_poses.sdf"
-            if out_sdf.exists():
+            tmpl = Chem.RemoveHs(Chem.SDMolSupplier(str(sdf_lig), removeHs=False)[0])
+            if tmpl is None:
                 continue
-            # convert via obabel if available, else skip (RTM needs sdf/mol2)
-            # Prefer writing from pdbqt with openbabel
-            all_out = root / "logs" / "vina" / f"{target}_{lig}_out.pdbqt"
-            src = all_out if all_out.exists() else modes[0]
-            # concatenate modes into one multi-model pdbqt then convert
-            if all_out.exists():
-                subprocess.run(
-                    ["obabel", str(all_out), "-O", str(out_sdf)],
-                    capture_output=True,
-                )
-            else:
-                # join modes
-                tmp = logs / f"{target}_{lig}_joined.pdbqt"
-                parts = []
-                for i, m in enumerate(modes, 1):
-                    body = [
-                        ln
-                        for ln in m.read_text().splitlines()
-                        if not ln.startswith(("MODEL", "ENDMDL"))
-                    ]
-                    parts.append(f"MODEL {i}\n" + "\n".join(body) + "\nENDMDL")
-                tmp.write_text("\n".join(parts) + "\n")
-                subprocess.run(
-                    ["obabel", str(tmp), "-O", str(out_sdf)], capture_output=True
-                )
+            for mp in modes:
+                mode = int(re.search(r"mode_(\d+)", mp.name).group(1))
+                xyz = pdbqt_xyz(mp)
+                pairs = smiles_idx_pairs(mp)
+                if not pairs or len(pairs) != tmpl.GetNumAtoms():
+                    print(f"skip pairs {mp}", flush=True)
+                    continue
+                mol = Chem.Mol(tmpl)
+                conf = Chem.Conformer(mol.GetNumAtoms())
+                for s_idx, p_idx in pairs:
+                    conf.SetAtomPosition(s_idx - 1, xyz[p_idx - 1])
+                mol.RemoveAllConformers()
+                mol.AddConformer(conf, assignId=True)
+                mol.SetProp("_Name", f"{lig}_mode{mode}")
+                w.write(mol)
+                n += 1
+        w.close()
+        print("wrote", out_sdf, n, flush=True)
 
 
-def run_rtm(root: Path, target: str, lig: str, receptor_pdb: Path):
+def ensure_pocket(root: Path, target: str, protein: Path) -> Path:
+    pocket = root / "receptors" / f"{target}_pocket_10.0.pdb"
+    if pocket.exists() and pocket.stat().st_size > 100:
+        return pocket
+    # RTM can generate pocket; for speed use protein as -p with -gen_pocket
+    return protein
+
+
+def run_rtm(root: Path, target: str, protein: Path):
     logs = root / "logs" / "rtmscore"
-    sdf = logs / f"{target}_{lig}_poses.sdf"
-    out_csv = logs / f"{target}_{lig}_rtm.csv"
-    if out_csv.exists() and out_csv.stat().st_size > 0:
-        return out_csv
-    if not sdf.exists():
-        return None
-    # RTMScore example API: python rtmscore.py -p protein.pdb -l ligand.sdf -m model -o out
+    sdf = logs / f"{target}_poses.sdf"
+    out_prefix = logs / f"{target}_rtmscore"
+    csv_path = Path(f"{out_prefix}.csv")
+    if csv_path.exists() and csv_path.stat().st_size > 100:
+        print("reuse", csv_path, flush=True)
+        return csv_path
+    pocket = ensure_pocket(root, target, protein)
+    log = logs / f"{target}_rtmscore.log"
+    print("RTM", target, flush=True)
     cmd = [
         str(RTM_PYTHON),
         str(RTM_PY),
         "-p",
-        str(receptor_pdb),
+        str(pocket),
         "-l",
         str(sdf),
         "-m",
         str(MODEL),
         "-o",
-        str(out_csv.with_suffix("")),
-        "-gen_pocket",
-        "-c",
-        "10.0",
+        str(out_prefix),
     ]
-    proc = subprocess.run(cmd, cwd=str(RTM_ROOT), capture_output=True, text=True)
-    (logs / f"{target}_{lig}_rtm.log").write_text(proc.stdout + "\n" + proc.stderr)
-    # RTM may write .csv automatically
-    cands = list(logs.glob(f"{target}_{lig}_rtm*.csv"))
-    if not cands and out_csv.with_suffix(".csv").exists():
-        return out_csv.with_suffix(".csv")
-    return cands[0] if cands else (out_csv if out_csv.exists() else None)
+    if pocket == protein:
+        cmd += ["-gen_pocket", "-c", "10.0"]
+    with log.open("w") as fh:
+        proc = subprocess.run(cmd, cwd=str(RTM_ROOT / "example"), stdout=fh, stderr=subprocess.STDOUT)
+    if proc.returncode != 0:
+        raise RuntimeError(f"RTM failed {target}; see {log}")
+    if not csv_path.exists():
+        alt = RTM_ROOT / "example" / f"{out_prefix.name}.csv"
+        if alt.exists():
+            alt.rename(csv_path)
+    print("OK", csv_path, flush=True)
+    return csv_path
 
 
-def best_rtm(csv_path: Path):
-    if csv_path is None or not csv_path.exists():
-        return None
-    try:
-        df = pd.read_csv(csv_path)
-    except Exception:
-        return None
-    # common column names
-    for col in ("score", "rtmscore", "RTMScore", "pred"):
-        if col in df.columns:
-            return float(df[col].max())
-    # fallback: last numeric column
-    num = df.select_dtypes(include=[np.number])
-    if num.shape[1] == 0:
-        return None
-    return float(num.iloc[:, -1].max())
+def parse_id(s):
+    m = re.search(r"([A-Z]+_\d+)_mode(\d+)", str(s))
+    if not m:
+        raise ValueError(s)
+    return m.group(1), int(m.group(2))
 
 
-def best_vina(root: Path, target: str, lig: str):
-    pose_dir = root / "poses" / target / lig
-    scores = []
-    for m in pose_dir.glob("mode_*.pdbqt"):
-        s = vina_from_pdbqt(m)
-        if s is not None:
-            scores.append(s)
-    return (min(scores) if scores else None), len(scores)
+def build_tables(root: Path, targets: list[str], panel: pd.DataFrame, repo: Path | None):
+    ids = panel["panel_id"].tolist()
+    a, b = targets
+    vina_rows = []
+    for lig in ids:
+        for t in targets:
+            for mp in sorted((root / "poses" / t / lig).glob("mode_*.pdbqt")):
+                mode = int(re.search(r"mode_(\d+)", mp.name).group(1))
+                vina_rows.append(
+                    {
+                        "ligand": lig,
+                        "target": t,
+                        "vina_mode": mode,
+                        "vina_score": vina_from_pdbqt(mp),
+                    }
+                )
+    vina_long = pd.DataFrame(vina_rows)
+    vina_long.to_csv(root / "tables" / "scores_vina_long.csv", index=False)
+    m1 = (
+        vina_long.loc[vina_long["vina_mode"] == 1]
+        .pivot(index="ligand", columns="target", values="vina_score")
+        if len(vina_long)
+        else pd.DataFrame()
+    )
+
+    rtm_rows = []
+    for t in targets:
+        d = pd.read_csv(root / "logs" / "rtmscore" / f"{t}_rtmscore.csv")
+        id_col = "id" if "id" in d.columns else d.columns[0]
+        sc_col = "score" if "score" in d.columns else d.columns[1]
+        for _, r in d.iterrows():
+            lig, mode = parse_id(r[id_col])
+            rtm_rows.append(
+                {"ligand": lig, "target": t, "vina_mode": mode, "rtmscore": float(r[sc_col])}
+            )
+    rtm_long = pd.DataFrame(rtm_rows)
+    rtm_long.to_csv(root / "tables" / "scores_rtm_all_poses.csv", index=False)
+    best = (
+        rtm_long.sort_values(["ligand", "target", "rtmscore"], ascending=[True, True, False])
+        .groupby(["ligand", "target"], as_index=False)
+        .first()
+    )
+    ra = best[best.target == a][["ligand", "rtmscore"]].rename(columns={"rtmscore": f"rtm_{a}"})
+    rb = best[best.target == b][["ligand", "rtmscore"]].rename(columns={"rtmscore": f"rtm_{b}"})
+
+    df = panel.rename(columns={"panel_id": "ligand"}).copy()
+    if len(m1):
+        df = df.merge(m1.reset_index(), on="ligand", how="left")
+        df = df.rename(columns={a: f"vina_{a}", b: f"vina_{b}"})
+    df = df.merge(ra, on="ligand", how="left").merge(rb, on="ligand", how="left")
+    df[f"vina_{a}_hb"] = -df[f"vina_{a}"].astype(float)
+    df[f"vina_{b}_hb"] = -df[f"vina_{b}"].astype(float)
+    df["vina_mean"] = (df[f"vina_{a}_hb"] + df[f"vina_{b}_hb"]) / 2
+    df["vina_min"] = df[[f"vina_{a}_hb", f"vina_{b}_hb"]].min(axis=1)
+    df["rtm_mean"] = (df[f"rtm_{a}"] + df[f"rtm_{b}"]) / 2
+    df["rtm_min"] = df[[f"rtm_{a}", f"rtm_{b}"]].min(axis=1)
+    for col, zcol in [(f"rtm_{a}", f"rtm_{a}_z"), (f"rtm_{b}", f"rtm_{b}_z")]:
+        mu, sd = df[col].mean(), df[col].std(ddof=0)
+        df[zcol] = (df[col] - mu) / (sd if sd and sd > 0 else 1.0)
+    df["rtm_min_z"] = df[[f"rtm_{a}_z", f"rtm_{b}_z"]].min(axis=1)
+    df["prep"] = "rdkit_meeko"
+    out = root / "tables" / "ablation_ligand_scores.csv"
+    df.to_csv(out, index=False)
+    print("wrote", out, flush=True)
+
+    rows = []
+    for arm, col in (("vina_mean", "vina_mean"), ("rtm_min_z", "rtm_min_z")):
+        d = df.loc[df["class"] == "dual", col].astype(float)
+        ao = df.loc[df["class"] == "A_only", col].astype(float)
+        bo = df.loc[df["class"] == "B_only", col].astype(float)
+        rows.append(
+            {
+                "arm": arm,
+                "auroc_D_vs_A": auroc(d, ao),
+                "auroc_D_vs_B": auroc(d, bo),
+                "summary_min": float(np.nanmin([auroc(d, ao), auroc(d, bo)])),
+                "n_scored": int(df[col].notna().sum()),
+            }
+        )
+    summary = pd.DataFrame(rows)
+    summary.to_csv(root / "tables" / "directional_summary.csv", index=False)
+    print(summary.to_string(index=False), flush=True)
+
+    if repo:
+        (repo / "tables").mkdir(parents=True, exist_ok=True)
+        for name in (
+            "ablation_ligand_scores.csv",
+            "directional_summary.csv",
+            "scores_vina_long.csv",
+            "scores_rtm_all_poses.csv",
+            "job_status.csv",
+            "panel_v0_strict_with_smiles.csv",
+        ):
+            src = root / "tables" / name
+            if src.exists():
+                (repo / "tables" / name).write_bytes(src.read_bytes())
+        (repo / "analysis").mkdir(exist_ok=True)
+        (repo / "analysis" / "DIRECTIONAL.md").write_text(
+            "# Directional AUROC\n\n```\n" + summary.to_string(index=False) + "\n```\n"
+        )
 
 
 def main():
@@ -143,65 +252,19 @@ def main():
     ap.add_argument("--panel", required=True)
     ap.add_argument("--targets", nargs=2, required=True)
     ap.add_argument(
-        "--receptor-pdb-map",
-        nargs="+",
-        help="TARGET=path/to/protein.pdb pairs",
+        "--proteins",
+        nargs=2,
         required=True,
+        help="protein PDB paths matching --targets order",
     )
+    ap.add_argument("--repo", default="")
     args = ap.parse_args()
     root = Path(args.root)
     panel = pd.read_csv(args.panel)
-    rec_map = {}
-    for item in args.receptor_pdb_map:
-        k, v = item.split("=", 1)
-        rec_map[k] = Path(v)
-
-    write_pose_sdfs(root, args.targets, panel)
-
-    rows = []
-    for _, r in panel.iterrows():
-        lig = r["panel_id"]
-        row = dict(r)
-        for t in args.targets:
-            v, n = best_vina(root, t, lig)
-            row[f"vina_{t}"] = v
-            row[f"n_modes_{t}"] = n
-            rtm_csv = run_rtm(root, t, lig, rec_map[t])
-            row[f"rtm_{t}"] = best_rtm(rtm_csv) if rtm_csv else None
-        rows.append(row)
-
-    out = root / "tables" / "scores_vina_rtm.csv"
-    pd.DataFrame(rows).to_csv(out, index=False)
-    print("wrote", out)
-
-    # directional on -vina and rtm (higher better for rtm; for vina use -score)
-    df = pd.DataFrame(rows)
-    a, b = args.targets
-    summary = []
-    for arm_name, col_a, col_b, flip in [
-        ("vina", f"vina_{a}", f"vina_{b}", True),
-        ("rtm", f"rtm_{a}", f"rtm_{b}", False),
-    ]:
-        sa = (-df[col_a].astype(float)) if flip else df[col_a].astype(float)
-        sb = (-df[col_b].astype(float)) if flip else df[col_b].astype(float)
-        tmp = df.copy()
-        tmp["_A"], tmp["_B"] = sa, sb
-        for label, arm in [("A", "_A"), ("B", "_B")]:
-            d = tmp.loc[tmp["class"] == "dual", arm]
-            ao = tmp.loc[tmp["class"] == "A_only", arm]
-            bo = tmp.loc[tmp["class"] == "B_only", arm]
-            summary.append(
-                {
-                    "channel": arm_name,
-                    "end": label,
-                    "auroc_D_vs_A": auroc(d, ao),
-                    "auroc_D_vs_B": auroc(d, bo),
-                }
-            )
-    sum_path = root / "tables" / "directional_summary.csv"
-    pd.DataFrame(summary).to_csv(sum_path, index=False)
-    print("wrote", sum_path)
-    print(pd.DataFrame(summary).to_string(index=False))
+    write_sdfs(root, args.targets, panel)
+    for t, prot in zip(args.targets, args.proteins):
+        run_rtm(root, t, Path(prot))
+    build_tables(root, args.targets, panel, Path(args.repo) if args.repo else None)
     return 0
 
 

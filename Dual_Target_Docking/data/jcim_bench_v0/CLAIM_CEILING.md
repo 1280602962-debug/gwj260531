@@ -9,7 +9,7 @@
 
 ## Forbidden / over-claim
 1. Do **not** claim a universal “decision arm” or that `rtm_min_z` (or any pooled score) is validated as a general master score.
-2. Do **not** claim score-function invariance: **GNINA CNN rescore was SKIPPED** (no binary on host).
+2. Do **not** claim score-function invariance beyond the three channels actually run (Vina / RTM / GNINA mode_01 CNN).
 3. Do **not** present Track B method competition results as the paper’s core.
 4. Do **not** fold shortfall/clash flags or architecture tags into the primary score.
 5. Do **not** mix LigPrep and RDKit poses in primary tables.
@@ -17,6 +17,6 @@
 ## Engine stack actually run
 | Channel | Status |
 |---------|--------|
-| AutoDock Vina | primary sampler |
-| RTMScore best-of-K | primary rescorer |
-| GNINA CNN | SKIPPED — see `analysis/GNINA_STATUS.md` |
+| AutoDock Vina | primary sampler (done) |
+| RTMScore best-of-K | primary rescorer (done) |
+| GNINA CNN | **DONE** — mode_01 `--cnn_scoring rescore --minimize` (v1.3.2 CPU) |
