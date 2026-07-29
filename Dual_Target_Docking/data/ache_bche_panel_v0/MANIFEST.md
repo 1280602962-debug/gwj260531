@@ -18,7 +18,7 @@ JCIM K=4 development pair (AChE / BChE). Strict labels only; no gray zone in mai
 - Prep: RDKit ETKDG (seed 20260727) + meeko
 - Vina 1.2.7, E=8, n_modes=9, seed=20260727
 - Score: Vina + RTM best-of-9
-- GNINA: SKIPPED (see `../jcim_bench_v0/analysis/GNINA_STATUS.md`)
+- GNINA: **DONE** — mode_01 `--cnn_scoring rescore --minimize` (v1.3.2 CPU); see `../jcim_bench_v0/analysis/GNINA_STATUS.md` and `tables/scores_gnina_best.csv`
 
 ## Exclusions
 - Covalent/PROTAC not specially filtered beyond ChEMBL activity tables used for sampling

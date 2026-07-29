@@ -2,7 +2,7 @@
 
 ## Allowed claims
 1. This is an **evaluation / benchmark** article for dual-target docking decision metrics.
-2. Primary metric = **directional AUROC** (dual vs A_only; dual vs B_only) with **trivial baselines** reported.
+2. Primary metric = **pocket-matched directional AUROC** (D vs A_only uses pocket-B score; D vs B_only uses pocket-A score) with **trivial baselines** and pooled/wrong-pocket controls reported in parallel.
 3. K=4 pairs are a **frozen evaluation set**, not a claim that the metric generalizes to all target pairs.
 4. EGFR/HER2 is a **supply-limited case study** (existing unified RDKit EH110); no claim from new EGFR docking.
 5. Prep protocol is frozen: **RDKit ETKDG + meeko** (LigPrep used only as sensitivity delta on PM48).

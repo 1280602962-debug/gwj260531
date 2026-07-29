@@ -1,41 +1,41 @@
 pair,variant,n_dual,n_A_only,n_B_only,auroc_D_vs_A,auroc_D_vs_B,summary_min,summary_min_ci_lo,summary_min_ci_hi,note
-EGFR/HER2,pooled_vina_mean,28,38,32,0.6889,0.3114,0.3114,0.1826,0.4596,pooled score for both contrasts (v1 main metric)
-EGFR/HER2,pocket_matched_vina,28,38,32,0.6664,0.4297,0.4297,0.2812,0.5762,D/A via pocket B; D/B via pocket A
-EGFR/HER2,wrong_pocket_control_vina,28,38,32,0.6983,0.26,0.26,0.1393,0.397,control: uninformative pocket; ~0.5 expected if no confound
-EGFR/HER2,worst_pocket_vina,28,38,32,0.6711,0.2712,0.2712,0.1502,0.4077,min over pockets
-EGFR/HER2,le_pocket_matched,28,38,32,0.3111,0.6205,0.3111,0.1828,0.4436,ligand-efficiency normalised (score / heavy atoms)
-EGFR/HER2,le_wrong_pocket_control,28,38,32,0.3299,0.4888,0.3299,0.2031,0.4689,LE control
-EGFR/HER2,le_worst_pocket,28,38,32,0.3055,0.5279,0.3055,0.1814,0.4394,LE worst pocket
-EGFR/HER2,heavy_atoms_baseline,28,38,32,0.6997,0.3694,0.3694,0.2265,0.5155,trivial size baseline
-EGFR/HER2,pocket_matched_rtm,28,38,32,0.5291,0.3527,0.3527,0.2112,0.4949,RTM pocket-matched
-EGFR/HER2,wrong_pocket_control_rtm,28,38,32,0.5874,0.3304,0.3304,0.1915,0.4748,RTM control
-AChE/BChE,pooled_vina_mean,27,25,28,0.5304,0.5853,0.5304,0.362,0.6704,pooled score for both contrasts (v1 main metric)
-AChE/BChE,pocket_matched_vina,27,25,28,0.6504,0.6058,0.6058,0.442,0.7373,D/A via pocket B; D/B via pocket A
-AChE/BChE,wrong_pocket_control_vina,27,25,28,0.4444,0.5582,0.4444,0.2953,0.5907,control: uninformative pocket; ~0.5 expected if no confound
-AChE/BChE,worst_pocket_vina,27,25,28,0.6148,0.5794,0.5794,0.4059,0.7147,min over pockets
-AChE/BChE,le_pocket_matched,27,25,28,0.4133,0.5384,0.4133,0.2554,0.5613,ligand-efficiency normalised (score / heavy atoms)
-AChE/BChE,le_wrong_pocket_control,27,25,28,0.3467,0.5079,0.3467,0.1908,0.5026,LE control
-AChE/BChE,le_worst_pocket,27,25,28,0.4,0.5198,0.4,0.235,0.552,LE worst pocket
-AChE/BChE,heavy_atoms_baseline,27,25,28,0.5941,0.582,0.582,0.3995,0.7101,trivial size baseline
-AChE/BChE,pocket_matched_rtm,27,25,28,0.5185,0.545,0.5185,0.3393,0.6241,RTM pocket-matched
-AChE/BChE,wrong_pocket_control_rtm,27,25,28,0.357,0.5278,0.357,0.2025,0.509,RTM control
-PIK3CA/PIK3CB,pooled_vina_mean,28,27,28,0.703,0.412,0.412,0.2656,0.5652,pooled score for both contrasts (v1 main metric)
-PIK3CA/PIK3CB,pocket_matched_vina,28,27,28,0.6905,0.5,0.5,0.3399,0.6475,D/A via pocket B; D/B via pocket A
-PIK3CA/PIK3CB,wrong_pocket_control_vina,28,27,28,0.6442,0.3489,0.3489,0.2045,0.5014,control: uninformative pocket; ~0.5 expected if no confound
-PIK3CA/PIK3CB,worst_pocket_vina,28,27,28,0.6574,0.4394,0.4394,0.2872,0.5893,min over pockets
-PIK3CA/PIK3CB,le_pocket_matched,28,27,28,0.5106,0.3316,0.3316,0.1968,0.4783,ligand-efficiency normalised (score / heavy atoms)
-PIK3CA/PIK3CB,le_wrong_pocket_control,28,27,28,0.4696,0.2934,0.2934,0.1652,0.4325,LE control
-PIK3CA/PIK3CB,le_worst_pocket,28,27,28,0.4749,0.3202,0.3202,0.1804,0.4738,LE worst pocket
-PIK3CA/PIK3CB,heavy_atoms_baseline,28,27,28,0.6217,0.6849,0.6217,0.4703,0.7554,trivial size baseline
-PIK3CA/PIK3CB,pocket_matched_rtm,28,27,28,0.705,0.5421,0.5421,0.3859,0.6851,RTM pocket-matched
-PIK3CA/PIK3CB,wrong_pocket_control_rtm,28,27,28,0.6667,0.3457,0.3457,0.2048,0.488,RTM control
-PIK3CA/mTOR,pooled_vina_mean,18,14,12,0.7222,0.6713,0.6713,0.4284,0.7983,pooled score for both contrasts (v1 main metric)
-PIK3CA/mTOR,pocket_matched_vina,18,14,12,0.7143,0.6921,0.6921,0.4571,0.8134,D/A via pocket B; D/B via pocket A
-PIK3CA/mTOR,wrong_pocket_control_vina,18,14,12,0.7103,0.6019,0.6019,0.3826,0.76,control: uninformative pocket; ~0.5 expected if no confound
-PIK3CA/mTOR,worst_pocket_vina,18,14,12,0.7024,0.6273,0.6273,0.4047,0.795,min over pockets
-PIK3CA/mTOR,le_pocket_matched,18,14,12,0.7262,0.6574,0.6574,0.4262,0.8134,ligand-efficiency normalised (score / heavy atoms)
-PIK3CA/mTOR,le_wrong_pocket_control,18,14,12,0.6905,0.6296,0.6296,0.3999,0.7867,LE control
-PIK3CA/mTOR,le_worst_pocket,18,14,12,0.7103,0.6528,0.6528,0.4217,0.8182,LE worst pocket
-PIK3CA/mTOR,heavy_atoms_baseline,18,14,12,0.4643,0.463,0.463,0.2415,0.6251,trivial size baseline
-PIK3CA/mTOR,pocket_matched_rtm,18,14,12,0.6151,0.6574,0.6151,0.3805,0.7517,RTM pocket-matched
-PIK3CA/mTOR,wrong_pocket_control_rtm,18,14,12,0.4841,0.7037,0.4841,0.25,0.6935,RTM control
+EGFR/HER2,pooled_vina_mean,28,38,32,0.6889,0.3114,0.3114,0.176,0.4508,pooled score for both contrasts (v1 main metric)
+EGFR/HER2,pocket_matched_vina,28,38,32,0.6664,0.4297,0.4297,0.2859,0.5778,D/A via pocket B; D/B via pocket A
+EGFR/HER2,wrong_pocket_control_vina,28,38,32,0.6983,0.26,0.26,0.1381,0.3921,control: uninformative pocket; ~0.5 expected if no confound
+EGFR/HER2,worst_pocket_vina,28,38,32,0.6711,0.2712,0.2712,0.1414,0.4091,min over pockets
+EGFR/HER2,le_pocket_matched,28,38,32,0.3111,0.6205,0.3111,0.1884,0.4446,ligand-efficiency normalised (score / heavy atoms)
+EGFR/HER2,le_wrong_pocket_control,28,38,32,0.3299,0.4888,0.3299,0.2026,0.4622,LE control
+EGFR/HER2,le_worst_pocket,28,38,32,0.3055,0.5279,0.3055,0.1833,0.4378,LE worst pocket
+EGFR/HER2,heavy_atoms_baseline,28,38,32,0.6997,0.3694,0.3694,0.2238,0.5163,trivial size baseline
+EGFR/HER2,pocket_matched_rtm,28,38,32,0.5291,0.3527,0.3527,0.2135,0.4977,RTM pocket-matched
+EGFR/HER2,wrong_pocket_control_rtm,28,38,32,0.5874,0.3304,0.3304,0.1852,0.4767,RTM control
+AChE/BChE,pooled_vina_mean,27,25,28,0.5304,0.5853,0.5304,0.3623,0.6761,pooled score for both contrasts (v1 main metric)
+AChE/BChE,pocket_matched_vina,27,25,28,0.6504,0.6058,0.6058,0.4427,0.7336,D/A via pocket B; D/B via pocket A
+AChE/BChE,wrong_pocket_control_vina,27,25,28,0.4444,0.5582,0.4444,0.2844,0.5985,control: uninformative pocket; ~0.5 expected if no confound
+AChE/BChE,worst_pocket_vina,27,25,28,0.6148,0.5794,0.5794,0.408,0.7165,min over pockets
+AChE/BChE,le_pocket_matched,27,25,28,0.4133,0.5384,0.4133,0.2513,0.5679,ligand-efficiency normalised (score / heavy atoms)
+AChE/BChE,le_wrong_pocket_control,27,25,28,0.3467,0.5079,0.3467,0.1916,0.5076,LE control
+AChE/BChE,le_worst_pocket,27,25,28,0.4,0.5198,0.4,0.2375,0.56,LE worst pocket
+AChE/BChE,heavy_atoms_baseline,27,25,28,0.5941,0.582,0.582,0.4026,0.7048,trivial size baseline
+AChE/BChE,pocket_matched_rtm,27,25,28,0.5185,0.545,0.5185,0.3333,0.6296,RTM pocket-matched
+AChE/BChE,wrong_pocket_control_rtm,27,25,28,0.357,0.5278,0.357,0.2125,0.5046,RTM control
+PIK3CA/PIK3CB,pooled_vina_mean,28,27,28,0.703,0.412,0.412,0.2652,0.5607,pooled score for both contrasts (v1 main metric)
+PIK3CA/PIK3CB,pocket_matched_vina,28,27,28,0.6905,0.5,0.5,0.3439,0.6429,D/A via pocket B; D/B via pocket A
+PIK3CA/PIK3CB,wrong_pocket_control_vina,28,27,28,0.6442,0.3489,0.3489,0.2031,0.5019,control: uninformative pocket; ~0.5 expected if no confound
+PIK3CA/PIK3CB,worst_pocket_vina,28,27,28,0.6574,0.4394,0.4394,0.2815,0.587,min over pockets
+PIK3CA/PIK3CB,le_pocket_matched,28,27,28,0.5106,0.3316,0.3316,0.1938,0.4899,ligand-efficiency normalised (score / heavy atoms)
+PIK3CA/PIK3CB,le_wrong_pocket_control,28,27,28,0.4696,0.2934,0.2934,0.1622,0.4429,LE control
+PIK3CA/PIK3CB,le_worst_pocket,28,27,28,0.4749,0.3202,0.3202,0.1852,0.4699,LE worst pocket
+PIK3CA/PIK3CB,heavy_atoms_baseline,28,27,28,0.6217,0.6849,0.6217,0.4659,0.7564,trivial size baseline
+PIK3CA/PIK3CB,pocket_matched_rtm,28,27,28,0.705,0.5421,0.5421,0.3767,0.689,RTM pocket-matched
+PIK3CA/PIK3CB,wrong_pocket_control_rtm,28,27,28,0.6667,0.3457,0.3457,0.1979,0.4987,RTM control
+PIK3CA/mTOR,pooled_vina_mean,18,14,12,0.7222,0.6713,0.6713,0.4435,0.8125,pooled score for both contrasts (v1 main metric)
+PIK3CA/mTOR,pocket_matched_vina,18,14,12,0.7143,0.6921,0.6921,0.4615,0.7941,D/A via pocket B; D/B via pocket A
+PIK3CA/mTOR,wrong_pocket_control_vina,18,14,12,0.7103,0.6019,0.6019,0.3706,0.7588,control: uninformative pocket; ~0.5 expected if no confound
+PIK3CA/mTOR,worst_pocket_vina,18,14,12,0.7024,0.6273,0.6273,0.4075,0.7857,min over pockets
+PIK3CA/mTOR,le_pocket_matched,18,14,12,0.7262,0.6574,0.6574,0.4564,0.8214,ligand-efficiency normalised (score / heavy atoms)
+PIK3CA/mTOR,le_wrong_pocket_control,18,14,12,0.6905,0.6296,0.6296,0.4047,0.7852,LE control
+PIK3CA/mTOR,le_worst_pocket,18,14,12,0.7103,0.6528,0.6528,0.4391,0.8182,LE worst pocket
+PIK3CA/mTOR,heavy_atoms_baseline,18,14,12,0.4643,0.463,0.463,0.2422,0.6031,trivial size baseline
+PIK3CA/mTOR,pocket_matched_rtm,18,14,12,0.6151,0.6574,0.6151,0.3833,0.7619,RTM pocket-matched
+PIK3CA/mTOR,wrong_pocket_control_rtm,18,14,12,0.4841,0.7037,0.4841,0.2554,0.6964,RTM control
