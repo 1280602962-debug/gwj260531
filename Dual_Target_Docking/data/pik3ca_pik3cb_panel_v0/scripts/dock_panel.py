@@ -113,7 +113,14 @@ def split_modes(out_pdbqt: Path, dest_dir: Path) -> int:
     return len(models)
 
 
-def run_one(root, target, lig, ligand_pdbqt, box, exhaust):
+def torsdof(ligand_pdbqt: Path) -> int:
+    for line in ligand_pdbqt.read_text().splitlines():
+        if line.startswith("TORSDOF"):
+            return int(line.split()[1])
+    return 0
+
+
+def run_one(root, target, lig, ligand_pdbqt, box, exhaust, timeout_s=600):
     pose_dir = root / "poses" / target / lig
     if (pose_dir / "mode_01.pdbqt").exists():
         return {
@@ -122,16 +129,39 @@ def run_one(root, target, lig, ligand_pdbqt, box, exhaust):
             "status": "exists",
             "n_modes": len(list(pose_dir.glob("mode_*.pdbqt"))),
         }
-    conf, out = write_conf(root, target, lig, ligand_pdbqt, box, exhaust)
+    # High-flexibility ligands (peptide-like) thrash at E=8; soften + hard timeout
+    td = torsdof(ligand_pdbqt)
+    use_e = exhaust
+    use_to = timeout_s
+    if td >= 20:
+        use_e = min(exhaust, 4)
+        use_to = max(timeout_s, 900)
+    conf, out = write_conf(root, target, lig, ligand_pdbqt, box, use_e)
     log = root / "logs" / "vina" / f"{target}_{lig}.log"
-    proc = subprocess.run([VINA, "--config", str(conf)], capture_output=True, text=True)
-    log.write_text(proc.stdout + "\n" + proc.stderr)
-    if proc.returncode != 0 or not out.exists():
+    try:
+        proc = subprocess.run(
+            [VINA, "--config", str(conf)],
+            capture_output=True,
+            text=True,
+            timeout=use_to,
+        )
+        log.write_text(proc.stdout + "\n" + proc.stderr)
+        rc, err = proc.returncode, (proc.stderr or proc.stdout)[-300:]
+    except subprocess.TimeoutExpired as e:
+        log.write_text(f"TIMEOUT after {use_to}s torsdof={td} E={use_e}\n{(e.stdout or b'').decode(errors='ignore')}")
         return {
             "target": target,
             "ligand": lig,
             "status": "fail",
-            "reason": (proc.stderr or proc.stdout)[-300:],
+            "reason": f"timeout_{use_to}s_torsdof={td}_E={use_e}",
+            "n_modes": 0,
+        }
+    if rc != 0 or not out.exists():
+        return {
+            "target": target,
+            "ligand": lig,
+            "status": "fail",
+            "reason": err,
             "n_modes": 0,
         }
     n = split_modes(out, pose_dir)
@@ -145,6 +175,7 @@ def main():
     ap.add_argument("--targets", nargs=2, required=True)
     ap.add_argument("--exhaustiveness", type=int, default=8)
     ap.add_argument("--workers", type=int, default=MAX_WORKERS)
+    ap.add_argument("--timeout", type=int, default=600, help="per-job Vina timeout seconds")
     args = ap.parse_args()
     root = Path(args.root)
     panel = list(csv.DictReader(open(args.panel)))
@@ -169,7 +200,7 @@ def main():
     results = []
     with ThreadPoolExecutor(max_workers=args.workers) as ex:
         futs = {
-            ex.submit(run_one, root, t, l, p, b, args.exhaustiveness): (t, l)
+            ex.submit(run_one, root, t, l, p, b, args.exhaustiveness, args.timeout): (t, l)
             for t, l, p, b in jobs
         }
         done = 0
