@@ -134,16 +134,17 @@ M4-min 已把旧 40 用 RDKit+meeko 重跑，新 70 本来就是 RDKit → **全
 ### 4.4 执行顺序（先零成本，再买算力）
 
 ```
-J0  扩大 ChEMBL 供给审计（≥50 对）           零对接  ← 立刻做，且是 C2
-J1  按 strict 定额 + holo 结构可得性选定 K=4  零对接
-J2  统一 prep 重跑 PM48（+ 可选扩面板）        小
+J0  扩大 ChEMBL 供给审计（≥50 对）           零对接  ← **完成** `data/jcim_j0j1_v0/`（49 对已审计；API 宕机时 fetch queue=22）
+J1  按 strict 定额 + holo 结构可得性选定 K=4  零对接  ← **完成草案**（待用户批准才对接）
+J2  统一 prep 重跑 PM48（+ 可选扩面板）        小     ← **需用户批准**
 J3  新受体结构冻结 + cognate QC（2–3 套）      中（判断密集）
 J4  新对靶面板对接 + RTM                       中
 J5  GNINA rescore 全部对靶                     小（复用姿态）
 J6  方向分解 + 基线 + CI + 森林图 + 打包发布    零对接
 ```
 
-**可复制命令（J0+J1+Track A 素材，零对接）：** [`AGENT_COMMAND_NEXT_J0J1_TRACKA.md`](AGENT_COMMAND_NEXT_J0J1_TRACKA.md)
+**可复制命令（J0+J1+Track A 素材，零对接）：** [`AGENT_COMMAND_NEXT_J0J1_TRACKA.md`](AGENT_COMMAND_NEXT_J0J1_TRACKA.md) — **本轮已执行**。  
+下一本地对接命令（**勿自行执行**）：用户批准后的 J2 PM48→RDKit + J3 新受体冻结。
 
 任一步 No-Go 都能退到 **Mol. Inf. / JCAMD 版**（现有 2 对 + Stage M 已够），不至于全盘落空。
 

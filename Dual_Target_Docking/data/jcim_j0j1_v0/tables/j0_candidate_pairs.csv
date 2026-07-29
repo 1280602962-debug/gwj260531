@@ -1,0 +1,54 @@
+pair_id,pair,target_A,target_B,family,motivation,literature_anchor,metal_enzyme_risk,ppi_risk,notes,dict_A_present,dict_B_present,auditable_now,unordered_dup
+P01,EGFR/HER2,EGFR,HER2,kinase_homolog,classic dual TKI; pose-gold,TAK-285 3POZ/3RCD,False,False,,True,True,True,False
+P02,PIK3CA/MTOR,PIK3CA,MTOR,pathway,largest paired ChEMBL set,PI-103 4L23/4JT6,False,False,,True,True,True,False
+P03,ACHE/BCHE,ACHE,BCHE,hydrolase_homolog,cholinesterase dual,literature dual AChE/BChE,False,False,,True,True,True,False
+P04,PIK3CA/PIK3CB,PIK3CA,PIK3CB,isozyme,isoform control (near),PI3Kα/β duals,False,False,too_close_for_primary,True,True,True,False
+P05,MCL1/BCL2L1_BclxL,MCL1,BCL2L1_BclxL,PPI_BH3,linked pose-gold,Tanaka LC6 3WIY/3WIZ,False,True,,True,True,True,False
+P06,MCL1/BCL2,MCL1,BCL2,PPI_BH3,BH3 family,Mcl-1/Bcl-2 duals,False,True,,True,True,True,False
+P07,AKT1/RPS6KB1_p70S6K,AKT1,RPS6KB1_p70S6K,pathway,AKT/S6K pathway,M2698-class,False,False,,True,True,True,False
+P08,BRD4/HDAC1,BRD4,HDAC1,epigenetic_hybrid,literature hotspot,JMC HDAC–BET hybrids,True,False,metal_Zn_HDAC,True,True,True,False
+P09,BRD4/HDAC6,BRD4,HDAC6,epigenetic_hybrid,literature hotspot,HDAC6/BET hybrids,True,False,metal_Zn_HDAC,True,True,True,False
+P10,JAK2/HDAC1,JAK2,HDAC1,epigenetic_hybrid,JAK/HDAC duals,JMC JAK/HDAC,True,False,metal_Zn_HDAC,True,True,True,False
+P11,PARP1/MET,PARP1,MET,synthetic_lethalish,PARP1/c-Met duals,JMC PARP1/c-Met,False,False,,True,True,True,False
+P12,CDK6/BRD4,CDK6,BRD4,kinase_epigenetic,CDK6/BRD4 duals,JMC CDK6/BRD4,False,False,,True,True,True,False
+P13,EGFR/MET,EGFR,MET,kinase_combo,EGFR/MET resistance duals,literature EGFR/MET,False,False,,True,True,True,False
+P14,EGFR/PIK3CA,EGFR,PIK3CA,pathway,EGFR–PI3K axis,pathway duals,False,False,,True,True,True,False
+P15,EGFR/MTOR,EGFR,MTOR,pathway,EGFR–mTOR axis,pathway duals,False,False,,True,True,True,False
+P16,EGFR/BRD4,EGFR,BRD4,kinase_epigenetic,EGFR/BRD hybrids,occasional hybrids,False,False,,True,True,True,False
+P17,EGFR/CDK6,EGFR,CDK6,kinase_combo,cell-cycle + EGFR,CDK/EGFR literature,False,False,,True,True,True,False
+P18,EGFR/PARP1,EGFR,PARP1,DDR_kinase,DDR + EGFR,occasional duals,False,False,,True,True,True,False
+P19,EGFR/HDAC1,EGFR,HDAC1,kinase_epigenetic,EGFR/HDAC hybrids,JMC hybrids,True,False,metal_Zn_HDAC,True,True,True,False
+P20,EGFR/JAK2,EGFR,JAK2,kinase_combo,EGFR/JAK axis,inflammation/oncology,False,False,,True,True,True,False
+P21,HER2/PIK3CA,HER2,PIK3CA,pathway,HER2–PI3K,clinical dual context,False,False,,True,True,True,False
+P22,HER2/MTOR,HER2,MTOR,pathway,HER2–mTOR,pathway duals,False,False,,True,True,True,False
+P23,HER2/CDK6,HER2,CDK6,kinase_combo,HER2/CDK,cell-cycle,False,False,,True,True,True,False
+P24,HER2/HDAC6,HER2,HDAC6,kinase_epigenetic,HER2/HDAC,hybrids,True,False,metal_Zn_HDAC,True,True,True,False
+P25,HER2/PARP1,HER2,PARP1,DDR_kinase,HER2/PARP,DDR,False,False,,True,True,True,False
+P26,PIK3CA/AKT1,PIK3CA,AKT1,pathway,PI3K–AKT,pathway duals,False,False,,True,True,True,False
+P27,PIK3CB/MTOR,PIK3CB,MTOR,pathway,PI3Kβ–mTOR,pathway,False,False,,True,True,True,False
+P28,PIK3CB/AKT1,PIK3CB,AKT1,pathway,PI3Kβ–AKT,pathway,False,False,,True,True,True,False
+P29,MTOR/AKT1,MTOR,AKT1,pathway,mTOR–AKT,pathway duals,False,False,,True,True,True,False
+P30,MTOR/RPS6KB1_p70S6K,MTOR,RPS6KB1_p70S6K,pathway,mTOR–S6K,pathway,False,False,,True,True,True,False
+P31,AKT1/MTOR,AKT1,MTOR,pathway,AKT–mTOR (alias order),pathway,False,False,alias_of_P29,True,True,True,False
+P32,JAK2/BRD4,JAK2,BRD4,kinase_epigenetic,JAK/BET,literature,False,False,,True,True,True,False
+P33,JAK2/CDK6,JAK2,CDK6,kinase_combo,JAK/CDK,oncology,False,False,,True,True,True,False
+P34,JAK2/PIK3CA,JAK2,PIK3CA,kinase_pathway,JAK/PI3K,oncology,False,False,,True,True,True,False
+P35,CDK6/PARP1,CDK6,PARP1,DDR_cellcycle,PARP/CDK6 duals,JMC PARP/CDK6,False,False,,True,True,True,False
+P36,CDK6/HDAC1,CDK6,HDAC1,kinase_epigenetic,CDK/HDAC,hybrids,True,False,metal_Zn_HDAC,True,True,True,False
+P37,CDK6/PIK3CA,CDK6,PIK3CA,kinase_pathway,CDK/PI3K,oncology,False,False,,True,True,True,False
+P38,BRD4/PARP1,BRD4,PARP1,epigenetic_DDR,BET/PARP,literature,False,False,,True,True,True,False
+P39,BRD4/HDAC2,BRD4,HDAC2,epigenetic_hybrid,BET/HDAC2,HDAC family,True,False,metal_Zn_HDAC,True,True,True,False
+P40,BRD4/PIK3CA,BRD4,PIK3CA,epigenetic_pathway,BET/PI3K,hybrids,False,False,,True,True,True,False
+P41,PARP1/HDAC1,PARP1,HDAC1,DDR_epigenetic,PARP/HDAC,hybrids,True,False,metal_Zn_HDAC,True,True,True,False
+P42,PARP1/EGFR,PARP1,EGFR,DDR_kinase,alias order of P18,DDR,False,False,alias_of_P18,True,True,True,False
+P43,MET/EGFR,MET,EGFR,kinase_combo,alias order of P13,EGFR/MET,False,False,alias_of_P13,True,True,True,False
+P44,MET/PIK3CA,MET,PIK3CA,kinase_pathway,MET–PI3K,resistance,False,False,,True,True,True,False
+P45,MET/AKT1,MET,AKT1,kinase_pathway,MET–AKT,pathway,False,False,,True,True,True,False
+P46,HDAC1/HDAC6,HDAC1,HDAC6,isozyme,HDAC isoform control,selectivity panels,True,False,metal_both;isozyme,True,True,True,False
+P47,HDAC1/PIK3CA,HDAC1,PIK3CA,epigenetic_pathway,HDAC/PI3K hybrids,literature,True,False,metal_Zn_HDAC,True,True,True,False
+P48,HDAC6/PIK3CA,HDAC6,PIK3CA,epigenetic_pathway,HDAC6/PI3K,literature,True,False,metal_Zn_HDAC,True,True,True,False
+P49,BCL2/BCL2L1_BclxL,BCL2,BCL2L1_BclxL,PPI_BH3,Bcl-2/Bcl-xL,BH3 duals,False,True,,True,True,True,False
+P50,MCL1/AKT1,MCL1,AKT1,PPI_pathway,apoptosis + AKT,combo literature,False,True,,True,True,True,False
+P51,ACHE/HDAC1,ACHE,HDAC1,hydrolase_epigenetic,rare hybrid,exploratory,True,False,metal_Zn_HDAC;weak_lit,True,True,True,False
+P52,BCHE/EGFR,BCHE,EGFR,cross_fold,negative-control-ish pair,exploratory,False,False,weak_lit,True,True,True,False
+X01,NLRP3/JNK1,NLRP3,JNK1,inflammasome,private holdout,project holdout,False,False,EXCLUDED_private_holdout,False,False,False,False

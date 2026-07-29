@@ -5,8 +5,10 @@
 > **历史规划（v1，已废止权威）：** [`EXPERIMENTAL_PLAN_DUALFOURCLASS_V1.md`](EXPERIMENTAL_PLAN_DUALFOURCLASS_V1.md)  
 > **红队复核与重设计（Stage M）：** [`PLAN_V2_REDTEAM_AND_REDESIGN.md`](PLAN_V2_REDTEAM_AND_REDESIGN.md)  
 > **JCIM 路线可行性复核（含数据供给上限）：** [`JCIM_ROUTE_ASSESSMENT_V1.md`](JCIM_ROUTE_ASSESSMENT_V1.md)  
-> **现行下一步命令（零对接，立即可跑）：** [`AGENT_COMMAND_NEXT_J0J1_TRACKA.md`](AGENT_COMMAND_NEXT_J0J1_TRACKA.md)  
+> **J0+J1+Track A 素材（已完成，零对接）：** [`AGENT_COMMAND_NEXT_J0J1_TRACKA.md`](AGENT_COMMAND_NEXT_J0J1_TRACKA.md) → [`data/jcim_j0j1_v0/`](../data/jcim_j0j1_v0/)  
+> **下一步（需你批准才开本地对接）：** J2 PM48→RDKit + J3 新受体冻结（勿自动执行）  
 > **Stage M（已完成，Track B Weak）：** [`AGENT_COMMAND_STAGE_M.md`](AGENT_COMMAND_STAGE_M.md) → [`data/stage_m_v0/analysis/STAGE_M_VERDICT.md`](../data/stage_m_v0/analysis/STAGE_M_VERDICT.md)  
+> **Track A 提纲：** [`data/track_a_starter_v0/PAPER_OUTLINE_TRACK_A.md`](../data/track_a_starter_v0/PAPER_OUTLINE_TRACK_A.md)  
 > **STEP0（已被 NEXT 命令吸收/升级）：** [`AGENT_COMMAND_STEP0_TRACK_A_STARTER.md`](AGENT_COMMAND_STEP0_TRACK_A_STARTER.md)  
 > **阶段1命令（已关闭）：** [`AGENT_COMMAND_STAGE1_EGFR_EXPAND.md`](AGENT_COMMAND_STAGE1_EGFR_EXPAND.md)  
 > **红队：** [`CRITIQUE_AND_NEXT_STEPS.md`](CRITIQUE_AND_NEXT_STEPS.md)  
