@@ -114,8 +114,17 @@ EGFR：**跳过**（已齐）。
 
 ---
 
-## 5. 你现在要拍板的一句话
+## 5. 状态（2026-07-29）
 
-**批准：** 按本文 K=4，启动「第一步文档授权 → 第二步 PM 转 RDKit + 新受体冻结 → 第三步新面板对接」。  
+**已批准对接阶段。** `docking_authorized: true` → [`../data/protocols/PAIR_ROLES_APPROVED_JCIM.yaml`](../data/protocols/PAIR_ROLES_APPROVED_JCIM.yaml)。
 
-批准后，把 `docs/AGENT_COMMAND_JCIM_DOCKING_PHASE.md` 整段复制给 agent（可先只跑第一步+第二步）。
+| 步骤 | 状态 |
+|------|------|
+| 1 授权 + 目录 | **完成** |
+| 2A PM48 RDKit Vina | **完成**（96/96）；RTM+LigPrep Δ 跑中 |
+| 2B 新受体 cognate QC | **完成**（AChE=4EY7、BChE=4BDS、PIK3CB=2WXF） |
+| 3 新面板 Vina | **进行中**（各 N=100 strict；结果目录 `results/ache_bche_panel_v0`、`pik3ca_pik3cb_panel_v0`） |
+| 4 GNINA | **SKIPPED**（无二进制；见 `data/jcim_bench_v0/analysis/GNINA_STATUS.md`） |
+| 5 基准包 | 骨架有；主表待对接/RTM 齐 |
+
+执行命令：[`AGENT_COMMAND_JCIM_DOCKING_PHASE.md`](AGENT_COMMAND_JCIM_DOCKING_PHASE.md)。

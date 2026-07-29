@@ -6,8 +6,8 @@
 > **红队复核与重设计（Stage M）：** [`PLAN_V2_REDTEAM_AND_REDESIGN.md`](PLAN_V2_REDTEAM_AND_REDESIGN.md)  
 > **JCIM 路线可行性复核（含数据供给上限）：** [`JCIM_ROUTE_ASSESSMENT_V1.md`](JCIM_ROUTE_ASSESSMENT_V1.md)  
 > **J0+J1+Track A 素材（已完成，零对接）：** [`AGENT_COMMAND_NEXT_J0J1_TRACKA.md`](AGENT_COMMAND_NEXT_J0J1_TRACKA.md) → [`data/jcim_j0j1_v0/`](../data/jcim_j0j1_v0/)  
-> **冲 JCIM 白话路线：** [`JCIM_NEXT_ROUTE_PLAIN.md`](JCIM_NEXT_ROUTE_PLAIN.md)  
-> **冲 JCIM 对接阶段命令：** [`AGENT_COMMAND_JCIM_DOCKING_PHASE.md`](AGENT_COMMAND_JCIM_DOCKING_PHASE.md)  
+> **冲 JCIM 白话路线：** [`JCIM_NEXT_ROUTE_PLAIN.md`](JCIM_NEXT_ROUTE_PLAIN.md)（**对接阶段已批准**）  
+> **冲 JCIM 对接阶段命令：** [`AGENT_COMMAND_JCIM_DOCKING_PHASE.md`](AGENT_COMMAND_JCIM_DOCKING_PHASE.md) · 授权 [`PAIR_ROLES_APPROVED_JCIM.yaml`](../data/protocols/PAIR_ROLES_APPROVED_JCIM.yaml)  
 > **Stage M（已完成，Track B Weak）：** [`AGENT_COMMAND_STAGE_M.md`](AGENT_COMMAND_STAGE_M.md) → [`data/stage_m_v0/analysis/STAGE_M_VERDICT.md`](../data/stage_m_v0/analysis/STAGE_M_VERDICT.md)  
 > **Track A 提纲：** [`data/track_a_starter_v0/PAPER_OUTLINE_TRACK_A.md`](../data/track_a_starter_v0/PAPER_OUTLINE_TRACK_A.md)  
 > **STEP0（已被 NEXT 命令吸收/升级）：** [`AGENT_COMMAND_STEP0_TRACK_A_STARTER.md`](AGENT_COMMAND_STEP0_TRACK_A_STARTER.md)  

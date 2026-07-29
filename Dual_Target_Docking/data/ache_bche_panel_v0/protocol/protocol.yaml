@@ -1,0 +1,12 @@
+freeze_id: ache_bche_panel_v0
+engine: AutoDock_Vina
+vina_version: "1.2.7"
+seed_fixed_global: 20260727
+n_modes: 9
+exhaustiveness: 8
+ligand_prep: rdkit_etkdg_meeko
+rtm: best-of-9
+label_rule: strict_6.5_5.5
+targets:
+  ACHE: {pdb: 4EY7, cognate: E20, cognate_rmsd: 0.339, receptor: receptors/ACHE_receptor.pdbqt}
+  BCHE: {pdb: 4BDS, cognate: THA, cognate_rmsd: 0.386, receptor: receptors/BCHE_receptor.pdbqt}
