@@ -10,7 +10,7 @@
 | PM48 E8 对照 | 4L23, 4JT6 | `logs/vina_E8/{target}_{lig}_out.pdbqt` | `tables/scores_vina_E8_best.csv` | 同上 |
 | PM110 RDKit | 4L23, 4JT6 | `pik3ca_mtor_panel110_rdkit_v0/poses/...` | `tables/scores_vina_long.csv` | 同上 |
 | AChE/BChE | 4EY7, 4BDS | `ache_bche_panel_v0/poses/` | `tables/scores_vina_long.csv` | `receptors/`, `boxes/` |
-| PIK3CA/PIK3CB | 2WXF, 3T8M | `pik3ca_pik3cb_panel_v0/poses/` | 同上 | 同上 |
+| PIK3CA/PIK3CB | 4L23 (reused), 2WXF | `pik3ca_pik3cb_panel_v0/poses/` | 同上 | 同上 |
 | EGFR/HER2 | 3POZ, 3RCD | `egfr_her2_panel120_v0/poses/` | 同上 | 同上 |
 
 ## GNINA 重打分姿态
