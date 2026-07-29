@@ -225,3 +225,13 @@ Zenodo DOI → 英文稿 → 投稿。
 若只选一个最贵但最值的对接：**W2.1 PM 扩面**；  
 若只选一个最值的「防 docking broken」：**W2.7 缩略版（PM 两端）**；  
 若只选一个最值的零对接：**W1.4+W1.8+W1.9**。
+
+---
+
+## 9. 审稿审计后的执行入口（优先用这个）
+
+深度重算后发现主指标需改为**口袋匹配**，且 exhaustiveness 对照优先于盲目扩面。  
+**复制给本地 agent 的总命令：**  
+[`AGENT_COMMAND_JCIM_STRENGTHEN_SUPPLEMENT.md`](AGENT_COMMAND_JCIM_STRENGTHEN_SUPPLEMENT.md)  
+
+审计正文：[`../data/jcim_bench_v0/analysis/REVIEWER_AUDIT_V1.md`](../data/jcim_bench_v0/analysis/REVIEWER_AUDIT_V1.md)
