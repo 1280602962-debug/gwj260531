@@ -132,10 +132,7 @@ EGFR：**跳过**（已齐）。
 
 执行命令：[`AGENT_COMMAND_JCIM_DOCKING_PHASE.md`](AGENT_COMMAND_JCIM_DOCKING_PHASE.md)。
 
-**当前：** 对接 + CI 分析打包完成。不再缺「同一套主结果」的巨大对接。  
+**当前：** 对接 + 混淆对照 + E8/enrichment/PM110 **均已完成**。仓库已清理为投稿核心。  
 
-**若冲 JCIM full、需要加厚：** 见新规划  
-[`JCIM_STRENGTHENING_PLAN_V1.md`](JCIM_STRENGTHENING_PLAN_V1.md)  
-（Wave1 零对接加厚 → Wave2 PM扩面/结构敏感/单靶sanity → Wave3 holdout/第5对 → Zenodo+英文稿）。  
-
-执行入口：[`AGENT_COMMAND_JCIM_STRENGTHEN_W1.md`](AGENT_COMMAND_JCIM_STRENGTHEN_W1.md)。
+**下一步 = P0（无新对接）：**  
+[`JCIM_P0_COMPLETION_GUIDE.md`](JCIM_P0_COMPLETION_GUIDE.md) — Zenodo DOI + 英文稿 + 主图。
