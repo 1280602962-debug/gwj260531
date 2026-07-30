@@ -5,7 +5,7 @@
 2. Primary metric = **pocket-matched directional AUROC** (D vs A_only uses pocket-B score; D vs B_only uses pocket-A score) with **trivial baselines** and pooled/wrong-pocket controls reported in parallel.
 3. K=4 pairs are a **frozen evaluation set**, not a claim that the metric generalizes to all target pairs.
 4. EGFR/HER2 is a **supply-limited case study** (existing unified RDKit EH110); no claim from new EGFR docking.
-5. Prep protocol is frozen: **RDKit ETKDG + meeko** (LigPrep used only as sensitivity delta on PM48).
+5. Prep protocol is frozen: **RDKit ETKDG + meeko**. Do **not** mention Schrodinger LigPrep in the manuscript (no formal license; early borrow was internal-only).
 
 ## Forbidden / over-claim
 1. Do **not** claim a universal “decision arm” or that `rtm_min_z` (or any pooled score) is validated as a general master score.

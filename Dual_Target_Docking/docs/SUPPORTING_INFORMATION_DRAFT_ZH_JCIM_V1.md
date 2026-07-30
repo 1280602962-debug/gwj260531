@@ -12,7 +12,6 @@
 | Table S3 | PM：`analysis/cognate_redock_v0/COGNATE_QC_VERDICT*.md`；AChE/BChE：`cognate_qc/COGNATE_QC.md`；PIK3CB：`cognate_qc/COGNATE_QC.md`；EGFR/HER2：`protocol/protocol.yaml` + `analysis/exhaustiveness_sensitivity_v1/SENSITIVITY_VERDICT.md` |
 | Table S4 | `data/jcim_bench_v0/tables/threshold_sensitivity_v1.csv` |
 | Table S5 | `data/jcim_strengthen_t0t1_v0/tables/matched_subset_directional_v1.csv` |
-| Table S6 | `data/jcim_bench_v0/tables/pm48_directional_by_prep_v1.csv` |
 
 ---
 
@@ -154,23 +153,9 @@ PIK3CA/mTOR 若干臂 n &lt; 15，区间宽；正文仅作方向是否同向的�
 
 ---
 
-## Table S6. PM48 配体准备对照（vina_mean / rtm_min_z）
-
-同一 PM48 标签集上，旧 LigPrep 姿态与统一 RDKit/meeko 协议的方向 AUROC（源表为池化 `vina_mean` 与 `rtm_min_z`，非口袋匹配主表）。
-
-| 准备协议 | 通道 | AUROC D vs A | AUROC D vs B | summary_min |
-|----------|------|-------------:|-------------:|------------:|
-| LigPrep（旧） | vina_mean | 0.698 | 0.597 | 0.597 |
-| RDKit/meeko | vina_mean | 0.722 | 0.671 | 0.671 |
-| LigPrep（旧） | rtm_min_z | 0.611 | 0.792 | 0.611 |
-| RDKit/meeko | rtm_min_z | 0.520 | 0.671 | 0.520 |
-
-正文主表仅使用 RDKit/meeko；LigPrep 不混入主结果。
-
----
-
 ## 写法说明（不进投稿 SI 正文）
 
 - 本文件是**已有数据的汇编**，不是新实验。若某分析尚无机器可读表，宁缺毋填。
 - 投稿英文 SI 时：Table 编号可按期刊习惯重排；数字不得改动。
 - Cognate 表必须同时报告 mode1 与 best_of_9，避免审稿人误读“全部 &lt; 2 Å”。
+- 早期借用 Schrodinger 处理过的姿态对照**不写入投稿稿**（无正式使用权限；主协议已统一为 RDKit/meeko）。仓库内 `pm48_directional_by_prep_v1.csv` 仅作内部记录。

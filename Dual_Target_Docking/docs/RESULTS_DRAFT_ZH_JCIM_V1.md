@@ -55,4 +55,4 @@ AChE/BChE 上，dual 平均 TPSA ≈ 75，硬负 ≈ 51。TPSA 单独区分 dual
 
 单靶 enrichment 使用同靶 ChEMBL 弱效已测分子（pChEMBL ≤ 5.5）作 property-matched decoy，而非随机无关物。4L23（PIK3CA）与 4JT6（mTOR）的 enrichment AUROC 分别为 0.603 与 0.629。
 
-PM110 保留 PM48 全部 48 个配体并按配额扩样，不是独立复制。PM110 上 Vina 口袋匹配 `summary_min` = 0.648 [0.51, 0.76]，相对 PM48 的 0.692（Δ ≈ −0.04），区间更窄、方向不变。同面板 RTM 为 0.576，GNINA 为 0.522。PM48 配体准备对照中，池化 Vina `summary_min` 在 RDKit 协议下约 0.671，旧 LigPrep 姿态约 0.597；主表仅用 RDKit。
+PM110 保留 PM48 全部 48 个配体并按配额扩样，不是独立复制。PM110 上 Vina 口袋匹配 `summary_min` = 0.648 [0.51, 0.76]，相对 PM48 的 0.692（Δ ≈ −0.04），区间更窄、方向不变。同面板 RTM 为 0.576，GNINA 为 0.522。

@@ -47,7 +47,7 @@ EGFR/HER2 虽在同一严格规则下 B_only 仅 7 个，无法建成规模均�
 
 ### 2.5 配体准备
 
-配体三维构象用 RDKit ETKDGv3 生成，再用 meeko 转为 PDBQT。作为敏感性对照，仅在 PIK3CA/mTOR（PM48）上比较 Schrodinger LigPrep 准备的姿态；LigPrep 与 RDKit 结果不混入同一主表。构象生成、面板抽样与对接均使用固定随机种子；完整参数见 Supporting Information Table S1。
+配体三维构象用 RDKit ETKDGv3 生成，再用 meeko 转为对接所需的 PDBQT。构象生成、面板抽样与对接均使用固定随机种子；完整参数见 Supporting Information Table S1。
 
 ### 2.6 对接
 
@@ -73,7 +73,7 @@ EGFR/HER2 虽在同一严格规则下 B_only 仅 7 个，无法建成规模均�
 
 作为单靶虚拟筛选参照，我们在 4L23（PIK3CA）与 4JT6（mTOR）上分别构建活性–decoy 集合：活性分子 pChEMBL ≥ 6.5；decoy 为同靶已测定但 pChEMBL ≤ 5.5 的弱效分子，并按分子量（±50）、logP（±1.5）与 TPSA（±25）与活性分子属性匹配。目标规模约为 50 个活性分子与 150 个 decoy，对接设置与 PIK3CA/mTOR 主面板一致（Vina，exhaustiveness = 16）。该对照回答单靶富集是否存在，不替代四类方向评价。
 
-标签阈值（Table S4）、匹配子集（Table S5）与配体准备方式（Table S6）的敏感性分析见 Supporting Information。
+标签阈值（Table S4）与匹配子集（Table S5）的敏感性分析见 Supporting Information。
 
 ### 2.10 软件与数据可用性
 

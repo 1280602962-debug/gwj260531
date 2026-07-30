@@ -148,7 +148,7 @@ python3 data/jcim_bench_v0/scripts/plot_forest_ci_v1.py
 | G2 | PM 仅作 exploratory positive control；Δ vs baseline CI 含 0 须写明 | ✅ Results 3.3–3.4 |
 | G3 | 不写 RTM/GNINA 通吃或通用决策臂 | ✅ |
 | G4 | EGFR 不作新对接扩面结论 | ✅ |
-| G5 | LigPrep 不进主表混报 | ✅ 仅敏感性一句 |
+| G5 | LigPrep 不进投稿正文/SI（无正式权限；主协议仅 RDKit/meeko） | ✅ 已从 Methods/Results/SI 删除 |
 | G6 | Abstract/Intro 主张 ≤ Results/Discussion 证据 | 🟡 | 后写章节时再核 |
 
 ---

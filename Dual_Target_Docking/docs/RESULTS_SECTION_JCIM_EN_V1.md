@@ -60,7 +60,7 @@ Repeating PIK3CA/mTOR docking at exhaustiveness 8 instead of 16 changed Vina `su
 
 Single-target enrichment used property-matched ChEMBL weak binders (pChEMBL ≤ 5.5) as decoys rather than random unrelated molecules. Enrichment AUROC was 0.603 on 4L23 (PIK3CA) and 0.629 on 4JT6 (mTOR).
 
-PM110 expands PM48 by keeping all 48 ligands and adding quota-sampled molecules; it is not an independent replicate. Vina pocket-matched `summary_min` on PM110 was 0.648 [0.51, 0.76], compared with 0.692 on PM48 (Δ ≈ −0.04), with a narrower interval and the same direction. RTM and GNINA on PM110 gave 0.576 and 0.522. On PM48 ligand preparation, pooled Vina `summary_min` was ≈ 0.671 for the RDKit protocol and ≈ 0.597 for legacy LigPrep poses; primary tables use RDKit only.
+PM110 expands PM48 by keeping all 48 ligands and adding quota-sampled molecules; it is not an independent replicate. Vina pocket-matched `summary_min` on PM110 was 0.648 [0.51, 0.76], compared with 0.692 on PM48 (Δ ≈ −0.04), with a narrower interval and the same direction. RTM and GNINA on PM110 gave 0.576 and 0.522.
 
 ---
 
