@@ -43,13 +43,13 @@ PIK3CA/mTOR 另建扩面面板（下文称 PM110）：保留 PM48 全部 48 个�
 
 ### 2.5 配体准备
 
-主协议冻结为 RDKit ETKDGv3 构象生成 + meeko 转 PDBQT，随机种子 20260727。面板抽样种子 20260729。Schrodinger LigPrep 仅在 PM48 上作准备敏感性对照，不与 RDKit 姿态混入主结果表。
+主协议冻结为 RDKit ETKDGv3 构象生成 + meeko 转 PDBQT。Schrodinger LigPrep 仅在 PM48 上作准备敏感性对照，不与 RDKit 姿态混入主结果表。构象生成、面板抽样与对接均使用固定随机种子；完整种子与参数取值见 Supporting Information Table S1。
 
 ### 2.6 对接与重打分
 
-姿态采样使用 AutoDock Vina 1.2.7。默认输出 9 个模式，`energy_range = 3`，对接种子 20260727。exhaustiveness 按表 1：PIK3CA/mTOR 与其扩面/单靶 enrichment 为 16，其余主面板为 8。
+姿态采样使用 AutoDock Vina 1.2.7，默认输出 9 个模式，`energy_range = 3`；exhaustiveness 按表 1，PIK3CA/mTOR 主面板、其扩面面板与单靶 enrichment 用 16，其余主面板用 8。
 
-同一组 Vina 姿态上运行两条重打分通道。RTMScore（`rtmscore_model1`）对 9 个模式取最优分（best-of-9）。GNINA v1.3.2 在 CPU 模式下，将 Vina 的 `mode_01` 经 Open Babel 转为 SDF 后，执行 `--cnn_scoring rescore --minimize`，种子 20260727。主报告以 Vina 口袋匹配分为准；RTM 与 GNINA 作通道对照，不另选“优胜臂”改写主张。
+同一组 Vina 姿态上运行两条重打分通道。RTMScore（`rtmscore_model1`）对 9 个模式取最优分（best-of-9）。GNINA v1.3.2 在 CPU 模式下，将 Vina 的 `mode_01` 经 Open Babel 转为 SDF 后，执行 `--cnn_scoring rescore --minimize`。主报告以 Vina 口袋匹配分为准；RTM 与 GNINA 作通道对照，不另选“优胜臂”改写主张。
 
 ### 2.7 评价指标与平凡基线
 
@@ -57,7 +57,7 @@ PIK3CA/mTOR 另建扩面面板（下文称 PM110）：保留 PM48 全部 48 个�
 
 平凡基线用同一套方向 AUROC 流程，但以配体描述符代替对接分：重原子数、分子量、cLogP、TPSA。基线门控报告对接 `summary_min` 相对最优平凡基线的差 Δ 及其 bootstrap 区间。
 
-不确定度用配体层 bootstrap：B = 2000，种子 20260729，报告 `summary_min` 的 95% 百分位区间。支架层重采样另作对照，主文仍以配体 bootstrap 为准。
+不确定度用配体层 bootstrap（B = 2000 次重采样），报告 `summary_min` 的 95% 百分位区间。支架层重采样另作对照，主文仍以配体 bootstrap 为准。
 
 ### 2.8 混淆与稳健性对照
 
@@ -69,7 +69,7 @@ PIK3CA/mTOR 另建扩面面板（下文称 PM110）：保留 PM48 全部 48 个�
 
 ### 2.9 软件与复现
 
-分析在 Python 3 环境完成。关键版本：RDKit 2026.3.1，meeko 0.7.1，AutoDock Vina 1.2.7，GNINA 1.3.2，RTMScore 使用公开权重 `rtmscore_model1.pth`。面板、分数表、分析脚本与协议文件随仓库提供；公开数据包与 DOI 见 Data and Software Availability（Zenodo 发布后填入）。最小复现命令为重算口袋匹配主表、加强分析包与森林图脚本（见仓库 README）。
+分析在 Python 3 环境完成。关键版本：RDKit 2026.3.1，meeko 0.7.1，AutoDock Vina 1.2.7，GNINA 1.3.2，RTMScore 使用公开权重 `rtmscore_model1.pth`。面板、分数表、分析脚本、协议文件与完整随机种子/参数表（Table S1）随仓库提供；公开数据包与 DOI 见 Data and Software Availability（Zenodo 发布后填入）。最小复现命令为重算口袋匹配主表、加强分析包与森林图脚本（见仓库 README）。
 
 ---
 
@@ -86,6 +86,7 @@ PIK3CA/mTOR 另建扩面面板（下文称 PM110）：保留 PM48 全部 48 个�
 | 主指标是不是又在挑对对接有利的聚合？ | **2.7 先定义口袋匹配**；池化降为对照 |
 | GNINA/RTM 是不是事后选优胜？ | **2.6 写明通道对照，不改主张** |
 | 多样性过滤用了 chembl_id 前缀？ | **2.3 诚实写入**；后续用真 Murcko 清点 |
+| 随机种子数值有什么意义、为什么反复出现？ | **已改**：具体种子数值（如 20260727/20260729）不再逐节重复出现在正文，只在 2.5 提一次“固定种子，完整取值见 SI Table S1”；对结果解读有意义的参数（n_modes=9、energy_range=3、E=8/16、bootstrap B=2000）仍留在正文，仿 Vu et al. 2025 的处理方式 |
 
 ---
 
