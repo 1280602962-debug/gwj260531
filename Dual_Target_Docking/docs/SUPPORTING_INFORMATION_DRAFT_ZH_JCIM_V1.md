@@ -12,7 +12,7 @@
 | Table S3 | PM：`analysis/cognate_redock_v0/COGNATE_QC_VERDICT*.md`；AChE/BChE：`cognate_qc/COGNATE_QC.md`；PIK3CB：`cognate_qc/COGNATE_QC.md`；EGFR/HER2：`protocol/protocol.yaml` + `analysis/exhaustiveness_sensitivity_v1/SENSITIVITY_VERDICT.md` |
 | Table S4 | `data/jcim_strengthen_t0t1_v0/tables/unified_threshold_sensitivity_v2.csv` |
 | Table S5 | `data/jcim_strengthen_t0t1_v0/tables/matched_subset_directional_v1.csv` |
-| Table S6 | `data/jcim_bench_v0/tables/pocket_matched_directional_v1.csv`（聚合对照行） |
+| Table S6 | `data/jcim_bench_v0/tables/pocket_matched_directional_v1.csv`；worst-pocket 亦见 `data/jcim_strengthen_t0t1_v0/tables/aggregation_sensitivity_v1.csv` |
 | ChEMBL 聚合局限 | `data/jcim_strengthen_t0t1_v0/analysis/T0_SKIPS.md` |
 
 ---
@@ -163,7 +163,7 @@ PIK3CA/mTOR 若干臂 n &lt; 15，区间宽；正文仅作方向是否同向的�
 
 ## Table S6. 分数聚合对照（Vina）
 
-来源：`pocket_matched_directional_v1.csv`。同一面板、同一标签下的四种聚合。
+来源：池化 / 口袋匹配 / 错口袋取自 `pocket_matched_directional_v1.csv`；worst-pocket 取自 `aggregation_sensitivity_v1.csv`。同一面板、同一标签下的四种聚合。
 
 | 靶对 | 池化 summary_min | 口袋匹配 summary_min | 错口袋 min | worst-pocket min |
 |------|-----------------:|---------------------:|-----------:|-----------------:|
