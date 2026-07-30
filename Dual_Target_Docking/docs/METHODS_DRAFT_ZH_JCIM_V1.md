@@ -45,19 +45,13 @@ EGFR/HER2 虽在同一严格规则下 B_only 仅 7 个，无法建成规模均�
 
 八个冻结受体均以共晶配体重对接作协议检查：门槛为重原子 RMSD 在输出的 9 个姿态中的最小值（best_of_9）&lt; 2.0 Å。在 exhaustiveness = 8 时，4L23、4EY7、4BDS、2WXF、3POZ 与 3RCD 的 best_of_9 均 &lt; 2 Å；mTOR（4JT6）上 PI-103 的 best_of_9 为 5.003 Å，未过门槛。将 exhaustiveness 提高到 16 后，4JT6 的 best_of_9 降至 0.445 Å（近晶姿态为 mode 3；Vina mode1 仍约 7.1 Å）。因此 PIK3CA/mTOR 主面板及其扩面、单靶对照均采用 exhaustiveness = 16；其余靶对采用 8，并在 PIK3CA/mTOR 上另行报告 exhaustiveness = 8 的对照结果。另需说明：EGFR（3POZ）在 E = 8 时 best_of_9 已过关（约 0.96 Å），但 Vina 排序第一的姿态 RMSD 约 9.5 Å；升高 exhaustiveness 不能把 mode1 翻成近晶。完整 cognate 表见 Supporting Information Table S3。
 
-### 2.5 配体准备
+### 2.5 对接与打分
 
-配体三维构象用 RDKit ETKDGv3 生成，再用 meeko 转为对接所需的 PDBQT。构象生成、面板抽样与对接均使用固定随机种子；完整参数见 Supporting Information Table S1。
+配体由 ChEMBL 结构去盐后保留最大有机片段，用 RDKit ETKDGv3 生成三维构象，再经 meeko 转为 PDBQT。对接使用 AutoDock Vina 1.2.7：每个配体保留 9 个姿态，`energy_range = 3`，exhaustiveness 按 Table 1（PIK3CA/mTOR 为 16，其余靶对为 8）。构象生成、面板抽样与对接均使用固定随机种子；完整参数见 Supporting Information Table S1。
 
-### 2.6 对接
+在同一组 Vina 姿态上另用两种函数重打分，以检查结论是否依赖单一打分通道。RTMScore（公开权重 `rtmscore_model1`）对 9 个姿态取最高分。GNINA 1.3.2 在 CPU 模式下，将 Vina 排序第一的姿态转为 SDF 后，以 `--cnn_scoring rescore --minimize` 重打分。正文以 Vina 亲和力（取负号，使越高越好）报告口袋匹配方向 AUROC；RTMScore 与 GNINA 仅作通道对照，不据此更换主指标。
 
-对接使用 AutoDock Vina 1.2.7。除另有说明外，每个配体输出 9 个姿态，`energy_range = 3`；exhaustiveness 按 Table 1。其余参数见 Table S1。
-
-### 2.7 姿态打分
-
-在同一组 Vina 姿态上另用两种打分函数重打分。RTMScore（公开权重 `rtmscore_model1`）对 9 个姿态取最高分。GNINA 1.3.2 在 CPU 模式下，将 Vina 排序第一的姿态转为 SDF 后，以 `--cnn_scoring rescore --minimize` 重打分。主文以 Vina 分数报告口袋匹配方向 AUROC；RTMScore 与 GNINA 作为打分通道对照报告，不据此更换主指标。
-
-### 2.8 评价指标与基线
+### 2.6 评价指标与基线
 
 对每个配体，分别记录其在口袋 A 与口袋 B 上的分数。Vina 亲和力取负号，使分数越高表示结合越强；RTMScore 与 GNINA CNN 分数保持原方向（越高越好）。
 
@@ -67,7 +61,7 @@ EGFR/HER2 虽在同一严格规则下 B_only 仅 7 个，无法建成规模均�
 
 不确定度用配体层 bootstrap 估计：对每个靶对重采样 2000 次，报告 summary_min 的 95% 百分位区间。按 Murcko 支架重采样的结果另作对照，主文以配体层区间为准。
 
-### 2.9 对照与敏感性分析
+### 2.7 对照与敏感性分析
 
 为检查方向性信号是否可能来自分子属性而非口袋匹配，我们设置下列对照。错口袋对照将对调后的口袋分数用于同一方向比较。配体效率对照将分数除以重原子数后再计算口袋匹配 AUROC。匹配子集对照分别在 \|ΔpChEMBL\| ≤ 0.5 或 \|Δheavy atoms\| ≤ 2 的近邻匹配子集上重算单侧 AUROC。协变量对照在逻辑回归中同时纳入对接分数、重原子数与 TPSA，比较仅分数模型与加入协变量后的判别 AUROC。此外，以 ECFP4 指纹（Morgan 半径 2，2048 bit）与逻辑回归建立仅依赖二维结构的配体基线；交叉验证按 Murcko 支架分组，避免同一骨架跨训练/测试折。
 
@@ -75,7 +69,7 @@ EGFR/HER2 虽在同一严格规则下 B_only 仅 7 个，无法建成规模均�
 
 标签阈值（Table S4）与匹配子集（Table S5）的敏感性分析见 Supporting Information。
 
-### 2.10 软件与数据可用性
+### 2.8 软件与数据可用性
 
 计算使用 Python 3，以及 RDKit 2026.3.1、meeko 0.7.1、AutoDock Vina 1.2.7 与 GNINA 1.3.2。RTMScore 使用公开预训练权重。评价面板、对接分数、分析脚本与完整参数表将随公开数据包发布；DOI 见 Data and Software Availability。
 
@@ -88,10 +82,10 @@ EGFR/HER2 虽在同一严格规则下 B_only 仅 7 个，无法建成规模均�
 | Vu 怎么写 | 本稿怎么对齐 |
 |-----------|--------------|
 | Dataset 先给规模与规则，再列输入文件类型 | 2.2–2.3：ChEMBL 规则 → 选对 → 面板规模（Table 1） |
-| Docking 里写清盒子怎么定义、哪些参数偏离默认，其余进 Table S1 | 2.4–2.6：5 Å 外扩、E=8/16、9 poses；种子等进 SI Table S1；盒子 Table S2；cognate Table S3 |
-| Scoring 与 Docking 分开 | 2.6 / 2.7 分开 |
-| Evaluation 单独一节写指标 | 2.8 |
+| Docking 里写清盒子、配体准备、引擎参数；细节进 Table S1 | 2.4 受体/盒子/cognate；2.5 合并配体准备 + Vina + 重打分 |
+| Scoring 可并入对接节，或单独一小节 | 本稿并入 2.5 第二段（通道对照，不换主指标） |
+| Evaluation 单独一节写指标 | 2.6 |
 | 不写仓库路径、内部角色名、未做实验的 holdout | 已去掉 protocol.yaml、boxes/、主开发对、NLRP3 等；SI 只汇编已有数字 |
 | 过去时 / 陈述句，少口号 | 全文按此收紧 |
 
-先前稿问题主要来自把项目笔记（角色名、黑话、路径、决策口吻）直接写进 Methods，而不是按已发表评测文把“读者要复现实验所需的信息”写清楚。本版从 2.3 起按该标准重写；2.1–2.2 保留上一轮已改口径；2.4 已与真实 cognate 表对齐（含 4JT6 E8 失败与 3POZ mode1 失败）。
+先前稿问题主要来自把项目笔记（角色名、黑话、路径、决策口吻）直接写进 Methods，而不是按已发表评测文把“读者要复现实验所需的信息”写清楚。本版从 2.3 起按该标准重写；2.1–2.2 保留上一轮已改口径；2.4 已与真实 cognate 表对齐；2.5–2.7 原三分节过碎，已合并为 2.5。
