@@ -7,6 +7,8 @@
 > **当前论文路线（V2 · 2026-07-21）**：[`docs/MANUSCRIPT_OUTLINE_V2.md`](docs/MANUSCRIPT_OUTLINE_V2.md)  
 > **中文写作**：引言 [`docs/INTRO_DRAFT_CN.md`](docs/INTRO_DRAFT_CN.md) · Methods [`docs/METHODS_DRAFT_CN.md`](docs/METHODS_DRAFT_CN.md) · 大纲 [`docs/MANUSCRIPT_OUTLINE_V2_CN_DRAFT.md`](docs/MANUSCRIPT_OUTLINE_V2_CN_DRAFT.md)  
 > **本机重对接烟雾表（P0–P5）**：[`docs/REDOCK_SMOKE_TEST_SHEET.md`](docs/REDOCK_SMOKE_TEST_SHEET.md) · `bash scripts/run_redock_smoke_local.sh`  
+> **协议筛选结果（Π\*=P2）**：[`docs/PROTOCOL_SELECTION_RESULT.md`](docs/PROTOCOL_SELECTION_RESULT.md)  
+> **本地 Agent 任务书（阶段二）**：[`docs/LOCAL_AGENT_TASKS.md`](docs/LOCAL_AGENT_TASKS.md) · `bash scripts/run_funnel_p2.sh`  
 > **已过时（含 Glide XP 主叙事）**：[`docs/MANUSCRIPT_DRAFT_CN.md`](docs/MANUSCRIPT_DRAFT_CN.md) — 勿再当正文  
 > **更旧归档**：[`docs/LEGACY_ARCHIVE.md`](docs/LEGACY_ARCHIVE.md)
 
