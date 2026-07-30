@@ -112,9 +112,7 @@ python3 data/jcim_bench_v0/scripts/plot_forest_ci_v1.py
 |----|------|------|----------|
 | E1 | Abstract（3–4 句） | ❌ | 待写；须低于 Results 主张强度 |
 | E2 | Introduction | ❌ | 任务缺口；可引 Vu 2025 / 单靶 VS 对照 |
-| E3 | Methods 2.1 Dataset / data curation | 🟡 | J0、panels、`PAIR_ROLES_APPROVED_JCIM.yaml` |
-| E4 | Methods 2.2 Docking / prep | 🟡 | 各 panel protocol；RDKit 主协议；LigPrep 仅敏感性 |
-| E5 | Methods 2.3 Metrics | 🟡 | `PRIMARY_METRIC_V2.md`；bootstrap B=2000 seed |
+| E3 | Methods 2.1–2.9 Dataset / docking / metrics | 🟡 中文稿 | [`METHODS_DRAFT_ZH_JCIM_V1.md`](METHODS_DRAFT_ZH_JCIM_V1.md)；英译待做 |
 | E6 | Results 3.1–3.7 | ✅ 草稿 | [`RESULTS_SECTION_JCIM_EN_V1.md`](RESULTS_SECTION_JCIM_EN_V1.md) |
 | E7 | Discussion / Limitations | ❌ | K 小、singleton 支架、ChEMBL 聚合、无湿实验、PM Δ CI 含 0 |
 | E8 | Conclusions | ❌ | 评测主张收束，勿发明新 claim |

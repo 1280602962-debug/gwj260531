@@ -15,7 +15,7 @@
 
 ### 3.1 Strict hard-negative supply on public target pairs
 
-Dual-target docking evaluation needs ligands in four activity classes: dual actives, A-only hard negatives, B-only hard negatives, and inactive/neither. We audited 49 ChEMBL-backed target pairs under a strict label rule (dual: both pChEMBL ≥ 6.5; A_only or B_only: active end ≥ 6.5 and opposite end ≤ 5.5). Only four pairs supplied at least 50 strict hard negatives on both arms. After excluding the metal-dependent HDAC1/HDAC6 pair, three pairs remained usable for conventional docking panels: PIK3CA/mTOR, AChE/BChE, and PIK3CA/PIK3CB (Table 1). EGFR/HER2 yielded only seven strict B_only ligands and could not support a thick four-class panel, so we retained it as a supply-limited case study without new docking. The frozen K=4 evaluation set was chosen from this supply audit rather than from literature popularity alone.
+Dual-target docking evaluation needs ligands in four activity classes: dual actives, A-only hard negatives, B-only hard negatives, and inactive/neither. We audited 49 ChEMBL-backed target pairs under a strict label rule (dual: both pChEMBL ≥ 6.5; A_only or B_only: active end ≥ 6.5 and opposite end ≤ 5.5). Only four pairs supplied at least 50 strict hard negatives on both arms. After excluding the metal-dependent HDAC1/HDAC6 pair, three pairs remained usable for conventional thick docking panels: PIK3CA/mTOR, AChE/BChE, and PIK3CA/PIK3CB (Table 1). As a contrast, the literature-common EGFR/HER2 pair yielded only seven strict B_only ligands under the same rule and did not meet the thick four-class panel threshold. The frozen K=4 evaluation set was fixed from this audit (construction rules in Methods).
 
 ### 3.2 Pooled scores versus pocket-matched directional AUROC
 

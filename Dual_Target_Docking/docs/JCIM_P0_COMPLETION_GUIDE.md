@@ -87,6 +87,7 @@ python3 data/jcim_bench_v0/scripts/plot_forest_ci_v1.py
 | 章节 | 用这些文件 |
 |------|------------|
 | Intro | 任务缺口；可引 Vu 2025 / VSDS 作单靶对照 |
+| Methods 2.1–2.9（中文工作稿） | **[`METHODS_DRAFT_ZH_JCIM_V1.md`](METHODS_DRAFT_ZH_JCIM_V1.md)** |
 | Methods 2.1 Dataset | `jcim_j0j1_v0` 供给；`public_pair_selection`；四对 panel CSV |
 | Methods 2.2 Docking | 各 panel `protocol.yaml`；PM E=8→16 cognate |
 | Methods 2.3 Metrics | `PRIMARY_METRIC_V2.md`；CLAIM_CEILING |

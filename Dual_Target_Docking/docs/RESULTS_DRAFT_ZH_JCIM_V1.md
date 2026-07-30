@@ -10,7 +10,7 @@
 
 ### 3.1 Strict hard-negative supply on public target pairs
 
-双靶对接评测需要四类配体：双靶活性、A-only 硬负、B-only 硬负、以及 inactive/neither。我们在 49 对有 ChEMBL 缓存的靶对上，按严格标签规则审计（dual：两端 pChEMBL ≥ 6.5；A_only / B_only：活性端 ≥ 6.5 且对端 ≤ 5.5）。两端严格硬负均 ≥ 50 的只有 4 对。排除金属依赖的 HDAC1/HDAC6 后，适合常规对接面板的剩 3 对：PIK3CA/mTOR、AChE/BChE、PIK3CA/PIK3CB（Table 1）。EGFR/HER2 的严格 B_only 仅 7 个，无法支撑厚四类面板，因此保留为供给受限案例，不做新对接。冻结的 K=4 评测集由此供给审计选出，而不是按文献热度铺开。
+双靶对接评测需要四类配体：双靶活性、A-only 硬负、B-only 硬负、以及 inactive/neither。我们在 49 对有 ChEMBL 缓存的靶对上，按严格标签规则审计（dual：两端 pChEMBL ≥ 6.5；A_only / B_only：活性端 ≥ 6.5 且对端 ≤ 5.5）。两端严格硬负均 ≥ 50 的只有 4 对。排除金属依赖的 HDAC1/HDAC6 后，适合常规对接厚面板的剩 3 对：PIK3CA/mTOR、AChE/BChE、PIK3CA/PIK3CB（Table 1）。作为对照，文献上常见的 EGFR/HER2 在同一规则下仅有 7 个严格 B_only，达不到厚四类面板门槛。冻结的 K=4 评测集由该审计结果确定（构建规则见 Methods）。
 
 ### 3.2 Pooled scores versus pocket-matched directional AUROC
 

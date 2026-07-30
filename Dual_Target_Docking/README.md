@@ -15,6 +15,7 @@ JCIM **evaluation / benchmark** 课题：双靶对接四类硬负评测。
 | **[`docs/JCIM_P0_COMPLETION_GUIDE.md`](docs/JCIM_P0_COMPLETION_GUIDE.md)** | ★ **下一步：Zenodo + 英文稿怎么做完** |
 | **[`docs/JCIM_PREWRITING_CHECKLIST_V1.md`](docs/JCIM_PREWRITING_CHECKLIST_V1.md)** | ★ 写作前注意事项 + 逐项核对 |
 | [`docs/RESULTS_SECTION_JCIM_EN_V1.md`](docs/RESULTS_SECTION_JCIM_EN_V1.md) | ★ JCIM 英文 Results（nature-skills 去 AI 化） |
+| [`docs/METHODS_DRAFT_ZH_JCIM_V1.md`](docs/METHODS_DRAFT_ZH_JCIM_V1.md) | 中文 Methods 工作稿 |
 | [`docs/RESULTS_DRAFT_ZH_JCIM_V1.md`](docs/RESULTS_DRAFT_ZH_JCIM_V1.md) | 中文 Results 对齐稿 |
 | [`data/jcim_bench_v0/CLAIM_CEILING.md`](data/jcim_bench_v0/CLAIM_CEILING.md) | 可写 / 禁止写的 claim |
 | [`data/jcim_strengthen_t0t1_v0/analysis/PRIMARY_METRIC_V2.md`](data/jcim_strengthen_t0t1_v0/analysis/PRIMARY_METRIC_V2.md) | 口袋匹配主表 |
