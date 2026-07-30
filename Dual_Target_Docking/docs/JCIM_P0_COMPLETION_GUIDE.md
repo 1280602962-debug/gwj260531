@@ -2,7 +2,8 @@
 
 > 目的：补齐相对 Vu et al. JCIM 2025 的「成品感」缺口。  
 > **不需要新对接。**  
-> 仓库已清理为 DualFourClass 投稿核心；入口见 [`../README.md`](../README.md)。
+> 仓库已清理为 DualFourClass 投稿核心；入口见 [`../README.md`](../README.md)。  
+> **写作前逐项核对：** [`JCIM_PREWRITING_CHECKLIST_V1.md`](JCIM_PREWRITING_CHECKLIST_V1.md)
 
 ---
 
