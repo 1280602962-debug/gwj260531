@@ -22,20 +22,22 @@
 | Python | 3.x（本机 conda） |
 | RDKit | 2026.3.1 |
 | meeko | 0.7.1 |
-| AutoDock Vina | 1.2.7 |
+| AutoDock Vina | 1.2.7；`scoring_function = vina` |
 | GNINA | 1.3.2（CPU，`--no_gpu`） |
 | RTMScore 权重 | `rtmscore_model1` |
-| 配体准备 | RDKit ETKDGv3 → meeko PDBQT |
-| 配体构象种子 | 20260727 |
+| Open Babel | Vina PDBQT → SDF（GNINA 前） |
+| 分析库 | NumPy / SciPy / scikit-learn / pandas（版本随公开复现环境；仓库 ENV_PIN 未钉死具体小版本） |
+| ChEMBL | Web API；靶对审计锁定 2026-07-23（未记录 release 编号） |
+| 配体准备 | 去盐（最大有机片段）→ RDKit AddHs → ETKDGv3（seed 20260727）→ MMFFOptimizeMolecule（maxIters=200）→ meeko 默认 PDBQT |
 | 面板抽样种子 | 20260729 |
-| Bootstrap 种子 | 20260729 |
-| Bootstrap 次数 | B = 2000（配体层） |
+| Bootstrap | B = 2000；seed 20260729；配体层 2.5%–97.5% 百分位区间；不做多重比较校正 |
 | Vina `n_modes` | 9 |
 | Vina `energy_range` | 3 |
 | Vina exhaustiveness | PIK3CA/mTOR 主面板/扩面/单靶对照 = 16；其余靶对 = 8；PM 另报 E = 8 对照 |
 | GNINA | `--cnn_scoring rescore --minimize --seed 20260727` |
 | 盒子定义 | 共晶配体 AABB + 5 Å；每边下限 20 Å |
 | Cognate 通过门槛 | 重原子 RMSD，`best_of_9` &lt; 2.0 Å（同坐标系，不叠合） |
+| 受体 PDBQT | PIK3CA/mTOR/EGFR/HER2：含氢蛋白坐标 + `mk_prepare_receptor.py --read_pdb`；AChE/BChE/PIK3CB：沉积 ATOM + `mk_prepare_receptor`（default altloc A） |
 
 采集快照见 `ENV_PIN.md`（2026-07-29）。
 
@@ -43,17 +45,17 @@
 
 ## Table S2. 对接盒子坐标（冻结受体）
 
-坐标单位：Å。中心与边长来自各面板冻结的 `boxes/*.json`。
+坐标单位：Å。中心与边长来自各面板冻结的 `boxes/*.json`。分辨率：4L23/4JT6/3POZ/3RCD 取自冻结 prepared/protein PDB 头；4EY7/4BDS/2WXF 取自 RCSB entry metadata（与所用 PDB ID 对应）。
 
-| 靶标 | PDB | 共晶配体（HET） | center_x | center_y | center_z | size_x | size_y | size_z | 源面板 |
-|------|-----|-----------------|---------:|---------:|---------:|-------:|-------:|-------:|--------|
-| PIK3CA | 4L23 | X6K (PI-103) | 32.443 | 45.431 | 42.139 | 20.000 | 20.000 | 20.000 | PM48 / PIK3CA–PIK3CB |
-| mTOR | 4JT6 | X6K (PI-103) | 51.949 | 0.065 | −47.707 | 20.332 | 20.000 | 20.000 | PM48 |
-| AChE | 4EY7 | E20 (donepezil) | −13.988 | −43.906 | 27.108 | 23.341 | 20.000 | 20.355 | AChE–BChE |
-| BChE | 4BDS | THA (tacrine) | 133.076 | 116.113 | 41.335 | 20.000 | 20.000 | 20.000 | AChE–BChE |
-| PIK3CB | 2WXF | 039 | −5.454 | −0.547 | 22.243 | 20.000 | 20.000 | 20.000 | PIK3CA–PIK3CB |
-| EGFR | 3POZ | 03P (TAK-285) | 18.680 | 32.127 | 11.865 | 22.189 | 20.000 | 22.836 | EGFR–HER2 |
-| HER2 | 3RCD | 03P (TAK-285) | 12.463 | 3.371 | 27.619 | 23.222 | 23.155 | 20.000 | EGFR–HER2 |
+| 靶标 | PDB | 分辨率 (Å) | 共晶配体（HET） | center_x | center_y | center_z | size_x | size_y | size_z | 源面板 |
+|------|-----|----------:|-----------------|---------:|---------:|---------:|-------:|-------:|-------:|--------|
+| PIK3CA | 4L23 | 2.50 | X6K (PI-103) | 32.443 | 45.431 | 42.139 | 20.000 | 20.000 | 20.000 | PM48 / PIK3CA–PIK3CB |
+| mTOR | 4JT6 | 3.60 | X6K (PI-103) | 51.949 | 0.065 | −47.707 | 20.332 | 20.000 | 20.000 | PM48 |
+| AChE | 4EY7 | 2.35 | E20 (donepezil) | −13.988 | −43.906 | 27.108 | 23.341 | 20.000 | 20.355 | AChE–BChE |
+| BChE | 4BDS | 2.10 | THA (tacrine) | 133.076 | 116.113 | 41.335 | 20.000 | 20.000 | 20.000 | AChE–BChE |
+| PIK3CB | 2WXF | 1.90 | 039 | −5.454 | −0.547 | 22.243 | 20.000 | 20.000 | 20.000 | PIK3CA–PIK3CB |
+| EGFR | 3POZ | 1.50 | 03P (TAK-285) | 18.680 | 32.127 | 11.865 | 22.189 | 20.000 | 22.836 | EGFR–HER2 |
+| HER2 | 3RCD | 3.21 | 03P (TAK-285) | 12.463 | 3.371 | 27.619 | 23.222 | 23.155 | 20.000 | EGFR–HER2 |
 
 说明：PIK3CA 在 PIK3CA/mTOR 与 PIK3CA/PIK3CB 两套面板中共用同一 4L23 盒子与受体冻结。
 
@@ -62,6 +64,8 @@
 ## Table S3. 共晶配体重对接（八个冻结受体）
 
 **均已做 cognate redock。** 协议门槛为 `best_of_9` 重原子 RMSD &lt; 2.0 Å。主 seed = 20260727（EGFR 历史 as-run 与敏感性表同 seed）。
+
+**RMSD 定义：** 对接坐标系、不做蛋白叠合。PIK3CA/mTOR 与 EGFR/HER2：meeko `REMARK SMILES IDX` 映射 + 模板自同构上最小 CalcRMS（见各 panel `rmsd_definition.md`）。AChE/BChE 与 PIK3CB 冻结 QC：重原子坐标匈牙利匹配（`linear_sum_assignment`）。
 
 ### S3a. 冻结受体在协议 exhaustiveness 下的结果
 
