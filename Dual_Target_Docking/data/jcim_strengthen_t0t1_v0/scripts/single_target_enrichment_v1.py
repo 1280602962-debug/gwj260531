@@ -36,13 +36,16 @@ MEKO_PY = "/home/gwj/miniconda3/bin/python"
 SEED = 20260727
 EXHAUST = 16
 N_MODES = 9
-N_ACTIVE = 80
-N_DECOY = 300
-MAX_WORKERS = 6
+N_ACTIVE = 50
+N_DECOY = 150
+MAX_DECOY_POOL_FETCH = 280
+MAX_WORKERS = 4
+FETCH_WORKERS = 12
 CACHE = OUT / "tables" / "enrichment_smiles_cache.json"
 
 
 def fetch_smiles(cid: str, cache: dict) -> str | None:
+    """Thread-safe only if caller serializes cache writes after batch fetch."""
     if cid in cache:
         return cache[cid]
     url = f"https://www.ebi.ac.uk/chembl/api/data/molecule/{cid}.json"
@@ -52,11 +55,36 @@ def fetch_smiles(cid: str, cache: dict) -> str | None:
             data = json.load(resp)
         smi = (data.get("molecule_structures") or {}).get("canonical_smiles")
         cache[cid] = smi
-        time.sleep(0.03)
         return smi
     except Exception:
         cache[cid] = None
         return None
+
+
+def fetch_many(cids: list[str], cache: dict) -> None:
+    todo = [c for c in cids if c not in cache]
+    if not todo:
+        return
+
+    def _one(cid: str):
+        url = f"https://www.ebi.ac.uk/chembl/api/data/molecule/{cid}.json"
+        req = urllib.request.Request(url, headers={"User-Agent": "dualfourclass-jcim/0.1"})
+        try:
+            with urllib.request.urlopen(req, timeout=60) as resp:
+                data = json.load(resp)
+            return cid, (data.get("molecule_structures") or {}).get("canonical_smiles")
+        except Exception:
+            return cid, None
+
+    with ThreadPoolExecutor(max_workers=FETCH_WORKERS) as ex:
+        futs = [ex.submit(_one, c) for c in todo]
+        for i, fut in enumerate(as_completed(futs), 1):
+            cid, smi = fut.result()
+            cache[cid] = smi
+            if i % 40 == 0 or i == len(futs):
+                print(f"  smiles fetch {i}/{len(futs)}", flush=True)
+    CACHE.parent.mkdir(parents=True, exist_ok=True)
+    CACHE.write_text(json.dumps(cache))
 
 
 def phys(smi):
@@ -170,6 +198,13 @@ def enrichment_factor(scores, labels, pct):
 def main():
     rng = random.Random(SEED)
     cache = json.loads(CACHE.read_text()) if CACHE.exists() else {}
+    # merge existing panel caches
+    for extra in (
+        REPO / "data/ache_bche_panel_v0/tables/smiles_cache.json",
+        REPO / "data/pik3ca_pik3cb_panel_v0/tables/smiles_cache.json",
+    ):
+        if extra.exists():
+            cache.update(json.loads(extra.read_text()))
     WORK.mkdir(parents=True, exist_ok=True)
     # symlink receptors/boxes from PM48
     for sub in ("receptors", "boxes"):
@@ -186,11 +221,13 @@ def main():
         rng.shuffle(act_ids)
         rng.shuffle(dec_ids)
         act_ids = act_ids[:N_ACTIVE]
-        print(f"{target}: fetching smiles for {len(act_ids)} actives...", flush=True)
+        decoy_cand = dec_ids[:MAX_DECOY_POOL_FETCH]
+        print(f"{target}: fetching smiles act={len(act_ids)} decoy_pool={len(decoy_cand)}...", flush=True)
+        fetch_many(act_ids + decoy_cand, cache)
 
         actives = []
         for cid in act_ids:
-            smi = fetch_smiles(cid, cache)
+            smi = cache.get(cid)
             if not smi:
                 continue
             p = phys(smi)
@@ -199,8 +236,8 @@ def main():
         print(f"{target}: {len(actives)} actives with SMILES", flush=True)
 
         decoy_pool = []
-        for cid in dec_ids[:2000]:
-            smi = fetch_smiles(cid, cache)
+        for cid in decoy_cand:
+            smi = cache.get(cid)
             if not smi:
                 continue
             p = phys(smi)
@@ -209,9 +246,6 @@ def main():
         decoys = match_decoys(actives, decoy_pool, N_DECOY, rng)
         panel = actives + decoys
         print(f"{target}: panel n={len(panel)} act={len(actives)} dec={len(decoys)}", flush=True)
-
-        CACHE.parent.mkdir(parents=True, exist_ok=True)
-        CACHE.write_text(json.dumps(cache, indent=2))
 
         box = json.loads((WORK / "boxes" / f"{target}_box.json").read_text())
         rec = WORK / "receptors" / f"{target}_receptor.pdbqt"

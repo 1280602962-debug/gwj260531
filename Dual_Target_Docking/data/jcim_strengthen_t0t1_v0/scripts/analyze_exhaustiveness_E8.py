@@ -57,9 +57,12 @@ def main():
         if not r:
             return None
         a, b = r.get("4L23_affinity_E8"), r.get("4JT6_affinity_E8")
-        if a is None or b is None:
+        if not a or not b:
             return None
-        return {"A": -float(a), "B": -float(b)}
+        try:
+            return {"A": -float(a), "B": -float(b)}
+        except ValueError:
+            return None
 
     m16 = metrics(e16_fn)
     m8 = metrics(e8_fn)
