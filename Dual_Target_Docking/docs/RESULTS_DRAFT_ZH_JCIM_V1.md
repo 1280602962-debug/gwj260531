@@ -15,7 +15,7 @@
 
 ### 3.2 池化分数与口袋匹配方向 AUROC 的差异
 
-双靶分数需要同时压住两条单靶硬负臂。若两臂共用同一池化分数（如两端 Vina 分数的均值），强臂可能掩盖弱臂：在 EGFR/HER2 上，池化 AUROC 接近 0.50，而较弱一臂（dual 对 B_only）单独计算时降到约 0.28。这是本文采用口袋匹配方向 AUROC 作主指标的依据：dual 对 A_only 用口袋 B 的分数，dual 对 B_only 用口袋 A 的分数，summary_min 取两臂较小值（定义见 Methods 2.6）。相对池化，口袋匹配普遍抬高了四对的点估计，但排序未变：仍只有 PIK3CA/mTOR 明显高于随机，其余三对 summary_min ≤ 0.61（Table 2）。
+双靶分数需要同时压住两条单靶硬负臂。若两臂共用同一池化分数（如两端 Vina 分数的均值），强臂可能掩盖弱臂：在 EGFR/HER2 上，池化 AUROC 接近 0.50，而较弱一臂（dual 对 B_only）单独计算时降到约 0.28。这是本文采用口袋匹配方向 AUROC 作主指标的依据：dual 对 A_only 用口袋 B 的分数，dual 对 B_only 用口袋 A 的分数，summary_min 取两臂较小值（定义见 Methods 2.6）。相对池化，口袋匹配普遍抬高了四对的点估计，但排序未变：仍只有 PIK3CA/mTOR 明显高于随机，其余三对 summary_min ≤ 0.61（Table 2）。作为聚合对照，每条对比取两口袋较差分数后再汇总的 worst-pocket summary_min 分别为 0.271（EGFR/HER2）、0.579（AChE/BChE）、0.439（PIK3CA/PIK3CB）与 0.627（PIK3CA/mTOR），完整对照见 Supporting Information Table S6。
 
 ### 3.3 冻结 K = 4 评价集上的方向判别
 
@@ -46,7 +46,7 @@ PIK3CA/mTOR 是唯一 summary_min 点估计同时高于 0.5 与重原子数基�
 
 若对接分数主要跟随配体本身的物理化学属性而非结合口袋，错口袋对照的 summary_min 应偏离正确口袋结果不远、甚至同样偏离 0.5。四对的错口袋 summary_min 分别为 0.260（EGFR/HER2）、0.444（AChE/BChE）、0.349（PIK3CA/PIK3CB）与 0.602（PIK3CA/mTOR）；口袋匹配相对错口袋的差距在四对上均超过 0.09（Table 2）。配体效率归一（分数除以重原子数）后，仅 PIK3CA/mTOR 仍高于重原子数基线（0.657 对 0.463），其余三对在该归一下不再支持方向信号。
 
-在 AChE/BChE 上，dual 配体的平均 TPSA 约为 75，硬负配体（A_only 与 B_only 合并）约为 51；TPSA 单独区分 dual 与硬负的 AUROC 约为 0.769，高于同一对比下的 Vina 分数（约 0.56）。将重原子数与 TPSA 作为协变量纳入逻辑回归后，口袋匹配 dual 对 B_only 的判别 AUROC 从 0.606 升至 0.807（Δ ≈ +0.20）；PIK3CA/mTOR 上相应升幅较小，约 +0.07 至 +0.11。
+在 AChE/BChE 上，dual 配体的平均 TPSA 约为 75，硬负配体（A_only 与 B_only 合并）约为 51；TPSA 单独区分 dual 与硬负的 AUROC 约为 0.769，高于同一对比下的 Vina 分数（约 0.56）。将重原子数与 TPSA 作为协变量纳入逻辑回归后，口袋匹配 dual 对 B_only 的判别 AUROC 从 0.606 升至 0.807（Δ ≈ +0.20），对接分数的优势比（OR）为 1.18；PIK3CA/mTOR 上 dual 对 A_only / B_only 的 AUROC 升幅约为 +0.07 至 +0.11，对应 OR 分别为 2.19 与 3.08，表明在控制尺寸与极性后对接分数仍保留独立方向信息。
 
 在效价匹配（|ΔpChEMBL| ≤ 0.5）或尺寸匹配（|Δheavy atoms| ≤ 2）子集上，EGFR/HER2 与 PIK3CA/PIK3CB 的 dual 对 B_only 仍偏弱或接近随机（约 0.45–0.52）；PIK3CA/mTOR 在匹配子集上方向仍保持，但各臂样本量常低于 15、区间较宽，完整分层结果见 Supporting Information Table S5。
 
@@ -65,3 +65,9 @@ PIK3CA/mTOR 是唯一 summary_min 点估计同时高于 0.5 与重原子数基�
 单靶富集分析以同靶已测定的弱效分子（pChEMBL ≤ 5.5）作性质匹配 decoy，而非随机无关分子。4L23（PIK3CA）与 4JT6（mTOR）的富集 AUROC 分别为 0.603 与 0.629，对应 EF1% 为 2.04 与 2.00，EF5% 为 1.22 与 3.20。两端富集能力均高于随机但幅度有限，与“对接本身没有完全失效，但不构成强单靶虚拟筛选”的判断一致（对应 Methods 2.7 单靶参照段）。
 
 PM110 保留 PM48 的全部 48 个配体并按配额扩样，不是独立重复实验。PM110 上 Vina 口袋匹配 summary_min 为 0.648 [0.51, 0.76]，相对 PM48 的 0.692（Δ ≈ −0.04），区间更窄，方向未变；同一面板上 RTMScore 为 0.576，GNINA 为 0.522（对应 Methods 2.3 扩面段）。
+
+### 3.8 统一标签规则下的稳健性
+
+为回应“四对面板建造规则不一致”的可比性质疑，我们在既有面板配体与既有 Vina 分数上，按 θ ∈ {5.5, 6.0, 6.5} 与严格规则（6.5/5.5）统一重标四类，并重算口袋匹配 summary_min（Supporting Information Table S4）。在严格规则下，AChE/BChE 与 PIK3CA/PIK3CB 的 summary_min 仍为 0.606 与 0.500（与建造规则一致）；PIK3CA/mTOR 为 0.639（相对主表 θ = 6.0 的 0.692 略降），EGFR/HER2 为 0.324（相对主表 0.430 下降）。EGFR/HER2 与 PIK3CA/mTOR 在严格规则下分别仅有 7 与 4 个 B_only，标记为 underpowered。四对排序仍以 PIK3CA/mTOR 最高，其余三对不超过 0.61，与主表方向一致。
+
+（对应 Methods 2.1 敏感性段）

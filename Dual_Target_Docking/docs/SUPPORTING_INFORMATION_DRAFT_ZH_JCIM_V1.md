@@ -10,8 +10,10 @@
 | Table S1 | `data/jcim_strengthen_t0t1_v0/ENV_PIN.md`；各 panel `protocol.yaml` |
 | Table S2 | `data/*/boxes/*.json`（冻结面板所用条目） |
 | Table S3 | PM：`analysis/cognate_redock_v0/COGNATE_QC_VERDICT*.md`；AChE/BChE：`cognate_qc/COGNATE_QC.md`；PIK3CB：`cognate_qc/COGNATE_QC.md`；EGFR/HER2：`protocol/protocol.yaml` + `analysis/exhaustiveness_sensitivity_v1/SENSITIVITY_VERDICT.md` |
-| Table S4 | `data/jcim_bench_v0/tables/threshold_sensitivity_v1.csv` |
+| Table S4 | `data/jcim_strengthen_t0t1_v0/tables/unified_threshold_sensitivity_v2.csv` |
 | Table S5 | `data/jcim_strengthen_t0t1_v0/tables/matched_subset_directional_v1.csv` |
+| Table S6 | `data/jcim_bench_v0/tables/pocket_matched_directional_v1.csv`（聚合对照行） |
+| ChEMBL 聚合局限 | `data/jcim_strengthen_t0t1_v0/analysis/T0_SKIPS.md` |
 
 ---
 
@@ -105,28 +107,30 @@
 
 ---
 
-## Table S4. 标签阈值敏感性（vina_mean）
+## Table S4. 统一标签规则下的口袋匹配敏感性
 
-在既有面板配体上，将两端 pChEMBL 按 θ ∈ {5.5, 6.0, 6.5} 重标四类后，用**两端 Vina 分数均值**（`vina_mean`）计算方向 AUROC 与 summary_min。  
-**注意：** 此表不是正文主指标“口袋匹配”分数；口袋匹配主结果见正文 Table 2。完整多通道表见 `threshold_sensitivity_v1.csv`。
+来源：`unified_threshold_sensitivity_v2.csv`。在既有面板配体与既有 Vina 分数上，按 θ ∈ {5.5, 6.0, 6.5} 与严格规则（6.5/5.5）重标四类后，重算**口袋匹配** summary_min（与正文主指标同定义）。
 
-| 靶对 | θ | n (D / A / B / N) | AUROC D vs A | AUROC D vs B | summary_min |
-|------|--:|------------------:|-------------:|-------------:|------------:|
-| EGFR/HER2 | 5.5 | 69 / 22 / 10 / 9 | 0.790 | 0.371 | 0.371 |
-| EGFR/HER2 | 6.0 | 28 / 38 / 32 / 12 | 0.681 | 0.282 | 0.282 |
-| EGFR/HER2 | 6.5 | 26 / 29 / 29 / 26 | 0.740 | 0.304 | 0.304 |
-| AChE/BChE | 5.5 | 27 / 25 / 28 / 15 | 0.530 | 0.585 | 0.530 |
-| AChE/BChE | 6.0 | 27 / 25 / 28 / 15 | 0.530 | 0.585 | 0.530 |
-| AChE/BChE | 6.5 | 27 / 25 / 28 / 15 | 0.530 | 0.585 | 0.530 |
-| PIK3CA/PIK3CB | 5.5 | 30 / 25 / 28 / 16 | 0.746 | 0.430 | 0.430 |
-| PIK3CA/PIK3CB | 6.0 | 28 / 27 / 28 / 16 | 0.703 | 0.412 | 0.412 |
-| PIK3CA/PIK3CB | 6.5 | 28 / 27 / 28 / 16 | 0.703 | 0.412 | 0.412 |
-| PIK3CA/mTOR | 5.5 | 33 / 9 / 5 / 1 | 0.488 | 0.630 | 0.488† |
-| PIK3CA/mTOR | 6.0 | 18 / 14 / 12 / 4 | 0.722 | 0.671 | 0.671 |
-| PIK3CA/mTOR | 6.5 | 17 / 15 / 12 / 4 | 0.702 | 0.667 | 0.667 |
+| 靶对 | 标签规则 | n (D / A / B) | AUROC D vs A | AUROC D vs B | summary_min | 95% CI | underpowered |
+|------|----------|--------------:|-------------:|-------------:|------------:|--------|:------------:|
+| EGFR/HER2 | θ = 5.5 | 69 / 22 / 10 | 0.773 | 0.425 | 0.425 | [0.238, 0.622] | 否 |
+| EGFR/HER2 | θ = 6.0 | 28 / 38 / 32 | 0.666 | 0.430 | 0.430 | [0.284, 0.576] | 否 |
+| EGFR/HER2 | θ = 6.5 | 26 / 29 / 29 | 0.735 | 0.460 | 0.460 | [0.305, 0.623] | 否 |
+| EGFR/HER2 | 严格 6.5/5.5 | 26 / 17 / 7 | 0.799 | 0.324 | 0.324 | [0.130, 0.519] | **是** |
+| AChE/BChE | θ = 5.5 | 27 / 25 / 28 | 0.650 | 0.606 | 0.606 | [0.446, 0.730] | 否 |
+| AChE/BChE | θ = 6.0 | 27 / 25 / 28 | 0.650 | 0.606 | 0.606 | [0.440, 0.740] | 否 |
+| AChE/BChE | θ = 6.5 | 27 / 25 / 28 | 0.650 | 0.606 | 0.606 | [0.450, 0.735] | 否 |
+| AChE/BChE | 严格 6.5/5.5 | 27 / 25 / 28 | 0.650 | 0.606 | 0.606 | [0.449, 0.738] | 否 |
+| PIK3CA/PIK3CB | θ = 5.5 | 30 / 25 / 28 | 0.729 | 0.522 | 0.522 | [0.365, 0.676] | 否 |
+| PIK3CA/PIK3CB | θ = 6.0 | 28 / 27 / 28 | 0.691 | 0.500 | 0.500 | [0.347, 0.648] | 否 |
+| PIK3CA/PIK3CB | θ = 6.5 | 28 / 27 / 28 | 0.691 | 0.500 | 0.500 | [0.331, 0.653] | 否 |
+| PIK3CA/PIK3CB | 严格 6.5/5.5 | 28 / 27 / 28 | 0.691 | 0.500 | 0.500 | [0.346, 0.647] | 否 |
+| PIK3CA/mTOR | θ = 5.5 | 33 / 9 / 5 | 0.502 | 0.506 | 0.502 | [0.248, 0.635] | **是** |
+| PIK3CA/mTOR | θ = 6.0 | 18 / 14 / 12 | 0.714 | 0.692 | 0.692 | [0.464, 0.802] | 否 |
+| PIK3CA/mTOR | θ = 6.5 | 17 / 15 / 12 | 0.710 | 0.674 | 0.674 | [0.444, 0.791] | 否 |
+| PIK3CA/mTOR | 严格 6.5/5.5 | 17 / 7 / 4 | 0.639 | 0.669 | 0.639 | [0.321, 0.798] | **是** |
 
-† θ = 5.5 时 B_only 仅 5，标记为 underpowered（源表 `underpowered=1`）。  
-AChE/BChE 与 PIK3CA/PIK3CB 面板在建造时已按严格配额冻结，简单 θ 重标后类别计数变化很小或不变。
+说明：AChE/BChE 与 PIK3CA/PIK3CB 建造时已按严格配额冻结，重标后计数基本不变。EGFR/HER2 与 PIK3CA/mTOR 在严格规则下 B_only 过少，仅作稳健性描述。早期 `threshold_sensitivity_v1.csv`（vina_mean 通道）保留在仓库作内部对照，不进正文主敏感性表。
 
 ---
 
@@ -157,9 +161,25 @@ PIK3CA/mTOR 若干臂 n &lt; 15，区间宽；正文仅作方向是否同向的�
 
 ---
 
+## Table S6. 分数聚合对照（Vina）
+
+来源：`pocket_matched_directional_v1.csv`。同一面板、同一标签下的四种聚合。
+
+| 靶对 | 池化 summary_min | 口袋匹配 summary_min | 错口袋 min | worst-pocket min |
+|------|-----------------:|---------------------:|-----------:|-----------------:|
+| EGFR/HER2 | 0.311 | 0.430 | 0.260 | 0.271 |
+| AChE/BChE | 0.530 | 0.606 | 0.444 | 0.579 |
+| PIK3CA/PIK3CB | 0.412 | 0.500 | 0.349 | 0.439 |
+| PIK3CA/mTOR | 0.671 | 0.692 | 0.602 | 0.627 |
+
+正文主指标为口袋匹配；池化、错口袋与 worst-pocket 仅作对照。
+
+---
+
 ## 写法说明（不进投稿 SI 正文）
 
 - 本文件是**已有数据的汇编**，不是新实验。若某分析尚无机器可读表，宁缺毋填。
 - 投稿英文 SI 时：Table 编号可按期刊习惯重排；数字不得改动。
 - Cognate 表必须同时报告 mode1 与 best_of_9，避免审稿人误读“全部 &lt; 2 Å”。
 - 早期借用 Schrodinger 处理过的姿态对照**不写入投稿稿**（无正式使用权限；主协议已统一为 RDKit/meeko）。仓库内 `pm48_directional_by_prep_v1.csv` 仅作内部记录。
+- ChEMBL median / confidence≥8 / 物种过滤：本地缓存无字段（见 `T0_SKIPS.md`），不得编造；写入 Limitations。

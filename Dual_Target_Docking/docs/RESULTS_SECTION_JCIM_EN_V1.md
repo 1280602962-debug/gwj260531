@@ -19,7 +19,7 @@ Dual-target docking evaluation needs ligands in four activity classes: dual acti
 
 ### 3.2 Pooled scores versus pocket-matched directional AUROC
 
-A dual-target score must suppress both single-target hard-negative arms. When both contrasts reuse one pooled score such as `vina_mean`, a strong arm can mask a weak arm. On EGFR/HER2, the pooled summary AUROC was near 0.50, whereas the weaker directional arm (dual versus B_only) fell to about 0.28 (Figure 1). We therefore report pocket-matched directional AUROC as the primary metric: dual versus A_only uses the pocket-B score, dual versus B_only uses the pocket-A score, and `summary_min` is the minimum of the two arm AUROCs. Pooled scores are retained only as controls. Pocket matching raised point estimates on all four pairs relative to pooling, but the ranking did not change: only PIK3CA/mTOR stayed clearly above chance, and the other three pairs remained at `summary_min` ≤ 0.61 (Table 2).
+A dual-target score must suppress both single-target hard-negative arms. When both contrasts reuse one pooled score such as `vina_mean`, a strong arm can mask a weak arm. On EGFR/HER2, the pooled summary AUROC was near 0.50, whereas the weaker directional arm (dual versus B_only) fell to about 0.28 (Figure 1). We therefore report pocket-matched directional AUROC as the primary metric: dual versus A_only uses the pocket-B score, dual versus B_only uses the pocket-A score, and `summary_min` is the minimum of the two arm AUROCs. Pooled scores are retained only as controls. Pocket matching raised point estimates on all four pairs relative to pooling, but the ranking did not change: only PIK3CA/mTOR stayed clearly above chance, and the other three pairs remained at `summary_min` ≤ 0.61 (Table 2). As an aggregation control, worst-pocket `summary_min` values were 0.271 (EGFR/HER2), 0.579 (AChE/BChE), 0.439 (PIK3CA/PIK3CB), and 0.627 (PIK3CA/mTOR); the full aggregation contrast is in Supporting Information Table S6.
 
 ### 3.3 Directional discrimination on the frozen K=4 set
 
@@ -46,7 +46,7 @@ For each pair we subtracted the best trivial descriptor `summary_min` (heavy ato
 
 If docking scores mainly tracked ligand properties, wrong-pocket controls should depart from 0.5. Wrong-pocket `summary_min` values were 0.260 (EGFR/HER2), 0.444 (AChE/BChE), 0.349 (PIK3CA/PIK3CB), and 0.602 (PIK3CA/mTOR). The gap between pocket-matched and wrong-pocket minima exceeded 0.09 for every pair (Table 2). After ligand-efficiency normalization, only PIK3CA/mTOR remained above the heavy-atom baseline (0.657 versus 0.463). The other three pairs lost directional support under that normalization.
 
-On AChE/BChE, mean TPSA was ≈ 75 for dual actives and ≈ 51 for hard negatives. TPSA alone separated dual from hard-negative ligands with AUROC ≈ 0.769, above Vina under the same contrast (≈ 0.56). Adding heavy-atom count and TPSA as covariates raised the pocket-matched dual-versus-B AUROC from 0.606 to 0.807 (Δ ≈ +0.20). The corresponding shifts on PIK3CA/mTOR were smaller (≈ +0.07 to +0.11).
+On AChE/BChE, mean TPSA was ≈ 75 for dual actives and ≈ 51 for hard negatives. TPSA alone separated dual from hard-negative ligands with AUROC ≈ 0.769, above Vina under the same contrast (≈ 0.56). Adding heavy-atom count and TPSA as covariates raised the pocket-matched dual-versus-B AUROC from 0.606 to 0.807 (Δ ≈ +0.20), with an odds ratio of 1.18 for the docking score. On PIK3CA/mTOR the corresponding AUROC shifts were smaller (≈ +0.07 to +0.11), with odds ratios of 2.19 and 3.08 for dual-versus-A and dual-versus-B, indicating residual directional information after size and polarity adjustment.
 
 Potency-matched (|ΔpChEMBL| ≤ 0.5) and size-matched (|Δheavy atoms| ≤ 2) subsets still gave weak or near-chance dual-versus-B AUROCs on EGFR/HER2 and PIK3CA/PIK3CB (≈ 0.45–0.52). Directional signal on PIK3CA/mTOR persisted in matched subsets, but arm sizes were often below 15 and intervals were wide; those strata are reported in the Supporting Information.
 
@@ -61,6 +61,10 @@ Repeating PIK3CA/mTOR docking at exhaustiveness 8 instead of 16 changed Vina `su
 Single-target enrichment used property-matched ChEMBL weak binders (pChEMBL ≤ 5.5) as decoys rather than random unrelated molecules. Enrichment AUROC was 0.603 on 4L23 (PIK3CA) and 0.629 on 4JT6 (mTOR), with EF1% of 2.04 and 2.00 and EF5% of 1.22 and 3.20. Both ends showed weak but non-trivial enrichment, consistent with docking retaining some single-target signal without acting as a strong virtual-screening engine.
 
 PM110 expands PM48 by keeping all 48 ligands and adding quota-sampled molecules; it is not an independent replicate. Vina pocket-matched `summary_min` on PM110 was 0.648 [0.51, 0.76], compared with 0.692 on PM48 (Δ ≈ −0.04), with a narrower interval and the same direction. RTM and GNINA on PM110 gave 0.576 and 0.522.
+
+### 3.8 Robustness under a unified label rule
+
+To address the concern that the four panels were built under different label rules, we relabeled each existing panel under θ ∈ {5.5, 6.0, 6.5} and under the strict 6.5/5.5 rule, then recomputed pocket-matched `summary_min` on the same Vina scores (Supporting Information Table S4). Under the strict rule, AChE/BChE and PIK3CA/PIK3CB remained at 0.606 and 0.500; PIK3CA/mTOR was 0.639 (versus 0.692 at θ = 6.0 on the main table); EGFR/HER2 was 0.324 (versus 0.430). EGFR/HER2 and PIK3CA/mTOR were underpowered on the strict rule (7 and 4 B_only ligands). The ranking was unchanged: PIK3CA/mTOR remained highest, and the other three pairs stayed ≤ 0.61.
 
 ---
 
