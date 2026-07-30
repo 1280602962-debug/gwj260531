@@ -19,9 +19,13 @@ from rdkit.Chem.Scaffolds import MurckoScaffold
 try:
     from sklearn.linear_model import LogisticRegression
     from sklearn.metrics import roc_auc_score
-    from sklearn.model_selection import StratifiedKFold, cross_val_predict
+    from sklearn.model_selection import GroupKFold, StratifiedKFold, cross_val_predict
 except ImportError:
     LogisticRegression = None
+    GroupKFold = None
+    StratifiedKFold = None
+    cross_val_predict = None
+    roc_auc_score = None
 
 RDLogger.DisableLog("rdApp.*")
 
@@ -219,6 +223,36 @@ def boot_pm_ci(recs, key_da="vina_B", key_db="vina_A", n_boot=N_BOOT, seed=SEED)
     return float(lo), float(hi)
 
 
+def boot_single_contrast_ci(
+    recs,
+    score_key: str,
+    pos_cls: str = "dual",
+    neg_cls: str = "A_only",
+    n_boot: int = N_BOOT,
+    seed: int = SEED,
+):
+    """Ligand-bootstrap CI for a single two-class AUROC (no 3-class summary_min)."""
+    pos = [r for r in recs if r["cls"] == pos_cls and r.get(score_key) is not None]
+    neg = [r for r in recs if r["cls"] == neg_cls and r.get(score_key) is not None]
+    if len(pos) < 2 or len(neg) < 2:
+        return None, None
+    point = auroc([r[score_key] for r in pos], [r[score_key] for r in neg])
+    if point != point:
+        return None, None
+    rng = np.random.default_rng(seed)
+    vals = []
+    for _ in range(n_boot):
+        p = [pos[i] for i in rng.integers(0, len(pos), len(pos))]
+        n = [neg[i] for i in rng.integers(0, len(neg), len(neg))]
+        v = auroc([r[score_key] for r in p], [r[score_key] for r in n])
+        if v == v:
+            vals.append(v)
+    if len(vals) < n_boot // 2:
+        return None, None
+    lo, hi = np.percentile(vals, [2.5, 97.5])
+    return float(lo), float(hi)
+
+
 def nearest_match(duals, others, key_potency, key_size, dp=0.5, ds=2.0):
     """Keep dual+other pairs where |Δpotency|<=dp and |Δheavy|<=ds."""
     kept_d, kept_o = [], []
@@ -261,17 +295,25 @@ def matched_subset_rows(packs):
                 kd, ko = nearest_match(duals, others, "pA", "heavy", dp=999, ds=2.0)
             if match_type.endswith("A"):
                 sub = kd + ko
-                da, _, mn, nd, na, _ = directional_pm(sub, "vina_B", "vina_A")
-                n_arm = min(nd, na)
+                score_key, neg_cls = "vina_B", "A_only"
+                mn = auroc(
+                    [r[score_key] for r in kd],
+                    [r[score_key] for r in ko],
+                )
+                n_arm = min(len(kd), len(ko))
             else:
                 sub = kd + ko
-                _, db, mn, nd, _, nb = directional_pm(sub, "vina_A", "vina_B")
-                da, mn = db, db
-                n_arm = min(nd, nb)
-            ci_lo, ci_hi = boot_pm_ci(
+                score_key, neg_cls = "vina_A", "B_only"
+                mn = auroc(
+                    [r[score_key] for r in kd],
+                    [r[score_key] for r in ko],
+                )
+                n_arm = min(len(kd), len(ko))
+            ci_lo, ci_hi = boot_single_contrast_ci(
                 sub,
-                "vina_B" if "A" in match_type else "vina_A",
-                "vina_A" if "A" in match_type else "vina_B",
+                score_key=score_key,
+                pos_cls="dual",
+                neg_cls=neg_cls,
                 seed=SEED + hash((pair, match_type)) % 99991,
             )
             rows.append(
@@ -285,7 +327,7 @@ def matched_subset_rows(packs):
                     "auroc_contrast": round(mn, 4) if mn == mn else "",
                     "ci_lo": round(ci_lo, 4) if ci_lo is not None else "",
                     "ci_hi": round(ci_hi, 4) if ci_hi is not None else "",
-                    "note": f"|Δp|≤0.5 potency or |Δheavy|≤2 size; pocket-matched vina",
+                    "note": "|Δp|≤0.5 potency or |Δheavy|≤2 size; pocket-matched vina; single-contrast CI",
                 }
             )
         # combined min for pair
@@ -300,8 +342,8 @@ def matched_subset_rows(packs):
                 "n_contrast_min": min(nd, na, nb),
                 "underpowered": int(min(nd, na, nb) < 8),
                 "auroc_contrast": round(mn, 4),
-                "ci_lo": round(ci_lo, 4) if ci_lo else "",
-                "ci_hi": round(ci_hi, 4) if ci_hi else "",
+                "ci_lo": round(ci_lo, 4) if ci_lo is not None else "",
+                "ci_hi": round(ci_hi, 4) if ci_hi is not None else "",
                 "note": "unmatched full panel reference",
             }
         )
@@ -416,11 +458,12 @@ def unified_threshold_v2(packs):
                     "n_A_only": na,
                     "n_B_only": nb,
                     "n_neither_excluded": counts.get("neither", 0),
+                    "underpowered": int(min(nd, na, nb) < 8),
                     "pocket_matched_summary_min": round(mn, 4) if mn == mn else "",
                     "auroc_D_vs_A": round(da, 4) if da == da else "",
                     "auroc_D_vs_B": round(db, 4) if db == db else "",
-                    "ci_lo": round(ci_lo, 4) if ci_lo else "",
-                    "ci_hi": round(ci_hi, 4) if ci_hi else "",
+                    "ci_lo": round(ci_lo, 4) if ci_lo is not None else "",
+                    "ci_hi": round(ci_hi, 4) if ci_hi is not None else "",
                 }
             )
     return rows
@@ -536,56 +579,146 @@ def scaffold_bootstrap(packs, inv):
     return rows
 
 
-def ligand_ml_baseline(packs):
+def _ml_cv_auroc(X, y_bin, groups, mode: str):
+    """Return (auroc, n_splits) for random StratifiedKFold or scaffold GroupKFold."""
+    n_pos = int(y_bin.sum())
+    n_neg = int(len(y_bin) - n_pos)
+    if n_pos < 2 or n_neg < 2 or len(y_bin) < 12:
+        return None, None
+    if mode == "random":
+        n_splits = min(5, n_pos, n_neg)
+        if n_splits < 2:
+            return None, None
+        cv = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=SEED)
+    elif mode == "scaffold":
+        n_groups = len(set(groups))
+        n_splits = min(5, n_pos, n_neg, n_groups)
+        if n_splits < 2:
+            return None, None
+        cv = GroupKFold(n_splits=n_splits)
+    else:
+        raise ValueError(mode)
+    lr = LogisticRegression(max_iter=2000, C=1.0)
+    if mode == "scaffold":
+        prob = cross_val_predict(
+            lr, X, y_bin, cv=cv, groups=groups, method="predict_proba"
+        )[:, 1]
+    else:
+        prob = cross_val_predict(lr, X, y_bin, cv=cv, method="predict_proba")[:, 1]
+    return float(roc_auc_score(y_bin, prob)), n_splits
+
+
+def ligand_ml_baseline(packs, mode: str = "scaffold"):
+    """ECFP4+LR baseline. mode=random (leakage-prone) or scaffold (GroupKFold)."""
     if LogisticRegression is None:
         return []
     rows = []
     for pair, recs in packs.items():
-        sub = [r for r in recs if r["cls"] in ("dual", "A_only", "B_only")]
-        if len(sub) < 20:
-            continue
-        mols, y = [], []
-        for r in sub:
+        kept = []
+        for r in recs:
+            if r["cls"] not in ("dual", "A_only", "B_only"):
+                continue
             m = Chem.MolFromSmiles(r["smiles"])
             if m is None:
                 continue
             fp = AllChem.GetMorganFingerprintAsBitVect(m, 2, nBits=2048)
-            mols.append(np.array(fp))
-            y.append(r["cls"])
-        if len(mols) < 20:
+            kept.append(
+                {
+                    **r,
+                    "fp": np.asarray(fp),
+                    "scaffold": murcko(r["smiles"]) or f"__fail_{r['ligand']}",
+                }
+            )
+        if len(kept) < 20:
             continue
-        X = np.vstack(mols)
-        y_arr = np.array(y)
+        X_all = np.vstack([r["fp"] for r in kept])
+        y_all = np.array([r["cls"] for r in kept])
+        scaf_all = np.array([r["scaffold"] for r in kept])
         for contrast, pos, neg, dock_key in (
             ("D_vs_A", "dual", "A_only", "vina_B"),
             ("D_vs_B", "dual", "B_only", "vina_A"),
         ):
-            mask = np.isin(y_arr, [pos, neg])
-            y_bin = (y_arr[mask] == pos).astype(int)
-            X_sub = X[mask]
-            scores = np.array([r[dock_key] for r, m in zip(sub, range(len(sub))) if y_arr[m] in (pos, neg)])
+            mask = np.isin(y_all, [pos, neg])
+            y_bin = (y_all[mask] == pos).astype(int)
+            X_sub = X_all[mask]
+            groups = scaf_all[mask]
+            scores = np.array([r[dock_key] for r, keep in zip(kept, mask) if keep])
             if len(set(y_bin)) < 2 or len(y_bin) < 12:
                 continue
             try:
-                cv = StratifiedKFold(n_splits=min(5, min(np.bincount(y_bin))), shuffle=True, random_state=SEED)
-                lr = LogisticRegression(max_iter=2000, C=1.0)
-                prob = cross_val_predict(lr, X_sub, y_bin, cv=cv, method="predict_proba")[:, 1]
-                auc_ml = roc_auc_score(y_bin, prob)
-                auc_dock = roc_auc_score(y_bin, scores)
-                rows.append(
-                    {
-                        "pair": pair,
-                        "contrast": contrast,
-                        "method": "ECFP4_logistic_nested_cv",
-                        "n": len(y_bin),
-                        "auroc_ml": round(auc_ml, 4),
-                        "auroc_dock_pocket_matched": round(auc_dock, 4),
-                        "delta_ml_minus_dock": round(auc_ml - auc_dock, 4),
-                    }
-                )
+                auc_ml, n_splits = _ml_cv_auroc(X_sub, y_bin, groups, mode)
+                if auc_ml is None:
+                    continue
+                auc_dock = float(roc_auc_score(y_bin, scores))
+                row = {
+                    "pair": pair,
+                    "contrast": contrast,
+                    "method": "ECFP4_logistic_cv",
+                    "cv_scheme": "scaffold_GroupKFold" if mode == "scaffold" else "StratifiedKFold_random",
+                    "n_splits": n_splits,
+                    "n_scaffolds": int(len(set(groups))),
+                    "n": len(y_bin),
+                    "auroc_ml": round(auc_ml, 4),
+                    "auroc_dock_pocket_matched": round(auc_dock, 4),
+                    "delta_ml_minus_dock": round(auc_ml - auc_dock, 4),
+                }
+                if mode == "random":
+                    row["note"] = "potential_leakage"
+                else:
+                    row["note"] = "primary_no_scaffold_overlap_across_folds"
+                rows.append(row)
             except Exception:
                 pass
     return rows
+
+
+def write_ml_leakage_check(random_rows, scaffold_rows):
+    by_r = {(r["pair"], r["contrast"]): r for r in random_rows}
+    by_s = {(r["pair"], r["contrast"]): r for r in scaffold_rows}
+    keys = sorted(set(by_r) | set(by_s))
+    lines = [
+        "# ML baseline leakage check — random CV vs scaffold GroupKFold",
+        "",
+        "> 同一 ECFP4 + LogisticRegression；仅交叉验证分折方式不同。",
+        "> 随机折：`StratifiedKFold(shuffle=True)`（易同系物泄漏）。",
+        "> 支架折：`GroupKFold` 按 Murcko，同一支架不跨折（主用）。",
+        "",
+        "| pair | contrast | AUROC random | AUROC scaffold | Δ (rand−scaf) | dock PM |",
+        "|------|----------|--------------|----------------|---------------|---------|",
+    ]
+    deltas = []
+    for k in keys:
+        rr, ss = by_r.get(k), by_s.get(k)
+        if not rr or not ss:
+            continue
+        d = rr["auroc_ml"] - ss["auroc_ml"]
+        deltas.append(d)
+        lines.append(
+            f"| {k[0]} | {k[1]} | {rr['auroc_ml']:.4f} | {ss['auroc_ml']:.4f} | "
+            f"{d:+.4f} | {ss['auroc_dock_pocket_matched']:.4f} |"
+        )
+    lines += ["", "## 结论", ""]
+    if not deltas:
+        lines.append("未能对比两版本（样本或折数不足）。")
+    else:
+        max_d = max(deltas)
+        mean_d = float(np.mean(deltas))
+        lines.append(f"随机折相对支架折：平均 Δ={mean_d:+.3f}，最大 Δ={max_d:+.3f}。")
+        if max_d > 0.15 or mean_d > 0.10:
+            lines.append(
+                "**随机折明显高估**（存在支架/同系物泄漏）。正文必须以 "
+                "`ligand_ml_baseline_scaffold_cv_v1.csv` 为准；"
+                "随机折仅作 SI 泄漏诊断，不得写成「2D 指纹全面碾压对接」。"
+            )
+        else:
+            lines.append("两版本差距不大；仍优先报告支架分组折。")
+        lines.append(
+            "若支架折 AUROC 接近对接或更低，应写：「表观易分是支架泄漏假象」。"
+        )
+    path = OUT / "analysis" / "ML_BASELINE_LEAKAGE_CHECK.md"
+    path.parent.mkdir(exist_ok=True)
+    path.write_text("\n".join(lines) + "\n")
+    return path
 
 
 def main():
@@ -599,9 +732,16 @@ def main():
     inv = scaffold_inventory(packs)
     write_csv(TAB / "scaffold_inventory_v1.csv", inv)
     write_csv(TAB / "scaffold_bootstrap_ci_v1.csv", scaffold_bootstrap(packs, inv))
-    ml = ligand_ml_baseline(packs)
-    if ml:
-        write_csv(TAB / "ligand_ml_baseline_v1.csv", ml)
+    ml_random = ligand_ml_baseline(packs, mode="random")
+    ml_scaffold = ligand_ml_baseline(packs, mode="scaffold")
+    if ml_random:
+        write_csv(TAB / "ligand_ml_baseline_random_cv_v1.csv", ml_random)
+    if ml_scaffold:
+        write_csv(TAB / "ligand_ml_baseline_scaffold_cv_v1.csv", ml_scaffold)
+        # primary alias for downstream docs that still point at v1
+        write_csv(TAB / "ligand_ml_baseline_v1.csv", ml_scaffold)
+    if ml_random and ml_scaffold:
+        write_ml_leakage_check(ml_random, ml_scaffold)
 
     skips = []
     skips.append(

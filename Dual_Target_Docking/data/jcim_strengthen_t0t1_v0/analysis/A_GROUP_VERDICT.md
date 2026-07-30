@@ -14,7 +14,7 @@
 | T0.6 | `tables/unified_threshold_sensitivity_v2.csv` | ✅ |
 | T0.7 | `tables/chembl_aggregation_sensitivity_v1.csv` + SKIP 说明 | ✅（median/confidence 缺字段见 T0_SKIPS.md） |
 | T0.8–0.9 | `scaffold_inventory_v1.csv`, `scaffold_bootstrap_ci_v1.csv` | ✅ |
-| T0.8 加分 | `ligand_ml_baseline_v1.csv` | ✅ |
+| T0.8 加分 | `ligand_ml_baseline_scaffold_cv_v1.csv`（主）+ `…_random_cv_v1.csv` + `ML_BASELINE_LEAKAGE_CHECK.md` | ✅ 已修泄漏评测 |
 | T0.10 | ENV_PIN.md, POSE_UPLOAD_CHECKLIST.md, MANIFEST 修复, CLAIM_CEILING 更新 | ✅ |
 
 ## 主结论是否因口袋匹配而改变？
@@ -22,10 +22,11 @@
 **是，排序与数值均变，但 claim ceiling 不变。**
 
 1. **指标修正**：池化 `vina_mean` 在 EGFR/PIK3CB 上系统性低估或扭曲 B 端对比；升格口袋匹配后主表数字与 `REVIEWER_AUDIT_V1.md` 一致。
-2. **仍无通用决策臂**：四对中仅 **PIK3CA/mTOR** pocket-matched summary_min=0.69 [0.46, 0.81] 明显高于 0.5 且 LE 归一后仍优于 heavy；其余三对 summary_min ≤0.61 且多被 ECFP4 ML 基线超过（见 `ligand_ml_baseline_v1.csv`）。
-3. **混淆未清除**：效价/尺寸匹配后 EGFR、PIK3CB 的 D vs B 仍 ~0.32–0.34；错口袋对照远离 0.5 → 信号多为分子属性而非口袋特异性。
+2. **仍无通用决策臂**：四对中仅 **PIK3CA/mTOR** pocket-matched summary_min=0.69 [0.46, 0.81] 明显高于 0.5 且 LE 归一后仍优于 heavy；其余三对 summary_min ≤0.61。ECFP4 ML 基线须用 **支架 GroupKFold**（见 `ML_BASELINE_LEAKAGE_CHECK.md`）；随机折不可作正文数字。
+3. **混淆未清除**：效价/尺寸匹配后（单对比 CI 已修复）EGFR/PIK3CB 的 D vs B 口袋匹配仍偏弱/近随机；错口袋对照远离 0.5 → 信号多为分子属性而非口袋特异性。
 4. **协变量**：logistic 调整 heavy+TPSA 后，AChE D vs B 的 AUROC 从 0.61→0.81（Δ=+0.20），提示对接分数与尺寸/TPSA 共线；PM 调整幅度较小（+0.07–0.11）。
 5. **Murcko bootstrap**：scaffold 重采样 CI 与配体 bootstrap 同量级；PM scaffold CI [0.46, 0.81] 仍宽。
+6. **ML 基线**：支架折相对随机折平均 Δ≈+0.01、最大 Δ≈+0.10；但支架折 AUROC 仍常 >0.75，高于多数对接臂 → 正文可写「2D 化学型本身可部分区分标签」，**不得**写「随机折 0.89–0.92 全面碾压对接」。
 
 ## 对投稿的含义
 
@@ -35,4 +36,4 @@
 
 ## 建议下一步
 
-开 B1 exhaustiveness → B2 enrichment → B3 PM110；完成后更新 CI 与 `B_GROUP_VERDICT.md`。
+B 组已完成（见 `B_GROUP_VERDICT.md`）。正文引用 ML 基线时只用 scaffold CV 表。
