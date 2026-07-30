@@ -49,17 +49,15 @@ EGFR/HER2 虽在同一严格规则下 B_only 仅 7 个，无法建成规模均�
 
 配体由 ChEMBL 结构去盐后保留最大有机片段，用 RDKit ETKDGv3 生成三维构象，再经 meeko 转为 PDBQT。对接使用 AutoDock Vina 1.2.7：每个配体保留 9 个姿态，`energy_range = 3`，exhaustiveness 按 Table 1（PIK3CA/mTOR 为 16，其余靶对为 8）。构象生成、面板抽样与对接均使用固定随机种子；完整参数见 Supporting Information Table S1。
 
-在同一组 Vina 姿态上另用两种函数重打分，以检查结论是否依赖单一打分通道。RTMScore（公开权重 `rtmscore_model1`）对 9 个姿态取最高分。GNINA 1.3.2 在 CPU 模式下，将 Vina 排序第一的姿态转为 SDF 后，以 `--cnn_scoring rescore --minimize` 重打分。正文以 Vina 亲和力（取负号，使越高越好）报告口袋匹配方向 AUROC；RTMScore 与 GNINA 仅作通道对照，不据此更换主指标。
+在同一组 Vina 姿态上另用两种函数重打分，以检查结论是否依赖单一打分通道。RTMScore（公开权重 `rtmscore_model1`）对 9 个姿态取最高分。GNINA 1.3.2 在 CPU 模式下，将 Vina 排序第一的姿态转为 SDF 后，以 `--cnn_scoring rescore --minimize` 重打分。正文以 Vina 亲和力（取负号，使越高越好）按 2.6 所述计算 summary_min；RTMScore 与 GNINA 仅作通道对照，不据此更换主指标。
 
 ### 2.6 评价指标与基线
 
-对每个配体，分别记录其在口袋 A 与口袋 B 上的分数（方向约定见 2.5）。
+每个配体在口袋 A 与口袋 B 上各有一个对接分数。评价不问“谁在某一口袋上分数更高”，而问：分数能否把 dual 与两类单靶选择性配体区分开。为此计算两条二分类 AUROC：dual 对 A_only 时用口袋 B 的分数（A_only 在 B 端应偏弱，故看 B 口袋能否压住它们）；dual 对 B_only 时用口袋 A 的分数。两条 AUROC 的较小值记为 summary_min，作为该靶对的汇总指标，以免只报告较好的一侧。两端分数取平均后再算 AUROC（池化）仅作对照。
 
-主指标为口袋匹配的方向 AUROC：比较 dual 与 A_only 时使用口袋 B 的分数；比较 dual 与 B_only 时使用口袋 A 的分数。summary_min 为这两条 AUROC 的最小值。两端分数的平均值（池化分数）仅作对照，不作为主指标。
+为判断对接是否只是在跟随分子大小或极性等简单性质，我们用同一套 AUROC 流程，但把对接分数换成配体描述符：重原子数、分子量、cLogP 与 TPSA。每个靶对取其中表现最好的一个描述符作为对照基线，并报告对接 summary_min 与该基线的差值 Δ；若 Δ 的置信区间仍覆盖 0，则不能认为对接提供了超出这些简单性质的额外信息。
 
-作为平凡基线，我们用同一方向 AUROC 流程，但以配体描述符代替对接分数，包括重原子数、分子量、cLogP 与拓扑极性表面积（TPSA）。对接相对最优平凡基线的差值及其置信区间用于判断对接是否提供超出简单理化性质的信息。
-
-不确定度用配体层 bootstrap 估计：对每个靶对重采样 2000 次，报告 summary_min 的 95% 百分位区间。按 Murcko 支架重采样的结果另作对照，主文以配体层区间为准。
+summary_min 的不确定度用 bootstrap 估计：在每个靶对内对配体有放回重采样 2000 次，取 95% 百分位区间。以配体为重采样单位，对应的是“若换成另一批同等规模的配体，点估计会抖多少”。另作按 Murcko 支架重采样的对照；正文以配体层区间为主报告。
 
 ### 2.7 对照与敏感性分析
 
