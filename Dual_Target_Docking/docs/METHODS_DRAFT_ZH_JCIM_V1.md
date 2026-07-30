@@ -69,7 +69,7 @@ summary_min 的不确定度以 bootstrap 估计：在每个靶对内对配体有
 
 ### 2.8 软件与数据可用性
 
-计算使用 Python 3，以及 RDKit 2026.3.1、meeko 0.7.1、AutoDock Vina 1.2.7 与 GNINA 1.3.2。RTMScore 使用公开预训练权重。评价面板、对接分数、分析脚本与完整参数表将随公开数据包发布；DOI 见 Data and Software Availability。
+计算在 Python 3 环境下完成，主要软件包括 RDKit 2026.3.1、meeko 0.7.1、AutoDock Vina 1.2.7、GNINA 1.3.2 与 RTMScore（公开预训练权重 `rtmscore_model1`）；Vina 姿态转为 SDF 时使用 Open Babel。评价面板、对接分数、分析脚本与完整参数表将随公开数据包提供，详见 Data and Software Availability。
 
 ---
 
