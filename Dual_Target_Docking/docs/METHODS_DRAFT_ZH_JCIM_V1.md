@@ -22,7 +22,7 @@
 
 EGFR/HER2 虽在同一严格规则下 B_only 仅 7 个，无法建成规模均衡的严格四类面板，但仍被纳入评价集，原因有二。第一，该对在双靶文献中出现频率高，若完全排除，读者无法看到“热门靶对在严格四类设定下究竟缺什么”。第二，它提供一个供给受限的对照案例：后续对接结果应结合标签供给上限解读，而不能默认再加大对接预算即可补齐硬负。EGFR/HER2 因此沿用既有统一 RDKit 准备面板，作为案例对与上述三对并列报告，而不是作为严格规则下的合格厚面板。
 
-在实际抽样建面板时，并非所有靶对都能在严格规则下凑齐配额。AChE/BChE 与 PIK3CA/PIK3CB 按严格规则完成配额抽样；EGFR/HER2 与 PIK3CA/mTOR 主面板（PM48）因严格规则下单端选择性配体过少，改用**单阈值规则**建成：选定 θ = 6.0 后，两端均 ≥ θ 为 dual，一端 ≥ θ 且对端 < θ 为对应单靶选择性类，两端均 < θ 为 neither。换言之，严格规则用于供给审计与优先建面板；单阈值规则是供给不足时的建面板折中，不是与严格规则并列的第二套主标准。为检查标签定义对结论的影响，我们在 θ ∈ {5.5, 6.0, 6.5} 与严格规则下统一重算口袋匹配 summary_min，作为敏感性分析（详见 Supporting Information）。
+在实际抽样建面板时，并非所有靶对都能在严格规则下凑齐配额。AChE/BChE 与 PIK3CA/PIK3CB 按严格规则完成配额抽样；EGFR/HER2 与 PIK3CA/mTOR 主面板（PM48）因严格规则下单端选择性配体过少，改用**单阈值规则**建成：选定 θ = 6.0 后，两端均 ≥ θ 为 dual，一端 ≥ θ 且对端 < θ 为对应单靶选择性类，两端均 < θ 为 neither。换言之，严格规则用于供给审计与优先建面板；单阈值规则是供给不足时的建面板折中，不是与严格规则并列的第二套主标准。为检查标签定义对结论的影响，我们在既有面板上按 θ ∈ {5.5, 6.0, 6.5} 重标四类，并用两端 Vina 分数均值重算方向 AUROC（Supporting Information Table S4）；正文主指标仍为口袋匹配 summary_min（Table 2）。
 
 ### 2.3 评价面板的构建
 
@@ -41,9 +41,9 @@ EGFR/HER2 虽在同一严格规则下 B_only 仅 7 个，无法建成规模均�
 
 ### 2.4 蛋白结构与结合位点定义
 
-受体结构取自 Protein Data Bank 中含小分子共晶配体的条目。PIK3CA 与 mTOR 分别使用 4L23 与 4JT6；AChE 与 BChE 使用 4EY7 与 4BDS；PIK3CB 使用 2WXF；EGFR 与 HER2 使用 3POZ 与 3RCD。对每个受体，结合位点定义为以共晶配体为中心的盒子：先取共晶配体的轴对齐包围盒，再向外扩展 5 Å，并将每边长度下限设为 20 Å。受体准备为对接所用的 PDBQT 格式。完整盒子坐标见 Supporting Information。
+受体结构取自 Protein Data Bank 中含小分子共晶配体的条目。PIK3CA 与 mTOR 分别使用 4L23 与 4JT6；AChE 与 BChE 使用 4EY7 与 4BDS；PIK3CB 使用 2WXF；EGFR 与 HER2 使用 3POZ 与 3RCD。对每个受体，结合位点定义为以共晶配体为中心的盒子：先取共晶配体的轴对齐包围盒，再向外扩展 5 Å，并将每边长度下限设为 20 Å。受体准备为对接所用的 PDBQT 格式。完整盒子坐标见 Supporting Information Table S2。
 
-共晶配体的重对接用于检查协议。对 mTOR（4JT6），在 exhaustiveness = 8 时 PI-103 的重对接 RMSD 偏高；将 exhaustiveness 提高到 16 后回到亚埃级。因此 PIK3CA/mTOR 主面板及其扩面、单靶对照均采用 exhaustiveness = 16；其余靶对采用 8，并在 PIK3CA/mTOR 上另行报告 exhaustiveness = 8 的对照结果。
+八个冻结受体均以共晶配体重对接作协议检查：门槛为重原子 RMSD 在输出的 9 个姿态中的最小值（best_of_9）&lt; 2.0 Å。在 exhaustiveness = 8 时，4L23、4EY7、4BDS、2WXF、3POZ 与 3RCD 的 best_of_9 均 &lt; 2 Å；mTOR（4JT6）上 PI-103 的 best_of_9 为 5.003 Å，未过门槛。将 exhaustiveness 提高到 16 后，4JT6 的 best_of_9 降至 0.445 Å（近晶姿态为 mode 3；Vina mode1 仍约 7.1 Å）。因此 PIK3CA/mTOR 主面板及其扩面、单靶对照均采用 exhaustiveness = 16；其余靶对采用 8，并在 PIK3CA/mTOR 上另行报告 exhaustiveness = 8 的对照结果。另需说明：EGFR（3POZ）在 E = 8 时 best_of_9 已过关（约 0.96 Å），但 Vina 排序第一的姿态 RMSD 约 9.5 Å；升高 exhaustiveness 不能把 mode1 翻成近晶。完整 cognate 表见 Supporting Information Table S3。
 
 ### 2.5 配体准备
 
@@ -73,7 +73,7 @@ EGFR/HER2 虽在同一严格规则下 B_only 仅 7 个，无法建成规模均�
 
 作为单靶虚拟筛选参照，我们在 4L23（PIK3CA）与 4JT6（mTOR）上分别构建活性–decoy 集合：活性分子 pChEMBL ≥ 6.5；decoy 为同靶已测定但 pChEMBL ≤ 5.5 的弱效分子，并按分子量（±50）、logP（±1.5）与 TPSA（±25）与活性分子属性匹配。目标规模约为 50 个活性分子与 150 个 decoy，对接设置与 PIK3CA/mTOR 主面板一致（Vina，exhaustiveness = 16）。该对照回答单靶富集是否存在，不替代四类方向评价。
 
-标签阈值、分数聚合方式与配体准备方式的敏感性分析见 Supporting Information。
+标签阈值（Table S4）、匹配子集（Table S5）与配体准备方式（Table S6）的敏感性分析见 Supporting Information。
 
 ### 2.10 软件与数据可用性
 
@@ -88,10 +88,10 @@ EGFR/HER2 虽在同一严格规则下 B_only 仅 7 个，无法建成规模均�
 | Vu 怎么写 | 本稿怎么对齐 |
 |-----------|--------------|
 | Dataset 先给规模与规则，再列输入文件类型 | 2.2–2.3：ChEMBL 规则 → 选对 → 面板规模（Table 1） |
-| Docking 里写清盒子怎么定义、哪些参数偏离默认，其余进 Table S1 | 2.4–2.6：5 Å 外扩、E=8/16、9 poses；种子等进 SI |
+| Docking 里写清盒子怎么定义、哪些参数偏离默认，其余进 Table S1 | 2.4–2.6：5 Å 外扩、E=8/16、9 poses；种子等进 SI Table S1；盒子 Table S2；cognate Table S3 |
 | Scoring 与 Docking 分开 | 2.6 / 2.7 分开 |
 | Evaluation 单独一节写指标 | 2.8 |
-| 不写仓库路径、内部角色名、未做实验的 holdout | 已去掉 protocol.yaml、boxes/、主开发对、NLRP3 等 |
+| 不写仓库路径、内部角色名、未做实验的 holdout | 已去掉 protocol.yaml、boxes/、主开发对、NLRP3 等；SI 只汇编已有数字 |
 | 过去时 / 陈述句，少口号 | 全文按此收紧 |
 
-先前稿问题主要来自把项目笔记（角色名、黑话、路径、决策口吻）直接写进 Methods，而不是按已发表评测文把“读者要复现实验所需的信息”写清楚。本版从 2.3 起按该标准重写；2.1–2.2 保留上一轮已改口径。
+先前稿问题主要来自把项目笔记（角色名、黑话、路径、决策口吻）直接写进 Methods，而不是按已发表评测文把“读者要复现实验所需的信息”写清楚。本版从 2.3 起按该标准重写；2.1–2.2 保留上一轮已改口径；2.4 已与真实 cognate 表对齐（含 4JT6 E8 失败与 3POZ mode1 失败）。
