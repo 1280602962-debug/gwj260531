@@ -89,7 +89,8 @@ python3 data/jcim_bench_v0/scripts/plot_forest_ci_v1.py
 | Methods 2.1 Dataset | `jcim_j0j1_v0` 供给；`public_pair_selection`；四对 panel CSV |
 | Methods 2.2 Docking | 各 panel `protocol.yaml`；PM E=8→16 cognate |
 | Methods 2.3 Metrics | `PRIMARY_METRIC_V2.md`；CLAIM_CEILING |
-| Results 3.1–3.7（中文整合稿） | **[`RESULTS_DRAFT_ZH_JCIM_V1.md`](RESULTS_DRAFT_ZH_JCIM_V1.md)** |
+| Results 3.1–3.7（英文 JCIM 稿） | **[`RESULTS_SECTION_JCIM_EN_V1.md`](RESULTS_SECTION_JCIM_EN_V1.md)** |
+| Results 3.1–3.7（中文对齐稿） | [`RESULTS_DRAFT_ZH_JCIM_V1.md`](RESULTS_DRAFT_ZH_JCIM_V1.md) |
 | Results 3.1 Supply | J0 表 |
 | Results 3.2 Pooling vs directional | asymmetry / PRIMARY_METRIC_V2 |
 | Results 3.3 Main forest + baselines | forest 图；baseline gate |
