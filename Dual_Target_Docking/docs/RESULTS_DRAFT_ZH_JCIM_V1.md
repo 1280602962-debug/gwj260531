@@ -66,8 +66,8 @@ PIK3CA/mTOR 是唯一 summary_min 点估计同时高于 0.5 与重原子数基�
 
 PM110 保留 PM48 的全部 48 个配体并按配额扩样，不是独立重复实验。PM110 上 Vina 口袋匹配 summary_min 为 0.648 [0.51, 0.76]，相对 PM48 的 0.692（Δ ≈ −0.04），区间更窄，方向未变；同一面板上 RTMScore 为 0.576，GNINA 为 0.522（对应 Methods 2.3 扩面段）。
 
-### 3.8 统一标签规则下的稳健性
+### 3.8 统一标签规则下的跨对主稳健分析
 
-为回应“四对面板建造规则不一致”的可比性质疑，我们在既有面板配体与既有 Vina 分数上，按 θ ∈ {5.5, 6.0, 6.5} 与严格规则（6.5/5.5）统一重标四类，并重算口袋匹配 summary_min（Supporting Information Table S4）。在严格规则下，AChE/BChE 与 PIK3CA/PIK3CB 的 summary_min 仍为 0.606 与 0.500（与建造规则一致）；PIK3CA/mTOR 为 0.639（相对主表 θ = 6.0 的 0.692 略降），EGFR/HER2 为 0.324（相对主表 0.430 下降）。EGFR/HER2 与 PIK3CA/mTOR 在严格规则下分别仅有 7 与 4 个 B_only，标记为 underpowered。四对排序仍以 PIK3CA/mTOR 最高，其余三对不超过 0.61，与主表方向一致。
+为消除“阈值随供给调整”的质疑，跨对比较以**统一标签重标**为主稳健分析（Methods 2.1）：在既有面板配体与既有 Vina 分数上，按 θ ∈ {5.5, 6.0, 6.5} 与严格规则（6.5/5.5）统一重标四类，并重算口袋匹配 summary_min（Supporting Information Table S4）。Table 2 中按各面板建造规则得到的点估计保留为 construction readout，不与统一重标互相替换为第二套主标准。在严格规则下，AChE/BChE 与 PIK3CA/PIK3CB 的 summary_min 仍为 0.606 与 0.500（与建造规则一致）；PIK3CA/mTOR 为 0.639（相对建造规则 θ = 6.0 的 0.692 略降），EGFR/HER2 为 0.324（相对建造规则 0.430 下降）。EGFR/HER2 与 PIK3CA/mTOR 在严格规则下分别仅有 7 与 4 个 B_only，标记为 underpowered。四对排序仍以 PIK3CA/mTOR 最高，其余三对不超过 0.61，与建造规则下的方向一致。
 
 （对应 Methods 2.1 敏感性段）

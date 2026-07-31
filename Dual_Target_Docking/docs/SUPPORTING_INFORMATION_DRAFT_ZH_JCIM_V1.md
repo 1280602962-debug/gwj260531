@@ -107,9 +107,9 @@
 
 ---
 
-## Table S4. 统一标签规则下的口袋匹配敏感性
+## Table S4. 统一标签规则下的口袋匹配敏感性（跨对主稳健分析）
 
-来源：`unified_threshold_sensitivity_v2.csv`。在既有面板配体与既有 Vina 分数上，按 θ ∈ {5.5, 6.0, 6.5} 与严格规则（6.5/5.5）重标四类后，重算**口袋匹配** summary_min（与正文主指标同定义）。
+来源：`unified_threshold_sensitivity_v2.csv`。在既有面板配体与既有 Vina 分数上，按 θ ∈ {5.5, 6.0, 6.5} 与严格规则（6.5/5.5）重标四类后，重算**口袋匹配** summary_min（与正文主指标同定义）。正文将本表作为跨对主稳健分析；各面板建造规则下的 Table 2 为 construction readout（Methods 2.1）。
 
 | 靶对 | 标签规则 | n (D / A / B) | AUROC D vs A | AUROC D vs B | summary_min | 95% CI | underpowered |
 |------|----------|--------------:|-------------:|-------------:|------------:|--------|:------------:|

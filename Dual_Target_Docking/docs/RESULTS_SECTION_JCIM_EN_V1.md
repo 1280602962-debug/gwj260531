@@ -62,9 +62,9 @@ Single-target enrichment used property-matched ChEMBL weak binders (pChEMBL ≤ 
 
 PM110 expands PM48 by keeping all 48 ligands and adding quota-sampled molecules; it is not an independent replicate. Vina pocket-matched `summary_min` on PM110 was 0.648 [0.51, 0.76], compared with 0.692 on PM48 (Δ ≈ −0.04), with a narrower interval and the same direction. RTM and GNINA on PM110 gave 0.576 and 0.522.
 
-### 3.8 Robustness under a unified label rule
+### 3.8 Primary cross-pair robustness under a unified label rule
 
-To address the concern that the four panels were built under different label rules, we relabeled each existing panel under θ ∈ {5.5, 6.0, 6.5} and under the strict 6.5/5.5 rule, then recomputed pocket-matched `summary_min` on the same Vina scores (Supporting Information Table S4). Under the strict rule, AChE/BChE and PIK3CA/PIK3CB remained at 0.606 and 0.500; PIK3CA/mTOR was 0.639 (versus 0.692 at θ = 6.0 on the main table); EGFR/HER2 was 0.324 (versus 0.430). EGFR/HER2 and PIK3CA/mTOR were underpowered on the strict rule (7 and 4 B_only ligands). The ranking was unchanged: PIK3CA/mTOR remained highest, and the other three pairs stayed ≤ 0.61.
+To remove the concern that thresholds were adapted to maximize supply, cross-pair comparison treats unified relabeling as the primary robustness analysis (Methods 2.1). We relabeled each existing panel under θ ∈ {5.5, 6.0, 6.5} and under the strict 6.5/5.5 rule, then recomputed pocket-matched `summary_min` on the same Vina scores (Supporting Information Table S4). Table 2 retains construction-rule point estimates as a construction readout, not as a second competing primary standard. Under the strict rule, AChE/BChE and PIK3CA/PIK3CB remained at 0.606 and 0.500; PIK3CA/mTOR was 0.639 (versus 0.692 at θ = 6.0 under the construction rule); EGFR/HER2 was 0.324 (versus 0.430). EGFR/HER2 and PIK3CA/mTOR were underpowered on the strict rule (7 and 4 B_only ligands). The ranking was unchanged: PIK3CA/mTOR remained highest, and the other three pairs stayed ≤ 0.61.
 
 ---
 
