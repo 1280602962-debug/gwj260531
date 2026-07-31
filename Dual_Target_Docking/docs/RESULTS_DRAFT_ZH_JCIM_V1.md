@@ -1,73 +1,80 @@
-# Results（中文工作稿 · 与英文 JCIM 稿对齐）
+# Results（中文工作稿 · JCIM 式结构修订）
 
-> 对应英文定稿：[`RESULTS_SECTION_JCIM_EN_V1.md`](RESULTS_SECTION_JCIM_EN_V1.md)  
-> 与 [`METHODS_DRAFT_ZH_JCIM_V1.md`](METHODS_DRAFT_ZH_JCIM_V1.md) 的 2.1–2.7 一一对应（见每节末尾标注）。  
-> 全部数字均可追溯至 `data/jcim_bench_v0/` 与 `data/jcim_strengthen_t0t1_v0/` 下的表与脚本，未做的分析不写入本节。  
-> 投稿以**英文**为准；本稿供中文讨论与校对数字。
+> 结构按 JCIM 评测文习惯重排（供给发现 → 标签稳健 → 对接主结果 → 混淆主导 → 稳健性与案例依赖成功 → 结构线索）。  
+> 全部数字可追溯至 `data/jcim_bench_v0/` 与 `data/jcim_strengthen_t0t1_v0/`；未做的全库 PLIF / 口袋叠合分析不写入。  
+> 投稿以英文为准；本稿供中文审改。错口袋、配体效率、描述符明细见 Supporting Information Table S5–S6。
 
 ---
 
 ## 3. Results
 
-### 3.1 公开靶对上严格硬负的供给
+### 3.1 双靶识别基准的构建：公开数据对硬负配体供给的限制
 
-双靶对接评测需要四类配体：dual、A_only 硬负、B_only 硬负与 neither。我们在 49 对有 ChEMBL 缓存的靶对上按严格标签规则审计（dual：两端 pChEMBL ≥ 6.5；A_only / B_only：活性端 ≥ 6.5 且对端 ≤ 5.5）。两端严格硬负均 ≥ 50 的只有 4 对；排除金属依赖的 HDAC1/HDAC6 后，剩余 PIK3CA/mTOR、AChE/BChE 与 PIK3CA/PIK3CB 三对适合建成规模均衡的严格四类面板（Table 1）。作为对照，文献中常见的 EGFR/HER2 在同一规则下仅有 7 个严格 B_only，达不到该门槛。本文的四对评价集（下文记为 K = 4）由该审计结果确定，构建细节见 Methods 2.1–2.3。
+双靶对接评测需要四类配体：dual、仅 A 端强的选择性配体、仅 B 端强的选择性配体，以及两端均弱的 neither。我们将后两类实验定义的选择性配体作为硬负选择性配体（hard-negative selective ligands），用于检验对接分数能否同时压住两条单靶臂。
 
-### 3.2 池化分数与口袋匹配方向 AUROC 的差异
+在 49 对有 ChEMBL 缓存的靶对上，按严格标签规则（dual：两端 pChEMBL ≥ 6.5；选择性类：活性端 ≥ 6.5 且对端 ≤ 5.5）做供给审计。尽管候选靶对数量不少，**可平衡构建的双靶基准仍受到实验表征硬负配体稀缺的严重约束**：两端严格硬负均 ≥ 50 的只有 4 对。排除金属依赖、不适合作为常规对接主对象的 HDAC1/HDAC6 后，剩余 PIK3CA/mTOR、AChE/BChE 与 PIK3CA/PIK3CB 三对适合建成规模较均衡的严格四类面板（Table 1）。文献中常见的 EGFR/HER2 在同一规则下仅有 7 个严格 B 端选择性配体，达不到该门槛，因而作为供给受限案例纳入，而不是严格厚面板。K = 4 评价集由该审计结果确定，而非事后挑选“对接好看”的靶对；构建细节见 Methods 2.1–2.3。
 
-双靶分数需要同时压住两条单靶硬负臂。若两臂共用同一池化分数（如两端 Vina 分数的均值），强臂可能掩盖弱臂：在 EGFR/HER2 上，池化 AUROC 接近 0.50，而较弱一臂（dual 对 B_only）单独计算时降到约 0.28。这是本文采用口袋匹配方向 AUROC 作主指标的依据：dual 对 A_only 用口袋 B 的分数，dual 对 B_only 用口袋 A 的分数，summary_min 取两臂较小值（定义见 Methods 2.6）。相对池化，口袋匹配普遍抬高了四对的点估计，但排序未变：仍只有 PIK3CA/mTOR 明显高于随机，其余三对 summary_min ≤ 0.61（Table 2）。作为聚合对照，每条对比取两口袋较差分数后再汇总的 worst-pocket summary_min 分别为 0.271（EGFR/HER2）、0.579（AChE/BChE）、0.439（PIK3CA/PIK3CB）与 0.627（PIK3CA/mTOR），完整对照见 Supporting Information Table S6。
+（对应 Methods 2.1–2.3）
 
-### 3.3 冻结 K = 4 评价集上的方向判别
+### 3.2 统一标签规则下的跨对稳健性
 
-各面板在同一 RDKit/meeko 配体协议下，用 AutoDock Vina、RTMScore best-of-9 与 GNINA CNN（mode_01 重打分）打分。正文以 Vina 口袋匹配 summary_min 为主报告；RTMScore 与 GNINA 作通道对照。Bootstrap 95% 区间使用配体层重采样，B = 2000，种子 20260729（Table 2）。
+面板建造时，AChE/BChE 与 PIK3CA/PIK3CB 使用严格规则，EGFR/HER2 与 PIK3CA/mTOR（PM48）因严格选择性配体不足而使用 θ = 6.0（Table 1）。为检验结论是否依赖建造阈值，我们在既有面板配体与既有 Vina 分数上，按 θ ∈ {5.5, 6.0, 6.5} 与严格 6.5/5.5 规则统一重标四类，并重算口袋匹配 summary_min（Supporting Information Table S4）。该统一重标作为跨对主稳健分析；建造规则下的点估计仅作 construction readout。
 
-**Table 2.** 冻结 K = 4 评价集上的口袋匹配方向 AUROC（Vina）。
+在严格规则下，AChE/BChE 与 PIK3CA/PIK3CB 的 summary_min 仍为 0.606 与 0.500；PIK3CA/mTOR 为 0.639（相对建造规则 θ = 6.0 的 0.692 略降）；EGFR/HER2 为 0.324（相对 0.430 下降）。EGFR/HER2 与 PIK3CA/mTOR 在严格规则下分别仅有 7 与 4 个 B 端选择性配体，标记为 underpowered。四对排序趋势保持一致：PIK3CA/mTOR 最高，其余三对不超过 0.61。因此，后文对接比较的排序结论不随统一重标而翻转。
 
-| 靶对 | n (dual / A_only / B_only) | dual 对 A_only（口袋 B） | dual 对 B_only（口袋 A） | summary_min [95% CI] | 错口袋 min | 配体效率归一 min | 最优描述符基线 |
-|---|---:|---:|---:|---|---:|---:|---|
-| EGFR/HER2 | 28 / 38 / 32 | 0.666 | 0.430 | 0.430 [0.281, 0.576] | 0.260 | 0.311 | cLogP 0.482 |
-| AChE/BChE | 27 / 25 / 28 | 0.650 | 0.606 | 0.606 [0.442, 0.737] | 0.444 | 0.413 | TPSA 0.733 |
-| PIK3CA/PIK3CB | 28 / 27 / 28 | 0.691 | 0.500 | 0.500 [0.340, 0.648] | 0.349 | 0.332 | 重原子数 0.622 |
-| PIK3CA/mTOR | 18 / 14 / 12 | 0.714 | 0.692 | 0.692 [0.457, 0.813] | 0.602 | 0.657 | 重原子数 0.463 |
+（对应 Methods 2.1）
 
-PIK3CA/mTOR 是唯一 summary_min 点估计同时高于 0.5 与重原子数基线（0.463；Δ ≈ +0.23）的靶对，但其置信区间下界仍接近 0.5。EGFR/HER2 与 PIK3CA/PIK3CB 的 summary_min 分别为 0.430 与 0.500，均低于各自最优描述符基线；AChE/BChE 的对接结果（0.606）低于 TPSA（0.733）。RTMScore 与 GNINA 未改变这一格局：二者在 PIK3CA/mTOR 上弱于 Vina，在其余三对上同样未过描述符基线。
+### 3.3 对接对真双靶配体的判别能力有限且高度依赖靶对
 
-排名读出与弱臂结果一致：EGFR/HER2 按池化 Vina 分数取 Top-10 时，9 个为硬负配体（配体层 bootstrap 均值 ≈ 8.9；95% CI 为 7–10）。
+双靶分数需要同时压住两条单靶选择性臂。若两臂共用同一池化分数（如两端 Vina 分数的均值），较强一臂可能掩盖较弱一臂的失败。本文因此以口袋匹配方向 AUROC 为主指标：dual 对 A_only 用口袋 B 的分数，dual 对 B_only 用口袋 A 的分数，summary_min 取两臂较小值（Methods 2.6）。分数定义为 \(S=-E_{\mathrm{Vina}}\)（越大越好），dual 为正类。
 
-（对应 Methods 2.3、2.5、2.6）
+需要分开两件事：其一，**方向特异的判别失败**——例如在 EGFR/HER2 上，dual 对 B_only 的口袋匹配 AUROC 仅为 0.430，而若单独审视池化协议下较弱一臂可读到约 0.28，说明 B 端方向本身接近或低于随机，并非“池化运算把 0.50 压成 0.28”；其二，**池化会掩盖上述弱臂**——同一对上池化 summary 可接近 0.50，给人以“尚可”的假象。相对池化，口袋匹配普遍抬高了四对的点估计，但排序未变（Supporting Information Table S6）。
 
-### 3.4 相对描述符基线的门控
+各面板在同一 RDKit/meeko 协议下用 AutoDock Vina 打分；RTMScore（九姿态取最优）与 GNINA（仅对 Vina mode 1 rescore）作通道对照，二者姿态覆盖不对称，不作公平赛马解释。Bootstrap 95% 区间为配体层重采样（B = 2000，种子 20260729）。
 
-对每对靶标，用对接 summary_min 减去表现最好的描述符基线（重原子数、分子量、cLogP 或 TPSA）的对应值得到 Δ。EGFR/HER2 与 PIK3CA/PIK3CB 的 Δ 置信区间整体落在 0 以下；AChE/BChE 点估计未过门，区间刚跨过 0；PIK3CA/mTOR 点估计高于重原子数基线，但 Δ 的 95% 区间仍包含 0。这一差距在口袋匹配前后保持一致：EGFR/HER2 落后于 cLogP，AChE/BChE 落后于 TPSA，PIK3CA/PIK3CB 落后于重原子数。上述结果将本文可支持的主张限定在评测诊断层面，而非通用的双靶决策分数。
+**Table 2.** 冻结 K = 4 评价集上的口袋匹配方向 AUROC（Vina）。错口袋、配体效率归一与描述符基线见 Supporting Information Table S6。
 
-（对应 Methods 2.6）
+| 靶对 | n (dual / A_only / B_only) | dual 对 A_only（口袋 B） | dual 对 B_only（口袋 A） | summary_min [95% CI] |
+|------|---------------------------:|-------------------------:|-------------------------:|----------------------|
+| EGFR/HER2 | 28 / 38 / 32 | 0.666 | 0.430 | 0.430 [0.281, 0.576] |
+| AChE/BChE | 27 / 25 / 28 | 0.650 | 0.606 | 0.606 [0.442, 0.737] |
+| PIK3CA/PIK3CB | 28 / 27 / 28 | 0.691 | 0.500 | 0.500 [0.340, 0.648] |
+| PIK3CA/mTOR | 18 / 14 / 12 | 0.714 | 0.692 | 0.692 [0.457, 0.813] |
 
-### 3.5 错口袋、配体效率、协变量与匹配子集对照
+对接信号总体偏弱，且高度依赖靶对。PIK3CA/mTOR 是唯一 summary_min 点估计同时高于 0.5 与最优平凡描述符基线（重原子数 0.463）的靶对，但其 95% CI 下界仍接近 0.5，不足以支持强判别主张。EGFR/HER2、PIK3CA/PIK3CB 的 summary_min 分别为 0.430 与 0.500，均不超过各自最优描述符；AChE/BChE 为 0.606，仍低于 TPSA 基线（0.733）。RTMScore 与 GNINA 未改变这一格局。排名读出与弱臂一致：EGFR/HER2 按池化 Vina 取 Top-10 时，9 个为硬负选择性配体（bootstrap 均值 ≈ 8.9；95% CI 为 7–10）。
 
-若对接分数主要跟随配体本身的物理化学属性而非结合口袋，错口袋对照的 summary_min 应偏离正确口袋结果不远、甚至同样偏离 0.5。四对的错口袋 summary_min 分别为 0.260（EGFR/HER2）、0.444（AChE/BChE）、0.349（PIK3CA/PIK3CB）与 0.602（PIK3CA/mTOR）；口袋匹配相对错口袋的差距在四对上均超过 0.09（Table 2）。配体效率归一（分数除以重原子数）后，仅 PIK3CA/mTOR 仍高于重原子数基线（0.657 对 0.463），其余三对在该归一下不再支持方向信号。
+（对应 Methods 2.5–2.6）
 
-在 AChE/BChE 上，dual 配体的平均 TPSA 约为 75，硬负配体（A_only 与 B_only 合并）约为 51；TPSA 单独区分 dual 与硬负的 AUROC 约为 0.769，高于同一对比下的 Vina 分数（约 0.56）。将重原子数与 TPSA 作为协变量纳入逻辑回归后，口袋匹配 dual 对 B_only 的判别 AUROC 从 0.606 升至 0.807（Δ ≈ +0.20），对接分数的优势比（OR）为 1.18；PIK3CA/mTOR 上 dual 对 A_only / B_only 的 AUROC 升幅约为 +0.07 至 +0.11，对应 OR 分别为 2.19 与 3.08，表明在控制尺寸与极性后对接分数仍保留独立方向信息。
+### 3.4 物理化学与结构混淆在多数靶对上主导表观信号
 
-在效价匹配（|ΔpChEMBL| ≤ 0.5）或尺寸匹配（|Δheavy atoms| ≤ 2）子集上，EGFR/HER2 与 PIK3CA/PIK3CB 的 dual 对 B_only 仍偏弱或接近随机（约 0.45–0.52）；PIK3CA/mTOR 在匹配子集上方向仍保持，但各臂样本量常低于 15、区间较宽，完整分层结果见 Supporting Information Table S5。
+核心问题不是简单的“对接不好”，而是：**许多表观双靶信号可由配体属性与二维化学型解释。**
 
-（对应 Methods 2.7 第 1–3 条）
+相对最优平凡描述符（重原子数、分子量、cLogP 或 TPSA），对接 summary_min 的差值 Δ 在 EGFR/HER2 与 PIK3CA/PIK3CB 上置信区间整体落在 0 以下；AChE/BChE 点估计未过门；PIK3CA/mTOR 点估计高于重原子数基线，但 Δ 的 95% CI 仍包含 0（Supporting Information Table S6）。错口袋对照的 summary_min 分别为 0.260、0.444、0.349 与 0.602；口袋匹配相对错口袋的差距均超过 0.09，提示分子层混淆仍显著。配体效率归一后，仅 PIK3CA/mTOR 仍高于重原子数基线（0.657 对 0.463）。
 
-### 3.6 支架分组的二维结构基线
+在 AChE/BChE 上，dual 与硬负选择性配体的平均 TPSA 分别约为 75 与 51；TPSA 单独区分 dual 与硬负的 AUROC 约为 0.769，高于同一对比下的 Vina（约 0.56）。将重原子数与 TPSA 纳入逻辑回归后，dual 对 B_only 的判别 AUROC 从 0.606 升至 0.807。该升幅表明：**表观对接贡献在很大程度上依赖于物理化学协变量**，而不是证明对接分数已提供强的口袋特异信息；对接分数的优势比接近 1（OR ≈ 1.18），不宜解读为“保留独立方向信息”。相比之下，PIK3CA/mTOR 在控制尺寸与极性后 AUROC 升幅较小（约 +0.07 至 +0.11），OR 约为 2.19 与 3.08，仅提示存在有限的残余口袋相关信号（residual pocket-specific signal），且须与仍跨 0 的 Δ 区间一并阅读。
 
-配体侧基线为 ECFP4 指纹加逻辑回归，交叉验证按 Murcko 支架分组（GroupKFold），使同一支架不跨训练/测试折。支架折 AUROC 多在 0.78–0.91，普遍高于对应的口袋匹配对接臂：EGFR/HER2 上 dual 对 B_only，指纹模型为 0.85，对接为 0.43。改用随机配体分折后，AUROC 平均仅比支架折高约 0.01（最大约 0.10），与面板中支架数目有限、多数接近单例的情况一致。正文以支架折数字为准，随机折仅作泄漏诊断。该指纹基线表明标签与二维化学型相关，但不能单独证明对接分数具有口袋特异性。
+二维结构基线进一步强化混淆叙事。ECFP4 加逻辑回归、按 Murcko 支架 GroupKFold 时，支架折 AUROC 多在 0.78–0.91，普遍高于对应口袋匹配对接臂；EGFR/HER2 上 dual 对 B_only，指纹为 0.85，对接为 0.43。随机配体分折仅平均高出约 0.01，与面板支架接近单例、泄漏控制有限一致。标签与化学型相关，不能单独证明对接分数具有口袋物理特异性。
 
-（对应 Methods 2.7 第 5 条）
+效价匹配或尺寸匹配子集上，EGFR/HER2 与 PIK3CA/PIK3CB 的 dual 对 B_only 仍偏弱或接近随机（约 0.45–0.52）；PIK3CA/mTOR 的排序趋势保持一致，但各臂 n 常低于 15、区间较宽（Table S5）。
 
-### 3.7 Exhaustiveness 对照、单靶富集与 PM110 扩面
+（对应 Methods 2.6–2.7）
 
-将 PIK3CA/mTOR 从 exhaustiveness = 16 改为 8（同配体、同盒子、同种子）重新对接后，Vina summary_min 从 0.692 降至 0.660（E16 相对 E8 的 Δ ≈ +0.03）。该差距远小于 PIK3CA/mTOR 与其余三对之间的差距，不足以解释该对相对更优的结果，故两种设置并列报告（对应 Methods 2.4）。
+### 3.5 稳健性核对与案例依赖的成功
 
-单靶富集分析以同靶已测定的弱效分子（pChEMBL ≤ 5.5）作性质匹配 decoy，而非随机无关分子。4L23（PIK3CA）与 4JT6（mTOR）的富集 AUROC 分别为 0.603 与 0.629，对应 EF1% 为 2.04 与 2.00，EF5% 为 1.22 与 3.20。两端富集能力均高于随机但幅度有限，与“对接本身没有完全失效，但不构成强单靶虚拟筛选”的判断一致（对应 Methods 2.7 单靶参照段）。
+将 PIK3CA/mTOR 的 exhaustiveness 从 16 改为 8（同配体、同盒子、同种子）后，Vina summary_min 从 0.692 降至 0.660（Δ ≈ +0.03）。该差距远小于靶对间差异，不足以单独解释 PIK3CA/mTOR 相对更优。
 
-PM110 保留 PM48 的全部 48 个配体并按配额扩样，不是独立重复实验。PM110 上 Vina 口袋匹配 summary_min 为 0.648 [0.51, 0.76]，相对 PM48 的 0.692（Δ ≈ −0.04），区间更窄，方向未变；同一面板上 RTMScore 为 0.576，GNINA 为 0.522（对应 Methods 2.3 扩面段）。
+单靶富集以同靶已测定弱效分子（pChEMBL ≤ 5.5）作性质匹配 decoy。4L23 与 4JT6 的富集 AUROC 分别为 0.603 与 0.629，EF1% 为 2.04 与 2.00，EF5% 为 1.22 与 3.20。对接保留有限富集能力（limited enrichment capability），但不构成强单靶虚拟筛选引擎。
 
-### 3.8 统一标签规则下的跨对主稳健分析
+PM110 保留 PM48 全部 48 个配体并按配额扩样，用作**稳定性核对（stability check）**，不是独立验证实验，也不是用扩面“挽救”点估计。PM48 本身 dual / A_only / B_only 仅 18 / 14 / 12，功效有限。PM110 上 Vina summary_min 为 0.648 [0.51, 0.76]，相对 PM48 的 0.692（Δ ≈ −0.04），区间更窄，排序趋势保持一致；同面板 RTMScore 为 0.576，GNINA 为 0.522。
 
-为消除“阈值随供给调整”的质疑，跨对比较以**统一标签重标**为主稳健分析（Methods 2.1）：在既有面板配体与既有 Vina 分数上，按 θ ∈ {5.5, 6.0, 6.5} 与严格规则（6.5/5.5）统一重标四类，并重算口袋匹配 summary_min（Supporting Information Table S4）。Table 2 中按各面板建造规则得到的点估计保留为 construction readout，不与统一重标互相替换为第二套主标准。在严格规则下，AChE/BChE 与 PIK3CA/PIK3CB 的 summary_min 仍为 0.606 与 0.500（与建造规则一致）；PIK3CA/mTOR 为 0.639（相对建造规则 θ = 6.0 的 0.692 略降），EGFR/HER2 为 0.324（相对建造规则 0.430 下降）。EGFR/HER2 与 PIK3CA/mTOR 在严格规则下分别仅有 7 与 4 个 B_only，标记为 underpowered。四对排序仍以 PIK3CA/mTOR 最高，其余三对不超过 0.61，与建造规则下的方向一致。
+综合 §3.2–3.5：**仅 PIK3CA/mTOR 表现出可重复但幅度有限的口袋相关判别**；其余三对的表观信号在很大程度上可由配体属性或二维化学型解释。
 
-（对应 Methods 2.1 敏感性段）
+（对应 Methods 2.3–2.4、2.7）
+
+### 3.6 PIK3CA/mTOR 可重复信号的结构线索（个案级）
+
+为避免将唯一较优靶对写成黑箱，我们基于已导出的姿态级诊断（failure typology；非全面板 PLIF 工程）归纳结构线索。PIK3CA（4L23）与 mTOR（4JT6）均为 ATP 竞争型激酶口袋；共晶配体 PI-103 / X6K 在协议检查中可回收近晶姿态（4JT6 需 elevating exhaustiveness 与 best-of-9，见 Table S3）。在代表性真 dual（如 PI-103）上，两端均可观察到 hinge 接触与对共晶配体的高占用；而若干 PIK3CA 选择性硬负（如 amino-triazine / morpholine–ATP 化学型）在**弱端 mTOR 上同样给出几何干净、hinge 阳性的姿态**，使两端分数同时偏高——这与“化学型同源假双靶”（T2）失败型一致，也说明即便在相对最好的靶对上，对接仍可能把 ATP 位点交叉化学型误判为 dual。
+
+相反，部分经典 dual（如 Torin1、Omipalisib）在 Vina 上很强，但 RTM 优选姿态可偏离 PIK3CA hinge/共晶位，表现为重打分误伤（T5）。因此，PIK3CA/mTOR 的 summary_min 优势应解读为：**在共享 ATP 识别框架下、对部分化学型可出现有限方向信号**，而不是已验证的通用双靶决策规则；全面板残基级守恒分析与相互作用指纹定量比较超出当前冻结分析包，留待后续工作。
+
+（对应已有 failure typology 与 cognate QC；非新对接）

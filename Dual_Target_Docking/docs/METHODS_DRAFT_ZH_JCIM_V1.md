@@ -19,7 +19,7 @@
 
 **面板建造（panel construction）允许在供给不足时使用单阈值规则，但这是建造协议，不是为抬高 AUROC 而事后改阈值。** AChE/BChE 与 PIK3CA/PIK3CB 按严格规则完成配额抽样；EGFR/HER2 与 PIK3CA/mTOR（PM48）因严格规则下单端选择性配体过少，按 θ = 6.0 建成（两端 ≥ θ 为 dual；一端 ≥ θ 且对端 < θ 为对应单靶类）。建造规则在抽样前按供给审计结果冻结，并写入 Table 1；阈值选择的动机是**凑齐可分析配额**，不是在观察对接分数后回改标签。
 
-**跨对主稳健分析（primary cross-pair robustness）：统一标签重标。** 为消除“不同靶对用不同阈值”的质疑，我们在既有面板配体与既有 Vina 分数上，对四对统一施加 θ ∈ {5.5, 6.0, 6.5} 与严格 6.5/5.5 规则重标四类，并重算口袋匹配 summary_min（Supporting Information Table S4）。正文跨对排序与稳健性结论以该统一重标为准（Results 3.8）；Table 2 并列报告各面板**建造时**标签下的点估计，作为 construction readout，二者不得混称为两套互相竞争的“主标准”。统一重标下若某类 n 过小，标记 underpowered，不作功效充足主张。
+**跨对主稳健分析（primary cross-pair robustness）：统一标签重标。** 为消除“不同靶对用不同阈值”的质疑，我们在既有面板配体与既有 Vina 分数上，对四对统一施加 θ ∈ {5.5, 6.0, 6.5} 与严格 6.5/5.5 规则重标四类，并重算口袋匹配 summary_min（Supporting Information Table S4）。正文跨对排序与稳健性结论以该统一重标为准（Results 3.2）；Table 2 并列报告各面板**建造时**标签下的点估计，作为 construction readout，二者不得混称为两套互相竞争的“主标准”。统一重标下若某类 n 过小，标记 underpowered，不作功效充足主张。
 
 ### 2.2 任务定义
 
