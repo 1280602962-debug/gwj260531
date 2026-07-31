@@ -1,0 +1,63 @@
+[
+  {
+    "pdb_id": "4JSX",
+    "target": "mTOR",
+    "polymer_entity_descriptions": [
+      "entity 1: Serine/threonine-protein kinase mTOR",
+      "entity 2: Target of rapamycin complex subunit LST8"
+    ],
+    "selected_ligand": {
+      "resname": "17G",
+      "chain": "B",
+      "resid": "2601",
+      "icode": "_"
+    },
+    "hetero_residue_audit": [
+      {
+        "resname": "17G",
+        "chain": "B",
+        "resid": "2601",
+        "icode": "_",
+        "heavy_atoms": 32,
+        "organic": true,
+        "excluded": false
+      },
+      {
+        "resname": "17G",
+        "chain": "A",
+        "resid": "2601",
+        "icode": "_",
+        "heavy_atoms": 32,
+        "organic": true,
+        "excluded": false
+      }
+    ],
+    "box": {
+      "center_x": -19.216,
+      "center_y": -31.93,
+      "center_z": -56.112,
+      "size_x": 20.0,
+      "size_y": 20.0,
+      "size_z": 20.0,
+      "n_heavy_atoms": 32,
+      "definition": "cognate heavy-atom AABB center; AABB extent + 5 \u00c5 each side; 20 \u00c5 minimum edge",
+      "pdb_id": "4JSX",
+      "target": "mTOR",
+      "ligand_resname": "17G",
+      "chain": "B",
+      "resid": "2601",
+      "icode": "_"
+    },
+    "vina_version": "1.2.7",
+    "meeko_version": "0.7.1",
+    "seed": 20260727,
+    "exhaustiveness": 16,
+    "n_poses": 9,
+    "rmsd_definition": "heavy atom; Meeko SMILES-atom mapping; template automorphism minimum; no protein or ligand superposition",
+    "rmsd_mode1_angstrom": 0.515,
+    "rmsd_best_of_9_angstrom": 0.515,
+    "best_mode": 1,
+    "pass_best_of_9_lt_2A": true,
+    "status": "PASS"
+  }
+]

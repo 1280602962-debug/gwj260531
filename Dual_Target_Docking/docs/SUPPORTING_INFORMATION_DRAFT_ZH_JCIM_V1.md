@@ -14,6 +14,8 @@
 | Table S5 | `data/jcim_strengthen_t0t1_v0/tables/matched_subset_directional_v1.csv` |
 | Table S6 | `data/jcim_bench_v0/tables/pocket_matched_directional_v1.csv`；worst-pocket 亦见 `data/jcim_strengthen_t0t1_v0/tables/aggregation_sensitivity_v1.csv` |
 | Table S7 | `data/jcim_bench_v0/analysis/structural_context_v1/full_chain_identity_v1.py`（脚本）与 `full_chain_identity_v1_output.tsv`（输出） |
+| Table S8 | `data/jcim_holdout_v0/tables/holdout_panel_*.csv` + `holdout_ligand_scores_v1.csv` + `holdout_pocket_matched_v1.csv`；结论见 `analysis/HOLDOUT_VERDICT.md` |
+| Table S9 | `data/jcim_structure_robust_v0/analysis/STRUCTURE_ROBUSTNESS_QC_V1.md` / `STRUCTURE_ROBUSTNESS_VERDICT_V1.md`；`tables/pocket_matched_PM48_alt*_v1.csv` |
 | ChEMBL 聚合局限 | `data/jcim_strengthen_t0t1_v0/analysis/T0_SKIPS.md` |
 
 ---
@@ -189,6 +191,43 @@ PIK3CA/mTOR 若干臂 n &lt; 15，区间宽；正文仅作方向是否同向的�
 | EGFR/HER2 | 3POZ / 3RCD | 275 / 274 | 210 | 294 | 71.4 | 76.6 |
 
 说明：这是全链一级序列一致性，不是经结构叠合的口袋残基级 RMSD 或 PLIF 相似度；后者需 TM-align/PyMOL 等经验证的结构叠合工具与手工核对口袋残基对应关系，本轮未做，不虚构该数值。n = 4，仅作描述性对照，不做正式相关性检验。详见 Results 3.6。
+
+---
+
+## Table S8. 面板外冻结验证集（holdout）配体与口袋匹配分数
+
+来源：`data/jcim_holdout_v0/`。抽样种子 20260731；标签规则 strict 6.5/5.5；对接协议与主面板相同。完整配体级表见 `holdout_ligand_scores_v1.csv`（含 SMILES、类别、两端 Vina mode-1、physchem）。下表为口袋匹配汇总。
+
+| 靶对 | n (D/A/B) | pocket_matched summary_min | 95% CI | D vs A | D vs B | 主面板 | 最强平凡基线 | Δ(dock−基线) |
+|------|-----------|---------------------------:|-------:|-------:|-------:|-------:|-------------:|-------------:|
+| PIK3CA/mTOR | 60 (20/20/20) | 0.765 | 0.603–0.891 | 0.860 | 0.765 | 0.692 | heavy 0.555 | +0.210 |
+| AChE/BChE | 60 (20/20/20) | 0.618 | 0.422–0.759 | 0.635 | 0.618 | 0.606 | cLogP 0.575 | +0.043 |
+| PIK3CA/PIK3CB | 59 (20/19/20) | 0.425 | 0.241–0.618 | 0.766 | 0.425 | 0.500 | heavy 0.691 | −0.266 |
+
+失败：`HOAP_028`（含硼，AutoDock 原子类型 `B` 不支持）两端未得分，已剔除。错口袋对照见 `holdout_pocket_matched_v1.csv` 中 `wrong_pocket_control_vina` 行。
+
+---
+
+## Table S9. 结构稳健性：替代受体 cognate QC
+
+来源：`data/jcim_structure_robust_v0/analysis/STRUCTURE_ROBUSTNESS_QC_V1.md`。协议：Vina E=16，seed=20260727，best_of_9 &lt; 2 Å。
+
+| 靶标 | PDB | 共晶配体 | mode1 RMSD (Å) | best_of_9 (Å) | 结论 |
+|------|-----|----------|---------------:|--------------:|------|
+| PIK3CA | 4JPS | 1LT | 0.607 | 0.607 | PASS |
+| PIK3CA | 5DXT | 5H5 | 0.624 | 0.624 | PASS |
+| mTOR | 4JSX | 17G (Torin2) | 0.515 | 0.515 | PASS |
+
+PASS 受体已写入 `receptors/`。PM48 单端替换后的口袋匹配 summary_min：
+
+| 替代结构 | 替换口袋 | summary_min [95% CI] | 主面板 | Δ |
+|----------|----------|---------------------:|-------:|--:|
+| 4JPS | A | 0.486 [0.259, 0.692] | 0.692 | −0.206 |
+| 5DXT | A | 0.505 [0.292, 0.696] | 0.692 | −0.187 |
+| 4JSX | B | 0.639 [0.418, 0.776] | 0.692 | −0.053 |
+
+详见 `STRUCTURE_ROBUSTNESS_VERDICT_V1.md`。
+
 
 ---
 

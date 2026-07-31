@@ -88,6 +88,10 @@ summary_min 的不确定度以 bootstrap 估计：在每个靶对内对配体有
 
 匹配子集完整结果（Table S5）与分数聚合对照（Table S6）见 Supporting Information。
 
+作为**面板外冻结验证**（post-hoc unused-pool holdout），我们在各靶对建面时已用严格规则筛出、但**未进入冻结面板**的 ChEMBL 候选池中，以新种子 `HOLDOUT_SEED=20260731` 按 dual / A_only / B_only = 20 / 20 / 20 定额抽样（Murcko 支架封顶 3 个/类），现查 SMILES 后按与主面板完全相同的 RDKit/meeko 制备与 Vina 协议对接（受体、盒子、exhaustiveness、种子均不重调）。评价仍用 2.6 的口袋匹配 summary_min 与配体层 bootstrap；平凡基线在同一 holdout 配体上并列计算。该 holdout 用于检验“分数规则与协议是否只在建面板时凑效”，**不是**跨数据库的独立外部验证集；抽样清单先冻结、后看分数（Supporting Information Table S7；`data/jcim_holdout_v0/`）。
+
+结构稳健性方面，对 PIK3CA 替代晶体 **4JPS**、**5DXT**（及 mTOR 候选 **4JSX**）先做与 Methods 2.4 相同的共晶配体重对接 QC（best_of_9 &lt; 2 Å）；仅通过 QC 的结构才允许替换对应口袋、在冻结 PM48 配体上重对接并重算 summary_min（`data/jcim_structure_robust_v0/`）。嵌合体结构（如曾误用的 3T8M / PIK3CG 骨架）一律排除。
+
 ### 2.8 软件与数据可用性
 
 计算在 Python 3 环境下完成，主要软件包括 RDKit 2026.3.1、meeko 0.7.1、AutoDock Vina 1.2.7、GNINA 1.3.2 与 RTMScore（公开预训练权重 `rtmscore_model1`）；Vina 姿态转为 SDF 时使用 Open Babel。AUROC、逻辑回归与交叉验证等分析使用常规 Python 科学计算栈（NumPy、SciPy、scikit-learn、pandas；版本见公开复现环境说明）。评价面板、对接分数、分析脚本与完整参数表将随公开数据包提供，详见 Data and Software Availability。

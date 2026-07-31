@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import shutil
 import subprocess
 import sys
 import time
@@ -28,7 +29,23 @@ RDLogger.DisableLog("rdApp.*")
 
 ROOT = Path(__file__).resolve().parents[3]
 HOLDOUT = ROOT / "data/jcim_holdout_v0"
-MK_PREPARE_LIGAND = str(Path.home() / ".local/bin/mk_prepare_ligand.py")
+
+
+def _resolve_mk_prepare_ligand() -> str:
+    """Prefer PATH, then common local install locations (cloud vs conda)."""
+    for candidate in (
+        shutil.which("mk_prepare_ligand.py"),
+        str(Path.home() / ".local/bin/mk_prepare_ligand.py"),
+        str(Path(sys.executable).resolve().parent / "mk_prepare_ligand.py"),
+    ):
+        if candidate and Path(candidate).exists():
+            return str(candidate)
+    raise FileNotFoundError(
+        "mk_prepare_ligand.py not found; install meeko==0.7.1 and ensure it is on PATH"
+    )
+
+
+MK_PREPARE_LIGAND = _resolve_mk_prepare_ligand()
 SEED = 20260727  # frozen protocol seed, same as main panels
 
 PAIR_CONFIGS = {
