@@ -2,7 +2,7 @@
 
 > Companion to [`RESULTS_DRAFT_ZH_JCIM_V1.md`](RESULTS_DRAFT_ZH_JCIM_V1.md) (Chinese authoritative for this rewrite cycle).  
 > Numbers from `PRIMARY_METRIC_V2.md`, `PRIMARY_METRIC_CLAIM_GATE.md`, SI Tables S4–S7. No fabricated experiments.  
-> **Framing (deliberately not absolute):** not "Docking can/cannot identify dual-target ligands," but *evaluating the reliability and limitations of docking-based dual-target recognition* — this paper assesses existing docking scores against that task; it does not propose a new scoring function or claim an all-or-nothing verdict.
+> **Framing (deliberately not absolute; not a named method product):** not "Docking can/cannot identify dual-target ligands," and not "we developed a novel Dual-target Docking Reliability Assessment Framework (D-DRAF)." Preferred: *evaluating the reliability and limitations of docking-based dual-target recognition* via a systematic benchmarking framework and the DualFourClass-Bench resource. See [`POSITIONING_AND_FRAMEWORK_LANGUAGE_V1.md`](POSITIONING_AND_FRAMEWORK_LANGUAGE_V1.md).
 
 ## 3. Results
 

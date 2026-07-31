@@ -1,12 +1,13 @@
 # DualFourClass-Bench（Dual_Target_Docking）
 
 JCIM **evaluation / benchmark** 课题：双靶对接四类硬负评测。  
-**不是**通用决策臂 / 新打分函数论文。  
+**不是**通用决策臂 / 新打分函数论文；**也不是**名为 D-DRAF 一类的“新型 Framework”。  
+贡献定位：*systematic benchmarking framework* + 公开资源 **DualFourClass-Bench**。  
 与仓库内 `JNK1_Selectivity_Project/` **无关**。
 
 ## 一句话主张
 
-双靶对接应建成 dual / A_only / B_only / neither 任务；主指标用**口袋匹配方向 AUROC**；必须报平凡基线与混淆对照。公开严格硬负极稀缺；K=4 冻结评测集上对接增量高度对靶依赖。
+双靶对接应建成 dual / A_only / B_only / neither 任务；主指标用**口袋匹配方向 AUROC**；必须报平凡基线与混淆对照。公开严格硬负极稀缺；K=4 冻结评测集上对接增量高度对靶依赖。建立的是评价体系，不是新算法。
 
 ## 快速入口（投稿用）
 

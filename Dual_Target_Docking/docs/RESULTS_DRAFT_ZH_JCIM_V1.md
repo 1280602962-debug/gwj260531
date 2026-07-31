@@ -3,7 +3,7 @@
 > 结构按 JCIM 评测文习惯重排（供给发现 → 标签稳健 → 对接主结果 → 混淆主导 → 稳健性与案例依赖成功 → 跨对结构决定因素 → 个案结构线索）。  
 > 全部数字可追溯至 `data/jcim_bench_v0/`、`data/jcim_strengthen_t0t1_v0/` 与 `data/jcim_bench_v0/analysis/structural_context_v1/`；未做的全库 PLIF / 口袋叠合分析不写入。  
 > 投稿以英文为准；本稿供中文审改。错口袋、配体效率、描述符明细见 Supporting Information Table S5–S6。
-> **本文定位（不用绝对化标题）：** 不是 "Docking can/cannot identify dual-target ligands"，而是 *Evaluating the reliability and limitations of docking-based dual-target recognition*——评价现有对接分数在双靶识别任务上的可靠边界，而非提出新评分函数或做出全有全无的判决。
+> **本文定位（不用绝对化标题、不包装成新算法）：** 不是 "Docking can/cannot identify dual-target ligands"，也不是 "we developed a novel framework named D-DRAF"；而是 *Evaluating the reliability and limitations of docking-based dual-target recognition*——建立 systematic benchmarking framework / DualFourClass-Bench 评价体系，评价现有对接分数的可靠边界。详见 [`POSITIONING_AND_FRAMEWORK_LANGUAGE_V1.md`](POSITIONING_AND_FRAMEWORK_LANGUAGE_V1.md)。
 
 ---
 

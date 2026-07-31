@@ -43,9 +43,16 @@
 | A6 | 题名草案 ≤12 词；摘要 3–4 句 | Author Guidelines Title/Abstract | 🟡 | 未写 Title/Abstract；开写时按此限 |
 
 **建议题名方向（草稿，未定）：**  
-`DualFourClass-Bench for Dual-Target Docking Evaluation`（约 7 词）
+`DualFourClass-Bench for Dual-Target Docking Evaluation`（约 7 词）  
+备选（更贴定位句）：`Evaluating Docking Reliability for Dual-Target Ligand Recognition`（约 8 词）
 
 **全文定位句（Introduction/Abstract 用，避免绝对化）：** 不写成 "Docking can/cannot identify dual-target ligands"；改写为 *Evaluating the reliability and limitations of docking-based dual-target recognition*——强调这是对现有对接分数的可靠性评测，而非提出新方法或做全有全无判决，与 Results 开篇的定位句（`RESULTS_DRAFT_ZH_JCIM_V1.md` 顶部）一致。
+
+**“框架”用语（防 AI 包装感；详见 [`POSITIONING_AND_FRAMEWORK_LANGUAGE_V1.md`](POSITIONING_AND_FRAMEWORK_LANGUAGE_V1.md)）：**
+- ✅ 可以说：*systematic benchmarking framework* / *evaluation protocol* + 资源名 **DualFourClass-Bench**
+- ✅ 推荐句：*We established a systematic benchmarking framework to evaluate the reliability of docking-based dual-target recognition.*
+- ❌ 不要：D-DRAF / “Dual-target Docking Reliability Assessment Framework” / *We developed a novel … framework named …*
+- ❌ 不要：Intro/Abstract/TOC 把常规分析写成 Framework Step 1–5（Methods 普通小节编号可以）
 
 ---
 
@@ -169,7 +176,7 @@ python3 data/jcim_bench_v0/scripts/plot_forest_ci_v1.py
 5. 重导 Fig3（及后续图）至 **≥300 dpi**；补 Fig1/2/4/5  
 6. 写 **Title / Abstract / Cover letter / Data and Software Availability**  
 7. 组完整英文稿 + SI 描述句  
-8. 全文搜禁语：universal scorer、decision arm validated、显著通吃四对
+8. 全文搜禁语：universal scorer、decision arm validated、显著通吃四对、D-DRAF、novel framework named、Framework Step 1–5
 
 ### 可不挡首投、但加分
 
@@ -181,8 +188,9 @@ python3 data/jcim_bench_v0/scripts/plot_forest_ci_v1.py
 ## I. 一页 Cover letter 必写点（模板要点）
 
 - Manuscript type: **Article**  
-- Contribution: DualFourClass evaluation/benchmark for dual-target docking decision metrics  
-- Not a new scoring function; not a wet-lab validated single-target VS campaign  
+- Contribution: systematic benchmarking protocol + DualFourClass-Bench resource for dual-target docking reliability evaluation  
+- Explicitly **not** a new scoring function / named method framework (no D-DRAF-style acronym)  
+- Not a wet-lab validated single-target VS campaign  
 - Primary metric: pocket-matched directional AUROC with trivial baselines and confound controls  
 - Data/code: Zenodo DOI + GitHub （填空）  
 - Suggest: fits JCIM molecular modeling / cheminformatics evaluation audience  
