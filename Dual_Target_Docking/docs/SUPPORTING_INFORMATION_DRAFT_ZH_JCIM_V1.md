@@ -13,6 +13,7 @@
 | Table S4 | `data/jcim_strengthen_t0t1_v0/tables/unified_threshold_sensitivity_v2.csv` |
 | Table S5 | `data/jcim_strengthen_t0t1_v0/tables/matched_subset_directional_v1.csv` |
 | Table S6 | `data/jcim_bench_v0/tables/pocket_matched_directional_v1.csv`；worst-pocket 亦见 `data/jcim_strengthen_t0t1_v0/tables/aggregation_sensitivity_v1.csv` |
+| Table S7 | `data/jcim_bench_v0/analysis/structural_context_v1/full_chain_identity_v1.py`（脚本）与 `full_chain_identity_v1_output.tsv`（输出） |
 | ChEMBL 聚合局限 | `data/jcim_strengthen_t0t1_v0/analysis/T0_SKIPS.md` |
 
 ---
@@ -107,9 +108,9 @@
 
 ---
 
-## Table S4. 统一标签规则下的口袋匹配敏感性（跨对主稳健分析）
+## Table S4. 统一 θ = 6.0 主表述的阈值敏感性网格（支持性）
 
-来源：`unified_threshold_sensitivity_v2.csv`。在既有面板配体与既有 Vina 分数上，按 θ ∈ {5.5, 6.0, 6.5} 与严格规则（6.5/5.5）重标四类后，重算**口袋匹配** summary_min（与正文主指标同定义）。正文将本表作为跨对主稳健分析；各面板建造规则下的 Table 2 为 construction readout（Methods 2.1）。
+来源：`unified_threshold_sensitivity_v2.csv`。正文 Table 2 已采用本表 θ = 6.0 行作为四对统一主结果（Results 3.2）；本表 θ = 5.5/6.5 与严格 6.5/5.5 行为支持性阈值敏感性分析，用于说明排序不随阈值网格翻转，不是与 Table 2 竞争的第二套主标准。
 
 | 靶对 | 标签规则 | n (D / A / B) | AUROC D vs A | AUROC D vs B | summary_min | 95% CI | underpowered |
 |------|----------|--------------:|-------------:|-------------:|------------:|--------|:------------:|
@@ -173,6 +174,21 @@ PIK3CA/mTOR 若干臂 n &lt; 15，区间宽；正文仅作方向是否同向的�
 | PIK3CA/mTOR | 0.671 | 0.692 | 0.602 | 0.627 |
 
 正文主指标为口袋匹配；池化、错口袋与 worst-pocket 仅作对照。
+
+---
+
+## Table S7. 靶对内全链序列一致性（结构决定因素，探索性）
+
+来源：`data/jcim_bench_v0/analysis/structural_context_v1/full_chain_identity_v1.py`（脚本）与同目录 `full_chain_identity_v1_output.tsv`（输出）。方法：Biopython `PDBParser` 从各冻结受体 `*_protein.pdb` 提取最长蛋白链的一级序列（仅计入标准氨基酸 ATOM 残基），用 `Bio.Align.PairwiseAligner`（BLOSUM62，全局比对，gap open = −11，gap extend = −1）两两比对靶对内两条链。一致性两种归一化：以比对总长为分母，以较短链长度为分母。
+
+| 靶对 | 受体 PDB (A / B) | 链长 (A / B，残基数) | 匹配残基数 | 比对长度 | 一致性（/比对长度，%） | 一致性（/较短链，%） |
+|------|------------------|----------------------:|-----------:|---------:|----------------------:|----------------------:|
+| PIK3CA/mTOR | 4L23 / 4JT6 | 1014 / 1054 | 213 | 1175 | 18.1 | 21.0 |
+| PIK3CA/PIK3CB | 4L23 / 2Y3A | 1014 / 976 | 423 | 1045 | 40.5 | 43.3 |
+| AChE/BChE | 4EY7 / 4BDS | 535 / 524 | 278 | 536 | 51.9 | 53.1 |
+| EGFR/HER2 | 3POZ / 3RCD | 275 / 274 | 210 | 294 | 71.4 | 76.6 |
+
+说明：这是全链一级序列一致性，不是经结构叠合的口袋残基级 RMSD 或 PLIF 相似度；后者需 TM-align/PyMOL 等经验证的结构叠合工具与手工核对口袋残基对应关系，本轮未做，不虚构该数值。n = 4，仅作描述性对照，不做正式相关性检验。详见 Results 3.6。
 
 ---
 

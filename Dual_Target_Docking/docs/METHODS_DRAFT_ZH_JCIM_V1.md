@@ -19,7 +19,7 @@
 
 **面板建造（panel construction）允许在供给不足时使用单阈值规则，但这是建造协议，不是为抬高 AUROC 而事后改阈值。** AChE/BChE 与 PIK3CA/PIK3CB 按严格规则完成配额抽样；EGFR/HER2 与 PIK3CA/mTOR（PM48）因严格规则下单端选择性配体过少，按 θ = 6.0 建成（两端 ≥ θ 为 dual；一端 ≥ θ 且对端 < θ 为对应单靶类）。建造规则在抽样前按供给审计结果冻结，并写入 Table 1；阈值选择的动机是**凑齐可分析配额**，不是在观察对接分数后回改标签。
 
-**跨对主稳健分析（primary cross-pair robustness）：统一标签重标。** 为消除“不同靶对用不同阈值”的质疑，我们在既有面板配体与既有 Vina 分数上，对四对统一施加 θ ∈ {5.5, 6.0, 6.5} 与严格 6.5/5.5 规则重标四类，并重算口袋匹配 summary_min（Supporting Information Table S4）。正文跨对排序与稳健性结论以该统一重标为准（Results 3.2）；Table 2 并列报告各面板**建造时**标签下的点估计，作为 construction readout，二者不得混称为两套互相竞争的“主标准”。统一重标下若某类 n 过小，标记 underpowered，不作功效充足主张。
+**主表述采用单一统一标签规则（θ = 6.0）。** 为消除“不同靶对用不同阈值”的质疑，正文 Table 2 对全部四对统一采用 θ = 6.0 规则报告主结果。对 EGFR/HER2 与 PIK3CA/mTOR，这与建造时直接采用的规则相同；对 AChE/BChE 与 PIK3CA/PIK3CB，建造时按更严格的 6.5/5.5 规则完成供给配额抽样，但在本数据上 θ = 6.0 给出与该严格规则**完全相同**的配体分类与 AUROC（Supporting Information Table S4），即标签在阈值网格内对这两对不敏感。作为支持性稳健性分析，我们进一步在 θ ∈ {5.5, 6.5} 与严格 6.5/5.5 规则下重标四类并重算口袋匹配 summary_min（Table S4）；EGFR/HER2 与 PIK3CA/mTOR 在严格规则下 B_only 样本量过小，标记 underpowered，不作功效充足主张。该敏感性网格不是与 Table 2 竞争的第二套主标准，只用于证明排序不随阈值网格翻转（Results 3.2）。
 
 ### 2.2 任务定义
 
@@ -81,7 +81,8 @@ summary_min 的不确定度以 bootstrap 估计：在每个靶对内对配体有
 3. **匹配子集对照**：在 \|ΔpChEMBL\| ≤ 0.5（效价匹配）或 \|Δheavy atoms\| ≤ 2（尺寸匹配）的子集上，分别重算 dual 对 A_only 与 dual 对 B_only 的 AUROC。  
 4. **协变量对照**：以逻辑回归比较“仅对接分数”与“对接分数 + 重原子数 + TPSA”两类模型的判别 AUROC，并报告对接分数的回归系数与优势比（OR）。  
 5. **二维结构基线**：以 ECFP4 指纹（Morgan 半径 2，2048 bit）与逻辑回归建立仅依赖二维结构的基线；交叉验证按 Murcko 支架分组（GroupKFold），使同一骨架不跨训练/测试折。  
-6. **统一标签重标**（2.1；Table S4）：跨对主稳健分析。
+6. **统一标签重标**（2.1；Table S4）：阈值敏感性支持性分析。
+7. **跨对结构决定因素（探索性）**：从各冻结受体 `*_protein.pdb` 中，用 Biopython `PDBParser` 提取最长蛋白链的一级序列，仅计入标准氨基酸 ATOM 记录；以 `Bio.Align.PairwiseAligner`（BLOSUM62 替换矩阵，全局比对，gap open = −11、extend = −1）对每对靶标内的两条链做两两比对，报告全链序列一致性（分别以比对长度与较短链长度归一，Supporting Information Table S7）。该指标为整体结构相似度的粗粒度代理，不涉及口袋残基对应或结构叠合，不用于口袋 RMSD 或 PLIF 主张。
 
 作为单靶参照（非主指标），我们在 4L23（PIK3CA）与 4JT6（mTOR）上分别构建活性–decoy 集合：活性分子 pChEMBL ≥ 6.5；decoy 为同靶已测定且 pChEMBL ≤ 5.5 的弱效分子，并按分子量（±50 Da）、logP（±1.5）与 TPSA（±25 Å²）与活性分子做性质匹配。上述窗口沿用 property-matched decoy 的常见设定（如 DUD-E 对分子量、logP 等物理化学性质的匹配思想；Mysinger et al., *J. Med. Chem.* 2012, 55, 6582–6594），TPSA 窗口为在同一思想下增加的极性匹配项，用于降低“用完全无关分子当 decoy”造成的虚高富集。目标规模约为 50 个活性分子与 150 个 decoy；对接参数与 PIK3CA/mTOR 主面板一致（Vina，exhaustiveness = 16）。该分析用于估计单靶富集水平，不替代四类面板上的 summary_min 评价。
 

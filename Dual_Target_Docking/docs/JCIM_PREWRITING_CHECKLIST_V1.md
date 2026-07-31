@@ -45,6 +45,8 @@
 **建议题名方向（草稿，未定）：**  
 `DualFourClass-Bench for Dual-Target Docking Evaluation`（约 7 词）
 
+**全文定位句（Introduction/Abstract 用，避免绝对化）：** 不写成 "Docking can/cannot identify dual-target ligands"；改写为 *Evaluating the reliability and limitations of docking-based dual-target recognition*——强调这是对现有对接分数的可靠性评测，而非提出新方法或做全有全无判决，与 Results 开篇的定位句（`RESULTS_DRAFT_ZH_JCIM_V1.md` 顶部）一致。
+
 ---
 
 ## B. 2015 Editorial（审稿门槛，非排版）

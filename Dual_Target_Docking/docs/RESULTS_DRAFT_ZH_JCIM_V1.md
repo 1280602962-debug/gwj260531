@@ -1,8 +1,9 @@
 # Results（中文工作稿 · JCIM 式结构修订）
 
-> 结构按 JCIM 评测文习惯重排（供给发现 → 标签稳健 → 对接主结果 → 混淆主导 → 稳健性与案例依赖成功 → 结构线索）。  
-> 全部数字可追溯至 `data/jcim_bench_v0/` 与 `data/jcim_strengthen_t0t1_v0/`；未做的全库 PLIF / 口袋叠合分析不写入。  
+> 结构按 JCIM 评测文习惯重排（供给发现 → 标签稳健 → 对接主结果 → 混淆主导 → 稳健性与案例依赖成功 → 跨对结构决定因素 → 个案结构线索）。  
+> 全部数字可追溯至 `data/jcim_bench_v0/`、`data/jcim_strengthen_t0t1_v0/` 与 `data/jcim_bench_v0/analysis/structural_context_v1/`；未做的全库 PLIF / 口袋叠合分析不写入。  
 > 投稿以英文为准；本稿供中文审改。错口袋、配体效率、描述符明细见 Supporting Information Table S5–S6。
+> **本文定位（不用绝对化标题）：** 不是 "Docking can/cannot identify dual-target ligands"，而是 *Evaluating the reliability and limitations of docking-based dual-target recognition*——评价现有对接分数在双靶识别任务上的可靠边界，而非提出新评分函数或做出全有全无的判决。
 
 ---
 
@@ -16,11 +17,11 @@
 
 （对应 Methods 2.1–2.3）
 
-### 3.2 统一标签规则下的跨对稳健性
+### 3.2 主分析采用单一统一标签规则（θ = 6.0），阈值敏感性作为支持性分析
 
-面板建造时，AChE/BChE 与 PIK3CA/PIK3CB 使用严格规则，EGFR/HER2 与 PIK3CA/mTOR（PM48）因严格选择性配体不足而使用 θ = 6.0（Table 1）。为检验结论是否依赖建造阈值，我们在既有面板配体与既有 Vina 分数上，按 θ ∈ {5.5, 6.0, 6.5} 与严格 6.5/5.5 规则统一重标四类，并重算口袋匹配 summary_min（Supporting Information Table S4）。该统一重标作为跨对主稳健分析；建造规则下的点估计仅作 construction readout。
+为避免“不同靶对用不同阈值”的质疑，Table 2 的四对结果统一在**同一 θ = 6.0 规则**下报告（两端 ≥ 6.0 为 dual，一端 ≥ 6.0 且对端 < 6.0 为对应单靶类）。对 EGFR/HER2 与 PIK3CA/mTOR，该规则与建造时直接采用的规则相同；对 AChE/BChE 与 PIK3CA/PIK3CB，建造时因供给审计用的是更严格的 6.5/5.5 规则，但在本数据上 θ = 6.0 给出**完全相同**的配体分类与 AUROC（Supporting Information Table S4），即这两对的标签在所测阈值范围内不敏感——这是先核实、后报告的经验事实，不是选择性展示。
 
-在严格规则下，AChE/BChE 与 PIK3CA/PIK3CB 的 summary_min 仍为 0.606 与 0.500；PIK3CA/mTOR 为 0.639（相对建造规则 θ = 6.0 的 0.692 略降）；EGFR/HER2 为 0.324（相对 0.430 下降）。EGFR/HER2 与 PIK3CA/mTOR 在严格规则下分别仅有 7 与 4 个 B 端选择性配体，标记为 underpowered。四对排序趋势保持一致：PIK3CA/mTOR 最高，其余三对不超过 0.61。因此，后文对接比较的排序结论不随统一重标而翻转。
+作为支持性稳健性分析（而非与 Table 2 竞争的第二套主标准），我们进一步在 θ ∈ {5.5, 6.5} 与严格 6.5/5.5 规则下重标四类并重算 summary_min（Table S4）。EGFR/HER2 与 PIK3CA/mTOR 对阈值更敏感：严格规则下二者分别降至 0.324（仅 7 个 B 端选择性配体，underpowered）与 0.639（仅 4 个，underpowered），相对 θ = 6.0 的 0.430 与 0.692 均下降但排序未变。四对排序趋势在整张阈值网格内保持一致：PIK3CA/mTOR 最高，其余三对不超过 0.61。
 
 （对应 Methods 2.1）
 
@@ -71,10 +72,35 @@ PM110 保留 PM48 全部 48 个配体并按配额扩样，用作**稳定性核�
 
 （对应 Methods 2.3–2.4、2.7）
 
-### 3.6 PIK3CA/mTOR 可重复信号的结构线索（个案级）
+### 3.6 对接判别力的跨对结构决定因素（探索性）
+
+四对之间判别力差异悬殊，仅凭配体层混淆分析（§3.4）尚不能回答：这与两靶标口袋本身的结构相似度是否相关？我们从冻结受体 PDB 中提取每个靶标最长蛋白链的一级序列（Biopython `PDBParser`），用 BLOSUM62 全局两两比对（`PairwiseAligner`，gap open = −11、extend = −1）计算靶对内两靶标的**全链序列一致性**，作为整体结构相似度的粗粒度代理；脚本与原始输出见 `data/jcim_bench_v0/analysis/structural_context_v1/`（Supporting Information Table S7）。
+
+**Table 3.** 靶对内全链序列一致性与判别力（summary_min）对照。
+
+| 靶对 | 全链序列一致性（对齐长度为分母，%） | 全链序列一致性（较短链为分母，%） | summary_min（θ = 6.0 / 严格） |
+|------|-----------------------------------:|---------------------------------:|-------------------------------|
+| PIK3CA/mTOR | 18.1 | 21.0 | 0.692 / 0.639 |
+| PIK3CA/PIK3CB | 40.5 | 43.3 | 0.500 / 0.500 |
+| AChE/BChE | 51.9 | 53.1 | 0.606 / 0.606 |
+| EGFR/HER2 | 71.4 | 76.6 | 0.430 / 0.324 |
+
+结果与直觉相反：判别力**最高**的 PIK3CA/mTOR 恰是全链序列一致性**最低**的一对；判别力**最低**的 EGFR/HER2 恰是序列一致性**最高**的一对（ErbB 家族激酶域高度同源，已知支持多种泛 ErbB/双靶抑制剂化学型，如拉帕替尼、阿法替尼）。这提示：**两靶标整体越相似，两口袋在物理上越难被对接分数区分**，方向判别反而更难，而不是"相似度越高、越容易被识别为双靶"。
+
+需要审慎解读的边界：这是全链一级序列一致性的粗粒度代理，不是经结构叠合限定的 ATP 口袋残基级 RMSD 或相互作用指纹（PLIF）相似度；后者需要经验证的结构叠合工具（如 TM-align、PyMOL align/super）并对齐口袋残基编号，本轮环境未配置、也未做残基级验证，不在此虚构口袋 RMSD 数值，留待后续工作。PIK3CA 与 mTOR 全链一致性最低，但二者同属 PIKK 相关家族，ATP 竞争位点存在已知的局部结构同源性——这正是文献中已有真实 PI3K/mTOR 双靶抑制剂化学型（如 PI-103、omipalisib）的结构基础；表中的低全链一致性不应解读为"两口袋不相似"，而应理解为"整体蛋白架构分化、但局部 ATP 位点保留可及重叠"，与 §3.7 的姿态级线索一致。四对样本量为 n = 4，本节为描述性对照，不做正式相关性检验或统计显著性主张。
+
+（对应 Methods 2.6；Supporting Information Table S7）
+
+### 3.7 PIK3CA/mTOR 可重复信号的结构线索（个案级）
 
 为避免将唯一较优靶对写成黑箱，我们基于已导出的姿态级诊断（failure typology；非全面板 PLIF 工程）归纳结构线索。PIK3CA（4L23）与 mTOR（4JT6）均为 ATP 竞争型激酶口袋；共晶配体 PI-103 / X6K 在协议检查中可回收近晶姿态（4JT6 需 elevating exhaustiveness 与 best-of-9，见 Table S3）。在代表性真 dual（如 PI-103）上，两端均可观察到 hinge 接触与对共晶配体的高占用；而若干 PIK3CA 选择性硬负（如 amino-triazine / morpholine–ATP 化学型）在**弱端 mTOR 上同样给出几何干净、hinge 阳性的姿态**，使两端分数同时偏高——这与“化学型同源假双靶”（T2）失败型一致，也说明即便在相对最好的靶对上，对接仍可能把 ATP 位点交叉化学型误判为 dual。
 
 相反，部分经典 dual（如 Torin1、Omipalisib）在 Vina 上很强，但 RTM 优选姿态可偏离 PIK3CA hinge/共晶位，表现为重打分误伤（T5）。因此，PIK3CA/mTOR 的 summary_min 优势应解读为：**在共享 ATP 识别框架下、对部分化学型可出现有限方向信号**，而不是已验证的通用双靶决策规则；全面板残基级守恒分析与相互作用指纹定量比较超出当前冻结分析包，留待后续工作。
 
 （对应已有 failure typology 与 cognate QC；非新对接）
+
+### 3.8 尚未解决的稳健性缺口：面板构成层重抽样
+
+现有 bootstrap（Methods 2.6；B = 2000）重采样的是**固定面板内**的配体，回答"这批已对接分子的不确定度有多大"，不回答"如果换一批同配额的分子，结论是否还成立"——即面板构成本身的抽样分布。要回答后者，需从各靶对严格供给池中按同一配额重复抽取大量独立 panel（如 1000 次），并对每次抽到的、尚未对接的池内分子跑 Vina/RTM/GNINA，再汇总 summary_min 的分布。这需要对当前冻结分数包之外的分子重新对接，超出本轮分析范围；`data/jcim_holdout_v0/` 已冻结候选池与抽样种子，供后续对接工作使用（不虚构其分布结果）。这是本文当前最大的稳健性缺口，读者不应将§3.2–3.6 的稳健性等同于"面板构成已验证稳健"。
+
+（对应 Methods 2.6 局限说明；`JCIM_SUPPLEMENTARY_EXPERIMENTS_PLAN_V2.md`）
