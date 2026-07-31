@@ -24,6 +24,7 @@ JCIM **evaluation / benchmark** 课题：双靶对接四类硬负评测。
 | [`data/jcim_strengthen_t0t1_v0/analysis/A_GROUP_VERDICT.md`](data/jcim_strengthen_t0t1_v0/analysis/A_GROUP_VERDICT.md) | 混淆对照裁决 |
 | [`data/jcim_strengthen_t0t1_v0/analysis/B_GROUP_VERDICT.md`](data/jcim_strengthen_t0t1_v0/analysis/B_GROUP_VERDICT.md) | E8 / enrichment / PM110 |
 | [`docs/JCIM_STRENGTHENING_PLAN_V1.md`](docs/JCIM_STRENGTHENING_PLAN_V1.md) | 加厚规划（历史+路线） |
+| **[`docs/JCIM_SUPPLEMENTARY_EXPERIMENTS_PLAN_V2.md`](docs/JCIM_SUPPLEMENTARY_EXPERIMENTS_PLAN_V2.md)** | ★ 外部 holdout + 结构稳健性可执行方案（含已生成的 holdout 面板与交给本地 Agent 的对接步骤） |
 | [`docs/REPO_CLEANUP_NOTES.md`](docs/REPO_CLEANUP_NOTES.md) | 本仓库删了什么、为何保留 |
 
 ## 保留的数据目录
