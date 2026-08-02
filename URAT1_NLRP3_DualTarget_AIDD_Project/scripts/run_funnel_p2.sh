@@ -50,6 +50,8 @@ python3 scripts/run_gnina_batch.py \
 #    Write into data/repurposing/pareto/ so downstream audit scripts
 #    (10_admet, 11_chemical_space, 13_pareto_robustness, 14_candidate_nomination)
 #    pick it up via their default --pool/--shortlist paths.
+#    Raw pareto_shortlist.csv is docking-only (audit). Druglike MW slice +
+#    Module F nomination are the follow-up lists — do not story-pick from raw Pareto.
 PARETO_OUT="${PARETO_OUT:-data/repurposing/pareto}"
 python3 scripts/merge_docking_pareto.py \
   --ml-scores "$MLSCORES" \
@@ -58,6 +60,7 @@ python3 scripts/merge_docking_pareto.py \
   --nlrp3-pdb 7ALV \
   --pool "$POOL" \
   --sn-mode both \
+  --mw-min 200 --mw-max 550 \
   --output-dir "$PARETO_OUT"
 
 echo ""
@@ -65,6 +68,8 @@ echo "Done. Key outputs:"
 echo "  $OUT/docking_p2/9dkb/docking_9dkb_gnina.csv"
 echo "  $OUT/docking_p2/7alv/docking_7alv_gnina.csv"
 echo "  $PARETO_OUT/pareto_merged_scores.csv"
-echo "  $PARETO_OUT/pareto_shortlist.csv"
+echo "  $PARETO_OUT/pareto_shortlist.csv            # raw docking Pareto (audit only)"
+echo "  $PARETO_OUT/pareto_shortlist_druglike.csv   # Pareto ∩ oral MW 200–550"
 echo "Next: python3 scripts/10_admet_druglikeness.py && python3 scripts/11_chemical_space_novelty.py"
 echo "      python3 scripts/13_pareto_robustness.py && python3 scripts/14_candidate_nomination.py"
+echo "Follow-up molecules: results/candidates/nominated_shortlist_diverse.csv (NOT raw Pareto)"

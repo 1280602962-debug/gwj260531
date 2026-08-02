@@ -65,10 +65,13 @@ JOBS=8 bash scripts/run_funnel_p2.sh
 results/repurposing/docking_p2/9dkb/docking_9dkb_gnina.csv
 results/repurposing/docking_p2/7alv/docking_7alv_gnina.csv
 data/repurposing/pareto/pareto_merged_scores.csv
-data/repurposing/pareto/pareto_shortlist.csv
+data/repurposing/pareto/pareto_shortlist.csv            # 原始对接 Pareto（仅审计）
+data/repurposing/pareto/pareto_shortlist_druglike.csv   # Pareto ∩ MW 200–550
 ```
 
 若 `docking_status` 列里失败（非 `docked`）比例超过 ~10%，先排查（常见原因：配体准备失败、gnina 超时），修复后重跑，不要带着大面积失败继续下一步。
+
+**重要：** 不要把 `pareto_shortlist.csv` 当成故事分子/MD 候选。对接 Pareto 常被大环内酯等高分子量分子占据；跟进名单以任务 2 的化学优先提名为准。
 
 ---
 
@@ -80,19 +83,24 @@ data/repurposing/pareto/pareto_shortlist.csv
 python3 scripts/10_admet_druglikeness.py
 python3 scripts/11_chemical_space_novelty.py
 python3 scripts/13_pareto_robustness.py
-python3 scripts/14_candidate_nomination.py
+python3 scripts/14_candidate_nomination.py --tau 90 --mw-min 200 --mw-max 550 --top-diverse 12
 ```
 
 **产出检查：**
 ```
-results/cheminformatics/...        # ADMET / drug-likeness / novelty 输出
-results/pareto_robustness/...      # bootstrap 敏感性
-results/candidates/...             # 最终提名表（含 clean candidate 标记）
+results/cheminformatics/...                              # ADMET / drug-likeness / novelty 输出
+results/pareto_robustness/...                            # bootstrap 敏感性
+results/candidates/nominated_candidates.csv              # 双阈值全集 + 化学标记
+results/candidates/nominated_shortlist_diverse.csv       # 骨架去冗余后的跟进短名单（主读此表）
+results/candidates/candidate_nomination_summary.json
 ```
 
-打开 `results/candidates/` 下的提名表，确认：
+打开提名表时确认：
+- **跟进分子读 `nominated_shortlist_diverse.csv`**，不是原始 Pareto。
+- `preferred_candidate=True`：无 PAINS/Brenk、Lipinski+Veber、MW∈[200,550]、口服吸收替代标志通过。
+- 大环/高分子量对接优势分子应落在 `mw_oral_ok=False` 或非 preferred，并在 summary 的 `demoted_high_mw_in_gate` 可见。
 - 已知对照药（lesinurad、benzbromarone、verinurad、dotinurad、MCC950、GDC-2394、allopurinol、colchicine）被正确标记为"已知对照"而非"新提名"。
-- PAINS/Brenk 命中分子已标记降级原因，不与 clean candidate 混为一谈。
+- PAINS/Brenk 命中分子已标记降级原因，不与 clean/preferred candidate 混为一谈。
 
 ---
 
@@ -110,9 +118,10 @@ python3 scripts/select_md_candidates.py \
   --output data/md_candidates/md_candidate_selection.csv
 ```
 
-- 默认从 `results/candidates/nominated_candidates.csv`（任务 2 产物）挑选：
-  - 最多 4 个 **novel_candidate**：`clean_candidate=True`（无 PAINS/Brenk，通过 Lipinski+Veber），按 `dual_structure_balance` 降序
+- 默认从 `results/candidates/nominated_candidates.csv`（任务 2 产物）挑选，并优先参考 `nominated_shortlist_diverse.csv`：
+  - 最多 4 个 **novel_candidate**：优先 `preferred_candidate=True`（清洁 + 口服 MW 窗 + 吸收），再按双结构平衡 / 化学排序分，并按 Murcko 骨架去冗余
   - 最多 2 个 **known_control**：已知对照药（优先 lesinurad、MCC950 等），用于校准解读
+- **禁止**从原始 `pareto_shortlist.csv` 手工挑 MD 分子（大环内酯等对接刷分分子应已被 MW/类药性规则降级）。
 - 脚本会自动把候选分子关联回 `repurposing_id` / `canonical_smiles` / 对接状态（通过 `data/repurposing/pareto/pareto_merged_scores.csv` 联表），不需要手工处理。
 - 若某候选缺 `repurposing_id`（联表失败）会打印 WARNING 并自动剔除，不会中断执行。
 

@@ -10,8 +10,14 @@ Inputs:
 
 Outputs:
   results/repurposing/pareto_merged_scores.csv
-  results/repurposing/pareto_shortlist.csv
+  results/repurposing/pareto_shortlist.csv              (raw docking Pareto; audit only)
+  results/repurposing/pareto_shortlist_druglike.csv     (Pareto ∩ oral MW window)
   results/repurposing/pareto_summary.json
+
+Note:
+  Raw Pareto is dominated by large / highly polar contact-rich molecules and is
+  NOT the follow-up shortlist. Downstream Module F (14_candidate_nomination.py)
+  applies PAINS/Brenk + Lipinski/Veber + oral MW + scaffold diversity.
 
 Example:
   python3 scripts/merge_docking_pareto.py \\
@@ -99,6 +105,14 @@ def main() -> None:
     parser.add_argument("--sn-mode", choices=["ml", "dock", "both"], default="both", help="S_N axis source")
     parser.add_argument("--min-su", type=float, default=0.0, help="Min S_U percentile for shortlist")
     parser.add_argument("--min-sn", type=float, default=0.0, help="Min S_N percentile for shortlist")
+    parser.add_argument(
+        "--mw-min", type=float, default=200.0,
+        help="Oral-ish MW lower bound (Da) for druglike Pareto shortlist",
+    )
+    parser.add_argument(
+        "--mw-max", type=float, default=550.0,
+        help="Oral-ish MW upper bound (Da) for druglike Pareto shortlist; demotes macrolides",
+    )
     args = parser.parse_args()
     args.output_dir.mkdir(parents=True, exist_ok=True)
 
@@ -134,7 +148,7 @@ def main() -> None:
     if pool_keys is not None:
         merged = merged[merged["canonical_smiles"].astype(str).isin(pool_keys)].copy()
 
-  # Prefer dock_score; glide_score_xp kept as identical legacy alias
+    # Prefer dock_score; glide_score_xp kept as identical legacy alias
     su_col = "dock_score" if "dock_score" in merged.columns else "glide_score_xp"
     sn_col = "nlrp3_dock_score" if "nlrp3_dock_score" in merged.columns else "nlrp3_glide_score_xp"
     merged["s_u_percentile"] = percentile_rank(merged[su_col], higher_is_better=False)
@@ -153,9 +167,6 @@ def main() -> None:
     sn = merged["s_n_percentile"].to_numpy(dtype=float)
     merged["pareto_front"] = pareto_front(su, sn)
 
-    merged_path = args.output_dir / "pareto_merged_scores.csv"
-    merged.to_csv(merged_path, index=False)
-
     shortlist = merged[
         merged["pareto_front"]
         & (merged["s_u_percentile"] >= args.min_su)
@@ -163,6 +174,28 @@ def main() -> None:
     ].copy()
     shortlist_path = args.output_dir / "pareto_shortlist.csv"
     shortlist.to_csv(shortlist_path, index=False)
+
+    # Chemistry-aware Pareto slice: same non-dominated set, but drop oversized molecules
+    # that inflate contact-based docking ranks (macrolides / polyketides). Follow-up
+    # story molecules still come from Module F nomination, not this file alone.
+    if "mw" in merged.columns:
+        mw = pd.to_numeric(merged["mw"], errors="coerce")
+        merged["mw_oral_ok"] = mw.between(args.mw_min, args.mw_max, inclusive="both")
+    else:
+        merged["mw_oral_ok"] = True
+        print("WARNING: no mw column in merge; druglike shortlist cannot apply MW window")
+
+    shortlist_druglike = shortlist.copy()
+    if "mw" in shortlist_druglike.columns:
+        shortlist_druglike = shortlist_druglike[
+            pd.to_numeric(shortlist_druglike["mw"], errors="coerce")
+            .between(args.mw_min, args.mw_max, inclusive="both")
+        ].copy()
+    shortlist_druglike_path = args.output_dir / "pareto_shortlist_druglike.csv"
+    shortlist_druglike.to_csv(shortlist_druglike_path, index=False)
+
+    merged_path = args.output_dir / "pareto_merged_scores.csv"
+    merged.to_csv(merged_path, index=False)
 
     name_col = pick_col(merged.columns, NAME_ALIASES) or "name"
     controls = ["lesinurad", "benzbromarone", "verinurad", "dotinurad", "colchicine", "allopurinol", "febuxostat"]
@@ -178,6 +211,7 @@ def main() -> None:
                         "s_u_percentile": float(row["s_u_percentile"]),
                         "s_n_percentile": float(row["s_n_percentile"]),
                         "pareto_front": bool(row["pareto_front"]),
+                        "mw_oral_ok": bool(row["mw_oral_ok"]) if "mw_oral_ok" in row.index else None,
                     }
                 )
 
@@ -186,11 +220,18 @@ def main() -> None:
         "n_merged_dual_dock": int(len(merged)),
         "n_pareto_front": int(merged["pareto_front"].sum()),
         "n_shortlist": int(len(shortlist)),
+        "n_shortlist_druglike": int(len(shortlist_druglike)),
+        "mw_window_da": [args.mw_min, args.mw_max],
         "sn_mode": args.sn_mode,
+        "note": (
+            "pareto_shortlist.csv is raw docking Pareto (audit only). "
+            "Use pareto_shortlist_druglike.csv + Module F nomination for follow-up."
+        ),
         "known_controls": ctrl_hits,
         "outputs": {
             "merged": str(merged_path),
             "shortlist": str(shortlist_path),
+            "shortlist_druglike": str(shortlist_druglike_path),
         },
     }
     summary_path = args.output_dir / "pareto_summary.json"

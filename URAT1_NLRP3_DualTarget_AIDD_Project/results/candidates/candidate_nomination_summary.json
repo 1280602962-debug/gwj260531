@@ -1,126 +1,301 @@
 {
   "module": "F_candidate_nomination",
   "tau": 90.0,
+  "mw_min": 200.0,
+  "mw_max": 550.0,
+  "ranking_note": "preferred_candidate = clean (no PAINS/Brenk, Lipinski+Veber) + oral MW window + oral_absorption_ok; scaffold-diverse shortlist is the follow-up list \u2014 not raw Pareto / docking score.",
   "n_dual_gate": 46,
   "n_clean_candidate": 16,
+  "n_preferred_candidate": 13,
   "n_clean_novel": 15,
+  "n_preferred_novel": 12,
   "n_clean_novel_structure_supported": 6,
-  "top_clean_novel": [
+  "n_preferred_novel_structure_supported": 5,
+  "n_diverse_shortlist": 12,
+  "top_preferred_novel": [
     {
       "name": "CANAGLIFLOZIN",
       "max_phase": 4.0,
+      "mw": 444.52,
       "s_u_percentile": 98.07029634734666,
       "s_n_dock_percentile": 94.00413507925568,
       "p_active_nlrp3": 0.91666675,
       "qed": 0.486,
+      "chemistry_rank_score": 0.5262500000000001,
       "nlrp3_structure_supported": true
     },
     {
       "name": "CAFICRESTAT",
       "max_phase": 3.0,
+      "mw": 421.36,
       "s_u_percentile": 91.45416953824947,
       "s_n_dock_percentile": 94.96898690558236,
       "p_active_nlrp3": 0.57095164,
       "qed": 0.539,
+      "chemistry_rank_score": 0.5764,
       "nlrp3_structure_supported": true
-    },
-    {
-      "name": "DORZAGLIATIN",
-      "max_phase": 3.0,
-      "s_u_percentile": 95.93383873190902,
-      "s_n_dock_percentile": 87.5947622329428,
-      "p_active_nlrp3": 1.0,
-      "qed": 0.497,
-      "nlrp3_structure_supported": false
-    },
-    {
-      "name": "SERALUTINIB",
-      "max_phase": 3.0,
-      "s_u_percentile": 91.10957960027568,
-      "s_n_dock_percentile": 66.50585802894555,
-      "p_active_nlrp3": 1.0,
-      "qed": 0.362,
-      "nlrp3_structure_supported": false
     },
     {
       "name": "NELUTROCTIV",
       "max_phase": 2.0,
+      "mw": 543.51,
       "s_u_percentile": 92.3501033769814,
       "s_n_dock_percentile": 94.41764300482426,
       "p_active_nlrp3": 0.9166666,
       "qed": 0.562,
-      "nlrp3_structure_supported": true
-    },
-    {
-      "name": "SLV-334",
-      "max_phase": 2.0,
-      "s_u_percentile": 99.93108201240524,
-      "s_n_dock_percentile": 92.1433494141971,
-      "p_active_nlrp3": 0.9166667,
-      "qed": 0.324,
+      "chemistry_rank_score": 0.23291250000000005,
       "nlrp3_structure_supported": true
     },
     {
       "name": "FULIMETIBANT",
       "max_phase": 2.0,
+      "mw": 487.45,
       "s_u_percentile": 90.28256374913852,
       "s_n_dock_percentile": 90.07580978635424,
       "p_active_nlrp3": 1.0,
       "qed": 0.431,
+      "chemistry_rank_score": 0.2505875,
       "nlrp3_structure_supported": true
+    },
+    {
+      "name": "PF-06952229",
+      "max_phase": 1.0,
+      "mw": 458.92,
+      "s_u_percentile": 97.10544452102,
+      "s_n_dock_percentile": 94.5554789800138,
+      "p_active_nlrp3": 0.9166667,
+      "qed": 0.408,
+      "chemistry_rank_score": 0.47705000000000003,
+      "nlrp3_structure_supported": true
+    },
+    {
+      "name": "DORZAGLIATIN",
+      "max_phase": 3.0,
+      "mw": 462.93,
+      "s_u_percentile": 95.93383873190902,
+      "s_n_dock_percentile": 87.5947622329428,
+      "p_active_nlrp3": 1.0,
+      "qed": 0.497,
+      "chemistry_rank_score": 0.5076375,
+      "nlrp3_structure_supported": false
+    },
+    {
+      "name": "SERALUTINIB",
+      "max_phase": 3.0,
+      "mw": 469.55,
+      "s_u_percentile": 91.10957960027568,
+      "s_n_dock_percentile": 66.50585802894555,
+      "p_active_nlrp3": 1.0,
+      "qed": 0.362,
+      "chemistry_rank_score": 0.2453625,
+      "nlrp3_structure_supported": false
     },
     {
       "name": "BERVASTATIN",
       "max_phase": 2.0,
+      "mw": 466.55,
       "s_u_percentile": 97.58787043418332,
       "s_n_dock_percentile": 71.60578911095796,
       "p_active_nlrp3": 1.0,
       "qed": 0.538,
+      "chemistry_rank_score": 0.5195125,
       "nlrp3_structure_supported": false
     },
     {
       "name": "ONRADIVIR",
       "max_phase": 2.0,
+      "mw": 440.45,
       "s_u_percentile": 90.9028256374914,
       "s_n_dock_percentile": 47.96691936595452,
       "p_active_nlrp3": 1.0,
       "qed": 0.551,
+      "chemistry_rank_score": 0.5573375,
       "nlrp3_structure_supported": false
-    },
-    {
-      "name": "PF-06952229",
-      "max_phase": 1.0,
-      "s_u_percentile": 97.10544452102,
-      "s_n_dock_percentile": 94.5554789800138,
-      "p_active_nlrp3": 0.9166667,
-      "qed": 0.408,
-      "nlrp3_structure_supported": true
     },
     {
       "name": "STX-478",
       "max_phase": 1.0,
+      "mw": 401.3,
       "s_u_percentile": 94.41764300482426,
       "s_n_dock_percentile": 65.74776016540316,
       "p_active_nlrp3": 1.0,
       "qed": 0.579,
+      "chemistry_rank_score": 0.617475,
       "nlrp3_structure_supported": false
     },
     {
-      "name": "RINETERKIB",
+      "name": "M4344",
       "max_phase": 1.0,
-      "s_u_percentile": 99.2419021364576,
-      "s_n_dock_percentile": 38.59407305306684,
+      "mw": 541.56,
+      "s_u_percentile": 96.96760854583046,
+      "s_n_dock_percentile": 20.74431426602344,
       "p_active_nlrp3": 1.0,
-      "qed": 0.33,
+      "qed": 0.485,
+      "chemistry_rank_score": 0.20455000000000007,
       "nlrp3_structure_supported": false
+    },
+    {
+      "name": "MK-6592",
+      "max_phase": 1.0,
+      "mw": 529.98,
+      "s_u_percentile": 98.96623018607856,
+      "s_n_dock_percentile": 19.021364576154376,
+      "p_active_nlrp3": 1.0,
+      "qed": 0.471,
+      "chemistry_rank_score": 0.21342499999999998,
+      "nlrp3_structure_supported": false
+    }
+  ],
+  "top_diverse_shortlist": [
+    {
+      "diverse_rank": 1,
+      "name": "CANAGLIFLOZIN",
+      "max_phase": 4.0,
+      "mw": 444.52,
+      "scaffold": "c1ccc(-c2ccc(Cc3cccc(C4CCCCO4)c3)s2)cc1",
+      "dual_structure_balance": 94.00413507925568,
+      "qed": 0.486,
+      "chemistry_rank_score": 0.5262500000000001
+    },
+    {
+      "diverse_rank": 2,
+      "name": "CAFICRESTAT",
+      "max_phase": 3.0,
+      "mw": 421.36,
+      "scaffold": "O=c1c2nccnc2cnn1Cc1nc2ccccc2s1",
+      "dual_structure_balance": 91.45416953824947,
+      "qed": 0.539,
+      "chemistry_rank_score": 0.5764
+    },
+    {
+      "diverse_rank": 3,
+      "name": "NELUTROCTIV",
+      "max_phase": 2.0,
+      "mw": 543.51,
+      "scaffold": "O=C(NC(c1ccccc1)C1CC1)C1CC2CC2N1C(=O)c1cccnc1",
+      "dual_structure_balance": 92.3501033769814,
+      "qed": 0.562,
+      "chemistry_rank_score": 0.23291250000000005
+    },
+    {
+      "diverse_rank": 4,
+      "name": "FULIMETIBANT",
+      "max_phase": 2.0,
+      "mw": 487.45,
+      "scaffold": "O=C(Nc1ccc(-c2cnn(C3CCC3)c2)cc1)C1(c2ccccc2)CC1",
+      "dual_structure_balance": 90.07580978635424,
+      "qed": 0.431,
+      "chemistry_rank_score": 0.2505875
+    },
+    {
+      "diverse_rank": 5,
+      "name": "PF-06952229",
+      "max_phase": 1.0,
+      "mw": 458.92,
+      "scaffold": "c1ccc(-c2cc(Nc3ccncc3)ccn2)cc1",
+      "dual_structure_balance": 94.5554789800138,
+      "qed": 0.408,
+      "chemistry_rank_score": 0.47705000000000003
+    },
+    {
+      "diverse_rank": 6,
+      "name": "DORZAGLIATIN",
+      "max_phase": 3.0,
+      "mw": 462.93,
+      "scaffold": "O=C(CN1CC(Oc2ccccc2)=CC1=O)Nc1cc[nH]n1",
+      "dual_structure_balance": 87.5947622329428,
+      "qed": 0.497,
+      "chemistry_rank_score": 0.5076375
+    },
+    {
+      "diverse_rank": 7,
+      "name": "SERALUTINIB",
+      "max_phase": 3.0,
+      "mw": 469.55,
+      "scaffold": "O=C(Nc1cccc(CNc2cncc(-c3ccccc3)n2)c1)c1cccnc1",
+      "dual_structure_balance": 66.50585802894555,
+      "qed": 0.362,
+      "chemistry_rank_score": 0.2453625
+    },
+    {
+      "diverse_rank": 8,
+      "name": "BERVASTATIN",
+      "max_phase": 2.0,
+      "mw": 466.55,
+      "scaffold": "C1=C(c2ccccc2)c2ccccc2OC12CCCC2",
+      "dual_structure_balance": 71.60578911095796,
+      "qed": 0.538,
+      "chemistry_rank_score": 0.5195125
+    },
+    {
+      "diverse_rank": 9,
+      "name": "ONRADIVIR",
+      "max_phase": 2.0,
+      "mw": 440.45,
+      "scaffold": "c1cnc2[nH]nc(-c3nc(NC4CC5CCC4CC5)cc(C4CC4)n3)c2c1",
+      "dual_structure_balance": 47.96691936595452,
+      "qed": 0.551,
+      "chemistry_rank_score": 0.5573375
+    },
+    {
+      "diverse_rank": 10,
+      "name": "STX-478",
+      "max_phase": 1.0,
+      "mw": 401.3,
+      "scaffold": "O=C(NCc1cc2ccccc2o1)Nc1cncnc1",
+      "dual_structure_balance": 65.74776016540316,
+      "qed": 0.579,
+      "chemistry_rank_score": 0.617475
+    },
+    {
+      "diverse_rank": 11,
+      "name": "M4344",
+      "max_phase": 1.0,
+      "mw": 541.56,
+      "scaffold": "O=C(Nc1cnccc1N1CCC(C(=O)N2CCN(C3COC3)CC2)CC1)c1cnn2cccnc12",
+      "dual_structure_balance": 20.74431426602344,
+      "qed": 0.485,
+      "chemistry_rank_score": 0.20455000000000007
+    },
+    {
+      "diverse_rank": 12,
+      "name": "MK-6592",
+      "max_phase": 1.0,
+      "mw": 529.98,
+      "scaffold": "O=C(c1ccccc1)N1CCC(Oc2nc(Nc3cc[nH]n3)cc(N3CC(C4CC4)C3)n2)C1",
+      "dual_structure_balance": 19.021364576154376,
+      "qed": 0.471,
+      "chemistry_rank_score": 0.21342499999999998
     }
   ],
   "known_reference_in_gate": [
     {
       "name": "LESINURAD",
       "max_phase": 4.0,
+      "mw": 404.29,
       "s_u_percentile": 91.592005513439,
-      "s_n_percentile": 95.03790489317711
+      "s_n_percentile": 95.03790489317711,
+      "preferred_candidate": true
+    }
+  ],
+  "demoted_high_mw_in_gate": [
+    {
+      "name": "SLV-334",
+      "mw": 556.66,
+      "s_u_percentile": 99.93108201240524,
+      "s_n_percentile": 92.1433494141971
+    },
+    {
+      "name": "RINETERKIB",
+      "mw": 578.43,
+      "s_u_percentile": 99.2419021364576,
+      "s_n_percentile": 91.38525155065471
+    },
+    {
+      "name": "GDC-0917",
+      "mw": 564.71,
+      "s_u_percentile": 96.3473466574776,
+      "s_n_percentile": 91.38525155065471
     }
   ]
 }
