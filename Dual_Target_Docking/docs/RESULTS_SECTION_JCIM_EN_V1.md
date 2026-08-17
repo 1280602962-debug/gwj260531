@@ -1,7 +1,7 @@
 # Results (JCIM Articles draft, English)
 
 > Companion to [`RESULTS_DRAFT_ZH_JCIM_V1.md`](RESULTS_DRAFT_ZH_JCIM_V1.md) (Chinese authoritative for this rewrite cycle).  
-> Numbers from `PRIMARY_METRIC_V2.md`, `PRIMARY_METRIC_CLAIM_GATE.md`, SI Tables S4–S7. No fabricated experiments.  
+> Numbers from `PRIMARY_METRIC_V2.md`, `PRIMARY_METRIC_CLAIM_GATE.md`, SI Tables S4–S11. No fabricated experiments.  
 > **Framing (deliberately not absolute; not a named method product):** not "Docking can/cannot identify dual-target ligands," and not "we developed a novel Dual-target Docking Reliability Assessment Framework (D-DRAF)." Preferred: *evaluating the reliability and limitations of docking-based dual-target recognition* via a systematic benchmarking framework and the DualFourClass-Bench resource. See [`POSITIONING_AND_FRAMEWORK_LANGUAGE_V1.md`](POSITIONING_AND_FRAMEWORK_LANGUAGE_V1.md).
 
 ## 3. Results
@@ -74,4 +74,36 @@ PIK3CA (4L23) and mTOR (4JT6) are ATP-competitive kinase-related pockets; cognat
 
 ### 3.8 An unresolved robustness gap: panel-composition resampling
 
-The existing bootstrap (Methods 2.6; B = 2000) resamples ligands **within a fixed panel**, answering "how uncertain is this particular docked set," not "would the conclusion still hold with a different, equally sized sample." Answering the latter requires drawing many independent panels (e.g., 1000 draws) from each pair's strict supply pool at the same quota, docking the not-yet-docked pool members, and summarizing the resulting distribution of summary_min. This requires docking beyond the currently frozen score package and is out of scope for this round; `data/jcim_holdout_v0/` already freezes the candidate pool and sampling seed for this purpose, without fabricating its distribution here. This is the largest remaining robustness gap in the paper, and the stability shown in §3.2–3.6 should not be read as evidence that panel composition itself has been validated as robust.
+The existing bootstrap (Methods 2.6; B = 2000) resamples ligands **within a fixed panel**, answering "how uncertain is this particular docked set," not "would the conclusion still hold with a different, equally sized sample." Answering the latter requires drawing many independent panels (e.g., 1000 draws) from each pair's strict supply pool at the same quota, docking the not-yet-docked pool members, and summarizing the resulting distribution of summary_min. This requires docking beyond the currently frozen score package; §3.9 below reports one such unused-pool draw per pair, which addresses this gap partially but not with a resampled distribution.
+
+### 3.9 Unused-pool holdout (post-panel-freeze validation)
+
+From the strict ChEMBL pool not used in panel construction or protocol tuning, we drew 60 ligands per pair (dual/A_only/B_only = 20/20/20; seed 20260731) for three pairs, docked them under the frozen protocol, and recomputed pocket-matched summary_min (Supporting Information Table S8; `HOLDOUT_VERDICT.md`).
+
+| Pair | Holdout summary_min [95% CI] | Main-panel summary_min | Δ (holdout − main panel) | vs best trivial baseline |
+|---|---:|---:|---:|---|
+| PIK3CA/mTOR | 0.765 [0.603, 0.891] | 0.692 | +0.073 | beats baseline (Δ = +0.21 vs heavy) |
+| AChE/BChE | 0.618 [0.422, 0.759] | 0.606 | +0.012 | narrowly beats baseline (Δ = +0.043 vs cLogP); CI still includes 0.5 |
+| PIK3CA/PIK3CB | 0.425 [0.241, 0.618] | 0.500 | −0.075 | does not beat baseline (Δ = −0.266 vs heavy) |
+
+PIK3CA/mTOR's direction is confirmed on unseen ligands, with the bootstrap lower bound above 0.5 and continued superiority over the strongest trivial descriptor. AChE/BChE is close to the main-panel point estimate but its CI still spans 0.5. PIK3CA/PIK3CB shows no usable directional signal. One boron-containing ligand (HOAP_028) failed on both ends (unsupported AutoDock atom type) and was excluded (59/60 ligands analyzed). This holdout shares the same ChEMBL extraction batch as the main panels and is not an independent cross-database validation; it tests whether the scoring rule and protocol generalize to same-rule ligands unseen at construction time.
+
+All three holdout pairs show `wrong_pocket_control_vina` **at or above** `pocket_matched_vina` (PM: 0.788 vs 0.765; AChE/BChE: 0.643 vs 0.618; PIK3CB: 0.520 vs 0.425). To test whether this is a Vina-scoring artifact, we computed a scoring-free geometric proxy directly from the already-docked mode-1 pose coordinates: `contact_count`, the number of ligand heavy atoms within 4.0 Å of any receptor heavy atom (a coarse burial proxy, not a validated PLIF). Using `contact_count` alone to repeat the same own-pocket comparison gave AUROC clearly above chance on all three pairs — dual vs A_only in pocket A: 0.552–0.622; dual vs B_only in pocket B: 0.698–0.714 (`WRONG_POCKET_MECHANISM_VERDICT_V1.md`). Dual ligands were also larger on average than the corresponding hard-negative selective ligands (e.g., AChE/BChE mean heavy-atom count: 34.8 vs 33.8/29.6). This indicates that the holdout's wrong-pocket-not-worse pattern is substantially explained by a **ligand size/burial confound that reproduces at the pose-geometry level**, independent of the Vina energy function — a stronger form of evidence than the 2D descriptor covariates in §3.4. Using the identical control definition, the frozen main panels instead show pocket-matched clearly above wrong-pocket for all four pairs (Table S6); we do not have a resolved explanation for this main-panel-versus-holdout contrast and report it as an open discrepancy rather than smoothing it over.
+
+### 3.10 Structural robustness of the alternate crystal forms (cognate QC + panel re-docking)
+
+Cognate re-docking QC on alternate crystals under the Methods 2.4 protocol: PIK3CA **4JPS** (1LT) best-of-9 = 0.607 Å; **5DXT** (5H5) = 0.624 Å; mTOR **4JSX** (Torin2/17G) = 0.515 Å — **all three pass** the < 2 Å gate (`STRUCTURE_ROBUSTNESS_QC_V1.md`); the chimeric structure 3T8M remains excluded.
+
+Re-docking the frozen PM48 ligands with pocket A replaced by 4JPS or 5DXT (pocket B kept at the original 4JT6 scores) dropped pocket-matched summary_min from the main-panel 0.692 to **0.486** [0.259, 0.692] and **0.505** [0.292, 0.696], respectively; the D-vs-A arm (still scored on unchanged 4JT6) stayed at 0.714, so the decline is concentrated in the D-vs-B arm that depends on the new PIK3CA pocket. Replacing pocket B with 4JSX (pocket A kept at 4L23) gave summary_min = **0.639** [0.418, 0.776] (Δ ≈ −0.05). Under the plan's pre-declared decision rule, the PIK3CA end is recorded as **receptor-dependent**: the favorable signal on 4L23 does not automatically transfer to other cognate-QC-passing PIK3CA crystals; the mTOR end retains a weaker version of the advantage after crystal replacement. Full record in `STRUCTURE_ROBUSTNESS_VERDICT_V1.md`.
+
+### 3.11 A structural mechanism for the receptor dependence: inter-crystal conformational variability (exploratory)
+
+To explain the asymmetry in §3.10 — PIK3CA-end swaps collapse the signal, the mTOR-end swap only mildly reduces it — we performed a rigid-body superposition directly on the already-deposited crystal coordinates (`POCKET_MECHANISM_VERDICT_V1.md`). Pocket residues were defined per structure from its own cognate ligand (heavy-atom distance ≤ 5 Å; 20 residues for PIK3CA, 18 for mTOR, matched by residue number **and** identity with zero mismatches, ruling out a crystallization-mutant explanation). All matched Cα atoms were used for a single Kabsch fit, giving a **global Cα RMSD**; the same transform, restricted to the pocket-residue subset, gave a **local pocket Cα RMSD**.
+
+| Reference (main panel) | Alternate | Matched Cα | Global Cα RMSD | Local pocket Cα RMSD | Cognate-ligand centroid distance |
+|---|---|---:|---:|---:|---:|
+| 4L23 (PIK3CA) | 4JPS | 982 | **1.486 Å** | 0.867 Å | 2.566 Å |
+| 4L23 (PIK3CA) | 5DXT | 862 | **1.441 Å** | 0.343 Å | 2.072 Å |
+| 4JT6 (mTOR) | 4JSX | 1054 | **0.454 Å** | 0.467 Å | 2.196 Å |
+
+This quantifies the asymmetry seen at the score level: **these deposited PIK3CA structures differ from one another (global Cα RMSD 1.44–1.49 Å) far more than these mTOR structures differ from one another (0.45 Å)**, tracking the direction and relative magnitude of the AUROC collapse. However, local pocket geometry alone does not fully account for it: on 5DXT, the local pocket Cα RMSD (0.343 Å) is *smaller* than the global RMSD (1.441 Å) — the ATP-site backbone is well conserved — yet summary_min still collapsed to 0.505, essentially matching 4JPS (local pocket RMSD 0.867 Å, summary_min 0.486). **Cα-level pocket conservation is therefore not sufficient to guarantee that pocket-matched discrimination transfers**; side-chain rotamers, protonation states, or docking search-space sensitivity not captured by a Cα-only metric are plausible additional factors, but we have no PLIF- or rotamer-level evidence for this round and do not claim the mechanism is fully resolved. Across all three alternates, the transformed cognate-ligand centroids sit within 2.1–2.6 Å of the main-panel cognate-ligand centroid, indicating that docking still targets the same general ATP-competitive site rather than an unrelated pocket.

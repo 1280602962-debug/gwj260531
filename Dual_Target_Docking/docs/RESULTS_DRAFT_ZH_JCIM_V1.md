@@ -1,7 +1,7 @@
 # Results（中文工作稿 · JCIM 式结构修订）
 
 > 结构按 JCIM 评测文习惯重排（供给发现 → 标签稳健 → 对接主结果 → 混淆主导 → 稳健性与案例依赖成功 → 跨对结构决定因素 → 个案结构线索）。  
-> 全部数字可追溯至 `data/jcim_bench_v0/`、`data/jcim_strengthen_t0t1_v0/` 与 `data/jcim_bench_v0/analysis/structural_context_v1/`；未做的全库 PLIF / 口袋叠合分析不写入。  
+> 全部数字可追溯至 `data/jcim_bench_v0/`、`data/jcim_strengthen_t0t1_v0/`、`data/jcim_bench_v0/analysis/structural_context_v1/`、`data/jcim_holdout_v0/` 与 `data/jcim_structure_robust_v0/analysis/pocket_mechanism_v1/`；未做的全面板残基级 PLIF 定量比较不写入。  
 > 投稿以英文为准；本稿供中文审改。错口袋、配体效率、描述符明细见 Supporting Information Table S5–S6。
 > **本文定位（不用绝对化标题、不包装成新算法）：** 不是 "Docking can/cannot identify dual-target ligands"，也不是 "we developed a novel framework named D-DRAF"；而是 *Evaluating the reliability and limitations of docking-based dual-target recognition*——建立 systematic benchmarking framework / DualFourClass-Bench 评价体系，评价现有对接分数的可靠边界。详见 [`POSITIONING_AND_FRAMEWORK_LANGUAGE_V1.md`](POSITIONING_AND_FRAMEWORK_LANGUAGE_V1.md)。
 
@@ -117,8 +117,24 @@ PM110 保留 PM48 全部 48 个配体并按配额扩样，用作**稳定性核�
 
 PIK3CA/mTOR 在 holdout 上方向与主表一致，且 bootstrap 下界高于 0.5，并继续跑赢最强平凡基线。AChE/BChE 点估计与主表接近，但 CI 仍跨越 0.5。PIK3CA/PIK3CB 仍未显示可用方向信号。含硼配体 HOAP_028 因 AutoDock 原子类型不支持而两端失败，已从 AUROC 装配中剔除（59/60 配体进入分析）。该 holdout 共享同一 ChEMBL 抓取批次，不能读成跨机构独立验证；其作用是检验协议在“建面未见过”的同规则配体上是否同向。
 
+三对 holdout 上均出现**错口袋对照不低于口袋匹配**（PM：0.788 对 0.765；AChE/BChE：0.643 对 0.618；PIK3CB：0.520 对 0.425）。为检验这是否为 Vina 打分本身的伪象，我们直接在已冻结的 mode-1 姿态坐标上计算一个不依赖打分函数的几何量：配体重原子中与受体重原子距离 ≤4.0 Å 的原子数（`contact_count`，粗粒度埋藏/接触计数，非经验证的 PLIF）。以该几何量单独重复 `wrong_pocket_control_vina` 的同口袋比较，三对上 AUROC 均清晰高于随机（dual 对 A_only 于口袋 A：0.552–0.622；dual 对 B_only 于口袋 B：0.698–0.714；`WRONG_POCKET_MECHANISM_VERDICT_V1.md`）。dual 配体重原子数均值普遍高于对应硬负选择性配体（如 AChE/BChE：34.8 对 33.8/29.6）。这表明 holdout 上错口袋对照不弱于匹配，主要由**配体尺寸/埋藏程度**这一几何混淆解释，且该混淆在姿态坐标层面即可复现，不依赖 Vina 能量函数；与之相对，主面板在同一定义下口袋匹配仍普遍高于错口袋（Supporting Information Table S6），二者的反差目前未能完全解释，如实报告为开放问题。
+
 ### 3.10 替代晶体结构的稳健性（cognate QC + 面板重对接）
 
 对替代晶体按 Methods 2.4 协议做共晶重对接：PIK3CA **4JPS**（1LT）best_of_9 = 0.607 Å、**5DXT**（5H5）= 0.624 Å；mTOR **4JSX**（Torin2/17G）= 0.515 Å，**三者均通过** &lt; 2 Å 门槛（`STRUCTURE_ROBUSTNESS_QC_V1.md`）。嵌合体 3T8M 已排除。
 
 在冻结 PM48 配体上将口袋 A 换为 4JPS 或 5DXT（B 端仍用原 4JT6 分数）后，口袋匹配 summary_min 由主面板的 0.692 分别降至 **0.486** [0.259, 0.692] 与 **0.505** [0.292, 0.696]；D/A 臂（依赖未更换的 4JT6）保持 0.714，下降集中在依赖新 PIK3CA 口袋的 D/B 臂。将口袋 B 换为 4JSX（A 端仍用原 4L23）后，summary_min 为 **0.639** [0.418, 0.776]（Δ ≈ −0.05）。按方案预声明判据，PIK3CA 端记为**受体依赖**：4L23 上的有利信号不能自动外推到其他已过 QC 的 PIK3CA 晶体；mTOR 端换晶后点估计仍高于 0.5 但优势减弱。完整记录见 `STRUCTURE_ROBUSTNESS_VERDICT_V1.md`。
+
+### 3.11 受体依赖的结构机制：晶体间构象差异（探索性）
+
+为解释 3.10 中 PIK3CA 端换晶即崩、mTOR 端换晶仅小幅下降的不对称，我们直接在已有晶体坐标上做刚体叠合分析（`POCKET_MECHANISM_VERDICT_V1.md`）：以各自共晶配体重原子 ≤5 Å 界定口袋残基（PIK3CA 20 个、mTOR 18 个，均以残基编号+残基名精确匹配，零错配，排除突变体解释），用全部匹配 Cα 做单次刚体叠合，分别报告**全域 Cα RMSD**（整链）与**同一变换下的口袋局域 Cα RMSD**。
+
+| 参考（主面板） | 替代 | 匹配 Cα | 全域 Cα RMSD | 口袋局域 Cα RMSD | 共晶配体质心距离 |
+|------|------|------:|------:|------:|------:|
+| 4L23（PIK3CA） | 4JPS | 982 | **1.486 Å** | 0.867 Å | 2.566 Å |
+| 4L23（PIK3CA） | 5DXT | 862 | **1.441 Å** | 0.343 Å | 2.072 Å |
+| 4JT6（mTOR） | 4JSX | 1054 | **0.454 Å** | 0.467 Å | 2.196 Å |
+
+结果直接量化了 3.10 观察到的不对称：**这批 PIK3CA 沉积结构彼此的整链构象差异（1.44–1.49 Å）明显大于这批 mTOR 沉积结构彼此的差异（0.45 Å）**，与换晶后 PIK3CA 端信号崩溃、mTOR 端信号仅小幅减弱的方向一致。但局域口袋 Cα 未必是限制因素：5DXT 的口袋局域 RMSD（0.343 Å）反而小于其全域 RMSD（1.441 Å），即 ATP 位点骨架本身高度保守，但 summary_min 在 5DXT 上仍崩至 0.505，与口袋局域偏移更大的 4JPS（0.867 Å，0.486）几乎相同。说明 **Cα 层面的口袋保守性不足以保证判别力可迁移**，侧链构象、质子化或对接搜索空间等 Cα 未覆盖的因素可能同样重要——本轮未获得残基级或相互作用指纹层面的证据，不作已解决主张，留待后续工作。三个替代结构的共晶配体质心（经刚体变换后）与主面板共晶配体质心距离均在 2.1–2.6 Å，提示对接的仍是同一大类 ATP 竞争位点，而非结构上无关的其他口袋。
+
+（对应 `data/jcim_structure_robust_v0/analysis/pocket_mechanism_v1/`；零新对接，仅用已冻结晶体坐标）

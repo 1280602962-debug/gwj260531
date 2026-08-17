@@ -1,0 +1,37 @@
+
+=== 4JPS superposed onto 4L23 ===
+  matched CA (same resnum+resname): 982 / common resnum 982
+  mismatched resname at same resnum: 0
+  GLOBAL Ca RMSD (whole matched chain, one rigid-body fit): 1.486 A
+  pocket residue count (<=5A heavy-atom of 4L23 cognate ligand, matched only): 20
+  pocket residues: [(772, 'MET'), (780, 'TRP'), (800, 'ILE'), (802, 'LYS'), (807, 'LEU'), (810, 'ASP'), (814, 'LEU'), (836, 'TYR'), (838, 'CYS'), (848, 'ILE'), (849, 'GLU'), (850, 'VAL'), (851, 'VAL'), (854, 'SER'), (856, 'THR'), (859, 'GLN'), (922, 'MET'), (930, 'PHE'), (932, 'ILE'), (933, 'ASP')]
+  LOCAL pocket Ca RMSD (same global fit, pocket subset): 0.867 A
+  per-residue Ca displacement after fit: [(859, 'GLN', 1.41), (772, 'MET', 1.4), (780, 'TRP', 1.0), (851, 'VAL', 0.96), (854, 'SER', 0.95), (856, 'THR', 0.93), (836, 'TYR', 0.88), (922, 'MET', 0.84), (930, 'PHE', 0.83), (810, 'ASP', 0.78), (838, 'CYS', 0.77), (800, 'ILE', 0.76), (814, 'LEU', 0.7), (802, 'LYS', 0.68), (848, 'ILE', 0.68), (850, 'VAL', 0.68), (807, 'LEU', 0.66), (849, 'GLU', 0.66), (932, 'ILE', 0.61), (933, 'ASP', 0.59)]
+  cognate-ligand centroid distance after global fit: 2.566 A
+
+=== 5DXT superposed onto 4L23 ===
+  matched CA (same resnum+resname): 862 / common resnum 862
+  mismatched resname at same resnum: 0
+  GLOBAL Ca RMSD (whole matched chain, one rigid-body fit): 1.441 A
+  pocket residue count (<=5A heavy-atom of 4L23 cognate ligand, matched only): 20
+  pocket residues: [(772, 'MET'), (780, 'TRP'), (800, 'ILE'), (802, 'LYS'), (807, 'LEU'), (810, 'ASP'), (814, 'LEU'), (836, 'TYR'), (838, 'CYS'), (848, 'ILE'), (849, 'GLU'), (850, 'VAL'), (851, 'VAL'), (854, 'SER'), (856, 'THR'), (859, 'GLN'), (922, 'MET'), (930, 'PHE'), (932, 'ILE'), (933, 'ASP')]
+  LOCAL pocket Ca RMSD (same global fit, pocket subset): 0.343 A
+  per-residue Ca displacement after fit: [(802, 'LYS', 0.6), (772, 'MET', 0.48), (810, 'ASP', 0.47), (807, 'LEU', 0.47), (814, 'LEU', 0.37), (850, 'VAL', 0.36), (856, 'THR', 0.33), (836, 'TYR', 0.33), (851, 'VAL', 0.32), (780, 'TRP', 0.32), (932, 'ILE', 0.31), (854, 'SER', 0.29), (922, 'MET', 0.27), (849, 'GLU', 0.27), (933, 'ASP', 0.25), (859, 'GLN', 0.24), (930, 'PHE', 0.23), (848, 'ILE', 0.23), (838, 'CYS', 0.22), (800, 'ILE', 0.2)]
+  cognate-ligand centroid distance after global fit: 2.072 A
+
+=== 4JSX superposed onto 4JT6 ===
+  matched CA (same resnum+resname): 1054 / common resnum 1054
+  mismatched resname at same resnum: 0
+  GLOBAL Ca RMSD (whole matched chain, one rigid-body fit): 0.454 A
+  pocket residue count (<=5A heavy-atom of 4JT6 cognate ligand, matched only): 18
+  pocket residues: [(2163, 'ILE'), (2169, 'PRO'), (2185, 'LEU'), (2187, 'LYS'), (2190, 'GLU'), (2192, 'LEU'), (2195, 'ASP'), (2225, 'TYR'), (2227, 'VAL'), (2237, 'ILE'), (2238, 'GLY'), (2239, 'TRP'), (2240, 'VAL'), (2345, 'MET'), (2354, 'LEU'), (2356, 'ILE'), (2357, 'ASP'), (2358, 'PHE')]
+  LOCAL pocket Ca RMSD (same global fit, pocket subset): 0.467 A
+  per-residue Ca displacement after fit: [(2169, 'PRO', 0.72), (2240, 'VAL', 0.69), (2195, 'ASP', 0.65), (2192, 'LEU', 0.62), (2163, 'ILE', 0.58), (2225, 'TYR', 0.49), (2237, 'ILE', 0.45), (2187, 'LYS', 0.45), (2185, 'LEU', 0.43), (2357, 'ASP', 0.43), (2239, 'TRP', 0.4), (2356, 'ILE', 0.37), (2354, 'LEU', 0.37), (2238, 'GLY', 0.33), (2227, 'VAL', 0.26), (2190, 'GLU', 0.25), (2358, 'PHE', 0.25), (2345, 'MET', 0.24)]
+  cognate-ligand centroid distance after global fit: 2.196 A
+
+
+=== Summary table ===
+ref	alt	matched_CA	mismatched_CA	global_CA_RMSD	pocket_n	pocket_CA_RMSD	centroid_dist
+4L23	4JPS	982	0	1.486	20	0.867	2.566
+4L23	5DXT	862	0	1.441	20	0.343	2.072
+4JT6	4JSX	1054	0	0.454	18	0.467	2.196

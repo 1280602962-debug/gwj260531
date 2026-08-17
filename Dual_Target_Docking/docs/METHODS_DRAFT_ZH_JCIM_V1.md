@@ -92,6 +92,10 @@ summary_min 的不确定度以 bootstrap 估计：在每个靶对内对配体有
 
 结构稳健性方面，对 PIK3CA 替代晶体 **4JPS**、**5DXT**（及 mTOR 候选 **4JSX**）先做与 Methods 2.4 相同的共晶配体重对接 QC（best_of_9 &lt; 2 Å）；仅通过 QC 的结构才允许替换对应口袋、在冻结 PM48 配体上重对接并重算 summary_min（`data/jcim_structure_robust_v0/`）。嵌合体结构（如曾误用的 3T8M / PIK3CG 骨架）一律排除。
 
+**受体依赖的结构机制（探索性，零新对接）。** 为解释换晶体后 PIK3CA 端崩溃、mTOR 端仅小幅下降的不对称，我们直接在已冻结晶体坐标上做刚体叠合：以 Biopython `PDBParser` 提取各受体最长蛋白链的 Cα 坐标，按残基编号与残基名精确匹配（不匹配即剔除），用 `Superimposer` 对全部匹配 Cα 做一次 Kabsch 拟合得到全域 RMSD；口袋残基由参考结构自身共晶配体的重原子 ≤5 Å 界定，在同一变换下计算口袋局域 RMSD；再将替代结构自身的共晶配体坐标按同一变换投影，计算其质心与参考结构共晶配体质心的距离，检验二者是否落在同一大类口袋（`data/jcim_structure_robust_v0/analysis/pocket_mechanism_v1/`）。
+
+**Holdout 错口袋对照的几何机制（探索性，零新对接）。** 为检验 holdout 上 `wrong_pocket_control_vina` 不低于 `pocket_matched_vina` 是否为打分函数伪象，我们直接在已冻结的 mode-1 姿态坐标上计算一个不依赖打分函数的几何量：配体重原子中与受体重原子距离 ≤4.0 Å 的原子数（`contact_count`）；用该量单独重复同一口袋比较，作为对 Vina 结果的独立几何核验（`data/jcim_holdout_v0/scripts/wrong_pocket_contact_v1.py`）。
+
 ### 2.8 软件与数据可用性
 
 计算在 Python 3 环境下完成，主要软件包括 RDKit 2026.3.1、meeko 0.7.1、AutoDock Vina 1.2.7、GNINA 1.3.2 与 RTMScore（公开预训练权重 `rtmscore_model1`）；Vina 姿态转为 SDF 时使用 Open Babel。AUROC、逻辑回归与交叉验证等分析使用常规 Python 科学计算栈（NumPy、SciPy、scikit-learn、pandas；版本见公开复现环境说明）。评价面板、对接分数、分析脚本与完整参数表将随公开数据包提供，详见 Data and Software Availability。

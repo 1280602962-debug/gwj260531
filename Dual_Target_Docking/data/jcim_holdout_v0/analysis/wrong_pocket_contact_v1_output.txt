@@ -1,0 +1,37 @@
+
+=== HOAB (AChE/BChE) ===
+  n records: 120
+  pocket=A cls=A_only   n= 20 mean_contact=30.10
+  pocket=A cls=B_only   n= 20 mean_contact=27.40
+  pocket=A cls=dual     n= 20 mean_contact=32.15
+  pocket=B cls=A_only   n= 20 mean_contact=27.30
+  pocket=B cls=B_only   n= 20 mean_contact=22.90
+  pocket=B cls=dual     n= 20 mean_contact=28.10
+  own-pocket contact-count AUROC: D vs A_only (pocket A) = 0.581  |  D vs B_only (pocket B) = 0.706
+
+=== HOPM (PIK3CA/mTOR) ===
+  n records: 120
+  pocket=A cls=A_only   n= 20 mean_contact=27.10
+  pocket=A cls=B_only   n= 20 mean_contact=25.45
+  pocket=A cls=dual     n= 20 mean_contact=28.00
+  pocket=B cls=A_only   n= 20 mean_contact=25.10
+  pocket=B cls=B_only   n= 20 mean_contact=23.70
+  pocket=B cls=dual     n= 20 mean_contact=26.60
+  own-pocket contact-count AUROC: D vs A_only (pocket A) = 0.552  |  D vs B_only (pocket B) = 0.698
+
+=== HOAP (PIK3CA/PIK3CB) ===
+  n records: 118
+  pocket=A cls=A_only   n= 19 mean_contact=26.63
+  pocket=A cls=B_only   n= 20 mean_contact=24.70
+  pocket=A cls=dual     n= 20 mean_contact=28.45
+  pocket=B cls=A_only   n= 19 mean_contact=25.47
+  pocket=B cls=B_only   n= 20 mean_contact=23.45
+  pocket=B cls=dual     n= 20 mean_contact=26.95
+  own-pocket contact-count AUROC: D vs A_only (pocket A) = 0.622  |  D vs B_only (pocket B) = 0.714
+
+
+=== Summary: geometric own-pocket contact-count AUROC (mirrors wrong_pocket_control_vina) ===
+prefix	pair	auroc_D_vs_A_pocketA	auroc_D_vs_B_pocketB
+HOAB	AChE/BChE	0.581	0.706
+HOPM	PIK3CA/mTOR	0.552	0.698
+HOAP	PIK3CA/PIK3CB	0.622	0.714
