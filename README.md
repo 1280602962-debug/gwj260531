@@ -1,6 +1,13 @@
 # gwj260531
 
-**完整项目均在 `JNK1_Selectivity_Project/` 目录内。**
+## 项目目录
+
+| 目录 | 说明 |
+|------|------|
+| [`JNK1_Selectivity_Project/`](JNK1_Selectivity_Project/) | JNK1 选择性虚拟筛选与机器学习流程 |
+| [`NLRP3_JNK1_Dual_Target_Design/`](NLRP3_JNK1_Dual_Target_Design/) | NLRP3/JNK1 双靶点药物设计调研、考量与实验验证清单 |
+
+### JNK1 选择性筛选（快速开始）
 
 ```bash
 cd JNK1_Selectivity_Project
@@ -10,3 +17,7 @@ python3 scripts/06_virtual_screening.py --library data/libraries/your_library.cs
 ```
 
 详见 [JNK1_Selectivity_Project/README.md](JNK1_Selectivity_Project/README.md)。
+
+### NLRP3/JNK1 双靶点药物设计调研
+
+详见 [NLRP3_JNK1_Dual_Target_Design/README.md](NLRP3_JNK1_Dual_Target_Design/README.md)。
