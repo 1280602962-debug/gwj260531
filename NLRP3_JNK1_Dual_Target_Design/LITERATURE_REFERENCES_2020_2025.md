@@ -53,7 +53,7 @@
 
 ## E 类：NLRP3/JNK1 机制基础（双靶合理性，非双靶设计论文）
 
-**[L16]** Song H, Liu B, Huang Z, et al. NLRP3 Phosphorylation Is an Essential Priming Event for Inflammasome Activation. *Mol Cell.* 2017;68(1):185-197.e6. doi:[10.1016/j.molcel.2017.08.017](https://doi.org/10.1016/j.molcel.2017.08.017). PMID: [28943315](https://pubmed.ncbi.nlm.nih.gov/28943315/).
+**[L16]** Song N, Liu ZS, Xue W, et al. NLRP3 phosphorylation is an essential priming event for inflammasome activation. *Mol Cell.* 2017;68(1):185-197.e6. doi:[10.1016/j.molcel.2017.08.017](https://doi.org/10.1016/j.molcel.2017.08.017). PMID: [28943315](https://pubmed.ncbi.nlm.nih.gov/28943315/).
 
 **[L17]** Gaul DS, Weber A, Vögtle T, et al. Biphasic JNK signaling reveals distinct MAP3K complexes licensing inflammasome formation and pyroptosis. *Cell Death Differ.* 2023;30(8):1893-1907. doi:[10.1038/s41418-023-01145-7](https://doi.org/10.1038/s41418-023-01145-7). PMID: [37202518](https://pubmed.ncbi.nlm.nih.gov/37202518/). PMCID: [PMC9950443](https://pmc.ncbi.nlm.nih.gov/articles/PMC9950443/).
 

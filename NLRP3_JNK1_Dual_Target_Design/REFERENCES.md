@@ -1,7 +1,7 @@
 # References
 
 本目录所有文档的正文引用编号 `[n]` 均对应以下条目。  
-格式：作者、题目、期刊、年份、DOI、PMID（如有）。
+格式：作者、题目、期刊、年份、DOI、PMID（如有）。适应症机制专文另用 [54]–[67]。
 
 ---
 
@@ -63,15 +63,15 @@
 
 ## NLRP3 与 JNK 通路串扰（双靶合理性核心文献）
 
-**[8]** Song H, Liu B, Huang Z, et al. NLRP3 Phosphorylation Is an Essential Priming Event for Inflammasome Activation. *Mol Cell.* 2017;68(1):185-197.e6. doi:[10.1016/j.molcel.2017.08.017](https://doi.org/10.1016/j.molcel.2017.08.017). PMID: [28943315](https://pubmed.ncbi.nlm.nih.gov/28943315/).
+**[8]** Song N, Liu ZS, Xue W, et al. NLRP3 phosphorylation is an essential priming event for inflammasome activation. *Mol Cell.* 2017;68(1):185-197.e6. doi:[10.1016/j.molcel.2017.08.017](https://doi.org/10.1016/j.molcel.2017.08.017). PMID: [28943315](https://pubmed.ncbi.nlm.nih.gov/28943315/).
 
 **[9]** Spalinger MR, Kasper S, Gottier C, et al. NLRP3 tyrosine phosphorylation is controlled by protein tyrosine phosphatase PTPN22. *J Clin Invest.* 2016;126(5):1783-1800. doi:[10.1172/JCI83605](https://doi.org/10.1172/JCI83605). PMID: [27043288](https://pubmed.ncbi.nlm.nih.gov/27043288/).
 
 **[10]** Gaul DS, Weber A, Vögtle T, et al. Biphasic JNK signaling reveals distinct MAP3K complexes licensing inflammasome formation and pyroptosis. *Cell Death Differ.* 2023;30(8):1893-1907. doi:[10.1038/s41418-023-01145-7](https://doi.org/10.1038/s41418-023-01145-7). PMID: [37202518](https://pubmed.ncbi.nlm.nih.gov/37202518/). PMCID: [PMC9950443](https://pmc.ncbi.nlm.nih.gov/articles/PMC9950443/).
 
-**[16]** Solinas G, Vilcu C, Neels JG, et al. JNK1 in hematopoietically derived cells contributes to diet-induced inflammation and insulin resistance without affecting systemic adiposity. *J Clin Invest.* 2007;117(6):1654-1663. doi:[10.1172/JCI31129](https://doi.org/10.1172/JCI31129). PMID: [17549254](https://pubmed.ncbi.nlm.nih.gov/17549254/).
+**[16]** Solinas G, Vilcu C, Neels JG, et al. JNK1 in hematopoietically derived cells contributes to diet-induced inflammation and insulin resistance without affecting obesity. *Cell Metab.* 2007;6(5):386-397. doi:[10.1016/j.cmet.2007.09.011](https://doi.org/10.1016/j.cmet.2007.09.011). PMID: [17983584](https://pubmed.ncbi.nlm.nih.gov/17983584/).
 
-> **注**：NLRP3 与代谢性炎症的关联见 [47]；JNK1 与 NLRP3 的直接耦合见 [8,10]。
+> **注**：NLRP3 与代谢性炎症见 [47]；JNK1–NLRP3 直接偶联见 [8,10]。造血细胞 JNK1 的 BMT 结论与 [58] 存在分歧，巨噬细胞水平需同时考虑 JNK1+JNK2 [57]。完整适应症证据等级见 `INDICATION_SELECTION_MECHANISTIC_EVIDENCE.md`。
 
 **[49]** Franklin BS, Bossaller L, De Nardo D, et al. The adaptor ASC has extracellular and 'prionoid' activities that propagate inflammation. *Nat Immunol.* 2014;15(8):727-737. doi:[10.1038/ni.2913](https://doi.org/10.1038/ni.2913). PMID: [24952562](https://pubmed.ncbi.nlm.nih.gov/24952562/).
 
@@ -149,6 +149,40 @@
 
 ---
 
+## 适应症机制证据（[54]–[67]）
+
+完整论证见 [`INDICATION_SELECTION_MECHANISTIC_EVIDENCE.md`](./INDICATION_SELECTION_MECHANISTIC_EVIDENCE.md)。
+
+**[54]** Martinon F, Pétrilli V, Mayor A, Tardivel A, Tschopp J. Gout-associated uric acid crystals activate the NALP3 inflammasome. *Nature.* 2006;440(7081):237-241. doi:[10.1038/nature04516](https://doi.org/10.1038/nature04516). PMID: [16407889](https://pubmed.ncbi.nlm.nih.gov/16407889/).
+
+**[55]** Okada M, Matsuzawa A, Yoshimura A, Ichijo H. The lysosome rupture-activated TAK1-JNK pathway regulates NLRP3 inflammasome activation. *J Biol Chem.* 2014;289(47):32926-32936. doi:[10.1074/jbc.M114.579961](https://doi.org/10.1074/jbc.M114.579961). PMID: [25288801](https://pubmed.ncbi.nlm.nih.gov/25288801/). PMCID: [PMC4239639](https://pmc.ncbi.nlm.nih.gov/articles/PMC4239639/).
+
+**[56]** Hirosumi J, Tuncman G, Chang L, et al. A central role for JNK in obesity and insulin resistance. *Nature.* 2002;420(6913):333-336. doi:[10.1038/nature01137](https://doi.org/10.1038/nature01137). PMID: [12447443](https://pubmed.ncbi.nlm.nih.gov/12447443/).
+
+**[57]** Han MS, Jung DY, Morel C, et al. JNK expression by macrophages promotes obesity-induced insulin resistance and inflammation. *Science.* 2013;339(6116):218-222. doi:[10.1126/science.1227568](https://doi.org/10.1126/science.1227568). PMID: [23223452](https://pubmed.ncbi.nlm.nih.gov/23223452/). PMCID: [PMC3835653](https://pmc.ncbi.nlm.nih.gov/articles/PMC3835653/).
+
+**[58]** Vallerie SN, Furuhashi M, Fucho R, Hotamisligil GS. A predominant role for parenchymal c-Jun amino terminal kinase (JNK) in the regulation of systemic insulin sensitivity. *PLoS One.* 2008;3(9):e3151. doi:[10.1371/journal.pone.0003151](https://doi.org/10.1371/journal.pone.0003151). PMID: [18773088](https://pubmed.ncbi.nlm.nih.gov/18773088/).
+
+**[59]** Schattenberg JM, Singh R, Wang Y, et al. JNK1 but not JNK2 promotes the development of steatohepatitis in mice. *Hepatology.* 2006;43(1):163-172. doi:[10.1002/hep.20999](https://doi.org/10.1002/hep.20999). PMID: [16374858](https://pubmed.ncbi.nlm.nih.gov/16374858/).
+
+**[60]** Kodama Y, Kisseleva T, Iwaisako K, et al. c-Jun N-terminal kinase-1 from hematopoietic cells mediates progression from hepatic steatosis to steatohepatitis and fibrosis in mice. *Gastroenterology.* 2009;137(4):1467-1477.e5. doi:[10.1053/j.gastro.2009.06.045](https://doi.org/10.1053/j.gastro.2009.06.045). PMID: [19549522](https://pubmed.ncbi.nlm.nih.gov/19549522/). PMCID: [PMC2757473](https://pmc.ncbi.nlm.nih.gov/articles/PMC2757473/).
+
+**[61]** Gan LT, Van Rooyen DM, Koina ME, et al. Hepatocyte free cholesterol lipotoxicity results from JNK1-mediated mitochondrial injury and is HMGB1 and TLR4-dependent. *J Hepatol.* 2014;61(6):1376-1384. doi:[10.1016/j.jhep.2014.07.024](https://doi.org/10.1016/j.jhep.2014.07.024). PMID: [25064435](https://pubmed.ncbi.nlm.nih.gov/25064435/).
+
+**[62]** Wree A, McGeough MD, Peña CA, et al. NLRP3 inflammasome activation is required for fibrosis development in NAFLD. *J Mol Med (Berl).* 2014;92(10):1069-1082. doi:[10.1007/s00109-014-1170-1](https://doi.org/10.1007/s00109-014-1170-1). PMID: [24804980](https://pubmed.ncbi.nlm.nih.gov/24804980/).
+
+**[63]** Mridha AR, Wree A, Robertson AAB, et al. NLRP3 inflammasome blockade reduces liver inflammation and fibrosis in experimental NASH in mice. *J Hepatol.* 2017;66(5):1037-1046. doi:[10.1016/j.jhep.2017.01.022](https://doi.org/10.1016/j.jhep.2017.01.022). PMID: [28167322](https://pubmed.ncbi.nlm.nih.gov/28167322/). PMCID: [PMC6536116](https://pmc.ncbi.nlm.nih.gov/articles/PMC6536116/).
+
+**[64]** Kaufmann B, Kui L, Reca A, et al. Cell-specific deletion of NLRP3 inflammasome identifies myeloid cells as key drivers of liver inflammation and fibrosis in murine steatohepatitis. *Cell Mol Gastroenterol Hepatol.* 2022;14(4):751-767. doi:[10.1016/j.jcmgh.2022.06.007](https://doi.org/10.1016/j.jcmgh.2022.06.007). PMID: [35787975](https://pubmed.ncbi.nlm.nih.gov/35787975/).
+
+**[65]** Mandić AD, Bennek E, Verdier J, et al. c-Jun N-terminal kinase 2 promotes enterocyte survival and goblet cell differentiation in the inflamed intestine. *Mucosal Immunol.* 2017;10(5):1211-1223. doi:[10.1038/mi.2016.125](https://doi.org/10.1038/mi.2016.125). PMID: [28098247](https://pubmed.ncbi.nlm.nih.gov/28098247/).
+
+**[66]** Henao-Mejia J, Elinav E, Jin C, et al. Inflammasome-mediated dysbiosis regulates progression of NAFLD and obesity. *Nature.* 2012;482(7384):179-185. doi:[10.1038/nature10809](https://doi.org/10.1038/nature10809). PMID: [22297845](https://pubmed.ncbi.nlm.nih.gov/22297845/).
+
+**[67]** Singh R, Wang Y, Xiang Y, Tanaka KE, Gaarde WA, Czaja MJ. Differential effects of JNK1 and JNK2 inhibition on murine steatohepatitis and insulin resistance. *Hepatology.* 2009;49(1):87-96. doi:[10.1002/hep.22578](https://doi.org/10.1002/hep.22578). PMID: [19053047](https://pubmed.ncbi.nlm.nih.gov/19053047/).
+
+---
+
 ## 在线资源
 
 - **PubMed**: https://pubmed.ncbi.nlm.nih.gov/
@@ -158,4 +192,4 @@
 
 ---
 
-*最后更新：2026-06-26*
+*最后更新：2026-08-17*

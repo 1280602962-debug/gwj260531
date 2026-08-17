@@ -10,7 +10,8 @@
 | [LITERATURE_REVIEW_DUAL_TARGET_2020_2025.md](./LITERATURE_REVIEW_DUAL_TARGET_2020_2025.md) | **文献综述**：近五年类似双靶点高水平论文总结（含 CADD/AIDD 方法） |
 | [LITERATURE_REFERENCES_2020_2025.md](./LITERATURE_REFERENCES_2020_2025.md) | **文献综述参考文献**：L1–L21 条目（DOI / PMID 核对） |
 | [EXPERIMENTAL_VALIDATION_CHECKLIST.md](./EXPERIMENTAL_VALIDATION_CHECKLIST.md) | **实验验证清单**：分阶段实验、对照设置、通过/失败判据 |
-| [REFERENCES.md](./REFERENCES.md) | **设计指南参考文献**：主文档引用编号 [1]–[53] |
+| [INDICATION_SELECTION_MECHANISTIC_EVIDENCE.md](./INDICATION_SELECTION_MECHANISTIC_EVIDENCE.md) | **适应症选择**：仅收录两靶均有机制实验的疾病；含证据等级与文献核对 |
+| [REFERENCES.md](./REFERENCES.md) | **参考文献**：主文档 [1]–[53]；适应症专文 [54]–[67] |
 
 ## 使用说明
 
@@ -25,4 +26,5 @@
 ## 版本
 
 - 初版：2026-06-26
+- 适应症机制核对版：2026-08-17
 - 分支：`cursor/nlrp3-jnk1-dual-target-guide-a040`
