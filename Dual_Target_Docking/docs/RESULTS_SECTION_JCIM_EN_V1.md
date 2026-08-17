@@ -47,7 +47,7 @@ Scaffold-grouped ECFP4 baselines further elevate the confounding narrative: fold
 
 Changing PIK3CA/mTOR exhaustiveness from 16 to 8 moved Vina summary_min from 0.692 to 0.660 (Δ ≈ +0.03)—far smaller than between-pair differences. Single-target enrichment against property-matched weak binders (pChEMBL ≤ 5.5) gave AUROC 0.603/0.629 and EF1% 2.04/2.00 on 4L23/4JT6: docking retained limited enrichment capability, not a strong VS engine.
 
-Expanding PIK3CA/mTOR to PM110 is a **stability check**, not independent validation and not an attempt to "rescue" the estimate with a larger panel. PM48 itself is small (18/14/12). On PM110, Vina summary_min was 0.648 [0.51, 0.76] versus 0.692 on PM48 (Δ ≈ −0.04); ranking trend remained consistent.
+Expanding PIK3CA/mTOR to PM110 (historical name; actual panel n = 115, with dual / A_only / B_only = 30 / 30 / 30) is a **stability check**, not independent validation and not an attempt to "rescue" the estimate with a larger panel. PM48 itself is small (18/14/12). On PM110, Vina summary_min was 0.648 [0.51, 0.76] versus 0.692 on PM48 (Δ ≈ −0.04); ranking trend remained consistent.
 
 Across §3.2–3.5, **only PIK3CA/mTOR has a point estimate above both 0.5 and the heavy-atom baseline on the main panel and on the PM110 stability check**, and the advantage is modest. Apparent signals on the other three pairs are largely explained by ligand properties or 2D chemotype. That same direction later holds on the unused-pool holdout (§3.9) but is receptor-dependent under crystal swap (§3.10); it must not be read as a structure-invariant, reproducible advantage.
 

@@ -34,17 +34,24 @@
 | RTMScore 权重 | `rtmscore_model1` |
 | Open Babel | Vina PDBQT → SDF（GNINA 前） |
 | 分析库 | NumPy / SciPy / scikit-learn / pandas（版本随公开复现环境；仓库 ENV_PIN 未钉死具体小版本） |
+| Biopython | `PDBParser` / `Superimposer` / `PairwiseAligner`（序列一致性与 Cα 叠合） |
 | ChEMBL | Web API；靶对审计锁定 2026-07-23（未记录 release 编号） |
 | 配体准备 | 去盐（最大有机片段）→ RDKit AddHs → ETKDGv3（seed 20260727）→ MMFFOptimizeMolecule（maxIters=200）→ meeko 默认 PDBQT |
+| 描述符 | RDKit GetNumHeavyAtoms / MolWt / MolLogP / TPSA |
+| 逻辑回归 | scikit-learn `LogisticRegression`（C = 1.0，max_iter = 2000）；支架 `GroupKFold`，折数 min(5, n_pos, n_neg, n_groups) |
 | 面板抽样种子 | 20260729 |
+| Holdout 抽样种子 | 20260731；仅三对（不含 EGFR/HER2）；PM 排除 PM110 超集 |
 | Bootstrap | B = 2000；seed 20260729；配体层 2.5%–97.5% 百分位区间；不做多重比较校正 |
 | Vina `n_modes` | 9 |
 | Vina `energy_range` | 3 |
-| Vina exhaustiveness | PIK3CA/mTOR 主面板/扩面/单靶对照 = 16；其余靶对 = 8；PM 另报 E = 8 对照 |
+| Vina 随机种子 | 20260727 |
+| Vina exhaustiveness | PIK3CA/mTOR 主面板/扩面/单靶对照/换晶 = 16；其余靶对与对应 holdout = 8；PM 另报 E = 8 对照 |
 | GNINA | `--cnn_scoring rescore --minimize --seed 20260727` |
 | 盒子定义 | 共晶配体 AABB + 5 Å；每边下限 20 Å |
 | Cognate 通过门槛 | 重原子 RMSD，`best_of_9` &lt; 2.0 Å（同坐标系，不叠合） |
 | 受体 PDBQT | PIK3CA/mTOR/EGFR/HER2：含氢蛋白坐标 + `mk_prepare_receptor.py --read_pdb`；AChE/BChE/PIK3CB：沉积 ATOM + `mk_prepare_receptor`（default altloc A） |
+| 换晶 | 一次只换一个口袋；未换端保留冻结主面板分数；4JPS/5DXT/4JSX 过 QC，3T8M 排除 |
+| contact_count | mode-1；配体–受体 重原子距离 ≤4.0 Å；非 PLIF |
 
 采集快照见 `ENV_PIN.md`（2026-07-29）。
 
