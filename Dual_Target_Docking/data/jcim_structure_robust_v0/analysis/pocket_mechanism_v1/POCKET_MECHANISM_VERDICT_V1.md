@@ -5,8 +5,8 @@
 > under `jcim_structure_robust_v0/` and `pik3ca_mtor_panel48_v0/tables/`). **No new docking.**
 > Question: `STRUCTURE_ROBUSTNESS_VERDICT_V1.md` showed that swapping PIK3CA (4L23→4JPS/5DXT) collapses
 > PM48 `summary_min` from 0.692 to 0.486/0.505, while swapping mTOR (4JT6→4JSX) only mildly reduces it
-> (0.639, Δ≈−0.05). Is this asymmetry explained by a real structural difference at the ATP pocket, and if
-> so, at what resolution (whole-domain vs local pocket)?
+> (0.639, Δ≈−0.05). Do these deposited structures differ in Cα geometry in a way that is *consistent with*
+> that asymmetry, and at what resolution (whole-domain vs local pocket)? Consistency is not causation.
 
 ## Method
 
@@ -33,9 +33,9 @@
 | 4L23 (PIK3CA) | 5DXT | 862 | 0 | **1.441** | 20 | **0.343** | 2.072 |
 | 4JT6 (mTOR)   | 4JSX | 1054 | 0 | **0.454** | 18 | **0.467** | 2.196 |
 
-Zero residue-identity mismatches at matched positions: these are genuinely the same protein (no
-crystallization mutants/tags at pocket-adjacent positions detected), so the differences below are
-conformational, not sequence-level.
+Zero residue-identity mismatches at matched positions: compared residues are the same amino acids.
+Unmatched positions were not compared (5DXT has 862 matched Cα vs 982 for 4JPS), so this is not a
+full-construct mutant screen.
 
 Pocket residues used (heavy-atom ≤5 Å of the reference cognate ligand):
 - PIK3CA (4L23, cognate X6K): Met772, Trp780, Ile800, Lys802, Leu807, Asp810, Leu814, Tyr836, Cys838,
@@ -45,31 +45,33 @@ Pocket residues used (heavy-atom ≤5 Å of the reference cognate ligand):
 
 ## Interpretation
 
-1. **Whole-domain conformational variability across crystal forms is markedly higher for PIK3CA
-   (1.44–1.49 Å) than for mTOR (0.45 Å) in this structure set.** This alone is consistent with, and
-   quantitatively explains, the asymmetry already observed at the score level: swapping the PIK3CA end
-   collapses `summary_min` (Δ ≈ −0.19 to −0.21), while swapping the mTOR end barely moves it (Δ ≈ −0.05).
-   The "receptor dependence" reported in `STRUCTURE_ROBUSTNESS_VERDICT_V1.md` is not an isolated docking
-   artifact; it tracks a real, measurable difference in how much these deposited PIK3CA structures differ
-   from one another relative to how much these mTOR structures differ.
-2. **Local pocket Cα geometry is not always the limiting factor.** For 5DXT, the local pocket Cα RMSD
+1. **Whole-domain Cα variability is larger for these PIK3CA crystal forms (1.44–1.49 Å) than for these
+   mTOR crystal forms (0.45 Å).** That difference is **consistent in direction** with the score-level
+   asymmetry (PIK3CA-end swap Δ ≈ −0.19 to −0.21; mTOR-end swap Δ ≈ −0.05). It does **not** quantitatively
+   explain or prove causation. Limits: n = 2 PIK3CA alternates and n = 1 mTOR alternate; 5DXT matched only
+   862 Cα versus 982 for 4JPS, so the two global RMSDs are not equal-coverage comparisons. Receptor
+   dependence remains an experimental docking result; this superposition is a descriptive structural
+   correlate in this structure set, not a general crystal-form rule.
+
+2. **Local pocket Cα geometry does not track the AUROC collapse.** For 5DXT, the local pocket Cα RMSD
    (0.343 Å) is *smaller* than the global RMSD (1.441 Å) — the ATP-site backbone itself is well conserved
-   even though the rest of the domain has moved substantially — yet `summary_min` on 5DXT still collapsed
-   to 0.505, essentially matching 4JPS (where the pocket itself is comparably or more perturbed, local
-   RMSD 0.867 Å). This means **Cα-level pocket conservation alone does not guarantee that pocket-matched
-   discrimination transfers**; side-chain rotamers, protonation, or docking search-space sensitivity not
-   captured by a Cα-only metric likely also contribute. We do not have PLIF-level or rotamer-level evidence
-   for this round and do not claim it; it is flagged as the natural next step, not resolved here.
-3. **Cognate ligands occupy the same general site across crystal forms** (centroid distances 2.1–2.6 Å for
-   all three alternates, all inside a single ATP-competitive pocket) — the AUROC collapse is not explained
-   by docking into a grossly different, unrelated site.
+   — yet `summary_min` on 5DXT still fell to 0.505, essentially matching 4JPS (local RMSD 0.867 Å,
+   summary_min 0.486). **Cα-level pocket conservation alone does not guarantee that pocket-matched
+   discrimination transfers.** Side-chain rotamers, protonation, or docking search-space sensitivity are
+   untested; there is no PLIF- or rotamer-level evidence in this round.
+
+3. **Cognate ligands occupy the same general site across crystal forms** (centroid distances 2.1–2.6 Å).
+   This rules out docking into a grossly unrelated pocket. It does **not** prove that the cognate binding
+   modes are identical.
+
+Zero residue-identity mismatches at matched positions mean the compared residues are the same amino acids.
+Unmatched residues (especially the extra 120 Cα on 4L23 vs 5DXT) were not compared and are not a mutant
+screen of the full construct.
 
 ## Claim implication
 
-The manuscript may state, with this evidence: *the PIK3CA end of the PM pair shows substantially larger
-inter-crystal-form Cα variability than the mTOR end (1.44–1.49 Å vs 0.45 Å in this structure set), which is
-consistent with its greater sensitivity of pocket-matched discrimination to receptor choice; however, local
-pocket Cα conservation (as in 5DXT) is not sufficient to preserve the discrimination, indicating that
-finer-grained (side-chain/rotamer or search-space) factors beyond Cα geometry are also at play and were not
-resolved in this round.* Do **not** claim a fully solved mechanism or a validated general rule from n=2
-alternates on one target end.
+The manuscript may state: *in this structure set, PIK3CA inter-crystal-form global Cα RMSD (1.44–1.49 Å)
+is larger than mTOR (0.45 Å), consistent in direction with greater PIK3CA-end sensitivity of
+pocket-matched discrimination; local pocket Cα conservation (5DXT 0.343 Å) is not sufficient to preserve
+that discrimination.* Do **not** claim a quantitative mechanistic explanation, a solved mechanism, or a
+validated general rule from n=2 / n=1 alternates.

@@ -20,6 +20,19 @@
 
 See also: `docs/POSITIONING_AND_FRAMEWORK_LANGUAGE_V1.md`.
 
+## Mechanism-analysis claim ceiling (Results 3.9 / 3.11)
+
+Allowed:
+- PIK3CA inter-crystal global Cα RMSD (1.44–1.49 Å) is larger than mTOR (0.45 Å) **in this structure set**, consistent in **direction** with greater PIK3CA-end sensitivity.
+- Local pocket Cα conservation on 5DXT (0.343 Å) with collapsed summary_min (0.505) means Cα pocket conservation is **not sufficient**.
+- Scoring-free `contact_count` shows a real size/burial confound, **especially on the B arm** (0.698–0.714).
+
+Forbidden:
+- Do **not** write that Cα RMSD “quantitatively explains” or causes the AUROC collapse (n = 2 / n = 1; 5DXT matched 862 vs 982 Cα).
+- Do **not** write that contact-count matches Vina wrong-pocket in **magnitude** (PM: Vina 0.788 vs contact min 0.552). Dual vs A_only size gap on AChE/BChE is 35.1 vs 34.0.
+- Do **not** write PLIF, rotamer, or “mechanism solved.”
+- Do **not** write that PIK3CA/mTOR is a structure-invariant reproducible success; holdout is ligand-set same-direction, crystal swap is receptor-dependent, and mTOR-swap CI includes 0.5.
+
 ## Engine stack actually run
 | Channel | Status |
 |---------|--------|

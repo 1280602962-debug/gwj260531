@@ -232,9 +232,9 @@ PASS 受体已写入 `receptors/`。PM48 单端替换后的口袋匹配 summary_
 
 ---
 
-## Table S10. 受体依赖的结构机制：晶体间 Cα 叠合
+## Table S10. 受体依赖的探索性结构对照：晶体间 Cα 叠合
 
-来源：`data/jcim_structure_robust_v0/analysis/pocket_mechanism_v1/POCKET_MECHANISM_VERDICT_V1.md`。方法：Biopython `PDBParser` + `Superimposer`；口袋残基由参考结构自身共晶配体重原子 ≤5 Å 界定，按残基编号+残基名精确匹配（零错配）；全域与口袋局域 RMSD 共用同一次刚体拟合。
+来源：`data/jcim_structure_robust_v0/analysis/pocket_mechanism_v1/POCKET_MECHANISM_VERDICT_V1.md`。方法：Biopython `PDBParser` + `Superimposer`；口袋残基由参考结构自身共晶配体重原子 ≤5 Å 界定，按残基编号+残基名精确匹配（匹配位点零错配）；全域与口袋局域 RMSD 共用同一次刚体拟合。PIK3CA 替代结构 n = 2，mTOR n = 1。
 
 | 参考（主面板） | 替代 | 匹配 Cα 数 | 全域 Cα RMSD (Å) | 口袋残基数 | 口袋局域 Cα RMSD (Å) | 共晶配体质心距离 (Å) |
 |------|------|-----------:|------------------:|-----------:|----------------------:|----------------------:|
@@ -242,21 +242,21 @@ PASS 受体已写入 `receptors/`。PM48 单端替换后的口袋匹配 summary_
 | 4L23（PIK3CA） | 5DXT | 862 | 1.441 | 20 | 0.343 | 2.072 |
 | 4JT6（mTOR） | 4JSX | 1054 | 0.454 | 18 | 0.467 | 2.196 |
 
-PIK3CA 口袋残基（4L23，共晶 X6K）：Met772、Trp780、Ile800、Lys802、Leu807、Asp810、Leu814、Tyr836、Cys838、Ile848、Glu849、Val850、Val851、Ser854、Thr856、Gln859、Met922、Phe930、Ile932、Asp933。mTOR 口袋残基（4JT6，共晶 X6K/PI-103）：Ile2163、Pro2169、Leu2185、Lys2187、Glu2190、Leu2192、Asp2195、Tyr2225、Val2227、Ile2237、Gly2238、Trp2239、Val2240、Met2345、Leu2354、Ile2356、Asp2357、Phe2358。详见 Results 3.11。
+PIK3CA 口袋残基（4L23，共晶 X6K）：Met772、Trp780、Ile800、Lys802、Leu807、Asp810、Leu814、Tyr836、Cys838、Ile848、Glu849、Val850、Val851、Ser854、Thr856、Gln859、Met922、Phe930、Ile932、Asp933。mTOR 口袋残基（4JT6，共晶 X6K/PI-103）：Ile2163、Pro2169、Leu2185、Lys2187、Glu2190、Leu2192、Asp2195、Tyr2225、Val2227、Ile2237、Gly2238、Trp2239、Val2240、Met2345、Leu2354、Ile2356、Asp2357、Phe2358。5DXT 匹配 862 个 Cα，少于 4JPS 的 982 个，全域 RMSD 不是等覆盖比较。数字与换晶后不对称**方向一致，不作定量因果解释**。详见 Results 3.11。
 
 ---
 
-## Table S11. Holdout 错口袋对照的几何机制（scoring-free contact_count）
+## Table S11. Holdout 错口袋对照的几何对照（scoring-free contact_count）
 
-来源：`data/jcim_holdout_v0/analysis/WRONG_POCKET_MECHANISM_VERDICT_V1.md`；脚本 `data/jcim_holdout_v0/scripts/wrong_pocket_contact_v1.py`。定义：配体重原子中与受体重原子距离 ≤4.0 Å 的原子数（`contact_count`），直接取自已冻结的 mode-1 姿态坐标，不涉及 Vina 能量函数。
+来源：`data/jcim_holdout_v0/analysis/WRONG_POCKET_MECHANISM_VERDICT_V1.md`；脚本 `data/jcim_holdout_v0/scripts/wrong_pocket_contact_v1.py`。定义：配体重原子中与受体重原子距离 ≤4.0 Å 的原子数（`contact_count`），直接取自已冻结的 mode-1 姿态坐标，不涉及 Vina 能量函数。Vina 错口袋分臂取自 `holdout_pocket_matched_v1.csv`；重原子均值取自 `holdout_ligand_scores_v1.csv`。
 
-| 靶对 | dual 对 A_only（口袋 A，contact_count AUROC） | dual 对 B_only（口袋 B，contact_count AUROC） |
-|------|----------------------------------------------:|----------------------------------------------:|
-| AChE/BChE | 0.581 | 0.706 |
-| PIK3CA/mTOR | 0.552 | 0.698 |
-| PIK3CA/PIK3CB | 0.622 | 0.714 |
+| 靶对 | Vina 错口袋 summary_min（D/A，D/B） | contact_count AUROC（口袋 A / 口袋 B） | contact_count 的 min | dual / A_only / B_only 重原子均值 |
+|------|------------------------------------:|----------------------------------------:|---------------------:|----------------------------------:|
+| AChE/BChE | 0.643（0.643 / 0.653） | 0.581 / 0.706 | 0.581 | 35.1 / 34.0 / 29.5 |
+| PIK3CA/mTOR | 0.788（0.788 / 0.858） | 0.552 / 0.698 | 0.552 | 33.5 / 32.3 / 31.0 |
+| PIK3CA/PIK3CB | 0.520（0.640 / 0.520） | 0.622 / 0.714 | 0.622 | 34.5 / 31.6 / 28.3 |
 
-AChE/BChE 上 dual 与硬负选择性配体的平均重原子数：dual 34.8，A_only 33.8，B_only 29.6（另两对趋势一致，见脚本输出）。三对上该几何量单独复现了 `wrong_pocket_control_vina` 不低于 `pocket_matched_vina` 的模式，提示该模式主要由配体尺寸/埋藏程度混淆解释，且在姿态坐标层面即可复现，不依赖打分函数。详见 Results 3.9。
+B 臂 contact_count 高于随机（0.698–0.714），与 dual 对 B_only 尺寸差更大一致；A 臂接近随机（0.552–0.622），与 dual 对 A_only 尺寸差很小一致。contact_count **不能按幅度复现** Vina 错口袋（尤其 PM：0.788 对 0.552）。详见 Results 3.9。
 
 ---
 
