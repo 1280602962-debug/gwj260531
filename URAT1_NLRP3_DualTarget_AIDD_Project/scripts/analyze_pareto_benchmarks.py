@@ -135,7 +135,7 @@ def main() -> None:
         "",
         f"- Dual merged: **{len(merged)}** / pool **{len(pool)}**",
         f"- Pareto front: **{merged['pareto_front'].sum()}**",
-        f"- Spearman ML P(active) vs 7ALV XP: **r={r_sp:.3f}**",
+        f"- Spearman ML P(active) vs 7ALV docking: **r={r_sp:.3f}**",
         "",
         "## Benchmarks in merge",
         "",

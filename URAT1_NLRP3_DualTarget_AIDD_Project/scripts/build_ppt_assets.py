@@ -224,7 +224,7 @@ def draw_inspiration_comparison() -> Path:
 
     ax.add_patch(FancyBboxPatch((5.5, 1.0), 4.2, 2.5, boxstyle="round,pad=0.03", linewidth=1.5, edgecolor="#0072B2", facecolor="#0072B2", alpha=0.08))
     ax.text(7.6, 3.1, "This project", ha="center", fontsize=11, fontweight="bold")
-    ax.text(7.6, 2.3, "Clinical library n=8,319\nAsymmetric ML + docking + Pareto\nRepurposing hypotheses (computational)", ha="center", fontsize=9)
+    ax.text(7.6, 2.3, "Protocol-first gnina P2\nNLRP3 ML shrink + dual dock\nChemistry nomination (computational)", ha="center", fontsize=9)
 
     ax.add_patch(FancyArrowPatch((4.6, 2.25), (5.4, 2.25), arrowstyle="<->", mutation_scale=14, linewidth=1.5, color="#333"))
     ax.text(5.0, 2.55, "complementary", ha="center", fontsize=9, style="italic")

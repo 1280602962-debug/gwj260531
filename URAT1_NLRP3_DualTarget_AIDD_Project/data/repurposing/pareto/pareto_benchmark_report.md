@@ -7,7 +7,7 @@
 
 - Dual merged: **1451** / pool **1588**
 - Pareto front: **6**
-- Spearman ML P(active) vs 7ALV XP: **r=-0.036**
+- Spearman ML P(active) vs 7ALV docking: **r=-0.036**
 
 ## Benchmarks in merge
 

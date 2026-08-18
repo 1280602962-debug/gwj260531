@@ -3,7 +3,7 @@
 URAT1 retrospective: 8973 docking vs ML on shared manifest.
 
 Compares:
-  - Subset A (labeled actives) vs D (unlabeled decoys): enrichment by S_U (9DKB XP)
+  - Subset A (labeled actives) vs D (unlabeled decoys): enrichment by S_U (9DKB, 8973 SI)
   - Benchmark 4-drug recovery: ML rank vs docking rank
   - Optional hybrid ML (Morgan+RDKit + glide_xp feature) ablation on subset A
 
@@ -211,8 +211,7 @@ def main() -> None:
             "ml_pred_ge6_pass": f"{ml_pass}/{len(bench_df)}",
         },
         "recommendation": (
-            "Use 9DKB XP (S_U) as primary URAT1 evidence on 8973; "
-            "keep ML as auxiliary unless hybrid ablation shows clear gain."
+            "8973 retrospective is SI only. Production URAT1 ranking is gnina P2 on the clinical dock pool @ 9DKB."
         ),
     }
     if args.hybrid_cv:

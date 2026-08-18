@@ -27,8 +27,8 @@ python3 scripts/build_ppt_assets.py
 | **方法流程** | `schematics/schematic_project_workflow.png` | 8319 → NLRP3 ML 缩库 → **gnina P2** 双靶对接 → Pareto 审计 → 化学提名 |
 | **数据不对称（SI）** | `project_results/si_data_asymmetry.png` | ChEMBL 临床库 vs 8973 |
 | **NLRP3 ML（Fig 2）** | `project_results/fig02_nlrp3_screening_composite.png` | OOF 与筛选漏斗 |
-| **8973 回顾（Fig 3）** | `project_results/fig03_urat1_retrospective_composite.png` | URAT1 富集（非 NLRP3） |
-| **Pareto 对接（Fig 4）** | `project_results/fig04_pareto_dual_docking_9dkb_7alv.png` | 双靶点对接散点与前沿 |
+| **8973 回顾（Fig 3）** | `project_results/fig03_urat1_retrospective_composite.png` | URAT1 8973 SI（非生产 P2） |
+| **Pareto 对接（Fig 4）** | `project_results/fig04_pareto_dual_docking_9dkb_7alv.png` | 历史双靶表的裸 Pareto **审计**（EGCG 标为 PAINS 降级；不是 P2 提名） |
 | **模型验证（SI）** | `project_results/si_nlrp3_oof_roc_pr.png` | NLRP3 ROC/PR |
 
 ---

@@ -187,7 +187,7 @@ def main() -> None:
             **({"docking_pool_p05": str(p05_path)} if p05_path else {}),
         },
         "next_step": (
-            "Dock docking_pool_p05.csv (P>=0.5) at URAT1 9DKB XP and NLRP3 8ETR XP; "
+            "Dock docking_pool_p05.csv (P>=0.5) at URAT1 9DKB and NLRP3 7ALV with gnina P2; "
             "integrate with scripts/merge_docking_pareto.py."
         ),
     }

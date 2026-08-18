@@ -24,10 +24,13 @@
 
 | 子目录 | 内容 |
 |--------|------|
-| `generated/main/` | Fig 2（NLRP3）、Fig 3（URAT1）组合图 |
+| `generated/main/` | Fig 2（NLRP3 ML）、Fig 3（8973 SI，非生产 P2）、Fig 4（历史 Pareto 审计） |
 | `generated/nlrp3/` | NLRP3 单图 |
-| `generated/urat1/` | URAT1 单图 |
+| `generated/urat1/` | URAT1 8973 SI 单图 |
 | `generated/si/` | 补充图 |
+
+生产对接协议是 **gnina P2**。仓库内 Fig 3 / Fig 4 用的是已提交的历史对接表，**不是** 现行 P2 提名名单；轴标签已去掉 Glide XP。
+
 
 ## 重新生成
 

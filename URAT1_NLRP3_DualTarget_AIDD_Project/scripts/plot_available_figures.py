@@ -57,7 +57,7 @@ DATA = ROOT / "data"
 RESULTS = ROOT / "results"
 MANIFEST_PATH = ROOT / "figures" / "generated" / "figure_manifest.json"
 
-# Gout co-medications — not direct NLRP3 inhibitors (expect low P)
+URAT1_FIG_HEADER = "Target: URAT1 (SLC22A12, 9DKB; 8973 SI, not production P2)"
 NLRP3_GOUT_COMEDS = ["benzbromarone", "dotinurad", "lesinurad", "allopurinol", "febuxostat"]
 # Indirect / off-target — known confounders (discuss in text)
 NLRP3_OFFTARGET = ["colchicine", "verinurad"]
@@ -162,7 +162,7 @@ def plot_nlrp3_phase(ml: pd.DataFrame) -> dict:
 
 
 def plot_screening_funnel(summary: dict) -> dict:
-    stages = ["Library scored", "P(active) ≥ 0.5", "Dual docking"]
+    stages = ["Library scored", "P(active) ≥ 0.5", "Dual dock 9DKB+7ALV"]
     counts, count_labels = _funnel_counts(summary)
     colors = [NLRP3_COLOR, NLRP3_COLOR, MUTED]
 
@@ -190,7 +190,7 @@ def plot_urat1_a_vs_d_violin(dock: pd.DataFrame) -> dict:
     a_scores = sub.loc[sub["subset"] == "A", score_col].dropna()
 
     fig, ax = plt.subplots(figsize=figsize_single(76))
-    target_header(fig, "Target: URAT1 (SLC22A12, 9DKB XP)", URAT1_COLOR)
+    target_header(fig, URAT1_FIG_HEADER, URAT1_COLOR)
 
     parts = ax.violinplot([d_scores, a_scores], positions=[0, 1], showmedians=True, widths=0.6)
     for i, body in enumerate(parts["bodies"]):
@@ -200,7 +200,7 @@ def plot_urat1_a_vs_d_violin(dock: pd.DataFrame) -> dict:
     ax.set_xticks([0, 1])
     ax.set_xticklabels(["Decoy D", "Active A"])
     clean_axes(ax)
-    set_axis_labels(ax, "8973 distill subset", "Docking score (kcal/mol, Vina)")
+    set_axis_labels(ax, "8973 distill subset", "Docking score (kcal/mol, lower better)")
     ax.text(0.5, 0.02, f"D: n = {len(d_scores):,}; A: n = {len(a_scores):,}", transform=ax.transAxes, ha="center", va="bottom", fontsize=FONT_SIZE_PT, color=NEUTRAL)
     fig.subplots_adjust(**{**MARGIN_WIDE_X, "bottom": 0.22})
     paths = save_figure(fig, "urat1_fig03a_a_vs_d_violin", "urat1")
@@ -214,7 +214,7 @@ def plot_urat1_roc(dock: pd.DataFrame) -> dict:
     roc_auc = auc(fpr, tpr)
 
     fig, ax = plt.subplots(figsize=figsize_single(76))
-    target_header(fig, "Target: URAT1 (SLC22A12, 9DKB XP)", URAT1_COLOR)
+    target_header(fig, URAT1_FIG_HEADER, URAT1_COLOR)
 
     ax.plot(fpr, tpr, color=URAT1_COLOR, linewidth=1.1, label=f"Docking ROC (AUC = {roc_auc:.3f})")
     ax.plot([0, 1], [0, 1], color=GRID, linestyle=(0, (4, 3)), linewidth=0.7, label="Random")
@@ -234,7 +234,7 @@ def plot_urat1_ef(summary: dict) -> dict:
     vals = [enr["ef_5pct_a_vs_d"], enr["ef_10pct_a_vs_d"]]
 
     fig, ax = plt.subplots(figsize=figsize_single(66))
-    target_header(fig, "Target: URAT1 (SLC22A12, 9DKB XP)", URAT1_COLOR)
+    target_header(fig, URAT1_FIG_HEADER, URAT1_COLOR)
 
     bars = ax.bar(labels, vals, color=URAT1_COLOR, edgecolor=NEUTRAL, linewidth=0.3, width=0.45)
     ax.axhline(1.0, color=GRID, linestyle=(0, (4, 3)), linewidth=0.7)
@@ -249,11 +249,11 @@ def plot_urat1_ef(summary: dict) -> dict:
 
 def plot_urat1_benchmark(bench: pd.DataFrame) -> dict:
     fig, ax = plt.subplots(figsize=figsize_single(82))
-    target_header(fig, "Target: URAT1 (SLC22A12, 9DKB XP)", URAT1_COLOR)
+    target_header(fig, URAT1_FIG_HEADER, URAT1_COLOR)
 
     x = np.arange(len(bench))
     w = 0.34
-    ax.bar(x - w / 2, bench["s_u_percentile"], width=w, label="9DKB Vina docking", color=URAT1_COLOR, edgecolor=NEUTRAL, linewidth=0.3)
+    ax.bar(x - w / 2, bench["s_u_percentile"], width=w, label="9DKB docking", color=URAT1_COLOR, edgecolor=NEUTRAL, linewidth=0.3)
     ax.bar(x + w / 2, bench["ml_percentile_vs_8973"], width=w, label="URAT1 ML", color=URAT1_LIGHT, edgecolor=NEUTRAL, linewidth=0.3)
     ax.axhline(90, color=THRESHOLD, linestyle=(0, (4, 3)), linewidth=0.7)
     ax.set_xticks(x)
@@ -331,11 +331,11 @@ def plot_data_asymmetry(summary: dict) -> dict:
     tag_panel(ax, "a")
 
     ax = axes[1]
-    routes = ["URAT1\n8973 @ 9DKB", "NLRP3\n8319 clinical"]
-    ns = [8973, 8319]
+    routes = ["URAT1 dock pool\n~1588 @ 9DKB P2", "NLRP3 shrink\n8319 clinical"]
+    ns = [1588, 8319]
     bars = ax.bar(routes, ns, color=[URAT1_COLOR, NLRP3_COLOR], edgecolor=NEUTRAL, linewidth=0.3, width=0.46)
     clean_axes(ax)
-    set_axis_labels(ax, "Primary evidence route", "Library size")
+    set_axis_labels(ax, "Production evidence route", "Library size")
     ylim_headroom(ax, 0.15)
     label_bars_vertical(ax, bars, fmt="{:.0f}")
     tag_panel(ax, "b")
@@ -429,7 +429,7 @@ def plot_fig02_composite(ml: pd.DataFrame, summary: dict) -> dict:
 
     # (d) funnel — no vertical grid
     ax = axes[1, 1]
-    stages = ["Library scored", "P(active) ≥ 0.5", "Dual docking"]
+    stages = ["Library scored", "P(active) ≥ 0.5", "Dual dock 9DKB+7ALV"]
     counts, funnel_labels = _funnel_counts(summary)
     y = np.arange(len(stages))
     bars = ax.barh(y, counts, color=[NLRP3_COLOR, NLRP3_COLOR, MUTED], edgecolor=NEUTRAL, linewidth=0.3, height=0.48)
@@ -449,7 +449,7 @@ def plot_fig02_composite(ml: pd.DataFrame, summary: dict) -> dict:
 
 def plot_fig03_composite(dock: pd.DataFrame, summary: dict, bench: pd.DataFrame) -> dict:
     fig, axes = plt.subplots(2, 2, figsize=figsize_double(158))
-    target_header(fig, "Target: URAT1 — 8973 retrospective docking (9DKB, Vina)", URAT1_COLOR, y=0.975)
+    target_header(fig, "Target: URAT1 — 8973 retrospective @ 9DKB (SI; not production P2)", URAT1_COLOR, y=0.975)
 
     sub = dock[(dock["subset"].isin(["A", "D"])) & dock["docked"]]
     score_col = "dock_score" if "dock_score" in sub.columns else "glide_score_xp"
@@ -466,7 +466,7 @@ def plot_fig03_composite(dock: pd.DataFrame, summary: dict, bench: pd.DataFrame)
     ax.set_xticklabels(["Decoy D", "Active A"])
     clean_axes(ax)
     ax.set_xlabel("")
-    set_axis_labels(ax, "", "Docking score (kcal/mol, Vina)", xpad=6, ypad=6)
+    set_axis_labels(ax, "", "Docking score (kcal/mol, lower better)", xpad=6, ypad=6)
     ax.margins(x=0.12)
 
     ax = axes[0, 1]
@@ -520,7 +520,7 @@ def plot_fig03_composite(dock: pd.DataFrame, summary: dict, bench: pd.DataFrame)
 
 
 def plot_fig04_pareto(merged_path: Path | None = None) -> dict | None:
-    """Fig 4: dual docking Pareto (9DKB S_U vs 7ALV/ML S_N)."""
+    """Raw dual-dock Pareto from the committed table (audit only; not P2 nomination)."""
     merged_path = merged_path or (RESULTS / "repurposing" / "pareto_merged_scores.csv")
     if not merged_path.exists():
         merged_path = DATA / "repurposing" / "pareto" / "pareto_merged_scores.csv"
@@ -531,28 +531,26 @@ def plot_fig04_pareto(merged_path: Path | None = None) -> dict | None:
     name_col = _name_col(merged)
 
     fig, ax = plt.subplots(figsize=figsize_single(88))
-    target_header(fig, "Dual-target evidence: URAT1 @ 9DKB vs NLRP3 @ 7ALV (+ ML)", NEUTRAL, y=0.97)
+    target_header(fig, "Raw Pareto audit (historical dual-dock table; not P2 nomination)", NEUTRAL, y=0.97)
 
     base = merged[~merged["pareto_front"]]
     front = merged[merged["pareto_front"]]
     ax.scatter(base["s_u_percentile"], base["s_n_percentile"], s=10, alpha=0.25, color=MUTED, edgecolors="none", rasterized=True, label="Pool (dual docked)")
-    ax.scatter(front["s_u_percentile"], front["s_n_percentile"], s=36, alpha=0.9, color=NLRP3_COLOR, edgecolor=NEUTRAL, linewidth=0.4, label="Pareto front", zorder=3)
+    ax.scatter(front["s_u_percentile"], front["s_n_percentile"], s=36, alpha=0.9, color=NLRP3_COLOR, edgecolor=NEUTRAL, linewidth=0.4, label="Raw Pareto (audit)", zorder=3)
 
-    annotate_drugs = {
+    controls = {
         "lesinurad": URAT1_COLOR,
         "verinurad": URAT1_COLOR,
         "colchicine": WARN,
-        "SLV-334": NLRP3_COLOR,
-        "EPIGALOCATECHIN GALLATE": NLRP3_COLOR,
     }
-    for drug, color in annotate_drugs.items():
+    for drug, color in controls.items():
         hit = merged[merged[name_col].astype(str).str.upper() == drug.upper()]
         if not len(hit):
             continue
         r = hit.iloc[0]
         ax.scatter(r["s_u_percentile"], r["s_n_percentile"], s=50, facecolors="none", edgecolors=color, linewidth=1.0, zorder=4)
         ax.annotate(
-            drug if len(drug) < 14 else drug[:12] + "…",
+            drug,
             (r["s_u_percentile"], r["s_n_percentile"]),
             xytext=(4, 4),
             textcoords="offset points",
@@ -560,8 +558,21 @@ def plot_fig04_pareto(merged_path: Path | None = None) -> dict | None:
             color=color,
         )
 
+    egcg = merged[merged[name_col].astype(str).str.upper().str.contains("EPIGALOCATECHIN", na=False)]
+    if len(egcg):
+        r = egcg.iloc[0]
+        ax.scatter(r["s_u_percentile"], r["s_n_percentile"], s=50, facecolors="none", edgecolors=WARN, linewidth=1.0, zorder=5)
+        ax.annotate(
+            "EGCG (PAINS, demoted)",
+            (r["s_u_percentile"], r["s_n_percentile"]),
+            xytext=(4, -10),
+            textcoords="offset points",
+            fontsize=FONT_SIZE_PT,
+            color=WARN,
+        )
+
     clean_axes(ax)
-    set_axis_labels(ax, "URAT1 docking percentile (9DKB XP, S_U)", "NLRP3 evidence percentile (max ML, 7ALV XP)", xpad=6, ypad=6)
+    set_axis_labels(ax, "URAT1 docking percentile (9DKB)", "NLRP3 evidence percentile (7ALV / ML)", xpad=6, ypad=6)
     ax.set_xlim(-2, 102)
     ax.set_ylim(-2, 102)
     ax.legend(loc="lower left", fontsize=FONT_SIZE_PT, frameon=False)
@@ -570,7 +581,7 @@ def plot_fig04_pareto(merged_path: Path | None = None) -> dict | None:
     return {
         "id": "fig04_pareto",
         "target": "both",
-        "description": "Pareto dual docking 9DKB + 7ALV",
+        "description": "Raw Pareto audit (historical dual-dock; not P2 nomination)",
         "n_merged": int(len(merged)),
         "n_pareto": int(merged["pareto_front"].sum()),
         **paths,
@@ -583,6 +594,8 @@ def main() -> None:
     ml = pd.read_csv(DATA / "repurposing" / "screening" / "nlrp3_ml_scores_clinical_all.csv", low_memory=False)
     nlrp3_summary = json.loads((DATA / "repurposing" / "screening" / "nlrp3_screening_summary_clinical_all.json").read_text())
     pareto_path = RESULTS / "repurposing" / "pareto_summary.json"
+    if not pareto_path.exists():
+        pareto_path = DATA / "repurposing" / "pareto" / "pareto_summary.json"
     if pareto_path.exists():
         ps = json.loads(pareto_path.read_text())
         nlrp3_summary = {**nlrp3_summary, "n_dual_docked": ps.get("n_merged_dual_dock")}
@@ -592,8 +605,12 @@ def main() -> None:
     data_summary = json.loads((DATA / "processed" / "data_summary.json").read_text())
     manifest = pd.read_csv(DATA / "repurposing" / "repurposing_manifest.csv", low_memory=False)
 
-    nlrp3_oof = pd.read_csv(RESULTS / "training" / "nlrp3_oof_predictions.csv")
-    urat1_oof = pd.read_csv(RESULTS / "training" / "urat1_oof_predictions.csv")
+    oof_nlrp3 = RESULTS / "training" / "nlrp3_oof_predictions.csv"
+    oof_urat1 = RESULTS / "training" / "urat1_oof_predictions.csv"
+    if not oof_nlrp3.exists():
+        oof_nlrp3 = DATA / "models" / "nlrp3_oof_predictions.csv"
+    if not oof_urat1.exists():
+        oof_urat1 = DATA / "models" / "urat1_oof_predictions.csv"
 
     entries = [
         plot_nlrp3_distribution(ml),
@@ -604,8 +621,12 @@ def main() -> None:
         plot_urat1_roc(dock),
         plot_urat1_ef(urat1_summary),
         plot_urat1_benchmark(bench),
-        plot_nlrp3_roc_pr(nlrp3_oof),
-        plot_urat1_parity(urat1_oof),
+    ]
+    if oof_nlrp3.exists():
+        entries.append(plot_nlrp3_roc_pr(pd.read_csv(oof_nlrp3)))
+    if oof_urat1.exists():
+        entries.append(plot_urat1_parity(pd.read_csv(oof_urat1)))
+    entries += [
         plot_data_asymmetry(data_summary),
         plot_library_phase(manifest),
         plot_fig02_composite(ml, nlrp3_summary),

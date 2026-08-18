@@ -75,8 +75,8 @@ def pareto_front(su: np.ndarray, sn: np.ndarray) -> np.ndarray:
 def main() -> None:
     parser = argparse.ArgumentParser(description="Merge dual docking + NLRP3 ML for Pareto shortlist")
     parser.add_argument("--ml-scores", type=Path, required=True, help="nlrp3_ml_scores_*.csv")
-    parser.add_argument("--urat1-dock", type=Path, required=True, help="URAT1 9DKB XP export")
-    parser.add_argument("--nlrp3-dock", type=Path, required=True, help="NLRP3 7ALV (or 8ETR) XP export")
+    parser.add_argument("--urat1-dock", type=Path, required=True, help="URAT1 9DKB docking export")
+    parser.add_argument("--nlrp3-dock", type=Path, required=True, help="NLRP3 7ALV docking export")
     parser.add_argument("--nlrp3-pdb", type=str, default=None, help="NLRP3 PDB label (default: from dock file or 7ALV)")
     parser.add_argument("--pool", type=Path, default=None, help="docking_pool_p05.csv (optional filter)")
     parser.add_argument("--output-dir", type=Path, default=DEFAULT_OUT)

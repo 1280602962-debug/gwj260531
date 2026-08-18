@@ -20,7 +20,7 @@
 8319 manifest
   → NLRP3 ML（screen_repurposing_library.py）
   → P(active) ≥ 0.5  →  docking_pool_p05.csv（n≈1588）
-  → URAT1 9DKB XP + NLRP3 8ETR XP
+  → URAT1 9DKB + NLRP3 7ALV（gnina P2）
   → Pareto
 ```
 
