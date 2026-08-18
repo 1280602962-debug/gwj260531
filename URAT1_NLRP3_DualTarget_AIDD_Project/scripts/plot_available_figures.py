@@ -27,7 +27,6 @@ from jmm_style import (  # noqa: E402
     PROJECT_ROOT as ROOT,
     THRESHOLD,
     URAT1_COLOR,
-    URAT1_LIGHT,
     WARN,
     FONT_SIZE_PT,
     annotate_threshold_hist,
@@ -41,13 +40,9 @@ from jmm_style import (  # noqa: E402
     label_bars_vertical,
     label_hbars_counts,
     legend_below,
-    legend_lower_left,
     legend_lower_right,
-    legend_upper_center,
     save_figure,
     set_axis_labels,
-    subplot_legend_centered,
-    subplot_xlabel_centered,
     tag_panel,
     target_header,
     ylim_headroom,
@@ -57,7 +52,6 @@ DATA = ROOT / "data"
 RESULTS = ROOT / "results"
 MANIFEST_PATH = ROOT / "figures" / "generated" / "figure_manifest.json"
 
-URAT1_FIG_HEADER = "Target: URAT1 (SLC22A12, 9DKB; 8973 SI, not production P2)"
 NLRP3_GOUT_COMEDS = ["benzbromarone", "dotinurad", "lesinurad", "allopurinol", "febuxostat"]
 # Indirect / off-target — known confounders (discuss in text)
 NLRP3_OFFTARGET = ["colchicine", "verinurad"]
@@ -181,91 +175,6 @@ def plot_screening_funnel(summary: dict) -> dict:
     fig.subplots_adjust(**{**MARGIN_SINGLE, "left": 0.32})
     paths = save_figure(fig, "nlrp3_fig02d_screening_funnel", "nlrp3")
     return {"id": "nlrp3_fig02d", "target": "NLRP3", "description": "NLRP3 prescreen funnel", **paths}
-
-
-def plot_urat1_a_vs_d_violin(dock: pd.DataFrame) -> dict:
-    sub = dock[(dock["subset"].isin(["A", "D"])) & dock["docked"]]
-    score_col = "dock_score" if "dock_score" in sub.columns else "glide_score_xp"
-    d_scores = sub.loc[sub["subset"] == "D", score_col].dropna()
-    a_scores = sub.loc[sub["subset"] == "A", score_col].dropna()
-
-    fig, ax = plt.subplots(figsize=figsize_single(76))
-    target_header(fig, URAT1_FIG_HEADER, URAT1_COLOR)
-
-    parts = ax.violinplot([d_scores, a_scores], positions=[0, 1], showmedians=True, widths=0.6)
-    for i, body in enumerate(parts["bodies"]):
-        body.set_facecolor(URAT1_COLOR if i == 1 else URAT1_LIGHT)
-        body.set_alpha(0.75)
-        body.set_edgecolor(NEUTRAL)
-    ax.set_xticks([0, 1])
-    ax.set_xticklabels(["Decoy D", "Active A"])
-    clean_axes(ax)
-    set_axis_labels(ax, "8973 distill subset", "Docking score (kcal/mol, lower better)")
-    ax.text(0.5, 0.02, f"D: n = {len(d_scores):,}; A: n = {len(a_scores):,}", transform=ax.transAxes, ha="center", va="bottom", fontsize=FONT_SIZE_PT, color=NEUTRAL)
-    fig.subplots_adjust(**{**MARGIN_WIDE_X, "bottom": 0.22})
-    paths = save_figure(fig, "urat1_fig03a_a_vs_d_violin", "urat1")
-    return {"id": "urat1_fig03a", "target": "URAT1", "description": "8973 A vs D docking scores", **paths}
-
-
-def plot_urat1_roc(dock: pd.DataFrame) -> dict:
-    sub = dock[(dock["subset"].isin(["A", "D"])) & dock["docked"]]
-    y = (sub["subset"] == "A").astype(int)
-    fpr, tpr, _ = roc_curve(y, sub["s_u_percentile"])
-    roc_auc = auc(fpr, tpr)
-
-    fig, ax = plt.subplots(figsize=figsize_single(76))
-    target_header(fig, URAT1_FIG_HEADER, URAT1_COLOR)
-
-    ax.plot(fpr, tpr, color=URAT1_COLOR, linewidth=1.1, label=f"Docking ROC (AUC = {roc_auc:.3f})")
-    ax.plot([0, 1], [0, 1], color=GRID, linestyle=(0, (4, 3)), linewidth=0.7, label="Random")
-    clean_axes(ax)
-    set_axis_labels(ax, "False positive rate (decoy D)", "True positive rate (active A)")
-    ax.set_xlim(0, 1)
-    ax.set_ylim(0, 1)
-    ax.legend(loc="lower right")
-    fig.subplots_adjust(**MARGIN_SINGLE)
-    paths = save_figure(fig, "urat1_fig03b_a_vs_d_roc", "urat1")
-    return {"id": "urat1_fig03b", "target": "URAT1", "description": "8973 enrichment ROC", **paths}
-
-
-def plot_urat1_ef(summary: dict) -> dict:
-    enr = summary["enrichment"]
-    labels = ["EF @ 5%", "EF @ 10%"]
-    vals = [enr["ef_5pct_a_vs_d"], enr["ef_10pct_a_vs_d"]]
-
-    fig, ax = plt.subplots(figsize=figsize_single(66))
-    target_header(fig, URAT1_FIG_HEADER, URAT1_COLOR)
-
-    bars = ax.bar(labels, vals, color=URAT1_COLOR, edgecolor=NEUTRAL, linewidth=0.3, width=0.45)
-    ax.axhline(1.0, color=GRID, linestyle=(0, (4, 3)), linewidth=0.7)
-    clean_axes(ax)
-    set_axis_labels(ax, "Enrichment metric (8973 A vs D)", "Enrichment factor")
-    ylim_headroom(ax, 0.22)
-    label_bars_vertical(ax, bars)
-    fig.subplots_adjust(**MARGIN_SINGLE)
-    paths = save_figure(fig, "urat1_fig03c_enrichment_factor", "urat1")
-    return {"id": "urat1_fig03c", "target": "URAT1", "description": "EF@5% and EF@10%", **paths}
-
-
-def plot_urat1_benchmark(bench: pd.DataFrame) -> dict:
-    fig, ax = plt.subplots(figsize=figsize_single(82))
-    target_header(fig, URAT1_FIG_HEADER, URAT1_COLOR)
-
-    x = np.arange(len(bench))
-    w = 0.34
-    ax.bar(x - w / 2, bench["s_u_percentile"], width=w, label="9DKB docking", color=URAT1_COLOR, edgecolor=NEUTRAL, linewidth=0.3)
-    ax.bar(x + w / 2, bench["ml_percentile_vs_8973"], width=w, label="URAT1 ML", color=URAT1_LIGHT, edgecolor=NEUTRAL, linewidth=0.3)
-    ax.axhline(90, color=THRESHOLD, linestyle=(0, (4, 3)), linewidth=0.7)
-    ax.set_xticks(x)
-    ax.set_xticklabels(bench["compound"], rotation=42, ha="center", rotation_mode="anchor")
-    ax.tick_params(axis="x", pad=7)
-    clean_axes(ax)
-    set_axis_labels(ax, "Benchmark URAT1 inhibitor", "Percentile on 8973 library")
-    ax.set_ylim(0, 122)
-    legend_upper_center(ax, ncol=2, y=0.99)
-    fig.subplots_adjust(**{**MARGIN_WIDE_X, "bottom": 0.30})
-    paths = save_figure(fig, "urat1_fig03d_benchmark_ml_vs_docking", "urat1")
-    return {"id": "urat1_fig03d", "target": "URAT1", "description": "Four-drug ML vs docking recovery", **paths}
 
 
 def plot_nlrp3_roc_pr(oof: pd.DataFrame) -> dict:
@@ -447,161 +356,12 @@ def plot_fig02_composite(ml: pd.DataFrame, summary: dict) -> dict:
     return {"id": "fig02_composite", "target": "NLRP3", "description": "Main Fig 2 composite (NLRP3 screening)", **paths}
 
 
-def plot_fig03_composite(dock: pd.DataFrame, summary: dict, bench: pd.DataFrame) -> dict:
-    fig, axes = plt.subplots(2, 2, figsize=figsize_double(158))
-    target_header(fig, "Target: URAT1 — 8973 retrospective @ 9DKB (SI; not production P2)", URAT1_COLOR, y=0.975)
-
-    sub = dock[(dock["subset"].isin(["A", "D"])) & dock["docked"]]
-    score_col = "dock_score" if "dock_score" in sub.columns else "glide_score_xp"
-    d_scores = sub.loc[sub["subset"] == "D", score_col]
-    a_scores = sub.loc[sub["subset"] == "A", score_col]
-
-    ax = axes[0, 0]
-    parts = ax.violinplot([d_scores, a_scores], positions=[0, 1], showmedians=True, widths=0.58)
-    for i, body in enumerate(parts["bodies"]):
-        body.set_facecolor(URAT1_COLOR if i == 1 else URAT1_LIGHT)
-        body.set_alpha(0.75)
-        body.set_edgecolor(NEUTRAL)
-    ax.set_xticks([0, 1])
-    ax.set_xticklabels(["Decoy D", "Active A"])
-    clean_axes(ax)
-    ax.set_xlabel("")
-    set_axis_labels(ax, "", "Docking score (kcal/mol, lower better)", xpad=6, ypad=6)
-    ax.margins(x=0.12)
-
-    ax = axes[0, 1]
-    y = (sub["subset"] == "A").astype(int)
-    fpr, tpr, _ = roc_curve(y, sub["s_u_percentile"])
-    roc_auc = auc(fpr, tpr)
-    ax.plot(fpr, tpr, color=URAT1_COLOR, linewidth=1.1, label=f"AUC = {roc_auc:.3f}")
-    ax.plot([0, 1], [0, 1], color=GRID, linestyle=(0, (4, 3)), linewidth=0.7, label="Random")
-    clean_axes(ax)
-    set_axis_labels(ax, "False positive rate (decoy D)", "True positive rate (active A)", xpad=6, ypad=6)
-    ax.set_xlim(-0.02, 1.02)
-    ax.set_ylim(-0.02, 1.02)
-    legend_lower_right(ax, ncol=1, x=0.97, y=0.05)
-
-    ax = axes[1, 0]
-    enr = summary["enrichment"]
-    ef_labels = ["EF @ 5%", "EF @ 10%"]
-    ef_vals = [enr["ef_5pct_a_vs_d"], enr["ef_10pct_a_vs_d"]]
-    bars = ax.bar(ef_labels, ef_vals, color=URAT1_COLOR, width=0.44, edgecolor=NEUTRAL, linewidth=0.3)
-    ax.axhline(1, color=GRID, linestyle=(0, (4, 3)), linewidth=0.7)
-    clean_axes(ax)
-    ax.set_xlabel("")
-    set_axis_labels(ax, "", "Enrichment factor (A vs D)", ypad=6)
-    ylim_headroom(ax, 0.22)
-    label_bars_vertical(ax, bars)
-
-    ax = axes[1, 1]
-    x = np.arange(len(bench))
-    w = 0.34
-    ax.bar(x - w / 2, bench["s_u_percentile"], width=w, color=URAT1_COLOR, label="Docking", edgecolor=NEUTRAL, linewidth=0.3)
-    ax.bar(x + w / 2, bench["ml_percentile_vs_8973"], width=w, color=URAT1_LIGHT, label="ML", edgecolor=NEUTRAL, linewidth=0.3)
-    ax.axhline(90, color=THRESHOLD, linestyle=(0, (4, 3)), linewidth=0.7)
-    ax.set_xticks(x)
-    ax.set_xticklabels(bench["compound"], rotation=35, ha="right", rotation_mode="anchor")
-    ax.tick_params(axis="x", pad=4)
-    clean_axes(ax)
-    ax.set_xlabel("")
-    set_axis_labels(ax, "", "Percentile on 8973 library", ypad=6)
-    ax.set_ylim(0, 122)
-    ax.margins(x=0.10)
-    legend_upper_center(ax, ncol=2, y=0.99)
-
-    fig.subplots_adjust(**{**MARGIN_COMPOSITE, "top": 0.86, "bottom": 0.28, "left": 0.15, "right": 0.93, "hspace": 0.80, "wspace": 0.58})
-    apply_panel_tags(fig, axes, ("a", "b", "c", "d"))
-    subplot_xlabel_centered(fig, axes[0, 0], "8973 distill subset", pad=0.042)
-    subplot_xlabel_centered(fig, axes[1, 0], "Enrichment metric", pad=0.040)
-    subplot_xlabel_centered(fig, axes[1, 1], "Benchmark inhibitor", pad=0.028, tick_clearance=0.040)
-    subplot_legend_centered(fig, axes[1, 1], ncol=2, pad=0.088)
-    paths = save_figure(fig, "fig03_urat1_retrospective_composite", "main", tight=False)
-    return {"id": "fig03_composite", "target": "URAT1", "description": "Main Fig 3 composite (URAT1 retrospective)", **paths}
-
-
-def plot_fig04_pareto(merged_path: Path | None = None) -> dict | None:
-    """Raw dual-dock Pareto from the committed table (audit only; not P2 nomination)."""
-    merged_path = merged_path or (RESULTS / "repurposing" / "pareto_merged_scores.csv")
-    if not merged_path.exists():
-        merged_path = DATA / "repurposing" / "pareto" / "pareto_merged_scores.csv"
-    if not merged_path.exists():
-        return None
-
-    merged = pd.read_csv(merged_path, low_memory=False)
-    name_col = _name_col(merged)
-
-    fig, ax = plt.subplots(figsize=figsize_single(88))
-    target_header(fig, "Raw Pareto audit (historical dual-dock table; not P2 nomination)", NEUTRAL, y=0.97)
-
-    base = merged[~merged["pareto_front"]]
-    front = merged[merged["pareto_front"]]
-    ax.scatter(base["s_u_percentile"], base["s_n_percentile"], s=10, alpha=0.25, color=MUTED, edgecolors="none", rasterized=True, label="Pool (dual docked)")
-    ax.scatter(front["s_u_percentile"], front["s_n_percentile"], s=36, alpha=0.9, color=NLRP3_COLOR, edgecolor=NEUTRAL, linewidth=0.4, label="Raw Pareto (audit)", zorder=3)
-
-    controls = {
-        "lesinurad": URAT1_COLOR,
-        "verinurad": URAT1_COLOR,
-        "colchicine": WARN,
-    }
-    for drug, color in controls.items():
-        hit = merged[merged[name_col].astype(str).str.upper() == drug.upper()]
-        if not len(hit):
-            continue
-        r = hit.iloc[0]
-        ax.scatter(r["s_u_percentile"], r["s_n_percentile"], s=50, facecolors="none", edgecolors=color, linewidth=1.0, zorder=4)
-        ax.annotate(
-            drug,
-            (r["s_u_percentile"], r["s_n_percentile"]),
-            xytext=(4, 4),
-            textcoords="offset points",
-            fontsize=FONT_SIZE_PT,
-            color=color,
-        )
-
-    egcg = merged[merged[name_col].astype(str).str.upper().str.contains("EPIGALOCATECHIN", na=False)]
-    if len(egcg):
-        r = egcg.iloc[0]
-        ax.scatter(r["s_u_percentile"], r["s_n_percentile"], s=50, facecolors="none", edgecolors=WARN, linewidth=1.0, zorder=5)
-        ax.annotate(
-            "EGCG (PAINS, demoted)",
-            (r["s_u_percentile"], r["s_n_percentile"]),
-            xytext=(4, -10),
-            textcoords="offset points",
-            fontsize=FONT_SIZE_PT,
-            color=WARN,
-        )
-
-    clean_axes(ax)
-    set_axis_labels(ax, "URAT1 docking percentile (9DKB)", "NLRP3 evidence percentile (7ALV / ML)", xpad=6, ypad=6)
-    ax.set_xlim(-2, 102)
-    ax.set_ylim(-2, 102)
-    ax.legend(loc="lower left", fontsize=FONT_SIZE_PT, frameon=False)
-    fig.subplots_adjust(**{**MARGIN_SINGLE, "top": 0.78, "bottom": 0.18})
-    paths = save_figure(fig, "fig04_pareto_dual_docking_9dkb_7alv", "main")
-    return {
-        "id": "fig04_pareto",
-        "target": "both",
-        "description": "Raw Pareto audit (historical dual-dock; not P2 nomination)",
-        "n_merged": int(len(merged)),
-        "n_pareto": int(merged["pareto_front"].sum()),
-        **paths,
-    }
-
-
 def main() -> None:
     apply_style()
 
     ml = pd.read_csv(DATA / "repurposing" / "screening" / "nlrp3_ml_scores_clinical_all.csv", low_memory=False)
     nlrp3_summary = json.loads((DATA / "repurposing" / "screening" / "nlrp3_screening_summary_clinical_all.json").read_text())
-    pareto_path = RESULTS / "repurposing" / "pareto_summary.json"
-    if not pareto_path.exists():
-        pareto_path = DATA / "repurposing" / "pareto" / "pareto_summary.json"
-    if pareto_path.exists():
-        ps = json.loads(pareto_path.read_text())
-        nlrp3_summary = {**nlrp3_summary, "n_dual_docked": ps.get("n_merged_dual_dock")}
-    dock = pd.read_csv(DATA / "docking" / "8973_9DKB_with_manifest.csv", low_memory=False)
-    urat1_summary = json.loads((DATA / "docking" / "urat1_docking_vs_ml_summary.json").read_text())
-    bench = pd.read_csv(DATA / "docking" / "urat1_benchmark_rankings_docking.csv")
+    # Do not inject Glide-era Pareto n_dual_docked. Funnel shows "pending" until P2 scores are committed.
     data_summary = json.loads((DATA / "processed" / "data_summary.json").read_text())
     manifest = pd.read_csv(DATA / "repurposing" / "repurposing_manifest.csv", low_memory=False)
 
@@ -617,10 +377,6 @@ def main() -> None:
         plot_nlrp3_controls(ml),
         plot_nlrp3_phase(ml),
         plot_screening_funnel(nlrp3_summary),
-        plot_urat1_a_vs_d_violin(dock),
-        plot_urat1_roc(dock),
-        plot_urat1_ef(urat1_summary),
-        plot_urat1_benchmark(bench),
     ]
     if oof_nlrp3.exists():
         entries.append(plot_nlrp3_roc_pr(pd.read_csv(oof_nlrp3)))
@@ -630,17 +386,26 @@ def main() -> None:
         plot_data_asymmetry(data_summary),
         plot_library_phase(manifest),
         plot_fig02_composite(ml, nlrp3_summary),
-        plot_fig03_composite(dock, urat1_summary, bench),
     ]
-    fig04 = plot_fig04_pareto()
-    if fig04:
-        entries.append(fig04)
+
+    # Keep previously generated OOF SI files when prediction CSVs are absent.
+    existing_ids = {e["id"] for e in entries}
+    for fid, target, desc, stem in (
+        ("si_nlrp3_roc_pr", "NLRP3", "NLRP3 scaffold-CV OOF ROC/PR", "si_nlrp3_oof_roc_pr"),
+        ("si_urat1_parity", "URAT1", "URAT1 OOF parity plot", "si_urat1_oof_parity"),
+    ):
+        if fid in existing_ids:
+            continue
+        png = FIG_OUT / "si" / f"{stem}.png"
+        pdf = FIG_OUT / "si" / f"{stem}.pdf"
+        if png.exists() and pdf.exists():
+            entries.append({"id": fid, "target": target, "description": desc, "pdf": str(pdf), "png": str(png)})
 
     manifest_out = {
         "style": {
             "font": "Arial 8 pt",
             "grid": "none",
-            "notes": "v5.1: Fig03d legend above bars; centered x-axis title",
+            "notes": "Current figures only: NLRP3 ML + SI. 8973/Glide Pareto plots were removed; regenerate P2 dual-dock figures after local funnel scores exist.",
         },
         "figures": entries,
     }

@@ -18,7 +18,7 @@ LIT = OUT / "literature"
 SCHEM = OUT / "schematics"
 PROJ = OUT / "project_results"
 
-RCSB_PDbs = ["9dkb", "7alv", "8etr", "9dka", "9b1k", "9b1l"]
+RCSB_PDbs = ["9dkb", "7alv", "8etr"]
 FRONTIERS_LIU = [
     ("g001", "https://www.frontiersin.org/files/Articles/1137822/fimmu-14-1137822-HTML/image_m/fimmu-14-1137822-g001.jpg"),
     ("g002", "https://www.frontiersin.org/files/Articles/1137822/fimmu-14-1137822-HTML/image_m/fimmu-14-1137822-g002.jpg"),
@@ -40,9 +40,7 @@ OA_PDFS = [
 ]
 PROJECT_PNGS = [
     ("fig02_nlrp3_screening_composite.png", "NLRP3 ML prescreen (project Fig 2)"),
-    ("fig03_urat1_retrospective_composite.png", "8973 URAT1 retrospective (project Fig 3)"),
-    ("fig04_pareto_dual_docking_9dkb_7alv.png", "Pareto dual docking (project Fig 4)"),
-    ("si_data_asymmetry.png", "ChEMBL data asymmetry (SI)"),
+    ("si_data_asymmetry.png", "Asymmetric production libraries (SI)"),
     ("si_nlrp3_oof_roc_pr.png", "NLRP3 ML OOF ROC/PR (SI)"),
 ]
 
