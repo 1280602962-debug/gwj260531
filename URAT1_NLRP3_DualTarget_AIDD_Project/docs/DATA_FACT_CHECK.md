@@ -63,7 +63,7 @@
 | CHEMBL3989876 | 非 MCC950（MCC950 用 **CHEMBL230208**） |
 | CHEMBL1777665 | **大鼠** OAT1（人源 OAT1 用 **CHEMBL1641347**） |
 
-辅助库分层见 `docs/SLC22_AUXILIARY_RATIONALE.md`。
+OAT/OCT 辅助库保留在 `data/auxiliary/`，**不写入本文主贡献**（迁移增益可忽略）。
 
 ## 3. Benchmark 化合物 ChEMBL
 
@@ -78,19 +78,21 @@
 
 ---
 
-## 4. PDB 与配体对应（结构考试）
+## 4. PDB 与配体对应
+
+**生产口袋只有两处：** URAT1 **9DKB**（inward-open，lesinurad）+ NLRP3 **7ALV**（NACHT，NP3-146）。其余条目仅供文献对照，**不是**生产对接。
 
 | PDB | 配体 / 说明 |
 |-----|-------------|
-| 9B1H | lesinurad inward（Dai 2024, *Cell Res*） |
-| 9DKB | lesinurad inward（Fedor/Suo 2025, *Nat Commun*）— **三态对接 inward 主 grid** |
-| 9B1K | urate **occluded**（Dai 2024）— **三态对接 occluded** |
-| 9B1L | urate **outward-facing**（Dai 2024）— **三态对接 outward** |
+| **9DKB** | lesinurad inward（Fedor/Suo 2025, *Nat Commun*）— **URAT1 生产受体** |
+| **7ALV** | MCC950 类类似物 **NP3-146**（非 MCC950 共晶）— **NLRP3 生产受体** |
+| 9B1H | lesinurad inward（Dai 2024, *Cell Res*）— 对照，非生产 |
+| 9B1K | urate **occluded**（Dai 2024）— 文献构象；**本文不做三态对接** |
+| 9B1L | urate **outward-facing**（Dai 2024）— 同上 |
 | 9B1J | urate inward-facing（Dai 2024） |
 | 9DKA | **benzbromarone**（勿与 9DKB 混淆） |
 | 9JDZ | lesinurad inward（Wu 2025, *Cell Discov*）— **非** occluded/outward |
 | 9JDY / 9JE1 | verinurad / dotinurad |
-| 7ALV | **MCC950 类类似物 NP3-146**（非 MCC950 共晶；药效团模板） |
 | 8ETR | GDC-2394（McBride 2022, *J Med Chem*） |
 
 ---
@@ -119,16 +121,16 @@
 
 ---
 
-## 7. 实现状态与审计记录（2026-06-29）
+## 7. 实现状态（2026-08-18）
 
 | 类别 | 状态 |
 |------|------|
-| 数据清洗 822/513/39 assays/7.2% 冲突 | ✅ `00_prepare_data.py` 可复现 |
-| NLRP3 THP-1 子集 | **302** unique SMILES，**313** records | `data_summary.json` → `nlrp3.thp1_*`（`assay_cell_type` 含 THP） |
-| 双模型训练 + benchmark | ✅ `run_model_build_and_validate.py` |
-| ChEMBL/PDB/PMID 黑名单 | ✅ 见 §2–§5 |
-| $S_{\text{trap}}$、Path A/B、PLK1 消融 | ☐ 骨架脚本，**不可写进 Results** |
-| OAT 辅助库 CSV | ☐ 待 ChEMBL 导出 |
-| MASFL v3.1 全管线 | ☐ 设计稿 |
+| 数据清洗 822/513/39 assays/7.2% 冲突 | 可复现：`00_prepare_data.py` |
+| NLRP3 THP-1 子集 | **302** unique SMILES，**313** records |
+| 不对称 ML（NLRP3 缩库；URAT1 回归不主排） | 可复现 |
+| 协议筛选 Π\* = P2 | 已锁定：`docs/PROTOCOL_SELECTION_RESULT.md` |
+| 生产对接口袋 | **仅 9DKB + 7ALV** |
+| OAT/OCT 辅助 CSV | 已导出；**不写入本文主贡献** |
+| \(S_{\mathrm{trap}}\)、生成式路径、MASFL/Teacher 蒸馏、三态对接 | **未实现，禁止写入 Results** |
 
-**维护**：每次改清洗规则或 benchmark 行后更新本节日期并重跑 `00_prepare_data.py`。
+**维护**：改清洗规则或 benchmark 行后更新本节并重跑 `00_prepare_data.py`。

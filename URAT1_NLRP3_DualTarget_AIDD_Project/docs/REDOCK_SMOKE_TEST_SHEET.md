@@ -138,4 +138,5 @@ EXHAUST=32 bash scripts/run_redock_smoke_local.sh
 | `scripts/run_redock_smoke_local.sh` | 本机一键 Vina(+gnina) |
 | `results/redock_smoke/` | 本地运行产出（gitignore） |
 | `config/docking_open_source.yaml` | 搜索盒与默认参数 |
-| `docs/GNINA_BENCHMARK_REDOCK_WSL.md` | 你本机已有 gnina 目录时的备用流程 |
+| `docs/REDOCK_SMOKE_ANALYSIS.md` | 已完成烟雾测试的解读 |
+| `docs/WSL_GNINA_CPU_SETUP.md` | gnina 本机安装 |

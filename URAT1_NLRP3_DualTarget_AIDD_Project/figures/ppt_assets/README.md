@@ -24,7 +24,7 @@ python3 scripts/build_ppt_assets.py
 | **靶点结构：URAT1** | `structures/9dkb_assembly-1.jpeg` | Fedor et al. 2025 共晶（PDB 9DKB） |
 | **靶点结构：NLRP3** | `structures/7alv_assembly-1.jpeg`, `8etr_assembly-1.jpeg` | 7ALV（MCC950 类）、8ETR（GDC-2394 类） |
 | **URAT1 药理（文献）** | `literature/fedor2025_urat1_pdf_page1–4.png` | lesinurad 等抑制剂结合模式 |
-| **方法流程** | `schematics/schematic_project_workflow.png` | 8319 → ML → Glide XP → Pareto → A–F |
+| **方法流程** | `schematics/schematic_project_workflow.png` | 8319 → NLRP3 ML 缩库 → **gnina P2** 双靶对接 → Pareto 审计 → 化学提名（图若仍写 Glide XP，汇报时口头更正） |
 | **数据不对称（SI）** | `project_results/si_data_asymmetry.png` | ChEMBL 临床库 vs 8973 |
 | **NLRP3 ML（Fig 2）** | `project_results/fig02_nlrp3_screening_composite.png` | OOF 与筛选漏斗 |
 | **8973 回顾（Fig 3）** | `project_results/fig03_urat1_retrospective_composite.png` | URAT1 富集（非 NLRP3） |

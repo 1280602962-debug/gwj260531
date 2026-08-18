@@ -16,7 +16,7 @@ targets:
     target_class: inflammasome_sensor
     mechanism: nacht_domain_allosteric_lock     # NACHT 域变构锁定
 
-# 辅助库：OAT 主迁移 + OCT 脱靶（见 docs/SLC22_AUXILIARY_RATIONALE.md）
+# 辅助库：OAT/OCT（不写入当前投稿主贡献；见 data/auxiliary/README.md）
 auxiliary_targets:
   slc22_oat_transfer:   # Tier A — 与 URAT1 同属 OAT 阴离子亚家族，优先用于 ML 迁移
     - gene: SLC22A6

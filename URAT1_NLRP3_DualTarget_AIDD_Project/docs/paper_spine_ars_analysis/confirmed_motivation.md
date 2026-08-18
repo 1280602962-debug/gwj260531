@@ -1,21 +1,5 @@
 # Confirmed Motivation
 
-> PaperSpine · supports `confirmed_contribution.md` · 2026-07-17
+痛风耦合肾脏 URAT1 重吸收与 MSU 驱动的 NLRP3/IL-1β 炎症，但多数药物与多数虚拟筛选把二者当分轴问题。湿法双作用化学证明疾病逻辑真实，却很少在 **尊重转运体 vs 炎症小体数据不对称** 的协议下筛 **已上市/临床阶段** 分子。读者应关心的是：一条会拒绝过声称、能滤掉 PAINS/大环 Pareto 命中的临床库漏斗，比又一篇未验证的“双靶发现”口号更有用。
 
-## Controlling motivation (one paragraph)
-
-Gout couples **renal urate reabsorption (URAT1)** with **MSU-driven NLRP3 inflammasome activation**, yet most drugs and most virtual screens treat these as separate problems. Recent wet dual-acting chemistry (e.g. Eurycoma-derived dual agents; designed NLRP3/URAT1 inhibitors) shows the disease logic is real, but clinicians already have large libraries of **approved/late-stage molecules** whose dual-node potential is rarely screened under a protocol that respects **transporter vs inflammasome data asymmetry**. Readers should care because an honest, reproducible clinical-library funnel that **refuses overclaim** and **filters PAINS-dominated Pareto hits** is more useful for generating testable adjunct hypotheses (especially metabolic comorbidity) than another unvalidated “dual-target discovery” slogan.
-
-## Motivation ≠ contribution
-
-| Motivation answers | Contribution answers |
-|---|---|
-| Why dual-node gout matters clinically | What **this** paper delivers computationally and how strongly |
-| Why clinical libraries are underused | The asymmetric funnel + audit/nomination protocol |
-| Why wet dual chemistry alone is insufficient for reuse | Independent 8973 URAT1 track + canagliflozin nomination |
-
-## Forbidden motivation drift
-
-- Do not motivate as “we discovered a dual inhibitor.”
-- Do not motivate primarily via EGCG health-food narrative.
-- Do not import TAPE-GATE generative / S_trap claims that are not in the submission data package.
+动机回答“为何值得做”；贡献回答“这篇计算上交付了什么”。不要用“我们发现了双靶抑制剂”或未实现的生成式/\(S_{\mathrm{trap}}\) 来动机。

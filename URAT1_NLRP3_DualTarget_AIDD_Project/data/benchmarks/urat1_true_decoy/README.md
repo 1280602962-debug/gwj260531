@@ -68,7 +68,7 @@ Actives / experimental inactives come from GitHub `data/processed/urat1_curated.
 - **RandomDecoy** is the easier / VS-like control; must not overlap TrueDecoy negatives.
 - Dock **`unique_docking_pool.csv` once**, then join scores into each benchmark for EF/AUC.
 - Do **not** train ML models on these decoy labels.
-- Distill **subset D** remains a separate MASFL/distill resource; it is **not** the current protocol-selection decoy pool.
+- Distill **subset D** is a separate retrospective resource; it is **not** the current protocol-selection decoy pool.
 
 ## Rebuild
 

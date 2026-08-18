@@ -5,7 +5,7 @@ TAPE-GATE ablation only: Multi-task learning (Abl-6).
 Primary training path is 02_train_asymmetric_models.py (independent dual evidence).
 MTL is optional because ChEMBL data has 0 overlapping URAT1/NLRP3 SMILES.
 
-Architecture (see docs/ALGORITHM_FRAMEWORK.md §3.3):
+Architecture (see docs/METHODS_DRAFT_CN.md):
   MiniMol fingerprint (frozen) + MLP heads (urat1, nlrp3, dual)
 """
 from __future__ import annotations

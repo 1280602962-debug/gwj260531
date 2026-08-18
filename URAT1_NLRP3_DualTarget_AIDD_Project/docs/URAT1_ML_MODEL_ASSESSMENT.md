@@ -80,28 +80,22 @@ Random Forest 在 EF@5%(p≥7) 上略好（3.39 vs 3.10），但 **benchmark 仍
 | 换 → kNN 相似性 | ❌ | 略差于 XGBoost |
 | Assay-conditioned 回归 | ❌ | 66 个 assay 异质性低于 NLRP3，收益有限 |
 | MiniMol / 预训练 GNN 微调 | ❓ 未测 | 可能略升 0.02–0.05 R²，**不太可能**单独解决 benchmark |
-| **增加专利 SAR 数据** | ✅ 可能 | 补全 lesinurad 等骨架的训练覆盖 |
-| **$S_{\text{trap}}$ 构象系综对接** | ✅ 推荐 | 转运体机制匹配，不依赖 2D 指纹 |
-| **放弃 URAT1 纯 ML 筛** | ✅ 当前最诚实 | NLRP3 可 ML 初筛，URAT1 必须结构优先 |
+| **增加专利 SAR 数据** | 可能 | 补全 lesinurad 等骨架的训练覆盖 |
+| **三态 \(S_{\mathrm{trap}}\) 系综对接** | **未实现** | 禁止写成当前方法 |
+| **放弃 URAT1 纯 ML 筛** | **当前策略** | NLRP3 分类缩库；URAT1 由 **9DKB P2 对接** 排序 |
 
 ---
 
-## 五、修订后的 URAT1 策略建议
+## 五、当前 URAT1 证据角色（已锁定）
 
 ```
-URAT1 证据层级（推荐）：
-
-  主证据：S_trap 构象系综对接（**9DKB** inward / **9B1K** occluded / **9B1L** outward）
-  辅证据：ML 回归（仅作弱过滤，不设硬阈值淘汰）
-  禁止：  单独用 ML 排名决定 URAT1 候选去留
-
-NLRP3 证据层级（可维持）：
-
-  主证据：Assay-conditioned 分类 + NACHT 对接
-  ML 初筛：P(active) ≥ 0.5 可用
+URAT1：结构排序（Π* = P2，gnina CNNaffinity @ 9DKB inward-open）
+       ML 回归只作对照 / SI，不主排临床库
+NLRP3：assay-conditioned 分类缩库（P≥0.5）+ 7ALV 对接百分位门控
+禁止：用 URAT1 ML 排名决定候选去留；把未做的三态对接写成生产证据
 ```
 
-若仍希望保留 URAT1 ML 模块，**可换 Random Forest** 作为微弱升级，但应明确标注为 **辅助特征**，并在论文中报告本对比表，说明 **模型选择不是性能瓶颈、数据与任务定义才是**。
+本对比表说明 **模型选择不是性能瓶颈、数据与任务定义才是**。不必为投稿再换 Random Forest。
 
 ---
 

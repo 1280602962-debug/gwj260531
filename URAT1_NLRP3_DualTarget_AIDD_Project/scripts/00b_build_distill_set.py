@@ -1,23 +1,14 @@
 #!/usr/bin/env python3
-"""
-MASFL v3.1 Stage 0.3 — Build distill subsets A/B/C/E and merge with existing D.
+"""Build distill subsets A/B/C/E (URAT1 retrospective only; not the production funnel).
 
-Subsets (see docs/MASFL_V3_WORKFLOW.md):
+Subsets:
   A  URAT1 training actives with pIC50 labels (~822)
-  B  Murcko scaffold cluster centers from URAT1 (500–1000 target; data-limited)
-  C  ChEMBL SLC22 neighborhood FPS (URAT1 + OAT1/OAT3 pool; 2k–5k target)
+  B  Murcko scaffold cluster centers from URAT1
+  C  ChEMBL SLC22 neighborhood (URAT1 + OAT1/OAT3)
   D  Unlabeled diversity negatives (pre-built via sample_distill_subset_d.py)
-  E  Benchmark boundary analogs (~200; Tanimoto neighbors + reference compounds)
+  E  Benchmark boundary analogs
 
-Outputs:
-  data/distill/distill_subset_{a,b,c,e}.csv
-  data/distill/distill_manifest.csv          # merged, deduplicated
-  data/distill/distill_set_summary.json
-  data/splits/scaffold_fold_{0-4}.csv        # URAT1 scaffold CV index map
-
-Example:
-  python3 scripts/00b_build_distill_set.py
-  python3 scripts/00b_build_distill_set.py --skip-d   # rebuild A/B/C/E only
+Not the TrueDecoy protocol-selection pool and not the clinical-library funnel.
 """
 from __future__ import annotations
 
@@ -358,7 +349,7 @@ def write_scaffold_folds(urat1: pd.DataFrame, n_splits: int, out_dir: Path) -> N
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="MASFL v3.1 distill set builder (A/B/C/E + merge D)")
+    parser = argparse.ArgumentParser(description="URAT1 distill set builder (A/B/C/E + merge D)")
     parser.add_argument("--output-dir", type=Path, default=DISTILL_DIR)
     parser.add_argument("--n-b", type=int, default=1000, help="Target size subset B (500–1000)")
     parser.add_argument("--n-c", type=int, default=5000, help="Target size subset C (2000–5000)")

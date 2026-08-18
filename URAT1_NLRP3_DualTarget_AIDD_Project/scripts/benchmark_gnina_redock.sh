@@ -10,7 +10,7 @@ GNINA_ROOT="${GNINA_ROOT:-/mnt/d/CADD paper exercise/gnina}"
 PROJECT_ROOT="${PROJECT_ROOT:-$(cd "$(dirname "$0")/.." && pwd)}"
 OUT_BASE="${OUT_BASE:-$GNINA_ROOT/output/benchmark}"
 SUMMARY="${SUMMARY:-$PROJECT_ROOT/results/gnina_benchmark/benchmark_redock_summary.csv}"
-# Glide-XP–like GNINA: thorough search + single best pose (see docs/GNINA_BENCHMARK_REDOCK_WSL.md)
+# Production P2: exhaustiveness=32, single best pose (docs/OPEN_SOURCE_DOCKING.md)
 EXHAUST="${EXHAUST:-32}"
 NUM_MODES="${NUM_MODES:-1}"
 CNN_SCORING="${CNN_SCORING:-rescore}"

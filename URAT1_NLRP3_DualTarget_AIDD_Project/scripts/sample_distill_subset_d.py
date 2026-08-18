@@ -1,20 +1,11 @@
 #!/usr/bin/env python3
-"""
-MASFL v3.1 — Sample distill subset D: unlabeled diversity negatives from a large library.
+"""Sample distill subset D: unlabeled diversity negatives from a large library.
 
-Subset D: 3k–10k random drug-like SMILES from Enamine/ChEMBL ~10^6 pool,
-excluding all project-known actives (URAT1, NLRP3, OAT, benchmarks).
+Subset D is for URAT1 retrospective only. It is not the TrueDecoy protocol-selection pool.
 
 Output:
   data/distill/distill_subset_d.csv
-  data/distill/distill_manifest.csv   (append or create; subset=D rows)
-
-Example:
-  python3 scripts/sample_distill_subset_d.py \\
-    --library /path/to/enamine_real_1M.csv \\
-    --n 8000 \\
-    --seed 42 \\
-    --diversity
+  data/distill/distill_manifest.csv
 """
 from __future__ import annotations
 

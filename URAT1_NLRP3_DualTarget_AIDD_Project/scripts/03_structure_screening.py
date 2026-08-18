@@ -5,7 +5,7 @@ STAD-AIDD Stage 3: Conformational ensemble docking + dual-target funnel.
 URAT1: S_trap conformation-trapping score (transporter-aware)
 NLRP3: NACHT domain docking + optional MM-GBSA
 
-See config/docking_ensemble.yaml and docs/URAT1_TRANSPORTER_VALIDATION.md
+See config/docking_ensemble.yaml and docs/URAT1_THREE_STATE_DOCKING.md.
 """
 from __future__ import annotations
 

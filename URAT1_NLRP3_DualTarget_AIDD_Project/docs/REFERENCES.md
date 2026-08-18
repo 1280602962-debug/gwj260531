@@ -1,6 +1,6 @@
 # References
 
-Verified bibliography for the URAT1/NLRP3 dual-target STAD-AIDD project.
+Verified bibliography for the URAT1/NLRP3 dual-node computational repurposing project.
 All entries include DOI or PMID where available.
 
 ---

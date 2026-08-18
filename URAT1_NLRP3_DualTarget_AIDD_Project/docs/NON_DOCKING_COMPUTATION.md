@@ -1,11 +1,8 @@
-# 非对接计算模块（Non-Docking Computational Evidence）
+# 非对接计算模块
 
-> **定位**：这些模块是加在**现有 Glide XP 对接/Pareto 结果之上的下游注释与验证**。
-> 它们 **不重新对接、不改动任何 Glide 分、不改变 Pareto 归属、不覆盖生产 ML 分**。
-> 因此可与已完成的对接筛选数据 **共存并直接引用**。
->
-> **对接引擎说明**：现有对接分为 **Glide XP**（开发跑）。本页所有分析基于该数据；
-> 若日后切换对接引擎，只需重跑对接层，本页脚本无需改动即可复用。
+> 下游注释：不重新对接、不改生产 ML 分。输入为 Pareto 合并表。  
+> **仓库内 `data/repurposing/pareto/` 多为 Glide 时代快照**；下列 A–E 数字来自该快照（含 EGCG 作为 PAINS 降级案例），**不是** 现行 P2 提名名单。  
+> 生产协议 **P2 / gnina CNNaffinity**。现行提名：`scripts/14_candidate_nomination.py`。
 
 ---
 
@@ -55,9 +52,8 @@ python3 scripts/13_pareto_robustness.py
 | Pareto 短名单 | 6 | **1** | 4 | 3 | 4 (66.7%) |
 | 双靶对接池 | 1451 | 58 | 554 | 200 | 597 (41.1%) |
 
-**关键发现**:短名单里 **唯一命中 PAINS 的就是 EGCG**（PAINS_B + Brenk）。
-→ 直接支撑上一轮结论:EGCG 应从"最优双靶 lead"降级为"漏斗自我纠错的诚实案例"。
-详见 `results/cheminformatics/filters_shortlist.csv`（含命中子结构描述）。
+**关键发现**：该历史短名单里 **唯一命中 PAINS 的是 EGCG**（PAINS_B + Brenk）。  
+EGCG 只作为漏斗自我纠错案例，**不是**当前主推荐 lead。详见 `results/cheminformatics/filters_shortlist.csv`。
 
 ---
 
@@ -105,7 +101,7 @@ python3 scripts/13_pareto_robustness.py
 |----------|-----------|
 | Methods 新增"计算过滤与模型验证"小节 | A–E 全部 |
 | Results:模型可信度(y-scramble、校准、AD) | A |
-| Results/Discussion:EGCG 降级论证 | B + C + A(域外) |
+| Results/Discussion:EGCG 作为方法学负例（非当前 lead） | B + C + A(域外) |
 | Results:短名单化学空间与新颖性图 | D |
 | Results:Pareto 敏感性(SI 或正文) | E |
 | Discussion:局限性(域外、PAINS、薄前沿) | A + B + E |

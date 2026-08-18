@@ -44,7 +44,7 @@ def main() -> None:
     run_step("Stage 6: Retrospective validation", "06_retrospective_validation.py", val_args)
 
     print("\nTAPE-GATE pipeline complete.")
-    print("See results/ and docs/MANUSCRIPT_OUTLINE.md")
+    print("Unused TAPE-GATE skeleton. Production writing: docs/MANUSCRIPT.md")
     print("Differentiation vs PLK1/NLRP3: docs/DIFFERENTIATION_VS_PLK1_NLRP3.md")
 
 

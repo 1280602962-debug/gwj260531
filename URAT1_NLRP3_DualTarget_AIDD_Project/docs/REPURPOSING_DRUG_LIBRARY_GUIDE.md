@@ -1,6 +1,6 @@
 # 双靶重定位药物库指南（当前路线）
 
-> **主流程**：[`WORKFLOW_CURRENT.md`](WORKFLOW_CURRENT.md)  
+> **主流程**：[`WORKFLOW.md`](WORKFLOW.md)  
 > **不是**：8973 distill；不是 Enamine 百万库
 
 ---

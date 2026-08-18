@@ -1,4 +1,9 @@
-# Pareto analysis: 9DKB + 7ALV dual docking
+# Pareto analysis: 9DKB + 7ALV dual docking (archived Glide-era)
+
+> **历史快照（Glide 时代），不是现行 P2 生产结果。**  
+> 勿把本文件的 6 分子短名单（含 EGCG）或 MD next 当作当前跟进名单。  
+> 生产协议 = gnina **P2 / CNNaffinity**；跟进读 `results/candidates/nominated_shortlist_diverse.csv` 与 `docs/MANUSCRIPT.md`。  
+> 下列数字仅作审计对照保留。
 
 - Dual merged: **1451** / pool **1588**
 - Pareto front: **6**

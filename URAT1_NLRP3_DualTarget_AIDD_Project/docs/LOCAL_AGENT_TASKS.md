@@ -1,9 +1,7 @@
 # 本地 Agent 执行任务书：URAT1–NLRP3 双靶重定位 · 阶段二（漏斗 + 短名单 + MD 文件导出 + 写作）
 
-> 面向：在本地机器上运行的 coding agent（有 shell、文件读写、git 权限）。
-> 前提：`vina`、`gnina` 已安装并可在 PATH 或 `tools/gnina` 找到；Python 依赖（rdkit、meeko、gemmi、openbabel、pandas、numpy、pyyaml、scikit-learn、xgboost、scipy）已安装；仓库为 `URAT1_NLRP3_DualTarget_AIDD_Project`（Git 仓库根目录的子目录）。
-> **本机算力不足以跑 MD**：任务 3 只产出 MD 输入文件，不在本地运行任何 MD 引擎。
-> 你不需要读其他对话记录，本文档自包含。**严格按顺序执行任务 0 → 4**，每个任务完成后按"提交"一节要求提交并推送。
+> 面向本地漏斗执行。生产协议已锁定为 **Π\* = P2**。  
+> 写作入口：`docs/MANUSCRIPT.md`。当前 MD 假说分子见该文件（GSK-3008348、Vecabrutinib + 对照）；**不要**用仓库里 Glide 时代的 `pareto_shortlist.csv` / `md_candidate_selection.csv`。
 
 ---
 
@@ -104,30 +102,23 @@ results/candidates/candidate_nomination_summary.json
 
 ---
 
-## 任务 3：挑选 MD 候选分子，导出可用于 MD 的蛋白/配体文件（**不在本地跑 MD**）
+## 任务 3：MD 输入文件（受体/配体导出）
 
-> 本机算力不足以跑 MD。本任务只做两件事：**挑分子** + **产出标准化的受体/配体文件**，
-> 交给有算力的机器（云端/工作站/HPC）去跑 MD。**不要在本地尝试运行任何 MD 引擎。**
+> 本任务只导出起始构象文件。轨迹在有算力的机器上跑。  
+> **当前跟进分子（P2 化学提名，非 Glide 裸 Pareto）：** GSK-3008348（URAT1 侧）、Vecabrutinib（NLRP3 侧）；对照 lesinurad @ 9DKB、MCC950 @ 7ALV（若有姿）。  
+> **不要 MD：** Zelenirstat、MLN-0415、BI 653048、Deucrictibant、Praliciguat，以及仓库 Glide 短名单中的 EGCG / canagliflozin / 大环内酯。  
+> URAT1 必须按 **膜+脂双层** 体系；7ALV 用水盒子。
 
-### 3.1 挑选候选分子
+若要用脚本从 **P2 提名表** 自动挑选（不要喂 Glide 时代 `pareto_shortlist.csv`）：
 
 ```bash
 python3 scripts/select_md_candidates.py \
-  --n-novel 4 \
+  --n-novel 2 \
   --n-controls 2 \
   --output data/md_candidates/md_candidate_selection.csv
 ```
 
-- 默认从 `results/candidates/nominated_candidates.csv`（任务 2 产物）挑选，并优先参考 `nominated_shortlist_diverse.csv`：
-  - 最多 4 个 **novel_candidate**：优先 `preferred_candidate=True`（清洁 + 口服 MW 窗 + 吸收），再按双结构平衡 / 化学排序分，并按 Murcko 骨架去冗余
-  - 最多 2 个 **known_control**：已知对照药（优先 lesinurad、MCC950 等），用于校准解读
-- **禁止**从原始 `pareto_shortlist.csv` 手工挑 MD 分子（大环内酯等对接刷分分子应已被 MW/类药性规则降级）。
-- 脚本会自动把候选分子关联回 `repurposing_id` / `canonical_smiles` / 对接状态（通过 `data/repurposing/pareto/pareto_merged_scores.csv` 联表），不需要手工处理。
-- 若某候选缺 `repurposing_id`（联表失败）会打印 WARNING 并自动剔除，不会中断执行。
-
-**检查**：`data/md_candidates/md_candidate_selection.csv` 存在，行数在 4–6 之间，`has_9dkb_pose` / `has_7alv_pose` 至少一列为 True。
-
-### 3.2 导出 MD-ready 文件（受体 PDB + 配体 SDF/PDB/SMILES）
+然后：
 
 ```bash
 python3 scripts/export_md_ready_candidates.py \
@@ -135,61 +126,15 @@ python3 scripts/export_md_ready_candidates.py \
   --output-dir data/md_candidates
 ```
 
-对每个（化合物, 靶点）组合，只要该化合物在该靶点对接成功，就会生成一个文件夹：
-
-```
-data/md_candidates/
-  _receptors/
-    9DKB_receptor.pdb        # 受体只生成一次，两个靶点共用同一份
-    7ALV_receptor.pdb
-  9DKB_<repurposing_id>/
-    receptor.pdb             # 与该靶点对接时使用的同一受体（蛋白质、去水、去异原子、pH 7.4 加氢）
-    ligand.sdf                # gnina P2 产出的对接姿态原始文件
-    ligand.pdb                # 同一姿态转成 PDB，便于可视化/组装复合物
-    ligand.smi                # 真实标准 SMILES（供后续力场参数化用）
-    README.md                 # 来源、对接分数、蛋白质子化 pH、后续 MD 建议步骤
-  7ALV_<repurposing_id>/
-    ...（同上）
-  md_ready_manifest.csv       # 全部导出文件的清单（含 warning 列）
-```
-
-**检查**：
-- `data/md_candidates/md_ready_manifest.csv` 存在，行数与任务 3.1 选出的（化合物×成功靶点）组合数一致。
-- 逐个打开 `warning` 列，若非空需要处理（常见原因：gnina 姿态 SDF 缺失或格式异常，需要回到任务 1 的对接输出核查）。
-- 每个文件夹下 `receptor.pdb`、`ligand.sdf`、`ligand.smi` 必须存在；`ligand.pdb` 若因分子解析问题缺失，不阻塞交付，但需在提交说明里注明。
-
-### 3.3 交付说明（写清楚，方便你或云端 agent接手跑 MD）
-
-在 `data/md_candidates/` 下新建 `HANDOFF_NOTES.md`，写明：
-- 本批候选分子列表（复制 `md_candidate_selection.csv` 的关键列）
-- 每个文件夹里文件的含义（可直接引用上面的目录结构说明）
-- **明确声明：这里只有起始构象/文件，MD 尚未运行**，力场选择、复合物组装、溶剂化、平衡、生产阶段都留给下一步执行者
-- 建议目标：每个体系 50–100 ns 生产阶段；报告 RMSD/RMSF、关键残基相互作用；MM-GBSA（如做）仅同批相对比较
-
-**不要**在这一步编造任何 MD 数值结果——本任务只产出输入文件，不产出轨迹或能量数字。
+交付时写明每个文件夹含义；**不要编造尚未完成的 MD 数值**。已在跑的轨迹填入 Results 时再写数字。
 
 ---
 
-## 任务 4：更新文档与图表（Methods / Results 草稿）
+## 任务 4：文稿（按 `docs/MANUSCRIPT.md`）
 
-1. 在 `docs/METHODS_DRAFT_CN.md` 中补充：
-   - 生产协议 = P2（已在 `docs/PROTOCOL_SELECTION_RESULT.md` 定义，直接引用即可，不要重写协议筛选逻辑）。
-   - 1588 双靶对接的具体执行细节（若与已写内容不一致，以本次实际运行参数为准）。
-   - 说明 MD 体系已完成"输入文件准备"（受体/配体导出，见 `data/md_candidates/`），MD 本身**尚未运行**，将在外部算力环境执行；不得编造 MD 参数或结果数值。
-2. 在 `docs/RESULTS_DOCKING_9DKB_7ALV.md`（或新建 `docs/RESULTS_FUNNEL_P2.md`）中记录：
-   - Pareto 短名单规模、提名后剩余分子数
-   - MD 候选分子选择结果（`md_candidate_selection.csv` 摘要：哪几个 novel_candidate、哪几个 known_control，及入选理由）
-   - 已知对照药在漏斗中的位置（回收情况）
-3. 更新 `README.md` 中"实现状态"表：
-   - 把"重定位库双靶对接"从 `⏳` 改为 `✅`
-   - 新增一行"MD 候选筛选 + 输入文件导出"标记 `✅`，"MD 模拟本身"标记 `⏳ 待外部算力执行`
-   - 链接新文档
-
-**写作口径（强制）：**
-- 通篇使用 "computational dual-node repurposing hypotheses"、"candidate nominations pending experimental validation" 一类措辞。
-- **禁止**出现 "identified dual-target inhibitors"、"validated hits"、"potent dual inhibitors" 等确认性表述。
-- **禁止**声称 MD 已完成或报告任何 MD 数值（RMSD、MM-GBSA 等）——本阶段只完成到"MD 输入文件已备妥"。
-- 局限段必须包含：TrueDecoy/RandomDecoy 富集中等（AUC≈0.58–0.65）；P5 在 RandomDecoy 上失败（写明数值和显著性）；诱饵为库分子而非实验无活；MD 尚待外部算力执行，当前无构象稳定性证据。
+1. 引言：`docs/INTRO_DRAFT_CN.md`；Methods：`docs/METHODS_DRAFT_CN.md`。生产协议 = P2。
+2. Results 记录：协议表、漏斗计数、裸 Pareto vs 化学提名、MD 候选及理由。
+3. URAT1 MD 按膜蛋白体系写方法；不得把对接分写成亲和力，不得写已发现双靶抑制剂。
 
 ---
 
@@ -214,9 +159,9 @@ git push -u origin cursor/urat1-nlrp3-dualtarget-aidd-e43d
 - 不要重新跑或重新讨论 TrueDecoy/RandomDecoy 协议筛选（P0–P5 已锁定为 P2）。
 - 不要把 P5 提升为生产协议。
 - 不要对 `true_decoy_benchmark.csv` / `random_decoy_benchmark.csv` 重复对接。
-- **不要在本地运行任何 MD 引擎**（GROMACS/AMBER/NAMD 等）；本机算力不支持，任务 3 只导出输入文件。
-- 不要编造 MD 参数、时长或结果数值；MD 尚未运行时，文档一律标注"待外部算力执行"，不得写假数字。
-- 不要在任何文档或摘要中使用确认性发现语言（"we identified/discovered dual-target inhibitors"）。
+- 不要把仓库 Glide 时代 Pareto / EGCG / canagliflozin 写成当前 lead。
+- 不要编造尚未完成的 MD 数值。
+- 不要使用确认性发现语言（"we identified dual-target inhibitors"）。
 - 不要删除或覆盖 `docs/PROTOCOL_SELECTION_RESULT.md` 中的既有结果表。
 
 ---
@@ -225,6 +170,6 @@ git push -u origin cursor/urat1-nlrp3-dualtarget-aidd-e43d
 
 - [ ] 任务 1：`pareto_shortlist.csv` 存在且非空，对接失败率 <10%
 - [ ] 任务 2：`results/candidates/` 下有最终提名表，含 clean candidate 标记
-- [ ] 任务 3：`data/md_candidates/md_candidate_selection.csv`（4–6 个候选）+ `md_ready_manifest.csv` + 每个文件夹下 `receptor.pdb`/`ligand.sdf`/`ligand.smi` 齐全，`HANDOFF_NOTES.md` 已写明"MD 尚未运行"
-- [ ] 任务 4：Methods/Results 文档更新，README 状态表同步，全篇无确认性发现语言、无编造的 MD 数值
+- [ ] 任务 3：MD 输入与当前跟进分子一致（GSK-3008348、Vecabrutinib + 对照），不是 Glide 短名单
+- [ ] 任务 4：按 `docs/MANUSCRIPT.md` 更新；无确认性发现语言、无编造 MD 数值
 - [ ] 所有任务已分别提交并推送到 `cursor/urat1-nlrp3-dualtarget-aidd-e43d`

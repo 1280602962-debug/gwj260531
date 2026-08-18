@@ -23,7 +23,7 @@ def main() -> None:
             "Activity distribution (pIC50 histograms)",
             "Cross-target Tanimoto similarity matrix",
         ],
-        "reference": "docs/PROJECT_DESIGN.md Phase 1",
+        "reference": "docs/MANUSCRIPT.md",
     }
     out = args.output / "similarity_report.json"
     with open(out, "w") as f:
