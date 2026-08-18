@@ -2,7 +2,7 @@
 
 **Overall verdict: URAT1_NO_GO**
 
-NLRP3 model is screening-ready; URAT1 model fails strict CV and/or benchmark recovery. URAT1 library filtering must NOT rely on ML alone — use $S_trap$ conformational ensemble docking as primary evidence.
+NLRP3 model is screening-ready; URAT1 model fails strict CV and/or benchmark recovery. URAT1 library ranking must NOT rely on ML. Production URAT1 evidence is gnina P2 docking at 9DKB (inward-open).
 
 ## 1. Cross-validation (scaffold GroupKFold, 5 folds)
 
@@ -58,4 +58,4 @@ NLRP3 must-recover binary pass: 2/2
 - **lesinurad / benzbromarone** were dropped during ChEMBL curation due to >1 log assay conflict; ChEMBL median pActivity (~5.1–6.5) is lower than literature references used in benchmarks.
 - **verinurad** is in the training set; model prediction is consistent with held-in data.
 - **MCC950** is in NLRP3 training data; high P(active) confirms correct class assignment.
-- For scaffold-novel benchmarks, prioritize **conformational ensemble docking** ($S_{trap}$) over ML rank.
+- For scaffold-novel benchmarks, prioritize **9DKB P2 docking** over URAT1 ML rank. Three-state $S_{trap}$ was not implemented.

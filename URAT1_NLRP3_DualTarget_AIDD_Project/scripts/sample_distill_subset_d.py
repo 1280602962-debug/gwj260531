@@ -125,7 +125,7 @@ def diversity_pick(df: pd.DataFrame, n: int, tanimoto: float = 0.4) -> pd.DataFr
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Sample MASFL distill subset D from a large library")
+    parser = argparse.ArgumentParser(description="Sample distill subset D from a large library")
     parser.add_argument("--library", type=Path, required=True, help="Enamine/ChEMBL CSV or .smi")
     parser.add_argument("--smiles-col", type=str, default=None, help="SMILES column name if CSV")
     parser.add_argument("--n", type=int, default=8000, help="Target sample size (3000–10000)")
@@ -138,7 +138,7 @@ def main() -> None:
     args = parser.parse_args()
 
     if not 3000 <= args.n <= 10000:
-        print(f"Warning: n={args.n} outside MASFL recommended 3000–10000")
+        print(f"Warning: n={args.n} outside recommended 3000–10000")
 
     args.output_dir.mkdir(parents=True, exist_ok=True)
     excluded = load_exclude_smiles()

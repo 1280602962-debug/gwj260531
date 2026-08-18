@@ -162,4 +162,4 @@ A: **不能。** Methods 写 GNINA 就必须用 GNINA 重跑的全库分数。
 
 Methods 建议表述：
 
-> Molecular docking used GNINA 1.3.1 in CPU mode (`--no_gpu`) with exhaustiveness 16 and CNN rescoring. Receptors were prepared with gemmi and Open Babel; ligands with RDKit and Meeko. Scores were converted to within-library percentiles for Pareto analysis.
+> Molecular docking used GNINA with CNN rescoring (production protocol P2: CNNaffinity, exhaustiveness 32, num_modes 1). Receptors were prepared with gemmi and Open Babel; ligands with RDKit and Meeko. Scores were converted to within-pool percentiles. Do not mix with historical Glide scores.

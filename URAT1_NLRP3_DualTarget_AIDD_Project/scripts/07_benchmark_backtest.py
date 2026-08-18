@@ -1,12 +1,7 @@
 #!/usr/bin/env python3
-"""
-TAPE-GATE: Benchmark backtest and model reliability report.
+"""Benchmark backtest and model reliability report (ML only).
 
-Metrics:
-  - Percentile rank vs training library
-  - Binary pass: predicted active (NLRP3) / predicted pActivity>=6 (URAT1)
-  - Applicability domain: max Tanimoto to training set
-  - Stratified by in_training vs scaffold-novel benchmarks
+URAT1 ML is not used to rank the clinical library; production URAT1 ranking is gnina P2 @ 9DKB.
 """
 from __future__ import annotations
 
@@ -214,7 +209,7 @@ def overall_verdict(training_report: dict, urat1_bt: dict, nlrp3_bt: dict) -> di
     elif nlrp3_cv and nlrp3_bench and not (urat1_cv and urat1_bench):
         verdict, text = "URAT1_NO_GO", (
             "NLRP3 model is screening-ready; URAT1 model fails strict CV and/or benchmark recovery. "
-            "URAT1 library filtering must NOT rely on ML alone — use $S_trap$ conformational ensemble docking as primary evidence."
+            "URAT1 library ranking must NOT rely on ML. Production URAT1 evidence is gnina P2 docking at 9DKB (inward-open)."
         )
     elif urat1_cv or nlrp3_cv:
         verdict, text = "CONDITIONAL_GO", "Partial pass; see per-target tables."
@@ -307,7 +302,7 @@ def write_markdown_report(report: dict, path: Path) -> None:
         "ChEMBL median pActivity (~5.1–6.5) is lower than literature references used in benchmarks.",
         "- **verinurad** is in the training set; model prediction is consistent with held-in data.",
         "- **MCC950** is in NLRP3 training data; high P(active) confirms correct class assignment.",
-        "- For scaffold-novel benchmarks, prioritize **conformational ensemble docking** ($S_{trap}$) over ML rank.",
+        "- For scaffold-novel benchmarks, prioritize **9DKB P2 docking** over URAT1 ML rank. Three-state $S_{trap}$ was not implemented.",
         "",
     ]
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -336,7 +331,7 @@ def main() -> None:
     verdict = overall_verdict(training_report, urat1_bt, nlrp3_bt)
 
     report = {
-        "framework": "TAPE-GATE",
+        "framework": "asymmetric_dual_evidence",
         "urat1_backtest": urat1_bt,
         "nlrp3_backtest": nlrp3_bt,
         "scaffold_overlap_check": scaf_check,

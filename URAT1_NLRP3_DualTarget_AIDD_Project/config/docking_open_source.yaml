@@ -1,14 +1,12 @@
-# Open-source docking configuration (AutoDock Vina 1.2.x / smina)
-# Replaces Schrödinger Glide XP for reproducibility without commercial licenses.
-#
-# Score convention: dock_score / minimizedAffinity in kcal/mol (lower = better).
-# Ranking uses within-pool percentiles — absolute values are NOT compared to Glide XP.
+# Open-source docking (protocol comparison / redock smoke tests).
+# Production ranking: config/docking_production_p2.yaml (gnina CNNaffinity).
+# Do not mix these scores with historical Glide tables or experimental Ki.
 
 default_engine: vina
 
 vina:
   binary: vina  # or absolute path, e.g. /opt/vina/vina_1.2.5_linux_x86_64
-  exhaustiveness: 32  # Glide-SP–like thoroughness; increase to 64 for sensitivity
+  exhaustiveness: 32
   num_modes: 9
   energy_range: 3.0
   cpu: 1
@@ -22,8 +20,8 @@ smina:
 gnina:
   binary: gnina  # or tools/gnina after setup_gnina_wsl_cpu.sh
   no_gpu: true       # WSL without NVIDIA: must be true
-  exhaustiveness: 32 # Glide-SP–like search; not identical to Glide XP scoring
-  num_modes: 1       # single best pose per ligand (VS / Pareto ranking)
+  exhaustiveness: 32
+  num_modes: 1
   cpu: 2
   cnn_scoring: rescore  # none | rescore | refinement | all
   score_mode: affinity  # affinity (kcal/mol, lower=better) | cnnaff

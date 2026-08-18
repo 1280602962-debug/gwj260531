@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
-"""
-P2: Ablation — URAT1 without OAT transfer vs with OAT1/OAT3 sequential pretrain.
+"""OAT-transfer ablation for URAT1 ML (not docking protocol P2).
 
-Runs two training passes, benchmark backtests, and writes a side-by-side JSON report.
-NLRP3 is trained once per arm (unchanged by OAT transfer) for a complete model bundle.
+Compares URAT1 training with vs without OAT1/OAT3 sequential pretrain.
+OAT transfer is not a manuscript main result.
 """
 from __future__ import annotations
 

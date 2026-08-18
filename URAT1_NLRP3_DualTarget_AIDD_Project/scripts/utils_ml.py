@@ -1,4 +1,4 @@
-"""Shared ML utilities for URAT1/NLRP3 TAPE-GATE pipeline."""
+"""Shared ML utilities for URAT1/NLRP3 (asymmetric dual-evidence models)."""
 
 from __future__ import annotations
 

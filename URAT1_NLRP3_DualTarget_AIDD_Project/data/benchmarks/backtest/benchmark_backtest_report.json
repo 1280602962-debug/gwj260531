@@ -1,5 +1,5 @@
 {
-  "framework": "TAPE-GATE",
+  "framework": "asymmetric_dual_evidence",
   "urat1_backtest": {
     "benchmarks": [
       {
@@ -196,7 +196,7 @@
   ],
   "overall_verdict": {
     "verdict": "URAT1_NO_GO",
-    "summary": "NLRP3 model is screening-ready; URAT1 model fails strict CV and/or benchmark recovery. URAT1 library filtering must NOT rely on ML alone \u2014 use $S_trap$ conformational ensemble docking as primary evidence.",
+    "summary": "NLRP3 model is screening-ready; URAT1 model fails strict CV and/or benchmark recovery. URAT1 library ranking must NOT rely on ML. Production URAT1 evidence is gnina P2 docking at 9DKB (inward-open).",
     "cv_pass": {
       "urat1": true,
       "nlrp3": true

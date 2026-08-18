@@ -1,19 +1,7 @@
 #!/usr/bin/env python3
-"""
-Merge Vina/smina (or legacy Glide) 8973 @ 9DKB exports with distill_manifest.csv.
+"""Merge 8973 distill docking exports with distill_manifest.csv (optional URAT1 SI only).
 
-Inputs (flexible Maestro CSV):
-  - One or more Glide XP score tables (per-ligand best pose kept)
-
-Outputs:
-  data/docking/8973_9DKB_merged.csv
-  data/docking/8973_9DKB_with_manifest.csv
-  data/docking/8973_docking_qc_summary.json
-
-Example:
-  python3 scripts/merge_8973_docking_results.py \\
-    --glide-csv results/docking/raw/9DKB_xp_scores.csv \\
-    --pdb 9DKB
+Not the clinical-library production funnel. Do not mix these scores into P2 Pareto.
 """
 from __future__ import annotations
 
@@ -270,13 +258,13 @@ def qc_summary(merged: pd.DataFrame, dock: pd.DataFrame) -> dict:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Merge 8973 Glide XP with distill manifest")
+    parser = argparse.ArgumentParser(description="Merge 8973 distill docking scores with distill manifest")
     parser.add_argument(
         "--glide-csv",
         type=Path,
         action="append",
         required=True,
-        help="Maestro/Glide XP export CSV or Excel (repeatable)",
+        help="Docking export CSV or Excel (repeatable; legacy Glide or Vina)",
     )
     parser.add_argument("--manifest", type=Path, default=MANIFEST)
     parser.add_argument("--pdb", type=str, default="9DKB")

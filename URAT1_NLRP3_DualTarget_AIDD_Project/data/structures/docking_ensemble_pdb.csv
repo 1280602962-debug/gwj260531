@@ -1,12 +1,3 @@
 target,pdb_id,method,conformation_state,ligand,resolution_A,uniprot,primary_citation_doi,ensemble_role,notes
-URAT1,9DKB,cryo-EM,inward_open,lesinurad,2.55,Q96S37,10.1038/s41467-025-60480-3,three_state_primary.inward_open,Primary inward grid for inhibitor docking; Teacher pi_in
-URAT1,9B1K,cryo-EM,occluded,urate,,Q96S37,10.1038/s41422-024-01023-1,three_state_primary.occluded,RCSB: urate-bound occluded state; EMDB-44082; Teacher pi_occ
-URAT1,9B1L,cryo-EM,outward_open,urate,,Q96S37,10.1038/s41422-024-01023-1,three_state_primary.outward_open,RCSB: urate-bound outward-facing; EMDB-44083; Teacher pi_out
-URAT1,9B1H,cryo-EM,inward_open,lesinurad,2.74,Q96S37,10.1038/s41422-024-01023-1,alternate_inward,Alternate inward; lesinurad redock / sensitivity
-URAT1,9B1J,cryo-EM,inward_open,urate,3.3,Q96S37,10.1038/s41422-024-01023-1,alternate_inward_urate,Urate-bound inward-facing; EMDB-44081
-URAT1,9DKA,cryo-EM,inward_open,benzbromarone,3.0,Q96S37,10.1038/s41467-025-60480-3,benchmark_redock,benzbromarone co-crystal; NOT generic inward grid
-URAT1,9JDZ,cryo-EM,inward_open,lesinurad,3.5,Q96S37,10.1038/s41421-025-00779-z,supplementary_inward,Wu Cell Discov 2025; lesinurad inward ONLY — do NOT use for occ/out
-URAT1,9JDY,cryo-EM,inward_open,verinurad,3.23,Q96S37,10.1038/s41421-025-00779-z,benchmark_redock,verinurad co-crystal
-URAT1,9JE1,cryo-EM,inward_open,dotinurad,3.6,Q96S37,10.1038/s41421-025-00779-z,benchmark_redock,dotinurad co-crystal
-NLRP3,7ALV,X-ray,NACHT_inactive,MCC950-class analog (NP3-146),2.84,Q96P20,10.1016/j.jmb.2021.167189,primary,Pharmacophore template; ligand is not MCC950
-NLRP3,8ETR,cryo-EM,NACHT,GDC-2394,NA,Q96P20,10.1021/acs.jmedchem.2c01250,primary,McBride et al. J Med Chem 2022
+URAT1,9DKB,cryo-EM,inward_open,lesinurad,2.55,Q96S37,10.1038/s41467-025-60480-3,production,Production URAT1 receptor (gnina P2)
+NLRP3,7ALV,X-ray,NACHT_inactive,NP3-146 (MCC950-class analog),2.84,Q96P20,10.1016/j.jmb.2021.167189,production,Production NLRP3 receptor; ligand is not MCC950

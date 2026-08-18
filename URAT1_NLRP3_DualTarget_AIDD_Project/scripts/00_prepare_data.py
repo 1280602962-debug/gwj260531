@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-TAPE-GATE Stage 0: Curate URAT1 / NLRP3 bioactivity data from ChEMBL exports.
+"""Curate URAT1 / NLRP3 bioactivity data from ChEMBL exports.
 
 Input (default): data/raw/URAT1_CHEMBL.csv, data/raw/NLRP3_CHEMBL.csv
 Output:

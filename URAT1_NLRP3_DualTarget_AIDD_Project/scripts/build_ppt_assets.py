@@ -194,9 +194,9 @@ def draw_workflow() -> Path:
     steps = [
         (0.2, "ChEMBL clinical library\nn = 8,319", "#444444"),
         (2.0, "NLRP3 ML prescreen\nP≥0.5 → 1,588", "#D55E00"),
-        (3.8, "Glide XP dual docking\n9DKB + 7ALV", "#0072B2"),
-        (5.6, "Merge n = 1,451\nPareto front = 6", "#009E73"),
-        (7.4, "Filters A–F\nnomination", "#6A3D9A"),
+        (3.8, "gnina P2 dual dock\n9DKB + 7ALV", "#0072B2"),
+        (5.6, "Percentiles +\nPareto audit", "#009E73"),
+        (7.4, "Chemistry nomination\n(dual-dock gate)", "#6A3D9A"),
         (9.2, "MD benchmarks\n+ hypotheses", "#666666"),
     ]
     for i, (x, text, c) in enumerate(steps):

@@ -407,7 +407,7 @@ def main() -> None:
 
     counts = manifest["subset"].value_counts().to_dict()
     summary = {
-        "framework": "MASFL_v3.1",
+        "framework": "urat1_distill_retrospective",
         "stage": "0.3_distill_set",
         "n_total_unique": int(len(manifest)),
         "n_by_subset_manifest": {k: int(counts.get(k, 0)) for k in ["A", "B", "C", "D", "E"]},

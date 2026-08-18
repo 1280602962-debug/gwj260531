@@ -1,7 +1,7 @@
 # 本地 Agent 执行任务书：URAT1–NLRP3 双靶重定位 · 阶段二（漏斗 + 短名单 + MD 文件导出 + 写作）
 
 > 面向本地漏斗执行。生产协议已锁定为 **Π\* = P2**。  
-> 写作入口：`docs/MANUSCRIPT.md`。当前 MD 假说分子见该文件（GSK-3008348、Vecabrutinib + 对照）；**不要**用仓库里 Glide 时代的 `pareto_shortlist.csv` / `md_candidate_selection.csv`。
+> 写作入口：`docs/MANUSCRIPT.md`。当前 MD 假说分子见该文件（GSK-3008348、Vecabrutinib + 对照）。仓库不再提交自动挑选的 MD CSV。
 
 ---
 

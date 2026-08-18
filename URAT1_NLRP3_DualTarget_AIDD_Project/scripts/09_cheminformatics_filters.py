@@ -4,9 +4,8 @@ Non-docking computational module B — medicinal-chemistry structural alerts.
 
 Annotates the EXISTING docking/Pareto data with PAINS (A/B/C), Brenk and NIH
 structural-alert flags plus a transparent colloidal-aggregation heuristic.
-This is a pure downstream annotation: it never re-docks, never recomputes Glide
-scores, and never changes Pareto membership. It only adds alert columns so the
-manuscript can defend (or de-prioritize) shortlisted compounds such as EGCG.
+This is a pure downstream annotation: it never re-docks and never changes Pareto membership.
+If the input table is a Glide-era snapshot, treat EGCG/PAINS hits as a historical audit case, not current leads.
 
 Inputs (read-only):
   data/repurposing/pareto/pareto_shortlist.csv      (Pareto front, e.g. 6)

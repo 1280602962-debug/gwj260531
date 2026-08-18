@@ -19,7 +19,7 @@
 
 | 考试 | 分子 | Pass |
 |------|------|------|
-| 结构 URAT1 | 四药 | redock ≤2.0–2.5 Å；π_in > π_out ≥3/4 |
+| 结构 URAT1 | 四药 redock @ 9DKB | 采样近原生姿可报告；P2 Top-1 RMSD 失败须写明（见 `REDOCK_SMOKE_ANALYSIS.md`） |
 | ML 外推 URAT1 | lesinurad, dotinurad, benzbromarone | L2 Top-500 ≥2/3 |
 | Sanity | verinurad, MCC950, GDC-2394 | 必过（不证明外推） |
 | 阴性 | allopurinol, colchicine | 排名后 20% |

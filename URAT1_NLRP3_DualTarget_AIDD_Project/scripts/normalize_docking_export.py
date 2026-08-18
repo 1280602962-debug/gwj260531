@@ -1,11 +1,7 @@
 #!/usr/bin/env python3
-"""Normalize docking exports from Vina/smina batch runs or legacy Glide Canvas.
+"""Normalize docking exports from gnina/Vina batch runs (legacy Glide columns still aliased).
 
-Output schema (tool-agnostic):
-  repurposing_id, name, chembl_id, canonical_smiles,
-  dock_score, docking_status, pdb_id, docking_engine
-
-Legacy alias `glide_score_xp` is duplicated from dock_score for downstream scripts.
+Production ranking is gnina P2. Do not mix engines in one percentile table.
 """
 from __future__ import annotations
 

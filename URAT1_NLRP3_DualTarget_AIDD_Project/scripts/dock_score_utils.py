@@ -1,4 +1,4 @@
-"""Shared docking score column aliases and normalization (open-source + legacy Glide)."""
+"""Shared docking score column aliases (gnina/Vina; legacy Glide names still accepted)."""
 from __future__ import annotations
 
 import re

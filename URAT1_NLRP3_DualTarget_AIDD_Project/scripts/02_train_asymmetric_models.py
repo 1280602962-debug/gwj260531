@@ -1,12 +1,8 @@
 #!/usr/bin/env python3
-"""
-TAPE-GATE Stage 2: Train asymmetric dual-evidence models.
+"""Train asymmetric dual-evidence models.
 
-URAT1: XGBoost regression + split conformal UQ (5-fold scaffold CV)
-       Optional OAT1/OAT3 sequential pretrain → URAT1 fine-tune (--oat-transfer)
-NLRP3: Assay-conditioned XGBoost classifier (5-fold scaffold CV by molecule)
-
-Outputs models, CV metrics, and screening suitability verdict under results/training/.
+URAT1: XGBoost regression + split conformal UQ (SI / contrast only; not clinical ranking)
+NLRP3: Assay-conditioned XGBoost classifier (library shrink, P≥0.5)
 """
 from __future__ import annotations
 
@@ -475,7 +471,7 @@ def main() -> None:
     pd.DataFrame(nlrp3_cv["oof_predictions"]).to_csv(args.output / "nlrp3_oof_predictions.csv", index=False)
 
     report = {
-        "framework": "TAPE-GATE",
+        "framework": "asymmetric_dual_evidence",
         "urat1": {
             "model": "XGBoost regression + split conformal (alpha=0.1)",
             "transfer_learning": {

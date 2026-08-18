@@ -5,7 +5,7 @@
 | 文件 | 说明 |
 |------|------|
 | `nlrp3_ml_scores_clinical_all.csv` | 全临床库 **8319** 条 NLRP3 ML 分数 |
-| `docking_pool_p05.csv` | **P(active)≥0.5 对接池，1588 条**（主流程 Maestro 输入） |
+| `docking_pool_p05.csv` | **P(active)≥0.5 对接池，1588 条**（主流程 gnina P2 输入） |
 | `nlrp3_screening_summary_clinical_all.json` | 全库统计 + 对照药排名 |
 | `nlrp3_top_for_dual_docking_clinical_all.csv` | Top 5% / top-N 短名单（可选对照） |
 | `nlrp3_ml_scores_phase_ge3.csv` | III 期+上市子集（1283）分数 |

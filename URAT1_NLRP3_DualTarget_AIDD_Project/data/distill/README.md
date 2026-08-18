@@ -18,4 +18,4 @@
 python3 scripts/00b_build_distill_set.py
 ```
 
-统计见 `distill_set_summary.json`。本目录 **不做** Teacher/MASFL 三态 Glide 对接。
+统计见 `distill_set_summary.json`。本目录不做生产双靶对接。

@@ -1,30 +1,8 @@
 #!/usr/bin/env python3
-"""
-Merge URAT1 + NLRP3 docking scores on the P(active)>=0.5 pool and build Pareto shortlist.
+"""Merge URAT1 + NLRP3 docking scores on the P(active)>=0.5 pool.
 
-Inputs:
-  - NLRP3 ML scores (full clinical library or pool subset)
-  - URAT1 docking export (Vina/smina or legacy Glide)
-  - NLRP3 docking export (Vina/smina or legacy Glide)
-  - Optional explicit pool manifest (docking_pool_p05.csv)
-
-Outputs:
-  results/repurposing/pareto_merged_scores.csv
-  results/repurposing/pareto_shortlist.csv              (raw docking Pareto; audit only)
-  results/repurposing/pareto_shortlist_druglike.csv     (Pareto ∩ oral MW window)
-  results/repurposing/pareto_summary.json
-
-Note:
-  Raw Pareto is dominated by large / highly polar contact-rich molecules and is
-  NOT the follow-up shortlist. Downstream Module F (14_candidate_nomination.py)
-  applies PAINS/Brenk + Lipinski/Veber + oral MW + scaffold diversity.
-
-Example:
-  python3 scripts/merge_docking_pareto.py \\
-    --ml-scores results/repurposing/nlrp3_ml_scores_clinical_all.csv \\
-    --urat1-dock results/repurposing/docking_raw/urat1_9dkb_p05.csv \\
-    --nlrp3-dock results/repurposing/docking_raw/nlrp3_7alv_p05.csv \\
-    --pool results/repurposing/docking_pool_p05.csv
+Production engine is gnina P2. Do not mix historical Glide scores into a P2 ranking table.
+Raw Pareto is audit-only; follow-up uses scripts/14_candidate_nomination.py.
 """
 from __future__ import annotations
 

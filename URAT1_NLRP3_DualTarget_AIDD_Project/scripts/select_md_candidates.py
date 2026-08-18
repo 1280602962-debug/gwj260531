@@ -8,8 +8,9 @@ preferred_candidate (clean + oral MW window + absorption) and scaffold
 diversity, then recovers repurposing_id / canonical_smiles / docking status
 by joining back to the Pareto merged-scores table.
 
-Do NOT pick MD leads from raw pareto_shortlist.csv — that file is docking-only
-and is often dominated by oversized macrolide / polyketide contact binders.
+Do NOT pick MD leads from raw pareto_shortlist.csv (docking-only; often macrolides).
+Do NOT use the committed Glide-era CSV in data/md_candidates/ as the current list.
+Current intended MD set is documented in docs/MANUSCRIPT.md (GSK-3008348, Vecabrutinib + controls).
 
 Output: a compact CSV that scripts/export_md_ready_candidates.py consumes to
 produce receptor + ligand files for external MD (no MD is run here).

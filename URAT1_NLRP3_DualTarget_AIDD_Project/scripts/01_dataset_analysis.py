@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""STAD-AIDD Stage 1: Dataset chemical space and overlap analysis."""
+"""Dataset chemical space and overlap analysis."""
 from __future__ import annotations
 
 import argparse
