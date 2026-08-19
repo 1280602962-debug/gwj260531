@@ -4,7 +4,7 @@
 > Methods：[`METHODS_DRAFT_CN.md`](METHODS_DRAFT_CN.md)。大纲：[`MANUSCRIPT.md`](MANUSCRIPT.md)。  
 > 正文引用用“作者，年份”，DOI 见文末清单。
 
-痛风是成人最常见的晶体性关节炎之一。当血尿酸长期升高，单钠尿酸盐可在关节及其周围沉积；巨噬细胞识别晶体后激活 NLRP3 炎症小体，经 caspase-1 将前体白细胞介素-1β 加工为活性形式，从而触发急性炎症发作（Dalbeth 等，2021；Leask 等，2024；Martinon 等，2006）。尿酸主要来自肝脏嘌呤代谢。多数患者的高尿酸血症并非生成过多，而是肾脏或肠道排泄不足；近端小管尿酸盐转运体 URAT1（由 *SLC22A12* 编码）承担约九成尿酸重吸收，因而是降尿酸治疗的关键靶点（Dai 与 Lee，2024；Lin 等，2024）。临床管理往往需要同时应对两个相互关联却机制不同的节点：降低血尿酸，以及抑制晶体驱动的炎症（Zhao 等，2023）。
+痛风是成人最常见的晶体性关节炎之一。当血尿酸长期升高，单钠尿酸盐可在关节及其周围沉积；巨噬细胞识别晶体后激活 NLRP3 炎症小体，经 caspase-1 将前体白细胞介素-1β 加工为活性形式，从而触发急性炎症发作（Dalbeth 等，2021；Leask 等，2024；Martinon 等，2006）。尿酸主要来自肝脏嘌呤代谢。多数患者的高尿酸血症并非生成过多，而是肾脏或肠道排泄不足；近端小管尿酸盐转运体 URAT1（由 *SLC22A12* 编码）承担约九成尿酸重吸收，因而是降尿酸治疗的关键靶点（Dai 与 Lee，2024；Lin 等，2024）。临床管理往往需要同时应对两个相互关联却机制不同的节点：降低血尿酸，以及抑制晶体驱动的炎症（Liu 等，2023）。
 
 现有药物分降尿酸和控制发作两条路径。降尿酸一端，黄嘌呤氧化酶抑制剂减少尿酸生成；促排泄一端则用 URAT1 抑制剂，包括苯溴马隆、lesinurad、dotinurad，以及仍在临床试验中的 verinurad（FitzGerald 等，2020；Dai 与 Lee，2024）。冷冻电镜显示，这四种抑制剂结合在尿酸盐所在的中央口袋，并把转运体稳定在内向开放构象（Wu 等，2025）；苯溴马隆与 lesinurad 的内向开放结合在另一项结构研究中也得到证实（Fedor 等，2025）。急性发作的一线药物是秋水仙碱、非甾体抗炎药或糖皮质激素；仅当这些药物无效、不耐受或禁忌时，才考虑白细胞介素-1 抑制剂（FitzGerald 等，2020）。启动降尿酸治疗时，指南还建议短期内加用抗炎药物，以减少诱发发作（FitzGerald 等，2020）。
 
@@ -25,7 +25,7 @@
 3. Martinon F, et al. *Nature* 2006. doi:10.1038/nature04516  
 4. Dai Y, Lee CH. *Cell Res* 2024. doi:10.1038/s41422-024-01023-1  
 5. Lin X, et al. *Signal Transduct Target Ther* 2024. doi:10.1038/s41392-024-01916-y  
-6. Zhao J, et al. *Front Immunol* 2023. doi:10.3389/fimmu.2023.1137822  
+6. Liu Y, Li W, Deng Y. Role of NLRP3 in the pathogenesis and treatment of gout arthritis. *Front Immunol.* 2023;14:1137822. doi:10.3389/fimmu.2023.1137822  
 7. FitzGerald JD, Dalbeth N, Mikuls T, et al. 2020 American College of Rheumatology guideline for the management of gout. *Arthritis Rheumatol.* 2020;72(6):879-895. doi:10.1002/art.41247  
 8. Fedor JG, Suo Y, Zhang H, et al. *Nat Commun.* 2025;16:5178. doi:10.1038/s41467-025-60480-3  
 9. Wu C, Zhang C, Jin S, et al. *Cell Discov.* 2025;11:33. doi:10.1038/s41421-025-00779-z  
