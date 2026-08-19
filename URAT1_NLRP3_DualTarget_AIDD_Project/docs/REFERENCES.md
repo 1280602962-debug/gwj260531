@@ -21,7 +21,7 @@ All entries include DOI or PMID where available.
 
 7. **Pascart T**, Bardin T. **Gout Basic Research: 2023 in Review.** *Gout Hyperuricemia Cryst Arthropathy.* 2023;2(3):17. doi:10.3390/ghca2030017.
 
-8. **Zhang H**, et al. **Discovery of dual-target anti-gout agents from *Eurycoma longifolia* via phenotypic screening.** *Nat Commun.* 2025;16:62645. doi:10.1038/s41467-025-62645-6. (PPT assets: `figures/ppt_assets/literature/eurycoma2025_*`; inspiration for complementary clinical-library repurposing track.)
+8. **Zhang H**, et al. **Discovery of multi-target anti-gout agents from *Eurycoma longifolia* Jack through phenotypic screening and structural optimization.** *Nat Commun.* 2025;16:7430. doi:10.1038/s41467-025-62645-6.
 
 ---
 
@@ -31,7 +31,7 @@ All entries include DOI or PMID where available.
 
 10. **Fedor JG**, Suo Y, Zhang H, et al. **Molecular basis of the urate transporter URAT1 inhibition by gout drugs.** *Nat Commun.* 2025;16:5178. doi:10.1038/s41467-025-60480-3. PMID: 40467597. (PMC: PMC12137875)
 
-11. **Wu C**, Xu HE. **Molecular mechanisms of uric acid transport by the native human URAT1 and its inhibition by anti-gout drugs.** *bioRxiv.* 2024. doi:10.1101/2024.09.11.612394.
+11. **Wu C**, Zhang C, Jin S, et al. **Molecular mechanisms of urate transport by the native human URAT1 and its inhibition by anti-gout drugs.** *Cell Discov.* 2025;11:33. doi:10.1038/s41421-025-00779-z. PMID: 40169562.
 
 12. **Merriman TR**, Dalbeth N. **The genetic basis of hyperuricaemia and gout.** *Jt Bone Spine.* 2018;85(1):31-36. doi:10.1016/j.jbspin.2017.07.001.
 
