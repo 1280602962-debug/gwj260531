@@ -109,6 +109,8 @@ All entries include DOI or PMID where available.
 
 39. **Zdrazil B**, et al. **The ChEMBL Database in 2023: a drug discovery platform spanning multiple bioactivity data types and time periods.** *Nucleic Acids Res.* 2024;52(D1):D1180-D1192. doi:10.1093/nar/gkad1004. PMID: 37933841.
 
+39a. **Gu S**, Zhang X, Shen C, et al. **Benchmarking AI-powered docking methods from the perspective of virtual screening.** *Nat Mach Intell.* 2025. doi:10.1038/s42256-025-00993-0.
+
 ---
 
 ## Cheminformatics Tools
