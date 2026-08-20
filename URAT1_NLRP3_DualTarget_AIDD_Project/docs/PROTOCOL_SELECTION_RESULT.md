@@ -31,6 +31,10 @@ True 集约 5150 个分子、469 活性；前 1% 约 51–52 个分子。
 
 RandomDecoy 前 1% 命中 0（P4/P5）在纯随机下发生概率约 0.76%，故 P4/P5 在随机诱饵上的失败是**真实**的，不是小样本噪声。
 
+## 配对 bootstrap：P2 与 P5 在 TrueDecoy 上不可区分
+
+同一组重采样索引（2,000 次）同时应用到六个读出，计算与 P2 的 EF@1% 差值（复现：`scripts/si_protocol_paired_bootstrap.py`，结果见 `data/si/protocol_paired_bootstrap/`）。TrueDecoy 上 P2 与 P1/P3/P4 的差异显著（\(p\le0.006\)），但与 P0、P5 的差异均不显著（\(p=0.61\)、\(0.72\)）。**这意味着 P2 相对 P5 的选择不能表述为"TrueDecoy 上统计显著更优"**——二者在配对检验下不可区分；真正的否决依据是 P5 在 RandomDecoy 上前 1% 命中为零，该结果通过超几何检验判定为统计显著的失败（\(p\approx0.0005\)），与"哪个读出的点估计更高"是两类不同的证据。
+
 ## 结论：Π* = P2（gnina CNNaffinity）
 
 - **不选 P5**：True 最强，但 Random EF@1% 显著为 0；临床库更接近随机诱饵场景，用 P5 有系统性风险。

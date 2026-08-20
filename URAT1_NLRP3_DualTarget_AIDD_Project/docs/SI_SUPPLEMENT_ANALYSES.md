@@ -1,6 +1,6 @@
 # 补充分析（不重对接临床池、不重锁 Π*）
 
-复现：`python3 scripts/archive_p2_export.py`（漏斗归档与协议 bootstrap）；`python3 scripts/si_supplement_analyses.py --skip-dock`（assay 重叠）。  
+复现：`python3 scripts/archive_p2_export.py`（漏斗归档与协议 bootstrap）；`python3 scripts/si_supplement_analyses.py --skip-dock`（assay 重叠）；`python3 scripts/si_decoy_leakage_audit.py`（诱饵泄漏审计）；`python3 scripts/si_nlrp3_sensitivity.py`（NLRP3 阈值/聚合敏感性）；`python3 scripts/si_protocol_paired_bootstrap.py`（协议配对 bootstrap）。  
 生产对接池仍为 `data/repurposing/screening/docking_pool_p05.csv`（n=1588）；百分位表为 `data/repurposing/p2/pareto_merged_scores.csv`（n=1580）。
 
 ---
@@ -74,3 +74,49 @@ P2 的 True 超几何 p≈0.0016；P5 的 Random EF@1% 仍为 0。全文见 `dat
 ## 4. 姿态质控（非 MD 数值）
 
 7 个优选候选在 9DKB / 7ALV 生产构象上均 `both_in_pocket=True`（质心位移 ≤ 6 Å 或关键残基接触 ≥ 3；冲突截断 2.2 Å）。表：`data/si/pose_qc/pose_qc_dual.csv`。体系搭建记录含 GSK-3008348、Vecabrutinib、Zelenirstat；**不报告轨迹数值**。跟进假说仍为前两者。结果正文见 [`RESULTS_DRAFT_CN.md`](RESULTS_DRAFT_CN.md)。
+
+## 5. 诱饵相似性泄漏审计（TrueDecoy 弱活 / RandomDecoy）
+
+复现：`python3 scripts/si_decoy_leakage_audit.py`；输出 `data/si/decoy_leakage_audit/`。
+
+TrueDecoy 的 4,610 个性质匹配诱饵在构建时已要求 \(\mathrm{TC}_{\max}\le0.5\)，但 80 个实验弱活分子与全部 4,690 个 RandomDecoy 诱饵未经该过滤，需单独核查是否存在"诱饵实为活性物近邻"的泄漏：
+
+| 集合 | n | 与活性物骨架重叠 | 最大 TC 中位数 | 最大 TC 超 0.5 | 最大 TC 超 0.85 |
+|------|---|:---:|:---:|:---:|:---:|
+| 实验弱活分子 | 80 | 6（15.8%） | 0.34 | 14（17.5%） | 0 |
+| 性质匹配诱饵 | 4,610 | — | 0.22 | 0（按构造 ≤0.5） | 0 |
+| RandomDecoy | 4,690 | 0 | 0.20 | 0 | 0 |
+
+弱活分子的适度重叠符合"难负例"设计意图；RandomDecoy 无骨架重叠、无 TC>0.5，本次抽样不存在近邻泄漏。按"排除 RandomDecoy 中 TC>0.5 的诱饵"重算六个读出的 EF@1%/EF@5%/AUC（`random_decoy_ef_before_after_tc_filter.csv`），因无诱饵被排除，数值与未过滤结果逐位相同——表 1 的 RandomDecoy 判据不依赖该潜在漏洞。
+
+## 6. NLRP3 标签阈值与测定聚合方式敏感性
+
+复现：`python3 scripts/si_nlrp3_sensitivity.py`；输出 `data/si/nlrp3_threshold_sensitivity/`、`data/si/nlrp3_aggregation_sensitivity/`。**不替换生产模型或生产池，不重新缩库。**
+
+| 阈值 | 分子级活性率 | AUROC | AUPRC | EF@10% | 缩库池 n |
+|------|:---:|:---:|:---:|:---:|:---:|
+| 5.5 | 79.7% | 0.884 | 0.961 | 1.23 | 5,208 |
+| 6.0（生产） | 60.4% | 0.895 | 0.915 | 1.57 | 1,377* |
+| 6.5 | 45.6% | 0.878 | 0.830 | 1.94 | 707 |
+
+\*重训练模型（与冻结生产池 Jaccard = 0.87，因 XGBoost 多线程训练不逐位可重现）。三阈值两两 Jaccard 仅 0.13–0.36。GSK-3008348 在重训练 6.0 阈值下 \(q_N=0.46\)（跌破 0.5），6.5 阈值下更低；Vecabrutinib 在三阈值下均为 0.82–0.96，稳定通过。四种测定聚合方式（max/mean/median/前二均值）在临床库上给出完全相同的缩库池（n=1,377，Jaccard=1.0），因为库分子在五个测定上下文下的预测值几乎不变（标准差 <1e-6）。
+
+## 7. 化学空间邻近性阈值敏感性
+
+复现见内联脚本（`data/si/ad_threshold_sensitivity/`）。URAT1 留一法最近邻 Tanimoto 分布的第 1/5/10 百分位分别为 0.338/0.578/0.649；7 个优选候选的最近邻相似度均为 0.20–0.25，三个阈值下全部落在"域外"。判断不随参考百分位改变。
+
+## 8. 协议间配对 bootstrap（TrueDecoy 与 RandomDecoy）
+
+复现：`python3 scripts/si_protocol_paired_bootstrap.py`；输出 `data/si/protocol_paired_bootstrap/`。同一组重采样索引（2,000 次）同时应用到六个读出，计算与 P2 的 EF@1% 差值。
+
+TrueDecoy：
+
+| 协议 | EF@1% 均值 | 与 P2 差值 95% CI | 双侧 \(p\) |
+|------|:---:|:---:|:---:|
+| P0 | 2.01 | (−2.41, 1.12) | 0.61 |
+| P1 | 0.54 | (−3.70, −0.63) | 0.003 |
+| P3 | 0.45 | (−3.72, −0.71) | 0.003 |
+| P4 | 0.50 | (−3.66, −0.64) | 0.006 |
+| P5 | 2.93 | (−1.57, 2.25) | 0.72 |
+
+RandomDecoy（P2 与 P4、P5 均不显著，\(p=0.69/0.70\)；与 P0 显著，\(p=0.016\)）。结论：P2 相对 P5 不是"TrueDecoy 上统计显著更强"，而是 P5 在 RandomDecoy 上绝对命中数的超几何检验显著失败（\(p\approx0.0005\)）；P4、P5 被排除的依据是各自的超几何检验，不是与 P2 的差值检验。

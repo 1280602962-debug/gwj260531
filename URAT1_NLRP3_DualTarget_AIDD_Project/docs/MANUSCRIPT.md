@@ -24,13 +24,14 @@
 ## 正文结构（Mol Divers；转 JCAMD 时把 R1 提前加重）
 
 1. Introduction — 已有中文稿  
-2. Methods — 协议筛选在临床库之前完成；生产对接为 P2（`num_modes=1`）；URAT1 MD 用膜体系  
+2. Methods — [`METHODS_DRAFT_CN.md`](METHODS_DRAFT_CN.md)；协议筛选在临床库之前完成；生产对接为 P2（`num_modes=1`）；含 2.12 统计分析小节（配对 bootstrap、超几何检验）；URAT1 MD 范围声明（2.11，未报轨迹数值）  
 3. Results — [`RESULTS_DRAFT_CN.md`](RESULTS_DRAFT_CN.md)  
-   - R1 双诱饵 P0–P5，锁定 P2（不选 P5）；自对接说明 P2 Top-1 不是构象金标准  
-   - R2 8319 → 1588 → **1580** 双靶完整案例；对照药未进门控  
-   - R3 裸 Pareto 4（大环，审计）vs 双结构门控 51 / 优选 7；跟进 GSK-3008348 + Vecabrutinib  
+   - R0 诱饵相似性泄漏审计：RandomDecoy 无近邻泄漏，弱活分子的重叠符合设计意图  
+   - R1 双诱饵 P0–P5，锁定 P2（不选 P5）；配对 bootstrap 显示 P2 与 P5 在 TrueDecoy 上不可区分，P5 被否决靠 RandomDecoy 超几何检验；自对接说明 P2 Top-1 不是构象金标准  
+   - R2 8319 → 1588 → **1580** 双靶完整案例；对接失败漏斗（表 1a）；NLRP3 标签阈值/聚合方式敏感性（GSK-3008348 分类器分数不稳健，Vecabrutinib 稳健）；对照药未进门控  
+   - R3 裸 Pareto 4（大环，审计）vs 双结构门控 51 / 优选 7；化学空间邻近性判据对百分位选择不敏感；跟进 GSK-3008348 + Vecabrutinib  
    - R4 姿态 QC（7 个优选均在口袋内）；MD 轨迹未报数值  
-4. Discussion — 假说边界；Unlike 湿法双靶与 PLK1 文；P2 Top-1 不是构象金标准  
+4. Discussion — 假说边界；Unlike 湿法双靶与 PLK1 文；P2 Top-1 不是构象金标准；NLRP3 侧缺 self-docking 的局限  
 5. Conclusions
 
 ## 主张边界（全文禁止）

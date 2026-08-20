@@ -1,0 +1,95 @@
+{
+  "note": "Sensitivity analyses only; do not replace the production NLRP3 shrink pool (docking_pool_p05.csv, n=1588, threshold=6.0, max of top-5 assay contexts). No docking was rerun on any alternative pool.",
+  "threshold_cv": [
+    {
+      "threshold": 5.5,
+      "n_records": 609,
+      "n_compounds": 513,
+      "active_rate": 0.797270955165692,
+      "auroc": 0.8841022200726558,
+      "auprc": 0.9613178661952799,
+      "ef_10pct": 1.2306685553681194
+    },
+    {
+      "threshold": 6.0,
+      "n_records": 609,
+      "n_compounds": 513,
+      "active_rate": 0.6042884990253411,
+      "auroc": 0.8948432909697182,
+      "auprc": 0.9152947595763603,
+      "ef_10pct": 1.5706359287488578
+    },
+    {
+      "threshold": 6.5,
+      "n_records": 609,
+      "n_compounds": 513,
+      "active_rate": 0.45614035087719296,
+      "auroc": 0.8776377615548208,
+      "auprc": 0.8299280284099815,
+      "ef_10pct": 1.94232925290775
+    }
+  ],
+  "threshold_pool": [
+    {
+      "threshold": 5.5,
+      "n_pool_ge_0.5": 5208,
+      "jaccard_vs_production_frozen": 0.2989296636085627
+    },
+    {
+      "threshold": 6.0,
+      "n_pool_ge_0.5": 1377,
+      "jaccard_vs_production_frozen": 0.8671284634760705
+    },
+    {
+      "threshold": 6.5,
+      "n_pool_ge_0.5": 707,
+      "jaccard_vs_production_frozen": 0.34683098591549294
+    }
+  ],
+  "threshold_pool_pairwise_jaccard": [
+    {
+      "threshold_a": 5.5,
+      "threshold_b": 6.0,
+      "jaccard": 0.2595638867635807
+    },
+    {
+      "threshold_a": 5.5,
+      "threshold_b": 6.5,
+      "jaccard": 0.1305428134556575
+    },
+    {
+      "threshold_a": 6.0,
+      "threshold_b": 6.5,
+      "jaccard": 0.36209150326797385
+    }
+  ],
+  "aggregation_pool": [
+    {
+      "aggregation": "max",
+      "n_pool_ge_0.5": 1377,
+      "jaccard_vs_max": 1.0,
+      "jaccard_vs_production_frozen": 0.8671284634760705
+    },
+    {
+      "aggregation": "mean",
+      "n_pool_ge_0.5": 1377,
+      "jaccard_vs_max": 1.0,
+      "jaccard_vs_production_frozen": 0.8671284634760705
+    },
+    {
+      "aggregation": "median",
+      "n_pool_ge_0.5": 1377,
+      "jaccard_vs_max": 1.0,
+      "jaccard_vs_production_frozen": 0.8671284634760705
+    },
+    {
+      "aggregation": "top2_mean",
+      "n_pool_ge_0.5": 1377,
+      "jaccard_vs_max": 1.0,
+      "jaccard_vs_production_frozen": 0.8671284634760705
+    }
+  ],
+  "aggregation_note": "Per-molecule probabilities differ by <1e-6 across the five assay contexts for clinical-library molecules (none of which appear in any training assay), so max/mean/median/top-2-mean give an identical n=1377 pool at threshold=6.0 in this retrained model.",
+  "n_library": 8319,
+  "n_production_pool": 1588
+}
