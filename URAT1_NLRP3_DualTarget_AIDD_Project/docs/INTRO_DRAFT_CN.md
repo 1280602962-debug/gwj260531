@@ -1,7 +1,7 @@
 # 引言初稿（中文）
 
 > 投稿正文入口。目标期刊：*Molecular Diversity*（拒稿后可转 *JCAMD*）。  
-> Methods：[`METHODS_DRAFT_CN.md`](METHODS_DRAFT_CN.md)。大纲：[`MANUSCRIPT.md`](MANUSCRIPT.md)。  
+> Methods：[`METHODS_DRAFT_CN.md`](METHODS_DRAFT_CN.md)。Results：[`RESULTS_DRAFT_CN.md`](RESULTS_DRAFT_CN.md)。大纲：[`MANUSCRIPT.md`](MANUSCRIPT.md)。  
 > 正文引用用“作者，年份”，DOI 见文末清单。
 
 痛风是成人最常见的晶体性关节炎之一，其发生发展与持续性高尿酸血症及单钠尿酸（monosodium urate，MSU）晶体沉积密切相关。多数患者发病并非尿酸生成过多，主要是与尿酸排泄不足有关。当血尿酸水平长期升高并超过尿酸盐的溶解度阈值时，MSU晶体可在关节及其周围组织中形成和沉积（Dalbeth 等，2021）。MSU晶体形成后，可被巨噬细胞等先天免疫细胞识别并诱导NLRP3炎症小体活化，并进一步启动炎症级联反应，最终导致急性痛风性关节炎的发生（Martinon 等，2006；Dalbeth 等，2021；Leask 等，2024）。因此，痛风的病理过程并非单一环节所致，而是呈现出由尿酸稳态失衡和MSU晶体形成向晶体驱动的炎症反应连续发展的病理链条。其中，介导肾近端小管尿酸重吸收的关键转运体URAT1位于上游尿酸稳态调控环节，影响高尿酸血症及后续晶体形成风险（Dai 与 Lee，2024；Suo 等，2025）；NLRP3则位于下游晶体诱导炎症的关键环节，参与介导MSU晶体所触发的炎症反应（Martinon 等，2006）。基于这一连续的病理轴，降低尿酸水平以减少MSU晶体形成与沉积，以及抑制NLRP3介导的炎症反应，分别对应痛风治疗中的两个关键干预节点（Liu 等，2023）。

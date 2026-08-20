@@ -155,6 +155,47 @@ def plot_nlrp3_phase(ml: pd.DataFrame) -> dict:
     return {"id": "nlrp3_fig02c", "target": "NLRP3", "description": "P(active) by clinical phase", **paths}
 
 
+def plot_p2_dual_percentiles() -> dict | None:
+    path = DATA / "repurposing" / "p2" / "pareto_merged_scores.csv"
+    if not path.exists():
+        return None
+    df = pd.read_csv(path)
+    nom_path = DATA / "repurposing" / "p2" / "nominated_shortlist_diverse.csv"
+    preferred = set()
+    if nom_path.exists():
+        preferred = set(pd.read_csv(nom_path)["name"].astype(str).str.upper())
+    follow = {"GSK-3008348 FREE BASE", "VECABRUTINIB"}
+
+    fig, ax = plt.subplots(figsize=figsize_single(76))
+    target_header(fig, "P2 dual-dock percentiles (n=1580)", NEUTRAL)
+    pareto = df["pareto_front"].astype(bool)
+    ax.scatter(
+        df.loc[~pareto, "s_u_percentile"],
+        df.loc[~pareto, "s_n_dock_percentile"],
+        s=8, alpha=0.25, color=MUTED, edgecolors="none", rasterized=True, label="Complete case",
+    )
+    ax.scatter(
+        df.loc[pareto, "s_u_percentile"],
+        df.loc[pareto, "s_n_dock_percentile"],
+        s=28, color=WARN, edgecolors=NEUTRAL, linewidth=0.4, zorder=3, label="Pareto (audit)",
+    )
+    hit = df[df["name"].astype(str).str.upper().isin(follow)]
+    ax.scatter(
+        hit["s_u_percentile"], hit["s_n_dock_percentile"],
+        s=42, color=URAT1_COLOR, edgecolors=NEUTRAL, linewidth=0.5, zorder=4, label="Follow-up",
+    )
+    ax.axvline(90, color=THRESHOLD, linestyle=(0, (4, 3)), linewidth=0.7)
+    ax.axhline(90, color=THRESHOLD, linestyle=(0, (4, 3)), linewidth=0.7)
+    clean_axes(ax)
+    set_axis_labels(ax, r"$S_U$ percentile", r"$S_{N,\mathrm{dock}}$ percentile")
+    ax.set_xlim(0, 102)
+    ax.set_ylim(0, 102)
+    ax.legend(loc="lower left", frameon=False)
+    fig.subplots_adjust(**MARGIN_SINGLE)
+    paths = save_figure(fig, "fig03_p2_dual_percentiles", "main")
+    return {"id": "fig03_p2_dual", "target": "both", "description": "P2 dual-dock percentiles with audit Pareto and follow-up", **paths}
+
+
 def plot_screening_funnel(summary: dict) -> dict:
     stages = ["Library scored", "P(active) ≥ 0.5", "Dual dock 9DKB+7ALV"]
     counts, count_labels = _funnel_counts(summary)
@@ -240,8 +281,8 @@ def plot_data_asymmetry(summary: dict) -> dict:
     tag_panel(ax, "a")
 
     ax = axes[1]
-    routes = ["URAT1 dock pool\n~1588 @ 9DKB P2", "NLRP3 shrink\n8319 clinical"]
-    ns = [1588, 8319]
+    routes = ["URAT1 P2 pool\n1588 → 1580 dual", "NLRP3 shrink\n8319 clinical"]
+    ns = [1580, 8319]
     bars = ax.bar(routes, ns, color=[URAT1_COLOR, NLRP3_COLOR], edgecolor=NEUTRAL, linewidth=0.3, width=0.46)
     clean_axes(ax)
     set_axis_labels(ax, "Production evidence route", "Library size")
@@ -378,6 +419,9 @@ def main() -> None:
         plot_nlrp3_phase(ml),
         plot_screening_funnel(nlrp3_summary),
     ]
+    dual = plot_p2_dual_percentiles()
+    if dual:
+        entries.append(dual)
     if oof_nlrp3.exists():
         entries.append(plot_nlrp3_roc_pr(pd.read_csv(oof_nlrp3)))
     if oof_urat1.exists():
@@ -405,7 +449,7 @@ def main() -> None:
         "style": {
             "font": "Arial 8 pt",
             "grid": "none",
-            "notes": "Current figures only: NLRP3 ML + SI. 8973/Glide Pareto plots were removed; regenerate P2 dual-dock figures after local funnel scores exist.",
+            "notes": "NLRP3 ML figures plus P2 dual-dock complete-case n=1580. Raw Pareto is audit-only.",
         },
         "figures": entries,
     }

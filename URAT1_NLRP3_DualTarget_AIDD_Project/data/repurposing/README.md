@@ -5,7 +5,7 @@
 | `repurposing_manifest.csv` | 主库 **8319** 条（ChEMBL Phase + ATC 导出合并） |
 | **`screening/docking_pool_p05.csv`** | **P≥0.5 对接池，1588 条**（已提交 Git） |
 | `screening/` | NLRP3 ML 全库分数与 SI 子集（见 `screening/README.md`） |
-| **`pareto/`** | 占位目录，不再存放对接分数。P2 双靶合并表写入 `results/repurposing/` |
+| **`p2/`** | **gnina P2 生产漏斗归档**：双靶完整案例 1,580、Pareto 审计、化学提名 |
 
 ## 生成对接池
 

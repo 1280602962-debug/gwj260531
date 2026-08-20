@@ -13,6 +13,7 @@
 |------|------|
 | 引言正文 | [`INTRO_DRAFT_CN.md`](INTRO_DRAFT_CN.md) |
 | Methods 正文 | [`METHODS_DRAFT_CN.md`](METHODS_DRAFT_CN.md) |
+| Results 正文 | [`RESULTS_DRAFT_CN.md`](RESULTS_DRAFT_CN.md) |
 | 协议锁定表 | [`PROTOCOL_SELECTION_RESULT.md`](PROTOCOL_SELECTION_RESULT.md) |
 | 补充分析（assay 重叠 / EF 区间 / MCC950@7ALV） | [`SI_SUPPLEMENT_ANALYSES.md`](SI_SUPPLEMENT_ANALYSES.md) |
 | 自对接烟雾（pose vs 排序） | [`REDOCK_SMOKE_ANALYSIS.md`](REDOCK_SMOKE_ANALYSIS.md) |
@@ -23,12 +24,12 @@
 ## 正文结构（Mol Divers；转 JCAMD 时把 R1 提前加重）
 
 1. Introduction — 已有中文稿  
-2. Methods — 协议筛选在临床库之前完成；生产对接为 P2；URAT1 MD 用膜体系  
-3. Results  
-   - R1 双诱饵 P0–P5，锁定 P2（不选 P5）  
-   - R2 8319 → 1588；对照药行为  
-   - R3 双靶百分位、裸 Pareto（审计用）vs 化学提名  
-   - R4 1–2 个 preferred 假说 + 对照的 MD  
+2. Methods — 协议筛选在临床库之前完成；生产对接为 P2（`num_modes=1`）；URAT1 MD 用膜体系  
+3. Results — [`RESULTS_DRAFT_CN.md`](RESULTS_DRAFT_CN.md)  
+   - R1 双诱饵 P0–P5，锁定 P2（不选 P5）；自对接说明 P2 Top-1 不是构象金标准  
+   - R2 8319 → 1588 → **1580** 双靶完整案例；对照药未进门控  
+   - R3 裸 Pareto 4（大环，审计）vs 双结构门控 51 / 优选 7；跟进 GSK-3008348 + Vecabrutinib  
+   - R4 姿态 QC（7 个优选均在口袋内）；MD 轨迹未报数值  
 4. Discussion — 假说边界；Unlike 湿法双靶与 PLK1 文；P2 Top-1 不是构象金标准  
 5. Conclusions
 
@@ -56,12 +57,12 @@ Preferred 门控：\(S_U\ge 90\) 且 \(S_{N,\mathrm{dock}}\ge 90\)；Veber + Ro5
 
 | 集合 | 用途 |
 |------|------|
-| 临床库 8319 / 对接池 ~1588 | 主筛选 |
+| 临床库 8319 / 对接池 1588 / P2 完整案例 **1580** | 主筛选 |
 | TrueDecoy / RandomDecoy | 只选 Π\*，不参与临床库排名 |
 | 8973 distill | 仅 URAT1 回顾（可选 SI），不作双靶 Pareto |
 
 ## 已退役（不要再打开或引用）
 
 已删除：旧全文稿 / 多份大纲、JMM 双稿策略、TAPE-GATE / MASFL / Teacher 蒸馏设计、历史商业对接（Glide XP）生产分数/短名单/图、三态对接计划。  
-`data/repurposing/pareto/` 不再存放对接分数；P2 合并表由本地漏斗写入 `results/repurposing/`。
+`data/repurposing/p2/` 为 gnina P2 生产漏斗归档（完整案例 1,580）。`data/repurposing/pareto/` 不再存放对接分数。
 

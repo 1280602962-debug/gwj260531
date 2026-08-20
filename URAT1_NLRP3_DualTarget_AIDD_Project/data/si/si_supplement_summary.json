@@ -69,15 +69,14 @@
   },
   "protocol_enrichment_ci": {
     "summary": {
-      "n_actives": 469,
-      "n_true_benchmark": 5159,
-      "n_random_benchmark": 5159,
-      "ranking_files_present": false,
-      "auc_ci": "unavailable \u2014 per-molecule P0\u2013P5 scores were not archived",
-      "ef_ci_method": "Clopper\u2013Pearson 95% CI on the published hits@1% counts, converted to EF by dividing by prevalence 469/5159. This is not a bootstrap of docking ranks. EF@5% intervals use k reconstructed as round(EF_published \u00d7 n_5% \u00d7 prevalence) and are labeled as such. AUC confidence intervals cannot be recovered from counts.",
-      "random_hits_1pct_source": "P2/P5/P4 taken from published EF@1% (0.21 \u2192 1/52; 0 \u2192 0/n). P0 uses the published 1.90 matching True (9/52). P1/P3 k reconstructed from published Random EF@1%."
+      "ranking_files_present": true,
+      "source": "data/benchmarks/protocol_selection/mol_protocol_scores.csv",
+      "n_molecules": 9839,
+      "n_boot": 1000,
+      "ef_ci_method": "Molecule-resampled ranking bootstrap (1000 draws with replacement) on archived per-molecule P0\u2013P5 scores. EF and AUC recomputed each draw. This replaces the previous Clopper\u2013Pearson intervals that used only published hits@1% counts. Point estimates match the locked protocol table within rounding; \u03a0* is not re-selected.",
+      "auc_ci": "bootstrap 95% percentile interval"
     },
-    "n_rows": 6
+    "n_rows": 12
   },
   "mcc950_7alv": {
     "ligand": "MCC950",
@@ -106,5 +105,63 @@
     "gnina_affinity_kcal": -10.2,
     "cnn_score": 0.9013,
     "gnina_version": "v1.3.1"
+  },
+  "complete_case_drop": {
+    "n_pool_1588": 1588,
+    "n_ligand_prepared": 1583,
+    "n_9dkb_docked": 1582,
+    "n_7alv_docked": 1582,
+    "n_dual_complete_case": 1580,
+    "n_pareto_front": 4,
+    "n_missing_from_pool": 9,
+    "n_ligand_prep_gap": 5,
+    "n_dock_fail": 1,
+    "n_merge_drop": 3,
+    "missing_prep_ids": [
+      "REP_01141",
+      "REP_02577",
+      "REP_04662",
+      "REP_06026",
+      "REP_06431"
+    ],
+    "missing_dock_ids": [
+      "REP_05842"
+    ],
+    "missing_merge_ids": [
+      "REP_01887",
+      "REP_02129",
+      "REP_06418"
+    ],
+    "mw_pool_median": 479.58000000000004,
+    "mw_missing_median": 720.9,
+    "note": "Production percentiles use the dual-success complete case only. Pool n=1588 is the NLRP3 ML shrink set; 1580 is the P2 dual-dock intersection."
+  },
+  "p2_funnel": {
+    "n_clinical_library": 8319,
+    "n_nlrp3_q_ge_0.5": 1588,
+    "n_ligand_prepared": 1583,
+    "n_9dkb_docked": 1582,
+    "n_7alv_docked": 1582,
+    "n_dual_complete_case": 1580,
+    "n_pareto_front": 4,
+    "n_dual_dock_gate_tau90": 51,
+    "n_preferred": 7,
+    "preferred_followup": [
+      "GSK-3008348",
+      "Vecabrutinib"
+    ],
+    "preferred_gate_members": [
+      "VECABRUTINIB",
+      "ZELENIRSTAT",
+      "DEUCRICTIBANT",
+      "PRALICIGUAT",
+      "GSK-3008348 FREE BASE",
+      "MLN-0415",
+      "BI 653048"
+    ],
+    "pose_qc_n": 7,
+    "pose_qc_both_in_pocket": 7,
+    "md_trajectories_reported": false,
+    "engine": "gnina P2 CNNaffinity, exhaustiveness=32, num_modes=1, cnn_scoring=rescore"
   }
 }

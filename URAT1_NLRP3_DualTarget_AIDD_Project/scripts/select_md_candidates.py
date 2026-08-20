@@ -29,7 +29,7 @@ import pandas as pd
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_NOMINATED = PROJECT_ROOT / "results" / "candidates" / "nominated_candidates.csv"
 DEFAULT_DIVERSE = PROJECT_ROOT / "results" / "candidates" / "nominated_shortlist_diverse.csv"
-DEFAULT_PARETO = PROJECT_ROOT / "results" / "repurposing" / "pareto_merged_scores.csv"
+DEFAULT_PARETO = PROJECT_ROOT / "data" / "repurposing" / "p2" / "pareto_merged_scores.csv"
 DEFAULT_OUTPUT = PROJECT_ROOT / "data" / "md_candidates" / "md_candidate_selection.csv"
 
 # Preferred known controls if present among is_known_reference rows (URAT1 / NLRP3 tool compounds).

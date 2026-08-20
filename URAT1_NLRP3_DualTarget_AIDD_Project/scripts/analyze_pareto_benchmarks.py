@@ -13,9 +13,9 @@ from scipy.stats import spearmanr
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(PROJECT_ROOT / "scripts"))
 from utils_ml import canonicalize
-DEFAULT_MERGED = PROJECT_ROOT / "results" / "repurposing" / "pareto_merged_scores.csv"
-DEFAULT_SHORT = PROJECT_ROOT / "results" / "repurposing" / "pareto_shortlist.csv"
-DEFAULT_SUMMARY = PROJECT_ROOT / "results" / "repurposing" / "pareto_summary.json"
+DEFAULT_MERGED = PROJECT_ROOT / "data" / "repurposing" / "p2" / "pareto_merged_scores.csv"
+DEFAULT_SHORT = PROJECT_ROOT / "data" / "repurposing" / "p2" / "pareto_shortlist.csv"
+DEFAULT_SUMMARY = PROJECT_ROOT / "data" / "repurposing" / "p2" / "pareto_summary.json"
 DEFAULT_BENCH = PROJECT_ROOT / "data" / "benchmarks" / "literature_benchmarks.csv"
 DEFAULT_POOL = PROJECT_ROOT / "data" / "repurposing" / "screening" / "docking_pool_p05.csv"
 DEFAULT_MANIFEST = PROJECT_ROOT / "data" / "repurposing" / "repurposing_manifest.csv"

@@ -186,6 +186,11 @@ def _ef_ci(k: int, n: int, n_actives: int, n_total: int) -> dict:
 
 
 def protocol_enrichment_ci() -> dict:
+    archived_sum = OUT_DIR / "protocol_enrichment_ci" / "summary.json"
+    if archived_sum.exists() and "ranking_files_present" in archived_sum.read_text():
+        summary = json.loads(archived_sum.read_text())
+        if summary.get("ranking_files_present"):
+            return {"summary": summary, "n_rows": 12, "source": "archived bootstrap"}
     n_actives = 469
     n_true = 469 + 4690
     n_rand = 469 + 4690

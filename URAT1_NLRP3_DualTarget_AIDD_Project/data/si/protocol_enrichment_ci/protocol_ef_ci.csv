@@ -1,7 +1,13 @@
-protocol,readout,true_hits_at_1pct,true_EF1pct_published,true_EF1pct_from_counts,true_EF1pct_ci95,true_EF1pct_ci95_low,true_EF1pct_ci95_high,true_EF5pct_published,true_EF5pct_k_reconstructed,true_EF5pct_n,true_EF5pct_ci95,true_AUC_published,true_AUC_ci95,random_hits_at_1pct,random_EF1pct_published,random_EF1pct_from_counts,random_EF1pct_ci95,random_EF1pct_ci95_low,random_EF1pct_ci95_high,random_EF5pct_published,random_AUC_published,random_AUC_ci95,true_hypergeom_p_1pct
-P5,RTMScore (gnina pose),13/51,2.8,2.8039,1.58–4.36,1.5759,4.3597,2.44,57,257,1.90–3.05,0.59,unavailable,0/51,0.0,0.0,0.00–0.77,0.0,0.7675,1.2,0.553,unavailable,0.000463
-P2,gnina CNNaffinity,12/52,2.54,2.5385,1.38–4.05,1.3785,4.0524,1.88,44,257,1.40–2.45,0.58,unavailable,1/52,0.21,0.2115,0.01–1.13,0.0054,1.1281,0.77,0.54,unavailable,0.001949
-P0,gnina CNNscore (negative control),9/52,1.9,1.9038,0.91–3.34,0.9056,3.3361,2.39,56,257,1.86–3.01,0.647,unavailable,9/52,1.9,1.9038,0.91–3.34,0.9056,3.3361,2.09,0.631,unavailable,0.042519
-P4,RTMScore (Vina pose),3/50,0.65,0.66,0.14–1.82,0.138,1.8203,1.03,24,257,0.67–1.49,0.625,unavailable,0/50,0.0,0.0,0.00–0.78,0.0,0.7823,0.21,0.562,unavailable,0.845851
-P1,Vina affinity,2/51,0.43,0.4314,0.05–1.48,0.0526,1.4805,0.51,12,257,0.27–0.88,0.531,unavailable,4/51,0.85,0.8627,0.24–2.08,0.2396,2.0769,0.81,0.63,unavailable,0.953507
-P3,gnina minimizedAffinity,2/52,0.42,0.4231,0.05–1.45,0.0516,1.4534,0.51,12,257,0.27–0.88,0.503,unavailable,3/52,0.63,0.6346,0.13–1.75,0.1327,1.7542,0.64,0.564,unavailable,0.957074
+protocol,readout,benchmark,coverage_scored,n_benchmark,hits_at_1pct,EF1pct,EF1pct_ci95_low,EF1pct_ci95_high,EF5pct,EF5pct_ci95_low,EF5pct_ci95_high,AUC,AUC_ci95_low,AUC_ci95_high,hypergeom_p_1pct,higher_is_better
+P0,gnina CNNscore (negative control),true,5156,5156,9/51,1.94,0.8906,3.3262,2.3955,1.8163,2.9571,0.6467,0.6191,0.6714,0.038213,True
+P0,gnina CNNscore (negative control),random,5152,5152,9/51,1.9385,0.9163,3.232,2.0944,1.5453,2.548,0.6315,0.6082,0.6565,0.038377,True
+P1,Vina affinity,true,5149,5156,2/51,0.4305,0.0,1.2118,0.5553,0.2557,0.8144,0.5306,0.5082,0.553,0.953886,False
+P1,Vina affinity,random,5070,5152,4/50,0.8648,0.0,1.5533,0.8118,0.4897,1.1712,0.6303,0.6091,0.6516,0.692429,False
+P2,gnina CNNaffinity,true,5156,5156,12/51,2.5867,1.3099,4.0696,1.8822,1.4297,2.4458,0.58,0.5482,0.6088,0.001638,True
+P2,gnina CNNaffinity,random,5152,5152,1/51,0.2154,0.0,1.0436,0.7694,0.4238,1.1209,0.5395,0.5125,0.5661,0.992499,True
+P3,gnina minimizedAffinity,true,5156,5156,2/51,0.4311,0.0,1.1573,0.5133,0.2397,0.8269,0.5027,0.4795,0.527,0.953621,False
+P3,gnina minimizedAffinity,random,5152,5152,3/51,0.6462,0.0,1.2981,0.6412,0.3517,0.9716,0.5637,0.541,0.5861,0.855996,False
+P4,RTMScore (Vina pose),true,5044,5156,3/50,0.6467,0.0,1.3332,1.0265,0.6339,1.3939,0.6249,0.6027,0.648,0.855899,True
+P4,RTMScore (Vina pose),random,4407,5152,0/44,0.0,0.0,0.0,0.214,0.0453,0.4413,0.5618,0.5389,0.5827,1.0,True
+P5,RTMScore (gnina pose),true,5148,5156,13/51,2.8039,1.5128,4.3605,2.4397,1.9356,3.0154,0.5898,0.5628,0.6171,0.000463,True
+P5,RTMScore (gnina pose),random,5147,5152,0/51,0.0,0.0,0.0,1.1982,0.7417,1.5742,0.5527,0.5259,0.5781,1.0,True

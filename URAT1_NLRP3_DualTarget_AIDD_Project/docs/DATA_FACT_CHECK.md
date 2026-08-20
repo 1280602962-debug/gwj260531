@@ -129,6 +129,7 @@ OAT/OCT 辅助库保留在 `data/auxiliary/`，**不写入本文主贡献**（�
 | NLRP3 THP-1 子集 | **302** unique SMILES，**313** records |
 | 不对称 ML（NLRP3 缩库；URAT1 回归不主排） | 可复现 |
 | 协议筛选 Π\* = P2 | 已锁定：`docs/PROTOCOL_SELECTION_RESULT.md` |
+| P2 临床库漏斗 | 8319 → 1588 → **1580** 完整案例；双结构门控 51 / 优选 7 |
 | 生产对接口袋 | **仅 9DKB + 7ALV** |
 | OAT/OCT 辅助 CSV | 已导出；**不写入本文主贡献** |
 | \(S_{\mathrm{trap}}\)、生成式路径、MASFL/Teacher 蒸馏、三态对接 | **未实现，禁止写入 Results** |

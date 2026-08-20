@@ -38,7 +38,7 @@ import numpy as np
 import pandas as pd
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-PARETO_DIR = PROJECT_ROOT / "results" / "repurposing"
+PARETO_DIR = PROJECT_ROOT / "data" / "repurposing" / "p2"
 PROCESSED = PROJECT_ROOT / "data" / "processed"
 OUT_DIR = PROJECT_ROOT / "results" / "cheminformatics"
 

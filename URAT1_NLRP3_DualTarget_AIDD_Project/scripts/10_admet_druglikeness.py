@@ -33,7 +33,7 @@ from pathlib import Path
 import pandas as pd
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-PARETO_DIR = PROJECT_ROOT / "results" / "repurposing"
+PARETO_DIR = PROJECT_ROOT / "data" / "repurposing" / "p2"
 OUT_DIR = PROJECT_ROOT / "results" / "cheminformatics"
 
 SMILES_COL = "canonical_smiles"

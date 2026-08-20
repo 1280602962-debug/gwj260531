@@ -1,7 +1,7 @@
 # 非对接计算模块
 
 > 在 **gnina P2** 双成功合并表上运行。不要把已删除的 Glide XP 表当作输入。  
-> 生产协议 **P2 / gnina CNNaffinity**。提名：`scripts/14_candidate_nomination.py`（默认读 `results/repurposing/`）。
+> 生产协议 **P2 / gnina CNNaffinity**。提名：`scripts/14_candidate_nomination.py`（默认读 `data/repurposing/p2/`）。
 
 ---
 
@@ -15,15 +15,13 @@
 | D 化学空间/新颖性 | `scripts/11_chemical_space_novelty.py` | `results/cheminformatics/` | ❌ |
 | E Pareto 稳健性 | `scripts/13_pareto_robustness.py` | `results/pareto_robustness/` | ❌ |
 
-复现（须先有 P2 合并表 `results/repurposing/pareto_merged_scores.csv`）：
+复现（输入为已归档 P2 合并表 `data/repurposing/p2/pareto_merged_scores.csv`）：
 
 ```bash
 cd URAT1_NLRP3_DualTarget_AIDD_Project
-python3 scripts/09_cheminformatics_filters.py
-python3 scripts/10_admet_druglikeness.py
-python3 scripts/11_chemical_space_novelty.py
-python3 scripts/12_ml_rigor_validation.py --n-permutations 20
-python3 scripts/13_pareto_robustness.py
+python3 scripts/11_chemical_space_novelty.py --pool data/repurposing/p2/pareto_merged_scores.csv --shortlist data/repurposing/p2/pareto_shortlist.csv --output-dir data/repurposing/p2
+python3 scripts/13_pareto_robustness.py --pool data/repurposing/p2/pareto_merged_scores.csv --output-dir data/repurposing/p2/pareto_robustness
+python3 scripts/14_candidate_nomination.py --tau 90
 ```
 
 ---
@@ -41,4 +39,12 @@ python3 scripts/13_pareto_robustness.py
 
 对照药相对训练集的最近邻见 `results/model_validation/applicability_domain.csv`（benchmark 行）。短名单适用域在 P2 提名表生成后再填。
 
-B–E 的计数表须在 P2 漏斗完成后重跑。仓库不保留历史 Glide 池的 PAINS / 类药性 / Pareto 稳健性数字。
+B–E 已在 P2 完整案例（n=1,580）上归档：`data/repurposing/p2/`。
+
+| 模块 | 关键计数 |
+|------|----------|
+| B 结构警报 | PAINS 78 / Brenk 626 / 1,580 |
+| C 类药性 | Lipinski 752；Veber 1,254；MW 200–550：1,199 |
+| D 新颖性 | GSK-3008348 NN Tanimoto URAT1/NLRP3 ≈ 0.21 / 0.20；Vecabrutinib ≈ 0.25 / 0.25 |
+| E 稳健性 | 审计轴 τ=90 为 77；双对接门控 51；裸前沿 4（大环） |
+| F 提名 | 优选 7；跟进 GSK-3008348 + Vecabrutinib |

@@ -1,7 +1,7 @@
 # 补充分析（不重对接临床池、不重锁 Π*）
 
-复现：`python3 scripts/si_supplement_analyses.py`（MCC950 对接需本地 `tools/gnina`）。  
-生产对接池仍为 `data/repurposing/screening/docking_pool_p05.csv`（n=1588）。
+复现：`python3 scripts/archive_p2_export.py`（漏斗归档与协议 bootstrap）；`python3 scripts/si_supplement_analyses.py --skip-dock`（assay 重叠）。  
+生产对接池仍为 `data/repurposing/screening/docking_pool_p05.csv`（n=1588）；百分位表为 `data/repurposing/p2/pareto_merged_scores.csv`（n=1580）。
 
 ---
 
@@ -41,21 +41,36 @@ top-1、top-3、top-5 **彼此 Jaccard = 1.0**（同一 1587 个分子）。与�
 
 ---
 
-## 2. 协议表 EF 区间（不是排名 bootstrap）
+## 2. 协议表 EF / AUC 区间（ranking bootstrap）
 
-P0–P5 分子级对接排名**未归档**，无法对 EF/AUC 做 ranking bootstrap，也无法做 DeLong AUC 区间。表中区间是把已发表的 **hits@1%** 视为 \(k/n\)，用 Clopper–Pearson 95% 区间估计命中率，再除以患病率 \(469/5159\)。这是计数区间，不是重采样对接分数。AUC 区间无法从计数重建，记为不可用。
+P0–P5 分子级分数现已归档于 `data/benchmarks/protocol_selection/mol_protocol_scores.csv`（9,839 行）。下表在 True / Random 基准上对有分数的分子做有放回重采样（1,000 次），每次重算 EF 与 AUC，取 2.5–97.5 百分位。**不重新选择 Π\***。前 1% 宽度为 \(\lfloor 0.01N\rfloor\)，故 hits 分母多为 51 而非原文 52。
 
-EF@1%（与 `docs/PROTOCOL_SELECTION_RESULT.md` 点估计一致）：
+EF@1%（与锁定点估计一致至舍入）：
 
-| 协议 | True hits@1% | True EF@1% (95% CI) | Random hits@1% | Random EF@1% (95% CI) | True AUC |
-|------|--------------|---------------------|----------------|-----------------------|----------|
-| P5 | 13/51 | 2.80 (1.58–4.36) | 0/51 | 0.00 (0.00–0.77) | 0.590 |
-| **P2** | **12/52** | **2.54 (1.38–4.05)** | **1/52** | **0.21 (0.01–1.13)** | **0.580** |
-| P0 | 9/52 | 1.90 (0.91–3.34) | 9/52 | 1.90 (0.91–3.34) | 0.647 |
-| P4 | 3/50 | 0.66 (0.14–1.82) | 0/50 | 0.00 (0.00–0.78) | 0.625 |
-| P1 | 2/51 | 0.43 (0.05–1.48) | 4/51 | 0.86 (0.24–2.08) | 0.531 |
-| P3 | 2/52 | 0.42 (0.05–1.45) | 3/52 | 0.63 (0.13–1.75) | 0.503 |
+| 协议 | True hits@1% | True EF@1% (95% CI) | Random hits@1% | Random EF@1% (95% CI) | True AUC (95% CI) |
+|------|--------------|---------------------|----------------|-----------------------|-------------------|
+| P5 | 13/51 | 2.80 (1.51–4.36) | 0/51 | 0.00 (0.00–0.00) | 0.590 (0.563–0.617) |
+| **P2** | **12/51** | **2.59 (1.31–4.07)** | **1/51** | **0.22 (0.00–1.04)** | **0.580 (0.548–0.609)** |
+| P0 | 9/51 | 1.94 (0.89–3.33) | 9/51 | 1.94 (0.92–3.23) | 0.647 (0.619–0.671) |
+| P4 | 3/50 | 0.65 (0.00–1.33) | 0/44 | 0.00 (0.00–0.00) | 0.625 (0.603–0.648) |
+| P1 | 2/51 | 0.43 (0.00–1.21) | 4/50 | 0.86 (0.00–1.55) | 0.531 (0.508–0.553) |
+| P3 | 2/51 | 0.43 (0.00–1.16) | 3/51 | 0.65 (0.00–1.30) | 0.503 (0.480–0.527) |
 
-区间很宽，与前 1% 只有 ~50 个分子一致；**不改变 Π\* = P2**（True 早期富集仍显著，Random 非零；P5 的 Random 上界仍低于 1）。P1/P3 的 Random hits@1% 由发表 EF 反推。EF@5% 的计数区间见 `data/si/protocol_enrichment_ci/protocol_ef_ci.csv`（k 由发表 EF 重建，已标注）。
+P2 的 True 超几何 p≈0.0016；P5 的 Random EF@1% 仍为 0。全文见 `data/si/protocol_enrichment_ci/protocol_ef_ci.csv`。
 
-生产 P2 双靶完整案例规模在 `run_funnel_p2.sh` 归档后填入；百分位与失败原因只在该 P2 交集上统计。
+## 3. P2 完整案例 1,588 → 1,580
+
+百分位只在双靶都有有效 gnina P2 分数的 1,580 个分子上计算。相对 NLRP3 缩库 1,588：
+
+| 步骤 | n | 说明 |
+|------|---|------|
+| \(q_N\ge0.5\) 池 | 1588 | `docking_pool_p05.csv` |
+| 配体 PDBQT | 1583 | 5 个脂质/核苷酸前药未进入 manifest |
+| 单靶 docked | 1582 | `REP_05842`（tauroselcholic acid）空姿态 |
+| 双靶完整案例 | **1580** | SMILES 内连接后再落 3 条（fostriecin 盐对、plocabulin） |
+
+缺失分子表：`data/si/complete_case_drop/`。缺失集分子量中位约 721 Da，池中位约 480 Da。
+
+## 4. 姿态质控（非 MD 数值）
+
+7 个优选候选在 9DKB / 7ALV 生产构象上均 `both_in_pocket=True`（质心位移 ≤ 6 Å 或关键残基接触 ≥ 3；冲突截断 2.2 Å）。表：`data/si/pose_qc/pose_qc_dual.csv`。体系搭建记录含 GSK-3008348、Vecabrutinib、Zelenirstat；**不报告轨迹数值**。跟进假说仍为前两者。结果正文见 [`RESULTS_DRAFT_CN.md`](RESULTS_DRAFT_CN.md)。

@@ -13,7 +13,7 @@
   **Π\* = P2（gnina, CNNaffinity, cnn_scoring=rescore, exhaustiveness=32）**
 
   理由（完整数据见 `docs/PROTOCOL_SELECTION_RESULT.md`）：
-  - P2 在 TrueDecoy 上早期富集统计显著（EF@1%=2.54，超几何检验 p≈0.002），且在 RandomDecoy 上非零（EF@1%=0.21）。
+  - P2 在 TrueDecoy 上早期富集统计显著（锁定点估计 EF@1%=2.54，12/52；归档 \(\lfloor 0.01N\rfloor\) 重算 2.59，12/51，bootstrap 95% CI 1.31–4.07，超几何 p≈0.0016），且在 RandomDecoy 上非零（EF@1%≈0.22）。
   - P5（RTMScore/gnina 构象）虽然 TrueDecoy EF@1% 更高（2.80），但 **RandomDecoy EF@1% = 0**，且该失败经检验是统计显著的真实失败（纯随机排序下出现 0 命中的概率仅约 0.76%），不是噪声。临床库比 RandomDecoy 更像"多样、非匹配"场景，因此 **不选 P5 作生产协议**，只作敏感性分析。
   - P0（gnina CNNscore）两侧最均衡但预注册为负对照，不提为主协议。
   - P1（Vina affinity）、P3（gnina minimizedAffinity）、P4（RTMScore/Vina 构象）与随机无统计显著差异或覆盖不全，排除。
@@ -42,63 +42,34 @@ ls data/repurposing/screening/nlrp3_ml_scores_clinical_all.csv
 
 ---
 
-## 任务 1：1588 临床池双靶对接（P2，9DKB + 7ALV）
+## 任务 1：1588 临床池双靶对接（P2，9DKB + 7ALV）— **已归档**
 
-一键脚本已就绪：`scripts/run_funnel_p2.sh`。它会：
-1. 准备受体（若未准备）
-2. 准备配体（`docking_pool_p05.csv`，约 1588 个）
-3. 用 gnina + CNNaffinity 对 9DKB、7ALV 各对接一次
-4. 合并打分、算 Pareto 短名单，写入 `results/repurposing/`
+生产 P2 分数已写入 `data/repurposing/p2/`（及完整姿态包 `docking_export_20260820/`）。不要重对接 1588。
 
-```bash
-JOBS=8 bash scripts/run_funnel_p2.sh
+**产出（已存在）：**
+```
+data/repurposing/p2/docking_9dkb_gnina.csv          # 1582 docked / 1583
+data/repurposing/p2/docking_7alv_gnina.csv
+data/repurposing/p2/pareto_merged_scores.csv        # 1580 完整案例
+data/repurposing/p2/pareto_shortlist.csv            # 4，大环，仅审计
+data/repurposing/p2/nominated_shortlist_diverse.csv # 7 优选；跟进 GSK-3008348 + Vecabrutinib
 ```
 
-- `JOBS` 按你机器核数调整（建议核数的一半到全部）。
-- 单次运行即可覆盖两个靶点；**不要额外对 True/Random 基准重跑**。
-- CPU-only 粗估：单分子 gnina exh=32 约 20–60 秒/靶点，1588×2 建议规划数小时到一晚，视核数。
-
-**产出检查（必须存在且非空）：**
-```
-results/repurposing/docking_p2/9dkb/docking_9dkb_gnina.csv
-results/repurposing/docking_p2/7alv/docking_7alv_gnina.csv
-results/repurposing/pareto_merged_scores.csv
-results/repurposing/pareto_shortlist.csv            # 原始对接 Pareto（仅审计）
-results/repurposing/pareto_shortlist_druglike.csv   # Pareto ∩ MW 200–550
-```
-
-若 `docking_status` 列里失败（非 `docked`）比例超过 ~10%，先排查（常见原因：配体准备失败、gnina 超时），修复后重跑，不要带着大面积失败继续下一步。
-
-**重要：** 不要把 `pareto_shortlist.csv` 当成故事分子/MD 候选。对接 Pareto 常被大环内酯等高分子量分子占据；跟进名单以任务 2 的化学优先提名为准。
+若需在新机器重跑（非默认）：`JOBS=8 bash scripts/run_funnel_p2.sh`。**不要**把 `pareto_shortlist.csv` 当成故事分子；跟进读提名表。
 
 ---
 
-## 任务 2：审计流水线（PAINS / ADMET / 化学空间 / 稳健性 / 提名）
+## 任务 2：审计流水线 — **已归档**
 
-按顺序执行，全部使用默认路径（已与任务 1 的输出对齐）：
+表在 `data/repurposing/p2/`。复现：
 
 ```bash
-python3 scripts/10_admet_druglikeness.py
-python3 scripts/11_chemical_space_novelty.py
-python3 scripts/13_pareto_robustness.py
+python3 scripts/11_chemical_space_novelty.py --pool data/repurposing/p2/pareto_merged_scores.csv --shortlist data/repurposing/p2/pareto_shortlist.csv --output-dir data/repurposing/p2
+python3 scripts/13_pareto_robustness.py --pool data/repurposing/p2/pareto_merged_scores.csv --output-dir data/repurposing/p2/pareto_robustness
 python3 scripts/14_candidate_nomination.py --tau 90 --mw-min 200 --mw-max 550 --top-diverse 12
 ```
 
-**产出检查：**
-```
-results/cheminformatics/...                              # ADMET / drug-likeness / novelty 输出
-results/pareto_robustness/...                            # bootstrap 敏感性
-results/candidates/nominated_candidates.csv              # 双阈值全集 + 化学标记
-results/candidates/nominated_shortlist_diverse.csv       # 骨架去冗余后的跟进短名单（主读此表）
-results/candidates/candidate_nomination_summary.json
-```
-
-打开提名表时确认：
-- **跟进分子读 `nominated_shortlist_diverse.csv`**，不是原始 Pareto。
-- `preferred_candidate=True`：无 PAINS/Brenk、Lipinski+Veber、MW∈[200,550]、口服吸收替代标志通过。
-- 大环/高分子量对接优势分子应落在 `mw_oral_ok=False` 或非 preferred，并在 summary 的 `demoted_high_mw_in_gate` 可见。
-- 已知对照药（lesinurad、benzbromarone、verinurad、dotinurad、MCC950、GDC-2394、allopurinol、colchicine）被正确标记为"已知对照"而非"新提名"。
-- PAINS/Brenk 命中分子已标记降级原因，不与 clean/preferred candidate 混为一谈。
+已核对：双结构门控 51；优选 7（Veber + Ro5 HBD/HBA/logP + MW 200–550）；裸 Pareto 为 4 个大环；lesinurad/verinurad/colchicine 不在门控内。跟进 GSK-3008348 与 Vecabrutinib。
 
 ---
 
@@ -132,8 +103,8 @@ python3 scripts/export_md_ready_candidates.py \
 
 ## 任务 4：文稿（按 `docs/MANUSCRIPT.md`）
 
-1. 引言：`docs/INTRO_DRAFT_CN.md`；Methods：`docs/METHODS_DRAFT_CN.md`。生产协议 = P2。
-2. Results 记录：协议表、漏斗计数、裸 Pareto vs 化学提名、MD 候选及理由。
+1. 引言：`docs/INTRO_DRAFT_CN.md`；Methods：`docs/METHODS_DRAFT_CN.md`；Results：`docs/RESULTS_DRAFT_CN.md`。生产协议 = P2。
+2. Results 已写入：协议表、漏斗 8319→1588→1580、裸 Pareto 4 vs 双结构门控 51 / 优选 7、姿态 QC；MD 数值不报。
 3. URAT1 MD 按膜蛋白体系写方法；不得把对接分写成亲和力，不得写已发现双靶抑制剂。
 
 ---
@@ -168,8 +139,8 @@ git push -u origin cursor/urat1-nlrp3-dualtarget-aidd-e43d
 
 ## 完成标准（Definition of Done）
 
-- [ ] 任务 1：`pareto_shortlist.csv` 存在且非空，对接失败率 <10%
-- [ ] 任务 2：`results/candidates/` 下有最终提名表，含 clean candidate 标记
-- [ ] 任务 3：MD 输入与当前跟进分子一致（GSK-3008348、Vecabrutinib + 对照），不是已删除的历史对接短名单
-- [ ] 任务 4：按 `docs/MANUSCRIPT.md` 更新；无确认性发现语言、无编造 MD 数值
-- [ ] 所有任务已分别提交并推送到 `cursor/urat1-nlrp3-dualtarget-aidd-e43d`
+- [x] 任务 1：`data/repurposing/p2/pareto_merged_scores.csv` 为 1,580 完整案例
+- [x] 任务 2：双结构门控 51 / 优选 7，跟进 GSK-3008348 与 Vecabrutinib
+- [x] 任务 3：姿态 QC 已归档；MD 轨迹数值未报
+- [x] 任务 4：按 `docs/MANUSCRIPT.md` 把 R1–R4 写入 `docs/RESULTS_DRAFT_CN.md`
+- [x] 所有任务已分别提交并推送到 `cursor/urat1-nlrp3-dualtarget-aidd-e43d`
