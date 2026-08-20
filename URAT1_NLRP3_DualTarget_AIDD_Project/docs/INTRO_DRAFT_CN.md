@@ -4,7 +4,7 @@
 > Methods：[`METHODS_DRAFT_CN.md`](METHODS_DRAFT_CN.md)。Results：[`RESULTS_DRAFT_CN.md`](RESULTS_DRAFT_CN.md)。大纲：[`MANUSCRIPT.md`](MANUSCRIPT.md)。  
 > 正文引用用"作者，年份"，DOI 见文末清单。
 
-痛风是成人最常见的晶体性关节炎之一，其发生发展与持续性高尿酸血症及单钠尿酸（monosodium urate，MSU）晶体沉积密切相关。多数患者的高尿酸血症并非源于尿酸生成过多，而主要归因于肾脏尿酸排泄不足（Dalbeth 等，2021）。当血尿酸水平长期升高并超过尿酸盐溶解度阈值时，MSU 晶体可在关节及其周围组织中形成和沉积；晶体形成后被巨噬细胞等先天免疫细胞识别，诱导 NLRP3 炎症小体活化并启动炎症级联反应，最终导致急性痛风性关节炎发作（Martinon 等，2006；Dalbeth 等，2021；Leask 等，2024）。可见痛风的病理过程并非单一环节所致，而是呈现由尿酸稳态失衡、MSU 晶体形成向晶体驱动的炎症反应连续发展的病理链条。介导肾近端小管尿酸重吸收的关键转运体 URAT1 位于该链条上游的尿酸稳态调控环节，影响高尿酸血症程度及后续晶体形成风险；NLRP3 则位于下游晶体诱导炎症环节，介导 MSU 晶体所触发的炎症反应。二者分别处于痛风病理过程的尿酸稳态调控与晶体驱动炎症两个阶段，构成具有互补性的干预节点，本文以下统称为"双节点"（Zhao 等，2023）。
+痛风是成人最常见的晶体性关节炎之一，其发生发展与持续性高尿酸血症及单钠尿酸（monosodium urate，MSU）晶体沉积密切相关。多数患者的高尿酸血症并非源于尿酸生成过多，而主要归因于肾脏尿酸排泄不足（Dalbeth 等，2021）。当血尿酸水平长期升高并超过尿酸盐溶解度阈值时，MSU 晶体可在关节及其周围组织中形成和沉积；晶体形成后被巨噬细胞等先天免疫细胞识别，诱导 NLRP3 炎症小体活化并启动炎症级联反应，最终导致急性痛风性关节炎发作（Martinon 等，2006；Dalbeth 等，2021；Leask 等，2024）。可见痛风的病理过程并非单一环节所致，而是呈现由尿酸稳态失衡、MSU 晶体形成向晶体驱动的炎症反应连续发展的病理链条。介导肾近端小管尿酸重吸收的关键转运体 URAT1 位于该链条上游的尿酸稳态调控环节，影响高尿酸血症程度及后续晶体形成风险；NLRP3 则位于下游晶体诱导炎症环节，介导 MSU 晶体所触发的炎症反应。二者分别处于痛风病理过程的尿酸稳态调控与晶体驱动炎症两个阶段，构成具有互补性的干预节点，本文以下统称为"双节点"（Dalbeth 等，2019；Liu 等，2023）。
 
 现行痛风药物治疗正是围绕这两个节点分别展开。降尿酸一端，黄嘌呤氧化酶抑制剂减少尿酸生成，URAT1 抑制剂促进尿酸排泄，包括苯溴马隆、lesinurad、dotinurad 以及仍处临床试验阶段的 verinurad（FitzGerald 等，2020；Dai 与 Lee，2024）；抗炎一端，急性发作以秋水仙碱、非甾体抗炎药或糖皮质激素为一线，白细胞介素-1 抑制剂仅在上述药物无效、不耐受或禁忌时使用（FitzGerald 等，2020）。然而两端在治疗时程内的作用范围并不重叠：降尿酸治疗可降低尿酸负荷，却对已沉积 MSU 晶体所诱导的急性炎症缺乏直接、快速的消解作用；抗炎治疗能控制发作期炎症，却不降低尿酸负荷，也不清除已沉积的晶体（Dalbeth 等，2021）。二者还各自受到安全性与适用范围的限制：别嘌醇存在 HLA-B\*5801 相关严重皮肤不良反应风险（Hung 等，2005），非布司他在高心血管风险人群中的安全性仍需谨慎评估（White 等，2018；Mackenzie 等，2020；Borghi 等，2024），苯溴马隆与 lesinurad 则分别受肝脏和肾脏安全性问题制约（Lee 等，2008；Tausche 等，2017）。
 
@@ -25,7 +25,8 @@
 1. Dalbeth N, Choi HK, Joosten LAB, et al. Gout. *Lancet.* 2021;397(10287):1843-1855. doi:10.1016/S0140-6736(21)00569-9
 2. Martinon F, Pétrilli V, Mayor A, Tardivel A, Tschopp J. Gout-associated uric acid crystals activate the NALP3 inflammasome. *Nature.* 2006;440(7081):237-241. doi:10.1038/nature04516
 3. Leask MP, et al. The pathogenesis of gout: molecular insights from genetic, epigenomic and transcriptomic studies. *Nat Rev Rheumatol.* 2024. doi:10.1038/s41584-024-01137-1
-4. **Zhao 等，2023 — 未能核实。** 检索 ChEMBL/CrossRef/PubMed/OpenAlex 未找到与"URAT1 与 NLRP3 分别对应尿酸稳态调控与晶体驱动炎症两个互补干预节点"这一具体表述相匹配、第一作者为 Zhao、发表于 2023 年的文献。请提供准确的作者全名、期刊与 DOI/PMID 以便核实并替换本条；在核实前不应提交含此占位条目的定稿版本。
+4. Dalbeth N, Choi HK, Joosten LAB, et al. Gout. *Nat Rev Dis Primers.* 2019;5:69. doi:10.1038/s41572-019-0115-y
+4a. Liu Y-r, Wang J-q, Li J. Role of NLRP3 in the pathogenesis and treatment of gout arthritis. *Front Immunol.* 2023;14:1137822. doi:10.3389/fimmu.2023.1137822
 5. FitzGerald JD, Dalbeth N, Mikuls T, et al. 2020 American College of Rheumatology guideline for the management of gout. *Arthritis Rheumatol.* 2020;72(6):879-895. doi:10.1002/art.41247
 6. Dai Y, Lee CH. Transport mechanism and structural pharmacology of human urate transporter URAT1. *Cell Res.* 2024. doi:10.1038/s41422-024-01023-1
 7. Hung SI, Chung WH, Liou LB, et al. HLA-B\*5801 allele as a genetic marker for severe cutaneous adverse reactions caused by allopurinol. *Proc Natl Acad Sci USA.* 2005;102(11):4134-4139. doi:10.1073/pnas.0409500102

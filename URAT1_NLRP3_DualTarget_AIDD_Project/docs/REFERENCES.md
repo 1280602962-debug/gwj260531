@@ -13,9 +13,9 @@ All entries include DOI or PMID where available.
 
 3. **Choe JY**, Kim SK. **The Mechanism of the NLRP3 Inflammasome Activation and Pathogenic Implication in the Pathogenesis of Gout.** *J Rheum Dis.* 2022;29(3):140-153. doi:10.4078/jrd.2022.29.3.140. PMC10324924. *(Corrected: earlier draft mislabeled this title as J Inflamm Res 10.2147/JIR.S413477, which does not resolve to this article.)*
 
-4. **Liu Y**, Li W, Deng Y. **Role of NLRP3 in the pathogenesis and treatment of gout arthritis.** *Front Immunol.* 2023;14:1137822. doi:10.3389/fimmu.2023.1137822. PMID: 36923456.
+4. **Liu Y-r**, Wang J-q, Li J. **Role of NLRP3 in the pathogenesis and treatment of gout arthritis.** *Front Immunol.* 2023;14:1137822. doi:10.3389/fimmu.2023.1137822. PMID: 36923456. (Corrected authors: Ya-ru Liu, Jie-quan Wang, Jun Li; earlier draft had Li W, Deng Y. Supports the two-class gout pharmacotherapy frame—rapid anti-inflammatory agents plus lifelong urate-lowering—and NLRP3 as a downstream therapeutic node. This 2023 review is the likely source of the discarded "Zhao et al., 2023" placeholder.)
 
-4a. **"Zhao 等，2023" — 待核实，暂不可引用。** `INTRO_DRAFT_CN.md` 正文用该占位引用支持"URAT1（尿酸稳态调控）与 NLRP3（晶体驱动炎症）构成互补性双节点"的表述。检索 ChEMBL/CrossRef/PubMed/OpenAlex 均未找到第一作者为 Zhao、2023 年发表、且与该具体表述匹配的文献；不要在未核实的情况下把它当作真实文献编号或编造 DOI。请提供准确作者全名/期刊/DOI 后替换。
+4a. **Dalbeth N**, Choi HK, Joosten LAB, Khanna PP, Matsuo H, Perez-Ruiz F, Stamp LK. **Gout.** *Nat Rev Dis Primers.* 2019;5:69. doi:10.1038/s41572-019-0115-y. (Canonical complementary-node review: renal urate transport including URAT1 as the major uricosuric target; MSU-driven NLRP3 inflammasome / IL-1β as the flare node; anti-inflammatory flare therapy plus urate-lowering as the two management axes. Replaces the unverified "Zhao et al., 2023" citation for the dual-node sentence in `INTRO_DRAFT_CN.md`.)
 
 5. **Dalbeth N**, Merriman TR, Stamp LK. **Gout.** *Lancet.* 2021;397(10287):1843-1855. doi:10.1016/S0140-6736(21)00569-9.
 
