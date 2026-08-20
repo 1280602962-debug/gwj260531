@@ -53,7 +53,7 @@ All entries include DOI or PMID where available.
 
 ## NLRP3 Inhibitors: Biology, Structure, Medicinal Chemistry
 
-18. **Dekker A**, Coll RC, Hill JR, et al. **Crystal structure of NLRP3 NACHT domain with an inhibitor defines mechanism of inflammasome inhibition.** *J Mol Biol.* 2021;433(20):167189. doi:10.1016/j.jmb.2021.167189. PMID: 34687713. (PDB 7ALV; ligand is MCC950-class analog NP3-146)
+18. **Dekker C**, Mattes H, Wright M, et al. **Crystal structure of NLRP3 NACHT domain with an inhibitor defines mechanism of inflammasome inhibition.** *J Mol Biol.* 2021;433(24):167309. doi:10.1016/j.jmb.2021.167309. PMID: 34687713. (PDB 7ALV; ligand is MCC950-class analog NP3-146)
 
 19. **McBride CJ**, Johnson MC, Murray J, et al. **Overcoming Preclinical Safety Obstacles to Discover GDC-2394: A Potent and Selective NLRP3 Inhibitor.** *J Med Chem.* 2022;65(23):14721-14739. doi:10.1021/acs.jmedchem.2c01250. PMID: 36279149. (PDB 8ETR)
 
