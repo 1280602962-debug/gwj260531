@@ -127,6 +127,24 @@ All entries include DOI or PMID where available.
 
 45. **Trott O**, Olson AJ. **AutoDock Vina: improving the speed and accuracy of docking.** *J Comput Chem.* 2010;31(2):455-461. doi:10.1002/jcc.21334.
 
+45a. **Eberhardt J**, Santos-Martins D, Tillack AF, Forli S. **AutoDock Vina 1.2.0: new docking methods, expanded force field, and Python bindings.** *J Chem Inf Model.* 2021;61(8):3891-3898. doi:10.1021/acs.jcim.1c00203.
+
+45b. **McNutt AT**, Francoeur P, Aggarwal R, et al. **GNINA 1.0: molecular docking with deep learning.** *J Cheminform.* 2021;13:43. doi:10.1186/s13321-021-00522-2.
+
+45c. **Shen C**, Zhang X, Deng Y, et al. **Boosting protein–ligand binding pose prediction and virtual screening based on residue–atom distance likelihood potential and graph transformer.** *J Med Chem.* 2022;65(15):10691-10706. doi:10.1021/acs.jmedchem.2c00991. (RTMScore)
+
+45d. **Lipinski CA**, Lombardo F, Dominy BW, Feeney PJ. **Experimental and computational approaches to estimate solubility and permeability in drug discovery and development settings.** *Adv Drug Deliv Rev.* 2001;46(1-3):3-26. doi:10.1016/s0169-409x(00)00129-0.
+
+45e. **Veber DF**, Johnson SR, Cheng HY, Smith BR, Ward KW, Kopple KD. **Molecular properties that influence the oral bioavailability of drug candidates.** *J Med Chem.* 2002;45(12):2615-2623. doi:10.1021/jm020017n.
+
+45f. **Brenk R**, Schipani A, James D, et al. **Lessons learnt from assembling screening libraries for drug discovery for neglected diseases.** *ChemMedChem.* 2008;3(3):435-444. doi:10.1002/cmdc.200700139.
+
+45g. **Ghose AK**, Viswanadhan VN, Wendoloski JJ. **A knowledge-based approach in designing combinatorial or medicinal chemistry libraries for drug discovery.** *J Comb Chem.* 1999;1(1):55-68. doi:10.1021/cc9800071.
+
+45h. **Bickerton GR**, Paolini GV, Besnard J, Muresan S, Hopkins AL. **Quantifying the chemical beauty of drugs.** *Nat Chem.* 2012;4(2):90-98. doi:10.1038/nchem.1243.
+
+45i. **O’Boyle NM**, Banck M, James CA, Morley C, Vandermeersch T, Hutchison GR. **Open Babel: An open chemical toolbox.** *J Cheminform.* 2011;3:33. doi:10.1186/1758-2946-3-33.
+
 46. **Chen T**, Guestrin C. **XGBoost: A Scalable Tree Boosting System.** *KDD.* 2016. doi:10.1145/2939672.2939785.
 
 ---
