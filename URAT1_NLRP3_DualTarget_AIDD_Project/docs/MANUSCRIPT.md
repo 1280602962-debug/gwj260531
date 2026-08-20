@@ -14,6 +14,7 @@
 | 引言正文 | [`INTRO_DRAFT_CN.md`](INTRO_DRAFT_CN.md) |
 | Methods 正文 | [`METHODS_DRAFT_CN.md`](METHODS_DRAFT_CN.md) |
 | 协议锁定表 | [`PROTOCOL_SELECTION_RESULT.md`](PROTOCOL_SELECTION_RESULT.md) |
+| 补充分析（assay 重叠 / EF 区间 / 1588→1451 / MCC950@7ALV） | [`SI_SUPPLEMENT_ANALYSES.md`](SI_SUPPLEMENT_ANALYSES.md) |
 | 自对接烟雾（pose vs 排序） | [`REDOCK_SMOKE_ANALYSIS.md`](REDOCK_SMOKE_ANALYSIS.md) |
 | 与 PLK1/NLRP3 差异 | [`DIFFERENTIATION_VS_PLK1_NLRP3.md`](DIFFERENTIATION_VS_PLK1_NLRP3.md) |
 | 贡献 / 动机 / 期刊 | [`paper_spine_ars_analysis/`](paper_spine_ars_analysis/) |
@@ -46,7 +47,7 @@
 |------|------|------|
 | URAT1 侧案例 | GSK-3008348 | 羧酸；双对接均衡；吸入 αvβ6 项目已停 |
 | NLRP3 侧案例 | Vecabrutinib | BTK–NLRP3 文献；肿瘤适应症因疗效不足停 |
-| 对照 | lesinurad @ 9DKB；MCC950 @ 7ALV（若有姿） | 校准，不是新提名 |
+| 对照 | lesinurad @ 9DKB；MCC950 @ 7ALV（类似物对照，非自对接） | 校准，不是新提名 |
 | 方法学负例 | EGCG、红霉素类大环 | 可进裸 Pareto，审计降级 |
 
 Preferred 门控：\(S_U\ge 90\) 且 \(S_{N,\mathrm{dock}}\ge 90\)；Veber + Ro5 的 HBD/HBA/logP；MW 200–550；显式降级红霉素/epothilone 骨架。

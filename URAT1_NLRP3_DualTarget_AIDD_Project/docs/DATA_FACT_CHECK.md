@@ -73,7 +73,7 @@ OAT/OCT 辅助库保留在 `data/auxiliary/`，**不写入本文主贡献**（�
 | benzbromarone | CHEMBL892 |
 | verinurad | CHEMBL3989871 |
 | dotinurad | CHEMBL4594374 |
-| MCC950 | CHEMBL230208 |
+| MCC950 | 文献常用 **CHEMBL230208**；清洗集同一 SMILES 为 **CHEMBL3183703** |
 | allopurinol | CHEMBL1467 |
 
 ---

@@ -36,7 +36,7 @@
 3. bash scripts/setup_gnina_wsl_cpu.sh
    - sudo apt 需要密码时提示我输入
    - GNINA 二进制下载地址（仅需访问 github.com/releases，若也失败则改用手动）：
-     https://github.com/gnina/gnina/releases/download/v1.3.1/gnina-1.3.1-x86_64-ubuntu22.04
+     https://github.com/gnina/gnina/releases/download/v1.3.1/gnina1.3.1
      保存为 tools/gnina && chmod +x tools/gnina
 4. 验证：
    tools/gnina --help
@@ -74,7 +74,7 @@
 
 1. 进入项目根目录，git pull 最新代码
 2. 运行 bash scripts/setup_gnina_wsl_cpu.sh
-   - 若 GNINA 二进制下载失败，从 https://github.com/gnina/gnina/releases 手动下载 gnina-1.3.1-x86_64-ubuntu22.04 到 tools/gnina 并 chmod +x
+   - 若 GNINA 二进制下载失败，从 https://github.com/gnina/gnina/releases 手动下载 **gnina1.3.1** 到 tools/gnina 并 chmod +x
 3. 确认 tools/gnina --help 可用；烟雾测试 CSV 中 lesinurad dock_score 非空
 4. 不要立刻跑全库 1588×2；仅当烟雾测试通过后，告诉我如何用：
    bash scripts/run_gnina_docking_pipeline.sh

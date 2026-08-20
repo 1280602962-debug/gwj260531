@@ -1,0 +1,3 @@
+protocol_id,engine,score_readout,compound,pdb,exhaustiveness,num_modes,top1_score,score_direction,top1_rmsd_A,best_ensemble_rmsd_A,sampling_ok_le2,scoring_ok_top1_le2,notes,date,operator
+P2,gnina,CNNaffinity,MCC950,7ALV,32,1,7.018,higher_better,NA,NA,NA,NA,analog_control_not_self_dock; co-crystal is NP3-146/RM5; vina_affinity=-10.20; CNNscore=0.9013; cnn_scoring=rescore; no_gpu,2026-08-20,auto
+P2,gnina,gnina_affinity,MCC950,7ALV,32,1,-10.20,lower_better,NA,NA,NA,NA,same pose as CNNaffinity row; analog control,2026-08-20,auto

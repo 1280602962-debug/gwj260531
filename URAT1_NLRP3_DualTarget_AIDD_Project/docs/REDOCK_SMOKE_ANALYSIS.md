@@ -36,6 +36,8 @@
 | **1** | 在 TrueDecoy + RandomDecoy 上跑 **P0–P5（exh=32）** | 按预定规则锁定 Π\* |
 | **2** | 用锁定的 Π\* 对接临床池（1588）@ 9DKB + 7ALV | 进入不对称漏斗 / Pareto |
 | **3** | 可选：benzbromarone、dotinurad 同盒交叉对接（SI） | 扩展对照，非门控 |
-| **4** | 可选：MCC950 @ 7ALV 烟雾 | NLRP3 侧准备，不替代 URAT1 协议筛选 |
+| **4** | MCC950 @ 7ALV 类似物对照（已完成，P2） | 药理学阳性对照，**不是**自对接；共晶仍是 NP3-146 |
+
+MCC950 P2 结果：CNNaffinity **7.018**，gnina affinity −10.20 kcal/mol，CNNscore 0.9013（`data/redock_smoke/redock_results_mcc950_7alv.csv`）。相对 RM5 的 RMSD **不作**自对接门控。
 
 **不必再重复 lesinurad@9DKB 烟雾**；门控数据已齐。下一步算力应投向基准库协议筛选。

@@ -12,6 +12,8 @@
 | `docking_pool_p05_phase_ge3.csv` | 子集 P≥0.5，**247 条**（SI 敏感性） |
 | `nlrp3_screening_summary_phase_ge3.json` | 子集统计 |
 
+Assay 上下文取 1/3/5 个测定的缩库重叠（不替换本目录 1588 池）见 `data/si/assay_shrink_overlap/` 与 [`docs/SI_SUPPLEMENT_ANALYSES.md`](../../../docs/SI_SUPPLEMENT_ANALYSES.md)。
+
 ## 重新生成
 
 ```bash

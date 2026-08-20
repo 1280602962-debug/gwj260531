@@ -105,7 +105,7 @@ results/candidates/candidate_nomination_summary.json
 ## 任务 3：MD 输入文件（受体/配体导出）
 
 > 本任务只导出起始构象文件。轨迹在有算力的机器上跑。  
-> **当前跟进分子（P2 化学提名，非 Glide 裸 Pareto）：** GSK-3008348（URAT1 侧）、Vecabrutinib（NLRP3 侧）；对照 lesinurad @ 9DKB、MCC950 @ 7ALV（若有姿）。  
+> **当前跟进分子（P2 化学提名，非 Glide 裸 Pareto）：** GSK-3008348（URAT1 侧）、Vecabrutinib（NLRP3 侧）；对照 lesinurad @ 9DKB、MCC950 @ 7ALV（类似物对照姿见 `data/si/mcc950_7alv/`，非自对接）。  
 > **不要 MD：** Zelenirstat、MLN-0415、BI 653048、Deucrictibant、Praliciguat，以及仓库 Glide 短名单中的 EGCG / canagliflozin / 大环内酯。  
 > URAT1 必须按 **膜+脂双层** 体系；7ALV 用水盒子。
 

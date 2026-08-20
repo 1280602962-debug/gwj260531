@@ -4,6 +4,7 @@ Protocol comparison for redocking (Vina / gnina / RTMScore), exhaustiveness 8 an
 
 ## Key outputs
 - `redock_results_lesinurad_9DKB.csv` — filled metrics table (P0–P5)
+- `redock_results_mcc950_7alv.csv` — MCC950 analog control @ 7ALV (P2; not self-dock)
 - `lesinurad_9DKB/` — prep, vina/gnina poses, RTMScore scores, logs, analysis
 
 ## Notes

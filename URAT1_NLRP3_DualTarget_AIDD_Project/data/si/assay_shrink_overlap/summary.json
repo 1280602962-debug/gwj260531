@@ -1,0 +1,68 @@
+{
+  "n_scored": 8319,
+  "production_n": 1588,
+  "threshold": 0.5,
+  "ensemble_assays_top5": [
+    "CHEMBL5549264",
+    "CHEMBL5149834",
+    "CHEMBL5374758",
+    "CHEMBL6157329",
+    "CHEMBL5374759"
+  ],
+  "max_abs_q_top5_vs_archived_p_active": 0.3601994035575866,
+  "mean_abs_q_top5_vs_archived_p_active": 4.3300798053547836e-05,
+  "n_q_top5_disagrees_with_archived_ge_0.5": 1,
+  "sets": [
+    {
+      "n_ensemble_assays": 1,
+      "assay_ids": "CHEMBL5549264",
+      "n_q_ge_0.5": 1587,
+      "n_overlap_production_1588": 1587,
+      "n_only_this_set": 0,
+      "n_only_production_1588": 1,
+      "jaccard_vs_production_1588": 0.9994,
+      "frac_production_recovered": 0.9994
+    },
+    {
+      "n_ensemble_assays": 3,
+      "assay_ids": "CHEMBL5549264;CHEMBL5149834;CHEMBL5374758",
+      "n_q_ge_0.5": 1587,
+      "n_overlap_production_1588": 1587,
+      "n_only_this_set": 0,
+      "n_only_production_1588": 1,
+      "jaccard_vs_production_1588": 0.9994,
+      "frac_production_recovered": 0.9994
+    },
+    {
+      "n_ensemble_assays": 5,
+      "assay_ids": "CHEMBL5549264;CHEMBL5149834;CHEMBL5374758;CHEMBL6157329;CHEMBL5374759",
+      "n_q_ge_0.5": 1587,
+      "n_overlap_production_1588": 1587,
+      "n_only_this_set": 0,
+      "n_only_production_1588": 1,
+      "jaccard_vs_production_1588": 0.9994,
+      "frac_production_recovered": 0.9994
+    }
+  ],
+  "pairwise_rescore": [
+    {
+      "pair": "top1_vs_top3",
+      "jaccard": 1.0,
+      "n_intersection": 1587,
+      "n_union": 1587
+    },
+    {
+      "pair": "top1_vs_top5",
+      "jaccard": 1.0,
+      "n_intersection": 1587,
+      "n_union": 1587
+    },
+    {
+      "pair": "top3_vs_top5",
+      "jaccard": 1.0,
+      "n_intersection": 1587,
+      "n_union": 1587
+    }
+  ],
+  "decision": "Keep production docking_pool_p05.csv (n=1588) unchanged. Assay-count variants are SI only; do not re-dock."
+}

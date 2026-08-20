@@ -102,7 +102,7 @@ EXHAUST=32 bash scripts/run_redock_smoke_local.sh
 |------|------|------|------------|------------|------|
 | benzbromarone | Vina / gnina | affinity / CNNaff | | ☐ | 非自对接 |
 | dotinurad | Vina / gnina | affinity / CNNaff | | ☐ | 非自对接 |
-| MCC950 @ 7ALV | gnina | affinity / CNNaff | | ☐ | 类似物模板 |
+| MCC950 @ 7ALV | gnina | affinity / CNNaff | 7.018 (CNNaff); −10.20 kcal/mol | 类似物对照 | 非自对接；共晶为 NP3-146 |
 
 ---
 

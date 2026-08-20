@@ -86,6 +86,12 @@ def main() -> None:
     parser.add_argument("--nlrp3-threshold", type=float, default=0.5, help="Binary active cutoff")
     parser.add_argument("--with-urat1-ml", action="store_true", help="Also score URAT1 ML (auxiliary)")
     parser.add_argument("--n-ensemble-assays", type=int, default=5)
+    parser.add_argument(
+        "--nlrp3-model",
+        type=Path,
+        default=None,
+        help="Path to nlrp3_model.joblib (default: results/training, then data/models)",
+    )
     parser.add_argument("--skip-tanimoto", action="store_true", help="Skip slow applicability-domain Tanimoto")
     parser.add_argument(
         "--export-p05-pool",
@@ -104,7 +110,15 @@ def main() -> None:
     )
     panel_df = panel_df[panel_df["canonical_smiles"].notna()].drop_duplicates("canonical_smiles")
 
-    nlrp3_bundle = joblib.load(MODELS / "nlrp3_model.joblib")
+    model_path = args.nlrp3_model
+    if model_path is None:
+        for candidate in (MODELS / "nlrp3_model.joblib", PROJECT_ROOT / "data" / "models" / "nlrp3_model.joblib"):
+            if candidate.exists():
+                model_path = candidate
+                break
+        else:
+            model_path = MODELS / "nlrp3_model.joblib"
+    nlrp3_bundle = joblib.load(model_path)
     nlrp3_train = pd.read_csv(PROCESSED / "nlrp3_records.csv")
     train_smiles = nlrp3_train["canonical_smiles"].unique().tolist()
     assay_ids = _load_assay_ids(nlrp3_bundle, nlrp3_train, args.n_ensemble_assays)

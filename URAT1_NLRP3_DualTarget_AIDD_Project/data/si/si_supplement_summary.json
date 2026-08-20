@@ -1,0 +1,132 @@
+{
+  "assay_shrink_overlap": {
+    "n_scored": 8319,
+    "production_n": 1588,
+    "threshold": 0.5,
+    "ensemble_assays_top5": [
+      "CHEMBL5549264",
+      "CHEMBL5149834",
+      "CHEMBL5374758",
+      "CHEMBL6157329",
+      "CHEMBL5374759"
+    ],
+    "max_abs_q_top5_vs_archived_p_active": 0.3601994035575866,
+    "mean_abs_q_top5_vs_archived_p_active": 4.3300798053547836e-05,
+    "n_q_top5_disagrees_with_archived_ge_0.5": 1,
+    "sets": [
+      {
+        "n_ensemble_assays": 1,
+        "assay_ids": "CHEMBL5549264",
+        "n_q_ge_0.5": 1587,
+        "n_overlap_production_1588": 1587,
+        "n_only_this_set": 0,
+        "n_only_production_1588": 1,
+        "jaccard_vs_production_1588": 0.9994,
+        "frac_production_recovered": 0.9994
+      },
+      {
+        "n_ensemble_assays": 3,
+        "assay_ids": "CHEMBL5549264;CHEMBL5149834;CHEMBL5374758",
+        "n_q_ge_0.5": 1587,
+        "n_overlap_production_1588": 1587,
+        "n_only_this_set": 0,
+        "n_only_production_1588": 1,
+        "jaccard_vs_production_1588": 0.9994,
+        "frac_production_recovered": 0.9994
+      },
+      {
+        "n_ensemble_assays": 5,
+        "assay_ids": "CHEMBL5549264;CHEMBL5149834;CHEMBL5374758;CHEMBL6157329;CHEMBL5374759",
+        "n_q_ge_0.5": 1587,
+        "n_overlap_production_1588": 1587,
+        "n_only_this_set": 0,
+        "n_only_production_1588": 1,
+        "jaccard_vs_production_1588": 0.9994,
+        "frac_production_recovered": 0.9994
+      }
+    ],
+    "pairwise_rescore": [
+      {
+        "pair": "top1_vs_top3",
+        "jaccard": 1.0,
+        "n_intersection": 1587,
+        "n_union": 1587
+      },
+      {
+        "pair": "top1_vs_top5",
+        "jaccard": 1.0,
+        "n_intersection": 1587,
+        "n_union": 1587
+      },
+      {
+        "pair": "top3_vs_top5",
+        "jaccard": 1.0,
+        "n_intersection": 1587,
+        "n_union": 1587
+      }
+    ],
+    "decision": "Keep production docking_pool_p05.csv (n=1588) unchanged. Assay-count variants are SI only; do not re-dock."
+  },
+  "complete_case_drop": {
+    "n_pool": 1588,
+    "n_complete_case": 1451,
+    "n_missing": 137,
+    "n_in_merge_not_in_pool": 0,
+    "merge_urat1_status": {
+      "docked": 1451
+    },
+    "merge_nlrp3_status": {
+      "docked": 1451
+    },
+    "missing_mw_median": 615.74,
+    "complete_mw_median": 472.66,
+    "missing_rotb_median": 8.0,
+    "complete_rotb_median": 6.0,
+    "n_ligand_prep_fail": 7,
+    "n_ligand_prep_ok": 130,
+    "n_missing_mw_gt_550": 105,
+    "n_missing_rotb_gt_10": 45,
+    "archive_note": "data/repurposing/pareto/pareto_merged_scores.csv is the archived dual-success table (legacy glide_score_xp column alias). Production gnina P2 per-target CSVs are not present in this checkout."
+  },
+  "protocol_enrichment_ci": {
+    "summary": {
+      "n_actives": 469,
+      "n_true_benchmark": 5159,
+      "n_random_benchmark": 5159,
+      "ranking_files_present": false,
+      "auc_ci": "unavailable \u2014 per-molecule P0\u2013P5 scores were not archived",
+      "ef_ci_method": "Clopper\u2013Pearson 95% CI on the published hits@1% counts, converted to EF by dividing by prevalence 469/5159. This is not a bootstrap of docking ranks. EF@5% intervals use k reconstructed as round(EF_published \u00d7 n_5% \u00d7 prevalence) and are labeled as such. AUC confidence intervals cannot be recovered from counts.",
+      "random_hits_1pct_source": "P2/P5/P4 taken from published EF@1% (0.21 \u2192 1/52; 0 \u2192 0/n). P0 uses the published 1.90 matching True (9/52). P1/P3 k reconstructed from published Random EF@1%."
+    },
+    "n_rows": 6
+  },
+  "mcc950_7alv": {
+    "ligand": "MCC950",
+    "chembl_id": "CHEMBL230208",
+    "smiles": "CC(C)(O)c1coc(S(=O)(=O)NC(=O)Nc2c3c(cc4c2CCC4)CCC3)c1",
+    "receptor": "7ALV",
+    "co_crystal_ligand": "NP3-146 / RM5 (not MCC950)",
+    "interpretation": "Pharmacological analog/control dock, not a true self-dock. RMSD versus RM5 is not a self-dock pass/fail. Does not re-lock \u03a0*.",
+    "in_production_1588": false,
+    "in_nlrp3_train_chembl230208": false,
+    "gnina_binary": "tools/gnina",
+    "status": "docked",
+    "in_nlrp3_train_canonical_smiles": true,
+    "output_csv": "data/si/mcc950_7alv/dock/docking_7alv_gnina.csv",
+    "dock_row": {
+      "repurposing_id": "MCC950",
+      "canonical_smiles": "CC(C)(O)c1coc(S(=O)(=O)NC(=O)Nc2c3c(cc4c2CCC4)CCC3)c1",
+      "dock_score": -7.018,
+      "glide_score_xp": -7.018,
+      "docking_status": "docked",
+      "pdb_id": "7ALV",
+      "docking_engine": "gnina_cpu",
+      "pose_file": "data/si/mcc950_7alv/dock/poses/MCC950_out.sdf",
+      "log_file": "data/si/mcc950_7alv/dock/poses/MCC950_out.log"
+    },
+    "cnn_affinity": 7.018,
+    "gnina_affinity_kcal": -10.2,
+    "cnn_score": 0.9013,
+    "gnina_version": "v1.3.1"
+  }
+}

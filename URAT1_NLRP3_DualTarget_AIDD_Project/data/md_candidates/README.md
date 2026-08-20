@@ -8,7 +8,7 @@
 |------|------|
 | URAT1 侧 | GSK-3008348 |
 | NLRP3 侧 | Vecabrutinib |
-| 对照 | lesinurad @ 9DKB；MCC950 @ 7ALV（若有姿） |
+| 对照 | lesinurad @ 9DKB；MCC950 @ 7ALV（类似物对照姿见 `data/si/mcc950_7alv/`） |
 
 不要 MD：EGCG、canagliflozin、大环内酯、Zelenirstat、MLN-0415、BI 653048、Deucrictibant、Praliciguat。
 

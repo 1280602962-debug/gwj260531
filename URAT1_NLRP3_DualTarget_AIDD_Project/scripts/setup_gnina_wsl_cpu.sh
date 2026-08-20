@@ -21,7 +21,7 @@ pip3 install --user -r requirements.txt
 
 echo "=== [4/6] Download GNINA binary (Ubuntu 22.04 x86_64) ==="
 mkdir -p tools
-GNINA_URL="https://github.com/gnina/gnina/releases/download/v1.3.1/gnina-1.3.1-x86_64-ubuntu22.04"
+GNINA_URL="https://github.com/gnina/gnina/releases/download/v1.3.1/gnina1.3.1"
 if [ ! -x tools/gnina ]; then
   if curl -fsSL -o tools/gnina "$GNINA_URL"; then
     chmod +x tools/gnina
@@ -32,7 +32,7 @@ if [ ! -x tools/gnina ]; then
     echo ">>>   $GNINA_URL"
     echo ">>> 下载后复制到 WSL："
     echo ">>>   mkdir -p tools"
-    echo ">>>   cp /mnt/c/Users/你的用户名/Downloads/gnina-1.3.1-x86_64-ubuntu22.04 tools/gnina"
+    echo ">>>   cp /mnt/c/Users/你的用户名/Downloads/gnina1.3.1 tools/gnina"
     echo ">>>   chmod +x tools/gnina"
     echo ">>> 然后重新运行: bash scripts/setup_gnina_wsl_cpu.sh"
     exit 1
