@@ -153,8 +153,8 @@ A: 换用带 CPU 后端的 release，或 Docker：`docker run ... gnina --no_gpu
 **Q: 太慢怎么办？**  
 A: 租带 GPU 的云机只跑对接；或先用纯 Vina（`run_vina_batch.py`）缩时间，Top 10% 再用 GNINA rescore。
 
-**Q: 和 Glide XP 数据能混用吗？**  
-A: **不能。** Methods 写 GNINA 就必须用 GNINA 重跑的全库分数。
+**Q: 能和历史商业对接分数混表吗？**  
+A: **不能。** 仓库已删除那些分数。Methods 写 gnina P2 就必须用 P2 重跑的全库分数。
 
 ---
 
@@ -162,4 +162,4 @@ A: **不能。** Methods 写 GNINA 就必须用 GNINA 重跑的全库分数。
 
 Methods 建议表述：
 
-> Molecular docking used GNINA with CNN rescoring (production protocol P2: CNNaffinity, exhaustiveness 32, num_modes 1). Receptors were prepared with gemmi and Open Babel; ligands with RDKit and Meeko. Scores were converted to within-pool percentiles. Do not mix with historical Glide scores.
+> Molecular docking used GNINA with CNN rescoring (production protocol P2: CNNaffinity, exhaustiveness 32, num_modes 1). Receptors were prepared with gemmi and Open Babel; ligands with RDKit and Meeko. Scores were converted to within-pool percentiles. Do not mix engines in one ranking table.

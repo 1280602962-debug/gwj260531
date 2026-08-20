@@ -13,8 +13,8 @@ these can be cross-checked against SwissADME / ADMETlab; the rule outcomes here
 are deterministic and reproducible.
 
 Inputs (read-only):
-  data/repurposing/pareto/pareto_shortlist.csv
-  data/repurposing/pareto/pareto_merged_scores.csv
+  results/repurposing/pareto_shortlist.csv
+  results/repurposing/pareto_merged_scores.csv
 
 Outputs:
   results/cheminformatics/admet_shortlist.csv
@@ -33,7 +33,7 @@ from pathlib import Path
 import pandas as pd
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-PARETO_DIR = PROJECT_ROOT / "data" / "repurposing" / "pareto"
+PARETO_DIR = PROJECT_ROOT / "results" / "repurposing"
 OUT_DIR = PROJECT_ROOT / "results" / "cheminformatics"
 
 SMILES_COL = "canonical_smiles"

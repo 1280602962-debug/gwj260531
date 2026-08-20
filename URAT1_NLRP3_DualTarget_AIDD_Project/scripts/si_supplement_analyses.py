@@ -2,10 +2,9 @@
 """SI analyses that do not re-dock the clinical pool or re-lock Π*.
 
 1. NLRP3 assay-context top-1 / top-3 / top-5 shrink-set overlap (ML only).
-2. 1588 → 1451 complete-case drop characterization + ligand-prep probe.
-3. Protocol-table EF 95% CIs from published top-slice hit counts
+2. Protocol-table EF 95% CIs from published top-slice hit counts
    (not ranking bootstrap; per-molecule P0–P5 scores are not archived).
-4. Optional MCC950@7ALV analog dock if gnina is on PATH / tools/gnina.
+3. Optional MCC950@7ALV analog dock if gnina is on PATH / tools/gnina.
 
 Production docking pool remains data/repurposing/screening/docking_pool_p05.csv.
 """
@@ -53,21 +52,6 @@ def _jaccard(a: set[str], b: set[str]) -> float:
     union = a | b
     return float(len(a & b) / len(union)) if union else float("nan")
 
-
-def _rdkit_desc(smiles: str) -> dict:
-    from rdkit import Chem
-    from rdkit.Chem import Descriptors
-
-    mol = Chem.MolFromSmiles(smiles) if pd.notna(smiles) else None
-    if mol is None:
-        return {"rot_bonds": np.nan, "tpsa": np.nan, "hbd": np.nan, "hba": np.nan, "clogp": np.nan}
-    return {
-        "rot_bonds": int(Descriptors.NumRotatableBonds(mol)),
-        "tpsa": float(Descriptors.TPSA(mol)),
-        "hbd": int(Descriptors.NumHDonors(mol)),
-        "hba": int(Descriptors.NumHAcceptors(mol)),
-        "clogp": float(Descriptors.MolLogP(mol)),
-    }
 
 
 def assay_shrink_overlap(model_path: Path) -> dict:
@@ -178,154 +162,6 @@ def assay_shrink_overlap(model_path: Path) -> dict:
     (out / "summary.json").write_text(json.dumps(summary, indent=2))
     return summary
 
-
-def complete_case_drop() -> dict:
-    pool = pd.read_csv(
-        PROJECT_ROOT / "data" / "repurposing" / "screening" / "docking_pool_p05.csv",
-        low_memory=False,
-    )
-    merged = pd.read_csv(
-        PROJECT_ROOT / "data" / "repurposing" / "pareto" / "pareto_merged_scores.csv",
-        low_memory=False,
-    )
-    pool["canonical_smiles"] = pool["canonical_smiles"].astype(str)
-    merged["canonical_smiles"] = merged["canonical_smiles"].astype(str)
-    merge_set = set(merged["canonical_smiles"])
-    missing = pool[~pool["canonical_smiles"].isin(merge_set)].copy()
-    kept = pool[pool["canonical_smiles"].isin(merge_set)].copy()
-
-    for df in (missing, kept):
-        desc = df["canonical_smiles"].map(_rdkit_desc)
-        for key in ("rot_bonds", "tpsa", "hbd", "hba", "clogp"):
-            df[key] = [d[key] for d in desc]
-
-    prep_rows = []
-    for _, row in missing.iterrows():
-        rid = str(row.get("repurposing_id", row.name))
-        try:
-            _, err = smiles_to_pdbqt(str(row["canonical_smiles"]), rid)
-            status = err or "prepared"
-        except Exception as exc:
-            msg = str(exc)
-            if "fragment" in msg.lower():
-                status = "meeko_multi_fragment"
-            else:
-                status = f"ligand_prep_exception:{exc.__class__.__name__}"
-        prep_rows.append(
-            {
-                "repurposing_id": rid,
-                "name": row.get("name"),
-                "chembl_id": row.get("chembl_id"),
-                "canonical_smiles": row["canonical_smiles"],
-                "mw": row.get("mw"),
-                "rot_bonds": row.get("rot_bonds"),
-                "tpsa": row.get("tpsa"),
-                "max_phase": row.get("max_phase"),
-                "ligand_prep_status": status,
-            }
-        )
-    prep = pd.DataFrame(prep_rows)
-    n_prep_fail = int((prep["ligand_prep_status"] != "prepared").sum())
-    n_prep_ok = int((prep["ligand_prep_status"] == "prepared").sum())
-
-    def _reason(r) -> str:
-        prep_fail = r["ligand_prep_status"] != "prepared"
-        high_mw = pd.notna(r["mw"]) and float(r["mw"]) > 550
-        flex = pd.notna(r["rot_bonds"]) and float(r["rot_bonds"]) > 10
-        if prep_fail:
-            return f"ligand_prep_fail:{r['ligand_prep_status']}"
-        tags = ["not_in_dual_success_merge"]
-        if high_mw:
-            tags.append("mw_gt_550")
-        if flex:
-            tags.append("rotb_gt_10")
-        tags.append("dock_logs_unavailable")
-        return "+".join(tags)
-
-    prep["si_reason"] = prep.apply(_reason, axis=1)
-
-    reason_counts = (
-        prep["si_reason"]
-        .value_counts()
-        .rename_axis("si_reason")
-        .reset_index(name="n")
-    )
-    n_high_mw = int((pd.to_numeric(prep["mw"], errors="coerce") > 550).sum())
-    n_flex = int((pd.to_numeric(prep["rot_bonds"], errors="coerce") > 10).sum())
-
-    oneliner = pd.DataFrame(
-        [
-            {
-                "row": 1,
-                "reason": "Ligand 3D preparation failed (RDKit embed / Meeko)",
-                "n": n_prep_fail,
-                "pct_of_137": round(100.0 * n_prep_fail / max(len(prep), 1), 1),
-                "note": "Reproducible in this SI without docking binaries.",
-            },
-            {
-                "row": 2,
-                "reason": "In 1588 pool, absent from dual-success merge; ligand prep OK",
-                "n": n_prep_ok,
-                "pct_of_137": round(100.0 * n_prep_ok / max(len(prep), 1), 1),
-                "note": (
-                    "Per-target docking CSVs/logs are not in the repo, so 9DKB vs 7ALV "
-                    "and engine error codes cannot be assigned. Missing molecules are "
-                    f"MW-shifted (median {float(missing['mw'].median()):.0f} vs "
-                    f"{float(kept['mw'].median()):.0f} Da in complete-case); "
-                    f"{n_high_mw}/137 have MW>550 and {n_flex}/137 have rotB>10."
-                ),
-            },
-            {
-                "row": 3,
-                "reason": "Total complete-case drop (1588 − 1451)",
-                "n": int(len(prep)),
-                "pct_of_137": 100.0,
-                "note": "8.6% of the NLRP3 ML docking pool; percentiles are complete-case.",
-            },
-        ]
-    )
-
-    summary = {
-        "n_pool": int(len(pool)),
-        "n_complete_case": int(len(merged)),
-        "n_missing": int(len(missing)),
-        "n_in_merge_not_in_pool": int((~merged["canonical_smiles"].isin(set(pool["canonical_smiles"]))).sum()),
-        "merge_urat1_status": merged["docking_status"].value_counts().to_dict(),
-        "merge_nlrp3_status": merged["nlrp3_docking_status"].value_counts().to_dict(),
-        "missing_mw_median": float(missing["mw"].median()),
-        "complete_mw_median": float(kept["mw"].median()),
-        "missing_rotb_median": float(pd.to_numeric(missing["rot_bonds"], errors="coerce").median()),
-        "complete_rotb_median": float(pd.to_numeric(kept["rot_bonds"], errors="coerce").median()),
-        "n_ligand_prep_fail": n_prep_fail,
-        "n_ligand_prep_ok": n_prep_ok,
-        "n_missing_mw_gt_550": n_high_mw,
-        "n_missing_rotb_gt_10": n_flex,
-        "archive_note": (
-            "data/repurposing/pareto/pareto_merged_scores.csv is the archived dual-success "
-            "table (legacy glide_score_xp column alias). Production gnina P2 per-target CSVs "
-            "are not present in this checkout."
-        ),
-    }
-
-    out = OUT_DIR / "complete_case_drop"
-    out.mkdir(parents=True, exist_ok=True)
-    missing_out_cols = [
-        "repurposing_id",
-        "name",
-        "chembl_id",
-        "canonical_smiles",
-        "mw",
-        "rot_bonds",
-        "tpsa",
-        "max_phase",
-        "ligand_prep_status",
-        "si_reason",
-    ]
-    prep[missing_out_cols].to_csv(out / "missing_137.csv", index=False)
-    oneliner.to_csv(out / "failure_reason_oneline.csv", index=False)
-    reason_counts.to_csv(out / "si_reason_counts.csv", index=False)
-    (out / "summary.json").write_text(json.dumps(summary, indent=2))
-    return summary
 
 
 def _ef_ci(k: int, n: int, n_actives: int, n_total: int) -> dict:
@@ -599,7 +435,6 @@ def main() -> None:
 
     report = {
         "assay_shrink_overlap": assay_shrink_overlap(args.model),
-        "complete_case_drop": complete_case_drop(),
         "protocol_enrichment_ci": protocol_enrichment_ci(),
     }
     if not args.skip_dock:

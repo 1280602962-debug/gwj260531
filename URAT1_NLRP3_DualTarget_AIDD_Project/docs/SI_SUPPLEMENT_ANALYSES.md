@@ -58,16 +58,4 @@ EF@1%（与 `docs/PROTOCOL_SELECTION_RESULT.md` 点估计一致）：
 
 区间很宽，与前 1% 只有 ~50 个分子一致；**不改变 Π\* = P2**（True 早期富集仍显著，Random 非零；P5 的 Random 上界仍低于 1）。P1/P3 的 Random hits@1% 由发表 EF 反推。EF@5% 的计数区间见 `data/si/protocol_enrichment_ci/protocol_ef_ci.csv`（k 由发表 EF 重建，已标注）。
 
----
-
-## 3. 1588 → 1451 失败原因（一行表）
-
-完整案例表是归档的双成功合并（`data/repurposing/pareto/pareto_merged_scores.csv`）。仓库中**没有**逐靶 gnina/Glide 失败日志，因此不能把 137 条拆成 9DKB vs 7ALV 或具体引擎错误码。本 SI 只做可复现的配体准备探测和物化比较。
-
-| 原因 | n | 占 137 | 说明 |
-|------|---|--------|------|
-| 配体三维准备失败 | **7** | 5.1% | 5 个 ETKDG embed 失败（磷脂/磷酸酯类）；2 个 Meeko 多片段（盐型：squalamine lactate、risvodetinib succinate） |
-| 可准备但不在双成功合并表 | **130** | 94.9% | 无对接日志。缺失集分子量显著偏高（中位 **616 vs 473 Da**）；105/137 的 MW>550，45/137 的可旋转键>10 |
-| **合计** | **137** | 100% | 8.6%；百分位分析是完整案例，不是随机缺失 |
-
-明细：`data/si/complete_case_drop/missing_137.csv`。
+生产 P2 双靶完整案例规模在 `run_funnel_p2.sh` 归档后填入；百分位与失败原因只在该 P2 交集上统计。

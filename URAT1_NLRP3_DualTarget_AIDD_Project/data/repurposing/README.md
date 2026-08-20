@@ -5,7 +5,7 @@
 | `repurposing_manifest.csv` | 主库 **8319** 条（ChEMBL Phase + ATC 导出合并） |
 | **`screening/docking_pool_p05.csv`** | **P≥0.5 对接池，1588 条**（已提交 Git） |
 | `screening/` | NLRP3 ML 全库分数与 SI 子集（见 `screening/README.md`） |
-| **`pareto/`** | 仓库内多为 **Glide 时代** 双靶合并表；**不是** 现行 P2 生产短名单。P2 结果以本地漏斗输出 / `results/candidates/` 为准 |
+| **`pareto/`** | 占位目录，不再存放对接分数。P2 双靶合并表写入 `results/repurposing/` |
 
 ## 生成对接池
 

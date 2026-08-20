@@ -48,7 +48,7 @@ ls data/repurposing/screening/nlrp3_ml_scores_clinical_all.csv
 1. 准备受体（若未准备）
 2. 准备配体（`docking_pool_p05.csv`，约 1588 个）
 3. 用 gnina + CNNaffinity 对 9DKB、7ALV 各对接一次
-4. 合并打分、算 Pareto 短名单，写入 `data/repurposing/pareto/`
+4. 合并打分、算 Pareto 短名单，写入 `results/repurposing/`
 
 ```bash
 JOBS=8 bash scripts/run_funnel_p2.sh
@@ -62,9 +62,9 @@ JOBS=8 bash scripts/run_funnel_p2.sh
 ```
 results/repurposing/docking_p2/9dkb/docking_9dkb_gnina.csv
 results/repurposing/docking_p2/7alv/docking_7alv_gnina.csv
-data/repurposing/pareto/pareto_merged_scores.csv
-data/repurposing/pareto/pareto_shortlist.csv            # 原始对接 Pareto（仅审计）
-data/repurposing/pareto/pareto_shortlist_druglike.csv   # Pareto ∩ MW 200–550
+results/repurposing/pareto_merged_scores.csv
+results/repurposing/pareto_shortlist.csv            # 原始对接 Pareto（仅审计）
+results/repurposing/pareto_shortlist_druglike.csv   # Pareto ∩ MW 200–550
 ```
 
 若 `docking_status` 列里失败（非 `docked`）比例超过 ~10%，先排查（常见原因：配体准备失败、gnina 超时），修复后重跑，不要带着大面积失败继续下一步。
@@ -105,11 +105,11 @@ results/candidates/candidate_nomination_summary.json
 ## 任务 3：MD 输入文件（受体/配体导出）
 
 > 本任务只导出起始构象文件。轨迹在有算力的机器上跑。  
-> **当前跟进分子（P2 化学提名，非 Glide 裸 Pareto）：** GSK-3008348（URAT1 侧）、Vecabrutinib（NLRP3 侧）；对照 lesinurad @ 9DKB、MCC950 @ 7ALV（类似物对照姿见 `data/si/mcc950_7alv/`，非自对接）。  
-> **不要 MD：** Zelenirstat、MLN-0415、BI 653048、Deucrictibant、Praliciguat，以及仓库 Glide 短名单中的 EGCG / canagliflozin / 大环内酯。  
+> **当前跟进分子（P2 化学提名）：** GSK-3008348（URAT1 侧）、Vecabrutinib（NLRP3 侧）；对照 lesinurad @ 9DKB、MCC950 @ 7ALV（类似物对照姿见 `data/si/mcc950_7alv/`，非自对接）。  
+> **不要 MD：** Zelenirstat、MLN-0415、BI 653048、Deucrictibant、Praliciguat，以及大环内酯 / 多酚类对接优势分子。  
 > URAT1 必须按 **膜+脂双层** 体系；7ALV 用水盒子。
 
-若要用脚本从 **P2 提名表** 自动挑选（不要喂 Glide 时代 `pareto_shortlist.csv`）：
+若要用脚本从 **P2 提名表** 自动挑选：
 
 ```bash
 python3 scripts/select_md_candidates.py \
@@ -159,7 +159,7 @@ git push -u origin cursor/urat1-nlrp3-dualtarget-aidd-e43d
 - 不要重新跑或重新讨论 TrueDecoy/RandomDecoy 协议筛选（P0–P5 已锁定为 P2）。
 - 不要把 P5 提升为生产协议。
 - 不要对 `true_decoy_benchmark.csv` / `random_decoy_benchmark.csv` 重复对接。
-- 不要把仓库 Glide 时代 Pareto / EGCG / canagliflozin 写成当前 lead。
+- 不要把已删除的历史对接短名单或 EGCG / canagliflozin 写成当前 lead。
 - 不要编造尚未完成的 MD 数值。
 - 不要使用确认性发现语言（"we identified dual-target inhibitors"）。
 - 不要删除或覆盖 `docs/PROTOCOL_SELECTION_RESULT.md` 中的既有结果表。
@@ -170,6 +170,6 @@ git push -u origin cursor/urat1-nlrp3-dualtarget-aidd-e43d
 
 - [ ] 任务 1：`pareto_shortlist.csv` 存在且非空，对接失败率 <10%
 - [ ] 任务 2：`results/candidates/` 下有最终提名表，含 clean candidate 标记
-- [ ] 任务 3：MD 输入与当前跟进分子一致（GSK-3008348、Vecabrutinib + 对照），不是 Glide 短名单
+- [ ] 任务 3：MD 输入与当前跟进分子一致（GSK-3008348、Vecabrutinib + 对照），不是已删除的历史对接短名单
 - [ ] 任务 4：按 `docs/MANUSCRIPT.md` 更新；无确认性发现语言、无编造 MD 数值
 - [ ] 所有任务已分别提交并推送到 `cursor/urat1-nlrp3-dualtarget-aidd-e43d`

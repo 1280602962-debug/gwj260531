@@ -187,7 +187,6 @@ def run_batch(
                 "repurposing_id": rid,
                 "canonical_smiles": mrow["canonical_smiles"],
                 "dock_score": score,
-                "glide_score_xp": score,
                 "docking_status": status,
                 "pdb_id": pdb_id,
                 "docking_engine": "gnina_cpu" if gnina_cfg.get("no_gpu", True) else "gnina",

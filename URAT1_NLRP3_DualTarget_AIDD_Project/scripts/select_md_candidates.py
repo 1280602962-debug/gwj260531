@@ -9,7 +9,6 @@ diversity, then recovers repurposing_id / canonical_smiles / docking status
 by joining back to the Pareto merged-scores table.
 
 Do NOT pick MD leads from raw pareto_shortlist.csv (docking-only; often macrolides).
-Do NOT use the committed Glide-era CSV in data/md_candidates/ as the current list.
 Current intended MD set is documented in docs/MANUSCRIPT.md (GSK-3008348, Vecabrutinib + controls).
 
 Output: a compact CSV that scripts/export_md_ready_candidates.py consumes to
@@ -30,7 +29,7 @@ import pandas as pd
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_NOMINATED = PROJECT_ROOT / "results" / "candidates" / "nominated_candidates.csv"
 DEFAULT_DIVERSE = PROJECT_ROOT / "results" / "candidates" / "nominated_shortlist_diverse.csv"
-DEFAULT_PARETO = PROJECT_ROOT / "data" / "repurposing" / "pareto" / "pareto_merged_scores.csv"
+DEFAULT_PARETO = PROJECT_ROOT / "results" / "repurposing" / "pareto_merged_scores.csv"
 DEFAULT_OUTPUT = PROJECT_ROOT / "data" / "md_candidates" / "md_candidate_selection.csv"
 
 # Preferred known controls if present among is_known_reference rows (URAT1 / NLRP3 tool compounds).

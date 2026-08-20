@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Merge URAT1 + NLRP3 docking scores on the P(active)>=0.5 pool.
 
-Production engine is gnina P2. Do not mix historical Glide scores into a P2 ranking table.
+Production engine is gnina P2. Do not mix Glide scores into a ranking table.
 Raw Pareto is audit-only; follow-up uses scripts/14_candidate_nomination.py.
 """
 from __future__ import annotations
@@ -55,7 +55,7 @@ def _load_dock_table(path: Path, pdb_label: str) -> pd.DataFrame:
         out["pdb_id"] = pdb_label
 
     out = best_pose_per_compound(out, score_col="dock_score")
-    return out[["canonical_smiles", "dock_score", "glide_score_xp", "docking_status", "pdb_id"]]
+    return out[["canonical_smiles", "dock_score", "docking_status", "pdb_id"]]
 
 
 def pareto_front(su: np.ndarray, sn: np.ndarray) -> np.ndarray:
@@ -115,7 +115,6 @@ def main() -> None:
         nlrp3.rename(
             columns={
                 "dock_score": "nlrp3_dock_score",
-                "glide_score_xp": "nlrp3_glide_score_xp",
                 "docking_status": "nlrp3_docking_status",
                 "pdb_id": "nlrp3_pdb_id",
             }
@@ -126,9 +125,8 @@ def main() -> None:
     if pool_keys is not None:
         merged = merged[merged["canonical_smiles"].astype(str).isin(pool_keys)].copy()
 
-    # Prefer dock_score; glide_score_xp kept as identical legacy alias
-    su_col = "dock_score" if "dock_score" in merged.columns else "glide_score_xp"
-    sn_col = "nlrp3_dock_score" if "nlrp3_dock_score" in merged.columns else "nlrp3_glide_score_xp"
+    su_col = "dock_score"
+    sn_col = "nlrp3_dock_score"
     merged["s_u_percentile"] = percentile_rank(merged[su_col], higher_is_better=False)
     merged["s_n_ml_percentile"] = merged["p_active_nlrp3"].rank(method="average", pct=True) * 100.0
     merged["s_n_dock_percentile"] = percentile_rank(merged[sn_col], higher_is_better=False)

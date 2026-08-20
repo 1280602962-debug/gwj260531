@@ -5,7 +5,7 @@ __pycache__/
 .venv/
 *.log
 
-# Large raw Maestro exports stay local only (merged tables are in data/docking/)
+# P2 funnel scores stay local (results/). Do not re-commit commercial docking exports.
 # Downloaded docking binaries (see scripts/setup_gnina_wsl_cpu.sh)
 tools/gnina
 tools/vina

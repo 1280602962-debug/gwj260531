@@ -59,10 +59,8 @@ def _benchmark_table(merged: pd.DataFrame, pool: pd.DataFrame, manifest: pd.Data
                     "s_n_percentile": float(r["s_n_percentile"]),
                     "s_n_ml_percentile": float(r["s_n_ml_percentile"]),
                     "s_n_dock_percentile": float(r["s_n_dock_percentile"]),
-                    "urat1_dock_score": float(r.get("dock_score", r["glide_score_xp"])),
-                    "nlrp3_dock_score": float(r.get("nlrp3_dock_score", r["nlrp3_glide_score_xp"])),
-                    "urat1_glide_xp": float(r["glide_score_xp"]),
-                    "nlrp3_glide_xp": float(r["nlrp3_glide_score_xp"]),
+                    "urat1_dock_score": float(r["dock_score"]),
+                    "nlrp3_dock_score": float(r["nlrp3_dock_score"]),
                     "pareto_front": bool(r["pareto_front"]),
                 }
             )
@@ -86,7 +84,7 @@ def main() -> None:
     pareto_summary = json.loads(args.summary.read_text()) if args.summary.exists() else {}
 
     name_col = _name_col(merged)
-    sn_dock = merged.get("nlrp3_dock_score", merged["nlrp3_glide_score_xp"])
+    sn_dock = merged["nlrp3_dock_score"]
     r_sp, p_sp = spearmanr(merged["p_active_nlrp3"], sn_dock, nan_policy="omit")
 
     bench_rows = _benchmark_table(merged, pool, manifest, bench)
@@ -94,14 +92,14 @@ def main() -> None:
 
     md_recommendations = {
         "urat1_9dkb": [
-            {"compound": "benzbromarone", "reason": "8973 retrospective top URAT1; potent approved uricosuric; not in P≥0.5 pool"},
-            {"compound": "dotinurad", "reason": "8973 docking recovery ~89th pct; Japan-approved SURI; ML fail supports docking-led URAT1"},
+            {"compound": "lesinurad", "reason": "9DKB co-crystal control; MD calibration, not a novel nomination"},
+            {"compound": "GSK-3008348", "reason": "Preferred URAT1-side computational hypothesis after chemistry nomination"},
         ],
         "nlrp3_7alv": [
-            {"compound": "MCC950", "reason": "Gold-standard NLRP3 tool inhibitor; redock @ 7ALV (analog template structure)"},
-            {"compound": "EPIGALLOCATECHIN GALLATE or FOSIGOTIFATOR", "reason": "Pareto-front repurposing leads from dual screen; pick one approved/late-stage if available"},
+            {"compound": "MCC950", "reason": "NLRP3 tool inhibitor analog dock at 7ALV (not self-dock); calibration, not a novel nomination"},
+            {"compound": "Vecabrutinib", "reason": "Preferred NLRP3-side computational hypothesis after chemistry nomination"},
         ],
-        "note": "Benchmark uricosurics excluded from P≥0.5 NLRP3 prescreen by design; validate URAT1 via 8973 track + separate 9DKB poses for MD.",
+        "note": "Raw Pareto is audit-only. Follow-up molecules are chemistry-nominated after P2 dual-dock (docs/MANUSCRIPT.md). Benchmark uricosurics may be absent from the P≥0.5 pool by design.",
     }
 
     report = {
@@ -113,15 +111,15 @@ def main() -> None:
             "shortlist_n": int(len(short)),
             **{k: pareto_summary.get(k) for k in ("n_pool_missing_dock",) if k in pareto_summary},
         },
-        "spearman_ml_p_vs_7alv_xp": {"r": float(r_sp), "p": float(p_sp)},
+        "spearman_ml_p_vs_7alv_dock": {"r": float(r_sp), "p": float(p_sp)},
         "benchmarks": bench_rows,
         "pareto_shortlist": shortlist_records,
         "md_recommendations": md_recommendations,
         "conclusions": {
             "funnel_valid": True,
-            "urat1_benchmark_in_pool": "lesinurad and verinurad show high 9DKB percentiles among P≥0.5 set; dotinurad/benzbromarone require 8973/standalone MD poses",
-            "nlrp3_benchmark": "colchicine high ML but not Pareto (indirect mechanism); ML vs 7ALV dock weakly correlated (r≈-0.04)",
-            "repurposing_signal": "Six Pareto compounds balance URAT1 and NLRP3 docking; most are early-phase—phase≥3 SI recommended",
+            "urat1_benchmark_in_pool": "Report lesinurad/verinurad P2 percentiles when present; benzbromarone/dotinurad may need standalone 9DKB poses if absent from the P≥0.5 pool",
+            "nlrp3_benchmark": "Do not treat ML vs 7ALV Spearman as affinity; colchicine is an indirect-mechanism control",
+            "repurposing_signal": "Raw Pareto is audit-only. Follow-up uses dual-dock gates plus chemistry nomination",
             "proceed_to_md": True,
         },
     }

@@ -5,11 +5,11 @@ Non-docking computational module B — medicinal-chemistry structural alerts.
 Annotates the EXISTING docking/Pareto data with PAINS (A/B/C), Brenk and NIH
 structural-alert flags plus a transparent colloidal-aggregation heuristic.
 This is a pure downstream annotation: it never re-docks and never changes Pareto membership.
-If the input table is a Glide-era snapshot, treat EGCG/PAINS hits as a historical audit case, not current leads.
+Run only on the production P2 merge from `results/repurposing/` after `run_funnel_p2.sh`.
 
 Inputs (read-only):
-  data/repurposing/pareto/pareto_shortlist.csv      (Pareto front, e.g. 6)
-  data/repurposing/pareto/pareto_merged_scores.csv  (dual-docked pool, ~1451)
+  results/repurposing/pareto_shortlist.csv
+  results/repurposing/pareto_merged_scores.csv
 
 Outputs:
   results/cheminformatics/filters_shortlist.csv
@@ -28,7 +28,7 @@ from pathlib import Path
 import pandas as pd
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-PARETO_DIR = PROJECT_ROOT / "data" / "repurposing" / "pareto"
+PARETO_DIR = PROJECT_ROOT / "results" / "repurposing"
 OUT_DIR = PROJECT_ROOT / "results" / "cheminformatics"
 
 SMILES_COL = "canonical_smiles"

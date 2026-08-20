@@ -157,7 +157,6 @@ def run_batch(
                 "repurposing_id": rid,
                 "canonical_smiles": mrow["canonical_smiles"],
                 "dock_score": score,
-                "glide_score_xp": score,  # legacy alias
                 "docking_status": status,
                 "pdb_id": pdb_id,
                 "docking_engine": "vina",

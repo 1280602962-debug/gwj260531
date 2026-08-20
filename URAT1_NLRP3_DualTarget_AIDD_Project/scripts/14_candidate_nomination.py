@@ -2,11 +2,9 @@
 """
 Non-docking computational module F — chemistry-aware candidate nomination.
 
-Answers "besides EGCG, what other candidates are there, and how do we find them?"
-without re-docking. It relaxes the thin Pareto front to a top-k% dual percentile
-gate, then applies transparent, reviewer-defensible chemistry filters and ranks
-survivors so cleaner dual-node candidates surface — not docking-score giants
-(macrolides / polyketides) that inflate contact-based scores.
+Relaxes the thin Pareto front to a top-k% dual percentile gate, then applies
+chemistry filters so cleaner dual-node hypotheses surface — not docking-score
+giants (macrolides / polyketides) that inflate contact-based scores.
 
 Selection funnel (on EXISTING dual-dock + ML percentile data):
   1. Dual gate        : S_U percentile >= tau AND S_N percentile >= tau
@@ -22,7 +20,7 @@ Known benchmark uricosurics/tools are labelled (positive controls), so genuinely
 NEW repurposing candidates can be read off separately.
 
 Inputs (read-only):
-  data/repurposing/pareto/pareto_merged_scores.csv
+  results/repurposing/pareto_merged_scores.csv
   results/cheminformatics/filters_pool.csv
   results/cheminformatics/admet_pool.csv
   results/cheminformatics/novelty_pool.csv   (optional)
@@ -46,7 +44,7 @@ from pathlib import Path
 import pandas as pd
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-PARETO_DIR = PROJECT_ROOT / "data" / "repurposing" / "pareto"
+PARETO_DIR = PROJECT_ROOT / "results" / "repurposing"
 CHEM_DIR = PROJECT_ROOT / "results" / "cheminformatics"
 OUT_DIR = PROJECT_ROOT / "results" / "candidates"
 

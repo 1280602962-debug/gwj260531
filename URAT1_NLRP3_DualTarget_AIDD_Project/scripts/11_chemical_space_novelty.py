@@ -14,8 +14,8 @@ Non-docking computational module D — chemical space & novelty analysis.
 Pure downstream analysis of EXISTING data: no docking, no score changes.
 
 Inputs (read-only):
-  data/repurposing/pareto/pareto_shortlist.csv
-  data/repurposing/pareto/pareto_merged_scores.csv
+  results/repurposing/pareto_shortlist.csv
+  results/repurposing/pareto_merged_scores.csv
   data/processed/urat1_curated.csv        (URAT1 actives; canonical_smiles)
   data/processed/nlrp3_records.csv         (NLRP3 records; canonical_smiles, active)
 
@@ -38,7 +38,7 @@ import numpy as np
 import pandas as pd
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-PARETO_DIR = PROJECT_ROOT / "data" / "repurposing" / "pareto"
+PARETO_DIR = PROJECT_ROOT / "results" / "repurposing"
 PROCESSED = PROJECT_ROOT / "data" / "processed"
 OUT_DIR = PROJECT_ROOT / "results" / "cheminformatics"
 

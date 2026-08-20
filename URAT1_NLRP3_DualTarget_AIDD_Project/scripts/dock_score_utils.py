@@ -1,4 +1,4 @@
-"""Shared docking score column aliases (gnina/Vina; legacy Glide names still accepted)."""
+"""Shared docking score column aliases (gnina / Vina). Do not ingest Glide columns."""
 from __future__ import annotations
 
 import re
@@ -13,14 +13,6 @@ CANONICAL_SCORE_COL = "dock_score"
 # Accepted input aliases (case-insensitive match on normalized header)
 DOCK_SCORE_ALIASES = [
     CANONICAL_SCORE_COL,
-    "glide_score_xp",
-    "r_glide_xp_gscore",
-    "r_glide_XP_GScore",
-    "r_i_glide_xp",
-    "r_i_glide xp",
-    "glide xp gscore",
-    "glide_xp",
-    "xp gscore",
     "vina_score",
     "vina affinity",
     "minimizedaffinity",
@@ -30,17 +22,12 @@ DOCK_SCORE_ALIASES = [
     "cnnaffinity",
     "cnn_affinity",
     "docking score",
-    "r_i_docking_score",
-    "r_i_glide_gscore",
     "score",
 ]
 
 SMILES_ALIASES = [
     "canonical_smiles",
     "smiles",
-    "ligprep_smiles",
-    "r_m_chemaxon_smiles",
-    "s_m_entry_name",
 ]
 
 STATUS_ALIASES = [
@@ -48,13 +35,11 @@ STATUS_ALIASES = [
     "pose",
     "pose_status",
     "status",
-    "r_i_glide_pose",
-    "glide pose",
 ]
 
-NAME_ALIASES = ["name", "pref_name", "title", "s_m_title", "compound_name", "ligand"]
+NAME_ALIASES = ["name", "pref_name", "title", "compound_name", "ligand"]
 
-REPURPOSING_ALIASES = ["repurposing_id", "s_canvas_repurposing_id", "s_canvas_repurposing\\_id"]
+REPURPOSING_ALIASES = ["repurposing_id"]
 
 ENGINE_ALIASES = ["docking_engine", "engine", "tool"]
 
@@ -80,7 +65,7 @@ def pick_col(columns: Iterable[str], aliases: list[str]) -> str | None:
 
 
 def coerce_dock_score(series: pd.Series) -> pd.Series:
-    """Lower (more negative) = better binding; matches Vina/smina/Glide convention."""
+    """Lower (more negative) = better for Vina/gnina affinity-style scores."""
     return pd.to_numeric(series, errors="coerce")
 
 
@@ -100,14 +85,13 @@ def percentile_rank(series: pd.Series, higher_is_better: bool = False) -> pd.Ser
 
 
 def ensure_dock_score_column(df: pd.DataFrame, score_col: str | None = None) -> pd.DataFrame:
-    """Add canonical dock_score; keep legacy glide_score_xp as identical alias if present."""
+    """Add canonical dock_score (gnina/Vina)."""
     out = df.copy()
     if score_col is None:
         score_col = pick_col(out.columns, DOCK_SCORE_ALIASES)
     if score_col is None:
         raise ValueError(f"No docking score column found (tried {DOCK_SCORE_ALIASES})")
     out[CANONICAL_SCORE_COL] = coerce_dock_score(out[score_col])
-    out["glide_score_xp"] = out[CANONICAL_SCORE_COL]  # backward compatibility
     return out
 
 

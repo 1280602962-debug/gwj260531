@@ -1,4 +1,0 @@
-row,reason,n,pct_of_137,note
-1,Ligand 3D preparation failed (RDKit embed / Meeko),7,5.1,Reproducible in this SI without docking binaries.
-2,"In 1588 pool, absent from dual-success merge; ligand prep OK",130,94.9,"Per-target docking CSVs/logs are not in the repo, so 9DKB vs 7ALV and engine error codes cannot be assigned. Missing molecules are MW-shifted (median 616 vs 473 Da in complete-case); 105/137 have MW>550 and 45/137 have rotB>10."
-3,Total complete-case drop (1588 − 1451),137,100.0,8.6% of the NLRP3 ML docking pool; percentiles are complete-case.

@@ -14,7 +14,7 @@
 | 引言正文 | [`INTRO_DRAFT_CN.md`](INTRO_DRAFT_CN.md) |
 | Methods 正文 | [`METHODS_DRAFT_CN.md`](METHODS_DRAFT_CN.md) |
 | 协议锁定表 | [`PROTOCOL_SELECTION_RESULT.md`](PROTOCOL_SELECTION_RESULT.md) |
-| 补充分析（assay 重叠 / EF 区间 / 1588→1451 / MCC950@7ALV） | [`SI_SUPPLEMENT_ANALYSES.md`](SI_SUPPLEMENT_ANALYSES.md) |
+| 补充分析（assay 重叠 / EF 区间 / MCC950@7ALV） | [`SI_SUPPLEMENT_ANALYSES.md`](SI_SUPPLEMENT_ANALYSES.md) |
 | 自对接烟雾（pose vs 排序） | [`REDOCK_SMOKE_ANALYSIS.md`](REDOCK_SMOKE_ANALYSIS.md) |
 | 与 PLK1/NLRP3 差异 | [`DIFFERENTIATION_VS_PLK1_NLRP3.md`](DIFFERENTIATION_VS_PLK1_NLRP3.md) |
 | 贡献 / 动机 / 期刊 | [`paper_spine_ars_analysis/`](paper_spine_ars_analysis/) |
@@ -62,6 +62,6 @@ Preferred 门控：\(S_U\ge 90\) 且 \(S_{N,\mathrm{dock}}\ge 90\)；Veber + Ro5
 
 ## 已退役（不要再打开或引用）
 
-已删除：旧全文稿 / 多份大纲、JMM 双稿策略、TAPE-GATE / MASFL / Teacher 蒸馏设计、Glide 生产结果稿、三态对接计划。  
-仓库 `data/repurposing/pareto/` 中的 6 分子短名单是 **Glide 时代快照**，不是 P2 跟进名单。
+已删除：旧全文稿 / 多份大纲、JMM 双稿策略、TAPE-GATE / MASFL / Teacher 蒸馏设计、历史商业对接（Glide XP）生产分数/短名单/图、三态对接计划。  
+`data/repurposing/pareto/` 不再存放对接分数；P2 合并表由本地漏斗写入 `results/repurposing/`。
 

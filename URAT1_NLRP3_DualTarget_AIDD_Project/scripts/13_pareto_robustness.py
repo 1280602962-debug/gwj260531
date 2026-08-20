@@ -2,8 +2,7 @@
 """
 Non-docking computational module E — Pareto / multi-objective robustness.
 
-The production Pareto front (n=6) is thin and dominated by compounds unrelated to
-gout. This module quantifies how sensitive the shortlist is to the ranking rule,
+This module quantifies how sensitive the P2 dual-success shortlist is to the ranking rule,
 WITHOUT modifying the existing front: it recomputes candidate sets under
 
   (1) top-k% dual-percentile intersection  (k = 1, 2, 5, 10)
@@ -15,7 +14,7 @@ Reads the EXISTING dual-docked pool; writes new candidate tables only. The
 original pareto_shortlist.csv / pareto_merged_scores.csv are never overwritten.
 
 Input (read-only):
-  data/repurposing/pareto/pareto_merged_scores.csv
+  results/repurposing/pareto_merged_scores.csv
 
 Outputs:
   results/pareto_robustness/topk_intersection.csv
@@ -36,7 +35,7 @@ import numpy as np
 import pandas as pd
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-PARETO_DIR = PROJECT_ROOT / "data" / "repurposing" / "pareto"
+PARETO_DIR = PROJECT_ROOT / "results" / "repurposing"
 OUT_DIR = PROJECT_ROOT / "results" / "pareto_robustness"
 
 SU = "s_u_percentile"

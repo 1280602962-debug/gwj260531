@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Normalize docking exports from gnina/Vina batch runs (legacy Glide columns still aliased).
+"""Normalize docking exports from gnina/Vina batch runs.
 
 Production ranking is gnina P2. Do not mix engines in one percentile table.
 """
@@ -25,7 +25,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_POOL = PROJECT_ROOT / "data" / "repurposing" / "screening" / "docking_pool_p05.csv"
 
 
-def normalize_vina_or_glide(
+def normalize_open_source_export(
     input_csv: Path,
     pdb_id: str,
     output_csv: Path,
@@ -71,7 +71,7 @@ def normalize_vina_or_glide(
     elif engine != "auto":
         out["docking_engine"] = engine
     else:
-        out["docking_engine"] = "vina" if "vina" in input_csv.name.lower() else "glide_legacy"
+        out["docking_engine"] = "vina" if "vina" in input_csv.name.lower() else "gnina"
 
     out = out.sort_values("dock_score", ascending=True, na_position="last")
     out = out.groupby("canonical_smiles", as_index=False).first()
@@ -82,7 +82,6 @@ def normalize_vina_or_glide(
         "chembl_id",
         "canonical_smiles",
         "dock_score",
-        "glide_score_xp",
         "docking_status",
         "pdb_id",
         "docking_engine",
@@ -109,14 +108,14 @@ def normalize_vina_or_glide(
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Normalize Vina/smina/Glide docking CSV")
+    parser = argparse.ArgumentParser(description="Normalize gnina/Vina docking CSV")
     parser.add_argument("--input", type=Path, required=True)
     parser.add_argument("--pdb", type=str, required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--pool", type=Path, default=DEFAULT_POOL)
-    parser.add_argument("--engine", type=str, default="auto", help="vina | smina | glide_legacy | auto")
+    parser.add_argument("--engine", type=str, default="auto", help="vina | smina | gnina | auto")
     args = parser.parse_args()
-    summary = normalize_vina_or_glide(args.input, args.pdb, args.output, args.pool, args.engine)
+    summary = normalize_open_source_export(args.input, args.pdb, args.output, args.pool, args.engine)
     print(json.dumps(summary, indent=2))
 
 

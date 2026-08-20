@@ -67,27 +67,6 @@
     ],
     "decision": "Keep production docking_pool_p05.csv (n=1588) unchanged. Assay-count variants are SI only; do not re-dock."
   },
-  "complete_case_drop": {
-    "n_pool": 1588,
-    "n_complete_case": 1451,
-    "n_missing": 137,
-    "n_in_merge_not_in_pool": 0,
-    "merge_urat1_status": {
-      "docked": 1451
-    },
-    "merge_nlrp3_status": {
-      "docked": 1451
-    },
-    "missing_mw_median": 615.74,
-    "complete_mw_median": 472.66,
-    "missing_rotb_median": 8.0,
-    "complete_rotb_median": 6.0,
-    "n_ligand_prep_fail": 7,
-    "n_ligand_prep_ok": 130,
-    "n_missing_mw_gt_550": 105,
-    "n_missing_rotb_gt_10": 45,
-    "archive_note": "data/repurposing/pareto/pareto_merged_scores.csv is the archived dual-success table (legacy glide_score_xp column alias). Production gnina P2 per-target CSVs are not present in this checkout."
-  },
   "protocol_enrichment_ci": {
     "summary": {
       "n_actives": 469,
@@ -117,7 +96,6 @@
       "repurposing_id": "MCC950",
       "canonical_smiles": "CC(C)(O)c1coc(S(=O)(=O)NC(=O)Nc2c3c(cc4c2CCC4)CCC3)c1",
       "dock_score": -7.018,
-      "glide_score_xp": -7.018,
       "docking_status": "docked",
       "pdb_id": "7ALV",
       "docking_engine": "gnina_cpu",
