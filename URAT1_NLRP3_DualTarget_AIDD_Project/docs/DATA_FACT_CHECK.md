@@ -84,7 +84,7 @@ OAT/OCT 辅助库保留在 `data/auxiliary/`，**不写入本文主贡献**（�
 
 | PDB | 配体 / 说明 |
 |-----|-------------|
-| **9DKB** | lesinurad inward（Fedor/Suo 2025, *Nat Commun*）— **URAT1 生产受体** |
+| **9DKB** | lesinurad inward（Suo/Fedor 2025, *Nat Commun*）— **URAT1 生产受体** |
 | **7ALV** | MCC950 类类似物 **NP3-146**（非 MCC950 共晶）— **NLRP3 生产受体** |
 | 9B1H | lesinurad inward（Dai 2024, *Cell Res*）— 对照，非生产 |
 | 9B1K | urate **occluded**（Dai 2024）— 文献构象；**本文不做三态对接** |
@@ -102,13 +102,13 @@ OAT/OCT 辅助库保留在 `data/auxiliary/`，**不写入本文主贡献**（�
 | 主题 | PMID | DOI |
 |------|------|-----|
 | Dai URAT1 2024 | **39245778** | 10.1038/s41422-024-01023-1 |
-| Fedor/Suo URAT1 2025 | 40467597 | 10.1038/s41467-025-60480-3 |
+| Suo/Fedor URAT1 2025 | 40467597 | 10.1038/s41467-025-60480-3 |
 | Burns URAT1 IC50 2016 | 27716403 | 10.1186/s13075-016-1107-x |
 | verinurad 25 nM | 28386072 | 10.1038/s41598-017-00706-7（Tan PK et al.） |
 | Nakamura dotinurad 2019 | 31371478 | 10.1124/jpet.119.262741 |
 | MCC950 IL-1β | 25686105 | 10.1038/nm.3806 |
 | GDC-2394 | 36279149 | 10.1021/acs.jmedchem.2c01250 |
-| 7ALV 结构 | 34687713 | 10.1016/j.jmb.2021.167189 |
+| 7ALV 结构 | 34687713 | 10.1016/j.jmb.2021.167309 |
 
 ---
 

@@ -6,7 +6,7 @@
 
 | 靶点 | PDB | 说明 |
 |------|-----|------|
-| URAT1 | [9DKB](https://www.rcsb.org/structure/9DKB) | lesinurad，inward-open（Fedor/Suo 2025） |
+| URAT1 | [9DKB](https://www.rcsb.org/structure/9DKB) | lesinurad，inward-open（Suo/Fedor 2025） |
 | NLRP3 | [7ALV](https://www.rcsb.org/structure/7ALV) | NACHT + NP3-146（MCC950 类类似物，非 MCC950 共晶） |
 
 准备：去配体、pH 7.4 加氢、转 PDBQT；盒中心见开源对接文档。生产引擎是 **gnina P2**，不是 Glide。

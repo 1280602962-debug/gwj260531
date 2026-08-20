@@ -21,7 +21,7 @@ All entries include DOI or PMID where available.
 
 7. **Pascart T**, Bardin T. **Gout Basic Research: 2023 in Review.** *Gout Hyperuricemia Cryst Arthropathy.* 2023;2(3):17. doi:10.3390/ghca2030017.
 
-8. **Zhang H**, et al. **Discovery of multi-target anti-gout agents from *Eurycoma longifolia* Jack through phenotypic screening and structural optimization.** *Nat Commun.* 2025;16:7430. doi:10.1038/s41467-025-62645-6.
+8. **Zhang Z**, Shi X, Wu T, et al. **Discovery of multi-target anti-gout agents from *Eurycoma longifolia* Jack through phenotypic screening and structural optimization.** *Nat Commun.* 2025;16:7430. doi:10.1038/s41467-025-62645-6.
 
 ---
 
@@ -29,13 +29,13 @@ All entries include DOI or PMID where available.
 
 9. **Dai Y**, Lee CH. **Transport mechanism and structural pharmacology of human urate transporter URAT1.** *Cell Res.* 2024;34:776-787. doi:10.1038/s41422-024-01023-1. PMID: 39245778.
 
-10. **Fedor JG**, Suo Y, Zhang H, et al. **Molecular basis of the urate transporter URAT1 inhibition by gout drugs.** *Nat Commun.* 2025;16:5178. doi:10.1038/s41467-025-60480-3. PMID: 40467597. (PMC: PMC12137875)
+10. **Suo Y**, Fedor JG, Zhang H, et al. **Molecular basis of the urate transporter URAT1 inhibition by gout drugs.** *Nat Commun.* 2025;16:5178. doi:10.1038/s41467-025-60480-3. PMID: 40467597. (Suo and Fedor contributed equally; journal citation is Suo et al.)
 
 11. **Wu C**, Zhang C, Jin S, et al. **Molecular mechanisms of urate transport by the native human URAT1 and its inhibition by anti-gout drugs.** *Cell Discov.* 2025;11:33. doi:10.1038/s41421-025-00779-z. PMID: 40169562.
 
 12. **Merriman TR**, Dalbeth N. **The genetic basis of hyperuricaemia and gout.** *Jt Bone Spine.* 2018;85(1):31-36. doi:10.1016/j.jbspin.2017.07.001.
 
-13. **Lin X**, et al. **Hyperuricemia and its related diseases: mechanisms and advances in therapy.** *Signal Transduct Target Ther.* 2024;9:212. doi:10.1038/s41392-024-01916-y. *(Replaces an earlier entry citing Front Immunol 10.3389/fimmu.2023.1167738, a DOI that could not be verified; this review states URAT1 mediates ~90% of urate reabsorption.)*
+13. **Du L**, Zong Y, Li H, et al. **Hyperuricemia and its related diseases: mechanisms and advances in therapy.** *Signal Transduct Target Ther.* 2024;9:212. doi:10.1038/s41392-024-01916-y. *(Earlier drafts misattributed this DOI to Lin X; Du et al. describe URAT1 as crucial in the process by which ~90% of filtered urate is reabsorbed.)*
 
 ---
 
