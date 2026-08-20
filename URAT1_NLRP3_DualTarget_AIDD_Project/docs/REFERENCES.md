@@ -15,6 +15,8 @@ All entries include DOI or PMID where available.
 
 4. **Liu Y**, Li W, Deng Y. **Role of NLRP3 in the pathogenesis and treatment of gout arthritis.** *Front Immunol.* 2023;14:1137822. doi:10.3389/fimmu.2023.1137822. PMID: 36923456.
 
+4a. **"Zhao 等，2023" — 待核实，暂不可引用。** `INTRO_DRAFT_CN.md` 正文用该占位引用支持"URAT1（尿酸稳态调控）与 NLRP3（晶体驱动炎症）构成互补性双节点"的表述。检索 ChEMBL/CrossRef/PubMed/OpenAlex 均未找到第一作者为 Zhao、2023 年发表、且与该具体表述匹配的文献；不要在未核实的情况下把它当作真实文献编号或编造 DOI。请提供准确作者全名/期刊/DOI 后替换。
+
 5. **Dalbeth N**, Merriman TR, Stamp LK. **Gout.** *Lancet.* 2021;397(10287):1843-1855. doi:10.1016/S0140-6736(21)00569-9.
 
 6. **Bardin T**, Richette P. **Gout: one year in review 2023.** *Clin Exp Rheumatol.* 2023. doi:10.55563/clinexprheumatol/uhyzcr.
@@ -32,6 +34,8 @@ All entries include DOI or PMID where available.
 10. **Suo Y**, Fedor JG, Zhang H, et al. **Molecular basis of the urate transporter URAT1 inhibition by gout drugs.** *Nat Commun.* 2025;16:5178. doi:10.1038/s41467-025-60480-3. PMID: 40467597. (Suo and Fedor contributed equally; journal citation is Suo et al.)
 
 11. **Wu C**, Zhang C, Jin S, et al. **Molecular mechanisms of urate transport by the native human URAT1 and its inhibition by anti-gout drugs.** *Cell Discov.* 2025;11:33. doi:10.1038/s41421-025-00779-z. PMID: 40169562.
+
+11a. **Enomoto A**, Kimura H, Chairoungdua A, et al. **Molecular identification of a renal urate–anion exchanger that regulates blood urate levels.** *Nature.* 2002;417(6887):447-452. doi:10.1038/nature742. PMID: 12024214. (Cloning of URAT1/SLC22A12; shows uricosuric/anti-uricosuric agents not designed for URAT1 modulate its transport.)
 
 12. **Merriman TR**, Dalbeth N. **The genetic basis of hyperuricaemia and gout.** *Jt Bone Spine.* 2018;85(1):31-36. doi:10.1016/j.jbspin.2017.07.001.
 
