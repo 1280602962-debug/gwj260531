@@ -1,0 +1,17 @@
+=== Server P2 GPU funnel ===
+root=/home/hww/gwj/NLRP3_URAT1/server_p2_gpu_upload
+gnina=gnina v1.3.2 HEAD:f23dd2b+   Built Jul 28 2026.
+python=/opt/anaconda3/bin/python
+jobs=1  config=config/docking_production_p2_gpu.yaml  CUDA_VISIBLE_DEVICES=1
+GPU 0: NVIDIA GeForce RTX 5090 (UUID: GPU-53121fa9-8bd6-4b45-d1bf-b67617a31f44)
+GPU 1: NVIDIA GeForce RTX 5090 (UUID: GPU-ad592fbf-71b6-ddd4-b0cd-1dec0cc197d9)
+
+>>> [1/3] Dock URAT1 9DKB (resume skips finished poses)
+
+>>> [2/3] Dock NLRP3 7ALV
+
+>>> [3/3] Merge + Pareto shortlist
+Traceback (most recent call last):
+  File "/home/hww/gwj/NLRP3_URAT1/server_p2_gpu_upload/scripts/merge_docking_pareto.py", line 43, in <module>
+    from utils_ml import canonicalize
+ModuleNotFoundError: No module named 'utils_ml'

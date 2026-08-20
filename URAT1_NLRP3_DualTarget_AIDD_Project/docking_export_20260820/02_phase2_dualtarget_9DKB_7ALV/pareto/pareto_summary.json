@@ -1,0 +1,31 @@
+{
+  "n_ml_scores": 8319,
+  "n_merged_dual_dock": 1580,
+  "n_pareto_front": 4,
+  "n_shortlist": 4,
+  "sn_mode": "both",
+  "known_controls": [
+    {
+      "name": "lesinurad",
+      "s_u_percentile": 45.85443037974684,
+      "s_n_percentile": 43.924050632911396,
+      "pareto_front": false
+    },
+    {
+      "name": "verinurad",
+      "s_u_percentile": 3.417721518987338,
+      "s_n_percentile": 80.69620253164557,
+      "pareto_front": false
+    },
+    {
+      "name": "colchicine",
+      "s_u_percentile": 63.22784810126583,
+      "s_n_percentile": 49.68354430379747,
+      "pareto_front": false
+    }
+  ],
+  "outputs": {
+    "merged": "data/repurposing/pareto/pareto_merged_scores.csv",
+    "shortlist": "data/repurposing/pareto/pareto_shortlist.csv"
+  }
+}

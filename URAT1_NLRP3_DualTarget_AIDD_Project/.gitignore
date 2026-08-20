@@ -9,3 +9,8 @@ __pycache__/
 # Downloaded docking binaries (see scripts/setup_gnina_wsl_cpu.sh)
 tools/gnina
 tools/vina
+
+# Keep full docking export (including logs) under version control
+!docking_export_20260820/
+!docking_export_20260820/**
+!docking_export_20260820/**/*.log
