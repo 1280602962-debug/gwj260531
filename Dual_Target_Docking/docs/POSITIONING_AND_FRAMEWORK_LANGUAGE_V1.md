@@ -79,6 +79,7 @@
 2. 公开数据供给限制了可平衡的双靶基准规模。
 3. 池化分数可能掩盖方向失败；需要口袋匹配指标。
 4. 表观双靶信号常被配体属性/化学型解释。
-5. 因此本文建立 **systematic benchmarking protocol + DualFourClass-Bench**，在 K=4 上报告可靠边界与局限。
+5. 生成式双靶方法（DualDiff / FuseDiff）用两端 Vina 相对参考配体的 Dual High Affinity 评测成功，与“硬负分臂”不是同一问题；本基准可作其下游诚实评测（零新实验写作点）。
+6. 因此本文建立 **systematic benchmarking protocol + DualFourClass-Bench**，在 K=4 上报告可靠边界与局限。
 
 流程细节放 Methods；不要在 Intro 用 “our Framework Step 1–5” 推销。

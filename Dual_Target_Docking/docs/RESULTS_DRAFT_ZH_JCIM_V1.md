@@ -2,7 +2,7 @@
 
 > 结构按 JCIM 评测文习惯重排（供给发现 → 标签稳健 → 对接主结果 → 混淆主导 → 稳健性与案例依赖成功 → 跨对结构决定因素 → 个案结构线索）。  
 > 全部数字可追溯至 `data/jcim_bench_v0/`、`data/jcim_strengthen_t0t1_v0/`、`data/jcim_bench_v0/analysis/structural_context_v1/`、`data/jcim_holdout_v0/`、`data/jcim_structure_robust_v0/analysis/pocket_mechanism_v1/` 与 `data/jcim_supply_crossdb_v0/`；未做的全面板残基级 PLIF 定量比较不写入。  
-> 投稿以英文为准；本稿供中文审改。错口袋、配体效率、描述符明细见 Supporting Information Table S5–S6。
+> 错口袋、配体效率、描述符明细见 Supporting Information Table S5–S6；holdout 错口袋匹配诊断见 Table S13。
 > **本文定位（不用绝对化标题、不包装成新算法）：** 不是 "Docking can/cannot identify dual-target ligands"，也不是 "we developed a novel framework named D-DRAF"；而是 *Evaluating the reliability and limitations of docking-based dual-target recognition*——建立 systematic benchmarking framework / DualFourClass-Bench 评价体系，评价现有对接分数的可靠边界。详见 [`POSITIONING_AND_FRAMEWORK_LANGUAGE_V1.md`](POSITIONING_AND_FRAMEWORK_LANGUAGE_V1.md)。
 
 ---
@@ -119,7 +119,7 @@ PM110（历史命名；实际面板 n = 115，其中 dual / A_only / B_only 各 
 
 PIK3CA/mTOR 在 holdout 上点估计与主表同向：summary_min = 0.765，bootstrap 下界高于 0.5，并在点估计上继续高于最强平凡基线（heavy 0.555，Δ = +0.21）。AChE/BChE 点估计与主表接近，但 CI 仍跨越 0.5。PIK3CA/PIK3CB 仍未显示可用方向信号。含硼配体 HOAP_028 因 AutoDock 原子类型不支持而两端失败，已从 AUROC 装配中剔除（59/60 配体进入分析）。该 holdout 共享同一 ChEMBL 抓取批次，不能读成跨机构独立验证；其作用是检验协议在“建面未见过”的同规则配体上是否同向。
 
-三对 holdout 上均出现 **Vina 错口袋对照不低于口袋匹配**（PM：0.788 对 0.765；AChE/BChE：0.643 对 0.618；PIK3CB：0.520 对 0.425）。为检验这是否仅为打分函数伪象，我们在已冻结的 mode-1 姿态上计算不依赖打分的几何量 `contact_count`（配体重原子中与受体重原子距离 ≤4.0 Å 的原子数；粗粒度埋藏/接触计数，非 PLIF），并用它单独重复同一口袋比较（Supporting Information Table S11；`WRONG_POCKET_MECHANISM_VERDICT_V1.md`）。几何量在 **B 臂**上清晰高于随机（dual 对 B_only：0.698–0.714），与 dual 相对 B_only 的尺寸差更大一致（holdout 重原子均值：AChE/BChE 35.1 对 29.5；PM 33.5 对 31.0；PIK3CB 34.5 对 28.3）。**A 臂**上 dual 与 A_only 尺寸差很小（AChE/BChE 35.1 对 34.0；PM 33.5 对 32.3），contact_count AUROC 也更接近随机（0.552–0.622）。因此姿态层存在**真实的、不依赖打分函数的尺寸/埋藏混淆，主要出现在 B 臂**。但它**不能按幅度解释** Vina 的 holdout 错口袋，尤其是 PM：Vina 错口袋 summary_min = 0.788，而两臂 contact_count 的较小值仅为 0.552；PIK3CB 上该较小值（0.622）甚至高于 Vina 错口袋（0.520）。主面板在同一定义下口袋匹配仍高于错口袋（Supporting Information Table S6），与 holdout 的反差仍为开放问题，不得把接触计数写成“已解释 Vina 错口袋”。
+三对 holdout 上均出现 **Vina 错口袋对照不低于口袋匹配**（PM：0.788 对 0.765；AChE/BChE：0.643 对 0.618；PIK3CB：0.520 对 0.425）。为检验这是否只是 unused-pool 抽样在效价/尺寸上不同于主面板，我们按与 Table S5 相同的规则做最近邻匹配后重算错口袋对照（Supporting Information Table S13；零新对接）。效价匹配后三对仍是错口袋 ≥ 口袋匹配（AChE/BChE：0.642 对 0.593，n_min = 18；PIK3CA/PIK3CB：0.562 对 0.363，n_min = 11；PIK3CA/mTOR：0.734 对 0.715，n_min = 12）；尺寸匹配同样不翻转。holdout 相对主面板确有抽样偏移——最明显的是 PIK3CA/mTOR：holdout dual / A_only 的 pA 均值比主面板低约 1.1–1.3，B_only 的 pB 低约 1.8——但匹配后悖论仍在，故**不能**把错口袋 ≥ 匹配写成“holdout 抽得更强/更不平衡”的伪象。为检验这是否仅为打分函数伪象，我们在已冻结的 mode-1 姿态上计算不依赖打分的几何量 `contact_count`（配体重原子中与受体重原子距离 ≤4.0 Å 的原子数；粗粒度埋藏/接触计数，非 PLIF），并用它单独重复同一口袋比较（Supporting Information Table S11；`WRONG_POCKET_MECHANISM_VERDICT_V1.md`）。几何量在 **B 臂**上清晰高于随机（dual 对 B_only：0.698–0.714），与 dual 相对 B_only 的尺寸差更大一致（holdout 重原子均值：AChE/BChE 35.1 对 29.5；PM 33.5 对 31.0；PIK3CB 34.5 对 28.3）。**A 臂**上 dual 与 A_only 尺寸差很小（AChE/BChE 35.1 对 34.0；PM 33.5 对 32.3），contact_count AUROC 也更接近随机（0.552–0.622）。因此姿态层存在**真实的、不依赖打分函数的尺寸/埋藏混淆，主要出现在 B 臂**。但它**不能按幅度解释** Vina 的 holdout 错口袋，尤其是 PM：Vina 错口袋 summary_min = 0.788，而两臂 contact_count 的较小值仅为 0.552；PIK3CB 上该较小值（0.622）甚至高于 Vina 错口袋（0.520）。主面板在同一定义下口袋匹配仍高于错口袋（Supporting Information Table S6），与 holdout 的反差仍为开放问题，不得把接触计数或效价匹配写成“已解释 Vina 错口袋”。
 
 ### 3.10 替代晶体结构的稳健性（cognate QC + 面板重对接）
 

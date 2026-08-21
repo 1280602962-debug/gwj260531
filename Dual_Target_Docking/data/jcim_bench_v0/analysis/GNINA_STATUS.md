@@ -2,6 +2,8 @@
 
 **Updated:** auto after JCIM gnina orchestrator
 
+**9-pose fairness (2026-08-21):** NOT RUN — see `GNINA_NINE_POSE_SKIP_V1.md`. Existing tables below remain mode_01 only.
+
 ## Binary
 `/mnt/d/CADD paper exercise/gnina/bin/gnina` (v1.3.2), CPU `--no_gpu`
 

@@ -19,6 +19,7 @@
 | Table S10 | `data/jcim_structure_robust_v0/analysis/pocket_mechanism_v1/POCKET_MECHANISM_VERDICT_V1.md` + `pocket_superposition_v1.py`（脚本，零新对接，仅用已冻结晶体坐标） |
 | Table S11 | `data/jcim_holdout_v0/analysis/WRONG_POCKET_MECHANISM_VERDICT_V1.md` + `scripts/wrong_pocket_contact_v1.py`（脚本，零新对接，仅用已冻结姿态坐标） |
 | Table S12 | `data/jcim_supply_crossdb_v0/tables/crossdb_strict_supply_v1.csv`；结论见 `analysis/SUPPLY_CROSSDB_VERDICT_V1.md`（BindingDB REST + PubChem PUG REST 计数，零对接） |
+| Table S13 | `data/jcim_holdout_v0/tables/holdout_matched_wrong_pocket_summary_v1.csv` + `holdout_vs_main_potency_size_v1.csv`；结论见 `analysis/HOLDOUT_WRONG_POCKET_POTENCY_VERDICT_V1.md` |
 | ChEMBL 聚合局限 | `data/jcim_strengthen_t0t1_v0/analysis/T0_SKIPS.md` |
 
 ---
@@ -294,6 +295,36 @@ EGFR/HER2 的 as_is 抬升不可直接当成“ChEMBL 漏检”：BindingDB 92 �
 
 ---
 
+## Table S13. Holdout 错口袋：效价/尺寸匹配诊断（零新对接）
+
+来源：`data/jcim_holdout_v0/tables/holdout_matched_wrong_pocket_summary_v1.csv`、`holdout_vs_main_potency_size_v1.csv`；脚本 `scripts/wrong_pocket_potency_match_v1.py`。匹配规则与 Table S5 相同（效价：共享活性端 \|ΔpChEMBL\| ≤ 0.5；尺寸：\|Δheavy\| ≤ 2）。口袋匹配：D/A 用 vina_B，D/B 用 vina_A；错口袋为对调。主 holdout 数字仍以 Table S8 未匹配全样本为准。
+
+**相对主面板的均值偏移（holdout − 主面板）**
+
+| 靶对 | dual pA / pB | A_only pA / pB | B_only pA / pB |
+|------|-------------:|---------------:|---------------:|
+| AChE/BChE | −0.16 / −0.46 | +0.25 / +0.12 | 0.00 / −0.15 |
+| PIK3CA/PIK3CB | +0.61 / −0.20 | +0.18 / −0.03 | −0.03 / −0.15 |
+| PIK3CA/mTOR | **−1.07 / −0.34** | **−1.26 / −0.30** | −0.43 / **−1.76** |
+
+**匹配后口袋匹配 vs 错口袋 summary_min**
+
+| 靶对 | 家族 | n_min | 口袋匹配 | 错口袋 | 错口袋 ≥ 匹配？ |
+|------|------|------:|---------:|-------:|:---------------:|
+| AChE/BChE | unmatched | 20 | 0.618 | 0.642 | 是 |
+| AChE/BChE | potency_matched | 18 | 0.593 | 0.642 | 是 |
+| AChE/BChE | size_matched | 9 | 0.407 | 0.432 | 是 |
+| PIK3CA/PIK3CB | unmatched | 19 | 0.425 | 0.520 | 是 |
+| PIK3CA/PIK3CB | potency_matched | 11 | 0.363 | 0.562 | 是 |
+| PIK3CA/PIK3CB | size_matched | 13 | 0.302 | 0.426 | 是 |
+| PIK3CA/mTOR | unmatched | 20 | 0.765 | 0.788 | 是 |
+| PIK3CA/mTOR | potency_matched | 12 | 0.715 | 0.734 | 是 |
+| PIK3CA/mTOR | size_matched | 12 | 0.715 | 0.818 | 是 |
+
+效价与尺寸匹配均不翻转“错口袋 ≥ 口袋匹配”。PIK3CA/mTOR holdout 比主面板更弱（不是更强），抽样偏移存在但不足以解释悖论。详见 Results 3.9。
+
+---
+
 ## 写法说明（不进投稿 SI 正文）
 
 - 本文件是**已有数据的汇编**，不是新实验。若某分析尚无机器可读表，宁缺毋填。
@@ -302,3 +333,4 @@ EGFR/HER2 的 as_is 抬升不可直接当成“ChEMBL 漏检”：BindingDB 92 �
 - 早期借用 Schrodinger 处理过的姿态对照**不写入投稿稿**（无正式使用权限；主协议已统一为 RDKit/meeko）。仓库内 `pm48_directional_by_prep_v1.csv` 仅作内部记录。
 - ChEMBL median / confidence≥8 / 物种过滤：本地缓存无字段（见 `T0_SKIPS.md`），不得编造；写入 Limitations。
 - Table S12 是计数核对（BindingDB REST + PubChem PUG REST），不是对接结果；不得把 `as_is` 的 EGFR ≥50 写成已建成 BindingDB 厚面板。
+- Table S13 是 holdout 效价/尺寸匹配诊断，不替换 Table S8；不得写成错口袋悖论已解决。

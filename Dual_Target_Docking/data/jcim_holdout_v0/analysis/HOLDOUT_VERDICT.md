@@ -66,5 +66,6 @@ HOAP_028 contains boron; AutoDock atom type `B` is unsupported — both pockets 
 - `tables/holdout_ligand_scores_v1.csv` — assembled dual-end scores + physchem
 - `tables/holdout_pocket_matched_v1.csv` — all variants + CIs
 - `tables/scores_vina_mode1_{HOAB,HOAP,HOPM}.csv` — raw docking (already frozen)
+- Wrong-pocket potency/size diagnostic (does not replace this verdict): `analysis/HOLDOUT_WRONG_POCKET_POTENCY_VERDICT_V1.md`
 
 Do **not** re-sample holdout or change aggregation because a number looks better.

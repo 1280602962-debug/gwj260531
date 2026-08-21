@@ -98,6 +98,8 @@ summary_min 的不确定度以 bootstrap 估计：在每个靶对内对配体有
 
 **Holdout 错口袋对照的几何对照（探索性，零新对接）。** 为检验 holdout 上 `wrong_pocket_control_vina` 不低于 `pocket_matched_vina` 是否仅为打分函数伪象，我们直接在已冻结的 **mode-1** 姿态上计算一个不依赖打分函数的几何量：配体重原子中与受体重原子距离 ≤4.0 Å 的原子数（`contact_count`；4.0 Å 为粗粒度接触阈值，非经验证 PLIF）。用该量在口袋 A 上比较 dual 对 A_only、在口袋 B 上比较 dual 对 B_only，与错口袋对照的同口袋比较同构，作为与 Vina 结果并列的几何对照，**不预设**其幅度与 Vina 错口袋一致（Supporting Information Table S11）。
 
+**Holdout 错口袋的效价/尺寸匹配诊断（零新对接）。** 为检验该悖论是否来自 unused-pool 抽样相对主面板的效价或尺寸偏移，我们用与 Table S5 相同的最近邻匹配（效价：共享活性端 \|ΔpChEMBL\| ≤ 0.5；尺寸：\|Δheavy\| ≤ 2）在 holdout 上重算口袋匹配与错口袋 AUROC（Supporting Information Table S13）。该诊断不改写 Table S8 的主 holdout 数字。
+
 ### 2.8 软件与数据可用性
 
 计算在 Python 3 环境下完成，主要软件包括 RDKit 2026.3.1、meeko 0.7.1、AutoDock Vina 1.2.7、GNINA 1.3.2 与 RTMScore（公开预训练权重 `rtmscore_model1`）；Vina 姿态转为 SDF 时使用 Open Babel。刚体叠合与全链序列比对使用 Biopython（`PDBParser`、`Superimposer`、`PairwiseAligner`）。AUROC、逻辑回归与交叉验证等分析使用常规 Python 科学计算栈（NumPy、SciPy、scikit-learn、pandas；版本见公开复现环境说明）。评价面板、对接分数、分析脚本与完整参数表将随公开数据包提供，详见 Data and Software Availability。
