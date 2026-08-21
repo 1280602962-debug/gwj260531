@@ -17,6 +17,8 @@
 
 **供给审计用严格规则（construction gate，非跨对主比较的唯一标签）。** 严格规则：dual 为两端 pChEMBL ≥ 6.5；A_only 为 A ≥ 6.5 且 B ≤ 5.5；B_only 为对称定义；neither 为两端 ≤ 5.5；灰区（介于 5.5 与 6.5）不进入严格面板。在 49 对可审计靶对上，两端严格硬负均 ≥ 50 的仅 4 对；排除金属依赖的 HDAC1/HDAC6 后，剩余 PIK3CA/mTOR、AChE/BChE 与 PIK3CA/PIK3CB 作为厚面板候选。EGFR/HER2 在同一严格规则下 B_only 仅 7 个，无法建成规模均衡的严格四类面板，但仍纳入评价集作为**供给受限案例**（文献常见双靶对；不宣称其为严格厚面板）。
 
+**跨库计数核对（零对接，不重建面板）。** 为检验上述 ≥50 双侧硬负门槛是否只是 ChEMBL 覆盖假象，我们对冻结的 K = 4 四对另查 BindingDB REST（`getLigandsByUniprots`，cutoff = 1 mM，以免把弱端测定截掉）与 PubChem PUG REST（`protein/accession/…/concise`）。类型限于 IC50/Ki/Kd/EC50；代表值取最大转换 p 活性；分类规则与 J0 严格门槛相同。配体身份分别用 BindingDB monomerid 与 PubChem CID，**不做**跨库结构合并。主比较采用与 pChEMBL 更接近的**等式测定**（去掉 `>`/`<` 截尾）；将不等式数值当作点估计计入只作敏感性。该核对只报告计数（Supporting Information Table S12），不进入对接或改写冻结面板。
+
 **面板建造（panel construction）允许在供给不足时使用单阈值规则，但这是建造协议，不是为抬高 AUROC 而事后改阈值。** AChE/BChE 与 PIK3CA/PIK3CB 按严格规则完成配额抽样；EGFR/HER2 与 PIK3CA/mTOR（PM48）因严格规则下单端选择性配体过少，按 θ = 6.0 建成（两端 ≥ θ 为 dual；一端 ≥ θ 且对端 < θ 为对应单靶类）。建造规则在抽样前按供给审计结果冻结，并写入 Table 1；阈值选择的动机是**凑齐可分析配额**，不是在观察对接分数后回改标签。
 
 **主表述采用单一统一标签规则（θ = 6.0）。** 为消除“不同靶对用不同阈值”的质疑，正文 Table 2 对全部四对统一采用 θ = 6.0 规则报告主结果。对 EGFR/HER2 与 PIK3CA/mTOR，这与建造时直接采用的规则相同；对 AChE/BChE 与 PIK3CA/PIK3CB，建造时按更严格的 6.5/5.5 规则完成供给配额抽样，但在本数据上 θ = 6.0 给出与该严格规则**完全相同**的配体分类与 AUROC（Supporting Information Table S4），即标签在阈值网格内对这两对不敏感。作为支持性稳健性分析，我们进一步在 θ ∈ {5.5, 6.5} 与严格 6.5/5.5 规则下重标四类并重算口袋匹配 summary_min（Table S4）；EGFR/HER2 与 PIK3CA/mTOR 在严格规则下 B_only 样本量过小，标记 underpowered，不作功效充足主张。该敏感性网格不是与 Table 2 竞争的第二套主标准，只用于证明排序不随阈值网格翻转（Results 3.2）。

@@ -4,7 +4,7 @@
 1. This is an **evaluation / benchmark** article for dual-target docking decision metrics.
 2. Primary metric = **pocket-matched directional AUROC** (D vs A_only uses pocket-B score; D vs B_only uses pocket-A score) with **trivial baselines** and pooled/wrong-pocket controls reported in parallel.
 3. K=4 pairs are a **frozen evaluation set**, not a claim that the metric generalizes to all target pairs.
-4. EGFR/HER2 is a **supply-limited case study** (existing unified RDKit EH110); no claim from new EGFR docking.
+4. EGFR/HER2 is a **supply-limited case study** (existing unified RDKit EH110); no claim from new EGFR docking. A later BindingDB/PubChem **count-level** check (Table S12) does not rebuild this panel: under equal-relation measurements EGFR still fails the ≥50 thick-panel gate (min HN ≈ 30).
 5. Prep protocol is frozen: **RDKit ETKDG + meeko**. Do **not** mention Schrodinger LigPrep in the manuscript (no formal license; early borrow was internal-only).
 6. Contribution language may say we **established a systematic benchmarking framework / evaluation protocol** and released **DualFourClass-Bench**. That means an evaluation system, **not** a new docking algorithm.
 
@@ -17,6 +17,8 @@
 6. Do **not** invent a grand method acronym (e.g. **D-DRAF**, “Dual-target Docking Reliability Assessment Framework”) or write “we developed a **novel** dual-target docking framework named …”.
 7. Do **not** sell ordinary analysis steps (data audit, hard-negative construction, AUROC, confounder baselines, robustness) as numbered **Framework Step 1–5** in Intro/Abstract/TOC as if they were a new algorithm. Methods section numbering is fine; packaging them as a named invention is not.
 8. Do **not** use absolute titles of the form “Docking can/cannot identify dual-target ligands.” Prefer *evaluating the reliability and limitations of docking-based dual-target recognition*.
+9. Do **not** write that public-data hard-neg supply is “ChEMBL-invariant” without Table S12. BindingDB/PubChem `as_is` counts can pass ≥50 on EGFR/HER2 because of `>` censored values; the matched `equal_only` rule does **not** recast EGFR as a thick panel.
+10. Do **not** claim a BindingDB- or PubChem-derived docking panel that was not actually docked.
 
 See also: `docs/POSITIONING_AND_FRAMEWORK_LANGUAGE_V1.md`.
 

@@ -1,7 +1,7 @@
 # Results（中文工作稿 · JCIM 式结构修订）
 
 > 结构按 JCIM 评测文习惯重排（供给发现 → 标签稳健 → 对接主结果 → 混淆主导 → 稳健性与案例依赖成功 → 跨对结构决定因素 → 个案结构线索）。  
-> 全部数字可追溯至 `data/jcim_bench_v0/`、`data/jcim_strengthen_t0t1_v0/`、`data/jcim_bench_v0/analysis/structural_context_v1/`、`data/jcim_holdout_v0/` 与 `data/jcim_structure_robust_v0/analysis/pocket_mechanism_v1/`；未做的全面板残基级 PLIF 定量比较不写入。  
+> 全部数字可追溯至 `data/jcim_bench_v0/`、`data/jcim_strengthen_t0t1_v0/`、`data/jcim_bench_v0/analysis/structural_context_v1/`、`data/jcim_holdout_v0/`、`data/jcim_structure_robust_v0/analysis/pocket_mechanism_v1/` 与 `data/jcim_supply_crossdb_v0/`；未做的全面板残基级 PLIF 定量比较不写入。  
 > 投稿以英文为准；本稿供中文审改。错口袋、配体效率、描述符明细见 Supporting Information Table S5–S6。
 > **本文定位（不用绝对化标题、不包装成新算法）：** 不是 "Docking can/cannot identify dual-target ligands"，也不是 "we developed a novel framework named D-DRAF"；而是 *Evaluating the reliability and limitations of docking-based dual-target recognition*——建立 systematic benchmarking framework / DualFourClass-Bench 评价体系，评价现有对接分数的可靠边界。详见 [`POSITIONING_AND_FRAMEWORK_LANGUAGE_V1.md`](POSITIONING_AND_FRAMEWORK_LANGUAGE_V1.md)。
 
@@ -14,6 +14,8 @@
 双靶对接评测需要四类配体：dual、仅 A 端强的选择性配体、仅 B 端强的选择性配体，以及两端均弱的 neither。我们将后两类实验定义的选择性配体作为硬负选择性配体（hard-negative selective ligands），用于检验对接分数能否同时压住两条单靶臂。
 
 在 49 对有 ChEMBL 缓存的靶对上，按严格标签规则（dual：两端 pChEMBL ≥ 6.5；选择性类：活性端 ≥ 6.5 且对端 ≤ 5.5）做供给审计。尽管候选靶对数量不少，**可平衡构建的双靶基准仍受到实验表征硬负配体稀缺的严重约束**：两端严格硬负均 ≥ 50 的只有 4 对。排除金属依赖、不适合作为常规对接主对象的 HDAC1/HDAC6 后，剩余 PIK3CA/mTOR、AChE/BChE 与 PIK3CA/PIK3CB 三对适合建成规模较均衡的严格四类面板（Table 1）。文献中常见的 EGFR/HER2 在同一规则下仅有 7 个严格 B 端选择性配体，达不到该门槛，因而作为供给受限案例纳入，而不是严格厚面板。K = 4 评价集由该审计结果确定，而非事后挑选“对接好看”的靶对；构建细节见 Methods 2.1–2.3。
+
+对该四对的 BindingDB / PubChem 计数核对（Supporting Information Table S12；零对接）表明：**厚面板门槛在等式测定下不随数据源翻转。** 与 pChEMBL 更接近的 `equal_only` 规则下，三对已冻结厚面板的 min HN 分别为 BindingDB 76 / 92 / 58、PubChem 86 / 97 / 61（ChEMBL 缓存为 80 / 78 / 56），仍全部 ≥ 50。EGFR/HER2 的 min HN 从 ChEMBL 的 7 升至 BindingDB 31、PubChem 30，达到薄面板（≥ 20）但仍达不到 ≥ 50 厚面板门槛。若把 `>` 截尾（如 IC50 > 10 µM）也当作弱端点估计（`as_is`），EGFR/HER2 的 BindingDB min HN 会升至 85（85/92）从而过 ≥ 50；但 92 个 as-is B_only 中有 49 个在 EGFR 端只有 `>` 记录。这改变的是“两端都有等式定量测定”的定义，不能写成 ChEMBL 漏掉了约 80 个干净的 HER2 选择性配体。PubChem 与 BindingDB 计数接近，符合沉积重叠，不作两次独立普查。K = 4 对接面板仍按 ChEMBL pChEMBL 冻结；本核对未重建面板、未做新对接。
 
 （对应 Methods 2.1–2.3）
 

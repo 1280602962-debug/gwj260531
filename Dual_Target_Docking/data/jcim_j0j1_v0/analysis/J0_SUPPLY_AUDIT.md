@@ -61,3 +61,7 @@ python3 Dual_Target_Docking/data/jcim_j0j1_v0/scripts/run_j0_supply_audit.py
 ```
 
 When ChEMBL recovers, fetch `j0_fetch_queue.csv` targets into `data/public_pair_selection/mols_*.json` and re-run.
+
+## See also (count-level, not a J0 rewrite)
+
+Frozen K=4 BindingDB/PubChem pairing counts: `data/jcim_supply_crossdb_v0/analysis/SUPPLY_CROSSDB_VERDICT_V1.md`. That check does not replace this ChEMBL audit and was not used to rebuild panels.

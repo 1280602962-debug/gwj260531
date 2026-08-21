@@ -148,7 +148,7 @@
 1. ChEMBL 配对是「同分子两端都有记录」，**不是**同一实验条件下的平行测定。  
 2. max-pChEMBL 会偏乐观；正式入库需再滤 assay type、去盐立体、InChIKey 去重。  
 3. RCSB holo 计数含溶剂/添加剂配体噪声，冻对接 YAML 时需人工挑 **真正抑制剂 holo**。  
-4. 本审计未跑 BindingDB 交叉验证；若某对 ChEMBL 偏薄再补 BindingDB（当前三主对无此必要）。
+4. 本审计的面板建造以 ChEMBL pChEMBL 为准。冻结 K=4 的 BindingDB/PubChem **计数核对**（零对接）见 `data/jcim_supply_crossdb_v0/` 与 Supporting Information Table S12：等式测定下厚面板门槛不翻转；EGFR/HER2 升至薄面板（min HN ≈ 30）仍达不到 ≥50。
 
 ---
 

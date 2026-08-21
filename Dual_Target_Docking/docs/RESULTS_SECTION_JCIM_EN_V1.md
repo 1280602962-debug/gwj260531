@@ -1,7 +1,7 @@
 # Results (JCIM Articles draft, English)
 
 > Companion to [`RESULTS_DRAFT_ZH_JCIM_V1.md`](RESULTS_DRAFT_ZH_JCIM_V1.md) (Chinese authoritative for this rewrite cycle).  
-> Numbers from `PRIMARY_METRIC_V2.md`, `PRIMARY_METRIC_CLAIM_GATE.md`, SI Tables S4–S11. No fabricated experiments.  
+> Numbers from `PRIMARY_METRIC_V2.md`, `PRIMARY_METRIC_CLAIM_GATE.md`, SI Tables S4–S12. No fabricated experiments.  
 > **Framing (deliberately not absolute; not a named method product):** not "Docking can/cannot identify dual-target ligands," and not "we developed a novel Dual-target Docking Reliability Assessment Framework (D-DRAF)." Preferred: *evaluating the reliability and limitations of docking-based dual-target recognition* via a systematic benchmarking framework and the DualFourClass-Bench resource. See [`POSITIONING_AND_FRAMEWORK_LANGUAGE_V1.md`](POSITIONING_AND_FRAMEWORK_LANGUAGE_V1.md).
 
 ## 3. Results
@@ -11,6 +11,8 @@
 Dual-target docking evaluation requires four ligand classes: dual, A-selective, B-selective, and neither. Experimentally defined selective ligands on each arm serve as hard-negative selective ligands for testing whether a score can suppress both single-target arms.
 
 Across 49 audited ChEMBL target pairs under the primary strict rule (dual: both ends ≥ 6.5; selective: active end ≥ 6.5 and opposite ≤ 5.5), only four pairs retained ≥50 hard-negative selective ligands on **both** ends. Despite the large number of ChEMBL target pairs, **balanced dual-target benchmarking was severely constrained by the scarcity of experimentally characterized hard-negative selective ligands**. After excluding metal-dependent HDAC1/HDAC6, three pairs supported reasonably balanced strict panels; EGFR/HER2 entered as a supply-limited case (few strict B-selective ligands), not as a thick panel. The frozen K = 4 set follows this audit, not post-hoc selection of docking-favorable pairs (Methods 2.1–2.3).
+
+A count-level BindingDB / PubChem check on these four pairs (Supporting Information Table S12; no docking) shows that **the thick-panel gate does not flip with data source under an equal-relation rule**. Matching pChEMBL more closely (`equal_only`), min hard-negative counts for the three frozen thick pairs are 76 / 92 / 58 in BindingDB and 86 / 97 / 61 in PubChem (ChEMBL cache: 80 / 78 / 56), all still ≥ 50. EGFR/HER2 rises from ChEMBL min HN = 7 to BindingDB 31 and PubChem 30 — enough for a thin (≥ 20) pool, not a thick (≥ 50) panel. Counting censored `>` values as point estimates (`as_is`) would push EGFR/HER2 over ≥ 50 (BindingDB 85/92), but 49 of those 92 as-is B_only ligands have **only** `>` records on EGFR (typical IC50 > 10 µM panel values). That changes the definition of “both ends quantitatively measured,” and must not be written as ChEMBL having missed ~80 clean HER2-selective ligands. PubChem tracks BindingDB closely (deposition overlap) and is not a second independent census. The docked K = 4 panels remain the ChEMBL pChEMBL construction; this check did not rebuild panels or add docking.
 
 ### 3.2 Primary analysis uses one unified label rule (θ = 6.0); threshold sensitivity is supporting
 

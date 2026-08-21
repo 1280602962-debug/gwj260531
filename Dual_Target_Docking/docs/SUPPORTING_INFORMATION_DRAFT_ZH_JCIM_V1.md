@@ -18,6 +18,7 @@
 | Table S9 | `data/jcim_structure_robust_v0/analysis/STRUCTURE_ROBUSTNESS_QC_V1.md` / `STRUCTURE_ROBUSTNESS_VERDICT_V1.md`；`tables/pocket_matched_PM48_alt*_v1.csv` |
 | Table S10 | `data/jcim_structure_robust_v0/analysis/pocket_mechanism_v1/POCKET_MECHANISM_VERDICT_V1.md` + `pocket_superposition_v1.py`（脚本，零新对接，仅用已冻结晶体坐标） |
 | Table S11 | `data/jcim_holdout_v0/analysis/WRONG_POCKET_MECHANISM_VERDICT_V1.md` + `scripts/wrong_pocket_contact_v1.py`（脚本，零新对接，仅用已冻结姿态坐标） |
+| Table S12 | `data/jcim_supply_crossdb_v0/tables/crossdb_strict_supply_v1.csv`；结论见 `analysis/SUPPLY_CROSSDB_VERDICT_V1.md`（BindingDB REST + PubChem PUG REST 计数，零对接） |
 | ChEMBL 聚合局限 | `data/jcim_strengthen_t0t1_v0/analysis/T0_SKIPS.md` |
 
 ---
@@ -267,6 +268,32 @@ B 臂 contact_count 高于随机（0.698–0.714），与 dual 对 B_only 尺寸
 
 ---
 
+## Table S12. 冻结 K=4 的 BindingDB / PubChem 严格硬负计数核对（零对接）
+
+来源：`data/jcim_supply_crossdb_v0/tables/crossdb_strict_supply_v1.csv`；脚本 `scripts/bindingdb_pubchem_strict_count_v1.py`；结论 `analysis/SUPPLY_CROSSDB_VERDICT_V1.md`。规则与 J0 相同（dual 两端 ≥ 6.5；A_only A ≥ 6.5 且 B ≤ 5.5；B_only 对称）。BindingDB：REST `getLigandsByUniprots`，cutoff = 1 mM，按 monomerid 配对。PubChem：PUG REST `protein/accession/…/concise`，按 CID 配对。`equal_only` 只保留等式（或无修饰）测定，作为与 ChEMBL pChEMBL 的主比较；`as_is` 把 `>`/`<` 的数值当作点估计（敏感性）。**不做**跨库 InChIKey 合并，不重建面板，不对接。
+
+**主比较（ChEMBL pChEMBL vs BindingDB/PubChem `equal_only`）**
+
+| 靶对 | ChEMBL both / dual / A/B / min HN | BindingDB equal_only both / dual / A/B / min HN | PubChem equal_only both / dual / A/B / min HN | ≥50 厚面板门槛是否翻转 |
+|------|----------------------------------:|-----------------------------------------------:|---------------------------------------------:|:----------------------:|
+| PIK3CA/mTOR | 2713 / 1552 / 80/81 / **80** | 2739 / 1579 / 76/96 / **76** | 2955 / 1602 / 86/93 / **86** | 否（仍过） |
+| AChE/BChE | 2537 / 687 / 189/78 / **78** | 2711 / 698 / 181/92 / **92** | 2916 / 742 / 214/97 / **97** | 否（仍过） |
+| PIK3CA/PIK3CB | 1990 / 602 / 56/67 / **56** | 2545 / 855 / 58/75 / **58** | 2860 / 908 / 61/74 / **61** | 否（仍过） |
+| EGFR/HER2 | 1751 / 951 / 39/7 / **7** | 2269 / 1336 / 34/31 / **31** | 2068 / 1121 / 43/30 / **30** | 否（仍不过 ≥50；升至薄面板 ≥20） |
+
+**敏感性（`as_is`，含 `>` 截尾）**
+
+| 靶对 | BindingDB as_is A/B / min HN | PubChem as_is A/B / min HN |
+|------|-----------------------------:|---------------------------:|
+| PIK3CA/mTOR | 389/151 / 151 | 405/153 / 153 |
+| AChE/BChE | 228/141 / 141 | 275/153 / 153 |
+| PIK3CA/PIK3CB | 208/129 / 129 | 212/144 / 144 |
+| EGFR/HER2 | 85/92 / **85**（过 ≥50） | 88/92 / **88**（过 ≥50） |
+
+EGFR/HER2 的 as_is 抬升不可直接当成“ChEMBL 漏检”：BindingDB 92 个 as-is B_only 中，**49** 个在 EGFR 端只有 `>` 记录（典型 IC50 > 10 µM 选择性面板），**43** 个至少有一条 EGFR 等式记录。PubChem 与 BindingDB 数量接近，符合沉积重叠，不是两次独立普查。详见 Results 3.1。
+
+---
+
 ## 写法说明（不进投稿 SI 正文）
 
 - 本文件是**已有数据的汇编**，不是新实验。若某分析尚无机器可读表，宁缺毋填。
@@ -274,3 +301,4 @@ B 臂 contact_count 高于随机（0.698–0.714），与 dual 对 B_only 尺寸
 - Cognate 表必须同时报告 mode1 与 best_of_9，避免审稿人误读“全部 &lt; 2 Å”。
 - 早期借用 Schrodinger 处理过的姿态对照**不写入投稿稿**（无正式使用权限；主协议已统一为 RDKit/meeko）。仓库内 `pm48_directional_by_prep_v1.csv` 仅作内部记录。
 - ChEMBL median / confidence≥8 / 物种过滤：本地缓存无字段（见 `T0_SKIPS.md`），不得编造；写入 Limitations。
+- Table S12 是计数核对（BindingDB REST + PubChem PUG REST），不是对接结果；不得把 `as_is` 的 EGFR ≥50 写成已建成 BindingDB 厚面板。
