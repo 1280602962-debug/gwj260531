@@ -12,7 +12,9 @@
 
 本研究的首要发现不是某一种 docking scoring function 在双靶任务上取得了最高性能，而是严格的双靶点评测本身构成了一个不同于传统单靶 virtual screening 的任务。传统 docking benchmark 通常将活性配体与 decoy 进行区分，而本文要求模型同时区分 dual-active 配体与两个方向上的 single-target selective hard negatives。后者在一个靶点上具有较强实验活性，因此不能被简单视为普通 decoy。供给审计显示，公开生物活性数据很难同时提供两个方向上足够数量的这类配体；49 个候选靶对中只有少数能够满足严格厚面板要求（Results 3.1；Figure 2）。
 
-这一数据限制本身具有方法学意义。DUD、DUD-E 与 LIT-PCBA 已经表明，decoy construction、chemical bias 和真实 assay 标签会显著改变虚拟筛选的性能判断。^(5–7) 简单方法或不恰当的 unbiasing 也可以通过学习配体分布而高估 structure-based virtual screening。^(11) 近期基于 bioassay-derived data 的评价则进一步强调，与人工构造的 ligand/decoy 集相比，真实 assay-derived benchmarks 可以揭示模型在更接近实际筛选环境中的局限。^(12) DualFourClass-Bench 并未使用这些单靶数据集，也不评价 DiffDock-Pocket；它把同一关切延伸到双靶任务：评价结论取决于硬负样本如何被实验定义，而不是取决于候选靶对清单有多长。
+Zhou、Li 与 Hou 已经表明，对接用于双激酶筛选时，相对 noninhibitor 可以看起来有用，表现依赖结构，并且预测 dual 列表仍有较高 false-positive rate。^(9) DualFourClass-Bench 在同一套分数上追问更窄的问题：Dual-versus-neither（inactive）读出与方向性 Dual-versus-selective 读出是否一致。它们在 EGFR/HER2 上并不一致（Results 3.2，Table 3）。相对 2013 年工作的增量是这一 formulation gap，而不是又一次四对对接普查。
+
+这一数据限制本身具有方法学意义。DUD、DUD-E 与 LIT-PCBA 已经表明，decoy construction、chemical bias 和真实 assay 标签会显著改变虚拟筛选的性能判断。^(5–7) 简单方法或不恰当的 unbiasing 也可以通过学习配体分布而高估 structure-based virtual screening。^(12) 近期基于 bioassay-derived data 的评价则进一步强调，与人工构造的 ligand/decoy 集相比，真实 assay-derived benchmarks 可以揭示模型在更接近实际筛选环境中的局限。^(13) DualFourClass-Bench 并未使用这些单靶数据集，也不评价 DiffDock-Pocket；它把同一关切延伸到双靶任务：评价结论取决于硬负样本如何被实验定义，而不是取决于候选靶对清单有多长。
 
 因此，DualFourClass-Bench 的主要价值并不在于提供一个规模很大的数据集，而在于将双靶识别问题转化为一个实验标签驱动的 hard-negative discrimination task，并显式要求两个方向同时成立。
 
@@ -22,7 +24,7 @@
 
 但即便采用这一任务对齐的评价方式，四对靶标仍表现出明显异质性。三个靶对的 summary_min 位于随机水平附近或低于最简单的物化性质基线，只有 PIK3CA/mTOR 表现出较高的点估计，且其置信区间仍与随机相容（Results 3.2）。更重要的是，AChE/BChE 的结果显示，TPSA 单独即可获得高于 docking 的 discrimination，而 ECFP4 scaffold-grouped baseline 在多个方向上进一步超过 docking（Results 3.3）。由此可见，dual/selective 标签本身携带的 ligand-level information 可以产生强烈的 apparent signal。
 
-这一结果与近年来对虚拟筛选 benchmark 中化学偏倚的关注是一致的：简单模型或不恰当构造的 decoys 可以通过学习 ligand distribution 而获得看似优异的 virtual screening performance，因此 benchmark 必须区分 target-specific signal 与 chemical composition signal。^(7,11) 本研究进一步将这一问题扩展到双靶任务：如果不设置 A-only/B-only hard negatives 以及 ligand-property/chemical baselines，一个看似优秀的 dual-target docking result 可能实际上只是识别了与 dual label 相关的分子属性。
+这一结果与近年来对虚拟筛选 benchmark 中化学偏倚的关注是一致的：简单模型或不恰当构造的 decoys 可以通过学习 ligand distribution 而获得看似优异的 virtual screening performance，因此 benchmark 必须区分 target-specific signal 与 chemical composition signal。^(7,12) 本研究进一步将这一问题扩展到双靶任务：如果不设置 A-only/B-only hard negatives 以及 ligand-property/chemical baselines，一个看似优秀的 dual-target docking result 可能实际上只是识别了与 dual label 相关的分子属性。
 
 ### 4.3 The PIK3CA/mTOR Case: Limited Directional Signal Rather Than a Generalizable Rule
 
@@ -30,15 +32,15 @@ PIK3CA/mTOR 提供了本研究中最值得进一步研究、但也最需要谨�
 
 PIK3CA 和 mTOR 均具有可被 ATP-site chemotypes 访问的结合模式，因此某些 dual ligands 可以在两个口袋中形成合理的 hinge-oriented poses；但同样的 ATP-site compatibility 也可能使选择性硬负在另一靶点获得几何上合理的 pose，从而产生 false dual recognition。姿态级观察与这种可能性相符（Results 3.6 的 T2 / T5），但尚未进行完整的 residue-level PLIF analysis，因此不能将该解释提升为确定的结构机制。
 
-更值得注意的是，5DXT 与 4L23 的局部口袋 Cα RMSD 仅为 0.343 Å，但对应的 summary_min 仍降至 0.505。这说明“结构相似”与“screening discrimination 可迁移”并不是同一个问题。pose-generation QC 通过，也不等于 screening performance robustness。该结果与近期 cross-docking benchmark 中 receptor representation 被视为独立性能变量的观点相一致；那些工作使用的对接引擎与本文不同，不能当作同一协议的外推。^(13)
+更值得注意的是，5DXT 与 4L23 的局部口袋 Cα RMSD 仅为 0.343 Å，但对应的 summary_min 仍降至 0.505。这说明“结构相似”与“screening discrimination 可迁移”并不是同一个问题。pose-generation QC 通过，也不等于 screening performance robustness。该结果与近期 cross-docking benchmark 中 receptor representation 被视为独立性能变量的观点相一致；那些工作使用的对接引擎与本文不同，不能当作同一协议的外推。^(14)
 
 ### 4.4 Implications for Dual-Target Virtual Screening and Generative Design
 
-这些结果对双靶点虚拟筛选与生成式设计具有直接意义。对于生成模型而言，同时在两个口袋获得 favorable docking scores 并不能自动等同于生成了 experimentally plausible dual-active ligands。若 scoring function 本身受到 ligand size、polarity 或 chemotype distribution 的影响，那么生成模型可能通过优化这些易被 scoring function 奖励的属性而获得较高的 dual docking score，而未真正获得两个靶点上的独立结合优势。即便在单靶超大规模对接之后，hit 的后处理与再打分也已被证明难以稳健地区分已知结合分子与无活性分子；^(14) 双靶场景额外要求同时压住两条实验硬负臂，因此更不能把两端有利分数或其简单平均当作充分证据。
+这些结果对双靶点虚拟筛选与生成式设计具有直接意义。对于生成模型而言，同时在两个口袋获得 favorable docking scores 并不能自动等同于生成了 experimentally plausible dual-active ligands。若 scoring function 本身受到 ligand size、polarity 或 chemotype distribution 的影响，那么生成模型可能通过优化这些易被 scoring function 奖励的属性而获得较高的 dual docking score，而未真正获得两个靶点上的独立结合优势。即便在单靶超大规模对接之后，hit 的后处理与再打分也已被证明难以稳健地区分已知结合分子与无活性分子；^(15) 双靶场景额外要求同时压住两条实验硬负臂，因此更不能把两端有利分数或其简单平均当作充分证据。
 
 因此，dual-target generative design 的 downstream evaluation 应至少包含三个层次：首先，dual-active 与 A-only/B-only selective hard negatives 的实验标签驱动 discrimination；其次，ligand-property 和 ligand-only chemical baselines；第三，receptor-structure sensitivity。现有 benchmark 的结果表明，只报告两个 pocket 的 docking scores 或其简单平均值，无法充分回答这些问题。
 
-本研究并不证明现有双靶生成模型无效，也没有直接评测 DualDiff、FuseDiff 或其他生成模型。^(9,10) DualDiff 的 Dual High Affinity 是生成分子在两个靶上均优于各自参考配体，不是均值池化；FuseDiff 的独立测试集为 DualDiff benchmark（DDF）。这些工作回答的是结构生成能否获得有利对接分数。DualFourClass-Bench 可以作为这类方法的 downstream evaluation layer，用于检验生成分子是否真正超过实验定义的 single-target hard negatives，而不是仅仅优化 docking score。
+本研究并不证明现有双靶生成模型无效，也没有直接评测 DualDiff、FuseDiff 或其他生成模型。^(10,11) DualDiff 的 Dual High Affinity 是生成分子在两个靶上均优于各自参考配体，不是均值池化；FuseDiff 的独立测试集为 DualDiff benchmark（DDF）。这些工作回答的是结构生成能否获得有利对接分数。DualFourClass-Bench 可以作为这类方法的 downstream evaluation layer，用于检验生成分子是否真正超过实验定义的 single-target hard negatives，而不是仅仅优化 docking score。
 
 ### 4.5 Wrong-Pocket Reversal Is an Unresolved Benchmark Failure Mode
 

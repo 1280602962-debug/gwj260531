@@ -28,7 +28,12 @@
 | Table S19 | `data/jcim_strengthen_t0t1_v0/tables/pocket_matched_vs_best_descriptor_delta_v1.csv` |
 | Table S20 | `data/jcim_strengthen_t0t1_v0/tables/ligand_ml_scaffold_vs_random_v1.csv` |
 | Table S21 | `data/jcim_strengthen_t0t1_v0/tables/ranking_top10_vina_mean_exploratory_v1.csv` |
-| ChEMBL 聚合局限 | `data/jcim_strengthen_t0t1_v0/analysis/T0_SKIPS.md` |
+| Table S22 | `data/jcim_novelty_v0/tables/formulation_conventional_vs_directional_v1.csv` |
+| Table S23 | `data/jcim_novelty_v0/tables/chemotype_matched_hardneg_v1.csv` |
+| Table S24 | `data/jcim_novelty_v0/tables/incremental_information_v1.csv` |
+| Table S25 | `data/jcim_novelty_v0/tables/mixed_library_enrichment_v1.csv` |
+| Figure S4 | `data/jcim_novelty_v0/figures/FigS_formulation_conventional_vs_directional_v1.png` |
+| ChEMBL 聚合局限 | `data/jcim_strengthen_t0t1_v0/analysis/T0_SKIPS.md`；全面板 median 脚本 `data/jcim_novelty_v0/scripts/assay_aggregation_max_vs_median_v1.py`（尚未完成 SI 表） |
 
 ---
 
@@ -495,4 +500,5 @@ best9 − mode01 为 −0.04 至 +0.08，**不是**相对 Vina。
 - Table S12 是计数核对（BindingDB REST + PubChem PUG REST），不是对接结果；不得把 `as_is` 的 EGFR ≥50 写成已建成 BindingDB 厚面板。
 - Table S13 是 holdout 效价/尺寸匹配诊断，不替换 Table S8；不得写成错口袋悖论已解决。
 - Table S16–S21 是冻结分数上的补表（零新对接）。S17 的 holdout Δ CI 均含 0；S19 四对描述符 Δ CI 均含 0；S21 是 vina_mean Top-10，不是 Table 2。
+- Table S22–S25 与 Figure S4 来自 `data/jcim_novelty_v0/`（仍为零新对接）：S22 formulation comparison；S23 chemotype-matched hard-negatives（T ≥ 0.7 为空）；S24 incremental ECFP/docking；S25 mixed-library EF。不得把 EGFR Dual-vs-neither 写成四对系统高估；不得把 PIK3CA/mTOR Dual-vs-neither（n = 4）写成反转。
 - Figure S3 不得复用 Figure 6 的 AUROC 柱；它只画配对 Δ ± CI。

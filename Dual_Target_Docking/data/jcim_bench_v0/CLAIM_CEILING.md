@@ -27,12 +27,17 @@
 16. Do **not** label receptor replacement as “structure robustness that confirms stability”; it is **receptor-structure sensitivity**.
 17. Do **not** call `summary_min` a novel scoring function; it is a worst-arm aggregation of two AUROCs.
 18. Do **not** treat max(heavy, MW, cLogP, TPSA) as a prespecified confirmatory baseline.
+19. Do **not** write that conventional Dual-vs-neither evaluation **systematically overestimates** dual-target docking on all K = 4 pairs. EGFR/HER2 is the pair where Dual-vs-neither (0.756) and directional summary_min (0.430) diverge; AChE and PIK3CA/PIK3CB show small overlapping increments; PIK3CA/mTOR Dual-vs-neither is underpowered (neither n = 4) and must not be used as a reverse-overestimation story.
+20. Do **not** promote Tanimoto ≥ 0.7 chemotype-matched AUROCs (the matched sets are empty). Modest T ≥ 0.3 drops are allowed with n_neg reported.
+21. Do **not** treat logistic docking AUROC as Table 2 rank AUROC. Incremental ECFP+docking ≈ ECFP is allowed; “docking is information-free on every dual-target pair” is not.
+22. Do **not** promote the 27-ligand max-vs-median diagnostic, or a failed live ChEMBL activity fetch, to a completed SI table. Full-panel median relabel is still outstanding (`scripts/assay_aggregation_max_vs_median_v1.py`).
 
 ## Conclusions claim ceiling
 
 Allowed closing claims:
 - DualFourClass-Bench is an **experimentally grounded evaluation setting** (once in Conclusions; not a new algorithm).
 - Discrimination was **limited and strongly target-pair-dependent** (summary_min 0.430–0.692).
+- On EGFR/HER2, a conventional Dual-versus-neither readout looked substantially stronger than the directional worst arm; this is **pair-dependent**, not a four-pair overestimation law.
 - PIK3CA/mTOR had the strongest point estimate and a positive directional signal in an unused ligand pool; uncertainty + receptor sensitivity **preclude a generalizable dual-target decision rule**.
 - Apparent signals can be substantially influenced by ligand properties, chemotype, and receptor realization.
 - Unused-pool wrong-pocket reversal is **unresolved**; paired CIs included zero.

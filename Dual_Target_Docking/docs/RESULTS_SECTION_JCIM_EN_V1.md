@@ -23,6 +23,8 @@ On the frozen four pairs, AutoDock Vina scores were evaluated under one unified 
 
 EGFR/HER2, AChE/BChE, PIK3CA/PIK3CB, and PIK3CA/mTOR gave summary_min values of 0.430, 0.606, 0.500, and 0.692, respectively (Table 2; Figure 3). The two directional contrasts show that different pairs are limited by different weak arms: dual-versus-B-only AUROC is 0.430 on EGFR/HER2 and 0.500 on PIK3CA/PIK3CB, whereas PIK3CA/mTOR reaches 0.714 and 0.692 on the two directions (Figure 4A). Relative to pooling, pocket matching raised point estimates without changing rank order (Table S6). On EGFR/HER2, 9 of the Top-10 ligands under pooled Vina were hard-negative selective ligands (bootstrap mean ≈ 8.9; 95% CI 7–10).
 
+The same frozen scores were then scored under a Zhou-like Dual-versus-neither formulation and under Dual versus all non-duals (Table 3; Figure S4). On EGFR/HER2, Dual versus neither with `vina_mean` gave AUROC 0.756 [0.562, 0.920] (n_neg = 12), whereas directional summary_min remained 0.430 [0.284, 0.576]. Dual versus all non-duals collapsed to 0.551 [0.443, 0.666]. AChE/BChE and PIK3CA/PIK3CB showed only small Dual-versus-neither increments (0.649 and 0.559) whose intervals overlap the directional arms. PIK3CA/mTOR Dual versus neither is underpowered (neither n = 4) and is not interpreted; Dual versus all non-duals on that pair was 0.674, close to summary_min 0.692. Benchmark formulation therefore changed the interpretation on EGFR/HER2; it did not produce a uniform four-pair reversal.
+
 **Table 2.** Pocket-matched directional AUROC on the frozen K = 4 set (Vina; unified θ = 6.0). Wrong-pocket, ligand-efficiency, and descriptor baselines are in Table S6.
 
 | Pair | n (dual / A_only / B_only) | dual vs A_only (pocket B) | dual vs B_only (pocket A) | summary_min [95% CI] |
@@ -31,6 +33,15 @@ EGFR/HER2, AChE/BChE, PIK3CA/PIK3CB, and PIK3CA/mTOR gave summary_min values of 
 | AChE/BChE | 27 / 25 / 28 | 0.650 | 0.606 | 0.606 [0.440, 0.740] |
 | PIK3CA/PIK3CB | 28 / 27 / 28 | 0.691 | 0.500 | 0.500 [0.347, 0.648] |
 | PIK3CA/mTOR | 18 / 14 / 12 | 0.714 | 0.692 | 0.692 [0.464, 0.802] |
+
+**Table 3.** Same Vina scores under conventional versus directional formulations (unified θ = 6.0). Dual-versus-neither uses experimental inactives; Dual versus all non-duals counts A-only, B-only, and neither as negatives. Directional summary_min CIs are from Table 2. PIK3CA/mTOR Dual versus neither is underpowered (n_neg = 4).
+
+| Pair | directional summary_min [95% CI] | Dual vs neither (`vina_mean`) | n_neither | Dual vs all non-duals |
+|---|---:|---:|---:|---:|
+| EGFR/HER2 | 0.430 [0.284, 0.576] | 0.756 [0.562, 0.920] | 12 | 0.551 [0.443, 0.666] |
+| AChE/BChE | 0.606 [0.440, 0.740] | 0.649 [0.484, 0.812] | 15 | 0.579 [0.442, 0.716] |
+| PIK3CA/PIK3CB | 0.500 [0.347, 0.648] | 0.559 [0.373, 0.746] | 16 | 0.556 [0.437, 0.672] |
+| PIK3CA/mTOR | 0.692 [0.464, 0.802] | 0.514 [0.222, 0.806] | 4 | 0.674 [0.515, 0.817] |
 
 Docking discrimination was therefore not a consistent cross-pair capability; it was strongly target-pair dependent. PIK3CA/mTOR is the only pair whose summary_min point estimate exceeds both chance and its strongest trivial physicochemical baseline (heavy-atom count 0.463), yet its 95% bootstrap confidence interval remains 0.464–0.802 and does not exclude chance. AChE/BChE (0.606) remains below the TPSA baseline (0.733). EGFR/HER2 (0.430) and PIK3CA/PIK3CB (0.500) show no clear advantage over their corresponding simple baselines. All four prespecified descriptors were computed; “best descriptor” is the highest AUROC on that panel, not a confirmatory hypothesis test.
 
@@ -45,6 +56,8 @@ AChE/BChE is a direct confounding case. Mean TPSA was ≈ 75 for dual ligands ve
 PIK3CA/mTOR differs in degree. Adding heavy-atom count and TPSA shifted AUROC by about +0.07 to +0.11, with docking odds ratios ≈ 2.19 and 3.08, suggesting some residual pocket-related signal. The paired difference versus the descriptor baseline still includes 0, so that residual cannot be claimed as a confirmed independent advantage. After ligand-efficiency normalization, only PIK3CA/mTOR remained above the heavy-atom baseline (0.657 versus 0.463).
 
 A two-dimensional chemical baseline makes the same point (Figure 7A). ECFP4 logistic regression under Bemis–Murcko scaffold GroupKFold yielded fold AUROCs of about 0.78–0.91 on several arms, well above the corresponding docking contrasts — for example 0.85 versus 0.43 for EGFR/HER2 dual-versus-B-only. A random `StratifiedKFold` check sits on average +0.011 above the scaffold split across eight directional contrasts (Table S20; Figure S3D); leakage is small. Dual/selective labels are systematically associated with chemotype, so an AUROC on docking scores alone does not establish pocket-specific physical recognition.
+
+Adding the pocket-matched docking score to ECFP4 under the same scaffold split changed CV AUROC by at most ~0.01, and the change was negative on several arms (Table S24). Logistic docking AUROC is not the rank AUROC in Table 2 and is often lower. Chemotype-matched A-only/B-only subsets at ECFP4 Tanimoto ≥ 0.7 were empty. At T ≥ 0.3, the strongest unmatched arm (PIK3CA/PIK3CB dual versus A-only, 0.691) fell to 0.503 (n_neg = 11), whereas distant hard negatives (T < 0.3) rose to 0.819 (Table S23). T ≥ 0.4/0.5 cells are often n_neg ≤ 7 and are not interpreted as a second primary result.
 
 On potency- or size-matched subsets, dual-versus-B-only remained weak or near chance on EGFR/HER2 and PIK3CA/PIK3CB (about 0.45–0.52). The PIK3CA/mTOR ranking trend was unchanged, but per-arm n was often < 15 with wide intervals (Table S5; Figure 7D). All four trivial descriptors are shown in Figure 7B.
 

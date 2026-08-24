@@ -26,6 +26,8 @@
 
 EGFR/HER2、AChE/BChE、PIK3CA/PIK3CB 和 PIK3CA/mTOR 的 summary_min 分别为 0.430、0.606、0.500 和 0.692（Table 2；Figure 3）。两条方向性比较进一步显示，不同靶对的主要限制来自不同的弱臂：EGFR/HER2 的 dual-versus-B-only AUROC 为 0.430，而 PIK3CA/PIK3CB 的对应值为 0.500；相比之下，PIK3CA/mTOR 两个方向分别达到 0.714 和 0.692（Figure 4A）。相对池化协议，口袋匹配普遍抬高了四对的点估计，但排序未变（Table S6）。EGFR/HER2 按池化 Vina 取 Top-10 时，9 个为硬负选择性配体（bootstrap 均值 ≈ 8.9；95% CI 为 7–10）。
 
+同一套冻结分数再按 Zhou 式 Dual-versus-neither 以及 Dual versus all non-duals 计分（Table 3；Figure S4）。EGFR/HER2 上 Dual versus neither（`vina_mean`）AUROC 为 0.756 [0.562, 0.920]（n_neg = 12），而方向性 summary_min 仍为 0.430 [0.284, 0.576]；Dual versus all non-duals 降至 0.551 [0.443, 0.666]。AChE/BChE 与 PIK3CA/PIK3CB 的 Dual-versus-neither 增量很小（0.649 与 0.559），区间与方向性臂重叠。PIK3CA/mTOR 的 Dual versus neither 因 neither n = 4 而 underpowered，不作解释；该对 Dual versus all non-duals 为 0.674，接近 summary_min 0.692。因此 benchmark formulation 在 EGFR/HER2 上改变了解释，但没有在四对上给出统一反转。
+
 **Table 2.** 冻结 K = 4 评价集上的口袋匹配方向 AUROC（Vina，统一 θ = 6.0）。错口袋、配体效率归一与描述符基线见 Table S6。
 
 | 靶对 | n (dual / A_only / B_only) | dual 对 A_only（口袋 B） | dual 对 B_only（口袋 A） | summary_min [95% CI] |
@@ -34,6 +36,15 @@ EGFR/HER2、AChE/BChE、PIK3CA/PIK3CB 和 PIK3CA/mTOR 的 summary_min 分别为 
 | AChE/BChE | 27 / 25 / 28 | 0.650 | 0.606 | 0.606 [0.440, 0.740] |
 | PIK3CA/PIK3CB | 28 / 27 / 28 | 0.691 | 0.500 | 0.500 [0.347, 0.648] |
 | PIK3CA/mTOR | 18 / 14 / 12 | 0.714 | 0.692 | 0.692 [0.464, 0.802] |
+
+**Table 3.** 同一套 Vina 分数在传统 formulation 与方向性 formulation 下的 AUROC（统一 θ = 6.0）。Dual-versus-neither 使用实验 inactive；Dual versus all non-duals 把 A-only、B-only 与 neither 都计为负类。方向性 summary_min 的 CI 来自 Table 2。PIK3CA/mTOR Dual versus neither underpowered（n_neg = 4）。
+
+| 靶对 | directional summary_min [95% CI] | Dual vs neither (`vina_mean`) | n_neither | Dual vs all non-duals |
+|------|--------------------------------:|------------------------------:|----------:|----------------------:|
+| EGFR/HER2 | 0.430 [0.284, 0.576] | 0.756 [0.562, 0.920] | 12 | 0.551 [0.443, 0.666] |
+| AChE/BChE | 0.606 [0.440, 0.740] | 0.649 [0.484, 0.812] | 15 | 0.579 [0.442, 0.716] |
+| PIK3CA/PIK3CB | 0.500 [0.347, 0.648] | 0.559 [0.373, 0.746] | 16 | 0.556 [0.437, 0.672] |
+| PIK3CA/mTOR | 0.692 [0.464, 0.802] | 0.514 [0.222, 0.806] | 4 | 0.674 [0.515, 0.817] |
 
 因此，docking discrimination 并未表现出一致的跨靶对能力，而呈现明显的 target-pair dependence。PIK3CA/mTOR 是唯一一个 summary_min 点估计同时高于 0.5 和其最优简单物化性质基线（重原子数 0.463）的靶对，但其 95% bootstrap confidence interval 仍为 0.464–0.802，未能排除随机水平。AChE/BChE 的 summary_min 为 0.606，但低于 TPSA 基线（0.733）；EGFR/HER2 和 PIK3CA/PIK3CB 分别为 0.430 和 0.500，也未显示超过相应简单基线的明确优势。四个预先指定的物化描述符全部计算；“最强描述符”仅指该面板上 AUROC 最高者，不是预设的独立检验基准。
 
@@ -48,6 +59,8 @@ AChE/BChE 提供了一个较为直接的混淆案例。dual 配体平均 TPSA �
 PIK3CA/mTOR 的情况有所不同。加入 heavy-atom count 和 TPSA 后，AUROC 的变化约为 +0.07 至 +0.11，docking score 的 OR 约为 2.19 和 3.08，提示该靶对可能存在一定 residual pocket-related signal；然而，与 descriptor 的 paired difference 置信区间仍包含 0，因此这一残余信号不能被视为已确证的独立优势。配体效率归一后，仅 PIK3CA/mTOR 仍高于重原子数基线（0.657 对 0.463）。
 
 二维化学结构 baseline 进一步说明了这一问题（Figure 7A）。ECFP4 + logistic regression 在 Bemis–Murcko scaffold GroupKFold 下多个方向获得约 0.78–0.91 的 fold AUROC，明显高于部分对应 docking contrasts，例如 EGFR/HER2 dual-versus-B-only 中 ECFP4 AUROC 为 0.85，而 docking AUROC 仅为 0.43。同一设定下随机 `StratifiedKFold` 相对支架折的平均差为 +0.011（八个方向对比；Table S20；Figure S3D），泄漏很小。该结果表明 dual/selective 标签与 chemotype 存在系统性关联，因此单独观察 docking score 的 AUROC 并不足以证明其识别来源于 pocket-specific physical interactions。
+
+在同一支架折上把口袋匹配对接分数加到 ECFP4 后，CV AUROC 的变化至多约 0.01，若干方向为负（Table S24）。logistic docking AUROC 不是 Table 2 的 rank AUROC，且常常更低。ECFP4 Tanimoto ≥ 0.7 的 chemotype-matched A-only/B-only 子集为空。T ≥ 0.3 时，未匹配时最强的一臂（PIK3CA/PIK3CB dual versus A-only，0.691）降至 0.503（n_neg = 11），而远缘硬负（T < 0.3）升至 0.819（Table S23）。T ≥ 0.4/0.5 的格子常为 n_neg ≤ 7，不作为第二套主结果解释。
 
 效价匹配或尺寸匹配子集上，EGFR/HER2 与 PIK3CA/PIK3CB 的 dual 对 B_only 仍偏弱或接近随机（约 0.45–0.52）；PIK3CA/mTOR 的排序趋势保持一致，但各臂 n 常低于 15、区间较宽（Table S5；Figure 7D）。全部四个平凡描述符见图 7B。
 

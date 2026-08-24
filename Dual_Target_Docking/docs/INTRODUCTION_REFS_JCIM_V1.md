@@ -3,7 +3,7 @@
 > 中文稿 [`INTRODUCTION_DRAFT_ZH_JCIM_V1.md`](INTRODUCTION_DRAFT_ZH_JCIM_V1.md) 与英文稿 [`INTRODUCTION_SECTION_JCIM_EN_V1.md`](INTRODUCTION_SECTION_JCIM_EN_V1.md) 使用同一套编号。  
 > 本文件只收录**已核对题名、作者、年份、卷页与 DOI/arXiv**的条目，并写明允许引用的句子边界。未核验或与本文任务不符的文献不进入 Introduction。
 
-编号按正文首次出现顺序。ACS 期刊用 *J. Med. Chem.* / *J. Chem. Inf. Model.* 的 Cite-this 年卷页。Discussion 新增 11–14 见 [`DISCUSSION_REFS_JCIM_V1.md`](DISCUSSION_REFS_JCIM_V1.md)。
+编号按正文首次出现顺序。ACS 期刊用 *J. Med. Chem.* / *J. Chem. Inf. Model.* 的 Cite-this 年卷页。Discussion 新增 12–15 见 [`DISCUSSION_REFS_JCIM_V1.md`](DISCUSSION_REFS_JCIM_V1.md)。
 
 ---
 
@@ -25,9 +25,11 @@
 
 8. Su, M.; Yang, Q.; Du, Y.; Feng, G.; Liu, Z.; Li, Y.; Wang, R. Comparative Assessment of Scoring Functions: The CASF-2016 Update. *J. Chem. Inf. Model.* **2019**, *59*, 895–913. DOI: [10.1021/acs.jcim.8b00545](https://doi.org/10.1021/acs.jcim.8b00545). (Test set: 285 protein–ligand complexes with crystal structures and binding constants, compiled as a scoring benchmark from PDBbind-quality complexes.)
 
-9. Zhou, X.; Guan, J.; Zhang, Y.; Peng, X.; Wang, L.; Ma, J. Reprogramming Pretrained Target-Specific Diffusion Models for Dual-Target Drug Design. In *The Thirty-eighth Annual Conference on Neural Information Processing Systems (NeurIPS 2024)*; 2024. arXiv: [2410.20688](https://arxiv.org/abs/2410.20688). (Author-provided booktitle from the official DualDiff repository; the method name DualDiff appears **inside** this paper; do not invent a separate paper titled “DualDiff”.)
+9. Zhou, S.; Li, Y.; Hou, T. Feasibility of Using Molecular Docking-Based Virtual Screening for Searching Dual Target Kinase Inhibitors. *J. Chem. Inf. Model.* **2013**, *53*, 982–996. DOI: [10.1021/ci400065e](https://doi.org/10.1021/ci400065e). (ACS Cite this: **2013**, *53*, 4, 982–996; published 2013-03-18. Four kinase pairs: CDK2–GSK3B, EGFR–Src, Lck–Src, Lck–VEGFR2.)
 
-10. Wu, J.; Qiao, A.; Wang, Z.; Wei, Z.; Chen, S. FuseDiff: Symmetry-Preserving Joint Diffusion for Dual-Target Structure-Based Drug Design. arXiv: [2603.05567](https://arxiv.org/abs/2603.05567), **2026**. (Preprint; not a journal article at the time of this draft.)
+10. Zhou, X.; Guan, J.; Zhang, Y.; Peng, X.; Wang, L.; Ma, J. Reprogramming Pretrained Target-Specific Diffusion Models for Dual-Target Drug Design. In *The Thirty-eighth Annual Conference on Neural Information Processing Systems (NeurIPS 2024)*; 2024. arXiv: [2410.20688](https://arxiv.org/abs/2410.20688). (Author-provided booktitle from the official DualDiff repository; the method name DualDiff appears **inside** this paper; do not invent a separate paper titled “DualDiff”. Distinct from Zhou, Li, and Hou 2013.)
+
+11. Wu, J.; Qiao, A.; Wang, Z.; Wei, Z.; Chen, S. FuseDiff: Symmetry-Preserving Joint Diffusion for Dual-Target Structure-Based Drug Design. arXiv: [2603.05567](https://arxiv.org/abs/2603.05567), **2026**. (Preprint; not a journal article at the time of this draft.)
 
 ---
 
@@ -43,8 +45,9 @@
 | 6 | §1–§3 物化匹配 decoy | DUD-E：102 个靶、ChEMBL 配体、每个配体 50 个 ZINC 物化匹配 decoy。 | 经典单靶 docking benchmark；负样本定义影响评价。 | 声称 DualFourClass-Bench 使用 DUD-E 分子。 |
 | 7 | §1、§3 化学偏倚 | 明确指出 DUD / DUD-E / MUV 等人工 active/decoy 集存在明显与隐蔽化学偏倚，可能**高估**虚拟筛选真确度；LIT-PCBA 改用 PubChem 剂量–响应实验标签，并控制物化性质范围。 | benchmark 构建本身改变评价结论；双靶面板也需要化学/物化对照。 | 声称 LIT-PCBA 是四类双靶基准，或本文使用了 LIT-PCBA 数据。 |
 | 8 | §1 结构打分基准 | CASF 把打分与对接过程解耦；四项指标为 scoring / ranking / docking / screening power；CASF-2016 测试集为 285 个高质量复合物。 | 已有结构评价体系针对单复合物打分、姿态与单靶筛选，不是 dual-versus-selective。 | 把 CASF screening power 等同于本文的分臂硬负 AUROC。 |
-| 9 | §4 双靶生成背景 | DualDiff（及 CompDiff）为零样本组合单靶扩散模型的双靶生成方法。评测用 AutoDock Vina 重对接：P-1/P-2 Vina Dock、**Max Vina Dock**（两端 Vina Dock 的最大值，即较弱一端）、**Dual High Affinity**＝生成分子在**两个靶上的结合亲和力均优于各自参考配体**的比例。摘要提到双靶策略与克服肿瘤耐药的潜在价值。 | 生成式双靶设计把 docking-based 双成功当作实用评价；与实验硬负判别互补。 | 把 Dual High Affinity 写成均值池化；声称本文重跑了 DualDiff 生成分子；把论文题名写成 DualDiff。 |
-| 10 | §4 最新双靶结构生成 | 端到端扩散：联合生成共享配体分子图与两个口袋特异结合构象。训练数据自建；**独立测试集为 DualDiff benchmark（DDF）**。报告 Vina Score/Min/Dock、Max Vina Dock 与 Dual High Affinity。摘要：polypharmacology、疗效与降低耐药。 | 说明“如何评价双靶结构质量”已成为实际问题；FuseDiff 仍用对接口径。 | 当作已发表期刊论文；声称 FuseDiff 做了实验 dual vs A_only/B_only；声称本文重对接了 FuseDiff 分子。 |
+| 9 | §2 已有双靶对接评价 | 四对激酶；单靶 inhibitor vs noninhibitor；再评价 dual-target identification；结构依赖；高 false-positive；认为 docking 有用但需结合其他 VS。 | 承认双靶 docking evaluation 不是新问题；本文新在方向性硬负与 formulation comparison，不是“再做四对”。 | 写成 Dual vs A-only/B-only 四状态基准；声称本文重复其激酶对或引擎。 |
+| 10 | §4 双靶生成背景 | DualDiff（及 CompDiff）为零样本组合单靶扩散模型的双靶生成方法。评测用 AutoDock Vina 重对接：P-1/P-2 Vina Dock、**Max Vina Dock**（两端 Vina Dock 的最大值，即较弱一端）、**Dual High Affinity**＝生成分子在**两个靶上的结合亲和力均优于各自参考配体**的比例。摘要提到双靶策略与克服肿瘤耐药的潜在价值。 | 生成式双靶设计把 docking-based 双成功当作实用评价；与实验硬负判别互补。 | 把 Dual High Affinity 写成均值池化；声称本文重跑了 DualDiff 生成分子；把论文题名写成 DualDiff；与 Zhou, Li, Hou 2013 混为同一 Zhou。 |
+| 11 | §4 最新双靶结构生成 | 端到端扩散：联合生成共享配体分子图与两个口袋特异结合构象。训练数据自建；**独立测试集为 DualDiff benchmark（DDF）**。报告 Vina Score/Min/Dock、Max Vina Dock 与 Dual High Affinity。摘要：polypharmacology、疗效与降低耐药。 | 说明“如何评价双靶结构质量”已成为实际问题；FuseDiff 仍用对接口径。 | 当作已发表期刊论文；声称 FuseDiff 做了实验 dual vs A_only/B_only；声称本文重对接了 FuseDiff 分子。 |
 
 ---
 

@@ -146,6 +146,10 @@ Pooled means of the two pocket scores, wrong-pocket assignment (Section 2.9.1), 
 
 AUROC and summary_min uncertainty used ligand-level bootstrap: ligands were resampled with replacement, preserving class structure, and both directional AUROCs and summary_min were recomputed. \(B = 2000\), seed 20260729, percentile 95% CI \([P_{2.5}, P_{97.5}]\). Paired contrasts used the **same** resample to form \(\Delta = \mathrm{Metric}_1 - \mathrm{Metric}_2\) (Tables S17, S19). Murcko-scaffold resampling is reported as a control; the text uses ligand-level intervals. Intervals are descriptive. Outside the prespecified primary endpoint, this work does not treat “whether the CI crosses 0.5” as a formal significance test across many pairs and controls.
 
+#### 2.8.6 Benchmark-formulation comparison
+
+As an auxiliary contrast on the **same** frozen Vina scores, Dual-versus-neither (experimental inactives; `vina_mean` and `vina_worst`) and Dual versus all non-duals were computed beside the directional primary endpoint. Neither ligands are used here; they still do not enter Table 2. PIK3CA/mTOR neither n = 4 is flagged underpowered. This comparison asks whether a conventional dual-versus-inactive readout would change interpretation of the directional task; it is not a second primary endpoint (Table 3; Table S22). Single-target analogues—(dual + A-only) versus (B-only + neither) in pocket A, and the symmetric B contrast—are reported only as a Zhou-like backdrop.
+
 ### 2.9 Confounder and falsification analyses
 
 #### 2.9.1 Wrong-pocket falsification control
@@ -173,7 +177,7 @@ where \(Y\) is the dual versus selective-hard-negative label. scikit-learn `Logi
 
 #### 2.9.5 Two-dimensional chemical baseline
 
-Morgan/ECFP4 fingerprints (radius 2, 2048 bits) with the same logistic settings provided a ligand-only chemical baseline. Evaluation used Bemis–Murcko scaffold `GroupKFold` with \(K = \min(5, N_{+}, N_{-}, N_{\mathrm{scaffold}})\) and at least two folds, so the same scaffold does not span train and test. This reads chemotype–label association, not pocket physics. Random `StratifiedKFold` is a leakage check only (Table S20).
+Morgan/ECFP4 fingerprints (radius 2, 2048 bits) with the same logistic settings provided a ligand-only chemical baseline. Evaluation used Bemis–Murcko scaffold `GroupKFold` with \(K = \min(5, N_{+}, N_{-}, N_{\mathrm{scaffold}})\) and at least two folds, so the same scaffold does not span train and test. This reads chemotype–label association, not pocket physics. Random `StratifiedKFold` is a leakage check only (Table S20). Incremental models (physchem, ECFP4, docking, and combinations) use the same split; logistic docking AUROC is not the rank AUROC in Table 2 (Table S24). Nearest-neighbor ECFP4 Tanimoto matching of A-only/B-only ligands to duals is reported at T ≥ 0.3 / 0.4 / 0.5 because T ≥ 0.7 matching is empty on these panels (Table S23).
 
 #### 2.9.6 Scoring-independent contact count
 

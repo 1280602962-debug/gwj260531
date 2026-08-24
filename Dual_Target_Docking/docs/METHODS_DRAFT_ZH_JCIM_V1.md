@@ -149,6 +149,10 @@ S_{\mathrm{Vina}} = -E_{\mathrm{Vina}},
 
 AUROC 与 summary_min 的不确定度用配体层 bootstrap：在保持类别标签结构的条件下对配体有放回重采样，每次重算两条方向 AUROC 与 summary_min。\(B = 2000\)，随机种子 20260729，百分位数 95% CI 为 \([P_{2.5}, P_{97.5}]\)。错口袋与描述符等配对比较在**同一次**重采样上计算 \(\Delta = \mathrm{Metric}_1 - \mathrm{Metric}_2\)，得到 paired bootstrap 区间（Table S17、S19）。另报 Murcko 支架重采样区间作为对照；正文以配体层为准。置信区间作描述性不确定度；除预先定义的主终点外，不对多靶对、多对照做多重比较意义上的 confirmatory testing，也不把“CI 是否跨越 0.5”单独等同于正式显著性。
 
+#### 2.8.6 Benchmark-formulation comparison
+
+在同一套冻结 Vina 分数上，将 Dual-versus-neither（实验 inactive；`vina_mean` 与 `vina_worst`）以及 Dual versus all non-duals 作为辅助对照，与方向性主终点并列。neither 用于该对照，仍不进入 Table 2。PIK3CA/mTOR 的 neither n = 4 标记 underpowered。该比较只问传统 dual-versus-inactive 读出是否改变对方向性任务的解释，不是第二套主终点（Table 3；Table S22）。单靶类比——口袋 A 上 (dual + A-only) 对 (B-only + neither)，以及对称的 B 对照——仅作 Zhou 式背景。
+
 ### 2.9 Confounder、falsification 与化学对照
 
 #### 2.9.1 Wrong-pocket falsification control
@@ -176,7 +180,7 @@ AUROC 与 summary_min 的不确定度用配体层 bootstrap：在保持类别标
 
 #### 2.9.5 二维化学基线
 
-Morgan/ECFP4（半径 2，2048 bit）加与 2.9.4 相同的逻辑回归，建立仅依赖二维结构的基线。评价采用 Bemis–Murcko scaffold `GroupKFold`，折数 \(\min(5, N_{+}, N_{-}, N_{\mathrm{scaffold}})\) 且至少两折，使同一骨架不跨训练/测试折。该分析识别 chemotype–label association，不是口袋物理证据。随机 `StratifiedKFold` 仅作泄漏核对（Table S20），不以寻找更大 gap 为目的。
+Morgan/ECFP4（半径 2，2048 bit）加与 2.9.4 相同的逻辑回归，建立仅依赖二维结构的基线。评价采用 Bemis–Murcko scaffold `GroupKFold`，折数 \(\min(5, N_{+}, N_{-}, N_{\mathrm{scaffold}})\) 且至少两折，使同一骨架不跨训练/测试折。该分析识别 chemotype–label association，不是口袋物理证据。随机 `StratifiedKFold` 仅作泄漏核对（Table S20），不以寻找更大 gap 为目的。增量模型（physchem、ECFP4、docking 及其组合）使用同一折；logistic docking AUROC 不是 Table 2 的 rank AUROC（Table S24）。A-only/B-only 相对 dual 的最近邻 ECFP4 Tanimoto 匹配在 T ≥ 0.3 / 0.4 / 0.5 报告，因为这些面板上 T ≥ 0.7 匹配为空（Table S23）。
 
 #### 2.9.6 Scoring-independent contact count
 
