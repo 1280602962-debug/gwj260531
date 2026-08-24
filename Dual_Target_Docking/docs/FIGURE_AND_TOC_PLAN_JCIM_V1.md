@@ -17,8 +17,8 @@ JCIM Articles 无硬图数上限。主文 **7 张图 + 1 张 TOC**：Fig 6 是�
 | 必做 | 49 对硬负供给 | **Fig 2** | “为什么只有 K=4”必须一眼看见；EGFR=7 要标出来 |
 | 必做 | Table 2：口袋匹配 summary_min ± CI，并排最强描述符 | **Fig 3 森林图** | 全文主结果图 |
 | 必做 | 弱臂不对称 + 对接 vs 描述符 | **Fig 4** | 否则读者只记住 0.692 |
-| 必做 | 主面板 vs holdout，以及换晶 | **Fig 5** | 这是 3.9–3.10 真正改写故事的两块；比 E=8 对照重要得多 |
-| 必做 | 错口袋：主面板 matched>wrong，holdout 反转，匹配后仍不恢复 | **Fig 6** | 开放结果；比协议旋钮更改故事 |
+| 必做 | 配体层 vs 受体层稳健性 | **Fig 5** | Results 3.4 视觉锚：ligand replacement 可持续，receptor replacement 可崩 |
+| 必做 | 错口袋：主面板 matched>wrong，holdout 反转 | **Fig 6** | unresolved failure mode，不是 validation |
 | 必做 | 指纹 GroupKFold、全部描述符、协变量、匹配子集 | **Fig 7** | Fig 4 只给最强描述符与 TPSA；这张是检验 |
 | 可做（主文或 SI） | PI-103 共晶回收 + 一个 T2 硬负两端都“看起来对” | **SI 姿态图** | 对接论文需要一张姿态图，但不要假装做了 PLIF |
 | SI | 阈值网格、GNINA mode01/best9、PM110、E8/E16、单靶 enrichment | **Fig S1** | 协议旋钮不改排序 |
@@ -73,14 +73,25 @@ JCIM Articles 无硬图数上限。主文 **7 张图 + 1 张 TOC**：Fig 6 是�
 
 不要把指纹 0.78–0.91 画成“对接失败证明”；若画，标 *chemotype–label association*。
 
-### Fig 5 — 稳健性：配体层 vs 受体层（这张比旧 Fig 5 的 E8/E16 更值）
+### Fig 5 — Ligand-side versus receptor-side robustness（Results 3.4 视觉锚）
 
-- **(A)** 三对：主面板 vs holdout 的 summary_min ± CI（EGFR 不在 holdout，不要空出误导）。
-- **(B)** PM48：4L23/4JT6（主）→ 换 4JPS / 5DXT / 4JSX。点估计掉到 ~0.5 必须看得见；CI 含 0.5 用灰色。
+标题不要写成泛泛的 *robustness*，而要写成 **ligand-side vs receptor-side**。
+
+现有位图（`Fig5_holdout_and_crystal_swap`）已经是两栏对照，不必为了 PM48→PM110 再拆一张主图：
+
+- **(A) Ligand-side：** 三对主面板 vs unused-pool holdout 的 summary_min ± CI（EGFR 无 holdout，不要空出误导）。读图应得到：PM 同向且点估计更高；AChE 接近；PIK3CB 下降。PM110 是含 PM48 的 stability check，放 Figure S1C，避免把非独立面板画成第三条“验证”轨迹。
+- **(B) Receptor-side：** PM48：4L23/4JT6（主）→ 4JPS/4JT6、5DXT/4JT6、4L23/4JSX。点估计掉到 ~0.5 必须看得见；CI 含 0.5 用灰色。
+
+视觉对比：
+
+> Ligand replacement: signal can persist  
+> Receptor replacement: signal can collapse
 
 E8/E16、PM110、单靶 enrichment 改 SI Fig S1：它们不改变故事。
 
-### Fig 6 — 错口袋（主文；取代旧 SI Fig S1）
+### Fig 6 — Wrong-pocket controls reveal an unresolved out-of-panel failure mode
+
+不要用 *Wrong-pocket validation*。它是 falsification control，且在 holdout 上失败。
 
 四面板，**7.00 in**：
 

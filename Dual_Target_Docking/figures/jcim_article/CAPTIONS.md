@@ -23,11 +23,11 @@ Vina (primary), RTMScore, GNINA CNN best-of-9, and the strongest trivial descrip
 
 (A) Directional Vina AUROCs at θ = 6.0: dual versus A_only (pocket B) and dual versus B_only (pocket A). (B) Vina pocket-matched summary_min versus the strongest trivial descriptor, with 95% CIs. (C) TPSA on the AChE/BChE panel by class (individual ligands from `assembled_AChE_BChE.csv`; horizontal line, median). Dual ligands are more polar than either hard-negative class, matching the TPSA baseline that exceeds Vina on this pair.
 
-## Figure 5. Ligand-set holdout versus receptor swap.
+## Figure 5. Ligand-side versus receptor-side robustness of the PIK3CA/mTOR signal.
 
-(A) Pocket-matched summary_min on the main panel versus the unused-pool holdout (20/20/20; seed 20260731) for the three pairs with unused-pool supply. EGFR/HER2 has no holdout. (B) PM48 crystal swap: replacing PIK3CA 4L23 with 4JPS or 5DXT (mTOR held at 4JT6) or replacing mTOR 4JT6 with 4JSX (PIK3CA held at 4L23). Error bars are 95% ligand-bootstrap CIs.
+(A) Ligand-side: pocket-matched summary_min on the main panel versus the unused-pool holdout (20/20/20; seed 20260731) for the three pairs with unused-pool supply. EGFR/HER2 has no holdout. PM110 is a same-family stability check shown in Figure S1C, not a third independent validation trajectory. (B) Receptor-side: PM48 crystal swap, replacing PIK3CA 4L23 with 4JPS or 5DXT (mTOR held at 4JT6) or replacing mTOR 4JT6 with 4JSX (PIK3CA held at 4L23). Error bars are 95% ligand-bootstrap CIs. Ligand replacement can leave the directional signal intact; receptor replacement can collapse it.
 
-## Figure 6. Pocket-matched versus wrong-pocket control.
+## Figure 6. Wrong-pocket controls reveal an unresolved out-of-panel failure mode.
 
 (A) Main K=4 panels: pocket-matched Vina summary_min versus the wrong-pocket control (`pocket_matched_directional_v1.csv`). Matched exceeds wrong-pocket on all four pairs. (B) Unused-pool holdout: the inequality reverses (wrong-pocket ≥ matched) on all three pairs with holdout supply (`holdout_pocket_matched_v1.csv`). EGFR/HER2 has no holdout. (C) The reversal remains after potency matching (|Δp| ≤ 0.5) or size matching (|Δheavy| ≤ 2) (`holdout_matched_wrong_pocket_summary_v1.csv`). Wrong-pocket remains ≥ matched on all nine cells; matching does not restore the main-panel inequality. (D) Scoring-free contact-count AUROC on pocket A (D vs A_only) and pocket B (D vs B_only) versus Vina wrong-pocket summary_min (`wrong_pocket_contact_v1_output.txt`; not a PLIF). B-arm contact is above chance; the magnitude does not reproduce Vina on PIK3CA/mTOR.
 

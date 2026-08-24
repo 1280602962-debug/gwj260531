@@ -1,27 +1,38 @@
 # 已有结果清单 ↔ Discussion 口径
 
 > 只收录仓库里已经跑完、可以写进稿的结果。讨论句必须不越过 `CLAIM_CEILING.md`。  
-> 配套：`RESULTS_DRAFT_ZH_JCIM_V1.md`、`DISCUSSION_DRAFT_ZH_JCIM_V1.md`、`DISCUSSION_LIMITATIONS_DRAFT_ZH_JCIM_V1.md`。
+> 配套：`RESULTS_DRAFT_ZH_JCIM_V1.md`（3.1–3.6）、`DISCUSSION_DRAFT_ZH_JCIM_V1.md`（4.1–4.6）、`DISCUSSION_LIMITATIONS_DRAFT_ZH_JCIM_V1.md`。
 
-全文定位（每段讨论都要服从）：不是 “docking can/cannot identify dual-target ligands”，也不是新打分函数；而是评价对接分数在四状态硬负面板、双向 pairwise 主终点上的**可靠性与边界**。资源名 DualFourClass-Bench。
+全文定位：不是 “docking can/cannot identify dual-target ligands”，也不是新打分函数；而是评价对接分数在四状态硬负面板、双向 pairwise 主终点上的**可靠性与边界**。资源名 DualFourClass-Bench。
+
+定量主结论（Abstract / 4.6 共用，不要写成更强）：
+
+> Docking showed limited and strongly target-pair-dependent discrimination. Only PIK3CA/mTOR showed a point estimate above chance and its strongest trivial descriptor baseline, but the uncertainty interval remained compatible with chance.
+
+PIK3CA/mTOR 的 boxed 说法：
+
+> limited directional signal + ligand-panel persistence, **not** receptor invariance.
 
 ---
 
-## 0. Discussion 建议骨架（八段 + Limitations）
+## 0. 现行骨架（Results 6 节 + Discussion 6 节）
 
 | 段 | 功能 | 吃进哪些结果 |
 |---|---|---|
-| D1 | 文章到底证明了什么 | 3.1–3.3 的总判断 |
-| D2 | 为什么只能评这四对 | 3.1 + Table S12 |
-| D3 | 主发现：弱、对靶、弱臂必须分开放 | 3.2–3.3 + S4/S6 + GNINA S15 |
-| D4 | 多数表观信号是混淆 | 3.4 + S5/S6 + 指纹基线 |
-| D5 | “最好的一对”也不是结构不变的成功 | 3.5、3.9、3.10 |
-| D6 | 开放机制 1：holdout 错口袋反转 | 3.9 + S11/S13 vs 主面板 S6 |
-| D7 | 开放机制 2：换晶崩盘，Cα 不够 | 3.10–3.11 + S9/S10 |
-| D8 | 对评测与生成式文献的含义 | 指标定义 + DualDiff/FuseDiff 用途句 |
-| Lim | 局限清单 | 见 Limitations 稿 1–13 |
+| 3.1 | 公开数据能不能建成严格双靶基准 | 49 对审计、K=4、S12 |
+| 3.2 | docking 能不能识别 | Table 2、Fig 3、θ 网格→S4、GNINA S15 |
+| 3.3 | 表观信号是不是口袋特异 | 描述符 Δ、TPSA、协变量、ECFP4、匹配子集 |
+| 3.4 | PM 信号在哪些条件下成立 | E8、PM110、holdout、换晶、Cα |
+| 3.5 | specificity control 是否可靠 | 主面板 matched>wrong；holdout 反转；S11/S13 |
+| 3.6 | 结构背景线索（探索性） | Table S7 序列一致性；T2/T5 姿态事实 |
+| 4.1 | 评测的是什么任务 | 3.1 + DUD/LIT-PCBA/Ahmed |
+| 4.2 | 为什么难于两个单靶任务 | 3.2–3.3 + Ballester 2023 |
+| 4.3 | PM 是有限方向信号 | 3.4 + 3.6；Schaller 只作 receptor 变量 |
+| 4.4 | 对 VS / 生成式的含义 | DualDiff/FuseDiff 用途句；Sindt 后处理类比 |
+| 4.5 | 未解决的错口袋反转 | 3.5 |
+| 4.6 | 五条局限 + 收束段 | 库存 1–13 的前五条 |
 
-下面按 Results 小节罗列：**有什么 → 讨论应写成什么 → 禁止写成什么**。
+旧 Results 3.8（面板构成层重抽样）已移入 4.6 / Limitations，不再作为 Results 小节。
 
 ---
 
@@ -29,30 +40,17 @@
 
 | 已有结果 | 关键数字 | 源 |
 |---|---|---|
-| 49 对 ChEMBL 严格供给审计 | 两端硬负 ≥ 50 仅 4 对；去掉 HDAC1/HDAC6 后厚面板 3 对 | J0 / Table 1 |
+| 49 对 ChEMBL 严格供给审计 | 两端硬负 ≥ 50 仅 4 对；去掉 HDAC1/HDAC6 后厚面板 3 对 | J0 / Table 1 / Fig 2 |
 | EGFR/HER2 进 K=4 的理由 | 严格 B_only = **7**，供给受限案例，不是厚面板 | J0 |
 | BindingDB / PubChem 计数核对（零对接） | `equal_only` 厚门槛不翻转（min HN 76/92/58 与 86/97/61）；EGFR 升至 ~30，仍 < 50；`as_is` 可过 50 是因为 `>` 截尾 | Table S12 |
 
-**讨论应写：** 可平衡的四状态硬负面板在公开数据里很少；K=4 是供给冻结集，不是对全部双靶任务的抽样。ChEMBL 作对接主源合理，因为等式测定下厚门槛不随库翻转；EGFR 仍是供给案例，不能改写成厚面板后再去对接。
+**讨论应写：** 可平衡的四状态硬负面板在公开数据里很少；K=4 是 *constrained but experimentally grounded* 的供给冻结集，不是对全部双靶任务的抽样。
 
-**不要写：** 公开数据硬负供给 “ChEMBL-invariant” 而不提 S12；ChEMBL 漏了约 80 个干净 HER2 选择性配体；BindingDB 已经给出可对接新面板。
-
----
-
-## 2. 标签规则（Results 3.2）
-
-| 已有结果 | 关键数字 | 源 |
-|---|---|---|
-| 正文统一 θ = 6.0 | AChE、PIK3CB 上与严格 6.5/5.5 **分类和 AUROC 完全相同** | Table S4 |
-| 阈值网格 | 整张网格排序不变：PM 最高，其余 ≤ 0.61；严格规则下 EGFR 0.324、PM 0.639（B_only 过少，underpowered） | Table S4 |
-
-**讨论应写：** 跨对主表用同一阈值，避免“每对调一个规则”。更严规则会让 EGFR/PM 的 B_only 失效，所以严格规则只作敏感性，不作第二套主标准。
-
-**不要写：** 全面板 max vs median 已经做完（只有 27 配体诊断样本，禁止升格）；标签规则是数据驱动调出来的最优切分。
+**不要写：** 我们建立了一个非常完整的 benchmark；公开数据硬负供给 “ChEMBL-invariant” 而不提 S12；ChEMBL 漏了约 80 个干净 HER2 选择性配体。
 
 ---
 
-## 3. 主对接结果（Results 3.3）— 全文最硬的一段
+## 2. 主对接结果（Results 3.2）
 
 **Table 2（θ = 6.0，口袋匹配 Vina）**
 
@@ -63,165 +61,109 @@
 | PIK3CA/PIK3CB | 28/27/28 | **0.500** [0.347, 0.648] | 随机 | 不超过 |
 | PIK3CA/mTOR | 18/14/12 | **0.692** [0.464, 0.802] | CI 下界贴 0.5 | 点估计 > heavy **0.463**，但 Δ 的 CI **含 0** |
 
-其它已有、必须跟主表一起讨论的对照：
+其它必须跟主表一起讨论的对照：
 
 | 结果 | 数字 | 源 |
 |---|---|---|
-| 池化会掩盖弱臂 | EGFR 池化 summary 可近 0.50，分臂 B 端 0.430（弱臂可读到 ~0.28） | Table S6 |
-| 错口袋（主面板） | 0.260 / 0.444 / 0.349 / 0.602；匹配均高于错口袋（差距 > 0.09） | Table S6 |
-| EGFR Top-10（池化 Vina） | 9/10 为硬负；bootstrap 均值 ≈ 8.9，CI 7–10 | Results 3.3 |
-| RTM 口袋匹配 | EGFR 0.353；PM110 0.576 | S6 / PM110 核对 |
-| GNINA 真口袋匹配 best-of-9 | EGFR **0.290**；AChE **0.413**；PIK3CB **0.533**；PM **0.655**（相对 mode01 −0.04～+0.08） | Table S15 |
-| GNINA vs Vina | 三对 ≤ Vina；PIK3CB 略高（0.533 vs 0.500）但近随机、CI 重叠，mode01 时已如此 | S15 |
+| 统一 θ = 6.0 | AChE、PIK3CB 上与严格 6.5/5.5 **分类和 AUROC 完全相同** | Table S4 |
+| 阈值网格 | 整张网格排序不变：PM 最高，其余 ≤ 0.61 | Table S4 / Fig S1A |
+| 池化会掩盖弱臂 | EGFR 分臂 B 端 0.430 | Table S6 / Fig 4A |
+| EGFR Top-10（池化 Vina） | 9/10 为硬负；bootstrap 均值 ≈ 8.9，CI 7–10 | 3.2 |
+| GNINA 真口袋匹配 best-of-9 | EGFR 0.290；AChE 0.413；PIK3CB 0.533；PM 0.655 | Table S15 |
 
-**讨论应写：**
-
-1. 对接对真 dual 的判别**有限且高度依赖靶对**。
-2. **只有** PIK3CA/mTOR 的点估计同时高于 0.5 与最强平凡描述符；这仍不是强判别：CI 下界贴 0.5，Δ vs 描述符的 CI 含 0。
-3. 口袋匹配的价值是把弱臂放到明处，不是抬高“看起来还行”的池化分。EGFR 的失败在 B 端，Top-10 几乎全是硬负，说明“两端分数都不错”会把选择性配体读成 dual。
-4. RTM 与 GNINA **未改变这一格局**（三对不超过 Vina，一对与 Vina 统计不可分、均近随机）。姿态覆盖不对称已用 best-of-9 补齐，不是 GNINA 偏弱的主因。GNINA 只是单一 CNN 通道，不是三引擎赛马。
-
-**不要写：** docking can/cannot；rtm_min_z 或任何池化分是通用决策臂；“GNINA never exceeds Vina on any pair”；三引擎已验证同一决策臂；GNINA best-of-9 救了 EGFR/AChE（二者仍 < 0.5）。
+**讨论应写：** docking 判别有限且高度依赖靶对。不要写 “PIK3CA/mTOR performed significantly better”（CI 跨 0.5）。不要写 “docking fails across all pairs”。
 
 ---
 
-## 4. 混淆主导（Results 3.4）
+## 3. 混淆主导（Results 3.3）— 核心发现，不是附加分析
+
+| 结果 | 数字 | 源 |
+|---|---|---|
+| 配对 Δ（matched Vina − best descriptor） | −0.052 / −0.128 / −0.122 / **+0.229**；四对 CI 均含 0 | Table S19 / Fig S3C |
+| AChE TPSA | dual vs 硬负 ~75 vs 51；TPSA ~0.769 > Vina ~0.56；+heavy 后 D vs B 0.606 → 0.807；OR ≈ 1.18 | Fig 4C / Fig 7C |
+| PM 控制尺寸/极性后 | AUROC +0.07～+0.11；OR ≈ 2.19 / 3.08 = **有限残余口袋信号**，须与含 0 的 Δ 一起读 | Fig 7C |
+| ECFP4 GroupKFold | 多方向 0.78–0.91；EGFR D vs B 指纹 0.85 vs docking 0.43 | Fig 7A |
+| 支架 vs 随机 | 平均 +0.011 | Table S20 / Fig S3D |
+
+**讨论应写：** 表观 dual signal 大量可由 ligand properties / chemotype 解释。PM 的残余 OR 不是已确证的独立优势。
+
+**不要写：** 描述符对照是补充实验；对接显著优于平凡描述符。
+
+---
+
+## 4. 配体层持续 vs 受体层崩溃（Results 3.4）
 
 | 已有结果 | 关键数字 | 源 |
 |---|---|---|
-| Δ vs 最优描述符 | EGFR、PIK3CB 的 Δ CI 整体在 0 以下；AChE 点估计未过门；PM Δ CI 含 0 | Table S6 |
-| 配体效率归一 | 仅 PM 仍高于 heavy（0.657 vs 0.463） | S6 |
-| AChE TPSA | dual vs 硬负均值 ~75 vs 51；TPSA AUROC ~0.769 > Vina ~0.56；TPSA+heavy 后 dual vs B_only 0.606 → 0.807；对接 OR ≈ 1.18 | 3.4 |
-| PM 控制尺寸/极性后 | AUROC +0.07～+0.11；OR ≈ 2.19 / 3.08 = **有限残余口袋信号**，须与含 0 的 Δ 一起读 | 3.4 |
-| ECFP4 + GroupKFold | 支架折 0.78–0.91，普遍高于对接；EGFR dual vs B_only 指纹 0.85 vs 对接 0.43；随机折仅高 ~0.01（支架近单例） | 泄漏检查 |
-| 效价/尺寸匹配子集 | EGFR、PIK3CB 的 dual vs B_only 仍 ~0.45–0.52；PM 趋势同向但 n 常 < 15 | Table S5 |
+| PM exhaustiveness 16→8 | 0.692 → 0.660（Δ ≈ 0.03） | Fig S1D |
+| PM110 稳定性核对 | Vina 0.648 [0.51, 0.76]，Δ ≈ −0.04 | Fig S1C |
+| Holdout PM / AChE / PIK3CB | **0.765** [0.603, 0.891] / 0.618 [0.422, 0.759] / 0.425 [0.241, 0.618] | Table S8 / Fig 5A |
+| 换 PIK3CA | 0.692 → **0.486** / **0.505**；D/A 仍 0.714 | Table S9 / Fig 5B |
+| 换 mTOR | **0.639**；CI 含 0.5 | S9 |
+| Cognate QC | 4JPS 0.607 Å、5DXT 0.624 Å、4JSX 0.515 Å | S9 |
+| 口袋局域 Cα | 5DXT **0.343 Å** 仍崩到 0.505 | Table S10 |
 
-**讨论应写：** 核心不是“对接不好”，而是许多表观双靶信号可以被分子属性与二维化学型解释。评测协议必须把平凡描述符、错口袋、指纹基线写进主结果。PM 上可能有有限残余口袋信号，但统计上仍不能声称显著优于描述符。
+**讨论应写：** holdout **supports persistence of the observed signal in an unused ligand pool**，不验证 benchmark。PM = limited directional signal + ligand-panel persistence，不是 receptor invariance。pose QC ≠ screening robustness。
 
-**不要写：** 对接已提供强的口袋特异信息；AChE 的 OR≈1.18 是“保留独立方向信息”；指纹高 AUROC 证明了口袋物理特异性（它证明的是标签–化学型相关）。
+**不要写：** holdout 是独立文献/跨库验证；PM 是结构不变的 positive case；Cα 定量解释了崩盘。
 
 ---
 
-## 5. 稳健性核对，不是独立验证（Results 3.5）
+## 5. 错口袋反转（Results 3.5）
 
 | 已有结果 | 关键数字 | 源 |
 |---|---|---|
-| PM exhaustiveness 16→8 | 0.692 → 0.660（Δ ≈ 0.03），远小于靶对间差 | 3.5 |
-| 单靶富集（仅 4L23 / 4JT6） | AUROC 0.603 / 0.629；EF1% ≈ 2；有限富集，不是强 VS 引擎 | 3.5 |
-| PM110 稳定性核对（n=115，分析用 30/30/30） | Vina 0.648 [0.51, 0.76]，相对 PM48 的 0.692，Δ ≈ −0.04，区间更窄、同向 | 3.5 |
-| 同面板 GNINA best9 | PM48 **0.655**；PM110 **0.613**（仍 ≤ 同面板 Vina） | S15 |
+| 主面板 matched − wrong | 0.170 / 0.161 / 0.151 / 0.090；仅 EGFR 与 AChE 的 CI 不含 0 | Table S17 / Fig 6A / Fig S3A |
+| Holdout wrong ≥ matched | 0.788 vs 0.765；0.643 vs 0.618；0.520 vs 0.425；三对 Δ 的 CI **均含 0** | Fig 6B / Fig S3B |
+| 效价/尺寸匹配后仍不翻转 | Table S13 | Fig 6C |
+| contact_count | B 臂 0.698–0.714；不能按幅度解释 Vina（PM 0.788 vs 0.552） | Table S11 / Fig 6D |
 
-**讨论应写：** exhaustiveness 与扩面都不改变“仅 PM 点估计过线、幅度有限”。PM110 是稳定性核对，不是独立验证，也不是用扩面挽救点估计。单靶 sanity 只覆盖 PM 两端。
-
-**不要写：** PM110 证实了可重复成功；E=16 解释了 PM 相对更优。
+**讨论应写：** 未解决的 failure mode。不要解释掉。不要写成 wrong-pocket validation。
 
 ---
 
-## 6. 跨对结构对照（Results 3.6）与个案线索（Results 3.7）
+## 6. 探索性结构线索（Results 3.6）
 
 | 已有结果 | 关键数字 | 源 |
 |---|---|---|
-| 全链序列一致性 vs summary_min | PM 18% / 0.692；PIK3CB 41% / 0.500；AChE 52% / 0.606；EGFR 71% / 0.430 | Table S7 |
-| Cognate QC | 主受体过 < 2 Å；4JT6 需 E=16 + best-of-9 | Table S3 |
-| Failure typology（仅 PM） | T2：弱端也给出干净 hinge 姿态；T5：RTM 误伤经典 dual | PM failure typology |
+| 全链序列一致性 | PM 18.1% / PIK3CB 40.5% / AChE 51.9% / EGFR 71.4% | Table S7 |
+| 姿态分型 | T2 硬负两端干净 ATP/hinge-like pose；T5 dual 在 Vina 强、重打分偏离 | failure typology |
 
-**讨论应写：** n=4 的描述性对照：判别力最高的一对全链最不像，最低的一对（EGFR/HER2）最像。这**不是**“整体越像就越难区分”的一般规则。PM 的低全链一致性不等于两口袋不像：局部 ATP 位点仍同源，与文献双抑制剂化学型一致。个案姿态只说明：即便最好的一对，对接仍可能把 ATP 交叉化学型误判为 dual。
-
-**不要写：** 口袋残基 RMSD / PLIF 相似度（没做）；正式相关或显著性；全面板残基守恒分析已完成。
+**Results 只写看到什么。Discussion 4.3 才写 ATP-site chemotype transferability 可能。** n = 4，禁止当相关。
 
 ---
 
-## 7. 面板构成层缺口（Results 3.8）
-
-| 已有结果 | 关键数字 |
-|---|---|
-| 配体/支架 bootstrap B=2000 | 固定面板内不确定度 |
-| 严格硬负剩余（主面板+holdout 后） | PM 37/39；AChE 141/30；PIK3CB **8**/19；EGFR **22/0** → 1000 个互不重叠独立 panel **供给不可能** |
-
-**讨论应写：** 现有 CI 不回答“换一批同配额分子是否同向”。Holdout（3.9）是一次 unused-pool 外推，不是供给池重抽分布。不要许诺对接未用池就能得到 1000-panel。
-
-**不要写：** 面板构成已经验证稳健；有放回 bootstrap = unused-pool 重抽。
-
----
-
-## 8. Unused-pool holdout（Results 3.9）— Discussion 必须单独成段
-
-| 已有结果 | 关键数字 | 源 |
-|---|---|---|
-| 三对 20/20/20，种子 20260731 | 同协议对接 | Table S8 |
-| PM holdout | **0.765** [0.603, 0.891]，CI 下界 > 0.5，点估计 > heavy 0.555 | S8 |
-| AChE holdout | 0.618 [0.422, 0.759]，CI 含 0.5 | S8 |
-| PIK3CB holdout | 0.425 [0.241, 0.618]，低于 heavy 0.691 | S8 |
-| 范围 | 无 EGFR（严格 B_only 不够）；同一 ChEMBL 批次，不是跨库验证 | Methods |
-| HOAP_028 | 含硼，两端失败，59/60 进入分析 | S8 |
-| **错口袋 ≥ 匹配（三对都成立）** | PM 0.788 vs 0.765；AChE 0.643 vs 0.618；PIK3CB 0.520 vs 0.425 | S8 vs 主面板 S6 方向**相反** |
-| 效价/尺寸匹配后悖论仍在 | AChE 0.642 vs 0.593（n=18）；PIK3CB 0.562 vs 0.363（n=11）；PM 0.734 vs 0.715（n=12） | Table S13 |
-| 抽样偏移存在但不足 | PM holdout dual/A_only pA 低约 1.1–1.3 | S13 |
-| contact_count（非 PLIF） | B 臂 0.698–0.714；A 臂 0.552–0.622；**不能按幅度解释** Vina（PM：Vina 0.788 vs contact min 0.552） | Table S11 |
-
-**讨论应写：**
-
-1. 配体层：PM 与主表**同向**（holdout 甚至 CI 下界 > 0.5）；AChE 仍跨 0.5；PIK3CB 仍无方向信号。这检验的是“协议是否只在建面时凑效”，**不是**跨机构独立验证。
-2. 错口袋：holdout 上三对都不低于匹配，与主面板相反。效价/尺寸匹配后不等式仍在 → **不能**说是抽偏了。接触计数证明 B 臂有真实尺寸/埋藏混淆，但**解释不了** Vina 的幅度，也解释不了主面板 vs holdout 的方向反转。
-3. **保持开放。** 不要包装成机制已阐明。
-
-**不要写：** holdout 是独立文献/跨库验证；匹配诊断“解决了”悖论；contact_count 与 Vina 幅度一致；PLIF 已做。
-
----
-
-## 9. 换晶（Results 3.10）与 Cα 叠合（Results 3.11）
-
-| 已有结果 | 关键数字 | 源 |
-|---|---|---|
-| 替代晶体 cognate QC | 4JPS 0.607 Å、5DXT 0.624 Å、4JSX 0.515 Å，均过 < 2 Å；3T8M 嵌合体排除 | Table S9 |
-| 换 PIK3CA（B 端仍 4JT6） | summary_min 0.692 → **0.486** / **0.505**；下降在依赖新口袋的 D/B 臂 | S9 |
-| 换 mTOR（A 端仍 4L23） | **0.639**（Δ ≈ −0.05）；CI 含 0.5 | S9 |
-| 全域 Cα | PIK3CA 1.44–1.49 Å vs mTOR 0.45 Å（**这批结构**） | Table S10 |
-| 口袋局域 Cα | 5DXT **0.343 Å** 仍崩到 0.505；4JPS 0.867 Å → 0.486 | S10 |
-| 覆盖度 | 5DXT 匹配 862 Cα vs 4JPS 982，不是等长比较 | S10 |
-
-**讨论应写：** PM 在 4L23/4JT6 上的有利信号是**受体依赖**的，不能外推到其它已过 QC 的 PIK3CA 晶体。mTOR 换晶后优势减弱，CI 含 0.5，不能写成该端已稳健。全域 Cα 差异与不对称**方向一致，不是定量因果**。5DXT 口袋骨架几乎不动却照样崩，说明 **Cα 口袋保守不足以保证判别力可迁移**。侧链/质子化/搜索空间未测，n=2/1，机制未解决。
-
-**不要写：** Cα RMSD 定量解释了崩盘；结构不变的可重复优势；PLIF/rotamer 已完成；4JSX 证明 mTOR 端稳健。
-
----
-
-## 10. 只出现在 Introduction/Discussion 的“用途句”，不是结果
+## 7. 只出现在 Introduction/Discussion 的“用途句”
 
 | 陈述 | 允许 | 禁止 |
 |---|---|---|
-| DualDiff / FuseDiff 用两端 Vina 相对**参考配体**定义 Dual High Affinity，没有实验 A_only/B_only | 可写：本基准可作下游诚实评测 | 未重打分那些生成物；Dual High Affinity ≠ 均值池化 |
-| 评测协议的规范含义 | 必须同时报告硬负、分臂、混淆对照、结构稳健 | 不要写成 Framework Step 1–5 或 D-DRAF |
+| DualDiff / FuseDiff 用两端 Vina 相对**参考配体**定义 Dual High Affinity | 本基准可作下游诚实评测 | 未重打分那些生成物；Dual High Affinity ≠ 均值池化 |
+| Ahmed / Ballester / Schaller / Sindt | 见 `DISCUSSION_REFS_JCIM_V1.md` 边界 | 写成 DualFourClass 使用了他们的数据或引擎 |
 
 ---
 
-## 11. 明确不是本稿结果（Discussion 当局限或只字不提）
+## 8. 明确不是本稿结果
 
 | 未做 / 不可当结果 | 怎么处理 |
 |---|---|
-| 全面板 max vs median、confidence≥8、物种过滤 | Limitations；27 配体诊断不得升格 |
-| 1000 个互不重叠独立 panel | 供给不可能；holdout ≠ 该分布 |
-| 主面板 PLIF；rotamer | 未做；Cα 段保持开放 |
-| PDBFixer + Reduce | Limitations（meeko 默认路径） |
-| LigPrep 姿态 | 禁止写入正文 |
-| AF3 / Boltz 亲和力 | 不做；泄漏风险 |
+| 全面板 max vs median | Limitations 2 |
+| 1000 个互不重叠独立 panel | Limitations 1 |
+| 主面板 PLIF；rotamer | Limitations 4 |
 | BindingDB 对接面板 | 只有计数 S12 |
-| AChE/PIK3CB/EGFR 的失败分型与单靶 sanity | 未扩；不要暗示已有 |
-| 湿实验 | Limitations 最后一条 |
+| 湿实验 | Limitations 5 |
 
 ---
 
-## 12. 主张强度总表（Abstract / 末段可用）
+## 9. 主张强度总表
 
 **可以主张：**
 
 - 建立了带硬负、口袋匹配主指标、混淆对照的评测协议，并释放 DualFourClass-Bench。
-- 在该冻结集上，对接方向信号总体偏弱、高度依赖靶对。
-- 仅 PIK3CA/mTOR 点估计同时高于随机与最强描述符，幅度有限，Δ 的 CI 含 0。
-- 池化掩盖弱臂；EGFR 的失败在 HER2 端，Top-10 几乎是硬负。
+- 在该冻结集上，对接方向信号总体有限、高度依赖靶对。
+- 仅 PIK3CA/mTOR 点估计同时高于随机与最强描述符，幅度有限，CI 与随机相容，Δ 的 CI 含 0。
 - 多数对上表观信号可被描述符或化学型解释。
 - 同一配体协议在 unused-pool 上对 PM **同向**，但换晶体后 **受体依赖**。
-- holdout 错口袋反转与换晶崩盘均保持开放。
+- holdout 错口袋反转保持开放。
 
 **不可以主张：**
 

@@ -131,7 +131,7 @@
 
 ## Table S4. 统一 θ = 6.0 主表述的阈值敏感性网格（支持性）
 
-来源：`unified_threshold_sensitivity_v2.csv`。正文 Table 2 已采用本表 θ = 6.0 行作为四对统一主结果（Results 3.2）；本表 θ = 5.5/6.5 与严格 6.5/5.5 行为支持性阈值敏感性分析，用于说明排序不随阈值网格翻转，不是与 Table 2 竞争的第二套主标准。
+来源：`unified_threshold_sensitivity_v2.csv`。正文 Table 2 已采用本表 θ = 6.0 行作为四对统一主结果（Results 3.2）；本表 θ = 5.5/6.5 与严格 6.5/5.5 行为支持性阈值敏感性分析，用于说明排序不随阈值网格翻转，不是与 Table 2 竞争的第二套主标准。阈值网格图见 Figure S1A。
 
 | 靶对 | 标签规则 | n (D / A / B) | AUROC D vs A | AUROC D vs B | summary_min | 95% CI | underpowered |
 |------|----------|--------------:|-------------:|-------------:|------------:|--------|:------------:|
@@ -213,7 +213,7 @@ PIK3CA/mTOR 若干臂 n &lt; 15，区间宽；正文仅作方向是否同向的�
 
 ---
 
-## Table S8. 面板外冻结验证集（holdout）配体与口袋匹配分数
+## Table S8. 未参与建面的 unused-pool holdout 配体与口袋匹配分数
 
 来源：`data/jcim_holdout_v0/`。抽样种子 20260731；标签规则 strict 6.5/5.5；对接协议与主面板相同。完整配体级表见 `holdout_ligand_scores_v1.csv`（含 SMILES、类别、两端 Vina mode-1、physchem）。下表为口袋匹配汇总。
 
@@ -259,7 +259,7 @@ PASS 受体已写入 `receptors/`。PM48 单端替换后的口袋匹配 summary_
 | 4L23（PIK3CA） | 5DXT | 862 | 1.441 | 20 | 0.343 | 2.072 |
 | 4JT6（mTOR） | 4JSX | 1054 | 0.454 | 18 | 0.467 | 2.196 |
 
-PIK3CA 口袋残基（4L23，共晶 X6K）：Met772、Trp780、Ile800、Lys802、Leu807、Asp810、Leu814、Tyr836、Cys838、Ile848、Glu849、Val850、Val851、Ser854、Thr856、Gln859、Met922、Phe930、Ile932、Asp933。mTOR 口袋残基（4JT6，共晶 X6K/PI-103）：Ile2163、Pro2169、Leu2185、Lys2187、Glu2190、Leu2192、Asp2195、Tyr2225、Val2227、Ile2237、Gly2238、Trp2239、Val2240、Met2345、Leu2354、Ile2356、Asp2357、Phe2358。5DXT 匹配 862 个 Cα，少于 4JPS 的 982 个，全域 RMSD 不是等覆盖比较。数字与换晶后不对称**方向一致，不作定量因果解释**。详见 Results 3.11。
+PIK3CA 口袋残基（4L23，共晶 X6K）：Met772、Trp780、Ile800、Lys802、Leu807、Asp810、Leu814、Tyr836、Cys838、Ile848、Glu849、Val850、Val851、Ser854、Thr856、Gln859、Met922、Phe930、Ile932、Asp933。mTOR 口袋残基（4JT6，共晶 X6K/PI-103）：Ile2163、Pro2169、Leu2185、Lys2187、Glu2190、Leu2192、Asp2195、Tyr2225、Val2227、Ile2237、Gly2238、Trp2239、Val2240、Met2345、Leu2354、Ile2356、Asp2357、Phe2358。5DXT 匹配 862 个 Cα，少于 4JPS 的 982 个，全域 RMSD 不是等覆盖比较。数字与换晶后不对称**方向一致，不作定量因果解释**。详见 Results 3.4。
 
 ---
 
@@ -273,7 +273,7 @@ PIK3CA 口袋残基（4L23，共晶 X6K）：Met772、Trp780、Ile800、Lys802�
 | PIK3CA/mTOR | 0.788（0.788 / 0.858） | 0.552 / 0.698 | 0.552 | 33.5 / 32.3 / 31.0 |
 | PIK3CA/PIK3CB | 0.520（0.640 / 0.520） | 0.622 / 0.714 | 0.622 | 34.5 / 31.6 / 28.3 |
 
-B 臂 contact_count 高于随机（0.698–0.714），与 dual 对 B_only 尺寸差更大一致；A 臂接近随机（0.552–0.622），与 dual 对 A_only 尺寸差很小一致。contact_count **不能按幅度复现** Vina 错口袋（尤其 PM：0.788 对 0.552）。详见 Results 3.9。
+B 臂 contact_count 高于随机（0.698–0.714），与 dual 对 B_only 尺寸差更大一致；A 臂接近随机（0.552–0.622），与 dual 对 A_only 尺寸差很小一致。contact_count **不能按幅度复现** Vina 错口袋（尤其 PM：0.788 对 0.552）。详见 Results 3.5。
 
 ---
 
@@ -329,7 +329,7 @@ EGFR/HER2 的 as_is 抬升不可直接当成“ChEMBL 漏检”：BindingDB 92 �
 | PIK3CA/mTOR | potency_matched | 12 | 0.715 | 0.734 | 是 |
 | PIK3CA/mTOR | size_matched | 12 | 0.715 | 0.818 | 是 |
 
-效价与尺寸匹配均不翻转“错口袋 ≥ 口袋匹配”。PIK3CA/mTOR holdout 比主面板更弱（不是更强），抽样偏移存在但不足以解释悖论。详见 Results 3.9。
+效价与尺寸匹配均不翻转“错口袋 ≥ 口袋匹配”。PIK3CA/mTOR holdout 比主面板更弱（不是更强），抽样偏移存在但不足以解释悖论。详见 Results 3.5。
 
 ---
 
@@ -374,7 +374,7 @@ mode_01 是 9 个姿态中 CNNscore 最高的比例仅 19–29%，即多数配�
 | PM110 | mode01 | 30/30/30 | 0.522 | 0.713 | 0.522 [0.38, 0.67] |
 | PM110 | best9 | 30/30/30 | 0.613 | 0.682 | **0.613** [0.46, 0.74] |
 
-全 9 姿态公平重打后，GNINA 真口袋匹配 summary_min 相对 mode_01 的变化为 −0.04（EGFR/HER2）、−0.03（AChE/BChE）、−0.02（PIK3CA/PIK3CB）、+0.08（PIK3CA/mTOR，含 PM48/PM110）。EGFR/HER2、AChE/BChE、PIK3CA/mTOR 三对上 **GNINA best-of-9 均未超过同面板 Vina 口袋匹配**；EGFR/HER2 与 AChE/BChE 上 GNINA best-of-9 仍低于随机（<0.5）。**PIK3CA/PIK3CB 是例外**：GNINA 口袋匹配（mode01 0.554、best9 0.533）略高于同面板 Vina（0.500），但该关系在 mode-1 时已存在，不是 best-of-9 新产生的现象，且二者均接近随机、bootstrap 区间明显重叠，不构成“GNINA 优于 Vina”的主张，仅表示二者在该对上统计不可分。PIK3CA/mTOR（含 PM48、PM110）在 GNINA 通道下点估计上升但仍不超过 Vina。姿态覆盖对齐后，`RTMScore 与 GNINA 未改变这一格局`（Results 3.2/3.4）这一表述继续成立（三对不超过 Vina、一对与 Vina 统计不可分），且现在有方向性（非仅池化/worst-pocket）GNINA 数字支持。PM48/PM110 稳定性核对文本（Results 3.8）与 `PM110_VS_PM48.md`/`B_GROUP_VERDICT.md` 的 GNINA 引用值已改为本表 best9 数值；mode_01 保留仅作追溯校验。
+全 9 姿态公平重打后，GNINA 真口袋匹配 summary_min 相对 mode_01 的变化为 −0.04（EGFR/HER2）、−0.03（AChE/BChE）、−0.02（PIK3CA/PIK3CB）、+0.08（PIK3CA/mTOR，含 PM48/PM110）。EGFR/HER2、AChE/BChE、PIK3CA/mTOR 三对上 **GNINA best-of-9 均未超过同面板 Vina 口袋匹配**；EGFR/HER2 与 AChE/BChE 上 GNINA best-of-9 仍低于随机（<0.5）。**PIK3CA/PIK3CB 是例外**：GNINA 口袋匹配（mode01 0.554、best9 0.533）略高于同面板 Vina（0.500），但该关系在 mode-1 时已存在，不是 best-of-9 新产生的现象，且二者均接近随机、bootstrap 区间明显重叠，不构成“GNINA 优于 Vina”的主张，仅表示二者在该对上统计不可分。PIK3CA/mTOR（含 PM48、PM110）在 GNINA 通道下点估计上升但仍不超过 Vina。姿态覆盖对齐后，`RTMScore 与 GNINA 未改变这一格局`（Results 3.2）这一表述继续成立（三对不超过 Vina、一对与 Vina 统计不可分），且现在有方向性（非仅池化/worst-pocket）GNINA 数字支持。PM48/PM110 稳定性核对文本（Results 3.4）与 `PM110_VS_PM48.md`/`B_GROUP_VERDICT.md` 的 GNINA 引用值已改为本表 best9 数值；mode_01 保留仅作追溯校验。
 
 ---
 

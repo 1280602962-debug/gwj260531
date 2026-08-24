@@ -30,7 +30,7 @@
 
 See also: `docs/POSITIONING_AND_FRAMEWORK_LANGUAGE_V1.md`.
 
-## Mechanism-analysis claim ceiling (Results 3.9 / 3.11)
+## Mechanism-analysis claim ceiling (Results 3.4–3.6)
 
 Allowed:
 - PIK3CA inter-crystal global Cα RMSD (1.44–1.49 Å) is larger than mTOR (0.45 Å) **in this structure set**, consistent in **direction** with greater PIK3CA-end sensitivity.

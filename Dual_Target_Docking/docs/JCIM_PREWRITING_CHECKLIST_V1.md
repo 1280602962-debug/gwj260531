@@ -122,13 +122,13 @@ python3 data/jcim_bench_v0/scripts/plot_forest_ci_v1.py
 | E1 | Abstract（3–4 句） | ❌ | 待写；须低于 Results 主张强度 |
 | E2 | Introduction | 🟡 中英稿已按五段论证重构 | [`INTRODUCTION_DRAFT_ZH_JCIM_V1.md`](INTRODUCTION_DRAFT_ZH_JCIM_V1.md) + [`INTRODUCTION_SECTION_JCIM_EN_V1.md`](INTRODUCTION_SECTION_JCIM_EN_V1.md)；引用核验 [`INTRODUCTION_REFS_JCIM_V1.md`](INTRODUCTION_REFS_JCIM_V1.md)。K=4 不在 Intro 写死；DualDiff/FuseDiff 为互补评测而非竞争对象 |
 | E3 | Methods 2.1–2.13 协议化重构 | 🟡 中英稿 | [`METHODS_DRAFT_ZH_JCIM_V1.md`](METHODS_DRAFT_ZH_JCIM_V1.md) + [`METHODS_SECTION_JCIM_EN_V1.md`](METHODS_SECTION_JCIM_EN_V1.md)。结果数字已移出 Methods；four-state + pairwise primary；wrong-pocket = falsification；holdout ≠ external validation；换晶 = structure sensitivity |
-| E6 | Results 3.1–3.7 | ✅ 草稿 | [`RESULTS_SECTION_JCIM_EN_V1.md`](RESULTS_SECTION_JCIM_EN_V1.md) |
-| E7 | Discussion / Limitations | 🟡 中文稿 | [`DISCUSSION_DRAFT_ZH_JCIM_V1.md`](DISCUSSION_DRAFT_ZH_JCIM_V1.md) + [`DISCUSSION_LIMITATIONS_DRAFT_ZH_JCIM_V1.md`](DISCUSSION_LIMITATIONS_DRAFT_ZH_JCIM_V1.md) |
+| E6 | Results 3.1–3.6 | ✅ 草稿 | 已按证据链压缩为 6 节：[`RESULTS_DRAFT_ZH_JCIM_V1.md`](RESULTS_DRAFT_ZH_JCIM_V1.md) + [`RESULTS_SECTION_JCIM_EN_V1.md`](RESULTS_SECTION_JCIM_EN_V1.md)。旧 3.8 面板重抽样已移出 Results |
+| E7 | Discussion / Limitations | ✅ 中英稿 | [`DISCUSSION_DRAFT_ZH_JCIM_V1.md`](DISCUSSION_DRAFT_ZH_JCIM_V1.md) + [`DISCUSSION_SECTION_JCIM_EN_V1.md`](DISCUSSION_SECTION_JCIM_EN_V1.md)；引用 [`DISCUSSION_REFS_JCIM_V1.md`](DISCUSSION_REFS_JCIM_V1.md)；正文局限仅 5 条 |
 | E8 | Conclusions | ❌ | 评测主张收束，勿发明新 claim |
 | E9 | Data and Software Availability | ❌ | 同 C1/C6 |
 | E10 | Keywords ~5–8（Articles 惯例；Perspectives 要求 8–10） | ❌ | 待定 |
 
-**Results 草稿已覆盖：** supply → pooled vs pocket-matched → K=4 主表 → baseline gate → confounds → scaffold ML → E8/E16 / enrichment / PM110。
+**Results 草稿已覆盖：** 3.1 供给约束 → 3.2 有限且对靶的 docking 判别 → 3.3 ligand/chemotype 混淆 → 3.4 配体层持续 vs 受体层崩溃 → 3.5 错口袋 holdout 反转 → 3.6 探索性结构线索。θ 网格、E8/E16、PM110 通道、GNINA mode-1 vs best-of-9、单靶 enrichment 留 SI。
 
 ---
 
@@ -140,7 +140,7 @@ python3 data/jcim_bench_v0/scripts/plot_forest_ci_v1.py
 | F2 | Fig 2 供给审计（49 对） | ❌ | 有 J0 表；无投稿级图 |
 | F3 | Fig 3 森林图 pocket-matched ± CI + 基线 | 🟡 | `forest_summary_min_ci_v1.png` 有；须确认标注为 pocket-matched 并升 DPI |
 | F4 | Fig 4 混淆（错口袋 / LE / 匹配） | ❌ | 有 CSV；无定稿图 |
-| F5 | Fig 5 稳健性（E8/E16、PM110、enrichment） | ❌ | 有 B 组表；无定稿图 |
+| F5 | Fig 5 配体层 vs 受体层 | 🟡 | 脚本已改面板标题；bitmap 需重跑 `plot_jcim_article_figures_v1.py` |
 | F6 | Table 1 靶对清单 / N / 协议 | 🟡 | inventory 材料有 |
 | F7 | Table 2 主结果（口袋匹配） | ✅ 文内已有 | 与 `PRIMARY_METRIC_V2` 一致 |
 | F8 | TOC graphic | ❌ | 同 D4 |
@@ -154,7 +154,7 @@ python3 data/jcim_bench_v0/scripts/plot_forest_ci_v1.py
 | ID | 检查项 | 状态 |
 |----|--------|------|
 | G1 | 主指标 = pocket-matched directional AUROC | ✅ Results 已用 |
-| G2 | PM 仅作 exploratory positive control；Δ vs baseline CI 含 0 须写明 | ✅ Results 3.3–3.4 |
+| G2 | PM 仅作 exploratory positive control；Δ vs baseline CI 含 0 须写明 | ✅ Results 3.2–3.3 |
 | G3 | 不写 RTM/GNINA 通吃或通用决策臂 | ✅ |
 | G4 | EGFR 不作新对接扩面结论 | ✅ |
 | G5 | LigPrep 不进投稿正文/SI（无正式权限；主协议仅 RDKit/meeko） | ✅ 已从 Methods/Results/SI 删除 |

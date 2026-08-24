@@ -3,7 +3,7 @@
 > 中文稿 [`INTRODUCTION_DRAFT_ZH_JCIM_V1.md`](INTRODUCTION_DRAFT_ZH_JCIM_V1.md) 与英文稿 [`INTRODUCTION_SECTION_JCIM_EN_V1.md`](INTRODUCTION_SECTION_JCIM_EN_V1.md) 使用同一套编号。  
 > 本文件只收录**已核对题名、作者、年份、卷页与 DOI/arXiv**的条目，并写明允许引用的句子边界。未核验或与本文任务不符的文献不进入 Introduction。
 
-编号按正文首次出现顺序。ACS 期刊用 *J. Med. Chem.* / *J. Chem. Inf. Model.* 的 Cite-this 年卷页。
+编号按正文首次出现顺序。ACS 期刊用 *J. Med. Chem.* / *J. Chem. Inf. Model.* 的 Cite-this 年卷页。Discussion 新增 11–14 见 [`DISCUSSION_REFS_JCIM_V1.md`](DISCUSSION_REFS_JCIM_V1.md)。
 
 ---
 
