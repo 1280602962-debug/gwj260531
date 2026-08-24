@@ -13,7 +13,8 @@ JCIM **evaluation / benchmark** 课题：双靶对接四类硬负评测。
 
 | 文档 | 用途 |
 |------|------|
-| **[`docs/MANUSCRIPT_JCIM_EN.md`](docs/MANUSCRIPT_JCIM_EN.md)** | ★ **组装后的英文主稿**（由章节文件生成；不要另开 `_V2/_FINAL`） |
+| **[`docs/MANUSCRIPT_JCIM_EN.md`](docs/MANUSCRIPT_JCIM_EN.md)** | ★ **组装后的英文主稿**（投稿以这份为准） |
+| **[`docs/MANUSCRIPT_JCIM_ZH.md`](docs/MANUSCRIPT_JCIM_ZH.md)** | ★ **组装后的中文工作稿**（`python3 docs/assemble_manuscript_zh.py`） |
 | **[`docs/JCIM_P0_COMPLETION_GUIDE.md`](docs/JCIM_P0_COMPLETION_GUIDE.md)** | 下一步：Zenodo + 排版 |
 | **[`docs/JCIM_PREWRITING_CHECKLIST_V1.md`](docs/JCIM_PREWRITING_CHECKLIST_V1.md)** | ★ 写作前注意事项 + 逐项核对 |
 | [`docs/RESULTS_SECTION_JCIM_EN_V1.md`](docs/RESULTS_SECTION_JCIM_EN_V1.md) | ★ JCIM 英文 Results（nature-skills 去 AI 化） |
@@ -80,6 +81,6 @@ python3 data/jcim_bench_v0/scripts/plot_forest_ci_v1.py
 ## 状态
 
 - 对接 + 混淆对照 + E/enrichment/PM110 + A4 max→median + B5 两对受体替换：**完成**  
-- 章节稿已按 formulation 主线重构；英文主稿见 `docs/MANUSCRIPT_JCIM_EN.md`  
+- 章节稿已按 formulation 主线重构；英文主稿 `docs/MANUSCRIPT_JCIM_EN.md`；中文工作稿 `docs/MANUSCRIPT_JCIM_ZH.md`  
 - **当前缺口 = P0 排版/Zenodo DOI**（不是缺核心实验）  
 - Zenodo DOI：（发布后填这里）

@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Assemble the English JCIM main text from canonical section files.
 
-Edit the section files, then re-run this script. Do not create _V2/_FINAL copies.
+The English submission text remains `MANUSCRIPT_JCIM_EN.md`.
+Chinese working assembly: `python3 docs/assemble_manuscript_zh.py` → `MANUSCRIPT_JCIM_ZH.md`.
 """
 from __future__ import annotations
 

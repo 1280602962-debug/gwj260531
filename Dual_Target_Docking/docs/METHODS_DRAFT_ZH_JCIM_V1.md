@@ -9,7 +9,7 @@
 
 ---
 
-## 2. Methods
+## 2. 方法
 
 ### 2.1 数据来源与活性数据整理
 
@@ -93,7 +93,7 @@ PIK3CA/mTOR 另构建扩面面板（历史名 PM110）：保留 PM48 全部 48 �
 
 分子对接采用 AutoDock Vina 1.2.7，默认 `vina` 打分函数。每个配体–受体组合生成 9 个 poses，`energy_range = 3` kcal mol\(^{-1}\)，随机种子 20260727（与 ETKDG 相同）。exhaustiveness 按 Table 1 的受体特异冻结值。配体准备、盒子生成规则与打分函数在各主面板上相同；仅受体坐标、盒子数值与预先定义的 exhaustiveness 按靶标变化。完整参数见 Supporting Information Table S1。
 
-### 2.7 Alternative scoring channels
+### 2.7 替代打分通道
 
 为检验主观察是否依赖单一打分函数，在**同一组 Vina-generated poses** 上另用 RTMScore 与 GNINA CNN 重打分。
 
@@ -103,7 +103,7 @@ GNINA 1.3.2 在 CPU 模式下做 CNN rescoring（`--cnn_scoring rescore --minimi
 
 Vina 主读出是 mode 1 能量；RTM 与 GNINA 是 best-of-9 重打分。三者对 9 个姿态的聚合并不相同，因此 **不作为 head-to-head docking-engine competition**，而作为 scoring-channel sensitivity analysis。Primary endpoint 始终由 Vina 定义。
 
-### 2.8 Primary endpoint 与统计分析
+### 2.8 主终点与统计分析
 
 #### 2.8.1 口袋匹配方向 AUROC
 
@@ -155,7 +155,7 @@ AUROC 与 summary_min 的不确定度用配体层 bootstrap：在保持类别标
 
 在同一套冻结 Vina 分数上，将 **Dual-versus-neither comparator**（实验 inactive；`vina_mean` 与 `vina_worst`）以及 Dual versus all non-duals 作为辅助对照，与方向性主终点并列。Dual-versus-neither 是本面板上的 **nonselectivity-controlled comparator**，不是声称既有双靶基准都以 Dual versus neither 为官方任务。neither 用于该对照，仍不进入 Table 2。PIK3CA/mTOR 的 neither n = 4 标记 underpowered。该比较只问：省略选择性硬负是否会改变对双靶识别的表观证据；不是第二套主终点，也不是配对显著性检验（负样本集合不同；Table 3；Table S22）。单靶类比——口袋 A 上 (dual + A-only) 对 (B-only + neither)，以及对称的 B 对照——仅作 Zhou 式背景。
 
-### 2.9 Confounder、falsification 与化学对照
+### 2.9 混淆、证伪与化学对照
 
 #### 2.9.1 Wrong-pocket falsification control
 
@@ -202,7 +202,7 @@ N_{\mathrm{contact}} = \#\{i:\ \min_j d_{ij} \le 4.0\,\text{Å}\}.
 
 在 PIK3CA 4L23 与 mTOR 4JT6 上分别构建单靶 active–weak-active 集合。活性分子：pChEMBL ≥ 6.5。弱效分子：同靶已测定且 pChEMBL ≤ 5.5，并按分子量 ±50 Da、cLogP ±1.5、TPSA ±25 Å² 与活性分子做性质匹配。分子量与 logP 窗口沿用 property-matched decoy 的常见设定（Mysinger et al., *J. Med. Chem.* **2012**, *55*, 6582–6594）；TPSA 窗口为同一思想下增加的极性匹配。目标规模约 50 个活性分子与 150 个弱效分子。配体准备、受体、盒子与 Vina 协议与 PIK3CA/mTOR 主面板相同（exhaustiveness = 16）。报告 AUROC、EF1% 与 EF5%。该实验只提供单靶 docking enrichment 的背景参照，不替代 dual-target 的 summary_min。
 
-### 2.11 Unused-pool holdout
+### 2.11 未使用配体池 holdout
 
 为检验结论是否依赖于冻结面板的具体成员，从严格标签池中排除已用于主面板与 PM110 的 ChEMBL 条目，在剩余 unused pool 中构建 **unused-pool, panel-external holdout**。它不是跨数据库或跨实验体系的 external validation：配体仍来自同一 ChEMBL 抓取批次、同一靶对与同一标签规则。
 
@@ -210,7 +210,7 @@ Holdout 只在 unused-pool 配额足以按 dual / A-only / B-only 各抽 20 个�
 
 Holdout 不参与主面板构建、对接协议调整或 primary endpoint 选择。受体、盒子、配体准备、exhaustiveness、打分与统计与主 benchmark 相同，并使用同一 `summary_min` 与配体层 bootstrap。未能产生 Vina 分数的配体–受体组合按 2.3 从需要该分数的分析中剔除。同一 holdout 配体上并列计算描述符对照；错口袋、效价/尺寸匹配与 contact count 按 2.9 在 holdout 上重算（Table S8、S13）。效价/尺寸匹配诊断不改写 Table S8 的主 holdout 数字。
 
-### 2.12 Receptor-structure sensitivity analysis
+### 2.12 受体结构敏感性分析
 
 为评价 benchmark 结论对受体结构选择的敏感性，另选满足以下**预先声明**条件的替代晶体：（i）polymer entity 与目标蛋白真实对应，排除嵌合体或非目标同源骨架；（ii）含 ATP 位点或目标结合位点的小分子共晶；（iii）分辨率可接受；（iv）通过与 2.5 相同的 cognate redocking QC。实际进入对接的替代结构为 PIK3CA 4JPS、5DXT 与 mTOR 4JSX。该分析是 **receptor-structure sensitivity analysis**（receptor-realization effect），不是稳健性检验，也不是用来证明某一晶体“更正确”，更不是把 PIK3CA/mTOR 预设为结构不变的 positive case。目的是量化双靶判别终点对受体实现对的敏感性，而不是挑选更优受体结构。
 
