@@ -2,7 +2,7 @@
 
 > Companion to [`METHODS_DRAFT_ZH_JCIM_V1.md`](METHODS_DRAFT_ZH_JCIM_V1.md) (Chinese authoritative for this rewrite).  
 > Protocol only: counts, cognate RMSDs, AUROCs, and holdout point estimates belong in Results / SI.  
-> DualFourClass-Bench is a **four-state curated benchmark**; the primary endpoint is two directional pairwise discriminations, not a four-class classifier.
+> DualFourClass-Bench is a **four-state curated benchmark with two directional primary tasks**, not a four-class classifier. Call it a curated four-pair panel + evaluation protocol, not a comprehensive suite.
 
 ---
 
@@ -35,15 +35,17 @@ A-only and B-only ligands are selectivity hard negatives, not DUD/DUD-E-style as
 
 ### 2.3 DualFourClass-Bench panel construction
 
-The benchmark preserves four experimentally defined ligand states—dual, A-only, B-only, and neither—whereas the prespecified primary endpoint focuses on two directional pairwise discrimination tasks, dual versus A-only and dual versus B-only. Neither is retained to describe the four-state experimental space and for auxiliary analyses; it does not enter the primary directional AUROCs.
+The resource is a **four-state curated benchmark with two directional primary tasks**. Dual, A-only, B-only, and neither are all retained to describe the experimental space; the prespecified primary endpoint is dual versus A-only and dual versus B-only. Neither does not enter the primary directional AUROCs. This is not a four-class classification benchmark.
 
 Candidate pairs were screened with the strict audit in Section 2.2. The frozen evaluation set comprises PIK3CA/mTOR, AChE/BChE, PIK3CA/PIK3CB, and EGFR/HER2. EGFR/HER2 is retained as a **supply-limited case** (`PAIR_ROLES_APPROVED_JCIM.yaml`) and is not treated as equivalent in supply to the other pairs.
 
-For each pair, ligands were drawn from the labeled pool under frozen class quotas and random seed 20260729. Where Bemis–Murcko scaffolds could be computed at draw time, a per-class scaffold cap limited series over-representation: at most two molecules per scaffold in PIK3CA/mTOR (PM48) and at most five in EGFR/HER2. For AChE/BChE and PIK3CA/PIK3CB, SMILES were not yet in the sampling table, so a Murcko cap could not be applied; sampling used class quotas and a deterministic shuffle, with a ChEMBL-identifier prefix as a placeholder filter. That prefix **has no chemical meaning and is not a diversity constraint**. Final membership, state labels, ChEMBL identifiers, SMILES, Murcko scaffolds (when later available), and sampling scripts are deposited. Panels were not redrawn after docking scores were seen.
+For each pair, ligands were drawn from the labeled pool under frozen class quotas and random seed 20260729. Where Bemis–Murcko scaffolds could be computed at draw time, a per-class scaffold cap limited series over-representation: at most two molecules per scaffold in PIK3CA/mTOR (PM48) and at most five in EGFR/HER2. For AChE/BChE and PIK3CA/PIK3CB, SMILES were not yet in the sampling table, so a Murcko cap could not be applied; sampling used class quotas and a deterministic shuffle only. **No additional chemical-diversity constraint was applied.** Post-construction Murcko scaffolds, when later available, are reported with the deposited tables. Final membership, state labels, ChEMBL identifiers, SMILES, and sampling scripts are deposited. Panels were not redrawn after docking scores were seen.
+
+Construction rules were not identical across pairs. AChE/BChE and PIK3CA/PIK3CB were sampled under the strict 6.5/5.5 gate; EGFR/HER2 and PIK3CA/mTOR used θ = 6.0 because the strict gate left too few B-only ligands. Cross-pair AUROCs therefore mix target-pair biology with panel-construction differences (sample size, threshold, series composition, receptor) and are not interpreted as purely intrinsic docking performance.
 
 Quotas and construction labels were as follows. AChE/BChE and PIK3CA/PIK3CB: strict 6.5/5.5, target dual / A_only / B_only / neither = 28 / 28 / 28 / 16 (panel n = 100). EGFR/HER2: existing θ = 6.0 panel (n = 110). PIK3CA/mTOR: θ = 6.0, main comparison panel PM48 (n = 48; constructed 18 / 14 / 12 / 4), on which receptors and the docking protocol were frozen.
 
-Ligand–receptor jobs that failed to yield a score were dropped for that receptor; ligands missing a usable score on either end were omitted from pocket-matched AUROCs that require both scores, so analysis counts can fall below construction quotas (Table 1).
+Ligand–receptor jobs that failed to yield a score were dropped for that receptor; ligands missing a usable score on either end were omitted from pocket-matched AUROCs that require both scores, so analysis counts can fall below construction quotas (Table 1). AUROC tables are therefore **conditional on compounds the docking engine can process**. Attempted / successful / failed counts, including chemical-coverage failures such as unsupported AutoDock atom type `B`, are reported in Table S27.
 
 An expanded PIK3CA/mTOR panel (historical name PM110) keeps all 48 PM48 ligands and adds molecules under the strict rule, targeting 30 / 30 / 30 / 25. PM110 is a superset of PM48, used to check whether point estimates stay in the same direction after increasing panel size. It is not an independent primary benchmark and not an independent replicate. Cross-pair comparison in the main text uses PM48.
 
@@ -132,11 +134,11 @@ The pair summary is the weaker arm:
 \mathrm{summary}_{\min} = \min(\mathrm{AUC}_{D/A},\;\mathrm{AUC}_{D/B}).
 \]
 
-This is a task-aligned **worst-arm aggregation**, not a new scoring function. The minimum prevents a strong arm from hiding failure on the other. The single primary endpoint is pocket-matched Vina `summary_min` under unified θ = 6.0 (Table 2; PIK3CA/mTOR uses PM48). Prespecified secondary endpoints are the two directional arms, pocket-matched RTMScore, pocket-matched GNINA CNN best-of-9, and the descriptor panel in Section 2.8.3. Robustness / falsification endpoints are the θ grid, PM110, E = 8, unused-pool holdout, receptor replacement, and wrong-pocket (including paired Δ). Exploratory endpoints are ECFP4, contact_count (not a PLIF), and Top-10 hard-negative counts on pooled `vina_mean`. The hierarchy is in Supporting Information Table S16. Pooled `vina_mean` directional AUROC is **not** Table 2.
+This is a task-aligned **worst-arm aggregation**, not a new scoring function. The minimum prevents a strong arm from hiding failure on the other; it is not the unique statistically natural aggregator. Arithmetic mean and harmonic mean of the two directional AUROCs are reported as a sensitivity (Table S26). Pair ranking and the EGFR Dual-versus-neither contrast remain in the same direction under all three aggregators. The single primary endpoint is pocket-matched Vina `summary_min` under unified θ = 6.0 (Table 2; PIK3CA/mTOR uses PM48). Prespecified secondary endpoints are the two directional arms, pocket-matched RTMScore, pocket-matched GNINA CNN best-of-9, and the descriptor panel in Section 2.8.3. Robustness / falsification endpoints are the θ grid, PM110, E = 8, unused-pool holdout, receptor replacement, and wrong-pocket (including paired Δ). Exploratory endpoints are ECFP4, contact_count (not a PLIF), and Top-10 hard-negative counts on pooled `vina_mean`. The hierarchy is in Supporting Information Table S16. Pooled `vina_mean` directional AUROC is **not** Table 2.
 
 #### 2.8.3 Physicochemical descriptor controls
 
-A **prespecified** RDKit panel was computed: heavy-atom count, molecular weight, cLogP, and TPSA. Each descriptor was evaluated with the same directional AUROC workflow; all four are reported. The highest AUROC among them is the **best-performing physicochemical descriptor**, a descriptive strong baseline, **not** a prespecified confirmatory comparator. Paired Δ between docking and descriptors is not a confirmatory test of “beats the selected best descriptor” (Table S19).
+A **prespecified** RDKit panel was computed: heavy-atom count, molecular weight, cLogP, and TPSA. Each descriptor was evaluated with the same directional AUROC workflow; **all four are reported** (Table 2; Table S28). The highest AUROC among them is a **best single-descriptor reference** — a descriptive post-hoc maximum, **not** a confirmatory competitor and not a “trivial baseline” hypothesis test. Paired Δ between docking and that reference is not a confirmatory test of “beats the selected best descriptor” (Table S19).
 
 #### 2.8.4 Score-aggregation controls
 
@@ -148,13 +150,13 @@ AUROC and summary_min uncertainty used ligand-level bootstrap: ligands were resa
 
 #### 2.8.6 Benchmark-formulation comparison
 
-As an auxiliary contrast on the **same** frozen Vina scores, Dual-versus-neither (experimental inactives; `vina_mean` and `vina_worst`) and Dual versus all non-duals were computed beside the directional primary endpoint. Neither ligands are used here; they still do not enter Table 2. PIK3CA/mTOR neither n = 4 is flagged underpowered. This comparison asks whether a conventional dual-versus-inactive readout would change interpretation of the directional task; it is not a second primary endpoint (Table 3; Table S22). Single-target analogues—(dual + A-only) versus (B-only + neither) in pocket A, and the symmetric B contrast—are reported only as a Zhou-like backdrop.
+As an auxiliary contrast on the **same** frozen Vina scores, a **Dual-versus-neither comparator** (experimental inactives; `vina_mean` and `vina_worst`) and Dual versus all non-duals were computed beside the directional primary endpoint. Dual-versus-neither is a **nonselectivity-controlled comparator** on this panel, not a claim that established dual-target benchmarks use Dual versus neither as their official task. Neither ligands are used here; they still do not enter Table 2. PIK3CA/mTOR neither n = 4 is flagged underpowered. The comparison asks whether omitting selective hard negatives can change the apparent evidence for dual-target recognition; it is not a second primary endpoint and is not a paired significance test (different negative sets; Table 3; Table S22). Single-target analogues—(dual + A-only) versus (B-only + neither) in pocket A, and the symmetric B contrast—are reported only as a Zhou-like backdrop.
 
 ### 2.9 Confounder and falsification analyses
 
 #### 2.9.1 Wrong-pocket falsification control
 
-Scores for targets A and B were swapped; ligands, receptors, and all other settings were unchanged. Directional AUROCs and summary_min were recomputed. This is a **falsification control** for pocket specificity: whether discrimination survives an incorrect pocket assignment. Lower wrong-pocket performance can support a pocket-specific reading; wrong-pocket performance near or above matched-pocket performance counts against that reading. It is not a positive control designed to prove pocket specificity.
+Scores for targets A and B were swapped; ligands, receptors, and all other settings were unchanged. Directional AUROCs and summary_min were recomputed. This is a **falsification control**, not a positive control designed to prove pocket specificity. Matched > wrong on a fixed panel is **not** taken as evidence of pocket-specific signal. Wrong-pocket performance near or above matched-pocket performance counts against a pocket-specific reading. Holdout reversal further means wrong-pocket is **not a reliable universal negative control under panel shift**.
 
 #### 2.9.2 Ligand-efficiency normalization
 
@@ -177,7 +179,7 @@ where \(Y\) is the dual versus selective-hard-negative label. scikit-learn `Logi
 
 #### 2.9.5 Two-dimensional chemical baseline
 
-Morgan/ECFP4 fingerprints (radius 2, 2048 bits) with the same logistic settings provided a ligand-only chemical baseline. Evaluation used Bemis–Murcko scaffold `GroupKFold` with \(K = \min(5, N_{+}, N_{-}, N_{\mathrm{scaffold}})\) and at least two folds, so the same scaffold does not span train and test. This reads chemotype–label association, not pocket physics. Random `StratifiedKFold` is a leakage check only (Table S20). Incremental models (physchem, ECFP4, docking, and combinations) use the same split; logistic docking AUROC is not the rank AUROC in Table 2 (Table S24). Nearest-neighbor ECFP4 Tanimoto matching of A-only/B-only ligands to duals is reported at T ≥ 0.3 / 0.4 / 0.5 because T ≥ 0.7 matching is empty on these panels (Table S23).
+Morgan/ECFP4 fingerprints (radius 2, 2048 bits) with the same logistic settings provided a ligand-only chemical baseline. Evaluation used Bemis–Murcko scaffold `GroupKFold` with \(K = \min(5, N_{+}, N_{-}, N_{\mathrm{scaffold}})\) and at least two folds, so the same scaffold does not span train and test. High CV AUROC therefore means discrimination remains when molecules from the same Murcko scaffold are not shared between folds; it is **not** target-external generalization. On PIK3CA/mTOR, \(n_{\mathrm{scaffolds}} \approx n\), so the split is nearly leave-one-scaffold. Random `StratifiedKFold` is a leakage check only (Table S20). Incremental models (physchem, ECFP4, docking, and combinations) use the same split; logistic docking AUROC is not the rank AUROC in Table 2 (Table S24). Nearest-neighbor ECFP4 Tanimoto matching of A-only/B-only ligands to duals is reported at T ≥ 0.3 / 0.4 / 0.5 because T ≥ 0.7 matching is empty on these panels (Table S23). T ≥ 0.3 is a **similarity-constrained subset**, not a chemically matched analogue set.
 
 #### 2.9.6 Scoring-independent contact count
 
@@ -195,7 +197,7 @@ The longest protein chain was read from each frozen `*_protein.pdb` (standard am
 
 ### 2.10 Single-target enrichment reference
 
-On PIK3CA 4L23 and mTOR 4JT6, single-target active versus weak-active sets were built. Actives: pChEMBL ≥ 6.5. Weak actives: measured on the same target with pChEMBL ≤ 5.5 and property-matched to actives within ±50 Da (MW), ±1.5 (cLogP), and ±25 Å² (TPSA). MW and logP windows follow common property-matched decoy practice (Mysinger et al., *J. Med. Chem.* **2012**, *55*, 6582–6594); TPSA is an added polarity match. Target size was about 50 actives and 150 weak actives. Preparation, receptor, box, and Vina settings matched the PIK3CA/mTOR main panel (exhaustiveness = 16). AUROC, EF1%, and EF5% are reported as a conventional enrichment backdrop, not as a substitute for dual-target summary_min.
+On PIK3CA 4L23 and mTOR 4JT6, single-target active versus weak-active sets were built. Actives: pChEMBL ≥ 6.5. Weak actives: measured on the same target with pChEMBL ≤ 5.5 and property-matched to actives within ±50 Da (MW), ±1.5 (cLogP), and ±25 Å² (TPSA). MW and logP windows follow common property-matched decoy practice (Mysinger et al., *J. Med. Chem.* **2012**, *55*, 6582–6594); TPSA is an added polarity match. Target size was about 50 actives and 150 weak actives. Preparation, receptor, box, and Vina settings matched the PIK3CA/mTOR main panel (exhaustiveness = 16). AUROC, EF1%, and EF5% are reported as a single-target enrichment backdrop, not as a substitute for dual-target summary_min.
 
 ### 2.11 Unused-pool holdout
 

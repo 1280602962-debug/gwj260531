@@ -15,8 +15,8 @@ JCIM Articles 无硬图数上限。主文 **7 张图 + 1 张 TOC**：Fig 6 是�
 |---|---|---|---|
 | 必做 | 四类任务 + 口袋匹配定义 | **Fig 1 示意** | 指标是本文贡献的核心；表说不清 |
 | 必做 | 49 对硬负供给 | **Fig 2** | “为什么只有 K=4”必须一眼看见；EGFR=7 要标出来 |
-| 必做 | Table 2：口袋匹配 summary_min ± CI，并排最强描述符 | **Fig 3 森林图** | 全文主结果图 |
-| 必做 | 弱臂不对称 + 对接 vs 描述符 | **Fig 4** | 否则读者只记住 0.692 |
+| 必做 | Table 3：Dual-versus-neither comparator vs directional summary_min | **Fig 3 并排柱** | **全文第一主结果图**（formulation）；PM neither n=4 必须标 underpowered |
+| 必做 | Table 2：口袋匹配 summary_min ± CI，并排四个描述符；弱臂不对称 | **Fig 4 森林 + 双臂** | 方向性主终点（former Fig 3）；避免读者只记住 0.692 |
 | 必做 | 配体层 vs 受体层稳健性 | **Fig 5** | Results 3.4 视觉锚：ligand replacement 可持续，receptor replacement 可崩 |
 | 必做 | 错口袋：主面板 matched>wrong，holdout 反转 | **Fig 6** | unresolved failure mode，不是 validation |
 | 必做 | 指纹 GroupKFold、全部描述符、协变量、匹配子集 | **Fig 7** | Fig 4 只给最强描述符与 TPSA；这张是检验 |
@@ -24,7 +24,7 @@ JCIM Articles 无硬图数上限。主文 **7 张图 + 1 张 TOC**：Fig 6 是�
 | SI | 阈值网格、GNINA mode01/best9、PM110、E8/E16、单靶 enrichment | **Fig S1** | 协议旋钮不改排序 |
 | SI | S12 as_is vs equal_only、holdout 抽样偏移 | **Fig S2** | 供给规则 + 抽样位移；错口袋机制已在 Fig 6 |
 | SI | 配对 Δ(matched−wrong) ± CI；口袋匹配 vs 描述符 Δ；支架 vs 随机 | **Fig S3** | Fig 6 没有区间；描述符门控必须用口袋匹配而非 vina_mean |
-| SI | Conventional Dual-vs-neither vs directional summary_min | **Fig S4** | Results 3.2 Table 3 的视觉锚；PM neither n=4 必须标 underpowered |
+| SI | Dual-versus-neither comparator vs directional summary_min（若 Fig 3 已进主文，本图可并入 Fig 3） | **Fig S4** | 旧编号保留直至主图重绘 |
 | 不要画 | 1000-panel、median 全面板、PLIF 热图、Framework Step 1–5、LigPrep 对比 | — | 没做或禁止写入 |
 | 不要画 | `pocket_matched_size_strata_v1.csv` | — | 多层 underpowered，容易误读成稳健分层 |
 | 不要画 | `asymmetry_pooled_vs_directional_v1.csv` 的 vina_mean | — | 不是 Table 2 的 θ=6.0 口袋匹配指标（EGFR 0.2824 ≠ 0.4297） |

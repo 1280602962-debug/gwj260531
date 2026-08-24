@@ -32,6 +32,9 @@
 | Table S23 | `data/jcim_novelty_v0/tables/chemotype_matched_hardneg_v1.csv` |
 | Table S24 | `data/jcim_novelty_v0/tables/incremental_information_v1.csv` |
 | Table S25 | `data/jcim_novelty_v0/tables/mixed_library_enrichment_v1.csv` |
+| Table S26 | `data/jcim_novelty_v0/tables/aggregation_min_mean_harmonic_v1.csv` |
+| Table S27 | `data/jcim_novelty_v0/tables/docking_failure_census_v1.csv` |
+| Table S28 | `data/jcim_novelty_v0/tables/descriptor_all_four_directional_v1.csv` |
 | Figure S4 | `data/jcim_novelty_v0/figures/FigS_formulation_conventional_vs_directional_v1.png` |
 | ChEMBL 聚合局限 | `data/jcim_strengthen_t0t1_v0/analysis/T0_SKIPS.md`；全面板 median 脚本 `data/jcim_novelty_v0/scripts/assay_aggregation_max_vs_median_v1.py`（尚未完成 SI 表） |
 
@@ -490,7 +493,52 @@ best9 − mode01 为 −0.04 至 +0.08，**不是**相对 Vina。
 
 ---
 
-## 写法说明（不进投稿 SI 正文）
+## Table S26. summary_min vs arithmetic mean vs harmonic mean
+
+来源：`aggregation_min_mean_harmonic_v1.csv`。主终点仍为 min。四对排序在三种聚合下完全相同（PM > AChE > PIK3CB > EGFR）。EGFR Dual-versus-neither（0.756）相对 min / mean / harmonic 的差分别为 +0.326 / +0.208 / +0.234，方向不变。该对照不是配对显著性检验。
+
+| 靶对 | D/A | D/B | min | mean | harmonic | Dual vs neither | rank (min=mean=harm) |
+|------|----:|----:|----:|-----:|---------:|----------------:|---------------------:|
+| EGFR/HER2 | 0.6664 | 0.4297 | 0.4297 | 0.5481 | 0.5225 | 0.756 | 4 |
+| AChE/BChE | 0.6504 | 0.6058 | 0.6058 | 0.6281 | 0.6273 | 0.6494 | 2 |
+| PIK3CA/PIK3CB | 0.6905 | 0.5000 | 0.5000 | 0.5953 | 0.5800 | 0.5592 | 3 |
+| PIK3CA/mTOR | 0.7143 | 0.6921 | 0.6921 | 0.7032 | 0.7030 | 0.5139* | 1 |
+
+\* neither n = 4，underpowered。
+
+---
+
+## Table S27. Docking attempted / successful / failed
+
+来源：`docking_failure_census_v1.csv`。AUROC 以两端均得分的配体为条件。HOAP_028 为 AutoDock 原子类型 `B`（硼）覆盖失败，不是 silent missingness。
+
+| 集合 | 靶对 | attempted | both-end success | fail either | fail A | fail B |
+|------|------|----------:|-----------------:|------------:|-------:|-------:|
+| 主面板 | EGFR/HER2 | 110 | 110 | 0 | 0 | 0 |
+| 主面板 | AChE/BChE | 100 | 95 | 5 | 4 | 5 |
+| 主面板 | PIK3CA/PIK3CB | 100 | 99 | 1 | 1 | 0 |
+| 主面板 | PIK3CA/mTOR | 48 | 48 | 0 | 0 | 0 |
+| holdout | AChE/BChE | 60 | 60 | 0 | 0 | 0 |
+| holdout | PIK3CA/PIK3CB | 60 | 59 | 1 | 1 | 1 |
+| holdout | PIK3CA/mTOR | 60 | 60 | 0 | 0 | 0 |
+
+AChE 主面板失败：AB_001（dual，两端）、AB_053/054/056（A_only，两端）、AB_097（neither，B 端）。PIK3CB 主面板：PAB_034（A_only，A 端）。holdout：HOAP_028 两端硼原子类型失败。
+
+---
+
+## Table S28. 四个预先指定描述符的方向 AUROC
+
+来源：`descriptor_all_four_directional_v1.csv`。全部报告；最高者为 best single-descriptor reference，不是 confirmatory competitor。
+
+| 靶对 | heavy min | MW min | cLogP min | TPSA min | best reference |
+|------|----------:|-------:|----------:|---------:|----------------|
+| EGFR/HER2 | 0.3694 | 0.4163 | **0.4821** | 0.4275 | cLogP |
+| AChE/BChE | 0.5820 | 0.5785 | 0.4669 | **0.7333** | TPSA |
+| PIK3CA/PIK3CB | **0.6217** | 0.6204 | 0.5952 | 0.4180 | heavy |
+| PIK3CA/mTOR | **0.4630** | 0.4484 | 0.3102 | 0.2599 | heavy |
+
+---
+
 
 - 本文件是**已有数据的汇编**，不是新实验。若某分析尚无机器可读表，宁缺毋填。
 - 投稿英文 SI 时：Table 编号可按期刊习惯重排；数字不得改动。
@@ -500,5 +548,5 @@ best9 − mode01 为 −0.04 至 +0.08，**不是**相对 Vina。
 - Table S12 是计数核对（BindingDB REST + PubChem PUG REST），不是对接结果；不得把 `as_is` 的 EGFR ≥50 写成已建成 BindingDB 厚面板。
 - Table S13 是 holdout 效价/尺寸匹配诊断，不替换 Table S8；不得写成错口袋悖论已解决。
 - Table S16–S21 是冻结分数上的补表（零新对接）。S17 的 holdout Δ CI 均含 0；S19 四对描述符 Δ CI 均含 0；S21 是 vina_mean Top-10，不是 Table 2。
-- Table S22–S25 与 Figure S4 来自 `data/jcim_novelty_v0/`（仍为零新对接）：S22 formulation comparison；S23 chemotype-matched hard-negatives（T ≥ 0.7 为空）；S24 incremental ECFP/docking；S25 mixed-library EF。不得把 EGFR Dual-vs-neither 写成四对系统高估；不得把 PIK3CA/mTOR Dual-vs-neither（n = 4）写成反转。
+- Table S22–S28 与 Figure S4 来自 `data/jcim_novelty_v0/`（仍为零新对接）：S22 formulation comparison；S23 chemotype-constrained hard-negatives（T ≥ 0.7 为空；T ≥ 0.3 不是 analogue matching）；S24 incremental ECFP/docking；S25 mixed-library EF；S26 min/mean/harmonic 聚合敏感性（四对排序不变）；S27 docking N_attempted/success/fail；S28 四个描述符全报。不得把 Dual-vs-neither 写成 “conventional benchmark”；不得把 EGFR 0.756 vs 0.430 写成配对显著性；不得把 PIK3CA/mTOR Dual-vs-neither（n = 4）写成反转。
 - Figure S3 不得复用 Figure 6 的 AUROC 柱；它只画配对 Δ ± CI。

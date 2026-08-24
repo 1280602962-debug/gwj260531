@@ -31,7 +31,7 @@
 
 其中，A-only 和 B-only 并不是传统意义上的普通负样本，而是针对双靶识别任务最关键的**选择性硬负样本（selectivity hard negatives）**。它们在一个靶点上已经具有较强活性，因此可以产生看似合理的 docking score，但在另一个靶点上缺乏相应活性。对于一个真正具有双靶识别能力的评价方法而言，关键问题因而并不是候选分子是否能够在两个口袋中分别获得较好的 docking score，而是其是否能够在**两个方向上同时区别真正的 dual-active 配体与对应的单靶选择性配体**。
 
-这一问题比已有的双靶对接评价更严格。Zhou、Li 与 Hou 曾在四对激酶上评估对接虚拟筛选：先做单靶 inhibitor 对 noninhibitor，再做 dual-target identification，并报告结构依赖性以及预测 dual 列表中较高的 false-positive rate。[^9] 该工作已经说明双靶对接可以被基准化，并且相对 inactive 的对接并不能给出干净的 dual hit list。它没有把实验标注的 A-only / B-only 当作方向性硬负，也没有问：同一套对接分数上，Dual-versus-neither（或 Dual-versus-inactive）读出是否会改变对 docking 能力的解释。
+这一问题比已有的双靶对接评价更严格。Zhou、Li 与 Hou 曾在四对激酶上评估对接虚拟筛选：先做单靶 inhibitor 对 noninhibitor，再做 dual-target identification，并报告结构依赖性以及预测 dual 列表中较高的 false-positive rate。[^9] 该工作已经说明双靶对接可以被基准化，并且相对 inactive 的对接并不能给出干净的 dual hit list。它没有把实验标注的 A-only / B-only 当作方向性硬负，也没有问：同一套对接分数上，Dual-versus-neither（inactive）comparator 是否会改变对方向性 Dual-versus-selective 的解释。本文中 Dual-versus-neither 是 **nonselectivity-controlled comparator**，不是 “the conventional dual-target benchmark”。
 
 这一差异也意味着，简单地将两个靶点的 docking score 进行平均、求和或其他池化处理，并不能充分描述双靶识别能力。例如，一个配体可能在靶点 A 上获得非常有利的评分，而在靶点 B 上表现较差；其平均分仍可能较高，但这一结果并不能支持其具有双靶活性。类似地，与单一参考配体进行相对 docking score 比较，可以用于定义某种计算意义上的“双靶成功”，但并不能直接回答一个更严格的实验验证问题：**计算评分能否将真正的双靶活性配体与具有单靶强活性的选择性配体区分开来？**
 
@@ -63,13 +63,11 @@ Wu 等提出的 FuseDiff 则将共享配体分子图与两个靶点特异的结�
 
 最后，我们在经过供给审计后保留的多个 target pairs 上比较 docking-based discrimination 的一致性，并进一步通过 wrong-pocket、化学性质、scaffold-aware chemical baseline、同一数据批次中的 unused-pool holdout 以及 receptor-structure robustness 等分析考察其可靠边界。研究重点并非提出新的 docking scoring function，而是回答一个更基础的问题：
 
-> **现有 docking scores 在多大程度上能够将实验定义的双靶活性配体与单靶选择性硬负配体区分开来，以及这种区分能力在多大程度上依赖于特定靶点、受体结构或配体化学性质？**
+> **How does benchmark formulation affect the apparent ability of docking to recognize dual-target ligands — specifically, does omitting directional single-target hard negatives give an overly favorable impression of dual-target recognition on the same scores?**
 
-同一设计还引出一个嵌套问题：在同一套分数上，传统 Dual-versus-inactive（或 Dual-versus-neither）读出是否会比方向性硬负任务给出更乐观的解释。
+嵌套的实验问题仍然是：现有 docking scores 在多大程度上能够将实验定义的双靶活性配体与单靶选择性硬负配体区分开来，以及这种区分能力在多大程度上依赖于特定靶点、受体结构或配体化学性质。
 
-用一句话界定问题：**The central question is therefore an experimentally defined dual-target recognition task: not whether a ligand can obtain favorable docking scores at two targets, but whether docking can distinguish dual-active ligands from target-selective hard negatives across both target directions.**
-
-通过这一设计，本研究旨在为双靶点虚拟筛选和生成式双靶点药物设计提供一个更严格的下游评价基准，并明确 docking-based dual-target recognition 可以被可靠解释的范围及其潜在混淆来源。
+通过这一设计，本研究旨在为双靶点虚拟筛选和生成式双靶点药物设计提供一个更严格的下游评价基准，并明确 docking-based dual-target recognition 可以被可靠解释的范围及其潜在混淆来源。DualFourClass-Bench 是 curated four-pair evaluation panel + protocol，不是 comprehensive dual-target suite。
 
 ---
 

@@ -4,7 +4,7 @@ Numbers from `data/jcim_novelty_v0/tables/` after `scripts/benchmark_formulation
 
 ## 1. Conventional vs DualFourClass
 
-Do **not** claim a four-pair overestimation law. EGFR/HER2 is the only pair where Dual-vs-neither looks like a successful dual-target docking result while directional `summary_min` does not.
+Do **not** claim a four-pair overestimation law. EGFR/HER2 is the only pair where Dual-vs-neither looks like a successful dual-target docking result while directional `summary_min` does not. Dual-versus-neither is a **nonselectivity-controlled comparator**, not “the conventional dual-target benchmark.” The contrast is descriptive (different negatives), not a paired Δ.
 
 | Pair | summary_min | Dual vs neither mean [95% CI] | n_neither | Dual vs all non-duals | Single-target pocket A / B |
 |---|---:|---:|---:|---:|---|

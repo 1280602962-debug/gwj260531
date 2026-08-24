@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""SI figure: conventional Dual-vs-neither vs DualFourClass summary_min."""
+"""SI figure: Dual-versus-neither comparator vs DualFourClass summary_min.
+
+Do not label Dual-vs-neither as 'the conventional dual-target benchmark'.
+It is a nonselectivity-controlled comparator on the same frozen scores.
+"""
 from __future__ import annotations
 
 import csv
@@ -58,7 +62,7 @@ def main():
     alln, alln_e = series("D_vs_A+B+neither_mean")
 
     ax.bar(x - width, sm, width, yerr=sm_e, capsize=2.5, label="directional summary_min", color="#1f4e79")
-    ax.bar(x, nei, width, yerr=nei_e, capsize=2.5, label="conventional Dual vs neither", color="#c45911")
+    ax.bar(x, nei, width, yerr=nei_e, capsize=2.5, label="Dual vs neither comparator", color="#c45911")
     ax.bar(x + width, alln, width, yerr=alln_e, capsize=2.5, label="Dual vs all non-duals", color="#7f7f7f")
     ax.axhline(0.5, color="0.4", lw=0.8, ls="--")
     ax.set_xticks(x)

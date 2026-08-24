@@ -2,7 +2,7 @@
 
 ## Allowed claims
 1. This is an **evaluation / benchmark** article for dual-target docking decision metrics.
-2. Primary metric = **pocket-matched directional AUROC** (D vs A_only uses pocket-B score; D vs B_only uses pocket-A score) with a **prespecified four-descriptor panel** (heavy atoms, MW, cLogP, TPSA) reported in full. The strongest descriptor is a **descriptive** baseline, not a confirmatory “best-of-four” hypothesis test. Pooled/wrong-pocket controls are reported in parallel. DualFourClass-Bench is a **four-state** curated resource; the primary endpoint is **two directional pairwise** tasks, not a four-class classifier.
+2. Primary metric = **pocket-matched directional AUROC** (D vs A_only uses pocket-B score; D vs B_only uses pocket-A score) with a **prespecified four-descriptor panel** (heavy atoms, MW, cLogP, TPSA) reported in full. The strongest descriptor is a **best single-descriptor reference**, not a confirmatory “best-of-four” hypothesis test and not a “trivial baseline competitor.” Pooled/wrong-pocket controls are reported in parallel. DualFourClass-Bench is a **four-state curated benchmark with two directional primary tasks**, not a four-class classifier. Call it a **curated four-pair benchmark panel + evaluation protocol**, not a comprehensive / LIT-PCBA-scale suite.
 3. K=4 pairs are a **frozen evaluation set**, not a claim that the metric generalizes to all target pairs.
 4. EGFR/HER2 is a **supply-limited case study** (existing unified RDKit EH110); no claim from new EGFR docking. A later BindingDB/PubChem **count-level** check (Table S12) does not rebuild this panel: under equal-relation measurements EGFR still fails the ≥50 thick-panel gate (min HN ≈ 30).
 5. Prep protocol is frozen: **RDKit ETKDG + meeko**. Do **not** mention Schrodinger LigPrep in the manuscript (no formal license; early borrow was internal-only).
@@ -27,17 +27,25 @@
 16. Do **not** label receptor replacement as “structure robustness that confirms stability”; it is **receptor-structure sensitivity**.
 17. Do **not** call `summary_min` a novel scoring function; it is a worst-arm aggregation of two AUROCs.
 18. Do **not** treat max(heavy, MW, cLogP, TPSA) as a prespecified confirmatory baseline.
-19. Do **not** write that conventional Dual-vs-neither evaluation **systematically overestimates** dual-target docking on all K = 4 pairs. EGFR/HER2 is the pair where Dual-vs-neither (0.756) and directional summary_min (0.430) diverge; AChE and PIK3CA/PIK3CB show small overlapping increments; PIK3CA/mTOR Dual-vs-neither is underpowered (neither n = 4) and must not be used as a reverse-overestimation story.
-20. Do **not** promote Tanimoto ≥ 0.7 chemotype-matched AUROCs (the matched sets are empty). Modest T ≥ 0.3 drops are allowed with n_neg reported.
-21. Do **not** treat logistic docking AUROC as Table 2 rank AUROC. Incremental ECFP+docking ≈ ECFP is allowed; “docking is information-free on every dual-target pair” is not.
+19. Do **not** write that Dual-versus-neither evaluation **systematically overestimates** dual-target docking on all K = 4 pairs, and do **not** call Dual-versus-neither “the conventional dual-target benchmark.” Prefer **dual-versus-neither comparator** or **nonselectivity-controlled comparator**. EGFR/HER2 is the pair where Dual-vs-neither (0.756) and directional summary_min (0.430) diverge; AChE and PIK3CA/PIK3CB show small overlapping increments; PIK3CA/mTOR Dual-vs-neither is underpowered (neither n = 4) and must not be used as a reverse-overestimation story.
+20. Do **not** promote Tanimoto ≥ 0.7 chemotype-matched AUROCs (the matched sets are empty). Modest T ≥ 0.3 drops are allowed with n_neg reported. Do **not** call T ≥ 0.3 “chemically matched analogues.”
+21. Do **not** treat logistic docking AUROC as Table 2 rank AUROC. Incremental wording is: **under the present scaffold-grouped benchmark, adding the docking score produced little incremental AUROC beyond ECFP4.** Forbidden: “docking has no structural / independent information.”
 22. Do **not** promote the 27-ligand max-vs-median diagnostic, or a failed live ChEMBL activity fetch, to a completed SI table. Full-panel median relabel is still outstanding (`scripts/assay_aggregation_max_vs_median_v1.py`).
+23. Do **not** treat 0.756 vs 0.430 as a **paired statistical significance test**. Different negative sets; report a **descriptive formulation contrast**. Prefer “provided an overly favorable impression” over mathematical bias / “significantly overestimated.”
+24. Do **not** interpret the four pair `summary_min` values (0.430 / 0.606 / 0.500 / 0.692) as purely intrinsic target-pair docking performance. AChE and PIK3CB were built under strict 6.5/5.5; EGFR and PM under θ = 6.0; panels also differ in n, series composition, and receptor.
+25. Do **not** write that scaffold GroupKFold “proved strong generalization.” It shows performance when the same Bemis–Murcko scaffold is not shared across folds. PIK3CA/mTOR `n_scaffolds ≈ n`, so the split is nearly leave-one-scaffold. This is not target-external generalization.
+26. Do **not** infer pocket-specific signal from main-panel matched > wrong. Wrong-pocket is an unresolved falsification control and **not a reliable universal negative control under panel shift.**
+27. Do **not** write that the docking protocol “was validated.” Write: **the protocol passed cognate pose-generation QC** (best-of-9 RMSD < 2 Å ≠ top-ranked pose recovery).
+28. Do **not** omit docking coverage: report N_attempted / N_successful / N_failed. HOAP_028 is a chemical-coverage failure (AutoDock atom type `B`), not silent missingness. AChE main panel 5/100 both-end-or-either failures; PIK3CB 1/100; EGFR and PM48 0/110 and 0/48.
+29. Do **not** treat `summary_min` as the only natural aggregation. Sensitivity (Table S26): pair ranking is unchanged under min / arithmetic mean / harmonic mean. Keep min as primary.
+30. Do **not** mention the AChE/PIK3CB ChEMBL-id prefix as a diversity constraint. Sampling on those pairs is class quotas + deterministic shuffle; no additional diversity constraint. Do not rebuild frozen panels.
 
 ## Conclusions claim ceiling
 
 Allowed closing claims:
 - DualFourClass-Bench is an **experimentally grounded evaluation setting** (once in Conclusions; not a new algorithm).
 - Discrimination was **limited and strongly target-pair-dependent** (summary_min 0.430–0.692).
-- On EGFR/HER2, a conventional Dual-versus-neither readout looked substantially stronger than the directional worst arm; this is **pair-dependent**, not a four-pair overestimation law.
+- On EGFR/HER2, a Dual-versus-neither comparator looked substantially stronger than the directional worst arm; this is **pair-dependent**, not a four-pair overestimation law. Do not call that comparator “the conventional benchmark.”
 - PIK3CA/mTOR had the strongest point estimate and a positive directional signal in an unused ligand pool; uncertainty + receptor sensitivity **preclude a generalizable dual-target decision rule**.
 - Apparent signals can be substantially influenced by ligand properties, chemotype, and receptor realization.
 - Unused-pool wrong-pocket reversal is **unresolved**; paired CIs included zero.

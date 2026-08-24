@@ -26,7 +26,7 @@
 | R2.3 | summary_min 不是 novel metric | **合理** | 写成 worst-arm aggregation / 任务约束 |
 | R2.4 | best descriptor 选择偏倚 | **合理** | 四描述符全报；max 只作 descriptive strong baseline |
 | R2.5 | logistic 是 covariate-adjusted | **合理** | Methods 2.9.4 |
-| R2.6 | 统一 Murcko 重抽全部 panel | **合理但不做** | 重抽会改冻结 AUROC；AChE/PIK3CB 如实写 identifier 前缀为占位过滤，不称为多样性 |
+| R2.6 | 统一 Murcko 重抽全部 panel | **合理但不做** | 重抽会改冻结 AUROC；AChE/PIK3CB 现改为 class quotas + deterministic shuffle，**删除** identifier 前缀叙述；事后报告 Murcko，不重抽 |
 | R2.7 | structure robustness → sensitivity | **合理** | Methods 2.12；不把 PM 写成预设 positive case |
 | R2.8 | holdout ≠ external validation | **已部分做到；加强** | unused-pool, panel-external |
 | R2.9 | wrong-pocket = falsification | **合理** | Methods 2.9.1 |

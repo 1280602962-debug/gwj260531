@@ -83,9 +83,9 @@ Definitions (same ligands, same scores):
 - **Dual vs all non-duals:** Dual vs (A-only + B-only + neither); still not directional.
 - **Single-target analogue:** (dual + A-only) vs (B-only + neither) in pocket A, and the symmetric B contrast.
 
-EGFR/HER2 is the only pair where conventional Dual-vs-neither is both (i) apparently strong and (ii) clearly above the directional worst arm. The two CIs barely overlap (0.562–0.920 vs 0.285–0.579). This is **not** a paired Δ (different negative sets); do not call it a significance test.
+EGFR/HER2 is the only pair where Dual-vs-neither is both (i) apparently strong and (ii) clearly above the directional worst arm. The two CIs barely overlap (0.562–0.920 vs 0.285–0.579). This is **not** a paired Δ (different negative sets); do not call it a significance test.
 
-AChE and PIK3CA/PIK3CB do **not** show a formulation reversal: conventional Dual-vs-neither is only ~0.04–0.06 higher and remains compatible with chance.
+AChE and PIK3CA/PIK3CB do **not** show a formulation reversal: Dual-vs-neither is only ~0.04–0.06 higher and remains compatible with chance.
 
 PIK3CA/mTOR Dual-vs-neither is unusable (neither n = 4). Dual vs all non-duals on that pair is 0.674, close to `summary_min` 0.692 — i.e. when selectives are the bulk of the negatives, pooled scoring does not inflate PM the way Dual-vs-neither inflates EGFR.
 
@@ -172,12 +172,12 @@ Not required for a benchmark/evaluation article. Would change the paper class. O
 **Title (optional, not applied in this commit):**  
 *Benchmarking Docking-Based Dual-Target Recognition with Directional Selectivity Hard Negatives*
 
-**Central questions (two, nested):**
+**Central questions (nested):**
 
-1. Can docking distinguish dual-actives from directional experimental selectives on both arms?  
-2. Does a conventional Dual-versus-inactive evaluation change that interpretation on the same scores?
+1. How does benchmark formulation affect the apparent ability of docking to recognize dual-target ligands?  
+2. Can docking distinguish dual-actives from directional experimental selectives on both arms?
 
-Keep (1) as the prespecified primary endpoint. (2) is the comparison with 2013.
+Keep (2) as the prespecified primary endpoint. (1) is the novelty comparison with 2013. Dual-versus-neither is a **nonselectivity-controlled comparator**, not “the conventional benchmark.”
 
 **Do not** rename DualFourClass-Bench a “comprehensive benchmark suite.”  
 **Do** call it a curated four-state panel plus evaluation protocol.
@@ -188,13 +188,11 @@ Keep (1) as the prespecified primary endpoint. (2) is the comparison with 2013.
 
 Still real:
 
-- K = 4 (call it data-constrained, not comprehensive).
+- K = 4 (call it data-constrained, not comprehensive). Novelty evidence is **EGFR/HER2-dominant**.
 - Receptor swap still one pair until B5.
 - max pChEMBL until A4 completes.
 - ECFP still strong: A3 helps, but reviewers can still say the labels are chemotype-structured.
 
-Reduced:
-
-- “What is new vs prior dual-target docking evaluation?” now has a quantitative answer on EGFR/HER2, with an honest null on two other pairs and an underpowered fourth.
+Closed in the claim-hardening round (`scripts/claim_hardening_v1.py`; manuscript rewrite): Dual-vs-neither is no longer called “the conventional benchmark”; 0.756 vs 0.430 is descriptive; `summary_min` ranking is aggregation-insensitive; docking failures are censused; identifier prefix deleted; ECFP incremental / CV / wrong-pocket / descriptor wording tightened.
 
 If a reviewer asks for 10 pairs or 10 engines, the correct reply is the supply audit (Figure 2) and this note: more engines do not test formulation.

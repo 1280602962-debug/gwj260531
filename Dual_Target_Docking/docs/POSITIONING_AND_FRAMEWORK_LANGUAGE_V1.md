@@ -65,7 +65,7 @@
 | 名字 | 角色 | 是否保留 |
 |------|------|----------|
 | DualFourClass | 四状态数据集（非四分类器） | 保留 |
-| DualFourClass-Bench | 基准资源（panels + scores + scripts） | **保留**；这是数据集/基准名，不是算法框架缩写。称 **curated four-state panel + evaluation protocol**，不要暗示 LIT-PCBA / DockBench 级规模。 |
+| DualFourClass-Bench | 基准资源（panels + scores + scripts） | **保留**；这是数据集/基准名，不是算法框架缩写。称 **curated four-state panel + evaluation protocol**，不要暗示 LIT-PCBA / DockBench 级规模。正式定义：**four-state curated benchmark with two directional primary tasks**。 |
 | D-DRAF 或同类新缩写 | — | **不要引入** |
 | pocket-matched directional AUROC | 主指标名 | 保留（描述性，非产品名） |
 
