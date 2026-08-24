@@ -170,7 +170,7 @@ def fetch_pchembl(mol_id: str, target_id: str) -> dict:
                 "values": [],
                 "fetch_error": str(last_err),
             }
-            cache.write_text(json.dumps(rec))
+            # Do not persist 500/timeout as a completed cache entry.
             return rec
         acts = payload.get("activities") or []
         n_rows += len(acts)
