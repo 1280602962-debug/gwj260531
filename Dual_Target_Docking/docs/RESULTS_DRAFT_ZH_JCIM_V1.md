@@ -12,9 +12,9 @@
 
 ### 3.1 双靶识别基准的构建：公开数据对硬负配体供给的限制
 
-双靶对接评测需要四类配体：dual、仅 A 端强的选择性配体、仅 B 端强的选择性配体，以及两端均弱的 neither（Figure 1A）。我们将后两类实验定义的选择性配体作为硬负选择性配体（hard-negative selective ligands），用于检验对接分数能否同时压住两条单靶臂。能够支持这一四类 ground-truth 的靶对稀缺，是 benchmark 构建的方法学瓶颈，而不是事后用“数据不够”解释冻结集规模。
+双靶对接评测需要四种配体状态：dual、仅 A 端强的选择性配体、仅 B 端强的选择性配体，以及两端均弱的 neither（Figure 1A）。基准是四状态数据集；预先指定的主终点是两条方向 pairwise 判别（dual 对 A-only、dual 对 B-only）。我们将后两类实验定义的选择性配体作为硬负选择性配体（hard-negative selective ligands），用于检验对接分数能否同时压住两条单靶臂。能够支持这一四状态 ground-truth 的靶对稀缺，是 benchmark 构建的方法学瓶颈，而不是事后用“数据不够”解释冻结集规模。
 
-在 49 对有 ChEMBL 缓存的靶对上，按严格标签规则（dual：两端 pChEMBL ≥ 6.5；选择性类：活性端 ≥ 6.5 且对端 ≤ 5.5）做供给审计。尽管候选靶对数量不少，**可平衡构建的双靶基准仍受到实验表征硬负配体稀缺的严重约束**：两端严格硬负均 ≥ 50 的只有 4 对。排除金属依赖、不适合作为常规对接主对象的 HDAC1/HDAC6 后，剩余 PIK3CA/mTOR、AChE/BChE 与 PIK3CA/PIK3CB 三对适合建成规模较均衡的严格四类面板（Table 1）。文献中常见的 EGFR/HER2 在同一规则下仅有 7 个严格 B 端选择性配体，达不到该门槛，因而作为供给受限案例纳入，而不是严格厚面板。K = 4 评价集由该审计结果确定，而非事后挑选“对接好看”的靶对；构建细节见 Methods 2.1–2.3。
+在 49 对有 ChEMBL 缓存的靶对上，按严格标签规则（dual：两端 pChEMBL ≥ 6.5；选择性类：活性端 ≥ 6.5 且对端 ≤ 5.5）做供给审计。尽管候选靶对数量不少，**可平衡构建的双靶基准仍受到实验表征硬负配体稀缺的严重约束**：两端严格硬负均 ≥ 50 的只有 4 对。排除金属依赖、不适合作为常规对接主对象的 HDAC1/HDAC6 后，剩余 PIK3CA/mTOR、AChE/BChE 与 PIK3CA/PIK3CB 三对适合建成规模较均衡的严格四状态面板（Table 1）。文献中常见的 EGFR/HER2 在同一规则下仅有 7 个严格 B 端选择性配体，达不到该门槛，因而作为供给受限案例纳入，而不是严格厚面板。K = 4 评价集由该审计结果确定，而非事后挑选“对接好看”的靶对；构建细节见 Methods 2.1–2.3。
 
 对该四对的 BindingDB / PubChem 计数核对（Supporting Information Table S12；零对接）表明：**厚面板门槛在等式测定下不随数据源翻转。** 与 pChEMBL 更接近的 `equal_only` 规则下，三对已冻结厚面板的 min HN 分别为 BindingDB 76 / 92 / 58、PubChem 86 / 97 / 61（ChEMBL 缓存为 80 / 78 / 56），仍全部 ≥ 50。EGFR/HER2 的 min HN 从 ChEMBL 的 7 升至 BindingDB 31、PubChem 30，达到薄面板（≥ 20）但仍达不到 ≥ 50 厚面板门槛。若把 `>` 截尾（如 IC50 > 10 µM）也当作弱端点估计（`as_is`），EGFR/HER2 的 BindingDB min HN 会升至 85（85/92）从而过 ≥ 50；但 92 个 as-is B_only 中有 49 个在 EGFR 端只有 `>` 记录。这改变的是“两端都有等式定量测定”的定义，不能写成 ChEMBL 漏掉了约 80 个干净的 HER2 选择性配体。PubChem 与 BindingDB 计数接近，符合沉积重叠，不作两次独立普查。K = 4 对接面板仍按 ChEMBL pChEMBL 冻结；本核对未重建面板、未做新对接。
 
@@ -30,7 +30,7 @@
 
 ### 3.3 对接对真双靶配体的判别能力有限且高度依赖靶对
 
-双靶分数需要同时压住两条单靶选择性臂。若两臂共用同一池化分数（如两端 Vina 分数的均值），较强一臂可能掩盖较弱一臂的失败。本文因此以口袋匹配方向 AUROC 为主指标（Figure 1B）：dual 对 A_only 用口袋 B 的分数，dual 对 B_only 用口袋 A 的分数，summary_min 取两臂较小值（Methods 2.6）。分数定义为 \(S=-E_{\mathrm{Vina}}\)（越大越好），dual 为正类。
+双靶分数需要同时压住两条单靶选择性臂。若两臂共用同一池化分数（如两端 Vina 分数的均值），较强一臂可能掩盖较弱一臂的失败。本文因此以口袋匹配方向 AUROC 为主指标（Figure 1B）：dual 对 A_only 用口袋 B 的分数，dual 对 B_only 用口袋 A 的分数，summary_min 取两臂较小值（Methods 2.8）。分数定义为 \(S=-E_{\mathrm{Vina}}\)（越大越好），dual 为正类。
 
 需要分开两件事：其一，**方向特异的判别失败**——例如在 EGFR/HER2 上，dual 对 B_only 的口袋匹配 AUROC 仅为 0.430，而若单独审视池化协议下较弱一臂可读到约 0.28，说明 B 端方向本身接近或低于随机，并非“池化运算把 0.50 压成 0.28”；其二，**池化会掩盖上述弱臂**——同一对上池化 summary 可接近 0.50，给人以“尚可”的假象。相对池化，口袋匹配普遍抬高了四对的点估计，但排序未变（Supporting Information Table S6）。
 
@@ -45,9 +45,9 @@
 | PIK3CA/PIK3CB | 28 / 27 / 28 | 0.691 | 0.500 | 0.500 [0.347, 0.648] |
 | PIK3CA/mTOR | 18 / 14 / 12 | 0.714 | 0.692 | 0.692 [0.464, 0.802] |
 
-对接信号总体偏弱，且高度依赖靶对。PIK3CA/mTOR 是唯一 summary_min 点估计同时高于 0.5 与最优平凡描述符基线（重原子数 0.463）的靶对，但其 95% CI 下界仍接近 0.5，不足以支持强判别主张。EGFR/HER2、PIK3CA/PIK3CB 的 summary_min 分别为 0.430 与 0.500，均不超过各自最优描述符；AChE/BChE 为 0.606，仍低于 TPSA 基线（0.733）。RTMScore 与 GNINA 未改变这一格局。排名读出与弱臂一致：EGFR/HER2 按池化 Vina 取 Top-10 时，9 个为硬负选择性配体（bootstrap 均值 ≈ 8.9；95% CI 为 7–10）。
+对接信号总体偏弱，且高度依赖靶对。四个预先指定的物化描述符全部计算；下文“最强描述符”仅指该面板上 AUROC 最高者，不是预设的独立检验基准。PIK3CA/mTOR 是唯一 summary_min 点估计同时高于 0.5 与最强描述符（重原子数 0.463）的靶对，但其 95% CI 下界仍接近 0.5，不足以支持强判别主张。EGFR/HER2、PIK3CA/PIK3CB 的 summary_min 分别为 0.430 与 0.500，均不超过各自最强描述符；AChE/BChE 为 0.606，仍低于 TPSA（0.733）。RTMScore 与 GNINA 未改变这一格局。排名读出与弱臂一致：EGFR/HER2 按池化 Vina 取 Top-10 时，9 个为硬负选择性配体（bootstrap 均值 ≈ 8.9；95% CI 为 7–10）。
 
-（对应 Methods 2.5–2.6）
+（对应 Methods 2.6–2.8）
 
 ### 3.4 物理化学与结构混淆在多数靶对上主导表观信号
 
@@ -61,7 +61,7 @@
 
 效价匹配或尺寸匹配子集上，EGFR/HER2 与 PIK3CA/PIK3CB 的 dual 对 B_only 仍偏弱或接近随机（约 0.45–0.52）；PIK3CA/mTOR 的排序趋势保持一致，但各臂 n 常低于 15、区间较宽（Table S5）。
 
-（对应 Methods 2.6–2.7）
+（对应 Methods 2.8–2.9）
 
 ### 3.5 稳健性核对与案例依赖的成功
 
@@ -73,7 +73,7 @@ PM110（历史命名；实际面板 n = 115，其中 dual / A_only / B_only 各 
 
 综合 §3.2–3.5：**仅 PIK3CA/mTOR 的点估计在主面板与 PM110 稳定性核对上同时高于 0.5 与重原子数基线，幅度有限**；其余三对的表观信号在很大程度上可由配体属性或二维化学型解释。该方向随后在 unused-pool holdout 上保持（§3.9），但换晶体后显示受体依赖（§3.10），不得读成结构不变的可重复优势。
 
-（对应 Methods 2.3–2.4、2.7）
+（对应 Methods 2.3、2.6–2.7、2.10）
 
 ### 3.6 对接判别力的跨对结构决定因素（探索性）
 
@@ -92,7 +92,7 @@ PM110（历史命名；实际面板 n = 115，其中 dual / A_only / B_only 各 
 
 需要审慎解读的边界：这是全链一级序列一致性的粗粒度代理，不是经结构叠合限定的 ATP 口袋残基级 RMSD 或相互作用指纹（PLIF）相似度；后者需要经验证的结构叠合工具（如 TM-align、PyMOL align/super）并对齐口袋残基编号，本轮环境未配置、也未做残基级验证，不在此虚构口袋 RMSD 数值，留待后续工作。PIK3CA 与 mTOR 全链一致性最低，但二者同属 PIKK 相关家族，ATP 竞争位点存在已知的局部结构同源性——这正是文献中已有真实 PI3K/mTOR 双靶抑制剂化学型（如 PI-103、omipalisib）的结构基础；表中的低全链一致性不应解读为"两口袋不相似"，而应理解为"整体蛋白架构分化、但局部 ATP 位点保留可及重叠"，与 §3.7 的姿态级线索一致。四对样本量为 n = 4，本节为描述性对照，不做正式相关性检验或统计显著性主张。
 
-（对应 Methods 2.6；Supporting Information Table S7）
+（对应 Methods 2.9.7；Supporting Information Table S7）
 
 ### 3.7 PIK3CA/mTOR 有限方向信号的结构线索（个案级）
 
@@ -104,11 +104,11 @@ PM110（历史命名；实际面板 n = 115，其中 dual / A_only / B_only 各 
 
 ### 3.8 尚未解决的稳健性缺口：面板构成层重抽样
 
-现有 bootstrap（Methods 2.6；B = 2000）重采样的是**固定面板内**的配体，回答"这批已对接分子的不确定度有多大"，不回答"如果换一批同配额的分子，结论是否还成立"——即面板构成本身的抽样分布。严格硬负供给在主面板与 holdout 之后已经见底（PIK3CA/PIK3CB 剩余 A_only = 8；EGFR 严格 B_only 剩余 = 0；其余两对最多还能再抽 **一个** 不重叠的 30/30/30 panel），因此**不能**把“对接未用池”写成可得到 1000 个相互独立 panel 的路径。`data/jcim_holdout_v0/` 已完成 unused-pool holdout 对接与评价（Results 3.9）；那是固定配额的一次外推检验，不是供给池重抽分布。读者不应将§3.2–3.6 与 3.9 的结果等同于"面板构成已完全验证稳健"。
+现有 bootstrap（Methods 2.8；B = 2000）重采样的是**固定面板内**的配体，回答"这批已对接分子的不确定度有多大"，不回答"如果换一批同配额的分子，结论是否还成立"——即面板构成本身的抽样分布。严格硬负供给在主面板与 holdout 之后已经见底（PIK3CA/PIK3CB 剩余 A_only = 8；EGFR 严格 B_only 剩余 = 0；其余两对最多还能再抽 **一个** 不重叠的 30/30/30 panel），因此**不能**把“对接未用池”写成可得到 1000 个相互独立 panel 的路径。`data/jcim_holdout_v0/` 已完成 unused-pool holdout 对接与评价（Results 3.9）；那是固定配额的一次外推检验，不是供给池重抽分布。读者不应将§3.2–3.6 与 3.9 的结果等同于"面板构成已完全验证稳健"。
 
-（对应 Methods 2.6 局限说明；`JCIM_SUPPLEMENTARY_EXPERIMENTS_PLAN_V2.md`）
+（对应 Methods 2.3、2.11；`JCIM_SUPPLEMENTARY_EXPERIMENTS_PLAN_V2.md`）
 
-### 3.9 面板外冻结验证集（unused-pool holdout）
+### 3.9 Unused-pool, panel-external holdout
 
 在未参与面板构建与协议调优的 ChEMBL 严格池中，三对靶标各抽取 60 个配体（dual / A_only / B_only = 20 / 20 / 20；种子 20260731），按冻结协议对接后计算口袋匹配 summary_min（Supporting Information Table S8 / Table S16；`HOLDOUT_VERDICT.md`）。EGFR/HER2 不具备同等 unused-pool 配额（严格 B_only = 7），holdout 记为 **not eligible**，不补做。
 
@@ -123,9 +123,9 @@ PIK3CA/mTOR 在 holdout 上点估计与主表同向：summary_min = 0.765，boot
 
 三对 holdout 上均出现 **Vina 错口袋对照不低于口袋匹配**（PM：0.7875 对 0.765；AChE/BChE：0.6425 对 0.6175；PIK3CB：0.520 对 0.425）。配对 Δ（matched − wrong）点估计为负（−0.0225 / −0.025 / −0.095），但三对 95% CI **均包含 0**（Table S17；Figure S3B）：holdout 反转是点估计格局，不是区间已排除零的统计结论。为检验这是否只是 unused-pool 抽样在效价/尺寸上不同于主面板，我们按与 Table S5 相同的规则做最近邻匹配后重算错口袋对照（Supporting Information Table S13；零新对接）。效价匹配后三对仍是错口袋 ≥ 口袋匹配（AChE/BChE：0.642 对 0.593，n_min = 18；PIK3CA/PIK3CB：0.562 对 0.363，n_min = 11；PIK3CA/mTOR：0.734 对 0.715，n_min = 12）；尺寸匹配同样不翻转。holdout 相对主面板确有抽样偏移——最明显的是 PIK3CA/mTOR：holdout dual / A_only 的 pA 均值比主面板低约 1.1–1.3，B_only 的 pB 低约 1.8——但匹配后悖论仍在，故**不能**把错口袋 ≥ 匹配写成“holdout 抽得更强/更不平衡”的伪象。为检验这是否仅为打分函数伪象，我们在已冻结的 mode-1 姿态上计算不依赖打分的几何量 `contact_count`（配体重原子中与受体重原子距离 ≤4.0 Å 的原子数；粗粒度埋藏/接触计数，非 PLIF），并用它单独重复同一口袋比较（Supporting Information Table S11；`WRONG_POCKET_MECHANISM_VERDICT_V1.md`）。几何量在 **B 臂**上清晰高于随机（dual 对 B_only：0.698–0.714），与 dual 相对 B_only 的尺寸差更大一致（holdout 重原子均值：AChE/BChE 35.1 对 29.5；PM 33.5 对 31.0；PIK3CB 34.5 对 28.3）。**A 臂**上 dual 与 A_only 尺寸差很小（AChE/BChE 35.1 对 34.0；PM 33.5 对 32.3），contact_count AUROC 也更接近随机（0.552–0.622）。因此姿态层存在**真实的、不依赖打分函数的尺寸/埋藏混淆，主要出现在 B 臂**。但它**不能按幅度解释** Vina 的 holdout 错口袋，尤其是 PM：Vina 错口袋 summary_min = 0.788，而两臂 contact_count 的较小值仅为 0.552；PIK3CB 上该较小值（0.622）甚至高于 Vina 错口袋（0.520）。主面板在同一定义下口袋匹配仍高于错口袋（Supporting Information Table S6），与 holdout 的反差仍为开放问题，不得把接触计数或效价匹配写成“已解释 Vina 错口袋”。
 
-### 3.10 替代晶体结构的稳健性（cognate QC + 面板重对接）
+### 3.10 Receptor-structure sensitivity（替代晶体 cognate QC + 单口袋重对接）
 
-对替代晶体按 Methods 2.4 协议做共晶重对接：PIK3CA **4JPS**（1LT）best_of_9 = 0.607 Å、**5DXT**（5H5）= 0.624 Å；mTOR **4JSX**（Torin2/17G）= 0.515 Å，**三者均通过** &lt; 2 Å 门槛（`STRUCTURE_ROBUSTNESS_QC_V1.md`）。嵌合体 3T8M 已排除。
+对替代晶体按 Methods 2.5 协议做共晶重对接：PIK3CA **4JPS**（1LT）best_of_9 = 0.607 Å、**5DXT**（5H5）= 0.624 Å；mTOR **4JSX**（Torin2/17G）= 0.515 Å，**三者均通过** &lt; 2 Å 门槛（`STRUCTURE_ROBUSTNESS_QC_V1.md`）。嵌合体 3T8M 已排除。
 
 在冻结 PM48 配体上将口袋 A 换为 4JPS 或 5DXT（B 端仍用原 4JT6 分数）后，口袋匹配 summary_min 由主面板的 0.692 分别降至 **0.486** [0.259, 0.692] 与 **0.505** [0.292, 0.696]；D/A 臂（依赖未更换的 4JT6）保持 0.714，下降集中在依赖新 PIK3CA 口袋的 D/B 臂。将口袋 B 换为 4JSX（A 端仍用原 4L23）后，summary_min 为 **0.639** [0.418, 0.776]（Δ ≈ −0.05）。按方案预声明判据，PIK3CA 端记为**受体依赖**：4L23 上的有利信号不能自动外推到其他已过 QC 的 PIK3CA 晶体。mTOR 端换晶后点估计仍高于 0.5，但 95% CI 包含 0.5，只表明优势减弱、不能读成该端已稳健。4JPS / 5DXT 的 CI 同样包含 0.5。完整记录见 `STRUCTURE_ROBUSTNESS_VERDICT_V1.md`。
 

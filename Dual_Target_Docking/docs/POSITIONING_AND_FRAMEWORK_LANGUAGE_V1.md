@@ -64,8 +64,8 @@
 
 | 名字 | 角色 | 是否保留 |
 |------|------|----------|
+| DualFourClass | 四状态数据集（非四分类器） | 保留 |
 | DualFourClass-Bench | 基准资源（panels + scores + scripts） | **保留**；这是数据集/基准名，不是算法框架缩写 |
-| DualFourClass | 四类任务定义的简称 | 保留 |
 | D-DRAF 或同类新缩写 | — | **不要引入** |
 | pocket-matched directional AUROC | 主指标名 | 保留（描述性，非产品名） |
 
@@ -76,8 +76,8 @@
 不要写成五步 Framework 清单。现行中英稿（`INTRODUCTION_DRAFT_ZH_JCIM_V1.md` / `INTRODUCTION_SECTION_JCIM_EN_V1.md`）按连续科学论证排为：
 
 1. 多靶/双靶设计的药理动机；docking 作为 SBVS 工具；单靶 VS 基准（DUD/DUD-E、LIT-PCBA、CASF）不能直接外推到双靶。
-2. 四类状态空间；A-only/B-only 是选择性硬负；科学问题是 dual versus selective，不是“两端分数好不好”；池化与相对参考配体的 Dual High Affinity 都不能替代该问题。
-3. 严格四类 ground-truth 的数据供给本身是 methodological bottleneck（不要写成“我们数据不够”）；化学/物化混淆必须显式对照（LIT-PCBA 哲学）。
+2. 四状态实验空间；A-only/B-only 是选择性硬负；primary 是两条方向 pairwise AUROC，不是四分类；科学问题是 dual versus selective，不是“两端分数好不好”。
+3. 严格四状态 ground-truth 的数据供给本身是 methodological bottleneck（不要写成“我们数据不够”）；化学/物化混淆必须显式对照（LIT-PCBA 哲学）。
 4. DualDiff / FuseDiff 是应用场景：它们用对接定义计算双成功，与实验硬负判别互补；**不是**本文的竞争对象；未重跑其生成分子。
 5. 贡献 = systematic benchmarking protocol + **DualFourClass-Bench**。主指标口袋匹配方向 AUROC + `summary_min`。**不要在 Introduction 写死 K = 4**；写“经严格数据供给审计后形成的多靶点评价面板”。K = 4 放 Methods / Results。
 

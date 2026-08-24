@@ -1,6 +1,6 @@
 # Supporting Information（中文工作稿 · JCIM Articles）
 
-> 与 [`METHODS_DRAFT_ZH_JCIM_V1.md`](METHODS_DRAFT_ZH_JCIM_V1.md)、[`RESULTS_DRAFT_ZH_JCIM_V1.md`](RESULTS_DRAFT_ZH_JCIM_V1.md) 配套。  
+> 与 [`METHODS_DRAFT_ZH_JCIM_V1.md`](METHODS_DRAFT_ZH_JCIM_V1.md)（2.1–2.13 协议稿）、[`RESULTS_DRAFT_ZH_JCIM_V1.md`](RESULTS_DRAFT_ZH_JCIM_V1.md) 配套。  
 > **原则：** 仅收录仓库中已有实验/冻结产物；数字均可追溯到下列源文件。未做的分析不填空表。
 
 **溯源（机器可读原料）：**
@@ -111,7 +111,7 @@
 | EGFR | 3POZ | 9.514 | 1.015（mode 2） |
 | HER2 | 3RCD | 1.869 | 1.974（mode 3） |
 
-### S3b. 判读（与正文 Methods 2.4 对齐）
+### S3b. 判读（与正文 Methods 2.5 对齐）
 
 1. **八个冻结受体都做过共晶重对接**；另有未入选候选结构的失败记录（见 S3c），不纳入主协议。
 2. **在 E = 8、门槛 = best_of_9 &lt; 2 Å 时：** 4L23、4EY7、4BDS、2WXF、3POZ、3RCD 通过；**仅 4JT6 未通过**（5.003 Å）。升至 E = 16 后 4JT6 的 best_of_9 = 0.445 Å，故 PIK3CA/mTOR 全面板采用 E = 16。
@@ -335,7 +335,7 @@ EGFR/HER2 的 as_is 抬升不可直接当成“ChEMBL 漏检”：BindingDB 92 �
 
 ## Table S14. GNINA mode_01 与全 9 姿态公平重打的敏感性（worst-pocket，零新对接）
 
-来源：`data/jcim_bench_v0/tables/gnina_mode01_vs_best9_auroc.csv`；脚本 `scripts/compare_gnina_mode01_vs_best9.py`；结论 `analysis/GNINA_BEST9_STATUS.md`。2026-08-24：用户本地对已冻结 K=4 面板的全部 9 个 Vina 姿态分别做 GNINA CNN 重打分（`--cnn_scoring rescore --minimize`），取每端最高 CNNscore，与 RTM 的 best-of-9 覆盖对齐；mode_01 结果保留为历史备份。本表用 `min(score_A, score_B)` 同时代入 dual 对 A_only 与 dual 对 B_only 两个对比（**worst-pocket**，与 `gnina_cnn_min`/`vina_worst`/`rtm_worst` 同一约定），**不是** Methods 2.6 的方向性口袋匹配定义；后者见 Table S15。
+来源：`data/jcim_bench_v0/tables/gnina_mode01_vs_best9_auroc.csv`；脚本 `scripts/compare_gnina_mode01_vs_best9.py`；结论 `analysis/GNINA_BEST9_STATUS.md`。2026-08-24：用户本地对已冻结 K=4 面板的全部 9 个 Vina 姿态分别做 GNINA CNN 重打分（`--cnn_scoring rescore --minimize`），取每端最高 CNNscore，与 RTM 的 best-of-9 覆盖对齐；mode_01 结果保留为历史备份。本表用 `min(score_A, score_B)` 同时代入 dual 对 A_only 与 dual 对 B_only 两个对比（**worst-pocket**，与 `gnina_cnn_min`/`vina_worst`/`rtm_worst` 同一约定），**不是** Methods 2.8 的方向性口袋匹配定义；后者见 Table S15。
 
 | 靶对 | n | worst-pocket mode01 | worst-pocket best9 | Δ | mode_01 是最佳姿态的比例 |
 |------|---:|---------------------:|---------------------:|-----:|-----------------------:|
@@ -348,7 +348,7 @@ mode_01 是 9 个姿态中 CNNscore 最高的比例仅 19–29%，即多数配�
 
 ---
 
-## Table S15. GNINA 真口袋匹配（Methods 2.6 定义），mode_01 与全 9 姿态对照（零新对接）
+## Table S15. GNINA 真口袋匹配（Methods 2.8 定义），mode_01 与全 9 姿态对照（零新对接）
 
 来源：`data/jcim_bench_v0/tables/gnina_pocket_matched_mode01_vs_best9_k4_v1.csv` + `..._stability_v1.csv`；脚本 `scripts/gnina_pocket_matched_best9_v1.py`；结论 `analysis/GNINA_POCKET_MATCHED_BEST9_VERDICT_V1.md`。定义与 Vina/RTM 的 `pocket_matched_vina`/`pocket_matched_rtm` 完全一致：dual 对 A_only 用口袋 B 的 GNINA CNNscore；dual 对 B_only 用口袋 A 的 CNNscore；取两者较小值为 summary_min，配体层 bootstrap 95% CI（B = 2000，种子 20260729）。mode_01 数值与建面时冻结的历史值精确一致（PM48 0.5794、PM110 0.5222），确认备份数据与脚本口径无误。
 

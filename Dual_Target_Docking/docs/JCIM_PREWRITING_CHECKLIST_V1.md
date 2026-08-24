@@ -22,10 +22,10 @@
 
 **写作前阻塞项（必须先清或边写边盯）：**  
 1. ❌ Zenodo DOI + Data and Software Availability 定稿句  
-2. ❌ 完整英文 IMRaD（现有 Results + Introduction 英稿；Methods/Discussion 仍以中文工作稿为主）  
+2. ❌ 完整英文 IMRaD（现有 Results + Introduction + Methods 英稿；Discussion 仍以中文工作稿为主）  
 3. ❌ Cover letter  
 4. ❌ Fig1 schematic / Fig2 supply / Fig4–5 定稿；现有 forest/gate 图 DPI 偏低（~180）  
-5. 🟡 Methods 中明确 **Data curation** 小节（材料有，稿未写）
+5. 🟡 Methods 中明确 **Data curation** 小节（2.1 已写；英文稿已有）
 
 非阻塞但建议开写前钉死：主指标措辞、K=4 边界、禁止“通吃 scorer”。
 
@@ -121,7 +121,7 @@ python3 data/jcim_bench_v0/scripts/plot_forest_ci_v1.py
 |----|------|------|----------|
 | E1 | Abstract（3–4 句） | ❌ | 待写；须低于 Results 主张强度 |
 | E2 | Introduction | 🟡 中英稿已按五段论证重构 | [`INTRODUCTION_DRAFT_ZH_JCIM_V1.md`](INTRODUCTION_DRAFT_ZH_JCIM_V1.md) + [`INTRODUCTION_SECTION_JCIM_EN_V1.md`](INTRODUCTION_SECTION_JCIM_EN_V1.md)；引用核验 [`INTRODUCTION_REFS_JCIM_V1.md`](INTRODUCTION_REFS_JCIM_V1.md)。K=4 不在 Intro 写死；DualDiff/FuseDiff 为互补评测而非竞争对象 |
-| E3 | Methods 2.1–2.9 Dataset / docking / metrics | 🟡 中文稿 | [`METHODS_DRAFT_ZH_JCIM_V1.md`](METHODS_DRAFT_ZH_JCIM_V1.md)；英译待做 |
+| E3 | Methods 2.1–2.13 协议化重构 | 🟡 中英稿 | [`METHODS_DRAFT_ZH_JCIM_V1.md`](METHODS_DRAFT_ZH_JCIM_V1.md) + [`METHODS_SECTION_JCIM_EN_V1.md`](METHODS_SECTION_JCIM_EN_V1.md)。结果数字已移出 Methods；four-state + pairwise primary；wrong-pocket = falsification；holdout ≠ external validation；换晶 = structure sensitivity |
 | E6 | Results 3.1–3.7 | ✅ 草稿 | [`RESULTS_SECTION_JCIM_EN_V1.md`](RESULTS_SECTION_JCIM_EN_V1.md) |
 | E7 | Discussion / Limitations | 🟡 中文稿 | [`DISCUSSION_DRAFT_ZH_JCIM_V1.md`](DISCUSSION_DRAFT_ZH_JCIM_V1.md) + [`DISCUSSION_LIMITATIONS_DRAFT_ZH_JCIM_V1.md`](DISCUSSION_LIMITATIONS_DRAFT_ZH_JCIM_V1.md) |
 | E8 | Conclusions | ❌ | 评测主张收束，勿发明新 claim |

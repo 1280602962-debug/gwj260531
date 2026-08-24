@@ -1,7 +1,7 @@
 # Discussion · Limitations（中文工作稿片段）
 
 > 位置：Discussion 末段或 Discussion 下 *Limitations* 小节（JCIM 常见）。  
-> 仅列仓库可支撑的局限；不编造未做实验。与 Methods 2.1、2.5、2.6（2.6.7–2.6.9）、Results 3.2 / 3.4–3.11 交叉引用。
+> 仅列仓库可支撑的局限；不编造未做实验。与 Methods 2.1–2.3、2.6–2.8、2.11–2.12，Results 3.2 / 3.4–3.11 交叉引用。
 
 ---
 

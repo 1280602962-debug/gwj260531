@@ -2,7 +2,7 @@
 
 ## Allowed claims
 1. This is an **evaluation / benchmark** article for dual-target docking decision metrics.
-2. Primary metric = **pocket-matched directional AUROC** (D vs A_only uses pocket-B score; D vs B_only uses pocket-A score) with **trivial baselines** and pooled/wrong-pocket controls reported in parallel.
+2. Primary metric = **pocket-matched directional AUROC** (D vs A_only uses pocket-B score; D vs B_only uses pocket-A score) with a **prespecified four-descriptor panel** (heavy atoms, MW, cLogP, TPSA) reported in full. The strongest descriptor is a **descriptive** baseline, not a confirmatory “best-of-four” hypothesis test. Pooled/wrong-pocket controls are reported in parallel. DualFourClass-Bench is a **four-state** curated resource; the primary endpoint is **two directional pairwise** tasks, not a four-class classifier.
 3. K=4 pairs are a **frozen evaluation set**, not a claim that the metric generalizes to all target pairs.
 4. EGFR/HER2 is a **supply-limited case study** (existing unified RDKit EH110); no claim from new EGFR docking. A later BindingDB/PubChem **count-level** check (Table S12) does not rebuild this panel: under equal-relation measurements EGFR still fails the ≥50 thick-panel gate (min HN ≈ 30).
 5. Prep protocol is frozen: **RDKit ETKDG + meeko**. Do **not** mention Schrodinger LigPrep in the manuscript (no formal license; early borrow was internal-only).
@@ -21,6 +21,12 @@
 10. Do **not** claim a BindingDB- or PubChem-derived docking panel that was not actually docked.
 11. Do **not** write that docking the leftover unused ChEMBL pool would yield **1000 independent non-overlapping** balanced panels. Strict hard-neg leftover after main+holdout is 37/39 (PM), 141/30 (AChE), 8/19 (PIK3CB), 22/0 (EGFR). Holdout is one unused-pool draw, not a 1000-panel distribution. Do not relabel the existing ligand bootstrap as unused-pool resampling.
 12. Do **not** promote the 27-ligand max-vs-median API diagnostic (`max_vs_median_diagnostic_sample_v1.csv`) to a completed SI sensitivity table.
+13. Do **not** call the AChE/BChE or PIK3CA/PIK3CB ChEMBL-id prefix filter a chemical-diversity constraint.
+14. Do **not** call unused-pool holdout “external validation.”
+15. Do **not** present wrong-pocket as a positive control that proves pocket specificity; it is a **falsification** control.
+16. Do **not** label receptor replacement as “structure robustness that confirms stability”; it is **receptor-structure sensitivity**.
+17. Do **not** call `summary_min` a novel scoring function; it is a worst-arm aggregation of two AUROCs.
+18. Do **not** treat max(heavy, MW, cLogP, TPSA) as a prespecified confirmatory baseline.
 
 See also: `docs/POSITIONING_AND_FRAMEWORK_LANGUAGE_V1.md`.
 

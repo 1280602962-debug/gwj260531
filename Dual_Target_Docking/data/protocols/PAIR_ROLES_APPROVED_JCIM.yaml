@@ -15,7 +15,7 @@ meta:
   stage_m_track_b: "Weak"
   ligand_prep_frozen: "rdkit_etkdg_meeko"
   primary_metric: "directional_AUROC_dual_vs_A_only_and_dual_vs_B_only"
-  mandatory_baselines: ["heavy_atoms", "MW", "cLogP", "TPSA"]
+  mandatory_baselines: ["heavy_atoms", "MW", "cLogP", "TPSA"]  # all four reported; max is descriptive, not confirmatory
   scoring_channels: ["vina", "rtm", "gnina_cnn_rescore_if_available"]
   next_commands: ["J2_PM48_RDKIT", "J3_NEW_RECEPTOR_FREEZE", "J4_NEW_PANEL_DOCK", "J5_GNINA_RESCORE", "J6_BENCH_PACK"]
   excluded_holdout: ["NLRP3/JNK1"]

@@ -798,7 +798,7 @@ The script re-reads the CSVs, writes PDF/PNG/TIF, and fails if any plotted value
 
 ## Figure 1. Dual-target docking as dual-versus-selective discrimination.
 
-(A) A strict dual-target benchmark distinguishes four experimentally labeled ligand states: dual-active (D), A-selective (A_only), B-selective (B_only), and neither. A_only and B_only are selectivity hard negatives: they are active on one target and can produce plausible docking scores, yet they lack activity on the other. (B) The primary readout is pocket-matched directional AUROC, not a pooled score. Dual versus A_only is scored in pocket B; dual versus B_only is scored in pocket A. The pair-level summary is the weaker arm (summary_min), so a favorable score on one target cannot hide directional failure on the other. Pooled docking scores are retained only as a control.
+(A) A strict dual-target benchmark distinguishes four experimentally labeled ligand states: dual-active (D), A-selective (A_only), B-selective (B_only), and neither. A_only and B_only are selectivity hard negatives: they are active on one target and can produce plausible docking scores, yet they lack activity on the other. Neither is curated as part of the four-state panel but is not used in the primary AUROCs. (B) The prespecified primary readout is two directional pairwise discriminations, not a four-class classifier and not a pooled score. Dual versus A_only is scored in pocket B; dual versus B_only is scored in pocket A. The pair-level summary is the weaker arm (summary_min), so a favorable score on one target cannot hide directional failure on the other. Pooled docking scores are retained only as a control.
 
 ## Figure 2. Public-data supply of strict hard negatives.
 

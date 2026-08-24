@@ -3,7 +3,7 @@
 > 只收录仓库里已经跑完、可以写进稿的结果。讨论句必须不越过 `CLAIM_CEILING.md`。  
 > 配套：`RESULTS_DRAFT_ZH_JCIM_V1.md`、`DISCUSSION_DRAFT_ZH_JCIM_V1.md`、`DISCUSSION_LIMITATIONS_DRAFT_ZH_JCIM_V1.md`。
 
-全文定位（每段讨论都要服从）：不是 “docking can/cannot identify dual-target ligands”，也不是新打分函数；而是评价对接分数在四类硬负任务上的**可靠性与边界**。资源名 DualFourClass-Bench。
+全文定位（每段讨论都要服从）：不是 “docking can/cannot identify dual-target ligands”，也不是新打分函数；而是评价对接分数在四状态硬负面板、双向 pairwise 主终点上的**可靠性与边界**。资源名 DualFourClass-Bench。
 
 ---
 
@@ -33,7 +33,7 @@
 | EGFR/HER2 进 K=4 的理由 | 严格 B_only = **7**，供给受限案例，不是厚面板 | J0 |
 | BindingDB / PubChem 计数核对（零对接） | `equal_only` 厚门槛不翻转（min HN 76/92/58 与 86/97/61）；EGFR 升至 ~30，仍 < 50；`as_is` 可过 50 是因为 `>` 截尾 | Table S12 |
 
-**讨论应写：** 可平衡的四类硬负面板在公开数据里很少；K=4 是供给冻结集，不是对全部双靶任务的抽样。ChEMBL 作对接主源合理，因为等式测定下厚门槛不随库翻转；EGFR 仍是供给案例，不能改写成厚面板后再去对接。
+**讨论应写：** 可平衡的四状态硬负面板在公开数据里很少；K=4 是供给冻结集，不是对全部双靶任务的抽样。ChEMBL 作对接主源合理，因为等式测定下厚门槛不随库翻转；EGFR 仍是供给案例，不能改写成厚面板后再去对接。
 
 **不要写：** 公开数据硬负供给 “ChEMBL-invariant” 而不提 S12；ChEMBL 漏了约 80 个干净 HER2 选择性配体；BindingDB 已经给出可对接新面板。
 
