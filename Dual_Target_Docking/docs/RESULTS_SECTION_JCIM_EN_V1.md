@@ -8,7 +8,7 @@
 
 ### 3.1 Construction of a dual-target recognition benchmark: public-data limits on hard-negative supply
 
-Dual-target docking evaluation requires four ligand classes: dual, A-selective, B-selective, and neither. Experimentally defined selective ligands on each arm serve as hard-negative selective ligands for testing whether a score can suppress both single-target arms.
+Dual-target docking evaluation requires four ligand classes: dual, A-selective, B-selective, and neither (Figure 1A). Experimentally defined selective ligands on each arm serve as hard-negative selective ligands for testing whether a score can suppress both single-target arms. The scarcity of pairs that support this four-class ground truth is a benchmark-construction bottleneck, not a post-hoc excuse for the size of the frozen set.
 
 Across 49 audited ChEMBL target pairs under the primary strict rule (dual: both ends ≥ 6.5; selective: active end ≥ 6.5 and opposite ≤ 5.5), only four pairs retained ≥50 hard-negative selective ligands on **both** ends. Despite the large number of ChEMBL target pairs, **balanced dual-target benchmarking was severely constrained by the scarcity of experimentally characterized hard-negative selective ligands**. After excluding metal-dependent HDAC1/HDAC6, three pairs supported reasonably balanced strict panels; EGFR/HER2 entered as a supply-limited case (few strict B-selective ligands), not as a thick panel. The frozen K = 4 set follows this audit, not post-hoc selection of docking-favorable pairs (Methods 2.1–2.3).
 
@@ -22,7 +22,7 @@ As a supporting robustness analysis (not a second, competing primary standard), 
 
 ### 3.3 Docking shows limited, pair-dependent ability to discriminate true dual-target ligands
 
-A dual-target score must suppress both selective arms. Pooling the two pocket scores (e.g., mean) can let the stronger arm mask failure on the weaker arm. The primary metric is therefore pocket-matched directional AUROC: dual versus A_only scored in pocket B, dual versus B_only scored in pocket A, with summary_min as the smaller arm (Methods 2.6). Scores are \(S=-E_{\mathrm{Vina}}\) (higher better); dual is the positive class.
+A dual-target score must suppress both selective arms. Pooling the two pocket scores (e.g., mean) can let the stronger arm mask failure on the weaker arm. The primary metric is therefore pocket-matched directional AUROC (Figure 1B): dual versus A_only scored in pocket B, dual versus B_only scored in pocket A, with summary_min as the smaller arm (Methods 2.6). Scores are \(S=-E_{\mathrm{Vina}}\) (higher better); dual is the positive class.
 
 Two points must be kept distinct. First, **direction-specific discrimination failure**: on EGFR/HER2, pocket-matched dual-versus-B_only AUROC is 0.430, and the weaker arm under a pooled protocol can read near ~0.28; that low value reflects failure of that direction itself, not a pooling arithmetic that "creates" 0.28 from 0.50. Second, **pooling can mask the weak arm**: on the same pair, a pooled summary can approach ~0.50 and appear merely mediocre. Relative to pooling, pocket matching raised point estimates across pairs without changing rank order (Table S6).
 

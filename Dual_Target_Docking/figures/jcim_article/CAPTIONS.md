@@ -7,9 +7,9 @@ Regenerate (from `Dual_Target_Docking/`):
 `python3 data/jcim_bench_v0/scripts/plot_jcim_article_figures_v1.py`
 The script re-reads the CSVs, writes PDF/PNG/TIF, and fails if any plotted value disagrees with its source (`plotted_values.json`).
 
-## Figure 1. DualFourClass task and pocket-matched readout.
+## Figure 1. Dual-target docking as dual-versus-selective discrimination.
 
-(A) Dual-target evaluation requires four ligand classes measured on both targets: dual-actives and experimental single-end hard negatives (A_only, B_only), plus neither. (B) The primary metric scores dual versus A_only in pocket B and dual versus B_only in pocket A; summary_min is the smaller of the two AUROCs so that a weak arm cannot be hidden by pooling.
+(A) A strict dual-target benchmark distinguishes four experimentally labeled ligand states: dual-active (D), A-selective (A_only), B-selective (B_only), and neither. A_only and B_only are selectivity hard negatives: they are active on one target and can produce plausible docking scores, yet they lack activity on the other. (B) The primary readout is pocket-matched directional AUROC, not a pooled score. Dual versus A_only is scored in pocket B; dual versus B_only is scored in pocket A. The pair-level summary is the weaker arm (summary_min), so a favorable score on one target cannot hide directional failure on the other. Pooled docking scores are retained only as a control.
 
 ## Figure 2. Public-data supply of strict hard negatives.
 
@@ -49,4 +49,4 @@ All values are from `wrong_pocket_paired_delta_bootstrap_v1.csv` and `pocket_mat
 
 ## TOC graphic (For Table of Contents Only).
 
-DualFourClass-Bench evaluates whether docking ranks dual-target ligands above experimental single-end hard negatives in both pockets. The graphic does not report numerical AUROCs and is not a reuse of Figure 1.
+DualFourClass-Bench asks whether docking can distinguish experimentally labeled dual-active ligands from single-target selective hard negatives in both pockets, rather than whether both docking scores are merely favorable. The graphic does not report numerical AUROCs and is not a reuse of Figure 1.

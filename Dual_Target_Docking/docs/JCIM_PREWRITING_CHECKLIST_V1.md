@@ -22,7 +22,7 @@
 
 **写作前阻塞项（必须先清或边写边盯）：**  
 1. ❌ Zenodo DOI + Data and Software Availability 定稿句  
-2. ❌ 完整英文 IMRaD（现仅有 Results）  
+2. ❌ 完整英文 IMRaD（现有 Results + Introduction 英稿；Methods/Discussion 仍以中文工作稿为主）  
 3. ❌ Cover letter  
 4. ❌ Fig1 schematic / Fig2 supply / Fig4–5 定稿；现有 forest/gate 图 DPI 偏低（~180）  
 5. 🟡 Methods 中明确 **Data curation** 小节（材料有，稿未写）
@@ -46,7 +46,7 @@
 `DualFourClass-Bench for Dual-Target Docking Evaluation`（约 7 词）  
 备选（更贴定位句）：`Evaluating Docking Reliability for Dual-Target Ligand Recognition`（约 8 词）
 
-**全文定位句（Introduction/Abstract 用，避免绝对化）：** 不写成 "Docking can/cannot identify dual-target ligands"；改写为 *Evaluating the reliability and limitations of docking-based dual-target recognition*——强调这是对现有对接分数的可靠性评测，而非提出新方法或做全有全无判决，与 Results 开篇的定位句（`RESULTS_DRAFT_ZH_JCIM_V1.md` 顶部）一致。
+**全文定位句（Introduction/Abstract 用，避免绝对化）：** 不写成 "Docking can/cannot identify dual-target ligands"；改写为 *Evaluating the reliability and limitations of docking-based dual-target recognition*——强调这是对现有对接分数的可靠性评测，而非提出新方法或做全有全无判决，与 Results 开篇的定位句（`RESULTS_DRAFT_ZH_JCIM_V1.md` 顶部）一致。问题定义句（Intro 末段已写入；Abstract / Cover letter 围绕同一思想改写，勿三处逐字重复）：*The central question is not whether a ligand can obtain favorable docking scores at two targets, but whether docking can distinguish experimentally characterized dual-active ligands from target-selective hard negatives across both target directions.* Introduction **不写死 K = 4**。
 
 **“框架”用语（防 AI 包装感；详见 [`POSITIONING_AND_FRAMEWORK_LANGUAGE_V1.md`](POSITIONING_AND_FRAMEWORK_LANGUAGE_V1.md)）：**
 - ✅ 可以说：*systematic benchmarking framework* / *evaluation protocol* + 资源名 **DualFourClass-Bench**
@@ -120,7 +120,7 @@ python3 data/jcim_bench_v0/scripts/plot_forest_ci_v1.py
 | ID | 章节 | 状态 | 材料指针 |
 |----|------|------|----------|
 | E1 | Abstract（3–4 句） | ❌ | 待写；须低于 Results 主张强度 |
-| E2 | Introduction | 🟡 中文稿 | [`INTRODUCTION_DRAFT_ZH_JCIM_V1.md`](INTRODUCTION_DRAFT_ZH_JCIM_V1.md)；含 DualDiff/FuseDiff 评测互补句 |
+| E2 | Introduction | 🟡 中英稿已按五段论证重构 | [`INTRODUCTION_DRAFT_ZH_JCIM_V1.md`](INTRODUCTION_DRAFT_ZH_JCIM_V1.md) + [`INTRODUCTION_SECTION_JCIM_EN_V1.md`](INTRODUCTION_SECTION_JCIM_EN_V1.md)；引用核验 [`INTRODUCTION_REFS_JCIM_V1.md`](INTRODUCTION_REFS_JCIM_V1.md)。K=4 不在 Intro 写死；DualDiff/FuseDiff 为互补评测而非竞争对象 |
 | E3 | Methods 2.1–2.9 Dataset / docking / metrics | 🟡 中文稿 | [`METHODS_DRAFT_ZH_JCIM_V1.md`](METHODS_DRAFT_ZH_JCIM_V1.md)；英译待做 |
 | E6 | Results 3.1–3.7 | ✅ 草稿 | [`RESULTS_SECTION_JCIM_EN_V1.md`](RESULTS_SECTION_JCIM_EN_V1.md) |
 | E7 | Discussion / Limitations | 🟡 中文稿 | [`DISCUSSION_DRAFT_ZH_JCIM_V1.md`](DISCUSSION_DRAFT_ZH_JCIM_V1.md) + [`DISCUSSION_LIMITATIONS_DRAFT_ZH_JCIM_V1.md`](DISCUSSION_LIMITATIONS_DRAFT_ZH_JCIM_V1.md) |

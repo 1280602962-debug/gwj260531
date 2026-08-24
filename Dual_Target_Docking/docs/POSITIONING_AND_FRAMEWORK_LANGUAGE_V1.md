@@ -73,13 +73,16 @@
 
 ## 5. Intro 结构建议（防 AI 感）
 
-不要写成五步 Framework 清单。推荐叙事弧：
+不要写成五步 Framework 清单。现行中英稿（`INTRODUCTION_DRAFT_ZH_JCIM_V1.md` / `INTRODUCTION_SECTION_JCIM_EN_V1.md`）按连续科学论证排为：
 
-1. 双靶对接在实践中被使用，但缺少严格四类硬负评测。
-2. 公开数据供给限制了可平衡的双靶基准规模。
-3. 池化分数可能掩盖方向失败；需要口袋匹配指标。
-4. 表观双靶信号常被配体属性/化学型解释。
-5. 生成式双靶方法（DualDiff / FuseDiff）用两端 Vina 相对参考配体的 Dual High Affinity 评测成功，与“硬负分臂”不是同一问题；本基准可作其下游诚实评测（零新实验写作点）。
-6. 因此本文建立 **systematic benchmarking protocol + DualFourClass-Bench**，在 K=4 上报告可靠边界与局限。
+1. 多靶/双靶设计的药理动机；docking 作为 SBVS 工具；单靶 VS 基准（DUD/DUD-E、LIT-PCBA、CASF）不能直接外推到双靶。
+2. 四类状态空间；A-only/B-only 是选择性硬负；科学问题是 dual versus selective，不是“两端分数好不好”；池化与相对参考配体的 Dual High Affinity 都不能替代该问题。
+3. 严格四类 ground-truth 的数据供给本身是 methodological bottleneck（不要写成“我们数据不够”）；化学/物化混淆必须显式对照（LIT-PCBA 哲学）。
+4. DualDiff / FuseDiff 是应用场景：它们用对接定义计算双成功，与实验硬负判别互补；**不是**本文的竞争对象；未重跑其生成分子。
+5. 贡献 = systematic benchmarking protocol + **DualFourClass-Bench**。主指标口袋匹配方向 AUROC + `summary_min`。**不要在 Introduction 写死 K = 4**；写“经严格数据供给审计后形成的多靶点评价面板”。K = 4 放 Methods / Results。
 
-流程细节放 Methods；不要在 Intro 用 “our Framework Step 1–5” 推销。
+**全文问题句（Abstract / Intro 末段 / Cover letter 围绕同一思想，勿机械三处复制）：**
+
+> The central question is not whether a ligand can obtain favorable docking scores at two targets, but whether docking can distinguish experimentally characterized dual-active ligands from target-selective hard negatives across both target directions.
+
+流程细节放 Methods；不要在 Intro 用 “our Framework Step 1–5” 推销。引用核验见 `INTRODUCTION_REFS_JCIM_V1.md`。

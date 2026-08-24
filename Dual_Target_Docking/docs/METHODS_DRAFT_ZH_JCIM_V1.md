@@ -2,7 +2,8 @@
 
 > 结构与语气对照：Vu et al., *J. Chem. Inf. Model.* **2025**, 65, 4833–4843  
 > （Dataset → Task → Docking → Scoring → Evaluation；正文写清关键参数，其余见 SI）  
-> 与 [`RESULTS_DRAFT_ZH_JCIM_V1.md`](RESULTS_DRAFT_ZH_JCIM_V1.md) 配套。投稿以英文为准；本稿供中文审改。  
+> 与 [`RESULTS_DRAFT_ZH_JCIM_V1.md`](RESULTS_DRAFT_ZH_JCIM_V1.md)、[`INTRODUCTION_DRAFT_ZH_JCIM_V1.md`](INTRODUCTION_DRAFT_ZH_JCIM_V1.md) 配套。投稿以英文为准；本稿供中文审改。  
+> 任务定义（2.2）与 Figure 1 对应 Introduction 的 dual-versus-selective 问题；K = 4 只在本节与 Results 写明。  
 > 本轮已吸收审稿式 Methods 批评（见 [`METHODS_REVIEWER_CRITIQUE_RESPONSE_V1.md`](METHODS_REVIEWER_CRITIQUE_RESPONSE_V1.md)）：统一标签作跨对主稳健分析、分数方向写死、GNINA 不对称披露、decoy 窗口引文献、cognate 细节压 SI；并补入已做实验的可复现边界（holdout 三对范围、换晶单口袋替换、叠合与接触计数参数）。**不编造** median pChEMBL 表与 1000 次 panel 重抽结果。
 
 ---
@@ -15,7 +16,7 @@
 
 同一配体–靶标若有多条记录，**代表值取可用的最大 pChEMBL**（activity inflation 风险见 Limitations）。未按 assay 中位数、ChEMBL 置信度阈值或物种字段过滤：冻结数据包（`mols_*.json`）仅存每个配体–靶标一对一的最大 pChEMBL 浮点数，不具备在本地重算 median / confidence≥8 / Homo sapiens 过滤的条件。因此本稿**不报告** max 对 median 的数值敏感性表；该分析需重新拉取逐条 assay 记录后方可进行，列入后续工作而非现有结果。任一端缺少可用 pChEMBL 的配体不进入四类主分析。ChEMBL 结构条目常含盐形式；对接前将结构按连通片段拆分并保留重原子数最多的有机片段，以得到单一可对接分子。
 
-**供给审计用严格规则（construction gate，非跨对主比较的唯一标签）。** 严格规则：dual 为两端 pChEMBL ≥ 6.5；A_only 为 A ≥ 6.5 且 B ≤ 5.5；B_only 为对称定义；neither 为两端 ≤ 5.5；灰区（介于 5.5 与 6.5）不进入严格面板。在 49 对可审计靶对上，两端严格硬负均 ≥ 50 的仅 4 对；排除金属依赖的 HDAC1/HDAC6 后，剩余 PIK3CA/mTOR、AChE/BChE 与 PIK3CA/PIK3CB 作为厚面板候选。EGFR/HER2 在同一严格规则下 B_only 仅 7 个，无法建成规模均衡的严格四类面板，但仍纳入评价集作为**供给受限案例**（文献常见双靶对；不宣称其为严格厚面板）。
+**供给审计用严格规则（construction gate，非跨对主比较的唯一标签）。** 严格规则：dual 为两端 pChEMBL ≥ 6.5；A_only 为 A ≥ 6.5 且 B ≤ 5.5；B_only 为对称定义；neither 为两端 ≤ 5.5；灰区（介于 5.5 与 6.5）不进入严格面板。在 49 对可审计靶对上，两端严格硬负均 ≥ 50 的仅 4 对；排除金属依赖的 HDAC1/HDAC6 后，剩余 PIK3CA/mTOR、AChE/BChE 与 PIK3CA/PIK3CB 作为厚面板候选。EGFR/HER2 在同一严格规则下 B_only 仅 7 个，无法建成规模均衡的严格四类面板，但仍纳入评价集作为**供给受限案例**（文献常见双靶对；不宣称其为严格厚面板）。该 49 → 4 的计数把 Introduction 中的数据供给问题定量化：严格四类 ground-truth 的 completeness 本身是评测协议的瓶颈，评价集规模由此冻结，而不是在观察对接分数之后挑选靶对。
 
 **跨库计数核对（零对接，不重建面板）。** 为检验上述 ≥50 双侧硬负门槛是否只是 ChEMBL 覆盖假象，我们对冻结的 K = 4 四对另查 BindingDB REST（`getLigandsByUniprots`，cutoff = 1 mM，以免把弱端测定截掉）与 PubChem PUG REST（`protein/accession/…/concise`）。类型限于 IC50/Ki/Kd/EC50；代表值取最大转换 p 活性；分类规则与 J0 严格门槛相同。配体身份分别用 BindingDB monomerid 与 PubChem CID，**不做**跨库结构合并。主比较采用与 pChEMBL 更接近的**等式测定**（去掉 `>`/`<` 截尾）；将不等式数值当作点估计计入只作敏感性。该核对只报告计数（Supporting Information Table S12），不进入对接或改写冻结面板。
 
@@ -25,7 +26,9 @@
 
 ### 2.2 任务定义
 
-本文将双靶对接评测建成四类配体判别任务。对每一对靶标 A/B，依据两端实测活性将配体分为：dual（两端均强）、A_only（仅 A 强）、B_only（仅 B 强）和 neither（两端均弱）。评价目标不是比较某一口袋上谁的对接分更高，而是判断对接分数能否把 dual 配体同时与两类单靶选择性配体（A_only 与 B_only）区分开。
+本节把 Introduction 的科学问题落实为可计算任务，并与 Figure 1 一一对应：主问题是 docking 能否把实验 dual-active 配体与单靶选择性硬负在两个方向上同时分开，而不是两端对接分是否同时有利。冻结评价集的靶对数目（K = 4）由 2.1 的供给审计决定，不属于 Introduction 的问题定义。
+
+本文将双靶对接评测建成四类配体判别任务。对每一对靶标 A/B，依据两端实测活性将配体分为：dual（两端均强）、A_only（仅 A 强）、B_only（仅 B 强）和 neither（两端均弱）。A_only 与 B_only 是选择性硬负样本，不是 DUD/DUD-E 式假定 decoy。评价目标不是比较某一口袋上谁的对接分更高，而是判断对接分数能否把 dual 配体同时与两类单靶选择性配体（A_only 与 B_only）区分开。
 
 为此，我们分别计算 dual 对 A_only、dual 对 B_only 的 AUROC，并以二者的最小值作为该靶对的汇总指标（记为 summary_min）。采用最小值是为了避免只报告较好一侧：若仅有一端可区分而另一端接近随机，则不足以支持“双靶判别”的主张。
 
