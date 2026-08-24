@@ -30,7 +30,7 @@ PIK3CA/mTOR 的 boxed 说法：
 | 4.3 | PM 是有限方向信号 | 3.4 + 3.6；Schaller 只作 receptor 变量 |
 | 4.4 | 对 VS / 生成式的含义 | DualDiff/FuseDiff 用途句；Sindt 后处理类比 |
 | 4.5 | 未解决的错口袋反转 | 3.5 |
-| 4.6 | 五条局限 + 收束段 | 库存 1–13 的前五条 |
+| 4.6 | 五条局限 | 库存前五条；收束段已移至 Conclusions |
 
 旧 Results 3.8（面板构成层重抽样）已移入 4.6 / Limitations，不再作为 Results 小节。
 
@@ -164,6 +164,8 @@ PIK3CA/mTOR 的 boxed 说法：
 - 多数对上表观信号可被描述符或化学型解释。
 - 同一配体协议在 unused-pool 上对 PM **同向**，但换晶体后 **受体依赖**。
 - holdout 错口袋反转保持开放。
+
+**Conclusions（两段，见 `CONCLUSIONS_SECTION_JCIM_EN_V1.md`）只保留：** 0.430–0.692；PM 最强点估计 + unused-pool 同向；不确定度与受体敏感性排除可迁移决策规则；配体/化学型/受体实现可实质影响表观信号；holdout 错口袋反转未解决且配对 CI 含 0；贡献 = reliability boundary。
 
 **不可以主张：**
 

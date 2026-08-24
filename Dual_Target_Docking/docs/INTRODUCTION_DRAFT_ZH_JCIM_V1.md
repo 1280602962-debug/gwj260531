@@ -63,7 +63,7 @@ Wu 等提出的 FuseDiff 则将共享配体分子图与两个靶点特异的结�
 
 > **现有 docking scores 在多大程度上能够将实验定义的双靶活性配体与单靶选择性硬负配体区分开来，以及这种区分能力在多大程度上依赖于特定靶点、受体结构或配体化学性质？**
 
-用一句话界定问题：**The central question is not whether a ligand can obtain favorable docking scores at two targets, but whether docking can distinguish experimentally characterized dual-active ligands from target-selective hard negatives across both target directions.**
+用一句话界定问题：**The central question is therefore an experimentally defined dual-target recognition task: not whether a ligand can obtain favorable docking scores at two targets, but whether docking can distinguish dual-active ligands from target-selective hard negatives across both target directions.**
 
 通过这一设计，本研究旨在为双靶点虚拟筛选和生成式双靶点药物设计提供一个更严格的下游评价基准，并明确 docking-based dual-target recognition 可以被可靠解释的范围及其潜在混淆来源。
 

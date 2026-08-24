@@ -10,7 +10,7 @@
 
 ### 2.1 Data sources and activity curation
 
-Ligand activities were retrieved from the public ChEMBL Web API activity endpoint. The target-pair supply audit was frozen on 2026-07-23. pChEMBL converts molar concentration–response measurements (IC50, Ki, Kd, EC50, and related endpoints) to an approximate −log10 activity scale for large-scale integration. Assay types, conditions, and experimental systems are not equivalent; pChEMBL is used here as a curation convenience, not as an absolute affinity measured under one protocol.
+Ligand activities used as **experimentally derived activity labels** were retrieved from the public ChEMBL Web API activity endpoint. The target-pair supply audit was frozen on 2026-07-23. pChEMBL converts molar concentration–response measurements (IC50, Ki, Kd, EC50, and related endpoints) to an approximate −log10 activity scale for large-scale integration. Assay types, conditions, and experimental systems are not equivalent; pChEMBL is used here as a curation convenience, not as an absolute affinity measured under one protocol.
 
 When several pChEMBL values existed for the same ligand–target pair, the frozen tables store the **maximum** as the one-to-one representative. That choice preserves coverage but can inflate activity; the limitation is discussed in the Discussion. The frozen `mols_*.json` files contain only that float and cannot be reaggregated locally by assay median, ChEMBL confidence, or species. This work therefore does not rebuild median / confidence≥8 / *Homo sapiens* tables on the frozen pack. Ligands missing a usable pChEMBL on either target were excluded from analyses that require paired labels.
 

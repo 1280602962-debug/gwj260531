@@ -124,7 +124,7 @@ python3 data/jcim_bench_v0/scripts/plot_forest_ci_v1.py
 | E3 | Methods 2.1–2.13 协议化重构 | 🟡 中英稿 | [`METHODS_DRAFT_ZH_JCIM_V1.md`](METHODS_DRAFT_ZH_JCIM_V1.md) + [`METHODS_SECTION_JCIM_EN_V1.md`](METHODS_SECTION_JCIM_EN_V1.md)。结果数字已移出 Methods；four-state + pairwise primary；wrong-pocket = falsification；holdout ≠ external validation；换晶 = structure sensitivity |
 | E6 | Results 3.1–3.6 | ✅ 草稿 | 已按证据链压缩为 6 节：[`RESULTS_DRAFT_ZH_JCIM_V1.md`](RESULTS_DRAFT_ZH_JCIM_V1.md) + [`RESULTS_SECTION_JCIM_EN_V1.md`](RESULTS_SECTION_JCIM_EN_V1.md)。旧 3.8 面板重抽样已移出 Results |
 | E7 | Discussion / Limitations | ✅ 中英稿 | [`DISCUSSION_DRAFT_ZH_JCIM_V1.md`](DISCUSSION_DRAFT_ZH_JCIM_V1.md) + [`DISCUSSION_SECTION_JCIM_EN_V1.md`](DISCUSSION_SECTION_JCIM_EN_V1.md)；引用 [`DISCUSSION_REFS_JCIM_V1.md`](DISCUSSION_REFS_JCIM_V1.md)；正文局限仅 5 条 |
-| E8 | Conclusions | ❌ | 评测主张收束，勿发明新 claim |
+| E8 | Conclusions | ✅ 中英稿 | 两段收束：[`CONCLUSIONS_DRAFT_ZH_JCIM_V1.md`](CONCLUSIONS_DRAFT_ZH_JCIM_V1.md) + [`CONCLUSIONS_SECTION_JCIM_EN_V1.md`](CONCLUSIONS_SECTION_JCIM_EN_V1.md)。不写 validated/robust/通用决策；保留 0.430–0.692；错口袋反转写明 CI 含 0 |
 | E9 | Data and Software Availability | ❌ | 同 C1/C6 |
 | E10 | Keywords ~5–8（Articles 惯例；Perspectives 要求 8–10） | ❌ | 待定 |
 
@@ -158,7 +158,7 @@ python3 data/jcim_bench_v0/scripts/plot_forest_ci_v1.py
 | G3 | 不写 RTM/GNINA 通吃或通用决策臂 | ✅ |
 | G4 | EGFR 不作新对接扩面结论 | ✅ |
 | G5 | LigPrep 不进投稿正文/SI（无正式权限；主协议仅 RDKit/meeko） | ✅ 已从 Methods/Results/SI 删除 |
-| G6 | Abstract/Intro 主张 ≤ Results/Discussion 证据 | 🟡 | 后写章节时再核 |
+| G6 | Abstract/Intro 主张 ≤ Results/Discussion 证据 | 🟡 | Conclusions 已与 Results 对齐且不高于 Discussion；Abstract 仍待写 |
 
 ---
 

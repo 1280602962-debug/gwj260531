@@ -13,7 +13,7 @@
 
 ### 2.1 数据来源与活性数据整理
 
-双靶评价所需的配体活性数据通过 ChEMBL Web API 的公开 activity 端点获取。靶对供给审计于 2026-07-23 冻结。pChEMBL 将若干摩尔浓度–响应型测定（如 IC50、Ki、Kd、EC50）转换为近似 −log10 活性尺度，便于大规模公开数据整合。不同 assay 类型、实验条件与测定体系并不等价；本文将 pChEMBL 作为策展中的统一近似，而不解释为同一条件下可直接比较的绝对结合亲和力。
+双靶评价所需的配体活性作为 **experimentally derived activity labels**，通过 ChEMBL Web API 的公开 activity 端点获取。靶对供给审计于 2026-07-23 冻结。pChEMBL 将若干摩尔浓度–响应型测定（如 IC50、Ki、Kd、EC50）转换为近似 −log10 活性尺度，便于大规模公开数据整合。不同 assay 类型、实验条件与测定体系并不等价；本文将 pChEMBL 作为策展中的统一近似，而不解释为同一条件下可直接比较的绝对结合亲和力。
 
 同一配体–靶标若有多条可用 pChEMBL 记录，冻结数据包采用**最大 pChEMBL** 作为一对一代表值。该聚合保持覆盖率，但可能引入 activity inflation，其作为数据来源限制在 Discussion 中讨论。冻结文件（`mols_*.json`）仅保存该代表浮点数，不具备在本地重算 assay 中位数、ChEMBL 置信度阈值或物种过滤的条件；本文因此不在冻结包上重建 median / confidence≥8 / *Homo sapiens* 活性表，以免在面板冻结后改写标签定义。任一端缺少有效 pChEMBL 的配体不进入需要双端标签的分析。
 

@@ -46,9 +46,9 @@ The pattern should not be attributed to one docking engine’s scoring artifact:
 
 For a benchmark paper, the unresolved result is itself useful. A pocket-specificity control that looks reasonable on a fixed panel need not hold on an unseen ligand pool. Future dual-target docking benchmarks should therefore report wrong-pocket, chemical-property controls, and a panel-external holdout together with matched-pocket performance.
 
-### 4.6 Limitations and Implications
+### 4.6 Limitations
 
-Only the five highest-priority limits are stated here; the full inventory is in the Limitations draft.
+Only the five highest-priority limits are stated here; the full inventory is in the Limitations draft. Closing claims are in Conclusions and are not repeated here.
 
 First, the benchmark contains only four target pairs because experimentally defined dual-target hard negatives are scarce. The observed target-pair heterogeneity should not be interpreted as a population-level estimate across all possible target pairs. The ligand-level bootstrap (B = 2000) describes uncertainty inside a fixed panel; leftover strict hard negatives after the main panels and holdout cannot support anything close to 1000 non-overlapping balanced panels.
 
@@ -59,5 +59,3 @@ Third, the unused-pool holdout remains within the ChEMBL-derived data ecosystem 
 Fourth, receptor-swap experiments demonstrate structure dependence but do not identify its molecular origin. Pocket-local Cα RMSD alone could not explain the observed performance change, and residue-level PLIF/side-chain conformational analyses were not systematically performed.
 
 Finally, this study evaluates computational discrimination rather than experimentally validating newly predicted dual-target compounds. The benchmark addresses the reliability of docking-based ranking, not the prospective biological efficacy of selected molecules.
-
-Taken together, the results suggest that docking-based dual-target recognition should be interpreted as a target-pair- and receptor-dependent computational signal rather than as direct evidence of dual biological activity. The benchmark identifies three practical requirements for future evaluation: experimentally defined single-target hard negatives, explicit ligand-level confounder controls, and robustness testing across unused ligand pools and receptor realizations. Under these criteria, PIK3CA/mTOR showed a limited directional signal that persisted across ligand panels but was sensitive to receptor structure, whereas the other target pairs did not show a comparable advantage over simple ligand-level baselines. The resulting DualFourClass-Bench therefore serves less as a leaderboard for docking methods than as a framework for determining when docking-based dual-target claims are adequately supported by the available evidence.

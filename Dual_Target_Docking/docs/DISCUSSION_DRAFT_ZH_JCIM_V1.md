@@ -1,6 +1,6 @@
 # Discussion（中文工作稿 · JCIM Articles）
 
-> 与 [`DISCUSSION_LIMITATIONS_DRAFT_ZH_JCIM_V1.md`](DISCUSSION_LIMITATIONS_DRAFT_ZH_JCIM_V1.md) 配套：本文件写解释、替代解释与使用边界；完整 13 条局限库存仍在 Limitations 稿，正文只保留 4.6 的五条。  
+> 与 [`DISCUSSION_LIMITATIONS_DRAFT_ZH_JCIM_V1.md`](DISCUSSION_LIMITATIONS_DRAFT_ZH_JCIM_V1.md) 配套：本文件写解释、替代解释与使用边界；完整 13 条局限库存仍在 Limitations 稿，正文 4.6 只保留五条。收束段见 [`CONCLUSIONS_DRAFT_ZH_JCIM_V1.md`](CONCLUSIONS_DRAFT_ZH_JCIM_V1.md)。  
 > 口径对照 [`DISCUSSION_RESULT_MAP_V1.md`](DISCUSSION_RESULT_MAP_V1.md)；引用核验 [`DISCUSSION_REFS_JCIM_V1.md`](DISCUSSION_REFS_JCIM_V1.md)。  
 > 写法：Finding → Interpretation → Alternative explanation → Evidence → Implication。不把开放问题写成已解决。
 
@@ -48,9 +48,9 @@ PIK3CA 和 mTOR 均具有可被 ATP-site chemotypes 访问的结合模式，因�
 
 对 benchmark 而言，这一“未解决结果”本身具有价值。它说明一个在固定 benchmark 上表现合理的 pocket-specificity control，并不能保证在未见配体池中仍然成立。因此，未来双靶 docking benchmark 不应仅报告 matched-pocket performance，而应同时报告 wrong-pocket、chemical-property controls 和 panel-external holdout。
 
-### 4.6 Limitations and Implications
+### 4.6 Limitations
 
-正文只强调五条最高优先级限制；完整清单见 Limitations 稿。
+正文只强调五条最高优先级限制；完整清单见 Limitations 稿。收束主张见 Conclusions，不在此重复。
 
 First, the benchmark contains only four target pairs because experimentally defined dual-target hard negatives are scarce. Therefore, the observed target-pair heterogeneity should not be interpreted as a population-level estimate across all possible target pairs. Existing ligand-level bootstrap (B = 2000) describes uncertainty inside a fixed panel; leftover strict hard negatives after the main panels and holdout cannot support anything close to 1000 non-overlapping balanced panels.
 
@@ -61,5 +61,3 @@ Third, the unused-pool holdout remains within the ChEMBL-derived data ecosystem 
 Fourth, receptor-swap experiments demonstrate structure dependence but do not identify its molecular origin. In particular, pocket-local Cα RMSD alone could not explain the observed performance change, and residue-level PLIF/side-chain conformational analyses were not systematically performed.
 
 Finally, this study evaluates computational discrimination rather than experimentally validating newly predicted dual-target compounds. The benchmark therefore addresses the reliability of docking-based ranking, not the prospective biological efficacy of the selected molecules.
-
-Taken together, the results suggest that docking-based dual-target recognition should be interpreted as a target-pair- and receptor-dependent computational signal rather than as direct evidence of dual biological activity. The benchmark identifies three practical requirements for future evaluation: experimentally defined single-target hard negatives, explicit ligand-level confounder controls, and robustness testing across unused ligand pools and receptor realizations. Under these criteria, PIK3CA/mTOR showed a limited directional signal that persisted across ligand panels but was sensitive to receptor structure, whereas the other target pairs did not show a comparable advantage over simple ligand-level baselines. The resulting DualFourClass-Bench therefore serves less as a leaderboard for docking methods than as a framework for determining when docking-based dual-target claims are adequately supported by the available evidence.

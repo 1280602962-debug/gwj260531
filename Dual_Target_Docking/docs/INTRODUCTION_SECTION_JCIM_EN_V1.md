@@ -62,7 +62,7 @@ Third, we compare the consistency of docking-based discrimination across the aud
 
 > To what extent can existing docking scores distinguish experimentally defined dual-active ligands from single-target selective hard negatives, and how far does that discrimination depend on the target pair, the receptor structure, or ligand chemistry?
 
-The central question is not whether a ligand can obtain favorable docking scores at two targets, but whether docking can distinguish experimentally characterized dual-active ligands from target-selective hard negatives across both target directions.
+The central question is therefore an experimentally defined dual-target recognition task: not whether a ligand can obtain favorable docking scores at two targets, but whether docking can distinguish dual-active ligands from target-selective hard negatives across both target directions.
 
 The resulting protocol is meant to serve as a stricter downstream benchmark for dual-target virtual screening and for generative dual-target design, and to make explicit the range over which docking-based dual-target recognition can be interpreted—and the confounding sources that limit that range.
 

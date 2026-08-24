@@ -56,7 +56,7 @@
 
 **Cover letter 一句版：**
 
-> This Article presents a multi-pair evaluation benchmark (DualFourClass-Bench), not a new docking score; the contribution is a systematic protocol for assessing when docking retains residual dual-target signal and when apparent signal is explained by ligand properties.
+> This Article presents a multi-pair evaluation benchmark (DualFourClass-Bench), not a new docking score; the contribution is a systematic protocol for defining the reliability boundary of docking-based dual-target recognition.
 
 ---
 
@@ -83,6 +83,6 @@
 
 **全文问题句（Abstract / Intro 末段 / Cover letter 围绕同一思想，勿机械三处复制）：**
 
-> The central question is not whether a ligand can obtain favorable docking scores at two targets, but whether docking can distinguish experimentally characterized dual-active ligands from target-selective hard negatives across both target directions.
+> The central question is therefore an experimentally defined dual-target recognition task: not whether a ligand can obtain favorable docking scores at two targets, but whether docking can distinguish dual-active ligands from target-selective hard negatives across both target directions.
 
 流程细节放 Methods；不要在 Intro 用 “our Framework Step 1–5” 推销。引用核验见 `INTRODUCTION_REFS_JCIM_V1.md`。

@@ -28,7 +28,22 @@
 17. Do **not** call `summary_min` a novel scoring function; it is a worst-arm aggregation of two AUROCs.
 18. Do **not** treat max(heavy, MW, cLogP, TPSA) as a prespecified confirmatory baseline.
 
-See also: `docs/POSITIONING_AND_FRAMEWORK_LANGUAGE_V1.md`.
+## Conclusions claim ceiling
+
+Allowed closing claims:
+- DualFourClass-Bench is an **experimentally grounded evaluation setting** (once in Conclusions; not a new algorithm).
+- Discrimination was **limited and strongly target-pair-dependent** (summary_min 0.430–0.692).
+- PIK3CA/mTOR had the strongest point estimate and a positive directional signal in an unused ligand pool; uncertainty + receptor sensitivity **preclude a generalizable dual-target decision rule**.
+- Apparent signals can be substantially influenced by ligand properties, chemotype, and receptor realization.
+- Unused-pool wrong-pocket reversal is **unresolved**; paired CIs included zero.
+- Contribution = **reliability / evidentiary boundary**, not a docking winner.
+
+Forbidden in Conclusions:
+- “Docking is ineffective for dual-target recognition.”
+- “Docking can identify dual-target ligands.”
+- *validated* / *robust performance* / *generalizable dual-target docking strategy*.
+- PDB IDs, RTM/GNINA numbers, 4JPS/5DXT/4JSX AUROCs.
+- Repeating *experimentally grounded* more than once.
 
 ## Mechanism-analysis claim ceiling (Results 3.4–3.6)
 
