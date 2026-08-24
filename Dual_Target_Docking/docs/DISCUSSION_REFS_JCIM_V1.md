@@ -9,7 +9,7 @@
 
 12. Tran-Nguyen, V.-K.; Ballester, P. J. Beware of Simple Methods for Structure-Based Virtual Screening: The Critical Importance of Broader Comparisons. *J. Chem. Inf. Model.* **2023**, *63*, 1401–1405. DOI: [10.1021/acs.jcim.3c00218](https://doi.org/10.1021/acs.jcim.3c00218).
 
-13. Ahmed, F.; Soellner, M. B.; Brooks, C. L. Real-World Assessment of Machine-Learned Docking Using Bioassay-Derived Benchmarks. *J. Chem. Inf. Model.* **2026**. DOI: [10.1021/acs.jcim.5c03020](https://doi.org/10.1021/acs.jcim.5c03020). (ACS publication date 2026-07-21; volume/pages not captured from Cite-this at draft time. Zenodo supporting receptors: 10.5281/zenodo.20030384.)
+13. Ahmed, F.; Soellner, M. B.; Brooks, C. L., III. Real-World Assessment of Machine-Learned Docking Using Bioassay-Derived Benchmarks. *J. Chem. Inf. Model.* **2026**, *66*, 8752–8759. DOI: [10.1021/acs.jcim.5c03020](https://doi.org/10.1021/acs.jcim.5c03020). (Crossref metadata checked 2026-08-24; issue 15. Zenodo supporting receptors: 10.5281/zenodo.20030384.)
 
 14. Schaller, D. A.; Christ, C. D.; Chodera, J. D.; Volkamer, A. Benchmarking Cross-Docking Strategies in Kinase Drug Discovery. *J. Chem. Inf. Model.* **2024**, *64*, 8848–8858. DOI: [10.1021/acs.jcim.4c00905](https://doi.org/10.1021/acs.jcim.4c00905). (ACS Cite this: **2024**, *64*, 23, 8848–8858.)
 

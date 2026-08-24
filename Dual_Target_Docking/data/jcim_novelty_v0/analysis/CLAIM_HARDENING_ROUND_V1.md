@@ -7,7 +7,7 @@ Internal note. Cloud-doable fixes only; no new docking. Scripts: `data/jcim_nove
 | Reviewer issue | Action |
 |---|---|
 | Dual-vs-neither called “conventional benchmark” | Renamed **dual-versus-neither / nonselectivity-controlled comparator**. Descriptive contrast only. |
-| `summary_min` as unique aggregator | Table S26: min / mean / harmonic. Pair ranking unchanged (PM > AChE > PIK3CB > EGFR). EGFR gap remains under all three. |
+| `summary_min` as unique aggregator | Table S26: min / arithmetic / geometric / harmonic. Pair ranking unchanged (PM > AChE > PIK3CB > EGFR). EGFR gap remains in the same direction under all four. |
 | Panel-construction difference | Methods 2.3 + Results 3.2: four AUROCs mix construction rules, n, series, receptor. |
 | ECFP incremental overclaim | “Under the present scaffold-grouped benchmark, adding docking produced little incremental AUROC beyond ECFP4.” |
 | Scaffold CV as generalization | Explicitly not target-external; PM nearly leave-one-scaffold. |

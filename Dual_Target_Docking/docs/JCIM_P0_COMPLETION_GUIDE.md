@@ -12,7 +12,7 @@
 | 编号 | 内容 | 谁做 | 完成标志 |
 |------|------|------|----------|
 | **P0-A** | Zenodo（或同等）公开数据包 + DOI + 一键复现 | 本地打包上传 + 云端可写说明 | 有 DOI；外人按 README 能重算主表 |
-| **P0-B** | 英文 Article 初稿 + 主图定稿 | 写作（可人写 / agent 起稿） | 完整 IMRaD + Fig1–5 可投稿级 |
+| **P0-B** | 英文 Article 初稿 + 主图定稿 | **正文与 Fig1–7 已完成；待期刊排版** | `MANUSCRIPT_JCIM_EN.md` + `figures/jcim_article/` |
 
 ---
 
@@ -73,49 +73,41 @@ python3 data/jcim_bench_v0/scripts/plot_forest_ci_v1.py
 
 ---
 
-## P0-B — 英文稿 + 主图（具体怎么做）
+## P0-B — 英文稿 + 主图（已完成科学组装）
 
-### B1. 主张（开写前钉死，勿漂移）
+### B1. 当前主稿
 
-- 评测/基准文，不是新 scorer  
-- 主指标 = **pocket-matched directional AUROC**  
-- K=4 冻结集；EGFR = 供给案例  
-- 不写「通用决策臂已验证」
+- 英文投稿主稿：[`MANUSCRIPT_JCIM_EN.md`](MANUSCRIPT_JCIM_EN.md)
+- 中文核对稿：[`MANUSCRIPT_JCIM_ZH.md`](MANUSCRIPT_JCIM_ZH.md)
+- 重建命令：`python3 docs/assemble_manuscript_en.py` / `assemble_manuscript_zh.py`
+- 题名：*Benchmark Formulation and Chemical Confounding in Docking-Based Dual-Target Recognition*
 
-### B2. 建议章节 ↔ 已有材料
+### B2. 当前主线
 
-| 章节 | 用这些文件 |
-|------|------------|
-| Intro | 任务缺口；可引 Vu 2025 / VSDS 作单靶对照 |
-| Methods 2.1–2.9（中文工作稿） | **[`METHODS_DRAFT_ZH_JCIM_V1.md`](METHODS_DRAFT_ZH_JCIM_V1.md)** |
-| Methods 2.1 Dataset | `jcim_j0j1_v0` 供给；`public_pair_selection`；四对 panel CSV |
-| Methods 2.2 Docking | 各 panel `protocol.yaml`；PM E=8→16 cognate |
-| Methods 2.3 Metrics | `PRIMARY_METRIC_V2.md`；CLAIM_CEILING |
-| Results 3.1–3.7（英文 JCIM 稿） | **[`RESULTS_SECTION_JCIM_EN_V1.md`](RESULTS_SECTION_JCIM_EN_V1.md)** |
-| Results 3.1–3.7（中文对齐稿） | [`RESULTS_DRAFT_ZH_JCIM_V1.md`](RESULTS_DRAFT_ZH_JCIM_V1.md) |
-| Results 3.1 Supply | J0 表 |
-| Results 3.2 Pooling vs directional | asymmetry / PRIMARY_METRIC_V2 |
-| Results 3.3 Main forest + baselines | forest 图；baseline gate |
-| Results 3.4 Confounds | wrong-pocket；matched subset；LE；covariate；scaffold ML |
-| Results 3.5 Robustness | E8 vs E16；PM110；prep；θ；enrichment |
-| Discussion / Conclusions | CLAIM_CEILING + Limitations |
-| Data Availability | Zenodo DOI |
+- formulation：Dual-versus-neither 与方向性 selective-hard-negative 任务并不等价；EGFR/HER2 为清晰案例，不是四对定律；
+- confounder-aware evaluation：docking 必须相对 ligand-only、描述符与 wrong-pocket 对照解释；
+- evaluation-condition sensitivity：max/median 对主结论影响小，unused-pool 与 receptor realization 显示条件依赖；
+- K=4 是供给受限案例面板，不是 comprehensive suite。
 
-### B3. 主图最少 5 张（定稿级）
+### B3. 当前主图
 
-| Fig | 内容 | 现成素材 |
-|-----|------|----------|
-| 1 | 四类任务 + 口袋匹配定义 | 新画 schematic |
-| 2 | 供给审计（49 对硬负） | `jcim_j0j1_v0` |
-| 3 | K=4 森林图（口袋匹配 ± CI + 基线） | `figures/forest_*` 需改标注为 pocket-matched |
-| 4 | 混淆解剖（错口袋 / LE / 匹配） | `pocket_specificity_gap` + matched subset |
-| 5 | 稳健性（E8/E16、PM48/110、单靶 enrichment） | B 组 md/表 |
+| Fig | 内容 |
+|-----|------|
+| 1 | 四状态任务 + 两条口袋匹配方向主终点 |
+| 2 | 49→4 供给审计 |
+| 3 | Dual-versus-neither vs directional `summary_min` |
+| 4 | 弱臂与物化混淆 |
+| 5 | 两靶对 receptor realization（PM 含 4JSX） |
+| 6 | wrong-pocket 在 holdout 上的未解决反转 |
+| 7 | ECFP4 / 全描述符 / 协变量 / 匹配子集 |
 
-### B4. 写作执行方式（任选）
+原主森林图与 unused-pool 对照分别为 Figure S4 / S5。所有图由 `plot_jcim_article_figures_v1.py` 从冻结 CSV 重绘并校验。
 
-- **人写：** 按上表填空，先写 Results 数字段再写 Intro  
-- **Agent 起稿：** 另开任务「按 `JCIM_P0_COMPLETION_GUIDE.md` 的 B2/B3 生成英文 Draft v0」  
-- Cover letter 一句：*evaluation/benchmark article; not a new scoring function*
+### B4. 尚未完成
+
+- 按 ACS 模板排版 Word/PDF；
+- Zenodo DOI 写回 Data and Software Availability；
+- cover letter、作者信息、利益冲突与投稿元数据。
 
 ---
 
@@ -123,9 +115,9 @@ python3 data/jcim_bench_v0/scripts/plot_forest_ci_v1.py
 
 - [ ] Zenodo 数据包已 publish，DOI 写入 README  
 - [ ] 最少复现脚本在干净环境跑通主表  
-- [ ] 英文稿完整（Abstract→Conclusions + Data Availability）  
-- [ ] Fig1–5 定稿（矢量 PDF/PNG）  
-- [ ] Limitations 写清：K 小、singleton 支架、ChEMBL max 聚合、无湿实验  
-- [ ] 全文无「通吃 scorer / 显著通吃四对」表述  
+- [x] 英文稿完整（Abstract→Conclusions + References）
+- [x] Fig1–7 + SI 图由冻结 CSV 生成并通过脚本校验
+- [x] Limitations 写清：K=4、ChEMBL/assay、receptor、无 prospective validation
+- [x] 全文无「通吃 scorer / 显著通吃四对」表述
 
 **做完 P0 = 可以按 JCIM Evaluation Article 投稿形态组装；不必再为 P0 开对接。**

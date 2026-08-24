@@ -1,11 +1,11 @@
 # Discussion · Limitations（中文工作稿片段）
 
-> 位置：Discussion 4.6。正文只保留下面 **5 条最高优先级限制**；本文件其余条目是完整库存，供 SI / 审稿回复，不要整段搬进正文。  
+> 位置：Discussion 4.5。正文只保留下面 **5 条最高优先级限制**；本文件其余条目是完整库存，供 SI / 审稿回复，不要整段搬进正文。
 > 与 Methods 2.1–2.3、2.6–2.8、2.11–2.12，Results 3.1–3.6 交叉引用。
 
 ---
 
-## 正文五条（Discussion 4.6）
+## 正文五条（Discussion 4.5）
 
 1. **K = 4。** The benchmark contains only four target pairs because experimentally defined dual-target hard negatives are scarce. Therefore, the observed target-pair heterogeneity should not be interpreted as a population-level estimate across all possible target pairs.
 2. **max pChEMBL。** Activity labels were aggregated using the maximum available pChEMBL value for the primary curation. Replacing max with median on the full scored panels produced minimal pair-level changes (Table S29). Assay-level heterogeneity remains because pChEMBL measurements are not fully assay-equivalent.

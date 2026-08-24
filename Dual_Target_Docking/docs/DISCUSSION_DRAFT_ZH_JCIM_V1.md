@@ -1,11 +1,5 @@
 # Discussion（中文工作稿 · JCIM Articles）
 
-> 与 [`DISCUSSION_LIMITATIONS_DRAFT_ZH_JCIM_V1.md`](DISCUSSION_LIMITATIONS_DRAFT_ZH_JCIM_V1.md) 配套：本文件写解释、替代解释与使用边界；完整局限库存仍在 Limitations 稿，正文 4.5 只保留五条。收束段见 [`CONCLUSIONS_DRAFT_ZH_JCIM_V1.md`](CONCLUSIONS_DRAFT_ZH_JCIM_V1.md)。  
-> 口径对照 [`DISCUSSION_RESULT_MAP_V1.md`](DISCUSSION_RESULT_MAP_V1.md)；引用核验 [`DISCUSSION_REFS_JCIM_V1.md`](DISCUSSION_REFS_JCIM_V1.md)。  
-> 五节：formulation → chemistry → receptor realization → implications → limitations。不把开放问题写成已解决。
-
----
-
 ## 4. 讨论
 
 ### 4.1 基准 formulation 改变了双靶对接的证据标准
@@ -22,9 +16,9 @@ Zhou、Li 与 Hou 已经表明，对接用于双激酶筛选时，相对 noninhi
 
 ### 4.2 化学信息可以替代表观对接信号
 
-双靶点 docking 的困难并不能简单理解为两个单靶 docking 任务的性能相加。即便采用任务对齐的方向性指标，四对靶标仍表现出明显异质性。三个靶对的 summary_min 位于随机水平附近或低于 best single-descriptor reference，只有 PIK3CA/mTOR 表现出较高的点估计，且其置信区间仍与随机相容（Results 3.2）。该对是 **conditional directional signal**，不是可推广的成功案例。
+双靶点 docking 的困难并不能简单理解为两个单靶 docking 任务的性能相加。即便采用任务对齐的方向性指标，在计入不确定性后也没有一个靶对能够明确排除随机水平。在主分析冻结受体协议下，PIK3CA/mTOR 的方向性点估计最高（0.692），但其 95% CI 包含 0.5，且相对 best single-descriptor reference 的配对差值 CI 也包含 0（Results 3.2；Table S19）。因此该对是 **conditional directional signal**，不是可推广的成功案例。
 
-AChE/BChE 上 TPSA 单独即可获得高于 docking 的 discrimination，而 ECFP4 scaffold-grouped baseline 在多个方向上进一步超过 docking（Results 3.3）。dual/selective 标签本身携带的 ligand-level information 可以产生强烈的 apparent signal。在当前支架分组基准下，把对接分数加到 ECFP4 后 CV AUROC 变化至多约 0.01，若干方向为负。**dual-target discrimination was strongly target-pair dependent, and docking provided limited incremental information beyond ligand-level chemical baselines under scaffold-aware evaluation.** 这是对本面板的陈述，不是 docking 没有口袋特异信息的证明。
+AChE/BChE 上 TPSA 单独即可获得高于 docking 的 discrimination，而 ECFP4 scaffold-grouped baseline 在多个方向上进一步超过 docking（Results 3.3）。这一强 ligand-only baseline 表明，实验标签与无需受体信息即可利用的化学空间差异相关；因此 docking performance 必须相对于 ligand-only baselines 解释，而不能孤立阅读。在当前支架分组基准下，把对接分数加到 ECFP4 后 CV AUROC 的绝对变化至多约 0.02，若干方向为负。**双靶判别高度依赖靶对，并且在支架感知评价下，对接相对配体层化学基线只提供有限增量信息。** 这是对本面板的陈述，不是 docking 没有口袋特异信息的证明。
 
 化学型约束硬负给出同一方向的证据。T ≥ 0.7 的匹配子集为空。T ≥ 0.3 时，未匹配时最强的一臂（PIK3CA/PIK3CB dual versus A-only，0.691）降至 0.503（n_neg = 11），而远缘硬负（T < 0.3）升至 0.819。T ≥ 0.3 是 similarity-constrained subset，不是 chemically matched analogue set。
 
@@ -34,9 +28,9 @@ AChE/BChE 上 TPSA 单独即可获得高于 docking 的 discrimination，而 ECF
 
 PIK3CA/mTOR 提供了本研究中最值得进一步研究、但也最需要谨慎解释的案例。其主面板 summary_min 为 0.692，PM110 扩展面板为 0.648，unused-pool holdout 为 0.765，说明该方向性信号并非完全由 PM48 中少数配体驱动。与此同时，该信号并未表现出 receptor invariance：替换 PIK3CA 受体结构后，summary_min 降至 0.486 和 0.505，而替换 mTOR 结构后仍为 0.639（Results 3.4；Figure 5A）。更准确的说法不是“PIK3CA/mTOR docking 可以可靠识别双靶配体”，而是该靶对在特定 receptor realization 下存在有限的 directional signal：配体面板替换后可以持续，受体实现替换后不能假定不变。
 
-同一套 PIK3CA 替换在 PIK3CA/PIK3CB 上方向相反：summary_min 由 0.500 升至 0.691 和 0.685，而 B 端受体保持冻结（Figure 5B）。因此受体选择不仅可以改变表观判别的幅度，也可以改变其方向。受体实现是独立的方差来源：既可以增强、也可以削弱表观判别，而不仅仅决定某一结果是否“稳健”。两对、单口袋设计比单一 collapse 轶事更有解释力，但还不是普遍定律（K = 4；两对共享 PIK3CA）。不宣称具体分子机制。
+同一套 PIK3CA 替换在 PIK3CA/PIK3CB 上方向相反：summary_min 由 0.500 升至 0.691 和 0.685，而 B 端受体保持冻结（Figure 5B）。因此受体选择不仅可以改变表观判别的幅度，也可以改变其方向。这一对比不支持把受体替换简单解释为 docking accuracy 的损失：受体实现本身是评价条件的一部分，也是可增强或削弱表观判别的独立方差来源。两对、单口袋设计比单一 collapse 轶事更有解释力，但还不是普遍定律（K = 4；两对共享 PIK3CA）。不宣称具体分子机制。
 
-耦合任务读法值得讨论，但仍是假说。`summary_min` 跟踪弱臂，因此替换 \(S_A\) 可以改变哪一臂成为瓶颈。PIK3CA/PIK3CB 原来的弱臂是 4L23 上的 D/B（0.500）；4JPS 后该臂升至 0.707，冻结 2WXF 臂（0.691）成为限制。其他非互斥假说包括局部侧链/口袋几何重排 dual 与选择性分数，以及两套面板面对同一 PIK3CA 晶体时不同的配体化学分布。残基级 PLIF 分析未完成。
+耦合任务读法值得讨论，但仍是假说。`summary_min` 跟踪弱臂，因此替换 \(S_A\) 可以改变哪一臂成为瓶颈。PIK3CA/PIK3CB 原来的弱臂是 4L23 上的 D/B（0.500）；4JPS 后该臂升至 0.707，冻结 2WXF 臂（0.691）成为限制。其他非互斥假说包括局部侧链/口袋几何重排 dual 与选择性分数，以及两套面板面对同一 PIK3CA 晶体时不同的配体化学分布。由于没有面板范围的残基级 PLIF 分析，这些解释仍未解决。
 
 5DXT 与 4L23 的局部口袋 Cα RMSD 仅为 0.343 Å，但 PIK3CA/mTOR 的 summary_min 仍降至 0.505。这说明“结构相似”与“screening discrimination 可迁移”并不是同一个问题。pose-generation QC 通过，也不等于 screening performance 不变。该结果与近期 cross-docking benchmark 中 receptor representation 被视为独立性能变量的观点相一致；那些工作使用的对接引擎与本文不同，不能当作同一协议的外推。^(14)
 
@@ -48,7 +42,7 @@ PIK3CA/mTOR 提供了本研究中最值得进一步研究、但也最需要谨�
 
 ### 4.5 局限性
 
-正文只强调五条最高优先级限制；完整清单见 Limitations 稿。收束主张见 Conclusions，不在此重复。
+以下五条限制界定本文结论的解释范围。
 
 第一，评价集仅含四对靶标，因为实验定义的双靶硬负样本稀缺。K = 4 是受数据供给约束的案例面板，不是 comprehensive suite。四个 `summary_min` 还混合了面板构建差异（严格 6.5/5.5 对 θ = 6.0；不等 n）与靶对生物学，不能读成 intrinsic docking performance 的总体排序。
 

@@ -1,13 +1,13 @@
 # 已有结果清单 ↔ Discussion 口径
 
 > 只收录仓库里已经跑完、可以写进稿的结果。讨论句必须不越过 `CLAIM_CEILING.md`。  
-> 配套：`RESULTS_DRAFT_ZH_JCIM_V1.md`（3.1–3.6）、`DISCUSSION_DRAFT_ZH_JCIM_V1.md`（4.1–4.6）、`DISCUSSION_LIMITATIONS_DRAFT_ZH_JCIM_V1.md`。
+> 配套：`RESULTS_DRAFT_ZH_JCIM_V1.md`（3.1–3.6）、`DISCUSSION_DRAFT_ZH_JCIM_V1.md`（4.1–4.5）、`DISCUSSION_LIMITATIONS_DRAFT_ZH_JCIM_V1.md`。
 
 全文定位：不是 “docking can/cannot identify dual-target ligands”，也不是新打分函数；而是评价对接分数在四状态硬负面板、双向 pairwise 主终点上的**可靠性与边界**。资源名 DualFourClass-Bench。
 
-定量主结论（Abstract / 4.6 共用，不要写成更强）：
+定量主结论（Abstract / 4.5 共用，不要写成更强）：
 
-> Docking showed limited and strongly target-pair-dependent discrimination. Only PIK3CA/mTOR showed a point estimate above chance and its strongest trivial descriptor baseline, but the uncertainty interval remained compatible with chance.
+> Docking showed limited and strongly target-pair-dependent discrimination. Only PIK3CA/mTOR showed a point estimate above chance and its best single-descriptor reference, but the uncertainty interval remained compatible with chance.
 
 PIK3CA/mTOR 的 boxed 说法：
 
@@ -15,24 +15,23 @@ PIK3CA/mTOR 的 boxed 说法：
 
 ---
 
-## 0. 现行骨架（Results 6 节 + Discussion 6 节）
+## 0. 现行骨架（Results 6 节 + Discussion 5 节）
 
 | 段 | 功能 | 吃进哪些结果 |
 |---|---|---|
 | 3.1 | 公开数据能不能建成严格双靶基准 | 49 对审计、K=4、S12 |
-| 3.2 | docking 能不能识别 | Table 2、Fig 3、θ 网格→S4、GNINA S15 |
+| 3.2 | formulation 是否改变表观证据；冻结协议下 docking 判别如何 | Fig 3、Table 2–3、θ 网格→S4、GNINA S15 |
 | 3.3 | 表观信号是不是口袋特异 | 描述符 Δ、TPSA、协变量、ECFP4、匹配子集 |
 | 3.4 | PM 信号在哪些条件下成立 | E8、PM110、holdout、换晶、Cα |
 | 3.5 | specificity control 是否可靠 | 主面板 matched>wrong；holdout 反转；S11/S13 |
 | 3.6 | 结构背景线索（探索性） | Table S7 序列一致性；T2/T5 姿态事实 |
-| 4.1 | 评测的是什么任务 | 3.1 + DUD/LIT-PCBA/Ahmed |
-| 4.2 | 为什么难于两个单靶任务 | 3.2–3.3 + Ballester 2023 |
-| 4.3 | PM 是有限方向信号 | 3.4 + 3.6；Schaller 只作 receptor 变量 |
+| 4.1 | formulation 如何改变证据标准 | 3.1–3.2 + DUD/LIT-PCBA/Ahmed；错口袋未解决句 |
+| 4.2 | 化学信息如何替代表观 docking signal | 3.3 + Ballester 2023 |
+| 4.3 | receptor realization 是独立评价条件 | 3.4 + 3.6；Schaller 只作 receptor 变量 |
 | 4.4 | 对 VS / 生成式的含义 | DualDiff/FuseDiff 用途句；Sindt 后处理类比 |
-| 4.5 | 未解决的错口袋反转 | 3.5 |
-| 4.6 | 五条局限 | 库存前五条；收束段已移至 Conclusions |
+| 4.5 | 五条局限 | K=4/构建；ChEMBL；assay；receptor；无 prospective |
 
-旧 Results 3.8（面板构成层重抽样）已移入 4.6 / Limitations，不再作为 Results 小节。
+旧 Results 3.8（面板构成层重抽样）已移入 4.5 / Limitations，不再作为 Results 小节。
 
 ---
 
@@ -87,11 +86,11 @@ PIK3CA/mTOR 的 boxed 说法：
 
 **讨论应写：** 表观 dual signal 大量可由 ligand properties / chemotype 解释。PM 的残余 OR 不是已确证的独立优势。
 
-**不要写：** 描述符对照是补充实验；对接显著优于平凡描述符。
+**不要写：** 描述符对照是补充实验；对接显著优于 best single-descriptor reference。
 
 ---
 
-## 4. 配体层持续 vs 受体层崩溃（Results 3.4）
+## 4. 活性聚合、配体池与受体实现敏感性（Results 3.4）
 
 | 已有结果 | 关键数字 | 源 |
 |---|---|---|

@@ -50,9 +50,9 @@ Weak-arm switch on PIK3CA/PIK3CB: original bottleneck is D/B (4L23) = 0.500; 4JP
 - Failure is a **docking timeout**, not an experimental label filter, and is **not unique to the alternate crystals**.
 - No 100-ligand directional AUROC exists for this pair under any PIK3CA crystal in this protocol. 99-vs-100 sensitivity is not computable from existing scores.
 
-## Aggregation (`summary_min` vs mean vs harmonic)
+## Aggregation (`summary_min` vs arithmetic, geometric, and harmonic means)
 
-Already closed: Table S26. Pair ranking unchanged (PM > AChE > PIK3CB > EGFR). Do not re-run as a missing experiment.
+Table S26 now reports all four aggregators. Pair ranking is unchanged (PM > AChE > PIK3CB > EGFR). This is a deterministic sensitivity calculation on the deposited directional AUROCs, not a new docking experiment.
 
 ## Claim ceiling after this audit
 

@@ -1,9 +1,5 @@
 # Conclusions (JCIM Articles draft, English)
 
-> Companion to [`CONCLUSIONS_DRAFT_ZH_JCIM_V1.md`](CONCLUSIONS_DRAFT_ZH_JCIM_V1.md) (Chinese authoritative for this rewrite cycle).  
-> Two paragraphs only. Claim ceiling: [`CLAIM_CEILING.md`](../data/jcim_bench_v0/CLAIM_CEILING.md).  
-> Forbidden here: *validated*, *robust performance*, *generalizable dual-target strategy*, PDB IDs, RTM/GNINA numbers, a second *experimentally grounded*.
-
 ## 5. Conclusions
 
 We established DualFourClass-Bench as an experimentally grounded evaluation setting for docking-based dual-target recognition, explicitly testing whether docking can distinguish dual-active ligands from A-selective and B-selective hard negatives. Across four frozen target pairs, dual-target discrimination was strongly target-pair dependent (`summary_min` AUROCs ranging from 0.430 to 0.692), and docking provided limited incremental information beyond ligand-level chemical baselines under scaffold-aware evaluation. Primary pair-level estimates were largely insensitive to replacing maximum pChEMBL with the median among repeated measurements. PIK3CA/mTOR exhibited the strongest point estimate and retained a positive directional signal in an unused ligand-pool holdout; however, the uncertainty of the primary estimate and its sensitivity to receptor structure preclude interpreting this result as a generalizable dual-target decision rule.

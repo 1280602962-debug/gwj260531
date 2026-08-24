@@ -3,6 +3,6 @@ main_panel,EGFR/HER2,110,110,110,110,0,0,0,0.0,0.0,0.0,,"AUROC tables condition 
 main_panel,AChE/BChE,100,96,95,95,4,5,5,0.05,0.04,0.05,AB_001:dual:A=fail:B=fail;AB_053:A_only:A=fail:B=fail;AB_054:A_only:A=fail:B=fail;AB_056:A_only:A=fail:B=fail;AB_097:neither:A=ok:B=fail,"AUROC tables condition on both-end scores; failures are engine/prep coverage, not silent missingness"
 main_panel,PIK3CA/PIK3CB,100,99,100,99,1,0,1,0.01,0.01,0.0,PAB_034:A_only:A=fail:B=ok,"AUROC tables condition on both-end scores; failures are engine/prep coverage, not silent missingness"
 main_panel,PIK3CA/mTOR,48,48,48,48,0,0,0,0.0,0.0,0.0,,"AUROC tables condition on both-end scores; failures are engine/prep coverage, not silent missingness"
-holdout,AChE/BChE,60,60,60,60,0,0,0,0.0,0.0,0.0,,"HOAP_028 is a boron AutoDock atom-type B coverage failure on both ends, excluded from AUROC (59/60)"
+holdout,AChE/BChE,60,60,60,60,0,0,0,0.0,0.0,0.0,,All attempted holdout ligands yielded both-end scores
 holdout,PIK3CA/PIK3CB,60,59,59,59,1,1,1,0.0167,0.0167,0.0167,HOAP_028:A=TypeError:   PDBQT parsing error: Atom type B is not a valid AutoDock type (atom:B=TypeError:   PDBQT parsing error: Atom type B is not a valid AutoDock type (atom,"HOAP_028 is a boron AutoDock atom-type B coverage failure on both ends, excluded from AUROC (59/60)"
-holdout,PIK3CA/mTOR,60,60,60,60,0,0,0,0.0,0.0,0.0,,"HOAP_028 is a boron AutoDock atom-type B coverage failure on both ends, excluded from AUROC (59/60)"
+holdout,PIK3CA/mTOR,60,60,60,60,0,0,0,0.0,0.0,0.0,,All attempted holdout ligands yielded both-end scores

@@ -63,11 +63,18 @@ def main() -> None:
     theta = _read(TH / "unified_threshold_sensitivity_v2.csv")
     theta6 = {r["pair"]: r for r in theta if r["label_rule"] == "theta_6.0"}
     form = _read(TAB / "formulation_conventional_vs_directional_v1.csv")
-    agg = _read(TAB / "aggregation_min_mean_harmonic_v1.csv")
+    agg = _read(TAB / "aggregation_min_mean_geometric_harmonic_v1.csv")
     a4s = _read(TAB / "assay_max_vs_median_summary_v1.csv")
     a4a = _read(TAB / "assay_max_vs_median_auroc_v1.csv")
     census = _read(TAB / "docking_failure_census_v1.csv")
     desc = _read(TAB / "descriptor_all_four_directional_v1.csv")
+    for r in desc:
+        expected = max(float(r[f"{name}_summary_min"]) for name in ("heavy", "mw", "clogp", "tpsa"))
+        actual = float(r["best_single_descriptor_summary_min"])
+        if abs(actual - expected) > 1e-12:
+            raise ValueError(
+                f"{r['pair']}: best descriptor value {actual} does not equal max {expected}"
+            )
 
     pm_jps = _read(SR / "pocket_matched_PM48_alt4JPS_v1.csv")[0]
     pm_dxt = _read(SR / "pocket_matched_PM48_alt5DXT_v1.csv")[0]
@@ -145,7 +152,7 @@ def main() -> None:
 
     # --- aggregation sensitivity ---
     for r in agg:
-        for metric in ("summary_min", "summary_mean", "summary_harmonic"):
+        for metric in ("summary_min", "summary_mean", "summary_geometric", "summary_harmonic"):
             rows.append(
                 row(
                     block="aggregation_sensitivity",
@@ -157,8 +164,8 @@ def main() -> None:
                     n_dual=r["n_dual"],
                     n_A_only=r["n_A_only"],
                     n_B_only=r["n_B_only"],
-                    note="Pair ranking unchanged under min/mean/harmonic.",
-                    source_file="data/jcim_novelty_v0/tables/aggregation_min_mean_harmonic_v1.csv",
+                    note="Pair ranking unchanged under min/arithmetic/geometric/harmonic.",
+                    source_file="data/jcim_novelty_v0/tables/aggregation_min_mean_geometric_harmonic_v1.csv",
                 )
             )
 
@@ -268,7 +275,9 @@ def main() -> None:
 
     agree_path = TAB / "assay_max_vs_median_agreement_v1.csv"
     with agree_path.open("w", newline="") as f:
-        w = csv.DictWriter(f, fieldnames=list(a4_agree_rows[0].keys()))
+        w = csv.DictWriter(
+            f, fieldnames=list(a4_agree_rows[0].keys()), lineterminator="\n"
+        )
         w.writeheader()
         w.writerows(a4_agree_rows)
 
@@ -417,7 +426,7 @@ def main() -> None:
     ]
     two_path = SR / "receptor_realization_two_pair_v1.csv"
     with two_path.open("w", newline="") as f:
-        w = csv.DictWriter(f, fieldnames=list(two_pair[0].keys()))
+        w = csv.DictWriter(f, fieldnames=list(two_pair[0].keys()), lineterminator="\n")
         w.writeheader()
         w.writerows(two_pair)
 
@@ -452,7 +461,9 @@ def main() -> None:
                 metric="n_success_both_ends",
                 value=r["n_success_both_ends"],
                 n_scored=r["n_attempted"],
-                note=r["note"] + " failed=" + r.get("failed_ligands", ""),
+                note=r["note"] + (
+                    " failed=" + r["failed_ligands"] if r.get("failed_ligands") else ""
+                ),
                 source_file="data/jcim_novelty_v0/tables/docking_failure_census_v1.csv",
             )
         )
@@ -466,7 +477,7 @@ def main() -> None:
                 pair=r["pair"],
                 setting="prespecified_descriptor",
                 metric="best_single_descriptor_summary_min",
-                value=r.get("best_summary_min", r.get("heavy_summary_min", "")),
+                value=r["best_single_descriptor_summary_min"],
                 note="See Table S28 for all four descriptors; highest is a reference, not a confirmatory test.",
                 source_file="data/jcim_novelty_v0/tables/descriptor_all_four_directional_v1.csv",
             )
@@ -474,7 +485,7 @@ def main() -> None:
 
     out_path = TAB / "MASTER_RESULTS_TABLE.csv"
     with out_path.open("w", newline="") as f:
-        w = csv.DictWriter(f, fieldnames=FIELDS)
+        w = csv.DictWriter(f, fieldnames=FIELDS, lineterminator="\n")
         w.writeheader()
         w.writerows(rows)
 

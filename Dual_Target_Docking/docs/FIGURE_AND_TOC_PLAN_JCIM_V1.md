@@ -29,13 +29,14 @@ JCIM Articles 无硬图数上限。主文 **7 张图 + 1 张 TOC**：Fig 6 是�
 | 不要画 | `pocket_matched_size_strata_v1.csv` | — | 多层 underpowered，容易误读成稳健分层 |
 | 不要画 | `asymmetry_pooled_vs_directional_v1.csv` 的 vina_mean | — | 不是 Table 2 的 θ=6.0 口袋匹配指标（EGFR 0.2824 ≠ 0.4297） |
 | 不要画 | `pocket_specificity_gap_v1.csv` 单独成图 | — | 与 Fig 6 的 matched−wrong 重复 |
+| 不要合成一张 Δ forest | max→median、PM110、unused-pool、受体替换 | — | 四类扰动改变的 estimand 不同；EGFR A4 原生基准还是 API-max 0.417 而非冻结 0.430。并列 Δ 会制造不可比的“统一稳健性”印象 |
 | 不要画成主图 | 全链序列一致性 vs AUROC（n=4 四个点） | 若画只放 SI | 看起来像相关，实际禁止当相关 |
 
 **旧计划里的 Fig 3 baseline-gate 单独成图：建议并进 Fig 3 或 Fig 4，不要占一张主图。** Δ CI 含 0 用误差条颜色（灰=跨 0）就能说清。
 
 ---
 
-## 2. 建议的五张主图（画什么、不画什么）
+## 2. 七张主图（画什么、不画什么）
 
 ### Fig 1 — 任务与指标（新画，示意）
 

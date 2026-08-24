@@ -40,7 +40,7 @@ High-T cells with n_neg ≤ 3 are listed in the CSV and are not interpreted.
 | PIK3CA/mTOR | D vs A | 0.7619 | 0.6270 | 0.7421 | 0.7143 |
 | PIK3CA/mTOR | D vs B | 0.8889 | 0.6343 | 0.8981 | 0.6921 |
 
-Docking incremental Δ vs ECFP4 is at most ~0.01 and is negative on several arms. PM n_scaffolds ≈ n, so CV is nearly leave-one-scaffold.
+Docking incremental |Δ| vs ECFP4 is at most 0.0198 and is negative on several arms. PM n_scaffolds ≈ n, so CV is nearly leave-one-scaffold.
 
 ## 4. Mixed-library enrichment
 

@@ -84,7 +84,7 @@ Wave 4  发布：Zenodo + 英文稿 + 预投稿检查
 | ID | 内容 | 回质疑 | 产出 | 谁做 |
 |----|------|--------|------|------|
 | **W1.1** | 补抓 J0 的 22 个缺失 ChEMBL 靶 → 重跑供给表 | cherry-pick / 供给故事不完整 | 更新 `jcim_j0j1_v0`；Y/T/− 终表 | 云端 |
-| **W1.2** | 聚合敏感：pooled / mean / harmonic / summary_min 对照 | 「min 任意」 | 表+主文 1 panel | 云端 |
+| **W1.2** | 聚合敏感：summary_min / arithmetic / geometric / harmonic 对照 | 「min 任意」 | Table S26（已完成） | 云端 |
 | **W1.3** | Cluster / Murcko bootstrap（系列去相关） | 「CI 虚高」 | 与配体 bootstrap 并列 | 云端 |
 | **W1.4** | Scaffold 分层 AUROC + AChE 支架重叠 | TPSA 捷径=构建假象 | AChE 专节核心图 | 云端 |
 | **W1.5** | 协变量控制：对 heavy/TPSA 分层或残差后再比对接 | 基线不公平 | SI 表 | 云端 |

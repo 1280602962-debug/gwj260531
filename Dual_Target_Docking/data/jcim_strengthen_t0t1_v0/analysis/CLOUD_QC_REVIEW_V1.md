@@ -1,5 +1,7 @@
 # 云端复核 — 本地 agent 的 A/B 组结果（T0 + T1）
 
+> **状态更新（2026-08-24）：** 本文档是 T0/T1 阶段的历史审计。后续已完成 scaffold GroupKFold、全面板 max→median（Table S29）和第二靶对 receptor realization（Table S30）。当前口径以 `CLAIM_CEILING.md`、`A4_B5_STATISTICAL_AUDIT_V1.md` 和主稿为准。
+>
 > 复核对象：`f6c86c0`（T0 零对接包）+ `c2defb6`（B 组 E8/enrichment/PM110）  
 > 方法：逐脚本读代码 + 独立重跑关键统计，不只读结论 md  
 > 结论：**执行质量高，方向正确；发现一个需要修的方法学问题（ML 基线可能因数据泄漏而虚高）+ 两个小的文档/CI 展示 bug。**
@@ -118,7 +120,7 @@ Decoy 来自**同靶标 ChEMBL 里 pChEMBL≤5.5 的已测但弱效分子**，�
 3. **【建议，写作层面】** 正文/SI 明确写清：
    - enrichment decoy 定义（弱效已测分子，非随机）
    - PM110 是 PM48 的超集扩样，不是独立复制
-   - ChEMBL 聚合仍是 max（median 未做，已知限制）
+   - 主策展仍使用 ChEMBL max；后续已完成全面板 median 敏感性（Table S29）
 4. **【可选】** T0.6 统一 θ 表加 `underpowered` 列，减少读者自行判断的负担。
 
 修完 1–2 两点（都是几十行代码、零对接），A/B 组就可以作为 JCIM 正文「Section 3.4 混淆解剖」与 SI 的定稿材料。**不建议因为这些问题重开对接**——问题都在统计/评测代码层面，跟已经产出的 Vina/RTM/GNINA 分数无关。

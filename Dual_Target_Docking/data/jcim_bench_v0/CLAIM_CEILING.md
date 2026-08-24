@@ -37,7 +37,7 @@
 26. Do **not** infer pocket-specific signal from main-panel matched > wrong. Wrong-pocket is an unresolved falsification control and **not a reliable universal negative control under panel shift.**
 27. Do **not** write that the docking protocol “was validated.” Write: **the protocol passed cognate pose-generation QC** (best-of-9 RMSD < 2 Å ≠ top-ranked pose recovery).
 28. Do **not** omit docking coverage: report N_attempted / N_successful / N_failed. HOAP_028 is a chemical-coverage failure (AutoDock atom type `B`), not silent missingness. AChE main panel 5/100 both-end-or-either failures; PIK3CB 1/100; EGFR and PM48 0/110 and 0/48.
-29. Do **not** treat `summary_min` as the only natural aggregation. Sensitivity (Table S26): pair ranking is unchanged under min / arithmetic mean / harmonic mean. Keep min as primary.
+29. Do **not** treat `summary_min` as the only natural aggregation. Sensitivity (Table S26): pair ranking is unchanged under min / arithmetic mean / geometric mean / harmonic mean. Keep min as primary.
 30. Do **not** mention the AChE/PIK3CB ChEMBL-id prefix as a diversity constraint. Sampling on those pairs is class quotas + deterministic shuffle; no additional diversity constraint. Do not rebuild frozen panels.
 
 ## Conclusions claim ceiling

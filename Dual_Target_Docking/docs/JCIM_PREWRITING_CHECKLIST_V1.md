@@ -119,16 +119,16 @@ python3 data/jcim_bench_v0/scripts/plot_forest_ci_v1.py
 
 | ID | 章节 | 状态 | 材料指针 |
 |----|------|------|----------|
-| E1 | Abstract（3–4 句） | ❌ | 待写；须低于 Results 主张强度 |
-| E2 | Introduction | 🟡 中英稿已按五段论证重构 | [`INTRODUCTION_DRAFT_ZH_JCIM_V1.md`](INTRODUCTION_DRAFT_ZH_JCIM_V1.md) + [`INTRODUCTION_SECTION_JCIM_EN_V1.md`](INTRODUCTION_SECTION_JCIM_EN_V1.md)；引用核验 [`INTRODUCTION_REFS_JCIM_V1.md`](INTRODUCTION_REFS_JCIM_V1.md)。K=4 不在 Intro 写死；DualDiff/FuseDiff 为互补评测而非竞争对象 |
-| E3 | Methods 2.1–2.13 协议化重构 | 🟡 中英稿 | [`METHODS_DRAFT_ZH_JCIM_V1.md`](METHODS_DRAFT_ZH_JCIM_V1.md) + [`METHODS_SECTION_JCIM_EN_V1.md`](METHODS_SECTION_JCIM_EN_V1.md)。结果数字已移出 Methods；four-state + pairwise primary；wrong-pocket = falsification；holdout ≠ external validation；换晶 = structure sensitivity |
+| E1 | Abstract | ✅ 中英稿 | formulation + chemistry + A4/B5；低于 Results 主张强度 |
+| E2 | Introduction | ✅ 中英稿 | [`INTRODUCTION_DRAFT_ZH_JCIM_V1.md`](INTRODUCTION_DRAFT_ZH_JCIM_V1.md) + [`INTRODUCTION_SECTION_JCIM_EN_V1.md`](INTRODUCTION_SECTION_JCIM_EN_V1.md)；K=4 不在 Intro 写死；DualDiff/FuseDiff 为互补评测而非竞争对象 |
+| E3 | Methods 2.1–2.13 协议化重构 | ✅ 中英稿 | [`METHODS_DRAFT_ZH_JCIM_V1.md`](METHODS_DRAFT_ZH_JCIM_V1.md) + [`METHODS_SECTION_JCIM_EN_V1.md`](METHODS_SECTION_JCIM_EN_V1.md)。已去项目日志；four-state + pairwise primary；wrong-pocket = falsification；holdout ≠ external validation；换晶 = structure sensitivity |
 | E6 | Results 3.1–3.6 | ✅ 草稿 | 已按证据链压缩为 6 节：[`RESULTS_DRAFT_ZH_JCIM_V1.md`](RESULTS_DRAFT_ZH_JCIM_V1.md) + [`RESULTS_SECTION_JCIM_EN_V1.md`](RESULTS_SECTION_JCIM_EN_V1.md)。旧 3.8 面板重抽样已移出 Results |
 | E7 | Discussion / Limitations | ✅ 中英稿 | [`DISCUSSION_DRAFT_ZH_JCIM_V1.md`](DISCUSSION_DRAFT_ZH_JCIM_V1.md) + [`DISCUSSION_SECTION_JCIM_EN_V1.md`](DISCUSSION_SECTION_JCIM_EN_V1.md)；引用 [`DISCUSSION_REFS_JCIM_V1.md`](DISCUSSION_REFS_JCIM_V1.md)；正文局限仅 5 条 |
 | E8 | Conclusions | ✅ 中英稿 | 两段收束：[`CONCLUSIONS_DRAFT_ZH_JCIM_V1.md`](CONCLUSIONS_DRAFT_ZH_JCIM_V1.md) + [`CONCLUSIONS_SECTION_JCIM_EN_V1.md`](CONCLUSIONS_SECTION_JCIM_EN_V1.md)。不写 validated/robust/通用决策；保留 0.430–0.692；错口袋反转写明 CI 含 0 |
-| E9 | Data and Software Availability | ❌ | 同 C1/C6 |
-| E10 | Keywords ~5–8（Articles 惯例；Perspectives 要求 8–10） | ❌ | 待定 |
+| E9 | Data and Software Availability | 🟡 | 中英文独立章节已组装；待填 Zenodo DOI |
+| E10 | Keywords | ✅ | dual-target docking；benchmark formulation；selectivity hard negatives；chemical confounding；receptor realization；virtual screening |
 
-**Results 草稿已覆盖：** 3.1 供给约束 → 3.2 有限且对靶的 docking 判别 → 3.3 ligand/chemotype 混淆 → 3.4 配体层持续 vs 受体层崩溃 → 3.5 错口袋 holdout 反转 → 3.6 探索性结构线索。θ 网格、E8/E16、PM110 通道、GNINA mode-1 vs best-of-9、单靶 enrichment 留 SI。
+**Results 草稿已覆盖：** 3.1 供给约束 → 3.2 formulation + 冻结协议主结果 → 3.3 ligand/chemotype 混淆 → 3.4 聚合不敏感 / 受体实现可双向改变 → 3.5 错口袋 holdout 反转 → 3.6 探索性结构线索。θ 网格、E8/E16、PM110 通道、GNINA mode-1 vs best-of-9、单靶 enrichment 留 SI。
 
 ---
 
@@ -136,16 +136,16 @@ python3 data/jcim_bench_v0/scripts/plot_forest_ci_v1.py
 
 | ID | 显示项 | 状态 | 备注 |
 |----|--------|------|------|
-| F1 | Fig 1 任务 + 口袋匹配示意 | ❌ | 需新画 |
-| F2 | Fig 2 供给审计（49 对） | ❌ | 有 J0 表；无投稿级图 |
+| F1 | Fig 1 任务 + 口袋匹配示意 | 🟢 | `Fig1_task_schematic` |
+| F2 | Fig 2 供给审计（49 对） | 🟢 | `Fig2_hardneg_supply` |
 | F3 | Fig 3 formulation 并排柱 Dual-vs-neither vs directional summary_min | 🟢 | `Fig3_formulation_comparison`；方向性 CI 来自 θ=6.0 |
 | F4 | Fig 4 弱臂 + 描述符 + TPSA | 🟢 | `Fig4_confounds` |
 | F5 | Fig 5 受体实现（PM 含 4JSX；PIK3CB 不含） | 🟢 | `Fig5_receptor_realization`；holdout 现为 Fig S5 |
-| F6 | Table 1 靶对清单 / N / 协议 | 🟡 | inventory 材料有 |
+| F6 | Table 1 靶对清单 / N / 协议 | ✅ | 中英文 Methods 已有 |
 | F7 | Table 2 主结果（口袋匹配） | ✅ 文内已有 | 与 `PRIMARY_METRIC_V2` 一致 |
-| F8 | TOC graphic | ❌ | 同 D4 |
+| F8 | TOC graphic | 🟢 | `TOC_graphic.tif`；无具体 AUROC |
 
-建议主文 **3–5 张图**（与 Perspectives 鼓励量同级即可）；其余进 SI。
+主文 **7 张图**；协议旋钮、配对 Δ、森林图与 unused-pool 对照进入 SI。
 
 ---
 
@@ -191,7 +191,7 @@ python3 data/jcim_bench_v0/scripts/plot_forest_ci_v1.py
 - Contribution: systematic benchmarking protocol + DualFourClass-Bench resource for dual-target docking reliability evaluation  
 - Explicitly **not** a new scoring function / named method framework (no D-DRAF-style acronym)  
 - Not a wet-lab validated single-target VS campaign  
-- Primary metric: pocket-matched directional AUROC with trivial baselines and confound controls  
+- Primary metric: pocket-matched directional AUROC with prespecified descriptor references and confound controls
 - Data/code: Zenodo DOI + GitHub （填空）  
 - Suggest: fits JCIM molecular modeling / cheminformatics evaluation audience  
 

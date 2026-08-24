@@ -69,6 +69,13 @@ bash scripts/run_local_repro.sh
 - 说明文档：[`docs/LOCAL_RUN.md`](docs/LOCAL_RUN.md)
 - 该入口只重算**零对接分析**，不重跑 Vina / RTM / GNINA
 
+重建中英文主稿：
+
+```bash
+python3 docs/assemble_manuscript_en.py
+python3 docs/assemble_manuscript_zh.py
+```
+
 ## 复现主分析（零对接）
 
 ```bash

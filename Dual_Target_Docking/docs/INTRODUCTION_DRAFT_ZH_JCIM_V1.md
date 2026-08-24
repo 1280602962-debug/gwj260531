@@ -1,13 +1,5 @@
 # Introduction（中文工作稿 · JCIM Articles）
 
-> 按五段连续科学论证重构，不再在原稿上逐句修补。  
-> 投稿以英文为准：[`INTRODUCTION_SECTION_JCIM_EN_V1.md`](INTRODUCTION_SECTION_JCIM_EN_V1.md)。  
-> 引用编号与核验边界：[`INTRODUCTION_REFS_JCIM_V1.md`](INTRODUCTION_REFS_JCIM_V1.md)。  
-> 定位：[`POSITIONING_AND_FRAMEWORK_LANGUAGE_V1.md`](POSITIONING_AND_FRAMEWORK_LANGUAGE_V1.md)。  
-> **Introduction 不写死 K = 4**；冻结评价集规模放 Methods / Results。小节编号便于与 Methods、Figure 1 对齐，定稿时可改为连续段落。
-
----
-
 ## 1. 双靶点药物设计的兴起及结构基础虚拟筛选的作用
 
 多靶点药物设计（multitarget drug design）旨在通过单一小分子同时调控两个或多个生物学靶点，以应对复杂疾病中的通路冗余、代偿性信号以及药物耐药等问题。与传统单靶点药物相比，合理设计的多靶点配体有望通过协同调节相互关联的生物学过程获得更充分的药理效应，因此已成为多靶点药物发现和多药理学（polypharmacology）研究的重要方向。[^1] 近年来，多靶点小分子的理性设计逐渐由经验性的多药理筛选，转向结合结构生物学、计算化学与生成式模型的结构导向设计。[^2]
@@ -60,6 +52,8 @@ Wu 等提出的 FuseDiff 则将共享配体分子图与两个靶点特异的结�
 **因此，本文要问的是：benchmark 的 formulation 本身是否会改变双靶识别的表观证据。** 我们构建由实验定义的四状态配体面板，以针对 A-selective 与 B-selective 硬负的方向性口袋匹配判别作为主任务，并与不控制选择性的 Dual-versus-neither comparator 对照；随后检验该信号在化学、物化性质、配体池、活性聚合与受体结构对照下是否仍然成立。
 
 贡献是评价协议与 curated benchmark 资源，而不是新的对接算法或打分函数。DualFourClass-Bench 是 **four-state curated benchmark with two directional primary tasks**：dual 对 A-only 在口袋 B 打分，dual 对 B-only 在口袋 A 打分（Figure 1B）。neither 保留以描述完整实验状态空间，不进入 primary AUROC。靶对汇总为较弱一臂（`summary_min`），使一端高分不能掩盖另一端失败。同一套分数上的 Dual-versus-neither 是 comparator，不是 “the conventional dual-target benchmark”。
+
+本文把基准有效性拆成一条连续证据链中的三个层面：任务设定（Dual 对 selective，而不是只做 Dual 对 neither）、混淆感知评价（把 docking 与 ligand-only、wrong-pocket 对照并列）以及评价条件敏感性（活性聚合、未使用配体池与受体实现）。这些分析共同检验一个 benchmark 结果究竟是 docking 的固定属性，还是评价条件下的条件性结果。
 
 公开数据供给审计首先回答有多少候选靶对能够支持这一四状态构建（Methods 2.1–2.3）。评价集规模是该审计的结果，而不是 Introduction 预先冻结的设计目标。pooled docking score、wrong-pocket control 以及二维化学和物化 baseline 作为辅助对照，用以区分 pocket-specific signal 与 ligand-level confounding。
 

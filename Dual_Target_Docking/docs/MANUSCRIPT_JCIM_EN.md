@@ -1,48 +1,10 @@
-# DualFourClass-Bench — assembled English manuscript
+# Benchmark Formulation and Chemical Confounding in Docking-Based Dual-Target Recognition
 
-> Working assembly for a JCIM Articles submission. **Canonical sources are the section files listed below.** Edit those files and re-run `python3 docs/assemble_manuscript_en.py`. Do not add `_V2` / `_FINAL` copies of individual sections.
->
-> Claim ceiling: [`../data/jcim_bench_v0/CLAIM_CEILING.md`](../data/jcim_bench_v0/CLAIM_CEILING.md). Figure files: [`../figures/jcim_article/`](../figures/jcim_article/).
+## Abstract
 
----
+Whether favorable docking scores at two targets constitute evidence of dual-target recognition has not been adequately tested against experimentally defined single-target selectives. We constructed DualFourClass-Bench, a curated four-pair, four-state panel with two directional primary tasks: dual-actives versus A-only selectives scored in pocket B, and dual-actives versus B-only selectives scored in pocket A; the weaker arm is the pair-level summary (`summary_min`). On the same frozen AutoDock Vina scores, a Dual-versus-neither comparator produced a substantially stronger impression on EGFR/HER2 (AUROC 0.756 versus directional `summary_min` 0.430), while 9 of the Top-10 mixed-library ligands were experimental selectives. AChE/BChE and PIK3CA/PIK3CB showed only small, overlapping formulation increments, and the PIK3CA/mTOR Dual-versus-neither comparator was underpowered (neither n = 4). Under scaffold-grouped cross-validation, adding docking changed AUROC by at most approximately 0.02 in absolute value beyond ECFP4. Replacing maximum pChEMBL with the median among repeated measurements produced minimal pair-level changes. In contrast, alternative receptor realizations moved PIK3CA/mTOR from 0.692 to 0.486/0.505 but PIK3CA/PIK3CB from 0.500 to 0.691/0.685. Thus, apparent dual-target discrimination depended on benchmark formulation, target pair, ligand chemistry, and receptor realization, with limited incremental information from docking beyond ligand-level chemical baselines in this scaffold-aware evaluation. These results support experimentally defined selectivity hard negatives and confounder-aware controls; they do not establish a universal overestimation law or prove that docking lacks pocket-specific information.
 
-<!-- BEGIN TITLE_AND_ABSTRACT_JCIM_EN_V1.md -->
-# Title and Abstract (JCIM Articles draft, English)
-
-> Working draft. Not yet typeset. Claim ceiling: [`CLAIM_CEILING.md`](../data/jcim_bench_v0/CLAIM_CEILING.md).  
-> Dual-versus-neither is a **nonselectivity-controlled comparator**, not “the conventional dual-target benchmark.”  
-> Dual-vs-neither vs directional AUROC is a **descriptive formulation contrast**, not a paired significance test.
-
----
-
-## Title (preferred)
-
-**Benchmarking Docking-Based Dual-Target Recognition with Directional Selectivity Hard Negatives**
-
-Alternate (more pointed; slightly perspective-like; not preferred for a first JCIM submission):
-
-*Benchmark Formulation Matters: Evaluating Docking-Based Dual-Target Recognition with Directional Selectivity Hard Negatives*
-
-Do **not** use: “Docking can/cannot identify dual-target ligands”; DualFourClass as a comprehensive suite; Dual-versus-neither as “the conventional benchmark.”
-
----
-
-## Abstract (draft)
-
-Whether favorable docking scores at two targets constitute evidence of dual-target recognition has not been adequately tested against directional single-target hard negatives. We constructed DualFourClass-Bench, a curated four-pair, four-state evaluation panel with two directional primary tasks: dual-actives versus A-only selectives scored in pocket B, and dual-actives versus B-only selectives scored in pocket A. The pair-level summary is the weaker arm (`summary_min`). We ask whether the formulation of this benchmark itself changes the apparent evidence for dual-target recognition. On the same frozen AutoDock Vina scores, a Dual-versus-neither comparator that omits selectives can give an overly favorable impression of dual-target recognition in some pair contexts. EGFR/HER2 is the proof-of-principle case: Dual versus neither yielded AUROC 0.756, whereas directional `summary_min` was 0.430; mixed-library ranking further placed 9 of the Top-10 ligands among experimental selectives. AChE/BChE and PIK3CA/PIK3CB showed only small, overlapping increments; PIK3CA/mTOR Dual versus neither is underpowered (neither n = 4) and is not interpreted as a reverse effect. Under scaffold-grouped cross-validation, adding the docking score produced little incremental AUROC beyond ECFP4. Primary pair-level estimates were largely insensitive to replacing maximum pChEMBL with the median among repeated measurements, whereas receptor realization can alter the magnitude and even the direction of apparent discrimination. Dual-target discrimination was strongly target-pair dependent, and docking provided limited incremental information beyond ligand-level chemical baselines under scaffold-aware evaluation. These results do not establish a four-pair overestimation law, and they do not prove that docking encodes no pocket-specific information. DualFourClass-Bench is a data-constrained evaluation protocol, not a comprehensive dual-target suite.
-<!-- END TITLE_AND_ABSTRACT_JCIM_EN_V1.md -->
-
----
-
-<!-- BEGIN INTRODUCTION_SECTION_JCIM_EN_V1.md -->
-# Introduction (JCIM Articles draft, English)
-
-> Companion to [`INTRODUCTION_DRAFT_ZH_JCIM_V1.md`](INTRODUCTION_DRAFT_ZH_JCIM_V1.md) (Chinese working draft).  
-> Numbered citations and verification bounds: [`INTRODUCTION_REFS_JCIM_V1.md`](INTRODUCTION_REFS_JCIM_V1.md).  
-> Positioning: [`POSITIONING_AND_FRAMEWORK_LANGUAGE_V1.md`](POSITIONING_AND_FRAMEWORK_LANGUAGE_V1.md).  
-> **Do not freeze *K* = 4 in this section**; the size of the audited evaluation set belongs in Methods / Results. Numbered subsections map onto Methods and Figure 1 and may be dropped in the typeset manuscript.
-
----
+**Keywords:** dual-target docking; benchmark formulation; selectivity hard negatives; chemical confounding; receptor realization; virtual screening
 
 ## 1. Dual-target design and the role of structure-based virtual screening
 
@@ -50,7 +12,7 @@ Multitarget drug design aims to modulate two or more biological targets with a s
 
 Molecular docking remains one of the most widely used tools in structure-based virtual screening (SBVS). A docking engine places the ligand in a protein binding site and a scoring function ranks ligand–receptor complementarity, providing a rapid, structure-level filter of large compound libraries.[3,4] A natural computational tactic in dual-target discovery is therefore to dock each candidate into both pockets and to treat favorable scores on both targets as evidence of dual-target potential.
 
-How such scores should be interpreted, however, is already known to depend on how the data set is built: the definition of negatives, hidden chemical bias, and the choice of metric all change apparent performance. The Directory of Useful Decoys (DUD) and its successor DUD-E frame single-target docking as enrichment of actives against property-matched decoys, precisely because unmatched decoys can make enrichment look like separation of crude ligand properties.[5,6] LIT-PCBA showed that artificially constructed active/decoy collections, including DUD, DUD-E, and MUV, can contain obvious and hidden chemical biases that overestimate the true accuracy of virtual screening, and replaced them with experimental dose–response labels under physicochemical-range control.[7] Structure-scoring benchmarks such as CASF-2016 ask a different, still single-complex question: scoring, ranking, docking, and screening power of scoring functions on high-quality protein–ligand complexes drawn from PDBbind-quality data.[8] None of these resources formulates dual-target recognition over an experimentally labeled four-class state space.
+How such scores should be interpreted, however, is already known to depend on how the data set is built: the definition of negatives, hidden chemical bias, and the choice of metric all change apparent performance. The Directory of Useful Decoys (DUD) and its successor DUD-E frame single-target docking as enrichment of actives against property-matched decoys, precisely because unmatched decoys can make enrichment look like separation of crude ligand properties.[5,6] LIT-PCBA showed that artificially constructed active/decoy collections, including DUD, DUD-E, and MUV, can contain obvious and hidden chemical biases that overestimate the true accuracy of virtual screening, and replaced them with experimental dose–response labels under physicochemical-range control.[7] Structure-scoring benchmarks such as CASF-2016 ask a different, still single-complex question: scoring, ranking, docking, and screening power of scoring functions on high-quality protein–ligand complexes drawn from PDBbind-quality data.[8] None of these resources formulates dual-target recognition over an experimentally labeled four-state ligand space.
 
 **Extending the single-target docking evaluation logic to a dual-target task is therefore not sufficient.**
 
@@ -97,47 +59,11 @@ Existing evaluations of dual-target molecular design generally assess whether a 
 
 The contribution is an evaluation protocol and a curated benchmark resource, not a new docking algorithm or scoring function. DualFourClass-Bench is a **four-state curated benchmark with two directional primary tasks**: dual versus A-only scored in pocket B, and dual versus B-only scored in pocket A (Figure 1B). Neither is retained to describe the full experimental state space; it does not enter the primary AUROCs. The pair-level summary is the weaker arm (`summary_min`), so a strong score on one target cannot hide failure on the other. Dual-versus-neither on the same scores is a comparator, not “the conventional dual-target benchmark.”
 
+The study separates three aspects of benchmark validity within one evidence chain: task formulation (Dual versus selective rather than Dual versus neither), confounder-aware evaluation (docking alongside ligand-only and wrong-pocket controls), and evaluation-condition sensitivity (activity aggregation, unused ligand pools, and receptor realization). These analyses test whether a benchmark result behaves as a fixed property of docking or as a conditional result of the evaluation setting.
+
 A public-data supply audit first asks how many candidate pairs can support that four-state construction (Methods 2.1–2.3). The size of the evaluation set is a result of that audit, not a design target frozen in this Introduction. Pooled docking scores, a wrong-pocket control, and two-dimensional chemical and physicochemical baselines are reported as auxiliary contrasts, to separate pocket-specific signal from ligand-level confounding.
 
 The nested experimental question remains: to what extent can existing docking scores distinguish dual-active ligands from target-selective hard negatives on both arms, and how far does that discrimination depend on the target pair, the receptor structure, or ligand chemistry? The protocol is meant as a stricter downstream check for dual-target virtual screening and for generative dual-target design—not as a bake-off of those generators, and not as a comprehensive dual-target suite.
-
----
-
-## References
-
-(1) Anighoro, A.; Bajorath, J.; Rastelli, G. Polypharmacology: Challenges and Opportunities in Drug Discovery. *J. Med. Chem.* **2014**, *57*, 7874–7887. DOI: 10.1021/jm5006463.
-
-(2) Proschak, E.; Stark, H.; Merk, D. Polypharmacology by Design: A Medicinal Chemist’s Perspective on Multitargeting Compounds. *J. Med. Chem.* **2019**, *62*, 420–444. DOI: 10.1021/acs.jmedchem.8b00760.
-
-(3) Kitchen, D. B.; Decornez, H.; Furr, J. R.; Bajorath, J. Docking and Scoring in Virtual Screening for Drug Discovery: Methods and Applications. *Nat. Rev. Drug Discov.* **2004**, *3*, 935–949. DOI: 10.1038/nrd1549.
-
-(4) Eberhardt, J.; Santos-Martins, D.; Tillack, A. F.; Forli, S. AutoDock Vina 1.2.0: New Docking Methods, Expanded Force Field, and Python Bindings. *J. Chem. Inf. Model.* **2021**, *61*, 3891–3898. DOI: 10.1021/acs.jcim.1c00203.
-
-(5) Huang, N.; Shoichet, B. K.; Irwin, J. J. Benchmarking Sets for Molecular Docking. *J. Med. Chem.* **2006**, *49*, 6789–6801. DOI: 10.1021/jm0608356.
-
-(6) Mysinger, M. M.; Carchia, M.; Irwin, J. J.; Shoichet, B. K. Directory of Useful Decoys, Enhanced (DUD-E): Better Ligands and Decoys for Better Benchmarking. *J. Med. Chem.* **2012**, *55*, 6582–6594. DOI: 10.1021/jm300687e.
-
-(7) Tran-Nguyen, V.-K.; Jacquemard, C.; Rognan, D. LIT-PCBA: An Unbiased Data Set for Machine Learning and Virtual Screening. *J. Chem. Inf. Model.* **2020**, *60*, 4263–4273. DOI: 10.1021/acs.jcim.0c00155.
-
-(8) Su, M.; Yang, Q.; Du, Y.; Feng, G.; Liu, Z.; Li, Y.; Wang, R. Comparative Assessment of Scoring Functions: The CASF-2016 Update. *J. Chem. Inf. Model.* **2019**, *59*, 895–913. DOI: 10.1021/acs.jcim.8b00545.
-
-(9) Zhou, S.; Li, Y.; Hou, T. Feasibility of Using Molecular Docking-Based Virtual Screening for Searching Dual Target Kinase Inhibitors. *J. Chem. Inf. Model.* **2013**, *53*, 982–996. DOI: 10.1021/ci400065e.
-
-(10) Zhou, X.; Guan, J.; Zhang, Y.; Peng, X.; Wang, L.; Ma, J. Reprogramming Pretrained Target-Specific Diffusion Models for Dual-Target Drug Design. In *The Thirty-eighth Annual Conference on Neural Information Processing Systems (NeurIPS 2024)*; 2024. arXiv:2410.20688.
-
-(11) Wu, J.; Qiao, A.; Wang, Z.; Wei, Z.; Chen, S. FuseDiff: Symmetry-Preserving Joint Diffusion for Dual-Target Structure-Based Drug Design. arXiv:2603.05567, 2026. (preprint)
-<!-- END INTRODUCTION_SECTION_JCIM_EN_V1.md -->
-
----
-
-<!-- BEGIN METHODS_SECTION_JCIM_EN_V1.md -->
-# Methods (JCIM Articles draft, English)
-
-> Companion to [`METHODS_DRAFT_ZH_JCIM_V1.md`](METHODS_DRAFT_ZH_JCIM_V1.md) (Chinese authoritative for this rewrite).  
-> Protocol only: counts, cognate RMSDs, AUROCs, and holdout point estimates belong in Results / SI.  
-> DualFourClass-Bench is a **four-state curated benchmark with two directional primary tasks**, not a four-class classifier. Call it a curated four-pair panel + evaluation protocol, not a comprehensive suite.
-
----
 
 ## 2. Methods
 
@@ -145,7 +71,7 @@ The nested experimental question remains: to what extent can existing docking sc
 
 Ligand activities used as **experimentally derived activity labels** were retrieved from the public ChEMBL Web API activity endpoint. The target-pair supply audit was frozen on 2026-07-23. pChEMBL converts molar concentration–response measurements (IC50, Ki, Kd, EC50, and related endpoints) to an approximate −log10 activity scale for large-scale integration. Assay types, conditions, and experimental systems are not equivalent; pChEMBL is used here as a curation convenience, not as an absolute affinity measured under one protocol.
 
-When several pChEMBL values existed for the same ligand–target pair, the frozen tables store the **maximum** as the one-to-one representative used for the primary curation. Assay types, conditions, and experimental systems are not equivalent; taking the maximum can inflate a single-assay reading. Activity-aggregation sensitivity was therefore assessed as a **prespecified sensitivity analysis** by re-aggregating all available ChEMBL measurements using the **median** rather than the maximum pChEMBL value. This analysis was performed across all frozen benchmark panels after re-fetching assay-level records from the ChEMBL activity endpoint (Table S29). It was not used to redefine panel membership or docking parameters. Frozen Vina scores were not recomputed. Class assignment was compared at the same θ = 6.0 rule. The frozen `mols_*.json` files still contain only the representative float; median labels live in the A4 tables, not as a rebuilt primary panel. Ligands missing a usable pChEMBL on either target were excluded from analyses that require paired labels.
+When several pChEMBL values existed for the same ligand–target pair, the **maximum** was used as the one-to-one representative for primary curation. Because assay types, conditions, and experimental systems are not equivalent, activity-aggregation sensitivity was assessed in a prespecified analysis by re-fetching assay-level records and replacing the maximum with the **median** of repeated pChEMBL measurements (Table S29). This alternative aggregation was applied across all frozen benchmark panels without changing panel membership, docking parameters, or Vina scores. Class assignment was compared under the same θ = 6.0 rule. Ligands missing a usable pChEMBL value on either target were excluded from analyses requiring paired labels.
 
 Salt, solvate, and multicomponent ChEMBL records were split by connected component; the organic fragment with the most heavy atoms was retained.
 
@@ -170,21 +96,21 @@ A-only and B-only ligands are selectivity hard negatives, not DUD/DUD-E-style as
 
 The resource is a **four-state curated benchmark with two directional primary tasks**. Dual, A-only, B-only, and neither are all retained to describe the experimental space; the prespecified primary endpoint is dual versus A-only and dual versus B-only. Neither does not enter the primary directional AUROCs. This is not a four-class classification benchmark.
 
-Candidate pairs were screened with the strict audit in Section 2.2. The frozen evaluation set comprises PIK3CA/mTOR, AChE/BChE, PIK3CA/PIK3CB, and EGFR/HER2. EGFR/HER2 is retained as a **supply-limited case** (`PAIR_ROLES_APPROVED_JCIM.yaml`) and is not treated as equivalent in supply to the other pairs.
+Candidate pairs were screened with the strict audit in Section 2.2. The frozen evaluation set comprises PIK3CA/mTOR, AChE/BChE, PIK3CA/PIK3CB, and EGFR/HER2. EGFR/HER2 is retained as a **supply-limited case** and is not treated as equivalent in supply to the other pairs.
 
-For each pair, ligands were drawn from the labeled pool under frozen class quotas and random seed 20260729. Where Bemis–Murcko scaffolds could be computed at draw time, a per-class scaffold cap limited series over-representation: at most two molecules per scaffold in PIK3CA/mTOR (PM48) and at most five in EGFR/HER2. For AChE/BChE and PIK3CA/PIK3CB, SMILES were not yet in the sampling table, so a Murcko cap could not be applied; sampling used class quotas and a deterministic shuffle only. **No additional chemical-diversity constraint was applied.** Post-construction Murcko scaffolds, when later available, are reported with the deposited tables. Final membership, state labels, ChEMBL identifiers, SMILES, and sampling scripts are deposited. Panels were not redrawn after docking scores were seen.
+For each pair, ligands were drawn from the labeled pool under frozen class quotas and random seed 20260729. Where structures were available at sampling, a per-class Bemis–Murcko scaffold cap limited series over-representation: at most two molecules per scaffold in PIK3CA/mTOR (PM48) and at most five in EGFR/HER2. Structures were unavailable at sampling for AChE/BChE and PIK3CA/PIK3CB, so these panels used class quotas and a deterministic shuffle without an additional diversity constraint. Post-construction Murcko scaffolds are reported with the deposited tables. Final membership, state labels, ChEMBL identifiers, SMILES, and sampling scripts are deposited. Panels were not redrawn after docking scores were seen.
 
 Construction rules were not identical across pairs. AChE/BChE and PIK3CA/PIK3CB were sampled under the strict 6.5/5.5 gate; EGFR/HER2 and PIK3CA/mTOR used θ = 6.0 because the strict gate left too few B-only ligands. Cross-pair AUROCs therefore mix target-pair biology with panel-construction differences (sample size, threshold, series composition, receptor) and are not interpreted as purely intrinsic docking performance.
 
-Quotas and construction labels were as follows. AChE/BChE and PIK3CA/PIK3CB: strict 6.5/5.5, target dual / A_only / B_only / neither = 28 / 28 / 28 / 16 (panel n = 100). EGFR/HER2: existing θ = 6.0 panel (n = 110). PIK3CA/mTOR: θ = 6.0, main comparison panel PM48 (n = 48; constructed 18 / 14 / 12 / 4), on which receptors and the docking protocol were frozen.
+Quotas and construction labels were as follows. AChE/BChE and PIK3CA/PIK3CB: strict 6.5/5.5, target dual / A_only / B_only / neither = 28 / 28 / 28 / 16 (panel n = 100). EGFR/HER2: θ = 6.0 construction rule (n = 110). PIK3CA/mTOR: θ = 6.0, main comparison panel PM48 (n = 48; constructed 18 / 14 / 12 / 4), on which receptors and the docking protocol were frozen.
 
 Ligand–receptor jobs that failed to yield a score were dropped for that receptor; ligands missing a usable score on either end were omitted from pocket-matched AUROCs that require both scores, so analysis counts can fall below construction quotas (Table 1). AUROC tables are therefore **conditional on compounds the docking engine can process**. Attempted / successful / failed counts, including chemical-coverage failures such as unsupported AutoDock atom type `B`, are reported in Table S27.
 
-An expanded PIK3CA/mTOR panel (historical name PM110) keeps all 48 PM48 ligands and adds molecules under the strict rule, targeting 30 / 30 / 30 / 25. PM110 is a superset of PM48, used to check whether point estimates stay in the same direction after increasing panel size. It is not an independent primary benchmark and not an independent replicate. Cross-pair comparison in the main text uses PM48.
+An expanded PIK3CA/mTOR panel (PM110) keeps all 48 PM48 ligands and adds molecules under the strict rule, targeting 30 / 30 / 30 / 25. PM110 is a superset of PM48, used to check whether point estimates stay in the same direction after increasing panel size. It is not an independent primary benchmark or replicate. Cross-pair comparison in the main text uses PM48.
 
-This work does not treat a distribution of non-overlapping re-drawn balanced panels as the robustness readout; leftover hard-negative supply is too limited (quantified in Results). The formal ligand-side check is one unused-pool holdout (Section 2.11). Ligand-level bootstrap (Section 2.8) describes uncertainty inside a fixed panel and is not unused-pool resampling.
+Ligand-side generalization was assessed with one unused-pool holdout (Section 2.11), because the remaining hard-negative supply could not support a distribution of non-overlapping balanced panels. Ligand-level bootstrap (Section 2.8) instead quantifies uncertainty within a fixed panel and is not unused-pool resampling.
 
-**Table 1.** DualFourClass-Bench composition and docking settings (construction rules)
+**Table 1.** DualFourClass-Bench composition and docking settings. Construction labels record the supply/panel-building rule for each pair. All primary AUROCs in Tables 2–3 use unified θ = 6.0 experimental-state labels; strict 6.5/5.5 is a supply and construction gate, with relabeling reported as sensitivity in Table S4.
 
 | Pair | Construction labels | PDB (A / B) | Resolution (Å) | Panel n | Analysis n (dual / A_only / B_only) | Vina exhaustiveness |
 |------|---------------------|-------------|----------------|-------:|------------------------------------:|--------------------:|
@@ -267,11 +193,11 @@ The pair summary is the weaker arm:
 \mathrm{summary}_{\min} = \min(\mathrm{AUC}_{D/A},\;\mathrm{AUC}_{D/B}).
 \]
 
-This is a task-aligned **worst-arm aggregation**, not a new scoring function. The minimum prevents a strong arm from hiding failure on the other; it is not the unique statistically natural aggregator. Arithmetic mean and harmonic mean of the two directional AUROCs are reported as a sensitivity (Table S26). Pair ranking and the EGFR Dual-versus-neither contrast remain in the same direction under all three aggregators. The single primary endpoint is pocket-matched Vina `summary_min` under unified θ = 6.0 (Table 2; PIK3CA/mTOR uses PM48). Prespecified secondary endpoints are the two directional arms, pocket-matched RTMScore, pocket-matched GNINA CNN best-of-9, and the descriptor panel in Section 2.8.3. Robustness / falsification endpoints are the θ grid, PM110, E = 8, unused-pool holdout, receptor replacement, and wrong-pocket (including paired Δ). Exploratory endpoints are ECFP4, contact_count (not a PLIF), and Top-10 hard-negative counts on pooled `vina_mean`. The hierarchy is in Supporting Information Table S16. Pooled `vina_mean` directional AUROC is **not** Table 2.
+This is a task-aligned **worst-arm aggregation**, not a new scoring function. The minimum prevents a strong arm from hiding failure on the other; it is not the unique statistically natural aggregator. Arithmetic, geometric, and harmonic means of the two directional AUROCs are reported as sensitivity aggregators (Table S26). Pair ranking and the direction of the EGFR Dual-versus-neither contrast are unchanged under all four aggregators. The single primary endpoint is pocket-matched Vina `summary_min` under unified θ = 6.0 (Table 2; PIK3CA/mTOR uses PM48). Prespecified secondary endpoints are the two directional arms, pocket-matched RTMScore, pocket-matched GNINA CNN best-of-9, and the descriptor panel in Section 2.8.3. Sensitivity / falsification endpoints are the θ grid, PM110, E = 8, unused-pool holdout, receptor replacement, and wrong-pocket (including paired Δ). Exploratory endpoints are ECFP4, contact_count (not a PLIF), and Top-10 hard-negative counts on pooled `vina_mean`. The hierarchy is in Supporting Information Table S16. Pooled `vina_mean` directional AUROC is **not** Table 2.
 
 #### 2.8.3 Physicochemical descriptor controls
 
-A **prespecified** RDKit panel was computed: heavy-atom count, molecular weight, cLogP, and TPSA. Each descriptor was evaluated with the same directional AUROC workflow; **all four are reported** (Table 2; Table S28). The highest AUROC among them is a **best single-descriptor reference** — a descriptive post-hoc maximum, **not** a confirmatory competitor and not a “trivial baseline” hypothesis test. Paired Δ between docking and that reference is not a confirmatory test of “beats the selected best descriptor” (Table S19).
+A **prespecified** RDKit panel was computed: heavy-atom count, molecular weight, cLogP, and TPSA. Each descriptor was evaluated with the same directional AUROC workflow; **all four are reported** (Table 2; Table S28). The highest AUROC among them is a **best single-descriptor reference** — a descriptive post-hoc maximum, not a confirmatory competitor. Paired Δ between docking and that reference is not a confirmatory test of “beats the selected best descriptor” (Table S19).
 
 #### 2.8.4 Score-aggregation controls
 
@@ -283,7 +209,7 @@ AUROC and summary_min uncertainty used ligand-level bootstrap: ligands were resa
 
 #### 2.8.6 Benchmark-formulation comparison
 
-As an auxiliary contrast on the **same** frozen Vina scores, a **Dual-versus-neither comparator** (experimental inactives; `vina_mean` and `vina_worst`) and Dual versus all non-duals were computed beside the directional primary endpoint. Dual-versus-neither is a **nonselectivity-controlled comparator** on this panel, not a claim that established dual-target benchmarks use Dual versus neither as their official task. Neither ligands are used here; they still do not enter Table 2. PIK3CA/mTOR neither n = 4 is flagged underpowered. The comparison asks whether omitting selective hard negatives can change the apparent evidence for dual-target recognition; it is not a second primary endpoint and is not a paired significance test (different negative sets; Table 3; Table S22). Single-target analogues—(dual + A-only) versus (B-only + neither) in pocket A, and the symmetric B contrast—are reported only as a Zhou-like backdrop.
+As an auxiliary contrast on the **same** frozen Vina scores, a **Dual-versus-neither comparator** (experimental inactives; `vina_mean` and `vina_worst`) and Dual versus all non-duals were computed beside the directional primary endpoint. Dual-versus-neither is a **nonselectivity-controlled comparator** on this panel, not a claim that established dual-target benchmarks use Dual versus neither as their official task. Neither ligands are used here; they still do not enter Table 2. PIK3CA/mTOR neither n = 4 is flagged underpowered. The comparison asks whether omitting selective hard negatives can change the apparent evidence for dual-target recognition; it is not a second primary endpoint and is not a paired significance test (different negative sets; Table 3; Table S22). Single-target-style analogues—(dual + A-only) versus (B-only + neither) in pocket A, and the symmetric B contrast—are reported in Table S22.
 
 ### 2.9 Confounder and falsification analyses
 
@@ -351,17 +277,6 @@ As an exploratory, docking-free geometric control, rigid superposition used Biop
 ### 2.13 Software and data availability
 
 Analyses ran under Python 3 with RDKit 2026.3.1, meeko 0.7.1, AutoDock Vina 1.2.7, GNINA 1.3.2, and RTMScore (`rtmscore_model1`); Open Babel converted Vina poses to SDF. Superposition and chain alignment used Biopython. AUROC, logistic regression, and cross-validation used NumPy, SciPy, scikit-learn, and pandas. Panels, scores, scripts, and parameter tables will be released with the public pack (Data and Software Availability).
-<!-- END METHODS_SECTION_JCIM_EN_V1.md -->
-
----
-
-<!-- BEGIN RESULTS_SECTION_JCIM_EN_V1.md -->
-# Results (JCIM Articles draft, English)
-
-> Companion to [`RESULTS_DRAFT_ZH_JCIM_V1.md`](RESULTS_DRAFT_ZH_JCIM_V1.md) (Chinese authoritative for this rewrite cycle).  
-> Six Results sections: *supply → formulation → chemistry → aggregation/receptor sensitivity → wrong-pocket failure → exploratory structure*. Results report numbers, prespecified comparisons, and directly visible patterns; interpretation belongs in Discussion.  
-> Numbers from `PRIMARY_METRIC_V2.md`, SI Tables S4–S15, A4/B5 tables, holdout and crystal-swap verdicts. No fabricated experiments.  
-> **Framing:** DualFourClass-Bench is a *constrained but experimentally grounded* four-state evaluation resource with two directional primary tasks, not a complete dual-target leaderboard. Not "Docking can/cannot identify dual-target ligands," and not D-DRAF. See [`POSITIONING_AND_FRAMEWORK_LANGUAGE_V1.md`](POSITIONING_AND_FRAMEWORK_LANGUAGE_V1.md).
 
 ## 3. Results
 
@@ -373,11 +288,11 @@ Under the strict labeling rule (dual: both ends pChEMBL ≥ 6.5; selective: acti
 
 This supply constraint is not a ChEMBL-only counting artifact. A zero-docking BindingDB / PubChem count check on the same four pairs (Supporting Information Table S12) left the thick-panel gate intact under an equal-relation rule that more closely matches pChEMBL (`equal_only`): min hard-negative counts for the three frozen thick pairs were 76 / 92 / 58 in BindingDB and 86 / 97 / 61 in PubChem (ChEMBL cache: 80 / 78 / 56), all still ≥ 50. EGFR/HER2 rose to about 30 B-end hard negatives in the other databases — enough for a thin (≥ 20) pool, not a thick (≥ 50) panel. Treating censored inequality records as point estimates (`as_is`) would inflate EGFR/HER2 supply (BindingDB min HN = 85), but 49 of 92 as-is B_only ligands have **only** `>` records on EGFR. That changes the definition of “both ends quantitatively measured with equal-relation assays” and was not used to freeze the benchmark. PubChem tracks BindingDB closely (deposition overlap) and is not a second independent census.
 
-The size of the final benchmark was therefore constrained by the availability of experimentally defined directional hard negatives, not by post-hoc selection of docking-favorable pairs. DualFourClass-Bench is a constrained but experimentally labeled four-pair evaluation panel plus protocol, not a complete sample of dual-target tasks and not a comprehensive benchmark suite (Methods 2.1–2.3).
+The size of the final benchmark was therefore constrained by the availability of experimentally defined directional hard negatives, not by post-hoc selection of docking-favorable pairs. DualFourClass-Bench is a constrained but experimentally labeled four-pair evaluation panel plus protocol, not a complete sample of dual-target tasks and not a comprehensive benchmark suite (Methods 2.1–2.3). The strict 6.5/5.5 rule quantifies supply and records panel construction, whereas θ = 6.0 defines the experimental-state labels for all primary AUROCs (Methods 2.2). The following analyses proceed from benchmark formulation (Section 3.2), through ligand-level chemical baselines (Section 3.3), to evaluation-condition sensitivity (Section 3.4) and falsification controls (Section 3.5).
 
-### 3.2 Benchmark Formulation Changes Apparent Dual-Target Recognition on EGFR/HER2
+### 3.2 Benchmark Formulation Changes Apparent Dual-Target Recognition
 
-On the frozen four pairs, AutoDock Vina scores were evaluated under one unified θ = 6.0 label rule using pocket-matched directional AUROC (Figure 1B; Methods 2.8). Scores are \(S=-E_{\mathrm{Vina}}\) (higher better); dual is the positive class. The prespecified pair summary is `summary_min`, the smaller of the two directional arms, so a strong arm cannot hide a weak one. Arithmetic mean and harmonic mean of the two arms are sensitivity aggregators only; pair ranking is unchanged under all three (Table S26). For AChE/BChE and PIK3CA/PIK3CB, construction used the stricter 6.5/5.5 rule, but θ = 6.0 gives identical ligand classification and AUROC on this data (Table S4). EGFR/HER2 and PIK3CA/mTOR are more threshold-sensitive; under the strict rule both become underpowered on B_only, so the strict rule is a supporting sensitivity analysis, not a second primary standard. Ranking trends held across the full threshold grid (Figure S1A).
+On the frozen four pairs, AutoDock Vina scores were evaluated under one unified θ = 6.0 label rule using pocket-matched directional AUROC (Figure 1B; Methods 2.8). Scores are \(S=-E_{\mathrm{Vina}}\) (higher better); dual is the positive class. The prespecified pair summary is `summary_min`, the smaller of the two directional arms, so a strong arm cannot hide a weak one. Arithmetic, geometric, and harmonic means of the two arms are sensitivity aggregators only; pair ranking is unchanged under all four aggregators (Table S26). For AChE/BChE and PIK3CA/PIK3CB, construction used the stricter 6.5/5.5 rule, but θ = 6.0 gives identical ligand classification and AUROC on this data (Table S4). EGFR/HER2 and PIK3CA/mTOR are more threshold-sensitive; under the strict rule both become underpowered on B_only, so the strict rule is a supporting sensitivity analysis, not a second primary standard. Ranking trends held across the full threshold grid (Figure S1A).
 
 These four `summary_min` values are therefore **not** four interchangeable estimates of intrinsic docking performance. AChE/BChE and PIK3CA/PIK3CB were built under the strict supply gate; EGFR/HER2 and PIK3CA/mTOR used θ = 6.0; the panels also differ in n, series composition, and receptor. Cross-pair differences mix those construction factors with target-pair biology.
 
@@ -385,7 +300,7 @@ EGFR/HER2, AChE/BChE, PIK3CA/PIK3CB, and PIK3CA/mTOR gave directional `summary_m
 
 The same frozen scores were then scored under a Dual-versus-neither comparator and under Dual versus all non-duals (Table 3; Figure 3). Dual-versus-neither is a **nonselectivity-controlled comparator** on this panel (experimental inactives; `vina_mean`), not a claim that Dual versus neither is the official task of prior dual-target benchmarks. The two AUROCs use different negative sets and are a **descriptive formulation contrast**, not a paired significance test.
 
-EGFR/HER2 is the proof-of-principle case. Dual versus neither yielded AUROC 0.756 [0.562, 0.920] (n_neg = 12), whereas directional `summary_min` remained 0.430 [0.284, 0.576]. Dual versus all non-duals collapsed to 0.551 [0.443, 0.666], showing that the extra difficulty is the selectives. In a mixed-library ranking of all 110 EGFR/HER2 ligands by `vina_mean`, the Top-10 contained 1 dual, 5 A-only, 4 B-only, and 0 neither (EF10 = 0.393; hard-negative fraction = 0.90); EF5 was also below random (Table S25). A Dual-versus-neither readout would therefore have supported docking-based dual recognition on this pair, while the directional task and the screening-facing Top-10 both show preferential enrichment of selectives.
+EGFR/HER2 provides the clearest formulation example. Dual versus neither yielded AUROC 0.756 [0.562, 0.920] (n_neg = 12), whereas directional `summary_min` remained 0.430 [0.284, 0.576]. Dual versus all non-duals collapsed to 0.551 [0.443, 0.666], showing that the extra difficulty is the selectives. In a mixed-library ranking of all 110 EGFR/HER2 ligands by `vina_mean`, the Top-10 contained 1 dual, 5 A-only, 4 B-only, and 0 neither (EF10 = 0.393; hard-negative fraction = 0.90); EF5 was also below random (Table S25). A Dual-versus-neither readout would therefore have supported docking-based dual recognition on this pair, while the directional task and the screening-facing Top-10 both show preferential enrichment of selectives.
 
 That formulation gap is **pair-dependent**, not a four-pair overestimation law. AChE/BChE and PIK3CA/PIK3CB showed only small Dual-versus-neither increments (0.649 and 0.559) whose intervals overlap the directional arms. PIK3CA/mTOR Dual versus neither is underpowered (neither n = 4) and is not interpreted as a reverse effect; Dual versus all non-duals on that pair was 0.674, close to `summary_min` 0.692. PIK3CA/mTOR is therefore treated as a **conditional directional signal**, not as the paper’s central success case (Results 3.4).
 
@@ -407,7 +322,7 @@ That formulation gap is **pair-dependent**, not a four-pair overestimation law. 
 | PIK3CA/PIK3CB | 0.500 [0.347, 0.648] | 0.559 [0.373, 0.746] | 16 | 0.556 [0.437, 0.672] |
 | PIK3CA/mTOR | 0.692 [0.464, 0.802] | 0.514 [0.222, 0.806] | 4 | 0.674 [0.515, 0.817] |
 
-Docking discrimination was therefore not a consistent cross-pair capability. PIK3CA/mTOR is the only pair whose `summary_min` point estimate exceeds both chance and its best single-descriptor reference (heavy-atom count 0.463), yet its 95% bootstrap confidence interval remains 0.464–0.802 and does not exclude chance. AChE/BChE (0.606) remains below TPSA (0.733). EGFR/HER2 (0.430) and PIK3CA/PIK3CB (0.500) show no clear advantage over the corresponding descriptor references.
+Docking discrimination was therefore not a consistent cross-pair capability, and no pair clearly exceeded chance after uncertainty accounting. Under the primary frozen-receptor protocol, PIK3CA/mTOR had the highest `summary_min` point estimate (0.692), but its 95% bootstrap CI (0.464–0.802) included 0.5 and its paired difference from the best single-descriptor reference included 0 (Table S19). This point-estimate advantage was not invariant to receptor realization (Results 3.4). AChE/BChE (0.606) remained below TPSA (0.733), while EGFR/HER2 (0.430) and PIK3CA/PIK3CB (0.500) showed no clear advantage over their descriptor references.
 
 Docking coverage is not complete. On the main panels, both-end scores were obtained for 110/110 EGFR/HER2 ligands, 95/100 AChE/BChE ligands, 99/100 PIK3CA/PIK3CB ligands, and 48/48 PIK3CA/mTOR ligands (Table S27). The single PIK3CA/PIK3CB failure is `PAB_034` (A-only; CHEMBL5089694), a docking timeout on 4L23 (`timeout_900s`, 23 rotatable bonds), not a label filter; PIK3CB 2WXF succeeded. AUROCs are therefore conditional on compounds AutoDock Vina can process. Substituting RTMScore or GNINA as an alternative scoring channel did not change the overall ranking. After unified best-of-9 pose coverage, GNINA pocket-matched `summary_min` remained at or below same-panel Vina on EGFR/HER2, AChE/BChE, and PIK3CA/mTOR. On PIK3CA/PIK3CB, GNINA best-of-9 was 0.533 versus Vina 0.500; both are near chance with overlapping intervals (Tables S14–S15; Figure S1B). GNINA is a single CNN channel, not a three-engine competition. The protocol passed cognate pose-generation QC; that QC is not screening-performance validation.
 
@@ -421,11 +336,11 @@ PIK3CA/mTOR differs in degree. Adding heavy-atom count and TPSA shifted AUROC by
 
 A two-dimensional chemical baseline makes the same point (Figure 7A). ECFP4 logistic regression under Bemis–Murcko scaffold GroupKFold yielded fold AUROCs of about 0.78–0.91 on several arms, well above the corresponding docking contrasts — for example 0.85 versus 0.43 for EGFR/HER2 dual-versus-B-only. That result means discrimination remains when molecules from the same Murcko scaffold are not shared between folds; it is not target-external generalization. On PIK3CA/mTOR, \(n_{\mathrm{scaffolds}} \approx n\), so the split is nearly leave-one-scaffold. A random `StratifiedKFold` check sits on average +0.011 above the scaffold split across eight directional contrasts (Table S20; Figure S3D); leakage is small. Dual/selective labels are systematically associated with chemotype, so an AUROC on docking scores alone does not establish pocket-specific physical recognition.
 
-Under the present scaffold-grouped benchmark, adding the pocket-matched docking score to ECFP4 changed CV AUROC by at most ~0.01, and the change was negative on several arms (Table S24). This is not a claim that docking encodes no structural information in general: the logistic architecture is simple, K = 4, and there is no nested model comparison. Logistic docking AUROC is not the rank AUROC in Table 2 and is often lower. Chemotype-constrained A-only/B-only subsets at ECFP4 Tanimoto ≥ 0.7 were empty. At T ≥ 0.3, the strongest unmatched arm (PIK3CA/PIK3CB dual versus A-only, 0.691) fell to 0.503 (n_neg = 11), whereas distant hard negatives (T < 0.3) rose to 0.819 (Table S23). T ≥ 0.3 is a similarity-constrained subset, not a chemically matched analogue set. T ≥ 0.4/0.5 cells are often n_neg ≤ 7 and are not interpreted as a second primary result. The scarcity of close analogues is itself a second data-supply bottleneck beyond the four-state label requirement.
+Under the present scaffold-grouped benchmark, adding the pocket-matched docking score to ECFP4 changed CV AUROC by at most approximately 0.02 in absolute value (largest: −0.0198 on PIK3CA/mTOR dual versus A-only), and the change was negative on several arms (Table S24). This is not a claim that docking encodes no structural information in general: the logistic architecture is simple, K = 4, and there is no nested model comparison. Logistic docking AUROC is not the rank AUROC in Table 2 and is often lower. Chemotype-constrained A-only/B-only subsets at ECFP4 Tanimoto ≥ 0.7 were empty. At T ≥ 0.3, the strongest unmatched arm (PIK3CA/PIK3CB dual versus A-only, 0.691) fell to 0.503 (n_neg = 11), whereas distant hard negatives (T < 0.3) rose to 0.819 (Table S23). T ≥ 0.3 is a similarity-constrained subset, not a chemically matched analogue set. T ≥ 0.4/0.5 cells are often n_neg ≤ 7 and are not interpreted as a second primary result. The scarcity of close analogues is itself a second data-supply bottleneck beyond the four-state label requirement.
 
 On potency- or size-matched subsets, dual-versus-B-only remained weak or near chance on EGFR/HER2 and PIK3CA/PIK3CB (about 0.45–0.52). The PIK3CA/mTOR ranking trend was unchanged, but per-arm n was often < 15 with wide intervals (Table S5; Figure 7D). All four descriptors are shown in Figure 7B; none is treated as a confirmatory competitor.
 
-### 3.4 Apparent Performance Is Insensitive to pChEMBL Aggregation but Sensitive to Receptor Realization
+### 3.4 Evaluation-Condition Sensitivity: Activity Aggregation, Ligand Panels, and Receptor Realization
 
 Primary labels use the maximum available pChEMBL value. Replacing that aggregation with the median among repeated measurements, after re-fetching assay-level records for every scored ligand, changed four-state class assignment at θ = 6.0 for 7/110 EGFR/HER2 ligands (label agreement 103/110 = 93.6%), 1/95 AChE/BChE ligands (94/95 = 98.9%), 1/99 PIK3CA/PIK3CB ligands (98/99 = 99.0%), and 0/48 PIK3CA/mTOR ligands (48/48 = 100%) (Table S29). Numeric max ≠ median was more common than class flips (40/110, 13/95, 25/99, 27/48). On API-refetched labels, `summary_min` moved from 0.417 to 0.424 (EGFR/HER2), 0.606 to 0.629 (AChE/BChE), 0.500 to 0.500 (PIK3CA/PIK3CB), and 0.692 to 0.692 (PIK3CA/mTOR). Frozen Table 2 EGFR/HER2 is 0.430 rather than 0.417 because one cache/API mismatch (`EH120_060` / CHEMBL24828) reclassifies that ligand as dual under API max; relative to the frozen table, median aggregation still leaves EGFR/HER2 at 0.424. Pair ranking and the directional conclusions are therefore insensitive to this aggregation choice. Assay-level heterogeneity remains, because pChEMBL values are not assay-equivalent.
 
@@ -447,7 +362,7 @@ The two pairs therefore move in opposite directions under the same PIK3CA pertur
 
 Cα comparison shows a local pocket Cα RMSD of only 0.343 Å between 5DXT and 4L23, yet PIK3CA/mTOR summary_min still fell to 0.505, so backbone similarity is not sufficient to preserve discrimination (Table S10). Global Cα RMSD among these deposited PIK3CA structures (1.44–1.49 Å) exceeds that among these mTOR structures (0.45 Å), consistent in direction with greater PIK3CA-end movement on PIK3CA/mTOR but not a quantitative causal explanation of the opposite PIK3CA/PIK3CB shift: 5DXT matched 862 Cα atoms versus 982 for 4JPS, and each target has only one or two alternates. Cognate-ligand centroid distances of 2.1–2.6 Å indicate the same general ATP-competitive site. Passing pose-generation QC is not the same as transferable screening discrimination. The protocol passed cognate pose-generation QC; it was not “validated” as a virtual-screening method.
 
-### 3.5 Wrong-Pocket Controls Reveal an Unresolved Failure Mode
+### 3.5 Wrong-Pocket Controls Show That a Benchmark Control Can Fail under Panel Shift
 
 On the main panels, pocket-matched summary_min exceeded the wrong-pocket control on all four pairs; matched-minus-wrong differences were 0.170, 0.161, 0.151, and 0.090. The EGFR/HER2 and AChE/BChE intervals exclude 0; the PIK3CA/PIK3CB and PIK3CA/mTOR intervals include 0 (Tables S6, S17; Figure 6A; Figure S3A). Wrong-pocket summary_min values were 0.260, 0.444, 0.349, and 0.602. That main-panel pattern is **not** taken as evidence of pocket-specific signal.
 
@@ -464,16 +379,6 @@ The holdout wrong-pocket reversal is therefore an unresolved failure mode expose
 As an exploratory analysis, we compared within-pair whole-chain sequence identity with summary_min (Table S7). Among the four pairs, PIK3CA/mTOR has the lowest whole-chain identity (18.1% over alignment length) and the highest summary_min, whereas EGFR/HER2 is the reverse (71.4%; ErbB-family kinase domains are highly homologous). That pattern is inconsistent with a simple “more similar targets are harder to distinguish” rule. With only four pairs, and with whole-chain identity not a direct measure of binding-pocket similarity, the observation is a structural background clue, not correlation evidence. PIK3CA and mTOR belong to the PIKK-related superfamily and share known local homology at the ATP-competitive site; low whole-chain identity must not be read as dissimilar pockets.
 
 Existing pose-level diagnostics on PIK3CA/mTOR show two representative failure typologies (not a panel-wide PLIF). T2: a selective hard negative forms geometrically clean, hinge-positive ATP-like poses in both pockets (for example amino-triazine / morpholine–ATP chemotypes that remain high-occupancy and hinge-positive on the weak mTOR end), inflating both scores. T5: some classic duals (e.g., Torin1, omipalisib) rank well under Vina, but alternative rescoring prefers poses off the PIK3CA hinge / cognate site. Cognate ligands PI-103 / X6K recover near-native poses under protocol checks (Table S3). These are observed pose patterns, not a residue-level mechanism, and pose-generation QC is not screening validation.
-<!-- END RESULTS_SECTION_JCIM_EN_V1.md -->
-
----
-
-<!-- BEGIN DISCUSSION_SECTION_JCIM_EN_V1.md -->
-# Discussion (JCIM Articles draft, English)
-
-> Companion to [`DISCUSSION_DRAFT_ZH_JCIM_V1.md`](DISCUSSION_DRAFT_ZH_JCIM_V1.md) (Chinese authoritative for this rewrite cycle).  
-> Citation audit: [`DISCUSSION_REFS_JCIM_V1.md`](DISCUSSION_REFS_JCIM_V1.md); numbering continues from [`INTRODUCTION_REFS_JCIM_V1.md`](INTRODUCTION_REFS_JCIM_V1.md).  
-> Five sections: formulation → chemistry → receptor realization → implications → limitations. Finding → interpretation → alternative explanation → evidence → implication. Open results stay open.
 
 ## 4. Discussion
 
@@ -481,9 +386,9 @@ Existing pose-level diagnostics on PIK3CA/mTOR show two representative failure t
 
 The primary finding is not that one docking scoring function attained the highest dual-target AUROC. It is that benchmark formulation can change what “dual-target docking success” appears to mean. Standard docking benchmarks typically separate actives from decoys. Here a model must distinguish dual-active ligands from single-target selective hard negatives in both directions. Those hard negatives are experimentally active on one target and therefore cannot be treated as ordinary decoys. Dual-versus-neither on the same scores is a **nonselectivity-controlled comparator**, not “the conventional dual-target benchmark.” The supply audit showed that public bioactivity data rarely provide enough such ligands on both arms at once; only a few of 49 candidate pairs met the strict thick-panel gate (Results 3.1; Figure 2).
 
-Zhou, Li, and Hou already showed that docking-based dual-kinase screening can look useful against noninhibitors, is structure-dependent, and still admits a high false-positive rate among predicted duals.^(9) DualFourClass-Bench asks a narrower follow-up on the same scores: whether a Dual-versus-neither (inactive) readout and a directional Dual-versus-selective readout agree. They do not agree on EGFR/HER2 (Results 3.2, Table 3, Figure 3): Dual versus neither was 0.756, directional `summary_min` was 0.430, and mixed-library Top-10 ranking enriched selectives (9/10). **EGFR/HER2 provides a clear example, not a four-pair law.** AChE/BChE and PIK3CA/PIK3CB showed only small, overlapping increments; PIK3CA/mTOR Dual versus neither is underpowered (neither n = 4). The contrast is descriptive rather than a paired significance test. The increment relative to 2013 is that formulation gap—not another four-pair docking survey.
+Zhou, Li, and Hou already showed that docking-based dual-kinase screening can look useful against noninhibitors, is structure-dependent, and still admits a high false-positive rate among predicted duals.[9] DualFourClass-Bench asks a narrower follow-up on the same scores: whether a Dual-versus-neither (inactive) readout and a directional Dual-versus-selective readout agree. They do not agree on EGFR/HER2 (Results 3.2, Table 3, Figure 3): Dual versus neither was 0.756, directional `summary_min` was 0.430, and mixed-library Top-10 ranking enriched selectives (9/10). **EGFR/HER2 provides a clear example, not a four-pair law.** AChE/BChE and PIK3CA/PIK3CB showed only small, overlapping increments; PIK3CA/mTOR Dual versus neither is underpowered (neither n = 4). The contrast is descriptive rather than a paired significance test. The increment relative to 2013 is that formulation gap—not another four-pair docking survey.
 
-That data constraint is itself methodological. DUD, DUD-E, and LIT-PCBA already showed that decoy construction, chemical bias, and assay-derived labels change virtual-screening conclusions.^(5–7) Simple methods and some unbiasing procedures can also overestimate structure-based virtual screening by learning ligand distributions.^(12) Recent bioassay-derived evaluation further emphasizes that real assay data can expose limits that constructed ligand/decoy sets conceal.^(13) DualFourClass-Bench does not use those single-target collections and does not evaluate DiffDock-Pocket. It extends the same concern to a dual-target setting: the evaluation depends on how hard negatives are defined experimentally, not on how long the candidate-pair list is.
+That data constraint is itself methodological. DUD, DUD-E, and LIT-PCBA already showed that decoy construction, chemical bias, and assay-derived labels change virtual-screening conclusions.[5–7] Simple methods and some unbiasing procedures can also overestimate structure-based virtual screening by learning ligand distributions.[12] Recent bioassay-derived evaluation further emphasizes that real assay data can expose limits that constructed ligand/decoy sets conceal.[13] DualFourClass-Bench does not use those single-target collections and does not evaluate DiffDock-Pocket. It extends the same concern to a dual-target setting: the evaluation depends on how hard negatives are defined experimentally, not on how long the candidate-pair list is.
 
 The main value of DualFourClass-Bench is therefore not dataset size. It is the conversion of dual-target recognition into an experimentally labeled hard-negative discrimination task that must hold in both directions. The resource is a curated four-pair panel plus evaluation protocol, not a comprehensive dual-target suite.
 
@@ -491,33 +396,33 @@ A remaining out-of-panel failure mode belongs with this evidentiary standard. On
 
 ### 4.2 Chemical information can substitute for apparent docking signal
 
-The difficulty of dual-target docking is not the sum of two single-target docking problems. A favorable score for an A-active ligand in pocket A does not imply activity at target B. Even under the task-aligned directional metric, the four pairs were heterogeneous. Three pairs sat near chance or below the best single-descriptor reference. Only PIK3CA/mTOR gave a higher point estimate, and its confidence interval remained compatible with chance (Results 3.2). That pair is a **conditional directional signal**, not a generalizable success case.
+The difficulty of dual-target docking is not the sum of two single-target docking problems. A favorable score for an A-active ligand in pocket A does not imply activity at target B. Even under the task-aligned directional metric, no pair yielded discrimination clearly above chance after uncertainty accounting. Under the primary frozen-receptor protocol, PIK3CA/mTOR had the highest directional point estimate (0.692), but its 95% CI included 0.5 and its paired difference from the best single-descriptor reference included 0 (Results 3.2; Table S19). It is therefore a **conditional directional signal**, not a generalizable success case.
 
-On AChE/BChE, TPSA alone discriminated better than docking, and scaffold-grouped ECFP4 exceeded docking on several arms (Results 3.3). Dual/selective labels therefore carry ligand-level information that can produce a strong apparent signal. Under the present scaffold-grouped benchmark, adding the docking score to ECFP4 changed CV AUROC by at most ~0.01, and the change was negative on several arms. Dual-target discrimination was strongly target-pair dependent, and docking provided limited incremental information beyond ligand-level chemical baselines under scaffold-aware evaluation. That is a statement about this panel, not a proof that docking encodes no pocket-specific information.
+On AChE/BChE, TPSA alone discriminated better than docking, and scaffold-grouped ECFP4 exceeded docking on several arms (Results 3.3). The strong ligand-only baseline demonstrates that the experimental labels are associated with chemical-space differences that can be exploited without receptor information; docking performance must therefore be interpreted relative to ligand-only baselines rather than in isolation. Under the present scaffold-grouped benchmark, adding the docking score to ECFP4 changed CV AUROC by at most approximately 0.02 in absolute value, and the change was negative on several arms. Dual-target discrimination was strongly target-pair dependent, and docking provided limited incremental information beyond ligand-level chemical baselines under scaffold-aware evaluation. That is a statement about this panel, not a proof that docking encodes no pocket-specific information.
 
 Chemotype-constrained hard negatives make the same point at a coarser similarity cutoff. T ≥ 0.7 matched A-only/B-only subsets were empty. At T ≥ 0.3, the strongest unmatched arm (PIK3CA/PIK3CB dual versus A-only, 0.691) fell to 0.503 (n_neg = 11), whereas distant hard negatives (T < 0.3) rose to 0.819. T ≥ 0.3 is a similarity-constrained subset, not a chemically matched analogue set.
 
-That observation is consistent with recent attention to chemical bias in virtual-screening benchmarks: simple models or poorly constructed decoys can look strong by learning ligand composition rather than target-specific recognition.^(7,12) Without A-only/B-only hard negatives and ligand-property / chemical baselines, an apparently strong dual-target docking result may only be recovering molecular properties associated with the dual label.
+That observation is consistent with recent attention to chemical bias in virtual-screening benchmarks: simple models or poorly constructed decoys can look strong by learning ligand composition rather than target-specific recognition.[7,12] Without A-only/B-only hard negatives and ligand-property / chemical baselines, an apparently strong dual-target docking result may only be recovering molecular properties associated with the dual label.
 
 ### 4.3 Receptor realization is an independent source of uncertainty
 
 PIK3CA/mTOR remains the case that most warrants further study and the case that most requires caution. Main-panel summary_min was 0.692, PM110 was 0.648, and the unused-pool holdout was 0.765, so the directional signal is not driven solely by a few PM48 members. It is not receptor-invariant: replacing the PIK3CA structure dropped summary_min to 0.486 and 0.505, whereas replacing the mTOR structure left 0.639 (Results 3.4; Figure 5A). The accurate claim is not that PIK3CA/mTOR docking reliably identifies dual-target ligands. It is that this pair shows a limited directional signal under a particular receptor realization — persistent under ligand-panel replacement, not assumed invariant under receptor replacement.
 
-The same PIK3CA replacement on PIK3CA/PIK3CB moved the estimate in the opposite direction, from 0.500 to 0.691 and 0.685, while the B-end receptor was held frozen (Figure 5B). Receptor choice can therefore alter not only the magnitude but the direction of apparent dual-target discrimination. Receptor realization is an independent source of variance: it can create or attenuate apparent discrimination, rather than merely deciding whether one result is “robust.” The two-pair, one-pocket-at-a-time design is stronger evidence than a single collapse anecdote, but it is not a universal law (K = 4; both pairs share PIK3CA). No molecular mechanism is claimed.
+The same PIK3CA replacement on PIK3CA/PIK3CB moved the estimate in the opposite direction, from 0.500 to 0.691 and 0.685, while the B-end receptor was held frozen (Figure 5B). Receptor choice can therefore alter not only the magnitude but the direction of apparent dual-target discrimination. The contrasting effects argue against interpreting a receptor swap simply as a loss of docking accuracy: receptor realization is part of the evaluation condition and an independent source of variance that can create or attenuate apparent discrimination. The two-pair, one-pocket-at-a-time design is stronger evidence than a single collapse anecdote, but it is not a universal law (K = 4; both pairs share PIK3CA). No molecular mechanism is claimed.
 
-A coupled-task reading is useful and remains a hypothesis. `summary_min` tracks the weaker arm, so replacing \(S_A\) can change which arm is the bottleneck. On PIK3CA/PIK3CB the original weak arm was D/B on 4L23 (0.500); after 4JPS that arm rose to 0.707 and the frozen 2WXF arm (0.691) became limiting. Other non-exclusive hypotheses include local side-chain or pocket-geometry changes that reorder dual versus selective scores, and different ligand chemical distributions on the two panels facing the same PIK3CA crystals. Residue-level PLIF analysis was not completed.
+A coupled-task reading is useful and remains a hypothesis. `summary_min` tracks the weaker arm, so replacing \(S_A\) can change which arm is the bottleneck. On PIK3CA/PIK3CB the original weak arm was D/B on 4L23 (0.500); after 4JPS that arm rose to 0.707 and the frozen 2WXF arm (0.691) became limiting. Other non-exclusive hypotheses include local side-chain or pocket-geometry changes that reorder dual versus selective scores, and different ligand chemical distributions on the two panels facing the same PIK3CA crystals. Without a panel-wide residue-level PLIF analysis, these alternatives remain unresolved.
 
-Local pocket Cα RMSD between 5DXT and 4L23 is only 0.343 Å, yet PIK3CA/mTOR summary_min still fell to 0.505. Structural similarity and transferable screening discrimination are therefore not the same question. Passing pose-generation QC is also not screening-performance invariance. That distinction is consistent with recent kinase cross-docking benchmarks that treat receptor representation as an independent performance variable; those studies used different docking engines and are not an extrapolation of the present protocol.^(14)
+Local pocket Cα RMSD between 5DXT and 4L23 is only 0.343 Å, yet PIK3CA/mTOR summary_min still fell to 0.505. Structural similarity and transferable screening discrimination are therefore not the same question. Passing pose-generation QC is also not screening-performance invariance. That distinction is consistent with recent kinase cross-docking benchmarks that treat receptor representation as an independent performance variable; those studies used different docking engines and are not an extrapolation of the present protocol.[14]
 
 ### 4.4 Implications for dual-target virtual screening and generative design
 
-The results bear directly on dual-target virtual screening and generative design. Favorable docking scores in both pockets do not automatically mean that a generated molecule is an experimentally plausible dual-active ligand. If dual-target generators use docking as a downstream filter, they should not report two-pocket scores alone; they should also be evaluated against selective hard negatives and ligand-only chemical controls. Even after single-target ultralarge docking, postprocessing and rescoring have been shown not to separate known binders from inactives robustly across assays.^(15) A dual-target setting additionally requires suppressing both experimental hard-negative arms, so two favorable scores — or their simple average — are not sufficient evidence.
+The results bear directly on dual-target virtual screening and generative design. Favorable docking scores in both pockets do not automatically mean that a generated molecule is an experimentally plausible dual-active ligand. If dual-target generators use docking as a downstream filter, they should not report two-pocket scores alone; they should also be evaluated against selective hard negatives and ligand-only chemical controls. Even after single-target ultralarge docking, postprocessing and rescoring have been shown not to separate known binders from inactives robustly across assays.[15] A dual-target setting additionally requires suppressing both experimental hard-negative arms, so two favorable scores — or their simple average — are not sufficient evidence.
 
-This study does not show that existing dual-target generators fail, and it does not evaluate DualDiff, FuseDiff, or other generative models.^(10,11) DualDiff’s Dual High Affinity is dual success versus reference-ligand dock scores, not mean pooling; FuseDiff’s independent test set is the DualDiff benchmark (DDF). Those papers ask whether generated structures can obtain favorable docking scores. DualFourClass-Bench can serve as a downstream evaluation layer for such methods: whether generated molecules outrank experimentally defined single-target hard negatives, rather than merely optimizing a docking score.
+This study does not show that existing dual-target generators fail, and it does not evaluate DualDiff, FuseDiff, or other generative models.[10,11] DualDiff’s Dual High Affinity is dual success versus reference-ligand dock scores, not mean pooling; FuseDiff’s independent test set is the DualDiff benchmark (DDF). Those papers ask whether generated structures can obtain favorable docking scores. DualFourClass-Bench can serve as a downstream evaluation layer for such methods: whether generated molecules outrank experimentally defined single-target hard negatives, rather than merely optimizing a docking score.
 
 ### 4.5 Limitations
 
-Only the five highest-priority limits are stated here; the full inventory is in the Limitations draft. Closing claims are in Conclusions and are not repeated here.
+Five limitations define the scope of interpretation.
 
 First, the benchmark contains only four target pairs because experimentally defined dual-target hard negatives are scarce. K = 4 is a data-constrained case panel, not a comprehensive suite. The four `summary_min` values also mix panel-construction differences (strict 6.5/5.5 versus θ = 6.0; unequal n) with target-pair biology and should not be read as a population-level ranking of intrinsic docking performance.
 
@@ -528,23 +433,45 @@ Third, assay heterogeneity remains after activity-aggregation control. Primary c
 Fourth, receptor realization can raise or lower pair-level discrimination, but the experiments do not identify a molecular origin. Pocket-local Cα RMSD alone could not explain the observed performance change, and residue-level PLIF/side-chain analyses were not systematically performed. The one PIK3CA/PIK3CB docking timeout (`PAB_034`) is reported as 100 attempted / 99 successful / 1 failed on the original and both alternate PIK3CA crystals; it was not excluded because of its label.
 
 Fifth, this study evaluates computational discrimination rather than experimentally testing newly predicted dual-target compounds. The benchmark addresses the reliability of docking-based ranking, not the prospective biological efficacy of selected molecules. The study does not aim to prove that docking is universally good or bad for dual-target discovery; it asks whether the evaluation formulation itself changes the apparent evidence for dual-target recognition.
-<!-- END DISCUSSION_SECTION_JCIM_EN_V1.md -->
-
----
-
-<!-- BEGIN CONCLUSIONS_SECTION_JCIM_EN_V1.md -->
-# Conclusions (JCIM Articles draft, English)
-
-> Companion to [`CONCLUSIONS_DRAFT_ZH_JCIM_V1.md`](CONCLUSIONS_DRAFT_ZH_JCIM_V1.md) (Chinese authoritative for this rewrite cycle).  
-> Two paragraphs only. Claim ceiling: [`CLAIM_CEILING.md`](../data/jcim_bench_v0/CLAIM_CEILING.md).  
-> Forbidden here: *validated*, *robust performance*, *generalizable dual-target strategy*, PDB IDs, RTM/GNINA numbers, a second *experimentally grounded*.
 
 ## 5. Conclusions
 
 We established DualFourClass-Bench as an experimentally grounded evaluation setting for docking-based dual-target recognition, explicitly testing whether docking can distinguish dual-active ligands from A-selective and B-selective hard negatives. Across four frozen target pairs, dual-target discrimination was strongly target-pair dependent (`summary_min` AUROCs ranging from 0.430 to 0.692), and docking provided limited incremental information beyond ligand-level chemical baselines under scaffold-aware evaluation. Primary pair-level estimates were largely insensitive to replacing maximum pChEMBL with the median among repeated measurements. PIK3CA/mTOR exhibited the strongest point estimate and retained a positive directional signal in an unused ligand-pool holdout; however, the uncertainty of the primary estimate and its sensitivity to receptor structure preclude interpreting this result as a generalizable dual-target decision rule.
 
 The broader analyses indicate that the apparent performance of dual-target docking is jointly determined by task formulation, ligand chemical composition, and receptor realization. On EGFR/HER2, a Dual-versus-neither comparator (AUROC 0.756) would have supported docking-based dual recognition, whereas the directional worst arm remained 0.430; that formulation gap is pair-dependent, not a four-pair reversal, and is a descriptive contrast rather than a paired significance test. In several target pairs, ligand-property or chemotype-based references matched or exceeded docking discrimination, while the unused-pool holdout revealed an unresolved wrong-pocket reversal that was not eliminated by potency or size matching, although the corresponding paired confidence intervals included zero. Receptor realization can alter the magnitude and even the direction of apparent discrimination; it is a realization effect, not a robustness certificate. Collectively, these findings argue against interpreting a favorable score in two pockets as sufficient evidence of dual-target activity. Instead, dual-target virtual screening should incorporate experimentally defined single-target hard negatives, ligand-level confounder controls, out-of-panel ligand evaluation, and receptor-sensitivity analysis. The principal contribution of DualFourClass-Bench is therefore not a universal docking winner, but a systematic protocol for defining the evidentiary and reliability boundaries of docking-based dual-target recognition.
-<!-- END CONCLUSIONS_SECTION_JCIM_EN_V1.md -->
 
----
+## Data and Software Availability
 
+Benchmark membership, experimental-state labels, receptor and docking-box definitions, per-ligand docking scores, analysis tables, and all scripts used to regenerate the reported statistics and figures are available in the `Dual_Target_Docking` directory of the public repository at https://github.com/1280602962-debug/gwj260531. `data/jcim_novelty_v0/tables/MASTER_RESULTS_TABLE.csv` indexes the principal numerical results and their source tables. The analysis environment and zero-docking reproduction commands are documented in the repository README. A versioned Zenodo archive, including the submission data package and its DOI, will be deposited before journal submission; the DOI is therefore not claimed in this draft.
+
+## References
+
+(1) Anighoro, A.; Bajorath, J.; Rastelli, G. Polypharmacology: Challenges and Opportunities in Drug Discovery. *J. Med. Chem.* **2014**, *57*, 7874–7887. DOI: 10.1021/jm5006463.
+
+(2) Proschak, E.; Stark, H.; Merk, D. Polypharmacology by Design: A Medicinal Chemist’s Perspective on Multitargeting Compounds. *J. Med. Chem.* **2019**, *62*, 420–444. DOI: 10.1021/acs.jmedchem.8b00760.
+
+(3) Kitchen, D. B.; Decornez, H.; Furr, J. R.; Bajorath, J. Docking and Scoring in Virtual Screening for Drug Discovery: Methods and Applications. *Nat. Rev. Drug Discov.* **2004**, *3*, 935–949. DOI: 10.1038/nrd1549.
+
+(4) Eberhardt, J.; Santos-Martins, D.; Tillack, A. F.; Forli, S. AutoDock Vina 1.2.0: New Docking Methods, Expanded Force Field, and Python Bindings. *J. Chem. Inf. Model.* **2021**, *61*, 3891–3898. DOI: 10.1021/acs.jcim.1c00203.
+
+(5) Huang, N.; Shoichet, B. K.; Irwin, J. J. Benchmarking Sets for Molecular Docking. *J. Med. Chem.* **2006**, *49*, 6789–6801. DOI: 10.1021/jm0608356.
+
+(6) Mysinger, M. M.; Carchia, M.; Irwin, J. J.; Shoichet, B. K. Directory of Useful Decoys, Enhanced (DUD-E): Better Ligands and Decoys for Better Benchmarking. *J. Med. Chem.* **2012**, *55*, 6582–6594. DOI: 10.1021/jm300687e.
+
+(7) Tran-Nguyen, V.-K.; Jacquemard, C.; Rognan, D. LIT-PCBA: An Unbiased Data Set for Machine Learning and Virtual Screening. *J. Chem. Inf. Model.* **2020**, *60*, 4263–4273. DOI: 10.1021/acs.jcim.0c00155.
+
+(8) Su, M.; Yang, Q.; Du, Y.; Feng, G.; Liu, Z.; Li, Y.; Wang, R. Comparative Assessment of Scoring Functions: The CASF-2016 Update. *J. Chem. Inf. Model.* **2019**, *59*, 895–913. DOI: 10.1021/acs.jcim.8b00545.
+
+(9) Zhou, S.; Li, Y.; Hou, T. Feasibility of Using Molecular Docking-Based Virtual Screening for Searching Dual Target Kinase Inhibitors. *J. Chem. Inf. Model.* **2013**, *53*, 982–996. DOI: 10.1021/ci400065e.
+
+(10) Zhou, X.; Guan, J.; Zhang, Y.; Peng, X.; Wang, L.; Ma, J. Reprogramming Pretrained Target-Specific Diffusion Models for Dual-Target Drug Design. In *The Thirty-eighth Annual Conference on Neural Information Processing Systems (NeurIPS 2024)*; 2024. arXiv:2410.20688.
+
+(11) Wu, J.; Qiao, A.; Wang, Z.; Wei, Z.; Chen, S. FuseDiff: Symmetry-Preserving Joint Diffusion for Dual-Target Structure-Based Drug Design. arXiv:2603.05567, 2026. (preprint)
+
+(12) Tran-Nguyen, V.-K.; Ballester, P. J. Beware of Simple Methods for Structure-Based Virtual Screening: The Critical Importance of Broader Comparisons. *J. Chem. Inf. Model.* **2023**, *63*, 1401–1405. DOI: 10.1021/acs.jcim.3c00218.
+
+(13) Ahmed, F.; Soellner, M. B.; Brooks, C. L., III. Real-World Assessment of Machine-Learned Docking Using Bioassay-Derived Benchmarks. *J. Chem. Inf. Model.* **2026**, *66*, 8752–8759. DOI: 10.1021/acs.jcim.5c03020.
+
+(14) Schaller, D. A.; Christ, C. D.; Chodera, J. D.; Volkamer, A. Benchmarking Cross-Docking Strategies in Kinase Drug Discovery. *J. Chem. Inf. Model.* **2024**, *64*, 8848–8858. DOI: 10.1021/acs.jcim.4c00905.
+
+(15) Sindt, F.; Bret, G.; Rognan, D. On the Difficulty to Rescore Hits from Ultralarge Docking Screens. *J. Chem. Inf. Model.* **2025**, *65*, 5553–5566. DOI: 10.1021/acs.jcim.5c00730.

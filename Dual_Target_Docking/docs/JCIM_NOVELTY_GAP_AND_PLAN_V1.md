@@ -113,7 +113,7 @@ At modest cuts:
 
 Scaffold `GroupKFold` logistic AUROC (not the rank-AUROC in Table 2):
 
-On every directional arm, **ECFP4 + docking ≈ ECFP4** (Δ typically |Δ| ≤ 0.01; sometimes docking slightly lowers CV AUROC). Physchem + docking does not recover ECFP. Logistic docking AUROC is often below rank docking AUROC (EGFR Dual vs A-only: logistic 0.591 vs rank 0.666) — report both, do not swap them.
+On every directional arm, **ECFP4 + docking ≈ ECFP4** (max |Δ| = 0.0198; several arms decrease). Physchem + docking does not recover ECFP. Logistic docking AUROC is often below rank docking AUROC (EGFR Dual vs A-only: logistic 0.591 vs rank 0.666) — report both, do not swap them.
 
 **Allowed:** docking adds little incremental discrimination beyond 2D chemical structure under scaffold-aware CV.  
 **Forbidden:** “docking is redundant with chemistry on every possible dual-target pair.”
@@ -169,7 +169,10 @@ Not required for a benchmark/evaluation article. Would change the paper class. O
 
 ## 10. How to change the paper without over-claiming
 
-**Title (optional, not applied in this commit):**  
+**Preferred title:**
+*Benchmark Formulation and Chemical Confounding in Docking-Based Dual-Target Recognition*
+
+**Hard-negative-task alternate:**
 *Benchmarking Docking-Based Dual-Target Recognition with Directional Selectivity Hard Negatives*
 
 **Central questions (nested):**

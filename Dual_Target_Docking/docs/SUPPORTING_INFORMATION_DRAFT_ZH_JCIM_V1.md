@@ -32,7 +32,7 @@
 | Table S23 | `data/jcim_novelty_v0/tables/chemotype_matched_hardneg_v1.csv` |
 | Table S24 | `data/jcim_novelty_v0/tables/incremental_information_v1.csv` |
 | Table S25 | `data/jcim_novelty_v0/tables/mixed_library_enrichment_v1.csv` |
-| Table S26 | `data/jcim_novelty_v0/tables/aggregation_min_mean_harmonic_v1.csv` |
+| Table S26 | `data/jcim_novelty_v0/tables/aggregation_min_mean_geometric_harmonic_v1.csv` |
 | Table S27 | `data/jcim_novelty_v0/tables/docking_failure_census_v1.csv` |
 | Table S28 | `data/jcim_novelty_v0/tables/descriptor_all_four_directional_v1.csv` |
 | Table S29 | `data/jcim_novelty_v0/tables/assay_max_vs_median_agreement_v1.csv` + `assay_max_vs_median_{summary,auroc,flips}_v1.csv` |
@@ -497,16 +497,78 @@ best9 − mode01 为 −0.04 至 +0.08，**不是**相对 Vina。
 
 ---
 
-## Table S26. summary_min vs arithmetic mean vs harmonic mean
+## Table S22. Benchmark-formulation comparison on the same frozen Vina scores
 
-来源：`aggregation_min_mean_harmonic_v1.csv`。主终点仍为 min。四对排序在三种聚合下完全相同（PM > AChE > PIK3CB > EGFR）。EGFR Dual-versus-neither（0.756）相对 min / mean / harmonic 的差分别为 +0.326 / +0.208 / +0.234，方向不变。该对照不是配对显著性检验。
+来源：`formulation_conventional_vs_directional_v1.csv`。方向性两臂使用口袋匹配分数；Dual-versus-neither 与 Dual versus all non-duals 使用 pooled `vina_mean`。这些任务的负样本集合不同，均为描述性对照，不是配对显著性检验。`vina_worst` 是较差口袋分数的 AND-like 辅助读出。单靶式类比行保留在源 CSV 中。
 
-| 靶对 | D/A | D/B | min | mean | harmonic | Dual vs neither | rank (min=mean=harm) |
-|------|----:|----:|----:|-----:|---------:|----------------:|---------------------:|
-| EGFR/HER2 | 0.6664 | 0.4297 | 0.4297 | 0.5481 | 0.5225 | 0.756 | 4 |
-| AChE/BChE | 0.6504 | 0.6058 | 0.6058 | 0.6281 | 0.6273 | 0.6494 | 2 |
-| PIK3CA/PIK3CB | 0.6905 | 0.5000 | 0.5000 | 0.5953 | 0.5800 | 0.5592 | 3 |
-| PIK3CA/mTOR | 0.7143 | 0.6921 | 0.6921 | 0.7032 | 0.7030 | 0.5139* | 1 |
+| 靶对 | D/A (pocket B) | D/B (pocket A) | directional min | D vs neither mean | D vs neither worst | D vs all non-duals | n neither |
+|------|---------------:|---------------:|----------------:|------------------:|-------------------:|-------------------:|----------:|
+| EGFR/HER2 | 0.6664 | 0.4297 | 0.4297 | 0.7560 | 0.7440 | 0.5514 | 12 |
+| AChE/BChE | 0.6504 | 0.6058 | 0.6058 | 0.6494 | 0.6765 | 0.5792 | 15 |
+| PIK3CA/PIK3CB | 0.6905 | 0.5000 | 0.5000 | 0.5592 | 0.6384 | 0.5558 | 16 |
+| PIK3CA/mTOR | 0.7143 | 0.6921 | 0.6921 | 0.5139* | 0.4028* | 0.6741 | 4 |
+
+\* neither n = 4，underpowered；不解释为反向效应。
+
+---
+
+## Table S23. Chemotype-constrained selectivity hard negatives
+
+来源：`chemotype_matched_hardneg_v1.csv`。表中 constrained 使用每个硬负相对任一 dual 的最大 ECFP4 Tanimoto ≥ 0.3；distant 为 < 0.3。T ≥ 0.3 只是 similarity-constrained subset，不是 chemically matched analogue set。T ≥ 0.4/0.5 的完整结果见源 CSV，许多格子 n_neg ≤ 7；T ≥ 0.7 的匹配集合为空。
+
+| 靶对 | 对比 | all AUROC (n_neg) | T ≥ 0.3 AUROC (n_neg) | T < 0.3 AUROC (n_neg) |
+|------|------|------------------:|-----------------------:|-----------------------:|
+| EGFR/HER2 | D vs A | 0.6664 (38) | 0.6548 (27) | 0.6948 (11) |
+| EGFR/HER2 | D vs B | 0.4297 (32) | 0.4257 (25) | 0.4439 (7) |
+| AChE/BChE | D vs A | 0.6504 (25) | 0.5714 (7) | 0.6811 (18) |
+| AChE/BChE | D vs B | 0.6058 (28) | 0.5320 (11) | 0.6536 (17) |
+| PIK3CA/PIK3CB | D vs A | 0.6905 (27) | 0.5032 (11) | 0.8192 (16) |
+| PIK3CA/PIK3CB | D vs B | 0.5000 (28) | 0.5114 (22) | 0.4583 (6) |
+| PIK3CA/mTOR | D vs A | 0.7143 (14) | 0.4815 (3) | 0.7778 (11) |
+| PIK3CA/mTOR | D vs B | 0.6921 (12) | 0.6667 (6) | 0.7176 (6) |
+
+---
+
+## Table S24. Incremental information from docking beyond ECFP4
+
+来源：`incremental_information_v1.csv`。模型均使用相同 Bemis–Murcko scaffold GroupKFold。Δ = AUROC(ECFP4+docking) − AUROC(ECFP4)。该 logistic docking AUROC 与 Table 2 的 rank AUROC 不是同一估计量。最大绝对变化为 0.0198，若干方向为负。
+
+| 靶对 | 对比 | ECFP4 | ECFP4+docking | Δ | Table 2 rank docking |
+|------|------|------:|--------------:|---:|---------------------:|
+| EGFR/HER2 | D vs A | 0.7453 | 0.7509 | +0.0056 | 0.6664 |
+| EGFR/HER2 | D vs B | 0.8895 | 0.8873 | −0.0022 | 0.4297 |
+| AChE/BChE | D vs A | 0.8948 | 0.8933 | −0.0015 | 0.6504 |
+| AChE/BChE | D vs B | 0.8214 | 0.8082 | −0.0132 | 0.6058 |
+| PIK3CA/PIK3CB | D vs A | 0.7817 | 0.7857 | +0.0040 | 0.6905 |
+| PIK3CA/PIK3CB | D vs B | 0.7691 | 0.7717 | +0.0026 | 0.5000 |
+| PIK3CA/mTOR | D vs A | 0.7619 | 0.7421 | −0.0198 | 0.7143 |
+| PIK3CA/mTOR | D vs B | 0.8889 | 0.8981 | +0.0092 | 0.6921 |
+
+---
+
+## Table S25. Mixed-library Top-10 composition under pooled `vina_mean`
+
+来源：`mixed_library_enrichment_v1.csv`。这是探索性排序读出，不是 Table 2 的方向主终点。EF5、EF10、`vina_worst` 与单口袋排序见源 CSV。
+
+| 靶对 | library n (dual n) | Top-10 dual | A_only | B_only | neither | EF Top-10 | hard-negative fraction |
+|------|-------------------:|------------:|-------:|-------:|--------:|----------:|-----------------------:|
+| EGFR/HER2 | 110 (28) | 1 | 5 | 4 | 0 | 0.393 | 0.900 |
+| AChE/BChE | 95 (27) | 5 | 3 | 1 | 1 | 1.759 | 0.400 |
+| PIK3CA/PIK3CB | 99 (28) | 3 | 4 | 2 | 1 | 1.061 | 0.600 |
+| PIK3CA/mTOR | 48 (18) | 6 | 2 | 1 | 1 | 1.600 | 0.300 |
+
+---
+
+## Table S26. summary_min vs arithmetic, geometric, and harmonic means
+
+来源：`aggregation_min_mean_geometric_harmonic_v1.csv`。主终点仍为 min。四对排序在四种聚合下完全相同（PM > AChE > PIK3CB > EGFR）。EGFR Dual-versus-neither（0.756）相对 min / arithmetic / geometric / harmonic 的差分别为 +0.326 / +0.208 / +0.221 / +0.234，方向不变。该对照不是配对显著性检验。
+
+| 靶对 | D/A | D/B | min | arithmetic | geometric | harmonic | Dual vs neither | rank (all four) |
+|------|----:|----:|----:|-----------:|----------:|---------:|----------------:|----------------:|
+| EGFR/HER2 | 0.6664 | 0.4297 | 0.4297 | 0.5481 | 0.5351 | 0.5225 | 0.756 | 4 |
+| AChE/BChE | 0.6504 | 0.6058 | 0.6058 | 0.6281 | 0.6277 | 0.6273 | 0.6494 | 2 |
+| PIK3CA/PIK3CB | 0.6905 | 0.5000 | 0.5000 | 0.5953 | 0.5876 | 0.5800 | 0.5592 | 3 |
+| PIK3CA/mTOR | 0.7143 | 0.6921 | 0.6921 | 0.7032 | 0.7031 | 0.7030 | 0.5139* | 1 |
 
 \* neither n = 4，underpowered。
 
@@ -585,5 +647,5 @@ PIK3CA/PIK3CB 弱臂：原始 D/B = 0.500；4JPS 后弱臂切到冻结 D/A = 0.6
 - Table S12 是计数核对（BindingDB REST + PubChem PUG REST），不是对接结果；不得把 `as_is` 的 EGFR ≥50 写成已建成 BindingDB 厚面板。
 - Table S13 是 holdout 效价/尺寸匹配诊断，不替换 Table S8；不得写成错口袋悖论已解决。
 - Table S16–S21 是冻结分数上的补表（零新对接）。S17 的 holdout Δ CI 均含 0；S19 四对描述符 Δ CI 均含 0；S21 是 vina_mean Top-10，不是 Table 2。
-- Table S22–S30 来自 `data/jcim_novelty_v0/` 与 `data/jcim_structure_robust_v0/`：S22 formulation comparison（主文 Figure 3）；S23 chemotype-constrained hard-negatives（T ≥ 0.7 为空；T ≥ 0.3 不是 analogue matching）；S24 incremental ECFP/docking；S25 mixed-library EF；S26 min/mean/harmonic 聚合敏感性（四对排序不变）；S27 docking N_attempted/success/fail；S28 四个描述符全报；S29 max vs median（报一致率+翻转+主终点位移）；S30 两对 PIK3CA receptor-realization（方向相反；PAB_034 100/99/1）。Figure S4 = 口袋匹配森林图；Figure S5 = unused-pool holdout。不得把 Dual-vs-neither 写成 “conventional benchmark”；不得把 EGFR 0.756 vs 0.430 写成配对显著性；不得把 PIK3CA/mTOR Dual-vs-neither（n = 4）写成反转；不得把受体替换写成单向 collapse 或 robustness。
+- Table S22–S30 来自 `data/jcim_novelty_v0/` 与 `data/jcim_structure_robust_v0/`：S22 formulation comparison（主文 Figure 3）；S23 chemotype-constrained hard-negatives（T ≥ 0.7 为空；T ≥ 0.3 不是 analogue matching）；S24 incremental ECFP/docking；S25 mixed-library EF；S26 min/arithmetic/geometric/harmonic 聚合敏感性（四对排序不变）；S27 docking N_attempted/success/fail；S28 四个描述符全报；S29 max vs median（报一致率+翻转+主终点位移）；S30 两对 PIK3CA receptor-realization（方向相反；PAB_034 100/99/1）。Figure S4 = 口袋匹配森林图；Figure S5 = unused-pool holdout。不得把 Dual-vs-neither 写成 “conventional benchmark”；不得把 EGFR 0.756 vs 0.430 写成配对显著性；不得把 PIK3CA/mTOR Dual-vs-neither（n = 4）写成反转；不得把受体替换写成单向 collapse 或 robustness。
 - Figure S3 不得复用 Figure 6 的 AUROC 柱；它只画配对 Δ ± CI。

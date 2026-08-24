@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Claim-hardening analyses on frozen DualFourClass scores. No new docking.
 
-1. summary_min vs arithmetic mean vs harmonic mean of the two directional AUROCs.
+1. summary_min vs arithmetic, geometric, and harmonic means of the two
+   directional AUROCs.
 2. All four prespecified descriptor directional AUROCs (not best-of-4 only).
 3. Docking attempted / successful / failed census on main panels and holdout.
 
@@ -80,7 +81,7 @@ def write_csv(path: Path, rows: list[dict]):
     if not rows:
         return
     with path.open("w", newline="") as fh:
-        w = csv.DictWriter(fh, fieldnames=list(rows[0].keys()))
+        w = csv.DictWriter(fh, fieldnames=list(rows[0].keys()), lineterminator="\n")
         w.writeheader()
         w.writerows(rows)
 
@@ -89,6 +90,12 @@ def harmonic_mean(a: float, b: float) -> float:
     if a <= 0 or b <= 0:
         return 0.0
     return 2.0 / (1.0 / a + 1.0 / b)
+
+
+def geometric_mean(a: float, b: float) -> float:
+    if a < 0 or b < 0:
+        raise ValueError("AUROCs must be non-negative")
+    return float(np.sqrt(a * b))
 
 
 def aggregation_sensitivity() -> list[dict]:
@@ -100,7 +107,7 @@ def aggregation_sensitivity() -> list[dict]:
         if r["formulation"] == "conventional_dual_vs_neither" and r["contrast"] == "D_vs_neither_mean":
             nei[r["pair"]] = r
     out = []
-    rank_store = {"min": [], "mean": [], "harmonic_mean": []}
+    rank_store = {"min": [], "mean": [], "geometric_mean": [], "harmonic_mean": []}
     for pair in ORDER:
         r = by[pair]
         a = float(r["auroc_D_vs_A"])
@@ -108,6 +115,7 @@ def aggregation_sensitivity() -> list[dict]:
         vals = {
             "min": min(a, b),
             "mean": (a + b) / 2.0,
+            "geometric_mean": geometric_mean(a, b),
             "harmonic_mean": harmonic_mean(a, b),
         }
         n = nei.get(pair, {})
@@ -121,14 +129,16 @@ def aggregation_sensitivity() -> list[dict]:
             "auroc_D_vs_B": round(b, 4),
             "summary_min": round(vals["min"], 4),
             "summary_mean": round(vals["mean"], 4),
+            "summary_geometric": round(vals["geometric_mean"], 4),
             "summary_harmonic": round(vals["harmonic_mean"], 4),
             "dual_vs_neither_vina_mean": round(dual_neither, 4) if dual_neither is not None else "",
             "n_neither": n.get("n_neg", ""),
             "neither_underpowered": n.get("underpowered", ""),
             "gap_neither_minus_min": round(dual_neither - vals["min"], 4) if dual_neither is not None else "",
             "gap_neither_minus_mean": round(dual_neither - vals["mean"], 4) if dual_neither is not None else "",
+            "gap_neither_minus_geometric": round(dual_neither - vals["geometric_mean"], 4) if dual_neither is not None else "",
             "gap_neither_minus_harmonic": round(dual_neither - vals["harmonic_mean"], 4) if dual_neither is not None else "",
-            "note": "primary remains summary_min; mean/harmonic are sensitivity only; Dual-vs-neither uses a different negative set and is not a paired Δ",
+            "note": "primary remains summary_min; arithmetic/geometric/harmonic means are sensitivity only; Dual-vs-neither uses a different negative set and is not a paired Δ",
         }
         out.append(rec)
         for k, v in vals.items():
@@ -137,9 +147,10 @@ def aggregation_sensitivity() -> list[dict]:
     for rec in out:
         rec["rank_min"] = ranks["min"][rec["pair"]]
         rec["rank_mean"] = ranks["mean"][rec["pair"]]
+        rec["rank_geometric"] = ranks["geometric_mean"][rec["pair"]]
         rec["rank_harmonic"] = ranks["harmonic_mean"][rec["pair"]]
         rec["ranking_unchanged"] = int(
-            rec["rank_min"] == rec["rank_mean"] == rec["rank_harmonic"]
+            rec["rank_min"] == rec["rank_mean"] == rec["rank_geometric"] == rec["rank_harmonic"]
         )
     return out
 
@@ -269,7 +280,12 @@ def docking_census() -> list[dict]:
                 "fail_rate_pocket_A": round(fail_a / n_attempted, 4) if n_attempted else "",
                 "fail_rate_pocket_B": round(fail_b / n_attempted, 4) if n_attempted else "",
                 "failed_ligands": ";".join(fail_ligands),
-                "note": "HOAP_028 is a boron AutoDock atom-type B coverage failure on both ends, excluded from AUROC (59/60)",
+                "note": (
+                    "HOAP_028 is a boron AutoDock atom-type B coverage failure on both ends, "
+                    "excluded from AUROC (59/60)"
+                    if h["pair"] == "PIK3CA/PIK3CB"
+                    else "All attempted holdout ligands yielded both-end scores"
+                ),
             }
         )
     return out
@@ -277,7 +293,7 @@ def docking_census() -> list[dict]:
 
 def main():
     agg = aggregation_sensitivity()
-    write_csv(TAB / "aggregation_min_mean_harmonic_v1.csv", agg)
+    write_csv(TAB / "aggregation_min_mean_geometric_harmonic_v1.csv", agg)
     desc = descriptor_all_four()
     write_csv(TAB / "descriptor_all_four_directional_v1.csv", desc)
     census = docking_census()
@@ -286,7 +302,8 @@ def main():
     for r in agg:
         print(
             f"  {r['pair']}: min={r['summary_min']} mean={r['summary_mean']} "
-            f"harm={r['summary_harmonic']} ranks={r['rank_min']}/{r['rank_mean']}/{r['rank_harmonic']}"
+            f"geom={r['summary_geometric']} harm={r['summary_harmonic']} "
+            f"ranks={r['rank_min']}/{r['rank_mean']}/{r['rank_geometric']}/{r['rank_harmonic']}"
         )
     print("descriptor best-single:")
     for r in desc:

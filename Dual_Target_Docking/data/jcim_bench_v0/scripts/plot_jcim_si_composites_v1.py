@@ -396,7 +396,7 @@ def fig_s3_confounds(D: dict, P: dict) -> None:
     ax.text(0.98, 0.04, "chemotype–label association", transform=ax.transAxes, ha="right", va="bottom", fontsize=6.0, color="#666666")
     P["s3A"] = {"da_dock": da_d, "da_ml": da_m, "db_dock": db_d, "db_ml": db_m}
 
-    # B: all trivial descriptors vs pocket-matched Vina
+    # B: all prespecified physicochemical descriptors vs pocket-matched Vina
     ax = axes[0, 1]
     panel_label(ax, "B", x=-0.18, y=1.04)
     desc_arms = [("heavy", C["thick"], "s"), ("mw", "#56B4E9", "D"), ("clogp", C["desc"], "^"), ("tpsa", C["a_only"], "v")]
@@ -421,7 +421,7 @@ def fig_s3_confounds(D: dict, P: dict) -> None:
     ax.set_xlabel("summary_min")
     ax.set_xlim(0.05, 0.95)
     ax.set_ylim(-3 * y_gap - 0.45, 0.55)
-    ax.set_title("Vina vs all trivial descriptors", fontsize=FS_AXIS, pad=3)
+    ax.set_title("Vina vs prespecified descriptors", fontsize=FS_AXIS, pad=3)
     ax.legend(
         handles=[
             Line2D([0], [0], marker="o", color=C["vina"], ls="none", ms=6, label="Vina"),

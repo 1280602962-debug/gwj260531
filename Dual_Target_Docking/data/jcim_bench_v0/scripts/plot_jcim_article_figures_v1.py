@@ -74,7 +74,8 @@ def load() -> dict:
     hold_pm = {r["pair"]: r for r in hold if r["variant"] == "pocket_matched_vina"}
     hold_wp = {r["pair"]: r for r in hold if r["variant"] == "wrong_pocket_control_vina"}
 
-    # Best trivial baseline = highest summary_min among heavy/mw/clogp/tpsa (same as Results 3.3/3.4)
+    # Best single-descriptor reference = highest summary_min among the four
+    # prespecified properties (descriptive, not a confirmatory competitor).
     best_desc = {}
     for pair in PAIR_ORDER:
         cands = []
@@ -400,7 +401,7 @@ def fig3_forest(D: dict) -> None:
         Line2D([0], [0], marker="o", color=C["vina"], ls="none", ms=7, label="Vina (primary)"),
         Line2D([0], [0], marker="^", color=C["rtm"], ls="none", ms=6, label="RTMScore"),
         Line2D([0], [0], marker="D", color=C["gnina"], ls="none", ms=5.5, label="GNINA best-of-9"),
-        Line2D([0], [0], marker="s", color=C["desc"], ls="none", ms=6, label="Best trivial descriptor"),
+        Line2D([0], [0], marker="s", color=C["desc"], ls="none", ms=6, label="Best descriptor reference"),
     ]
     ax.legend(
         handles=handles,
@@ -472,14 +473,16 @@ def fig3_formulation(D: dict) -> None:
     ax.set_xticklabels(["EGFR/HER2", "AChE/BChE", "PIK3CA/PIK3CB", "PIK3CA/mTOR"], fontsize=7)
     ax.set_ylabel("AUROC")
     ax.set_ylim(0.12, 1.05)
-    ax.legend(loc="upper right", fontsize=6.5, frameon=False)
-    ax.text(
-        3.0, 0.16, "neither n=4\nunderpowered",
+    ax.legend(loc="upper center", bbox_to_anchor=(0.64, 1.02), ncol=2, fontsize=6.5, frameon=False)
+    ax.annotate(
+        "neither n=4\nunderpowered",
+        xy=(3.0 + width / 2, nei_y[3]), xytext=(3.08, 0.89),
         ha="center", va="bottom", fontsize=6.5, color=C["a_only"],
+        arrowprops=dict(arrowstyle="-|>", color=C["a_only"], lw=0.8),
     )
     ax.annotate(
         "formulation gap",
-        xy=(0.0, 0.76), xytext=(-0.55, 0.92),
+        xy=(width / 2, 0.76), xytext=(-0.55, 0.92),
         fontsize=6.5, color=C["ink"],
         arrowprops=dict(arrowstyle="-|>", color=C["ink"], lw=0.8),
     )
@@ -971,7 +974,7 @@ Same frozen AutoDock Vina scores under two task formulations (unified θ = 6.0).
 
 ## Figure 4. Weak-arm asymmetry and physicochemical confounding.
 
-(A) Directional Vina AUROCs at θ = 6.0: dual versus A_only (pocket B) and dual versus B_only (pocket A). (B) Vina pocket-matched summary_min versus the strongest trivial descriptor, with 95% CIs. (C) TPSA on the AChE/BChE panel by class (individual ligands from `assembled_AChE_BChE.csv`; horizontal line, median). Dual ligands are more polar than either hard-negative class, matching the TPSA baseline that exceeds Vina on this pair.
+(A) Directional Vina AUROCs at θ = 6.0: dual versus A_only (pocket B) and dual versus B_only (pocket A). (B) Vina pocket-matched summary_min versus the best single-descriptor reference, with 95% CIs. (C) TPSA on the AChE/BChE panel by class (individual ligands from `assembled_AChE_BChE.csv`; horizontal line, median). Dual ligands are more polar than either hard-negative class, matching the TPSA reference that exceeds Vina on this pair.
 
 ## Figure 5. Receptor realization can raise or lower apparent dual-target discrimination.
 
@@ -983,7 +986,7 @@ Same frozen AutoDock Vina scores under two task formulations (unified θ = 6.0).
 
 ## Figure 7. Ligand-structure association and matched-subset tests.
 
-(A) ECFP4 logistic regression under scaffold GroupKFold versus pocket-matched Vina on both directional arms (`ligand_ml_baseline_scaffold_cv_v1.csv`). Fingerprint AUROCs are chemotype–label association, not evidence of pocket physics. (B) Pocket-matched Vina versus all four trivial descriptors (heavy-atom count, MW, cLogP, TPSA) with 95% CIs. Descriptor CIs are from `forest_summary_min_ci_v1.csv`; Vina from θ = 6.0. Figure 4 reports only the strongest descriptor per pair; this panel shows all four. (C) Weak-arm (D vs B_only) logistic AUROC of Vina alone versus Vina plus heavy-atom count and TPSA, with the Vina odds ratio (`covariate_adjusted_v1.csv`). EGFR/HER2 score-only in that table is 0.5703 (the table’s logistic AUROC of feature `vina_A`), which is not the rank AUROC 0.4297 in Table 2. (D) D vs B_only after potency matching (|Δp| ≤ 0.5) or size matching (|Δheavy| ≤ 2) versus the unmatched full-panel contrast (`matched_subset_directional_v1.csv`). Error bars are the table’s single-contrast 95% CIs.
+(A) ECFP4 logistic regression under scaffold GroupKFold versus pocket-matched Vina on both directional arms (`ligand_ml_baseline_scaffold_cv_v1.csv`). Fingerprint AUROCs are chemotype–label association, not evidence of pocket physics. (B) Pocket-matched Vina versus all four prespecified physicochemical descriptors (heavy-atom count, MW, cLogP, TPSA) with 95% CIs. Descriptor CIs are from `forest_summary_min_ci_v1.csv`; Vina from θ = 6.0. Figure 4 reports only the best single-descriptor reference per pair; this panel shows all four. (C) Weak-arm (D vs B_only) logistic AUROC of Vina alone versus Vina plus heavy-atom count and TPSA, with the Vina odds ratio (`covariate_adjusted_v1.csv`). EGFR/HER2 score-only in that table is 0.5703 (the table’s logistic AUROC of feature `vina_A`), which is not the rank AUROC 0.4297 in Table 2. (D) D vs B_only after potency matching (|Δp| ≤ 0.5) or size matching (|Δheavy| ≤ 2) versus the unmatched full-panel contrast (`matched_subset_directional_v1.csv`). Error bars are the table’s single-contrast 95% CIs.
 
 ## Figure S1. Protocol knobs that do not change the ranking.
 
@@ -995,11 +998,11 @@ Same frozen AutoDock Vina scores under two task formulations (unified θ = 6.0).
 
 ## Figure S3. Paired bootstrap differences that Figure 6 does not show.
 
-All values are from `wrong_pocket_paired_delta_bootstrap_v1.csv` and `pocket_matched_vs_best_descriptor_delta_v1.csv` (B = 2000 ligand resamples, seed 20260729). Point Δ equals the rounded Table 2 / Figure 6 AUROCs subtracted at four decimals, not a separately rounded difference. Blue, 95% CI excludes 0; gray, CI includes 0. (A) Main K=4 panels: Δ = pocket-matched − wrong-pocket summary_min. Point Δ is positive on all four pairs (EGFR/HER2 0.1697, AChE/BChE 0.1614, PIK3CA/PIK3CB 0.1511, PIK3CA/mTOR 0.0902). Only EGFR/HER2 and AChE/BChE have CIs that exclude 0; PIK3CA/PIK3CB and PIK3CA/mTOR CIs include 0. (B) Unused-pool holdout: point Δ is negative on all three eligible pairs (wrong-pocket ≥ matched), and every CI includes 0. EGFR/HER2 has no holdout. This panel is the interval on the Figure 6B reversal, not a new docking experiment. (C) Pocket-matched Vina minus the strongest trivial descriptor (EGFR/HER2 cLogP 0.4821; AChE/BChE TPSA 0.7333; PIK3CA/PIK3CB and PIK3CA/mTOR heavy-atom count). All four CIs include 0, including PIK3CA/mTOR +0.2291 [−0.0105, 0.4352]. This is not the pooled `vina_mean` gate (EGFR/HER2 0.2824). (D) ECFP4 logistic AUROC under scaffold GroupKFold versus random StratifiedKFold (`ligand_ml_scaffold_vs_random_v1.csv`). Mean (random − scaffold) across eight directional contrasts is 0.0112. Scaffold split remains the primary ML readout; this is a leakage check, not a search for a leakier split.
+All values are from `wrong_pocket_paired_delta_bootstrap_v1.csv` and `pocket_matched_vs_best_descriptor_delta_v1.csv` (B = 2000 ligand resamples, seed 20260729). Point Δ equals the rounded Table 2 / Figure 6 AUROCs subtracted at four decimals, not a separately rounded difference. Blue, 95% CI excludes 0; gray, CI includes 0. (A) Main K=4 panels: Δ = pocket-matched − wrong-pocket summary_min. Point Δ is positive on all four pairs (EGFR/HER2 0.1697, AChE/BChE 0.1614, PIK3CA/PIK3CB 0.1511, PIK3CA/mTOR 0.0902). Only EGFR/HER2 and AChE/BChE have CIs that exclude 0; PIK3CA/PIK3CB and PIK3CA/mTOR CIs include 0. (B) Unused-pool holdout: point Δ is negative on all three eligible pairs (wrong-pocket ≥ matched), and every CI includes 0. EGFR/HER2 has no holdout. This panel is the interval on the Figure 6B reversal, not a new docking experiment. (C) Pocket-matched Vina minus the best single-descriptor reference (EGFR/HER2 cLogP 0.4821; AChE/BChE TPSA 0.7333; PIK3CA/PIK3CB and PIK3CA/mTOR heavy-atom count). All four CIs include 0, including PIK3CA/mTOR +0.2291 [−0.0105, 0.4352]. This is not the pooled `vina_mean` gate (EGFR/HER2 0.2824). (D) ECFP4 logistic AUROC under scaffold GroupKFold versus random StratifiedKFold (`ligand_ml_scaffold_vs_random_v1.csv`). Mean (random − scaffold) across eight directional contrasts is 0.0112. Scaffold split remains the primary ML readout; this is a leakage check, not a search for a leakier split.
 
 ## Figure S4. Pocket-matched summary_min on the frozen K=4 set (former main Figure 3).
 
-Vina (primary), RTMScore, GNINA CNN best-of-9, and the strongest trivial descriptor (heavy-atom count, MW, cLogP, or TPSA) with 95% ligand-bootstrap CIs. Vina CIs are the θ = 6.0 values in `unified_threshold_sensitivity_v2.csv` (Table 2). Best descriptor (right column, from `forest_summary_min_ci_v1.csv`): EGFR/HER2 cLogP; AChE/BChE TPSA; PIK3CA/PIK3CB and PIK3CA/mTOR heavy-atom count. Vertical dashed line, chance (0.5). GNINA is a single CNN channel, not a three-engine competition. The main-text formulation comparison is Figure 3.
+Vina (primary), RTMScore, GNINA CNN best-of-9, and the best single-descriptor reference (heavy-atom count, MW, cLogP, or TPSA) with 95% ligand-bootstrap CIs. Vina CIs are the θ = 6.0 values in `unified_threshold_sensitivity_v2.csv` (Table 2). Best descriptor (right column, from `forest_summary_min_ci_v1.csv`): EGFR/HER2 cLogP; AChE/BChE TPSA; PIK3CA/PIK3CB and PIK3CA/mTOR heavy-atom count. Vertical dashed line, chance (0.5). GNINA is a single CNN channel, not a three-engine competition. The main-text formulation comparison is Figure 3.
 
 ## Figure S5. Unused-pool holdout versus the main panel.
 
