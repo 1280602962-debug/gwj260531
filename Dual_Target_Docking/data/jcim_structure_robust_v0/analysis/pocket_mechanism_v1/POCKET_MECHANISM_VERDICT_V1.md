@@ -1,4 +1,6 @@
-# Pocket mechanism verdict v1 — why PIK3CA-end receptor swap collapses summary_min
+# Pocket mechanism verdict v1 — PIK3CA-end receptor swap on PIK3CA/mTOR
+
+> **Update:** the same 4JPS/5DXT crystals **raise** PIK3CA/PIK3CB `summary_min` (Table S30). Cα notes below remain valid for the PM48 drop; they do not explain the opposite PIK3CB shift. Do not title this as a universal collapse.
 
 > Script: `pocket_superposition_v1.py`; raw output: `pocket_superposition_v1_output.txt`.
 > Inputs: already-committed crystal coordinates only (`*_protein.pdb`, `*_crystal.pdb`/cognate ligand files

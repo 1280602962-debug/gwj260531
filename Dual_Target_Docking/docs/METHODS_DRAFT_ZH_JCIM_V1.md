@@ -4,7 +4,7 @@
 > 语气对照：Vu et al., *J. Chem. Inf. Model.* **2025**, 65, 4833–4843（写清做什么、参数与软件；数字进 Results / SI）。  
 > 配套：[`RESULTS_DRAFT_ZH_JCIM_V1.md`](RESULTS_DRAFT_ZH_JCIM_V1.md)、[`INTRODUCTION_DRAFT_ZH_JCIM_V1.md`](INTRODUCTION_DRAFT_ZH_JCIM_V1.md)、英文稿 [`METHODS_SECTION_JCIM_EN_V1.md`](METHODS_SECTION_JCIM_EN_V1.md)。  
 > **Methods 只写协议**；供给计数、cognate RMSD、AUROC、holdout 点估计等一律在 Results / SI。  
-> **不编造** median pChEMBL 表、1000 次互不重叠 panel 重抽，也不重建已冻结面板。  
+> 不编造 1000 次互不重叠 panel 重抽，也不重建已冻结面板。全面板 median 与第二靶对受体替换已完成，见 Table S29–S30。  
 > DualFourClass-Bench 是 **four-state curated benchmark**；primary endpoint 是两条方向 pairwise AUROC，不是四分类器。
 
 ---
@@ -15,7 +15,7 @@
 
 双靶评价所需的配体活性作为 **experimentally derived activity labels**，通过 ChEMBL Web API 的公开 activity 端点获取。靶对供给审计于 2026-07-23 冻结。pChEMBL 将若干摩尔浓度–响应型测定（如 IC50、Ki、Kd、EC50）转换为近似 −log10 活性尺度，便于大规模公开数据整合。不同 assay 类型、实验条件与测定体系并不等价；本文将 pChEMBL 作为策展中的统一近似，而不解释为同一条件下可直接比较的绝对结合亲和力。
 
-同一配体–靶标若有多条可用 pChEMBL 记录，冻结数据包采用**最大 pChEMBL** 作为一对一代表值。该聚合保持覆盖率，但可能引入 activity inflation，其作为数据来源限制在 Discussion 中讨论。冻结文件（`mols_*.json`）仅保存该代表浮点数，不具备在本地重算 assay 中位数、ChEMBL 置信度阈值或物种过滤的条件；本文因此不在冻结包上重建 median / confidence≥8 / *Homo sapiens* 活性表，以免在面板冻结后改写标签定义。任一端缺少有效 pChEMBL 的配体不进入需要双端标签的分析。
+同一配体–靶标若有多条可用 pChEMBL 记录，冻结数据包采用**最大 pChEMBL** 作为一对一代表值，用于主策展。assay 类型、条件与实验体系并不等价；取最大可能抬高单次测定读数，因此在从 ChEMBL activity 端点重拉 assay 级记录后，用重复测定的**中位数**替换最大值作全面板敏感性（Table S29）。冻结 Vina 分数不重算。类别比较使用同一 θ = 6.0 规则。冻结文件（`mols_*.json`）仍只保存该代表浮点数；中位数标签存在 A4 表中，不作为重建的主面板。任一端缺少有效 pChEMBL 的配体不进入需要双端标签的分析。
 
 ChEMBL 结构常含盐、溶剂化物或多组分形式。对接前按连通片段拆分，并保留重原子数最多的有机片段作为计算母体。
 
@@ -212,9 +212,9 @@ Holdout 不参与主面板构建、对接协议调整或 primary endpoint 选择
 
 ### 2.12 Receptor-structure sensitivity analysis
 
-为评价 benchmark 结论对受体结构选择的敏感性，另选满足以下**预先声明**条件的替代晶体：（i）polymer entity 与目标蛋白真实对应，排除嵌合体或非目标同源骨架；（ii）含 ATP 位点或目标结合位点的小分子共晶；（iii）分辨率可接受；（iv）通过与 2.5 相同的 cognate redocking QC。实际进入对接的替代结构为 PIK3CA 4JPS、5DXT 与 mTOR 4JSX。该分析是 **receptor-structure sensitivity analysis**，不是用来证明某一晶体“更正确”，也不是把 PIK3CA/mTOR 预设为结构不变的 positive case。
+为评价 benchmark 结论对受体结构选择的敏感性，另选满足以下**预先声明**条件的替代晶体：（i）polymer entity 与目标蛋白真实对应，排除嵌合体或非目标同源骨架；（ii）含 ATP 位点或目标结合位点的小分子共晶；（iii）分辨率可接受；（iv）通过与 2.5 相同的 cognate redocking QC。实际进入对接的替代结构为 PIK3CA 4JPS、5DXT 与 mTOR 4JSX。该分析是 **receptor-structure sensitivity analysis**（receptor-realization effect），不是稳健性检验，也不是用来证明某一晶体“更正确”，更不是把 PIK3CA/mTOR 预设为结构不变的 positive case。
 
-替换采用**单口袋**设计：每次只替换靶对中的一个受体，另一端保持主 benchmark 的冻结结构与既有分数。4JPS/5DXT 替换口袋 A（PIK3CA），口袋 B 仍用冻结 4JT6 分数；4JSX 替换口袋 B（mTOR），口袋 A 仍用冻结 4L23 分数。新盒子按该替代晶体自身共晶配体、以 2.4 的同一 AABB 规则生成。配体准备、exhaustiveness（16）、随机种子（20260727）、打分函数与 primary endpoint 与 PM48 主分析相同。仅在冻结 PM48 配体上重对接并重算 summary_min。
+替换采用**单口袋**设计。在 PIK3CA/mTOR（PM48）上，4JPS/5DXT 替换口袋 A，口袋 B 仍用冻结 4JT6 分数；4JSX 替换口袋 B，口袋 A 仍用冻结 4L23 分数；exhaustiveness = 16，与 PM48 主面板一致。在 PIK3CA/PIK3CB 上，同一套已准备的 4JPS/5DXT 替换口袋 A，口袋 B 仍用冻结 2WXF 分数；exhaustiveness = 8，与该主面板一致。新盒子按该替代晶体自身共晶配体、以 2.4 的同一 AABB 规则生成。配体准备、随机种子（20260727）、打分函数与 primary endpoint 与相应主分析相同。未能产生 Vina 分数的作业按 2.3 剔除；attempted / successful / failed 计数与换晶表一并报告。
 
 作为探索性、零新对接的几何对照，在已冻结晶体坐标上做刚体叠合：Biopython `PDBParser` 提取最长链 Cα，按残基编号与残基名精确匹配，`Superimposer` 一次 Kabsch 拟合得全域 RMSD；口袋残基由参考结构共晶配体重原子 ≤5 Å 界定，在**同一变换**下计算口袋局域 RMSD，不做二次局部拟合。再将替代结构共晶配体按同一变换投影，计算与参考共晶配体质心的距离。不同结构匹配的 Cα 数目可以不同，全域 RMSD 因此不是等覆盖比较。本对照仅含有限数目的替代晶体，不预设 Cα RMSD 能够定量解释 AUROC 变化（Table S10）。
 
@@ -258,4 +258,4 @@ Holdout 不参与主面板构建、对接协议调整或 primary endpoint 选择
 | 2.11 unused-pool holdout | 3.9 |
 | 2.12 receptor-structure sensitivity | 3.10 / 3.11 |
 
-**明确不做/未做：** 全面板 max vs median 数值表；1000 个互不重叠独立 panel；PDBFixer+Reduce；主面板残基级 PLIF。GNINA 九姿态公平重打已完成。必要性复核见 `C_CLASS_EXPERIMENT_NECESSITY_VERDICT_V1.md`。
+**明确不做/未做：** 1000 个互不重叠独立 panel；PDBFixer+Reduce；主面板残基级 PLIF。全面板 max vs median（A4）与第二靶对受体替换（B5）已完成。GNINA 九姿态公平重打已完成。必要性复核见 `C_CLASS_EXPERIMENT_NECESSITY_VERDICT_V1.md`。

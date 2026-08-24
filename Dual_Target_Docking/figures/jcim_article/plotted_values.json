@@ -10,6 +10,8 @@
     "data/jcim_structure_robust_v0/tables/pocket_matched_PM48_alt4JPS_v1.csv": 1,
     "data/jcim_structure_robust_v0/tables/pocket_matched_PM48_alt5DXT_v1.csv": 1,
     "data/jcim_structure_robust_v0/tables/pocket_matched_PM48_alt4JSX_v1.csv": 1,
+    "data/jcim_structure_robust_v0/tables/pocket_matched_PAB_alt4JPS_v1.csv": 1,
+    "data/jcim_structure_robust_v0/tables/pocket_matched_PAB_alt5DXT_v1.csv": 1,
     "data/jcim_bench_v0/tables/assembled_AChE_BChE.csv": 95,
     "data/jcim_strengthen_t0t1_v0/tables/pm110_vs_pm48_pocket_matched_v1.csv": 8,
     "data/jcim_strengthen_t0t1_v0/tables/ligand_ml_baseline_scaffold_cv_v1.csv": 8,
@@ -198,30 +200,48 @@
       }
     ],
     "fig5B": [
-      [
-        "4L23 / 4JT6 (main)",
-        0.6921,
-        0.4638,
-        0.8015
-      ],
-      [
-        "4JPS / 4JT6",
-        0.4861,
-        0.2589,
-        0.6923
-      ],
-      [
-        "5DXT / 4JT6",
-        0.5046,
-        0.2924,
-        0.6958
-      ],
-      [
-        "4L23 / 4JSX",
-        0.6389,
-        0.4178,
-        0.7758
-      ]
+      {
+        "pair": "PIK3CA/mTOR",
+        "crystal": "4L23",
+        "y": 0.6921,
+        "lo": 0.4638,
+        "hi": 0.8015
+      },
+      {
+        "pair": "PIK3CA/mTOR",
+        "crystal": "4JPS",
+        "y": 0.4861,
+        "lo": 0.2589,
+        "hi": 0.6923
+      },
+      {
+        "pair": "PIK3CA/mTOR",
+        "crystal": "5DXT",
+        "y": 0.5046,
+        "lo": 0.2924,
+        "hi": 0.6958
+      },
+      {
+        "pair": "PIK3CA/PIK3CB",
+        "crystal": "4L23",
+        "y": 0.5,
+        "lo": 0.3468,
+        "hi": 0.648
+      },
+      {
+        "pair": "PIK3CA/PIK3CB",
+        "crystal": "4JPS",
+        "y": 0.6905,
+        "lo": 0.5156,
+        "hi": 0.7786
+      },
+      {
+        "pair": "PIK3CA/PIK3CB",
+        "crystal": "5DXT",
+        "y": 0.6849,
+        "lo": 0.5057,
+        "hi": 0.7682
+      }
     ],
     "fig6A_matched": [
       0.4297,

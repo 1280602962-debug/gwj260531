@@ -61,7 +61,7 @@ Wu 等提出的 FuseDiff 则将共享配体分子图与两个靶点特异的结�
 
 其次，我们采用与双靶点任务相匹配的 **pocket-matched directional AUROC** 作为主要评价指标（Figure 1B）。对于 dual 与 A-only 的比较，使用靶点 B 的 docking score 评价其对非选择性靶点的额外识别能力；对于 dual 与 B-only 的比较，则相应使用靶点 A 的 docking score。进一步以两个方向中较弱的一臂作为 summary measure（summary_min），从而避免一个靶点上的高评分掩盖另一个靶点上的识别失败。与此同时，将 pooled docking score、wrong-pocket control 以及二维化学和物化性质 baseline 作为辅助对照，以区分真正的 pocket-specific signal 与 ligand-level confounding。
 
-最后，我们在经过供给审计后保留的多个 target pairs 上比较 docking-based discrimination 的一致性，并进一步通过 wrong-pocket、化学性质、scaffold-aware chemical baseline、同一数据批次中的 unused-pool holdout 以及 receptor-structure robustness 等分析考察其可靠边界。研究重点并非提出新的 docking scoring function，而是回答一个更基础的问题：
+最后，我们在经过供给审计后保留的多个 target pairs 上比较 docking-based discrimination 的一致性，并进一步通过 wrong-pocket、化学性质、scaffold-aware chemical baseline、同一数据批次中的 unused-pool holdout 以及 receptor-structure sensitivity 等分析考察其可靠边界。研究重点并非提出新的 docking scoring function，而是回答一个更基础的问题：
 
 > **How does benchmark formulation affect the apparent ability of docking to recognize dual-target ligands — specifically, does omitting directional single-target hard negatives give an overly favorable impression of dual-target recognition on the same scores?**
 

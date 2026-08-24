@@ -22,9 +22,12 @@ Internal note. Cloud-doable fixes only; no new docking. Scripts: `data/jcim_nove
 
 ## Not closed here (still local / API)
 
-- B5 second-pair receptor swap (needs `vina`).
-- A4 full-panel max vs median pChEMBL (ChEMBL activity endpoint).
-- Regenerating numbered main-text figures so Fig 3 is the formulation bar chart (plan updated; plot CSVs exist as Fig S4).
+- Regenerating numbered main-text figures so Fig 3 is the formulation bar chart (plan updated; plot CSVs exist as Fig S4). A4 and B5 are now in the manuscript and Fig 5B.
+
+## Closed after A4 / B5 (separate round)
+
+- Full-panel max vs median: Table S29; label agreement + metric shift.
+- Second-pair receptor swap: Table S30; opposite-direction realization effect; PAB_034 100/99/1.
 
 ## Claim that remains defendable
 

@@ -60,7 +60,7 @@ First, we audit candidate target pairs in public activity data and, from paired 
 
 Second, the primary metric is a **pocket-matched directional AUROC** isomorphic to the dual-target task (Figure 1B). Dual versus A-only is scored in pocket B, the pocket that must supply the extra recognition; dual versus B-only is scored in pocket A. The weaker of the two arms is the pair-level summary (summary_min), so a strong score on one target cannot hide failure on the other. Pooled docking scores, a wrong-pocket control, and two-dimensional chemical and physicochemical baselines are reported as auxiliary contrasts, to separate pocket-specific signal from ligand-level confounding.
 
-Third, we compare the consistency of docking-based discrimination across the audited target pairs and probe reliability bounds with wrong-pocket tests, descriptor and scaffold-aware chemical baselines, an unused-pool holdout from the same data batch, and receptor-structure robustness. The study does not propose a new scoring function. It asks a more basic question:
+Third, we compare the consistency of docking-based discrimination across the audited target pairs and probe reliability bounds with wrong-pocket tests, descriptor and scaffold-aware chemical baselines, an unused-pool holdout from the same data batch, and receptor-structure sensitivity. The study does not propose a new scoring function. It asks a more basic question:
 
 > How does benchmark formulation affect the apparent ability of docking to recognize dual-target ligands — specifically, does omitting directional single-target hard negatives give an overly favorable impression of dual-target recognition on the same scores?
 

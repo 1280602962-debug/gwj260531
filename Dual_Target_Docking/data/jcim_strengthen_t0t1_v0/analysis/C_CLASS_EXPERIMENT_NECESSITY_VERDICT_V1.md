@@ -1,5 +1,7 @@
 # C-class experiment necessity — fact-check (2026-08-24)
 
+> **Update:** A4 (full-panel max vs median) and B5 (PIK3CA/PIK3CB receptor swap) are **done**. See `data/jcim_novelty_v0/analysis/A4_B5_STATISTICAL_AUDIT_V1.md`. Do not keep writing max pChEMBL as uncomputed, or receptor swap as a unidirectional PIK3CA collapse. The same 4JPS/5DXT crystals raise PIK3CA/PIK3CB `summary_min`. Remaining C-class items below are still optional / not required for JCIM submission.
+
 Question: were the three remaining “C-class” experiments (max vs median pChEMBL; 1000 unused-pool panels; PLIF / rotamer / PDBFixer+Reduce) actually doable as previously described, and which still need to be run before this JCIM article?
 
 **Short answer:** none of the three is required to keep the current claims honest. Two of the three were oversold. If anything is still worth running locally, it is **side-chain/rotamer (and optional PLIF) on materials already in git**, not a 1000-panel campaign and not PDBFixer redocking.

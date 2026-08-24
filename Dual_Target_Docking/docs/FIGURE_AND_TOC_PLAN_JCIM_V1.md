@@ -74,19 +74,17 @@ JCIM Articles 无硬图数上限。主文 **7 张图 + 1 张 TOC**：Fig 6 是�
 
 不要把指纹 0.78–0.91 画成“对接失败证明”；若画，标 *chemotype–label association*。
 
-### Fig 5 — Ligand-side versus receptor-side robustness（Results 3.4 视觉锚）
+### Fig 5 — Ligand-panel persistence versus receptor-realization sensitivity（Results 3.4 视觉锚）
 
-标题不要写成泛泛的 *robustness*，而要写成 **ligand-side vs receptor-side**。
+标题不要写成泛泛的 *robustness*，也不要写成 *receptor replacement collapses the signal*。
 
-现有位图（`Fig5_holdout_and_crystal_swap`）已经是两栏对照，不必为了 PM48→PM110 再拆一张主图：
-
-- **(A) Ligand-side：** 三对主面板 vs unused-pool holdout 的 summary_min ± CI（EGFR 无 holdout，不要空出误导）。读图应得到：PM 同向且点估计更高；AChE 接近；PIK3CB 下降。PM110 是含 PM48 的 stability check，放 Figure S1C，避免把非独立面板画成第三条“验证”轨迹。
-- **(B) Receptor-side：** PM48：4L23/4JT6（主）→ 4JPS/4JT6、5DXT/4JT6、4L23/4JSX。点估计掉到 ~0.5 必须看得见；CI 含 0.5 用灰色。
+- **(A) Ligand-side：** 三对主面板 vs unused-pool holdout 的 summary_min ± CI（EGFR 无 holdout，不要空出误导）。读图应得到：PM 同向且点估计更高；AChE 接近；PIK3CB 下降。PM110 是含 PM48 的 stability check，放 Figure S1C。
+- **(B) Receptor realization：** 同一套 PIK3CA 晶体（4L23 / 4JPS / 5DXT），B 端冻结。PIK3CA/mTOR：0.692 → 0.486 / 0.505；PIK3CA/PIK3CB：0.500 → 0.691 / 0.685。4JSX（只换 mTOR）留 Table S9，不要混进两对对照。
 
 视觉对比：
 
-> Ligand replacement: signal can persist  
-> Receptor replacement: signal can collapse
+> Same PIK3CA perturbation → opposite pair-level effects  
+> Ligand replacement can persist; receptor realization can raise or lower discrimination
 
 E8/E16、PM110、单靶 enrichment 改 SI Fig S1：它们不改变故事。
 

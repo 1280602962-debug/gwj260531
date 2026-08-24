@@ -98,14 +98,16 @@ PIK3CA/mTOR 的 boxed 说法：
 | PM exhaustiveness 16→8 | 0.692 → 0.660（Δ ≈ 0.03） | Fig S1D |
 | PM110 稳定性核对 | Vina 0.648 [0.51, 0.76]，Δ ≈ −0.04 | Fig S1C |
 | Holdout PM / AChE / PIK3CB | **0.765** [0.603, 0.891] / 0.618 [0.422, 0.759] / 0.425 [0.241, 0.618] | Table S8 / Fig 5A |
-| 换 PIK3CA | 0.692 → **0.486** / **0.505**；D/A 仍 0.714 | Table S9 / Fig 5B |
+| 换 PIK3CA（PM） | 0.692 → **0.486** / **0.505**；D/A 仍 0.714 | Table S9 / Fig 5B |
+| 换 PIK3CA（PIK3CB） | 0.500 → **0.691** / **0.685**；弱臂切换 | Table S30 / Fig 5B |
 | 换 mTOR | **0.639**；CI 含 0.5 | S9 |
 | Cognate QC | 4JPS 0.607 Å、5DXT 0.624 Å、4JSX 0.515 Å | S9 |
-| 口袋局域 Cα | 5DXT **0.343 Å** 仍崩到 0.505 | Table S10 |
+| 口袋局域 Cα | 5DXT **0.343 Å** 仍使 PM 到 0.505；同一晶体使 PIK3CB 上升 | Table S10 |
+| A4 max vs median | 翻转 7/110、1/95、1/99、0/48；pair-level 基本不动 | Table S29 |
 
-**讨论应写：** holdout **supports persistence of the observed signal in an unused ligand pool**，不验证 benchmark。PM = limited directional signal + ligand-panel persistence，不是 receptor invariance。pose QC ≠ screening robustness。
+**讨论应写：** holdout **supports persistence of the observed signal in an unused ligand pool**，不验证 benchmark。PM = limited directional signal + ligand-panel persistence，不是 receptor invariance。同一 PIK3CA 扰动可升可降。pose QC ≠ screening invariance。PAB_034 100/99/1 timeout。
 
-**不要写：** holdout 是独立文献/跨库验证；PM 是结构不变的 positive case；Cα 定量解释了崩盘。
+**不要写：** holdout 是独立文献/跨库验证；PM 是结构不变的 positive case；Cα 定量解释了 AUROC；receptor swap 一律 collapse；max pChEMBL 仍是 fatal ground-truth 风险。
 
 ---
 
@@ -146,7 +148,7 @@ PIK3CA/mTOR 的 boxed 说法：
 
 | 未做 / 不可当结果 | 怎么处理 |
 |---|---|
-| 全面板 max vs median | Limitations 2 |
+| 全面板 max vs median | Results 3.2；Table S29；Limitations 2（controlled） |
 | 1000 个互不重叠独立 panel | Limitations 1 |
 | 主面板 PLIF；rotamer | Limitations 4 |
 | BindingDB 对接面板 | 只有计数 S12 |

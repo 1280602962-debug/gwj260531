@@ -22,17 +22,21 @@ Zhou、Li 与 Hou 已经表明，对接用于双激酶筛选时，相对 noninhi
 
 双靶点 docking 的困难并不能简单理解为两个单靶 docking 任务的性能相加。若一个配体在靶点 A 上具有较强活性，则它在 A 口袋中获得有利 docking score 并不能说明其同时具有靶点 B 的活性；真正严格的 dual recognition 要求模型在另一靶点中进一步压制 A-only 配体，并同时在相反方向压制 B-only 配体。正因如此，单一 pooled score 容易掩盖较弱的一臂，而 pocket-matched directional AUROC 更直接地测试了“非选择性靶点上的额外识别”。
 
-但即便采用这一任务对齐的评价方式，四对靶标仍表现出明显异质性。三个靶对的 summary_min 位于随机水平附近或低于 best single-descriptor reference，只有 PIK3CA/mTOR 表现出较高的点估计，且其置信区间仍与随机相容（Results 3.2）。该对是 **conditional directional signal**（配体面板可持续，受体实现可塌掉），不是可推广的成功案例。更重要的是，AChE/BChE 的结果显示，TPSA 单独即可获得高于 docking 的 discrimination，而 ECFP4 scaffold-grouped baseline 在多个方向上进一步超过 docking（Results 3.3）。由此可见，dual/selective 标签本身携带的 ligand-level information 可以产生强烈的 apparent signal。在当前支架分组基准下，把对接分数加到 ECFP4 后增量 AUROC 很小；这是对本面板的陈述，不是 docking 没有口袋特异信息的证明。
+但即便采用这一任务对齐的评价方式，四对靶标仍表现出明显异质性。三个靶对的 summary_min 位于随机水平附近或低于 best single-descriptor reference，只有 PIK3CA/mTOR 表现出较高的点估计，且其置信区间仍与随机相容（Results 3.2）。该对是 **conditional directional signal**（配体面板可持续；受体实现敏感性在两对上可升可降），不是可推广的成功案例。更重要的是，AChE/BChE 的结果显示，TPSA 单独即可获得高于 docking 的 discrimination，而 ECFP4 scaffold-grouped baseline 在多个方向上进一步超过 docking（Results 3.3）。由此可见，dual/selective 标签本身携带的 ligand-level information 可以产生强烈的 apparent signal。在当前支架分组基准下，把对接分数加到 ECFP4 后增量 AUROC 很小；这是对本面板的陈述，不是 docking 没有口袋特异信息的证明。
 
 这一结果与近年来对虚拟筛选 benchmark 中化学偏倚的关注是一致的：简单模型或不恰当构造的 decoys 可以通过学习 ligand distribution 而获得看似优异的 virtual screening performance，因此 benchmark 必须区分 target-specific signal 与 chemical composition signal。^(7,12) 本研究进一步将这一问题扩展到双靶任务：如果不设置 A-only/B-only hard negatives 以及 ligand-property/chemical baselines，一个看似优秀的 dual-target docking result 可能实际上只是识别了与 dual label 相关的分子属性。
 
-### 4.3 The PIK3CA/mTOR Case: Limited Directional Signal Rather Than a Generalizable Rule
+### 4.3 Receptor Realization Can Create or Attenuate Apparent Dual-Target Discrimination
 
 PIK3CA/mTOR 提供了本研究中最值得进一步研究、但也最需要谨慎解释的案例。其主面板 summary_min 为 0.692，PM110 扩展面板为 0.648，unused-pool holdout 为 0.765，说明该方向性信号并非完全由 PM48 中少数配体驱动。与此同时，该信号并未表现出 receptor invariance：替换 PIK3CA 受体结构后，summary_min 降至 0.486 和 0.505，而替换 mTOR 结构后仍为 0.639（Results 3.4）。更准确的说法不是“PIK3CA/mTOR docking 可以可靠识别双靶配体”，而是该靶对在特定 receptor realization 下存在有限的 directional signal：配体面板替换后可以持续，受体实现替换后不能假定不变。
 
-PIK3CA 和 mTOR 均具有可被 ATP-site chemotypes 访问的结合模式，因此某些 dual ligands 可以在两个口袋中形成合理的 hinge-oriented poses；但同样的 ATP-site compatibility 也可能使选择性硬负在另一靶点获得几何上合理的 pose，从而产生 false dual recognition。姿态级观察与这种可能性相符（Results 3.6 的 T2 / T5），但尚未进行完整的 residue-level PLIF analysis，因此不能将该解释提升为确定的结构机制。
+同一套 PIK3CA 替换在 PIK3CA/PIK3CB 上方向相反：summary_min 由 0.500 升至 0.691 和 0.685，而 B 端受体保持冻结。因此 dual-target docking discrimination 是 **receptor-realization sensitive**，而不是受体替换一律摧毁信号。受体实现是独立的方差来源：既可以增强、也可以削弱表观判别，而不仅仅决定某一结果是否“稳健”。两对、单口袋设计比单一 collapse 轶事更有解释力，但还不是普遍定律（K = 4；两对共享 PIK3CA）。
 
-更值得注意的是，5DXT 与 4L23 的局部口袋 Cα RMSD 仅为 0.343 Å，但对应的 summary_min 仍降至 0.505。这说明“结构相似”与“screening discrimination 可迁移”并不是同一个问题。pose-generation QC 通过，也不等于 screening performance robustness。该结果与近期 cross-docking benchmark 中 receptor representation 被视为独立性能变量的观点相一致；那些工作使用的对接引擎与本文不同，不能当作同一协议的外推。^(14)
+耦合任务读法值得讨论，但仍是假说。`summary_min` 跟踪弱臂，因此替换 \(S_A\) 可以改变哪一臂成为瓶颈。PIK3CA/PIK3CB 原来的弱臂是 4L23 上的 D/B（0.500）；4JPS 后该臂升至 0.707，冻结 2WXF 臂（0.691）成为限制。其他非互斥假说包括局部侧链/口袋几何重排 dual 与选择性分数，以及两套面板面对同一 PIK3CA 晶体时不同的配体化学分布。这些都不是已证明的机制。残基级 PLIF 分析未完成。
+
+PIK3CA 和 mTOR 均具有可被 ATP-site chemotypes 访问的结合模式，因此某些 dual ligands 可以在两个口袋中形成合理的 hinge-oriented poses；但同样的 ATP-site compatibility 也可能使选择性硬负在另一靶点获得几何上合理的 pose，从而产生 false dual recognition。姿态级观察与这种可能性相符（Results 3.6 的 T2 / T5）。
+
+更值得注意的是，5DXT 与 4L23 的局部口袋 Cα RMSD 仅为 0.343 Å，但 PIK3CA/mTOR 的 summary_min 仍降至 0.505。这说明“结构相似”与“screening discrimination 可迁移”并不是同一个问题。pose-generation QC 通过，也不等于 screening performance 不变。该结果与近期 cross-docking benchmark 中 receptor representation 被视为独立性能变量的观点相一致；那些工作使用的对接引擎与本文不同，不能当作同一协议的外推。^(14)
 
 ### 4.4 Implications for Dual-Target Virtual Screening and Generative Design
 
@@ -56,10 +60,10 @@ PIK3CA 和 mTOR 均具有可被 ATP-site chemotypes 访问的结合模式，因�
 
 First, the benchmark contains only four target pairs because experimentally defined dual-target hard negatives are scarce. K = 4 是 data-constrained case panel，不是 comprehensive suite。四个 `summary_min` 还混合了面板构建差异（严格 6.5/5.5 对 θ = 6.0；不等 n）与靶对生物学，不能读成 intrinsic docking performance 的总体排序。Existing ligand-level bootstrap (B = 2000) describes uncertainty inside a fixed panel; leftover strict hard negatives after the main panels and holdout cannot support anything close to 1000 non-overlapping balanced panels.
 
-Second, activity labels were aggregated using the maximum available pChEMBL value. This may inflate apparent activity when measurements vary across assays. The current frozen data package does not retain sufficient assay-level metadata to perform a complete max-versus-median or assay-confidence sensitivity analysis.
+Second, activity labels were aggregated using the maximum available pChEMBL value for the primary curation. Replacing that rule with the median among repeated measurements produced minimal changes in the primary pair-level estimates (Results 3.2; Table S29), so the main findings were not sensitive to this aggregation choice. Assay-level heterogeneity remains a limitation, because pChEMBL measurements are not fully assay-equivalent: numeric max ≠ median is common even when four-state class assignment at θ = 6.0 is largely stable.
 
 Third, the unused-pool holdout remains within the ChEMBL-derived data ecosystem and therefore should not be considered an independent cross-database validation.
 
-Fourth, receptor-swap experiments demonstrate structure dependence but do not identify its molecular origin. In particular, pocket-local Cα RMSD alone could not explain the observed performance change, and residue-level PLIF/side-chain conformational analyses were not systematically performed.
+Fourth, receptor-realization experiments show that the same PIK3CA crystal replacement can lower PIK3CA/mTOR discrimination and raise PIK3CA/PIK3CB discrimination, but they do not identify a molecular origin. In particular, pocket-local Cα RMSD alone could not explain the observed performance change, and residue-level PLIF/side-chain conformational analyses were not systematically performed. The one PIK3CA/PIK3CB docking timeout (`PAB_034`) is reported as 100 attempted / 99 successful / 1 failed on the original and both alternate PIK3CA crystals; it was not excluded because of its label.
 
 Finally, this study evaluates computational discrimination rather than experimentally testing newly predicted dual-target compounds. The benchmark therefore addresses the reliability of docking-based ranking, not the prospective biological efficacy of the selected molecules. 本文不旨在证明 docking 对双靶发现普遍有效或无效；它问的是评价 formulation 本身是否改变双靶识别的表观证据。

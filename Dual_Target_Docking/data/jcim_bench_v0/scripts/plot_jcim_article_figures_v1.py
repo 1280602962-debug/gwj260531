@@ -59,6 +59,8 @@ def load() -> dict:
     jps = _read(DATA / "jcim_structure_robust_v0/tables/pocket_matched_PM48_alt4JPS_v1.csv")[0]
     dxt = _read(DATA / "jcim_structure_robust_v0/tables/pocket_matched_PM48_alt5DXT_v1.csv")[0]
     jsx = _read(DATA / "jcim_structure_robust_v0/tables/pocket_matched_PM48_alt4JSX_v1.csv")[0]
+    pab_jps = _read(DATA / "jcim_structure_robust_v0/tables/pocket_matched_PAB_alt4JPS_v1.csv")[0]
+    pab_dxt = _read(DATA / "jcim_structure_robust_v0/tables/pocket_matched_PAB_alt5DXT_v1.csv")[0]
     ache = _read(DATA / "jcim_bench_v0/tables/assembled_AChE_BChE.csv")
 
     theta6 = {r["pair"]: r for r in theta if r["label_rule"] == "theta_6.0"}
@@ -95,6 +97,8 @@ def load() -> dict:
         "jps": jps,
         "dxt": dxt,
         "jsx": jsx,
+        "pab_jps": pab_jps,
+        "pab_dxt": pab_dxt,
         "best_desc": best_desc,
         "tpsa": tpsa,
         "theta_all": theta,
@@ -540,25 +544,59 @@ def fig5_robustness(D: dict) -> None:
 
     ax = axes[1]
     panel_label(ax, "B", x=-0.16, y=1.05)
-    t = D["theta6"]["PIK3CA/mTOR"]
-    items = [
-        ("4L23 / 4JT6\n(main)", fnum(t["pocket_matched_summary_min"]), fnum(t["ci_lo"]), fnum(t["ci_hi"]), C["main"]),
-        ("4JPS / 4JT6", fnum(D["jps"]["summary_min"]), fnum(D["jps"]["summary_min_ci_lo"]), fnum(D["jps"]["summary_min_ci_hi"]), C["swap_bad"]),
-        ("5DXT / 4JT6", fnum(D["dxt"]["summary_min"]), fnum(D["dxt"]["summary_min_ci_lo"]), fnum(D["dxt"]["summary_min_ci_hi"]), C["swap_bad"]),
-        ("4L23 / 4JSX", fnum(D["jsx"]["summary_min"]), fnum(D["jsx"]["summary_min_ci_lo"]), fnum(D["jsx"]["summary_min_ci_hi"]), C["main"]),
+    # Same PIK3CA crystals, opposite pair-level effects. B pocket held frozen.
+    # 4JSX (mTOR swap on PM48 only) remains in Table S9, not this two-pair panel.
+    crystal_color = {"4L23": C["main"], "4JPS": C["holdout"], "5DXT": C["a_only"]}
+    series = [
+        {
+            "pair": "PIK3CA/mTOR",
+            "kept": "4JT6",
+            "points": [
+                ("4L23", fnum(D["theta6"]["PIK3CA/mTOR"]["pocket_matched_summary_min"]),
+                 fnum(D["theta6"]["PIK3CA/mTOR"]["ci_lo"]), fnum(D["theta6"]["PIK3CA/mTOR"]["ci_hi"])),
+                ("4JPS", fnum(D["jps"]["summary_min"]), fnum(D["jps"]["summary_min_ci_lo"]), fnum(D["jps"]["summary_min_ci_hi"])),
+                ("5DXT", fnum(D["dxt"]["summary_min"]), fnum(D["dxt"]["summary_min_ci_lo"]), fnum(D["dxt"]["summary_min_ci_hi"])),
+            ],
+        },
+        {
+            "pair": "PIK3CA/PIK3CB",
+            "kept": "2WXF",
+            "points": [
+                ("4L23", fnum(D["theta6"]["PIK3CA/PIK3CB"]["pocket_matched_summary_min"]),
+                 fnum(D["theta6"]["PIK3CA/PIK3CB"]["ci_lo"]), fnum(D["theta6"]["PIK3CA/PIK3CB"]["ci_hi"])),
+                ("4JPS", fnum(D["pab_jps"]["summary_min"]), fnum(D["pab_jps"]["summary_min_ci_lo"]), fnum(D["pab_jps"]["summary_min_ci_hi"])),
+                ("5DXT", fnum(D["pab_dxt"]["summary_min"]), fnum(D["pab_dxt"]["summary_min_ci_lo"]), fnum(D["pab_dxt"]["summary_min_ci_hi"])),
+            ],
+        },
     ]
-    for i, (lab, y, lo, hi, col) in enumerate(items):
-        ax.errorbar(
-            i, y, yerr=[[y - lo], [hi - y]],
-            fmt="o", color=col, ecolor=col, elinewidth=1.5, capsize=2.6, markersize=7, zorder=4,
-        )
+    fig5b = []
+    offsets = {"4L23": -0.22, "4JPS": 0.0, "5DXT": 0.22}
+    for gi, block in enumerate(series):
+        for crystal, y, lo, hi in block["points"]:
+            x = gi + offsets[crystal]
+            ax.errorbar(
+                x, y, yerr=[[y - lo], [hi - y]],
+                fmt="o", color=crystal_color[crystal], ecolor=crystal_color[crystal],
+                elinewidth=1.5, capsize=2.4, markersize=6.5, zorder=4,
+            )
+            fig5b.append({"pair": block["pair"], "crystal": crystal, "y": y, "lo": lo, "hi": hi})
     ax.axhline(0.5, color=C["chance"], ls="--", lw=0.9, zorder=1)
-    ax.set_xticks(range(4))
-    ax.set_xticklabels([it[0] for it in items], fontsize=6.5)
+    ax.set_xticks([0, 1])
+    ax.set_xticklabels(["PIK3CA/mTOR\n(B = 4JT6 frozen)", "PIK3CA/PIK3CB\n(B = 2WXF frozen)"], fontsize=6.5)
     ax.set_ylabel("Pocket-matched summary_min")
     ax.set_ylim(0.12, 1.02)
-    ax.set_title("Receptor-side: PM48 crystal swap", fontsize=FS_AXIS, pad=4)
-    PROVENANCE["plotted"]["fig5B"] = [(it[0].replace("\n", " "), it[1], it[2], it[3]) for it in items]
+    ax.set_title("Receptor realization: same PIK3CA crystals", fontsize=FS_AXIS, pad=4)
+    ax.legend(
+        handles=[
+            Line2D([0], [0], marker="o", color=crystal_color["4L23"], ls="none", ms=6, label="4L23 (original)"),
+            Line2D([0], [0], marker="o", color=crystal_color["4JPS"], ls="none", ms=6, label="4JPS"),
+            Line2D([0], [0], marker="o", color=crystal_color["5DXT"], ls="none", ms=6, label="5DXT"),
+        ],
+        loc="upper left",
+        fontsize=6.0,
+        frameon=False,
+    )
+    PROVENANCE["plotted"]["fig5B"] = fig5b
 
     fig.subplots_adjust(wspace=0.34, left=0.09, right=0.98, top=0.86, bottom=0.18)
     save_all(fig, "Fig5_holdout_and_crystal_swap")
@@ -710,20 +748,22 @@ def verify(D: dict) -> None:
     if "EGFR/HER2" in {row["pair"] for row in PROVENANCE["plotted"]["fig5A"]}:
         errors.append("fig5A must not include EGFR/HER2 (no holdout)")
 
-    # Fig 5B
-    t = t6["PIK3CA/mTOR"]
-    b = PROVENANCE["plotted"]["fig5B"]
-    eq(b[0][1], t["pocket_matched_summary_min"], msg="fig5B main")
-    eq(b[1][1], D["jps"]["summary_min"], msg="fig5B 4JPS")
-    eq(b[2][1], D["dxt"]["summary_min"], msg="fig5B 5DXT")
-    eq(b[3][1], D["jsx"]["summary_min"], msg="fig5B 4JSX")
-
-    eq(b[1][1], 0.4861, msg="fig5B 4JPS checksum")
-    eq(b[2][1], 0.5046, msg="fig5B 5DXT checksum")
-    eq(b[3][1], 0.6389, msg="fig5B 4JSX checksum")
-    eq(b[1][2], 0.2589, msg="fig5B 4JPS lo checksum")
-    eq(b[2][2], 0.2924, msg="fig5B 5DXT lo checksum")
-    eq(b[3][2], 0.4178, msg="fig5B 4JSX lo checksum")
+    # Fig 5B: two-pair PIK3CA receptor realization (B pocket frozen)
+    b = {(row["pair"], row["crystal"]): row for row in PROVENANCE["plotted"]["fig5B"]}
+    eq(b[("PIK3CA/mTOR", "4L23")]["y"], t6["PIK3CA/mTOR"]["pocket_matched_summary_min"], msg="fig5B PM 4L23")
+    eq(b[("PIK3CA/mTOR", "4JPS")]["y"], D["jps"]["summary_min"], msg="fig5B PM 4JPS")
+    eq(b[("PIK3CA/mTOR", "5DXT")]["y"], D["dxt"]["summary_min"], msg="fig5B PM 5DXT")
+    eq(b[("PIK3CA/PIK3CB", "4L23")]["y"], t6["PIK3CA/PIK3CB"]["pocket_matched_summary_min"], msg="fig5B PAB 4L23")
+    eq(b[("PIK3CA/PIK3CB", "4JPS")]["y"], D["pab_jps"]["summary_min"], msg="fig5B PAB 4JPS")
+    eq(b[("PIK3CA/PIK3CB", "5DXT")]["y"], D["pab_dxt"]["summary_min"], msg="fig5B PAB 5DXT")
+    eq(b[("PIK3CA/mTOR", "4JPS")]["y"], 0.4861, msg="fig5B PM 4JPS checksum")
+    eq(b[("PIK3CA/mTOR", "5DXT")]["y"], 0.5046, msg="fig5B PM 5DXT checksum")
+    eq(b[("PIK3CA/PIK3CB", "4JPS")]["y"], 0.6905, msg="fig5B PAB 4JPS checksum")
+    eq(b[("PIK3CA/PIK3CB", "5DXT")]["y"], 0.6849, msg="fig5B PAB 5DXT checksum")
+    eq(b[("PIK3CA/PIK3CB", "4JPS")]["lo"], 0.5156, msg="fig5B PAB 4JPS lo checksum")
+    eq(b[("PIK3CA/PIK3CB", "5DXT")]["lo"], 0.5057, msg="fig5B PAB 5DXT lo checksum")
+    if ("PIK3CA/mTOR", "4JSX") in b:
+        errors.append("fig5B must not mix the mTOR 4JSX swap into the two-pair PIK3CA panel")
 
     expected_wrong_main = {"EGFR/HER2": 0.26, "AChE/BChE": 0.4444, "PIK3CA/PIK3CB": 0.3489, "PIK3CA/mTOR": 0.6019}
     for i, pair in enumerate(PAIR_ORDER):
@@ -812,9 +852,9 @@ Vina (primary), RTMScore, GNINA CNN best-of-9, and the strongest trivial descrip
 
 (A) Directional Vina AUROCs at θ = 6.0: dual versus A_only (pocket B) and dual versus B_only (pocket A). (B) Vina pocket-matched summary_min versus the strongest trivial descriptor, with 95% CIs. (C) TPSA on the AChE/BChE panel by class (individual ligands from `assembled_AChE_BChE.csv`; horizontal line, median). Dual ligands are more polar than either hard-negative class, matching the TPSA baseline that exceeds Vina on this pair.
 
-## Figure 5. Ligand-side versus receptor-side robustness of the PIK3CA/mTOR signal.
+## Figure 5. Ligand-panel persistence versus receptor-realization sensitivity.
 
-(A) Ligand-side: pocket-matched summary_min on the main panel versus the unused-pool holdout (20/20/20; seed 20260731) for the three pairs with unused-pool supply. EGFR/HER2 has no holdout. PM110 is a same-family stability check shown in Figure S1C, not a third independent validation trajectory. (B) Receptor-side: PM48 crystal swap, replacing PIK3CA 4L23 with 4JPS or 5DXT (mTOR held at 4JT6) or replacing mTOR 4JT6 with 4JSX (PIK3CA held at 4L23). Error bars are 95% ligand-bootstrap CIs. Ligand replacement can leave the directional signal intact; receptor replacement can collapse it.
+(A) Ligand-side: pocket-matched summary_min on the main panel versus the unused-pool holdout (20/20/20; seed 20260731) for the three pairs with unused-pool supply. EGFR/HER2 has no holdout. PM110 is a same-family stability check shown in Figure S1C, not a third independent validation trajectory. (B) Receptor realization: the same PIK3CA crystals (4L23 original, 4JPS, 5DXT) with the B-end receptor held frozen (4JT6 on PIK3CA/mTOR; 2WXF on PIK3CA/PIK3CB). Summary_min falls on PIK3CA/mTOR (0.692 → 0.486 / 0.505) and rises on PIK3CA/PIK3CB (0.500 → 0.691 / 0.685). Error bars are 95% ligand-bootstrap CIs from the deposited swap tables. The mTOR 4JSX swap remains in Table S9. Receptor replacement is a realization effect, not a unidirectional collapse. PIK3CA/PIK3CB uses the same 99-ligand set as Table 2 (PAB_034 timeout on all three PIK3CA crystals).
 
 ## Figure 6. Wrong-pocket controls reveal an unresolved out-of-panel failure mode.
 

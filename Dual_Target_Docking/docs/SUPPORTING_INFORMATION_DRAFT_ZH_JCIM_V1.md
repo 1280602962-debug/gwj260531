@@ -15,7 +15,7 @@
 | Table S6 | `data/jcim_bench_v0/tables/pocket_matched_directional_v1.csv`；worst-pocket 亦见 `data/jcim_strengthen_t0t1_v0/tables/aggregation_sensitivity_v1.csv` |
 | Table S7 | `data/jcim_bench_v0/analysis/structural_context_v1/full_chain_identity_v1.py`（脚本）与 `full_chain_identity_v1_output.tsv`（输出） |
 | Table S8 | `data/jcim_holdout_v0/tables/holdout_panel_*.csv` + `holdout_ligand_scores_v1.csv` + `holdout_pocket_matched_v1.csv`；结论见 `analysis/HOLDOUT_VERDICT.md` |
-| Table S9 | `data/jcim_structure_robust_v0/analysis/STRUCTURE_ROBUSTNESS_QC_V1.md` / `STRUCTURE_ROBUSTNESS_VERDICT_V1.md`；`tables/pocket_matched_PM48_alt*_v1.csv` |
+| Table S9 | `data/jcim_structure_robust_v0/analysis/STRUCTURE_ROBUSTNESS_QC_V1.md` / `STRUCTURE_ROBUSTNESS_VERDICT_V1.md`；`tables/pocket_matched_PM48_alt*_v1.csv`；`tables/pocket_matched_PAB_alt*_v1.csv`；`tables/receptor_realization_two_pair_v1.csv` |
 | Table S10 | `data/jcim_structure_robust_v0/analysis/pocket_mechanism_v1/POCKET_MECHANISM_VERDICT_V1.md` + `pocket_superposition_v1.py`（脚本，零新对接，仅用已冻结晶体坐标） |
 | Table S11 | `data/jcim_holdout_v0/analysis/WRONG_POCKET_MECHANISM_VERDICT_V1.md` + `scripts/wrong_pocket_contact_v1.py`（脚本，零新对接，仅用已冻结姿态坐标） |
 | Table S12 | `data/jcim_supply_crossdb_v0/tables/crossdb_strict_supply_v1.csv`；结论见 `analysis/SUPPLY_CROSSDB_VERDICT_V1.md`（BindingDB REST + PubChem PUG REST 计数，零对接） |
@@ -35,8 +35,11 @@
 | Table S26 | `data/jcim_novelty_v0/tables/aggregation_min_mean_harmonic_v1.csv` |
 | Table S27 | `data/jcim_novelty_v0/tables/docking_failure_census_v1.csv` |
 | Table S28 | `data/jcim_novelty_v0/tables/descriptor_all_four_directional_v1.csv` |
+| Table S29 | `data/jcim_novelty_v0/tables/assay_max_vs_median_agreement_v1.csv` + `assay_max_vs_median_{summary,auroc,flips}_v1.csv` |
+| Table S30 | `data/jcim_structure_robust_v0/tables/receptor_realization_two_pair_v1.csv` |
+| Master index | `data/jcim_novelty_v0/tables/MASTER_RESULTS_TABLE.csv` |
 | Figure S4 | `data/jcim_novelty_v0/figures/FigS_formulation_conventional_vs_directional_v1.png` |
-| ChEMBL 聚合局限 | `data/jcim_strengthen_t0t1_v0/analysis/T0_SKIPS.md`；全面板 median 脚本 `data/jcim_novelty_v0/scripts/assay_aggregation_max_vs_median_v1.py`（尚未完成 SI 表） |
+| ChEMBL 聚合 | `data/jcim_novelty_v0/tables/assay_max_vs_median_agreement_v1.csv`；审计 `analysis/A4_B5_STATISTICAL_AUDIT_V1.md` |
 
 ---
 
@@ -68,7 +71,7 @@
 | 盒子定义 | 共晶配体 AABB + 5 Å；每边下限 20 Å |
 | Cognate 通过门槛 | 重原子 RMSD，`best_of_9` &lt; 2.0 Å（同坐标系，不叠合） |
 | 受体 PDBQT | PIK3CA/mTOR/EGFR/HER2：含氢蛋白坐标 + `mk_prepare_receptor.py --read_pdb`；AChE/BChE/PIK3CB：沉积 ATOM + `mk_prepare_receptor`（default altloc A） |
-| 换晶 | 一次只换一个口袋；未换端保留冻结主面板分数；4JPS/5DXT/4JSX 过 QC，3T8M 排除 |
+| 换晶 | 一次只换一个口袋；未换端保留冻结主面板分数；4JPS/5DXT 用于 PM48 与 PIK3CA/PIK3CB；4JSX 仅 PM48；3T8M 排除 |
 | contact_count | mode-1；配体–受体 重原子距离 ≤4.0 Å；非 PLIF |
 
 采集快照见 `ENV_PIN.md`（2026-07-29）。
@@ -235,9 +238,9 @@ PIK3CA/mTOR 若干臂 n &lt; 15，区间宽；正文仅作方向是否同向的�
 
 ---
 
-## Table S9. 结构稳健性：替代受体 cognate QC
+## Table S9. Receptor-realization sensitivity: cognate QC and PM48 one-pocket swap
 
-来源：`data/jcim_structure_robust_v0/analysis/STRUCTURE_ROBUSTNESS_QC_V1.md`。协议：Vina E=16，seed=20260727，best_of_9 &lt; 2 Å。
+来源：`data/jcim_structure_robust_v0/analysis/STRUCTURE_ROBUSTNESS_QC_V1.md`。协议：Vina E=16（PM48），seed=20260727，best_of_9 &lt; 2 Å。这是 receptor-realization sensitivity，不是稳健性证明。
 
 | 靶标 | PDB | 共晶配体 | mode1 RMSD (Å) | best_of_9 (Å) | 结论 |
 |------|-----|----------|---------------:|--------------:|------|
@@ -245,15 +248,15 @@ PIK3CA/mTOR 若干臂 n &lt; 15，区间宽；正文仅作方向是否同向的�
 | PIK3CA | 5DXT | 5H5 | 0.624 | 0.624 | PASS |
 | mTOR | 4JSX | 17G (Torin2) | 0.515 | 0.515 | PASS |
 
-PASS 受体已写入 `receptors/`。PM48 单端替换后的口袋匹配 summary_min：
+PASS 受体已写入 `receptors/`。PIK3CA/mTOR PM48 单端替换后的口袋匹配 summary_min：
 
-| 替代结构 | 替换口袋 | summary_min [95% CI] | 主面板 | Δ |
-|----------|----------|---------------------:|-------:|--:|
-| 4JPS | A | 0.486 [0.259, 0.692] | 0.692 | −0.206 |
-| 5DXT | A | 0.505 [0.292, 0.696] | 0.692 | −0.187 |
-| 4JSX | B | 0.639 [0.418, 0.776] | 0.692 | −0.053 |
+| 替代结构 | 替换口袋 | 保留口袋 | summary_min [95% CI] | 主面板 | Δ |
+|----------|----------|----------|---------------------:|-------:|--:|
+| 4JPS | A | 4JT6 | 0.486 [0.259, 0.692] | 0.692 | −0.206 |
+| 5DXT | A | 4JT6 | 0.505 [0.292, 0.696] | 0.692 | −0.187 |
+| 4JSX | B | 4L23 | 0.639 [0.418, 0.776] | 0.692 | −0.053 |
 
-详见 `STRUCTURE_ROBUSTNESS_VERDICT_V1.md`。
+PIK3CA/PIK3CB 的同一 PIK3CA 晶体替换见 Table S30（方向相反）。详见 `STRUCTURE_ROBUSTNESS_VERDICT_V1.md`。
 
 ---
 
@@ -522,7 +525,7 @@ best9 − mode01 为 −0.04 至 +0.08，**不是**相对 Vina。
 | holdout | PIK3CA/PIK3CB | 60 | 59 | 1 | 1 | 1 |
 | holdout | PIK3CA/mTOR | 60 | 60 | 0 | 0 | 0 |
 
-AChE 主面板失败：AB_001（dual，两端）、AB_053/054/056（A_only，两端）、AB_097（neither，B 端）。PIK3CB 主面板：PAB_034（A_only，A 端）。holdout：HOAP_028 两端硼原子类型失败。
+AChE 主面板失败：AB_001（dual，两端）、AB_053/054/056（A_only，两端）、AB_097（neither，B 端）。PIK3CB 主面板：PAB_034（A_only，A 端，`timeout_900s_torsdof=23`）。holdout：HOAP_028 两端硼原子类型失败。PAB_034 在 4JPS/5DXT 替换中同样超时（Table S30），不是标签过滤。
 
 ---
 
@@ -539,14 +542,47 @@ AChE 主面板失败：AB_001（dual，两端）、AB_053/054/056（A_only，两
 
 ---
 
+## Table S29. Max vs median pChEMBL (full scored panels; θ = 6.0)
+
+来源：`assay_max_vs_median_agreement_v1.csv`。冻结 Vina 分数不重算。分母是 **scored n**，不是 construction n。EGFR 冻结 Table 2 与 API-max 差 1 个配体（EH120_060 / CHEMBL24828）。禁止只报翻转个数。
+
+| 靶对 | n scored | 类别翻转 | 标签一致率 | 数值 max≠median | 冻结 summary_min | API-max min | API-median min |
+|------|--------:|--------:|----------:|----------------:|-----------------:|------------:|---------------:|
+| EGFR/HER2 | 110 | 7 | 103/110 = 93.6% | 40/110 | 0.430 (28/38/32) | 0.417 (29/37/32) | 0.424 (26/35/33) |
+| AChE/BChE | 95 | 1 | 94/95 = 98.9% | 13/95 | 0.606 | 0.606 | 0.629 |
+| PIK3CA/PIK3CB | 99 | 1 | 98/99 = 99.0% | 25/99 | 0.500 | 0.500 | 0.500 |
+| PIK3CA/mTOR | 48 | 0 | 48/48 = 100% | 27/48 | 0.692 | 0.692 | 0.692 |
+
+翻转清单见 `assay_max_vs_median_flips_v1.csv`。EGFR：EH40_08 dual→A_only；EH40_27、EH120_070/076/077 A_only→neither；EH120_041 dual→B_only；EH120_060 API-max dual vs median A_only。AChE：AB_018 dual→neither。PIK3CB：PAB_053 A_only→neither。PM：无。
+
+---
+
+## Table S30. Two-pair PIK3CA receptor-realization effect (B pocket frozen)
+
+来源：`receptor_realization_two_pair_v1.csv`。CI 用沉积 CSV，不用临时重算。PAB_034：100 尝试 / 99 成功 / 1 超时（原始 4L23 与 4JPS、5DXT 均失败）。
+
+| 靶对 | PIK3CA | 保留 B | attempted / success / fail | D/A | D/B | summary_min [95% CI] | Δ |
+|------|--------|--------|---------------------------:|----:|----:|----------------------|--:|
+| PIK3CA/mTOR | 4L23 | 4JT6 | 48/48/0 | 0.714 | 0.692 | 0.692 [0.464, 0.802] | — |
+| PIK3CA/mTOR | 4JPS | 4JT6 | 48/48/0 | 0.714 | 0.486 | 0.486 [0.259, 0.692] | −0.206 |
+| PIK3CA/mTOR | 5DXT | 4JT6 | 48/48/0 | 0.714 | 0.505 | 0.505 [0.292, 0.696] | −0.187 |
+| PIK3CA/mTOR | 4L23 | 4JSX | 48/48/0 | 0.639 | 0.692 | 0.639 [0.418, 0.776] | −0.053 |
+| PIK3CA/PIK3CB | 4L23 | 2WXF | 100/99/1 | 0.691 | 0.500 | 0.500 [0.347, 0.648] | — |
+| PIK3CA/PIK3CB | 4JPS | 2WXF | 100/99/1 | 0.691 | 0.707 | 0.691 [0.516, 0.779] | +0.191 |
+| PIK3CA/PIK3CB | 5DXT | 2WXF | 100/99/1 | 0.691 | 0.685 | 0.685 [0.506, 0.768] | +0.185 |
+
+PIK3CA/PIK3CB 弱臂：原始 D/B = 0.500；4JPS 后弱臂切到冻结 D/A = 0.691；5DXT 两臂接近平衡。同一 PIK3CA 扰动、方向相反。不是普遍定律。
+
+---
+
 
 - 本文件是**已有数据的汇编**，不是新实验。若某分析尚无机器可读表，宁缺毋填。
 - 投稿英文 SI 时：Table 编号可按期刊习惯重排；数字不得改动。
 - Cognate 表必须同时报告 mode1 与 best_of_9，避免审稿人误读“全部 &lt; 2 Å”。
 - 早期借用 Schrodinger 处理过的姿态对照**不写入投稿稿**（无正式使用权限；主协议已统一为 RDKit/meeko）。仓库内 `pm48_directional_by_prep_v1.csv` 仅作内部记录。
-- ChEMBL median / confidence≥8 / 物种过滤：本地缓存无字段（见 `T0_SKIPS.md`），不得编造；写入 Limitations。
+- ChEMBL median：全面板 A4 已完成（Table S29）。不得把 27 配体诊断样当成 SI 表。confidence≥8 / 物种过滤仍未重建。
 - Table S12 是计数核对（BindingDB REST + PubChem PUG REST），不是对接结果；不得把 `as_is` 的 EGFR ≥50 写成已建成 BindingDB 厚面板。
 - Table S13 是 holdout 效价/尺寸匹配诊断，不替换 Table S8；不得写成错口袋悖论已解决。
 - Table S16–S21 是冻结分数上的补表（零新对接）。S17 的 holdout Δ CI 均含 0；S19 四对描述符 Δ CI 均含 0；S21 是 vina_mean Top-10，不是 Table 2。
-- Table S22–S28 与 Figure S4 来自 `data/jcim_novelty_v0/`（仍为零新对接）：S22 formulation comparison；S23 chemotype-constrained hard-negatives（T ≥ 0.7 为空；T ≥ 0.3 不是 analogue matching）；S24 incremental ECFP/docking；S25 mixed-library EF；S26 min/mean/harmonic 聚合敏感性（四对排序不变）；S27 docking N_attempted/success/fail；S28 四个描述符全报。不得把 Dual-vs-neither 写成 “conventional benchmark”；不得把 EGFR 0.756 vs 0.430 写成配对显著性；不得把 PIK3CA/mTOR Dual-vs-neither（n = 4）写成反转。
+- Table S22–S30 与 Figure S4 来自 `data/jcim_novelty_v0/` 与 `data/jcim_structure_robust_v0/`：S22 formulation comparison；S23 chemotype-constrained hard-negatives（T ≥ 0.7 为空；T ≥ 0.3 不是 analogue matching）；S24 incremental ECFP/docking；S25 mixed-library EF；S26 min/mean/harmonic 聚合敏感性（四对排序不变）；S27 docking N_attempted/success/fail；S28 四个描述符全报；S29 max vs median（报一致率+翻转+主终点位移）；S30 两对 PIK3CA receptor-realization（方向相反；PAB_034 100/99/1）。不得把 Dual-vs-neither 写成 “conventional benchmark”；不得把 EGFR 0.756 vs 0.430 写成配对显著性；不得把 PIK3CA/mTOR Dual-vs-neither（n = 4）写成反转；不得把受体替换写成单向 collapse 或 robustness。
 - Figure S3 不得复用 Figure 6 的 AUROC 柱；它只画配对 Δ ± CI。

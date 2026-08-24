@@ -27,7 +27,7 @@ That comparison is now computed on the frozen K = 4 Vina scores (**no new dockin
 
 That is field-level new knowledge relative to 2013: not that false positives exist, but that **the benchmark formulation itself decides whether docking appears to work**, and that the hard negatives are A-only/B-only selectives rather than inactives.
 
-JCIM fit after this increment: **still not a large-scale benchmark suite** (K = 4 remains a reviewer target). It is closer to a **methodological evaluation paper** with a curated panel. Direct submission risk is lower than before A1, but **not low**, until A4 (full-panel median) and ideally B5 (second-pair receptor swap) are in.
+JCIM fit after A4 + B5: **still not a large-scale benchmark suite** (K = 4 remains a reviewer target). It is a **methodological evaluation paper** with a curated panel. Remaining risk is synthesis and claim freeze, not missing core experiments. Direct remaining reviewer surfaces: K = 4 generalizability; EGFR-dominant formulation contrast; `summary_min` as a custom aggregator (Table S26 already shows ranking invariance); PAB_034 timeout transparency (now in Table S27/S30).
 
 ---
 
@@ -63,8 +63,8 @@ So the novelty is **not** “we also have four pairs.” It is **benchmark formu
 | **A1** | Conventional vs DualFourClass | No (frozen scores; `neither` already docked on main panels) | **DONE** | `tables/formulation_*.csv` |
 | **A2** | Chemotype-matched hard negatives (ECFP4 Tanimoto) | No | **DONE** (T ≥ 0.7 empty; used 0.3 / 0.4 / 0.5) | `tables/chemotype_matched_hardneg_v1.csv` |
 | **A3** | Incremental information (physchem / ECFP / docking / combinations) | No | **DONE** | `tables/incremental_information_v1.csv` |
-| **A4** | max vs median pChEMBL on **all** frozen-panel IDs | No | **SCRIPT READY; LIVE FULL-PANEL FETCH BLOCKED** | ChEMBL `activity.json?molecule_chembl_id=` currently HTTP 500 / timeout. 27-ligand diagnostic already exists and must **not** be promoted to SI. Re-run `scripts/assay_aggregation_max_vs_median_v1.py` locally when the activity filter is up. |
-| **B5** | Second-pair receptor swap | **Yes** | **LOCAL ONLY** | Vina is not in this cloud image. Cheapest protocol: dock PIK3CA/PIK3CB panel into already-prepared 4JPS / 5DXT (same PIK3CA prep as PM48 swap), keep 2WXF scores. Alternative: EGFR/HER2 alt crystals (needs new prep). Playbook below. |
+| **A4** | max vs median pChEMBL on **all** frozen-panel IDs | No | **DONE** | `tables/assay_max_vs_median_*_v1.csv`; agreement table; SI Table S29. 7/110, 1/95, 1/99, 0/48 class flips; pair-level `summary_min` insensitive. Do not mix EGFR frozen 0.430 with API-max 0.417. |
+| **B5** | Second-pair receptor swap | **Yes (done)** | **DONE** | PIK3CA/PIK3CB into 4JPS/5DXT, 2WXF frozen. `summary_min` 0.500 → 0.691 / 0.685 (opposite of PM48). PAB_034: 100/99/1 timeout on original and both alts. |
 | **B6** | Prospective-style mixed-library enrichment | No | **DONE** | `tables/mixed_library_enrichment_v1.csv` (EGFR Top-10: 9/10 hard-negatives; EF5 = 0.66, worse than random) |
 | **C7** | Wet-lab prospective | Wet lab | **Cannot do here** | Optional; not required to keep a benchmark paper honest |
 
@@ -130,34 +130,34 @@ AChE/PIK3CB show modest EF5 ≈ 2.1 with hard-neg fraction 0.4. PM Top-10 EF = 1
 
 ---
 
-## 7. A4 — assay aggregation (script ready; not a completed SI table)
+## 7. A4 — assay aggregation (DONE; Table S29)
 
-`scripts/assay_aggregation_max_vs_median_v1.py` re-fetches assay-level `pchembl_value` for every scored frozen-panel ligand, relabels at θ = 6.0, and recomputes directional AUROC on frozen Vina scores.
+Full-panel re-fetch completed. Native contrast is API-max vs API-median. Label agreement = 1 − n_flip / n_scored:
 
-This environment: ChEMBL `/activity.json?molecule_chembl_id=` returned HTTP 500 / timeouts on 2026-08-24 after a successful `status.json`. Do not fabricate a full-panel table from the 27-ligand diagnostic (`max_vs_median_diagnostic_sample_v1.csv`; 0/27 θ = 6.0 flips in that slice).
+- EGFR/HER2: 7/110 (93.6%); API-max 0.417 → median 0.424; frozen Table 2 is 0.430 because of EH120_060.
+- AChE/BChE: 1/95 (98.9%); 0.606 → 0.629.
+- PIK3CA/PIK3CB: 1/99 (99.0%); 0.500 → 0.500.
+- PIK3CA/mTOR: 0/48 (100%); 0.692 → 0.692.
 
-**Local command** (when the activity endpoint accepts molecule filters):
+Numeric max ≠ median is common; class flips at θ = 6.0 are not. Do not promote the 27-ligand diagnostic. Do not write max pChEMBL as an unresolved fatal threat.
 
-```bash
-python3 Dual_Target_Docking/data/jcim_novelty_v0/scripts/assay_aggregation_max_vs_median_v1.py
-```
-
-Outputs: `assay_max_vs_median_{ligand,summary,auroc,flips}_v1.csv`. Promote to SI only after the full panel exists. Then one Limitations sentence can be replaced with “median relabel flipped N ligands; summary_min moved by Δ.”
+Details: `data/jcim_novelty_v0/analysis/A4_B5_STATISTICAL_AUDIT_V1.md`. Frozen Vina scores were not recomputed. The 27-ligand diagnostic is superseded and must not be promoted.
 
 ---
 
-## 8. B5 — second-pair receptor swap (local Vina)
+## 8. B5 — second-pair receptor swap (DONE; Table S30)
 
-This cloud image has **no `vina` binary**. Alternate PIK3CA receptors **4JPS** and **5DXT** are already prepared in `data/jcim_structure_robust_v0/` (boxes + `*_receptor.pdbqt`) from the PM48 swap. That is the cheapest second pair:
+PIK3CA/PIK3CB panel redocked into already-prepared 4JPS and 5DXT; 2WXF held frozen; exhaustiveness 8.
 
-1. Prepare PIK3CA/PIK3CB panel ligand PDBQTs with the frozen RDKit ETKDG + meeko protocol (same as main panel).
-2. Dock each ligand into 4JPS and into 5DXT (exhaustiveness = 8 to match the PIK3CB main panel; seed 20260727; n_modes = 9).
-3. Keep frozen 2WXF PIK3CB scores.
-4. Recompute pocket-matched `summary_min` (Dual vs B-only uses the alternate PIK3CA score; Dual vs A-only still uses 2WXF).
+- Original: 0.500 [0.347, 0.648]
+- 4JPS: 0.691 [0.516, 0.779] (Δ +0.191); weak arm switches to frozen D/A
+- 5DXT: 0.685 [0.506, 0.768] (Δ +0.185)
 
-Do **not** dock chimeric 3T8M. 2Y3A / 4BFR exist as extra PIK3CB crystals in `pik3ca_pik3cb_panel_v0/receptors/` if a B-end swap is wanted later; they need their own cognate QC pass in the write-up.
+Opposite of PIK3CA/mTOR (0.692 → 0.486 / 0.505). Phrase as receptor-realization effect, not robustness, not collapse.
 
-EGFR/HER2 is the scientifically sharper second pair (high sequence identity, directional failure on one arm) but needs new crystal selection + prep. Prefer PIK3CA/PIK3CB first because the PIK3CA prep is already frozen.
+PAB_034: 100 attempted / 99 successful / 1 timeout on original 4L23 and both alts. Docking timeout, not a label filter. Same 99-ligand set as Table 2.
+
+Do **not** dock chimeric 3T8M. Extra PIK3CB crystals are optional later work, not required.
 
 ---
 
@@ -189,10 +189,11 @@ Keep (2) as the prespecified primary endpoint. (1) is the novelty comparison wit
 Still real:
 
 - K = 4 (call it data-constrained, not comprehensive). Novelty evidence is **EGFR/HER2-dominant**.
-- Receptor swap still one pair until B5.
-- max pChEMBL until A4 completes.
 - ECFP still strong: A3 helps, but reviewers can still say the labels are chemotype-structured.
+- Two receptor-swap pairs share PIK3CA; opposite directions are not a universal law.
 
-Closed in the claim-hardening round (`scripts/claim_hardening_v1.py`; manuscript rewrite): Dual-vs-neither is no longer called “the conventional benchmark”; 0.756 vs 0.430 is descriptive; `summary_min` ranking is aggregation-insensitive; docking failures are censused; identifier prefix deleted; ECFP incremental / CV / wrong-pocket / descriptor wording tightened.
+Closed: A4 full-panel max vs median (Table S29); B5 second-pair receptor swap (Table S30); Dual-vs-neither is no longer called “the conventional benchmark”; 0.756 vs 0.430 is descriptive; `summary_min` ranking is aggregation-insensitive (Table S26); docking failures are censused including PAB_034; identifier prefix deleted; ECFP incremental / CV / wrong-pocket / descriptor wording tightened.
+
+Do **not** add more docking engines, MD, or extra target pairs. Remaining work is quantitative synthesis, figures, abstract, SI freeze, Zenodo, JCIM typesetting.
 
 If a reviewer asks for 10 pairs or 10 engines, the correct reply is the supply audit (Figure 2) and this note: more engines do not test formulation.

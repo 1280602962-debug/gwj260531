@@ -23,9 +23,9 @@ Vina (primary), RTMScore, GNINA CNN best-of-9, and the strongest trivial descrip
 
 (A) Directional Vina AUROCs at θ = 6.0: dual versus A_only (pocket B) and dual versus B_only (pocket A). (B) Vina pocket-matched summary_min versus the strongest trivial descriptor, with 95% CIs. (C) TPSA on the AChE/BChE panel by class (individual ligands from `assembled_AChE_BChE.csv`; horizontal line, median). Dual ligands are more polar than either hard-negative class, matching the TPSA baseline that exceeds Vina on this pair.
 
-## Figure 5. Ligand-side versus receptor-side robustness of the PIK3CA/mTOR signal.
+## Figure 5. Ligand-panel persistence versus receptor-realization sensitivity.
 
-(A) Ligand-side: pocket-matched summary_min on the main panel versus the unused-pool holdout (20/20/20; seed 20260731) for the three pairs with unused-pool supply. EGFR/HER2 has no holdout. PM110 is a same-family stability check shown in Figure S1C, not a third independent validation trajectory. (B) Receptor-side: PM48 crystal swap, replacing PIK3CA 4L23 with 4JPS or 5DXT (mTOR held at 4JT6) or replacing mTOR 4JT6 with 4JSX (PIK3CA held at 4L23). Error bars are 95% ligand-bootstrap CIs. Ligand replacement can leave the directional signal intact; receptor replacement can collapse it.
+(A) Ligand-side: pocket-matched summary_min on the main panel versus the unused-pool holdout (20/20/20; seed 20260731) for the three pairs with unused-pool supply. EGFR/HER2 has no holdout. PM110 is a same-family stability check shown in Figure S1C, not a third independent validation trajectory. (B) Receptor realization: the same PIK3CA crystals (4L23 original, 4JPS, 5DXT) with the B-end receptor held frozen (4JT6 on PIK3CA/mTOR; 2WXF on PIK3CA/PIK3CB). Summary_min falls on PIK3CA/mTOR (0.692 → 0.486 / 0.505) and rises on PIK3CA/PIK3CB (0.500 → 0.691 / 0.685). Error bars are 95% ligand-bootstrap CIs from the deposited swap tables. The mTOR 4JSX swap remains in Table S9. Receptor replacement is a realization effect, not a unidirectional collapse. PIK3CA/PIK3CB uses the same 99-ligand set as Table 2 (PAB_034 timeout on all three PIK3CA crystals).
 
 ## Figure 6. Wrong-pocket controls reveal an unresolved out-of-panel failure mode.
 
