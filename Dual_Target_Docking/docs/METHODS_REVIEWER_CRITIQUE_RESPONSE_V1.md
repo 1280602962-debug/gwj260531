@@ -6,7 +6,7 @@
 |---|------|----------|------|
 | 1 | 标签规则像数据驱动调整 | **合理** | 提升统一重标为跨对主稳健分析；建面板规则降为 construction protocol（见 Methods 2.1 修订）。**不**把未计算过的“hybrid 6.0/5.5” invent 成主表。 |
 | 2 | max pChEMBL 膨胀 | **合理** | 已有 Limitation；加强措辞。现缓存无 median 字段（`T0_SKIPS.md`），**禁止编造** max vs median 表；本地可补抓 ChEMBL assay 后再做。 |
-| 3 | 缺 panel 重抽样稳定性 | **合理** | 现有配体/支架 bootstrap ≠ 从供给池重抽 1000 个 panel。需对接未用池才能做；列入待做，不伪造分布。 |
+| 3 | 缺 panel 重抽样稳定性 | **合理，但“对接未用池即可做 1000 独立 panel”不成立** | 现有配体/支架 bootstrap ≠ 供给池重抽。主面板+holdout 后严格硬负剩余见 `C_CLASS_EXPERIMENT_NECESSITY_VERDICT_V1.md`：最多再抽 1 个不重叠 30/30/30（PM、AChE），PIK3CB/EGFR 为 0。Holdout 已是一次 unused-pool 检验；禁止把有放回 bootstrap 或未对接的 BindingDB 合并写成 1000-panel 分布。 |
 | 4 | score 方向要写死 | **合理** | Methods 2.6 明确 \(S=-\Delta G_{\mathrm{Vina}}\)，dual=positive。 |
 | 5 | GNINA 只打 mode1 不公平 | **合理，已解决** | 2026-08-21 曾核实本环境无法补打（`GNINA_NINE_POSE_SKIP_V1.md`）；2026-08-24 用户本地补做全 9 姿态公平重打并推送真实结果（`GNINA_POCKET_MATCHED_BEST9_VERDICT_V1.md`）：口袋匹配 summary_min 变化 −0.04–+0.08，三对上不超过 Vina，PIK3CA/PIK3CB 上略高于 Vina（0.533 对 0.500，mode01 时已如此，二者均近随机，非 best9 新产生的现象），姿态覆盖不对称不是 GNINA 偏弱的主要原因。Methods 2.5/2.7、Limitations 已据此更新，不再列为未做项。 |
 | 6 | 蛋白准备不足 | **部分合理** | 按**实际** meeko 路径补写；**不**写入未跑的 PDBFixer/Reduce。缺 histidine/辅因子专项枚举写入局限。 |

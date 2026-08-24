@@ -76,7 +76,7 @@ PIK3CA (4L23) and mTOR (4JT6) are ATP-competitive kinase-related pockets; cognat
 
 ### 3.8 An unresolved robustness gap: panel-composition resampling
 
-The existing bootstrap (Methods 2.6; B = 2000) resamples ligands **within a fixed panel**, answering "how uncertain is this particular docked set," not "would the conclusion still hold with a different, equally sized sample." Answering the latter requires drawing many independent panels (e.g., 1000 draws) from each pair's strict supply pool at the same quota, docking the not-yet-docked pool members, and summarizing the resulting distribution of summary_min. This requires docking beyond the currently frozen score package; §3.9 below reports one such unused-pool draw per pair, which addresses this gap partially but not with a resampled distribution.
+The existing bootstrap (Methods 2.6; B = 2000) resamples ligands **within a fixed panel**, answering "how uncertain is this particular docked set," not "would the conclusion still hold with a different, equally sized sample." After the main panels and the unused-pool holdout, leftover strict hard-negatives cannot support anything close to 1000 **non-overlapping** 30/30/30 panels (PIK3CA/PIK3CB leftover A_only = 8; EGFR leftover strict B_only = 0; the other two pairs can support at most **one** further non-overlapping 30/30/30 draw). Docking the leftover pool would not unlock an independent 1000-panel distribution. §3.9 reports one unused-pool draw per thick pair; that is a single out-of-panel check, not a resampled panel-composition distribution.
 
 ### 3.9 Unused-pool holdout (post-panel-freeze validation)
 

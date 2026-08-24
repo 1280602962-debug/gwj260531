@@ -44,7 +44,7 @@
 
 由于 PM48 的 dual / A_only / B_only 样本量较小、summary_min 置信区间较宽，我们在 PIK3CA/mTOR 上另构建扩面面板（记为 PM110，为历史命名）。该面板保留 PM48 的全部 48 个配体，并按严格规则追加新分子，目标配额 dual / A_only / B_only / neither = 30 / 30 / 30 / 25，实际面板 n = 115。口袋匹配主对比只用前三类（各 30 个）。扩面面板是 PM48 的超集，用于收窄区间并检验点估计是否同向，而不是独立重复实验。主文以 PM48 报告与其他三对在同一协议下的比较；扩面结果另报（Results 3.5）。
 
-面板组成对结论的影响：现报告配体层与 Murcko 支架层 bootstrap CI（2.6）。**从严格供给池按同一配额重新抽取 1000 个独立 panel 并重算 summary_min 的分布**，需要尚未对接的池内分子分数，超出当前冻结分数包范围；该分析列入后续对接工作（可与 unused-pool holdout 合并执行），本稿不虚构其数值。
+面板组成对结论的影响：现报告配体层与 Murcko 支架层 bootstrap CI（2.6）。从严格供给池按同一配额重复抽取**互不重叠**的 30/30/30 panel 在供给上做不到接近 1000 次：主面板与 holdout 用掉硬负后，剩余严格 A_only/B_only 为 PIK3CA/mTOR 37/39、AChE/BChE 141/30、PIK3CA/PIK3CB 8/19、EGFR/HER2 22/0（`C_CLASS_EXPERIMENT_NECESSITY_VERDICT_V1.md`）。硬负总量本身只有数十至一百余个，不是“把未用池对接完就能得到独立 1000-panel 分布”。本稿以一次 unused-pool holdout（Results 3.9）作为面板外检验，不虚构 1000 次重抽数值，也不把已对接配体的有放回 bootstrap 称作供给池重抽。
 
 ### 2.4 蛋白结构与结合位点定义
 
@@ -117,4 +117,4 @@ summary_min 的不确定度以 bootstrap 估计：在每个靶对内对配体有
 | Evaluation 单独写指标 | 2.6（含 \(S=-E\)）；对照列表化 2.7 |
 | 不写未做实验、不写仓库路径 | 不编造 PDBFixer/Reduce/median 表/1000-panel 分布 |
 
-**明确不做/未做（防审稿追问时撒谎）：** max vs median 数值表；从供给池重抽 1000 panel 的 summary_min 分布；PDBFixer+Reduce 质子化流程。GNINA 九姿态公平重打已于 2026-08-24 补做完成（见 2.7；`GNINA_POCKET_MATCHED_BEST9_VERDICT_V1.md`），不再列入未做项。本轮补写的 holdout / 换晶 / 叠合 / 接触计数参数均来自已冻结实验，不是新对接。
+**明确不做/未做（防审稿追问时撒谎）：** 全面板 max vs median 数值表（仅有 27 配体 API 诊断样本，不得升格为 SI 表）；从供给池重抽 1000 个**互不重叠独立** panel 的 summary_min 分布（硬负供给不够，不是“未对接所以还没做”）；PDBFixer+Reduce 质子化流程；主面板残基级 PLIF（git 无 K=4 production poses）。GNINA 九姿态公平重打已于 2026-08-24 补做完成（见 2.7；`GNINA_POCKET_MATCHED_BEST9_VERDICT_V1.md`），不再列入未做项。本轮补写的 holdout / 换晶 / 叠合 / 接触计数参数均来自已冻结实验，不是新对接。必要性复核见 `data/jcim_strengthen_t0t1_v0/analysis/C_CLASS_EXPERIMENT_NECESSITY_VERDICT_V1.md`。
