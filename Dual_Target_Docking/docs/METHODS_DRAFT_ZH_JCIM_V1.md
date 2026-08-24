@@ -98,13 +98,15 @@ Vina 主读出是 mode 1 能量；RTM 与 GNINA 是 best-of-9 重打分。三者
 
 #### 2.8.1 口袋匹配方向 AUROC
 
+全文中的“dual-target recognition”指这一计算判别任务，不表示已经验证的生物学识别，也不等同于独立的口袋特异结合。
+
 对每个靶对 A/B 计算两条二分类 AUROC。dual 对 A-only 使用**口袋 B** 的分数：
 
 \[
 \mathrm{AUC}_{D/A} = \mathrm{AUROC}(\text{dual},\;\text{A-only};\;S_B),
 \]
 
-以检验对接能否利用非选择性靶点 B 的结构信息，把 dual-active 与已在 A 端强效的 A-only 分开。dual 对 B-only 使用口袋 A 的分数：
+以检验非选择性口袋 B 的分数能否把 dual-active 与已在 A 端强效的 A-only 分开。dual 对 B-only 使用口袋 A 的分数：
 
 \[
 \mathrm{AUC}_{D/B} = \mathrm{AUROC}(\text{dual},\;\text{B-only};\;S_A).
@@ -120,15 +122,15 @@ S_{\mathrm{Vina}} = -E_{\mathrm{Vina}},
 
 使所有 primary scores 遵循“越大表示预测结合越强”。RTMScore 与 GNINA CNN 分数本身已是越高越好，不再取负。
 
-#### 2.8.2 summary_min
+#### 2.8.2 最差方向判别摘要（`summary_min`）
 
-靶对汇总为较弱一臂：
+最差方向判别摘要定义为：
 
 \[
 \mathrm{summary}_{\min} = \min(\mathrm{AUC}_{D/A},\;\mathrm{AUC}_{D/B}).
 \]
 
-该规则是与双靶任务同构的 **worst-arm aggregation**，不是新的 scoring function。选择最小值是为了避免一端较强的 discrimination 掩盖另一端失败；它不是唯一自然的数学聚合。两条方向 AUROC 的算术平均、几何平均与调和平均均作为敏感性聚合报告（Table S26）。四种聚合下四对排序不变，EGFR Dual-versus-neither 对照的方向也不变。全文只有一个主终点：统一 θ = 6.0 下的口袋匹配 Vina `summary_min`（Table 2；PIK3CA/mTOR 主面板为 PM48）。预指定次级终点为两条方向臂、RTMScore 口袋匹配、GNINA CNN best-of-9 口袋匹配，以及 2.8.3 的描述符面板。敏感性 / 证伪终点为 θ 网格、PM110、E = 8、unused-pool holdout、受体替换、错口袋对照（含配对 Δ）。探索性终点为 ECFP4、contact_count（非 PLIF）以及 pooled `vina_mean` 的 Top-10 硬负计数。完整层级见 Supporting Information Table S16。`vina_mean` 池化方向 AUROC **不是** Table 2。
+`summary_min` 是将两条方向 AUROC 压缩为单值的保守**最差方向判别摘要**。它避免较强方向掩盖另一方向的失败，但不是新的 docking score、独立统计检验，也不表示 calibration、sensitivity、specificity 或生物学亲和力。两条方向 AUROC 的算术平均、几何平均与调和平均作为聚合敏感性报告（Table S26）；四种摘要下四对排序不变，EGFR formulation 对照的方向也不变。全文唯一主终点是统一 θ = 6.0 下的口袋匹配 Vina `summary_min`（Table 2；PIK3CA/mTOR 主面板为 PM48）。次级、敏感性、证伪与探索性终点的完整层级见 Table S16。
 
 #### 2.8.3 物化描述符对照
 
@@ -150,48 +152,19 @@ AUROC 与 summary_min 的不确定度用配体层 bootstrap：在保持类别标
 
 #### 2.9.1 Wrong-pocket falsification control
 
-将靶点 A 与 B 的分数对调，配体、受体与其余分析设置不变，重算方向 AUROC 与 summary_min。该分析是 **falsification control**，不是用来证明口袋特异的阳性对照。固定面板上 matched > wrong **不**作为 pocket-specific signal 的证据。错口袋接近或高于匹配口袋，则视为对 pocket-specific interpretation 的反证。holdout 反转进一步说明：wrong-pocket **不是在面板迁移下可靠的通用负对照**。
+将靶点 A 与 B 的分数对调，配体、受体与其余分析设置不变，重算方向 AUROC 与 summary_min。该分析是 **falsification control**，不是用来证明口袋特异的阳性对照。固定面板上 matched > wrong **不**作为 pocket-specific signal 的证据。错口袋接近或高于匹配口袋，则视为对 pocket-specific interpretation 的反证。holdout 的 point-estimate reversal 进一步说明：wrong-pocket **不是在面板迁移下可靠的通用负对照**。
 
-#### 2.9.2 配体效率归一
+#### 2.9.2 配体层混淆对照
 
-各口袋分数除以重原子数，\(S_{\mathrm{LE}} = S_{\mathrm{dock}} / N_{\mathrm{heavy}}\)，再按 primary 流程计算方向 AUROC 与 summary_min，以检验对接分是否主要反映分子大小。
+在配体效率归一（\(S_{\mathrm{dock}}/N_{\mathrm{heavy}}\)）、效价约束（\(|\Delta\mathrm{pChEMBL}| \leq 0.5\)）和尺寸约束（\(|\Delta N_{\mathrm{heavy}}| \leq 2\)）后重算方向 AUROC。逻辑回归比较 docking alone 与 docking + heavy-atom count + TPSA（\(C=1.0\)，`max_iter=2000`）。这些分析诊断结果对尺寸、效价和极性的敏感性；缩小后的匹配子集不作为独立 confirmatory evidence（Tables S5、S19）。
 
-#### 2.9.3 效价与尺寸匹配子集
+#### 2.9.3 Ligand-only 与探索性结构对照
 
-分别构建 \(|\Delta\mathrm{pChEMBL}| \leq 0.5\) 的 potency-matched 子集与 \(|\Delta N_{\mathrm{heavy}}| \leq 2\) 的 size-matched 子集，在子集上重算方向 AUROC。匹配会减小样本量；该分析只判断方向是否明显改变，不把低样本量子集的点估计当作独立强证据（Table S5）。
+Morgan/ECFP4（半径 2，2048 bit）加逻辑回归用于估计当前面板内的 label-associated discrimination，而非建立可迁移的活性预测器。评价采用最多五折的 Bemis–Murcko scaffold `GroupKFold`；随机 `StratifiedKFold` 只作泄漏核对，logistic docking AUROC 与 Table 2 rank AUROC 分开解释（Tables S20、S24）。最近邻 Tanimoto 子集只作诊断：T ≥ 0.7 为空，现有更低阈值子集样本量有限（Table S23）。另以 4.0 Å 内配体重原子数作为粗粒度 scoring-independent contact count，诊断 wrong-pocket 中的 size/burial contribution（Table S11）；全链序列一致性仅作为探索性背景描述符（Table S7）。两者都不是残基级 PLIF 或口袋相似度指标。
 
-#### 2.9.4 Covariate-adjusted analysis
+### 2.10 支持性单靶富集参照
 
-逻辑回归比较
-
-\[
-\mathrm{Model}_1:\ Y \sim S_{\mathrm{dock}}, \qquad
-\mathrm{Model}_2:\ Y \sim S_{\mathrm{dock}} + N_{\mathrm{heavy}} + \mathrm{TPSA},
-\]
-
-其中 \(Y\) 为 dual 对相应选择性硬负的二分类标签。使用 scikit-learn `LogisticRegression`（\(C = 1.0\)，`max_iter = 2000`）。报告模型 AUROC、对接分数回归系数及其优势比（OR）。该分析询问对接分在控制分子大小与极性后是否仍有 residual discrimination，协变量模型不是 primary predictor。
-
-#### 2.9.5 二维化学基线
-
-Morgan/ECFP4（半径 2，2048 bit）加与 2.9.4 相同的逻辑回归，建立仅依赖二维结构的基线。评价采用 Bemis–Murcko scaffold `GroupKFold`，折数 \(\min(5, N_{+}, N_{-}, N_{\mathrm{scaffold}})\) 且至少两折，使同一骨架不跨训练/测试折。高 CV AUROC 只说明同一 Murcko 支架的分子不在训练/测试折共享时判别仍可保持，**不是** target-external generalization。PIK3CA/mTOR 上 \(n_{\mathrm{scaffolds}} \approx n\)，该折接近 leave-one-scaffold。随机 `StratifiedKFold` 仅作泄漏核对（Table S20）。增量模型（physchem、ECFP4、docking 及其组合）使用同一折；logistic docking AUROC 不是 Table 2 的 rank AUROC（Table S24）。A-only/B-only 相对 dual 的最近邻 ECFP4 Tanimoto 匹配在 T ≥ 0.3 / 0.4 / 0.5 报告，因为这些面板上 T ≥ 0.7 匹配为空（Table S23）。T ≥ 0.3 是 **similarity-constrained subset**，不是 chemically matched analogue set。
-
-#### 2.9.6 Scoring-independent contact count
-
-在已冻结的 Vina **mode-1** 姿态上计算不依赖打分函数的几何量：配体重原子中与受体重原子距离 ≤ 4.0 Å 的原子数
-
-\[
-N_{\mathrm{contact}} = \#\{i:\ \min_j d_{ij} \le 4.0\,\text{Å}\}.
-\]
-
-该描述符不使用对接能量函数。用 \(N_{\mathrm{contact}}\) 在口袋 A 上比较 dual 对 A-only、在口袋 B 上比较 dual 对 B-only，与错口袋对照的同口袋比较同构，作为 scoring-independent geometric confounder control，检验错口袋判别是否可能只反映更大分子产生更多埋藏接触。4.0 Å 为粗粒度接触阈值，**不是** PLIF。不预设其幅度与 Vina 错口袋一致（Table S11）。
-
-#### 2.9.7 跨对序列一致性（探索性）
-
-从各冻结受体 `*_protein.pdb` 用 Biopython `PDBParser` 提取最长蛋白链一级序列（仅标准氨基酸 ATOM），以 `PairwiseAligner`（BLOSUM62，全局比对，gap open = −11、extend = −1）计算靶对内全链序列一致性（分别以比对长度与较短链归一；Table S7）。该指标是整体相似度的粗粒度代理，不涉及口袋残基对应或结构叠合，不用于口袋 RMSD 或 PLIF 主张。
-
-### 2.10 单靶富集参照
-
-在 PIK3CA 4L23 与 mTOR 4JT6 上分别构建单靶 active–weak-active 集合。活性分子：pChEMBL ≥ 6.5。弱效分子：同靶已测定且 pChEMBL ≤ 5.5，并按分子量 ±50 Da、cLogP ±1.5、TPSA ±25 Å² 与活性分子做性质匹配。分子量与 logP 窗口沿用 property-matched decoy 的常见设定（Mysinger et al., *J. Med. Chem.* **2012**, *55*, 6582–6594）；TPSA 窗口为同一思想下增加的极性匹配。目标规模约 50 个活性分子与 150 个弱效分子。配体准备、受体、盒子与 Vina 协议与 PIK3CA/mTOR 主面板相同（exhaustiveness = 16）。报告 AUROC、EF1% 与 EF5%。该实验只提供单靶 docking enrichment 的背景参照，不替代 dual-target 的 summary_min。
+支持性的 PIK3CA/mTOR 单靶 active-versus-weak 分析使用 pChEMBL ≥ 6.5 对 ≤ 5.5，并按 MW、cLogP 与 TPSA 匹配；配体准备与 docking 同主面板。AUROC、EF1% 和 EF5% 只在 Supporting Information 中作为背景报告，不替代方向性双靶终点。
 
 ### 2.11 未使用配体池 holdout
 
@@ -211,4 +184,4 @@ Holdout 不参与主面板构建、对接协议调整或 primary endpoint 选择
 
 ### 2.13 软件与数据可用性
 
-计算在 Python 3 环境下完成。主要软件：RDKit 2026.3.1、meeko 0.7.1、AutoDock Vina 1.2.7、GNINA 1.3.2、RTMScore（`rtmscore_model1`）；Vina 姿态转 SDF 使用 Open Babel。刚体叠合与全链序列比对使用 Biopython（`PDBParser`、`Superimposer`、`PairwiseAligner`）。AUROC、逻辑回归与交叉验证使用 NumPy、SciPy、scikit-learn 与 pandas（版本见公开复现环境）。评价面板、对接分数、分析脚本与完整参数表随公开数据包提供，见 Data and Software Availability。
+计算在 Python 3 环境下完成。主要软件：RDKit 2026.3.1、meeko 0.7.1、AutoDock Vina 1.2.7、GNINA 1.3.2、RTMScore（`rtmscore_model1`）；Vina 姿态转 SDF 使用 Open Babel。刚体叠合与全链序列比对使用 Biopython（`PDBParser`、`Superimposer`、`PairwiseAligner`）。AUROC、逻辑回归与交叉验证使用 NumPy、SciPy、scikit-learn 与 pandas（版本见公开复现环境）。评价面板、对接分数、分析脚本与完整参数表已在公开仓库提供，见 Data and Software Availability。

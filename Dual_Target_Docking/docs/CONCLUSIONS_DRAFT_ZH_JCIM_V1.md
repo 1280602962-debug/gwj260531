@@ -2,6 +2,6 @@
 
 ## 5. 结论
 
-本研究建立 DualFourClass-Bench，作为对接双靶识别的实验锚定评价环境，显式检验对接能否将 dual-active 配体与 A-selective、B-selective 硬负样本区分开来。在四对冻结靶标上，双靶判别高度依赖靶对（`summary_min` AUROC 介于 0.430 与 0.692 之间），并且在支架感知评价下，对接相对配体层化学基线只提供有限增量信息。主终点估计对最大 pChEMBL 与中位数聚合大体不敏感。PIK3CA/mTOR 给出最高点估计，并在未参与建面的配体池中保持正向方向信号；但主面板估计的不确定度及其对受体结构的敏感性，排除将其解释为可迁移的双靶决策规则。
+本研究建立 DualFourClass-Bench，作为针对 A-selective、B-selective 硬负样本的实验锚定计算判别环境。在四对冻结靶标上，最差方向判别摘要高度依赖靶对（`summary_min` 0.430–0.692），且把 docking 加到 ECFP4 后只产生很小的支架分组 CV AUROC 增量改善。在这四对面板中，主终点对最大 pChEMBL 与重复测定中位数聚合的选择总体不敏感。PIK3CA/mTOR 的点估计最高，并在未使用配体池稳定性检查中保持同向趋势；但其不确定性与受体敏感性排除了可推广的决策规则。
 
-更广泛的分析表明，表观双靶对接性能由任务定义、配体化学组成和受体实现方式共同决定。EGFR/HER2 上，Dual-versus-neither comparator（AUROC 0.756）会支持对接双靶识别，而方向性弱臂仍为 0.430；该 formulation gap 依赖靶对，不是四对统一反转，也是描述性对照而非配对显著性检验。若干靶对上，物化或化学型参考达到或超过对接判别；未使用配体池还暴露出错口袋对照不低于口袋匹配的未解决反转，效价或尺寸匹配未能消除，尽管相应配对置信区间仍包含零。受体实现对可以改变表观判别的幅度甚至方向；这是 realization effect，不是稳健性证书。这些发现反对把两个口袋上的有利分数当作双靶活性的充分证据。双靶虚拟筛选应纳入实验定义的单靶硬负样本、配体层混淆对照、面板外配体评价以及受体敏感性分析。因此，DualFourClass-Bench 的主要贡献不是产生一个普适的 docking winner，而是提供系统协议，用以界定 docking-based dual-target recognition 的证据与可靠性边界。
+更广泛的分析表明，表观双靶对接判别取决于任务设定、配体化学组成和受体实现。EGFR/HER2 上，Dual-versus-neither comparator 为 0.756，而方向性最差一臂为 0.430；这是依赖靶对的描述性对照，不是配对显著性检验或四对定律。若干靶对上，ligand-only reference 达到或超过 docking；unused-pool holdout 还暴露出配对区间包含零的未解决 wrong-pocket point-estimate reversal。受体实现改变了表观判别的幅度和方向。这些结果支持把实验定义的选择性硬负样本、配体层混淆对照、面板外稳定性检查与受体敏感性作为双靶对接评价的互补要求。DualFourClass-Bench 的主要贡献是界定证据与可靠性边界的系统协议，而不是普适 docking winner。

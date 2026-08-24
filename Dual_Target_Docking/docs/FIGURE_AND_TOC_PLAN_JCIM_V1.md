@@ -5,7 +5,7 @@
 
 **现状（2026-08-24 重构）：** 主文 Fig 1–7、SI Fig S1–S3、TOC graphic 由 `data/jcim_bench_v0/scripts/plot_jcim_article_figures_v1.py` 从冻结 CSV 绘制。**Fig 3 = formulation 并排柱**（Dual-versus-neither vs directional `summary_min`；方向性 CI 来自 θ = 6.0，不是 formulation CSV 空 CI）。**Fig 5 = 受体实现**（PM 含 4JSX；PIK3CB 不含）。原森林图 → Figure S4；unused-pool holdout → Figure S5。数值锁定见 `plotted_values.json`。未做主面板姿态图（git 无主面板 pose）。
 
-JCIM Articles 无硬图数上限。主文 **7 张图 + 1 张 TOC**：Fig 6 是错口袋方向在 holdout 上反转（改写故事）；Fig 7 是 Fig 4 未展开的指纹/全描述符/协变量/匹配子集。协议旋钮与 `as_is` 供给规则留在 SI。**Figure S3** 补配对 Δ ± CI（Fig 6 只画两个 AUROC，不画差值区间），以及口袋匹配对描述符的配对 Δ、支架 vs 随机泄漏核对。
+JCIM Articles 无硬图数上限。主文 **7 张图 + 1 张 TOC**：Fig 6 是错口袋方向在 holdout 上的 point-estimate reversal；Fig 7 是 Fig 4 未展开的指纹/全描述符/协变量/匹配子集。协议旋钮与 `as_is` 供给规则留在 SI。**Figure S3** 补配对 Δ ± CI（Fig 6 只画两个 AUROC，不画差值区间），以及口袋匹配对描述符的配对 Δ、支架 vs 随机泄漏核对。
 
 ---
 
@@ -18,7 +18,7 @@ JCIM Articles 无硬图数上限。主文 **7 张图 + 1 张 TOC**：Fig 6 是�
 | 必做 | Table 3：Dual-versus-neither comparator vs directional summary_min | **Fig 3 并排柱** | **全文第一主结果图**（formulation）；PM neither n=4 必须标 underpowered |
 | 必做 | Table 2：口袋匹配 summary_min ± CI，并排四个描述符；弱臂不对称 | **Fig 4 森林 + 双臂** | 方向性主终点（former Fig 3）；避免读者只记住 0.692 |
 | 必做 | 受体实现敏感性（幅度与方向） | **Fig 5** | Results 3.4 视觉锚：PM 0.692→0.486/0.505/0.639；PIK3CB 0.500→0.691/0.685 |
-| 必做 | 错口袋：主面板 matched>wrong，holdout 反转 | **Fig 6** | unresolved failure mode，不是 validation |
+| 必做 | 错口袋：主面板 matched>wrong，holdout point-estimate reversal | **Fig 6** | paired CI 含 0；unresolved failure mode，不是 validation |
 | 必做 | 指纹 GroupKFold、全部描述符、协变量、匹配子集 | **Fig 7** | Fig 4 只给最强描述符与 TPSA；这张是检验 |
 | 可做（主文或 SI） | PI-103 共晶回收 + 一个 T2 硬负两端都“看起来对” | **SI 姿态图** | 对接论文需要一张姿态图，但不要假装做了 PLIF |
 | SI | 阈值网格、GNINA mode01/best9、PM110、E8/E16、单靶 enrichment | **Fig S1** | 协议旋钮不改排序 |

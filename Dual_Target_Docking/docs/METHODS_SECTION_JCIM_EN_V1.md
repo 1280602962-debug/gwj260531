@@ -98,13 +98,15 @@ Vina’s primary readout is the mode-1 energy; RTM and GNINA are best-of-9 resco
 
 #### 2.8.1 Pocket-matched directional AUROC
 
+Throughout this Article, “dual-target recognition” names this computational discrimination task; it does not denote validated biological recognition or independent pocket-specific binding.
+
 Two binary AUROCs were computed per pair. Dual versus A-only used the **pocket B** score:
 
 \[
 \mathrm{AUC}_{D/A} = \mathrm{AUROC}(\text{dual},\;\text{A-only};\;S_B),
 \]
 
-asking whether docking can use structural information at the nonselective target B to separate dual-actives from A-only ligands that are already potent at A. Dual versus B-only used the pocket A score:
+testing whether the score in the nonselective pocket B separates dual-actives from A-only ligands that are already potent at A. Dual versus B-only used the pocket A score:
 
 \[
 \mathrm{AUC}_{D/B} = \mathrm{AUROC}(\text{dual},\;\text{B-only};\;S_A).
@@ -120,15 +122,15 @@ S_{\mathrm{Vina}} = -E_{\mathrm{Vina}}
 
 so that larger primary scores mean stronger predicted binding. RTMScore and GNINA CNN scores are already higher-better.
 
-#### 2.8.2 summary_min
+#### 2.8.2 Worst-direction discrimination summary (`summary_min`)
 
-The pair summary is the weaker arm:
+The worst-direction discrimination summary is defined as:
 
 \[
 \mathrm{summary}_{\min} = \min(\mathrm{AUC}_{D/A},\;\mathrm{AUC}_{D/B}).
 \]
 
-This is a task-aligned **worst-arm aggregation**, not a new scoring function. The minimum prevents a strong arm from hiding failure on the other; it is not the unique statistically natural aggregator. Arithmetic, geometric, and harmonic means of the two directional AUROCs are reported as sensitivity aggregators (Table S26). Pair ranking and the direction of the EGFR Dual-versus-neither contrast are unchanged under all four aggregators. The single primary endpoint is pocket-matched Vina `summary_min` under unified θ = 6.0 (Table 2; PIK3CA/mTOR uses PM48). Prespecified secondary endpoints are the two directional arms, pocket-matched RTMScore, pocket-matched GNINA CNN best-of-9, and the descriptor panel in Section 2.8.3. Sensitivity / falsification endpoints are the θ grid, PM110, E = 8, unused-pool holdout, receptor replacement, and wrong-pocket (including paired Δ). Exploratory endpoints are ECFP4, contact_count (not a PLIF), and Top-10 hard-negative counts on pooled `vina_mean`. The hierarchy is in Supporting Information Table S16. Pooled `vina_mean` directional AUROC is **not** Table 2.
+`summary_min` is a conservative **worst-direction discrimination summary** of two AUROCs. It prevents a strong direction from hiding failure in the other direction, but it is not a new docking score, a separate hypothesis test, or a measure of calibration, sensitivity, specificity, or biological affinity. Arithmetic, geometric, and harmonic means are reported as aggregation sensitivities (Table S26); pair ranking and the EGFR formulation contrast remain in the same direction under all four summaries. The single primary endpoint is pocket-matched Vina `summary_min` under unified θ = 6.0 (Table 2; PIK3CA/mTOR uses PM48). The endpoint hierarchy and all secondary, sensitivity, falsification, and exploratory analyses are listed in Table S16.
 
 #### 2.8.3 Physicochemical descriptor controls
 
@@ -150,48 +152,19 @@ As an auxiliary contrast on the **same** frozen Vina scores, a **Dual-versus-nei
 
 #### 2.9.1 Wrong-pocket falsification control
 
-Scores for targets A and B were swapped; ligands, receptors, and all other settings were unchanged. Directional AUROCs and summary_min were recomputed. This is a **falsification control**, not a positive control designed to prove pocket specificity. Matched > wrong on a fixed panel is **not** taken as evidence of pocket-specific signal. Wrong-pocket performance near or above matched-pocket performance counts against a pocket-specific reading. Holdout reversal further means wrong-pocket is **not a reliable universal negative control under panel shift**.
+Scores for targets A and B were swapped; ligands, receptors, and all other settings were unchanged. Directional AUROCs and summary_min were recomputed. This is a **falsification control**, not a positive control designed to prove pocket specificity. Matched > wrong on a fixed panel is **not** taken as evidence of pocket-specific signal. Wrong-pocket performance near or above matched-pocket performance counts against a pocket-specific reading. The holdout point-estimate reversal further means wrong-pocket is **not a reliable universal negative control under panel shift**.
 
-#### 2.9.2 Ligand-efficiency normalization
+#### 2.9.2 Ligand-level confounder controls
 
-Each pocket score was divided by heavy-atom count, \(S_{\mathrm{LE}} = S_{\mathrm{dock}} / N_{\mathrm{heavy}}\), and directional AUROCs and summary_min were recomputed.
+Directional AUROCs were recomputed after ligand-efficiency normalization (\(S_{\mathrm{dock}}/N_{\mathrm{heavy}}\)) and on potency- or size-constrained subsets (\(|\Delta\mathrm{pChEMBL}| \leq 0.5\); \(|\Delta N_{\mathrm{heavy}}| \leq 2\)). Logistic models compared docking alone with docking plus heavy-atom count and TPSA (\(C=1.0\), `max_iter=2000`). These analyses diagnose sensitivity to size, potency, and polarity; reduced matched subsets are not treated as independent confirmatory evidence (Tables S5, S19).
 
-#### 2.9.3 Potency- and size-matched subsets
+#### 2.9.3 Ligand-only and exploratory structural controls
 
-Subsets with \(|\Delta\mathrm{pChEMBL}| \leq 0.5\) or \(|\Delta N_{\mathrm{heavy}}| \leq 2\) were formed and directional AUROCs recomputed. Matching reduces n; the analysis asks whether the direction changes, not whether a small subset is independent strong evidence (Table S5).
+Morgan/ECFP4 fingerprints (radius 2, 2048 bits) with logistic regression provided a ligand-only chemical baseline, intended to estimate label-associated discrimination within the current panels rather than build a transferable activity predictor. Evaluation used Bemis–Murcko scaffold `GroupKFold` with up to five folds; random `StratifiedKFold` was a leakage check, and logistic docking AUROC was kept distinct from Table 2 rank AUROC (Tables S20, S24). Nearest-neighbor Tanimoto subsets were diagnostic, not formal chemically matched controls, because T ≥ 0.7 was empty and stricter available subsets were small (Table S23). A coarse scoring-independent contact count (ligand heavy atoms within 4.0 Å of receptor heavy atoms) probed size/burial contributions to wrong-pocket results (Table S11), and whole-chain sequence identity was used only as an exploratory background descriptor (Table S7). Neither control is a residue-level PLIF or pocket-similarity measure.
 
-#### 2.9.4 Covariate-adjusted analysis
+### 2.10 Supporting single-target enrichment reference
 
-Logistic regression compared
-
-\[
-\mathrm{Model}_1:\ Y \sim S_{\mathrm{dock}}, \qquad
-\mathrm{Model}_2:\ Y \sim S_{\mathrm{dock}} + N_{\mathrm{heavy}} + \mathrm{TPSA},
-\]
-
-where \(Y\) is the dual versus selective-hard-negative label. scikit-learn `LogisticRegression` was used (\(C = 1.0\), `max_iter = 2000`). Model AUROC, the docking coefficient, and its odds ratio are reported. The question is residual discrimination after size and polarity, not a new primary predictor.
-
-#### 2.9.5 Two-dimensional chemical baseline
-
-Morgan/ECFP4 fingerprints (radius 2, 2048 bits) with the same logistic settings provided a ligand-only chemical baseline. Evaluation used Bemis–Murcko scaffold `GroupKFold` with \(K = \min(5, N_{+}, N_{-}, N_{\mathrm{scaffold}})\) and at least two folds, so the same scaffold does not span train and test. High CV AUROC therefore means discrimination remains when molecules from the same Murcko scaffold are not shared between folds; it is **not** target-external generalization. On PIK3CA/mTOR, \(n_{\mathrm{scaffolds}} \approx n\), so the split is nearly leave-one-scaffold. Random `StratifiedKFold` is a leakage check only (Table S20). Incremental models (physchem, ECFP4, docking, and combinations) use the same split; logistic docking AUROC is not the rank AUROC in Table 2 (Table S24). Nearest-neighbor ECFP4 Tanimoto matching of A-only/B-only ligands to duals is reported at T ≥ 0.3 / 0.4 / 0.5 because T ≥ 0.7 matching is empty on these panels (Table S23). T ≥ 0.3 is a **similarity-constrained subset**, not a chemically matched analogue set.
-
-#### 2.9.6 Scoring-independent contact count
-
-On frozen Vina **mode-1** poses, a scoring-free geometric descriptor was the number of ligand heavy atoms within 4.0 Å of any receptor heavy atom:
-
-\[
-N_{\mathrm{contact}} = \#\{i:\ \min_j d_{ij} \le 4.0\,\text{Å}\}.
-\]
-
-This descriptor does not use the docking energy function. \(N_{\mathrm{contact}}\) was used for dual versus A-only in pocket A and dual versus B-only in pocket B, isomorphic to the wrong-pocket pocket-wise comparison, as a geometric confounder control (size/burial). The 4.0 Å cutoff is coarse and **not** a PLIF. Magnitude agreement with Vina wrong-pocket is not assumed (Table S11).
-
-#### 2.9.7 Cross-pair sequence identity (exploratory)
-
-The longest protein chain was read from each frozen `*_protein.pdb` (standard amino-acid ATOM records). Pairwise global identity used Biopython `PairwiseAligner` (BLOSUM62, gap open = −11, extend = −1), normalized by alignment length or by the shorter chain (Table S7). The quantity is a coarse whole-chain similarity proxy, not pocket residue correspondence, pocket RMSD, or a PLIF.
-
-### 2.10 Single-target enrichment reference
-
-On PIK3CA 4L23 and mTOR 4JT6, single-target active versus weak-active sets were built. Actives: pChEMBL ≥ 6.5. Weak actives: measured on the same target with pChEMBL ≤ 5.5 and property-matched to actives within ±50 Da (MW), ±1.5 (cLogP), and ±25 Å² (TPSA). MW and logP windows follow common property-matched decoy practice (Mysinger et al., *J. Med. Chem.* **2012**, *55*, 6582–6594); TPSA is an added polarity match. Target size was about 50 actives and 150 weak actives. Preparation, receptor, box, and Vina settings matched the PIK3CA/mTOR main panel (exhaustiveness = 16). AUROC, EF1%, and EF5% are reported as a single-target enrichment backdrop, not as a substitute for dual-target summary_min.
+A supporting PIK3CA/mTOR active-versus-weak single-target analysis used pChEMBL ≥ 6.5 versus ≤ 5.5 with MW, cLogP, and TPSA matching; preparation and docking matched the main panel. AUROC, EF1%, and EF5% are reported only in the Supporting Information as context and do not substitute for the directional dual-target endpoint.
 
 ### 2.11 Unused-pool holdout
 
@@ -211,4 +184,4 @@ As an exploratory, docking-free geometric control, rigid superposition used Biop
 
 ### 2.13 Software and data availability
 
-Analyses ran under Python 3 with RDKit 2026.3.1, meeko 0.7.1, AutoDock Vina 1.2.7, GNINA 1.3.2, and RTMScore (`rtmscore_model1`); Open Babel converted Vina poses to SDF. Superposition and chain alignment used Biopython. AUROC, logistic regression, and cross-validation used NumPy, SciPy, scikit-learn, and pandas. Panels, scores, scripts, and parameter tables will be released with the public pack (Data and Software Availability).
+Analyses ran under Python 3 with RDKit 2026.3.1, meeko 0.7.1, AutoDock Vina 1.2.7, GNINA 1.3.2, and RTMScore (`rtmscore_model1`); Open Babel converted Vina poses to SDF. Superposition and chain alignment used Biopython. AUROC, logistic regression, and cross-validation used NumPy, SciPy, scikit-learn, and pandas. Panels, scores, scripts, and parameter tables are available in the public repository (Data and Software Availability).

@@ -1,18 +1,16 @@
 # Introduction（中文工作稿 · JCIM Articles）
 
-## 1. 双靶点药物设计的兴起及结构基础虚拟筛选的作用
+## 1. 引言
+
+### 1.1 双靶设计及传统对接基准的不足
 
 多靶点药物设计（multitarget drug design）旨在通过单一小分子同时调控两个或多个生物学靶点，以应对复杂疾病中的通路冗余、代偿性信号以及药物耐药等问题。与传统单靶点药物相比，合理设计的多靶点配体有望通过协同调节相互关联的生物学过程获得更充分的药理效应，因此已成为多靶点药物发现和多药理学（polypharmacology）研究的重要方向。[^1] 近年来，多靶点小分子的理性设计逐渐由经验性的多药理筛选，转向结合结构生物学、计算化学与生成式模型的结构导向设计。[^2]
 
 在这一过程中，分子对接（molecular docking）仍是结构基础虚拟筛选（structure-based virtual screening, SBVS）中最常用的计算工具之一：先预测配体在蛋白结合口袋中的结合构象，再用打分函数对配体–受体相互作用排序，从而在大规模化合物库中给出结构互补性的近似评价。[^3][^4] 因此，在双靶点药物发现中，一个自然的计算策略是分别将候选分子对接至两个靶点，并据此判断其是否具有潜在的双靶结合能力。
 
-与此同时，既有虚拟筛选研究已经表明，对接结果的解释高度依赖于数据集构建、负样本定义、化学偏倚以及评价指标。经典的 DUD 与 DUD-E 基准把评价建成“活性配体相对物化匹配 decoy 的富集”，并强调 decoy 若在粗物化性质上与活性物相差过大，表观 enrichment 可能只是在分离分子量或极性等配体层特征。[^5][^6] LIT-PCBA 进一步指出，DUD、DUD-E、MUV 一类人工构造的 active/decoy 数据集可能包含显著乃至隐蔽的化学偏倚，从而高估虚拟筛选方法的真确度；该基准改用实验剂量–响应标签，并对物化性质范围加以控制。[^7] 另一方面，CASF 一类结构打分基准把评分与对接搜索解耦，用 scoring / ranking / docking / screening power 评价单复合物上的打分函数，并不回答“两端实验活性状态空间”中的双靶识别问题。[^8]
+既有虚拟筛选研究已经表明，对接结果的解释高度依赖数据集构建、负样本定义、化学偏倚和评价指标。DUD 与 DUD-E 使用物化性质匹配 decoy，以避免表观 enrichment 退化为粗粒度配体性质分离。[^5][^6] LIT-PCBA 进一步采用实验 assay 标签，并系统控制已知 decoy/chemical biases，以提高虚拟筛选评价的现实性。[^7] CASF-2016 则评价复合物上的 scoring、ranking、docking 与 screening power，仍然属于单复合物问题。[^8] 这些资源都没有在实验标注的四状态配体空间中定义双靶方向判别。
 
 然而，**将单靶点 docking 的评价逻辑直接扩展到双靶点任务并不充分。**
-
-## 2. 双靶点识别与传统单靶点虚拟筛选任务存在本质差异
-
-传统结构基础虚拟筛选通常可以表述为区分目标蛋白的活性配体与非活性化合物，即 Active versus Decoy。在这一任务中，负样本主要用于构建与目标活性配体相对的判别边界。
 
 对于双靶点配体而言，任务结构发生了改变。一个严格的双靶点 benchmark 至少需要区分四种具有不同生物学含义的配体状态（四状态数据集，而不是四分类器）：同时作用于两个靶点的 **dual-active** 配体、仅作用于靶点 A 的 **A-selective** 配体、仅作用于靶点 B 的 **B-selective** 配体，以及两个靶点均缺乏足够活性的 **neither** 配体（Figure 1A）：
 
@@ -21,43 +19,27 @@
 | *A*<sup>+</sup> | Dual | A-only |
 | *A*<sup>−</sup> | B-only | Neither |
 
-其中，A-only 和 B-only 并不是传统意义上的普通负样本，而是针对双靶识别任务最关键的**选择性硬负样本（selectivity hard negatives）**。它们在一个靶点上已经具有较强活性，因此可以产生看似合理的 docking score，但在另一个靶点上缺乏相应活性。对于一个真正具有双靶识别能力的评价方法而言，关键问题因而并不是候选分子是否能够在两个口袋中分别获得较好的 docking score，而是其是否能够在**两个方向上同时区别真正的 dual-active 配体与对应的单靶选择性配体**。
+其中，A-only 和 B-only 不是普通负样本，而是**选择性硬负样本（selectivity hard negatives）**。它们在一个靶点上已有较强活性，却在另一靶点缺乏相应活性。计算终点因而检验 docking 能否在两个方向上将 dual-active 与对应单靶选择性配体区分开；这一判别本身不证明独立的 pocket-specific recognition 或生物学双靶活性。
 
-这一问题比已有的双靶对接评价更严格。Zhou、Li 与 Hou 曾在四对激酶上评估对接虚拟筛选：先做单靶 inhibitor 对 noninhibitor，再做 dual-target identification，并报告结构依赖性以及预测 dual 列表中较高的 false-positive rate。[^9] 该工作已经说明双靶对接可以被基准化，并且相对 inactive 的对接并不能给出干净的 dual hit list。它没有把实验标注的 A-only / B-only 当作方向性硬负，也没有问：同一套对接分数上，Dual-versus-neither（inactive）comparator 是否会改变对方向性 Dual-versus-selective 的解释。本文中 Dual-versus-neither 是 **nonselectivity-controlled comparator**，不是 “the conventional dual-target benchmark”。
+Zhou、Li 与 Hou 曾在四对激酶上评价相对 noninhibitor 的 dual-target docking，并报告结构依赖性和预测 dual 中的 false positives。[^9] 本文在该评价设定基础上进一步引入实验定义的 A-only/B-only 方向硬负，并直接比较不同 formulation 下的表观判别。Dual-versus-neither 是 **nonselectivity-controlled comparator**，不是 “the conventional dual-target benchmark”。
 
-这一差异也意味着，简单地将两个靶点的 docking score 进行平均、求和或其他池化处理，并不能充分描述双靶识别能力。例如，一个配体可能在靶点 A 上获得非常有利的评分，而在靶点 B 上表现较差；其平均分仍可能较高，但这一结果并不能支持其具有双靶活性。类似地，与单一参考配体进行相对 docking score 比较，可以用于定义某种计算意义上的“双靶成功”，但并不能直接回答一个更严格的实验验证问题：**计算评分能否将真正的双靶活性配体与具有单靶强活性的选择性配体区分开来？**
+池化两个口袋分数可能掩盖较弱方向，而两端都优于参考配体只定义计算成功，并不等价于实验双靶活性。因此 benchmark 与读出必须匹配四状态生物学空间。
 
-因此，双靶点 docking 的关键评测问题不是简单寻找一个更优的 docking score，而是首先建立与其生物学状态空间相匹配的 benchmark 和评价任务。
+从公开数据构建此类面板要求同一化合物在两个靶点上均有可比较测量，并要求两个方向都有足量选择性硬负。由于 assay 类型、条件和覆盖不同，能够支持平衡四状态评价的靶对数量本身就是数据供给问题，而不是预先存在的资源。
 
-## 3. 双靶点 benchmark 的构建受到实验数据供给和化学混淆的双重限制
+双靶面板还继承化学混淆：若 dual-active 与选择性配体的分子性质或支架分布不同，AUROC 可以反映 label-associated ligand distributions，而不只是口袋互补性。因此需要显式的物化与 ligand-only controls。[^7]
 
-建立上述四状态数据集在实际数据中并不容易。传统单靶点虚拟筛选 benchmark 可以依赖相对成熟的 active/decoy 构建策略，[^5][^6] 而严格的双靶点 benchmark 要求同一化合物在两个靶点上均具有可比较的实验活性信息，并进一步能够识别具有明确选择性差异的 A-only 和 B-only 化合物。换言之，一个可用于双靶点评测的实验数据集不仅需要足够数量的 dual-active 配体，还需要两个方向上数量和活性范围均相对充分的选择性硬负样本。DualFourClass-Bench 保留四种实验状态，但预先指定的主评价是两条方向 pairwise 判别（dual 对 A-only、dual 对 B-only），而不是四分类器。
+### 1.2 Docking-based 双靶设计使严格评价成为实际问题
 
-这一要求显著提高了公开数据集构建的门槛。不同数据库之间的 assay 类型、活性指标、实验条件和记录覆盖范围并不完全一致，而双靶点任务还受到两个靶点同时具有可用实验数据这一额外条件的限制。因此，**可用于严格四状态双靶点评测的 target pair 数量本身就是一个需要量化的数据供给问题，而不能简单假设所有具有药理关联的靶点组合都能够形成平衡 benchmark。** 公开活性库中“两端都被定量测到、并拉开选择性间隔”的化合物并不自动充足；能够通过该完整性门槛的靶对有多少，是 benchmark construction 的科学问题，而不是事后用“数据不够”来解释评价集规模。
+DualDiff 与 FuseDiff 说明了这一差异的实际意义：两者均使用较差口袋分数和“生成分子在两个靶点均优于参考配体”的比例评价双靶设计。[^10][^11] 这些指标衡量相对参考配体的计算成功，而不是相对实验选择性配体的判别。因此生成式 docking metrics 与本文 hard-negative endpoint 是互补而非竞争基准；本文不重对接其生成分子，也不把其 reported metrics 重新解释为本文 primary endpoint 的竞争者。
 
-此外，双靶点 benchmark 还面临与传统虚拟筛选类似、但更容易被忽略的化学混淆问题。分子量、极性、氢键特征、脂溶性以及化学骨架等配体层面的特征可能同时影响实验活性分布和 docking score。如果 dual-active、A-only 和 B-only 化合物在这些性质上存在系统差异，那么一个看似具有较高 AUROC 的 docking 模型可能实际上是在利用配体层面的统计差异，而不是正确捕捉两个蛋白结合口袋中的结构互补性。LIT-PCBA 已经表明，人工构造的 active/decoy 数据中的化学偏倚能够显著抬高方法的表观性能，因此双靶点 docking benchmark 同样需要显式设置化学和物化性质对照。[^7]
+### 1.3 研究目的与贡献
 
-## 4. 现有双靶点生成方法进一步提出了对严格 docking 评价的需求
+**本文要问的是：benchmark formulation 是否改变双靶识别的表观证据。** 我们构建实验定义的四状态面板，以针对 A-selective 与 B-selective 硬负的口袋匹配方向判别为主任务，并与 nonselectivity-controlled Dual-versus-neither comparator 比较；随后用 ligand-only、物化性质、wrong-pocket、配体池、活性聚合与受体实现对观察到的判别进行压力测试。
 
-近年来，双靶点结构基础生成方法进一步把“如何判断一个分子算双靶”推到了实际评价流程里。Zhou、Guan 等将双靶药物设计建成生成任务，并提出 DualDiff：在三维空间中对齐两个口袋，通过共享配体节点的 SE(3) 等变消息组合，把在单靶复合物上预训练的扩散模型迁移到双靶场景。[^10] 其对接评价使用 AutoDock Vina 重对接，报告两端的 Vina Dock、两端中较弱一端的 Max Vina Dock，以及 Dual High Affinity——即生成分子在**两个靶上的亲和力均优于各自参考配体**的比例。[^10] 这是相对参考配体的计算双成功，不是对两端分数做均值池化；Max Vina Dock 已经关注较弱一臂。
+DualFourClass-Bench 是具有两条方向主任务的 curated benchmark：dual 对 A-only 在口袋 B 打分，dual 对 B-only 在口袋 A 打分（Figure 1B）。neither 描述完整实验空间，但不进入 primary AUROC。`summary_min` 是保守的最差方向判别摘要，不是新 docking score。公开数据审计决定多少候选靶对能够支持该构建；评价集规模是审计结果，而非预设目标。
 
-Wu 等提出的 FuseDiff 则将共享配体分子图与两个靶点特异的结合构象进行联合扩散建模，并以 DualDiff 基准（DDF）作为独立测试集评价生成结果，同样报告 Vina Dock、Max Vina Dock 与 Dual High Affinity。[^11] 这类工作说明，**如何评价一个分子是否真正满足“双靶点”要求，已经成为双靶点计算药物设计中的实际问题。**
-
-但是，生成式双靶点研究中常用的评价方式与实验活性驱动的硬负判别任务并不完全相同。以两个口袋中的 docking score 是否同时超过某一参考配体为标准，可以衡量计算意义上的双靶 docking success，但它并不能直接检验该分子是否能够区别于仅对其中一个靶点具有较强活性的选择性配体。因而，这类生成方法的 docking-based evaluation 与本文关注的**实验标签驱动的 dual-versus-selective discrimination**属于互补的评价问题，而不是相互替代的 benchmark。本文没有对 DualDiff 或 FuseDiff 的生成分子重新对接；DualFourClass-Bench 的预期用途是下游校验，而不是对这些生成方法做实证打分赛。
-
-## 5. 本研究的目的与贡献
-
-现有双靶分子设计评价通常检验一个分子能否在两个靶点上同时获得有利分数，但这一标准并不直接检验其能否区别于实验上仅对其中一个靶点有活性的配体。这一区分很重要：一端的有利分数可以与对端识别失败并存，而选择性配体也可能在两个对接口袋中都看起来合理。
-
-**因此，本文要问的是：benchmark 的 formulation 本身是否会改变双靶识别的表观证据。** 我们构建由实验定义的四状态配体面板，以针对 A-selective 与 B-selective 硬负的方向性口袋匹配判别作为主任务，并与不控制选择性的 Dual-versus-neither comparator 对照；随后检验该信号在化学、物化性质、配体池、活性聚合与受体结构对照下是否仍然成立。
-
-贡献是评价协议与 curated benchmark 资源，而不是新的对接算法或打分函数。DualFourClass-Bench 是 **four-state curated benchmark with two directional primary tasks**：dual 对 A-only 在口袋 B 打分，dual 对 B-only 在口袋 A 打分（Figure 1B）。neither 保留以描述完整实验状态空间，不进入 primary AUROC。靶对汇总为较弱一臂（`summary_min`），使一端高分不能掩盖另一端失败。同一套分数上的 Dual-versus-neither 是 comparator，不是 “the conventional dual-target benchmark”。
-
-本文把基准有效性拆成一条连续证据链中的三个层面：任务设定（Dual 对 selective，而不是只做 Dual 对 neither）、混淆感知评价（把 docking 与 ligand-only、wrong-pocket 对照并列）以及评价条件敏感性（活性聚合、未使用配体池与受体实现）。这些分析共同检验一个 benchmark 结果究竟是 docking 的固定属性，还是评价条件下的条件性结果。
-
-公开数据供给审计首先回答有多少候选靶对能够支持这一四状态构建（Methods 2.1–2.3）。评价集规模是该审计的结果，而不是 Introduction 预先冻结的设计目标。pooled docking score、wrong-pocket control 以及二维化学和物化 baseline 作为辅助对照，用以区分 pocket-specific signal 与 ligand-level confounding。
-
-嵌套的实验问题仍然是：现有 docking scores 在多大程度上能够将实验定义的双靶活性配体与单靶选择性硬负配体区分开来，以及这种区分能力在多大程度上依赖于特定靶点、受体结构或配体化学性质。该协议旨在为双靶虚拟筛选和生成式双靶设计提供更严格的下游校验——不是对这些生成方法做实证打分赛，也不是 comprehensive dual-target suite。
+本文贡献是评价协议与资源，而不是新 docking algorithm。它把任务设定、混淆感知评价和评价条件敏感性连接起来，检验表观判别究竟是 docking 的固定属性，还是 benchmark 条件下的条件性结果。该协议用于双靶虚拟筛选与生成设计的下游校验，不是与现有生成模型竞赛，也不是 comprehensive dual-target suite。
 
 ---
 

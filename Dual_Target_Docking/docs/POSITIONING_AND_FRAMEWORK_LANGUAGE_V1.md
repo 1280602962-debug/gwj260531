@@ -73,13 +73,11 @@
 
 ## 5. Intro 结构建议（防 AI 感）
 
-不要写成五步 Framework 清单。现行中英稿（`INTRODUCTION_DRAFT_ZH_JCIM_V1.md` / `INTRODUCTION_SECTION_JCIM_EN_V1.md`）按连续科学论证排为：
+不要写成 Framework 步骤清单。现行中英稿按三个问题驱动的小节组织：
 
-1. 多靶/双靶设计的药理动机；docking 作为 SBVS 工具；单靶 VS 基准（DUD/DUD-E、LIT-PCBA、CASF）不能直接外推到双靶。
-2. 四状态实验空间；A-only/B-only 是选择性硬负；primary 是两条方向 pairwise AUROC，不是四分类；科学问题是 dual versus selective，不是“两端分数好不好”。
-3. 严格四状态 ground-truth 的数据供给本身是 methodological bottleneck（不要写成“我们数据不够”）；化学/物化混淆必须显式对照（LIT-PCBA 哲学）。
-4. DualDiff / FuseDiff 是应用场景：它们用对接定义计算双成功，与实验硬负判别互补；**不是**本文的竞争对象；未重跑其生成分子。
-5. 贡献 = systematic benchmarking protocol + **DualFourClass-Bench**。主指标口袋匹配方向 AUROC + `summary_min`。**不要在 Introduction 写死 K = 4**；写“经严格数据供给审计后形成的多靶点评价面板”。K = 4 放 Methods / Results。
+1. 双靶设计为何不能直接沿用单靶 active/decoy benchmark：四状态空间、选择性硬负、数据供给和化学混淆。
+2. 为什么这是实际评价问题：DualDiff / FuseDiff 使用 docking 定义计算双成功，但其 reported metrics 与实验硬负判别互补、不是竞争基准。
+3. 研究目的与贡献：任务 formulation、confounder-aware evaluation、evaluation-condition sensitivity；`summary_min` 是 worst-direction discrimination summary，不是新 scoring function。**Introduction 不写死 K = 4**。
 
 **全文问题句（Abstract / Intro 末段 / Cover letter 围绕同一思想，勿机械三处复制）：**
 

@@ -24,10 +24,10 @@ PIK3CA/mTOR 的 boxed 说法：
 | 3.3 | 表观信号是不是口袋特异 | 描述符 Δ、TPSA、协变量、ECFP4、匹配子集 |
 | 3.4 | PM 信号在哪些条件下成立 | E8、PM110、holdout、换晶、Cα |
 | 3.5 | specificity control 是否可靠 | 主面板 matched>wrong；holdout 反转；S11/S13 |
-| 3.6 | 结构背景线索（探索性） | Table S7 序列一致性；T2/T5 姿态事实 |
+| 3.6 | 结构背景线索（探索性） | Table S7 序列一致性；T2/T5 详见 SI Note S1 |
 | 4.1 | formulation 如何改变证据标准 | 3.1–3.2 + DUD/LIT-PCBA/Ahmed；错口袋未解决句 |
-| 4.2 | 化学信息如何替代表观 docking signal | 3.3 + Ballester 2023 |
-| 4.3 | receptor realization 是独立评价条件 | 3.4 + 3.6；Schaller 只作 receptor 变量 |
+| 4.2 | ligand-only baseline 如何揭示表观 docking 判别中的混淆 | 3.3 + Ballester 2023 |
+| 4.3 | receptor realization 是评价条件的另一维度 | 3.4 + 3.6；Schaller 只作 receptor 变量 |
 | 4.4 | 对 VS / 生成式的含义 | DualDiff/FuseDiff 用途句；Sindt 后处理类比 |
 | 4.5 | 五条局限 | K=4/构建；ChEMBL；assay；receptor；无 prospective |
 
@@ -110,7 +110,7 @@ PIK3CA/mTOR 的 boxed 说法：
 
 ---
 
-## 5. 错口袋反转（Results 3.5）
+## 5. 错口袋 point-estimate reversal（Results 3.5）
 
 | 已有结果 | 关键数字 | 源 |
 |---|---|---|

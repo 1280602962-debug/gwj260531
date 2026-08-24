@@ -23,7 +23,7 @@
 |---|------|------|------|
 | R2.1 | Methods 混入 Results | **合理** | 49→4、cognate 谁失败、GNINA Δ、HOAP_028、holdout/换晶点估计全部移出 Methods |
 | R2.2 | 四类任务 vs 三类 primary | **合理** | 统一为 four-state benchmark + two directional pairwise primary；资源名 DualFourClass 保留 |
-| R2.3 | summary_min 不是 novel metric | **合理** | 写成 worst-arm aggregation / 任务约束 |
+| R2.3 | summary_min 不是 novel metric | **合理** | 写成 worst-direction discrimination summary / 任务约束 |
 | R2.4 | best descriptor 选择偏倚 | **合理** | 四描述符全报；max 只作 descriptive strong baseline |
 | R2.5 | logistic 是 covariate-adjusted | **合理** | Methods 2.9.4 |
 | R2.6 | 统一 Murcko 重抽全部 panel | **合理但不做** | 重抽会改冻结 AUROC；AChE/PIK3CB 现改为 class quotas + deterministic shuffle，**删除** identifier 前缀叙述；事后报告 Murcko，不重抽 |

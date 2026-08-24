@@ -120,8 +120,8 @@ python3 data/jcim_bench_v0/scripts/plot_forest_ci_v1.py
 | ID | 章节 | 状态 | 材料指针 |
 |----|------|------|----------|
 | E1 | Abstract | ✅ 中英稿 | formulation + chemistry + A4/B5；低于 Results 主张强度 |
-| E2 | Introduction | ✅ 中英稿 | [`INTRODUCTION_DRAFT_ZH_JCIM_V1.md`](INTRODUCTION_DRAFT_ZH_JCIM_V1.md) + [`INTRODUCTION_SECTION_JCIM_EN_V1.md`](INTRODUCTION_SECTION_JCIM_EN_V1.md)；K=4 不在 Intro 写死；DualDiff/FuseDiff 为互补评测而非竞争对象 |
-| E3 | Methods 2.1–2.13 协议化重构 | ✅ 中英稿 | [`METHODS_DRAFT_ZH_JCIM_V1.md`](METHODS_DRAFT_ZH_JCIM_V1.md) + [`METHODS_SECTION_JCIM_EN_V1.md`](METHODS_SECTION_JCIM_EN_V1.md)。已去项目日志；four-state + pairwise primary；wrong-pocket = falsification；holdout ≠ external validation；换晶 = structure sensitivity |
+| E2 | Introduction | ✅ 中英稿 | 三个问题驱动小节；K=4 不在 Intro 写死；DualDiff/FuseDiff 为互补评测而非竞争对象 |
+| E3 | Methods 2.1–2.13 协议化重构 | ✅ 中英稿 | 2.9 已压缩；single-target enrichment 降为 supporting context；four-state + directional primary；wrong-pocket = falsification；holdout ≠ external validation |
 | E6 | Results 3.1–3.6 | ✅ 草稿 | 已按证据链压缩为 6 节：[`RESULTS_DRAFT_ZH_JCIM_V1.md`](RESULTS_DRAFT_ZH_JCIM_V1.md) + [`RESULTS_SECTION_JCIM_EN_V1.md`](RESULTS_SECTION_JCIM_EN_V1.md)。旧 3.8 面板重抽样已移出 Results |
 | E7 | Discussion / Limitations | ✅ 中英稿 | [`DISCUSSION_DRAFT_ZH_JCIM_V1.md`](DISCUSSION_DRAFT_ZH_JCIM_V1.md) + [`DISCUSSION_SECTION_JCIM_EN_V1.md`](DISCUSSION_SECTION_JCIM_EN_V1.md)；引用 [`DISCUSSION_REFS_JCIM_V1.md`](DISCUSSION_REFS_JCIM_V1.md)；正文局限仅 5 条 |
 | E8 | Conclusions | ✅ 中英稿 | 两段收束：[`CONCLUSIONS_DRAFT_ZH_JCIM_V1.md`](CONCLUSIONS_DRAFT_ZH_JCIM_V1.md) + [`CONCLUSIONS_SECTION_JCIM_EN_V1.md`](CONCLUSIONS_SECTION_JCIM_EN_V1.md)。不写 validated/robust/通用决策；保留 0.430–0.692；错口袋反转写明 CI 含 0 |
@@ -154,7 +154,7 @@ python3 data/jcim_bench_v0/scripts/plot_forest_ci_v1.py
 | ID | 检查项 | 状态 |
 |----|--------|------|
 | G1 | 主指标 = pocket-matched directional AUROC | ✅ Results 已用 |
-| G2 | PM 仅作 exploratory positive control；Δ vs baseline CI 含 0 须写明 | ✅ Results 3.2–3.3 |
+| G2 | PM 仅作 conditional directional signal；主 CI 含 0.5、descriptor Δ CI 含 0 | ✅ Results 3.2–3.4 |
 | G3 | 不写 RTM/GNINA 通吃或通用决策臂 | ✅ |
 | G4 | EGFR 不作新对接扩面结论 | ✅ |
 | G5 | LigPrep 不进投稿正文/SI（无正式权限；主协议仅 RDKit/meeko） | ✅ 已从 Methods/Results/SI 删除 |

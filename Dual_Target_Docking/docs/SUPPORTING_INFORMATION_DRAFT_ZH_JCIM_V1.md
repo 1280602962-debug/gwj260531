@@ -40,6 +40,7 @@
 | Master index | `data/jcim_novelty_v0/tables/MASTER_RESULTS_TABLE.csv` |
 | Figure S4 | `figures/jcim_article/FigS_pocket_matched_forest.png`（原主文森林图） |
 | Figure S5 | `figures/jcim_article/FigS_unused_pool_holdout.png` |
+| Supporting Note S1 | `data/pik3ca_mtor_panel48_v0/analysis/failure_typology_v0/CASE_PM48_21_Aonly.md` + `CASE_PM48_10_02_injured_duals.md` |
 | ChEMBL 聚合 | `data/jcim_novelty_v0/tables/assay_max_vs_median_agreement_v1.csv`；审计 `analysis/A4_B5_STATISTICAL_AUDIT_V1.md` |
 
 ---
@@ -635,6 +636,17 @@ AChE 主面板失败：AB_001（dual，两端）、AB_053/054/056（A_only，两
 | PIK3CA/PIK3CB | 5DXT | 2WXF | 100/99/1 | 0.691 | 0.685 | 0.685 [0.506, 0.768] | +0.185 |
 
 PIK3CA/PIK3CB 弱臂：原始 D/B = 0.500；4JPS 后弱臂切到冻结 D/A = 0.691；5DXT 两臂接近平衡。同一 PIK3CA 扰动、方向相反。不是普遍定律。
+
+---
+
+## Supporting Note S1. Exploratory PIK3CA/mTOR pose-level diagnostics
+
+来源：`data/pik3ca_mtor_panel48_v0/analysis/failure_typology_v0/`，仅为代表性案例，不是全面板 PLIF 或机制分析。
+
+- **T2 / PM48_21（A_only）**：pChEMBL PIK3CA/mTOR = 8.70/5.92。RTM-best pose 在 4L23 与 4JT6 均 hinge-positive、无 clash，共晶位占用分别为 1.00/0.97；其弱端仍形成几何上干净的 ATP-site pose。因此“看似合理的双端 pose”不等于实验 dual。
+- **T5 / Torin1 与 omipalisib（dual）**：Vina pooled 排名分别为 1/3，但 RTM-best PIK3CA pose 偏离 hinge/cognate family，RTM `min_z` 排名降至 31/30。该案例只说明 pose selection / rescoring 可改变排序，不支持 residue-level mechanism。
+
+完整字段与限制见 `CASE_PM48_21_Aonly.md` 和 `CASE_PM48_10_02_injured_duals.md`。
 
 ---
 

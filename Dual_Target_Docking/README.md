@@ -7,7 +7,7 @@ JCIM **evaluation / benchmark** 课题：双靶对接四类硬负评测。
 
 ## 一句话主张
 
-双靶对接应建成 dual / A_only / B_only / neither 四状态任务，主指标是两条方向性口袋匹配 AUROC（不是四分类器）。**dual-target discrimination was strongly target-pair dependent, and docking provided limited incremental information beyond ligand-level chemical baselines under scaffold-aware evaluation.** 建立的是评价体系，不是新算法；不是 comprehensive dual-target suite。
+双靶对接应建成 dual / A_only / B_only / neither 四状态任务，主指标是两条口袋匹配方向 AUROC 及其最差方向判别摘要（不是四分类器或新 scoring function）。在当前支架分组评价中，表观判别高度依赖靶对，把 docking 加到 ECFP4 后只产生很小的 CV AUROC 增量改善。建立的是评价体系，不是新算法或 comprehensive suite。
 
 ## 快速入口（投稿用）
 
