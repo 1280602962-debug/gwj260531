@@ -3,9 +3,9 @@
 > 取代过时的 `FIGURE_PLAN_V1.md`（未含 holdout / 换晶 / S12 / GNINA best9）。  
 > 主张天花板仍服从 `CLAIM_CEILING.md`：图不能比正文更满。
 
-**现状（2026-08-24）：** 主文 Fig 1–5、SI Fig S1、TOC graphic 已由 `data/jcim_bench_v0/scripts/plot_jcim_article_figures_v1.py` 从冻结 CSV 绘制，输出 `figures/jcim_article/`（PDF/PNG/TIF，RGB，300 dpi；TOC 精确 3.25×1.75 in）。数值锁定见同目录 `plotted_values.json`。未做主面板姿态图（git 无主面板 pose）。
+**现状（2026-08-24）：** 主文 Fig 1–5、SI Fig S1–S4、TOC graphic 已由 `data/jcim_bench_v0/scripts/plot_jcim_article_figures_v1.py`（SI 组合图：`plot_jcim_si_composites_v1.py`）从冻结 CSV 绘制，输出 `figures/jcim_article/`。数值锁定见 `plotted_values.json`。未做主面板姿态图（git 无主面板 pose）。
 
-JCIM Articles 无硬图数上限；评测文主文 **5 张图 + 1 张 TOC** 合适。E8/E16、PM110、GNINA mode01 vs best9、阈值网格进 SI，不要再往主文塞第 6–8 张统计图。
+JCIM Articles 无硬图数上限；评测文主文 **5 张图 + 1 张 TOC** 合适。协议旋钮、混淆解剖、holdout 机制做成 **SI 三张大组合图（S2–S4）**，不挤进主文第 6–8 张。
 
 ---
 
@@ -19,10 +19,14 @@ JCIM Articles 无硬图数上限；评测文主文 **5 张图 + 1 张 TOC** 合�
 | 必做 | 弱臂不对称 + 对接 vs 描述符 | **Fig 4** | 否则读者只记住 0.692 |
 | 必做 | 主面板 vs holdout，以及换晶 | **Fig 5** | 这是 3.9–3.10 真正改写故事的两块；比 E=8 对照重要得多 |
 | 可做（主文或 SI） | PI-103 共晶回收 + 一个 T2 硬负两端都“看起来对” | **Fig 6 或 SI Fig** | 对接论文需要一张姿态图，但不要假装做了 PLIF |
-| SI | 错口袋 vs 匹配（主面板 vs holdout 并排） | SI | 开放悖论用一张点图即可，主文 Fig 5 已占稳健性 |
-| SI | BindingDB `equal_only` vs ChEMBL | 可并进 Fig 2 小插图 | 不要单独占主图 |
-| SI | GNINA/RTM vs Vina、E8/E16、PM110、θ 网格、AChE TPSA 分布 | SI | 数字已在表里；主文重复会稀释 |
+| SI | 错口袋 vs 匹配（主面板 vs holdout 并排） | **Fig S1** | 开放悖论 |
+| SI | 阈值网格、GNINA mode01/best9、PM110、E8/E16、单靶 enrichment | **Fig S2** 组合 | 协议旋钮不改排序 |
+| SI | 指纹基线、全部描述符、协变量、匹配子集 | **Fig S3** 组合 | 混淆解剖；指纹标 chemotype–label |
+| SI | S12 as_is vs equal_only、holdout 匹配、contact_count、抽样偏移 | **Fig S4** 组合 | 供给规则 + holdout 机制 |
 | 不要画 | 1000-panel、median 全面板、PLIF 热图、Framework Step 1–5、LigPrep 对比 | — | 没做或禁止写入 |
+| 不要画 | `pocket_matched_size_strata_v1.csv` | — | 多层 underpowered，容易误读成稳健分层 |
+| 不要画 | `asymmetry_pooled_vs_directional_v1.csv` 的 vina_mean | — | 不是 Table 2 的 θ=6.0 口袋匹配指标（EGFR 0.2824 ≠ 0.4297） |
+| 不要画 | `pocket_specificity_gap_v1.csv` 单独成图 | — | 与 Fig S1 的 matched−wrong 重复 |
 | 不要画成主图 | 全链序列一致性 vs AUROC（n=4 四个点） | 若画只放 SI | 看起来像相关，实际禁止当相关 |
 
 **旧计划里的 Fig 3 baseline-gate 单独成图：建议并进 Fig 3 或 Fig 4，不要占一张主图。** Δ CI 含 0 用误差条颜色（灰=跨 0）就能说清。
@@ -154,3 +158,6 @@ ACS 要求（JCIM 跟同一套 TOC 规范）：
 3. Fig 4 弱臂/描述符；Fig 5 holdout+换晶（S8/S9 CSV）。
 4. 若本地姿态方便：SI 或主文 Fig 6 = PI-103 + PM48_21，两列口袋。
 5. TOC 单独画，**不要从 Fig 1 裁一块交差**（ACS 不鼓励复用正文图）。按 3.25×1.75 in 交 TIF。
+6. SI 三张大组合图 S2–S4（`plot_jcim_si_composites_v1.py`），主文仍停在 5 张。
+
+核对：脚本对每个 plotted 值回读冻结 CSV，失败即退出。S2 图注不得写“PM 在全网格都是最高点”（θ=5.5 的 PM 是 underpowered 0.5017，低于 AChE 0.6058）。S2B 的 −0.04..+0.08 是 best9 相对 mode01，不是相对 Vina。S3C EGFR 0.5703 是 logistic AUROC，不是 Table 2 的 0.4297。

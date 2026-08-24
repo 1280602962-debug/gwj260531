@@ -10,7 +10,15 @@
     "data/jcim_structure_robust_v0/tables/pocket_matched_PM48_alt4JPS_v1.csv": 1,
     "data/jcim_structure_robust_v0/tables/pocket_matched_PM48_alt5DXT_v1.csv": 1,
     "data/jcim_structure_robust_v0/tables/pocket_matched_PM48_alt4JSX_v1.csv": 1,
-    "data/jcim_bench_v0/tables/assembled_AChE_BChE.csv": 95
+    "data/jcim_bench_v0/tables/assembled_AChE_BChE.csv": 95,
+    "data/jcim_strengthen_t0t1_v0/tables/pm110_vs_pm48_pocket_matched_v1.csv": 8,
+    "data/jcim_strengthen_t0t1_v0/tables/ligand_ml_baseline_scaffold_cv_v1.csv": 8,
+    "data/jcim_strengthen_t0t1_v0/tables/covariate_adjusted_v1.csv": 8,
+    "data/jcim_strengthen_t0t1_v0/tables/matched_subset_directional_v1.csv": 20,
+    "data/jcim_strengthen_t0t1_v0/tables/single_target_enrichment_v1.csv": 2,
+    "data/jcim_holdout_v0/tables/holdout_matched_wrong_pocket_summary_v1.csv": 18,
+    "data/jcim_holdout_v0/tables/holdout_vs_main_potency_size_v1.csv": 27,
+    "data/pik3ca_mtor_panel48_rdkit_v0/tables/scores_vina_E8_best.csv": 48
   },
   "plotted": {
     "fig2A_n_pairs": 49,
@@ -233,6 +241,338 @@
       0.6425,
       0.52,
       0.7875
-    ]
+    ],
+    "s2A": {
+      "EGFR/HER2": {
+        "y": [
+          0.4246,
+          0.4297,
+          0.4602,
+          0.3242
+        ],
+        "under": [
+          false,
+          false,
+          false,
+          true
+        ]
+      },
+      "AChE/BChE": {
+        "y": [
+          0.6058,
+          0.6058,
+          0.6058,
+          0.6058
+        ],
+        "under": [
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      "PIK3CA/PIK3CB": {
+        "y": [
+          0.522,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "under": [
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      "PIK3CA/mTOR": {
+        "y": [
+          0.5017,
+          0.6921,
+          0.674,
+          0.6387
+        ],
+        "under": [
+          true,
+          false,
+          false,
+          true
+        ]
+      }
+    },
+    "s2B": {
+      "vina": [
+        0.4297,
+        0.6058,
+        0.5,
+        0.6921
+      ],
+      "mode01": [
+        0.327,
+        0.4418,
+        0.5536,
+        0.5794
+      ],
+      "best9": [
+        0.2902,
+        0.4127,
+        0.5332,
+        0.6548
+      ]
+    },
+    "s2C": {
+      "PM48": [
+        0.6921,
+        0.6151,
+        0.6548
+      ],
+      "PM110": [
+        0.6483,
+        0.5756,
+        0.6133
+      ]
+    },
+    "s2D": {
+      "e16": 0.6921,
+      "e8": 0.6597222222222222,
+      "e8_da": 0.753968253968254,
+      "e8_db": 0.6597222222222222,
+      "e8_n": [
+        18,
+        14,
+        12
+      ],
+      "4L23": 0.6027,
+      "4JT6": 0.6288,
+      "EF_4L23": 2.0408,
+      "EF_4JT6": 2.0
+    },
+    "s3A": {
+      "da_dock": [
+        0.6664,
+        0.6504,
+        0.6905,
+        0.7143
+      ],
+      "da_ml": [
+        0.8327,
+        0.9096,
+        0.7751,
+        0.7817
+      ],
+      "db_dock": [
+        0.4297,
+        0.6058,
+        0.5,
+        0.6921
+      ],
+      "db_ml": [
+        0.8527,
+        0.8426,
+        0.7857,
+        0.8889
+      ]
+    },
+    "s3B": {
+      "EGFR/HER2": {
+        "vina": 0.4297,
+        "heavy": 0.3694,
+        "mw": 0.4163,
+        "clogp": 0.4821,
+        "tpsa": 0.4275
+      },
+      "AChE/BChE": {
+        "vina": 0.6058,
+        "heavy": 0.582,
+        "mw": 0.5785,
+        "clogp": 0.4669,
+        "tpsa": 0.7333
+      },
+      "PIK3CA/PIK3CB": {
+        "vina": 0.5,
+        "heavy": 0.6217,
+        "mw": 0.6204,
+        "clogp": 0.5952,
+        "tpsa": 0.418
+      },
+      "PIK3CA/mTOR": {
+        "vina": 0.6921,
+        "heavy": 0.463,
+        "mw": 0.4484,
+        "clogp": 0.3102,
+        "tpsa": 0.2599
+      }
+    },
+    "s3C": {
+      "only": [
+        0.5703,
+        0.6058,
+        0.5,
+        0.6921
+      ],
+      "adj": [
+        0.6283,
+        0.8069,
+        0.6977,
+        0.7593
+      ],
+      "or": [
+        1.1283,
+        1.1755,
+        0.8868,
+        3.0807
+      ]
+    },
+    "s3D": {
+      "full_panel_pocket_matched": [
+        0.4297,
+        0.6058,
+        0.5,
+        0.6921
+      ],
+      "potency_matched_D_vs_B": [
+        0.4694,
+        0.6007,
+        0.4575,
+        0.7284
+      ],
+      "size_matched_D_vs_B": [
+        0.5186,
+        0.5956,
+        0.4498,
+        0.7222
+      ]
+    },
+    "s4A": {
+      "ChEMBL": [
+        80.0,
+        78.0,
+        56.0,
+        7.0
+      ],
+      "BDB equal": [
+        76.0,
+        92.0,
+        58.0,
+        31.0
+      ],
+      "PubChem equal": [
+        86.0,
+        97.0,
+        61.0,
+        30.0
+      ],
+      "BDB as_is": [
+        151.0,
+        141.0,
+        129.0,
+        85.0
+      ],
+      "PubChem as_is": [
+        153.0,
+        153.0,
+        144.0,
+        88.0
+      ]
+    },
+    "s4B": [
+      {
+        "pair": "AChE/BChE",
+        "family": "unmatched",
+        "matched": 0.6175,
+        "wrong": 0.6425,
+        "n_min": 20
+      },
+      {
+        "pair": "AChE/BChE",
+        "family": "potency_matched",
+        "matched": 0.5926,
+        "wrong": 0.642,
+        "n_min": 18
+      },
+      {
+        "pair": "AChE/BChE",
+        "family": "size_matched",
+        "matched": 0.4074,
+        "wrong": 0.4321,
+        "n_min": 9
+      },
+      {
+        "pair": "PIK3CA/PIK3CB",
+        "family": "unmatched",
+        "matched": 0.425,
+        "wrong": 0.52,
+        "n_min": 19
+      },
+      {
+        "pair": "PIK3CA/PIK3CB",
+        "family": "potency_matched",
+        "matched": 0.3633,
+        "wrong": 0.5625,
+        "n_min": 11
+      },
+      {
+        "pair": "PIK3CA/PIK3CB",
+        "family": "size_matched",
+        "matched": 0.3018,
+        "wrong": 0.426,
+        "n_min": 13
+      },
+      {
+        "pair": "PIK3CA/mTOR",
+        "family": "unmatched",
+        "matched": 0.765,
+        "wrong": 0.7875,
+        "n_min": 20
+      },
+      {
+        "pair": "PIK3CA/mTOR",
+        "family": "potency_matched",
+        "matched": 0.7153,
+        "wrong": 0.7344,
+        "n_min": 12
+      },
+      {
+        "pair": "PIK3CA/mTOR",
+        "family": "size_matched",
+        "matched": 0.7153,
+        "wrong": 0.8178,
+        "n_min": 12
+      }
+    ],
+    "s4C": {
+      "contact_A": [
+        0.581,
+        0.622,
+        0.552
+      ],
+      "contact_B": [
+        0.706,
+        0.714,
+        0.698
+      ],
+      "vina_wrong": [
+        0.6425,
+        0.52,
+        0.7875
+      ]
+    },
+    "s4D": {
+      "dual pA": [
+        -0.159,
+        0.605,
+        -1.072
+      ],
+      "A_only pA": [
+        0.245,
+        0.183,
+        -1.259
+      ],
+      "B_only pB": [
+        -0.153,
+        -0.145,
+        -1.76
+      ]
+    }
   }
 }
