@@ -4,16 +4,16 @@ JCIM evaluation/benchmark aggregation after docking-phase scoring.
 
 Authorization: [`../protocols/PAIR_ROLES_APPROVED_JCIM.yaml`](../protocols/PAIR_ROLES_APPROVED_JCIM.yaml)  
 Claim ceiling: [`CLAIM_CEILING.md`](CLAIM_CEILING.md)  
-GNINA: [`analysis/GNINA_STATUS.md`](analysis/GNINA_STATUS.md) (**DONE**, mode_01 CNN rescore)  
+GNINA: [`analysis/GNINA_STATUS.md`](analysis/GNINA_STATUS.md) (**DONE**, best-of-9 CNN rescore)  
 Post-dock verdict: [`analysis/POST_DOCKING_VERDICT.md`](analysis/POST_DOCKING_VERDICT.md)  
 **CI analysis pack (v1):** [`analysis/BENCHMARK_ANALYSIS_V1.md`](analysis/BENCHMARK_ANALYSIS_V1.md) · [`analysis/FIGURE_PLAN_V1.md`](analysis/FIGURE_PLAN_V1.md)
 
 | Pair | Pack | Vina | RTM | GNINA |
 |------|------|------|-----|-------|
-| EGFR/HER2 | `../egfr_her2_panel120_v0/` | existing | existing | mode_01 done |
-| PIK3CA/mTOR | `../pik3ca_mtor_panel48_rdkit_v0/` | 96/96 | done + LigPrep Δ | mode_01 done |
-| AChE/BChE | `../ache_bche_panel_v0/` | 191/200 | done | mode_01 done |
-| PIK3CA/PIK3CB | `../pik3ca_pik3cb_panel_v0/` | 199/200 | done | mode_01 done |
+| EGFR/HER2 | `../egfr_her2_panel120_v0/` | existing | existing | best-of-9 done |
+| PIK3CA/mTOR | `../pik3ca_mtor_panel48_rdkit_v0/` | 96/96 | done + LigPrep Δ | best-of-9 done |
+| AChE/BChE | `../ache_bche_panel_v0/` | 191/200 | done | best-of-9 done |
+| PIK3CA/PIK3CB | `../pik3ca_pik3cb_panel_v0/` | 199/200 | done | best-of-9 done |
 
 Primary large pose workspaces remain under  
 `/mnt/d/CADD paper exercise/dual target docking/results/` (not all poses committed).

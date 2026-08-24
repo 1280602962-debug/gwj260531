@@ -53,6 +53,20 @@ data/
 `/mnt/d/CADD paper exercise/dual target docking/results/`  
 上传 Zenodo 时按 `jcim_strengthen_t0t1_v0/POSE_UPLOAD_CHECKLIST.md` 打包。
 
+## 本地运行
+
+最小本地复现入口：
+
+```bash
+cd Dual_Target_Docking
+python3 scripts/check_local_env.py
+bash scripts/run_local_repro.sh
+```
+
+- 最小依赖：[`requirements-analysis.txt`](requirements-analysis.txt)
+- 说明文档：[`docs/LOCAL_RUN.md`](docs/LOCAL_RUN.md)
+- 该入口只重算**零对接分析**，不重跑 Vina / RTM / GNINA
+
 ## 复现主分析（零对接）
 
 ```bash
