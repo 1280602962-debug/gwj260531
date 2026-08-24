@@ -2,7 +2,8 @@
 
 > 结构按 JCIM 评测文习惯重排（供给发现 → 标签稳健 → 对接主结果 → 混淆主导 → 稳健性与案例依赖成功 → 跨对结构决定因素 → 个案结构线索）。  
 > 全部数字可追溯至 `data/jcim_bench_v0/`、`data/jcim_strengthen_t0t1_v0/`、`data/jcim_bench_v0/analysis/structural_context_v1/`、`data/jcim_holdout_v0/`、`data/jcim_structure_robust_v0/analysis/pocket_mechanism_v1/` 与 `data/jcim_supply_crossdb_v0/`；未做的全面板残基级 PLIF 定量比较不写入。  
-> 错口袋、配体效率、描述符明细见 Supporting Information Table S5–S6；holdout 错口袋匹配诊断见 Table S13；GNINA 全 9 姿态公平重打见 Table S14–S15。
+> 错口袋、配体效率、描述符明细见 Supporting Information Table S5–S6；holdout 错口袋匹配诊断见 Table S13；GNINA 全 9 姿态公平重打见 Table S14–S15。  
+> **主图与 TOC：** 见 [`FIGURE_AND_TOC_PLAN_JCIM_V1.md`](FIGURE_AND_TOC_PLAN_JCIM_V1.md)（Fig 1–5 + 可选姿态图；现有位图不足，forest 须 ≥300 dpi 重导）。
 > **本文定位（不用绝对化标题、不包装成新算法）：** 不是 "Docking can/cannot identify dual-target ligands"，也不是 "we developed a novel framework named D-DRAF"；而是 *Evaluating the reliability and limitations of docking-based dual-target recognition*——建立 systematic benchmarking framework / DualFourClass-Bench 评价体系，评价现有对接分数的可靠边界。详见 [`POSITIONING_AND_FRAMEWORK_LANGUAGE_V1.md`](POSITIONING_AND_FRAMEWORK_LANGUAGE_V1.md)。
 
 ---
