@@ -1,6 +1,7 @@
 # Discussion（中文工作稿 · JCIM Articles）
 
 > 与 [`DISCUSSION_LIMITATIONS_DRAFT_ZH_JCIM_V1.md`](DISCUSSION_LIMITATIONS_DRAFT_ZH_JCIM_V1.md) 配套：本文件写解释与外推边界；局限清单仍用 Limitations 稿。  
+> 已有结果与讨论口径的逐条对照见 [`DISCUSSION_RESULT_MAP_V1.md`](DISCUSSION_RESULT_MAP_V1.md)。  
 > 不把开放问题写成已解决。
 
 ---
