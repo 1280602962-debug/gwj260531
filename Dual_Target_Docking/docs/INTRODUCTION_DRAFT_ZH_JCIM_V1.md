@@ -55,19 +55,15 @@ Wu 等提出的 FuseDiff 则将共享配体分子图与两个靶点特异的结�
 
 ## 5. 本研究的目的与贡献
 
-基于上述问题，本研究建立了一个面向双靶点分子识别的系统性 docking benchmarking protocol，并构建公开的 **DualFourClass-Bench** 资源，用于评估 docking score 在严格双靶点识别任务中的可靠性及其适用边界。贡献应理解为系统评测协议与基准资源，而不是新的对接算法或打分函数。
+现有双靶分子设计评价通常检验一个分子能否在两个靶点上同时获得有利分数，但这一标准并不直接检验其能否区别于实验上仅对其中一个靶点有活性的配体。这一区分很重要：一端的有利分数可以与对端识别失败并存，而选择性配体也可能在两个对接口袋中都看起来合理。
 
-首先，我们对公开活性数据中的候选 target pairs 进行系统审计，根据两个靶点上的实验活性以及选择性间隔，构建由 **dual-active、A-only、B-only 和 neither** 四种实验状态组成的评价面板。该数据审计同时用于量化严格四状态 benchmark 的实际数据供给，而不是预先假设所有候选靶对均能够满足相同的数据要求。neither 保留在面板中以描述完整状态空间；预先指定的主终点只使用 dual 对 A-only 与 dual 对 B-only。评价集是在经过严格数据供给审计后形成的多靶点面板上报告的（建造规则、受体与对接参数见 Methods）。
+**因此，本文要问的是：benchmark 的 formulation 本身是否会改变双靶识别的表观证据。** 我们构建由实验定义的四状态配体面板，以针对 A-selective 与 B-selective 硬负的方向性口袋匹配判别作为主任务，并与不控制选择性的 Dual-versus-neither comparator 对照；随后检验该信号在化学、物化性质、配体池、活性聚合与受体结构对照下是否仍然成立。
 
-其次，我们采用与双靶点任务相匹配的 **pocket-matched directional AUROC** 作为主要评价指标（Figure 1B）。对于 dual 与 A-only 的比较，使用靶点 B 的 docking score 评价其对非选择性靶点的额外识别能力；对于 dual 与 B-only 的比较，则相应使用靶点 A 的 docking score。进一步以两个方向中较弱的一臂作为 summary measure（summary_min），从而避免一个靶点上的高评分掩盖另一个靶点上的识别失败。与此同时，将 pooled docking score、wrong-pocket control 以及二维化学和物化性质 baseline 作为辅助对照，以区分真正的 pocket-specific signal 与 ligand-level confounding。
+贡献是评价协议与 curated benchmark 资源，而不是新的对接算法或打分函数。DualFourClass-Bench 是 **four-state curated benchmark with two directional primary tasks**：dual 对 A-only 在口袋 B 打分，dual 对 B-only 在口袋 A 打分（Figure 1B）。neither 保留以描述完整实验状态空间，不进入 primary AUROC。靶对汇总为较弱一臂（`summary_min`），使一端高分不能掩盖另一端失败。同一套分数上的 Dual-versus-neither 是 comparator，不是 “the conventional dual-target benchmark”。
 
-最后，我们在经过供给审计后保留的多个 target pairs 上比较 docking-based discrimination 的一致性，并进一步通过 wrong-pocket、化学性质、scaffold-aware chemical baseline、同一数据批次中的 unused-pool holdout 以及 receptor-structure sensitivity 等分析考察其可靠边界。研究重点并非提出新的 docking scoring function，而是回答一个更基础的问题：
+公开数据供给审计首先回答有多少候选靶对能够支持这一四状态构建（Methods 2.1–2.3）。评价集规模是该审计的结果，而不是 Introduction 预先冻结的设计目标。pooled docking score、wrong-pocket control 以及二维化学和物化 baseline 作为辅助对照，用以区分 pocket-specific signal 与 ligand-level confounding。
 
-> **How does benchmark formulation affect the apparent ability of docking to recognize dual-target ligands — specifically, does omitting directional single-target hard negatives give an overly favorable impression of dual-target recognition on the same scores?**
-
-嵌套的实验问题仍然是：现有 docking scores 在多大程度上能够将实验定义的双靶活性配体与单靶选择性硬负配体区分开来，以及这种区分能力在多大程度上依赖于特定靶点、受体结构或配体化学性质。
-
-通过这一设计，本研究旨在为双靶点虚拟筛选和生成式双靶点药物设计提供一个更严格的下游评价基准，并明确 docking-based dual-target recognition 可以被可靠解释的范围及其潜在混淆来源。DualFourClass-Bench 是 curated four-pair evaluation panel + protocol，不是 comprehensive dual-target suite。
+嵌套的实验问题仍然是：现有 docking scores 在多大程度上能够将实验定义的双靶活性配体与单靶选择性硬负配体区分开来，以及这种区分能力在多大程度上依赖于特定靶点、受体结构或配体化学性质。该协议旨在为双靶虚拟筛选和生成式双靶设计提供更严格的下游校验——不是对这些生成方法做实证打分赛，也不是 comprehensive dual-target suite。
 
 ---
 

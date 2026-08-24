@@ -38,7 +38,8 @@
 | Table S29 | `data/jcim_novelty_v0/tables/assay_max_vs_median_agreement_v1.csv` + `assay_max_vs_median_{summary,auroc,flips}_v1.csv` |
 | Table S30 | `data/jcim_structure_robust_v0/tables/receptor_realization_two_pair_v1.csv` |
 | Master index | `data/jcim_novelty_v0/tables/MASTER_RESULTS_TABLE.csv` |
-| Figure S4 | `data/jcim_novelty_v0/figures/FigS_formulation_conventional_vs_directional_v1.png` |
+| Figure S4 | `figures/jcim_article/FigS_pocket_matched_forest.png`（原主文森林图） |
+| Figure S5 | `figures/jcim_article/FigS_unused_pool_holdout.png` |
 | ChEMBL 聚合 | `data/jcim_novelty_v0/tables/assay_max_vs_median_agreement_v1.csv`；审计 `analysis/A4_B5_STATISTICAL_AUDIT_V1.md` |
 
 ---
@@ -397,9 +398,9 @@ mode_01 是 9 个姿态中 CNNscore 最高的比例仅 19–29%，即多数配�
 
 | 角色 | 终点 | 报告位置 |
 |------|------|----------|
-| primary | θ = 6.0 口袋匹配 Vina summary_min | Table 2；Figure 3 |
-| pre-specified secondary | 方向臂 D/A、D/B；RTM；GNINA best-of-9；最强描述符 | Table 2；Figure 3–4 |
-| robustness | θ 网格、PM110、E=8、holdout、换晶、错口袋配对 Δ | Figure 5–6；S1；S3；Table S4/S8/S9/S17 |
+| primary | θ = 6.0 口袋匹配 Vina summary_min | Table 2；Figure 4A；Figure S4 |
+| pre-specified secondary | 方向臂 D/A、D/B；RTM；GNINA best-of-9；最强描述符 | Table 2；Figure 4；Figure S4 |
+| robustness | θ 网格、PM110、E=8、holdout、换晶、错口袋配对 Δ | Figure 5–6；S1；S3；S5；Table S4/S8/S9/S17 |
 | exploratory | ECFP4、contact_count（非 PLIF）、vina_mean Top-10 | Figure 7；S3D；Table S11/S20/S21 |
 | 不作主指标 | pooled vina_mean（EGFR 0.2824 ≠ 0.4297） | Table S6 |
 
@@ -584,5 +585,5 @@ PIK3CA/PIK3CB 弱臂：原始 D/B = 0.500；4JPS 后弱臂切到冻结 D/A = 0.6
 - Table S12 是计数核对（BindingDB REST + PubChem PUG REST），不是对接结果；不得把 `as_is` 的 EGFR ≥50 写成已建成 BindingDB 厚面板。
 - Table S13 是 holdout 效价/尺寸匹配诊断，不替换 Table S8；不得写成错口袋悖论已解决。
 - Table S16–S21 是冻结分数上的补表（零新对接）。S17 的 holdout Δ CI 均含 0；S19 四对描述符 Δ CI 均含 0；S21 是 vina_mean Top-10，不是 Table 2。
-- Table S22–S30 与 Figure S4 来自 `data/jcim_novelty_v0/` 与 `data/jcim_structure_robust_v0/`：S22 formulation comparison；S23 chemotype-constrained hard-negatives（T ≥ 0.7 为空；T ≥ 0.3 不是 analogue matching）；S24 incremental ECFP/docking；S25 mixed-library EF；S26 min/mean/harmonic 聚合敏感性（四对排序不变）；S27 docking N_attempted/success/fail；S28 四个描述符全报；S29 max vs median（报一致率+翻转+主终点位移）；S30 两对 PIK3CA receptor-realization（方向相反；PAB_034 100/99/1）。不得把 Dual-vs-neither 写成 “conventional benchmark”；不得把 EGFR 0.756 vs 0.430 写成配对显著性；不得把 PIK3CA/mTOR Dual-vs-neither（n = 4）写成反转；不得把受体替换写成单向 collapse 或 robustness。
+- Table S22–S30 来自 `data/jcim_novelty_v0/` 与 `data/jcim_structure_robust_v0/`：S22 formulation comparison（主文 Figure 3）；S23 chemotype-constrained hard-negatives（T ≥ 0.7 为空；T ≥ 0.3 不是 analogue matching）；S24 incremental ECFP/docking；S25 mixed-library EF；S26 min/mean/harmonic 聚合敏感性（四对排序不变）；S27 docking N_attempted/success/fail；S28 四个描述符全报；S29 max vs median（报一致率+翻转+主终点位移）；S30 两对 PIK3CA receptor-realization（方向相反；PAB_034 100/99/1）。Figure S4 = 口袋匹配森林图；Figure S5 = unused-pool holdout。不得把 Dual-vs-neither 写成 “conventional benchmark”；不得把 EGFR 0.756 vs 0.430 写成配对显著性；不得把 PIK3CA/mTOR Dual-vs-neither（n = 4）写成反转；不得把受体替换写成单向 collapse 或 robustness。
 - Figure S3 不得复用 Figure 6 的 AUROC 柱；它只画配对 Δ ± CI。

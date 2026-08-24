@@ -7,13 +7,14 @@ JCIM **evaluation / benchmark** 课题：双靶对接四类硬负评测。
 
 ## 一句话主张
 
-双靶对接应建成 dual / A_only / B_only / neither 任务；主指标用**口袋匹配方向 AUROC**；必须报平凡基线与混淆对照。公开严格硬负极稀缺；K=4 冻结评测集上对接增量高度对靶依赖。建立的是评价体系，不是新算法。
+双靶对接应建成 dual / A_only / B_only / neither 四状态任务，主指标是两条方向性口袋匹配 AUROC（不是四分类器）。**dual-target discrimination was strongly target-pair dependent, and docking provided limited incremental information beyond ligand-level chemical baselines under scaffold-aware evaluation.** 建立的是评价体系，不是新算法；不是 comprehensive dual-target suite。
 
 ## 快速入口（投稿用）
 
 | 文档 | 用途 |
 |------|------|
-| **[`docs/JCIM_P0_COMPLETION_GUIDE.md`](docs/JCIM_P0_COMPLETION_GUIDE.md)** | ★ **下一步：Zenodo + 英文稿怎么做完** |
+| **[`docs/MANUSCRIPT_JCIM_EN.md`](docs/MANUSCRIPT_JCIM_EN.md)** | ★ **组装后的英文主稿**（由章节文件生成；不要另开 `_V2/_FINAL`） |
+| **[`docs/JCIM_P0_COMPLETION_GUIDE.md`](docs/JCIM_P0_COMPLETION_GUIDE.md)** | 下一步：Zenodo + 排版 |
 | **[`docs/JCIM_PREWRITING_CHECKLIST_V1.md`](docs/JCIM_PREWRITING_CHECKLIST_V1.md)** | ★ 写作前注意事项 + 逐项核对 |
 | [`docs/RESULTS_SECTION_JCIM_EN_V1.md`](docs/RESULTS_SECTION_JCIM_EN_V1.md) | ★ JCIM 英文 Results（nature-skills 去 AI 化） |
 | [`docs/METHODS_DRAFT_ZH_JCIM_V1.md`](docs/METHODS_DRAFT_ZH_JCIM_V1.md) | 中文 Methods 工作稿 |
@@ -78,6 +79,7 @@ python3 data/jcim_bench_v0/scripts/plot_forest_ci_v1.py
 
 ## 状态
 
-- 对接 + 混淆对照 + E/enrichment/PM110：**完成**  
-- **当前缺口 = P0**：Zenodo DOI + 英文稿（见 P0 指南）  
+- 对接 + 混淆对照 + E/enrichment/PM110 + A4 max→median + B5 两对受体替换：**完成**  
+- 章节稿已按 formulation 主线重构；英文主稿见 `docs/MANUSCRIPT_JCIM_EN.md`  
+- **当前缺口 = P0 排版/Zenodo DOI**（不是缺核心实验）  
 - Zenodo DOI：（发布后填这里）

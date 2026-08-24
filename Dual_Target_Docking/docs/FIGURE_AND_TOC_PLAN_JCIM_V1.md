@@ -3,7 +3,7 @@
 > 取代过时的 `FIGURE_PLAN_V1.md`（未含 holdout / 换晶 / S12 / GNINA best9）。  
 > 主张天花板仍服从 `CLAIM_CEILING.md`：图不能比正文更满。
 
-**现状（2026-08-24）：** 主文 Fig 1–7、SI Fig S1–S3、TOC graphic 已由 `data/jcim_bench_v0/scripts/plot_jcim_article_figures_v1.py`（扩展图：`plot_jcim_si_composites_v1.py`）从冻结 CSV 绘制，输出 `figures/jcim_article/`。数值锁定见 `plotted_values.json`。未做主面板姿态图（git 无主面板 pose）。
+**现状（2026-08-24 重构）：** 主文 Fig 1–7、SI Fig S1–S3、TOC graphic 由 `data/jcim_bench_v0/scripts/plot_jcim_article_figures_v1.py` 从冻结 CSV 绘制。**Fig 3 = formulation 并排柱**（Dual-versus-neither vs directional `summary_min`；方向性 CI 来自 θ = 6.0，不是 formulation CSV 空 CI）。**Fig 5 = 受体实现**（PM 含 4JSX；PIK3CB 不含）。原森林图 → Figure S4；unused-pool holdout → Figure S5。数值锁定见 `plotted_values.json`。未做主面板姿态图（git 无主面板 pose）。
 
 JCIM Articles 无硬图数上限。主文 **7 张图 + 1 张 TOC**：Fig 6 是错口袋方向在 holdout 上反转（改写故事）；Fig 7 是 Fig 4 未展开的指纹/全描述符/协变量/匹配子集。协议旋钮与 `as_is` 供给规则留在 SI。**Figure S3** 补配对 Δ ± CI（Fig 6 只画两个 AUROC，不画差值区间），以及口袋匹配对描述符的配对 Δ、支架 vs 随机泄漏核对。
 
@@ -17,14 +17,14 @@ JCIM Articles 无硬图数上限。主文 **7 张图 + 1 张 TOC**：Fig 6 是�
 | 必做 | 49 对硬负供给 | **Fig 2** | “为什么只有 K=4”必须一眼看见；EGFR=7 要标出来 |
 | 必做 | Table 3：Dual-versus-neither comparator vs directional summary_min | **Fig 3 并排柱** | **全文第一主结果图**（formulation）；PM neither n=4 必须标 underpowered |
 | 必做 | Table 2：口袋匹配 summary_min ± CI，并排四个描述符；弱臂不对称 | **Fig 4 森林 + 双臂** | 方向性主终点（former Fig 3）；避免读者只记住 0.692 |
-| 必做 | 配体层 vs 受体层稳健性 | **Fig 5** | Results 3.4 视觉锚：ligand replacement 可持续，receptor replacement 可崩 |
+| 必做 | 受体实现敏感性（幅度与方向） | **Fig 5** | Results 3.4 视觉锚：PM 0.692→0.486/0.505/0.639；PIK3CB 0.500→0.691/0.685 |
 | 必做 | 错口袋：主面板 matched>wrong，holdout 反转 | **Fig 6** | unresolved failure mode，不是 validation |
 | 必做 | 指纹 GroupKFold、全部描述符、协变量、匹配子集 | **Fig 7** | Fig 4 只给最强描述符与 TPSA；这张是检验 |
 | 可做（主文或 SI） | PI-103 共晶回收 + 一个 T2 硬负两端都“看起来对” | **SI 姿态图** | 对接论文需要一张姿态图，但不要假装做了 PLIF |
 | SI | 阈值网格、GNINA mode01/best9、PM110、E8/E16、单靶 enrichment | **Fig S1** | 协议旋钮不改排序 |
 | SI | S12 as_is vs equal_only、holdout 抽样偏移 | **Fig S2** | 供给规则 + 抽样位移；错口袋机制已在 Fig 6 |
 | SI | 配对 Δ(matched−wrong) ± CI；口袋匹配 vs 描述符 Δ；支架 vs 随机 | **Fig S3** | Fig 6 没有区间；描述符门控必须用口袋匹配而非 vina_mean |
-| SI | Dual-versus-neither comparator vs directional summary_min（若 Fig 3 已进主文，本图可并入 Fig 3） | **Fig S4** | 旧编号保留直至主图重绘 |
+| SI | Dual-versus-neither comparator vs directional summary_min（主文 Fig 3 已承担） | **并入 Fig 3** | 旧 novelty 三柱图可留作文件，不再占 SI 编号 |
 | 不要画 | 1000-panel、median 全面板、PLIF 热图、Framework Step 1–5、LigPrep 对比 | — | 没做或禁止写入 |
 | 不要画 | `pocket_matched_size_strata_v1.csv` | — | 多层 underpowered，容易误读成稳健分层 |
 | 不要画 | `asymmetry_pooled_vs_directional_v1.csv` 的 vina_mean | — | 不是 Table 2 的 θ=6.0 口袋匹配指标（EGFR 0.2824 ≠ 0.4297） |
@@ -54,17 +54,18 @@ JCIM Articles 无硬图数上限。主文 **7 张图 + 1 张 TOC**：Fig 6 是�
 - HDAC1/HDAC6 灰色（金属酶，排除）。
 - 可选极小插图：同一四对上 ChEMBL vs BindingDB `equal_only` min HN（S12），标题写 *count-level, no docking*。
 
-### Fig 3 — 主森林图（投稿级重画，≥300 dpi）
+### Fig 3 — Formulation comparison（全文核心结果图）
 
-每对一组：
+每对两根柱：
 
-- Vina 口袋匹配 summary_min + 95% CI（粗）
-- 该对最强平凡描述符（细，另一种标记）
-- 可选：RTM、GNINA best-of-9 作更小的点，**不要**用“冠军色”
+- 方向性 `summary_min` + 95% CI（来自 `unified_threshold_sensitivity_v2.csv` θ = 6.0，**不要**用 formulation CSV 里 summary_min 的空 CI）
+- Dual versus neither comparator + 95% CI（`formulation_conventional_vs_directional_v1.csv`，`vina_mean`）
 
-竖线 AUROC=0.5。按 summary_min 排序或固定 Table 2 顺序。标题/轴必须写 *pocket-matched*，不要用旧的 pooled 标注。
+竖线 AUROC=0.5。EGFR/HER2 的 0.756 vs 0.430 必须一眼可见。PIK3CA/mTOR Dual versus neither 必须标 **neither n = 4 / underpowered**，不得画成反向 overestimation。Dual versus all non-duals 留 Table 3，不进此图。
 
-读图应得到：三对贴线或低于描述符；PM 点最高但误差条碰到 0.5。
+原口袋匹配森林图（Vina / RTM / GNINA / 描述符）改 **Figure S4**。
+
+读图应得到：formulation 可以改变表观证据；该效应依赖靶对，不是四对定律。
 
 ### Fig 4 — 混淆与弱臂（2 或 3 面板）
 
@@ -74,19 +75,19 @@ JCIM Articles 无硬图数上限。主文 **7 张图 + 1 张 TOC**：Fig 6 是�
 
 不要把指纹 0.78–0.91 画成“对接失败证明”；若画，标 *chemotype–label association*。
 
-### Fig 5 — Ligand-panel persistence versus receptor-realization sensitivity（Results 3.4 视觉锚）
+### Fig 5 — Receptor-realization sensitivity（Results 3.4 视觉锚）
 
 标题不要写成泛泛的 *robustness*，也不要写成 *receptor replacement collapses the signal*。
 
-- **(A) Ligand-side：** 三对主面板 vs unused-pool holdout 的 summary_min ± CI（EGFR 无 holdout，不要空出误导）。读图应得到：PM 同向且点估计更高；AChE 接近；PIK3CB 下降。PM110 是含 PM48 的 stability check，放 Figure S1C。
-- **(B) Receptor realization：** 同一套 PIK3CA 晶体（4L23 / 4JPS / 5DXT），B 端冻结。PIK3CA/mTOR：0.692 → 0.486 / 0.505；PIK3CA/PIK3CB：0.500 → 0.691 / 0.685。4JSX（只换 mTOR）留 Table S9，不要混进两对对照。
+- **(A) PIK3CA/mTOR：** 4L23 / 4JPS / 5DXT / 4JSX（mTOR 端替换）。读图：0.692 → 0.486 / 0.505 / 0.639。4JSX 必须标明是 mTOR swap，不是第四个 PIK3CA 晶体。
+- **(B) PIK3CA/PIK3CB：** 同一套 PIK3CA 晶体，B = 2WXF 冻结。读图：0.500 → 0.691 / 0.685。不要把 4JSX 画进这一对。
 
 视觉对比：
 
 > Same PIK3CA perturbation → opposite pair-level effects  
-> Ligand replacement can persist; receptor realization can raise or lower discrimination
+> Receptor realization can raise or lower discrimination
 
-E8/E16、PM110、单靶 enrichment 改 SI Fig S1：它们不改变故事。
+Unused-pool holdout 改 Figure S5；E8/E16、PM110 仍在 Figure S1。它们不改变故事。
 
 ### Fig 6 — Wrong-pocket controls reveal an unresolved out-of-panel failure mode
 
@@ -180,10 +181,10 @@ ACS 要求（JCIM 跟同一套 TOC 规范）：
 
 ## 5. 执行顺序
 
-1. 重画 Fig 3 森林图（脚本已有，改标注 + ≥300 dpi PDF/PNG）。这张决定审稿人 30 秒印象。
-2. 新画 Fig 1 示意 + Fig 2 供给（J0 CSV）。
-3. Fig 4 弱臂/描述符；Fig 5 holdout+换晶（S8/S9 CSV）。
-4. 主文 Fig 6–7（错口袋；指纹/描述符/协变量/匹配子集）。SI：协议旋钮（S1）、equal-relation 供给 + 抽样偏移（S2）、配对 Δ bootstrap（S3）。姿态图若本地有 pose，另做 SI，不占 Fig 6。
-5. TOC 单独画，**不要从 Fig 1 裁一块交差**（ACS 不鼓励复用正文图）。按 3.25×1.75 in 交 TIF。
+1. 重画 Fig 3 formulation 并排柱（方向性 CI 来自 θ = 6.0）。这张决定审稿人 30 秒印象。
+2. Fig 1 示意 + Fig 2 供给保持。
+3. Fig 4 弱臂/描述符保持；Fig 5 改为受体实现（PM 含 4JSX）。
+4. 主文 Fig 6–7 保持。SI：协议旋钮（S1）、equal-relation 供给 + 抽样偏移（S2）、配对 Δ bootstrap（S3）、原森林图（S4）、holdout（S5）。
+5. TOC 单独画，**不要从 Fig 1 裁一块交差**。
 
 核对：脚本对每个 plotted 值回读冻结 CSV，失败即退出。S1 图注不得写“PM 在全网格都是最高点”（θ=5.5 的 PM 是 underpowered 0.5017，低于 AChE 0.6058）。S1B 的 −0.04..+0.08 是 best9 相对 mode01，不是相对 Vina。Fig 7C EGFR 0.5703 是 logistic AUROC，不是 Table 2 的 0.4297。S3A 的 Δ 必须等于 Fig 6 的 matched−wrong；S3C 四对 CI 均含 0；S3B holdout 点 Δ 为负且 CI 含 0。主文与 SI 不得复用同一张图。

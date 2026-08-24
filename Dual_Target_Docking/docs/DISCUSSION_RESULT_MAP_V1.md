@@ -97,8 +97,8 @@ PIK3CA/mTOR 的 boxed 说法：
 |---|---|---|
 | PM exhaustiveness 16→8 | 0.692 → 0.660（Δ ≈ 0.03） | Fig S1D |
 | PM110 稳定性核对 | Vina 0.648 [0.51, 0.76]，Δ ≈ −0.04 | Fig S1C |
-| Holdout PM / AChE / PIK3CB | **0.765** [0.603, 0.891] / 0.618 [0.422, 0.759] / 0.425 [0.241, 0.618] | Table S8 / Fig 5A |
-| 换 PIK3CA（PM） | 0.692 → **0.486** / **0.505**；D/A 仍 0.714 | Table S9 / Fig 5B |
+| Holdout PM / AChE / PIK3CB | **0.765** [0.603, 0.891] / 0.618 [0.422, 0.759] / 0.425 [0.241, 0.618] | Table S8 / Fig S5 |
+| 换 PIK3CA（PM） | 0.692 → **0.486** / **0.505**；4JSX 0.639；D/A 仍 0.714 | Table S9 / Fig 5A |
 | 换 PIK3CA（PIK3CB） | 0.500 → **0.691** / **0.685**；弱臂切换 | Table S30 / Fig 5B |
 | 换 mTOR | **0.639**；CI 含 0.5 | S9 |
 | Cognate QC | 4JPS 0.607 Å、5DXT 0.624 Å、4JSX 0.515 Å | S9 |
@@ -148,7 +148,7 @@ PIK3CA/mTOR 的 boxed 说法：
 
 | 未做 / 不可当结果 | 怎么处理 |
 |---|---|
-| 全面板 max vs median | Results 3.2；Table S29；Limitations 2（controlled） |
+| A4 max vs median | Results 3.4；Table S29；Limitations 3（controlled） |
 | 1000 个互不重叠独立 panel | Limitations 1 |
 | 主面板 PLIF；rotamer | Limitations 4 |
 | BindingDB 对接面板 | 只有计数 S12 |

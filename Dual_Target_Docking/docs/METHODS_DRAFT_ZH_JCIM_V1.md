@@ -15,7 +15,7 @@
 
 双靶评价所需的配体活性作为 **experimentally derived activity labels**，通过 ChEMBL Web API 的公开 activity 端点获取。靶对供给审计于 2026-07-23 冻结。pChEMBL 将若干摩尔浓度–响应型测定（如 IC50、Ki、Kd、EC50）转换为近似 −log10 活性尺度，便于大规模公开数据整合。不同 assay 类型、实验条件与测定体系并不等价；本文将 pChEMBL 作为策展中的统一近似，而不解释为同一条件下可直接比较的绝对结合亲和力。
 
-同一配体–靶标若有多条可用 pChEMBL 记录，冻结数据包采用**最大 pChEMBL** 作为一对一代表值，用于主策展。assay 类型、条件与实验体系并不等价；取最大可能抬高单次测定读数，因此在从 ChEMBL activity 端点重拉 assay 级记录后，用重复测定的**中位数**替换最大值作全面板敏感性（Table S29）。冻结 Vina 分数不重算。类别比较使用同一 θ = 6.0 规则。冻结文件（`mols_*.json`）仍只保存该代表浮点数；中位数标签存在 A4 表中，不作为重建的主面板。任一端缺少有效 pChEMBL 的配体不进入需要双端标签的分析。
+同一配体–靶标若有多条可用 pChEMBL 记录，冻结数据包采用**最大 pChEMBL** 作为一对一代表值，用于主策展。assay 类型、条件与实验体系并不等价；取最大可能抬高单次测定读数。因此将活性聚合敏感性作为**预先指定的敏感性分析**：在从 ChEMBL activity 端点重拉 assay 级记录后，用重复测定的**中位数**替换最大值（Table S29）。该分析覆盖全部冻结评测面板，**不用于重定义面板成员或对接参数**。冻结 Vina 分数不重算。类别比较使用同一 θ = 6.0 规则。冻结文件（`mols_*.json`）仍只保存该代表浮点数；中位数标签存在 A4 表中，不作为重建的主面板。任一端缺少有效 pChEMBL 的配体不进入需要双端标签的分析。
 
 ChEMBL 结构常含盐、溶剂化物或多组分形式。对接前按连通片段拆分，并保留重原子数最多的有机片段作为计算母体。
 
@@ -212,7 +212,7 @@ Holdout 不参与主面板构建、对接协议调整或 primary endpoint 选择
 
 ### 2.12 Receptor-structure sensitivity analysis
 
-为评价 benchmark 结论对受体结构选择的敏感性，另选满足以下**预先声明**条件的替代晶体：（i）polymer entity 与目标蛋白真实对应，排除嵌合体或非目标同源骨架；（ii）含 ATP 位点或目标结合位点的小分子共晶；（iii）分辨率可接受；（iv）通过与 2.5 相同的 cognate redocking QC。实际进入对接的替代结构为 PIK3CA 4JPS、5DXT 与 mTOR 4JSX。该分析是 **receptor-structure sensitivity analysis**（receptor-realization effect），不是稳健性检验，也不是用来证明某一晶体“更正确”，更不是把 PIK3CA/mTOR 预设为结构不变的 positive case。
+为评价 benchmark 结论对受体结构选择的敏感性，另选满足以下**预先声明**条件的替代晶体：（i）polymer entity 与目标蛋白真实对应，排除嵌合体或非目标同源骨架；（ii）含 ATP 位点或目标结合位点的小分子共晶；（iii）分辨率可接受；（iv）通过与 2.5 相同的 cognate redocking QC。实际进入对接的替代结构为 PIK3CA 4JPS、5DXT 与 mTOR 4JSX。该分析是 **receptor-structure sensitivity analysis**（receptor-realization effect），不是稳健性检验，也不是用来证明某一晶体“更正确”，更不是把 PIK3CA/mTOR 预设为结构不变的 positive case。目的是量化双靶判别终点对受体实现对的敏感性，而不是挑选更优受体结构。
 
 替换采用**单口袋**设计。在 PIK3CA/mTOR（PM48）上，4JPS/5DXT 替换口袋 A，口袋 B 仍用冻结 4JT6 分数；4JSX 替换口袋 B，口袋 A 仍用冻结 4L23 分数；exhaustiveness = 16，与 PM48 主面板一致。在 PIK3CA/PIK3CB 上，同一套已准备的 4JPS/5DXT 替换口袋 A，口袋 B 仍用冻结 2WXF 分数；exhaustiveness = 8，与该主面板一致。新盒子按该替代晶体自身共晶配体、以 2.4 的同一 AABB 规则生成。配体准备、随机种子（20260727）、打分函数与 primary endpoint 与相应主分析相同。未能产生 Vina 分数的作业按 2.3 剔除；attempted / successful / failed 计数与换晶表一并报告。
 

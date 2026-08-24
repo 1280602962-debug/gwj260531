@@ -3,7 +3,7 @@
 > 结构按 *performance → confounding → robustness boundary → failure mode* 重排为 6 节，不再按实验清单写 3.1–3.11。  
 > Results 只报告数字、预定义比较与直接可见的模式；解释、机制假说与使用边界放 Discussion。  
 > 全部数字可追溯至 `data/jcim_bench_v0/`、`data/jcim_strengthen_t0t1_v0/`、`data/jcim_holdout_v0/`、`data/jcim_structure_robust_v0/` 与 `data/jcim_supply_crossdb_v0/`。未做的全面板残基级 PLIF 不写入。  
-> **主图：** Fig 1 任务定义；Fig 2 供给；Fig 3 主森林图；Fig 4 弱臂/描述符；Fig 5 配体层 vs 受体层；Fig 6 错口袋反转；Fig 7 化学型/协变量检验。详见 [`FIGURE_AND_TOC_PLAN_JCIM_V1.md`](FIGURE_AND_TOC_PLAN_JCIM_V1.md)。  
+> **主图：** Fig 1 任务定义；Fig 2 供给；Fig 3 formulation 对比（Dual-versus-neither vs directional summary_min）；Fig 4 弱臂/描述符；Fig 5 受体实现敏感性（含 4JSX）；Fig 6 错口袋反转；Fig 7 化学型/协变量检验。森林图与 unused-pool holdout 现为 Figure S4 / S5。详见 [`FIGURE_AND_TOC_PLAN_JCIM_V1.md`](FIGURE_AND_TOC_PLAN_JCIM_V1.md)。  
 > **定位：** DualFourClass-Bench 是 *constrained but experimentally grounded* 的四状态评测资源，不是“完整双靶对接排行榜”。禁止 D-DRAF；禁止 “docking can/cannot identify dual-target ligands”。见 [`POSITIONING_AND_FRAMEWORK_LANGUAGE_V1.md`](POSITIONING_AND_FRAMEWORK_LANGUAGE_V1.md)。
 
 ---
@@ -26,9 +26,9 @@
 
 这四个 `summary_min` **不是**可互换的 intrinsic docking performance。AChE/BChE 与 PIK3CA/PIK3CB 在严格供给规则下建面；EGFR/HER2 与 PIK3CA/mTOR 使用 θ = 6.0；面板还在 n、化学系列与受体上不同。跨对差异同时混合这些构建因素与靶对生物学。
 
-EGFR/HER2、AChE/BChE、PIK3CA/PIK3CB 和 PIK3CA/mTOR 的方向性 summary_min 分别为 0.430、0.606、0.500 和 0.692（Table 2；Figure 3）。不同靶对的主要限制来自不同的弱臂：EGFR/HER2 的 dual-versus-B-only AUROC 为 0.430，PIK3CA/PIK3CB 为 0.500；PIK3CA/mTOR 两个方向分别为 0.714 和 0.692（Figure 4A）。相对池化协议，口袋匹配抬高了点估计但未改变排序（Table S6）。
+EGFR/HER2、AChE/BChE、PIK3CA/PIK3CB 和 PIK3CA/mTOR 的方向性 summary_min 分别为 0.430、0.606、0.500 和 0.692（Table 2；Figure 4A；Figure S4）。不同靶对的主要限制来自不同的弱臂：EGFR/HER2 的 dual-versus-B-only AUROC 为 0.430，PIK3CA/PIK3CB 为 0.500；PIK3CA/mTOR 两个方向分别为 0.714 和 0.692（Figure 4A）。相对池化协议，口袋匹配抬高了点估计但未改变排序（Table S6）。
 
-同一套冻结分数再按 Dual-versus-neither comparator 以及 Dual versus all non-duals 计分（Table 3；Figure S4）。Dual-versus-neither 是本面板上的 **nonselectivity-controlled comparator**（实验 inactive；`vina_mean`），不是声称既有双靶基准都以 Dual versus neither 为官方任务。两套 AUROC 使用不同负样本，是 **descriptive formulation contrast**，不是配对显著性检验。
+同一套冻结分数再按 Dual-versus-neither comparator 以及 Dual versus all non-duals 计分（Table 3；Figure 3）。Dual-versus-neither 是本面板上的 **nonselectivity-controlled comparator**（实验 inactive；`vina_mean`），不是声称既有双靶基准都以 Dual versus neither 为官方任务。两套 AUROC 使用不同负样本，是 **descriptive formulation contrast**，不是配对显著性检验。
 
 EGFR/HER2 是 proof-of-principle。Dual versus neither 的 AUROC 为 0.756 [0.562, 0.920]（n_neg = 12），而方向性 summary_min 仍为 0.430 [0.284, 0.576]。Dual versus all non-duals 降至 0.551 [0.443, 0.666]，说明额外难度来自选择性配体。在 110 个 EGFR/HER2 配体的混合库中按 `vina_mean` 取 Top-10：1 个 dual、5 个 A-only、4 个 B-only、0 个 neither（EF10 = 0.393；hard-negative fraction = 0.90）；EF5 也低于随机（Table S25）。因此 Dual-versus-neither 读出在该对上会支持对接双靶识别，而方向性任务与筛选向 Top-10 都优先富集选择性配体。
 
@@ -56,8 +56,6 @@ EGFR/HER2 是 proof-of-principle。Dual versus neither 的 AUROC 为 0.756 [0.56
 
 对接覆盖并不完整。主面板两端均得分：EGFR/HER2 110/110，AChE/BChE 95/100，PIK3CA/PIK3CB 99/100，PIK3CA/mTOR 48/48（Table S27）。PIK3CA/PIK3CB 唯一失败是 `PAB_034`（A-only；CHEMBL5089694），4L23 上对接超时（`timeout_900s`，23 个可旋转键），不是标签过滤；PIK3CB 2WXF 成功。AUROC 因此以 AutoDock Vina 能够处理的化合物为条件。采用 RTMScore 或 GNINA 作为替代 scoring channel 未改变总体排序。GNINA 在统一 best-of-9 pose coverage 后，EGFR/HER2、AChE/BChE 与 PIK3CA/mTOR 的口袋匹配 summary_min 仍不超过同面板 Vina；PIK3CA/PIK3CB 上 GNINA best-of-9 为 0.533、Vina 为 0.500，二者均近随机且区间重叠（Table S14–S15；Figure S1B）。GNINA 仍只是单一 CNN 通道对照。协议通过了 cognate pose-generation QC；该 QC 不是 screening-performance validation。
 
-主标签使用可用 pChEMBL 的最大值。在对每个已打分配体重新拉取 assay 级记录后，把该聚合换成重复测定的中位数，θ = 6.0 下四状态类别翻转：EGFR/HER2 7/110（标签一致率 103/110 = 93.6%），AChE/BChE 1/95（94/95 = 98.9%），PIK3CA/PIK3CB 1/99（98/99 = 99.0%），PIK3CA/mTOR 0/48（48/48 = 100%）（Table S29）。数值上 max ≠ median 比类别翻转更常见（40/110、13/95、25/99、27/48）。API 重拉标签上，`summary_min` 由 0.417→0.424（EGFR/HER2）、0.606→0.629（AChE/BChE）、0.500→0.500（PIK3CA/PIK3CB）、0.692→0.692（PIK3CA/mTOR）。冻结 Table 2 的 EGFR/HER2 是 0.430 而非 0.417，因为一处缓存/API 不一致（`EH120_060` / CHEMBL24828）在 API max 下把该配体标成 dual；相对冻结表，中位数聚合仍使 EGFR/HER2 为 0.424。靶对排序与方向性主结论因此对这一聚合选择不敏感。assay 间异质性仍然存在，因为 pChEMBL 并非 assay-equivalent。
-
 ### 3.3 Ligand Properties and Chemotype Explain Much of the Apparent Signal
 
 为判断 docking discrimination 是否超越简单的 ligand-level signal，我们首先将口袋匹配对接与四种预先定义的物化性质进行比较（Figure 4B；Table 2）。相对于每个靶对的 **best single-descriptor reference**，docking summary_min 的 paired difference 在 EGFR/HER2、AChE/BChE、PIK3CA/PIK3CB 和 PIK3CA/mTOR 中分别为 −0.052、−0.128、−0.122 和 +0.229；四个 95% confidence intervals 均包含 0（Table S19；Figure S3C）。由此可见，即使 PIK3CA/mTOR 的点估计表现出最大的正向差异，现有样本仍不足以将其与 ligand-property reference 明确区分。该对照使用口袋匹配 summary_min，不是 pooled `vina_mean` 门控（EGFR/HER2 的 `vina_mean` 为 0.2824，≠ Table 2 的 0.4297）。
@@ -72,9 +70,11 @@ PIK3CA/mTOR 的情况有所不同。加入 heavy-atom count 和 TPSA 后，AUROC
 
 效价匹配或尺寸匹配子集上，EGFR/HER2 与 PIK3CA/PIK3CB 的 dual 对 B_only 仍偏弱或接近随机（约 0.45–0.52）；PIK3CA/mTOR 的排序趋势保持一致，但各臂 n 常低于 15、区间较宽（Table S5；Figure 7D）。全部四个描述符见图 7B，均不作 confirmatory competitor。
 
-### 3.4 Ligand-Panel Persistence Contrasts with Receptor-Realization Sensitivity
+### 3.4 Apparent Performance Is Insensitive to pChEMBL Aggregation but Sensitive to Receptor Realization
 
-为判断 PIK3CA/mTOR 的较高 summary_min 是否仅由特定 panel 构成或 docking 搜索参数造成，我们进行了 ligand-panel 和 protocol-level sensitivity analyses（Figure 5A）。将 exhaustiveness 从 16 降至 8 后，summary_min 从 0.692 降至 0.660，变化约 0.03，明显小于不同 target pairs 之间的性能差异（Figure S1D）。
+主标签使用可用 pChEMBL 的最大值。在对每个已打分配体重新拉取 assay 级记录后，把该聚合换成重复测定的中位数，θ = 6.0 下四状态类别翻转：EGFR/HER2 7/110（标签一致率 103/110 = 93.6%），AChE/BChE 1/95（94/95 = 98.9%），PIK3CA/PIK3CB 1/99（98/99 = 99.0%），PIK3CA/mTOR 0/48（48/48 = 100%）（Table S29）。数值上 max ≠ median 比类别翻转更常见（40/110、13/95、25/99、27/48）。API 重拉标签上，`summary_min` 由 0.417→0.424（EGFR/HER2）、0.606→0.629（AChE/BChE）、0.500→0.500（PIK3CA/PIK3CB）、0.692→0.692（PIK3CA/mTOR）。冻结 Table 2 的 EGFR/HER2 是 0.430 而非 0.417，因为一处缓存/API 不一致（`EH120_060` / CHEMBL24828）在 API max 下把该配体标成 dual；相对冻结表，中位数聚合仍使 EGFR/HER2 为 0.424。靶对排序与方向性主结论因此对这一聚合选择不敏感。assay 间异质性仍然存在，因为 pChEMBL 并非 assay-equivalent。
+
+为判断 PIK3CA/mTOR 的较高 summary_min 是否仅由特定 panel 构成或 docking 搜索参数造成，我们进行了 ligand-panel 和 protocol-level sensitivity analyses（Figure S5）。将 exhaustiveness 从 16 降至 8 后，summary_min 从 0.692 降至 0.660，变化约 0.03，明显小于不同 target pairs 之间的性能差异（Figure S1D）。
 
 在包含 PM48 全部配体并扩展至实际 n = 115 的 PM110 面板中（分析用 dual / A_only / B_only 各 30），Vina summary_min 为 0.648 [0.51, 0.76]，相比 PM48 的 0.692 下降约 0.04，但排序趋势保持一致（Figure S1C）。该结果支持 PIK3CA/mTOR 的方向性信号并非完全由 PM48 的特定成员驱动，但 PM110 与 PM48 并非独立验证集，因此该结果应解释为 stability check。同面板 RTMScore 为 0.576；GNINA best-of-9 为 0.613 [0.46, 0.74]，PM48 同口径为 0.655 [0.43, 0.81]，仍不高于同面板 Vina。
 
@@ -82,11 +82,11 @@ PIK3CA/mTOR 的情况有所不同。加入 heavy-atom count 和 TPSA 后，AUROC
 
 因而，PIK3CA/mTOR 的方向性 signal 在同一 ChEMBL 体系的未参与建面配体中仍然可观察到，而 PIK3CA/PIK3CB 的 signal 则未能保持。这进一步说明 docking performance 主要由 target-pair context 决定，而不是一个可在不同靶对之间稳定迁移的属性。
 
-尽管 PIK3CA/mTOR 在 ligand-panel sensitivity analysis 中保持了方向性信号，我们进一步测试方向性判别是否依赖于特定 receptor realization：一端受体冻结，只替换另一端（Figure 5B；Table S9；Table S30）。三个替代晶体结构均通过 cognate redocking QC，best-of-9 RMSD 分别为 0.607 Å（4JPS）、0.624 Å（5DXT）和 0.515 Å（4JSX）；嵌合体 3T8M 已排除。
+尽管 PIK3CA/mTOR 在 ligand-panel sensitivity analysis 中保持了方向性信号，我们进一步测试方向性判别是否依赖于特定 receptor realization：一端受体冻结，只替换另一端（Figure 5；Table S9；Table S30）。三个替代晶体结构均通过 cognate redocking QC，best-of-9 RMSD 分别为 0.607 Å（4JPS）、0.624 Å（5DXT）和 0.515 Å（4JSX）；嵌合体 3T8M 已排除。
 
-在 PIK3CA/mTOR 上，当 PIK3CA 4L23 替换为 4JPS 或 5DXT、mTOR 4JT6 保持不变时，PM48 的 summary_min 分别由 0.692 降至 0.486 [0.259, 0.692] 和 0.505 [0.292, 0.696]。变化主要发生在依赖替代 PIK3CA 结构的 D/B direction，而依赖原始 mTOR 结构的 D/A direction 保持 0.714。将 mTOR 4JT6 替换为 4JSX 后 summary_min 为 0.639 [0.418, 0.776]。mTOR 端换晶后点估计仍高于 0.5，但 95% CI 包含 0.5。
+在 PIK3CA/mTOR 上，当 PIK3CA 4L23 替换为 4JPS 或 5DXT、mTOR 4JT6 保持不变时，PM48 的 summary_min 分别由 0.692 降至 0.486 [0.259, 0.692] 和 0.505 [0.292, 0.696]（Figure 5A）。变化主要发生在依赖替代 PIK3CA 结构的 D/B direction，而依赖原始 mTOR 结构的 D/A direction 保持 0.714。将 mTOR 4JT6 替换为 4JSX 后 summary_min 为 0.639 [0.418, 0.776]。mTOR 端换晶后点估计仍高于 0.5，但 95% CI 包含 0.5。
 
-同一套 PIK3CA 晶体再用于 PIK3CA/PIK3CB 面板，2WXF 分数保持冻结（exhaustiveness = 8，与主面板一致）。替换后 summary_min **上升**：由 0.500 至 0.691 [0.516, 0.779]（4JPS）和 0.685 [0.506, 0.768]（5DXT）。仍使用冻结 2WXF 的 dual versus A-only 保持 0.691。使用替代 PIK3CA 分数的 dual versus B-only 由 0.500 升至 0.707（4JPS）和 0.685（5DXT）。弱臂因此切换：原来是 4L23 上的 D/B（0.500）；4JPS 后瓶颈变成冻结 2WXF 臂（0.691）；5DXT 后两臂接近平衡。两套替代作业均尝试 100 个配体、成功 99 个；缺失配体仍是 `PAB_034`（4JPS 与 5DXT 上均 600 s 超时）。该配体在原始 4L23 上已经超时，因此 99 配体集合与 Table 2 相同。本协议下任何 PIK3CA 晶体都没有 100 配体方向 AUROC；失败是对接超时，不是实验标签过滤。
+同一套 PIK3CA 晶体再用于 PIK3CA/PIK3CB 面板，2WXF 分数保持冻结（exhaustiveness = 8，与主面板一致；Figure 5B）。替换后 summary_min **上升**：由 0.500 至 0.691 [0.516, 0.779]（4JPS）和 0.685 [0.506, 0.768]（5DXT）。仍使用冻结 2WXF 的 dual versus A-only 保持 0.691。使用替代 PIK3CA 分数的 dual versus B-only 由 0.500 升至 0.707（4JPS）和 0.685（5DXT）。弱臂因此切换：原来是 4L23 上的 D/B（0.500）；4JPS 后瓶颈变成冻结 2WXF 臂（0.691）；5DXT 后两臂接近平衡。两套替代作业均尝试 100 个配体、成功 99 个；缺失配体仍是 `PAB_034`（4JPS 与 5DXT 上均 600 s 超时）。该配体在原始 4L23 上已经超时，因此 99 配体集合与 Table 2 相同。本协议下任何 PIK3CA 晶体都没有 100 配体方向 AUROC；失败是对接超时，不是实验标签过滤。
 
 因此，同一 PIK3CA 扰动在两个靶对上方向相反。受体选择既可以增强、也可以削弱表观双靶 discrimination。这是 receptor-realization effect，不是稳健性证明，也不是单向 collapse。设计只扰动一端，Δ 可归因于被替换口袋，而不是同时换掉两个结构。两对共享 PIK3CA；该格局不是 K = 4 上的普遍定律。
 

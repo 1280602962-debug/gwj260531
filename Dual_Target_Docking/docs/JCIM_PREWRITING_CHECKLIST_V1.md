@@ -138,9 +138,9 @@ python3 data/jcim_bench_v0/scripts/plot_forest_ci_v1.py
 |----|--------|------|------|
 | F1 | Fig 1 任务 + 口袋匹配示意 | ❌ | 需新画 |
 | F2 | Fig 2 供给审计（49 对） | ❌ | 有 J0 表；无投稿级图 |
-| F3 | Fig 3 森林图 pocket-matched ± CI + 基线 | 🟡 | `forest_summary_min_ci_v1.png` 有；须确认标注为 pocket-matched 并升 DPI |
-| F4 | Fig 4 混淆（错口袋 / LE / 匹配） | ❌ | 有 CSV；无定稿图 |
-| F5 | Fig 5 配体层 vs 受体层 | 🟡 | 脚本已改面板标题；bitmap 需重跑 `plot_jcim_article_figures_v1.py` |
+| F3 | Fig 3 formulation 并排柱 Dual-vs-neither vs directional summary_min | 🟢 | `Fig3_formulation_comparison`；方向性 CI 来自 θ=6.0 |
+| F4 | Fig 4 弱臂 + 描述符 + TPSA | 🟢 | `Fig4_confounds` |
+| F5 | Fig 5 受体实现（PM 含 4JSX；PIK3CB 不含） | 🟢 | `Fig5_receptor_realization`；holdout 现为 Fig S5 |
 | F6 | Table 1 靶对清单 / N / 协议 | 🟡 | inventory 材料有 |
 | F7 | Table 2 主结果（口袋匹配） | ✅ 文内已有 | 与 `PRIMARY_METRIC_V2` 一致 |
 | F8 | TOC graphic | ❌ | 同 D4 |

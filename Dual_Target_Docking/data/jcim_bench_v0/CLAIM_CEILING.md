@@ -44,9 +44,10 @@
 
 Allowed closing claims:
 - DualFourClass-Bench is an **experimentally grounded evaluation setting** (once in Conclusions; not a new algorithm).
-- Discrimination was **limited and strongly target-pair-dependent** (summary_min 0.430–0.692).
+- Discrimination was **strongly target-pair-dependent** (summary_min 0.430–0.692), **and docking provided limited incremental information beyond ligand-level chemical baselines under scaffold-aware evaluation.**
+- Primary pair-level estimates were **largely insensitive to max-versus-median pChEMBL aggregation**.
 - On EGFR/HER2, a Dual-versus-neither comparator looked substantially stronger than the directional worst arm; this is **pair-dependent**, not a four-pair overestimation law. Do not call that comparator “the conventional benchmark.”
-- PIK3CA/mTOR had the strongest point estimate and a positive directional signal in an unused ligand pool; uncertainty + receptor-realization sensitivity **preclude a generalizable dual-target decision rule**. The same PIK3CA crystals can raise PIK3CA/PIK3CB discrimination; do not summarize receptor replacement as collapse.
+- PIK3CA/mTOR had the strongest point estimate and a positive directional signal in an unused ligand pool; uncertainty + receptor-realization sensitivity **preclude a generalizable dual-target decision rule**. Receptor realization can alter **magnitude and even direction**; the same PIK3CA crystals can raise PIK3CA/PIK3CB discrimination; do not summarize receptor replacement as collapse.
 - Apparent signals can be substantially influenced by ligand properties, chemotype, and receptor realization.
 - Unused-pool wrong-pocket reversal is **unresolved**; paired CIs included zero.
 - Contribution = **reliability / evidentiary boundary**, not a docking winner.

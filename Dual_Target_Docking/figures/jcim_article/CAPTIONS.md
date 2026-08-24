@@ -15,17 +15,17 @@ The script re-reads the CSVs, writes PDF/PNG/TIF, and fails if any plotted value
 
 (A) Minimum of the two strict hard-negative counts (A_only, B_only) for every target pair in the J0 ChEMBL audit (`j0_strict_label_supply.csv`). Dashed line, thick-panel gate (≥50); dotted line, thin-panel gate (≥20). Highlighted: the three thick pairs used as K=4 main panels, EGFR/HER2 (7 B_only; supply-limited case), and HDAC1/HDAC6 (metal enzyme; excluded). (B) Count-level comparison of the same four pairs in ChEMBL pChEMBL versus BindingDB equal-relation measurements (Table S12). No docking.
 
-## Figure 3. Pocket-matched summary_min on the frozen K=4 set.
+## Figure 3. Benchmark formulation changes the apparent evidence for dual-target recognition.
 
-Vina (primary), RTMScore, GNINA CNN best-of-9, and the strongest trivial descriptor (heavy-atom count, MW, cLogP, or TPSA) with 95% ligand-bootstrap CIs. Vina CIs are the θ = 6.0 values in `unified_threshold_sensitivity_v2.csv` (Table 2). Best descriptor (right column, from `forest_summary_min_ci_v1.csv`): EGFR/HER2 cLogP; AChE/BChE TPSA; PIK3CA/PIK3CB and PIK3CA/mTOR heavy-atom count. Vertical dashed line, chance (0.5). GNINA is a single CNN channel, not a three-engine competition.
+Same frozen AutoDock Vina scores under two task formulations (unified θ = 6.0). Dark bars: directional pocket-matched `summary_min` with 95% ligand-bootstrap CIs from `unified_threshold_sensitivity_v2.csv` (Table 2). Orange bars: Dual-versus-neither comparator using pooled `vina_mean`, with CIs from `formulation_conventional_vs_directional_v1.csv` (Table 3). Dual versus neither is a nonselectivity-controlled comparator, not “the conventional dual-target benchmark.” EGFR/HER2 is the proof-of-principle gap (0.756 versus 0.430). AChE/BChE and PIK3CA/PIK3CB increments are small and overlapping. PIK3CA/mTOR Dual versus neither is hatched as underpowered (neither n = 4) and is not a reverse-overestimation result. Dual versus all non-duals is reported in Table 3, not here. Vertical dashed line, chance (0.5). The former pocket-matched forest (Vina / RTM / GNINA / descriptor) is Figure S4.
 
 ## Figure 4. Weak-arm asymmetry and physicochemical confounding.
 
 (A) Directional Vina AUROCs at θ = 6.0: dual versus A_only (pocket B) and dual versus B_only (pocket A). (B) Vina pocket-matched summary_min versus the strongest trivial descriptor, with 95% CIs. (C) TPSA on the AChE/BChE panel by class (individual ligands from `assembled_AChE_BChE.csv`; horizontal line, median). Dual ligands are more polar than either hard-negative class, matching the TPSA baseline that exceeds Vina on this pair.
 
-## Figure 5. Ligand-panel persistence versus receptor-realization sensitivity.
+## Figure 5. Receptor realization can raise or lower apparent dual-target discrimination.
 
-(A) Ligand-side: pocket-matched summary_min on the main panel versus the unused-pool holdout (20/20/20; seed 20260731) for the three pairs with unused-pool supply. EGFR/HER2 has no holdout. PM110 is a same-family stability check shown in Figure S1C, not a third independent validation trajectory. (B) Receptor realization: the same PIK3CA crystals (4L23 original, 4JPS, 5DXT) with the B-end receptor held frozen (4JT6 on PIK3CA/mTOR; 2WXF on PIK3CA/PIK3CB). Summary_min falls on PIK3CA/mTOR (0.692 → 0.486 / 0.505) and rises on PIK3CA/PIK3CB (0.500 → 0.691 / 0.685). Error bars are 95% ligand-bootstrap CIs from the deposited swap tables. The mTOR 4JSX swap remains in Table S9. Receptor replacement is a realization effect, not a unidirectional collapse. PIK3CA/PIK3CB uses the same 99-ligand set as Table 2 (PAB_034 timeout on all three PIK3CA crystals).
+(A) PIK3CA/mTOR (PM48): pocket-matched summary_min after replacing one receptor at a time. 4L23 is the original PIK3CA structure (B = 4JT6 frozen); 4JPS and 5DXT replace PIK3CA; 4JSX replaces mTOR (A = 4L23 frozen). Point estimates: 0.692 (4L23), 0.486 (4JPS), 0.505 (5DXT), 0.639 (4JSX). (B) PIK3CA/PIK3CB: the same PIK3CA crystals with 2WXF held frozen. Point estimates: 0.500 (4L23), 0.691 (4JPS), 0.685 (5DXT). Error bars are 95% ligand-bootstrap CIs from the deposited swap tables and Table 2. 4JSX is an mTOR swap and is not applied to PIK3CA/PIK3CB. Receptor replacement is a realization effect, not a unidirectional collapse and not a robustness certificate. PIK3CA/PIK3CB uses the same 99-ligand set as Table 2 (PAB_034 timeout on original 4L23 and on both 4JPS and 5DXT). Unused-pool holdout is Figure S5.
 
 ## Figure 6. Wrong-pocket controls reveal an unresolved out-of-panel failure mode.
 
@@ -46,6 +46,14 @@ Vina (primary), RTMScore, GNINA CNN best-of-9, and the strongest trivial descrip
 ## Figure S3. Paired bootstrap differences that Figure 6 does not show.
 
 All values are from `wrong_pocket_paired_delta_bootstrap_v1.csv` and `pocket_matched_vs_best_descriptor_delta_v1.csv` (B = 2000 ligand resamples, seed 20260729). Point Δ equals the rounded Table 2 / Figure 6 AUROCs subtracted at four decimals, not a separately rounded difference. Blue, 95% CI excludes 0; gray, CI includes 0. (A) Main K=4 panels: Δ = pocket-matched − wrong-pocket summary_min. Point Δ is positive on all four pairs (EGFR/HER2 0.1697, AChE/BChE 0.1614, PIK3CA/PIK3CB 0.1511, PIK3CA/mTOR 0.0902). Only EGFR/HER2 and AChE/BChE have CIs that exclude 0; PIK3CA/PIK3CB and PIK3CA/mTOR CIs include 0. (B) Unused-pool holdout: point Δ is negative on all three eligible pairs (wrong-pocket ≥ matched), and every CI includes 0. EGFR/HER2 has no holdout. This panel is the interval on the Figure 6B reversal, not a new docking experiment. (C) Pocket-matched Vina minus the strongest trivial descriptor (EGFR/HER2 cLogP 0.4821; AChE/BChE TPSA 0.7333; PIK3CA/PIK3CB and PIK3CA/mTOR heavy-atom count). All four CIs include 0, including PIK3CA/mTOR +0.2291 [−0.0105, 0.4352]. This is not the pooled `vina_mean` gate (EGFR/HER2 0.2824). (D) ECFP4 logistic AUROC under scaffold GroupKFold versus random StratifiedKFold (`ligand_ml_scaffold_vs_random_v1.csv`). Mean (random − scaffold) across eight directional contrasts is 0.0112. Scaffold split remains the primary ML readout; this is a leakage check, not a search for a leakier split.
+
+## Figure S4. Pocket-matched summary_min on the frozen K=4 set (former main Figure 3).
+
+Vina (primary), RTMScore, GNINA CNN best-of-9, and the strongest trivial descriptor (heavy-atom count, MW, cLogP, or TPSA) with 95% ligand-bootstrap CIs. Vina CIs are the θ = 6.0 values in `unified_threshold_sensitivity_v2.csv` (Table 2). Best descriptor (right column, from `forest_summary_min_ci_v1.csv`): EGFR/HER2 cLogP; AChE/BChE TPSA; PIK3CA/PIK3CB and PIK3CA/mTOR heavy-atom count. Vertical dashed line, chance (0.5). GNINA is a single CNN channel, not a three-engine competition. The main-text formulation comparison is Figure 3.
+
+## Figure S5. Unused-pool holdout versus the main panel.
+
+Pocket-matched summary_min on the main panel versus the unused-pool holdout (20/20/20; seed 20260731) for the three pairs with unused-pool supply. EGFR/HER2 has no holdout. PM110 is a same-family stability check shown in Figure S1C, not a third independent validation trajectory. This panel was formerly Figure 5A; the main-text Figure 5 is receptor realization only.
 
 ## TOC graphic (For Table of Contents Only).
 
