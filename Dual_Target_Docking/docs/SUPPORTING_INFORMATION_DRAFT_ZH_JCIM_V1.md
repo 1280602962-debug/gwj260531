@@ -368,7 +368,7 @@ mode_01 是 9 个姿态中 CNNscore 最高的比例仅 19–29%，即多数配�
 | PM110 | mode01 | 30/30/30 | 0.522 | 0.713 | 0.522 [0.38, 0.67] |
 | PM110 | best9 | 30/30/30 | 0.613 | 0.682 | **0.613** [0.46, 0.74] |
 
-全 9 姿态公平重打后，GNINA 真口袋匹配 summary_min 相对 mode_01 的变化为 −0.04（EGFR/HER2）、−0.03（AChE/BChE）、−0.02（PIK3CA/PIK3CB）、+0.08（PIK3CA/mTOR，含 PM48/PM110）。**四对上 GNINA best-of-9 均未超过同面板 Vina 口袋匹配**；EGFR/HER2 与 AChE/BChE 上 GNINA best-of-9 仍低于随机（<0.5）。PIK3CA/mTOR（含 PM48、PM110）在 GNINA 通道下点估计上升但仍不超过 Vina。姿态覆盖对齐后，`RTMScore 与 GNINA 未改变这一格局`（Results 3.2/3.4）这一表述继续成立，且现在有方向性（非仅池化/worst-pocket）GNINA 数字支持。PM48/PM110 稳定性核对文本（Results 3.8）与 `PM110_VS_PM48.md`/`B_GROUP_VERDICT.md` 的 GNINA 引用值已改为本表 best9 数值；mode_01 保留仅作追溯校验。
+全 9 姿态公平重打后，GNINA 真口袋匹配 summary_min 相对 mode_01 的变化为 −0.04（EGFR/HER2）、−0.03（AChE/BChE）、−0.02（PIK3CA/PIK3CB）、+0.08（PIK3CA/mTOR，含 PM48/PM110）。EGFR/HER2、AChE/BChE、PIK3CA/mTOR 三对上 **GNINA best-of-9 均未超过同面板 Vina 口袋匹配**；EGFR/HER2 与 AChE/BChE 上 GNINA best-of-9 仍低于随机（<0.5）。**PIK3CA/PIK3CB 是例外**：GNINA 口袋匹配（mode01 0.554、best9 0.533）略高于同面板 Vina（0.500），但该关系在 mode-1 时已存在，不是 best-of-9 新产生的现象，且二者均接近随机、bootstrap 区间明显重叠，不构成“GNINA 优于 Vina”的主张，仅表示二者在该对上统计不可分。PIK3CA/mTOR（含 PM48、PM110）在 GNINA 通道下点估计上升但仍不超过 Vina。姿态覆盖对齐后，`RTMScore 与 GNINA 未改变这一格局`（Results 3.2/3.4）这一表述继续成立（三对不超过 Vina、一对与 Vina 统计不可分），且现在有方向性（非仅池化/worst-pocket）GNINA 数字支持。PM48/PM110 稳定性核对文本（Results 3.8）与 `PM110_VS_PM48.md`/`B_GROUP_VERDICT.md` 的 GNINA 引用值已改为本表 best9 数值；mode_01 保留仅作追溯校验。
 
 ---
 

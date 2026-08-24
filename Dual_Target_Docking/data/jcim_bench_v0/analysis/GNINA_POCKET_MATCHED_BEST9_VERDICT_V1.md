@@ -38,7 +38,9 @@ pocket-matched number; the push's own file should be read as worst-pocket.
 
 ### One-line verdict
 
-**Moving GNINA from mode-1-only to best-of-9 does not change which pair looks best, and does not make GNINA a stronger channel than Vina on any pair.** PIK3CA/mTOR remains the strongest pair under GNINA (mode01 0.579 → best9 0.655), still below its own Vina pocket-matched reference (0.692). EGFR/HER2 and AChE/BChE GNINA best9 pocket-matched values are **below 0.5** (0.290 and 0.413), i.e. best-of-9 does not rescue GNINA on the pairs where Vina is also weak or descriptor-explained. `RTMScore 与 GNINA 未改变这一格局` remains supported, now with a directional (not just pooled/worst-pocket) GNINA number.
+**Moving GNINA from mode-1-only to best-of-9 does not change which pair looks best.** PIK3CA/mTOR remains the strongest pair under GNINA (mode01 0.579 → best9 0.655), still below its own Vina pocket-matched reference (0.692). EGFR/HER2 and AChE/BChE GNINA best9 pocket-matched values are **below 0.5** (0.290 and 0.413), i.e. best-of-9 does not rescue GNINA on the pairs where Vina is also weak or descriptor-explained.
+
+**Correction:** on PIK3CA/PIK3CB, GNINA pocket-matched is marginally *above* the Vina reference under **both** mode01 (0.554 vs 0.500) and best9 (0.533 vs 0.500) — this is not new with best-of-9, and the margin (0.03–0.05) is well within the bootstrap CI width (±0.13–0.15) on either side, so it is not a meaningful "GNINA beats Vina" result. Do not write "GNINA never exceeds Vina on any pair"; write instead: GNINA best-of-9 stays close to chance or below the same-panel Vina value on three of four pairs, and is statistically indistinguishable from Vina (both near chance, overlapping CIs) on PIK3CA/PIK3CB. `RTMScore 与 GNINA 未改变这一格局` remains supported, now with a directional (not just pooled/worst-pocket) GNINA number.
 
 ## Stability-check panels (PM48 / PM110)
 
