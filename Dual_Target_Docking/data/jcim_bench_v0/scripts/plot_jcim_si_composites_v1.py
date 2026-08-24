@@ -1,6 +1,7 @@
-"""Three JCIM SI composite figures from frozen CSVs (same style as main figures).
+"""Extended JCIM figures from frozen CSVs (same style as Fig 1–5).
 
-S2 protocol knobs · S3 confound anatomy · S4 holdout mechanism + supply rule.
+Main: Fig 6 wrong-pocket paradox · Fig 7 confound tests.
+SI: S1 protocol knobs · S2 equal-relation supply + sampling shift.
 Called from plot_jcim_article_figures_v1.py so one command regenerates everything.
 """
 
@@ -243,7 +244,119 @@ def fig_s2_protocol(D: dict, P: dict) -> None:
     }
 
     fig.subplots_adjust(wspace=0.38, hspace=0.62, left=0.09, right=0.98, top=0.94, bottom=0.14)
-    save_all(fig, "FigS2_protocol_sensitivity")
+    save_all(fig, "FigS1_protocol_sensitivity")
+    plt.close(fig)
+
+
+def fig6_wrong_pocket(D: dict, P: dict) -> None:
+    """Main-text Fig 6: matched vs wrong-pocket on main, holdout, matched holdout, contacts."""
+    fig, axes = plt.subplots(2, 2, figsize=(7.0, 6.70))
+    w = 0.36
+
+    ax = axes[0, 0]
+    panel_label(ax, "A", x=-0.16, y=1.04)
+    x = np.arange(len(PAIR_ORDER))
+    matched, wrong = [], []
+    for p in PAIR_ORDER:
+        matched.append(fnum(D["theta6"][p]["pocket_matched_summary_min"]))
+        wrong.append(fnum(D["pm_by"][(p, "wrong_pocket_control_vina")]["summary_min"]))
+    ax.bar(x - w / 2, matched, w, color=C["vina"], label="Pocket-matched", zorder=3)
+    ax.bar(x + w / 2, wrong, w, color="#999999", label="Wrong-pocket", zorder=3)
+    ax.axhline(0.5, color=C["chance"], ls="--", lw=0.9, zorder=1)
+    ax.set_xticks(x)
+    ax.set_xticklabels(TICK, fontsize=6.5)
+    ax.set_ylabel("summary_min")
+    ax.set_ylim(0, 1.05)
+    ax.set_title("Main panels", fontsize=FS_AXIS, pad=3)
+    legend_below(ax, ncol=2, y=-0.24)
+    P["fig6A_matched"] = matched
+    P["fig6A_wrong"] = wrong
+    P["siA_matched"] = matched
+    P["siA_wrong"] = wrong
+
+    ax = axes[0, 1]
+    panel_label(ax, "B", x=-0.16, y=1.04)
+    x = np.arange(len(HOLD_PAIRS))
+    hm, hw = [], []
+    for p in HOLD_PAIRS:
+        hm.append(fnum(D["hold_pm"][p]["summary_min"]))
+        hw.append(fnum(D["hold_wp"][p]["summary_min"]))
+    ax.bar(x - w / 2, hm, w, color=C["vina"], label="Pocket-matched", zorder=3)
+    ax.bar(x + w / 2, hw, w, color="#999999", label="Wrong-pocket", zorder=3)
+    ax.axhline(0.5, color=C["chance"], ls="--", lw=0.9, zorder=1)
+    ax.set_xticks(x)
+    ax.set_xticklabels(HOLD_TICK, fontsize=6.5)
+    ax.set_ylabel("summary_min")
+    ax.set_ylim(0, 1.05)
+    ax.set_title("Unused-pool holdout", fontsize=FS_AXIS, pad=3)
+    legend_below(ax, ncol=2, y=-0.24)
+    ax.text(0.02, 0.03, "EGFR/HER2 has no holdout", transform=ax.transAxes, fontsize=5.5, color="#666666")
+    P["fig6B_matched"] = hm
+    P["fig6B_wrong"] = hw
+    P["siB_matched"] = hm
+    P["siB_wrong"] = hw
+
+    ax = axes[1, 0]
+    panel_label(ax, "C", x=-0.16, y=1.04)
+    fams = ["unmatched", "potency_matched", "size_matched"]
+    plotted = []
+    x = np.arange(len(HOLD_PAIRS))
+    for i, pair in enumerate(HOLD_PAIRS):
+        for j, fam in enumerate(fams):
+            m = D["hold_match"][(pair, fam, "pocket_matched")]
+            wrow = D["hold_match"][(pair, fam, "wrong_pocket")]
+            my, wy = fnum(m["summary_min"]), fnum(wrow["summary_min"])
+            xx = i + (j - 1) * 0.22
+            ax.plot([xx, xx], [my, wy], color="#CCCCCC", lw=0.8, zorder=2)
+            ax.scatter([xx], [my], s=28, color=C["vina"], zorder=4, marker="o")
+            ax.scatter([xx], [wy], s=28, color="#999999", zorder=4, marker="s")
+            plotted.append({"pair": pair, "family": fam, "matched": my, "wrong": wy, "n_min": int(m["n_min"])})
+    ax.axhline(0.5, color=C["chance"], ls="--", lw=0.9, zorder=1)
+    ax.set_xticks(x)
+    ax.set_xticklabels(HOLD_TICK, fontsize=6.5)
+    ax.set_ylabel("summary_min")
+    ax.set_ylim(0.15, 1.05)
+    ax.set_title("Holdout matching does not reverse", fontsize=FS_AXIS, pad=3)
+    ax.legend(
+        handles=[
+            Line2D([0], [0], marker="o", color=C["vina"], ls="none", ms=5.5, label="Pocket-matched"),
+            Line2D([0], [0], marker="s", color="#999999", ls="none", ms=5.5, label="Wrong-pocket"),
+        ],
+        loc="upper center",
+        bbox_to_anchor=(0.5, -0.24),
+        ncol=2,
+        fontsize=5.5,
+        frameon=False,
+        borderaxespad=0.0,
+    )
+    ax.text(0.02, 0.03, "offsets: unmatched / potency / size", transform=ax.transAxes, fontsize=5.5, color="#666666")
+    P["fig6C"] = plotted
+    P["s4B"] = plotted
+
+    ax = axes[1, 1]
+    panel_label(ax, "D", x=-0.16, y=1.04)
+    x = np.arange(len(HOLD_PAIRS))
+    bw = 0.24
+    cA, cB, vw = [], [], []
+    for p in HOLD_PAIRS:
+        cA.append(D["contact"][p]["A"])
+        cB.append(D["contact"][p]["B"])
+        vw.append(fnum(D["hold_wp"][p]["summary_min"]))
+    ax.bar(x - bw, cA, bw, color=C["a_only"], label="contact pocket A", zorder=3)
+    ax.bar(x, cB, bw, color=C["b_only"], label="contact pocket B", zorder=3)
+    ax.bar(x + bw, vw, bw, color="#999999", label="Vina wrong-pocket", zorder=3)
+    ax.axhline(0.5, color=C["chance"], ls="--", lw=0.9, zorder=1)
+    ax.set_xticks(x)
+    ax.set_xticklabels(HOLD_TICK, fontsize=6.5)
+    ax.set_ylabel("AUROC")
+    ax.set_ylim(0, 1.05)
+    ax.set_title("Scoring-free contact count (not PLIF)", fontsize=FS_AXIS, pad=3)
+    legend_below(ax, ncol=3, y=-0.28)
+    P["fig6D"] = {"contact_A": cA, "contact_B": cB, "vina_wrong": vw}
+    P["s4C"] = P["fig6D"]
+
+    fig.subplots_adjust(wspace=0.38, hspace=0.64, left=0.10, right=0.98, top=0.94, bottom=0.15)
+    save_all(fig, "Fig6_wrong_pocket_paradox")
     plt.close(fig)
 
 
@@ -373,23 +486,25 @@ def fig_s3_confounds(D: dict, P: dict) -> None:
         handles=[Line2D([0], [0], marker="o", color=c, ls="none", ms=5.5, label=l) for c, l in zip(cols, labs)],
         loc="upper center",
         bbox_to_anchor=(0.5, -0.24),
-        ncol=1,
-        fontsize=5.5,
+        ncol=3,
+        fontsize=5.0,
         frameon=False,
         borderaxespad=0.0,
+        columnspacing=0.6,
+        handletextpad=0.25,
     )
     P["s3D"] = plotted
 
     fig.subplots_adjust(wspace=0.40, hspace=0.68, left=0.11, right=0.98, top=0.94, bottom=0.16)
-    save_all(fig, "FigS3_confound_anatomy")
+    save_all(fig, "Fig7_confound_anatomy")
     plt.close(fig)
 
 
-def fig_s4_holdout_supply(D: dict, P: dict) -> None:
-    fig, axes = plt.subplots(2, 2, figsize=(7.0, 6.85))
+def fig_s2_supply_sampling(D: dict, P: dict) -> None:
+    """SI: leftover S4 panels that did not move into Fig 6."""
+    fig, axes = plt.subplots(1, 2, figsize=(7.0, 3.85))
 
-    # A: S12 equal_only vs as_is
-    ax = axes[0, 0]
+    ax = axes[0]
     panel_label(ax, "A", x=-0.16, y=1.04)
     series = [
         ("ChEMBL_cache", "pChEMBL", C["vina"], "ChEMBL"),
@@ -399,7 +514,7 @@ def fig_s4_holdout_supply(D: dict, P: dict) -> None:
         ("PubChem", "as_is", C["metal"], "PubChem as_is"),
     ]
     x = np.arange(4)
-    w = 0.15
+    bw = 0.15
     plotted = {s[3]: [] for s in series}
     for j, (src, rule, col, lab) in enumerate(series):
         vals = []
@@ -407,7 +522,7 @@ def fig_s4_holdout_supply(D: dict, P: dict) -> None:
             r = next(row for row in D["s12"] if row["pair"] == name and row["source"] == src and row["rule"] == rule)
             vals.append(fnum(r["min_strict_hardneg"]))
         plotted[lab] = vals
-        ax.bar(x + (j - 2) * w, vals, w, color=col, label=lab, zorder=3)
+        ax.bar(x + (j - 2) * bw, vals, bw, color=col, label=lab, zorder=3)
     ax.axhline(50, color=C["ink"], ls="--", lw=0.9, zorder=2)
     ax.axhline(20, color="#888888", ls=":", lw=0.9, zorder=2)
     ax.set_xticks(x)
@@ -415,102 +530,42 @@ def fig_s4_holdout_supply(D: dict, P: dict) -> None:
     ax.set_ylabel("min strict hard-negatives")
     ax.set_ylim(0, 170)
     ax.set_title("Count-level supply (no docking)", fontsize=FS_AXIS, pad=3)
-    legend_below(ax, ncol=3, y=-0.26)
+    legend_below(ax, ncol=5, fontsize=5.0, y=-0.30)
     P["s4A"] = plotted
 
-    # B: holdout matching, wrong-pocket ≥ matched
-    ax = axes[0, 1]
+    ax = axes[1]
     panel_label(ax, "B", x=-0.16, y=1.04)
-    fams = ["unmatched", "potency_matched", "size_matched"]
-    fam_lab = ["unmatched", "potency", "size"]
-    plotted = []
-    x = np.arange(len(HOLD_PAIRS))
-    for i, pair in enumerate(HOLD_PAIRS):
-        for j, fam in enumerate(fams):
-            m = D["hold_match"][(pair, fam, "pocket_matched")]
-            wrow = D["hold_match"][(pair, fam, "wrong_pocket")]
-            my, wy = fnum(m["summary_min"]), fnum(wrow["summary_min"])
-            xx = i + (j - 1) * 0.22
-            ax.plot([xx, xx], [my, wy], color="#CCCCCC", lw=0.8, zorder=2)
-            ax.scatter([xx], [my], s=28, color=C["vina"], zorder=4, marker="o")
-            ax.scatter([xx], [wy], s=28, color="#999999", zorder=4, marker="s")
-            plotted.append({"pair": pair, "family": fam, "matched": my, "wrong": wy, "n_min": int(m["n_min"])})
-    ax.axhline(0.5, color=C["chance"], ls="--", lw=0.9, zorder=1)
-    ax.set_xticks(x)
-    ax.set_xticklabels(HOLD_TICK, fontsize=6.5)
-    ax.set_ylabel("summary_min")
-    ax.set_ylim(0.15, 1.05)
-    ax.set_title("Holdout matching does not flip paradox", fontsize=FS_AXIS, pad=3)
-    ax.legend(
-        handles=[
-            Line2D([0], [0], marker="o", color=C["vina"], ls="none", ms=5.5, label="Pocket-matched"),
-            Line2D([0], [0], marker="s", color="#999999", ls="none", ms=5.5, label="Wrong-pocket"),
-        ],
-        loc="upper center",
-        bbox_to_anchor=(0.5, -0.24),
-        ncol=2,
-        fontsize=5.5,
-        frameon=False,
-        borderaxespad=0.0,
-    )
-    ax.text(0.02, 0.03, "offsets: unmatched / potency / size", transform=ax.transAxes, fontsize=5.5, color="#666666")
-    P["s4B"] = plotted
-
-    # C: contact_count vs Vina wrong-pocket
-    ax = axes[1, 0]
-    panel_label(ax, "C", x=-0.16, y=1.04)
-    x = np.arange(len(HOLD_PAIRS))
-    w = 0.24
-    cA, cB, vw = [], [], []
-    for p in HOLD_PAIRS:
-        cA.append(D["contact"][p]["A"])
-        cB.append(D["contact"][p]["B"])
-        vw.append(fnum(D["hold_wp"][p]["summary_min"]))
-    ax.bar(x - w, cA, w, color=C["a_only"], label="contact pocket A", zorder=3)
-    ax.bar(x, cB, w, color=C["b_only"], label="contact pocket B", zorder=3)
-    ax.bar(x + w, vw, w, color="#999999", label="Vina wrong-pocket", zorder=3)
-    ax.axhline(0.5, color=C["chance"], ls="--", lw=0.9, zorder=1)
-    ax.set_xticks(x)
-    ax.set_xticklabels(HOLD_TICK, fontsize=6.5)
-    ax.set_ylabel("AUROC")
-    ax.set_ylim(0, 1.05)
-    ax.set_title("Scoring-free contact_count (not PLIF)", fontsize=FS_AXIS, pad=3)
-    legend_below(ax, ncol=3, y=-0.26)
-    P["s4C"] = {"contact_A": cA, "contact_B": cB, "vina_wrong": vw}
-
-    # D: holdout vs main potency sampling shift
-    ax = axes[1, 1]
-    panel_label(ax, "D", x=-0.16, y=1.04)
     feats = [("dual", "pA"), ("A_only", "pA"), ("B_only", "pB")]
     feat_lab = ["dual pA", "A_only pA", "B_only pB"]
     feat_col = [C["vina"], C["a_only"], C["b_only"]]
     x = np.arange(len(HOLD_PAIRS))
-    w = 0.24
+    bw = 0.24
     plotted = {lab: [] for lab in feat_lab}
     ps = {(r["pair"], r["cls"], r["feature"]): r for r in D["hold_ps"]}
     for j, ((cls, feat), lab, col) in enumerate(zip(feats, feat_lab, feat_col)):
         vals = [fnum(ps[(p, cls, feat)]["mean_delta_holdout_minus_main"]) for p in HOLD_PAIRS]
         plotted[lab] = vals
-        ax.bar(x + (j - 1) * w, vals, w, color=col, label=lab, zorder=3)
+        ax.bar(x + (j - 1) * bw, vals, bw, color=col, label=lab, zorder=3)
     ax.axhline(0.0, color=C["ink"], lw=0.8, zorder=2)
     ax.set_xticks(x)
     ax.set_xticklabels(HOLD_TICK, fontsize=6.5)
     ax.set_ylabel("holdout − main (mean pChEMBL)")
     ax.set_ylim(-2.2, 1.2)
-    ax.set_title("Holdout sampling shift (not a flip)", fontsize=FS_AXIS, pad=3)
-    legend_below(ax, ncol=3, y=-0.26)
+    ax.set_title("Holdout sampling shift (not a reversal)", fontsize=FS_AXIS, pad=3)
+    legend_below(ax, ncol=3, y=-0.28)
     P["s4D"] = plotted
 
-    fig.subplots_adjust(wspace=0.38, hspace=0.68, left=0.10, right=0.98, top=0.94, bottom=0.16)
-    save_all(fig, "FigS4_holdout_mechanism_and_supply")
+    fig.subplots_adjust(wspace=0.38, left=0.10, right=0.98, top=0.88, bottom=0.26)
+    save_all(fig, "FigS2_equal_relation_and_sampling")
     plt.close(fig)
 
 
 def draw_all(D: dict, provenance: dict) -> None:
     P = provenance.setdefault("plotted", {})
-    fig_s2_protocol(D, P)
+    fig6_wrong_pocket(D, P)
     fig_s3_confounds(D, P)
-    fig_s4_holdout_supply(D, P)
+    fig_s2_protocol(D, P)
+    fig_s2_supply_sampling(D, P)
 
 
 def verify_si(D: dict, provenance: dict, errors: list) -> None:
@@ -617,6 +672,12 @@ def verify_si(D: dict, provenance: dict, errors: list) -> None:
     eq(P["s4C"]["vina_wrong"][0], 0.6425, msg="s4C AChE vina wrong")
     eq(P["s4C"]["vina_wrong"][1], 0.52, msg="s4C PIK3CB vina wrong")
     eq(P["s4C"]["vina_wrong"][2], 0.7875, msg="s4C PM vina wrong")
+    if "fig6A_matched" not in P or "fig6D" not in P:
+        errors.append("fig6 keys missing")
+    else:
+        for i, pair in enumerate(PAIR_ORDER):
+            eq(P["fig6A_matched"][i], P["siA_matched"][i], msg=f"fig6A vs siA {pair}")
+        eq(P["fig6D"]["contact_A"][0], P["s4C"]["contact_A"][0], msg="fig6D vs s4C")
 
     eq(P["s4D"]["dual pA"][2], -1.072, msg="s4D PM dual pA delta")
     eq(P["s4D"]["B_only pB"][2], -1.76, msg="s4D PM B_only pB delta")
@@ -625,9 +686,10 @@ def verify_si(D: dict, provenance: dict, errors: list) -> None:
     from PIL import Image
 
     for name in (
-        "FigS2_protocol_sensitivity.png",
-        "FigS3_confound_anatomy.png",
-        "FigS4_holdout_mechanism_and_supply.png",
+        "Fig6_wrong_pocket_paradox.png",
+        "Fig7_confound_anatomy.png",
+        "FigS1_protocol_sensitivity.png",
+        "FigS2_equal_relation_and_sampling.png",
     ):
         im = Image.open(OUT / name)
         if im.mode != "RGB":

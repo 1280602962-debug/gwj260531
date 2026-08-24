@@ -3,9 +3,9 @@
 > 取代过时的 `FIGURE_PLAN_V1.md`（未含 holdout / 换晶 / S12 / GNINA best9）。  
 > 主张天花板仍服从 `CLAIM_CEILING.md`：图不能比正文更满。
 
-**现状（2026-08-24）：** 主文 Fig 1–5、SI Fig S1–S4、TOC graphic 已由 `data/jcim_bench_v0/scripts/plot_jcim_article_figures_v1.py`（SI 组合图：`plot_jcim_si_composites_v1.py`）从冻结 CSV 绘制，输出 `figures/jcim_article/`。数值锁定见 `plotted_values.json`。未做主面板姿态图（git 无主面板 pose）。
+**现状（2026-08-24）：** 主文 Fig 1–7、SI Fig S1–S2、TOC graphic 已由 `data/jcim_bench_v0/scripts/plot_jcim_article_figures_v1.py`（扩展图：`plot_jcim_si_composites_v1.py`）从冻结 CSV 绘制，输出 `figures/jcim_article/`。数值锁定见 `plotted_values.json`。未做主面板姿态图（git 无主面板 pose）。
 
-JCIM Articles 无硬图数上限；评测文主文 **5 张图 + 1 张 TOC** 合适。协议旋钮、混淆解剖、holdout 机制做成 **SI 三张大组合图（S2–S4）**，不挤进主文第 6–8 张。
+JCIM Articles 无硬图数上限。主文 **7 张图 + 1 张 TOC**：Fig 6 是错口袋方向在 holdout 上反转（改写故事）；Fig 7 是 Fig 4 未展开的指纹/全描述符/协变量/匹配子集。协议旋钮与 `as_is` 供给规则留在 SI，避免与 Fig 3、Fig 2 重复。
 
 ---
 
@@ -18,15 +18,15 @@ JCIM Articles 无硬图数上限；评测文主文 **5 张图 + 1 张 TOC** 合�
 | 必做 | Table 2：口袋匹配 summary_min ± CI，并排最强描述符 | **Fig 3 森林图** | 全文主结果图 |
 | 必做 | 弱臂不对称 + 对接 vs 描述符 | **Fig 4** | 否则读者只记住 0.692 |
 | 必做 | 主面板 vs holdout，以及换晶 | **Fig 5** | 这是 3.9–3.10 真正改写故事的两块；比 E=8 对照重要得多 |
-| 可做（主文或 SI） | PI-103 共晶回收 + 一个 T2 硬负两端都“看起来对” | **Fig 6 或 SI Fig** | 对接论文需要一张姿态图，但不要假装做了 PLIF |
-| SI | 错口袋 vs 匹配（主面板 vs holdout 并排） | **Fig S1** | 开放悖论 |
-| SI | 阈值网格、GNINA mode01/best9、PM110、E8/E16、单靶 enrichment | **Fig S2** 组合 | 协议旋钮不改排序 |
-| SI | 指纹基线、全部描述符、协变量、匹配子集 | **Fig S3** 组合 | 混淆解剖；指纹标 chemotype–label |
-| SI | S12 as_is vs equal_only、holdout 匹配、contact_count、抽样偏移 | **Fig S4** 组合 | 供给规则 + holdout 机制 |
+| 必做 | 错口袋：主面板 matched>wrong，holdout 反转，匹配后仍不恢复 | **Fig 6** | 开放结果；比协议旋钮更改故事 |
+| 必做 | 指纹 GroupKFold、全部描述符、协变量、匹配子集 | **Fig 7** | Fig 4 只给最强描述符与 TPSA；这张是检验 |
+| 可做（主文或 SI） | PI-103 共晶回收 + 一个 T2 硬负两端都“看起来对” | **SI 姿态图** | 对接论文需要一张姿态图，但不要假装做了 PLIF |
+| SI | 阈值网格、GNINA mode01/best9、PM110、E8/E16、单靶 enrichment | **Fig S1** | 协议旋钮不改排序 |
+| SI | S12 as_is vs equal_only、holdout 抽样偏移 | **Fig S2** | 供给规则 + 抽样位移；错口袋机制已在 Fig 6 |
 | 不要画 | 1000-panel、median 全面板、PLIF 热图、Framework Step 1–5、LigPrep 对比 | — | 没做或禁止写入 |
 | 不要画 | `pocket_matched_size_strata_v1.csv` | — | 多层 underpowered，容易误读成稳健分层 |
 | 不要画 | `asymmetry_pooled_vs_directional_v1.csv` 的 vina_mean | — | 不是 Table 2 的 θ=6.0 口袋匹配指标（EGFR 0.2824 ≠ 0.4297） |
-| 不要画 | `pocket_specificity_gap_v1.csv` 单独成图 | — | 与 Fig S1 的 matched−wrong 重复 |
+| 不要画 | `pocket_specificity_gap_v1.csv` 单独成图 | — | 与 Fig 6 的 matched−wrong 重复 |
 | 不要画成主图 | 全链序列一致性 vs AUROC（n=4 四个点） | 若画只放 SI | 看起来像相关，实际禁止当相关 |
 
 **旧计划里的 Fig 3 baseline-gate 单独成图：建议并进 Fig 3 或 Fig 4，不要占一张主图。** Δ CI 含 0 用误差条颜色（灰=跨 0）就能说清。
@@ -77,7 +77,23 @@ JCIM Articles 无硬图数上限；评测文主文 **5 张图 + 1 张 TOC** 合�
 - **(A)** 三对：主面板 vs holdout 的 summary_min ± CI（EGFR 不在 holdout，不要空出误导）。
 - **(B)** PM48：4L23/4JT6（主）→ 换 4JPS / 5DXT / 4JSX。点估计掉到 ~0.5 必须看得见；CI 含 0.5 用灰色。
 
-E8/E16、PM110、单靶 enrichment 改 SI：它们不改变故事。
+E8/E16、PM110、单靶 enrichment 改 SI Fig S1：它们不改变故事。
+
+### Fig 6 — 错口袋（主文；取代旧 SI Fig S1）
+
+四面板，**7.00 in**：
+
+- **(A)** 主面板 K=4：pocket-matched vs wrong-pocket。四对都是 matched > wrong。
+- **(B)** unused-pool holdout：三对 wrong ≥ matched（EGFR 无 holdout）。
+- **(C)** holdout 效价/尺寸匹配后，九个格子仍 wrong ≥ matched。
+- **(D)** scoring-free `contact_count`（不是 PLIF）。B 臂高于随机；幅度不能复制 PIK3CA/mTOR 的 Vina 错口袋。
+
+### Fig 7 — 混淆检验（主文；Fig 4 的展开，不是重复）
+
+- **(A)** ECFP4 GroupKFold，标 *chemotype–label association*。
+- **(B)** 四个平凡描述符全画，相对 Fig 4B 只画最强描述符。
+- **(C)** 协变量 logistic；EGFR 0.5703 ≠ Table 2 的 0.4297。
+- **(D)** 效价/尺寸匹配后的弱臂。
 
 ---
 
@@ -156,8 +172,7 @@ ACS 要求（JCIM 跟同一套 TOC 规范）：
 1. 重画 Fig 3 森林图（脚本已有，改标注 + ≥300 dpi PDF/PNG）。这张决定审稿人 30 秒印象。
 2. 新画 Fig 1 示意 + Fig 2 供给（J0 CSV）。
 3. Fig 4 弱臂/描述符；Fig 5 holdout+换晶（S8/S9 CSV）。
-4. 若本地姿态方便：SI 或主文 Fig 6 = PI-103 + PM48_21，两列口袋。
+4. 主文 Fig 6–7（错口袋；指纹/描述符/协变量/匹配子集）。SI 只留协议旋钮（S1）与 equal-relation 供给 + 抽样偏移（S2）。姿态图若本地有 pose，另做 SI，不占 Fig 6。
 5. TOC 单独画，**不要从 Fig 1 裁一块交差**（ACS 不鼓励复用正文图）。按 3.25×1.75 in 交 TIF。
-6. SI 三张大组合图 S2–S4（`plot_jcim_si_composites_v1.py`），主文仍停在 5 张。
 
-核对：脚本对每个 plotted 值回读冻结 CSV，失败即退出。S2 图注不得写“PM 在全网格都是最高点”（θ=5.5 的 PM 是 underpowered 0.5017，低于 AChE 0.6058）。S2B 的 −0.04..+0.08 是 best9 相对 mode01，不是相对 Vina。S3C EGFR 0.5703 是 logistic AUROC，不是 Table 2 的 0.4297。
+核对：脚本对每个 plotted 值回读冻结 CSV，失败即退出。S1 图注不得写“PM 在全网格都是最高点”（θ=5.5 的 PM 是 underpowered 0.5017，低于 AChE 0.6058）。S1B 的 −0.04..+0.08 是 best9 相对 mode01，不是相对 Vina。Fig 7C EGFR 0.5703 是 logistic AUROC，不是 Table 2 的 0.4297。主文与 SI 不得复用同一张图。
