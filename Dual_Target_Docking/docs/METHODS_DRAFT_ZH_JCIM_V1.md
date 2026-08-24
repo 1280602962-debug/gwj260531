@@ -58,7 +58,7 @@
 
 配体由 ChEMBL SMILES 去盐（保留最大有机片段）后，用 RDKit 加氢，以 ETKDGv3 生成三维构象（随机种子 20260727），并用 MMFF 力场局部优化（最多 200 步），再经 meeko 默认参数转为 PDBQT。对接使用 AutoDock Vina 1.2.7，打分函数为默认 `vina`：每个配体保留 9 个姿态，`energy_range = 3`，exhaustiveness 按 Table 1，随机种子 20260727（与 ETKDG 相同）。构象生成、面板抽样与对接均使用固定随机种子；完整参数见 Supporting Information Table S1。
 
-在同一组 Vina 姿态上另用两种函数重打分，以检查结论是否依赖单一打分通道。RTMScore（公开权重 `rtmscore_model1`）对 **全部 9 个姿态**取最高分。GNINA 1.3.2 在 CPU 模式下最初仅将 **Vina 排序第一的姿态**（mode 1）经 Open Babel 转为 SDF 后以 `--cnn_scoring rescore --minimize` 重打分，与 RTM 的 best-of-9 覆盖不对称。**2026-08-24 已补做全 9 姿态 GNINA 公平重打**：对每个配体–靶标的全部 9 个 Vina 姿态分别转 SDF 并重打分，取每端最高 CNNscore，与 RTM 姿态覆盖对齐；mode-1 结果保留为历史对照（`scores_gnina_*_mode01_backup.csv`）。全 9 姿态重打后，GNINA 口袋匹配 summary_min 相对 mode-1 的变化很小且方向不一致（K=4：AChE/BChE −0.03、PIK3CA/PIK3CB −0.02、PIK3CA/mTOR +0.08、EGFR/HER2 −0.04；`GNINA_POCKET_MATCHED_BEST9_VERDICT_V1.md`），姿态覆盖不对称因而**不是**GNINA 表现偏弱的主要原因。三对（EGFR/HER2、AChE/BChE、PIK3CA/mTOR）上 GNINA 不超过同面板 Vina 口袋匹配；PIK3CA/PIK3CB 上 GNINA 略高于 Vina（0.533 对 0.500），但该关系在 mode-1 时已存在（0.554 对 0.500），并非 best-of-9 新产生，且二者均接近随机、区间重叠，不构成“GNINA 优于 Vina”的主张。正文仍把 RTM/GNINA 作定性通道对照，不作“三引擎已公平对齐即验证同一决策臂”的主张。
+在同一组 Vina 姿态上另用两种函数重打分，以检查结论是否依赖单一打分通道。三个通道共用同一受体、同一盒子与同一组 RDKit/meeko 配体；Vina 每个配体生成 9 个姿态（`n_modes = 9`，`energy_range = 3`）。**姿态覆盖（pose fairness）如下**（Supporting Information Table S18）：Vina 报告的是 mode 1（最负能量）的 \(E\)，再取 \(S=-E\)；RTMScore 对**全部 9 个** Vina 姿态打分并取每口袋最高分；GNINA 1.3.2 最初仅将 **Vina mode 1** 经 Open Babel 转为 SDF 后以 `--cnn_scoring rescore --minimize` 重打分，与 RTM 不对称。**2026-08-24 已补做全 9 姿态 GNINA 公平重打**：对每个配体–靶标的全部 9 个 Vina 姿态分别转 SDF 并重打分，取每端最高 CNNscore，与 RTM 姿态覆盖对齐；mode-1 结果保留为历史对照（`scores_gnina_*_mode01_backup.csv`）。全 9 姿态重打后，GNINA 口袋匹配 summary_min 相对 mode-1 的变化很小且方向不一致（K=4：AChE/BChE −0.03、PIK3CA/PIK3CB −0.02、PIK3CA/mTOR +0.08、EGFR/HER2 −0.04；`GNINA_POCKET_MATCHED_BEST9_VERDICT_V1.md`），姿态覆盖不对称因而**不是**GNINA 表现偏弱的主要原因。三对（EGFR/HER2、AChE/BChE、PIK3CA/mTOR）上 GNINA 不超过同面板 Vina 口袋匹配；PIK3CA/PIK3CB 上 GNINA 略高于 Vina（0.533 对 0.500），但该关系在 mode-1 时已存在（0.554 对 0.500），并非 best-of-9 新产生，且二者均接近随机、区间重叠，不构成“GNINA 优于 Vina”的主张。正文仍把 RTM/GNINA 作定性通道对照，不作“三引擎已公平对齐即验证同一决策臂”的主张。
 
 ### 2.6 评价指标与基线
 
@@ -70,19 +70,21 @@ S = -E_{\mathrm{Vina}},
 
 每个配体在口袋 A 与口袋 B 上各有一个分数 \(S\)。主评价计算两条二分类 AUROC：dual 对 A_only 使用口袋 B 的分数；dual 对 B_only 使用口袋 A 的分数。两条 AUROC 的较小值记为 summary_min。作为聚合对照，另报告池化与 worst-pocket summary_min（不作主指标）。
 
-为判断对接信号是否可由简单分子属性解释，我们采用同一 AUROC 流程，但以 RDKit 计算的配体描述符替代对接分数，包括重原子数（GetNumHeavyAtoms）、分子量（MolWt）、cLogP（MolLogP）与 TPSA。每个靶对取其中 AUROC 最高的描述符作为对照基线，并报告对接 summary_min 与该基线之差 Δ 及其置信区间。若 Δ 的区间包含 0，则不足以支持对接提供了超出上述描述符的额外信息。
+**终点层级（写作冻结；Primary / pre-specified secondary / robustness / exploratory）。** 全文只有一个主终点：统一 θ = 6.0 下的口袋匹配 Vina `summary_min`（Table 2；PIK3CA/mTOR 的主面板是 PM48，不是第二套主指标）。预指定次级终点为两条方向臂、RTMScore 口袋匹配、GNINA CNN best-of-9 口袋匹配、以及最强平凡描述符。稳健性终点为 θ 网格、PM110、E=8、unused-pool holdout、换晶、以及错口袋对照（含同一 bootstrap 样本上的配对 Δ）。探索性终点为 ECFP4、contact_count（非 PLIF）、以及 pooled `vina_mean` 的 Top-10 硬负计数。完整清单见 Supporting Information Table S16；`vina_mean` 池化方向 AUROC（EGFR/HER2 0.2824）**不是** Table 2。
 
-summary_min 的不确定度以 bootstrap 估计：在每个靶对内对配体有放回重采样 2000 次，报告 2.5%–97.5% 百分位区间（随机种子 20260729）。重采样以配体为单元。另报告按 Murcko 支架重采样的区间作为对照；正文以配体层区间为准。本文以置信区间作描述性不确定度报告，不对多靶对、多对照的全部对比作多重比较校正或正式假设检验。
+为判断对接信号是否可由简单分子属性解释，我们采用同一 AUROC 流程，但以 RDKit 计算的配体描述符替代对接分数，包括重原子数（GetNumHeavyAtoms）、分子量（MolWt）、cLogP（MolLogP）与 TPSA。每个靶对取其中 AUROC 最高的描述符作为对照基线，并在**同一配体 bootstrap 样本**上报告口袋匹配 Vina `summary_min` 与该基线之差 Δ 及其 95% 区间（Supporting Information Table S19；Figure S3C）。该配对 Δ **不是** `baseline_gate_bootstrap_v1.csv` 中的 pooled `vina_mean` 对照。若 Δ 的区间包含 0，则不足以支持对接提供了超出上述描述符的额外信息。
+
+summary_min 的不确定度以 bootstrap 估计：在每个靶对内对配体有放回重采样 2000 次，报告 2.5%–97.5% 百分位区间（随机种子 20260729）。重采样以配体为单元。错口袋对照的配对 Δ 在**同一次**重采样上同时计算 matched 与 wrong 的 `summary_min` 再相减（Supporting Information Table S17；Figure S3A–B），使两个 AUROC 共享配体抽样变异。另报告按 Murcko 支架重采样的区间作为对照；正文以配体层区间为准。本文以置信区间作描述性不确定度报告，不对多靶对、多对照的全部对比作多重比较校正或正式假设检验。
 
 ### 2.7 对照与敏感性分析
 
 为检验 2.6 所述 summary_min 是否可能主要由分子属性而非正确口袋上的对接分数驱动，我们设置下列对照：
 
-1. **错口袋对照**：将口袋 A 与口袋 B 的分数对调后，仍按 dual 对 A_only / dual 对 B_only 计算 AUROC 并取 summary_min。  
+1. **错口袋对照**：将口袋 A 与口袋 B 的分数对调后，仍按 dual 对 A_only / dual 对 B_only 计算 AUROC 并取 summary_min；并在同一配体 bootstrap 样本上报告配对 Δ = matched − wrong 的 95% 区间（Table S17；Figure S3）。  
 2. **配体效率对照**：将各口袋分数除以重原子数后，再计算 summary_min。  
 3. **匹配子集对照**：在 \|ΔpChEMBL\| ≤ 0.5（效价匹配）或 \|Δheavy atoms\| ≤ 2（尺寸匹配）的子集上，分别重算 dual 对 A_only 与 dual 对 B_only 的 AUROC。  
 4. **协变量对照**：以逻辑回归（scikit-learn `LogisticRegression`，C = 1.0，max_iter = 2000）比较“仅对接分数”与“对接分数 + 重原子数 + TPSA”两类模型的判别 AUROC，并报告对接分数的回归系数与优势比（OR）。  
-5. **二维结构基线**：以 ECFP4 指纹（Morgan 半径 2，2048 bit）与同一设定的逻辑回归建立仅依赖二维结构的基线；交叉验证按 Murcko 支架分组（`GroupKFold`），折数取 min(5, 正类数, 负类数, 支架数) 且不少于 2，使同一骨架不跨训练/测试折。  
+5. **二维结构基线**：以 ECFP4 指纹（Morgan 半径 2，2048 bit）与同一设定的逻辑回归建立仅依赖二维结构的基线；交叉验证按 Murcko 支架分组（`GroupKFold`），折数取 min(5, 正类数, 负类数, 支架数) 且不少于 2，使同一骨架不跨训练/测试折。随机 `StratifiedKFold` 仅作泄漏核对（Table S20），不以寻找更大 gap 为目的。  
 6. **统一标签重标**（2.1；Table S4）：阈值敏感性支持性分析。
 7. **跨对结构决定因素（探索性）**：从各冻结受体 `*_protein.pdb` 中，用 Biopython `PDBParser` 提取最长蛋白链的一级序列，仅计入标准氨基酸 ATOM 记录；以 `Bio.Align.PairwiseAligner`（BLOSUM62 替换矩阵，全局比对，gap open = −11、extend = −1）对每对靶标内的两条链做两两比对，报告全链序列一致性（分别以比对长度与较短链长度归一，Supporting Information Table S7）。该指标为整体结构相似度的粗粒度代理，不涉及口袋残基对应或结构叠合，不用于口袋 RMSD 或 PLIF 主张。
 
@@ -92,7 +94,7 @@ summary_min 的不确定度以 bootstrap 估计：在每个靶对内对配体有
 
 作为**面板外冻结验证**（post-hoc unused-pool holdout），holdout **只覆盖有足够 unused-pool 配额的三对**：PIK3CA/mTOR、AChE/BChE 与 PIK3CA/PIK3CB。EGFR/HER2 为供给受限案例，严格规则下 B_only 仅 7 个，不具备与另外三对同等的未用池抽样条件，故不进入 holdout。对上述三对，我们在建面时已用严格规则筛出、但未进入对应冻结面板的 ChEMBL 候选池中抽样：以 ChEMBL ID 精确排除已用条目（PIK3CA/mTOR 排除的是 PM110 超集，从而覆盖 PM48），再以新种子 `HOLDOUT_SEED=20260731` 按 dual / A_only / B_only = 20 / 20 / 20 定额抽取（Murcko 支架封顶 3 个/类）。现查 SMILES 后按与主面板完全相同的 RDKit/meeko 制备与 Vina 协议对接（受体、盒子、exhaustiveness、种子均不重调）。评价仍用 2.6 的口袋匹配 summary_min 与配体层 bootstrap；平凡基线在同一 holdout 配体上并列计算。含硼配体 HOAP_028 因 AutoDock 原子类型 `B` 不支持、两端均未得分，已从 AUROC 装配中剔除（59/60 配体进入该对分析）。该 holdout 用于检验“分数规则与协议是否只在建面板时凑效”，**不是**跨数据库的独立外部验证集；抽样清单先冻结、后看分数（Supporting Information Table S8）。
 
-结构稳健性方面，替代晶体的入选要求为：polymer entity 核实为真 PIK3CA α 或真 mTOR（非嵌合体）、含 ATP 位点小分子共晶，并先做与 Methods 2.4 相同的共晶配体重对接 QC（best_of_9 &lt; 2 Å）。通过者为 PIK3CA **4JPS**（共晶 1LT）、**5DXT**（5H5）与 mTOR **4JSX**（Torin2 / 17G；与 4JT6 同属 mTORΔN–mLST8 截短构建体家族，但共晶配体与晶型不同）。嵌合体结构（如曾误用的 3T8M / PIK3CG 骨架）一律排除。换晶时**一次只替换一个口袋**：4JPS/5DXT 替换口袋 A，口袋 B 仍用冻结的 4JT6 分数；4JSX 替换口袋 B，口袋 A 仍用冻结的 4L23 分数。新盒子按该替代晶体自身共晶配体、以 2.4 的同一 AABB + 5 Å / 边长下限 20 Å 规则生成；受体准备与 2.4 相同，exhaustiveness = 16、随机种子 20260727。仅在冻结 PM48 配体上重对接并重算 summary_min。
+结构稳健性方面，替代晶体的入选要求在看分数前冻结为：polymer entity 核实为真 PIK3CA α 或真 mTOR（非嵌合体）、含 ATP 位点小分子共晶，并先做与 Methods 2.4 相同的共晶配体重对接 QC（best_of_9 &lt; 2 Å）。通过者为 PIK3CA **4JPS**（共晶 1LT）、**5DXT**（5H5）与 mTOR **4JSX**（Torin2 / 17G；与 4JT6 同属 mTORΔN–mLST8 截短构建体家族，但共晶配体与晶型不同）。嵌合体结构（如曾误用的 3T8M / PIK3CG 骨架）一律排除。换晶时**一次只替换一个口袋**：4JPS/5DXT 替换口袋 A，口袋 B 仍用冻结的 4JT6 分数；4JSX 替换口袋 B，口袋 A 仍用冻结的 4L23 分数。新盒子按该替代晶体自身共晶配体、以 2.4 的同一 AABB + 5 Å / 边长下限 20 Å 规则生成；受体准备与 2.4 相同，exhaustiveness = 16、随机种子 20260727。仅在冻结 PM48 配体上重对接并重算 summary_min。
 
 **受体依赖的探索性结构对照（零新对接）。** 为对照换晶体后 PIK3CA 端崩溃、mTOR 端仅小幅下降的不对称，我们直接在已冻结晶体坐标上做刚体叠合：以 Biopython `PDBParser` 提取各受体最长蛋白链的 Cα 坐标，按残基编号与残基名精确匹配（不匹配即剔除），用 `Superimposer` 对全部匹配 Cα 做一次 Kabsch 拟合得到全域 RMSD；口袋残基由参考结构自身共晶配体的重原子 ≤5 Å 界定，在**同一变换**下计算口袋局域 RMSD，不做二次局部拟合。再将替代结构自身的共晶配体坐标按同一变换投影，计算其质心与参考结构共晶配体质心的距离，检验二者是否落在同一大类口袋。5DXT 匹配的 Cα 少于 4JPS，全域 RMSD 不是等覆盖比较；本对照仅含 PIK3CA 替代结构 n = 2、mTOR n = 1，不预设 Cα RMSD 能够定量解释 AUROC 变化（Supporting Information Table S10）。
 

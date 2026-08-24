@@ -88,6 +88,12 @@ def extend_load(D: dict, _read, provenance: dict) -> dict:
     D["hold_ps"] = hold_ps
     D["e8"] = _pm48_e8()
     D["contact"] = _parse_contact()
+    delta = _read(DATA / "jcim_strengthen_t0t1_v0/tables/wrong_pocket_paired_delta_bootstrap_v1.csv")
+    desc_d = _read(DATA / "jcim_strengthen_t0t1_v0/tables/pocket_matched_vs_best_descriptor_delta_v1.csv")
+    ml_both = _read(DATA / "jcim_strengthen_t0t1_v0/tables/ligand_ml_scaffold_vs_random_v1.csv")
+    D["delta_wp"] = {(r["pair"], r["set"]): r for r in delta}
+    D["delta_desc"] = {r["pair"]: r for r in desc_d}
+    D["ml_both"] = {(r["pair"], r["contrast"]): r for r in ml_both}
     provenance.setdefault("source_files", {})
     provenance["source_files"][str((DATA / "pik3ca_mtor_panel48_rdkit_v0/tables/scores_vina_E8_best.csv").relative_to(ROOT))] = len(
         list(csv.DictReader((DATA / "pik3ca_mtor_panel48_rdkit_v0/tables/scores_vina_E8_best.csv").open()))
@@ -560,12 +566,163 @@ def fig_s2_supply_sampling(D: dict, P: dict) -> None:
     plt.close(fig)
 
 
+def _truthy(v) -> bool:
+    return str(v).strip().lower() in {"true", "1", "yes"}
+
+
+def _delta_forest(ax, rows, ylabels, xlabel):
+    """Horizontal forest of paired Δ with 95% CIs. Gray if the CI includes 0."""
+    plotted = []
+    for i, (r, lab) in enumerate(zip(rows, ylabels)):
+        x = fnum(r["delta"])
+        lo, hi = fnum(r["lo"]), fnum(r["hi"])
+        excl = bool(r["excl"])
+        color = C["vina"] if excl else "#999999"
+        ax.plot([lo, hi], [i, i], color=color, lw=1.7, zorder=3, solid_capstyle="round")
+        ax.scatter([x], [i], s=38, color=color, zorder=4, marker="o", edgecolors="none")
+        plotted.append({"label": lab, "x": x, "lo": lo, "hi": hi, "excl": excl})
+    ax.axvline(0.0, color=C["chance"], ls="--", lw=0.9, zorder=1)
+    ax.set_yticks(np.arange(len(ylabels)))
+    ax.set_yticklabels(ylabels, fontsize=6.5)
+    ax.set_xlabel(xlabel)
+    ax.invert_yaxis()
+    return plotted
+
+
+def fig_s3_paired_deltas(D: dict, P: dict) -> None:
+    """SI Fig S3: paired Δ forests (new). Does not reuse Fig 6 AUROC bars."""
+    fig, axes = plt.subplots(2, 2, figsize=(7.0, 6.70))
+
+    ax = axes[0, 0]
+    panel_label(ax, "A", x=-0.28, y=1.04)
+    main_rows = []
+    for p in PAIR_ORDER:
+        r = D["delta_wp"][(p, "main_panel")]
+        main_rows.append(
+            {
+                "delta": r["delta_matched_minus_wrong"],
+                "lo": r["delta_ci_lo"],
+                "hi": r["delta_ci_hi"],
+                "excl": _truthy(r["ci_excludes_zero"]),
+                "matched": r["matched_summary_min"],
+                "wrong": r["wrong_summary_min"],
+            }
+        )
+    P["s3newA"] = _delta_forest(
+        ax,
+        main_rows,
+        ["EGFR/HER2", "AChE/BChE", "PIK3CA/PIK3CB", "PIK3CA/mTOR"],
+        "Δ summary_min (matched − wrong)",
+    )
+    for rec, src in zip(P["s3newA"], main_rows):
+        rec["matched"] = fnum(src["matched"])
+        rec["wrong"] = fnum(src["wrong"])
+    ax.set_xlim(-0.20, 0.38)
+    ax.set_title("Main panels", fontsize=FS_AXIS, pad=3)
+    ax.text(0.02, 0.04, "blue: CI excludes 0", transform=ax.transAxes, fontsize=5.5, color=C["vina"])
+
+    ax = axes[0, 1]
+    panel_label(ax, "B", x=-0.28, y=1.04)
+    hold_rows = []
+    for p in HOLD_PAIRS:
+        r = D["delta_wp"][(p, "unused_pool_holdout")]
+        hold_rows.append(
+            {
+                "delta": r["delta_matched_minus_wrong"],
+                "lo": r["delta_ci_lo"],
+                "hi": r["delta_ci_hi"],
+                "excl": _truthy(r["ci_excludes_zero"]),
+                "matched": r["matched_summary_min"],
+                "wrong": r["wrong_summary_min"],
+            }
+        )
+    P["s3newB"] = _delta_forest(
+        ax,
+        hold_rows,
+        ["AChE/BChE", "PIK3CA/PIK3CB", "PIK3CA/mTOR"],
+        "Δ summary_min (matched − wrong)",
+    )
+    for rec, src in zip(P["s3newB"], hold_rows):
+        rec["matched"] = fnum(src["matched"])
+        rec["wrong"] = fnum(src["wrong"])
+    ax.set_xlim(-0.35, 0.18)
+    ax.set_title("Unused-pool holdout", fontsize=FS_AXIS, pad=3)
+    ax.text(0.02, 0.04, "EGFR/HER2 has no holdout", transform=ax.transAxes, fontsize=5.5, color="#666666")
+
+    ax = axes[1, 0]
+    panel_label(ax, "C", x=-0.28, y=1.04)
+    desc_rows = []
+    for p in PAIR_ORDER:
+        r = D["delta_desc"][p]
+        desc_rows.append(
+            {
+                "delta": r["delta_vina_minus_descriptor"],
+                "lo": r["delta_ci_lo"],
+                "hi": r["delta_ci_hi"],
+                "excl": _truthy(r["ci_excludes_zero"]),
+                "vina": r["vina_summary_min"],
+                "desc": r["descriptor_summary_min"],
+                "arm": r["best_descriptor"],
+            }
+        )
+    P["s3newC"] = _delta_forest(
+        ax,
+        desc_rows,
+        ["EGFR/HER2  (cLogP)", "AChE/BChE  (TPSA)", "PIK3CA/PIK3CB  (heavy)", "PIK3CA/mTOR  (heavy)"],
+        "Δ summary_min (Vina − best descriptor)",
+    )
+    for rec, src in zip(P["s3newC"], desc_rows):
+        rec["vina"] = fnum(src["vina"])
+        rec["desc"] = fnum(src["desc"])
+        rec["arm"] = src["arm"]
+    ax.set_xlim(-0.40, 0.50)
+    ax.set_title("Pocket-matched vs descriptor", fontsize=FS_AXIS, pad=3)
+
+    ax = axes[1, 1]
+    panel_label(ax, "D", x=-0.18, y=1.04)
+    x = np.arange(len(PAIR_ORDER))
+    w = 0.18
+    sc_da, rd_da, sc_db, rd_db = [], [], [], []
+    for p in PAIR_ORDER:
+        da = D["ml_both"][(p, "D_vs_A")]
+        db = D["ml_both"][(p, "D_vs_B")]
+        sc_da.append(fnum(da["auroc_scaffold_GroupKFold"]))
+        rd_da.append(fnum(da["auroc_random_StratifiedKFold"]))
+        sc_db.append(fnum(db["auroc_scaffold_GroupKFold"]))
+        rd_db.append(fnum(db["auroc_random_StratifiedKFold"]))
+    ax.bar(x - 1.5 * w, sc_da, w, color=C["vina"], label="scaffold D/A", zorder=3)
+    ax.bar(x - 0.5 * w, rd_da, w, color="#56B4E9", label="random D/A", zorder=3)
+    ax.bar(x + 0.5 * w, sc_db, w, color=C["a_only"], label="scaffold D/B", zorder=3)
+    ax.bar(x + 1.5 * w, rd_db, w, color=C["desc"], label="random D/B", zorder=3)
+    ax.axhline(0.5, color=C["chance"], ls="--", lw=0.9, zorder=1)
+    ax.set_xticks(x)
+    ax.set_xticklabels(TICK, fontsize=6.5)
+    ax.set_ylabel("ECFP4 AUROC")
+    ax.set_ylim(0, 1.15)
+    ax.set_title("Scaffold vs random split (leakage check)", fontsize=FS_AXIS, pad=3)
+    legend_below(ax, ncol=2, y=-0.26)
+    dlt = [rd_da[i] - sc_da[i] for i in range(4)] + [rd_db[i] - sc_db[i] for i in range(4)]
+    P["s3newD"] = {
+        "sc_da": sc_da,
+        "rd_da": rd_da,
+        "sc_db": sc_db,
+        "rd_db": rd_db,
+        "delta_random_minus_scaffold": dlt,
+        "mean_delta": float(np.mean(dlt)),
+    }
+
+    fig.subplots_adjust(wspace=0.42, hspace=0.58, left=0.16, right=0.98, top=0.94, bottom=0.14)
+    save_all(fig, "FigS3_paired_delta_bootstrap")
+    plt.close(fig)
+
+
 def draw_all(D: dict, provenance: dict) -> None:
     P = provenance.setdefault("plotted", {})
     fig6_wrong_pocket(D, P)
     fig_s3_confounds(D, P)
     fig_s2_protocol(D, P)
     fig_s2_supply_sampling(D, P)
+    fig_s3_paired_deltas(D, P)
 
 
 def verify_si(D: dict, provenance: dict, errors: list) -> None:
@@ -683,6 +840,81 @@ def verify_si(D: dict, provenance: dict, errors: list) -> None:
     eq(P["s4D"]["B_only pB"][2], -1.76, msg="s4D PM B_only pB delta")
     eq(P["s4D"]["A_only pA"][2], -1.259, msg="s4D PM A_only pA delta")
 
+    if "s3newA" not in P or "s3newB" not in P or "s3newC" not in P or "s3newD" not in P:
+        errors.append("Fig S3 paired-delta keys missing")
+    else:
+        expected_main_delta = {
+            "EGFR/HER2": (0.1697, 0.06, 0.2803, True, 0.4297, 0.26),
+            "AChE/BChE": (0.1614, 0.037, 0.269, True, 0.6058, 0.4444),
+            "PIK3CA/PIK3CB": (0.1511, -0.0215, 0.3105, False, 0.5, 0.3489),
+            "PIK3CA/mTOR": (0.0902, -0.1222, 0.2626, False, 0.6921, 0.6019),
+        }
+        for rec, pair in zip(P["s3newA"], PAIR_ORDER):
+            src = D["delta_wp"][(pair, "main_panel")]
+            eq(rec["x"], src["delta_matched_minus_wrong"], msg=f"s3A {pair} vs CSV")
+            eq(rec["lo"], src["delta_ci_lo"], msg=f"s3A {pair} lo vs CSV")
+            eq(rec["hi"], src["delta_ci_hi"], msg=f"s3A {pair} hi vs CSV")
+            ex, elo, ehi, eex, em, ew = expected_main_delta[pair]
+            eq(rec["x"], ex, msg=f"s3A {pair} delta checksum")
+            eq(rec["lo"], elo, msg=f"s3A {pair} lo checksum")
+            eq(rec["hi"], ehi, msg=f"s3A {pair} hi checksum")
+            eq(rec["matched"], em, msg=f"s3A {pair} matched checksum")
+            eq(rec["wrong"], ew, msg=f"s3A {pair} wrong checksum")
+            eq(rec["x"], rec["matched"] - rec["wrong"], msg=f"s3A {pair} delta = matched−wrong")
+            if rec["excl"] != eex:
+                errors.append(f"s3A {pair} ci_excludes_zero {rec['excl']} != {eex}")
+            eq(rec["matched"], D["theta6"][pair]["pocket_matched_summary_min"], msg=f"s3A {pair} vs Table 2")
+            eq(rec["wrong"], D["pm_by"][(pair, "wrong_pocket_control_vina")]["summary_min"], msg=f"s3A {pair} vs Fig 6 wrong")
+
+        expected_hold_delta = {
+            "AChE/BChE": (-0.025, -0.1119, 0.0714, 0.6175, 0.6425),
+            "PIK3CA/PIK3CB": (-0.095, -0.2814, 0.1143, 0.425, 0.52),
+            "PIK3CA/mTOR": (-0.0225, -0.1165, 0.079, 0.765, 0.7875),
+        }
+        for rec, pair in zip(P["s3newB"], HOLD_PAIRS):
+            src = D["delta_wp"][(pair, "unused_pool_holdout")]
+            eq(rec["x"], src["delta_matched_minus_wrong"], msg=f"s3B {pair} vs CSV")
+            ex, elo, ehi, em, ew = expected_hold_delta[pair]
+            eq(rec["x"], ex, msg=f"s3B {pair} delta checksum")
+            eq(rec["lo"], elo, msg=f"s3B {pair} lo checksum")
+            eq(rec["hi"], ehi, msg=f"s3B {pair} hi checksum")
+            eq(rec["matched"], em, msg=f"s3B {pair} matched checksum")
+            eq(rec["wrong"], ew, msg=f"s3B {pair} wrong checksum")
+            eq(rec["x"], rec["matched"] - rec["wrong"], msg=f"s3B {pair} delta = matched−wrong")
+            if rec["excl"]:
+                errors.append(f"s3B {pair}: holdout Δ CI should include 0")
+            if rec["x"] >= 0:
+                errors.append(f"s3B {pair}: holdout point Δ should be negative")
+
+        expected_desc = {
+            "EGFR/HER2": (-0.0524, -0.2, 0.1155, "clogp", 0.4821, 0.4297),
+            "AChE/BChE": (-0.1275, -0.3039, 0.0493, "tpsa", 0.7333, 0.6058),
+            "PIK3CA/PIK3CB": (-0.1217, -0.3197, 0.0891, "heavy", 0.6217, 0.5),
+            "PIK3CA/mTOR": (0.2291, -0.0105, 0.4352, "heavy", 0.463, 0.6921),
+        }
+        for rec, pair in zip(P["s3newC"], PAIR_ORDER):
+            src = D["delta_desc"][pair]
+            eq(rec["x"], src["delta_vina_minus_descriptor"], msg=f"s3C {pair} vs CSV")
+            ex, elo, ehi, earm, edesc, evina = expected_desc[pair]
+            eq(rec["x"], ex, msg=f"s3C {pair} delta checksum")
+            eq(rec["lo"], elo, msg=f"s3C {pair} lo checksum")
+            eq(rec["hi"], ehi, msg=f"s3C {pair} hi checksum")
+            eq(rec["desc"], edesc, msg=f"s3C {pair} descriptor checksum")
+            eq(rec["vina"], evina, msg=f"s3C {pair} vina checksum")
+            eq(rec["x"], rec["vina"] - rec["desc"], msg=f"s3C {pair} delta = vina−descriptor")
+            if rec["arm"] != earm:
+                errors.append(f"s3C {pair} arm {rec['arm']} != {earm}")
+            if rec["excl"]:
+                errors.append(f"s3C {pair}: descriptor Δ CI should include 0")
+
+        eq(P["s3newD"]["sc_db"][0], 0.8527, msg="s3D EGFR scaffold D/B")
+        eq(P["s3newD"]["rd_db"][0], 0.8884, msg="s3D EGFR random D/B")
+        eq(P["s3newD"]["sc_da"][1], 0.9096, msg="s3D AChE scaffold D/A")
+        eq(P["s3newD"]["rd_da"][1], 0.9096, msg="s3D AChE random D/A")
+        eq(P["s3newD"]["mean_delta"], 0.0112375, tol=1e-6, msg="s3D mean random−scaffold")
+        if abs(P["s3newD"]["mean_delta"]) > 0.03:
+            errors.append("s3D mean random−scaffold leakage is not small")
+
     from PIL import Image
 
     for name in (
@@ -690,6 +922,7 @@ def verify_si(D: dict, provenance: dict, errors: list) -> None:
         "Fig7_confound_anatomy.png",
         "FigS1_protocol_sensitivity.png",
         "FigS2_equal_relation_and_sampling.png",
+        "FigS3_paired_delta_bootstrap.png",
     ):
         im = Image.open(OUT / name)
         if im.mode != "RGB":

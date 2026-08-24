@@ -18,6 +18,9 @@
     "data/jcim_strengthen_t0t1_v0/tables/single_target_enrichment_v1.csv": 2,
     "data/jcim_holdout_v0/tables/holdout_matched_wrong_pocket_summary_v1.csv": 18,
     "data/jcim_holdout_v0/tables/holdout_vs_main_potency_size_v1.csv": 27,
+    "data/jcim_strengthen_t0t1_v0/tables/wrong_pocket_paired_delta_bootstrap_v1.csv": 7,
+    "data/jcim_strengthen_t0t1_v0/tables/pocket_matched_vs_best_descriptor_delta_v1.csv": 4,
+    "data/jcim_strengthen_t0t1_v0/tables/ligand_ml_scaffold_vs_random_v1.csv": 8,
     "data/pik3ca_mtor_panel48_rdkit_v0/tables/scores_vina_E8_best.csv": 48
   },
   "plotted": {
@@ -677,6 +680,152 @@
         -0.145,
         -1.76
       ]
+    },
+    "s3newA": [
+      {
+        "label": "EGFR/HER2",
+        "x": 0.1697,
+        "lo": 0.06,
+        "hi": 0.2803,
+        "excl": true,
+        "matched": 0.4297,
+        "wrong": 0.26
+      },
+      {
+        "label": "AChE/BChE",
+        "x": 0.1614,
+        "lo": 0.037,
+        "hi": 0.269,
+        "excl": true,
+        "matched": 0.6058,
+        "wrong": 0.4444
+      },
+      {
+        "label": "PIK3CA/PIK3CB",
+        "x": 0.1511,
+        "lo": -0.0215,
+        "hi": 0.3105,
+        "excl": false,
+        "matched": 0.5,
+        "wrong": 0.3489
+      },
+      {
+        "label": "PIK3CA/mTOR",
+        "x": 0.0902,
+        "lo": -0.1222,
+        "hi": 0.2626,
+        "excl": false,
+        "matched": 0.6921,
+        "wrong": 0.6019
+      }
+    ],
+    "s3newB": [
+      {
+        "label": "AChE/BChE",
+        "x": -0.025,
+        "lo": -0.1119,
+        "hi": 0.0714,
+        "excl": false,
+        "matched": 0.6175,
+        "wrong": 0.6425
+      },
+      {
+        "label": "PIK3CA/PIK3CB",
+        "x": -0.095,
+        "lo": -0.2814,
+        "hi": 0.1143,
+        "excl": false,
+        "matched": 0.425,
+        "wrong": 0.52
+      },
+      {
+        "label": "PIK3CA/mTOR",
+        "x": -0.0225,
+        "lo": -0.1165,
+        "hi": 0.079,
+        "excl": false,
+        "matched": 0.765,
+        "wrong": 0.7875
+      }
+    ],
+    "s3newC": [
+      {
+        "label": "EGFR/HER2  (cLogP)",
+        "x": -0.0524,
+        "lo": -0.2,
+        "hi": 0.1155,
+        "excl": false,
+        "vina": 0.4297,
+        "desc": 0.4821,
+        "arm": "clogp"
+      },
+      {
+        "label": "AChE/BChE  (TPSA)",
+        "x": -0.1275,
+        "lo": -0.3039,
+        "hi": 0.0493,
+        "excl": false,
+        "vina": 0.6058,
+        "desc": 0.7333,
+        "arm": "tpsa"
+      },
+      {
+        "label": "PIK3CA/PIK3CB  (heavy)",
+        "x": -0.1217,
+        "lo": -0.3197,
+        "hi": 0.0891,
+        "excl": false,
+        "vina": 0.5,
+        "desc": 0.6217,
+        "arm": "heavy"
+      },
+      {
+        "label": "PIK3CA/mTOR  (heavy)",
+        "x": 0.2291,
+        "lo": -0.0105,
+        "hi": 0.4352,
+        "excl": false,
+        "vina": 0.6921,
+        "desc": 0.463,
+        "arm": "heavy"
+      }
+    ],
+    "s3newD": {
+      "sc_da": [
+        0.8327,
+        0.9096,
+        0.7751,
+        0.7817
+      ],
+      "rd_da": [
+        0.7961,
+        0.9096,
+        0.8042,
+        0.7262
+      ],
+      "sc_db": [
+        0.8527,
+        0.8426,
+        0.7857,
+        0.8889
+      ],
+      "rd_db": [
+        0.8884,
+        0.8241,
+        0.889,
+        0.9213
+      ],
+      "delta_random_minus_scaffold": [
+        -0.036599999999999966,
+        0.0,
+        0.029100000000000015,
+        -0.055499999999999994,
+        0.035699999999999954,
+        -0.01849999999999996,
+        0.10330000000000006,
+        0.032399999999999984
+      ],
+      "mean_delta": 0.011237500000000011
     }
   }
 }

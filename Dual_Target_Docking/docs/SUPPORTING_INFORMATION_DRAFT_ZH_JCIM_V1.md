@@ -22,6 +22,12 @@
 | Table S13 | `data/jcim_holdout_v0/tables/holdout_matched_wrong_pocket_summary_v1.csv` + `holdout_vs_main_potency_size_v1.csv`；结论见 `analysis/HOLDOUT_WRONG_POCKET_POTENCY_VERDICT_V1.md` |
 | Table S14 | `data/jcim_bench_v0/tables/gnina_mode01_vs_best9_auroc.csv`；结论见 `analysis/GNINA_BEST9_STATUS.md`（worst-pocket 敏感性，零新对接，仅重打分） |
 | Table S15 | `data/jcim_bench_v0/tables/gnina_pocket_matched_mode01_vs_best9_k4_v1.csv` + `..._stability_v1.csv`；结论见 `analysis/GNINA_POCKET_MATCHED_BEST9_VERDICT_V1.md`（真口袋匹配 GNINA，零新对接，仅重打分） |
+| Table S16 | `data/jcim_strengthen_t0t1_v0/tables/endpoint_hierarchy_v1.csv` + `frozen_vs_holdout_v1.csv` |
+| Table S17 | `data/jcim_strengthen_t0t1_v0/tables/wrong_pocket_paired_delta_bootstrap_v1.csv` |
+| Table S18 | `data/jcim_strengthen_t0t1_v0/tables/pose_fairness_channels_v1.csv` |
+| Table S19 | `data/jcim_strengthen_t0t1_v0/tables/pocket_matched_vs_best_descriptor_delta_v1.csv` |
+| Table S20 | `data/jcim_strengthen_t0t1_v0/tables/ligand_ml_scaffold_vs_random_v1.csv` |
+| Table S21 | `data/jcim_strengthen_t0t1_v0/tables/ranking_top10_vina_mean_exploratory_v1.csv` |
 | ChEMBL 聚合局限 | `data/jcim_strengthen_t0t1_v0/analysis/T0_SKIPS.md` |
 
 ---
@@ -372,6 +378,113 @@ mode_01 是 9 个姿态中 CNNscore 最高的比例仅 19–29%，即多数配�
 
 ---
 
+## Table S16. 终点层级与主面板 / holdout 对照（写作冻结）
+
+来源：`endpoint_hierarchy_v1.csv`、`frozen_vs_holdout_v1.csv`、`unified_threshold_sensitivity_v2.csv`（θ = 6.0）、`holdout_pocket_matched_v1.csv`。主终点只有一个：统一 θ = 6.0 口袋匹配 Vina `summary_min`。PM48 是 PIK3CA/mTOR 的主面板，不是第二套主指标。EGFR/HER2 holdout = not eligible。
+
+**A. 终点层级（摘录）**
+
+| 角色 | 终点 | 报告位置 |
+|------|------|----------|
+| primary | θ = 6.0 口袋匹配 Vina summary_min | Table 2；Figure 3 |
+| pre-specified secondary | 方向臂 D/A、D/B；RTM；GNINA best-of-9；最强描述符 | Table 2；Figure 3–4 |
+| robustness | θ 网格、PM110、E=8、holdout、换晶、错口袋配对 Δ | Figure 5–6；S1；S3；Table S4/S8/S9/S17 |
+| exploratory | ECFP4、contact_count（非 PLIF）、vina_mean Top-10 | Figure 7；S3D；Table S11/S20/S21 |
+| 不作主指标 | pooled vina_mean（EGFR 0.2824 ≠ 0.4297） | Table S6 |
+
+**B. 主面板 vs unused-pool holdout（口袋匹配 Vina）**
+
+| 靶对 | 集合 | n (D/A/B) | D vs A | D vs B | summary_min [95% CI] |
+|------|------|-----------|-------:|-------:|----------------------|
+| EGFR/HER2 | 主面板 | 28/38/32 | 0.6664 | 0.4297 | 0.4297 [0.284, 0.5759] |
+| EGFR/HER2 | holdout | — | — | — | not eligible |
+| AChE/BChE | 主面板 | 27/25/28 | 0.6504 | 0.6058 | 0.6058 [0.4396, 0.74] |
+| AChE/BChE | holdout | 20/20/20 | 0.635 | 0.6175 | 0.6175 [0.4216, 0.7593] |
+| PIK3CA/PIK3CB | 主面板 | 28/27/28 | 0.6905 | 0.5 | 0.5 [0.3468, 0.648] |
+| PIK3CA/PIK3CB | holdout | 20/19/20 | 0.7658 | 0.425 | 0.425 [0.2406, 0.6184] |
+| PIK3CA/mTOR | 主面板 | 18/14/12 | 0.7143 | 0.6921 | 0.6921 [0.4638, 0.8015] |
+| PIK3CA/mTOR | holdout | 20/20/20 | 0.86 | 0.765 | 0.765 [0.6025, 0.8911] |
+
+主面板 CI 来自 `unified_threshold_sensitivity_v2.csv`（Table 2）；holdout CI 来自 `holdout_pocket_matched_v1.csv`。不得把 holdout 写成跨库外部验证。
+
+---
+
+## Table S17. 错口袋配对 Δ bootstrap（同一配体样本）
+
+来源：`wrong_pocket_paired_delta_bootstrap_v1.csv`。B = 2000，seed 20260729。点估计 Δ = 四位小数的 matched − wrong，与 Table 2 / Figure 6 算术一致。Figure S3A–B 绘本表。
+
+| 集合 | 靶对 | matched | wrong | Δ | 95% CI | 不含 0？ |
+|------|------|--------:|------:|--:|--------|---------|
+| 主面板 | EGFR/HER2 | 0.4297 | 0.26 | 0.1697 | [0.06, 0.2803] | yes |
+| 主面板 | AChE/BChE | 0.6058 | 0.4444 | 0.1614 | [0.037, 0.269] | yes |
+| 主面板 | PIK3CA/PIK3CB | 0.5 | 0.3489 | 0.1511 | [−0.0215, 0.3105] | no |
+| 主面板 | PIK3CA/mTOR | 0.6921 | 0.6019 | 0.0902 | [−0.1222, 0.2626] | no |
+| holdout | AChE/BChE | 0.6175 | 0.6425 | −0.025 | [−0.1119, 0.0714] | no |
+| holdout | PIK3CA/PIK3CB | 0.425 | 0.52 | −0.095 | [−0.2814, 0.1143] | no |
+| holdout | PIK3CA/mTOR | 0.765 | 0.7875 | −0.0225 | [−0.1165, 0.079] | no |
+
+不得把 holdout 点估计反转写成“CI 已排除 0”。EGFR/HER2 无 holdout。
+
+---
+
+## Table S18. 打分通道姿态覆盖（pose fairness）
+
+来源：`pose_fairness_channels_v1.csv`。同一受体、同一盒子、同一组 9 个 Vina 姿态。
+
+| 通道 | 生成姿态 | 实际打分 | 每口袋聚合 | Table 2？ |
+|------|----------|----------|------------|----------|
+| Vina 1.2.7 | 9 | mode 1（最负 E） | \(S=-E\) | 是（主终点） |
+| RTMScore | 9 | 全部 9 | max RTM | 否（次级） |
+| GNINA CNN mode-1 | 9 | 仅 mode 1 | CNNscore（minimize） | 否（历史） |
+| GNINA CNN best-of-9 | 9 | 全部 9 | max CNNscore | 否（次级；与 RTM 对齐） |
+
+best9 − mode01 为 −0.04 至 +0.08，**不是**相对 Vina。
+
+---
+
+## Table S19. 口袋匹配 Vina 对最强描述符的配对 Δ
+
+来源：`pocket_matched_vs_best_descriptor_delta_v1.csv`。**不是** `baseline_gate_bootstrap_v1.csv`（后者用 pooled `vina_mean`）。Figure S3C。
+
+| 靶对 | 描述符 | Vina | 描述符 | Δ | 95% CI | 不含 0？ |
+|------|--------|-----:|-------:|--:|--------|---------|
+| EGFR/HER2 | cLogP | 0.4297 | 0.4821 | −0.0524 | [−0.2, 0.1155] | no |
+| AChE/BChE | TPSA | 0.6058 | 0.7333 | −0.1275 | [−0.3039, 0.0493] | no |
+| PIK3CA/PIK3CB | heavy | 0.5 | 0.6217 | −0.1217 | [−0.3197, 0.0891] | no |
+| PIK3CA/mTOR | heavy | 0.6921 | 0.463 | 0.2291 | [−0.0105, 0.4352] | no |
+
+---
+
+## Table S20. ECFP4 支架 GroupKFold 对随机 StratifiedKFold（泄漏核对）
+
+来源：`ligand_ml_scaffold_vs_random_v1.csv`。支架折是主 ML 读出；随机折不是为了找更大 gap。八个方向对比的 mean(random − scaffold) = 0.0112。Figure S3D。
+
+| 靶对 | 对比 | scaffold | random | Δ(random−scaffold) | 对接口袋匹配 |
+|------|------|--------:|-------:|-------------------:|-------------:|
+| EGFR/HER2 | D vs A | 0.8327 | 0.7961 | −0.0366 | 0.6664 |
+| EGFR/HER2 | D vs B | 0.8527 | 0.8884 | 0.0357 | 0.4297 |
+| AChE/BChE | D vs A | 0.9096 | 0.9096 | 0.0 | 0.6504 |
+| AChE/BChE | D vs B | 0.8426 | 0.8241 | −0.0185 | 0.6058 |
+| PIK3CA/PIK3CB | D vs A | 0.7751 | 0.8042 | 0.0291 | 0.6905 |
+| PIK3CA/PIK3CB | D vs B | 0.7857 | 0.889 | 0.1033 | 0.5 |
+| PIK3CA/mTOR | D vs A | 0.7817 | 0.7262 | −0.0555 | 0.7143 |
+| PIK3CA/mTOR | D vs B | 0.8889 | 0.9213 | 0.0324 | 0.6921 |
+
+---
+
+## Table S21. Top-10 硬负计数（探索性；pooled vina_mean，非 Table 2）
+
+来源：`ranking_top10_vina_mean_exploratory_v1.csv` ← `top10_hardneg_bootstrap_v1.csv` 的 `vina_mean` 行。这是排序读出，**不是**口袋匹配主指标。EGFR/HER2 的 Top-10 中有 9 个硬负。
+
+| 靶对 | n_top10 dual | A_only | B_only | hardneg | hardneg bootstrap mean [95% CI] |
+|------|-------------:|-------:|-------:|--------:|--------------------------------|
+| EGFR/HER2 | 1 | 5 | 4 | 9 | 8.9215 [7, 10] |
+| AChE/BChE | 6 | 3 | 1 | 4 | 4.374 [1, 8] |
+| PIK3CA/PIK3CB | 3 | 4 | 3 | 7 | 6.519 [3, 9] |
+| PIK3CA/mTOR | 6 | 2 | 2 | 4 | 4.0775 [1, 8] |
+
+---
+
 ## 写法说明（不进投稿 SI 正文）
 
 - 本文件是**已有数据的汇编**，不是新实验。若某分析尚无机器可读表，宁缺毋填。
@@ -381,3 +494,5 @@ mode_01 是 9 个姿态中 CNNscore 最高的比例仅 19–29%，即多数配�
 - ChEMBL median / confidence≥8 / 物种过滤：本地缓存无字段（见 `T0_SKIPS.md`），不得编造；写入 Limitations。
 - Table S12 是计数核对（BindingDB REST + PubChem PUG REST），不是对接结果；不得把 `as_is` 的 EGFR ≥50 写成已建成 BindingDB 厚面板。
 - Table S13 是 holdout 效价/尺寸匹配诊断，不替换 Table S8；不得写成错口袋悖论已解决。
+- Table S16–S21 是冻结分数上的补表（零新对接）。S17 的 holdout Δ CI 均含 0；S19 四对描述符 Δ CI 均含 0；S21 是 vina_mean Top-10，不是 Table 2。
+- Figure S3 不得复用 Figure 6 的 AUROC 柱；它只画配对 Δ ± CI。
