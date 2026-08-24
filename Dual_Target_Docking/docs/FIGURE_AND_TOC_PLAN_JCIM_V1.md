@@ -3,7 +3,7 @@
 > 取代过时的 `FIGURE_PLAN_V1.md`（未含 holdout / 换晶 / S12 / GNINA best9）。  
 > 主张天花板仍服从 `CLAIM_CEILING.md`：图不能比正文更满。
 
-**现状：** 仓库里几乎没有投稿级位图（git 中未见 `.png/.pdf` 主图）。`plot_forest_ci_v1.py` 与 CSV 在，但 checklist 里那张 forest ~180 dpi、且未升格为 pocket-matched 定稿。相对 Results 3.1–3.11 的体量，**现在的图确实太少**，不是“精炼”，是还没画。
+**现状（2026-08-24）：** 主文 Fig 1–5、SI Fig S1、TOC graphic 已由 `data/jcim_bench_v0/scripts/plot_jcim_article_figures_v1.py` 从冻结 CSV 绘制，输出 `figures/jcim_article/`（PDF/PNG/TIF，RGB，300 dpi；TOC 精确 3.25×1.75 in）。数值锁定见同目录 `plotted_values.json`。未做主面板姿态图（git 无主面板 pose）。
 
 JCIM Articles 无硬图数上限；评测文主文 **5 张图 + 1 张 TOC** 合适。E8/E16、PM110、GNINA mode01 vs best9、阈值网格进 SI，不要再往主文塞第 6–8 张统计图。
 

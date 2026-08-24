@@ -1,0 +1,238 @@
+{
+  "source_files": {
+    "data/jcim_j0j1_v0/tables/j0_strict_label_supply.csv": 49,
+    "data/jcim_supply_crossdb_v0/tables/crossdb_strict_supply_v1.csv": 20,
+    "data/jcim_strengthen_t0t1_v0/tables/unified_threshold_sensitivity_v2.csv": 16,
+    "data/jcim_bench_v0/tables/pocket_matched_directional_v1.csv": 40,
+    "data/jcim_bench_v0/tables/forest_summary_min_ci_v1.csv": 28,
+    "data/jcim_bench_v0/tables/gnina_pocket_matched_mode01_vs_best9_k4_v1.csv": 8,
+    "data/jcim_holdout_v0/tables/holdout_pocket_matched_v1.csv": 21,
+    "data/jcim_structure_robust_v0/tables/pocket_matched_PM48_alt4JPS_v1.csv": 1,
+    "data/jcim_structure_robust_v0/tables/pocket_matched_PM48_alt5DXT_v1.csv": 1,
+    "data/jcim_structure_robust_v0/tables/pocket_matched_PM48_alt4JSX_v1.csv": 1,
+    "data/jcim_bench_v0/tables/assembled_AChE_BChE.csv": 95
+  },
+  "plotted": {
+    "fig2A_n_pairs": 49,
+    "fig2A_highlighted": {
+      "HDAC1/HDAC6": 93.0,
+      "PIK3CA/MTOR": 80.0,
+      "ACHE/BCHE": 78.0,
+      "PIK3CA/PIK3CB": 56.0,
+      "EGFR/HER2": 7.0
+    },
+    "fig2B_chembl": [
+      80.0,
+      78.0,
+      56.0,
+      7.0
+    ],
+    "fig2B_bindingdb_equal_only": [
+      76.0,
+      92.0,
+      58.0,
+      31.0
+    ],
+    "fig3": {
+      "EGFR/HER2": {
+        "vina": {
+          "y": 0.4297,
+          "lo": 0.284,
+          "hi": 0.5759,
+          "da": 0.6664,
+          "db": 0.4297
+        },
+        "rtm": {
+          "y": 0.3527,
+          "lo": 0.2135,
+          "hi": 0.4977
+        },
+        "gnina_best9": {
+          "y": 0.2902,
+          "lo": 0.1605,
+          "hi": 0.426
+        },
+        "best_desc": {
+          "arm": "clogp",
+          "y": 0.4821,
+          "lo": 0.3252,
+          "hi": 0.6181
+        }
+      },
+      "AChE/BChE": {
+        "vina": {
+          "y": 0.6058,
+          "lo": 0.4396,
+          "hi": 0.74,
+          "da": 0.6504,
+          "db": 0.6058
+        },
+        "rtm": {
+          "y": 0.5185,
+          "lo": 0.3333,
+          "hi": 0.6296
+        },
+        "gnina_best9": {
+          "y": 0.4127,
+          "lo": 0.263,
+          "hi": 0.5503
+        },
+        "best_desc": {
+          "arm": "tpsa",
+          "y": 0.7333,
+          "lo": 0.5805,
+          "hi": 0.8468
+        }
+      },
+      "PIK3CA/PIK3CB": {
+        "vina": {
+          "y": 0.5,
+          "lo": 0.3468,
+          "hi": 0.648,
+          "da": 0.6905,
+          "db": 0.5
+        },
+        "rtm": {
+          "y": 0.5421,
+          "lo": 0.3767,
+          "hi": 0.689
+        },
+        "gnina_best9": {
+          "y": 0.5332,
+          "lo": 0.3672,
+          "hi": 0.6392
+        },
+        "best_desc": {
+          "arm": "heavy",
+          "y": 0.6217,
+          "lo": 0.4693,
+          "hi": 0.7571
+        }
+      },
+      "PIK3CA/mTOR": {
+        "vina": {
+          "y": 0.6921,
+          "lo": 0.4638,
+          "hi": 0.8015,
+          "da": 0.7143,
+          "db": 0.6921
+        },
+        "rtm": {
+          "y": 0.6151,
+          "lo": 0.3833,
+          "hi": 0.7619
+        },
+        "gnina_best9": {
+          "y": 0.6548,
+          "lo": 0.4238,
+          "hi": 0.8088
+        },
+        "best_desc": {
+          "arm": "heavy",
+          "y": 0.463,
+          "lo": 0.2344,
+          "hi": 0.6198
+        }
+      }
+    },
+    "fig4A_DA": [
+      0.6664,
+      0.6504,
+      0.6905,
+      0.7143
+    ],
+    "fig4A_DB": [
+      0.4297,
+      0.6058,
+      0.5,
+      0.6921
+    ],
+    "fig4C_tpsa_n": [
+      27,
+      25,
+      28
+    ],
+    "fig4C_tpsa_mean": [
+      75.25592592592592,
+      53.7792,
+      47.87964285714286
+    ],
+    "fig5A": [
+      {
+        "pair": "AChE/BChE",
+        "main": 0.6058,
+        "main_lo": 0.4396,
+        "main_hi": 0.74,
+        "hold": 0.6175,
+        "hold_lo": 0.4216,
+        "hold_hi": 0.7593
+      },
+      {
+        "pair": "PIK3CA/PIK3CB",
+        "main": 0.5,
+        "main_lo": 0.3468,
+        "main_hi": 0.648,
+        "hold": 0.425,
+        "hold_lo": 0.2406,
+        "hold_hi": 0.6184
+      },
+      {
+        "pair": "PIK3CA/mTOR",
+        "main": 0.6921,
+        "main_lo": 0.4638,
+        "main_hi": 0.8015,
+        "hold": 0.765,
+        "hold_lo": 0.6025,
+        "hold_hi": 0.8911
+      }
+    ],
+    "fig5B": [
+      [
+        "4L23 / 4JT6 (main)",
+        0.6921,
+        0.4638,
+        0.8015
+      ],
+      [
+        "4JPS / 4JT6",
+        0.4861,
+        0.2589,
+        0.6923
+      ],
+      [
+        "5DXT / 4JT6",
+        0.5046,
+        0.2924,
+        0.6958
+      ],
+      [
+        "4L23 / 4JSX",
+        0.6389,
+        0.4178,
+        0.7758
+      ]
+    ],
+    "siA_matched": [
+      0.4297,
+      0.6058,
+      0.5,
+      0.6921
+    ],
+    "siA_wrong": [
+      0.26,
+      0.4444,
+      0.3489,
+      0.6019
+    ],
+    "siB_matched": [
+      0.6175,
+      0.425,
+      0.765
+    ],
+    "siB_wrong": [
+      0.6425,
+      0.52,
+      0.7875
+    ]
+  }
+}
