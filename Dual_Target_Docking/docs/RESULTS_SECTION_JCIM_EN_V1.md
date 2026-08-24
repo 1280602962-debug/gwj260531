@@ -1,7 +1,7 @@
 # Results (JCIM Articles draft, English)
 
 > Companion to [`RESULTS_DRAFT_ZH_JCIM_V1.md`](RESULTS_DRAFT_ZH_JCIM_V1.md) (Chinese authoritative for this rewrite cycle).  
-> Numbers from `PRIMARY_METRIC_V2.md`, `PRIMARY_METRIC_CLAIM_GATE.md`, SI Tables S4–S13. No fabricated experiments.  
+> Numbers from `PRIMARY_METRIC_V2.md`, `PRIMARY_METRIC_CLAIM_GATE.md`, SI Tables S4–S15. No fabricated experiments.  
 > **Framing (deliberately not absolute; not a named method product):** not "Docking can/cannot identify dual-target ligands," and not "we developed a novel Dual-target Docking Reliability Assessment Framework (D-DRAF)." Preferred: *evaluating the reliability and limitations of docking-based dual-target recognition* via a systematic benchmarking framework and the DualFourClass-Bench resource. See [`POSITIONING_AND_FRAMEWORK_LANGUAGE_V1.md`](POSITIONING_AND_FRAMEWORK_LANGUAGE_V1.md).
 
 ## 3. Results
@@ -49,7 +49,7 @@ Scaffold-grouped ECFP4 baselines further elevate the confounding narrative: fold
 
 Changing PIK3CA/mTOR exhaustiveness from 16 to 8 moved Vina summary_min from 0.692 to 0.660 (Δ ≈ +0.03)—far smaller than between-pair differences. Single-target enrichment against property-matched weak binders (pChEMBL ≤ 5.5) gave AUROC 0.603/0.629 and EF1% 2.04/2.00 on 4L23/4JT6: docking retained limited enrichment capability, not a strong VS engine.
 
-Expanding PIK3CA/mTOR to PM110 (historical name; actual panel n = 115, with dual / A_only / B_only = 30 / 30 / 30) is a **stability check**, not independent validation and not an attempt to "rescue" the estimate with a larger panel. PM48 itself is small (18/14/12). On PM110, Vina summary_min was 0.648 [0.51, 0.76] versus 0.692 on PM48 (Δ ≈ −0.04); ranking trend remained consistent.
+Expanding PIK3CA/mTOR to PM110 (historical name; actual panel n = 115, with dual / A_only / B_only = 30 / 30 / 30) is a **stability check**, not independent validation and not an attempt to "rescue" the estimate with a larger panel. PM48 itself is small (18/14/12). On PM110, Vina summary_min was 0.648 [0.51, 0.76] versus 0.692 on PM48 (Δ ≈ −0.04); ranking trend remained consistent. On the same panels, RTMScore gave 0.576; GNINA — after a fair best-of-9 rescore matching RTM's pose coverage (2026-08-24; superseding an earlier mode-1-only value of 0.522) — gave **0.613** [0.46, 0.74] on PM110 and **0.655** [0.43, 0.81] on PM48 (up from a mode-1 value of 0.579). GNINA's point estimate rose once it shared RTM's pose coverage, but remains below the same-panel Vina pocket-matched value on both PM48 and PM110 (Supporting Information Table S15; `GNINA_POCKET_MATCHED_BEST9_VERDICT_V1.md`).
 
 Across §3.2–3.5, **only PIK3CA/mTOR has a point estimate above both 0.5 and the heavy-atom baseline on the main panel and on the PM110 stability check**, and the advantage is modest. Apparent signals on the other three pairs are largely explained by ligand properties or 2D chemotype. That same direction later holds on the unused-pool holdout (§3.9) but is receptor-dependent under crystal swap (§3.10); it must not be read as a structure-invariant, reproducible advantage.
 

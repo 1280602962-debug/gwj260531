@@ -37,6 +37,7 @@ Forbidden:
 - Do **not** write PLIF, rotamer, or “mechanism solved.”
 - Do **not** write that DualDiff/FuseDiff were re-scored on DualFourClass-Bench. The Intro/Discussion sentence is a **use-case** for the benchmark, not a generative bake-off.
 - Do **not** write that DualDiff’s Dual High Affinity is mean-pooling; it is dual success vs a **reference ligand’s dock scores**. The gap is missing experimental hard-negatives, not the algebraic form of the mean.
+- GNINA best-of-9 fair rescore (2026-08-24, real, not fabricated): pocket-matched summary_min moves by only −0.04 to +0.08 across K=4 and **never exceeds** the same-panel Vina pocket-matched value. Do **not** write that GNINA best-of-9 outperforms Vina, changes the pair ranking, or "resolves" the weak-signal finding on EGFR/HER2 or AChE/BChE (both remain ≤ 0.41, below chance). Do **not** call the `min(score_A, score_B)`-for-both-contrasts number in `GNINA_BEST9_STATUS.md` "pocket-matched" — it is **worst-pocket**; use `GNINA_POCKET_MATCHED_BEST9_VERDICT_V1.md` for the true directional number comparable to Table 2.
 - Do **not** write that PIK3CA/mTOR is a structure-invariant reproducible success; holdout is ligand-set same-direction, crystal swap is receptor-dependent, and mTOR-swap CI includes 0.5.
 
 ## Engine stack actually run
@@ -44,4 +45,4 @@ Forbidden:
 |---------|--------|
 | AutoDock Vina | primary sampler (done) |
 | RTMScore best-of-K | primary rescorer (done) |
-| GNINA CNN | **DONE** — mode_01 `--cnn_scoring rescore --minimize` (v1.3.2 CPU) |
+| GNINA CNN | **DONE** — best-of-9 `--cnn_scoring rescore --minimize` (v1.3.2 CPU), pose-symmetric with RTM as of 2026-08-24; mode_01-only results retained as historical backup, not primary |

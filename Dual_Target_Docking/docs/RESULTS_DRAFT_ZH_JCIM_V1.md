@@ -2,7 +2,7 @@
 
 > 结构按 JCIM 评测文习惯重排（供给发现 → 标签稳健 → 对接主结果 → 混淆主导 → 稳健性与案例依赖成功 → 跨对结构决定因素 → 个案结构线索）。  
 > 全部数字可追溯至 `data/jcim_bench_v0/`、`data/jcim_strengthen_t0t1_v0/`、`data/jcim_bench_v0/analysis/structural_context_v1/`、`data/jcim_holdout_v0/`、`data/jcim_structure_robust_v0/analysis/pocket_mechanism_v1/` 与 `data/jcim_supply_crossdb_v0/`；未做的全面板残基级 PLIF 定量比较不写入。  
-> 错口袋、配体效率、描述符明细见 Supporting Information Table S5–S6；holdout 错口袋匹配诊断见 Table S13。
+> 错口袋、配体效率、描述符明细见 Supporting Information Table S5–S6；holdout 错口袋匹配诊断见 Table S13；GNINA 全 9 姿态公平重打见 Table S14–S15。
 > **本文定位（不用绝对化标题、不包装成新算法）：** 不是 "Docking can/cannot identify dual-target ligands"，也不是 "we developed a novel framework named D-DRAF"；而是 *Evaluating the reliability and limitations of docking-based dual-target recognition*——建立 systematic benchmarking framework / DualFourClass-Bench 评价体系，评价现有对接分数的可靠边界。详见 [`POSITIONING_AND_FRAMEWORK_LANGUAGE_V1.md`](POSITIONING_AND_FRAMEWORK_LANGUAGE_V1.md)。
 
 ---
@@ -33,7 +33,7 @@
 
 需要分开两件事：其一，**方向特异的判别失败**——例如在 EGFR/HER2 上，dual 对 B_only 的口袋匹配 AUROC 仅为 0.430，而若单独审视池化协议下较弱一臂可读到约 0.28，说明 B 端方向本身接近或低于随机，并非“池化运算把 0.50 压成 0.28”；其二，**池化会掩盖上述弱臂**——同一对上池化 summary 可接近 0.50，给人以“尚可”的假象。相对池化，口袋匹配普遍抬高了四对的点估计，但排序未变（Supporting Information Table S6）。
 
-各面板在同一 RDKit/meeko 协议下用 AutoDock Vina 打分；RTMScore（九姿态取最优）与 GNINA（仅对 Vina mode 1 rescore）作通道对照，二者姿态覆盖不对称，不作公平赛马解释。Bootstrap 95% 区间为配体层重采样（B = 2000，种子 20260729）。
+各面板在同一 RDKit/meeko 协议下用 AutoDock Vina 打分；RTMScore（九姿态取最优）与 GNINA 作通道对照。GNINA 最初仅对 Vina mode 1 rescore，与 RTM 姿态覆盖不对称；2026-08-24 已补做全 9 姿态公平重打（Supporting Information Table S14–S15），二者姿态覆盖对齐后 GNINA 结论未变，仍不作“三引擎已验证同一决策臂”的公平赛马主张。Bootstrap 95% 区间为配体层重采样（B = 2000，种子 20260729）。
 
 **Table 2.** 冻结 K = 4 评价集上的口袋匹配方向 AUROC（Vina）。错口袋、配体效率归一与描述符基线见 Supporting Information Table S6。
 
@@ -68,7 +68,7 @@
 
 单靶富集以同靶已测定弱效分子（pChEMBL ≤ 5.5）作性质匹配 decoy。4L23 与 4JT6 的富集 AUROC 分别为 0.603 与 0.629，EF1% 为 2.04 与 2.00，EF5% 为 1.22 与 3.20。对接保留有限富集能力（limited enrichment capability），但不构成强单靶虚拟筛选引擎。
 
-PM110（历史命名；实际面板 n = 115，其中 dual / A_only / B_only 各 30）保留 PM48 全部 48 个配体并按配额扩样，用作**稳定性核对（stability check）**，不是独立验证实验，也不是用扩面“挽救”点估计。PM48 本身 dual / A_only / B_only 仅 18 / 14 / 12，功效有限。PM110 上 Vina summary_min 为 0.648 [0.51, 0.76]，相对 PM48 的 0.692（Δ ≈ −0.04），区间更窄，排序趋势保持一致；同面板 RTMScore 为 0.576，GNINA 为 0.522。
+PM110（历史命名；实际面板 n = 115，其中 dual / A_only / B_only 各 30）保留 PM48 全部 48 个配体并按配额扩样，用作**稳定性核对（stability check）**，不是独立验证实验，也不是用扩面“挽救”点估计。PM48 本身 dual / A_only / B_only 仅 18 / 14 / 12，功效有限。PM110 上 Vina summary_min 为 0.648 [0.51, 0.76]，相对 PM48 的 0.692（Δ ≈ −0.04），区间更窄，排序趋势保持一致；同面板 RTMScore 为 0.576，GNINA（全 9 姿态公平重打后，2026-08-24；取代此前仅重打 mode 1 的 0.522）为 **0.613** [0.46, 0.74]，PM48 同口径为 **0.655** [0.43, 0.81]（此前 mode-1 为 0.579）；GNINA 换用与 RTM 同等的 best-of-9 覆盖后数值上升，但仍不高于同面板 Vina 口袋匹配，排序结论不变（Supporting Information Table S15；`GNINA_POCKET_MATCHED_BEST9_VERDICT_V1.md`）。
 
 综合 §3.2–3.5：**仅 PIK3CA/mTOR 的点估计在主面板与 PM110 稳定性核对上同时高于 0.5 与重原子数基线，幅度有限**；其余三对的表观信号在很大程度上可由配体属性或二维化学型解释。该方向随后在 unused-pool holdout 上保持（§3.9），但换晶体后显示受体依赖（§3.10），不得读成结构不变的可重复优势。
 

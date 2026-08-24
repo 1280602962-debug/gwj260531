@@ -58,7 +58,7 @@
 
 配体由 ChEMBL SMILES 去盐（保留最大有机片段）后，用 RDKit 加氢，以 ETKDGv3 生成三维构象（随机种子 20260727），并用 MMFF 力场局部优化（最多 200 步），再经 meeko 默认参数转为 PDBQT。对接使用 AutoDock Vina 1.2.7，打分函数为默认 `vina`：每个配体保留 9 个姿态，`energy_range = 3`，exhaustiveness 按 Table 1，随机种子 20260727（与 ETKDG 相同）。构象生成、面板抽样与对接均使用固定随机种子；完整参数见 Supporting Information Table S1。
 
-在同一组 Vina 姿态上另用两种函数重打分，以检查结论是否依赖单一打分通道。RTMScore（公开权重 `rtmscore_model1`）对 **全部 9 个姿态**取最高分。GNINA 1.3.2 在 CPU 模式下，将 **Vina 排序第一的姿态**（mode 1）经 Open Babel 转为 SDF 后，以 `--cnn_scoring rescore --minimize` 重打分。**因此 RTM 与 GNINA 的姿态覆盖不对称**：前者为 best-of-9，后者为 mode-1 rescore；GNINA 通道可能系统性吃亏，不作“三引擎已公平对齐”的主张，正文仅把 RTM/GNINA 作定性通道对照。若需公平比较，应对全部 9 个 Vina 姿态分别 GNINA rescore 后取最优（后续工作）。
+在同一组 Vina 姿态上另用两种函数重打分，以检查结论是否依赖单一打分通道。RTMScore（公开权重 `rtmscore_model1`）对 **全部 9 个姿态**取最高分。GNINA 1.3.2 在 CPU 模式下最初仅将 **Vina 排序第一的姿态**（mode 1）经 Open Babel 转为 SDF 后以 `--cnn_scoring rescore --minimize` 重打分，与 RTM 的 best-of-9 覆盖不对称。**2026-08-24 已补做全 9 姿态 GNINA 公平重打**：对每个配体–靶标的全部 9 个 Vina 姿态分别转 SDF 并重打分，取每端最高 CNNscore，与 RTM 姿态覆盖对齐；mode-1 结果保留为历史对照（`scores_gnina_*_mode01_backup.csv`）。全 9 姿态重打后，GNINA 口袋匹配 summary_min 相对 mode-1 的变化很小且方向不一致（K=4：AChE/BChE −0.03、PIK3CA/PIK3CB −0.02、PIK3CA/mTOR +0.08、EGFR/HER2 −0.04；`GNINA_POCKET_MATCHED_BEST9_VERDICT_V1.md`），且在四对上均不超过同面板 Vina 口袋匹配，姿态覆盖不对称因而**不是**GNINA 表现偏弱的主要原因；正文仍把 RTM/GNINA 作定性通道对照，不作“三引擎已公平对齐即验证同一决策臂”的主张。
 
 ### 2.6 评价指标与基线
 
@@ -117,4 +117,4 @@ summary_min 的不确定度以 bootstrap 估计：在每个靶对内对配体有
 | Evaluation 单独写指标 | 2.6（含 \(S=-E\)）；对照列表化 2.7 |
 | 不写未做实验、不写仓库路径 | 不编造 PDBFixer/Reduce/median 表/1000-panel 分布 |
 
-**明确不做/未做（防审稿追问时撒谎）：** max vs median 数值表；GNINA 九姿态公平重打；从供给池重抽 1000 panel 的 summary_min 分布；PDBFixer+Reduce 质子化流程。本轮补写的 holdout / 换晶 / 叠合 / 接触计数参数均来自已冻结实验，不是新对接。
+**明确不做/未做（防审稿追问时撒谎）：** max vs median 数值表；从供给池重抽 1000 panel 的 summary_min 分布；PDBFixer+Reduce 质子化流程。GNINA 九姿态公平重打已于 2026-08-24 补做完成（见 2.7；`GNINA_POCKET_MATCHED_BEST9_VERDICT_V1.md`），不再列入未做项。本轮补写的 holdout / 换晶 / 叠合 / 接触计数参数均来自已冻结实验，不是新对接。

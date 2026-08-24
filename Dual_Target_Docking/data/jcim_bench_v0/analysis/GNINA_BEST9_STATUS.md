@@ -2,22 +2,24 @@
 
 **Updated:** after fair all-mode GNINA rescore
 
+**Terminology note:** this file reports **worst-pocket** AUROC (`min(score_A, score_B)` reused for both the D-vs-A_only and D-vs-B_only contrasts) — the same convention as `gnina_cnn_min` / `vina_worst` / `rtm_worst` elsewhere in this repo. It is **not** the asymmetric Methods 2.6 pocket-matched definition. For the true directional pocket-matched GNINA numbers comparable to Table 2's Vina pocket-matched summary_min, see [`GNINA_POCKET_MATCHED_BEST9_VERDICT_V1.md`](GNINA_POCKET_MATCHED_BEST9_VERDICT_V1.md).
+
 ## Binary / protocol
 `/mnt/d/CADD paper exercise/gnina/bin/gnina` (v1.3.2), CPU `--no_gpu`
 
 - Input: **all** Vina `mode_01`…`mode_09` PDBQT → SDF (Open Babel)
 - `gnina --cnn_scoring rescore --minimize --seed 20260727 --cpu 1`
 - Per ligand–target: take **max CNNscore** over up to 9 modes (ties → first max)
-- Pocket-matched arm still uses `min(score_A, score_B)` on the per-end best-of-9 CNN
+- This comparison uses **worst-pocket** (`min(score_A, score_B)` for both contrasts), not the Methods 2.6 pocket-matched definition; see `GNINA_POCKET_MATCHED_BEST9_VERDICT_V1.md` for that.
 - mode_01-only tables retained as `scores_gnina_*_mode01_backup.csv`
 
 ## Packs
-- **AChE/BChE**: panel=`/home/gwj/repos/gwj260531/Dual_Target_Docking/data/ache_bche_panel_v0/tables/ablation_ligand_scores.csv` best9=96 mode01=96 long=1702
-- **PIK3CA/PIK3CB**: panel=`/home/gwj/repos/gwj260531/Dual_Target_Docking/data/pik3ca_pik3cb_panel_v0/tables/ablation_ligand_scores.csv` best9=100 mode01=100 long=1787
-- **PIK3CA/mTOR**: panel=`/home/gwj/repos/gwj260531/Dual_Target_Docking/data/pik3ca_mtor_panel48_rdkit_v0/tables/ablation_ligand_scores.csv` best9=48 mode01=48 long=864
-- **EGFR/HER2**: panel=`/home/gwj/repos/gwj260531/Dual_Target_Docking/data/egfr_her2_panel120_v0/tables/ablation_ligand_scores.csv` best9=110 mode01=110 long=1978
+- **AChE/BChE**: panel=`/tmp/freeze_wt/Dual_Target_Docking/data/ache_bche_panel_v0/tables/ablation_ligand_scores.csv` best9=96 mode01=96 long=1702
+- **PIK3CA/PIK3CB**: panel=`/tmp/freeze_wt/Dual_Target_Docking/data/pik3ca_pik3cb_panel_v0/tables/ablation_ligand_scores.csv` best9=100 mode01=100 long=1787
+- **PIK3CA/mTOR**: panel=`/tmp/freeze_wt/Dual_Target_Docking/data/pik3ca_mtor_panel48_rdkit_v0/tables/ablation_ligand_scores.csv` best9=48 mode01=48 long=864
+- **EGFR/HER2**: panel=`/tmp/freeze_wt/Dual_Target_Docking/data/egfr_her2_panel120_v0/tables/ablation_ligand_scores.csv` best9=110 mode01=110 long=1978
 
-## mode_01 vs best-of-9 directional AUROC
+## mode_01 vs best-of-9 worst-pocket AUROC
 
 | pair | summary_min mode01 | summary_min best9 | Δ | frac mode01 wins |
 |------|-------------------:|------------------:|--:|-----------------:|
@@ -34,3 +36,5 @@
 ## Claim update
 RTMScore and GNINA now share the same pose coverage (best-of-9 over the same Vina modes).
 Three-engine contrast is pose-symmetric; still do **not** claim a universal docking decision rule.
+See `GNINA_POCKET_MATCHED_BEST9_VERDICT_V1.md` for the directional numbers actually
+cited alongside Table 2; do not cite this worst-pocket table as "pocket-matched".

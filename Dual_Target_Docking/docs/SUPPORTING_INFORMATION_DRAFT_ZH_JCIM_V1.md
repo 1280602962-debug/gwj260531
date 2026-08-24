@@ -20,6 +20,8 @@
 | Table S11 | `data/jcim_holdout_v0/analysis/WRONG_POCKET_MECHANISM_VERDICT_V1.md` + `scripts/wrong_pocket_contact_v1.py`（脚本，零新对接，仅用已冻结姿态坐标） |
 | Table S12 | `data/jcim_supply_crossdb_v0/tables/crossdb_strict_supply_v1.csv`；结论见 `analysis/SUPPLY_CROSSDB_VERDICT_V1.md`（BindingDB REST + PubChem PUG REST 计数，零对接） |
 | Table S13 | `data/jcim_holdout_v0/tables/holdout_matched_wrong_pocket_summary_v1.csv` + `holdout_vs_main_potency_size_v1.csv`；结论见 `analysis/HOLDOUT_WRONG_POCKET_POTENCY_VERDICT_V1.md` |
+| Table S14 | `data/jcim_bench_v0/tables/gnina_mode01_vs_best9_auroc.csv`；结论见 `analysis/GNINA_BEST9_STATUS.md`（worst-pocket 敏感性，零新对接，仅重打分） |
+| Table S15 | `data/jcim_bench_v0/tables/gnina_pocket_matched_mode01_vs_best9_k4_v1.csv` + `..._stability_v1.csv`；结论见 `analysis/GNINA_POCKET_MATCHED_BEST9_VERDICT_V1.md`（真口袋匹配 GNINA，零新对接，仅重打分） |
 | ChEMBL 聚合局限 | `data/jcim_strengthen_t0t1_v0/analysis/T0_SKIPS.md` |
 
 ---
@@ -322,6 +324,51 @@ EGFR/HER2 的 as_is 抬升不可直接当成“ChEMBL 漏检”：BindingDB 92 �
 | PIK3CA/mTOR | size_matched | 12 | 0.715 | 0.818 | 是 |
 
 效价与尺寸匹配均不翻转“错口袋 ≥ 口袋匹配”。PIK3CA/mTOR holdout 比主面板更弱（不是更强），抽样偏移存在但不足以解释悖论。详见 Results 3.9。
+
+---
+
+## Table S14. GNINA mode_01 与全 9 姿态公平重打的敏感性（worst-pocket，零新对接）
+
+来源：`data/jcim_bench_v0/tables/gnina_mode01_vs_best9_auroc.csv`；脚本 `scripts/compare_gnina_mode01_vs_best9.py`；结论 `analysis/GNINA_BEST9_STATUS.md`。2026-08-24：用户本地对已冻结 K=4 面板的全部 9 个 Vina 姿态分别做 GNINA CNN 重打分（`--cnn_scoring rescore --minimize`），取每端最高 CNNscore，与 RTM 的 best-of-9 覆盖对齐；mode_01 结果保留为历史备份。本表用 `min(score_A, score_B)` 同时代入 dual 对 A_only 与 dual 对 B_only 两个对比（**worst-pocket**，与 `gnina_cnn_min`/`vina_worst`/`rtm_worst` 同一约定），**不是** Methods 2.6 的方向性口袋匹配定义；后者见 Table S15。
+
+| 靶对 | n | worst-pocket mode01 | worst-pocket best9 | Δ | mode_01 是最佳姿态的比例 |
+|------|---:|---------------------:|---------------------:|-----:|-----------------------:|
+| AChE/BChE | 84 | 0.372 | 0.359 | −0.013 | 0.194 |
+| PIK3CA/PIK3CB | 84 | 0.506 | 0.434 | −0.073 | 0.271 |
+| PIK3CA/mTOR | 44 | 0.564 | 0.595 | +0.032 | 0.292 |
+| EGFR/HER2 | 98 | 0.263 | 0.265 | +0.001 | 0.286 |
+
+mode_01 是 9 个姿态中 CNNscore 最高的比例仅 19–29%，即多数配体的最佳姿态并非 Vina 排名第一姿态；但汇总的 worst-pocket AUROC 变化很小（−0.07 至 +0.03），说明姿态覆盖不对称本身不是此前 GNINA 结论偏弱的主要原因。
+
+---
+
+## Table S15. GNINA 真口袋匹配（Methods 2.6 定义），mode_01 与全 9 姿态对照（零新对接）
+
+来源：`data/jcim_bench_v0/tables/gnina_pocket_matched_mode01_vs_best9_k4_v1.csv` + `..._stability_v1.csv`；脚本 `scripts/gnina_pocket_matched_best9_v1.py`；结论 `analysis/GNINA_POCKET_MATCHED_BEST9_VERDICT_V1.md`。定义与 Vina/RTM 的 `pocket_matched_vina`/`pocket_matched_rtm` 完全一致：dual 对 A_only 用口袋 B 的 GNINA CNNscore；dual 对 B_only 用口袋 A 的 CNNscore；取两者较小值为 summary_min，配体层 bootstrap 95% CI（B = 2000，种子 20260729）。mode_01 数值与建面时冻结的历史值精确一致（PM48 0.5794、PM110 0.5222），确认备份数据与脚本口径无误。
+
+**K = 4（正文冻结集）**
+
+| 靶对 | 通道 | n (D/A/B) | D vs A（口袋B） | D vs B（口袋A） | summary_min [95% CI] | 同面板 Vina 参考 |
+|------|------|-----------|----------------:|----------------:|----------------------:|------------------:|
+| EGFR/HER2 | mode01 | 28/38/32 | 0.490 | 0.327 | 0.327 [0.19, 0.46] | 0.430 |
+| EGFR/HER2 | best9 | 28/38/32 | 0.471 | 0.290 | **0.290** [0.16, 0.42] | 0.430 |
+| AChE/BChE | mode01 | 27/25/28 | 0.486 | 0.442 | 0.442 [0.29, 0.54] | 0.606 |
+| AChE/BChE | best9 | 27/25/28 | 0.553 | 0.413 | **0.413** [0.25, 0.55] | 0.606 |
+| PIK3CA/PIK3CB | mode01 | 28/27/28 | 0.607 | 0.554 | 0.554 [0.39, 0.68] | 0.500 |
+| PIK3CA/PIK3CB | best9 | 28/27/28 | 0.570 | 0.533 | **0.533** [0.37, 0.64] | 0.500 |
+| PIK3CA/mTOR | mode01 | 18/14/12 | 0.579 | 0.671 | 0.579 [0.36, 0.75] | 0.692 |
+| PIK3CA/mTOR | best9 | 18/14/12 | 0.655 | 0.685 | **0.655** [0.44, 0.81] | 0.692 |
+
+**稳定性核对面板（PM48 / PM110，非独立验证）**
+
+| 面板 | 通道 | n (D/A/B) | D vs A（口袋B） | D vs B（口袋A） | summary_min [95% CI] |
+|------|------|-----------|----------------:|----------------:|----------------------:|
+| PM48 | mode01 | 18/14/12 | 0.579 | 0.671 | 0.579 [0.36, 0.75] |
+| PM48 | best9 | 18/14/12 | 0.655 | 0.685 | **0.655** [0.43, 0.81] |
+| PM110 | mode01 | 30/30/30 | 0.522 | 0.713 | 0.522 [0.38, 0.67] |
+| PM110 | best9 | 30/30/30 | 0.613 | 0.682 | **0.613** [0.46, 0.74] |
+
+全 9 姿态公平重打后，GNINA 真口袋匹配 summary_min 相对 mode_01 的变化为 −0.04（EGFR/HER2）、−0.03（AChE/BChE）、−0.02（PIK3CA/PIK3CB）、+0.08（PIK3CA/mTOR，含 PM48/PM110）。**四对上 GNINA best-of-9 均未超过同面板 Vina 口袋匹配**；EGFR/HER2 与 AChE/BChE 上 GNINA best-of-9 仍低于随机（<0.5）。PIK3CA/mTOR（含 PM48、PM110）在 GNINA 通道下点估计上升但仍不超过 Vina。姿态覆盖对齐后，`RTMScore 与 GNINA 未改变这一格局`（Results 3.2/3.4）这一表述继续成立，且现在有方向性（非仅池化/worst-pocket）GNINA 数字支持。PM48/PM110 稳定性核对文本（Results 3.8）与 `PM110_VS_PM48.md`/`B_GROUP_VERDICT.md` 的 GNINA 引用值已改为本表 best9 数值；mode_01 保留仅作追溯校验。
 
 ---
 

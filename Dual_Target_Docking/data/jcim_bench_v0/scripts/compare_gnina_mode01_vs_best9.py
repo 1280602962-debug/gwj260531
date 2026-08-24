@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
-"""Compare GNINA mode_01 vs best-of-9 CNN scores and directional AUROC.
+"""Compare GNINA mode_01 vs best-of-9 CNN scores using a **worst-pocket**
+score (min over both ends, reused for both the D-vs-A_only and D-vs-B_only
+contrasts) -- the same convention as `gnina_cnn_min` / `vina_worst` /
+`rtm_worst` elsewhere in this repo. This is NOT the asymmetric Methods 2.6
+pocket-matched definition (D vs A_only scored on pocket B only; D vs B_only
+scored on pocket A only); for that, see
+`gnina_pocket_matched_best9_v1.py` / `GNINA_POCKET_MATCHED_BEST9_VERDICT_V1.md`.
 
 Writes:
   tables/gnina_mode01_vs_best9_ligand.csv
@@ -347,19 +353,28 @@ def main():
         "",
         "**Updated:** after fair all-mode GNINA rescore",
         "",
+        "**Terminology note:** this file reports **worst-pocket** AUROC "
+        "(`min(score_A, score_B)` reused for both the D-vs-A_only and D-vs-B_only "
+        "contrasts) — the same convention as `gnina_cnn_min` / `vina_worst` / "
+        "`rtm_worst` elsewhere in this repo. It is **not** the asymmetric Methods 2.6 "
+        "pocket-matched definition. For the true directional pocket-matched GNINA "
+        "numbers comparable to Table 2's Vina pocket-matched summary_min, see "
+        "[`GNINA_POCKET_MATCHED_BEST9_VERDICT_V1.md`](GNINA_POCKET_MATCHED_BEST9_VERDICT_V1.md).",
+        "",
         "## Binary / protocol",
         "`/mnt/d/CADD paper exercise/gnina/bin/gnina` (v1.3.2), CPU `--no_gpu`",
         "",
         "- Input: **all** Vina `mode_01`…`mode_09` PDBQT → SDF (Open Babel)",
         "- `gnina --cnn_scoring rescore --minimize --seed 20260727 --cpu 1`",
         "- Per ligand–target: take **max CNNscore** over up to 9 modes (ties → first max)",
-        "- Pocket-matched arm still uses `min(score_A, score_B)` on the per-end best-of-9 CNN",
+        "- This comparison uses **worst-pocket** (`min(score_A, score_B)` for both contrasts), "
+        "not the Methods 2.6 pocket-matched definition; see `GNINA_POCKET_MATCHED_BEST9_VERDICT_V1.md` for that.",
         "- mode_01-only tables retained as `scores_gnina_*_mode01_backup.csv`",
         "",
         "## Packs",
         *notes,
         "",
-        "## mode_01 vs best-of-9 directional AUROC",
+        "## mode_01 vs best-of-9 worst-pocket AUROC",
         "",
         "| pair | summary_min mode01 | summary_min best9 | Δ | frac mode01 wins |",
         "|------|-------------------:|------------------:|--:|-----------------:|",
@@ -379,6 +394,8 @@ def main():
         "## Claim update",
         "RTMScore and GNINA now share the same pose coverage (best-of-9 over the same Vina modes).",
         "Three-engine contrast is pose-symmetric; still do **not** claim a universal docking decision rule.",
+        "See `GNINA_POCKET_MATCHED_BEST9_VERDICT_V1.md` for the directional numbers actually",
+        "cited alongside Table 2; do not cite this worst-pocket table as \"pocket-matched\".",
         "",
     ]
     md.write_text("\n".join(lines))

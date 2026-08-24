@@ -1,7 +1,19 @@
-# GNINA 9-pose fairness — STATUS: NOT RUN (environment skip)
+# GNINA 9-pose fairness — STATUS: SUPERSEDED (now done, 2026-08-24)
 
-**Date:** 2026-08-21  
-**Ask:** rescore all Vina modes (typically 9) with GNINA CNN so RTM (best-of-9) and GNINA are comparable.
+**This skip note is historical.** The user ran the fair best-of-9 GNINA rescore
+locally (outside this cloud environment) and pushed real results on
+2026-08-24. See [`GNINA_BEST9_STATUS.md`](GNINA_BEST9_STATUS.md) (worst-pocket
+comparison) and
+[`GNINA_POCKET_MATCHED_BEST9_VERDICT_V1.md`](GNINA_POCKET_MATCHED_BEST9_VERDICT_V1.md)
+(true directional pocket-matched comparison, comparable to Table 2 Vina).
+Headline: moving GNINA from mode-1 to best-of-9 changes pocket-matched
+summary_min by −0.04 to +0.08 across the K=4 pairs and does not exceed Vina on
+any pair; PIK3CA/mTOR remains the strongest pair. The remainder of this file
+is kept for provenance (why this environment could not run it as of 2026-08-21).
+
+---
+
+**Original note (2026-08-21):** rescore all Vina modes (typically 9) with GNINA CNN so RTM (best-of-9) and GNINA are comparable.
 
 ## Why this was not executed here
 
