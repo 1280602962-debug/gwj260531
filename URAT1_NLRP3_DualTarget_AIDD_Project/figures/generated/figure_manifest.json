@@ -1,79 +1,83 @@
 {
+  "journal": "Journal of Computer-Aided Molecular Design",
   "style": {
-    "font": "Arial 8 pt",
+    "font": "Liberation Sans 8 pt (Arial-metric substitute)",
+    "columns_mm": {
+      "single": 84,
+      "double": 174
+    },
     "grid": "none",
-    "notes": "NLRP3 ML figures plus P2 dual-dock complete-case n=1580. Raw Pareto is audit-only."
+    "palette": "Okabe\u2013Ito",
+    "pdf_fonttype": 42,
+    "tiff_dpi": "not written (vector PDF is the Springer line-art format)",
+    "png_dpi": 300
   },
+  "data_lock": "/workspace/URAT1_NLRP3_DualTarget_AIDD_Project/figures/generated/DATA_LOCK.json",
+  "captions": "/workspace/URAT1_NLRP3_DualTarget_AIDD_Project/figures/generated/CAPTIONS.md",
+  "note": "Seven chemistry-filtered names are an audit of a failed ranker, not dual-node candidates. No MD trajectories. No fabricated OOF ROC.",
   "figures": [
     {
-      "id": "nlrp3_fig02a",
-      "target": "NLRP3",
-      "description": "P(active) distribution (n=8319)",
-      "pdf": "/workspace/URAT1_NLRP3_DualTarget_AIDD_Project/figures/generated/nlrp3/nlrp3_fig02a_pactive_histogram.pdf",
-      "png": "/workspace/URAT1_NLRP3_DualTarget_AIDD_Project/figures/generated/nlrp3/nlrp3_fig02a_pactive_histogram.png"
+      "id": "fig01",
+      "panel": "main",
+      "description": "P0\u2013P5 EF@1% True vs Random and lesinurad self-dock RMSD",
+      "pdf": "/workspace/URAT1_NLRP3_DualTarget_AIDD_Project/figures/generated/main/fig01_protocol_enrichment_selfdock.pdf",
+      "png": "/workspace/URAT1_NLRP3_DualTarget_AIDD_Project/figures/generated/main/fig01_protocol_enrichment_selfdock.png"
     },
     {
-      "id": "nlrp3_fig02b",
-      "target": "NLRP3",
-      "description": "Reference compounds by role",
-      "pdf": "/workspace/URAT1_NLRP3_DualTarget_AIDD_Project/figures/generated/nlrp3/nlrp3_fig02b_control_compounds.pdf",
-      "png": "/workspace/URAT1_NLRP3_DualTarget_AIDD_Project/figures/generated/nlrp3/nlrp3_fig02b_control_compounds.png"
+      "id": "fig02",
+      "panel": "main",
+      "description": "Clinical-library funnel and P2 dual-percentile scatter",
+      "pdf": "/workspace/URAT1_NLRP3_DualTarget_AIDD_Project/figures/generated/main/fig02_funnel_dual_percentiles.pdf",
+      "png": "/workspace/URAT1_NLRP3_DualTarget_AIDD_Project/figures/generated/main/fig02_funnel_dual_percentiles.png"
     },
     {
-      "id": "nlrp3_fig02c",
-      "target": "NLRP3",
-      "description": "P(active) by clinical phase",
-      "pdf": "/workspace/URAT1_NLRP3_DualTarget_AIDD_Project/figures/generated/nlrp3/nlrp3_fig02c_phase_boxplot.pdf",
-      "png": "/workspace/URAT1_NLRP3_DualTarget_AIDD_Project/figures/generated/nlrp3/nlrp3_fig02c_phase_boxplot.png"
+      "id": "fig03",
+      "panel": "main",
+      "description": "Production-pose QC: Arg477 salt-bridge geometry and COM displacements",
+      "pdf": "/workspace/URAT1_NLRP3_DualTarget_AIDD_Project/figures/generated/main/fig03_pose_qc.pdf",
+      "png": "/workspace/URAT1_NLRP3_DualTarget_AIDD_Project/figures/generated/main/fig03_pose_qc.png"
     },
     {
-      "id": "nlrp3_fig02d",
-      "target": "NLRP3",
-      "description": "NLRP3 prescreen funnel",
-      "pdf": "/workspace/URAT1_NLRP3_DualTarget_AIDD_Project/figures/generated/nlrp3/nlrp3_fig02d_screening_funnel.pdf",
-      "png": "/workspace/URAT1_NLRP3_DualTarget_AIDD_Project/figures/generated/nlrp3/nlrp3_fig02d_screening_funnel.png"
+      "id": "fig04",
+      "panel": "main",
+      "description": "TrueDecoy active-set membership, scaffold bias, and decoy Tanimoto audit",
+      "pdf": "/workspace/URAT1_NLRP3_DualTarget_AIDD_Project/figures/generated/main/fig04_active_set_decoy_leakage.pdf",
+      "png": "/workspace/URAT1_NLRP3_DualTarget_AIDD_Project/figures/generated/main/fig04_active_set_decoy_leakage.png"
     },
     {
-      "id": "fig03_p2_dual",
-      "target": "both",
-      "description": "P2 dual-dock percentiles with audit Pareto and follow-up",
-      "pdf": "/workspace/URAT1_NLRP3_DualTarget_AIDD_Project/figures/generated/main/fig03_p2_dual_percentiles.pdf",
-      "png": "/workspace/URAT1_NLRP3_DualTarget_AIDD_Project/figures/generated/main/fig03_p2_dual_percentiles.png"
+      "id": "figS01",
+      "panel": "si",
+      "description": "Nomination-gate sensitivity (does not replace \u03c4 = 90)",
+      "pdf": "/workspace/URAT1_NLRP3_DualTarget_AIDD_Project/figures/generated/si/figS01_gate_sensitivity.pdf",
+      "png": "/workspace/URAT1_NLRP3_DualTarget_AIDD_Project/figures/generated/si/figS01_gate_sensitivity.png"
     },
     {
-      "id": "si_data_asymmetry",
-      "target": "both",
-      "description": "Asymmetric dual-target data design",
-      "pdf": "/workspace/URAT1_NLRP3_DualTarget_AIDD_Project/figures/generated/si/si_data_asymmetry.pdf",
-      "png": "/workspace/URAT1_NLRP3_DualTarget_AIDD_Project/figures/generated/si/si_data_asymmetry.png"
+      "id": "figS02",
+      "panel": "si",
+      "description": "P0\u2013P5 ROC-AUC on TrueDecoy and RandomDecoy",
+      "pdf": "/workspace/URAT1_NLRP3_DualTarget_AIDD_Project/figures/generated/si/figS02_protocol_auc.pdf",
+      "png": "/workspace/URAT1_NLRP3_DualTarget_AIDD_Project/figures/generated/si/figS02_protocol_auc.png"
     },
     {
-      "id": "si_library_phase",
-      "target": "NLRP3",
-      "description": "Clinical library phase composition",
-      "pdf": "/workspace/URAT1_NLRP3_DualTarget_AIDD_Project/figures/generated/si/si_repurposing_library_phase.pdf",
-      "png": "/workspace/URAT1_NLRP3_DualTarget_AIDD_Project/figures/generated/si/si_repurposing_library_phase.png"
+      "id": "figS03",
+      "panel": "si",
+      "description": "NLRP3 assay-conditioned classifier scaffold-CV fold AUROC/AUPRC",
+      "pdf": "/workspace/URAT1_NLRP3_DualTarget_AIDD_Project/figures/generated/si/figS03_nlrp3_fold_metrics.pdf",
+      "png": "/workspace/URAT1_NLRP3_DualTarget_AIDD_Project/figures/generated/si/figS03_nlrp3_fold_metrics.png"
     },
     {
-      "id": "fig02_composite",
-      "target": "NLRP3",
-      "description": "Main Fig 2 composite (NLRP3 screening)",
-      "pdf": "/workspace/URAT1_NLRP3_DualTarget_AIDD_Project/figures/generated/main/fig02_nlrp3_screening_composite.pdf",
-      "png": "/workspace/URAT1_NLRP3_DualTarget_AIDD_Project/figures/generated/main/fig02_nlrp3_screening_composite.png"
+      "id": "figS04",
+      "panel": "si",
+      "description": "lesinurad, verinurad, colchicine P2 percentiles in the 1,580-row table",
+      "pdf": "/workspace/URAT1_NLRP3_DualTarget_AIDD_Project/figures/generated/si/figS04_known_gout_percentiles.pdf",
+      "png": "/workspace/URAT1_NLRP3_DualTarget_AIDD_Project/figures/generated/si/figS04_known_gout_percentiles.png"
     },
     {
-      "id": "si_nlrp3_roc_pr",
-      "target": "NLRP3",
-      "description": "NLRP3 scaffold-CV OOF ROC/PR",
-      "pdf": "/workspace/URAT1_NLRP3_DualTarget_AIDD_Project/figures/generated/si/si_nlrp3_oof_roc_pr.pdf",
-      "png": "/workspace/URAT1_NLRP3_DualTarget_AIDD_Project/figures/generated/si/si_nlrp3_oof_roc_pr.png"
-    },
-    {
-      "id": "si_urat1_parity",
-      "target": "URAT1",
-      "description": "URAT1 OOF parity plot",
-      "pdf": "/workspace/URAT1_NLRP3_DualTarget_AIDD_Project/figures/generated/si/si_urat1_oof_parity.pdf",
-      "png": "/workspace/URAT1_NLRP3_DualTarget_AIDD_Project/figures/generated/si/si_urat1_oof_parity.png"
+      "id": "figS05",
+      "panel": "si",
+      "description": "NLRP3 q_N distribution on the 8,319-compound clinical library",
+      "pdf": "/workspace/URAT1_NLRP3_DualTarget_AIDD_Project/figures/generated/si/figS05_nlrp3_qN_histogram.pdf",
+      "png": "/workspace/URAT1_NLRP3_DualTarget_AIDD_Project/figures/generated/si/figS05_nlrp3_qN_histogram.png"
     }
   ]
 }

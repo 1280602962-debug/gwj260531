@@ -42,6 +42,20 @@
 4. Discussion — 原目的不成立；标签失败与打分失败分开写；百分位 AND 不能提名双节点；酸根/Arg477 只作前瞻，不回写主表  
 5. Conclusions — 对接不是 URAT1 活性检索器；7 个名字是审计产出；不鉴定双靶候选
 
+## 主图与附图（JCAMD）
+
+由 `scripts/plot_jcamd_publication_figures.py` 从归档文件生成并断言。图注：`figures/generated/CAPTIONS.md`。图面不叠字。
+
+| 图 | 文件 | 对应结果 |
+|----|------|----------|
+| Fig. 1 | `figures/generated/main/fig01_protocol_enrichment_selfdock` | R2：P0–P5 EF@1% + lesinurad 自对接 |
+| Fig. 2 | `figures/generated/main/fig02_funnel_dual_percentiles` | R4/R5：漏斗与双百分位审计 |
+| Fig. 3 | `figures/generated/main/fig03_pose_qc` | R6：生产姿 Arg477 / COM |
+| Fig. 4 | `figures/generated/main/fig04_active_set_decoy_leakage` | R1/R3：阳性标签病理与诱饵泄漏 |
+| Fig. S1–S5 | `figures/generated/si/` | 门控敏感性、AUC、NLRP3 折间指标、库内对照、\(q_N\) 直方图 |
+
+不画 MD 轨迹；没有 OOF 预测表则不画 ROC 曲线。七个名字在图上标为 chemistry-filtered audit set，不是候选。
+
 ## 主张边界（全文禁止）
 
 - 发现 / 鉴定双靶抑制剂、双口袋、协同、1+1>2、临床推荐  

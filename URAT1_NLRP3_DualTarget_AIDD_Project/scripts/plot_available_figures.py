@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""Clean publication figures: Arial 8 pt, no grid, labels outside plot elements."""
+"""LEGACY NLRP3-only panels. Do not use for JCAMD submission.
+
+Production figures: scripts/plot_jcamd_publication_figures.py
+This script still labels the chemistry-filtered list as follow-up in places.
+"""
 from __future__ import annotations
 
 import json

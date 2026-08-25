@@ -26,6 +26,12 @@ GRID = "#CCCCCC"
 THRESHOLD = "#009E73"
 MUTED = "#AAAAAA"
 WARN = "#CC6677"
+TRUE_DECOY = "#0072B2"
+RANDOM_DECOY = "#E69F00"
+PARETO = "#CC6677"
+AUDIT = "#0072B2"
+KNOWN = "#000000"
+GATE_FILL = "#009E73"
 
 FONT_SIZE_PT = 8
 PANEL_TAG_OFFSET_X = 0.014  # figure coords left of subplot
@@ -45,6 +51,8 @@ def apply_style() -> None:
         {
             "font.family": "sans-serif",
             "font.sans-serif": ["Arial", "Helvetica", "Liberation Sans", "DejaVu Sans"],
+            "mathtext.fontset": "dejavusans",
+            "axes.unicode_minus": False,
             "font.size": FONT_SIZE_PT,
             "axes.labelsize": FONT_SIZE_PT,
             "axes.titlesize": FONT_SIZE_PT,
@@ -330,18 +338,22 @@ def label_hbars_counts(ax, bars, labels: list[str], pad_ratio: float = 0.02) -> 
 
 
 def save_figure(fig: plt.Figure, stem: str, subdir: str = "", tight: bool = True) -> dict[str, str]:
+    """Save PDF (vector, fonts as TrueType) and PNG preview (300 dpi).
+
+    Springer line-art preference is vector PDF. TIFF/600 dpi is not written here
+    because uncompressed TIFFs are tens of megabytes and are not needed in-repo.
+    """
     out_dir = FIG_OUT / subdir if subdir else FIG_OUT
     out_dir.mkdir(parents=True, exist_ok=True)
     paths: dict[str, str] = {}
-    for ext in ("pdf", "png"):
+    kwargs = dict(
+        facecolor="white",
+        bbox_inches="tight" if tight else None,
+        pad_inches=0.15,
+    )
+    for ext, dpi in (("pdf", None), ("png", 300)):
         p = out_dir / f"{stem}.{ext}"
-        fig.savefig(
-            p,
-            dpi=300 if ext == "png" else None,
-            facecolor="white",
-            bbox_inches="tight" if tight else None,
-            pad_inches=0.12,
-        )
+        fig.savefig(p, dpi=dpi, **kwargs)
         paths[ext] = str(p)
     plt.close(fig)
     return paths
