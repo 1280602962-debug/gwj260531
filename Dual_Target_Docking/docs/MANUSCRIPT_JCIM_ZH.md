@@ -51,9 +51,9 @@ DualFourClass-Bench 是具有两条方向主任务的 curated benchmark：dual �
 
 ### 2.1 数据来源与活性数据整理
 
-双靶评价所需的配体活性作为 **experimentally derived activity labels**，通过 ChEMBL Web API 的公开 activity 端点获取。靶对供给审计于 2026-07-23 冻结。pChEMBL 将若干摩尔浓度–响应型测定（如 IC50、Ki、Kd、EC50）转换为近似 −log10 活性尺度，便于大规模公开数据整合。不同 assay 类型、实验条件与测定体系并不等价；本文将 pChEMBL 作为策展中的统一近似，而不解释为同一条件下可直接比较的绝对结合亲和力。
+双靶评价所需的配体活性作为 **experimentally derived activity labels**，通过 ChEMBL Web API 的公开 activity 端点获取。靶对供给审计于 2026-07-23 冻结。pChEMBL 将若干经标准化的定量效力或亲和力测量（如 IC50、EC50、Ki、Kd 和 Potency）转换为近似 −log10 活性尺度，便于大规模公开数据整合。不同 assay 类型、实验条件与测定体系并不等价；本文将 pChEMBL 作为策展中的统一近似，而不解释为同一条件下可直接比较的绝对结合亲和力。
 
-同一配体–靶标若有多条可用 pChEMBL 记录，主策展采用**最大 pChEMBL** 作为一对一代表值。由于 assay 类型、条件与实验体系并不等价，另将活性聚合敏感性作为预先指定的分析：从 ChEMBL activity 端点重拉 assay 级记录，并用重复测定的**中位数**替换最大值（Table S29）。该替代聚合覆盖全部冻结评价面板，但不改变面板成员、对接参数或 Vina 分数；类别比较仍使用 θ = 6.0。任一端缺少有效 pChEMBL 的配体不进入需要双端标签的分析。
+同一配体–靶标若有多条可用 pChEMBL 记录，主策展采用**最大 pChEMBL** 作为一对一代表值。由于 assay 类型、条件与实验体系并不等价，另将活性聚合敏感性作为预先指定的分析：从 ChEMBL activity 端点重拉 assay 级记录，并分别采用该批记录的最大值和中位数进行重新聚合（Table S29）。该替代聚合覆盖全部冻结评价面板，但不改变面板成员、对接参数或 Vina 分数；类别比较仍使用 θ = 6.0。由于一次缓存与 API 数据不一致，EGFR/HER2 的 API-refetched maximum aggregation（0.417）与冻结主面板（0.430）存在轻微差异，因此 A4 数值不直接替代 Table 2 的冻结主结果。任一端缺少有效 pChEMBL 的配体不进入需要双端标签的分析。
 
 ChEMBL 结构常含盐、溶剂化物或多组分形式。对接前按连通片段拆分，并保留重原子数最多的有机片段作为计算母体。
 
@@ -72,7 +72,7 @@ A-only 与 B-only 是选择性硬负样本，不是 DUD/DUD-E 式假定 decoy。
 
 **严格供给审计规则（construction gate，不是全部最终比较的唯一标签）。** Dual：两端 pChEMBL ≥ 6.5。A-only：A ≥ 6.5 且 B ≤ 5.5。B-only 对称。Neither：两端 ≤ 5.5。介于 5.5 与 6.5 的灰区不进入严格审计。该规则用于判断某一靶对在两个方向上是否具有足够的选择性硬负，以支持规模较均衡的面板。审计通过门槛与最终进入评价集的靶对名单见 Results 3.1；金属依赖体系（如 HDAC）按预先声明排除，不作为常规非共价对接主对象。
 
-**正文主比较采用预先统一的 θ = 6.0 标签。** Dual：两端 ≥ θ；A-only：A ≥ θ 且 B < θ；B-only 对称；neither：两端 < θ。建造阶段允许在严格规则下单端选择性过少时改用该单阈值规则凑齐配额；建造规则在抽样前按供给审计冻结，并写入 Table 1。阈值选择服务于可分析配额，不是在观察对接分数后回改标签。作为支持性敏感性分析，在 θ ∈ {5.5, 6.5} 与严格 6.5/5.5 规则下重标四种状态并重算口袋匹配 summary_min（Table S4）。该网格不是与 Table 2 竞争的第二套主标准。样本量过小的格子在 Results 中标记 underpowered，Methods 不预判其数值。
+**正文主比较采用预先统一的 θ = 6.0 标签。** Dual：两端 ≥ θ；A-only：A ≥ θ 且 B < θ；B-only 对称；neither：两端 < θ。严格 6.5/5.5 规则用于 target-pair supply audit 与面板建造；primary analysis 的实验状态标签在 panel construction 前预先统一定义为 θ = 6.0。建造规则在抽样前按供给审计冻结，并写入 Table 1。阈值选择服务于可分析面板，不根据 docking 结果调整。作为支持性敏感性分析，在 θ ∈ {5.5, 6.5} 与严格 6.5/5.5 规则下重标四种状态并重算口袋匹配 summary_min（Table S4）。该网格不是与 Table 2 竞争的第二套主标准。样本量过小的格子在 Results 中标记 underpowered，Methods 不预判其数值。
 
 ### 2.3 DualFourClass-Bench 面板构建
 
@@ -297,13 +297,13 @@ PIK3CA/mTOR 的情况有所不同。加入 heavy-atom count 和 TPSA 后，AUROC
 
 ### 3.4 评价条件敏感性：活性聚合、配体面板与受体实现
 
-主标签使用可用 pChEMBL 的最大值。在对每个已打分配体重新拉取 assay 级记录后，把该聚合换成重复测定的中位数，θ = 6.0 下四状态类别翻转：EGFR/HER2 7/110（标签一致率 103/110 = 93.6%），AChE/BChE 1/95（94/95 = 98.9%），PIK3CA/PIK3CB 1/99（98/99 = 99.0%），PIK3CA/mTOR 0/48（48/48 = 100%）（Table S29）。数值上 max ≠ median 比类别翻转更常见（40/110、13/95、25/99、27/48）。API 重拉标签上，`summary_min` 由 0.417→0.424（EGFR/HER2）、0.606→0.629（AChE/BChE）、0.500→0.500（PIK3CA/PIK3CB）、0.692→0.692（PIK3CA/mTOR）。冻结 Table 2 的 EGFR/HER2 是 0.430 而非 0.417，因为一处缓存/API 不一致（`EH120_060` / CHEMBL24828）在 API max 下把该配体标成 dual；相对冻结表，中位数聚合仍使 EGFR/HER2 为 0.424。靶对排序与方向性主结论因此对这一聚合选择不敏感。assay 间异质性仍然存在，因为 pChEMBL 并非 assay-equivalent。
+主标签使用可用 pChEMBL 的最大值。为检验活性聚合规则对结果的敏感性，我们重新从 ChEMBL activity 端点获取冻结面板配体的 assay-level pChEMBL，并分别采用该批记录的最大值和中位数进行重新聚合。该分析用于比较两种聚合规则，而不改变冻结面板成员、对接参数或主分析 Vina 分数。由于一次缓存与 API 数据不一致（`EH120_060` / CHEMBL24828），EGFR/HER2 的 API-refetched maximum aggregation（0.417）与冻结主面板（0.430）存在轻微差异，因此 A4 数值不直接替代 Table 2 的冻结主结果。中位数聚合改变了 7/110、1/95、1/99 和 0/48 个配体状态分配，标签一致率分别为 93.6%、98.9%、99.0% 和 100%（Table S29）。尽管标签变化有限，靶对 `summary_min` 估计值仅适度变化（0.417→0.424、0.606→0.629、0.500→0.500 和 0.692→0.692），表明主要基准解释对该聚合选择大体不敏感。Assay 间异质性仍然存在，因为 pChEMBL 值并非 assay-equivalent。PIK3CA/mTOR 在 API-max 和 API-median 聚合下均保持 0.692 不变。
 
 为判断 PIK3CA/mTOR 的较高 summary_min 是否仅由特定 panel 构成或 docking 搜索参数造成，我们进行了 ligand-panel 和 protocol-level sensitivity analyses（Figure S5）。将 exhaustiveness 从 16 降至 8 后，summary_min 从 0.692 降至 0.660，变化约 0.03，明显小于不同 target pairs 之间的性能差异（Figure S1D）。
 
 在包含 PM48 全部配体并扩展至实际 n = 115 的 PM110 面板中（分析用 dual / A_only / B_only 各 30），Vina summary_min 为 0.648 [0.51, 0.76]，相比 PM48 的 0.692 下降约 0.04，但排序趋势保持一致（Figure S1C）。这一同向结果提示点估计并非完全由 PM48 的具体成员构成所决定，但 PM110 是嵌套 stability check，不是独立验证集。同面板 RTMScore 为 0.576；GNINA best-of-9 为 0.613 [0.46, 0.74]，PM48 同口径为 0.655 [0.43, 0.81]，仍不高于同面板 Vina。
 
-更重要的是，在未参与主面板构建和协议调优的 unused-pool holdout 中（每对 20 / 20 / 20，种子 20260731；EGFR/HER2 不具备同等配额，记为 not eligible），PIK3CA/mTOR 的 summary_min 进一步达到 0.765 [0.603, 0.891]，高于主面板的 0.692；AChE/BChE 为 0.618 [0.422, 0.759]，与主面板接近但 confidence interval 跨越 0.5；PIK3CA/PIK3CB 则下降至 0.425 [0.241, 0.618]（Table S8 / Table S16）。PIK3CA/PIK3CB holdout 尝试 60 个配体，59 个两端得分；HOAP_028 因 AutoDock 原子类型 `B` 不支持（含硼）而两端失败（Table S27）。AChE 与 PIK3CA/mTOR holdout 为 60/60 成功。硼失败是引擎化学覆盖限制，不是 silent missingness；AUROC 以可处理化合物为条件。该 holdout 共享同一 ChEMBL 抓取批次，不能读成跨数据库独立验证；其作用是支持所观察信号在未参与建面配体池中的持续性。
+在未参与主面板构建和协议调优的 unused-pool holdout 中（每对 20 / 20 / 20，种子 20260731；EGFR/HER2 不具备同等配额，记为 not eligible），PIK3CA/mTOR 的 summary_min 进一步达到 0.765 [0.603, 0.891]，高于主面板的 0.692；AChE/BChE 为 0.618 [0.422, 0.759]，与主面板接近但 confidence interval 跨越 0.5；PIK3CA/PIK3CB 则下降至 0.425 [0.241, 0.618]（Table S8 / Table S16）。PIK3CA/PIK3CB holdout 尝试 60 个配体，59 个两端得分；HOAP_028 因 AutoDock 原子类型 `B` 不支持（含硼）而两端失败（Table S27）。AChE 与 PIK3CA/mTOR holdout 为 60/60 成功。硼失败是引擎化学覆盖限制，不是 silent missingness；AUROC 以可处理化合物为条件。该 holdout 共享同一 ChEMBL 抓取批次，不能读成跨数据库独立验证；其作用是支持所观察信号在未参与建面配体池中的持续性。
 
 因而，PIK3CA/mTOR 的方向性趋势在同一 ChEMBL 体系的未参与建面配体中仍可观察，而 PIK3CA/PIK3CB 的趋势未能保持。在当前评价中，这些点估计仍依赖 target-pair context，不能视为可跨靶对迁移的属性。
 
@@ -419,7 +419,7 @@ PIK3CA/mTOR 提供了本研究中最值得进一步研究、但也最需要谨�
 
 (10) Zhou, X.; Guan, J.; Zhang, Y.; Peng, X.; Wang, L.; Ma, J. Reprogramming Pretrained Target-Specific Diffusion Models for Dual-Target Drug Design. In *The Thirty-eighth Annual Conference on Neural Information Processing Systems (NeurIPS 2024)*; 2024. arXiv:2410.20688.
 
-(11) Wu, J.; Qiao, A.; Wang, Z.; Wei, Z.; Chen, S. FuseDiff: Symmetry-Preserving Joint Diffusion for Dual-Target Structure-Based Drug Design. arXiv:2603.05567, 2026. (preprint)
+(11) Wu, J.; Qiao, A.; Wang, Z.; Wei, Z.; Chen, S. FuseDiff: Symmetry-Preserving Joint Diffusion for Dual-Target Structure-Based Drug Design. In *Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining, Vol. 2*; ACM: New York, 2026; pp 12432–12443. DOI: 10.1145/3770855.3819050.
 
 (12) Tran-Nguyen, V.-K.; Ballester, P. J. Beware of Simple Methods for Structure-Based Virtual Screening: The Critical Importance of Broader Comparisons. *J. Chem. Inf. Model.* **2023**, *63*, 1401–1405. DOI: 10.1021/acs.jcim.3c00218.
 

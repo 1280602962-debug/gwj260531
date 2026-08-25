@@ -102,7 +102,7 @@ PIK3CA/mTOR 的 boxed 说法：
 | 换 mTOR | **0.639**；CI 含 0.5 | S9 |
 | Cognate QC | 4JPS 0.607 Å、5DXT 0.624 Å、4JSX 0.515 Å | S9 |
 | 口袋局域 Cα | 5DXT **0.343 Å** 仍使 PM 到 0.505；同一晶体使 PIK3CB 上升 | Table S10 |
-| A4 max vs median | 翻转 7/110、1/95、1/99、0/48；pair-level 基本不动 | Table S29 |
+| A4 max vs median | 翻转 7/110、1/95、1/99、0/48；pair-level 基本不动。EGFR 冻结 0.430 ≠ API-max 0.417（EH120_060）；A4 不替代 Table 2。数值 max≠median 只放 SI。 | Table S29 |
 
 **讨论应写：** holdout **supports persistence of the observed signal in an unused ligand pool**，不验证 benchmark。PM = limited directional signal + ligand-panel persistence，不是 receptor invariance。同一 PIK3CA 扰动可升可降。pose QC ≠ screening invariance。PAB_034 100/99/1 timeout。
 

@@ -29,7 +29,7 @@
 
 10. Zhou, X.; Guan, J.; Zhang, Y.; Peng, X.; Wang, L.; Ma, J. Reprogramming Pretrained Target-Specific Diffusion Models for Dual-Target Drug Design. In *The Thirty-eighth Annual Conference on Neural Information Processing Systems (NeurIPS 2024)*; 2024. arXiv: [2410.20688](https://arxiv.org/abs/2410.20688). (Author-provided booktitle from the official DualDiff repository; the method name DualDiff appears **inside** this paper; do not invent a separate paper titled “DualDiff”. Distinct from Zhou, Li, and Hou 2013.)
 
-11. Wu, J.; Qiao, A.; Wang, Z.; Wei, Z.; Chen, S. FuseDiff: Symmetry-Preserving Joint Diffusion for Dual-Target Structure-Based Drug Design. arXiv: [2603.05567](https://arxiv.org/abs/2603.05567), **2026**. (Preprint; not a journal article at the time of this draft.)
+11. Wu, J.; Qiao, A.; Wang, Z.; Wei, Z.; Chen, S. FuseDiff: Symmetry-Preserving Joint Diffusion for Dual-Target Structure-Based Drug Design. In *Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining, Vol. 2*; ACM: New York, **2026**; pp 12432–12443. DOI: 10.1145/3770855.3819050. arXiv: [2603.05567](https://arxiv.org/abs/2603.05567).
 
 ---
 

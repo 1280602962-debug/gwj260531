@@ -121,7 +121,7 @@ python3 data/jcim_bench_v0/scripts/plot_forest_ci_v1.py
 |----|------|------|----------|
 | E1 | Abstract | ✅ 中英稿 | formulation + chemistry + A4/B5；低于 Results 主张强度 |
 | E2 | Introduction | ✅ 中英稿 | 三个问题驱动小节；K=4 不在 Intro 写死；DualDiff/FuseDiff 为互补评测而非竞争对象 |
-| E3 | Methods 2.1–2.13 协议化重构 | ✅ 中英稿 | 2.9 已压缩；single-target enrichment 降为 supporting context；four-state + directional primary；wrong-pocket = falsification；holdout ≠ external validation |
+| E3 | Methods 2.1–2.13 协议化重构 | ✅ 中英稿 | 2.1 写明冻结 max 与 API-refetch A4 口径（EGFR 0.430 vs 0.417，A4 不替代 Table 2）；2.2 严格规则=供给门、θ=6.0=主标签；2.9 已压缩；holdout ≠ external validation |
 | E6 | Results 3.1–3.6 | ✅ 草稿 | 已按证据链压缩为 6 节：[`RESULTS_DRAFT_ZH_JCIM_V1.md`](RESULTS_DRAFT_ZH_JCIM_V1.md) + [`RESULTS_SECTION_JCIM_EN_V1.md`](RESULTS_SECTION_JCIM_EN_V1.md)。旧 3.8 面板重抽样已移出 Results |
 | E7 | Discussion / Limitations | ✅ 中英稿 | [`DISCUSSION_DRAFT_ZH_JCIM_V1.md`](DISCUSSION_DRAFT_ZH_JCIM_V1.md) + [`DISCUSSION_SECTION_JCIM_EN_V1.md`](DISCUSSION_SECTION_JCIM_EN_V1.md)；引用 [`DISCUSSION_REFS_JCIM_V1.md`](DISCUSSION_REFS_JCIM_V1.md)；正文局限仅 5 条 |
 | E8 | Conclusions | ✅ 中英稿 | 两段收束：[`CONCLUSIONS_DRAFT_ZH_JCIM_V1.md`](CONCLUSIONS_DRAFT_ZH_JCIM_V1.md) + [`CONCLUSIONS_SECTION_JCIM_EN_V1.md`](CONCLUSIONS_SECTION_JCIM_EN_V1.md)。不写 validated/robust/通用决策；保留 0.430–0.692；错口袋反转写明 CI 含 0 |

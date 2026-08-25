@@ -4,9 +4,9 @@
 
 ### 2.1 数据来源与活性数据整理
 
-双靶评价所需的配体活性作为 **experimentally derived activity labels**，通过 ChEMBL Web API 的公开 activity 端点获取。靶对供给审计于 2026-07-23 冻结。pChEMBL 将若干摩尔浓度–响应型测定（如 IC50、Ki、Kd、EC50）转换为近似 −log10 活性尺度，便于大规模公开数据整合。不同 assay 类型、实验条件与测定体系并不等价；本文将 pChEMBL 作为策展中的统一近似，而不解释为同一条件下可直接比较的绝对结合亲和力。
+双靶评价所需的配体活性作为 **experimentally derived activity labels**，通过 ChEMBL Web API 的公开 activity 端点获取。靶对供给审计于 2026-07-23 冻结。pChEMBL 将若干经标准化的定量效力或亲和力测量（如 IC50、EC50、Ki、Kd 和 Potency）转换为近似 −log10 活性尺度，便于大规模公开数据整合。不同 assay 类型、实验条件与测定体系并不等价；本文将 pChEMBL 作为策展中的统一近似，而不解释为同一条件下可直接比较的绝对结合亲和力。
 
-同一配体–靶标若有多条可用 pChEMBL 记录，主策展采用**最大 pChEMBL** 作为一对一代表值。由于 assay 类型、条件与实验体系并不等价，另将活性聚合敏感性作为预先指定的分析：从 ChEMBL activity 端点重拉 assay 级记录，并用重复测定的**中位数**替换最大值（Table S29）。该替代聚合覆盖全部冻结评价面板，但不改变面板成员、对接参数或 Vina 分数；类别比较仍使用 θ = 6.0。任一端缺少有效 pChEMBL 的配体不进入需要双端标签的分析。
+同一配体–靶标若有多条可用 pChEMBL 记录，主策展采用**最大 pChEMBL** 作为一对一代表值。由于 assay 类型、条件与实验体系并不等价，另将活性聚合敏感性作为预先指定的分析：从 ChEMBL activity 端点重拉 assay 级记录，并分别采用该批记录的最大值和中位数进行重新聚合（Table S29）。该替代聚合覆盖全部冻结评价面板，但不改变面板成员、对接参数或 Vina 分数；类别比较仍使用 θ = 6.0。由于一次缓存与 API 数据不一致，EGFR/HER2 的 API-refetched maximum aggregation（0.417）与冻结主面板（0.430）存在轻微差异，因此 A4 数值不直接替代 Table 2 的冻结主结果。任一端缺少有效 pChEMBL 的配体不进入需要双端标签的分析。
 
 ChEMBL 结构常含盐、溶剂化物或多组分形式。对接前按连通片段拆分，并保留重原子数最多的有机片段作为计算母体。
 
@@ -25,7 +25,7 @@ A-only 与 B-only 是选择性硬负样本，不是 DUD/DUD-E 式假定 decoy。
 
 **严格供给审计规则（construction gate，不是全部最终比较的唯一标签）。** Dual：两端 pChEMBL ≥ 6.5。A-only：A ≥ 6.5 且 B ≤ 5.5。B-only 对称。Neither：两端 ≤ 5.5。介于 5.5 与 6.5 的灰区不进入严格审计。该规则用于判断某一靶对在两个方向上是否具有足够的选择性硬负，以支持规模较均衡的面板。审计通过门槛与最终进入评价集的靶对名单见 Results 3.1；金属依赖体系（如 HDAC）按预先声明排除，不作为常规非共价对接主对象。
 
-**正文主比较采用预先统一的 θ = 6.0 标签。** Dual：两端 ≥ θ；A-only：A ≥ θ 且 B < θ；B-only 对称；neither：两端 < θ。建造阶段允许在严格规则下单端选择性过少时改用该单阈值规则凑齐配额；建造规则在抽样前按供给审计冻结，并写入 Table 1。阈值选择服务于可分析配额，不是在观察对接分数后回改标签。作为支持性敏感性分析，在 θ ∈ {5.5, 6.5} 与严格 6.5/5.5 规则下重标四种状态并重算口袋匹配 summary_min（Table S4）。该网格不是与 Table 2 竞争的第二套主标准。样本量过小的格子在 Results 中标记 underpowered，Methods 不预判其数值。
+**正文主比较采用预先统一的 θ = 6.0 标签。** Dual：两端 ≥ θ；A-only：A ≥ θ 且 B < θ；B-only 对称；neither：两端 < θ。严格 6.5/5.5 规则用于 target-pair supply audit 与面板建造；primary analysis 的实验状态标签在 panel construction 前预先统一定义为 θ = 6.0。建造规则在抽样前按供给审计冻结，并写入 Table 1。阈值选择服务于可分析面板，不根据 docking 结果调整。作为支持性敏感性分析，在 θ ∈ {5.5, 6.5} 与严格 6.5/5.5 规则下重标四种状态并重算口袋匹配 summary_min（Table S4）。该网格不是与 Table 2 竞争的第二套主标准。样本量过小的格子在 Results 中标记 underpowered，Methods 不预判其数值。
 
 ### 2.3 DualFourClass-Bench 面板构建
 

@@ -53,4 +53,4 @@ DualFourClass-Bench 是具有两条方向主任务的 curated benchmark：dual �
 [^8]: Su et al., *J. Chem. Inf. Model.* **2019**, *59*, 895–913. DOI: 10.1021/acs.jcim.8b00545. (CASF-2016)
 [^9]: Zhou, Li, Hou, *J. Chem. Inf. Model.* **2013**, *53*, 982–996. DOI: 10.1021/ci400065e. 四对激酶 dual-target docking evaluation；inhibitor vs noninhibitor；结构依赖；高 false-positive。
 [^10]: Zhou, Guan et al., *The Thirty-eighth Annual Conference on Neural Information Processing Systems (NeurIPS 2024)*; arXiv:2410.20688. DualDiff；Dual High Affinity 定义为两端均优于参考配体。与 [^9] 不是同一篇 Zhou。
-[^11]: Wu et al., arXiv:2603.05567, 2026 (preprint). FuseDiff；独立测试集为 DualDiff benchmark (DDF)。
+[^11]: Wu et al., *Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining, Vol. 2*; ACM: New York, 2026; pp 12432–12443. DOI: 10.1145/3770855.3819050. FuseDiff；独立测试集为 DualDiff benchmark (DDF)。

@@ -64,13 +64,13 @@ PIK3CA/mTOR 的情况有所不同。加入 heavy-atom count 和 TPSA 后，AUROC
 
 ### 3.4 评价条件敏感性：活性聚合、配体面板与受体实现
 
-主标签使用可用 pChEMBL 的最大值。在对每个已打分配体重新拉取 assay 级记录后，把该聚合换成重复测定的中位数，θ = 6.0 下四状态类别翻转：EGFR/HER2 7/110（标签一致率 103/110 = 93.6%），AChE/BChE 1/95（94/95 = 98.9%），PIK3CA/PIK3CB 1/99（98/99 = 99.0%），PIK3CA/mTOR 0/48（48/48 = 100%）（Table S29）。数值上 max ≠ median 比类别翻转更常见（40/110、13/95、25/99、27/48）。API 重拉标签上，`summary_min` 由 0.417→0.424（EGFR/HER2）、0.606→0.629（AChE/BChE）、0.500→0.500（PIK3CA/PIK3CB）、0.692→0.692（PIK3CA/mTOR）。冻结 Table 2 的 EGFR/HER2 是 0.430 而非 0.417，因为一处缓存/API 不一致（`EH120_060` / CHEMBL24828）在 API max 下把该配体标成 dual；相对冻结表，中位数聚合仍使 EGFR/HER2 为 0.424。靶对排序与方向性主结论因此对这一聚合选择不敏感。assay 间异质性仍然存在，因为 pChEMBL 并非 assay-equivalent。
+主标签使用可用 pChEMBL 的最大值。为检验活性聚合规则对结果的敏感性，我们重新从 ChEMBL activity 端点获取冻结面板配体的 assay-level pChEMBL，并分别采用该批记录的最大值和中位数进行重新聚合。该分析用于比较两种聚合规则，而不改变冻结面板成员、对接参数或主分析 Vina 分数。由于一次缓存与 API 数据不一致（`EH120_060` / CHEMBL24828），EGFR/HER2 的 API-refetched maximum aggregation（0.417）与冻结主面板（0.430）存在轻微差异，因此 A4 数值不直接替代 Table 2 的冻结主结果。中位数聚合改变了 7/110、1/95、1/99 和 0/48 个配体状态分配，标签一致率分别为 93.6%、98.9%、99.0% 和 100%（Table S29）。尽管标签变化有限，靶对 `summary_min` 估计值仅适度变化（0.417→0.424、0.606→0.629、0.500→0.500 和 0.692→0.692），表明主要基准解释对该聚合选择大体不敏感。Assay 间异质性仍然存在，因为 pChEMBL 值并非 assay-equivalent。PIK3CA/mTOR 在 API-max 和 API-median 聚合下均保持 0.692 不变。
 
 为判断 PIK3CA/mTOR 的较高 summary_min 是否仅由特定 panel 构成或 docking 搜索参数造成，我们进行了 ligand-panel 和 protocol-level sensitivity analyses（Figure S5）。将 exhaustiveness 从 16 降至 8 后，summary_min 从 0.692 降至 0.660，变化约 0.03，明显小于不同 target pairs 之间的性能差异（Figure S1D）。
 
 在包含 PM48 全部配体并扩展至实际 n = 115 的 PM110 面板中（分析用 dual / A_only / B_only 各 30），Vina summary_min 为 0.648 [0.51, 0.76]，相比 PM48 的 0.692 下降约 0.04，但排序趋势保持一致（Figure S1C）。这一同向结果提示点估计并非完全由 PM48 的具体成员构成所决定，但 PM110 是嵌套 stability check，不是独立验证集。同面板 RTMScore 为 0.576；GNINA best-of-9 为 0.613 [0.46, 0.74]，PM48 同口径为 0.655 [0.43, 0.81]，仍不高于同面板 Vina。
 
-更重要的是，在未参与主面板构建和协议调优的 unused-pool holdout 中（每对 20 / 20 / 20，种子 20260731；EGFR/HER2 不具备同等配额，记为 not eligible），PIK3CA/mTOR 的 summary_min 进一步达到 0.765 [0.603, 0.891]，高于主面板的 0.692；AChE/BChE 为 0.618 [0.422, 0.759]，与主面板接近但 confidence interval 跨越 0.5；PIK3CA/PIK3CB 则下降至 0.425 [0.241, 0.618]（Table S8 / Table S16）。PIK3CA/PIK3CB holdout 尝试 60 个配体，59 个两端得分；HOAP_028 因 AutoDock 原子类型 `B` 不支持（含硼）而两端失败（Table S27）。AChE 与 PIK3CA/mTOR holdout 为 60/60 成功。硼失败是引擎化学覆盖限制，不是 silent missingness；AUROC 以可处理化合物为条件。该 holdout 共享同一 ChEMBL 抓取批次，不能读成跨数据库独立验证；其作用是支持所观察信号在未参与建面配体池中的持续性。
+在未参与主面板构建和协议调优的 unused-pool holdout 中（每对 20 / 20 / 20，种子 20260731；EGFR/HER2 不具备同等配额，记为 not eligible），PIK3CA/mTOR 的 summary_min 进一步达到 0.765 [0.603, 0.891]，高于主面板的 0.692；AChE/BChE 为 0.618 [0.422, 0.759]，与主面板接近但 confidence interval 跨越 0.5；PIK3CA/PIK3CB 则下降至 0.425 [0.241, 0.618]（Table S8 / Table S16）。PIK3CA/PIK3CB holdout 尝试 60 个配体，59 个两端得分；HOAP_028 因 AutoDock 原子类型 `B` 不支持（含硼）而两端失败（Table S27）。AChE 与 PIK3CA/mTOR holdout 为 60/60 成功。硼失败是引擎化学覆盖限制，不是 silent missingness；AUROC 以可处理化合物为条件。该 holdout 共享同一 ChEMBL 抓取批次，不能读成跨数据库独立验证；其作用是支持所观察信号在未参与建面配体池中的持续性。
 
 因而，PIK3CA/mTOR 的方向性趋势在同一 ChEMBL 体系的未参与建面配体中仍可观察，而 PIK3CA/PIK3CB 的趋势未能保持。在当前评价中，这些点估计仍依赖 target-pair context，不能视为可跨靶对迁移的属性。
 
