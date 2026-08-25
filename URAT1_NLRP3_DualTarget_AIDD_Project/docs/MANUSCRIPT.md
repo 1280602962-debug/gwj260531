@@ -14,6 +14,7 @@
 | 引言正文 | [`INTRO_DRAFT_CN.md`](INTRO_DRAFT_CN.md) |
 | Methods 正文 | [`METHODS_DRAFT_CN.md`](METHODS_DRAFT_CN.md) |
 | Results 正文 | [`RESULTS_DRAFT_CN.md`](RESULTS_DRAFT_CN.md) |
+| 结论正文 | [`CONCLUSIONS_DRAFT_CN.md`](CONCLUSIONS_DRAFT_CN.md) |
 | 协议锁定表 | [`PROTOCOL_SELECTION_RESULT.md`](PROTOCOL_SELECTION_RESULT.md) |
 | 补充分析（assay 重叠 / EF 区间 / MCC950@7ALV） | [`SI_SUPPLEMENT_ANALYSES.md`](SI_SUPPLEMENT_ANALYSES.md) |
 | 自对接烟雾（pose vs 排序） | [`REDOCK_SMOKE_ANALYSIS.md`](REDOCK_SMOKE_ANALYSIS.md) |
@@ -33,7 +34,7 @@
    - R3 裸 Pareto 4（大环，审计）vs 双结构门控 51 / 优选 7；化学空间邻近性判据对百分位选择不敏感；跟进 GSK-3008348 + Vecabrutinib  
    - R4 姿态 QC（7 个优选均在口袋内）；MD 轨迹未报数值  
 4. Discussion — 假说边界；Unlike 湿法双靶与 PLK1 文；P2 Top-1 不是构象金标准；NLRP3 侧缺 self-docking 的局限  
-5. Conclusions
+5. Conclusions — [`CONCLUSIONS_DRAFT_CN.md`](CONCLUSIONS_DRAFT_CN.md)：7 个优选计算候选；跟进 GSK-3008348（URAT1 侧）与 Vecabrutinib（NLRP3 侧）；不是双靶抑制剂
 
 ## 主张边界（全文禁止）
 
