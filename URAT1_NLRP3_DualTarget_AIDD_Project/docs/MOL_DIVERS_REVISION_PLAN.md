@@ -107,17 +107,9 @@ python3 scripts/14_candidate_nomination.py --tau 80 --output-dir data/repurposin
 
 同时：lesinurad、GSK-3008348 做羧酸根微状态后对接，报告 Arg477 距离是否改善。若改善，MD 用新姿；若无改善，正文保持“P2 排序≠晶体模式”。
 
-### 阶段 3 — 该刊模板要的 MD（对照优先，候选其次）
+### 阶段 3 — MD（双节点：两对照 + 两候选×两口袋）
 
-仅在阶段 2 的晶体/羧酸根姿可用之后进行。每体系建议 **3×100 ns**（对齐近三年常见档，不追 *J. Mol. Model.* 的 500 ns）。
-
-1. lesinurad @ 9DKB，**晶体坐标 + 羧酸根**，膜+脂双层（阳性对照）  
-2. lesinurad @ 9DKB，生产 P2 姿（协议诊断，允许失败）  
-3. GSK-3008348 @ 9DKB，羧酸根姿（假说压力测试）  
-4. NP3-146 或 MCC950 类似物 @ 7ALV（NLRP3 对照）  
-5. Vecabrutinib @ 7ALV（NLRP3 假说）
-
-只报告：配体 RMSD、Arg477–羧酸距离、Phe 笼占据。 **不做 MM-GBSA 重排 7 个候选。** 对照体系不合格则不解释候选轨迹。
+清单以 [`MD_RUN_PLAN.md`](MD_RUN_PLAN.md) 为准。必须 6 个生产体系：lesinurad 晶体@9DKB（膜）、NP3-146 共晶@7ALV（水）、GSK-3008348 与 Vecabrutinib 各接两靶。每体系 3×100 ns。可选第 7：lesinurad 的 P2 生产姿（诊断）。羧酸根微状态后再跑。只报 RMSD 与关键接触；不做 MM-GBSA 重排。对照不合格则不解释候选。
 
 ### 阶段 4 — 不要做
 

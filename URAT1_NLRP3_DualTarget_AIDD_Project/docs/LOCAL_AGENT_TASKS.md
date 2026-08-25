@@ -76,10 +76,11 @@ python3 scripts/14_candidate_nomination.py --tau 90 --mw-min 200 --mw-max 550 --
 
 ## 任务 3：MD 输入文件（受体/配体导出）
 
-> 本任务只导出起始构象文件。轨迹在有算力的机器上跑。  
-> **当前跟进分子（P2 化学提名）：** GSK-3008348（URAT1 侧）、Vecabrutinib（NLRP3 侧）；对照 lesinurad @ 9DKB、MCC950 @ 7ALV（类似物对照姿见 `data/si/mcc950_7alv/`，非自对接）。  
-> **不要 MD：** Zelenirstat、MLN-0415、BI 653048、Deucrictibant、Praliciguat，以及大环内酯 / 多酚类对接优势分子。  
-> URAT1 必须按 **膜+脂双层** 体系；7ALV 用水盒子。
+> 本任务只导出起始构象文件。轨迹在有算力的机器上跑。正式应跑哪些体系见 [`MD_RUN_PLAN.md`](MD_RUN_PLAN.md)（6 个生产体系：两对照 + GSK/Vecabrutinib×两靶）。  
+> **跟进：** GSK-3008348、Vecabrutinib（双节点计算候选，两靶都要 MD）。  
+> **对照：** lesinurad 晶体@9DKB（羧酸根，膜）；NP3-146 共晶@7ALV（水）。MCC950 只作类似物 SI。  
+> **不要 MD：** Zelenirstat、MLN-0415、BI 653048、Deucrictibant、Praliciguat，以及大环内酯 / 多酚类。  
+> URAT1 必须 **膜+脂双层**；7ALV 用水盒子。
 
 若要用脚本从 **P2 提名表** 自动挑选：
 
