@@ -18,6 +18,7 @@
   - P0（gnina CNNscore）两侧最均衡但预注册为负对照，不提为主协议。
   - P1（Vina affinity）、P3（gnina minimizedAffinity）、P4（RTMScore/Vina 构象）与随机无统计显著差异或覆盖不全，排除。
 - **不要重新跑 TrueDecoy/RandomDecoy 协议筛选**，也不要重新讨论选哪个协议——这一步已经结束。
+- 投稿形态（τ 敏感性、对照强制对接、MD 对照优先）见 [`MOL_DIVERS_REVISION_PLAN.md`](MOL_DIVERS_REVISION_PLAN.md)。τ=80/85 表在 `data/repurposing/p2/sensitivity_tau80/` 与 `sensitivity_tau85/`，**不要覆盖**生产 τ=90 提名文件。
 - **不要**把结果包装成"发现了双靶抑制剂"；全篇的主张必须是 **computational hypothesis-generating screen**（计算假说生成），需要实验验证。
 
 ---
