@@ -4,11 +4,11 @@
 
 | Field | Content |
 |---|---|
-| Main contribution | 为 URAT1–NLRP3 临床库重定位建立 **协议先选、证据不对称、Pareto 与化学提名分离** 的计算漏斗。URAT1 对接读出在 TrueDecoy/RandomDecoy 上锁定为 **P2（gnina CNNaffinity）**；NLRP3 分类仅缩库；双靶结构百分位门控后审计提名。 |
-| Type | new system / new analysis-or-benchmark。不是新打分函数，也不是实验验证的新药。 |
-| Reviewer payoff | 说明痛风双节点筛查如何 **选择而非默认** 对接协议，如何给转运体与炎症小体分配不同证据角色，以及数学强命中为何被提升或降级。 |
+| Main contribution | 预注册检验开源对接能否作为 URAT1 活性检索器：**不能**（P2 按规则锁定，RandomDecoy 不优于随机；阳性标签排除 lesinurad 等）。临床库双百分位名单是阴性迁移的审计产出，不是双节点候选。 |
+| Type | analysis / benchmark + negative application。不是新打分函数，不是命中发现。 |
+| Reviewer payoff | 看清转运体口袋上 True vs Random 诱饵、标签病理、以及把弱检索器迁到临床库为何不能写成候选提名。 |
 
 ## Claim Boundary
 
-**允许：** 双诱饵可区分协议；不对称证据角色；Pareto ≠ 提名；名单为可追溯假说。  
-**禁止：** 双口袋直接抑制、药效协同、临床推荐、分数=亲和力、富集=位点证明、某分子已是双抑制剂。
+**允许：** 双诱饵可区分协议；P2 锁定但不等于可用 VS；阳性集不是临床金标准；百分位名单当审计；羧酸姿态只作讨论前瞻。  
+**禁止：** 双节点计算候选、双靶抑制剂、对接已能排序活性所以筛库成立、Vecabrutinib 为 URAT1 跟进、看过名单后改 Π\*。

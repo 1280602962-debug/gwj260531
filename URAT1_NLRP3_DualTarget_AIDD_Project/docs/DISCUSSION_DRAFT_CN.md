@@ -1,8 +1,10 @@
 # 讨论（中文）
 
-> 投稿正文入口。目标期刊：*Molecular Diversity*（拒稿后可转 *JCAMD*）。
-> 结果数字以 [`RESULTS_DRAFT_CN.md`](RESULTS_DRAFT_CN.md) 的归档复算为准。结论口径见 [`CONCLUSIONS_DRAFT_CN.md`](CONCLUSIONS_DRAFT_CN.md)。
-> 分子动力学已开跑，但轨迹未入库：本节只讨论预先写死的解释边界，不填写 RMSD 或 MM-GBSA。
+> 投稿正文入口。目标期刊：***JCAMD***（不再按 *Molecular Diversity* hit 文写）。  
+> **改构：** 原目的“对接排出活性 → 双靶候选”不成立。现行目的与名单角色见 [`PROJECT_RECONCEPTION.md`](PROJECT_RECONCEPTION.md)。  
+> 结果数字以 [`RESULTS_DRAFT_CN.md`](RESULTS_DRAFT_CN.md) 的归档复算为准。  
+> 分子动力学已开跑，但轨迹未入库：本节只讨论预先写死的解释边界，不填写 RMSD 或 MM-GBSA。  
+> 下文 4.1 / 4.5 仍是改构前口径，改稿时按改构文件重写：7 个名字改为审计，Vecabrutinib 不再跟进。
 
 ## 4 讨论
 
