@@ -14,6 +14,7 @@
 | 引言正文 | [`INTRO_DRAFT_CN.md`](INTRO_DRAFT_CN.md) |
 | Methods 正文 | [`METHODS_DRAFT_CN.md`](METHODS_DRAFT_CN.md) |
 | Results 正文 | [`RESULTS_DRAFT_CN.md`](RESULTS_DRAFT_CN.md) |
+| Discussion 正文 | [`DISCUSSION_DRAFT_CN.md`](DISCUSSION_DRAFT_CN.md) |
 | 结论正文 | [`CONCLUSIONS_DRAFT_CN.md`](CONCLUSIONS_DRAFT_CN.md) |
 | 协议锁定表 | [`PROTOCOL_SELECTION_RESULT.md`](PROTOCOL_SELECTION_RESULT.md) |
 | 补充分析（assay 重叠 / EF 区间 / MCC950@7ALV） | [`SI_SUPPLEMENT_ANALYSES.md`](SI_SUPPLEMENT_ANALYSES.md) |
@@ -27,14 +28,15 @@
 ## 正文结构（Mol Divers；转 JCAMD 时把 R1 提前加重）
 
 1. Introduction — 已有中文稿  
-2. Methods — [`METHODS_DRAFT_CN.md`](METHODS_DRAFT_CN.md)；协议筛选在临床库之前完成；生产对接为 P2（`num_modes=1`）；含 2.12 统计分析小节（配对 bootstrap、超几何检验）；URAT1 MD 范围声明（2.11，未报轨迹数值）  
+2. Methods — [`METHODS_DRAFT_CN.md`](METHODS_DRAFT_CN.md)；协议筛选在临床库之前完成；生产对接为 P2（`num_modes=1`）；含 2.12 统计分析小节（配对 bootstrap、超几何检验）；MD 六体系清单（2.11，轨迹未报数值）  
 3. Results — [`RESULTS_DRAFT_CN.md`](RESULTS_DRAFT_CN.md)  
-   - R0 诱饵相似性泄漏审计：RandomDecoy 无近邻泄漏，弱活分子的重叠符合设计意图  
-   - R1 双诱饵 P0–P5，锁定 P2（不选 P5）；配对 bootstrap 显示 P2 与 P5 在 TrueDecoy 上不可区分，P5 被否决靠 RandomDecoy 超几何检验；自对接说明 P2 Top-1 不是构象金标准  
-   - R2 8319 → 1588 → **1580** 双靶完整案例；对接失败漏斗（表 1a）；NLRP3 标签阈值/聚合方式敏感性（GSK-3008348 分类器分数不稳健，Vecabrutinib 稳健）；对照药未进门控  
-   - R3 裸 Pareto 4（大环，审计）vs 双结构门控 51 / 优选 7；跟进 GSK-3008348 + Vecabrutinib 为待双通路验证的双节点计算候选，不是单靶假说  
-   - R4 姿态 QC（7 个优选均在口袋内）；MD 轨迹未报数值  
-4. Discussion — 假说边界；Unlike 湿法双靶与 PLK1 文；P2 Top-1 不是构象金标准；NLRP3 侧缺 self-docking 的局限  
+   - R1 诱饵相似性泄漏审计：RandomDecoy 无近邻泄漏，弱活分子的重叠符合设计意图  
+   - R2 双诱饵 P0–P5，锁定 P2（不选 P5）；配对 bootstrap 显示 P2 与 P5 在 TrueDecoy 上不可区分，P5 被否决靠 RandomDecoy 零命中；自对接说明 P2 Top-1 不是构象金标准  
+   - R3 8319 → 1588 → 归档 1,580 行（有效双靶分数 **1,579**）；已知痛风药对照表；NLRP3 阈值敏感性；Tegoprazan/Levotofisopam 未进门控  
+   - R4 裸 Pareto 4（大环，审计）vs 双结构门控 51 / 优选 7；τ 敏感性不替换生产短名单；跟进 GSK-3008348 + Vecabrutinib 为待双通路验证的双节点计算候选  
+   - R5 姿态 QC（7 个优选均在口袋内；lesinurad 生产姿 Arg477 ≈ 14 Å）  
+   - R6 MD 六体系已指定、轨迹数值未报  
+4. Discussion — [`DISCUSSION_DRAFT_CN.md`](DISCUSSION_DRAFT_CN.md)：假说边界；对照未回收的读法；P2 ≠ 构象金标准；MD 只做口袋压力测试；Unlike 湿法双靶与计算筛选模板  
 5. Conclusions — [`CONCLUSIONS_DRAFT_CN.md`](CONCLUSIONS_DRAFT_CN.md)：7 个双结构门控计算候选；GSK-3008348 与 Vecabrutinib 为待双通路验证的双节点计算候选（不是单靶假说，也不是已验证双靶药）
 
 ## 主张边界（全文禁止）

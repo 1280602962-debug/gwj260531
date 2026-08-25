@@ -68,8 +68,9 @@ P2 的 True 超几何 p≈0.0016；P5 的 Random EF@1% 仍为 0。全文见 `dat
 | 配体 PDBQT | 1583 | 5 个脂质/核苷酸前药未进入 manifest |
 | 单靶 docked | 1582 | `REP_05842`（tauroselcholic acid）空姿态 |
 | 双靶完整案例 | **1580** | SMILES 内连接后再落 3 条（fostriecin 盐对、plocabulin） |
+| 有效双靶分数 | **1579** | `REP_05842` 在合并表中为 no_pose、百分位 = 0 |
 
-缺失分子表：`data/si/complete_case_drop/`。缺失集分子量中位约 721 Da，池中位约 480 Da。
+缺失分子表：`data/si/complete_case_drop/`。该表把 `REP_05842` 标为 docking_failed，但它仍出现在 `pareto_merged_scores.csv`（分数为 NaN）。生产百分位沿用 1,580 分母；剔除后优选集合不变。缺失集分子量中位约 721 Da，池中位约 480 Da。
 
 ## 4. 姿态质控（非 MD 数值）
 
