@@ -31,10 +31,10 @@
    - R0 诱饵相似性泄漏审计：RandomDecoy 无近邻泄漏，弱活分子的重叠符合设计意图  
    - R1 双诱饵 P0–P5，锁定 P2（不选 P5）；配对 bootstrap 显示 P2 与 P5 在 TrueDecoy 上不可区分，P5 被否决靠 RandomDecoy 超几何检验；自对接说明 P2 Top-1 不是构象金标准  
    - R2 8319 → 1588 → **1580** 双靶完整案例；对接失败漏斗（表 1a）；NLRP3 标签阈值/聚合方式敏感性（GSK-3008348 分类器分数不稳健，Vecabrutinib 稳健）；对照药未进门控  
-   - R3 裸 Pareto 4（大环，审计）vs 双结构门控 51 / 优选 7；化学空间邻近性判据对百分位选择不敏感；跟进 GSK-3008348 + Vecabrutinib  
+   - R3 裸 Pareto 4（大环，审计）vs 双结构门控 51 / 优选 7；跟进 GSK-3008348 + Vecabrutinib 为待双通路验证的双节点计算候选，不是单靶假说  
    - R4 姿态 QC（7 个优选均在口袋内）；MD 轨迹未报数值  
 4. Discussion — 假说边界；Unlike 湿法双靶与 PLK1 文；P2 Top-1 不是构象金标准；NLRP3 侧缺 self-docking 的局限  
-5. Conclusions — [`CONCLUSIONS_DRAFT_CN.md`](CONCLUSIONS_DRAFT_CN.md)：7 个优选计算候选；跟进 GSK-3008348（URAT1 侧）与 Vecabrutinib（NLRP3 侧）；不是双靶抑制剂
+5. Conclusions — [`CONCLUSIONS_DRAFT_CN.md`](CONCLUSIONS_DRAFT_CN.md)：7 个双结构门控计算候选；GSK-3008348 与 Vecabrutinib 为待双通路验证的双节点计算候选（不是单靶假说，也不是已验证双靶药）
 
 ## 主张边界（全文禁止）
 
@@ -45,12 +45,12 @@
 - Glide XP / 默认 Vina 作为生产读出  
 - 未实现模块：三态 \(S_{\mathrm{trap}}\)、生成式路径、SLC22 迁移主创新、Teacher 蒸馏
 
-## 当前 MD 假说分子（计算跟进，非已验证 hit）
+## 当前跟进分子（双节点计算候选，待双通路验证；非已验证 hit）
 
 | 角色 | 分子 | 说明 |
 |------|------|------|
-| URAT1 侧案例 | GSK-3008348 | 羧酸；双对接均衡；吸入 αvβ6 项目已停 |
-| NLRP3 侧案例 | Vecabrutinib | BTK–NLRP3 文献；肿瘤适应症因疗效不足停 |
+| 双节点计算候选 | GSK-3008348 | 羧酸；双对接均衡；NLRP3 模型分弱；I 期 αvβ6 已停。两条实验都做，可先 URAT1 |
+| 双节点计算候选 | Vecabrutinib | 对接+NLRP3 模型同向；BTK，II 期因疗效停。两条实验都做，可先 NLRP3 |
 | 对照 | lesinurad @ 9DKB；MCC950 @ 7ALV（类似物对照，非自对接） | 校准，不是新提名 |
 | 方法学负例 | EGCG、红霉素类大环 | 可进裸 Pareto，审计降级 |
 
