@@ -6,7 +6,7 @@
 
 ## 摘要
 
-两端有利的对接分数是否构成双靶识别证据，尚未在实验定义的单靶选择性配体上得到充分检验。我们构建 DualFourClass-Bench，这是一套经策展的四对、四状态面板，含两条方向性主任务以及保守的最差方向判别摘要（`summary_min`）。在同一套冻结 AutoDock Vina 分数上，EGFR/HER2 显示出明显的 formulation 对照：Dual versus neither 的 AUROC 为 0.756，而方向性 `summary_min` 为 0.430。其他靶对没有显示同样的差距，PIK3CA/mTOR 的 Dual-versus-neither 对照则效能不足。在支架分组模型中，把 docking 加到 ECFP4 后 AUROC 的最大绝对变化为 0.020；将最大 pChEMBL 换成重复测定中位数只产生很小的靶对层变化。替代受体使 PIK3CA/mTOR 从 0.692 变为 0.486/0.505，并使 PIK3CA/PIK3CB 向相反方向变化。这些结果支持把实验定义的选择性硬负样本与混淆感知对照作为双靶对接评价的互补要求，并表明表观判别仍具有明显的靶对与受体实现依赖性。
+两端有利的对接分数是否构成双靶识别证据，尚未在实验定义的单靶选择性配体上得到充分检验。因此，我们进一步评价不同基准设定（benchmark formulation）是否会改变双靶识别的表观证据。为此，我们构建 DualFourClass-Bench，这是一套经策展的四对、四状态面板，含两条方向性主任务以及保守的最差方向判别摘要（`summary_min`）。在同一套冻结 AutoDock Vina 分数上，EGFR/HER2 的 Dual versus neither AUROC 为 0.756，而方向性 `summary_min` 为 0.430；在 EGFR/HER2 混合库 Top-10 中，10 个分子有 9 个为实验选择性配体。其他靶对没有显示同样的差距，PIK3CA/mTOR 的 Dual-versus-neither 对照则效能不足。在支架分组模型中，把对接分数加到 ECFP4 后 AUROC 的最大绝对变化为 0.020；将最大 pChEMBL 换成重复测定中位数只产生很小的靶对层变化。替代受体使 PIK3CA/mTOR 从 0.692 变为 0.486/0.505，并使 PIK3CA/PIK3CB 升高。这些结果支持把实验定义的选择性硬负样本与混淆感知对照作为双靶对接评价的互补要求，并表明表观判别仍具有明显的靶对与受体实现依赖性。
 
 ## 关键词
 

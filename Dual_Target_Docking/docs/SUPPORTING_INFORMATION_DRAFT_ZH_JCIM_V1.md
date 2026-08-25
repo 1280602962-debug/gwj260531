@@ -608,7 +608,7 @@ AChE 主面板失败：AB_001（dual，两端）、AB_053/054/056（A_only，两
 
 ## Table S29. Max vs median pChEMBL (full scored panels; θ = 6.0)
 
-来源：`assay_max_vs_median_agreement_v1.csv`。冻结 Vina 分数不重算。分母是 **scored n**，不是 construction n。EGFR 冻结 Table 2 与 API-max 差 1 个配体（EH120_060 / CHEMBL24828）。禁止只报翻转个数。
+来源：`assay_max_vs_median_agreement_v1.csv`。冻结 Vina 分数不重算。分母是 scored n。正文 A4 只报告标签一致率与 pair-level Δsummary_min。EGFR 冻结 Table 2（0.430）与 API-max（0.417）差 1 个配体（EH120_060 / CHEMBL24828）；配体层缓存/API 不一致只记录于本表。数值 max≠median 计数只放本表。
 
 | 靶对 | n scored | 类别翻转 | 标签一致率 | 数值 max≠median | 冻结 summary_min | API-max min | API-median min |
 |------|--------:|--------:|----------:|----------------:|-----------------:|------------:|---------------:|

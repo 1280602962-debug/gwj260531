@@ -2,50 +2,27 @@
 
 ## 2. Methods
 
-### 2.1 Data sources and activity curation
+### 2.1 Data and experimental-state definition
 
-Ligand activities used as **experimentally derived activity labels** were retrieved from the public ChEMBL Web API activity endpoint. The target-pair supply audit was frozen on 2026-07-23. pChEMBL converts standardized quantitative potency or affinity measurements (e.g. IC50, EC50, Ki, Kd, and Potency) to an approximate −log10 activity scale for large-scale integration. Assay types, conditions, and experimental systems are not equivalent; pChEMBL is used here as a curation convenience, not as an absolute affinity measured under one protocol.
+Ligand activities used as experimentally derived labels were retrieved from the public ChEMBL Web API activity endpoint. The target-pair supply audit was frozen on 2026-07-23. pChEMBL converts standardized quantitative potency or affinity measurements (e.g. IC50, EC50, Ki, Kd, and Potency) to an approximate −log10 activity scale. Assay types, conditions, and experimental systems are not equivalent; pChEMBL is used here as a unified curation scale across heterogeneous assays.
 
-When several pChEMBL values existed for the same ligand–target pair, the **maximum** was used as the one-to-one representative for primary curation. Because assay types, conditions, and experimental systems are not equivalent, activity-aggregation sensitivity was assessed in a prespecified analysis by re-fetching assay-level records from the ChEMBL activity endpoint and replacing the maximum with the **median** of repeated pChEMBL measurements (Table S29). This alternative aggregation was applied across all frozen benchmark panels without changing panel membership, docking parameters, or Vina scores. Class assignment was compared under the same θ = 6.0 rule. Because one cache/API record was inconsistent, the API-refetched maximum aggregation for EGFR/HER2 (0.417) differs slightly from the frozen primary panel (0.430); A4 values therefore do not replace the Table 2 frozen primary results. Ligands missing a usable pChEMBL value on either target were excluded from analyses requiring paired labels.
+When several pChEMBL values existed for the same ligand–target pair, the **maximum** was used as the one-to-one representative for primary curation. Activity-aggregation sensitivity was assessed by re-fetching assay-level records and replacing the maximum with the **median** of repeated measurements under the same θ = 6.0 rule, without changing panel membership, docking parameters, or Vina scores. API-refetched max-versus-median estimates are reported as a label-aggregation sensitivity alongside Table 2 (Table S29). Ligands missing a usable pChEMBL value on either target were excluded from analyses requiring paired labels. Salt, solvate, and multicomponent records were split by connected component, retaining the organic fragment with the most heavy atoms.
 
-Salt, solvate, and multicomponent ChEMBL records were split by connected component; the organic fragment with the most heavy atoms was retained.
+For each pair A/B, ligands were assigned one of four experimental states: **dual** (strong on both), **A-only** (strong on A, weak on B), **B-only** (strong on B, weak on A), and **neither** (insufficient on both). A-only and B-only ligands are selectivity hard negatives.
 
-To test whether the ChEMBL supply gate is an artifact of one database, the frozen target pairs were recounted in BindingDB and PubChem (counts only; no docking and no panel rebuild). BindingDB was queried with REST `getLigandsByUniprots` (cutoff = 1 mM, so weak-end measurements are not truncated); PubChem with PUG REST `protein/accession/…/concise`. Endpoints were restricted to IC50/Ki/Kd/EC50; the representative value was the maximum converted p-activity; class rules matched the strict supply gate in Section 2.2. Identifiers were BindingDB monomerid and PubChem CID, with **no** cross-database structure merge. The primary count used equal-relation measurements (censored `>`/`<` values dropped); treating inequalities as point estimates was a sensitivity only. Counts are reported in Supporting Information Table S12.
+The **strict supply-audit rule** (construction gate) was: dual, both pChEMBL ≥ 6.5; A-only, A ≥ 6.5 and B ≤ 5.5; B-only symmetric; neither, both ≤ 5.5. The 5.5–6.5 gray zone was excluded from the strict audit. Metal-dependent systems (e.g. HDACs) were excluded in advance. **Primary AUROCs use one prespecified θ = 6.0 rule:** dual, both ends ≥ θ; A-only, A ≥ θ and B < θ; B-only symmetric; neither, both < θ. Construction rules were frozen from the supply audit before sampling (Table 1). Thresholds were chosen to assemble analyzable panels, not after inspecting docking scores. Relabeling at θ ∈ {5.5, 6.5} and under the strict 6.5/5.5 rule is reported as sensitivity (Table S4). Underpowered cells are flagged in Results.
 
-### 2.2 Target-pair supply audit and experimental ligand-state definition
+As a count-only check of the ChEMBL supply gate, the frozen pairs were recounted in BindingDB and PubChem without docking or panel rebuild (Table S12). Endpoints were restricted to IC50/Ki/Kd/EC50; identifiers were BindingDB monomerid and PubChem CID, with no cross-database structure merge. The primary count used equal-relation measurements.
 
-Candidate pairs were audited for whether public data can support a strict dual-target benchmark. For each pair A/B, ligands were assigned one of four **experimental states**:
+### 2.2 Benchmark construction
 
-- **dual**: strong activity on both targets;
-- **A-only**: strong on A, weak on B;
-- **B-only**: strong on B, weak on A;
-- **neither**: insufficient activity on both.
+DualFourClass-Bench retains four experimental states and two directional primary tasks: dual versus A-only and dual versus B-only. Neither is curated to describe the experimental space but does not enter the primary directional AUROCs.
 
-A-only and B-only ligands are selectivity hard negatives, not DUD/DUD-E-style assumed decoys.
+Candidate pairs were screened with the strict audit in Section 2.1. The frozen evaluation set comprises PIK3CA/mTOR, AChE/BChE, PIK3CA/PIK3CB, and EGFR/HER2. EGFR/HER2 is retained as a supply-limited case. Ligands were drawn under frozen class quotas and random seed 20260729. Where structures were available at sampling, a per-class Bemis–Murcko scaffold cap limited series over-representation: at most two molecules per scaffold in PIK3CA/mTOR (PM48) and at most five in EGFR/HER2. AChE/BChE and PIK3CA/PIK3CB used class quotas and a deterministic shuffle. Panels were not redrawn after docking scores were seen.
 
-**Strict supply-audit rule (construction gate, not the sole label for every comparison).** Dual: both pChEMBL values ≥ 6.5. A-only: A ≥ 6.5 and B ≤ 5.5. B-only is symmetric. Neither: both ≤ 5.5. The 5.5–6.5 gray zone was excluded from the strict audit. The rule asks whether both arms have enough selective hard negatives for a reasonably balanced panel. How many pairs pass, and which pairs entered the frozen set, are reported in Results 3.1. Metal-dependent systems (e.g. HDACs) were excluded in advance as unsuitable primary objects for this noncovalent protocol.
+AChE/BChE and PIK3CA/PIK3CB were sampled under the strict 6.5/5.5 gate (target 28 / 28 / 28 / 16; panel n = 100). EGFR/HER2 (n = 110) and PIK3CA/mTOR PM48 (n = 48; constructed 18 / 14 / 12 / 4) used θ = 6.0 because the strict gate left too few B-only ligands. Cross-pair AUROCs therefore mix target-pair biology with panel-construction differences. Ligand–receptor jobs that failed to yield a score were dropped; analysis counts can fall below construction quotas (Table 1; Table S27). An expanded PIK3CA/mTOR panel (PM110) keeps all 48 PM48 ligands as a nested size check.
 
-**The primary manuscript comparison uses one prespecified θ = 6.0 rule.** Dual: both ends ≥ θ; A-only: A ≥ θ and B < θ; B-only is symmetric; neither: both < θ. The strict 6.5/5.5 rule is the supply-audit and construction gate; experimental-state labels for all primary AUROCs are then uniformly defined by θ = 6.0. Construction rules were frozen from the supply audit before sampling and are recorded in Table 1. Thresholds were chosen to assemble analyzable panels, not after inspecting docking scores. As a supporting sensitivity, states were relabeled at θ ∈ {5.5, 6.5} and under the strict 6.5/5.5 rule, and pocket-matched summary_min was recomputed (Table S4). That grid is not a second primary standard. Underpowered cells are flagged in Results.
-
-### 2.3 DualFourClass-Bench panel construction
-
-The resource is a **four-state curated benchmark with two directional primary tasks**. Dual, A-only, B-only, and neither are all retained to describe the experimental space; the prespecified primary endpoint is dual versus A-only and dual versus B-only. Neither does not enter the primary directional AUROCs. This is not a four-class classification benchmark.
-
-Candidate pairs were screened with the strict audit in Section 2.2. The frozen evaluation set comprises PIK3CA/mTOR, AChE/BChE, PIK3CA/PIK3CB, and EGFR/HER2. EGFR/HER2 is retained as a **supply-limited case** and is not treated as equivalent in supply to the other pairs.
-
-For each pair, ligands were drawn from the labeled pool under frozen class quotas and random seed 20260729. Where structures were available at sampling, a per-class Bemis–Murcko scaffold cap limited series over-representation: at most two molecules per scaffold in PIK3CA/mTOR (PM48) and at most five in EGFR/HER2. Structures were unavailable at sampling for AChE/BChE and PIK3CA/PIK3CB, so these panels used class quotas and a deterministic shuffle without an additional diversity constraint. Post-construction Murcko scaffolds are reported with the deposited tables. Final membership, state labels, ChEMBL identifiers, SMILES, and sampling scripts are deposited. Panels were not redrawn after docking scores were seen.
-
-Construction rules were not identical across pairs. AChE/BChE and PIK3CA/PIK3CB were sampled under the strict 6.5/5.5 gate; EGFR/HER2 and PIK3CA/mTOR used θ = 6.0 because the strict gate left too few B-only ligands. Cross-pair AUROCs therefore mix target-pair biology with panel-construction differences (sample size, threshold, series composition, receptor) and are not interpreted as purely intrinsic docking performance.
-
-Quotas and construction labels were as follows. AChE/BChE and PIK3CA/PIK3CB: strict 6.5/5.5, target dual / A_only / B_only / neither = 28 / 28 / 28 / 16 (panel n = 100). EGFR/HER2: θ = 6.0 construction rule (n = 110). PIK3CA/mTOR: θ = 6.0, main comparison panel PM48 (n = 48; constructed 18 / 14 / 12 / 4), on which receptors and the docking protocol were frozen.
-
-Ligand–receptor jobs that failed to yield a score were dropped for that receptor; ligands missing a usable score on either end were omitted from pocket-matched AUROCs that require both scores, so analysis counts can fall below construction quotas (Table 1). AUROC tables are therefore **conditional on compounds the docking engine can process**. Attempted / successful / failed counts, including chemical-coverage failures such as unsupported AutoDock atom type `B`, are reported in Table S27.
-
-An expanded PIK3CA/mTOR panel (PM110) keeps all 48 PM48 ligands and adds molecules under the strict rule, targeting 30 / 30 / 30 / 25. PM110 is a superset of PM48, used to check whether point estimates stay in the same direction after increasing panel size. It is not an independent primary benchmark or replicate. Cross-pair comparison in the main text uses PM48.
-
-Ligand-side generalization was assessed with one unused-pool holdout (Section 2.11), because the remaining hard-negative supply could not support a distribution of non-overlapping balanced panels. Ligand-level bootstrap (Section 2.8) instead quantifies uncertainty within a fixed panel and is not unused-pool resampling.
-
-**Table 1.** DualFourClass-Bench composition and docking settings. Construction labels record the supply/panel-building rule for each pair. All primary AUROCs in Tables 2–3 use unified θ = 6.0 experimental-state labels; strict 6.5/5.5 is a supply and construction gate, with relabeling reported as sensitivity in Table S4.
+**Table 1.** DualFourClass-Bench composition and docking settings. Construction labels record the supply/panel-building rule for each pair. All primary AUROCs in Tables 2–3 use unified θ = 6.0 experimental-state labels.
 
 | Pair | Construction labels | PDB (A / B) | Resolution (Å) | Panel n | Analysis n (dual / A_only / B_only) | Vina exhaustiveness |
 |------|---------------------|-------------|----------------|-------:|------------------------------------:|--------------------:|
@@ -54,134 +31,28 @@ Ligand-side generalization was assessed with one unused-pool holdout (Section 2.
 | PIK3CA/PIK3CB | strict 6.5/5.5 | 4L23 / 2WXF | 2.50 / 1.90 | 100 | 28 / 27 / 28 | 8 |
 | EGFR/HER2 | θ = 6.0 | 3POZ / 3RCD | 1.50 / 3.21 | 110 | 28 / 38 / 32 | 8 |
 
-### 2.4 Protein structures and binding-site definition
+### 2.3 Receptor preparation and docking protocol
 
-Receptors were PDB entries with experimental structures and a small-molecule cognate ligand: PIK3CA/mTOR, 4L23 / 4JT6 (X6K / PI-103); AChE/BChE, 4EY7 / 4BDS (E20 / THA); PIK3CA/PIK3CB, 4L23 / 2WXF (X6K / 039); EGFR/HER2, 3POZ / 3RCD (03P / TAK-285). Resolutions are in Table 1.
+Receptors were PDB entries with a small-molecule cognate ligand: PIK3CA/mTOR, 4L23 / 4JT6 (X6K / PI-103); AChE/BChE, 4EY7 / 4BDS (E20 / THA); PIK3CA/PIK3CB, 4L23 / 2WXF (X6K / 039); EGFR/HER2, 3POZ / 3RCD (03P / TAK-285). The site was defined from the cognate ligand. An axis-aligned bounding box on cognate heavy atoms was expanded by 5 Å on each axis; any edge shorter than 20 Å was set to at least 20 Å (Table S2). Water and the cognate ligand were removed and Meeko wrote PDBQT. PIK3CA, mTOR, EGFR, and HER2 used hydrogen-containing protein coordinates already in the frozen directories (`mk_prepare_receptor.py --read_pdb`). AChE, BChE, and PIK3CB were extracted from deposited ATOM/TER records and prepared with `mk_prepare_receptor` (default alternate location A). PDBFixer and Reduce were not used for independent rebuilding or tautomer enumeration. Docking treated noncovalent small-molecule sites only.
 
-The site was defined from the cognate ligand. An axis-aligned bounding box on cognate heavy atoms was expanded by 5 Å on each axis; any edge shorter than 20 Å was set to at least 20 Å. Box centers and sizes are frozen in JSON and listed in Supporting Information Table S2.
+Before production docking, each frozen receptor was redocked with its cognate ligand. Nine poses were generated and heavy-atom RMSD to the crystal ligand was computed in the docking frame. The prespecified pass criterion was \(\mathrm{RMSD}_{\mathrm{best9}} < 2.0\) Å, testing pose-generation capability among retained poses rather than requiring the top-ranked Vina pose to be near-native. If default exhaustiveness failed the gate, search effort was raised to a prespecified fallback. Production docking therefore used exhaustiveness 16 for PIK3CA/mTOR and 8 for the other main panels (Table S3).
 
-Water and the cognate ligand were removed and Meeko wrote PDBQT. PIK3CA, mTOR, EGFR, and HER2 used hydrogen-containing protein coordinates already in the frozen directories (`mk_prepare_receptor.py --read_pdb`). AChE, BChE, and PIK3CB were extracted from deposited ATOM/TER records (waters and hetero atoms removed) and prepared with `mk_prepare_receptor` (default alternate location A). PDBFixer was not used to rebuild missing atoms, nor Reduce for independent pH-dependent protonation or histidine tautomer enumeration; protonation is part of the frozen preparation. Docking treated noncovalent small-molecule sites only; metals and other cofactors were not extra dockable components in the box.
+Ligands started from frozen ChEMBL SMILES: desalt to the largest organic fragment, add explicit hydrogens in RDKit, embed with ETKDGv3 (seed 20260727), locally optimize with MMFF (at most 200 steps), and convert with default Meeko to PDBQT. Protonation states, tautomers, and conformational ensembles were not systematically enumerated. Docking used AutoDock Vina 1.2.7 with the default `vina` scoring function, nine retained poses, `energy_range = 3` kcal mol\(^{-1}\), and random seed 20260727 (Table S1). To test scoring-function dependence, the same Vina poses were rescored with RTMScore (`rtmscore_model1`, best of nine) and GNINA 1.3.2 CNN (`--cnn_scoring rescore --minimize`, best of nine after Open Babel SDF conversion). Vina’s primary readout is the mode-1 energy; RTM and GNINA are best-of-9 rescores. The primary endpoint remains Vina.
 
-### 2.5 Cognate redocking quality control
+### 2.4 Primary endpoint and statistics
 
-Before production docking, each frozen receptor was redocked with its cognate ligand to test whether the box, receptor preparation, and search settings can generate a near-native pose **within the retained pose ensemble**.
+Throughout this Article, “dual-target recognition” names this computational discrimination task. Two binary AUROCs were computed per pair. Dual versus A-only used the pocket B score, \( \mathrm{AUC}_{D/A} = \mathrm{AUROC}(\text{dual},\;\text{A-only};\;S_B) \). Dual versus B-only used the pocket A score, \( \mathrm{AUC}_{D/B} = \mathrm{AUROC}(\text{dual},\;\text{B-only};\;S_A) \). Dual is always the positive class. Vina reports \(E_{\mathrm{Vina}}\) (kcal mol\(^{-1}\); more negative is more favorable); \(S_{\mathrm{Vina}} = -E_{\mathrm{Vina}}\).
 
-Nine poses were generated and heavy-atom RMSD to the crystal ligand was computed in the docking frame (no protein superposition). PIK3CA/mTOR and EGFR/HER2 used meeko `REMARK SMILES IDX` mapping and the minimum CalcRMS over graph automorphisms; AChE/BChE and PIK3CB used Hungarian matching on heavy atoms. Define
+The worst-direction discrimination summary is \( \mathrm{summary}_{\min} = \min(\mathrm{AUC}_{D/A},\;\mathrm{AUC}_{D/B}) \). It is a conservative summary of two AUROCs. Arithmetic, geometric, and harmonic means are aggregation sensitivities (Table S26). The single primary endpoint is pocket-matched Vina `summary_min` under unified θ = 6.0 (Table 2; PIK3CA/mTOR uses PM48). A prespecified RDKit panel (heavy-atom count, molecular weight, cLogP, and TPSA) was evaluated with the same directional workflow; the highest AUROC among them is a best single-descriptor reference (Tables 2, S28, S19). Dual versus neither (experimental inactives; `vina_mean`) and Dual versus all non-duals were computed as auxiliary formulation contrasts on the same frozen scores (Table 3; Table S22). PIK3CA/mTOR neither n = 4 is flagged underpowered.
 
-\[
-\mathrm{RMSD}_{\mathrm{best9}} = \min_{i=1,\ldots,9} \mathrm{RMSD}_i.
-\]
+AUROC and summary_min uncertainty used ligand-level bootstrap: ligands were resampled with replacement, preserving class structure (\(B = 2000\), seed 20260729, percentile 95% CI). Paired contrasts used the same resample (Tables S17, S19). Intervals are descriptive.
 
-The prespecified pass criterion was \(\mathrm{RMSD}_{\mathrm{best9}} < 2.0\) Å.
+### 2.5 Confounder, holdout, and receptor-sensitivity analyses
 
-This QC tests **pose-generation capability**: whether a near-native pose appears among the retained poses. It does **not** require the top-ranked Vina pose (mode 1) to be near-native. Best-of-9 QC and mode-1 scoring are different evaluations.
+Scores for targets A and B were swapped as a falsification control, leaving ligands, receptors, and all other settings unchanged. Directional AUROCs were also recomputed after ligand-efficiency normalization (\(S_{\mathrm{dock}}/N_{\mathrm{heavy}}\)) and on potency- or size-constrained subsets (\(|\Delta\mathrm{pChEMBL}| \leq 0.5\); \(|\Delta N_{\mathrm{heavy}}| \leq 2\)). Logistic models compared docking alone with docking plus heavy-atom count and TPSA. Morgan/ECFP4 fingerprints (radius 2, 2048 bits) with logistic regression provided a ligand-only chemical baseline under Bemis–Murcko scaffold `GroupKFold` (Tables S5, S20, S23, S24). Nearest-neighbor Tanimoto subsets were diagnostic. A coarse contact count and whole-chain sequence identity were exploratory only (Tables S7, S11).
 
-If the default exhaustiveness failed the gate, search effort was raised to a prespecified fallback without changing the box, receptor, or random seed, and QC was repeated. Production docking therefore used receptor-specific frozen exhaustiveness: 16 for PIK3CA/mTOR and 8 for the other main panels. QC values and mode-1 versus best-of-9 comparisons are in Supporting Information Table S3.
+To test dependence on exact panel membership, an unused-pool holdout was drawn after excluding all ChEMBL entries used in the main panels and PM110. Ligands still come from the same ChEMBL harvest, target pairs, and label rules. Holdout was built for PIK3CA/mTOR, AChE/BChE, and PIK3CA/PIK3CB (20 dual / 20 A-only / 20 B-only; `HOLDOUT_SEED = 20260731`); EGFR/HER2 was not eligible. Receptor, box, ligand preparation, exhaustiveness, scoring, and statistics matched the main benchmark (Tables S8, S13).
 
-### 2.6 Ligand preparation and molecular docking
+Receptor-structure sensitivity used alternate crystals that, before scores were seen, (i) matched the true target protein, (ii) contained a small-molecule cognate in the ATP or target site, (iii) had acceptable resolution, and (iv) passed the same cognate redocking QC. Structures docked were PIK3CA 4JPS and 5DXT and mTOR 4JSX. Replacement was one pocket at a time: on PIK3CA/mTOR (PM48), 4JPS/5DXT replaced pocket A while pocket B kept frozen 4JT6 scores, and 4JSX replaced pocket B while pocket A kept frozen 4L23 scores (exhaustiveness 16). On PIK3CA/PIK3CB, the same 4JPS and 5DXT receptors replaced pocket A while pocket B kept frozen 2WXF scores (exhaustiveness 8). Rigid Cα superposition was an exploratory geometric control (Table S10).
 
-Ligands started from frozen ChEMBL SMILES: desalt to the largest organic fragment, add explicit hydrogens in RDKit, embed with ETKDGv3 (seed 20260727), locally optimize with MMFF (at most 200 steps), and convert with default Meeko to PDBQT. Protonation states, tautomers, and conformational ensembles were not systematically enumerated. Schrödinger LigPrep was not used.
-
-Docking used AutoDock Vina 1.2.7 with the default `vina` scoring function. Nine poses were retained per ligand–receptor pair, `energy_range = 3` kcal mol\(^{-1}\), random seed 20260727 (same as ETKDG). Exhaustiveness followed Table 1. Ligand preparation, box rules, and the scoring function were shared across main panels; only receptor coordinates, box numbers, and the prespecified exhaustiveness varied. Full parameters are in Supporting Information Table S1.
-
-### 2.7 Alternative scoring channels
-
-To test dependence on one scoring function, the **same Vina-generated poses** were rescored with RTMScore and GNINA CNN.
-
-RTMScore used public weights `rtmscore_model1` and scored all nine Vina poses; the highest RTMScore in that pocket was kept.
-
-GNINA 1.3.2 ran CNN rescoring on CPU (`--cnn_scoring rescore --minimize`). The final protocol converted each of the nine Vina poses to SDF (Open Babel) and took the highest CNNscore per pocket, matching RTM pose coverage. Mode-1-only GNINA scores are retained as a historical sensitivity control, not the channel readout.
-
-Vina’s primary readout is the mode-1 energy; RTM and GNINA are best-of-9 rescores. The three channels do not aggregate the nine poses in the same way and are **not** a head-to-head docking-engine competition. They are a scoring-channel sensitivity analysis. The primary endpoint is always Vina.
-
-### 2.8 Primary endpoint and statistical analysis
-
-#### 2.8.1 Pocket-matched directional AUROC
-
-Throughout this Article, “dual-target recognition” names this computational discrimination task; it does not denote validated biological recognition or independent pocket-specific binding.
-
-Two binary AUROCs were computed per pair. Dual versus A-only used the **pocket B** score:
-
-\[
-\mathrm{AUC}_{D/A} = \mathrm{AUROC}(\text{dual},\;\text{A-only};\;S_B),
-\]
-
-testing whether the score in the nonselective pocket B separates dual-actives from A-only ligands that are already potent at A. Dual versus B-only used the pocket A score:
-
-\[
-\mathrm{AUC}_{D/B} = \mathrm{AUROC}(\text{dual},\;\text{B-only};\;S_A).
-\]
-
-Dual is always the positive class. Neither does not enter these contrasts.
-
-Vina reports \(E_{\mathrm{Vina}}\) (kcal mol\(^{-1}\); more negative is more favorable). Define
-
-\[
-S_{\mathrm{Vina}} = -E_{\mathrm{Vina}}
-\]
-
-so that larger primary scores mean stronger predicted binding. RTMScore and GNINA CNN scores are already higher-better.
-
-#### 2.8.2 Worst-direction discrimination summary (`summary_min`)
-
-The worst-direction discrimination summary is defined as:
-
-\[
-\mathrm{summary}_{\min} = \min(\mathrm{AUC}_{D/A},\;\mathrm{AUC}_{D/B}).
-\]
-
-`summary_min` is a conservative **worst-direction discrimination summary** of two AUROCs. It prevents a strong direction from hiding failure in the other direction, but it is not a new docking score, a separate hypothesis test, or a measure of calibration, sensitivity, specificity, or biological affinity. Arithmetic, geometric, and harmonic means are reported as aggregation sensitivities (Table S26); pair ranking and the EGFR formulation contrast remain in the same direction under all four summaries. The single primary endpoint is pocket-matched Vina `summary_min` under unified θ = 6.0 (Table 2; PIK3CA/mTOR uses PM48). The endpoint hierarchy and all secondary, sensitivity, falsification, and exploratory analyses are listed in Table S16.
-
-#### 2.8.3 Physicochemical descriptor controls
-
-A **prespecified** RDKit panel was computed: heavy-atom count, molecular weight, cLogP, and TPSA. Each descriptor was evaluated with the same directional AUROC workflow; **all four are reported** (Table 2; Table S28). The highest AUROC among them is a **best single-descriptor reference** — a descriptive post-hoc maximum, not a confirmatory competitor. Paired Δ between docking and that reference is not a confirmatory test of “beats the selected best descriptor” (Table S19).
-
-#### 2.8.4 Score-aggregation controls
-
-Pooled means of the two pocket scores, wrong-pocket assignment (Section 2.9.1), and worst-pocket aggregation were computed as auxiliaries, not as the primary endpoint (Table S6).
-
-#### 2.8.5 Bootstrap uncertainty
-
-AUROC and summary_min uncertainty used ligand-level bootstrap: ligands were resampled with replacement, preserving class structure, and both directional AUROCs and summary_min were recomputed. \(B = 2000\), seed 20260729, percentile 95% CI \([P_{2.5}, P_{97.5}]\). Paired contrasts used the **same** resample to form \(\Delta = \mathrm{Metric}_1 - \mathrm{Metric}_2\) (Tables S17, S19). Murcko-scaffold resampling is reported as a control; the text uses ligand-level intervals. Intervals are descriptive. Outside the prespecified primary endpoint, this work does not treat “whether the CI crosses 0.5” as a formal significance test across many pairs and controls.
-
-#### 2.8.6 Benchmark-formulation comparison
-
-As an auxiliary contrast on the **same** frozen Vina scores, a **Dual-versus-neither comparator** (experimental inactives; `vina_mean` and `vina_worst`) and Dual versus all non-duals were computed beside the directional primary endpoint. Dual-versus-neither is a **nonselectivity-controlled comparator** on this panel, not a claim that established dual-target benchmarks use Dual versus neither as their official task. Neither ligands are used here; they still do not enter Table 2. PIK3CA/mTOR neither n = 4 is flagged underpowered. The comparison asks whether omitting selective hard negatives can change the apparent evidence for dual-target recognition; it is not a second primary endpoint and is not a paired significance test (different negative sets; Table 3; Table S22). Single-target-style analogues—(dual + A-only) versus (B-only + neither) in pocket A, and the symmetric B contrast—are reported in Table S22.
-
-### 2.9 Confounder and falsification analyses
-
-#### 2.9.1 Wrong-pocket falsification control
-
-Scores for targets A and B were swapped; ligands, receptors, and all other settings were unchanged. Directional AUROCs and summary_min were recomputed. This is a **falsification control**, not a positive control designed to prove pocket specificity. Matched > wrong on a fixed panel is **not** taken as evidence of pocket-specific signal. Wrong-pocket performance near or above matched-pocket performance counts against a pocket-specific reading. The holdout point-estimate reversal further means wrong-pocket is **not a reliable universal negative control under panel shift**.
-
-#### 2.9.2 Ligand-level confounder controls
-
-Directional AUROCs were recomputed after ligand-efficiency normalization (\(S_{\mathrm{dock}}/N_{\mathrm{heavy}}\)) and on potency- or size-constrained subsets (\(|\Delta\mathrm{pChEMBL}| \leq 0.5\); \(|\Delta N_{\mathrm{heavy}}| \leq 2\)). Logistic models compared docking alone with docking plus heavy-atom count and TPSA (\(C=1.0\), `max_iter=2000`). These analyses diagnose sensitivity to size, potency, and polarity; reduced matched subsets are not treated as independent confirmatory evidence (Tables S5, S19).
-
-#### 2.9.3 Ligand-only and exploratory structural controls
-
-Morgan/ECFP4 fingerprints (radius 2, 2048 bits) with logistic regression provided a ligand-only chemical baseline, intended to estimate label-associated discrimination within the current panels rather than build a transferable activity predictor. Evaluation used Bemis–Murcko scaffold `GroupKFold` with up to five folds; random `StratifiedKFold` was a leakage check, and logistic docking AUROC was kept distinct from Table 2 rank AUROC (Tables S20, S24). Nearest-neighbor Tanimoto subsets were diagnostic, not formal chemically matched controls, because T ≥ 0.7 was empty and stricter available subsets were small (Table S23). A coarse scoring-independent contact count (ligand heavy atoms within 4.0 Å of receptor heavy atoms) probed size/burial contributions to wrong-pocket results (Table S11), and whole-chain sequence identity was used only as an exploratory background descriptor (Table S7). Neither control is a residue-level PLIF or pocket-similarity measure.
-
-### 2.10 Supporting single-target enrichment reference
-
-A supporting PIK3CA/mTOR active-versus-weak single-target analysis used pChEMBL ≥ 6.5 versus ≤ 5.5 with MW, cLogP, and TPSA matching; preparation and docking matched the main panel. AUROC, EF1%, and EF5% are reported only in the Supporting Information as context and do not substitute for the directional dual-target endpoint.
-
-### 2.11 Unused-pool holdout
-
-To test dependence on the exact frozen panel members, all ChEMBL entries used in the main panels and in PM110 were excluded from the strict-label pool, and an **unused-pool, panel-external holdout** was drawn from what remained. This is not cross-database or cross-assay external validation: ligands still come from the same ChEMBL harvest, the same target pairs, and the same label rules.
-
-Holdout was built only for pairs whose unused pool could supply 20 dual, 20 A-only, and 20 B-only ligands: PIK3CA/mTOR, AChE/BChE, and PIK3CA/PIK3CB. EGFR/HER2 was not eligible for an equivalent draw and was not patched with a non-equivalent sample. PIK3CA/mTOR exclusion used the PM110 superset, which covers PM48. The draw used `HOLDOUT_SEED = 20260731` (distinct from the construction seed) and a Murcko cap of three members per state class. The list was frozen before docking.
-
-The holdout did not enter panel construction, protocol tuning, or primary-endpoint choice. Receptor, box, ligand preparation, exhaustiveness, scoring, and statistics matched the main benchmark, including `summary_min` and ligand-level bootstrap. Jobs that produced no Vina score were dropped as in Section 2.3. Descriptor, wrong-pocket, matched-subset, and contact-count analyses were repeated on the holdout (Tables S8, S13). Matched-subset diagnostics do not rewrite Table S8.
-
-### 2.12 Receptor-structure sensitivity analysis
-
-To test sensitivity of the benchmark conclusion to receptor choice, alternate crystals were required, **before scores were seen**, to (i) have a polymer entity that is the true target protein (no chimeras or off-target scaffolds), (ii) contain a small-molecule cognate in the ATP or target site, (iii) have acceptable resolution, and (iv) pass the same cognate redocking QC as Section 2.5. Structures actually docked were PIK3CA 4JPS and 5DXT and mTOR 4JSX. This is a **receptor-structure sensitivity analysis** (a receptor-realization effect), not a robustness check and not a certification of a “more correct” crystal. The purpose was to quantify sensitivity of the dual-target discrimination endpoint to receptor realization rather than to identify a superior receptor structure. PIK3CA/mTOR is not treated as a prespecified structure-invariant positive case.
-
-Replacement was **one pocket at a time**. On PIK3CA/mTOR (PM48), 4JPS/5DXT replaced pocket A while pocket B kept frozen 4JT6 scores; 4JSX replaced pocket B while pocket A kept frozen 4L23 scores. Exhaustiveness was 16, matching the PM48 main panel. On PIK3CA/PIK3CB, the same prepared 4JPS and 5DXT receptors replaced pocket A while pocket B kept frozen 2WXF scores; exhaustiveness was 8, matching that main panel. New boxes used that crystal’s own cognate ligand and the Section 2.4 AABB rule. Ligand preparation, seed (20260727), scoring function, and the primary endpoint matched the corresponding main analysis. Jobs that produced no Vina score were dropped as in Section 2.3; attempted / successful / failed counts are reported with the swap tables.
-
-As an exploratory, docking-free geometric control, rigid superposition used Biopython `Superimposer` on residue-matched Cα atoms of the longest chain (Kabsch). Pocket residues were those within 5 Å of the reference cognate heavy atoms; local pocket RMSD used the **same** transform, with no second local fit. Alternate cognate centroids were projected in that frame. Matched Cα counts can differ, so global RMSDs are not equal-coverage comparisons. The set of alternates is small; Cα RMSD is not assumed to explain AUROC changes quantitatively (Table S10).
-
-### 2.13 Software and data availability
-
-Analyses ran under Python 3 with RDKit 2026.3.1, meeko 0.7.1, AutoDock Vina 1.2.7, GNINA 1.3.2, and RTMScore (`rtmscore_model1`); Open Babel converted Vina poses to SDF. Superposition and chain alignment used Biopython. AUROC, logistic regression, and cross-validation used NumPy, SciPy, scikit-learn, and pandas. Panels, scores, scripts, and parameter tables are available in the public repository (Data and Software Availability).
+Analyses ran under Python 3 with RDKit 2026.3.1, meeko 0.7.1, AutoDock Vina 1.2.7, GNINA 1.3.2, and RTMScore. Panels, scores, scripts, and parameter tables are available in the public repository (Data and Software Availability).
