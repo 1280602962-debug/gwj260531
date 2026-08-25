@@ -10,11 +10,11 @@
 
 多靶点药物设计（multitarget drug design）旨在通过单一小分子同时调控两个或多个生物学靶点，以应对复杂疾病中的通路冗余、代偿性信号以及药物耐药。与传统单靶点药物相比，合理设计的多靶点配体有望通过协同调节相互关联的生物学过程获得更充分的药理效应，因此已成为多药理学（polypharmacology）研究的重要方向。[1] 近年来，多靶点小分子的理性设计逐渐由经验性筛选转向结合结构生物学、计算化学与生成式模型的结构导向设计。[2] 分子对接（molecular docking）仍是结构基础虚拟筛选（structure-based virtual screening, SBVS）中最常用的计算工具之一：先预测配体在蛋白结合口袋中的构象，再用打分函数对配体–受体互补性排序。[3][4] 因此，在双靶点药物发现中，一个自然策略是分别将候选分子对接至两个靶点，并据此判断其是否具有潜在双靶结合能力。对接结果的解释高度依赖数据集构建。DUD 与 DUD-E 使用物化性质匹配 decoy，以避免表观富集退化为粗粒度配体性质分离。[5][6] LIT-PCBA 采用实验 assay 标签并控制已知 decoy 与化学偏倚。[7] CASF-2016 评价复合物上的 scoring、ranking、docking 与 screening power，仍然属于单复合物问题。[8] 这些资源都没有在实验标注的四状态配体空间中定义双靶方向判别。
 
-一个严格的双靶评价需要区分四种具有不同生物学含义的配体状态：同时作用于两个靶点的 **dual-active** 配体、仅作用于靶点 A 的 **A-selective** 配体、仅作用于靶点 B 的 **B-selective** 配体，以及两端均缺乏足够活性的 **neither** 配体（Figure 1A）。A-only 与 B-only 是该任务的**选择性硬负样本（selectivity hard negatives）**：它们在一个靶点上已有较强活性，却在另一靶点缺乏相应活性。计算终点因而检验对接能否在两个方向上将 dual-active 与对应单靶选择性配体区分开。Zhou、Li 与 Hou 曾在四对激酶上评价相对非抑制剂的 dual-target docking，并报告结构依赖性和预测 dual 中的假阳性。[9] 本文在该设定上引入实验定义的方向性硬负，并在同一套分数上比较不同基准设定。Dual versus neither 用作非选择性对照（nonselectivity-controlled comparator）。双靶面板还可继承化学混淆：若 dual-active 与选择性配体的分子性质或支架分布不同，AUROC 可以反映与标签相关的配体分布，而不只是口袋互补性。[7] 从公开数据构建此类面板还要求同一化合物在两端均有可比较测量，并要求两个方向都有足量选择性硬负，因此平衡的四状态评价本身受数据供给约束。
+一个严格的双靶评价需要区分 **dual-active**、**A-selective**、**B-selective** 与 **neither** 四种实验状态（Figure 1A）。A-only 与 B-only 是该任务的**选择性硬负样本（selectivity hard negatives）**：它们在一个靶点上已有较强活性。计算终点因而检验对接能否在两个方向上将 dual-active 与对应单靶选择性配体区分开。Zhou、Li 与 Hou 曾在四对激酶上评价相对非抑制剂的 dual-target docking。[9] 本文在该设定上引入实验定义的方向性硬负，并在同一套分数上比较不同基准设定。Dual versus neither 用作非选择性对照（nonselectivity-controlled comparator）。传统 active/decoy 设定不能替代这一方向性任务；平衡的四状态面板还受两端可比较测量与双向选择性硬负供给的约束。
 
-近期双靶生成方法仍使用相对参考配体的对接成功指标。[10][11] 当对接被用作下游过滤器时，本文的评价问题便具有实际意义。
+近期双靶生成方法仍使用相对参考配体的对接成功指标。[10][11] 这些指标评价相对参考配体的计算双靶设计，而本文基准检验的是相对实验定义选择性硬负样本的判别。
 
-本文要问的是：基准设定是否改变双靶识别的表观证据。我们构建 DualFourClass-Bench，作为具有两条方向主任务的四状态面板：dual 对 A-only 在口袋 B 打分，dual 对 B-only 在口袋 A 打分（Figure 1B），并以保守的最差方向判别摘要（`summary_min`）汇总。随后从任务设定、配体层混淆以及配体、活性标签与受体扰动三个层面评价观察到的判别。本研究评价的是对接排序的可靠性，而不是开发新的对接算法。
+本文要问的是：基准设定是否改变双靶识别的表观证据。我们构建 DualFourClass-Bench，作为具有两条方向主任务的四状态面板：dual 对 A-only 在口袋 B 打分，dual 对 B-only 在口袋 A 打分（Figure 1B），并以保守的最差方向判别摘要（`summary_min`）汇总。我们进一步考察该判别是否能够在不同配体、活性聚合方式及受体结构条件下保持。
 
 ## 2. 方法
 
@@ -28,7 +28,7 @@
 
 **严格供给审计规则**（建造门槛）为：dual，两端 pChEMBL ≥ 6.5；A-only，A ≥ 6.5 且 B ≤ 5.5；B-only 对称；neither，两端 ≤ 5.5。5.5–6.5 灰区不进入严格审计。金属依赖体系（如 HDAC）预先排除。**正文主比较采用预先统一的 θ = 6.0 标签：** dual，两端 ≥ θ；A-only，A ≥ θ 且 B < θ；B-only 对称；neither，两端 < θ。建造规则在抽样前按供给审计冻结（Table 1）。阈值选择服务于可分析面板，不根据对接分数调整。θ ∈ {5.5, 6.5} 与严格 6.5/5.5 重标作为敏感性报告（Table S4）。样本量过小的格子在 Results 中标记效能不足。
 
-为核对 ChEMBL 供给门槛是否仅为单一库覆盖假象，对冻结靶对另做 BindingDB / PubChem 计数核对（零对接、不重建面板；Table S12）。类型限于 IC50/Ki/Kd/EC50；配体身份分别用 BindingDB monomerid 与 PubChem CID，不做跨库结构合并。主比较采用等式测定。
+为核对 ChEMBL 供给门槛，对冻结靶对另做 BindingDB / PubChem 计数核对（零对接、不重建面板；Table S12）。类型限于 IC50/Ki/Kd/EC50；配体身份分别用 BindingDB monomerid 与 PubChem CID，不做跨库结构合并。主比较采用等式测定。
 
 ### 2.2 基准构建
 
@@ -36,11 +36,11 @@ DualFourClass-Bench 保留四种实验状态，并以两条方向判别为主任
 
 候选靶对按 2.1 的严格供给审计筛选。冻结评价集包含 PIK3CA/mTOR、AChE/BChE、PIK3CA/PIK3CB 与 EGFR/HER2。EGFR/HER2 保留为供给受限案例。配体按预先冻结的类别配额抽样，随机种子为 20260729。抽样时结构可用的面板施加 Bemis–Murcko 支架封顶：PIK3CA/mTOR（PM48）同一类别内同一支架最多 2 个分子，EGFR/HER2 最多 5 个。AChE/BChE 与 PIK3CA/PIK3CB 只采用类别配额和确定性随机顺序。观察对接分数后不再重抽面板。
 
-AChE/BChE 与 PIK3CA/PIK3CB 在严格 6.5/5.5 规则下抽样（目标 28 / 28 / 28 / 16；面板 n = 100）。EGFR/HER2（n = 110）与 PIK3CA/mTOR PM48（n = 48；建造 18 / 14 / 12 / 4）因严格规则下 B_only 过少而使用 θ = 6.0。因此跨对 AUROC 同时混合靶对生物学与面板构建差异。对接失败的配体–受体组合被剔除，分析用计数可低于建造定额（Table 1；Table S27）。扩面面板 PM110 保留 PM48 全部 48 个配体，用于检查面板规模增加后点估计是否同向。
+最终主分析统一使用 θ = 6.0；严格 6.5/5.5 仅用于供给审计和建造门槛。AChE/BChE 与 PIK3CA/PIK3CB 按严格门槛抽样（目标 28 / 28 / 28 / 16；n_panel = 100）。EGFR/HER2（n_panel = 110）与 PIK3CA/mTOR PM48（n_panel = 48；建造 18 / 14 / 12 / 4）在严格门槛下 B-only 过少，因此这两块面板在供给审计阶段即按 θ = 6.0 构建。因此跨对 AUROC 同时混合靶对生物学与面板构建差异。对接失败的配体–受体组合被剔除，n_scored 可低于 n_panel（Table 1；Table S27）。扩面面板 PM110 保留 PM48 全部 48 个配体，用于检查面板规模增加后点估计是否同向。
 
-**Table 1.** DualFourClass-Bench 评价集组成与对接设置。建造标签记录各靶对的供给/建面规则；Tables 2–3 的全部主 AUROC 均使用统一 θ = 6.0 实验状态标签。
+**Table 1.** DualFourClass-Bench 评价集组成与对接设置。建造标签记录各靶对的供给/建面规则；Tables 2–3 的全部主 AUROC 均使用统一 θ = 6.0 实验状态标签。n_panel 为冻结面板成员数（含 neither）；n_scored 为两端均有有效 Vina 分数、进入方向性主 AUROC 的 dual / A-only / B-only 计数。
 
-| 靶对 | 建造标签规则 | 受体 PDB (A / B) | 分辨率 (Å) | 面板 n | 分析用 n (dual / A_only / B_only) | Vina exhaustiveness |
+| 靶对 | 建造标签规则 | 受体 PDB (A / B) | 分辨率 (Å) | n_panel | n_scored (dual / A-only / B-only) | Vina exhaustiveness |
 |------|--------------|------------------|------------:|-------:|----------------------------------:|--------------------:|
 | PIK3CA/mTOR | θ = 6.0 | 4L23 / 4JT6 | 2.50 / 3.60 | 48 | 18 / 14 / 12 | 16 |
 | AChE/BChE | 严格 6.5/5.5 | 4EY7 / 4BDS | 2.35 / 2.10 | 100 | 27 / 25 / 28 | 8 |
@@ -49,9 +49,9 @@ AChE/BChE 与 PIK3CA/PIK3CB 在严格 6.5/5.5 规则下抽样（目标 28 / 28 /
 
 ### 2.3 受体准备与对接协议
 
-受体取自含小分子共晶配体的 PDB 条目：PIK3CA/mTOR，4L23 / 4JT6（X6K / PI-103）；AChE/BChE，4EY7 / 4BDS（E20 / THA）；PIK3CA/PIK3CB，4L23 / 2WXF（X6K / 039）；EGFR/HER2，3POZ / 3RCD（03P / TAK-285）。结合位点由共晶配体定义。以共晶配体重原子计算轴对齐包围盒，三方向各外扩 5 Å；任一边若小于 20 Å，则设为至少 20 Å（Table S2）。去除水分子与共晶配体后，用 Meeko 生成 PDBQT。PIK3CA、mTOR、EGFR 与 HER2 使用冻结目录中已含氢的蛋白坐标（`mk_prepare_receptor.py --read_pdb`）。AChE、BChE 与 PIK3CB 从沉积 ATOM/TER 记录提取，并以 `mk_prepare_receptor`（默认 alternate location A）转换。未额外运行 PDBFixer 或 Reduce。主分析均为非共价小分子对接。
+受体取自含小分子共晶配体的 PDB 条目：PIK3CA/mTOR，4L23 / 4JT6（X6K / PI-103）；AChE/BChE，4EY7 / 4BDS（E20 / THA）；PIK3CA/PIK3CB，4L23 / 2WXF（X6K / 039）；EGFR/HER2，3POZ / 3RCD（03P / TAK-285）。结合位点由共晶配体定义。以共晶配体重原子计算轴对齐包围盒，三方向各外扩 5 Å；任一边若小于 20 Å，则设为至少 20 Å（Table S2）。去除水分子与共晶配体后，用 Meeko 生成 PDBQT。PIK3CA、mTOR、EGFR 与 HER2 使用冻结目录中已含氢的蛋白坐标（`mk_prepare_receptor.py --read_pdb`）。AChE、BChE 与 PIK3CB 从沉积 ATOM/TER 记录提取，并以 `mk_prepare_receptor`（默认 alternate location A）转换。主分析均为非共价小分子对接。
 
-正式对接前对每个冻结受体做共晶配体重对接。生成 9 个姿态，计算与实验共晶构象的重原子 RMSD。预先通过标准为 \(\mathrm{RMSD}_{\mathrm{best9}} < 2.0\) Å，检验保留姿态集合中的构象生成能力，而不要求排名第一的 Vina 姿态必须近晶。若默认 exhaustiveness 未通过门槛，则提高至预先规定的备用水平。主分析因此采用 PIK3CA/mTOR exhaustiveness = 16、其余主面板为 8（Table S3）。
+正式对接前对每个冻结受体做共晶配体重对接。生成 9 个姿态，计算与实验共晶构象的重原子 RMSD。预先通过标准为 \(\mathrm{RMSD}_{\mathrm{best9}} < 2.0\) Å，即九个保留姿态中是否存在与共晶配体重原子 RMSD 小于 2.0 Å 的构象。若默认 exhaustiveness 未通过门槛，则提高至预先规定的备用水平。主分析因此采用 PIK3CA/mTOR exhaustiveness = 16、其余主面板为 8（Table S3）。
 
 配体从冻结 ChEMBL SMILES 统一准备：去盐并保留最大有机片段，RDKit 加显式氢，ETKDGv3 生成三维构象（种子 20260727），MMFF 局部优化最多 200 步，再经 Meeko 转为 PDBQT。不进行系统性质子化、互变异构或构象枚举。对接采用 AutoDock Vina 1.2.7 默认 `vina` 打分函数，保留 9 个姿态，`energy_range = 3` kcal mol\(^{-1}\)，随机种子 20260727（Table S1）。为检验打分函数依赖性，同一组 Vina 姿态另用 RTMScore（`rtmscore_model1`，取九姿态最高分）与 GNINA 1.3.2 CNN（`--cnn_scoring rescore --minimize`，Open Babel 转 SDF 后取九姿态最高分）重打分。Vina 主读出是 mode-1 能量；RTM 与 GNINA 是 best-of-9 重打分。主终点始终由 Vina 定义。
 
@@ -59,7 +59,7 @@ AChE/BChE 与 PIK3CA/PIK3CB 在严格 6.5/5.5 规则下抽样（目标 28 / 28 /
 
 全文中的“双靶识别”指这一计算判别任务。对每个靶对计算两条二分类 AUROC。dual 对 A-only 使用口袋 B 分数，\( \mathrm{AUC}_{D/A} = \mathrm{AUROC}(\text{dual},\;\text{A-only};\;S_B) \)；dual 对 B-only 使用口袋 A 分数，\( \mathrm{AUC}_{D/B} = \mathrm{AUROC}(\text{dual},\;\text{B-only};\;S_A) \)。dual 始终为正类。Vina 输出结合能 \(E_{\mathrm{Vina}}\)（kcal mol\(^{-1}\)，越负表示预测结合越强）；\(S_{\mathrm{Vina}} = -E_{\mathrm{Vina}}\)。
 
-最差方向判别摘要定义为 \( \mathrm{summary}_{\min} = \min(\mathrm{AUC}_{D/A},\;\mathrm{AUC}_{D/B}) \)。它是将两条方向 AUROC 压缩为单值的保守摘要。算术平均、几何平均与调和平均作为聚合敏感性报告（Table S26）。全文唯一主终点是统一 θ = 6.0 下的口袋匹配 Vina `summary_min`（Table 2；PIK3CA/mTOR 主面板为 PM48）。预先指定的 RDKit 描述符面板（重原子数、分子量、cLogP、TPSA）按同一方向流程评价；其中 AUROC 最高者记为最佳单一描述符参考（Tables 2、S28、S19）。同一套冻结分数上另计算 Dual versus neither（实验 inactive；`vina_mean`）与 Dual versus all non-duals，作为辅助基准设定对照（Table 3；Table S22）。PIK3CA/mTOR 的 neither n = 4 标记效能不足。
+最差方向判别摘要定义为 \( \mathrm{summary}_{\min} = \min(\mathrm{AUC}_{D/A},\;\mathrm{AUC}_{D/B}) \)。它是两条方向 AUROC 的保守摘要，不是新的对接分数。算术平均、几何平均与调和平均作为聚合敏感性报告（Table S26）。全文唯一主终点是统一 θ = 6.0 下的口袋匹配 Vina `summary_min`（Table 2；PIK3CA/mTOR 主面板为 PM48）。预先指定的 RDKit 描述符面板（重原子数、分子量、cLogP、TPSA）按同一方向流程评价；其中 AUROC 最高者记为最佳单一描述符参考（Tables 2、S28、S19）。Dual versus neither（实验 inactive；`vina_mean`）是描述性的非选择性对照；Dual versus all non-duals 为同一套冻结分数上的辅助基准设定对照（Table 3；Table S22）。PIK3CA/mTOR 的 neither n = 4 标记效能不足。
 
 AUROC 与 summary_min 的不确定度用配体层 bootstrap：在保持类别结构的条件下对配体有放回重采样（\(B = 2000\)，种子 20260729，百分位数 95% CI）。配对比较在同一次重采样上计算（Tables S17、S19）。置信区间作描述性不确定度。
 
@@ -79,23 +79,21 @@ AUROC 与 summary_min 的不确定度用配体层 bootstrap：在保持类别结
 
 为确定公开生物活性数据是否能够支持严格的双靶点识别评测，我们首先对 49 对有 ChEMBL 缓存的候选靶标进行供给审计（Figure 2）。一端达到活性阈值、对端明确低活性的配体定义为方向性选择性硬负样本。
 
-在严格标签规则下（dual：两端 pChEMBL ≥ 6.5；选择性类：活性端 ≥ 6.5 且对端 ≤ 5.5），能够同时提供足量 A-only 与 B-only 硬负样本的靶对十分有限。两端严格硬负均不少于 50 的厚面板条件仅有 4 对满足。排除金属依赖 HDAC1/HDAC6 后，PIK3CA/mTOR、AChE/BChE 与 PIK3CA/PIK3CB 构成三个规模相对充足的靶对；EGFR/HER2 仅有 7 个严格 B-only 配体，因此被保留为供给受限案例（Table 1）。
+在严格标签规则下（dual：两端 pChEMBL ≥ 6.5；选择性类：活性端 ≥ 6.5 且对端 ≤ 5.5），能够同时提供足量 A-only 与 B-only 硬负样本的靶对十分有限。两端严格硬负均不少于 50 的厚面板条件仅有 4 对满足。排除金属依赖 HDAC1/HDAC6 后，PIK3CA/mTOR、AChE/BChE 与 PIK3CA/PIK3CB 构成三个规模相对充足的靶对；EGFR/HER2 仅有 7 个严格 B-only 配体，因此被保留为供给受限案例（Table 1）。BindingDB 与 PubChem 的零对接计数核对支持同一供给稀缺结论（Table S12）。
 
-这一供给限制并非 ChEMBL 单一数据库特有的计数现象。对最终四对靶标进行 BindingDB 与 PubChem 的零对接计数核对后（Table S12），与 pChEMBL 更接近的 `equal_only` 规则下，前三对的最小硬负计数分别为 BindingDB 76 / 92 / 58、PubChem 86 / 97 / 61（ChEMBL 缓存为 80 / 78 / 56），仍全部 ≥ 50。EGFR/HER2 虽可在其他数据库中达到约 30 个 B 端硬负样本，仍不足以满足 ≥ 50 的厚面板标准。将不等式活性记录作为点估计（`as_is`）会显著增加 EGFR/HER2 的表观供给（BindingDB min HN 升至 85），但 92 个 as-is B_only 中有 49 个在 EGFR 端只有 `>` 记录，因此未用于冻结基准。
-
-因此，最终基准的规模主要由公开实验数据中方向性选择性硬负样本的可获得性所约束。严格 6.5/5.5 规则用于量化供给并记录面板构建，而 θ = 6.0 定义全部主 AUROC 的实验状态标签（Methods 2.1）。后续结果依次考察基准设定（3.2）、配体层化学基线（3.3）、评价条件敏感性（3.4）与证伪对照（3.5）。
+因此，最终基准的规模主要由公开实验数据中方向性选择性硬负样本的可获得性所约束。严格 6.5/5.5 规则用于量化供给并记录面板构建，而 θ = 6.0 定义全部主 AUROC 的实验状态标签（Methods 2.1）。
 
 ### 3.2 基准设定改变了表观双靶判别
 
-在冻结的四对靶标上，采用统一 θ = 6.0 标签规则和口袋匹配方向 AUROC 对 Vina 对接分数进行评价（Figure 1B；Methods 2.4）。分数定义为 \(S=-E_{\mathrm{Vina}}\)（越大越好），dual 为正类。预先指定的最差方向判别摘要为 `summary_min`（两条方向 AUROC 的较小值）。算术平均、几何平均与调和平均只作聚合敏感性；四种摘要下四对排序不变（Table S26）。AChE/BChE 与 PIK3CA/PIK3CB 在建造时使用更严格的 6.5/5.5 规则，但在本数据上 θ = 6.0 给出完全相同的配体分类与 AUROC（Table S4）；EGFR/HER2 与 PIK3CA/mTOR 在严格规则下 B_only 过少。整张阈值网格内排序趋势保持一致（Figure S1A）。
+在冻结的四对靶标上，采用统一 θ = 6.0 标签规则和口袋匹配方向 AUROC 对 Vina 对接分数进行评价（Figure 1B；Methods 2.4）。分数定义为 \(S=-E_{\mathrm{Vina}}\)（越大越好），dual 为正类。预先指定的最差方向判别摘要为 `summary_min`。算术、几何与调和平均下四对排序不变（Table S26）。AChE/BChE 与 PIK3CA/PIK3CB 上，θ = 6.0 与更严格建造门槛给出相同分类与 AUROC（Table S4）；EGFR/HER2 与 PIK3CA/mTOR 在严格规则下 B_only 过少。整张阈值网格内排序趋势保持一致（Figure S1A）。
 
 EGFR/HER2、AChE/BChE、PIK3CA/PIK3CB 和 PIK3CA/mTOR 的方向性 summary_min 分别为 0.430、0.606、0.500 和 0.692（Table 2；Figure 4A）。EGFR/HER2 的 dual-versus-B-only AUROC 为 0.430，PIK3CA/PIK3CB 为 0.500；PIK3CA/mTOR 两个方向分别为 0.714 和 0.692。相对池化协议，口袋匹配抬高了点估计但未改变排序（Table S6）。
 
-同一套冻结分数再按 Dual versus neither 以及 Dual versus all non-duals 计分（Table 3；Figure 3）。Dual versus neither 使用实验 inactive（`vina_mean`）。EGFR/HER2 提供了最清晰的设定对照。Dual versus neither 的 AUROC 为 0.756 [0.562, 0.920]（n_neg = 12），而方向性 summary_min 仍为 0.430 [0.284, 0.576]。Dual versus all non-duals 降至 0.551 [0.443, 0.666]。在 110 个 EGFR/HER2 配体的混合库中按 `vina_mean` 取 Top-10：1 个 dual、5 个 A-only、4 个 B-only、0 个 neither（EF10 = 0.393；硬负比例 = 0.90）；EF5 也低于随机（Table S25）。AChE/BChE 与 PIK3CA/PIK3CB 的 Dual-versus-neither 增量很小（0.649 与 0.559），区间与方向性臂重叠。PIK3CA/mTOR Dual versus neither 因 neither n = 4 而效能不足；该对 Dual versus all non-duals 为 0.674，接近 summary_min 0.692。
+同一套冻结分数再按 Dual versus neither 以及 Dual versus all non-duals 计分（Table 3；Figure 3）。Dual versus neither 是使用实验 inactive 的描述性对照（`vina_mean`）。EGFR/HER2 提供了最清晰的设定对照。Dual versus neither 的 AUROC 为 0.756 [0.562, 0.920]（n_neg = 12），而方向性 summary_min 仍为 0.430 [0.284, 0.576]。Dual versus all non-duals 降至 0.551 [0.443, 0.666]，表明引入选择性配体后判别任务明显变难。在 110 个 EGFR/HER2 配体的混合库中按 `vina_mean` 取 Top-10：1 个 dual、5 个 A-only、4 个 B-only、0 个 neither（EF10 = 0.393；硬负比例 = 0.90）；EF5 也低于随机（Table S25）。AChE/BChE 与 PIK3CA/PIK3CB 的 Dual-versus-neither 增量很小（0.649 与 0.559），区间与方向性臂重叠。PIK3CA/mTOR Dual versus neither 因 neither n = 4 而效能不足；该对 Dual versus all non-duals 为 0.674，接近 summary_min 0.692。
 
-**Table 2.** 冻结 K = 4 评价集上的口袋匹配方向 AUROC（Vina，统一 θ = 6.0），并列出四个预先指定描述符的 `summary_min`。`n` 是要求两端均有分数后，实际进入主 AUROC 的 dual / A_only / B_only 类别样本量；neither 不进入这些 AUROC。建造面板规模与两端对接覆盖分别见 Table 1 和 Table S27。最高描述符是最佳单一描述符参考。错口袋与配体效率见 Table S6；描述符双臂见 Table S28。
+**Table 2.** 冻结 K = 4 评价集上的口袋匹配方向 AUROC（Vina，统一 θ = 6.0），并列出四个预先指定描述符的 `summary_min`。表中类别样本量为 n_scored（dual / A-only / B-only），即对应方向分析中具有有效 Vina 分数的配体数，因而可以低于冻结面板定额；neither 不进入主终点。n_panel 与两端对接覆盖见 Table 1 和 Table S27。最高描述符是最佳单一描述符参考。错口袋与配体效率见 Table S6；描述符双臂见 Table S28。
 
-| 靶对 | n (dual / A_only / B_only) | dual 对 A_only（口袋 B） | dual 对 B_only（口袋 A） | summary_min [95% CI] | heavy | MW | cLogP | TPSA |
+| 靶对 | n_scored (dual / A-only / B-only) | dual 对 A_only（口袋 B） | dual 对 B_only（口袋 A） | summary_min [95% CI] | heavy | MW | cLogP | TPSA |
 |------|---------------------------:|-------------------------:|-------------------------:|----------------------|------:|---:|------:|-----:|
 | EGFR/HER2 | 28 / 38 / 32 | 0.666 | 0.430 | 0.430 [0.284, 0.576] | 0.369 | 0.416 | 0.482 | 0.427 |
 | AChE/BChE | 27 / 25 / 28 | 0.650 | 0.606 | 0.606 [0.440, 0.740] | 0.582 | 0.579 | 0.467 | 0.733 |
@@ -129,13 +127,13 @@ PIK3CA/mTOR 的情况有所不同。加入重原子数和 TPSA 后，AUROC 的�
 
 ### 3.4 活性聚合、配体面板与受体实现影响评价结果
 
-主标签使用可用 pChEMBL 的最大值。我们重新获取 assay 级记录，并分别采用最大值和中位数重新聚合，不改变冻结面板成员、对接参数或 Vina 分数。中位数聚合改变了 7/110、1/95、1/99 和 0/48 个配体状态分配，标签一致率分别为 93.6%、98.9%、99.0% 和 100%。在 API 重拉标签上，靶对 `summary_min` 仅适度变化（0.417→0.424、0.606→0.629、0.500→0.500 和 0.692→0.692）。这些 API 重拉估计作为最大值对中位数敏感性，与 Table 2 并列报告（Table S29）。Assay 间异质性仍然存在，因为 pChEMBL 值并非 assay-equivalent。
+主标签使用可用 pChEMBL 的最大值。将最大值换成重复测定中位数后，改变了 7/110、1/95、1/99 和 0/48 个配体状态分配，标签一致率分别为 93.6%、98.9%、99.0% 和 100%。API 重拉标签上的靶对 `summary_min` 仅适度变化（0.417→0.424、0.606→0.629、0.500→0.500 和 0.692→0.692；Table S29）。
 
-将 exhaustiveness 从 16 降至 8 后，PIK3CA/mTOR 的 summary_min 从 0.692 降至 0.660（Figure S1D）。在 PM110 面板中（分析用 n = 115；dual / A_only / B_only 各 30），Vina summary_min 为 0.648 [0.51, 0.76]，相比 PM48 下降约 0.04，排序趋势保持一致（Figure S1C）。在未使用配体池留出集中（每对 20 / 20 / 20，种子 20260731；EGFR/HER2 不具备同等配额），PIK3CA/mTOR 的 summary_min 为 0.765 [0.603, 0.891]，AChE/BChE 为 0.618 [0.422, 0.759]，PIK3CA/PIK3CB 则下降至 0.425 [0.241, 0.618]（Tables S8、S16）。该留出集共享同一 ChEMBL 抓取批次。
+将 exhaustiveness 从 16 降至 8 后，PIK3CA/mTOR 的 summary_min 从 0.692 降至 0.660（Figure S1D）。在 PM110 面板中（n_scored = 115；dual / A_only / B_only 各 30），Vina summary_min 为 0.648 [0.51, 0.76]，相比 PM48 下降约 0.04，排序趋势保持一致（Figure S1C）。在未使用配体池留出集中（每对 20 / 20 / 20，种子 20260731；EGFR/HER2 不具备同等配额），PIK3CA/mTOR 的 summary_min 为 0.765 [0.603, 0.891]，AChE/BChE 为 0.618 [0.422, 0.759]，PIK3CA/PIK3CB 则下降至 0.425 [0.241, 0.618]（Tables S8、S16）。该留出集共享同一 ChEMBL 抓取批次。
 
 我们进一步测试受体实现：一端受体冻结，只替换另一端（Figure 5；Tables S9、S30）。三个替代晶体均通过共晶重对接 QC（best-of-9 RMSD 分别为 4JPS 0.607 Å、5DXT 0.624 Å、4JSX 0.515 Å）。在 PIK3CA/mTOR 上，当 PIK3CA 4L23 替换为 4JPS 或 5DXT、mTOR 4JT6 保持不变时，PM48 的 summary_min 分别由 0.692 降至 0.486 [0.259, 0.692] 和 0.505 [0.292, 0.696]（Figure 5A）。变化主要发生在依赖替代 PIK3CA 结构的 D/B 方向，D/A 保持 0.714。将 mTOR 4JT6 替换为 4JSX 后 summary_min 为 0.639 [0.418, 0.776]。
 
-同一套 PIK3CA 晶体再用于 PIK3CA/PIK3CB 面板、2WXF 保持冻结时，summary_min **上升**：由 0.500 至 0.691 [0.516, 0.779]（4JPS）和 0.685 [0.506, 0.768]（5DXT）（Figure 5B）。dual versus A-only 保持 0.691；dual versus B-only 由 0.500 升至 0.707 和 0.685。三种 PIK3CA 条件使用相同的 99 个已打分配体（Table S30）。因此，替换同一 PIK3CA 受体在两个靶对上使表观判别向相反方向变化，显示的是受体实现敏感性，而不是对接性能的均匀损失。
+同一套 PIK3CA 晶体再用于 PIK3CA/PIK3CB 面板、2WXF 保持冻结时，summary_min **上升**：由 0.500 至 0.691 [0.516, 0.779]（4JPS）和 0.685 [0.506, 0.768]（5DXT）（Figure 5B）。dual versus A-only 保持 0.691；dual versus B-only 由 0.500 升至 0.707 和 0.685。三种 PIK3CA 条件使用相同的 99 个已打分配体（Table S30）。因此，替换同一 PIK3CA 受体在两个靶对上使表观判别向相反方向变化。
 
 ### 3.5 错口袋对照揭示面板外尚未解决的失败模式
 
@@ -151,49 +149,43 @@ PIK3CA/mTOR 的情况有所不同。加入重原子数和 TPSA 后，AUROC 的�
 
 ### 4.1 基准设定改变了双靶对接的证据标准
 
-本研究的首要发现是：基准设定可以改变“双靶对接成功”的表观含义。传统对接基准通常将活性配体与 decoy 区分，而本文要求模型同时区分 dual-active 配体与两个方向上的单靶选择性硬负样本。后者在一个靶点上具有较强实验活性。同一套分数上的 Dual versus neither 用作非选择性对照。公开生物活性数据很难同时提供两个方向上足够数量的这类配体（Results 3.1；Figure 2）。
+本研究的首要发现是：基准设定可以改变“双靶对接成功”的表观含义。传统对接基准通常将活性配体与 decoy 区分，而本文要求模型同时区分 dual-active 配体与两个方向上的单靶选择性硬负样本。同一套分数上的 Dual versus neither 用作非选择性对照。公开生物活性数据很难同时提供两个方向上足够数量的这类配体（Results 3.1；Figure 2）。
 
-相对于 Zhou 等采用的双靶评价设定，[9] 本文进一步引入实验定义的 A-only/B-only 方向硬负，并在同一套分数上比较不同基准设定。EGFR/HER2 上，Dual versus neither 为 0.756，方向性 `summary_min` 为 0.430，混合库 Top-10 中 9/10 为选择性配体。AChE/BChE 与 PIK3CA/PIK3CB 只有小且区间重叠的增量，PIK3CA/mTOR 对照则因 neither n = 4 而效能不足。
+相对于 Zhou 等采用的双靶评价设定，[9] 本文进一步引入实验定义的 A-only/B-only 方向硬负，并在同一套分数上比较不同基准设定。EGFR/HER2 提供了最清晰的例子：非选择性对照提示有利判别，而方向性硬负任务则不然；相应混合库排序同样偏向选择性配体。AChE/BChE 与 PIK3CA/PIK3CB 只有小且区间重叠的增量，PIK3CA/mTOR 对照则因 neither n = 4 而效能不足。
 
-这一数据限制本身具有方法学意义。DUD、DUD-E 与 LIT-PCBA 已经表明，decoy 构建、化学偏倚和真实 assay 标签会改变虚拟筛选结论；[5–7] 简单方法也可以通过学习配体分布而高估结构基础虚拟筛选。[12] 近期基于真实 assay 数据的评价进一步强调，真实测定可以揭示人工 ligand/decoy 集所掩盖的局限。[13] DualFourClass-Bench 把同一关切延伸到双靶任务：评价结论取决于硬负样本如何被实验定义。
+已有对接基准表明，decoy 构建、化学偏倚和真实 assay 标签会改变虚拟筛选解释；[5–7,12,13] 本文把同一关切延伸到双靶任务：评价结论取决于硬负样本如何被实验定义。
 
 ### 4.2 配体化学基线揭示了表观对接判别中的混淆来源
 
-双靶对接的困难并不能简单理解为两个单靶对接任务的性能相加。四个 `summary_min` bootstrap CI 均包含 0.5，因此在当前样本量下没有一个靶对获得排除随机水平的明确证据。在主分析冻结受体协议下，PIK3CA/mTOR 的点估计最高（0.692），但相对最佳单一描述符参考的配对差值 CI 也包含 0（Results 3.2；Table S19）。
+表观双靶对接性能需要连同配体化学基线一起解释。四个 `summary_min` bootstrap CI 均包含 0.5，因此在当前样本量下没有一个靶对获得排除随机水平的明确证据。在主分析冻结受体协议下，PIK3CA/mTOR 的点估计最高，但相对最佳单一描述符参考的配对差值 CI 也包含 0（Results 3.2；Table S19）。
 
-AChE/BChE 上 TPSA 单独即可获得高于对接的判别，而支架分组 ECFP4 在多个方向上进一步超过对接（Results 3.3）。该配体化学基线表明，实验标签包含可由配体二维结构表征捕获的信息，即使不使用受体信息也可以获得较强判别；因此对接性能必须相对于配体基线解释。在当前支架分组基准下，把对接分数加到 ECFP4 后只产生很小的 CV AUROC 增量改善（最大绝对变化 0.020）。这一面板内结果不等于对接不提供任何额外信息。
-
-化学型约束硬负给出同一方向的证据。T ≥ 0.7 的匹配子集为空。T ≥ 0.3 时，未匹配时最强的一臂（PIK3CA/PIK3CB dual versus A-only，0.691）降至 0.503（n_neg = 11），而远缘硬负（T < 0.3）升至 0.819。如果不设置 A-only/B-only 硬负以及物化或化学基线，一个看似优秀的双靶对接结果可能实际上只是识别了与 dual 标签相关的分子属性。[7,12]
+AChE/BChE 上 TPSA 单独即可获得高于对接的判别，而支架分组 ECFP4 在多个方向上进一步超过对接（Results 3.3）。实验标签因此包含可由配体二维结构表征捕获的信息。把对接分数加到 ECFP4 后只产生很小的 CV AUROC 增量（最大绝对变化 0.020）。T ≥ 0.3 时，未匹配时最强的一臂（PIK3CA/PIK3CB dual versus A-only，0.691）降至 0.503（n_neg = 11），而远缘硬负（T < 0.3）升至 0.819。如果不设置 A-only/B-only 硬负以及物化或化学基线，一个看似优秀的双靶对接结果可能实际上只是识别了与 dual 标签相关的分子属性。[7,12]
 
 ### 4.3 受体实现是评价条件的另一维度
 
-PIK3CA/mTOR 是主终点点估计最高、受体替换变动也最大的靶对。其主面板 summary_min 为 0.692，PM110 为 0.648，未使用配体池留出集为 0.765。三者同向提示结果并非完全由 PM48 的具体成员构成所决定，但这些检查仍处于同一 ChEMBL 数据体系。替换 PIK3CA 后 summary_min 降至 0.486 和 0.505，而替换 mTOR 后为 0.639（Results 3.4；Figure 5A）。
-
-同一套 PIK3CA 替换在 PIK3CA/PIK3CB 上使 summary_min 由 0.500 升至 0.691 和 0.685，而 B 端受体保持冻结（Figure 5B）。因此，替换同一 PIK3CA 受体在两个靶对上分别提高或降低了该评价任务中的表观判别。受体实现是评价条件的另一维度。两例均共享 PIK3CA，外推仍需更多靶对。简单骨架相似性同样未能预测 PIK3CA/mTOR 的变化（Results 3.6），这与近期把受体表示视为独立性能变量的激酶交叉对接工作相一致。[14]
+在 PIK3CA/mTOR 上，替换 PIK3CA 使 summary_min 由 0.692 降至 0.486 和 0.505，替换 mTOR 后为 0.639（Results 3.4；Figure 5A）。同一套 PIK3CA 替换在 PIK3CA/PIK3CB 上使估计由 0.500 升至 0.691 和 0.685（Figure 5B）。因此，受体替换既可提高也可降低该评价任务中的表观判别。两例均共享 PIK3CA，外推仍需更多靶对。相反方向的变化可能来自限制臂切换、局部口袋几何或配体分布差异；现有数据无法区分这些可能。简单骨架相似性同样未能预测 PIK3CA/mTOR 的变化（Results 3.6），这与把受体表示视为性能变量的激酶交叉对接工作相一致。[14]
 
 ### 4.4 对双靶虚拟筛选与生成式设计的含义
 
-这些结果对双靶虚拟筛选以及将对接作为下游评价的生成式设计方法具有潜在启示。同时在两个口袋获得有利对接分数，并不能自动等同于实验上合理的 dual-active 配体。若双靶生成模型把对接当作下游过滤器，就还应在选择性硬负和配体化学对照下评价。DualFourClass-Bench 可以作为这类方法的下游评价层，检验生成分子是否超过实验定义的单靶硬负样本。[10,11]
+这些结果对双靶点虚拟筛选具有直接的方法学启示，并可能适用于将 docking 作为下游筛选环节的生成式设计流程。同时在两个口袋获得有利分数，并不能自动建立实验定义的双靶活性。若双靶生成模型把对接当作下游过滤器，就还应在选择性硬负和配体化学对照下评价。DualFourClass-Bench 可以作为这类方法的下游评价层，检验生成分子是否超过实验定义的单靶硬负样本。[10,11]
 
 ### 4.5 局限性
 
-以下五条限制界定本文结论的解释范围。
+第一，评价集仅含四对靶标，因为实验定义的双靶硬负样本稀缺。K = 4 是受数据供给约束的案例面板，而不是全面的双靶基准套件。四个 `summary_min` 还混合了面板构建差异（严格 6.5/5.5 对 θ = 6.0；不等 n）与靶对生物学。
 
-第一，评价集仅含四对靶标，因为实验定义的双靶硬负样本稀缺。K = 4 是受数据供给约束的案例面板。四个 `summary_min` 还混合了面板构建差异（严格 6.5/5.5 对 θ = 6.0；不等 n）与靶对生物学，不能读成内在对接性能的总体排序。
+第二，实验标签来自 ChEMBL。未使用配体池留出集仍属同一抓取批次，因此不是独立外部验证。BindingDB/PubChem 核对仅为计数。
 
-第二，实验标签来自 ChEMBL。未使用配体池留出集仍属同一抓取批次。BindingDB/PubChem 核对仅为计数。
+第三，活性聚合对照之后，assay 异质性仍然存在。主策展使用最大 pChEMBL；换成重复测定中位数后靶对层估计变化很小（Results 3.4；Table S29）。confidence≥8 与 Homo sapiens 过滤未重建。
 
-第三，活性聚合对照之后，assay 异质性仍然存在。主策展使用最大 pChEMBL；换成重复测定中位数后靶对层估计变化很小（Results 3.4；Table S29）。pChEMBL 仍非 assay-equivalent。confidence≥8 与 Homo sapiens 过滤未重建。
+第四，受体实现可以提高或降低成对判别，但实验并未给出分子起源。两个受体敏感性例子均共享 PIK3CA。
 
-第四，受体实现可以提高或降低成对判别，但实验并未给出分子起源。两个受体敏感性例子均共享 PIK3CA。残基级 PLIF/侧链分析未系统进行。
-
-第五，本研究评价的是计算判别，尚未对新预测双靶化合物做前瞻实验。基准回答的是对接排序的可靠性。
+第五，本研究评价的是计算判别，尚未对新预测双靶化合物做前瞻实验。
 
 ## 5. 结论
 
-本研究建立 DualFourClass-Bench，作为针对 A-selective、B-selective 硬负样本的实验锚定计算判别环境。在四对冻结靶标上，最差方向判别摘要高度依赖靶对（`summary_min` 0.430–0.692），且把对接分数加到 ECFP4 后只产生很小的支架分组 CV AUROC 增量改善。在这四对面板中，主终点对最大 pChEMBL 与重复测定中位数聚合的选择总体不敏感。PIK3CA/mTOR 的点估计最高，并在未使用配体池稳定性检查中保持同向趋势；但其不确定性与受体敏感性排除了可推广的决策规则。
+本研究建立了 DualFourClass-Bench，用于在实验定义的 A-selective 和 B-selective 硬负样本条件下评价双靶点 docking 的方向性判别。四对冻结靶标中，`summary_min` 为 0.430–0.692，且将 docking 分数加入 ECFP4 后在支架分组交叉验证中的增量有限。活性聚合规则的敏感性分析未改变主要结论，而受体结构替换则可显著改变判别表现，包括在两个 PIK3CA 相关靶对中出现方向相反的变化。
 
-表观双靶对接判别对任务设定、配体化学组成和受体实现高度敏感。EGFR/HER2 上，Dual-versus-neither 对照为 0.756，而方向性最差一臂为 0.430。若干靶对上，配体化学参考达到或超过对接；未使用配体池留出集还暴露出配对区间包含零的未解决错口袋点估计反转。受体实现按靶对提高或降低表观判别。这些结果支持把实验定义的选择性硬负样本、配体层混淆对照、面板外稳定性检查与受体敏感性作为双靶对接评价的互补要求。本文的主要贡献是一套评价协议，而不是普适对接方法。
+这些结果表明，双靶点 docking 的表观判别具有明显的任务、配体化学和受体实现依赖性；仅依据两个口袋中的有利 docking 分数不足以建立双靶活性的充分证据。对于双靶虚拟筛选及将 docking 用作下游评价的生成式设计流程，应同时考虑选择性硬负样本、配体层化学对照、未使用配体池和受体结构敏感性。DualFourClass-Bench 的主要用途因此是界定 docking-based dual-target recognition 的证据边界，而非提供普适的 docking 排名规则。
 
 ## 数据与软件可用性
 
