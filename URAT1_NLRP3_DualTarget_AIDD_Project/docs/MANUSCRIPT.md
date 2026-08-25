@@ -5,7 +5,7 @@
 
 ## 一句话贡献
 
-在 ChEMBL 证据不对称条件下，痛风双节点临床库重定位应：**先用 TrueDecoy/RandomDecoy 选定 URAT1 对接协议（Π\* = P2，gnina CNNaffinity）**，再用 NLRP3 分类缩库、双靶结构百分位排序，并把 **Pareto 非支配与药物化学提名分开**。产出可证伪假说，不是双靶抑制剂发现。
+预先锁定的 TrueDecoy/RandomDecoy 比较表明：**现有 URAT1 对接读出（含规则幸存者 P2）不足以在多样化临床库上做活性筛选**（RandomDecoy AUC 0.54，EF@1% 0.22，与随机无法区分）。据此，痛风双节点重定位**不能**从本漏斗的对接百分位鉴定候选。P2 百分位表与化学过滤后的 7 个名字只作启发式湿实验面板 / SI，不是 hit。主张入口：[`PROJECT_CLAIM_REFRAME.md`](PROJECT_CLAIM_REFRAME.md)。
 
 ## 写作文件
 
@@ -22,8 +22,9 @@
 | 与 PLK1/NLRP3 差异 | [`DIFFERENTIATION_VS_PLK1_NLRP3.md`](DIFFERENTIATION_VS_PLK1_NLRP3.md) |
 | 贡献 / 动机 / 期刊 | [`paper_spine_ars_analysis/`](paper_spine_ars_analysis/) |
 | 漏斗复现命令 | [`LOCAL_AGENT_TASKS.md`](LOCAL_AGENT_TASKS.md)、[`WORKFLOW.md`](WORKFLOW.md) |
-| 对照 Mol Divers 的修改计划（不重锁 P2） | [`MOL_DIVERS_REVISION_PLAN.md`](MOL_DIVERS_REVISION_PLAN.md) |
-| MD 应跑哪些体系 | [`MD_RUN_PLAN.md`](MD_RUN_PLAN.md) |
+| 主张重锁（P2 不能当 VS） | [`PROJECT_CLAIM_REFRAME.md`](PROJECT_CLAIM_REFRAME.md) |
+| 对照 Mol Divers 的旧计划（历史备忘，不再指导主产品） | [`MOL_DIVERS_REVISION_PLAN.md`](MOL_DIVERS_REVISION_PLAN.md) |
+| MD 应跑哪些体系（协议诊断，不是 lead 验证） | [`MD_RUN_PLAN.md`](MD_RUN_PLAN.md) |
 
 ## 正文结构（Mol Divers；转 JCAMD 时把 R1 提前加重）
 
@@ -31,13 +32,13 @@
 2. Methods — [`METHODS_DRAFT_CN.md`](METHODS_DRAFT_CN.md)；协议筛选在临床库之前完成；生产对接为 P2（`num_modes=1`）；含 2.12 统计分析小节（配对 bootstrap、超几何检验）；MD 六体系清单（2.11，轨迹未报数值）  
 3. Results — [`RESULTS_DRAFT_CN.md`](RESULTS_DRAFT_CN.md)  
    - R1 诱饵相似性泄漏审计：RandomDecoy 无近邻泄漏，弱活分子的重叠符合设计意图  
-   - R2 双诱饵 P0–P5，锁定 P2（不选 P5）；配对 bootstrap 显示 P2 与 P5 在 TrueDecoy 上不可区分，P5 被否决靠 RandomDecoy 零命中；自对接说明 P2 Top-1 不是构象金标准  
-   - R3 8319 → 1588 → 归档 1,580 行（有效双靶分数 **1,579**）；已知痛风药对照表；NLRP3 阈值敏感性；Tegoprazan/Levotofisopam 未进门控  
-   - R4 裸 Pareto 4（大环，审计）vs 双结构门控 51 / 优选 7；τ 敏感性不替换生产短名单；跟进 GSK-3008348 + Vecabrutinib 为待双通路验证的双节点计算候选  
-   - R5 姿态 QC（7 个优选均在口袋内；lesinurad 生产姿 Arg477 ≈ 14 Å）  
-   - R6 MD 六体系已指定、轨迹数值未报  
-4. Discussion — [`DISCUSSION_DRAFT_CN.md`](DISCUSSION_DRAFT_CN.md)：假说边界；对照未回收的读法；P2 ≠ 构象金标准；MD 只做口袋压力测试；Unlike 湿法双靶与计算筛选模板  
-5. Conclusions — [`CONCLUSIONS_DRAFT_CN.md`](CONCLUSIONS_DRAFT_CN.md)：7 个双结构门控计算候选；GSK-3008348 与 Vecabrutinib 为待双通路验证的双节点计算候选（不是单靶假说，也不是已验证双靶药）
+   - R2 双诱饵 P0–P5：**无一达到多样化库可用的 VS 门槛**；P2 仅为“Random 非零”规则下的幸存者，RandomDecoy 上与随机无法区分  
+   - R3 把该弱读出迁到临床库：已知 URAT1 药不回收；大环占据 Pareto——作为阴性应用结果，不是 hit 漏斗成功  
+   - R4 化学过滤 P2 尾部得到的 7 个名字降为 SI 启发式面板，**正文不称为优选/双节点候选**  
+   - R5 姿态 QC 与 lesinurad Arg477 ≈ 14 Å：P2 不是构象金标准  
+   - R6 MD 六体系 = 协议诊断（晶体对照 vs P2 姿），不是 lead 验证；轨迹未报  
+4. Discussion — [`DISCUSSION_DRAFT_CN.md`](DISCUSSION_DRAFT_CN.md)：P2 不能当活性筛选器；课题主产品改为阴性协议评价；湿实验纳入与百分位脱钩  
+5. Conclusions — [`CONCLUSIONS_DRAFT_CN.md`](CONCLUSIONS_DRAFT_CN.md)：对接读出不够用；不从百分位鉴定双节点 hit
 
 ## 主张边界（全文禁止）
 
@@ -47,17 +48,21 @@
 - EGCG 或 canagliflozin 作为当前主推荐 lead  
 - Glide XP / 默认 Vina 作为生产读出  
 - 未实现模块：三态 \(S_{\mathrm{trap}}\)、生成式路径、SLC22 迁移主创新、Teacher 蒸馏
+- **P2 / 双百分位门控 = 筛选活性或双节点 hit 鉴定**
+- 把 7 个化学过滤名字写成优选候选、lead、或待验证的双节点计算候选（主结论）
 
-## 当前跟进分子（双节点计算候选，待双通路验证；非已验证 hit）
+## 降级名单（SI 启发式面板，不是正文产品）
 
-| 角色 | 分子 | 说明 |
-|------|------|------|
-| 双节点计算候选 | GSK-3008348 | 羧酸；双对接均衡；NLRP3 模型分弱；I 期 αvβ6 已停。两条实验都做，可先 URAT1 |
-| 双节点计算候选 | Vecabrutinib | 对接+NLRP3 模型同向；BTK，II 期因疗效停。两条实验都做，可先 NLRP3 |
-| 对照 | lesinurad @ 9DKB；MCC950 @ 7ALV（类似物对照，非自对接） | 校准，不是新提名 |
-| 方法学负例 | EGCG、红霉素类大环 | 可进裸 Pareto，审计降级 |
+| 角色 | 分子 | 允许的说法 |
+|------|------|------------|
+| 启发式 URAT1 摄取面板（因羧酸，非因百分位） | GSK-3008348 | 可进湿实验；不声称 P2 已富集 |
+| 启发式 NLRP3/IL-1 面板（因模型高分/炎症文献，非因双门控） | Vecabrutinib | 单端探索；不声称双节点已成立 |
+| 结构对照 | lesinurad 晶体 @ 9DKB；NP3-146 @ 7ALV | MD / 姿态诊断 |
+| 方法学负例 | 红霉素类 Pareto | 对接偏置 |
 
-Preferred 门控：\(S_U\ge 90\) 且 \(S_{N,\mathrm{dock}}\ge 90\)；Veber + Ro5 的 HBD/HBA/logP；MW 200–550；显式降级红霉素/epothilone 骨架。
+## 期刊
+
+主产品改为阴性协议评价后，优先 ***JCAMD*** / ***JCIM***。*Molecular Diversity* 的 hit 模板与本结论冲突。
 
 ## 数据三套（禁止混用）
 
