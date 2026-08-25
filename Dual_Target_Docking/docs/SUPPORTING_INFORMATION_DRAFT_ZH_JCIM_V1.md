@@ -37,9 +37,12 @@
 | Table S28 | `data/jcim_novelty_v0/tables/descriptor_all_four_directional_v1.csv` |
 | Table S29 | `data/jcim_novelty_v0/tables/assay_max_vs_median_agreement_v1.csv` + `assay_max_vs_median_{summary,auroc,flips}_v1.csv` |
 | Table S30 | `data/jcim_structure_robust_v0/tables/receptor_realization_two_pair_v1.csv` |
+| Table S31 | `data/jcim_novelty_v0/tables/detectable_effect_simulation_v1.csv` |
 | Master index | `data/jcim_novelty_v0/tables/MASTER_RESULTS_TABLE.csv` |
 | Figure S4 | `figures/jcim_article/FigS_pocket_matched_forest.png`（原主文森林图） |
 | Figure S5 | `figures/jcim_article/FigS_unused_pool_holdout.png` |
+| Figure S6 | `figures/jcim_article/FigS_detectable_effect.png` |
+| Figure 8 | `figures/jcim_article/Fig8_diagnostic_workflow.png` |
 | Supporting Note S1 | `data/pik3ca_mtor_panel48_v0/analysis/failure_typology_v0/CASE_PM48_21_Aonly.md` + `CASE_PM48_10_02_injured_duals.md` |
 | ChEMBL 聚合 | `data/jcim_novelty_v0/tables/assay_max_vs_median_agreement_v1.csv`；审计 `analysis/A4_B5_STATISTICAL_AUDIT_V1.md` |
 
@@ -639,6 +642,21 @@ PIK3CA/PIK3CB 弱臂：原始 D/B = 0.500；4JPS 后弱臂切到冻结 D/A = 0.6
 
 ---
 
+## Table S31. Detectable-effect simulation for `summary_min`
+
+来源：`detectable_effect_simulation_v1.csv`；脚本 `scripts/detectable_effect_simulation_v1.py`。双正态分数模型；配体层 bootstrap 与 Methods 2.4 相同（B = 2000，seed 20260729）；N_MC = 1000。单元格为 **P(95% CI 排除 0.5)**。这不是观察后功效。`summary_min` 在真实 AUROC = 0.50 时点估计偏低（min 的偏倚），因此空假设下排除 0.5 的概率可略高于两臂单独的 ~0.05；完整四对照、含 Dual versus neither，见源 CSV。Figure S6。
+
+| Pair | n_scored (dual / A / B) | true 0.55 | 0.60 | 0.65 | 0.70 | 0.75 |
+|------|------------------------:|----------:|-----:|-----:|-----:|-----:|
+| EGFR/HER2 | 28 / 38 / 32 | 0.025 | 0.065 | 0.268 | 0.621 | 0.907 |
+| AChE/BChE | 27 / 25 / 28 | 0.020 | 0.049 | 0.225 | 0.504 | 0.828 |
+| PIK3CA/PIK3CB | 28 / 27 / 28 | 0.032 | 0.041 | 0.226 | 0.564 | 0.849 |
+| PIK3CA/mTOR | 18 / 14 / 12 | 0.037 | 0.025 | 0.072 | 0.219 | 0.452 |
+
+当前样本量更容易分辨较大的方向性效应。CI 未能排除 0.5 不能写成与随机等价。
+
+---
+
 ## Supporting Note S1. Exploratory PIK3CA/mTOR pose-level diagnostics
 
 来源：`data/pik3ca_mtor_panel48_v0/analysis/failure_typology_v0/`，仅为代表性案例，不是全面板 PLIF 或机制分析。
@@ -659,5 +677,5 @@ PIK3CA/PIK3CB 弱臂：原始 D/B = 0.500；4JPS 后弱臂切到冻结 D/A = 0.6
 - Table S12 是计数核对（BindingDB REST + PubChem PUG REST），不是对接结果；不得把 `as_is` 的 EGFR ≥50 写成已建成 BindingDB 厚面板。
 - Table S13 是 holdout 效价/尺寸匹配诊断，不替换 Table S8；不得写成错口袋悖论已解决。
 - Table S16–S21 是冻结分数上的补表（零新对接）。S17 的 holdout Δ CI 均含 0；S19 四对描述符 Δ CI 均含 0；S21 是 vina_mean Top-10，不是 Table 2。
-- Table S22–S30 来自 `data/jcim_novelty_v0/` 与 `data/jcim_structure_robust_v0/`：S22 formulation comparison（主文 Figure 3）；S23 chemotype-constrained hard-negatives（T ≥ 0.7 为空；T ≥ 0.3 不是 analogue matching）；S24 incremental ECFP/docking；S25 mixed-library EF；S26 min/arithmetic/geometric/harmonic 聚合敏感性（四对排序不变）；S27 docking N_attempted/success/fail；S28 四个描述符全报；S29 max vs median（报一致率+翻转+主终点位移）；S30 两对 PIK3CA receptor-realization（方向相反；PAB_034 100/99/1）。Figure S4 = 口袋匹配森林图；Figure S5 = unused-pool holdout。不得把 Dual-vs-neither 写成 “conventional benchmark”；不得把 EGFR 0.756 vs 0.430 写成配对显著性；不得把 PIK3CA/mTOR Dual-vs-neither（n = 4）写成反转；不得把受体替换写成单向 collapse 或 robustness。
+- Table S22–S31 来自 `data/jcim_novelty_v0/` 与 `data/jcim_structure_robust_v0/`：S22 formulation comparison（主文 Figure 3）；S23 chemotype-constrained hard-negatives（T ≥ 0.7 为空；T ≥ 0.3 不是 analogue matching）；S24 incremental ECFP/docking；S25 mixed-library EF；S26 min/arithmetic/geometric/harmonic 聚合敏感性（四对排序不变）；S27 docking N_attempted/success/fail；S28 四个描述符全报；S29 max vs median（报一致率+翻转+主终点位移）；S30 两对 PIK3CA receptor-realization（方向相反；PAB_034 100/99/1）；S31 detectable-effect simulation（不是 observed power）。Figure S4 = 口袋匹配森林图；Figure S5 = unused-pool holdout；Figure S6 = detectable-effect heatmap；Figure 8 = diagnostic workflow。不得把 Dual-vs-neither 写成 “conventional benchmark”；不得把 EGFR 0.756 vs 0.430 写成配对显著性；不得把 PIK3CA/mTOR Dual-vs-neither（n = 4）写成反转；不得把受体替换写成单向 collapse 或 robustness。
 - Figure S3 不得复用 Figure 6 的 AUROC 柱；它只画配对 Δ ± CI。

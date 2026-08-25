@@ -36,7 +36,7 @@ The same frozen scores were then scored under Dual versus neither and Dual versu
 | PIK3CA/PIK3CB | 0.500 [0.347, 0.648] | 0.559 [0.373, 0.746] | 16 | 0.556 [0.437, 0.672] |
 | PIK3CA/mTOR | 0.692 [0.464, 0.802] | 0.514 [0.222, 0.806] | 4 | 0.674 [0.515, 0.817] |
 
-All four 95% bootstrap intervals for `summary_min` included 0.5; thus, at the present sample sizes, no target pair yielded clear evidence excluding chance-level discrimination.
+All four 95% bootstrap intervals for `summary_min` included 0.5; thus, at the present sample sizes, no target pair yielded clear evidence excluding chance-level discrimination. A simulation-based detectable-effect analysis at the observed class sizes showed that these samples resolve large directional effects more readily than moderate ones. When both arms had true AUROC 0.70, the probability that the `summary_min` CI excluded 0.5 was 0.62, 0.50, 0.56, and 0.22 for EGFR/HER2, AChE/BChE, PIK3CA/PIK3CB, and PIK3CA/mTOR; at true AUROC 0.60 the same probabilities were 0.03–0.07 (Table S31; Figure S6). Failure to exclude 0.5 therefore does not establish equivalence to chance.
 
 Both-end scores were obtained for 110/110 EGFR/HER2 ligands, 95/100 AChE/BChE ligands, 99/100 PIK3CA/PIK3CB ligands, and 48/48 PIK3CA/mTOR ligands (Table S27). One A-only ligand failed PIK3CA docking because of computational timeout and was omitted from analyses requiring that score (Tables S27, S30). AUROCs are therefore conditional on compounds AutoDock Vina can process. Alternative scorers on the same poses did not change the overall ranking (Tables S14–S15; Figure S1B).
 

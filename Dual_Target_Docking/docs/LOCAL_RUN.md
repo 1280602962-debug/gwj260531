@@ -67,3 +67,12 @@ Supply audit:
 ```bash
 python3 data/jcim_j0j1_v0/scripts/run_j0_supply_audit.py
 ```
+
+Detectable-effect simulation (zero docking; ~10 min):
+
+```bash
+python3 data/jcim_novelty_v0/scripts/detectable_effect_simulation_v1.py
+python3 data/jcim_novelty_v0/scripts/plot_detectable_effect_and_workflow_v1.py
+```
+
+Independent pose-generation and optional PLIF are **local docking** follow-ups; see `docs/AGENT_COMMAND_INDEPENDENT_POSE_GENERATION_V1.md` and `docs/AGENT_COMMAND_RECEPTOR_PLIF_V1.md`. Do not run them in a cloud environment without GNINA/smina and frozen pose workspaces.

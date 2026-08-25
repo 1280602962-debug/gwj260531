@@ -483,6 +483,24 @@ def main() -> None:
             )
         )
 
+    det = _read(TAB / "detectable_effect_simulation_v1.csv")
+    for r in det:
+        if r["contrast"] != "summary_min" or r["true_auroc"] not in ("0.60", "0.70", "0.75"):
+            continue
+        rows.append(
+            row(
+                block="detectable_effect",
+                manuscript_table="Table S31",
+                pair=r["pair"],
+                setting=f"true_auroc_{r['true_auroc']}",
+                metric="p_summary_min_ci_excludes_0.5",
+                value=r["p_ci_excludes_0p5"],
+                n_dual=r["n_pos"],
+                note="Binormal simulation; N_MC=1000; ligand bootstrap B=2000; not observed power. n_neg column in source CSV is n_A/n_B.",
+                source_file="data/jcim_novelty_v0/tables/detectable_effect_simulation_v1.csv",
+            )
+        )
+
     out_path = TAB / "MASTER_RESULTS_TABLE.csv"
     with out_path.open("w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=FIELDS, lineterminator="\n")
