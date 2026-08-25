@@ -1,4 +1,4 @@
-# Results（中文工作稿 · JCIM 式证据链）
+# Results（中文工作稿 · JCIM Articles）
 
 ## 3. 结果
 
@@ -36,7 +36,7 @@ EGFR/HER2、AChE/BChE、PIK3CA/PIK3CB 和 PIK3CA/mTOR 的方向性 summary_min �
 | PIK3CA/PIK3CB | 0.500 [0.347, 0.648] | 0.559 [0.373, 0.746] | 16 | 0.556 [0.437, 0.672] |
 | PIK3CA/mTOR | 0.692 [0.464, 0.802] | 0.514 [0.222, 0.806] | 4 | 0.674 [0.515, 0.817] |
 
-四个靶对的 `summary_min` 95% bootstrap CI 均包含 0.5；因此在本研究的样本量下，没有一个靶对获得排除随机水平的明确证据。PIK3CA/mTOR 的点估计最高（0.692；95% CI 0.464–0.802），但相对最佳单一描述符参考的配对差值 CI 也包含 0（Table S19）。AChE/BChE（0.606）低于 TPSA（0.733）；EGFR/HER2（0.430）与 PIK3CA/PIK3CB（0.500）也未显示超过相应描述符参考的明确优势。
+四个靶对的 `summary_min` 95% bootstrap CI 均包含 0.5；因此在本研究的样本量下，没有一个靶对获得排除随机水平的明确证据。
 
 主面板两端均得分：EGFR/HER2 110/110，AChE/BChE 95/100，PIK3CA/PIK3CB 99/100，PIK3CA/mTOR 48/48（Table S27）。一个 A-only 配体因计算超时而持续无法完成 PIK3CA 对接，因此从需要该分数的分析中剔除（Tables S27、S30）。AUROC 因此以 AutoDock Vina 能够处理的化合物为条件。同一姿态上的替代打分器未改变总体排序（Tables S14–S15；Figure S1B）。
 
@@ -70,4 +70,4 @@ PIK3CA/mTOR 的情况有所不同。加入重原子数和 TPSA 后，AUROC 的�
 
 ### 3.6 探索性结构背景
 
-5DXT 与 4L23 的局部口袋 Cα RMSD 仅 0.343 Å，但 PIK3CA/mTOR 的 summary_min 仍降至 0.505，因此简单骨架相似性不能预测基准可迁移性（Table S10）。全链序列一致性与代表性姿态诊断保留在 Supporting Information（Table S7；Note S1）。
+结构相似性并不能预测筛选判别：5DXT 与 4L23 的局部口袋 Cα RMSD 仅 0.343 Å，但二者的基准表现仍有明显差异（Table S10）。姿态类型学保留在 Supporting Information（Table S7；Note S1）。

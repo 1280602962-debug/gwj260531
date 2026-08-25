@@ -36,7 +36,7 @@ The same frozen scores were then scored under Dual versus neither and Dual versu
 | PIK3CA/PIK3CB | 0.500 [0.347, 0.648] | 0.559 [0.373, 0.746] | 16 | 0.556 [0.437, 0.672] |
 | PIK3CA/mTOR | 0.692 [0.464, 0.802] | 0.514 [0.222, 0.806] | 4 | 0.674 [0.515, 0.817] |
 
-All four 95% bootstrap intervals for `summary_min` included 0.5; thus, at the present sample sizes, no target pair yielded clear evidence excluding chance-level discrimination. PIK3CA/mTOR had the highest point estimate (0.692; 95% CI 0.464–0.802), but its paired difference from the best single-descriptor reference also included 0 (Table S19). AChE/BChE (0.606) remained below TPSA (0.733), while EGFR/HER2 (0.430) and PIK3CA/PIK3CB (0.500) showed no clear advantage over their descriptor references.
+All four 95% bootstrap intervals for `summary_min` included 0.5; thus, at the present sample sizes, no target pair yielded clear evidence excluding chance-level discrimination.
 
 Both-end scores were obtained for 110/110 EGFR/HER2 ligands, 95/100 AChE/BChE ligands, 99/100 PIK3CA/PIK3CB ligands, and 48/48 PIK3CA/mTOR ligands (Table S27). One A-only ligand failed PIK3CA docking because of computational timeout and was omitted from analyses requiring that score (Tables S27, S30). AUROCs are therefore conditional on compounds AutoDock Vina can process. Alternative scorers on the same poses did not change the overall ranking (Tables S14–S15; Figure S1B).
 
@@ -70,4 +70,4 @@ The point-estimate relationship reversed on the unused-pool holdout (Figure 6B).
 
 ### 3.6 Exploratory structural context
 
-Local pocket Cα RMSD between 5DXT and 4L23 is only 0.343 Å, yet PIK3CA/mTOR summary_min still fell to 0.505, so simple backbone similarity does not predict benchmark transferability (Table S10). Whole-chain identity and representative pose diagnostics are retained in the Supporting Information (Table S7; Note S1).
+Structural similarity did not predict screening discrimination: 5DXT and 4L23 showed low pocket-local Cα RMSD (0.343 Å), yet their benchmark performance differed substantially (Table S10). Pose typology is retained in the Supporting Information (Table S7; Note S1).
