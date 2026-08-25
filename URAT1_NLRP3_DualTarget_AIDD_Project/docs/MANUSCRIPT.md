@@ -24,6 +24,7 @@
 | 漏斗复现命令 | [`LOCAL_AGENT_TASKS.md`](LOCAL_AGENT_TASKS.md)、[`WORKFLOW.md`](WORKFLOW.md) |
 | 对照 Mol Divers 的修改计划（不重锁 P2） | [`MOL_DIVERS_REVISION_PLAN.md`](MOL_DIVERS_REVISION_PLAN.md)（期刊策略已改为 JCAMD 优先，此文件只作历史对照） |
 | **课题改构（现行目的）** | [`PROJECT_RECONCEPTION.md`](PROJECT_RECONCEPTION.md) |
+| 若仍要候选：新实验 vs 不能做的事后抬分 | [`IF_STILL_WANT_CANDIDATES.md`](IF_STILL_WANT_CANDIDATES.md) |
 | MD 应跑哪些体系 | [`MD_RUN_PLAN.md`](MD_RUN_PLAN.md) |
 
 ## 正文结构（JCAMD：方法学主文；名单降为审计）
