@@ -1,5 +1,11 @@
 # MD 应跑哪些体系（最终清单）
 
+> **C1 修订：** 下面 6 个生产体系里的 GSK / Vecabrutinib 是冻结 P2 审计名单上的跟进假设，**不是**已提名的 C1 候选。  
+> - Rank 轨未过关：不要为 Vecabrutinib 开 URAT1 膜 MD（非酸，入选只靠旧百分位）。  
+> - GSK@9DKB：仅当羧酸根对接后 Arg477 过关，才作为 Acid 轨（或 Rank 也过关时）的压力测试。  
+> - 对照（lesinurad 晶体羧酸根@9DKB；NP3-146@7ALV）**永远先跑**。  
+> - C1 短名单冻结后，用实际短名单替换体系 2/3/5/6；见 [`LOCAL_C1_CANDIDATE_CAMPAIGN.md`](LOCAL_C1_CANDIDATE_CAMPAIGN.md) L7。
+
 > 跟进分子是 **待双通路验证的双节点计算候选**，不是单靶假说。  
 > MD 只做口袋压力测试，不证明结合，不代替 URAT1 摄取 / NLRP3–IL-1 实验。  
 > 不重锁 Π\*。羧酸根微状态修好再开生产轨迹。

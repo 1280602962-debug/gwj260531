@@ -1,6 +1,8 @@
 # 当前计算工作流
 
-生产协议 **Π\* = P2**（gnina CNNaffinity，exh=32）。任务细节见 [`LOCAL_AGENT_TASKS.md`](LOCAL_AGENT_TASKS.md)。
+生产协议 **Π\* = P2**（gnina CNNaffinity，exh=32）是**冻结战役**。任务细节见 [`LOCAL_AGENT_TASKS.md`](LOCAL_AGENT_TASKS.md)。
+
+新产品目标（可测双靶候选）走 **C1**：[`LOCAL_C1_CANDIDATE_CAMPAIGN.md`](LOCAL_C1_CANDIDATE_CAMPAIGN.md)。不要用 `run_funnel_p2.sh` 跑 C1。
 
 ```
 TrueDecoy + RandomDecoy @ 9DKB → 锁定 P2

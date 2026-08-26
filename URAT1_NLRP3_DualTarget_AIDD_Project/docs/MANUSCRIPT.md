@@ -1,11 +1,12 @@
 # 投稿文稿指南（唯一写作入口）
 
-> 2026-08-25 起：原目的“对接排出活性 → 双靶候选”已不成立。改构见 [`PROJECT_RECONCEPTION.md`](PROJECT_RECONCEPTION.md)。  
-> **主投 *Journal of Computer-Aided Molecular Design***；不再按 *Molecular Diversity* 的 hit 文模板写。
+> 2026-08-26：产品目标改回**可测双靶候选**，执行层见 [`PROJECT_REPLAN_MOLECULAR_DIVERSITY.md`](PROJECT_REPLAN_MOLECULAR_DIVERSITY.md) §12 与 [`LOCAL_C1_CANDIDATE_CAMPAIGN.md`](LOCAL_C1_CANDIDATE_CAMPAIGN.md)。  
+> **当前 Results 仍只报告冻结 P2**（对接不能作为活性检索器；7 个名字是审计产出）。在 `data/campaigns/c1/05_metrics/pass_fail.json` 出现之前，不要把正文改成 hit 文。C1 过关后按 Rank/Acid 轨改口，见 C1 执行书第 11 节。
 
 ## 一句话贡献
 
 在预注册的 TrueDecoy/RandomDecoy 上，开源 URAT1 对接读出**不能作为活性检索器**（P2 按规则锁定，但 RandomDecoy 不优于随机；阳性集还排除了 lesinurad 等教科书药）。把该读出迁到临床库做双百分位 AND，得到的 7 个名字是**失败排序器的审计产出**，不是双节点候选。贡献是协议比较、标签病理与一次阴性迁移，不是命中发现。
+C1 过关前这句话仍成立；过关后按 [`LOCAL_C1_CANDIDATE_CAMPAIGN.md`](LOCAL_C1_CANDIDATE_CAMPAIGN.md) 第 11 节改口。
 
 ## 写作文件
 
@@ -23,8 +24,10 @@
 | 贡献 / 动机 / 期刊 | [`paper_spine_ars_analysis/`](paper_spine_ars_analysis/) |
 | 漏斗复现命令 | [`LOCAL_AGENT_TASKS.md`](LOCAL_AGENT_TASKS.md)、[`WORKFLOW.md`](WORKFLOW.md) |
 | 对照 Mol Divers 的修改计划（不重锁 P2） | [`MOL_DIVERS_REVISION_PLAN.md`](MOL_DIVERS_REVISION_PLAN.md)（期刊策略已改为 JCAMD 优先，此文件只作历史对照） |
-| **课题改构（现行目的）** | [`PROJECT_RECONCEPTION.md`](PROJECT_RECONCEPTION.md) |
-| 若仍要候选：新实验 vs 不能做的事后抬分 | [`IF_STILL_WANT_CANDIDATES.md`](IF_STILL_WANT_CANDIDATES.md) |
+| **课题改构（冻结 P2 的方法学读法）** | [`PROJECT_RECONCEPTION.md`](PROJECT_RECONCEPTION.md) |
+| **现行产品规划（Mol Divers 候选发现）** | [`PROJECT_REPLAN_MOLECULAR_DIVERSITY.md`](PROJECT_REPLAN_MOLECULAR_DIVERSITY.md) |
+| **C1 本地战役（可测候选；gnina 必须本地）** | [`LOCAL_C1_CANDIDATE_CAMPAIGN.md`](LOCAL_C1_CANDIDATE_CAMPAIGN.md) |
+| 若仍要候选：新实验 vs 不能做的事后抬分 | [`IF_STILL_WANT_CANDIDATES.md`](IF_STILL_WANT_CANDIDATES.md)（C1 是该文的作战化） |
 | MD 应跑哪些体系 | [`MD_RUN_PLAN.md`](MD_RUN_PLAN.md) |
 
 ## 正文结构（JCAMD：方法学主文；名单降为审计）

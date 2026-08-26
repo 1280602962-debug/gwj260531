@@ -1,0 +1,104 @@
+# campaign C1 — pre-registered dual-node candidate campaign
+# Frozen P2 tables under data/repurposing/p2/ are NOT overwritten.
+# Operational plan: docs/LOCAL_C1_CANDIDATE_CAMPAIGN.md
+# GNINA engine yaml (run_gnina_batch.py): config/docking_c1.yaml
+# This file is the scientific lock. It is NOT a drop-in --config for run_gnina_batch.py.
+
+name: C1
+status: preregistered_not_started
+goal: testable URAT1–NLRP3 dual-node candidates
+journal_target: Molecular Diversity
+frozen_p2_role: negative_transfer_baseline_only
+docking_engine_config: config/docking_c1.yaml
+unique_docking_pool: data/benchmarks/urat1_true_decoy/unique_docking_pool.csv
+n_unique_docking_pool_csv: 9849
+n_frozen_protocol_complete_case: 9839
+# Frozen P2 (protocol selection) = max CNNaffinity among modes (= C1_P2max),
+# not CNNscore-selected CNNaffinity. C1 Rank primary is C1_P2star / C1_VS from SDF.
+
+gnina:
+  binary: tools/gnina
+  version_required: "1.3.1"
+  exhaustiveness: 32
+  num_modes: 9
+  cnn_scoring: rescore
+  seed_primary: 42
+  seeds_selfdock: [42, 43, 44]
+  # Full-decoy 3-seed only after L3 seed 42 passes AND a GPU is available.
+  seeds_full_decoy_optional: [42, 43, 44]
+
+ligand_prep:
+  ph: 7.4
+  carboxylic_acids: deprotonated
+  engine: dimorphite_dl_then_meeko
+  embed_seed: 0xC0FFEE
+  # Forbidden: protonate only GSK/lesinurad and keep old decoy PDBQTs.
+
+receptors:
+  urat1:
+    pdb: 9DKB
+    center: [99.966, 102.967, 105.699]
+    size: [22, 22, 22]
+  nlrp3:
+    pdb: 7ALV
+    center: [16.756, 35.449, 125.714]
+    size: [20, 20, 20]
+    self_dock_ligand: NP3-146/RM5
+
+# Rank-track readouts, locked before seeing C1 clinical names.
+# P0 remains a named comparator, not a post-hoc salvage of frozen P2.
+readouts_rank_track:
+  - id: C1_P2star
+    definition: CNNaffinity of the pose with highest CNNscore among num_modes
+  - id: C1_VS
+    definition: CNN_VS = CNNscore * CNNaffinity of the CNNscore-selected pose
+  - id: C1_P2max
+    definition: max CNNaffinity among num_modes (sensitivity only)
+  - id: C1_P0
+    definition: max CNNscore among num_modes (pose-quality comparator)
+
+# Pass/fail locked before docking. Do not edit after L3 scores exist.
+urat1_rank_track_pass:
+  random_decoy_ef1_hypergeom_p_lt: 0.05
+  random_decoy_ef1_point_gt: 1.0
+  forced_recovery_any_in_top10pct:
+    - lesinurad
+    - verinurad
+    - benzbromarone
+  lesinurad_selfdock:
+    cnnscore_selected_rmsd_le_A: 2.0
+    acid_arg477_le_A: 4.0
+
+nlrp3_selfdock_pass:
+  np3_146_cnnscore_selected_rmsd_le_A: 2.0
+
+# Acid-track does not require RandomDecoy EF>1. It does not claim activity retrieval.
+acid_track:
+  require_carboxylate_or_equivalent: true
+  urat1_acid_arg477_le_A: 4.0
+  urat1_in_pocket: true
+  nlrp3_in_pocket: true
+  nlrp3_qN_ge: 0.5
+  chemistry: veber_plus_ro5_hbd_hba_logp_mw_200_550
+  exclude_macrolides: true
+
+forced_recovery_urat1_names:
+  - lesinurad
+  - benzbromarone
+  - dotinurad
+  - verinurad
+  - probenecid
+  - puliginurad
+  - SHR-4640
+
+# Old preferred-7 is an audit of frozen P2, not the C1 shortlist.
+do_not_precommit_as_c1_hits:
+  - VECABRUTINIB
+  - ZELENIRSTAT
+  - DEUCRICTIBANT
+  - PRALICIGUAT
+  - GSK-3008348 FREE BASE
+  - MLN-0415
+  - BI 653048
+
+output_root: data/campaigns/c1

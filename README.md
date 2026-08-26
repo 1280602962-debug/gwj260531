@@ -12,6 +12,8 @@
 ```bash
 cd URAT1_NLRP3_DualTarget_AIDD_Project
 # 唯一文稿入口：docs/MANUSCRIPT.md
+# 产品规划：docs/PROJECT_REPLAN_MOLECULAR_DIVERSITY.md
+# C1 本地战役：docs/LOCAL_C1_CANDIDATE_CAMPAIGN.md
 # 引言 / Methods：docs/INTRO_DRAFT_CN.md 、 docs/METHODS_DRAFT_CN.md
 ```
 

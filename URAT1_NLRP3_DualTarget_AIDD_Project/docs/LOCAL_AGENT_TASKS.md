@@ -1,7 +1,12 @@
 # 本地 Agent 执行任务书：URAT1–NLRP3 双靶重定位 · 阶段二（漏斗 + 短名单 + MD 文件导出 + 写作）
 
-> 面向本地漏斗执行。生产协议已锁定为 **Π\* = P2**。  
-> 写作入口：`docs/MANUSCRIPT.md`。当前 MD 假说分子见该文件（GSK-3008348、Vecabrutinib + 对照）。仓库不再提交自动挑选的 MD CSV。
+> **2026-08-26：** 任务 0–4 是**冻结 P2 漏斗**，已经归档，不要重跑。  
+> 新目标（可测双靶候选）走 **C1 战役**：[`LOCAL_C1_CANDIDATE_CAMPAIGN.md`](LOCAL_C1_CANDIDATE_CAMPAIGN.md)。  
+> 本地下一次只做 C1 的 L0–L2。不要用下面的 `run_funnel_p2.sh` 当 C1。  
+> Vecabrutinib/GSK 的 MD 不再按本文件任务 3 预绑；见 [`MD_RUN_PLAN.md`](MD_RUN_PLAN.md) 顶部修订。
+
+> 面向本地漏斗执行。生产协议已锁定为 **Π\* = P2**（历史战役）。  
+> 写作入口：`docs/MANUSCRIPT.md`。C1 过关前不要把 7 个名字写成双节点候选。
 
 ---
 

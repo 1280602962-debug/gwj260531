@@ -406,3 +406,28 @@ MD不是候选入选的首要门控，而是对冻结候选的结构解释。
 
 这条路线既能保留现有8319→1588→1580的主要工作，也能保留Vecabrutinib/GSK-3008348作为待确认候选，同时把文章从“对接分挑药”升级为符合Molecular Diversity范围的“分子多样性、靶点不对称和偏倚审计驱动的双靶候选发现”。
 
+---
+
+## 十二、执行层：哪些必须本地（C1 战役）
+
+产品目标仍是**可测的双靶候选**。本节不改第四–十一节的科学意图，只把它们接到一台有 gnina/GPU 的机器上，并写死两条轨道，避免 4.5（酸根–Arg477）与 4.7（Vecabrutinib Tier 1）同时当真。
+
+**作战文件（读这个再开对接）：** [`LOCAL_C1_CANDIDATE_CAMPAIGN.md`](LOCAL_C1_CANDIDATE_CAMPAIGN.md)  
+**科学锁：** [`config/campaign_c1.yaml`](../config/campaign_c1.yaml)  
+**gnina 引擎配置：** [`config/docking_c1.yaml`](../config/docking_c1.yaml)
+
+| 必须本地（无 gnina 做不了） | 云端可做、不算过关 | 现在不要做 |
+|-----------------------------|---------------------|------------|
+| L2 自对接（lesinurad 羧酸根@9DKB；NP3-146@7ALV） | 羧酸根准备脚本、SDF 读出解析器 | 覆盖冻结 `data/repurposing/p2/` |
+| L3 全诱饵 URAT1（GPU；~9,849，`num_modes=9`） | 冻结 SDF 上的 CNN_VS / C1_P2star **frozen-prep** 对照 | 未过 L2 就开全诱饵 |
+| L4 NLRP3 位点对接 | ChEMBL 位点阳性策展 | 与 L3 并行换 KarmaDock/DiffDock |
+| L5 临床库（仅 `pass_fail.json` 之后） | 旧 1,580 行偏倚图、BEDROC SI | 把旧 7 个名字预承诺为 C1 hit |
+| L7 MD（短名单冻结后；URAT1 必须膜） | Methods 空数字草稿 | 未过 Rank 轨就为 Vecabrutinib 开 URAT1 膜 MD |
+
+**Rank 轨不过关就关闭。** Acid 轨仍可出羧酸姿态假说，但文章不能写“对接排出了活性”。Vecabrutinib 仅当 Rank 过关才可能留在 URAT1 臂；GSK-3008348 按羧酸规则重判，不因旧百分位自动入选。
+
+冻结 P2 是九构象里 **CNNaffinity 最大**；规划书 4.1 要的是 **CNNscore 选姿后再读 CNNaffinity**。两者不是同一读出。本地若只改 `num_modes` 跑现有 `run_gnina_batch.py`，得到的仍是旧定义。细节与停止规则见 C1 执行书第 12–16 节。
+
+本地第一次只做 L0–L2。L3 需要单独授权。`run_funnel_p2.sh` 是旧战役（`num_modes=1`），不要用来跑 C1。
+
+

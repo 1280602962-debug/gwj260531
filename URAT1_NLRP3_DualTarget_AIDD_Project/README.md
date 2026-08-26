@@ -2,11 +2,12 @@
 
 面向高尿酸血症/痛风的 **URAT1（代谢）+ NLRP3（炎症）** 双节点临床药物重定位。现有 P2（gnina CNNaffinity）结果作为冻结基线；新版路线将姿态生成、姿态质控、排序与偏倚校正拆分，并通过靶点特异验证和多证据门控重新确认双靶候选。
 
-**新版项目计划：** [`docs/PROJECT_REPLAN_MOLECULAR_DIVERSITY.md`](docs/PROJECT_REPLAN_MOLECULAR_DIVERSITY.md)  
-**现有写作入口：** [`docs/MANUSCRIPT.md`](docs/MANUSCRIPT.md)  
+**新版项目计划：** [`docs/PROJECT_REPLAN_MOLECULAR_DIVERSITY.md`](docs/PROJECT_REPLAN_MOLECULAR_DIVERSITY.md)（§12：哪些必须本地）  
+**C1 本地战役（可测双靶候选）：** [`docs/LOCAL_C1_CANDIDATE_CAMPAIGN.md`](docs/LOCAL_C1_CANDIDATE_CAMPAIGN.md) · [`config/campaign_c1.yaml`](config/campaign_c1.yaml) · [`config/docking_c1.yaml`](config/docking_c1.yaml)  
+**现有写作入口：** [`docs/MANUSCRIPT.md`](docs/MANUSCRIPT.md)（Results 仍是冻结 P2；C1 数字未出）  
 **引言 / Methods / Results：** [`docs/INTRO_DRAFT_CN.md`](docs/INTRO_DRAFT_CN.md) · [`docs/METHODS_DRAFT_CN.md`](docs/METHODS_DRAFT_CN.md) · [`docs/RESULTS_DRAFT_CN.md`](docs/RESULTS_DRAFT_CN.md)  
 **协议结果：** [`docs/PROTOCOL_SELECTION_RESULT.md`](docs/PROTOCOL_SELECTION_RESULT.md)  
-**本地漏斗：** [`docs/LOCAL_AGENT_TASKS.md`](docs/LOCAL_AGENT_TASKS.md) · `bash scripts/run_funnel_p2.sh`
+**冻结 P2 漏斗（已归档，不要当 C1）：** [`docs/LOCAL_AGENT_TASKS.md`](docs/LOCAL_AGENT_TASKS.md) · `bash scripts/run_funnel_p2.sh`
 
 **首投：** *Molecular Diversity*（拒稿后转 *JCAMD*）。不声称已验证双靶抑制剂。
 
@@ -27,6 +28,7 @@
 | 文档 | 内容 |
 |------|------|
 | [新版项目计划](docs/PROJECT_REPLAN_MOLECULAR_DIVERSITY.md) | Molecular Diversity 投稿路线、协议重构、补算包与候选提名规则 |
+| [C1 本地战役](docs/LOCAL_C1_CANDIDATE_CAMPAIGN.md) | 可测双靶候选的预注册执行书：Rank/Acid 双轨、必须本地的 gnina/MD、停止规则 |
 | [文稿指南](docs/MANUSCRIPT.md) | 现有结构、claim、lead |
 | [工作流](docs/WORKFLOW.md) | 现行命令 |
 | [差异化](docs/DIFFERENTIATION_VS_PLK1_NLRP3.md) | vs 激酶–NLRP3 文 |
