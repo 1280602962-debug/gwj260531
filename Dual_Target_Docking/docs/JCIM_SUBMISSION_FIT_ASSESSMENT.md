@@ -118,3 +118,74 @@ title is already the right scope) after:
 Even then, a 2024–2026 JCIM reviewer can still reject for N and for the
 unresolved independent-test gap. That risk is scientific, not editorial
 wording.
+
+## If not JCIM: journals where this manuscript is already in range
+
+“Already sufficient” here means: the current four-pair formulation audit,
+with the present controls and honest limitations, matches what that
+journal actually publishes. It does **not** mean guaranteed acceptance.
+Mint a Zenodo DOI from a frozen tag before any of these submissions.
+Do not widen the claim to a general benchmark.
+
+### First choice (best fit, already sufficient)
+
+1. **Journal of Computer-Aided Molecular Design (JCAMD).**
+   This is the closest intellectual home. JCAMD regularly publishes
+   docking validation, failure-mode, and reproducibility papers on
+   smaller, protocol-defined panels. A 2026 JCAMD review on docking
+   failure modes (conditional modeling, ligand-state definition,
+   out-of-distribution tests) is the same problem this manuscript
+   operationalizes. Keep the current title and limitations. Expect
+   questions about K = 4, not a desk-reject for “not a method paper.”
+
+2. **ACS Omega.**
+   ACS sister journal to JCIM, with a soundness-and-transparency bar
+   rather than a large-benchmark bar. Recent CADD papers there include
+   few-target docking validations weaker than this audit. The present
+   statistics, SI, and checksums are already above the median ACS Omega
+   docking article, provided the cover letter says “four-pair audit”
+   and not “JCIM-style benchmark.”
+
+### Also in range (submit as-is after DOI)
+
+3. **Molecular Informatics.** Cheminformatics evaluation and dual-target
+   case studies are normal content. Shorter than the JCIM draft is
+   fine; do not add new pairs just to look larger.
+4. **Journal of Molecular Modeling.** Docking case panels of this size
+   are routine. Lower prestige than JCAMD/ACS Omega; highest
+   claim-to-venue match if the goal is to place the record, not to
+   maximize IF.
+
+### Stretch, not “already fully sufficient”
+
+5. **Journal of Cheminformatics.** Right culture (open evaluation, FAIR,
+   negative controls), but many 2024–2025 papers are software, large
+   benchmarks, or reusable toolkits. K = 4 without a docked external
+   set can still be rejected as too small. Only try after Zenodo and
+   only if DualFourClass is framed as a reusable evaluation protocol
+   with frozen files, not as a four-target performance ranking.
+
+### Soundness floor (acceptance-likely, lower citation venue)
+
+6. **Scientific Reports**, **PLOS ONE**, or **RSC Advances.**
+   These journals ask whether the study is technically sound, not
+   whether it is a field-defining benchmark. The current manuscript
+   already meets that bar if claims stay computational. Use these if
+   the priority is to publish the negative/formulation record quickly.
+
+### Do not send as currently written
+
+- **JCIM / JCTC / Chemical Science / Briefings in Bioinformatics** as a
+  general docking or methods paper: empirical scale is below the recent
+  median.
+- MDPI *Molecules* / *IJMS* / *Pharmaceuticals* as a first choice: they
+  would likely accept, but they are a floor, not a match for the
+  paper’s actual contribution.
+
+### Cover-letter sentence that matches the viable venues
+
+This is a four-pair, ChEMBL-constrained formulation audit of
+docking-based dual-target recognition. It reports failure modes of
+negative-class choice, ligand confounding, and receptor realization; it
+does not claim a general dual-target docking benchmark or prospective
+utility.
