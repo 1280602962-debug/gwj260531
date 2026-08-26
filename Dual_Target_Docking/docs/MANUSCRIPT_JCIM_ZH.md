@@ -2,7 +2,7 @@
 
 ## 摘要
 
-两端有利的对接分数能否作为双靶活性的证据，取决于评价时采用的负类。我们用 ChEMBL 衍生的 dual、A-only、B-only 与 neither 操作性状态，对四个靶对进行评价设定审计。两条口袋匹配方向 AUROC 分别将 dual 与对应单靶选择性配体比较；二者最小值 `summary_min` 仅作保守的描述性摘要。在 EGFR/HER2 上，Vina 的 Dual versus neither AUROC 为 0.756，而方向性 `summary_min` 为 0.430；独立 GNINA 姿态生成得到的对应数值为 0.783 与 0.220。其他靶对没有出现同样的设定差距，且 PIK3CA/mTOR 的 neither 对照只有 4 个分子。在支架分组模型中，把 docking 加入 ECFP4 后交叉验证 AUROC 的最大绝对变化为 0.020。替代受体使 PIK3CA/mTOR 的 `summary_min` 从 0.692 降至 0.486/0.505，但使 PIK3CA/PIK3CB 升高，说明结果依赖受体实现而不是具有结构稳健性。四个主 `summary_min` 的 95% CI 均包含 0.5。同一套冻结 EGFR/HER2 分数上，以 Dual 中位 `vina_worst` 做 AND 式双口袋过滤时，通过者多数仍是实验选择性配体（precision 0.298；硬负比例 0.702）。在四对完整 ChEMBL 图上，仅用配体 ECFP4 仍比 Dual versus 选择性更容易分开 Dual versus neither，说明设定问题不是 n ≈ 28 对接面板的抽样伪影。按文献 `document_id` 阻断后，EGFR/HER2 的弱方向臂仍为 0.430；预先冻结的 2018 文献年份分割没有两个可评估靶对，因此不作为外部验证。因此，这一受数据供给约束的案例面板支持把选择性硬负与混淆感知对照作为评价要求，但不能建立靶标通用的对接性能或生物学识别结论。
+两端有利的对接分数能否作为双靶活性的证据，取决于评价时采用的负类。我们用 ChEMBL 衍生的 dual、A-only、B-only 与 neither 操作性状态，对四个靶对进行评价设定审计。两条口袋匹配方向 AUROC 分别将 dual 与对应单靶选择性配体比较；二者最小值 `summary_min` 仅作保守的描述性摘要。在 EGFR/HER2 上，Vina 的 Dual versus neither AUROC 为 0.756，而方向性 `summary_min` 为 0.430；独立 GNINA 姿态生成得到的对应数值为 0.783 与 0.220。其他靶对没有出现同样的设定差距，且 PIK3CA/mTOR 的 neither 对照只有 4 个分子。在支架分组模型中，把 docking 加入 ECFP4 后交叉验证 AUROC 的最大绝对变化为 0.020。替代受体使 PIK3CA/mTOR 的 `summary_min` 从 0.692 降至 0.486/0.505，但使 PIK3CA/PIK3CB 升高，说明结果依赖受体实现而不是具有结构稳健性。四个主 `summary_min` 的 95% CI 均包含 0.5。同一套冻结 EGFR/HER2 分数上，以 Dual 中位 `vina_worst` 做 AND 式双口袋过滤时，通过者多数仍是实验选择性配体（precision 0.298；硬负比例 0.702）。在四对完整 ChEMBL 图上，仅用配体 ECFP4 仍比 Dual versus 选择性更容易分开 Dual versus neither，说明设定问题不是 n ≈ 28 对接面板的抽样伪影。按文献 `document_id` 阻断后，EGFR/HER2 的弱方向臂仍为 0.430；预先冻结的 2018 文献年份分割没有两个可评估靶对，因此不作为外部验证。BindingDB 202608 原生归档在文献、结构与 ECFP4 < 0.70 过滤后，也没有两对达到预先冻结的主外部门槛，故未对接。因此，这一受数据供给约束的案例面板支持把选择性硬负与混淆感知对照作为评价要求，但不能建立靶标通用的对接性能或生物学识别结论。
 
 **关键词：** 双靶对接；基准设定；选择性硬负样本；化学混淆；受体实现；虚拟筛选
 
@@ -31,6 +31,8 @@
 **严格 6.5/5.5 规则**为：dual，两端 pChEMBL ≥ 6.5；A-only，A ≥ 6.5 且 B ≤ 5.5；B-only 对称；neither，两端 ≤ 5.5。5.5–6.5 灰区不进入该审计。金属依赖体系（如 HDAC）预先排除。严格 6.5/5.5 规则仅用于靶对供给资格审定。全部主基准标签随后统一按 θ = 6.0 定义（dual，两端 ≥ θ；A-only，A ≥ θ 且 B < θ；B-only 对称；neither，两端 < θ），并在查看对接结果之前冻结。两条阈值因此服务于预先规定的不同目的。建造规则在抽样前按供给审计冻结（Table 1）。θ ∈ {5.5, 6.5} 与严格 6.5/5.5 重标作为敏感性报告（Table S4）。样本量过小的格子在 Results 中标记效能不足。
 
 为核对 ChEMBL 供给门槛，对冻结靶对另做 BindingDB / PubChem 计数核对（零对接、不重建面板；Table S12）。类型限于 IC50/Ki/Kd/EC50；配体身份分别用 BindingDB monomerid 与 PubChem CID，不做跨库结构合并。主比较采用等式测定。
+
+随后从 BindingDB 202608 文章与专利 TSV 归档重建原生切片，而不是从 Table S12 的 REST pmax JSON 反推。[16] 规则预先写在 `external_slice_contract.yaml`：BindingDB 策展的文章或专利；人源野生型单链 UniProt；等式 IC50/Ki/Kd；两端均有测定；配体–靶–endpoint 内取中位数；θ = 6.0 四状态；去掉与开发面板共享的 PMID/DOI/专利；去掉已打分面板、未使用池留出集、PM110 或该对 ChEMBL 图中的 InChIKey/ChEMBL ID；对开发分子的最大 ECFP4 Tanimoto < 0.70。主外部门槛为 dual/A-only/B-only 各 n ≥ 20、每类至少 3 个来源、最大单文献配体份额 ≤ 50%。本会话未对接。ChEMBL 文献解析为 519/680，因此剩余计数是完全文献独立集的上界。
 
 ### 2.2 基准构建
 
@@ -82,6 +84,8 @@ AUROC 与 summary_min 的不确定度用配体层 bootstrap：在保持类别结
 受体结构敏感性分析另选满足以下预先声明条件的替代晶体：（i）polymer entity 与目标蛋白真实对应；（ii）含 ATP 位点或目标结合位点的小分子共晶；（iii）分辨率可接受；（iv）通过与 2.3 相同的共晶重对接 QC。实际对接的替代结构为 PIK3CA 4JPS、5DXT 与 mTOR 4JSX。替换采用单口袋设计：在 PIK3CA/mTOR（PM48）上，4JPS/5DXT 替换口袋 A、口袋 B 仍用冻结 4JT6 分数，4JSX 替换口袋 B、口袋 A 仍用冻结 4L23 分数（exhaustiveness = 16）。在 PIK3CA/PIK3CB 上，同一套 4JPS/5DXT 替换口袋 A，口袋 B 仍用冻结 2WXF 分数（exhaustiveness = 8）。刚体 Cα 叠合作为探索性几何对照（Table S10）。在 Table S30 所用同一套 PM48 配体与 PIK3CA 晶体上，另做探索性接触快照：占有率定义为与 20 个冻结口袋残基的重原子距离 ≤ 4.5 Å（Table S33）。占有率变化只作为结构假说，不是残基层因果解释。
 
 事后 θ = 6.0 四状态普查复用冻结的 J0 候选靶对名单与缓存 pChEMBL 图，去掉顺序别名后剩 49 对。dual/A-only/B-only 均 n ≥ 10 记为方向可评估，neither 也 n ≥ 10 记为设定可评估（Table S44）。这些计数只诊断标签供给，不对额外靶对做对接，也不把对接评价集扩到 K = 4 以外。冻结已打分面板上的多元物化匹配按 z 标准化 MW/cLogP/TPSA/重原子做 1:1 贪心配对，欧氏 caliper 为 0.5 与 1.0 SD（Table S45）；n_matched < 8 标记效能不足。AND 式双口袋过滤在 Dual+A-only+B-only 库上按 `vina_worst` 或 `vina_mean` 的 Dual 百分位截断（Table S46）。配体层 ECFP4 与四描述符逻辑回归则在四对完整 θ = 6.0 ChEMBL 图上拟合，每类最多抽 120 个分子（种子 20260729），支架 `GroupKFold`（Table S47）。该分析只用实验标签与二维结构，不是对接结果，也不替换 Table 2。
+
+MCL1/Bcl-xL 冻结为 PPI/BH3 槽域外推候选，不是异质折叠对，也不是“首次非激酶对”（AChE/BChE 已是非激酶）。ChEMBL θ = 6.0 图为 dual/A-only/B-only/neither 82/77/24/122；按种子 20260729 抽 24/24/24/24，B-only 24 个全部纳入。主受体为 MCL1 3WIY 与 Bcl-xL 3WIZ（LC6 / Tanaka compound 10），替代 holo 为 6UDV 与 3SP7，选择依据是分辨率与野生型占位，不是 AUROC。[17] 本会话未跑 LC6 pose-gold gate。与 Zhou 2013、DUD-E、LIT-PCBA、CASF-2016、DOCKSTRING 的对照见表 S52。[5–9,18]
 
 计算在 Python 3 环境下完成，主要软件为 RDKit 2026.3.1、meeko 0.7.1、AutoDock Vina 1.2.7、GNINA 1.3.2 与 RTMScore。评价面板、对接分数、分析脚本与参数表见 Data and Software Availability。评价合约见 `DUALFOURCLASS_EVALUATION_CONTRACT_v1.json`。
 
@@ -149,7 +153,7 @@ post-hoc 当前 ChEMBL 高置信视图审计了 2748 条 activity records，在�
 
 在同一套冻结 Vina 分数上，按文献阻断交叉验证后，EGFR/HER2 的弱方向臂仍为 0.430（document-cluster bootstrap 95% CI [0.321, 0.617]；5 个有效折；23 个组；113 篇文献；Table S39）。Dual versus A-only 仍为 0.666。同一折上 ECFP4 logistic 的 OOF AUROC 为 0.623，低于支架分组的 0.89，说明同篇文献系列贡献了二维信号。八个方向臂中七个可估计；PIK3CA/mTOR Dual versus B-only 在 9 个文献连通组中只有 1 个折同时含两类（最大组 19/30），按原规则报告为无法稳定估计（Table S40）。
 
-预先冻结的 2018 时间分割在任何靶对上都未达到样本量门槛（测试集 dual/A-only/B-only/neither：EGFR/HER2 6/3/14/2；AChE/BChE 8/5/15/6；PIK3CA/PIK3CB 12/11/0/3；PIK3CA/mTOR 2/0/1/0；Table S41）。2015 敏感性中仅 AChE/BChE 三类均 ≥10（11/11/24）。主截止年可评估靶对少于两个，因此不包装为外部验证。BindingDB 两端等式测定在去掉已打分面板 InChIKey 后，四对的 dual/A-only/B-only 仍均 ≥10（EGFR/HER2 1589/161/62；AChE/BChE 966/450/230；PIK3CA/PIK3CB 1341/261/257；PIK3CA/mTOR 2008/238/266；Table S43）。UniChem 对 ChEMBL 图的结构重叠与完整面板 PMID 核对未完成，因此这些配体不能称为数据库外部集。未对接，不包装为外部验证。
+预先冻结的 2018 时间分割在任何靶对上都未达到样本量门槛（测试集 dual/A-only/B-only/neither：EGFR/HER2 6/3/14/2；AChE/BChE 8/5/15/6；PIK3CA/PIK3CB 12/11/0/3；PIK3CA/mTOR 2/0/1/0；Table S41）。2015 敏感性中仅 AChE/BChE 三类均 ≥10（11/11/24）。主截止年可评估靶对少于两个，因此不包装为外部验证。BindingDB REST 两端等式测定在去掉已打分面板 InChIKey 后，四对的 dual/A-only/B-only 仍均 ≥10（EGFR/HER2 1589/161/62；AChE/BChE 966/450/230；PIK3CA/PIK3CB 1341/261/257；PIK3CA/mTOR 2008/238/266；Table S43）。Table S43 仍是该历史 REST 供给计数，不是文献独立切片。随后从 BindingDB 202608 原生归档重建、并经文献/结构/ECFP4 过滤的结果见 Results 3.9（Tables S48–S49）。
 
 机器 assay-context 审计标记了 186 个优先配体（1163 条保留 activity 行），包括 98 个 EGFR/HER2 方向类配体、40 个混合端点配体、22 个同时有生化与功能实验的配体，以及 4 个 PIK3CA/mTOR neither 配体（Table S42）。元数据审核随后给出 179 include / 7 uncertain / 0 exclude；7 个 uncertain 配体保留冻结类别。蛋白构建体与突变状态因 assay 自由文本不可用仍为 unknown。冻结标签未改。
 
@@ -185,6 +189,12 @@ AND 式双口袋过滤在 Dual+A-only+B-only 库上把 Table S25 的 Top-10 观�
 
 在完整 ChEMBL 图而不是 n ≈ 28 对接面板上，配体层模型在每一对上都比 Dual versus 选择性更容易回收 Dual versus neither（Table S47；Figure S7C）。ECFP4 GroupKFold 的 Dual-versus-neither AUROC 在 EGFR/HER2、AChE/BChE、PIK3CA/PIK3CB 与 PIK3CA/mTOR 上分别为 0.921、0.851、0.835 与 0.956，而方向性 ECFP4 `summary_min` 为 0.801、0.744、0.720 与 0.887。EGFR/HER2 Dual versus B-only 在二维化学上仍为 0.864，而对接下采样面板为 0.430。因此实验标签在全图尺度上是化学可分的；这并不证明对接在硬臂上回收了该结构。Table S47 不替换 Table 2。
 
+### 3.9 BindingDB 原生切片：供给冻结，不是外部验证
+
+BindingDB 202608 文章与专利归档按对接前冻结的合约重建（`external_slice_contract.yaml`；Methods 2.1）。[16] 原生配对 θ = 6.0 的 dual/A-only/B-only/neither 为 EGFR/HER2 371/30/54/13（n = 468）、AChE/BChE 159/46/37/76（n = 318）、PIK3CA/PIK3CB 114/29/4/149（n = 296）、PIK3CA/mTOR 1000/115/30/48（n = 1193）、MCL1/Bcl-xL 32/22/6/30（n = 90；Table S48）。去掉共享文献、共享结构并要求对开发分子最大 ECFP4 Tanimoto < 0.70 后，剩余为 180/10/20/6、4/8/14/59、9/0/3/100、91/4/1/2 与 1/0/2/0（Table S49；Figure S8）。ChEMBL 文献解析为 519/680，因此这些剩余 n 是完全文献独立集的上界。即便作为上界，也没有任何一对达到预先冻结的主外部门槛（方向类各 n ≥ 20、每类至少 3 个来源、最大单文献份额 ≤ 50%），也没有一对达到 EGFR 式薄复制门槛。0.50–0.70 Tanimoto 敏感性仍不足（AChE/BChE 39/13/20；EGFR/HER2 A-only 11；PIK3CA/mTOR B-only 6）。因此没有一对达到预先冻结主外部门槛的配体被对接，该切片不包装为外部评价。停止规则使本稿保持为四靶对评价设定审计。
+
+MCL1/Bcl-xL 仅冻结为 PPI/BH3 槽候选，未对接（Table S50）。ChEMBL θ = 6.0 图为 82/77/24/122；冻结面板为 24/24/24/24，B-only 穷尽。主受体为 MCL1 3WIY（2.15 Å，链 A）与 Bcl-xL 3WIZ（2.45 Å，链 A）；LC6 pose-gold gate 未跑（Table S51）。[17] 该对是同源 BCL-2 折叠上的结构域位移，不是异质折叠对，也不是首次非激酶对。Table S52 把 DualFourClass 与 Zhou 2013、DUD-E、LIT-PCBA、CASF-2016、DOCKSTRING 并置为文献对照，不是 bake-off。[5–9,18]
+
 ## 4. 讨论
 
 ### 4.1 基准设定改变了双靶对接的证据标准
@@ -213,7 +223,7 @@ AND 式双口袋过滤在 Dual+A-only+B-only 库上把 Table S25 的 Top-10 观�
 
 第一，评价集仅含四对靶标，因为严格建造门槛下实验定义的双靶硬负样本稀缺。主规则 θ = 6.0 下，49 对审计中有 17 对 Dual/A-only/B-only 均 n ≥ 10，但这些额外靶对未对接。K = 4 是受数据供给约束的对接案例面板，而不是全面的双靶基准套件。四个 `summary_min` 还混合了面板构建差异（严格 6.5/5.5 对 θ = 6.0；不等 n）与靶对生物学。当前类别样本量更容易分辨较大的方向性效应，而对中等效应较弱（Table S31）。
 
-第二，实验标签来自 ChEMBL，并要求两端均有可用测定。完整病例只覆盖可用值并集的 14.5%–34.0%。未使用配体池留出集仍属同一抓取批次，因此不是独立外部验证。BindingDB/PubChem 的 Table S12 核对仅为计数。随后 BindingDB 审计显示，去掉已打分面板 InChIKey 后四对 dual/A-only/B-only 仍均 ≥10（Table S43）。相对 ChEMBL 图的 UniChem 重叠与完整面板 PMID 核对未完成，因此该剩余集不是数据库外部集，也未对接。按文献阻断后 EGFR/HER2 弱臂仍为 0.430，且 PIK3CA/mTOR Dual versus B-only 无法稳定估计。预先冻结的 2018 文献年份分割没有两个可评估靶对，故不声称时间外验证。
+第二，实验标签来自 ChEMBL，并要求两端均有可用测定。完整病例只覆盖可用值并集的 14.5%–34.0%。未使用配体池留出集仍属同一抓取批次，因此不是独立外部验证。BindingDB/PubChem 的 Table S12 核对仅为计数。Table S43 仍是去掉已打分面板 InChIKey 后的历史 REST 供给计数。随后 BindingDB 202608 原生归档在文献、结构与 ECFP4 < 0.70 过滤后，没有一对达到预先冻结的主外部门槛（Tables S48–S49）。因 ChEMBL 文献解析不完整，剩余 n 是上界；即便作为上界，该切片也不包装为外部评价，且未对接。按文献阻断后 EGFR/HER2 弱臂仍为 0.430，且 PIK3CA/mTOR Dual versus B-only 无法稳定估计。预先冻结的 2018 文献年份分割没有两个可评估靶对，故不声称时间外验证。
 
 第三，assay 异质性仍然存在。IC50、Ki、Kd、EC50 与 Potency 被映射到同一阈值。主策展使用最大 pChEMBL。2026-08-26 的当前 ChEMBL 高置信重建（人源单蛋白、confidence≥8、等式关系、允许端点、validity 与 duplicate 过滤）保留了全部 352 个已打分标签（Table S36），但不能等同于 assay 条件、蛋白构建体或突变背景的统一。186 个优先分子的元数据纳入/排除未改变任何冻结类别（179 include / 7 uncertain / 0 exclude），构建体与突变仍为 unknown。因此标签不应视为 assay-harmonized ground truth。
 
@@ -225,11 +235,11 @@ AND 式双口袋过滤在 Dual+A-only+B-only 库上把 Table S25 的 Top-10 观�
 
 在所评价的四个案例靶对中，方向性对接判别的点估计依赖靶对、化学组成、面板成员与受体实现；全部四个主 `summary_min` 区间均包含 0.5。EGFR/HER2 的负类设定差距在独立 GNINA 姿态生成下仍然存在，但其他靶对没有支持同一普遍规律。
 
-这些结果识别的是当前 ChEMBL 衍生面板与计算协议中的失败模式，不是靶标通用的可靠性边界。仅依据两个口袋中的有利 docking 分数不足以建立双靶活性的充分证据。对于双靶虚拟筛选及将 docking 用作下游筛选环节的生成式设计流程，可使用四步诊断：方向性硬负、配体层化学基线、未使用配体池或文献阻断分割，以及受体结构敏感性（Figure 8）。θ = 6.0 标签普查、物化 caliper 匹配与 AND 过滤工作点加强了该诊断，但并不把本研究变成 17 对对接基准。在这些面板上预先冻结的文献年份分割不能作为时间外验证；BindingDB 独立性计数也未对接。
+这些结果识别的是当前 ChEMBL 衍生面板与计算协议中的失败模式，不是靶标通用的可靠性边界。仅依据两个口袋中的有利 docking 分数不足以建立双靶活性的充分证据。对于双靶虚拟筛选及将 docking 用作下游筛选环节的生成式设计流程，可使用四步诊断：方向性硬负、配体层化学基线、未使用配体池或文献阻断分割，以及受体结构敏感性（Figure 8）。θ = 6.0 标签普查、物化 caliper 匹配与 AND 过滤工作点加强了该诊断，但并不把本研究变成 17 对对接基准。在这些面板上预先冻结的文献年份分割不能作为时间外验证。BindingDB 原生独立切片没有给出两对主外部靶对，故未对接。
 
 ## 数据与软件可用性
 
-评价面板成员、实验状态标签、受体与对接盒定义、逐配体对接分数、分析表，以及重建本文统计与图件所需的全部脚本，均可在公开仓库 https://github.com/1280602962-debug/gwj260531 的 `Dual_Target_Docking` 目录中获取。`data/jcim_novelty_v0/tables/MASTER_RESULTS_TABLE.csv` 索引主要数值结果及其来源表，包括独立 GNINA 姿态生成分数（Table S32）、PIK3CA 占有率位移（Table S33）、文献阻断交叉验证（Tables S39–S40）、冻结的文献年份分割（Table S41）、assay-context 元数据审核（Table S42）、BindingDB 独立性计数（Table S43）、θ = 6.0 靶对普查（Table S44）、物化 caliper 匹配（Table S45）、AND 过滤工作点（Table S46）、配体层全图 AUROC（Table S47）、重建的 EGFR/HER2 共晶 QC（Table S3），以及评价合约（`DUALFOURCLASS_EVALUATION_CONTRACT_v1.json`）。面向稿件的表 SHA-256 校验和见 `REVISION_CHECKSUM_MANIFEST_v1.csv`。ChEMBL 供给审计冻结于 2026-07-23；高置信 activity 视图抓取于 2026-08-26。GitHub Release 与 Zenodo DOI 将从打标签快照签发，而不是从当前仍可能变化的分支签发。分析环境与零新对接的复现命令见仓库 README。
+评价面板成员、实验状态标签、受体与对接盒定义、逐配体对接分数、分析表，以及重建本文统计与图件所需的全部脚本，均可在公开仓库 https://github.com/1280602962-debug/gwj260531 的 `Dual_Target_Docking` 目录中获取。`data/jcim_novelty_v0/tables/MASTER_RESULTS_TABLE.csv` 索引主要数值结果及其来源表，包括独立 GNINA 姿态生成分数（Table S32）、PIK3CA 占有率位移（Table S33）、文献阻断交叉验证（Tables S39–S40）、冻结的文献年份分割（Table S41）、assay-context 元数据审核（Table S42）、BindingDB REST 独立性计数（Table S43）、θ = 6.0 靶对普查（Table S44）、物化 caliper 匹配（Table S45）、AND 过滤工作点（Table S46）、配体层全图 AUROC（Table S47）、BindingDB 原生候选流程与切片摘要（Tables S48–S49）、冻结的 MCL1/Bcl-xL 面板与受体（Tables S50–S51）、文献对照（Table S52）、重建的 EGFR/HER2 共晶 QC（Table S3）、Figure S8、原生切片合约（`protocol/external_slice_contract.yaml`），以及评价合约（`DUALFOURCLASS_EVALUATION_CONTRACT_v1.json`）。面向稿件的表 SHA-256 校验和见 `REVISION_CHECKSUM_MANIFEST_v1.csv`。ChEMBL 供给审计冻结于 2026-07-23；高置信 activity 视图抓取于 2026-08-26；BindingDB 原生归档锁定为 202608。GitHub Release 与 Zenodo DOI 将从打标签快照签发，而不是从当前仍可能变化的分支签发。分析环境与零新对接的复现命令见仓库 README。BindingDB TSV 归档本身不随仓库分发；CI 只核对已提交的 CSV。
 
 ## 参考文献
 
@@ -262,3 +272,9 @@ AND 式双口袋过滤在 Dual+A-only+B-only 库上把 Table S25 的 Top-10 观�
 (14) Schaller, D. A.; Christ, C. D.; Chodera, J. D.; Volkamer, A. Benchmarking Cross-Docking Strategies in Kinase Drug Discovery. *J. Chem. Inf. Model.* **2024**, *64*, 8848–8858. DOI: 10.1021/acs.jcim.4c00905.
 
 (15) Sindt, F.; Bret, G.; Rognan, D. On the Difficulty to Rescore Hits from Ultralarge Docking Screens. *J. Chem. Inf. Model.* **2025**, *65*, 5553–5566. DOI: 10.1021/acs.jcim.5c00730.
+
+(16) Liu, T.; Hwang, L.; Burley, S. K.; Nitsche, C. I.; Southan, C.; Walters, W. P.; Gilson, M. K. BindingDB in 2024: a FAIR Knowledgebase of Protein-Small Molecule Binding Data. *Nucleic Acids Res.* **2025**, *53*, D1633–D1644. DOI: 10.1093/nar/gkae1075.
+
+(17) Tanaka, Y.; Aikawa, K.; Nishida, G.; Homma, M.; Sogabe, S.; Igaki, S.; Hayano, Y.; Sameshima, T.; Miyahisa, I.; Kawamoto, T.; Tawada, M.; Imai, Y.; Inazuka, M.; Cho, N.; Imaeda, Y.; Ishikawa, T. Discovery of Potent Mcl-1/Bcl-xL Dual Inhibitors by Using a Hybridization Strategy Based on Structural Analysis of Target Proteins. *J. Med. Chem.* **2013**, *56*, 9635–9645. DOI: 10.1021/jm401170c.
+
+(18) García-Ortegón, M.; Simm, G. N. C.; Tripp, A. J.; Hernández-Lobato, J. M.; Bender, A.; Bacallado, S. DOCKSTRING: Easy Molecular Docking Yields Better Benchmarks for Ligand Design. *J. Chem. Inf. Model.* **2022**, *62*, 3486–3502. DOI: 10.1021/acs.jcim.1c01334.

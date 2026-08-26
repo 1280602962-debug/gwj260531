@@ -25,6 +25,8 @@ PIK3CA/mTOR 的 boxed 说法：
 | 3.4 | PM 信号在哪些条件下成立 | E8、PM110、holdout、换晶、Cα |
 | 3.5 | specificity control 是否可靠 | 主面板 matched>wrong；holdout 反转；S11/S13 |
 | 3.6 | 结构背景线索（探索性） | Table S7 序列一致性；T2/T5 详见 SI Note S1 |
+| 3.8 | 普查 / caliper / AND / 配体层全图 | S44–S47；不把 17 对写成对接扩面 |
+| 3.9 | BindingDB 原生切片供给冻结 | S48–S52；0 对主门槛；未对接；MCL1 仅冻结 |
 | 4.1 | formulation 如何改变证据标准 | 3.1–3.2 + DUD/LIT-PCBA/Ahmed；错口袋未解决句 |
 | 4.2 | ligand-only baseline 如何揭示表观 docking 判别中的混淆 | 3.3 + Ballester 2023 |
 | 4.3 | receptor realization 是评价条件的另一维度 | 3.4 + 3.6；Schaller 只作 receptor 变量 |

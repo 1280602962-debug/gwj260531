@@ -741,6 +741,98 @@ def main() -> None:
                     source_file="data/jcim_novelty_v0/tables/ligand_only_fullmap_auroc_v1.csv",
                 )
             )
+    native_sum_path = TAB / "external_slice_summary_v1.csv"
+    if native_sum_path.exists() and native_sum_path.stat().st_size:
+        for r in _read(native_sum_path):
+            rows.append(
+                row(
+                    block="bindingdb_native_slice",
+                    manuscript_table="Table S49",
+                    pair=r["pair"],
+                    setting="after_ecfp_lt_0.70",
+                    metric="gate",
+                    n_dual=r["n_dual"],
+                    n_A_only=r["n_A_only"],
+                    n_B_only=r["n_B_only"],
+                    note=(
+                        f"gate={r['gate']}; packaged={r['packaged_as_external_evaluation']}; "
+                        f"native_paired={r['native_paired']}; pubmed={r.get('pubmed_status','')}"
+                    ),
+                    source_file="data/jcim_novelty_v0/tables/external_slice_summary_v1.csv",
+                )
+            )
+    native_flow_path = TAB / "external_candidate_flow.csv"
+    if native_flow_path.exists() and native_flow_path.stat().st_size:
+        for r in _read(native_flow_path):
+            if r.get("layer") != "native_paired_theta6":
+                continue
+            rows.append(
+                row(
+                    block="bindingdb_native_flow",
+                    manuscript_table="Table S48",
+                    pair=r["pair"],
+                    setting=r["layer"],
+                    metric="n_dual",
+                    n_scored=r["n_ligands"],
+                    n_dual=r["n_dual"],
+                    n_A_only=r["n_A_only"],
+                    n_B_only=r["n_B_only"],
+                    note="not docked; remaining later layers are upper bounds",
+                    source_file="data/jcim_novelty_v0/tables/external_candidate_flow.csv",
+                )
+            )
+    mcl1_path = TAB / "mcl1_bclxl_panel_freeze_v1.csv"
+    if mcl1_path.exists() and mcl1_path.stat().st_size:
+        for r in _read(mcl1_path):
+            rows.append(
+                row(
+                    block="mcl1_bclxl_panel",
+                    manuscript_table="Table S50",
+                    pair=r["pair"],
+                    setting="chembl_panel_freeze",
+                    metric="panel_dual",
+                    n_dual=r["panel_dual"],
+                    n_A_only=r["panel_A_only"],
+                    n_B_only=r["panel_B_only"],
+                    note=(
+                        f"map={r['map_dual']}/{r['map_A_only']}/{r['map_B_only']}/{r['map_neither']}; "
+                        f"docked={r['docked']}; pose_gold={r['pose_gold_gate']}"
+                    ),
+                    source_file="data/jcim_novelty_v0/tables/mcl1_bclxl_panel_freeze_v1.csv",
+                )
+            )
+    rec_path = TAB / "mcl1_bclxl_receptor_freeze_v1.csv"
+    if rec_path.exists() and rec_path.stat().st_size:
+        for r in _read(rec_path):
+            rows.append(
+                row(
+                    block="mcl1_bclxl_receptor",
+                    manuscript_table="Table S51",
+                    pair=r["target"],
+                    setting=f"{r['pdb_id']}_{r['role']}",
+                    metric="resolution_A",
+                    value=r["resolution_A"],
+                    note=(
+                        f"chain={r['primary_chain']}; mutations={r['mutation_count']}; "
+                        f"pose_gold_run={r['pose_gold_gate_run']}"
+                    ),
+                    source_file="data/jcim_novelty_v0/tables/mcl1_bclxl_receptor_freeze_v1.csv",
+                )
+            )
+    cmp_path = TAB / "benchmark_literature_comparator_v1.csv"
+    if cmp_path.exists() and cmp_path.stat().st_size:
+        for r in _read(cmp_path):
+            rows.append(
+                row(
+                    block="literature_comparator",
+                    manuscript_table="Table S52",
+                    pair="all",
+                    setting=r["resource"],
+                    metric="externality",
+                    note=r.get("externality", ""),
+                    source_file="data/jcim_novelty_v0/tables/benchmark_literature_comparator_v1.csv",
+                )
+            )
 
     out_path = TAB / "MASTER_RESULTS_TABLE.csv"
     with out_path.open("w", newline="") as f:

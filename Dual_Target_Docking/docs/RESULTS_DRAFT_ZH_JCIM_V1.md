@@ -64,7 +64,7 @@ post-hoc 当前 ChEMBL 高置信视图审计了 2748 条 activity records，在�
 
 在同一套冻结 Vina 分数上，按文献阻断交叉验证后，EGFR/HER2 的弱方向臂仍为 0.430（document-cluster bootstrap 95% CI [0.321, 0.617]；5 个有效折；23 个组；113 篇文献；Table S39）。Dual versus A-only 仍为 0.666。同一折上 ECFP4 logistic 的 OOF AUROC 为 0.623，低于支架分组的 0.89，说明同篇文献系列贡献了二维信号。八个方向臂中七个可估计；PIK3CA/mTOR Dual versus B-only 在 9 个文献连通组中只有 1 个折同时含两类（最大组 19/30），按原规则报告为无法稳定估计（Table S40）。
 
-预先冻结的 2018 时间分割在任何靶对上都未达到样本量门槛（测试集 dual/A-only/B-only/neither：EGFR/HER2 6/3/14/2；AChE/BChE 8/5/15/6；PIK3CA/PIK3CB 12/11/0/3；PIK3CA/mTOR 2/0/1/0；Table S41）。2015 敏感性中仅 AChE/BChE 三类均 ≥10（11/11/24）。主截止年可评估靶对少于两个，因此不包装为外部验证。BindingDB 两端等式测定在去掉已打分面板 InChIKey 后，四对的 dual/A-only/B-only 仍均 ≥10（EGFR/HER2 1589/161/62；AChE/BChE 966/450/230；PIK3CA/PIK3CB 1341/261/257；PIK3CA/mTOR 2008/238/266；Table S43）。UniChem 对 ChEMBL 图的结构重叠与完整面板 PMID 核对未完成，因此这些配体不能称为数据库外部集。未对接，不包装为外部验证。
+预先冻结的 2018 时间分割在任何靶对上都未达到样本量门槛（测试集 dual/A-only/B-only/neither：EGFR/HER2 6/3/14/2；AChE/BChE 8/5/15/6；PIK3CA/PIK3CB 12/11/0/3；PIK3CA/mTOR 2/0/1/0；Table S41）。2015 敏感性中仅 AChE/BChE 三类均 ≥10（11/11/24）。主截止年可评估靶对少于两个，因此不包装为外部验证。BindingDB REST 两端等式测定在去掉已打分面板 InChIKey 后，四对的 dual/A-only/B-only 仍均 ≥10（EGFR/HER2 1589/161/62；AChE/BChE 966/450/230；PIK3CA/PIK3CB 1341/261/257；PIK3CA/mTOR 2008/238/266；Table S43）。Table S43 仍是该历史 REST 供给计数，不是文献独立切片。随后从 BindingDB 202608 原生归档重建、并经文献/结构/ECFP4 过滤的结果见 Results 3.9（Tables S48–S49）。
 
 机器 assay-context 审计标记了 186 个优先配体（1163 条保留 activity 行），包括 98 个 EGFR/HER2 方向类配体、40 个混合端点配体、22 个同时有生化与功能实验的配体，以及 4 个 PIK3CA/mTOR neither 配体（Table S42）。元数据审核随后给出 179 include / 7 uncertain / 0 exclude；7 个 uncertain 配体保留冻结类别。蛋白构建体与突变状态因 assay 自由文本不可用仍为 unknown。冻结标签未改。
 
@@ -99,3 +99,9 @@ EGFR/HER2 上 Dual versus neither 仍高（AUROC 0.783 [0.610, 0.922]；n_neg = 
 AND 式双口袋过滤在 Dual+A-only+B-only 库上把 Table S25 的 Top-10 观察写成明确工作点（Table S46；Figure S7B）。EGFR/HER2 上，Dual 中位 `vina_worst` 截断保留 14/28 个 Dual，但同时留下 33 个选择性配体（precision 0.298；硬负比例 0.702）。收到 Dual 第 90 百分位后 Dual precision 进一步降到 0.130，因为极端 AND 分数由 B-only 主导。AChE/BChE 在该尾部 precision 为 0.600（n_pass = 5）。这些截断是对虚拟筛选和生成式设计中双口袋过滤器的诊断，不是对某一生成模型的重打分。
 
 在完整 ChEMBL 图而不是 n ≈ 28 对接面板上，配体层模型在每一对上都比 Dual versus 选择性更容易回收 Dual versus neither（Table S47；Figure S7C）。ECFP4 GroupKFold 的 Dual-versus-neither AUROC 在 EGFR/HER2、AChE/BChE、PIK3CA/PIK3CB 与 PIK3CA/mTOR 上分别为 0.921、0.851、0.835 与 0.956，而方向性 ECFP4 `summary_min` 为 0.801、0.744、0.720 与 0.887。EGFR/HER2 Dual versus B-only 在二维化学上仍为 0.864，而对接下采样面板为 0.430。因此实验标签在全图尺度上是化学可分的；这并不证明对接在硬臂上回收了该结构。Table S47 不替换 Table 2。
+
+### 3.9 BindingDB 原生切片：供给冻结，不是外部验证
+
+BindingDB 202608 文章与专利归档按对接前冻结的合约重建（`external_slice_contract.yaml`；Methods 2.1）。[16] 原生配对 θ = 6.0 的 dual/A-only/B-only/neither 为 EGFR/HER2 371/30/54/13（n = 468）、AChE/BChE 159/46/37/76（n = 318）、PIK3CA/PIK3CB 114/29/4/149（n = 296）、PIK3CA/mTOR 1000/115/30/48（n = 1193）、MCL1/Bcl-xL 32/22/6/30（n = 90；Table S48）。去掉共享文献、共享结构并要求对开发分子最大 ECFP4 Tanimoto < 0.70 后，剩余为 180/10/20/6、4/8/14/59、9/0/3/100、91/4/1/2 与 1/0/2/0（Table S49；Figure S8）。ChEMBL 文献解析为 519/680，因此这些剩余 n 是完全文献独立集的上界。即便作为上界，也没有任何一对达到预先冻结的主外部门槛（方向类各 n ≥ 20、每类至少 3 个来源、最大单文献份额 ≤ 50%），也没有一对达到 EGFR 式薄复制门槛。0.50–0.70 Tanimoto 敏感性仍不足（AChE/BChE 39/13/20；EGFR/HER2 A-only 11；PIK3CA/mTOR B-only 6）。因此没有一对达到预先冻结主外部门槛的配体被对接，该切片不包装为外部评价。停止规则使本稿保持为四靶对评价设定审计。
+
+MCL1/Bcl-xL 仅冻结为 PPI/BH3 槽候选，未对接（Table S50）。ChEMBL θ = 6.0 图为 82/77/24/122；冻结面板为 24/24/24/24，B-only 穷尽。主受体为 MCL1 3WIY（2.15 Å，链 A）与 Bcl-xL 3WIZ（2.45 Å，链 A）；LC6 pose-gold gate 未跑（Table S51）。[17] 该对是同源 BCL-2 折叠上的结构域位移，不是异质折叠对，也不是首次非激酶对。Table S52 把 DualFourClass 与 Zhou 2013、DUD-E、LIT-PCBA、CASF-2016、DOCKSTRING 并置为文献对照，不是 bake-off。[5–9,18]

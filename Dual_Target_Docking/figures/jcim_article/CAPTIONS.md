@@ -59,6 +59,10 @@ Pocket-matched summary_min on the main panel versus the unused-pool holdout (20/
 
 (A) Unique J0 pairs (aliases dropped) that admit θ = 6.0 Dual/A-only/B-only n ≥ 10, Dual/A-only/B-only/neither n ≥ 10, versus the four docked pairs (`theta6_pair_census_v1.csv`). Not a docking scale-up. (B) AND-like Dual filter precision versus Dual recall on Dual+A-only+B-only libraries using `vina_worst` Dual-percentile cuts (`and_filter_operating_point_v1.csv`). (C) Ligand-only ECFP4 GroupKFold Dual versus neither versus directional `summary_min` on the full ChEMBL maps of the four frozen pairs, cap 120/class (`ligand_only_fullmap_auroc_v1.csv`). Not a replacement for Table 2.
 
+## Figure S8. BindingDB-native slice after literature, structure, and ECFP4 filters.
+
+Four-state ligand counts from the versioned BindingDB 202608 article and patent TSV archives (`external_candidate_flow.csv`; `external_slice_summary_v1.csv`). Bars show dual / A-only / B-only / neither after shared-literature, shared-structure, and max ECFP4 Tanimoto < 0.70 versus development molecules. Remaining n are upper bounds because ChEMBL document lookup resolved 519/680 development documents. No pair meets the pre-frozen primary external gate; nothing was docked. Not a replacement for Table 2 or Table S43 (REST historical count).
+
 ## TOC graphic (For Table of Contents Only).
 
 DualFourClass-Bench asks whether docking can distinguish experimentally labeled dual-active ligands from single-target selective hard negatives in both pockets, rather than whether both docking scores are merely favorable. The graphic does not report numerical AUROCs and is not a reuse of Figure 1.

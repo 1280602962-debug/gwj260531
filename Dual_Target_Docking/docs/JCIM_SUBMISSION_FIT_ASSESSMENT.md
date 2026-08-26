@@ -94,7 +94,7 @@ a borderline evaluation Article after Zenodo, not a methods/benchmark lock.
 |-----|----------------------------|--------------------|
 | K = 4; three kinase ATP sites; shared PIK3CA | Unchanged | Looks like a case series, not a benchmark |
 | All four primary `summary_min` CIs include 0.5 | Unchanged | No pair has a statistically resolved directional effect |
-| No docked database-external or time-split test | 2018 split unevaluable; BindingDB not-in-panel supply exists on all four pairs but UniChem/PMID independence was not finished and nothing was docked | Reviewers can reject for missing independent test |
+| No docked database-external or time-split test | 2018 split unevaluable; BindingDB-native 202608 slice frozen after literature/structure/ECFP4 < 0.70; **0 pairs pass the primary gate**; remaining n are upper bounds; **not docked**; Table S43 REST counts are historical supply only | Reviewers can still reject for missing *docked* independent test; the independence hole is now a documented supply stop, not an unfinished PMID/UniChem task |
 | Assay not paper-harmonized | Metadata pass only | Labels remain operational, not experimental ground truth |
 | No Zenodo DOI | Still a moving branch | Data Availability is below current JCIM practice |
 | No prospective experiment | Out of scope | Acceptable only if claims stay computational |
@@ -127,9 +127,7 @@ A realistic path is a short, tightly titled evaluation Article (current
 title is already the right scope) after:
 
 1. minting a Zenodo DOI from a frozen tag;
-2. either docking a true BindingDB-independent slice on ≥2 pairs or
-   stating in the cover letter that independent docking was impossible
-   because supply/literature overlap failed the pre-frozen gate;
+2. stating in the cover letter that a BindingDB-native independent slice was frozen, that zero pairs met the pre-frozen primary external gate, and that the slice was therefore not docked;
 3. keeping every CI-includes-0.5 sentence.
 
 Even then, a 2024–2026 JCIM reviewer can still reject for N and for the

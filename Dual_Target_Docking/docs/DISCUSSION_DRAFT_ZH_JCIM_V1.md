@@ -28,7 +28,7 @@
 
 第一，评价集仅含四对靶标，因为严格建造门槛下实验定义的双靶硬负样本稀缺。主规则 θ = 6.0 下，49 对审计中有 17 对 Dual/A-only/B-only 均 n ≥ 10，但这些额外靶对未对接。K = 4 是受数据供给约束的对接案例面板，而不是全面的双靶基准套件。四个 `summary_min` 还混合了面板构建差异（严格 6.5/5.5 对 θ = 6.0；不等 n）与靶对生物学。当前类别样本量更容易分辨较大的方向性效应，而对中等效应较弱（Table S31）。
 
-第二，实验标签来自 ChEMBL，并要求两端均有可用测定。完整病例只覆盖可用值并集的 14.5%–34.0%。未使用配体池留出集仍属同一抓取批次，因此不是独立外部验证。BindingDB/PubChem 的 Table S12 核对仅为计数。随后 BindingDB 审计显示，去掉已打分面板 InChIKey 后四对 dual/A-only/B-only 仍均 ≥10（Table S43）。相对 ChEMBL 图的 UniChem 重叠与完整面板 PMID 核对未完成，因此该剩余集不是数据库外部集，也未对接。按文献阻断后 EGFR/HER2 弱臂仍为 0.430，且 PIK3CA/mTOR Dual versus B-only 无法稳定估计。预先冻结的 2018 文献年份分割没有两个可评估靶对，故不声称时间外验证。
+第二，实验标签来自 ChEMBL，并要求两端均有可用测定。完整病例只覆盖可用值并集的 14.5%–34.0%。未使用配体池留出集仍属同一抓取批次，因此不是独立外部验证。BindingDB/PubChem 的 Table S12 核对仅为计数。Table S43 仍是去掉已打分面板 InChIKey 后的历史 REST 供给计数。随后 BindingDB 202608 原生归档在文献、结构与 ECFP4 < 0.70 过滤后，没有一对达到预先冻结的主外部门槛（Tables S48–S49）。因 ChEMBL 文献解析不完整，剩余 n 是上界；即便作为上界，该切片也不包装为外部评价，且未对接。按文献阻断后 EGFR/HER2 弱臂仍为 0.430，且 PIK3CA/mTOR Dual versus B-only 无法稳定估计。预先冻结的 2018 文献年份分割没有两个可评估靶对，故不声称时间外验证。
 
 第三，assay 异质性仍然存在。IC50、Ki、Kd、EC50 与 Potency 被映射到同一阈值。主策展使用最大 pChEMBL。2026-08-26 的当前 ChEMBL 高置信重建（人源单蛋白、confidence≥8、等式关系、允许端点、validity 与 duplicate 过滤）保留了全部 352 个已打分标签（Table S36），但不能等同于 assay 条件、蛋白构建体或突变背景的统一。186 个优先分子的元数据纳入/排除未改变任何冻结类别（179 include / 7 uncertain / 0 exclude），构建体与突变仍为 unknown。因此标签不应视为 assay-harmonized ground truth。
 

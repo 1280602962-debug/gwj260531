@@ -139,3 +139,24 @@ ligand_only_fullmap,Table S47,PIK3CA/PIK3CB,summary_min_ecfp4,ecfp4_groupkfold_a
 ligand_only_fullmap,Table S47,PIK3CA/mTOR,D_vs_B,ecfp4_groupkfold_auroc,0.8869,,,,120,,120,,,not a docking result; does not replace Table 2,data/jcim_novelty_v0/tables/ligand_only_fullmap_auroc_v1.csv
 ligand_only_fullmap,Table S47,PIK3CA/mTOR,D_vs_neither,ecfp4_groupkfold_auroc,0.9555,,,,120,,120,,,not a docking result; does not replace Table 2,data/jcim_novelty_v0/tables/ligand_only_fullmap_auroc_v1.csv
 ligand_only_fullmap,Table S47,PIK3CA/mTOR,summary_min_ecfp4,ecfp4_groupkfold_auroc,0.8869,,,,120,,120,,,not a docking result; does not replace Table 2,data/jcim_novelty_v0/tables/ligand_only_fullmap_auroc_v1.csv
+bindingdb_native_slice,Table S49,EGFR/HER2,after_ecfp_lt_0.70,gate,,,,,180,10,20,,,gate=insufficient; packaged=0; native_paired=468; pubmed=chembl_document_api_partial,data/jcim_novelty_v0/tables/external_slice_summary_v1.csv
+bindingdb_native_slice,Table S49,AChE/BChE,after_ecfp_lt_0.70,gate,,,,,4,8,14,,,gate=insufficient; packaged=0; native_paired=318; pubmed=chembl_document_api_partial,data/jcim_novelty_v0/tables/external_slice_summary_v1.csv
+bindingdb_native_slice,Table S49,PIK3CA/PIK3CB,after_ecfp_lt_0.70,gate,,,,,9,0,3,,,gate=insufficient; packaged=0; native_paired=296; pubmed=chembl_document_api_partial,data/jcim_novelty_v0/tables/external_slice_summary_v1.csv
+bindingdb_native_slice,Table S49,PIK3CA/mTOR,after_ecfp_lt_0.70,gate,,,,,91,4,1,,,gate=insufficient; packaged=0; native_paired=1193; pubmed=chembl_document_api_partial,data/jcim_novelty_v0/tables/external_slice_summary_v1.csv
+bindingdb_native_slice,Table S49,MCL1/Bcl-xL,after_ecfp_lt_0.70,gate,,,,,1,0,2,,,gate=insufficient; packaged=0; native_paired=90; pubmed=chembl_document_api_partial,data/jcim_novelty_v0/tables/external_slice_summary_v1.csv
+bindingdb_native_flow,Table S48,EGFR/HER2,native_paired_theta6,n_dual,,,,468,371,30,54,,,not docked; remaining later layers are upper bounds,data/jcim_novelty_v0/tables/external_candidate_flow.csv
+bindingdb_native_flow,Table S48,AChE/BChE,native_paired_theta6,n_dual,,,,318,159,46,37,,,not docked; remaining later layers are upper bounds,data/jcim_novelty_v0/tables/external_candidate_flow.csv
+bindingdb_native_flow,Table S48,PIK3CA/PIK3CB,native_paired_theta6,n_dual,,,,296,114,29,4,,,not docked; remaining later layers are upper bounds,data/jcim_novelty_v0/tables/external_candidate_flow.csv
+bindingdb_native_flow,Table S48,PIK3CA/mTOR,native_paired_theta6,n_dual,,,,1193,1000,115,30,,,not docked; remaining later layers are upper bounds,data/jcim_novelty_v0/tables/external_candidate_flow.csv
+bindingdb_native_flow,Table S48,MCL1/Bcl-xL,native_paired_theta6,n_dual,,,,90,32,22,6,,,not docked; remaining later layers are upper bounds,data/jcim_novelty_v0/tables/external_candidate_flow.csv
+mcl1_bclxl_panel,Table S50,MCL1/Bcl-xL,chembl_panel_freeze,panel_dual,,,,,24,24,24,,,map=82/77/24/122; docked=0; pose_gold=not_run_no_vina,data/jcim_novelty_v0/tables/mcl1_bclxl_panel_freeze_v1.csv
+mcl1_bclxl_receptor,Table S51,MCL1,3WIY_primary,resolution_A,2.15,,,,,,,,,chain=A; mutations=0; pose_gold_run=0,data/jcim_novelty_v0/tables/mcl1_bclxl_receptor_freeze_v1.csv
+mcl1_bclxl_receptor,Table S51,BCL2L1,3WIZ_primary,resolution_A,2.45,,,,,,,,,chain=A; mutations=0; pose_gold_run=0,data/jcim_novelty_v0/tables/mcl1_bclxl_receptor_freeze_v1.csv
+mcl1_bclxl_receptor,Table S51,MCL1,6UDV_alternate,resolution_A,1.35,,,,,,,,,chain=A; mutations=0; pose_gold_run=0,data/jcim_novelty_v0/tables/mcl1_bclxl_receptor_freeze_v1.csv
+mcl1_bclxl_receptor,Table S51,BCL2L1,3SP7_alternate,resolution_A,1.4,,,,,,,,,chain=A; mutations=0; pose_gold_run=0,data/jcim_novelty_v0/tables/mcl1_bclxl_receptor_freeze_v1.csv
+literature_comparator,Table S52,all,DualFourClass (this work),externality,,,,,,,,,,ChEMBL internal; BindingDB-native slice frozen but not docked,data/jcim_novelty_v0/tables/benchmark_literature_comparator_v1.csv
+literature_comparator,Table S52,all,"Zhou, Li, Hou 2013 dual-kinase docking",externality,,,,,,,,,,ChEMBL/literature dual kinase set of that era,data/jcim_novelty_v0/tables/benchmark_literature_comparator_v1.csv
+literature_comparator,Table S52,all,DUD-E,externality,,,,,,,,,,standard VS benchmark,data/jcim_novelty_v0/tables/benchmark_literature_comparator_v1.csv
+literature_comparator,Table S52,all,LIT-PCBA,externality,,,,,,,,,,PubChem bioassay origin,data/jcim_novelty_v0/tables/benchmark_literature_comparator_v1.csv
+literature_comparator,Table S52,all,CASF-2016,externality,,,,,,,,,,PDBbind core set,data/jcim_novelty_v0/tables/benchmark_literature_comparator_v1.csv
+literature_comparator,Table S52,all,DOCKSTRING,externality,,,,,,,,,,fixed public dataset release,data/jcim_novelty_v0/tables/benchmark_literature_comparator_v1.csv

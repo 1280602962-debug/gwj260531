@@ -54,6 +54,9 @@
 43. Property-caliper matching (Table S45) is a DUDE-Z-style control with experimental selectives. Report n_matched. Do not treat n < 8 cells as confirmatory. Do not call it causal adjustment.
 44. AND-filter operating points (Table S46) diagnose dual-pocket cuts on Dual+A-only+B-only libraries. EGFR/HER2 median Dual `vina_worst` precision is 0.298. Forbidden: DualDiff/FuseDiff/LS-MolGen were re-scored on DualFourClass-Bench.
 45. Ligand-only full-map AUROC (Table S47) uses ChEMBL maps and 2D structure, cap 120/class. Allowed: Dual versus neither is easier than Dual versus selectives in ligand chemistry at map scale. Forbidden: Table S47 replaces Table 2, or ligand-only AUROC is a docking result.
+46. The BindingDB-native 202608 slice (Tables S48–S49) is a **supply freeze**, not external validation. After literature, structure, and ECFP4 < 0.70 filters, remaining class counts are **upper bounds** because ChEMBL document lookup was partial (519/680). Zero pairs met the primary external gate; zero thin replications; `packaged_as_external_evaluation = 0`; nothing was docked. Do not call remaining ligands a database-external set. Do not change θ, boxes, or receptors after seeing these counts. Table S43 remains the historical REST supply count.
+47. Remaining n after the native filters can only shrink if the unresolved 161 development documents later add shared PMID/DOI/patent matches. Incomplete literature drop cannot create a passing pair that a complete drop would remove from the insufficient side; even as upper bounds, no pair passes the primary gate.
+48. MCL1/Bcl-xL (Tables S50–S51) is a frozen PPI/BH3-groove domain-shift panel and receptor set. Allowed: map 82/77/24/122; panel 24/24/24/24; primary 3WIY 2.15 Å / 3WIZ 2.45 Å; LC6 pose-gold gate not run. Forbidden: docked fifth pair; disparate-fold pair; first non-kinase pair; BindingDB AUROC. Table S52 is a literature comparator, not a bake-off.
 
 ## Conclusions claim ceiling
 

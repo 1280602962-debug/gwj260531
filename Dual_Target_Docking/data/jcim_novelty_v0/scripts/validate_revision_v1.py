@@ -122,6 +122,7 @@ def main():
         "17 unique pairs",
         "AND-like dual filter",
         "does not replace Table 2",
+        "zero pairs meeting the pre-frozen primary external gate",
     )
     for phrase in required_phrases:
         assert phrase in manuscript, phrase
@@ -161,6 +162,36 @@ def main():
     if bdb.exists() and bdb.stat().st_size > 0:
         summary = rows("bindingdb_independence_summary_v1.csv")
         assert all(r["packaged_as_external_validation"] == "0" for r in summary)
+
+    native = rows("external_slice_summary_v1.csv")
+    assert all(r["packaged_as_external_evaluation"] == "0" for r in native)
+    assert all(r["gate"] == "insufficient" for r in native)
+    egfr_native = one(native, pair="EGFR/HER2")
+    assert (egfr_native["n_dual"], egfr_native["n_A_only"], egfr_native["n_B_only"]) == (
+        "180",
+        "10",
+        "20",
+    )
+    ache_native = one(native, pair="AChE/BChE")
+    assert (ache_native["n_dual"], ache_native["n_A_only"], ache_native["n_B_only"]) == (
+        "4",
+        "8",
+        "14",
+    )
+    flow = rows("external_candidate_flow.csv")
+    native_egfr = one(flow, pair="EGFR/HER2", layer="native_paired_theta6")
+    assert native_egfr["n_dual"] == "371"
+    mcl1_panel = one(rows("mcl1_bclxl_panel_freeze_v1.csv"), pair="MCL1/Bcl-xL")
+    assert (
+        mcl1_panel["panel_dual"],
+        mcl1_panel["panel_A_only"],
+        mcl1_panel["panel_B_only"],
+        mcl1_panel["panel_neither"],
+    ) == ("24", "24", "24", "24")
+    assert mcl1_panel["docked"] == "0"
+    rec = one(rows("mcl1_bclxl_receptor_freeze_v1.csv"), pdb_id="3WIY")
+    near(rec["resolution_A"], 2.15)
+    assert rec["primary_chain"] == "A"
 
     census = rows("theta6_pair_census_v1.csv")
     assert len(census) == 49
