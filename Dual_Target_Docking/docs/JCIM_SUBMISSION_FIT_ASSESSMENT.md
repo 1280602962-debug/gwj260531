@@ -189,3 +189,13 @@ docking-based dual-target recognition. It reports failure modes of
 negative-class choice, ligand confounding, and receptor realization; it
 does not claim a general dual-target docking benchmark or prospective
 utility.
+
+## Can this be tried at JCIM first?
+
+Yes, as a **sequential ACS strategy**, not as the venue where the paper is already fully sufficient.
+
+Submit only as an **Article** with the current title. Do not use Application Note (that type is for software, databases, and web servers, ≤5000 words, with the tool name in the title). Do not use Letter (≤~3500 words; this is not a preliminary finding).
+
+The only good reason to try JCIM before JCAMD/ACS Omega is ACS manuscript transfer: a JCIM reject can often move to ACS Omega with the referee reports. That makes one JCIM attempt rational if the authors accept that **rejection is the modal outcome**.
+
+Do not submit without a Zenodo DOI. The expected path is: DOI → JCIM Article → likely reject or heavy revision → transfer to ACS Omega or resubmit to JCAMD. Direct ACS Omega or JCAMD remains the higher-probability first submission.
