@@ -1,23 +1,19 @@
 # Campaign C1 output root
 
-Do not write here until a C1 job is running locally.
-Do not copy or overwrite `data/repurposing/p2/`.
+**Active path (2026-08-26 Amendment A1):** Acid track OPEN · Rank track CLOSED · L3 full-decoy forbidden.
 
-Plan: [`docs/LOCAL_C1_CANDIDATE_CAMPAIGN.md`](../../../docs/LOCAL_C1_CANDIDATE_CAMPAIGN.md)  
-Locks: [`config/campaign_c1.yaml`](../../../config/campaign_c1.yaml)  
-GNINA engine: [`config/docking_c1.yaml`](../../../config/docking_c1.yaml)
+Locks: `config/campaign_c1.yaml`  
+Amendment: `00_preregistration/AMENDMENT_A1_Arg477_crystal_relative.yaml`  
+Gate file: `05_metrics/pass_fail.json`
 
-Layout (created by L0–L8, not in advance):
+Do not overwrite `data/repurposing/p2/`.
+Claim language: **acid-pose dual-node hypotheses** (not docking-rank activity retrieval).
 
-| Dir | When |
-|-----|------|
-| `00_preregistration/` | copy of yaml + timestamp at L0 |
-| `01_ligand_prep/` | carboxylate PDBQT |
-| `02_selfdock/` | lesinurad@9DKB, NP3-146@7ALV |
-| `03_forced_recovery/` | textbook URAT1 drugs |
-| `04_decoy_dock_9dkb/` | TrueDecoy + RandomDecoy |
-| `05_metrics/pass_fail.json` | Rank-track gate; required before clinical docking |
-| `06_nlrp3_benchmark/` | site-related set |
-| `07_clinical_dock/` | only after `pass_fail.json` |
-| `08_nomination/` | Acid / Rank shortlists |
-| `09_md/` | after shortlist freeze |
+| Dir | Status |
+|-----|--------|
+| `00_preregistration/` | A1 accepted |
+| `01_ligand_prep/` | forced recovery + acid clinical prep |
+| `02_selfdock/` | L2 free + L2b constrained done |
+| `05_metrics/pass_fail.json` | Rank FAIL / Acid OPEN |
+| `07_clinical_dock/acid_pool/` | acid clinical lists |
+| `08_nomination/` | after dual-target acid docking |

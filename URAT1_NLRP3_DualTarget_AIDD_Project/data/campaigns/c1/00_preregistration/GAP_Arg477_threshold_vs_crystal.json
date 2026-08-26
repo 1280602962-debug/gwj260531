@@ -1,0 +1,19 @@
+{
+  "id": "ARG477_THRESHOLD_VS_CRYSTAL",
+  "severity": "critical_preregistration_error",
+  "finding": "In 9DKB CIF, lesinurad (A1AIL) carboxylate O to Arg477 guanidinium N minimum distance is 6.70 A (O23-NH2). Campaign gate acid_arg477_le_A=4.0 is stricter than the crystal itself.",
+  "implication": "Crystal-start local_only (RMSD 0.75 A) still measures Arg~7.4 A and fails the written gate. The free-dock failure on Arg<=4 is partly a gate geometry error, not only a docking failure.",
+  "do_not": [
+    "Silently loosen to 4->8 after seeing clinical names",
+    "Open L3 Rank track while claiming Arg<=4 pass",
+    "Claim lesinurad crystal has a direct <=4 A salt bridge on 9DKB without re-checking literature definition"
+  ],
+  "allowed_next": [
+    "Amend preregistration in writing: e.g. acid contact <= crystal_min + 1.0 A (7.7 A), or <=8 A, with crystal baseline reported",
+    "Or redefine interaction evidence as Phe-cage occupancy + O-Arg477 within crystal-relative tolerance",
+    "Keep Acid-track language honest: geometry relative to crystal, not absolute 4 A"
+  ],
+  "crystal_min_O_Arg477_N_A": 6.7027,
+  "local_only_seed42_arg_A": 7.3956,
+  "free_dock_cnnscore_selected_arg_A": 14.11
+}
