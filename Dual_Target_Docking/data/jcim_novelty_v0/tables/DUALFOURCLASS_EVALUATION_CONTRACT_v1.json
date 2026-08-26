@@ -1,0 +1,37 @@
+{
+  "name": "DualFourClass-Bench",
+  "version": "1.0",
+  "claim": "four-pair formulation audit of docking-based dual-target recognition",
+  "not_claimed": [
+    "general dual-target docking benchmark",
+    "assay-harmonized ground truth",
+    "external validation",
+    "wet-lab dual activity"
+  ],
+  "theta_pchembl": 6.0,
+  "primary_score": "AutoDock Vina 1.2.7 mode-1, S = -E",
+  "primary_estimands": [
+    "AUROC(dual, A-only; S_B)",
+    "AUROC(dual, B-only; S_A)",
+    "summary_min = min of the two arms"
+  ],
+  "pairs": [
+    "EGFR/HER2",
+    "AChE/BChE",
+    "PIK3CA/PIK3CB",
+    "PIK3CA/mTOR"
+  ],
+  "seed": 20260729,
+  "bootstrap": {
+    "B": 2000,
+    "seed": 20260729
+  },
+  "tables": {
+    "primary_directional": "data/jcim_strengthen_t0t1_v0/tables/unified_threshold_sensitivity_v2.csv",
+    "formulation": "data/jcim_novelty_v0/tables/formulation_conventional_vs_directional_v1.csv",
+    "theta6_census": "data/jcim_novelty_v0/tables/theta6_pair_census_v1.csv",
+    "property_caliper": "data/jcim_novelty_v0/tables/property_caliper_match_v1.csv",
+    "and_filter": "data/jcim_novelty_v0/tables/and_filter_operating_point_v1.csv",
+    "ligand_only_fullmap": "data/jcim_novelty_v0/tables/ligand_only_fullmap_auroc_v1.csv"
+  }
+}

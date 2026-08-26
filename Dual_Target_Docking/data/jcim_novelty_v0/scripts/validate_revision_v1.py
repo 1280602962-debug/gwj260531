@@ -119,6 +119,9 @@ def main():
         "not stably estimable",
         "reconstructed QC",
         "179 include / 7 uncertain / 0 exclude",
+        "17 unique pairs",
+        "AND-like dual filter",
+        "does not replace Table 2",
     )
     for phrase in required_phrases:
         assert phrase in manuscript, phrase
@@ -158,6 +161,31 @@ def main():
     if bdb.exists() and bdb.stat().st_size > 0:
         summary = rows("bindingdb_independence_summary_v1.csv")
         assert all(r["packaged_as_external_validation"] == "0" for r in summary)
+
+    census = rows("theta6_pair_census_v1.csv")
+    assert len(census) == 49
+    assert sum(int(r["directional_n10"]) for r in census) == 17
+    assert sum(int(r["formulation_n10"]) for r in census) == 17
+    assert sum(int(r["docked_in_this_paper"]) for r in census) == 4
+
+    caliper = rows("property_caliper_match_v1.csv")
+    near(one(caliper, pair="EGFR/HER2", contrast="D_vs_B_pocketA", caliper_sd="1.0")["auroc_matched"], 0.5664)
+    near(one(caliper, pair="AChE/BChE", contrast="D_vs_B_pocketA", caliper_sd="1.0")["auroc_matched"], 0.4615)
+
+    and_rows = rows("and_filter_operating_point_v1.csv")
+    near(
+        one(and_rows, pair="EGFR/HER2", score="vina_worst", dual_percentile="50")["precision_dual"],
+        0.2979,
+    )
+    near(
+        one(and_rows, pair="EGFR/HER2", score="vina_worst", dual_percentile="90")["hardneg_fraction_pass"],
+        0.8696,
+    )
+
+    ligand = rows("ligand_only_fullmap_auroc_v1.csv")
+    near(one(ligand, pair="EGFR/HER2", contrast="D_vs_neither")["ecfp4_groupkfold_auroc"], 0.9214)
+    near(one(ligand, pair="EGFR/HER2", contrast="D_vs_B")["ecfp4_groupkfold_auroc"], 0.8636)
+    near(one(ligand, pair="EGFR/HER2", contrast="summary_min_ecfp4")["ecfp4_groupkfold_auroc"], 0.8013)
 
     zh = (ROOT / "docs" / "MANUSCRIPT_JCIM_ZH.md").read_text(encoding="utf-8")
     assert "confidence≥8 与 Homo sapiens 过滤未重建" not in zh

@@ -55,6 +55,10 @@ Vina (primary), RTMScore, GNINA CNN best-of-9, and the best single-descriptor re
 
 Pocket-matched summary_min on the main panel versus the unused-pool holdout (20/20/20; seed 20260731) for the three pairs with unused-pool supply. EGFR/HER2 has no holdout. The holdout shares the same ChEMBL extraction and is a panel-external stability check, not independent external validation. PM110 is a nested stability check shown in Figure S1C.
 
+## Figure S7. Zero-docking formulation upgrades.
+
+(A) Unique J0 pairs (aliases dropped) that admit θ = 6.0 Dual/A-only/B-only n ≥ 10, Dual/A-only/B-only/neither n ≥ 10, versus the four docked pairs (`theta6_pair_census_v1.csv`). Not a docking scale-up. (B) AND-like Dual filter precision versus Dual recall on Dual+A-only+B-only libraries using `vina_worst` Dual-percentile cuts (`and_filter_operating_point_v1.csv`). (C) Ligand-only ECFP4 GroupKFold Dual versus neither versus directional `summary_min` on the full ChEMBL maps of the four frozen pairs, cap 120/class (`ligand_only_fullmap_auroc_v1.csv`). Not a replacement for Table 2.
+
 ## TOC graphic (For Table of Contents Only).
 
 DualFourClass-Bench asks whether docking can distinguish experimentally labeled dual-active ligands from single-target selective hard negatives in both pockets, rather than whether both docking scores are merely favorable. The graphic does not report numerical AUROCs and is not a reuse of Figure 1.

@@ -8,7 +8,7 @@
 
 在严格标签规则下（dual：两端 pChEMBL ≥ 6.5；选择性类：活性端 ≥ 6.5 且对端 ≤ 5.5），能够同时提供足量 A-only 与 B-only 硬负样本的靶对十分有限。两端严格硬负均不少于 50 的厚面板条件仅有 4 对满足。排除金属依赖 HDAC1/HDAC6 后，PIK3CA/mTOR、AChE/BChE 与 PIK3CA/PIK3CB 构成三个规模相对充足的靶对；EGFR/HER2 仅有 7 个严格 B-only 配体，因此被保留为供给受限案例（Table 1）。BindingDB 与 PubChem 的零对接计数核对支持同一供给稀缺结论（Table S12）。
 
-因此，最终基准的规模主要由公开实验数据中方向性选择性硬负样本的可获得性所约束。严格 6.5/5.5 规则用于量化供给并记录面板构建，而 θ = 6.0 定义全部主 AUROC 的实验状态标签（Methods 2.1）。
+因此，最终基准的规模主要由公开实验数据中方向性选择性硬负样本的可获得性所约束。严格 6.5/5.5 规则用于量化供给并记录面板构建，而 θ = 6.0 定义全部主 AUROC 的实验状态标签（Methods 2.1）。对同一 49 对在主规则 θ = 6.0 下重计（不再排除 5.5–6.5 灰区）后，有 17 对 dual/A-only/B-only 均 n ≥ 10，且这 17 对 neither 也均 n ≥ 10（Table S44；Figure S7A）。其中 16 对非金属酶。对接评价仍是原来的四对；普查是标签供给结果，不是 17 对对接基准。
 
 ### 3.2 基准设定改变了表观双靶判别
 
@@ -89,3 +89,13 @@ post-hoc 当前 ChEMBL 高置信视图审计了 2748 条 activity records，在�
 Results 3.2 中的 GNINA CNN 与 RTMScore 是对冻结 Vina 姿态的重打分。为检验设定效应是否依赖于该姿态生成引擎，在同一套冻结 EGFR/HER2 与 PIK3CA/mTOR 配体、受体、对接盒和 exhaustiveness 上以 GNINA 1.3.2 对接搜索模式独立生成姿态（Methods 2.3；Table S32）。分析仅使用两端均有分数的配体（EGFR/HER2 在 neither 配体 EH120_109 两端失败后 n = 109；PIK3CA/mTOR 在 A-only 配体 PM48_19 两端失败后 n = 47）。方向性 n_scored 在 EGFR/HER2 上仍为 28 / 38 / 32，在 PIK3CA/mTOR 上变为 18 / 13 / 12。
 
 EGFR/HER2 上 Dual versus neither 仍高（AUROC 0.783 [0.610, 0.922]；n_neg = 11），而方向性 `summary_min` 为 0.220 [0.109, 0.343]。按口袋均分取混合库 Top-10 仍含 1 个 dual 与 9 个实验选择性配体（4 个 A-only、5 个 B-only；EF10 = 0.389）。因此，在该独立姿态生成协议下，设定效应不是 Vina 特有的。PIK3CA/mTOR 的方向性 `summary_min` 符号不变（0.633 对 Vina 0.692）。该比较只检验设定差距是否仍在，不是主张 GNINA 优于或劣于 Vina。
+
+### 3.8 标签供给规模、物化匹配与 AND 过滤
+
+θ = 6.0 普查（Results 3.1；Table S44）表明四状态实验标签并不只存在于已对接的四对，但不表明这些额外靶对已被对接评价。
+
+在冻结已打分面板上，1.0 SD caliper 的 1:1 物化匹配在有足够样本的 Dual-versus-B-only 格子上仍接近随机：EGFR/HER2 0.566 [0.356, 0.781]（n = 16），AChE/BChE 0.462 [0.243, 0.692]（n = 13），PIK3CA/PIK3CB 0.556 [0.284, 0.827]（n = 9）。0.5 SD caliper 以及 PIK3CA/mTOR 1.0 SD 的 Dual-versus-B-only（n = 5）效能不足（Table S45）。该匹配是用实验选择性配体做的 DUDE-Z 式对照，不是因果调整。
+
+AND 式双口袋过滤在 Dual+A-only+B-only 库上把 Table S25 的 Top-10 观察写成明确工作点（Table S46；Figure S7B）。EGFR/HER2 上，Dual 中位 `vina_worst` 截断保留 14/28 个 Dual，但同时留下 33 个选择性配体（precision 0.298；硬负比例 0.702）。收到 Dual 第 90 百分位后 Dual precision 进一步降到 0.130，因为极端 AND 分数由 B-only 主导。AChE/BChE 在该尾部 precision 为 0.600（n_pass = 5）。这些截断是对虚拟筛选和生成式设计中双口袋过滤器的诊断，不是对某一生成模型的重打分。
+
+在完整 ChEMBL 图而不是 n ≈ 28 对接面板上，配体层模型在每一对上都比 Dual versus 选择性更容易回收 Dual versus neither（Table S47；Figure S7C）。ECFP4 GroupKFold 的 Dual-versus-neither AUROC 在 EGFR/HER2、AChE/BChE、PIK3CA/PIK3CB 与 PIK3CA/mTOR 上分别为 0.921、0.851、0.835 与 0.956，而方向性 ECFP4 `summary_min` 为 0.801、0.744、0.720 与 0.887。EGFR/HER2 Dual versus B-only 在二维化学上仍为 0.864，而对接下采样面板为 0.430。因此实验标签在全图尺度上是化学可分的；这并不证明对接在硬臂上回收了该结构。Table S47 不替换 Table 2。

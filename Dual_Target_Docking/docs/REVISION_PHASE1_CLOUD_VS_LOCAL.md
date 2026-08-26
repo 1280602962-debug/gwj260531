@@ -11,8 +11,9 @@ Wet-lab prospective testing is out of scope. Everything else is listed below. Cl
 | 5. BindingDB external set | Count-level panel-structure overlap. | UniChem + PMID then docking of true-independent ligands. | Table S43: not-in-panel dual/A/B all ≥10 on four pairs, but ChEMBL-map/PMID independence incomplete → **not packaged**. |
 | 6. EGFR/HER2 cognate poses | Inventory. Crystal/receptor files present; nine-mode cognate PDBQT absent. | Recover original Vina 9-mode files or re-redock as reconstructed QC. | **Reconstructed QC deposited** under `data/egfr_her2_panel40_v0/cognate_qc/` (not historical production). 3RCD passes top-1; 3POZ fails top-1/top-3 but recovers best-of-9 (0.68 Å). |
 | 7. Checksum, numeric audit, gitignore, CI | Yes. | GitHub Release + Zenodo DOI (maintainer). | Manifest + workflow; no DOI yet |
-| 8. New target pairs | Data-supply audit can be done later from cached maps. | Docking, receptors, boxes. | Not first priority |
+| 8. New target pairs | θ = 6.0 census done (Table S44: 17 unique pairs with Dual/A/B n≥10). | Docking extra pairs (PPI MCL1/Bcl-xL is the highest-value non-kinase). | Census only; **not docked** |
 | 9. Receptor ensemble | Not first priority. | New docking. | Not started |
 | 10. Prospective experiment | Impossible in this project. | Wet lab. | Out of scope |
+| 11. Property-caliper / AND filter / ligand-only full maps | Yes. Frozen scores + cached maps. | None. | Tables S45–S47; Figure S7 |
 
-Recommended next local session: when ChEMBL assay free-text is available, fill `protein_construct` / `wildtype_or_mutant` for uncertain rows; optionally deposit historical EGFR/HER2 cognate poses if recovered from backup (replace reconstructed QC only with SI note).
+Recommended next local session: UniChem + PMID then dock a true BindingDB-independent slice on ≥2 pairs; optionally dock MCL1/Bcl-xL as a non-kinase fifth pair. Do not regroup document-blocked folds to chase AUROC. Mint Zenodo from a frozen tag before JCIM.

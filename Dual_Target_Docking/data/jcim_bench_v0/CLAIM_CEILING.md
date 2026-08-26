@@ -50,6 +50,10 @@
 39. Class-wise chemistry audit is Table S38. Descriptor, scaffold, and nearest-dual ECFP4 differences support chemical-composition confounding but neither prove that docking lacks receptor information nor yield causal adjustment. No post-hoc descriptor test may be presented as prespecified confirmatory inference.
 40. Ranked cognate re-audit shows top-1 failure for 4BDS (4.794 Å; top-3 0.386 Å) and 4JT6 (7.118 Å; top-3 0.445 Å). Allowed: the search generated a near-crystal pose within the retained set. Forbidden: Vina reliably ranked the cognate pose first. EGFR/HER2 top-3 is not independently reproducible because cognate pose artifacts are not deposited.
 41. Docking failures are chemically structured: six main-panel failures have 48–85 heavy atoms and 17–29 rotatable bonds; four were protocol skips at high torsional freedom. Rank-extreme bounds are missing-data stress tests, not recovered scores. Claims apply to the protocol-processable subset.
+42. The θ = 6.0 census (Table S44) found 17 unique pairs with Dual/A-only/B-only n ≥ 10 among 49 audited pairs. Allowed: four-state labels exist beyond K = 4. Forbidden: docking was evaluated on 17 pairs, or K was expanded.
+43. Property-caliper matching (Table S45) is a DUDE-Z-style control with experimental selectives. Report n_matched. Do not treat n < 8 cells as confirmatory. Do not call it causal adjustment.
+44. AND-filter operating points (Table S46) diagnose dual-pocket cuts on Dual+A-only+B-only libraries. EGFR/HER2 median Dual `vina_worst` precision is 0.298. Forbidden: DualDiff/FuseDiff/LS-MolGen were re-scored on DualFourClass-Bench.
+45. Ligand-only full-map AUROC (Table S47) uses ChEMBL maps and 2D structure, cap 120/class. Allowed: Dual versus neither is easier than Dual versus selectives in ligand chemistry at map scale. Forbidden: Table S47 replaces Table 2, or ligand-only AUROC is a docking result.
 
 ## Conclusions claim ceiling
 

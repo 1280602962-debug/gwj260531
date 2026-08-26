@@ -661,6 +661,87 @@ def main() -> None:
                 )
             )
 
+    census_path = TAB / "theta6_pair_census_v1.csv"
+    if census_path.exists() and census_path.stat().st_size:
+        census = _read(census_path)
+        rows.append(
+            row(
+                block="theta6_census",
+                manuscript_table="Table S44",
+                pair="all",
+                setting="unique_pairs",
+                metric="n_directional_n10",
+                value=sum(int(r["directional_n10"]) for r in census),
+                n_scored=len(census),
+                note="aliases dropped; formulation_n10="
+                + str(sum(int(r["formulation_n10"]) for r in census))
+                + "; not a docking scale-up",
+                source_file="data/jcim_novelty_v0/tables/theta6_pair_census_v1.csv",
+            )
+        )
+    cal_path = TAB / "property_caliper_match_v1.csv"
+    if cal_path.exists() and cal_path.stat().st_size:
+        for r in _read(cal_path):
+            if r.get("caliper_sd") != "1.0" or r.get("contrast") != "D_vs_B_pocketA":
+                continue
+            rows.append(
+                row(
+                    block="property_caliper",
+                    manuscript_table="Table S45",
+                    pair=r["pair"],
+                    setting="caliper_1.0_D_vs_B",
+                    metric="auroc_matched",
+                    value=r["auroc_matched"],
+                    ci_lo=r["ci_lo"],
+                    ci_hi=r["ci_hi"],
+                    n_dual=r["n_dual_matched"],
+                    n_B_only=r["n_neg_matched"],
+                    note=f"full={r['auroc_full']}; underpowered={r['underpowered']}",
+                    source_file="data/jcim_novelty_v0/tables/property_caliper_match_v1.csv",
+                )
+            )
+    and_path = TAB / "and_filter_operating_point_v1.csv"
+    if and_path.exists() and and_path.stat().st_size:
+        for r in _read(and_path):
+            if r.get("pair") != "EGFR/HER2" or r.get("score") != "vina_worst":
+                continue
+            if r.get("dual_percentile") not in {"50", "90"}:
+                continue
+            rows.append(
+                row(
+                    block="and_filter",
+                    manuscript_table="Table S46",
+                    pair=r["pair"],
+                    setting=f"vina_worst_p{r['dual_percentile']}",
+                    metric="precision_dual",
+                    value=r["precision_dual"],
+                    n_dual=r["n_dual_pass"],
+                    n_A_only=r["n_A_only_pass"],
+                    n_B_only=r["n_B_only_pass"],
+                    note=f"hardneg_fraction={r['hardneg_fraction_pass']}; recall={r['recall_dual']}",
+                    source_file="data/jcim_novelty_v0/tables/and_filter_operating_point_v1.csv",
+                )
+            )
+    lig_path = TAB / "ligand_only_fullmap_auroc_v1.csv"
+    if lig_path.exists() and lig_path.stat().st_size:
+        for r in _read(lig_path):
+            if r.get("contrast") not in {"D_vs_neither", "D_vs_B", "summary_min_ecfp4"}:
+                continue
+            rows.append(
+                row(
+                    block="ligand_only_fullmap",
+                    manuscript_table="Table S47",
+                    pair=r["pair"],
+                    setting=r["contrast"],
+                    metric="ecfp4_groupkfold_auroc",
+                    value=r["ecfp4_groupkfold_auroc"],
+                    n_dual=r["n_pos_sampled"],
+                    n_B_only=r["n_neg_sampled"],
+                    note="not a docking result; does not replace Table 2",
+                    source_file="data/jcim_novelty_v0/tables/ligand_only_fullmap_auroc_v1.csv",
+                )
+            )
+
     out_path = TAB / "MASTER_RESULTS_TABLE.csv"
     with out_path.open("w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=FIELDS, lineterminator="\n")

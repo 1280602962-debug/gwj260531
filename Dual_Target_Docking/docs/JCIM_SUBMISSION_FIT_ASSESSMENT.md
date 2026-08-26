@@ -71,6 +71,23 @@ These items lower a specific reviewer complaint (“missing cognate
 artifacts / empty include-exclude columns”). They do not move the paper
 across the JCIM bar.
 
+Zero-docking upgrades added 2026-08-26 (still no wet lab, no new docking):
+
+1. θ = 6.0 four-state census of 49 unique J0 pairs: 17 pairs have
+   Dual/A-only/B-only n ≥ 10 (Table S44). Label supply exists beyond K = 4;
+   docking evaluation does not.
+2. Property-caliper matching and AND-filter operating points on the frozen
+   scores (Tables S45–S46). EGFR/HER2 AND precision at the median Dual
+   `vina_worst` is 0.298.
+3. Ligand-only ECFP4 on the **full ChEMBL maps** of the four pairs (Table S47).
+   Dual versus neither remains easier than Dual versus selectives at map
+   scale. This is a chemical-label result, not a docking scale-up.
+
+These items make the formulation-audit claim harder to dismiss as an
+n ≈ 28 sampling artifact. They do **not** create a general docking
+benchmark, dock BindingDB, or exclude 0.5 from Table 2 CIs. JCIM remains
+a borderline evaluation Article after Zenodo, not a methods/benchmark lock.
+
 ## Remaining gaps versus the 2023–2026 bar
 
 | Gap | Status after local deposit | Effect on JCIM fit |
