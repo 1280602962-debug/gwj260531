@@ -38,7 +38,7 @@ EGFR/HER2、AChE/BChE、PIK3CA/PIK3CB 和 PIK3CA/mTOR 的方向性 summary_min �
 
 四个靶对的 `summary_min` 95% bootstrap CI 均包含 0.5；因此在本研究的样本量下，没有一个靶对获得排除随机水平的明确证据。按观察得的类别样本量做可分辨效应模拟表明，当前样本更容易分辨较大的方向性效应，而对中等效应则较弱。当两臂真实 AUROC 均为 0.70 时，`summary_min` CI 排除 0.5 的概率在 EGFR/HER2、AChE/BChE、PIK3CA/PIK3CB 和 PIK3CA/mTOR 上分别为 0.62、0.50、0.56 和 0.22；真实 AUROC 为 0.60 时，相应概率为 0.03–0.07（Table S31；Figure S6）。因此，CI 未能排除 0.5 并不能建立与随机等价。
 
-主面板两端均得分：EGFR/HER2 110/110，AChE/BChE 95/100，PIK3CA/PIK3CB 99/100，PIK3CA/mTOR 48/48（Table S27）。一个 A-only 配体因计算超时而持续无法完成 PIK3CA 对接，因此从需要该分数的分析中剔除（Tables S27、S30）。AUROC 因此以 AutoDock Vina 能够处理的化合物为条件。同一姿态上的替代打分器未改变总体排序（Tables S14–S15；Figure S1B）。
+主面板两端均得分：EGFR/HER2 110/110，AChE/BChE 95/100，PIK3CA/PIK3CB 99/100，PIK3CA/mTOR 48/48（Table S27）。一个 A-only 配体因计算超时而持续无法完成 PIK3CA 对接，因此从需要该分数的分析中剔除（Tables S27、S30）。AUROC 因此以 AutoDock Vina 能够处理的化合物为条件。同一组 Vina 姿态上的替代打分器未改变总体排序（Tables S14–S15；Figure S1B）。独立姿态生成见 Results 3.7。
 
 ### 3.3 配体性质与化学型解释了相当一部分表观信号
 
@@ -70,4 +70,10 @@ PIK3CA/mTOR 的情况有所不同。加入重原子数和 TPSA 后，AUROC 的�
 
 ### 3.6 探索性结构背景
 
-结构相似性并不能预测筛选判别：5DXT 与 4L23 的局部口袋 Cα RMSD 仅 0.343 Å，但二者的基准表现仍有明显差异（Table S10）。姿态类型学保留在 Supporting Information（Table S7；Note S1）。
+结构相似性并不能预测筛选判别：5DXT 与 4L23 的局部口袋 Cα RMSD 仅 0.343 Å，但二者的基准表现仍有明显差异（Table S10）。在 PM48 姿态上，以重原子距离 ≤ 4.5 Å 对 20 个冻结 PIK3CA 口袋残基做几何占有率快照，占有率变化最大的残基为 Met772、Leu807、Gln859、Thr856、Cys838、Glu849、Phe930 和 Asp933（Table S33）。表观判别位移与这些接触模式变化同时出现，只提供受体敏感性的结构假说。占有率变化不能证明某一残基导致了 AUROC 改变，也不能解释 PIK3CA/PIK3CB 上的相反位移。姿态类型学保留在 Supporting Information（Table S7；Note S1）。
+
+### 3.7 独立姿态生成仍保留 EGFR/HER2 的设定差距
+
+Results 3.2 中的 GNINA CNN 与 RTMScore 是对冻结 Vina 姿态的重打分。为检验设定效应是否依赖于该姿态生成引擎，在同一套冻结 EGFR/HER2 与 PIK3CA/mTOR 配体、受体、对接盒和 exhaustiveness 上以 GNINA 1.3.2 对接搜索模式独立生成姿态（Methods 2.3；Table S32）。分析仅使用两端均有分数的配体（EGFR/HER2 在 neither 配体 EH120_109 两端失败后 n = 109；PIK3CA/mTOR 在 A-only 配体 PM48_19 两端失败后 n = 47）。方向性 n_scored 在 EGFR/HER2 上仍为 28 / 38 / 32，在 PIK3CA/mTOR 上变为 18 / 13 / 12。
+
+EGFR/HER2 上 Dual versus neither 仍高（AUROC 0.783 [0.610, 0.922]；n_neg = 11），而方向性 `summary_min` 为 0.220 [0.109, 0.343]。按口袋均分取混合库 Top-10 仍含 1 个 dual 与 9 个实验选择性配体（4 个 A-only、5 个 B-only；EF10 = 0.389）。因此，在该独立姿态生成协议下，设定效应不是 Vina 特有的。PIK3CA/mTOR 的方向性 `summary_min` 符号不变（0.633 对 Vina 0.692）。该比较只检验设定差距是否仍在，不是主张 GNINA 优于或劣于 Vina。

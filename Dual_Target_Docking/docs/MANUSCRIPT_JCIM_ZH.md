@@ -2,7 +2,7 @@
 
 ## 摘要
 
-两端有利的对接分数是否构成双靶识别证据，尚未在实验定义的单靶选择性配体上得到充分检验。因此，我们进一步评价不同基准设定（benchmark formulation）是否会改变双靶识别的表观证据。为此，我们构建 DualFourClass-Bench，这是一套经策展的四对、四状态面板，含两条方向性主任务以及保守的最差方向判别摘要（`summary_min`）。在这一四对、基于 Vina 的基准中，EGFR/HER2 的 Dual versus neither AUROC 为 0.756，而方向性 `summary_min` 为 0.430；在 EGFR/HER2 混合库 Top-10 中，10 个分子有 9 个为实验选择性配体。其他靶对没有显示同样的差距，PIK3CA/mTOR 的 Dual-versus-neither 对照则效能不足。在支架分组模型中，把对接分数加到 ECFP4 后 AUROC 的最大绝对变化为 0.020；将最大 pChEMBL 换成重复测定中位数只产生很小的靶对层变化。替代受体使 PIK3CA/mTOR 从 0.692 变为 0.486/0.505，并使 PIK3CA/PIK3CB 升高。这些发现界定了当前有实验支持的靶对与协议下的可靠性边界，并支持把选择性硬负样本与混淆感知对照作为双靶对接评价的互补要求。
+两端有利的对接分数是否构成双靶识别证据，尚未在实验定义的单靶选择性配体上得到充分检验。因此，我们进一步评价不同基准设定（benchmark formulation）是否会改变双靶识别的表观证据。为此，我们构建 DualFourClass-Bench，这是一套经策展的四对、四状态面板，含两条方向性主任务以及保守的最差方向判别摘要（`summary_min`）。在这一四对、基于 Vina 的基准中，EGFR/HER2 的 Dual versus neither AUROC 为 0.756，而方向性 `summary_min` 为 0.430；在 EGFR/HER2 混合库 Top-10 中，10 个分子有 9 个为实验选择性配体。独立 GNINA 姿态生成协议仍保留该差距（0.783 对 0.220）。其他靶对没有显示同样的差距，PIK3CA/mTOR 的 Dual-versus-neither 对照则效能不足。在支架分组模型中，把对接分数加到 ECFP4 后 AUROC 的最大绝对变化为 0.020；将最大 pChEMBL 换成重复测定中位数只产生很小的靶对层变化。替代受体使 PIK3CA/mTOR 从 0.692 变为 0.486/0.505，并使 PIK3CA/PIK3CB 升高。这些发现界定了当前有实验支持的靶对与协议下的可靠性边界，并支持把选择性硬负样本与混淆感知对照作为双靶对接评价的互补要求。
 
 **关键词：** 双靶对接；基准设定；选择性硬负样本；化学混淆；受体实现；虚拟筛选
 
@@ -53,7 +53,9 @@ AChE/BChE 与 PIK3CA/PIK3CB 按严格供给门槛抽样（目标 28 / 28 / 28 / 
 
 正式对接前对每个冻结受体做共晶配体重对接。生成 9 个姿态，计算与实验共晶构象的重原子 RMSD。预先通过标准为 \(\mathrm{RMSD}_{\mathrm{best9}} < 2.0\) Å，即九个保留姿态中是否存在与共晶配体重原子 RMSD 小于 2.0 Å 的构象。若默认 exhaustiveness 未通过门槛，则提高至预先规定的备用水平。主分析因此采用 PIK3CA/mTOR exhaustiveness = 16、其余主面板为 8（Table S3）。
 
-配体从冻结 ChEMBL SMILES 统一准备：去盐并保留最大有机片段，RDKit 加显式氢，ETKDGv3 生成三维构象（种子 20260727），MMFF 局部优化最多 200 步，再经 Meeko 转为 PDBQT。不进行系统性质子化、互变异构或构象枚举。对接采用 AutoDock Vina 1.2.7 默认 `vina` 打分函数，保留 9 个姿态，`energy_range = 3` kcal mol\(^{-1}\)，随机种子 20260727（Table S1）。为检验打分函数依赖性，同一组 Vina 姿态另用 RTMScore（`rtmscore_model1`，取九姿态最高分）与 GNINA 1.3.2 CNN（`--cnn_scoring rescore --minimize`，Open Babel 转 SDF 后取九姿态最高分）重打分。Vina 主读出是 mode-1 能量；RTM 与 GNINA 是 best-of-9 重打分。主终点始终由 Vina 定义。
+配体从冻结 ChEMBL SMILES 统一准备：去盐并保留最大有机片段，RDKit 加显式氢，ETKDGv3 生成三维构象（种子 20260727），MMFF 局部优化最多 200 步，再经 Meeko 转为 PDBQT。不进行系统性质子化、互变异构或构象枚举。对接采用 AutoDock Vina 1.2.7 默认 `vina` 打分函数，保留 9 个姿态，`energy_range = 3` kcal mol\(^{-1}\)，随机种子 20260727（Table S1）。为检验打分函数依赖性，同一组 Vina 姿态另用 RTMScore（`rtmscore_model1`，取九姿态最高分）与 GNINA 1.3.2 CNN（`--cnn_scoring rescore --minimize`，Open Babel 转 SDF 后取九姿态最高分）重打分。Vina 主读出是 mode-1 能量；RTM 与 GNINA CNN 是 best-of-9 重打分。主终点始终由 Vina 定义。
+
+另在 EGFR/HER2 与 PIK3CA/mTOR 上以 GNINA 1.3.2 对接搜索模式独立生成姿态（不是对 Vina 姿态重打分），复用冻结 Meeko 配体 PDBQT、受体坐标、对接盒、exhaustiveness（分别为 8 与 16）、九个保留姿态和种子 20260727。读出为 mode-1 `minimizedAffinity`。两个配体在两端口袋均失败（EGFR/HER2 的 neither 配体 EH120_109；PIK3CA/mTOR 的 A-only 配体 PM48_19），从需要完整分数的分析中剔除。该协议检验设定效应在更换姿态生成引擎后是否仍在，不是多引擎比赛（Table S32）。
 
 ### 2.4 主终点与统计分析
 
@@ -69,7 +71,7 @@ AUROC 与 summary_min 的不确定度用配体层 bootstrap：在保持类别结
 
 为检验结论是否依赖于冻结面板的具体成员，排除已用于主面板与 PM110 的 ChEMBL 条目后，在剩余未使用配体池中构建留出集（holdout）。配体仍来自同一 ChEMBL 抓取批次、同一靶对与同一标签规则。该留出集在 PIK3CA/mTOR、AChE/BChE 与 PIK3CA/PIK3CB 上构建（各 20 dual / 20 A-only / 20 B-only；`HOLDOUT_SEED = 20260731`）；EGFR/HER2 不具备同等抽样条件。受体、盒子、配体准备、exhaustiveness、打分与统计与主基准相同（Tables S8、S13）。
 
-受体结构敏感性分析另选满足以下预先声明条件的替代晶体：（i）polymer entity 与目标蛋白真实对应；（ii）含 ATP 位点或目标结合位点的小分子共晶；（iii）分辨率可接受；（iv）通过与 2.3 相同的共晶重对接 QC。实际对接的替代结构为 PIK3CA 4JPS、5DXT 与 mTOR 4JSX。替换采用单口袋设计：在 PIK3CA/mTOR（PM48）上，4JPS/5DXT 替换口袋 A、口袋 B 仍用冻结 4JT6 分数，4JSX 替换口袋 B、口袋 A 仍用冻结 4L23 分数（exhaustiveness = 16）。在 PIK3CA/PIK3CB 上，同一套 4JPS/5DXT 替换口袋 A，口袋 B 仍用冻结 2WXF 分数（exhaustiveness = 8）。刚体 Cα 叠合作为探索性几何对照（Table S10）。
+受体结构敏感性分析另选满足以下预先声明条件的替代晶体：（i）polymer entity 与目标蛋白真实对应；（ii）含 ATP 位点或目标结合位点的小分子共晶；（iii）分辨率可接受；（iv）通过与 2.3 相同的共晶重对接 QC。实际对接的替代结构为 PIK3CA 4JPS、5DXT 与 mTOR 4JSX。替换采用单口袋设计：在 PIK3CA/mTOR（PM48）上，4JPS/5DXT 替换口袋 A、口袋 B 仍用冻结 4JT6 分数，4JSX 替换口袋 B、口袋 A 仍用冻结 4L23 分数（exhaustiveness = 16）。在 PIK3CA/PIK3CB 上，同一套 4JPS/5DXT 替换口袋 A，口袋 B 仍用冻结 2WXF 分数（exhaustiveness = 8）。刚体 Cα 叠合作为探索性几何对照（Table S10）。在 Table S30 所用同一套 PM48 配体与 PIK3CA 晶体上，另做探索性接触快照：占有率定义为与 20 个冻结口袋残基的重原子距离 ≤ 4.5 Å（Table S33）。占有率变化只作为结构假说，不是残基层因果解释。
 
 计算在 Python 3 环境下完成，主要软件为 RDKit 2026.3.1、meeko 0.7.1、AutoDock Vina 1.2.7、GNINA 1.3.2 与 RTMScore。评价面板、对接分数、分析脚本与参数表见 Data and Software Availability。
 
@@ -111,7 +113,7 @@ EGFR/HER2、AChE/BChE、PIK3CA/PIK3CB 和 PIK3CA/mTOR 的方向性 summary_min �
 
 四个靶对的 `summary_min` 95% bootstrap CI 均包含 0.5；因此在本研究的样本量下，没有一个靶对获得排除随机水平的明确证据。按观察得的类别样本量做可分辨效应模拟表明，当前样本更容易分辨较大的方向性效应，而对中等效应则较弱。当两臂真实 AUROC 均为 0.70 时，`summary_min` CI 排除 0.5 的概率在 EGFR/HER2、AChE/BChE、PIK3CA/PIK3CB 和 PIK3CA/mTOR 上分别为 0.62、0.50、0.56 和 0.22；真实 AUROC 为 0.60 时，相应概率为 0.03–0.07（Table S31；Figure S6）。因此，CI 未能排除 0.5 并不能建立与随机等价。
 
-主面板两端均得分：EGFR/HER2 110/110，AChE/BChE 95/100，PIK3CA/PIK3CB 99/100，PIK3CA/mTOR 48/48（Table S27）。一个 A-only 配体因计算超时而持续无法完成 PIK3CA 对接，因此从需要该分数的分析中剔除（Tables S27、S30）。AUROC 因此以 AutoDock Vina 能够处理的化合物为条件。同一姿态上的替代打分器未改变总体排序（Tables S14–S15；Figure S1B）。
+主面板两端均得分：EGFR/HER2 110/110，AChE/BChE 95/100，PIK3CA/PIK3CB 99/100，PIK3CA/mTOR 48/48（Table S27）。一个 A-only 配体因计算超时而持续无法完成 PIK3CA 对接，因此从需要该分数的分析中剔除（Tables S27、S30）。AUROC 因此以 AutoDock Vina 能够处理的化合物为条件。同一组 Vina 姿态上的替代打分器未改变总体排序（Tables S14–S15；Figure S1B）。独立姿态生成见 Results 3.7。
 
 ### 3.3 配体性质与化学型解释了相当一部分表观信号
 
@@ -143,13 +145,19 @@ PIK3CA/mTOR 的情况有所不同。加入重原子数和 TPSA 后，AUROC 的�
 
 ### 3.6 探索性结构背景
 
-结构相似性并不能预测筛选判别：5DXT 与 4L23 的局部口袋 Cα RMSD 仅 0.343 Å，但二者的基准表现仍有明显差异（Table S10）。姿态类型学保留在 Supporting Information（Table S7；Note S1）。
+结构相似性并不能预测筛选判别：5DXT 与 4L23 的局部口袋 Cα RMSD 仅 0.343 Å，但二者的基准表现仍有明显差异（Table S10）。在 PM48 姿态上，以重原子距离 ≤ 4.5 Å 对 20 个冻结 PIK3CA 口袋残基做几何占有率快照，占有率变化最大的残基为 Met772、Leu807、Gln859、Thr856、Cys838、Glu849、Phe930 和 Asp933（Table S33）。表观判别位移与这些接触模式变化同时出现，只提供受体敏感性的结构假说。占有率变化不能证明某一残基导致了 AUROC 改变，也不能解释 PIK3CA/PIK3CB 上的相反位移。姿态类型学保留在 Supporting Information（Table S7；Note S1）。
+
+### 3.7 独立姿态生成仍保留 EGFR/HER2 的设定差距
+
+Results 3.2 中的 GNINA CNN 与 RTMScore 是对冻结 Vina 姿态的重打分。为检验设定效应是否依赖于该姿态生成引擎，在同一套冻结 EGFR/HER2 与 PIK3CA/mTOR 配体、受体、对接盒和 exhaustiveness 上以 GNINA 1.3.2 对接搜索模式独立生成姿态（Methods 2.3；Table S32）。分析仅使用两端均有分数的配体（EGFR/HER2 在 neither 配体 EH120_109 两端失败后 n = 109；PIK3CA/mTOR 在 A-only 配体 PM48_19 两端失败后 n = 47）。方向性 n_scored 在 EGFR/HER2 上仍为 28 / 38 / 32，在 PIK3CA/mTOR 上变为 18 / 13 / 12。
+
+EGFR/HER2 上 Dual versus neither 仍高（AUROC 0.783 [0.610, 0.922]；n_neg = 11），而方向性 `summary_min` 为 0.220 [0.109, 0.343]。按口袋均分取混合库 Top-10 仍含 1 个 dual 与 9 个实验选择性配体（4 个 A-only、5 个 B-only；EF10 = 0.389）。因此，在该独立姿态生成协议下，设定效应不是 Vina 特有的。PIK3CA/mTOR 的方向性 `summary_min` 符号不变（0.633 对 Vina 0.692）。该比较只检验设定差距是否仍在，不是主张 GNINA 优于或劣于 Vina。
 
 ## 4. 讨论
 
 ### 4.1 基准设定改变了双靶对接的证据标准
 
-该基准将双靶识别具体化为两个方向上的实验选择性硬负判别任务。同一套冻结 EGFR/HER2 分数上，Dual versus neither 的 AUROC 为 0.756，而方向性 `summary_min` 为 0.430（Results 3.2；Table 3）。因此，相对 inactive 的设定可以给出比方向性硬负任务更有利的表观证据。
+该基准将双靶识别具体化为两个方向上的实验选择性硬负判别任务。同一套冻结 EGFR/HER2 分数上，Dual versus neither 的 AUROC 为 0.756，而方向性 `summary_min` 为 0.430（Results 3.2；Table 3）。因此，相对 inactive 的设定可以给出比方向性硬负任务更有利的表观证据。在独立 GNINA 姿态生成协议下，Dual versus neither 仍为 0.783，方向性 `summary_min` 为 0.220，因此此处的设定效应不是 Vina 特有的（Results 3.7；Table S32）。
 
 相对于 Zhou 等的双靶评价设定，[9] 本文比较的是对接能否把 dual-active 与实验定义的选择性配体分开，而不仅是与 inactive 分开。已有对接基准表明，decoy 构建、化学偏倚和真实 assay 标签会改变虚拟筛选解释；[5–7,12,13] 同一关切适用于双靶任务：评价结论取决于负类如何被实验定义。
 
@@ -159,7 +167,7 @@ PIK3CA/mTOR 的情况有所不同。加入重原子数和 TPSA 后，AUROC 的�
 
 ### 4.3 受体实现构成评价条件的另一重要维度，并可提高或降低表观判别
 
-表观判别还取决于评价条件如何指定。将最大 pChEMBL 换成重复测定中位数后，靶对层结论基本不变（Results 3.4）。同一 ChEMBL 抓取批次中的未使用配体池留出集保持了部分排序趋势，也改变了另一部分。一端受体冻结、只替换另一端时，同一套 PIK3CA 替换在一个相关靶对上提高表观判别、在另一个靶对上降低表观判别（Figure 5）。这些变化与把受体表示视为性能变量的激酶交叉对接工作相一致。[14]
+表观判别还取决于评价条件如何指定。将最大 pChEMBL 换成重复测定中位数后，靶对层结论基本不变（Results 3.4）。同一 ChEMBL 抓取批次中的未使用配体池留出集保持了部分排序趋势，也改变了另一部分。一端受体冻结、只替换另一端时，同一套 PIK3CA 替换在一个相关靶对上提高表观判别、在另一个靶对上降低表观判别（Figure 5）。这些受体实现变化与把受体表示视为性能变量的激酶交叉对接工作相一致。[14] PM48 的 PIK3CA 姿态几何占有率快照与包括 Met772、Leu807 在内的接触模式变化同时出现（Table S33）。该模式只是结构假说，不能证明某一残基导致了 AUROC 改变，也不能解释 PIK3CA/PIK3CB 上的相反位移。
 
 ### 4.4 对双靶虚拟筛选与生成式设计的含义
 
@@ -177,17 +185,17 @@ PIK3CA/mTOR 的情况有所不同。加入重原子数和 TPSA 后，AUROC 的�
 
 第四，受体替换可以提高或降低成对判别，但实验并未给出分子起源。两个受体敏感性例子均共享 PIK3CA。
 
-第五，主协议为 AutoDock Vina；GNINA 与 RTMScore 是对同一组姿态的重打分。独立姿态生成检验已作为 EGFR/HER2 与 PIK3CA/mTOR 的本地后续实验写出。本研究未对新预测双靶化合物做前瞻实验。
+第五，主协议为 AutoDock Vina；GNINA CNN 与 RTMScore 是对同一组 Vina 姿态的重打分。EGFR/HER2 与 PIK3CA/mTOR 上的独立 GNINA 对接搜索仍保留主要设定差距，不是多引擎比赛。本研究未对新预测双靶化合物做前瞻实验。
 
 ## 5. 结论
 
-在所评价的四对、基于 Vina 的基准中，DualFourClass-Bench 表明对接双靶判别具有靶对依赖性，常常不高于配体性质或指纹基线，并对受体选择敏感。
+在所评价的四对、基于 Vina 的基准中，DualFourClass-Bench 表明对接双靶判别具有靶对依赖性，常常不高于配体性质或指纹基线，并对受体选择敏感。EGFR/HER2 的设定差距在独立 GNINA 姿态生成下仍然存在。
 
 这些发现界定了当前有实验支持的靶对与协议下的可靠性边界。仅依据两个口袋中的有利 docking 分数不足以建立双靶活性的充分证据。对于双靶虚拟筛选及将 docking 用作下游筛选环节的生成式设计流程，因此应使用四步诊断：方向性硬负、配体层化学基线、未使用配体池和受体结构敏感性（Figure 8）。
 
 ## 数据与软件可用性
 
-评价面板成员、实验状态标签、受体与对接盒定义、逐配体对接分数、分析表，以及重建本文统计与图件所需的全部脚本，均可在公开仓库 https://github.com/1280602962-debug/gwj260531 的 `Dual_Target_Docking` 目录中获取。`data/jcim_novelty_v0/tables/MASTER_RESULTS_TABLE.csv` 索引主要数值结果及其来源表。分析环境与零新对接的复现命令见仓库 README。
+评价面板成员、实验状态标签、受体与对接盒定义、逐配体对接分数、分析表，以及重建本文统计与图件所需的全部脚本，均可在公开仓库 https://github.com/1280602962-debug/gwj260531 的 `Dual_Target_Docking` 目录中获取。`data/jcim_novelty_v0/tables/MASTER_RESULTS_TABLE.csv` 索引主要数值结果及其来源表，包括独立 GNINA 姿态生成分数（Table S32）与 PIK3CA 占有率位移（Table S33）。分析环境与零新对接的复现命令见仓库 README。
 
 ## 参考文献
 

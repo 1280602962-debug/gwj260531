@@ -75,4 +75,9 @@ python3 data/jcim_novelty_v0/scripts/detectable_effect_simulation_v1.py
 python3 data/jcim_novelty_v0/scripts/plot_detectable_effect_and_workflow_v1.py
 ```
 
-Independent pose-generation and optional PLIF are **local docking** follow-ups; see `docs/AGENT_COMMAND_INDEPENDENT_POSE_GENERATION_V1.md` and `docs/AGENT_COMMAND_RECEPTOR_PLIF_V1.md`. Do not run them in a cloud environment without GNINA/smina and frozen pose workspaces.
+Independent pose-generation and optional PLIF **results are deposited**:
+`data/jcim_independent_dock_v0/` (GNINA docking search, not Vina-pose rescore)
+and `data/jcim_structure_robust_v0/analysis/plif_v1/` (geometric occupancy).
+SOPs remain in `docs/AGENT_COMMAND_INDEPENDENT_POSE_GENERATION_V1.md` and
+`docs/AGENT_COMMAND_RECEPTOR_PLIF_V1.md`. Do not rerun them in a cloud
+environment without GNINA/smina and frozen pose workspaces.

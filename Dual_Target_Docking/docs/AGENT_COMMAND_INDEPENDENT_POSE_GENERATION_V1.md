@@ -1,5 +1,11 @@
 # Local follow-up: independent pose-generation protocol
 
+**Status (2026-08-26):** local GNINA 1.3.2 docking-search results are deposited in
+`data/jcim_independent_dock_v0/`. EGFR/HER2 verdict: **gap remains**
+(Dual versus neither 0.783 vs directional `summary_min` 0.220).
+PIK3CA/mTOR: `summary_min` 0.633 vs Vina 0.692 (smaller, same sign).
+This file remains the protocol record; do not rewrite it as an engine bake-off.
+
 Zero-cloud-docking. This pack is for a **local** machine with GNINA 1.3.x
 (or smina) and the frozen DualFourClass receptors/ligands. It is **not** a
 multi-engine bake-off and must not be written up as “we benchmarked docking

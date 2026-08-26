@@ -4,7 +4,7 @@
 
 ### 4.1 Benchmark formulation changes the evidentiary standard for dual-target docking
 
-The benchmark operationalizes dual-target recognition as discrimination against experimentally defined A-selective and B-selective ligands in both directions. On the same frozen EGFR/HER2 scores, Dual versus neither gave AUROC 0.756, whereas directional `summary_min` was 0.430 (Results 3.2; Table 3). A dual-versus-inactive formulation can therefore present a more favorable picture than the directional hard-negative task.
+The benchmark operationalizes dual-target recognition as discrimination against experimentally defined A-selective and B-selective ligands in both directions. On the same frozen EGFR/HER2 scores, Dual versus neither gave AUROC 0.756, whereas directional `summary_min` was 0.430 (Results 3.2; Table 3). A dual-versus-inactive formulation can therefore present a more favorable picture than the directional hard-negative task. Under an independent GNINA pose-generation protocol, Dual versus neither remained 0.783 and directional `summary_min` 0.220, so the formulation effect is not Vina-specific here (Results 3.7; Table S32).
 
 Relative to Zhou et al.,[9] the present comparison asks whether docking separates dual-actives from experimentally defined selectives, not only from inactives. Existing docking benchmarks have shown that decoy construction, chemical bias, and assay-derived labels change virtual-screening interpretation;[5–7,12,13] the same concern applies here, because dual-target conclusions depend on how the negative class is defined experimentally.
 
@@ -14,7 +14,7 @@ Physicochemical descriptors and chemotype already carry much of the experimental
 
 ### 4.3 Receptor realization is another important dimension of the evaluation condition and can raise or lower apparent discrimination
 
-Apparent discrimination also depends on how the evaluation condition is specified. Replacing maximum pChEMBL with the median of repeated measurements left pair-level conclusions essentially unchanged (Results 3.4). An unused-pool holdout from the same ChEMBL harvest preserved some ranking trends and reversed others. Holding one pocket frozen and replacing the other raised apparent discrimination on one PIK3CA-related pair and lowered it on the other (Figure 5). These shifts are consistent with kinase cross-docking work that treats receptor representation as a performance variable.[14]
+Apparent discrimination also depends on how the evaluation condition is specified. Replacing maximum pChEMBL with the median of repeated measurements left pair-level conclusions essentially unchanged (Results 3.4). An unused-pool holdout from the same ChEMBL harvest preserved some ranking trends and reversed others. Holding one pocket frozen and replacing the other raised apparent discrimination on one PIK3CA-related pair and lowered it on the other (Figure 5). These receptor-realization changes are consistent with kinase cross-docking work that treats receptor representation as a performance variable.[14] A geometric occupancy snapshot on the PM48 PIK3CA poses coincided with contact-pattern shifts at residues including Met772 and Leu807 (Table S33). That pattern is a structural hypothesis, not evidence that any residue caused the AUROC change, and it does not explain the opposite PIK3CA/PIK3CB shift.
 
 ### 4.4 Implications for dual-target virtual screening and generative design
 
@@ -32,4 +32,4 @@ Third, assay heterogeneity remains. Primary curation uses maximum pChEMBL. Confi
 
 Fourth, receptor replacement can raise or lower pair-level discrimination, but the experiments do not identify a molecular origin. The two receptor-sensitivity examples share PIK3CA.
 
-Fifth, the primary protocol is AutoDock Vina; GNINA and RTMScore rescored the same poses. An independent pose-generation test is specified for local execution on EGFR/HER2 and PIK3CA/mTOR. This study does not include prospective testing of newly predicted dual-target compounds.
+Fifth, the primary protocol is AutoDock Vina; GNINA CNN and RTMScore rescored the same Vina poses. An independent GNINA docking search on EGFR/HER2 and PIK3CA/mTOR left the principal formulation gap intact and is not a bake-off among engines. This study does not include prospective testing of newly predicted dual-target compounds.

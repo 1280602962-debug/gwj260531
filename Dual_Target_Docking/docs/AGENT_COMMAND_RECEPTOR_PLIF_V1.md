@@ -1,5 +1,10 @@
 # Local follow-up: residue-level interaction snapshot for receptor swaps
 
+**Status (2026-08-26):** geometric occupancy results are deposited in
+`data/jcim_structure_robust_v0/analysis/plif_v1/` (heavy-atom proximity ≤ 4.5 Å;
+not a causal PLIF). Top-shift residues include Met772, Leu807, Gln859, Thr856,
+Cys838, Glu849, Phe930, Asp933.
+
 Optional **P1** support for Results 3.4 / 3.6. Not required to establish that
 receptor realization changes `summary_min`. Do **not** run MD.
 

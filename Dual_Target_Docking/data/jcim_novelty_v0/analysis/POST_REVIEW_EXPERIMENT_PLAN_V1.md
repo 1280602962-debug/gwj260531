@@ -6,8 +6,8 @@ environment (no `vina` / `gnina` / `smina` on PATH; git has no full pose archive
 | Suggestion | Do it? | Where | Status |
 |---|---|---|---|
 | Unify all work to 6.5/5.5 **or** θ=6.0 | **No.** Keep dual-purpose rules. | Methods 2.1 wording | Done in this revision |
-| Independent pose-generation engine | **Yes, P0.** One engine, EGFR/HER2 + PM48 | Local | SOP only: `docs/AGENT_COMMAND_INDEPENDENT_POSE_GENERATION_V1.md` |
-| Receptor/wrong-pocket structural mechanism | **Partial P1.** PLIF as hypothesis, not cause | Local poses | SOP only: `docs/AGENT_COMMAND_RECEPTOR_PLIF_V1.md`. Cα RMSD already in 3.6 |
+| Independent pose-generation engine | **Yes, P0.** One engine, EGFR/HER2 + PM48 | Local, now deposited | Done: `data/jcim_independent_dock_v0/`; EGFR gap remains (0.783 vs 0.220) |
+| Receptor/wrong-pocket structural mechanism | **Partial P1.** PLIF as hypothesis, not cause | Local poses, now deposited | Done as geometric occupancy: `analysis/plif_v1/`; Cα RMSD already in 3.6 |
 | Chemical confounding → diagnostic workflow | **Yes, P1.** Existing experiments, no docking | Figure 8, Discussion 4.4 | Done |
 | Lower abstract/conclusion scope | **Yes, P0** | Abstract, Conclusions | Done: four-pair Vina-based benchmark; reliability boundary |
 | Power analysis | **Yes, as detectable-effect simulation, not observed power** | Table S31, Figure S6, Results 3.2 | Done: N_MC=1000, B=2000, seed 20260729 |
@@ -28,8 +28,6 @@ than moderate ones; CI including 0.5 does not establish chance equivalence.
 
 ## Local docking that would still help most
 
-1. GNINA docking mode (or smina) on EGFR/HER2 Dual-versus-neither vs directional
-   `summary_min`, then PM48 as the directional case.
-2. Optional 5–10 residue occupancy heatmap on 4L23 vs 4JPS vs 5DXT for PM48.
-
-Do **not** add five scoring functions or unify the two thresholds.
+Independent GNINA docking search and the PIK3CA occupancy snapshot are now
+deposited (Tables S32–S33). Do **not** add five scoring functions or unify
+the two thresholds.

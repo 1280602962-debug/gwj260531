@@ -38,6 +38,8 @@
 | Table S29 | `data/jcim_novelty_v0/tables/assay_max_vs_median_agreement_v1.csv` + `assay_max_vs_median_{summary,auroc,flips}_v1.csv` |
 | Table S30 | `data/jcim_structure_robust_v0/tables/receptor_realization_two_pair_v1.csv` |
 | Table S31 | `data/jcim_novelty_v0/tables/detectable_effect_simulation_v1.csv` |
+| Table S32 | `data/jcim_independent_dock_v0/tables/independent_dock_formulation_v1.csv` + `independent_dock_summary_v1.csv` + `independent_dock_enrichment_v1.csv`；结论见 `analysis/INDEPENDENT_DOCK_VERDICT_V1.md` |
+| Table S33 | `data/jcim_structure_robust_v0/analysis/plif_v1/plif_residue_shift_top10_v1.csv`；结论见 `PLIF_VERDICT_V1.md`（几何占有率，非 ProLIF 因果） |
 | Master index | `data/jcim_novelty_v0/tables/MASTER_RESULTS_TABLE.csv` |
 | Figure S4 | `figures/jcim_article/FigS_pocket_matched_forest.png`（原主文森林图） |
 | Figure S5 | `figures/jcim_article/FigS_unused_pool_holdout.png` |
@@ -657,6 +659,44 @@ PIK3CA/PIK3CB 弱臂：原始 D/B = 0.500；4JPS 后弱臂切到冻结 D/A = 0.6
 
 ---
 
+## Table S32. Independent GNINA pose generation versus frozen Vina (θ = 6.0)
+
+来源：`data/jcim_independent_dock_v0/tables/independent_dock_formulation_v1.csv`、`independent_dock_summary_v1.csv`、`independent_dock_enrichment_v1.csv`；脚本 `scripts/run_gnina_independent_dock_v1.py`、`analyze_independent_dock_v1.py`；结论 `analysis/INDEPENDENT_DOCK_VERDICT_V1.md`。GNINA 1.3.2 对接搜索（mode-1 `minimizedAffinity`，种子 20260727），**不是**对冻结 Vina 姿态的 CNN 重打分（后者仍见 Tables S14–S15）。复用冻结 Meeko 配体、受体坐标、对接盒与 exhaustiveness。失败配体：EGFR/HER2 neither `EH120_109`（两端）；PIK3CA/mTOR A-only `PM48_19`（两端）。分析只用两端均有分数的配体。主文四舍五入至三位；未四舍五入值见源 CSV。
+
+不允许写成“GNINA 优于/劣于 Vina”。允许句：EGFR/HER2 上设定效应在该独立姿态生成协议下不是 Vina 特有的。
+
+| Pair | Engine | n_scored (dual / A-only / B-only) | Dual vs neither (`mean`) [95% CI] | n_neither | D/A (pocket B) | D/B (pocket A) | summary_min [95% CI] |
+|------|--------|----------------------------------:|----------------------------------:|----------:|---------------:|---------------:|----------------------|
+| EGFR/HER2 | Vina (frozen) | 28 / 38 / 32 | 0.756 [0.562, 0.920] | 12 | 0.666 | 0.430 | 0.430 [0.284, 0.576] |
+| EGFR/HER2 | GNINA dock | 28 / 38 / 32 | 0.783 [0.610, 0.922] | 11 | 0.660 | 0.220 | 0.220 [0.109, 0.343] |
+| PIK3CA/mTOR | Vina (frozen) | 18 / 14 / 12 | 0.514 [0.222, 0.806] | 4 | 0.714 | 0.692 | 0.692 [0.464, 0.802] |
+| PIK3CA/mTOR | GNINA dock | 18 / 13 / 12 | 0.569 [0.222, 0.889] | 4 | 0.633 | 0.704 | 0.633 [0.427, 0.825] |
+
+EGFR/HER2 mixed-library Top-10 by GNINA mean pocket score: 1 dual, 4 A-only, 5 B-only, 0 neither（EF10 = 0.389）。Vina `vina_mean` Top-10 为 1 / 5 / 4 / 0（Table S25；EF10 = 0.393）。PIK3CA/mTOR Dual versus neither 仍因 n_neither = 4 而效能不足，不作为设定对照主读出。
+
+---
+
+## Table S33. PIK3CA pocket-contact occupancy shifts (4JPS / 5DXT vs 4L23)
+
+来源：`data/jcim_structure_robust_v0/analysis/plif_v1/plif_residue_shift_top10_v1.csv`；脚本 `scripts/run_receptor_plif_v1.py`；结论 `analysis/plif_v1/PLIF_VERDICT_V1.md`。同一套 PM48 配体（n = 48）在 4L23 / 4JPS / 5DXT 的 mode-1 姿态上，对 20 个冻结口袋残基做重原子距离 ≤ 4.5 Å 的几何占有率。这是 SOP 允许的 ProLIF 等价快照，不是完整 ProLIF 指纹，也不是残基层因果。占有率为有接触配体比例。下表为 |Δ| 最大的 10 个残基。
+
+不允许写成“残基 X 导致 AUROC 变化”或“PLIF 解释了 PIK3CA/PIK3CB 的相反位移”。
+
+| Residue | 4L23 | 4JPS | 5DXT | Δ 4JPS−4L23 | Δ 5DXT−4L23 |
+|---------|-----:|-----:|-----:|------------:|------------:|
+| Met772 | 1.000 | 0.771 | 0.958 | −0.229 | −0.042 |
+| Leu807 | 0.583 | 0.396 | 0.396 | −0.188 | −0.188 |
+| Gln859 | 0.625 | 0.646 | 0.812 | +0.021 | +0.188 |
+| Thr856 | 0.688 | 0.500 | 0.542 | −0.188 | −0.146 |
+| Cys838 | 0.062 | 0.229 | 0.000 | +0.167 | −0.062 |
+| Glu849 | 0.917 | 0.854 | 0.750 | −0.062 | −0.167 |
+| Phe930 | 0.438 | 0.604 | 0.479 | +0.167 | +0.042 |
+| Asp933 | 1.000 | 0.854 | 0.938 | −0.146 | −0.062 |
+| Asp810 | 0.729 | 0.583 | 0.667 | −0.146 | −0.062 |
+| Trp780 | 0.958 | 0.833 | 0.917 | −0.125 | −0.042 |
+
+---
+
 ## Supporting Note S1. Exploratory PIK3CA/mTOR pose-level diagnostics
 
 来源：`data/pik3ca_mtor_panel48_v0/analysis/failure_typology_v0/`，仅为代表性案例，不是全面板 PLIF 或机制分析。
@@ -677,5 +717,5 @@ PIK3CA/PIK3CB 弱臂：原始 D/B = 0.500；4JPS 后弱臂切到冻结 D/A = 0.6
 - Table S12 是计数核对（BindingDB REST + PubChem PUG REST），不是对接结果；不得把 `as_is` 的 EGFR ≥50 写成已建成 BindingDB 厚面板。
 - Table S13 是 holdout 效价/尺寸匹配诊断，不替换 Table S8；不得写成错口袋悖论已解决。
 - Table S16–S21 是冻结分数上的补表（零新对接）。S17 的 holdout Δ CI 均含 0；S19 四对描述符 Δ CI 均含 0；S21 是 vina_mean Top-10，不是 Table 2。
-- Table S22–S31 来自 `data/jcim_novelty_v0/` 与 `data/jcim_structure_robust_v0/`：S22 formulation comparison（主文 Figure 3）；S23 chemotype-constrained hard-negatives（T ≥ 0.7 为空；T ≥ 0.3 不是 analogue matching）；S24 incremental ECFP/docking；S25 mixed-library EF；S26 min/arithmetic/geometric/harmonic 聚合敏感性（四对排序不变）；S27 docking N_attempted/success/fail；S28 四个描述符全报；S29 max vs median（报一致率+翻转+主终点位移）；S30 两对 PIK3CA receptor-realization（方向相反；PAB_034 100/99/1）；S31 detectable-effect simulation（不是 observed power）。Figure S4 = 口袋匹配森林图；Figure S5 = unused-pool holdout；Figure S6 = detectable-effect heatmap；Figure 8 = diagnostic workflow。不得把 Dual-vs-neither 写成 “conventional benchmark”；不得把 EGFR 0.756 vs 0.430 写成配对显著性；不得把 PIK3CA/mTOR Dual-vs-neither（n = 4）写成反转；不得把受体替换写成单向 collapse 或 robustness。
+- Table S22–S33 来自 `data/jcim_novelty_v0/`、`data/jcim_structure_robust_v0/` 与 `data/jcim_independent_dock_v0/`：S22 formulation comparison（主文 Figure 3）；S23 chemotype-constrained hard-negatives（T ≥ 0.7 为空；T ≥ 0.3 不是 analogue matching）；S24 incremental ECFP/docking；S25 mixed-library EF；S26 min/arithmetic/geometric/harmonic 聚合敏感性（四对排序不变）；S27 docking N_attempted/success/fail；S28 四个描述符全报；S29 max vs median（报一致率+翻转+主终点位移）；S30 两对 PIK3CA receptor-realization（方向相反；PAB_034 100/99/1）；S31 detectable-effect simulation（不是 observed power）；S32 独立 GNINA 姿态生成（EGFR/HER2 设定差距仍在；不是引擎比赛）；S33 PIK3CA 几何占有率位移（假说，非残基因果）。Figure S4 = 口袋匹配森林图；Figure S5 = unused-pool holdout；Figure S6 = detectable-effect heatmap；Figure 8 = diagnostic workflow。不得把 Dual-vs-neither 写成 “conventional benchmark”；不得把 EGFR 0.756 vs 0.430 写成配对显著性；不得把 PIK3CA/mTOR Dual-vs-neither（n = 4）写成反转；不得把受体替换写成单向 collapse 或 robustness。
 - Figure S3 不得复用 Figure 6 的 AUROC 柱；它只画配对 Δ ± CI。

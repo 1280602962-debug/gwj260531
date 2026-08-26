@@ -501,6 +501,67 @@ def main() -> None:
             )
         )
 
+    ind_tab = ROOT / "data" / "jcim_independent_dock_v0" / "tables"
+    ind_form = _read(ind_tab / "independent_dock_formulation_v1.csv")
+    for r in ind_form:
+        rows.append(
+            row(
+                block="independent_pose_generation",
+                manuscript_table="Table S32",
+                pair=r["pair"],
+                setting=r["engine"],
+                metric=r["contrast"],
+                value=r["auroc"],
+                ci_lo=r["ci_lo"],
+                ci_hi=r["ci_hi"],
+                n_dual=r["n_pos"],
+                n_A_only=r["n_neg"] if r["contrast"] == "D_vs_A_pocketB" else "",
+                n_B_only=r["n_neg"] if r["contrast"] == "D_vs_B_pocketA" else "",
+                note=r["note"] + ". GNINA docking search, not Vina-pose rescore. Not an engine bake-off.",
+                source_file="data/jcim_independent_dock_v0/tables/independent_dock_formulation_v1.csv",
+            )
+        )
+    ind_sum = _read(ind_tab / "independent_dock_summary_v1.csv")
+    for r in ind_sum:
+        rows.append(
+            row(
+                block="independent_pose_generation",
+                manuscript_table="Table S32",
+                pair=r["pair"],
+                setting=r["engine"],
+                metric="gnina_summary_min",
+                value=r["gnina_summary_min"],
+                note=(
+                    f"verdict={r['verdict']}; "
+                    f"gnina_D_vs_neither_mean={r['gnina_D_vs_neither_mean']}; "
+                    f"vina_summary_min_ref={r['vina_summary_min_ref']}; "
+                    f"delta_summary_min_vs_vina={r['delta_summary_min_vs_vina']}. "
+                    "Not an engine bake-off."
+                ),
+                source_file="data/jcim_independent_dock_v0/tables/independent_dock_summary_v1.csv",
+            )
+        )
+
+    plif = _read(
+        ROOT / "data" / "jcim_structure_robust_v0" / "analysis" / "plif_v1" / "plif_residue_shift_top10_v1.csv"
+    )
+    for r in plif:
+        rows.append(
+            row(
+                block="pik3ca_occupancy",
+                manuscript_table="Table S33",
+                pair="PIK3CA/mTOR",
+                setting=r["residue"],
+                metric="abs_shift_max",
+                value=r["abs_shift_max"],
+                note=(
+                    f"4L23={r['4L23']}; 4JPS={r['4JPS']}; 5DXT={r['5DXT']}; "
+                    "heavy-atom occupancy ≤4.5 Å; hypothesis, not residue-level cause."
+                ),
+                source_file="data/jcim_structure_robust_v0/analysis/plif_v1/plif_residue_shift_top10_v1.csv",
+            )
+        )
+
     out_path = TAB / "MASTER_RESULTS_TABLE.csv"
     with out_path.open("w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=FIELDS, lineterminator="\n")
