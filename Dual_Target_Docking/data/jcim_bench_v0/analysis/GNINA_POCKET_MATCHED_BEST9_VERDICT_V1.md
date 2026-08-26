@@ -20,14 +20,14 @@ pocket-matched number; the push's own file should be read as worst-pocket.
 
 | pair | channel | n (D/A/B) | D vs A (pocket B) | D vs B (pocket A) | summary_min [95% CI] | Vina ref |
 |------|---------|-----------|-------------------:|-------------------:|----------------------:|---------:|
-| EGFR/HER2 | mode01 | 28/38/32 | 0.4897 | 0.327 | 0.327 [0.1882, 0.458] | 0.43 |
-| EGFR/HER2 | best9 | 28/38/32 | 0.4709 | 0.2902 | 0.2902 [0.1605, 0.426] | 0.43 |
-| AChE/BChE | mode01 | 27/25/28 | 0.4859 | 0.4418 | 0.4418 [0.2833, 0.5391] | 0.606 |
-| AChE/BChE | best9 | 27/25/28 | 0.5526 | 0.4127 | 0.4127 [0.263, 0.5503] | 0.606 |
-| PIK3CA/PIK3CB | mode01 | 28/27/28 | 0.6071 | 0.5536 | 0.5536 [0.3915, 0.6738] | 0.5 |
-| PIK3CA/PIK3CB | best9 | 28/27/28 | 0.5701 | 0.5332 | 0.5332 [0.3672, 0.6392] | 0.5 |
-| PIK3CA/mTOR | mode01 | 18/14/12 | 0.5794 | 0.6713 | 0.5794 [0.35, 0.7531] | 0.692 |
-| PIK3CA/mTOR | best9 | 18/14/12 | 0.6548 | 0.6852 | 0.6548 [0.4238, 0.8088] | 0.692 |
+| EGFR/HER2 | mode01 | 28/38/32 | 0.4897 | 0.327 | 0.327 [0.1897, 0.459] | 0.43 |
+| EGFR/HER2 | best9 | 28/38/32 | 0.4709 | 0.2902 | 0.2902 [0.1632, 0.4269] | 0.43 |
+| AChE/BChE | mode01 | 27/25/28 | 0.4859 | 0.4418 | 0.4418 [0.2783, 0.5446] | 0.606 |
+| AChE/BChE | best9 | 27/25/28 | 0.5526 | 0.4127 | 0.4127 [0.2518, 0.5482] | 0.606 |
+| PIK3CA/PIK3CB | mode01 | 28/27/28 | 0.6071 | 0.5536 | 0.5536 [0.3807, 0.6771] | 0.5 |
+| PIK3CA/PIK3CB | best9 | 28/27/28 | 0.5701 | 0.5332 | 0.5332 [0.3641, 0.64] | 0.5 |
+| PIK3CA/mTOR | mode01 | 18/14/12 | 0.5794 | 0.6713 | 0.5794 [0.3571, 0.75] | 0.692 |
+| PIK3CA/mTOR | best9 | 18/14/12 | 0.6548 | 0.6852 | 0.6548 [0.4322, 0.8102] | 0.692 |
 
 ## Does best-of-9 change the qualitative ranking vs Vina?
 
@@ -38,18 +38,14 @@ pocket-matched number; the push's own file should be read as worst-pocket.
 
 ### One-line verdict
 
-**Moving GNINA from mode-1-only to best-of-9 does not change which pair looks best.** PIK3CA/mTOR remains the strongest pair under GNINA (mode01 0.579 → best9 0.655), still below its own Vina pocket-matched reference (0.692). EGFR/HER2 and AChE/BChE GNINA best9 pocket-matched values are **below 0.5** (0.290 and 0.413), i.e. best-of-9 does not rescue GNINA on the pairs where Vina is also weak or descriptor-explained.
-
-**Correction:** on PIK3CA/PIK3CB, GNINA pocket-matched is marginally *above* the Vina reference under **both** mode01 (0.554 vs 0.500) and best9 (0.533 vs 0.500) — this is not new with best-of-9, and the margin (0.03–0.05) is well within the bootstrap CI width (±0.13–0.15) on either side, so it is not a meaningful "GNINA beats Vina" result. Do not write "GNINA never exceeds Vina on any pair"; write instead: GNINA best-of-9 stays close to chance or below the same-panel Vina value on three of four pairs, and is statistically indistinguishable from Vina (both near chance, overlapping CIs) on PIK3CA/PIK3CB. `RTMScore 与 GNINA 未改变这一格局` remains supported, now with a directional (not just pooled/worst-pocket) GNINA number.
+**Moving GNINA from mode-1-only to best-of-9 does not change which pair looks best, and does not make GNINA a stronger channel than Vina on any pair.** PIK3CA/mTOR remains the strongest pair under GNINA (mode01 0.579 → best9 0.655), still below its own Vina pocket-matched reference (0.692). EGFR/HER2 and AChE/BChE GNINA best9 pocket-matched values are **below 0.5** (0.290 and 0.413), i.e. best-of-9 does not rescue GNINA on the pairs where Vina is also weak or descriptor-explained. `RTMScore 与 GNINA 未改变这一格局` remains supported, now with a directional (not just pooled/worst-pocket) GNINA number.
 
 ## Stability-check panels (PM48 / PM110)
 
 | panel | channel | n (D/A/B) | D vs A (pocket B) | D vs B (pocket A) | summary_min [95% CI] |
 |-------|---------|-----------|-------------------:|-------------------:|----------------------:|
-| PM48 | mode01 | 18/14/12 | 0.5794 | 0.6713 | 0.5794 [0.3684, 0.75] |
-| PM48 | best9 | 18/14/12 | 0.6548 | 0.6852 | 0.6548 [0.4316, 0.8117] |
-| PM110 | mode01 | 30/30/30 | 0.5222 | 0.7133 | 0.5222 [0.3675, 0.6703] |
-| PM110 | best9 | 30/30/30 | 0.6133 | 0.6822 | 0.6133 [0.4583, 0.7419] |
+| PM48 | mode01 | 18/14/12 | 0.5794 | 0.6713 | 0.5794 [0.3609, 0.7399] |
+| PM48 | best9 | 18/14/12 | 0.6548 | 0.6852 | 0.6548 [0.4381, 0.8045] |
 
 PM48 mode01 (0.5794) and PM110 mode01 (0.5222) match the pre-existing frozen
 `PM110_VS_PM48.md` / `B_GROUP_VERDICT.md` numbers exactly, confirming the

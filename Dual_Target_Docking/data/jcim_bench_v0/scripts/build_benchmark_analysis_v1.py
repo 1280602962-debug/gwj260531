@@ -18,6 +18,7 @@ Exploration / evaluation pool only. Does not invent decision arms.
 from __future__ import annotations
 
 import csv
+import hashlib
 import json
 import math
 import statistics as st
@@ -27,6 +28,11 @@ from pathlib import Path
 import numpy as np
 from rdkit import Chem, RDLogger
 from rdkit.Chem import Descriptors
+
+
+def stable_offset(*parts, modulus=100000):
+    payload = "|".join(map(str, parts)).encode("utf-8")
+    return int(hashlib.sha256(payload).hexdigest()[:16], 16) % modulus
 
 try:
     from scipy.stats import spearmanr
@@ -71,7 +77,9 @@ def write_csv(path: Path, rows: list[dict], fields: list[str] | None = None):
         return
     fields = fields or list(rows[0].keys())
     with path.open("w", newline="") as fh:
-        w = csv.DictWriter(fh, fieldnames=fields, extrasaction="ignore")
+        w = csv.DictWriter(
+            fh, fieldnames=fields, extrasaction="ignore", lineterminator="\n"
+        )
         w.writeheader()
         for r in rows:
             w.writerow({k: r.get(k, "") for k in fields})
@@ -608,7 +616,7 @@ def main():
     for name, rows in packs.items():
         for arm in ARMS:
             print(f"boot {name} {arm} ...", flush=True)
-            m = bootstrap_directional(rows, arm, seed=SEED + abs(hash((name, arm))) % 100000)
+            m = bootstrap_directional(rows, arm, seed=SEED + stable_offset(name, arm))
             if not m:
                 continue
             boot_rows.append(
@@ -662,7 +670,7 @@ def main():
             y = np.array([p[0] for p in pairs])
             sd = np.array([p[1] for p in pairs], dtype=float)
             sb = np.array([p[2] for p in pairs], dtype=float)
-            rng = np.random.default_rng(SEED + abs(hash((name, darm, bestb["arm"]))) % 100000)
+            rng = np.random.default_rng(SEED + stable_offset(name, darm, bestb["arm"]))
             idx = np.arange(len(pairs))
             deltas = []
             for _ in range(N_BOOT):
@@ -703,7 +711,7 @@ def main():
     top10_rows = []
     for name, rows in packs.items():
         for arm in ARMS:
-            m = top10_hardneg(rows, arm, seed=SEED + abs(hash(("t10", name, arm))) % 100000)
+            m = top10_hardneg(rows, arm, seed=SEED + stable_offset("t10", name, arm))
             if not m:
                 continue
             top10_rows.append(

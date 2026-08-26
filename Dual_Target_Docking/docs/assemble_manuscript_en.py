@@ -19,7 +19,7 @@ SECTIONS = [
 
 
 def read(name: str) -> str:
-    return (ROOT / name).read_text().lstrip("\ufeff")
+    return (ROOT / name).read_text(encoding="utf-8").lstrip("\ufeff")
 
 
 def title_abstract_keywords() -> tuple[str, str, str]:
@@ -52,7 +52,7 @@ def main() -> None:
     leaked = [term for term in forbidden if term in manuscript]
     if leaked:
         raise ValueError(f"internal author notes leaked into manuscript: {leaked}")
-    OUT.write_text(manuscript)
+    OUT.write_text(manuscript, encoding="utf-8")
     print("wrote", OUT, "bytes", OUT.stat().st_size)
 
 

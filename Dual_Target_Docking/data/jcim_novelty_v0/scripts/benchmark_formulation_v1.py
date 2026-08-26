@@ -10,7 +10,10 @@ from __future__ import annotations
 
 import csv
 import hashlib
+import importlib.metadata
 import json
+import platform
+import sys
 from collections import Counter
 from pathlib import Path
 
@@ -82,7 +85,9 @@ def write_csv(path: Path, rows: list[dict]):
         return
     fields = list(rows[0].keys())
     with path.open("w", newline="") as fh:
-        w = csv.DictWriter(fh, fieldnames=fields, extrasaction="ignore")
+        w = csv.DictWriter(
+            fh, fieldnames=fields, extrasaction="ignore", lineterminator="\n"
+        )
         w.writeheader()
         w.writerows(rows)
 
@@ -109,6 +114,33 @@ def boot_auroc(pos, neg, n_boot=N_BOOT, seed=SEED):
         vals.append(auroc(p, n))
     lo, hi = np.percentile(vals, [2.5, 97.5])
     return float(auroc(pos, neg)), float(lo), float(hi)
+
+
+def boot_equal_score_negative_contrast(dual, selective, neither, n_boot=N_BOOT, seed=SEED):
+    """Contrast negative classes while holding the score definition fixed.
+
+    Dual observations are shared between estimands and therefore use the same
+    bootstrap draw. Selective and neither observations are resampled within
+    their own classes. This estimates uncertainty of the descriptive AUROC
+    difference; it is not a paired ligand-level test because the negative sets
+    contain different compounds.
+    """
+    dual = np.asarray(dual, dtype=float)
+    selective = np.asarray(selective, dtype=float)
+    neither = np.asarray(neither, dtype=float)
+    if min(len(dual), len(selective), len(neither)) == 0:
+        return (float("nan"),) * 5
+    rng = np.random.default_rng(seed)
+    delta = []
+    for _ in range(n_boot):
+        d = rng.choice(dual, size=len(dual), replace=True)
+        s = rng.choice(selective, size=len(selective), replace=True)
+        n = rng.choice(neither, size=len(neither), replace=True)
+        delta.append(auroc(d, n) - auroc(d, s))
+    lo, hi = np.percentile(delta, [2.5, 97.5])
+    auc_selective = auroc(dual, selective)
+    auc_neither = auroc(dual, neither)
+    return auc_selective, auc_neither, auc_neither - auc_selective, float(lo), float(hi)
 
 
 def morgan(smi):
@@ -257,6 +289,42 @@ def formulation_table(packs):
             [r["vina_B"] for r in D + B], [r["vina_B"] for r in A + N], len(D) + len(B), len(A) + len(N),
             "pocket B: (dual+B-only) vs (A-only+neither)",
         )
+    return rows
+
+
+def equal_score_negative_table(packs):
+    """Factorial formulation check: same pocket score, different negatives."""
+    rows = []
+    for pair, recs in packs.items():
+        classes = {c: [r for r in recs if r["cls"] == c] for c in ("dual", "A_only", "B_only", "neither")}
+        for contrast, selective_class, score_key, note in (
+            ("D_vs_A_or_neither_pocketB", "A_only", "vina_B", "pocket B fixed; A-only versus neither negative class"),
+            ("D_vs_B_or_neither_pocketA", "B_only", "vina_A", "pocket A fixed; B-only versus neither negative class"),
+        ):
+            D = [r[score_key] for r in classes["dual"]]
+            S = [r[score_key] for r in classes[selective_class]]
+            N = [r[score_key] for r in classes["neither"]]
+            h = hashlib.md5(f"equal-score|{pair}|{contrast}".encode()).hexdigest()
+            a_s, a_n, delta, lo, hi = boot_equal_score_negative_contrast(
+                D, S, N, seed=SEED + (int(h[:8], 16) % 99991)
+            )
+            rows.append(
+                {
+                    "pair": pair,
+                    "contrast": contrast,
+                    "score": score_key,
+                    "n_dual": len(D),
+                    "n_selective": len(S),
+                    "n_neither": len(N),
+                    "auroc_dual_vs_selective": round(a_s, 4),
+                    "auroc_dual_vs_neither": round(a_n, 4),
+                    "delta_neither_minus_selective": round(delta, 4),
+                    "delta_ci_lo": round(lo, 4),
+                    "delta_ci_hi": round(hi, 4),
+                    "underpowered_neither": int(len(N) < 8),
+                    "note": note + "; joint stratified bootstrap, not paired negative ligands",
+                }
+            )
     return rows
 
 
@@ -457,10 +525,12 @@ def main():
         print(pair, Counter(r["cls"] for r in recs), "n=", len(recs))
 
     form = formulation_table(packs)
+    equal_score = equal_score_negative_table(packs)
     chemo = chemotype_table(packs)
     incr = incremental_table(packs)
     enr = enrichment_table(packs)
     write_csv(TAB / "formulation_conventional_vs_directional_v1.csv", form)
+    write_csv(TAB / "formulation_equal_score_negative_v1.csv", equal_score)
     write_csv(TAB / "chemotype_matched_hardneg_v1.csv", chemo)
     write_csv(TAB / "incremental_information_v1.csv", incr)
     write_csv(TAB / "mixed_library_enrichment_v1.csv", enr)
@@ -500,6 +570,15 @@ def main():
         "n_boot": N_BOOT,
         "seed": SEED,
         "no_new_docking": True,
+        "environment": {
+            "python": sys.version.split()[0],
+            "platform": platform.platform(),
+            "numpy": importlib.metadata.version("numpy"),
+            "rdkit": importlib.metadata.version("rdkit"),
+            "scipy": importlib.metadata.version("scipy"),
+            "scikit_learn": importlib.metadata.version("scikit-learn"),
+            "pandas": importlib.metadata.version("pandas"),
+        },
         "zhou_2013": "10.1021/ci400065e",
         "pairs": {p: dict(Counter(r["cls"] for r in recs)) for p, recs in packs.items()},
         "summary": summary,

@@ -1,8 +1,8 @@
-# 对接双靶识别中的基准设定与化学混淆
+# 基于对接的双靶识别：四靶对的评价设定审计
 
 ## 摘要
 
-两端有利的对接分数是否构成双靶识别证据，尚未在实验定义的单靶选择性配体上得到充分检验。因此，我们进一步评价不同基准设定（benchmark formulation）是否会改变双靶识别的表观证据。为此，我们构建 DualFourClass-Bench，这是一套经策展的四对、四状态面板，含两条方向性主任务以及保守的最差方向判别摘要（`summary_min`）。在这一四对、基于 Vina 的基准中，EGFR/HER2 的 Dual versus neither AUROC 为 0.756，而方向性 `summary_min` 为 0.430；在 EGFR/HER2 混合库 Top-10 中，10 个分子有 9 个为实验选择性配体。独立 GNINA 姿态生成协议仍保留该差距（0.783 对 0.220）。其他靶对没有显示同样的差距，PIK3CA/mTOR 的 Dual-versus-neither 对照则效能不足。在支架分组模型中，把对接分数加到 ECFP4 后 AUROC 的最大绝对变化为 0.020；将最大 pChEMBL 换成重复测定中位数只产生很小的靶对层变化。替代受体使 PIK3CA/mTOR 从 0.692 变为 0.486/0.505，并使 PIK3CA/PIK3CB 升高。这些发现界定了当前有实验支持的靶对与协议下的可靠性边界，并支持把选择性硬负样本与混淆感知对照作为双靶对接评价的互补要求。
+两端有利的对接分数能否作为双靶活性的证据，取决于评价时采用的负类。我们用 ChEMBL 衍生的 dual、A-only、B-only 与 neither 操作性状态，对四个靶对进行评价设定审计。两条口袋匹配方向 AUROC 分别将 dual 与对应单靶选择性配体比较；二者最小值 `summary_min` 仅作保守的描述性摘要。在 EGFR/HER2 上，Vina 的 Dual versus neither AUROC 为 0.756，而方向性 `summary_min` 为 0.430；独立 GNINA 姿态生成得到的对应数值为 0.783 与 0.220。其他靶对没有出现同样的设定差距，且 PIK3CA/mTOR 的 neither 对照只有 4 个分子。在支架分组模型中，把 docking 加入 ECFP4 后交叉验证 AUROC 的最大绝对变化为 0.020。替代受体使 PIK3CA/mTOR 的 `summary_min` 从 0.692 降至 0.486/0.505，但使 PIK3CA/PIK3CB 升高，说明结果依赖受体实现而不是具有结构稳健性。四个主 `summary_min` 的 95% CI 均包含 0.5。因此，这一受数据供给约束的案例面板支持把选择性硬负与混淆感知对照作为评价要求，但不能建立靶标通用的对接性能或生物学识别结论。
 
 **关键词：** 双靶对接；基准设定；选择性硬负样本；化学混淆；受体实现；虚拟筛选
 
@@ -91,25 +91,25 @@ AUROC 与 summary_min 的不确定度用配体层 bootstrap：在保持类别结
 
 EGFR/HER2、AChE/BChE、PIK3CA/PIK3CB 和 PIK3CA/mTOR 的方向性 summary_min 分别为 0.430、0.606、0.500 和 0.692（Table 2；Figure 4A）。EGFR/HER2 的 dual-versus-B-only AUROC 为 0.430，PIK3CA/PIK3CB 为 0.500；PIK3CA/mTOR 两个方向分别为 0.714 和 0.692。相对池化协议，口袋匹配抬高了点估计但未改变排序（Table S6）。
 
-同一套冻结分数再按 Dual versus neither 以及 Dual versus all non-duals 计分（Table 3；Figure 3）。Dual versus neither 是使用实验 inactive 的描述性对照（`vina_mean`）。EGFR/HER2 提供了最清晰的设定对照。Dual versus neither 的 AUROC 为 0.756 [0.562, 0.920]（n_neg = 12），而方向性 summary_min 仍为 0.430 [0.284, 0.576]。Dual versus all non-duals 降至 0.551 [0.443, 0.666]，表明引入选择性配体后判别任务明显变难。在 110 个 EGFR/HER2 配体的混合库中按 `vina_mean` 取 Top-10：1 个 dual、5 个 A-only、4 个 B-only、0 个 neither（EF10 = 0.393；硬负比例 = 0.90）；EF5 也低于随机（Table S25）。AChE/BChE 与 PIK3CA/PIK3CB 的 Dual-versus-neither 增量很小（0.649 与 0.559），区间与方向性臂重叠。PIK3CA/mTOR Dual versus neither 因 neither n = 4 而效能不足；该对 Dual versus all non-duals 为 0.674，接近 summary_min 0.692。
+同一套冻结分数再按 Dual versus neither 以及 Dual versus all non-duals 计分（Table 3；Figure 3）。Dual versus neither 是使用实验 inactive 的描述性对照（`vina_mean`）。EGFR/HER2 提供了最清晰的设定对照。Dual versus neither 的 AUROC 为 0.756 [0.562, 0.920]（n_neg = 12），而方向性 summary_min 仍为 0.430 [0.282, 0.578]。Dual versus all non-duals 降至 0.551 [0.443, 0.666]，表明引入选择性配体后判别任务明显变难。在 110 个 EGFR/HER2 配体的混合库中按 `vina_mean` 取 Top-10：1 个 dual、5 个 A-only、4 个 B-only、0 个 neither（EF10 = 0.393；硬负比例 = 0.90）；EF5 也低于随机（Table S25）。AChE/BChE 与 PIK3CA/PIK3CB 的 Dual-versus-neither 增量很小（0.649 与 0.559），区间与方向性臂重叠。PIK3CA/mTOR Dual versus neither 因 neither n = 4 而效能不足；该对 Dual versus all non-duals 为 0.674，接近 summary_min 0.692。
 
 **Table 2.** 冻结 K = 4 评价集上的口袋匹配方向 AUROC（Vina，统一 θ = 6.0），并列出四个预先指定描述符的 `summary_min`。表中类别样本量为 n_scored（dual / A-only / B-only），即对应方向分析中具有有效 Vina 分数的配体数，因而可以低于冻结面板定额；neither 不进入主终点。n_panel 与两端对接覆盖见 Table 1 和 Table S27。最高描述符是最佳单一描述符参考。错口袋与配体效率见 Table S6；描述符双臂见 Table S28。
 
 | 靶对 | n_scored (dual / A-only / B-only) | dual 对 A_only（口袋 B） | dual 对 B_only（口袋 A） | summary_min [95% CI] | heavy | MW | cLogP | TPSA |
 |------|---------------------------:|-------------------------:|-------------------------:|----------------------|------:|---:|------:|-----:|
-| EGFR/HER2 | 28 / 38 / 32 | 0.666 | 0.430 | 0.430 [0.284, 0.576] | 0.369 | 0.416 | 0.482 | 0.427 |
-| AChE/BChE | 27 / 25 / 28 | 0.650 | 0.606 | 0.606 [0.440, 0.740] | 0.582 | 0.579 | 0.467 | 0.733 |
-| PIK3CA/PIK3CB | 28 / 27 / 28 | 0.691 | 0.500 | 0.500 [0.347, 0.648] | 0.622 | 0.620 | 0.595 | 0.418 |
-| PIK3CA/mTOR | 18 / 14 / 12 | 0.714 | 0.692 | 0.692 [0.464, 0.802] | 0.463 | 0.448 | 0.310 | 0.260 |
+| EGFR/HER2 | 28 / 38 / 32 | 0.666 | 0.430 | 0.430 [0.282, 0.578] | 0.369 | 0.416 | 0.482 | 0.427 |
+| AChE/BChE | 27 / 25 / 28 | 0.650 | 0.606 | 0.606 [0.437, 0.730] | 0.582 | 0.579 | 0.467 | 0.733 |
+| PIK3CA/PIK3CB | 28 / 27 / 28 | 0.691 | 0.500 | 0.500 [0.350, 0.650] | 0.622 | 0.620 | 0.595 | 0.418 |
+| PIK3CA/mTOR | 18 / 14 / 12 | 0.714 | 0.692 | 0.692 [0.470, 0.813] | 0.463 | 0.448 | 0.310 | 0.260 |
 
 **Table 3.** 同一套 Vina 分数在 Dual-versus-neither 与方向性设定下的 AUROC（统一 θ = 6.0）。Dual-versus-neither 使用实验 inactive（`vina_mean`）；Dual versus all non-duals 把 A-only、B-only 与 neither 都计为负类。方向性 CI 来自 Table 2。负样本集合不同。PIK3CA/mTOR Dual versus neither 效能不足（n_neg = 4）。
 
 | 靶对 | directional summary_min [95% CI] | Dual vs neither (`vina_mean`) | n_neither | Dual vs all non-duals |
 |------|--------------------------------:|------------------------------:|----------:|----------------------:|
-| EGFR/HER2 | 0.430 [0.284, 0.576] | 0.756 [0.562, 0.920] | 12 | 0.551 [0.443, 0.666] |
-| AChE/BChE | 0.606 [0.440, 0.740] | 0.649 [0.484, 0.812] | 15 | 0.579 [0.442, 0.716] |
-| PIK3CA/PIK3CB | 0.500 [0.347, 0.648] | 0.559 [0.373, 0.746] | 16 | 0.556 [0.437, 0.672] |
-| PIK3CA/mTOR | 0.692 [0.464, 0.802] | 0.514 [0.222, 0.806] | 4 | 0.674 [0.515, 0.817] |
+| EGFR/HER2 | 0.430 [0.282, 0.578] | 0.756 [0.562, 0.920] | 12 | 0.551 [0.443, 0.666] |
+| AChE/BChE | 0.606 [0.437, 0.730] | 0.649 [0.484, 0.812] | 15 | 0.579 [0.442, 0.716] |
+| PIK3CA/PIK3CB | 0.500 [0.350, 0.650] | 0.559 [0.373, 0.746] | 16 | 0.556 [0.437, 0.672] |
+| PIK3CA/mTOR | 0.692 [0.470, 0.813] | 0.514 [0.222, 0.806] | 4 | 0.674 [0.515, 0.817] |
 
 四个靶对的 `summary_min` 95% bootstrap CI 均包含 0.5；因此在本研究的样本量下，没有一个靶对获得排除随机水平的明确证据。按观察得的类别样本量做可分辨效应模拟表明，当前样本更容易分辨较大的方向性效应，而对中等效应则较弱。当两臂真实 AUROC 均为 0.70 时，`summary_min` CI 排除 0.5 的概率在 EGFR/HER2、AChE/BChE、PIK3CA/PIK3CB 和 PIK3CA/mTOR 上分别为 0.62、0.50、0.56 和 0.22；真实 AUROC 为 0.60 时，相应概率为 0.03–0.07（Table S31；Figure S6）。因此，CI 未能排除 0.5 并不能建立与随机等价。
 
@@ -123,7 +123,7 @@ AChE/BChE 提供了一个较为直接的混淆案例。dual 配体平均 TPSA �
 
 PIK3CA/mTOR 的情况有所不同。加入重原子数和 TPSA 后，AUROC 的变化约为 +0.07 至 +0.11，对接分数的优势比约为 2.19 和 3.08。与描述符的配对差值置信区间仍包含 0。配体效率归一后，仅 PIK3CA/mTOR 仍高于重原子数基线（0.657 对 0.463）。
 
-二维化学结构基线进一步说明了这一问题（Figure 7A）。ECFP4 逻辑回归在 Bemis–Murcko 支架 GroupKFold 下多个方向获得约 0.78–0.91 的 fold AUROC，明显高于部分对应对接对照，例如 EGFR/HER2 dual-versus-B-only 中 ECFP4 AUROC 为 0.85，而对接 AUROC 仅为 0.43。实验标签因此包含可由配体二维结构表征捕获的信息，即使不使用受体信息也可以获得较强判别。PIK3CA/mTOR 上 \(n_{\mathrm{scaffolds}} \approx n\)，该折接近 leave-one-scaffold。同一设定下随机 `StratifiedKFold` 相对支架折的平均差为 +0.011（Table S20；Figure S3D）。
+二维化学结构基线进一步说明了这一问题（Figure 7A）。ECFP4 逻辑回归在 Bemis–Murcko 支架 GroupKFold 下多个方向获得约 0.78–0.91 的 fold AUROC，明显高于部分对应对接对照，例如 EGFR/HER2 dual-versus-B-only 中 ECFP4 AUROC 为 0.89，而对接 AUROC 仅为 0.43。实验标签因此包含可由配体二维结构表征捕获的信息，即使不使用受体信息也可以获得较强判别。PIK3CA/mTOR 上 \(n_{\mathrm{scaffolds}} \approx n\)，该折接近 leave-one-scaffold。同一设定下随机 `StratifiedKFold` 相对支架折的平均差为 +0.026（Table S20；Figure S3D）。
 
 在当前支架分组基准下，加入口袋匹配对接分数后的最大绝对变化为 0.020（未四舍五入值：PIK3CA/mTOR dual versus A-only 的 −0.0198），且若干方向为负（Table S24）。T ≥ 0.3 时，PIK3CA/PIK3CB dual versus A-only 从 0.691 降至 0.503（n_neg = 11），远缘硬负（T < 0.3）为 0.819；T ≥ 0.4/0.5 的格子常为 n_neg ≤ 7，T ≥ 0.7 为空（Table S23）。效价匹配或尺寸匹配子集上，EGFR/HER2 与 PIK3CA/PIK3CB 的 dual 对 B_only 仍偏弱或接近随机（约 0.45–0.52），各臂 n 常低于 15（Table S5；Figure 7D）。
 
@@ -163,7 +163,7 @@ EGFR/HER2 上 Dual versus neither 仍高（AUROC 0.783 [0.610, 0.922]；n_neg = 
 
 ### 4.2 表观对接信号不能直接归因于对接分数
 
-物化描述符与化学型已经携带了相当一部分实验标签信息。AChE/BChE 上 TPSA 单独即可获得高于对接的判别；加入重原子数和 TPSA 后 dual-versus-B-only AUROC 上升，而对接分数的优势比仍接近 1（Results 3.3）。支架分组 ECFP4 在多个方向上超过对接，例如 EGFR/HER2 dual-versus-B-only 中 0.85 对 0.43，说明标签包含可不依赖受体信息使用的配体结构信息。把口袋匹配对接分数加到 ECFP4 后，CV AUROC 的最大绝对变化仅为 0.020。T ≥ 0.3 时，未匹配时最强的一臂（PIK3CA/PIK3CB dual versus A-only）由 0.691 降至 0.503，而远缘硬负（T < 0.3）升至 0.819。若缺少这些配体层对照，一个看似优秀的双靶对接结果可能只是识别了与 dual 标签相关的分子属性。[7,12]
+物化描述符与化学型已经携带了相当一部分实验标签信息。AChE/BChE 上 TPSA 单独即可获得高于对接的判别；加入重原子数和 TPSA 后 dual-versus-B-only AUROC 上升，而对接分数的优势比仍接近 1（Results 3.3）。支架分组 ECFP4 在多个方向上超过对接，例如 EGFR/HER2 dual-versus-B-only 中 0.89 对 0.43，说明标签包含可不依赖受体信息使用的配体结构信息。把口袋匹配对接分数加到 ECFP4 后，CV AUROC 的最大绝对变化仅为 0.020。T ≥ 0.3 时，未匹配时最强的一臂（PIK3CA/PIK3CB dual versus A-only）由 0.691 降至 0.503，而远缘硬负（T < 0.3）升至 0.819。若缺少这些配体层对照，一个看似优秀的双靶对接结果可能只是识别了与 dual 标签相关的分子属性。[7,12]
 
 ### 4.3 受体实现构成评价条件的另一重要维度，并可提高或降低表观判别
 
@@ -189,9 +189,9 @@ EGFR/HER2 上 Dual versus neither 仍高（AUROC 0.783 [0.610, 0.922]；n_neg = 
 
 ## 5. 结论
 
-在所评价的四对、基于 Vina 的基准中，DualFourClass-Bench 表明对接双靶判别具有靶对依赖性，常常不高于配体性质或指纹基线，并对受体选择敏感。EGFR/HER2 的设定差距在独立 GNINA 姿态生成下仍然存在。
+在所评价的四个案例靶对中，方向性对接判别的点估计依赖靶对、化学组成、面板成员与受体实现；全部四个主 `summary_min` 区间均包含 0.5。EGFR/HER2 的负类设定差距在独立 GNINA 姿态生成下仍然存在，但其他靶对没有支持同一普遍规律。
 
-这些发现界定了当前有实验支持的靶对与协议下的可靠性边界。仅依据两个口袋中的有利 docking 分数不足以建立双靶活性的充分证据。对于双靶虚拟筛选及将 docking 用作下游筛选环节的生成式设计流程，因此应使用四步诊断：方向性硬负、配体层化学基线、未使用配体池和受体结构敏感性（Figure 8）。
+这些结果识别的是当前 ChEMBL 衍生面板与计算协议中的失败模式，不是靶标通用的可靠性边界。仅依据两个口袋中的有利 docking 分数不足以建立双靶活性的充分证据。对于双靶虚拟筛选及将 docking 用作下游筛选环节的生成式设计流程，可使用四步诊断：方向性硬负、配体层化学基线、未使用配体池和受体结构敏感性（Figure 8）。真正泛化仍需时间分割、数据库外或盲法实验验证。
 
 ## 数据与软件可用性
 

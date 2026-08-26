@@ -13,6 +13,8 @@ import sys
 from collections import defaultdict
 from pathlib import Path
 
+import matplotlib
+matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 from matplotlib.patches import FancyBboxPatch, Circle
@@ -39,7 +41,7 @@ PROVENANCE: dict = {"source_files": {}, "plotted": {}}
 
 
 def _read(path: Path) -> list[dict]:
-    rows = list(csv.DictReader(path.open()))
+    rows = list(csv.DictReader(path.open(encoding="utf-8", newline="")))
     PROVENANCE["source_files"].setdefault(str(path.relative_to(ROOT)), len(rows))
     return rows
 
@@ -745,10 +747,10 @@ def verify(D: dict) -> None:
     t6 = D["theta6"]
     p3 = PROVENANCE["plotted"]["fig3"]
     expected_dir = {
-        "EGFR/HER2": (0.4297, 0.284, 0.5759),
-        "AChE/BChE": (0.6058, 0.4396, 0.74),
-        "PIK3CA/PIK3CB": (0.5, 0.3468, 0.648),
-        "PIK3CA/mTOR": (0.6921, 0.4638, 0.8015),
+        "EGFR/HER2": (0.4297, 0.2818, 0.5775),
+        "AChE/BChE": (0.6058, 0.437, 0.7303),
+        "PIK3CA/PIK3CB": (0.5, 0.3502, 0.6495),
+        "PIK3CA/mTOR": (0.6921, 0.4702, 0.8133),
     }
     expected_neither = {
         "EGFR/HER2": (0.756, 0.5625, 0.9197, 12),
@@ -777,10 +779,10 @@ def verify(D: dict) -> None:
 
     pS = PROVENANCE["plotted"]["figS_forest"]
     expected_vina = {
-        "EGFR/HER2": (0.4297, 0.284, 0.5759, 0.6664, 0.4297),
-        "AChE/BChE": (0.6058, 0.4396, 0.74, 0.6504, 0.6058),
-        "PIK3CA/PIK3CB": (0.5, 0.3468, 0.648, 0.6905, 0.5),
-        "PIK3CA/mTOR": (0.6921, 0.4638, 0.8015, 0.7143, 0.6921),
+        "EGFR/HER2": (0.4297, 0.2818, 0.5775, 0.6664, 0.4297),
+        "AChE/BChE": (0.6058, 0.437, 0.7303, 0.6504, 0.6058),
+        "PIK3CA/PIK3CB": (0.5, 0.3502, 0.6495, 0.6905, 0.5),
+        "PIK3CA/mTOR": (0.6921, 0.4702, 0.8133, 0.7143, 0.6921),
     }
     expected_desc_arm = {"EGFR/HER2": "clogp", "AChE/BChE": "tpsa", "PIK3CA/PIK3CB": "heavy", "PIK3CA/mTOR": "heavy"}
     expected_desc_y = {"EGFR/HER2": 0.4821, "AChE/BChE": 0.7333, "PIK3CA/PIK3CB": 0.6217, "PIK3CA/mTOR": 0.463}
@@ -998,7 +1000,7 @@ Same frozen AutoDock Vina scores under two task formulations (unified θ = 6.0).
 
 ## Figure S3. Paired bootstrap differences that Figure 6 does not show.
 
-All values are from `wrong_pocket_paired_delta_bootstrap_v1.csv` and `pocket_matched_vs_best_descriptor_delta_v1.csv` (B = 2000 ligand resamples, seed 20260729). Point Δ equals the rounded Table 2 / Figure 6 AUROCs subtracted at four decimals, not a separately rounded difference. Blue, 95% CI excludes 0; gray, CI includes 0. (A) Main K=4 panels: Δ = pocket-matched − wrong-pocket summary_min. Point Δ is positive on all four pairs (EGFR/HER2 0.1697, AChE/BChE 0.1614, PIK3CA/PIK3CB 0.1511, PIK3CA/mTOR 0.0902). Only EGFR/HER2 and AChE/BChE have CIs that exclude 0; PIK3CA/PIK3CB and PIK3CA/mTOR CIs include 0. (B) Unused-pool holdout: point Δ is negative on all three eligible pairs (wrong-pocket ≥ matched), and every CI includes 0. EGFR/HER2 has no holdout. This panel quantifies the Figure 6B point-estimate reversal. (C) Pocket-matched Vina minus the best single-descriptor reference (EGFR/HER2 cLogP 0.4821; AChE/BChE TPSA 0.7333; PIK3CA/PIK3CB and PIK3CA/mTOR heavy-atom count). All four CIs include 0, including PIK3CA/mTOR +0.2291 [−0.0105, 0.4352]. This is not the pooled `vina_mean` gate (EGFR/HER2 0.2824). (D) ECFP4 logistic AUROC under scaffold GroupKFold versus random StratifiedKFold (`ligand_ml_scaffold_vs_random_v1.csv`). Mean (random − scaffold) across eight directional contrasts is 0.0112. Scaffold split remains the primary ML readout; this is a leakage check, not a search for a leakier split.
+All values are from `wrong_pocket_paired_delta_bootstrap_v1.csv` and `pocket_matched_vs_best_descriptor_delta_v1.csv` (B = 2000 ligand resamples, seed 20260729). Point Δ equals the rounded Table 2 / Figure 6 AUROCs subtracted at four decimals, not a separately rounded difference. Blue, 95% CI excludes 0; gray, CI includes 0. (A) Main K=4 panels: Δ = pocket-matched − wrong-pocket summary_min. Point Δ is positive on all four pairs (EGFR/HER2 0.1697, AChE/BChE 0.1614, PIK3CA/PIK3CB 0.1511, PIK3CA/mTOR 0.0902). Only EGFR/HER2 and AChE/BChE have CIs that exclude 0; PIK3CA/PIK3CB and PIK3CA/mTOR CIs include 0. (B) Unused-pool holdout: point Δ is negative on all three eligible pairs (wrong-pocket ≥ matched), and every CI includes 0. EGFR/HER2 has no holdout. This panel quantifies the Figure 6B point-estimate reversal. (C) Pocket-matched Vina minus the best single-descriptor reference (EGFR/HER2 cLogP 0.4821; AChE/BChE TPSA 0.7333; PIK3CA/PIK3CB and PIK3CA/mTOR heavy-atom count). All four CIs include 0, including PIK3CA/mTOR +0.2291 [−0.0105, 0.4352]. This is not the pooled `vina_mean` gate (EGFR/HER2 0.2824). (D) ECFP4 logistic AUROC under scaffold GroupKFold versus random StratifiedKFold (`ligand_ml_scaffold_vs_random_v1.csv`). Mean (random − scaffold) across eight directional contrasts is 0.0258. Scaffold split remains the primary ML readout; this is a leakage check, not a search for a leakier split.
 
 ## Figure S4. Pocket-matched summary_min on the frozen K=4 set (former main Figure 3).
 
@@ -1012,7 +1014,7 @@ Pocket-matched summary_min on the main panel versus the unused-pool holdout (20/
 
 DualFourClass-Bench asks whether docking can distinguish experimentally labeled dual-active ligands from single-target selective hard negatives in both pockets, rather than whether both docking scores are merely favorable. The graphic does not report numerical AUROCs and is not a reuse of Figure 1.
 """
-    (OUT / "CAPTIONS.md").write_text(text)
+    (OUT / "CAPTIONS.md").write_text(text, encoding="utf-8", newline="\n")
 
 
 def main() -> None:

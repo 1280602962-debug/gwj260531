@@ -6,7 +6,7 @@
 3. K=4 pairs are a **frozen evaluation set**, not a claim that the metric generalizes to all target pairs.
 4. EGFR/HER2 is a **supply-limited case study** (existing unified RDKit EH110); no claim from new EGFR docking. A later BindingDB/PubChem **count-level** check (Table S12) does not rebuild this panel: under equal-relation measurements EGFR still fails the ≥50 thick-panel gate (min HN ≈ 30).
 5. Prep protocol is frozen: **RDKit ETKDG + meeko**. Do **not** mention Schrodinger LigPrep in the manuscript (no formal license; early borrow was internal-only).
-6. Contribution language may say we **established a systematic benchmarking framework / evaluation protocol** and released **DualFourClass-Bench**. That means an evaluation system, **not** a new docking algorithm.
+6. Contribution language may say we **implemented a four-pair proof-of-concept evaluation protocol** and released **DualFourClass-Bench**. Do not call the present K=4 panel a systematic, representative, target-general, or externally validated framework.
 
 ## Forbidden / over-claim
 1. Do **not** claim a universal “decision arm” or that `rtm_min_z` (or any pooled score) is validated as a general master score.
@@ -38,7 +38,18 @@
 27. Do **not** write that the docking protocol “was validated.” Write: **the protocol passed cognate pose-generation QC** (best-of-9 RMSD < 2 Å ≠ top-ranked pose recovery).
 28. Do **not** omit docking coverage: report N_attempted / N_successful / N_failed. HOAP_028 is a chemical-coverage failure (AutoDock atom type `B`), not silent missingness. AChE main panel 5/100 both-end-or-either failures; PIK3CB 1/100; EGFR and PM48 0/110 and 0/48.
 29. Do **not** treat `summary_min` as the only natural aggregation. Sensitivity (Table S26): pair ranking is unchanged under min / arithmetic mean / geometric mean / harmonic mean. Keep min as primary.
-30. Do **not** mention the AChE/PIK3CB ChEMBL-id prefix as a diversity constraint. Sampling on those pairs is class quotas + deterministic shuffle; no additional diversity constraint. Do not rebuild frozen panels.
+30. Do **not** call ChEMBL-derived states assay-harmonized ground truth. A post-hoc 2026-08-26 current-ChEMBL view applied human SINGLE PROTEIN, confidence≥8, exact-relation, endpoint, validity, and duplicate filters and preserved all 352 scored assignments (Table S36). This does not reconstruct the frozen database date or harmonize assay conditions, constructs, mutation context, or complete-case selection.
+31. Do **not** call complete-case paired labels representative of screening-library prevalence. Requiring measurements at both targets can enrich well-profiled compounds, known polypharmacology, and publication-specific series.
+32. Do **not** describe `summary_min` as unbiased. It is the minimum of two noisy AUROC estimates and has downward selection bias; always report both component AUROCs.
+33. Same-score negative-class contrasts are Table S34. EGFR/HER2 pocket A gives Δ(neither minus B-only) = 0.378 [0.205, 0.547]; pocket B gives 0.054 [−0.157, 0.246]. Five of the other six pair-directions include zero, PIK3CA/PIK3CB pocket A is borderline positive, and PIK3CA/mTOR has n_neither = 4. This supports an EGFR/HER2 case finding, not a universal formulation effect. Intervals are exploratory and not multiplicity adjusted.
+34. Measurement-frequency audit is Table S35. PIK3CA/mTOR median total API activity records are 22 / 3 / 3 / 2 for dual / A-only / B-only / neither. This establishes profiling imbalance, not that measurement count caused AUROC differences. Max→median stability does not remove this selection mechanism.
+35. High-confidence current-ChEMBL audit is Table S36: 2748 records audited, 1546 retained, 513 potential duplicates excluded, 352/352 scored ligand states preserved. Allowed: the specified record filters did not alter this current-snapshot classification. Forbidden: assays were harmonized or the complete-case bias was eliminated.
+36. Do **not** mention the AChE/PIK3CB ChEMBL-id prefix as a diversity constraint. Sampling on those pairs is class quotas + deterministic shuffle; no additional diversity constraint. Do not rebuild frozen panels.
+37. Complete-case coverage audit is Table S37. Only 14.5%–34.0% of structures with a usable value at either member have usable values at both. Absence means unmeasured under the usable-map definition, not inactive. These counts diagnose selection and are not screening-library prevalence.
+38. Source-document concentration is descriptive and records are not independent experiments. The PIK3CA/mTOR neither class has four ligands and eight retained records, all from one document; no stable claim may rely on this class.
+39. Class-wise chemistry audit is Table S38. Descriptor, scaffold, and nearest-dual ECFP4 differences support chemical-composition confounding but neither prove that docking lacks receptor information nor yield causal adjustment. No post-hoc descriptor test may be presented as prespecified confirmatory inference.
+40. Ranked cognate re-audit shows top-1 failure for 4BDS (4.794 Å; top-3 0.386 Å) and 4JT6 (7.118 Å; top-3 0.445 Å). Allowed: the search generated a near-crystal pose within the retained set. Forbidden: Vina reliably ranked the cognate pose first. EGFR/HER2 top-3 is not independently reproducible because cognate pose artifacts are not deposited.
+41. Docking failures are chemically structured: six main-panel failures have 48–85 heavy atoms and 17–29 rotatable bonds; four were protocol skips at high torsional freedom. Rank-extreme bounds are missing-data stress tests, not recovered scores. Claims apply to the protocol-processable subset.
 
 ## Conclusions claim ceiling
 

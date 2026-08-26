@@ -19,6 +19,7 @@ scores. Zero new docking; scores come from the already-pushed rescoring
 from __future__ import annotations
 
 import csv
+import hashlib
 from pathlib import Path
 
 import numpy as np
@@ -29,6 +30,11 @@ AN = ROOT / "data" / "jcim_bench_v0" / "analysis"
 
 N_BOOT = 2000
 SEED = 20260729
+
+
+def stable_offset(*parts, modulus=99991):
+    payload = "|".join(map(str, parts)).encode("utf-8")
+    return int(hashlib.sha256(payload).hexdigest()[:16], 16) % modulus
 
 # K=4 frozen panels: (pair, dir, target_A, target_B, class_source)
 K4_PACKS = [
@@ -161,7 +167,7 @@ def run_k4() -> list[dict]:
                 continue
             da, db = d
             sm = min(da, db)
-            ci = boot_ci(recs, "gB", "gA", seed=SEED + abs(hash((pair, label))) % 99991)
+            ci = boot_ci(recs, "gB", "gA", seed=SEED + stable_offset(pair, label))
             nd = sum(r["cls"] == "dual" for r in recs)
             na = sum(r["cls"] == "A_only" for r in recs)
             nb = sum(r["cls"] == "B_only" for r in recs)
@@ -196,7 +202,7 @@ def run_stability() -> list[dict]:
                 continue
             da, db = d
             sm = min(da, db)
-            ci = boot_ci(recs, "gB", "gA", seed=SEED + abs(hash((label, chan))) % 99991)
+            ci = boot_ci(recs, "gB", "gA", seed=SEED + stable_offset(label, chan))
             nd = sum(r["cls"] == "dual" for r in recs)
             na = sum(r["cls"] == "A_only" for r in recs)
             nb = sum(r["cls"] == "B_only" for r in recs)
@@ -221,7 +227,9 @@ def write_csv(path: Path, rows: list[dict]) -> None:
     if not rows:
         return
     with path.open("w", newline="") as fh:
-        w = csv.DictWriter(fh, fieldnames=list(rows[0].keys()))
+        w = csv.DictWriter(
+            fh, fieldnames=list(rows[0].keys()), lineterminator="\n"
+        )
         w.writeheader()
         w.writerows(rows)
 
@@ -330,7 +338,9 @@ def main() -> None:
     stab_rows = run_stability()
     write_csv(TAB / "gnina_pocket_matched_mode01_vs_best9_k4_v1.csv", k4_rows)
     write_csv(TAB / "gnina_pocket_matched_mode01_vs_best9_stability_v1.csv", stab_rows)
-    (AN / "GNINA_POCKET_MATCHED_BEST9_VERDICT_V1.md").write_text(verdict_md(k4_rows, stab_rows))
+    (AN / "GNINA_POCKET_MATCHED_BEST9_VERDICT_V1.md").write_text(
+        verdict_md(k4_rows, stab_rows), encoding="utf-8", newline="\n"
+    )
     print("wrote", TAB / "gnina_pocket_matched_mode01_vs_best9_k4_v1.csv")
     print("wrote", TAB / "gnina_pocket_matched_mode01_vs_best9_stability_v1.csv")
     print("wrote", AN / "GNINA_POCKET_MATCHED_BEST9_VERDICT_V1.md")

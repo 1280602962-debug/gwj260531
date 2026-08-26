@@ -21,6 +21,7 @@ Outputs go to data/jcim_bench_v0/tables/ with prefix pocket_matched_.
 from __future__ import annotations
 
 import csv
+import hashlib
 import json
 from pathlib import Path
 
@@ -32,6 +33,11 @@ RDLogger.DisableLog("rdApp.*")
 ROOT = Path(__file__).resolve().parents[3]
 TAB = ROOT / "data" / "jcim_bench_v0" / "tables"
 TAB.mkdir(parents=True, exist_ok=True)
+
+
+def stable_offset(*parts, modulus=99991):
+    payload = "|".join(map(str, parts)).encode("utf-8")
+    return int(hashlib.sha256(payload).hexdigest()[:16], 16) % modulus
 
 N_BOOT = 2000
 SEED = 20260729
@@ -96,7 +102,9 @@ def write_csv(path: Path, rows: list[dict]):
         return
     fields = list(rows[0].keys())
     with path.open("w", newline="") as fh:
-        w = csv.DictWriter(fh, fieldnames=fields, extrasaction="ignore")
+        w = csv.DictWriter(
+            fh, fieldnames=fields, extrasaction="ignore", lineterminator="\n"
+        )
         w.writeheader()
         w.writerows(rows)
 
@@ -218,7 +226,7 @@ def main():
             da, db = directional(recs, kda, kdb)
             if da != da or db != db:
                 continue
-            ci = boot_ci(recs, kda, kdb, seed=SEED + abs(hash((pair, name))) % 99991)
+            ci = boot_ci(recs, kda, kdb, seed=SEED + stable_offset(pair, name))
             main_rows.append(
                 {
                     "pair": pair,

@@ -12,6 +12,10 @@
 | RTMScore | `/home/gwj/miniconda3/envs/rtmscore/bin/python` + `/home/gwj/software/RTMScore/trained_models/rtmscore_model1.pth` |
 | Open Babel | 用于 GNINA 前 pdbqt→sdf（系统 obabel） |
 
+## 当前零对接复分析环境（2026-08-26）
+
+原始冻结对接仍由上表环境生成，未在本次修订中重跑。用于重算统计表、置信区间、化学描述符与姿态审计的 Python 环境固定在仓库根目录 `requirements-analysis.txt`：Python 3.12.13、NumPy 2.5.2、pandas 3.0.5、SciPy 1.18.1、scikit-learn 1.9.0、RDKit 2026.3.5、Meeko 0.7.1 与 gemmi 0.7.5。bootstrap 子种子使用 SHA-256 稳定偏移，不再依赖跨进程变化的 Python `hash()`。
+
 ## 协议常数
 
 - ligand prep: RDKit ETKDGv3, seed **20260727**

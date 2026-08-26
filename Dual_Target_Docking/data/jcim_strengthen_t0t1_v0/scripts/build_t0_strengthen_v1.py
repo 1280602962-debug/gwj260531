@@ -6,6 +6,7 @@ Outputs under data/jcim_strengthen_t0t1_v0/tables/
 from __future__ import annotations
 
 import csv
+import hashlib
 import json
 import math
 from collections import defaultdict
@@ -38,6 +39,11 @@ N_BOOT = 2000
 SEED = 20260729
 CUTOFFS = (5.5, 6.0, 6.5)
 STRICT_HI, STRICT_LO = 6.5, 5.5
+
+
+def stable_offset(*parts, modulus=99991):
+    payload = "|".join(map(str, parts)).encode("utf-8")
+    return int(hashlib.sha256(payload).hexdigest()[:16], 16) % modulus
 
 PAIR_SPEC = {
     "EGFR/HER2": dict(
@@ -89,17 +95,19 @@ def fnum(x):
 
 
 def load_csv(p: Path):
-    with p.open() as fh:
+    with p.open(encoding="utf-8", newline="") as fh:
         return list(csv.DictReader(fh))
 
 
 def write_csv(path: Path, rows: list[dict]):
     if not rows:
-        path.write_text("")
+        path.write_text("", encoding="utf-8")
         return
     fields = list(rows[0].keys())
-    with path.open("w", newline="") as fh:
-        w = csv.DictWriter(fh, fieldnames=fields, extrasaction="ignore")
+    with path.open("w", newline="", encoding="utf-8") as fh:
+        w = csv.DictWriter(
+            fh, fieldnames=fields, extrasaction="ignore", lineterminator="\n"
+        )
         w.writeheader()
         w.writerows(rows)
 
@@ -314,7 +322,7 @@ def matched_subset_rows(packs):
                 score_key=score_key,
                 pos_cls="dual",
                 neg_cls=neg_cls,
-                seed=SEED + hash((pair, match_type)) % 99991,
+                seed=SEED + stable_offset(pair, match_type),
             )
             rows.append(
                 {
@@ -411,7 +419,7 @@ def aggregation_sensitivity(packs):
     for pair, recs in packs.items():
         for name, kda, kdb in variants:
             da, db, mn, nd, na, nb = directional_pm(recs, kda, kdb)
-            ci_lo, ci_hi = boot_pm_ci(recs, kda, kdb, seed=SEED + hash((pair, name)) % 99991)
+            ci_lo, ci_hi = boot_pm_ci(recs, kda, kdb, seed=SEED + stable_offset(pair, name))
             rows.append(
                 {
                     "pair": pair,
@@ -448,7 +456,7 @@ def unified_threshold_v2(packs):
             if len(labeled) < 8:
                 continue
             da, db, mn, nd, na, nb = directional_pm(labeled)
-            ci_lo, ci_hi = boot_pm_ci(labeled, seed=SEED + hash((pair, rule_name)) % 99991)
+            ci_lo, ci_hi = boot_pm_ci(labeled, seed=SEED + stable_offset(pair, rule_name))
             counts = {c: sum(1 for r in labeled if r["cls"] == c) for c in ("dual", "A_only", "B_only", "neither")}
             rows.append(
                 {
@@ -483,7 +491,7 @@ def chembl_aggregation_sensitivity(packs):
         for t in (ta, tb):
             if t not in mols_cache:
                 p = ROOT / f"data/public_pair_selection/mols_{t}.json"
-                mols_cache[t] = json.loads(p.read_text()) if p.exists() else {}
+                mols_cache[t] = json.loads(p.read_text(encoding="utf-8")) if p.exists() else {}
         ma, mb = mols_cache[ta], mols_cache[tb]
         common = set(ma.keys()) & set(mb.keys())
         if len(common) < 50:
@@ -549,7 +557,7 @@ def scaffold_bootstrap(packs, inv):
         if len(clusters) < 3:
             continue
         cluster_ids = list(clusters.keys())
-        rng = np.random.default_rng(SEED + hash(pair) % 99991)
+        rng = np.random.default_rng(SEED + stable_offset(pair))
         mins = []
         for _ in range(N_BOOT):
             picked = rng.choice(cluster_ids, size=len(cluster_ids), replace=True)
@@ -687,12 +695,30 @@ def write_ml_leakage_check(random_rows, scaffold_rows):
         "|------|----------|--------------|----------------|---------------|---------|",
     ]
     deltas = []
+    comparison_rows = []
     for k in keys:
         rr, ss = by_r.get(k), by_s.get(k)
         if not rr or not ss:
             continue
         d = rr["auroc_ml"] - ss["auroc_ml"]
         deltas.append(d)
+        comparison_rows.append(
+            {
+                "pair": k[0],
+                "contrast": k[1],
+                "n": ss["n"],
+                "n_scaffolds": ss["n_scaffolds"],
+                "n_splits": ss["n_splits"],
+                "auroc_scaffold_GroupKFold": ss["auroc_ml"],
+                "auroc_random_StratifiedKFold": rr["auroc_ml"],
+                "delta_random_minus_scaffold": round(d, 4),
+                "auroc_dock_pocket_matched": ss["auroc_dock_pocket_matched"],
+                "delta_scaffold_ml_minus_dock": round(
+                    ss["auroc_ml"] - ss["auroc_dock_pocket_matched"], 4
+                ),
+                "note": "scaffold is the primary ML readout; random is a leakage check, not a hunt for a larger gap",
+            }
+        )
         lines.append(
             f"| {k[0]} | {k[1]} | {rr['auroc_ml']:.4f} | {ss['auroc_ml']:.4f} | "
             f"{d:+.4f} | {ss['auroc_dock_pocket_matched']:.4f} |"
@@ -717,7 +743,8 @@ def write_ml_leakage_check(random_rows, scaffold_rows):
         )
     path = OUT / "analysis" / "ML_BASELINE_LEAKAGE_CHECK.md"
     path.parent.mkdir(exist_ok=True)
-    path.write_text("\n".join(lines) + "\n")
+    write_csv(TAB / "ligand_ml_scaffold_vs_random_v1.csv", comparison_rows)
+    path.write_text("\n".join(lines) + "\n", encoding="utf-8")
     return path
 
 
@@ -751,7 +778,10 @@ def main():
     if not chembl:
         skips.append("T0.7 chembl_aggregation_sensitivity_v1.csv: insufficient paired ChEMBL overlap for relabel test.")
     (OUT / "analysis").mkdir(exist_ok=True)
-    (OUT / "analysis" / "T0_SKIPS.md").write_text("# T0 skips\n\n" + "\n\n".join(f"- {s}" for s in skips) + "\n")
+    (OUT / "analysis" / "T0_SKIPS.md").write_text(
+        "# T0 skips\n\n" + "\n\n".join(f"- {s}" for s in skips) + "\n",
+        encoding="utf-8",
+    )
     print("Wrote T0 strengthen tables to", TAB)
 
 

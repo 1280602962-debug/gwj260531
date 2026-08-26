@@ -2,6 +2,6 @@
 
 ## 5. Conclusions
 
-In the evaluated four-pair Vina-based benchmark, DualFourClass-Bench showed that docking-based dual-target discrimination was pair-dependent, often no stronger than ligand-property or fingerprint baselines, and sensitive to receptor choice. The EGFR/HER2 formulation gap remained under independent GNINA pose generation.
+In this four-pair Vina-based formulation audit, docking-based dual-target discrimination varied across panels, was often no stronger than ligand-property or fingerprint baselines, and depended on receptor choice. The EGFR/HER2 descriptive formulation gap remained under independent GNINA pose generation, but it was not a four-pair law.
 
-These findings define a reliability boundary within the experimentally supported target pairs and protocols evaluated here. Favorable scores in both pockets are insufficient evidence of dual activity. Dual-target virtual screening, and generative workflows that use docking as a downstream filter, should therefore apply a four-check diagnostic: directional hard negatives, ligand-only chemical baselines, an unused ligand pool, and receptor-structure sensitivity (Figure 8).
+These findings identify failure modes within the evaluated ChEMBL-derived panels and protocols; they do not define a target-general reliability boundary. Favorable scores in both pockets alone are insufficient evidence of dual activity in these case studies. Dual-target virtual screening, and generative workflows that use docking as a downstream filter, should therefore apply a four-check diagnostic: directional hard negatives, ligand-only chemical baselines, an unused ligand pool, and receptor-structure sensitivity (Figure 8).

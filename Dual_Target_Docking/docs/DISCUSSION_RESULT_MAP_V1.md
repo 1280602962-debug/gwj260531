@@ -55,10 +55,10 @@ PIK3CA/mTOR 的 boxed 说法：
 
 | 靶对 | n (D/A/B) | summary_min [95% CI] | 相对随机 | 相对最强描述符 |
 |---|---|---|---|---|
-| EGFR/HER2 | 28/38/32 | **0.430** [0.284, 0.576] | 点估计 < 0.5 | 不超过 |
-| AChE/BChE | 27/25/28 | **0.606** [0.440, 0.740] | CI 含 0.5 | 低于 TPSA **0.733** |
-| PIK3CA/PIK3CB | 28/27/28 | **0.500** [0.347, 0.648] | 随机 | 不超过 |
-| PIK3CA/mTOR | 18/14/12 | **0.692** [0.464, 0.802] | CI 下界贴 0.5 | 点估计 > heavy **0.463**，但 Δ 的 CI **含 0** |
+| EGFR/HER2 | 28/38/32 | **0.430** [0.282, 0.578] | 点估计 < 0.5 | 不超过 |
+| AChE/BChE | 27/25/28 | **0.606** [0.437, 0.730] | CI 含 0.5 | 低于 TPSA **0.733** |
+| PIK3CA/PIK3CB | 28/27/28 | **0.500** [0.350, 0.650] | 随机 | 不超过 |
+| PIK3CA/mTOR | 18/14/12 | **0.692** [0.470, 0.813] | CI 下界贴 0.5 | 点估计 > heavy **0.463**，但 Δ 的 CI **含 0** |
 
 其它必须跟主表一起讨论的对照：
 
@@ -81,8 +81,8 @@ PIK3CA/mTOR 的 boxed 说法：
 | 配对 Δ（matched Vina − best descriptor） | −0.052 / −0.128 / −0.122 / **+0.229**；四对 CI 均含 0 | Table S19 / Fig S3C |
 | AChE TPSA | dual vs 硬负 ~75 vs 51；TPSA ~0.769 > Vina ~0.56；+heavy 后 D vs B 0.606 → 0.807；OR ≈ 1.18 | Fig 4C / Fig 7C |
 | PM 控制尺寸/极性后 | AUROC +0.07～+0.11；OR ≈ 2.19 / 3.08 = **有限残余口袋信号**，须与含 0 的 Δ 一起读 | Fig 7C |
-| ECFP4 GroupKFold | 多方向 0.78–0.91；EGFR D vs B 指纹 0.85 vs docking 0.43 | Fig 7A |
-| 支架 vs 随机 | 平均 +0.011 | Table S20 / Fig S3D |
+| ECFP4 GroupKFold | 多方向 0.78–0.91；EGFR D vs B 指纹 0.89 vs docking 0.43 | Fig 7A |
+| 支架 vs 随机 | 平均 +0.026 | Table S20 / Fig S3D |
 
 **讨论应写：** 表观 dual signal 大量可由 ligand properties / chemotype 解释。PM 的残余 OR 不是已确证的独立优势。
 

@@ -2,7 +2,7 @@
 
 JCIM **evaluation / benchmark** 课题：双靶对接四类硬负评测。  
 **不是**通用决策臂 / 新打分函数论文；**也不是**名为 D-DRAF 一类的“新型 Framework”。  
-贡献定位：*systematic benchmarking framework* + 公开资源 **DualFourClass-Bench**。  
+贡献定位：四靶对 *proof-of-concept formulation audit* + 可复现评价协议 **DualFourClass-Bench**。它不是通用、代表性或 LIT-PCBA 规模的 benchmark suite。
 与仓库内 `JNK1_Selectivity_Project/` **无关**。
 
 ## 一句话主张
@@ -15,9 +15,10 @@ JCIM **evaluation / benchmark** 课题：双靶对接四类硬负评测。
 |------|------|
 | **[`docs/MANUSCRIPT_JCIM_EN.md`](docs/MANUSCRIPT_JCIM_EN.md)** | ★ **组装后的英文主稿**（投稿以这份为准） |
 | **[`docs/MANUSCRIPT_JCIM_ZH.md`](docs/MANUSCRIPT_JCIM_ZH.md)** | ★ **组装后的中文工作稿**（`python3 docs/assemble_manuscript_zh.py`） |
-| **[`docs/JCIM_P0_COMPLETION_GUIDE.md`](docs/JCIM_P0_COMPLETION_GUIDE.md)** | 下一步：Zenodo + 排版 |
+| **[`docs/JCIM_SUBMISSION_REMEDIATION_PLAN.md`](docs/JCIM_SUBMISSION_REMEDIATION_PLAN.md)** | ★ 当前科学风险、已完成修订与投稿前仍需的新数据 |
+| [`docs/JCIM_P0_COMPLETION_GUIDE.md`](docs/JCIM_P0_COMPLETION_GUIDE.md) | 历史归档/排版指南；不能替代当前科学补强清单 |
 | **[`docs/JCIM_PREWRITING_CHECKLIST_V1.md`](docs/JCIM_PREWRITING_CHECKLIST_V1.md)** | ★ 写作前注意事项 + 逐项核对 |
-| [`docs/RESULTS_SECTION_JCIM_EN_V1.md`](docs/RESULTS_SECTION_JCIM_EN_V1.md) | ★ JCIM 英文 Results（nature-skills 去 AI 化） |
+| [`docs/RESULTS_SECTION_JCIM_EN_V1.md`](docs/RESULTS_SECTION_JCIM_EN_V1.md) | ★ JCIM 英文 Results 规范源文件 |
 | [`docs/METHODS_DRAFT_ZH_JCIM_V1.md`](docs/METHODS_DRAFT_ZH_JCIM_V1.md) | 中文 Methods 工作稿 |
 | [`docs/SUPPORTING_INFORMATION_DRAFT_ZH_JCIM_V1.md`](docs/SUPPORTING_INFORMATION_DRAFT_ZH_JCIM_V1.md) | 中文 SI 工作稿（盒子/cognate/敏感性；仅已有数据） |
 | [`docs/RESULTS_DRAFT_ZH_JCIM_V1.md`](docs/RESULTS_DRAFT_ZH_JCIM_V1.md) | 中文 Results 对齐稿 |
@@ -28,7 +29,7 @@ JCIM **evaluation / benchmark** 课题：双靶对接四类硬负评测。
 | [`data/jcim_strengthen_t0t1_v0/analysis/A_GROUP_VERDICT.md`](data/jcim_strengthen_t0t1_v0/analysis/A_GROUP_VERDICT.md) | 混淆对照裁决 |
 | [`data/jcim_strengthen_t0t1_v0/analysis/B_GROUP_VERDICT.md`](data/jcim_strengthen_t0t1_v0/analysis/B_GROUP_VERDICT.md) | E8 / enrichment / PM110 |
 | [`docs/JCIM_STRENGTHENING_PLAN_V1.md`](docs/JCIM_STRENGTHENING_PLAN_V1.md) | 加厚规划（历史+路线） |
-| **[`docs/JCIM_SUPPLEMENTARY_EXPERIMENTS_PLAN_V2.md`](docs/JCIM_SUPPLEMENTARY_EXPERIMENTS_PLAN_V2.md)** | ★ 外部 holdout + 结构稳健性可执行方案（含已生成的 holdout 面板与交给本地 Agent 的对接步骤） |
+| **[`docs/JCIM_SUPPLEMENTARY_EXPERIMENTS_PLAN_V2.md`](docs/JCIM_SUPPLEMENTARY_EXPERIMENTS_PLAN_V2.md)** | 历史补实验方案；已生成的是同批 ChEMBL unused-pool 内部敏感性，不是外部验证 |
 | [`docs/REPO_CLEANUP_NOTES.md`](docs/REPO_CLEANUP_NOTES.md) | 本仓库删了什么、为何保留 |
 
 ## 保留的数据目录
@@ -89,5 +90,6 @@ python3 data/jcim_bench_v0/scripts/plot_forest_ci_v1.py
 
 - 对接 + 混淆对照 + E/enrichment/PM110 + A4 max→median + B5 两对受体替换：**完成**  
 - 章节稿已按 formulation 主线重构；英文主稿 `docs/MANUSCRIPT_JCIM_EN.md`；中文工作稿 `docs/MANUSCRIPT_JCIM_ZH.md`  
-- **当前缺口 = P0 排版/Zenodo DOI**（不是缺核心实验）  
+- **提交前科学性缺口**：高置信/人源/直接靶标签重建、核心 formulation contrast 的同尺度不确定性、完整选择偏差审计，以及至少一个真正外部或时间外验证；详见 `docs/JCIM_SUBMISSION_REMEDIATION_PLAN.md`。
+- **提交合规缺口**：排版、版本化 Zenodo DOI 与从原始记录到主表的干净环境复现。
 - Zenodo DOI：（发布后填这里）

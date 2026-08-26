@@ -10,6 +10,8 @@ from __future__ import annotations
 import csv
 from pathlib import Path
 
+import matplotlib
+matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.lines import Line2D
@@ -775,9 +777,9 @@ def verify_si(D: dict, provenance: dict, errors: list) -> None:
     eq(P["s2D"]["EF_4L23"], 2.0408, msg="s2D 4L23 EF")
     eq(P["s2D"]["EF_4JT6"], 2.0, msg="s2D 4JT6 EF")
 
-    eq(P["s3A"]["db_ml"][0], 0.8527, msg="s3A EGFR ECFP D/B")
+    eq(P["s3A"]["db_ml"][0], 0.8895, msg="s3A EGFR ECFP D/B")
     eq(P["s3A"]["db_dock"][0], 0.4297, msg="s3A EGFR Vina D/B")
-    eq(P["s3A"]["da_ml"][1], 0.9096, msg="s3A AChE ECFP D/A")
+    eq(P["s3A"]["da_ml"][1], 0.8948, msg="s3A AChE ECFP D/A")
     eq(P["s3A"]["db_ml"][3], 0.8889, msg="s3A PM ECFP D/B")
 
     eq(P["s3B"]["EGFR/HER2"]["clogp"], 0.4821, msg="s3B EGFR clogp")
@@ -907,11 +909,11 @@ def verify_si(D: dict, provenance: dict, errors: list) -> None:
             if rec["excl"]:
                 errors.append(f"s3C {pair}: descriptor Δ CI should include 0")
 
-        eq(P["s3newD"]["sc_db"][0], 0.8527, msg="s3D EGFR scaffold D/B")
+        eq(P["s3newD"]["sc_db"][0], 0.8895, msg="s3D EGFR scaffold D/B")
         eq(P["s3newD"]["rd_db"][0], 0.8884, msg="s3D EGFR random D/B")
-        eq(P["s3newD"]["sc_da"][1], 0.9096, msg="s3D AChE scaffold D/A")
+        eq(P["s3newD"]["sc_da"][1], 0.8948, msg="s3D AChE scaffold D/A")
         eq(P["s3newD"]["rd_da"][1], 0.9096, msg="s3D AChE random D/A")
-        eq(P["s3newD"]["mean_delta"], 0.0112375, tol=1e-6, msg="s3D mean random−scaffold")
+        eq(P["s3newD"]["mean_delta"], 0.0257875, tol=1e-6, msg="s3D mean random−scaffold")
         if abs(P["s3newD"]["mean_delta"]) > 0.03:
             errors.append("s3D mean random−scaffold leakage is not small")
 

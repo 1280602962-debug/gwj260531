@@ -4,8 +4,17 @@
 from __future__ import annotations
 
 import csv
+import os
+import tempfile
 from pathlib import Path
 
+_MPL_CACHE = Path(tempfile.gettempdir()) / "dualfourclass-matplotlib"
+_MPL_CACHE.mkdir(parents=True, exist_ok=True)
+os.environ.setdefault("MPLCONFIGDIR", str(_MPL_CACHE))
+os.environ.setdefault("MPLBACKEND", "Agg")
+
+import matplotlib
+matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -28,7 +37,11 @@ COLORS = {
 
 
 def main():
-    rows = list(csv.DictReader((TAB / "forest_summary_min_ci_v1.csv").open()))
+    rows = list(
+        csv.DictReader(
+            (TAB / "forest_summary_min_ci_v1.csv").open(encoding="utf-8", newline="")
+        )
+    )
     by = {(r["pair"], r["arm"]): r for r in rows}
 
     fig, axes = plt.subplots(2, 2, figsize=(10.5, 8.2), sharex=True)

@@ -9,7 +9,7 @@
 |-------|--------|
 | Table S1 | `data/jcim_strengthen_t0t1_v0/ENV_PIN.md`；各 panel `protocol.yaml` |
 | Table S2 | `data/*/boxes/*.json`（冻结面板所用条目） |
-| Table S3 | PM：`analysis/cognate_redock_v0/COGNATE_QC_VERDICT*.md`；AChE/BChE：`cognate_qc/COGNATE_QC.md`；PIK3CB：`cognate_qc/COGNATE_QC.md`；EGFR/HER2：`protocol/protocol.yaml` + `analysis/exhaustiveness_sensitivity_v1/SENSITIVITY_VERDICT.md` |
+| Table S3 | PM：`analysis/cognate_redock_v0/COGNATE_QC_VERDICT*.md`；AChE/BChE 与 PIK3CB：各 `cognate_qc/`；ranked re-audit：`data/jcim_novelty_v0/tables/cognate_rank_rmsd_reaudit_v1.csv`；EGFR/HER2：历史 `protocol/protocol.yaml` + `analysis/exhaustiveness_sensitivity_v1/SENSITIVITY_VERDICT.md` |
 | Table S4 | `data/jcim_strengthen_t0t1_v0/tables/unified_threshold_sensitivity_v2.csv` |
 | Table S5 | `data/jcim_strengthen_t0t1_v0/tables/matched_subset_directional_v1.csv` |
 | Table S6 | `data/jcim_bench_v0/tables/pocket_matched_directional_v1.csv`；worst-pocket 亦见 `data/jcim_strengthen_t0t1_v0/tables/aggregation_sensitivity_v1.csv` |
@@ -33,13 +33,18 @@
 | Table S24 | `data/jcim_novelty_v0/tables/incremental_information_v1.csv` |
 | Table S25 | `data/jcim_novelty_v0/tables/mixed_library_enrichment_v1.csv` |
 | Table S26 | `data/jcim_novelty_v0/tables/aggregation_min_mean_geometric_harmonic_v1.csv` |
-| Table S27 | `data/jcim_novelty_v0/tables/docking_failure_census_v1.csv` |
+| Table S27 | `docking_failure_census_v1.csv` + `docking_failed_ligand_properties_v1.csv` + `docking_failure_rank_extreme_v1.csv` |
 | Table S28 | `data/jcim_novelty_v0/tables/descriptor_all_four_directional_v1.csv` |
 | Table S29 | `data/jcim_novelty_v0/tables/assay_max_vs_median_agreement_v1.csv` + `assay_max_vs_median_{summary,auroc,flips}_v1.csv` |
 | Table S30 | `data/jcim_structure_robust_v0/tables/receptor_realization_two_pair_v1.csv` |
 | Table S31 | `data/jcim_novelty_v0/tables/detectable_effect_simulation_v1.csv` |
 | Table S32 | `data/jcim_independent_dock_v0/tables/independent_dock_formulation_v1.csv` + `independent_dock_summary_v1.csv` + `independent_dock_enrichment_v1.csv`；结论见 `analysis/INDEPENDENT_DOCK_VERDICT_V1.md` |
 | Table S33 | `data/jcim_structure_robust_v0/analysis/plif_v1/plif_residue_shift_top10_v1.csv`；结论见 `PLIF_VERDICT_V1.md`（几何占有率，非 ProLIF 因果） |
+| Table S34 | `data/jcim_novelty_v0/tables/formulation_equal_score_negative_v1.csv`（固定口袋分数，仅替换负类） |
+| Table S35 | `measurement_frequency_by_class_v1.csv` + `measurement_frequency_max_median_v1.csv`（测量频次诊断） |
+| Table S36 | `high_confidence_summary_v1.csv` + `high_confidence_activity_audit_v1.csv`（当前 ChEMBL 高置信标签视图） |
+| Table S37 | `complete_case_usable_pchembl_overlap_v1.csv` + `source_document_concentration_v1.csv`（完整病例覆盖与来源集中度） |
+| Table S38 | `class_chemistry_summary_v1.csv`（类别化学空间与骨架诊断） |
 | Master index | `data/jcim_novelty_v0/tables/MASTER_RESULTS_TABLE.csv` |
 | Figure S4 | `figures/jcim_article/FigS_pocket_matched_forest.png`（原主文森林图） |
 | Figure S5 | `figures/jcim_article/FigS_unused_pool_holdout.png` |
@@ -54,14 +59,14 @@
 
 | 项目 | 取值 |
 |------|------|
-| Python | 3.x（本机 conda） |
-| RDKit | 2026.3.1 |
+| Python | 原始对接：3.x（本机 conda）；当前零对接复分析：3.12.13 |
+| RDKit | 原始对接/配体准备：2026.3.1；当前复分析：2026.3.5 |
 | meeko | 0.7.1 |
 | AutoDock Vina | 1.2.7；`scoring_function = vina` |
 | GNINA | 1.3.2（CPU，`--no_gpu`） |
 | RTMScore 权重 | `rtmscore_model1` |
 | Open Babel | Vina PDBQT → SDF（GNINA 前） |
-| 分析库 | NumPy / SciPy / scikit-learn / pandas（版本随公开复现环境；仓库 ENV_PIN 未钉死具体小版本） |
+| 分析库 | 当前复分析：NumPy 2.5.2 / SciPy 1.18.1 / scikit-learn 1.9.0 / pandas 3.0.5（见根目录 `requirements-analysis.txt`） |
 | Biopython | `PDBParser` / `Superimposer` / `PairwiseAligner`（序列一致性与 Cα 叠合） |
 | ChEMBL | Web API；靶对审计锁定 2026-07-23（未记录 release 编号） |
 | 配体准备 | 去盐（最大有机片段）→ RDKit AddHs → ETKDGv3（seed 20260727）→ MMFFOptimizeMolecule（maxIters=200）→ meeko 默认 PDBQT |
@@ -69,7 +74,7 @@
 | 逻辑回归 | scikit-learn `LogisticRegression`（C = 1.0，max_iter = 2000）；支架 `GroupKFold`，折数 min(5, n_pos, n_neg, n_groups) |
 | 面板抽样种子 | 20260729 |
 | Holdout 抽样种子 | 20260731；仅三对（不含 EGFR/HER2）；PM 排除 PM110 超集 |
-| Bootstrap | B = 2000；seed 20260729；配体层 2.5%–97.5% 百分位区间；不做多重比较校正 |
+| Bootstrap | B = 2000；seed 20260729；SHA-256 稳定子种子；配体层 2.5%–97.5% 百分位区间；不做多重比较校正 |
 | Vina `n_modes` | 9 |
 | Vina `energy_range` | 3 |
 | Vina 随机种子 | 20260727 |
@@ -103,24 +108,28 @@
 
 ---
 
-## Table S3. 共晶配体重对接（八个冻结受体）
+## Table S3. 共晶配体重对接（八个靶对口袋槽位，七个唯一受体）
 
-**均已做 cognate redock。** 协议门槛为 `best_of_9` 重原子 RMSD &lt; 2.0 Å。主 seed = 20260727（EGFR 历史 as-run 与敏感性表同 seed）。
+**各靶对口袋均做过 cognate redock。** PIK3CA 的 4L23 被两个靶对共用，因此是八个靶对槽位、七个唯一受体。协议门槛为 `best_of_9` 重原子 RMSD &lt; 2.0 Å。主 seed = 20260727（EGFR 历史 as-run 与敏感性表同 seed）。
 
-**RMSD 定义：** 对接坐标系、不做蛋白叠合。PIK3CA/mTOR 与 EGFR/HER2：meeko `REMARK SMILES IDX` 映射 + 模板自同构上最小 CalcRMS（见各 panel `rmsd_definition.md`）。AChE/BChE 与 PIK3CB 冻结 QC：重原子坐标匈牙利匹配（`linear_sum_assignment`）。
+**RMSD 定义：** 对接坐标系、不做蛋白叠合。PIK3CA/mTOR 与 EGFR/HER2 历史值：meeko `REMARK SMILES IDX` 映射 + 模板自同构上最小 CalcRMS（见各 panel `rmsd_definition.md`）。AChE/BChE 与 PIK3CB 的旧冻结 QC 使用无元素约束的重原子坐标匈牙利匹配；本次 re-audit 不再直接沿用该方法。对含 Meeko 拓扑备注的 4EY7，直接重建 RDKit 分子；对旧式 4BDS/2WXF PDBQT，先用元素约束 + 晶体坐标（最大映射误差 ≤0.001 Å）映射到参考 SDF 拓扑，再用 symmetry-aware `CalcRMS`。三者均与旧 best 值一致。脚本 `cognate_rank_qc_v1.py`。
 
 ### S3a. 冻结受体在协议 exhaustiveness 下的结果
 
-| 靶标 | PDB | 配体 | E | RMSD mode1 (Å) | RMSD best_of_9 (Å) | best mode | best_of_9 &lt; 2 Å？ | 面板 E |
-|------|-----|------|--:|---------------:|------------------:|----------:|:-------------------:|-------:|
-| PIK3CA | 4L23 | X6K | 8 | 0.624 | 0.624 | 1 | 是 | 16（随 mTOR 端升 E） |
-| mTOR | 4JT6 | X6K | 8 | 7.118 | **5.003** | 2 | **否** | — |
-| mTOR | 4JT6 | X6K | 16 | 7.118 | **0.445** | 3 | 是 | 16 |
-| AChE | 4EY7 | E20 | 8 | （mode1 = best） | **0.339** | 1 | 是 | 8 |
-| BChE | 4BDS | THA | 8 | （记录为 best_of_9） | **0.386** | — | 是 | 8 |
-| PIK3CB | 2WXF | 039 | 8/16 | （记录为 best_of_9） | **0.405** | — | 是 | 8 |
-| EGFR | 3POZ | 03P | 8 | **9.483** | **0.955** | — | 是（best_of_9） | 8 |
-| HER2 | 3RCD | 03P | 8 | **1.941** | **1.941** | 1 | 是 | 8 |
+| 靶标 | PDB | 配体 | E | top-1 RMSD (Å) | top-3 best (Å) | all deposited best (Å) | best mode | 面板 E |
+|------|-----|------|--:|-----------------:|----------------:|-------------------------:|----------:|-------:|
+| PIK3CA | 4L23 | X6K | 16 | 0.624 | 0.624 | 0.624 | 1 | 16 |
+| mTOR | 4JT6 | X6K | 8 | 7.118 | 5.003* | 5.003 | 2 | — |
+| mTOR | 4JT6 | X6K | 16 | **7.118** | **0.445** | **0.445** | 3 | 16 |
+| AChE | 4EY7 | E20 | 8 | 0.339 | 0.339 | 0.339 (8 poses) | 1 | 8 |
+| BChE | 4BDS | THA | 8 | **4.794** | **0.386** | **0.386** | 3 | 8 |
+| PIK3CB | 2WXF | 039 | 8 | 0.405 | 0.405 | 0.405 | 1 | 8 |
+| EGFR | 3POZ | 03P | 8 | **9.483** | NA† | **0.955** | 未沉积 | 8 |
+| HER2 | 3RCD | 03P | 8 | 1.941 | NA† | 1.941 | 1 | 8 |
+
+\* E = 8 历史表仅给 mode1、best mode = 2 与 best-all；因此 top-3 等于已知 best-all。
+
+† EGFR/HER2 仓库未沉积 cognate pose 文件，无法独立重算 top-3；保留历史 summary，不以推断值填表。
 
 补充（EGFR 面板历史 as-run，与上表敏感性诊断一致量级）：
 
@@ -131,9 +140,9 @@
 
 ### S3b. 判读（与正文 Methods 2.5 对齐）
 
-1. **八个冻结受体都做过共晶重对接**；另有未入选候选结构的失败记录（见 S3c），不纳入主协议。
+1. **八个靶对口袋槽位（七个唯一受体）都做过共晶重对接**；另有未入选候选结构的失败记录（见 S3c），不纳入主协议。
 2. **在 E = 8、门槛 = best_of_9 &lt; 2 Å 时：** 4L23、4EY7、4BDS、2WXF、3POZ、3RCD 通过；**仅 4JT6 未通过**（5.003 Å）。升至 E = 16 后 4JT6 的 best_of_9 = 0.445 Å，故 PIK3CA/mTOR 全面板采用 E = 16。
-3. **不能把“best_of_9 &lt; 2 Å”等同于“Vina mode1 &lt; 2 Å”。** 4JT6 在 E = 16 时 mode1 仍约 7.1 Å；3POZ 在 E = 8/16/32 时 mode1 均约 9.5 Å，近晶构象出现在非 top1 mode。因此协议保留输出 9 个 mode，并在打分对照中使用 best-of-9 / 重打分。
+3. **不能把“best_of_9 &lt; 2 Å”等同于“Vina mode1 &lt; 2 Å”。** 4JT6 与 4BDS 都是 top-1 失败、top-3 成功；3POZ 在 E = 8/16/32 时 mode1 均约 9.5 Å，近晶构象出现在非 top1 mode。因此本 QC 证明搜索覆盖，不证明 Vina 正确排序 pose。
 4. EGFR/HER2 面板仍用 E = 8：敏感性显示升 E 不能修复 3POZ 的 mode1 排序失败，且 E = 8 时 best_of_9 已 &lt; 2 Å。
 
 ### S3c. 受体筛选中试过但未冻结的候选（实验记录，非主结果）
@@ -153,22 +162,22 @@
 
 | 靶对 | 标签规则 | n (D / A / B) | AUROC D vs A | AUROC D vs B | summary_min | 95% CI | underpowered |
 |------|----------|--------------:|-------------:|-------------:|------------:|--------|:------------:|
-| EGFR/HER2 | θ = 5.5 | 69 / 22 / 10 | 0.773 | 0.425 | 0.425 | [0.238, 0.622] | 否 |
-| EGFR/HER2 | θ = 6.0 | 28 / 38 / 32 | 0.666 | 0.430 | 0.430 | [0.284, 0.576] | 否 |
-| EGFR/HER2 | θ = 6.5 | 26 / 29 / 29 | 0.735 | 0.460 | 0.460 | [0.305, 0.623] | 否 |
-| EGFR/HER2 | 严格 6.5/5.5 | 26 / 17 / 7 | 0.799 | 0.324 | 0.324 | [0.130, 0.519] | **是** |
-| AChE/BChE | θ = 5.5 | 27 / 25 / 28 | 0.650 | 0.606 | 0.606 | [0.446, 0.730] | 否 |
-| AChE/BChE | θ = 6.0 | 27 / 25 / 28 | 0.650 | 0.606 | 0.606 | [0.440, 0.740] | 否 |
-| AChE/BChE | θ = 6.5 | 27 / 25 / 28 | 0.650 | 0.606 | 0.606 | [0.450, 0.735] | 否 |
-| AChE/BChE | 严格 6.5/5.5 | 27 / 25 / 28 | 0.650 | 0.606 | 0.606 | [0.449, 0.738] | 否 |
-| PIK3CA/PIK3CB | θ = 5.5 | 30 / 25 / 28 | 0.729 | 0.522 | 0.522 | [0.365, 0.676] | 否 |
-| PIK3CA/PIK3CB | θ = 6.0 | 28 / 27 / 28 | 0.691 | 0.500 | 0.500 | [0.347, 0.648] | 否 |
-| PIK3CA/PIK3CB | θ = 6.5 | 28 / 27 / 28 | 0.691 | 0.500 | 0.500 | [0.331, 0.653] | 否 |
-| PIK3CA/PIK3CB | 严格 6.5/5.5 | 28 / 27 / 28 | 0.691 | 0.500 | 0.500 | [0.346, 0.647] | 否 |
-| PIK3CA/mTOR | θ = 5.5 | 33 / 9 / 5 | 0.502 | 0.506 | 0.502 | [0.248, 0.635] | **是** |
-| PIK3CA/mTOR | θ = 6.0 | 18 / 14 / 12 | 0.714 | 0.692 | 0.692 | [0.464, 0.802] | 否 |
-| PIK3CA/mTOR | θ = 6.5 | 17 / 15 / 12 | 0.710 | 0.674 | 0.674 | [0.444, 0.791] | 否 |
-| PIK3CA/mTOR | 严格 6.5/5.5 | 17 / 7 / 4 | 0.639 | 0.669 | 0.639 | [0.321, 0.798] | **是** |
+| EGFR/HER2 | θ = 5.5 | 69 / 22 / 10 | 0.773 | 0.425 | 0.425 | [0.242, 0.626] | 否 |
+| EGFR/HER2 | θ = 6.0 | 28 / 38 / 32 | 0.666 | 0.430 | 0.430 | [0.282, 0.578] | 否 |
+| EGFR/HER2 | θ = 6.5 | 26 / 29 / 29 | 0.735 | 0.460 | 0.460 | [0.304, 0.609] | 否 |
+| EGFR/HER2 | 严格 6.5/5.5 | 26 / 17 / 7 | 0.799 | 0.324 | 0.324 | [0.138, 0.525] | **是** |
+| AChE/BChE | θ = 5.5 | 27 / 25 / 28 | 0.650 | 0.606 | 0.606 | [0.442, 0.735] | 否 |
+| AChE/BChE | θ = 6.0 | 27 / 25 / 28 | 0.650 | 0.606 | 0.606 | [0.437, 0.730] | 否 |
+| AChE/BChE | θ = 6.5 | 27 / 25 / 28 | 0.650 | 0.606 | 0.606 | [0.438, 0.742] | 否 |
+| AChE/BChE | 严格 6.5/5.5 | 27 / 25 / 28 | 0.650 | 0.606 | 0.606 | [0.442, 0.734] | 否 |
+| PIK3CA/PIK3CB | θ = 5.5 | 30 / 25 / 28 | 0.729 | 0.522 | 0.522 | [0.363, 0.667] | 否 |
+| PIK3CA/PIK3CB | θ = 6.0 | 28 / 27 / 28 | 0.691 | 0.500 | 0.500 | [0.350, 0.650] | 否 |
+| PIK3CA/PIK3CB | θ = 6.5 | 28 / 27 / 28 | 0.691 | 0.500 | 0.500 | [0.350, 0.646] | 否 |
+| PIK3CA/PIK3CB | 严格 6.5/5.5 | 28 / 27 / 28 | 0.691 | 0.500 | 0.500 | [0.342, 0.652] | 否 |
+| PIK3CA/mTOR | θ = 5.5 | 33 / 9 / 5 | 0.502 | 0.506 | 0.502 | [0.257, 0.625] | **是** |
+| PIK3CA/mTOR | θ = 6.0 | 18 / 14 / 12 | 0.714 | 0.692 | 0.692 | [0.470, 0.813] | 否 |
+| PIK3CA/mTOR | θ = 6.5 | 17 / 15 / 12 | 0.710 | 0.674 | 0.674 | [0.438, 0.797] | 否 |
+| PIK3CA/mTOR | 严格 6.5/5.5 | 17 / 7 / 4 | 0.639 | 0.669 | 0.639 | [0.317, 0.792] | **是** |
 
 说明：AChE/BChE 与 PIK3CA/PIK3CB 建造时已按严格配额冻结，重标后计数基本不变。EGFR/HER2 与 PIK3CA/mTOR 在严格规则下 B_only 过少，仅作稳健性描述。早期 `threshold_sensitivity_v1.csv`（vina_mean 通道）保留在仓库作内部对照，不进正文主敏感性表。
 
@@ -180,22 +189,22 @@
 
 | 靶对 | 子集 | n_dual / n_other | AUROC | 95% CI |
 |------|------|-----------------:|------:|--------|
-| EGFR/HER2 | potency D vs A | 17 / 17 | 0.747 | [0.564, 0.914] |
-| EGFR/HER2 | potency D vs B | 14 / 14 | 0.469 | [0.235, 0.699] |
-| EGFR/HER2 | size D vs A | 24 / 24 | 0.547 | [0.380, 0.717] |
-| EGFR/HER2 | size D vs B | 22 / 22 | 0.519 | [0.353, 0.696] |
-| AChE/BChE | potency D vs A | 20 / 20 | 0.593 | [0.403, 0.770] |
-| AChE/BChE | potency D vs B | 24 / 24 | 0.601 | [0.443, 0.757] |
-| AChE/BChE | size D vs A | 16 / 16 | 0.484 | [0.273, 0.691] |
-| AChE/BChE | size D vs B | 15 / 15 | 0.596 | [0.378, 0.796] |
-| PIK3CA/PIK3CB | potency D vs A | 20 / 20 | 0.680 | [0.497, 0.855] |
-| PIK3CA/PIK3CB | potency D vs B | 20 / 20 | 0.458 | [0.283, 0.653] |
-| PIK3CA/PIK3CB | size D vs A | 20 / 20 | 0.630 | [0.443, 0.803] |
-| PIK3CA/PIK3CB | size D vs B | 17 / 17 | 0.450 | [0.259, 0.661] |
-| PIK3CA/mTOR | potency D vs A | 13 / 13 | 0.710 | [0.485, 0.905] |
-| PIK3CA/mTOR | potency D vs B | 9 / 9 | 0.728 | [0.444, 0.975] |
-| PIK3CA/mTOR | size D vs A | 12 / 12 | 0.778 | [0.576, 0.938] |
-| PIK3CA/mTOR | size D vs B | 12 / 12 | 0.722 | [0.479, 0.924] |
+| EGFR/HER2 | potency D vs A | 17 / 17 | 0.747 | [0.561, 0.914] |
+| EGFR/HER2 | potency D vs B | 14 / 14 | 0.469 | [0.260, 0.704] |
+| EGFR/HER2 | size D vs A | 24 / 24 | 0.547 | [0.396, 0.707] |
+| EGFR/HER2 | size D vs B | 22 / 22 | 0.519 | [0.339, 0.692] |
+| AChE/BChE | potency D vs A | 20 / 20 | 0.593 | [0.395, 0.765] |
+| AChE/BChE | potency D vs B | 24 / 24 | 0.601 | [0.443, 0.754] |
+| AChE/BChE | size D vs A | 16 / 16 | 0.484 | [0.285, 0.680] |
+| AChE/BChE | size D vs B | 15 / 15 | 0.596 | [0.373, 0.800] |
+| PIK3CA/PIK3CB | potency D vs A | 20 / 20 | 0.680 | [0.483, 0.853] |
+| PIK3CA/PIK3CB | potency D vs B | 20 / 20 | 0.458 | [0.280, 0.645] |
+| PIK3CA/PIK3CB | size D vs A | 20 / 20 | 0.630 | [0.435, 0.805] |
+| PIK3CA/PIK3CB | size D vs B | 17 / 17 | 0.450 | [0.246, 0.654] |
+| PIK3CA/mTOR | potency D vs A | 13 / 13 | 0.710 | [0.497, 0.900] |
+| PIK3CA/mTOR | potency D vs B | 9 / 9 | 0.728 | [0.407, 0.975] |
+| PIK3CA/mTOR | size D vs A | 12 / 12 | 0.778 | [0.569, 0.951] |
+| PIK3CA/mTOR | size D vs B | 12 / 12 | 0.722 | [0.493, 0.917] |
 
 PIK3CA/mTOR 若干臂 n &lt; 15，区间宽；正文仅作方向是否同向的描述，不以子集点估计作主主张。
 
@@ -414,13 +423,13 @@ mode_01 是 9 个姿态中 CNNscore 最高的比例仅 19–29%，即多数配�
 
 | 靶对 | 集合 | n (D/A/B) | D vs A | D vs B | summary_min [95% CI] |
 |------|------|-----------|-------:|-------:|----------------------|
-| EGFR/HER2 | 主面板 | 28/38/32 | 0.6664 | 0.4297 | 0.4297 [0.284, 0.5759] |
+| EGFR/HER2 | 主面板 | 28/38/32 | 0.6664 | 0.4297 | 0.4297 [0.2818, 0.5775] |
 | EGFR/HER2 | holdout | — | — | — | not eligible |
-| AChE/BChE | 主面板 | 27/25/28 | 0.6504 | 0.6058 | 0.6058 [0.4396, 0.74] |
+| AChE/BChE | 主面板 | 27/25/28 | 0.6504 | 0.6058 | 0.6058 [0.4370, 0.7303] |
 | AChE/BChE | holdout | 20/20/20 | 0.635 | 0.6175 | 0.6175 [0.4216, 0.7593] |
-| PIK3CA/PIK3CB | 主面板 | 28/27/28 | 0.6905 | 0.5 | 0.5 [0.3468, 0.648] |
+| PIK3CA/PIK3CB | 主面板 | 28/27/28 | 0.6905 | 0.5 | 0.5 [0.3502, 0.6495] |
 | PIK3CA/PIK3CB | holdout | 20/19/20 | 0.7658 | 0.425 | 0.425 [0.2406, 0.6184] |
-| PIK3CA/mTOR | 主面板 | 18/14/12 | 0.7143 | 0.6921 | 0.6921 [0.4638, 0.8015] |
+| PIK3CA/mTOR | 主面板 | 18/14/12 | 0.7143 | 0.6921 | 0.6921 [0.4702, 0.8133] |
 | PIK3CA/mTOR | holdout | 20/20/20 | 0.86 | 0.765 | 0.765 [0.6025, 0.8911] |
 
 主面板 CI 来自 `unified_threshold_sensitivity_v2.csv`（Table 2）；holdout CI 来自 `holdout_pocket_matched_v1.csv`。不得把 holdout 写成跨库外部验证。
@@ -475,17 +484,17 @@ best9 − mode01 为 −0.04 至 +0.08，**不是**相对 Vina。
 
 ## Table S20. ECFP4 支架 GroupKFold 对随机 StratifiedKFold（泄漏核对）
 
-来源：`ligand_ml_scaffold_vs_random_v1.csv`。支架折是主 ML 读出；随机折不是为了找更大 gap。八个方向对比的 mean(random − scaffold) = 0.0112。Figure S3D。
+来源：`ligand_ml_scaffold_vs_random_v1.csv`。支架折是主 ML 读出；随机折不是为了找更大 gap。八个方向对比的 mean(random − scaffold) = 0.0258。Figure S3D。
 
 | 靶对 | 对比 | scaffold | random | Δ(random−scaffold) | 对接口袋匹配 |
 |------|------|--------:|-------:|-------------------:|-------------:|
-| EGFR/HER2 | D vs A | 0.8327 | 0.7961 | −0.0366 | 0.6664 |
-| EGFR/HER2 | D vs B | 0.8527 | 0.8884 | 0.0357 | 0.4297 |
-| AChE/BChE | D vs A | 0.9096 | 0.9096 | 0.0 | 0.6504 |
-| AChE/BChE | D vs B | 0.8426 | 0.8241 | −0.0185 | 0.6058 |
-| PIK3CA/PIK3CB | D vs A | 0.7751 | 0.8042 | 0.0291 | 0.6905 |
-| PIK3CA/PIK3CB | D vs B | 0.7857 | 0.889 | 0.1033 | 0.5 |
-| PIK3CA/mTOR | D vs A | 0.7817 | 0.7262 | −0.0555 | 0.7143 |
+| EGFR/HER2 | D vs A | 0.7453 | 0.7961 | +0.0508 | 0.6664 |
+| EGFR/HER2 | D vs B | 0.8895 | 0.8884 | −0.0011 | 0.4297 |
+| AChE/BChE | D vs A | 0.8948 | 0.9096 | +0.0148 | 0.6504 |
+| AChE/BChE | D vs B | 0.8214 | 0.8241 | +0.0027 | 0.6058 |
+| PIK3CA/PIK3CB | D vs A | 0.7817 | 0.8042 | +0.0225 | 0.6905 |
+| PIK3CA/PIK3CB | D vs B | 0.7691 | 0.8890 | +0.1199 | 0.5000 |
+| PIK3CA/mTOR | D vs A | 0.7619 | 0.7262 | −0.0357 | 0.7143 |
 | PIK3CA/mTOR | D vs B | 0.8889 | 0.9213 | 0.0324 | 0.6921 |
 
 ---
@@ -582,7 +591,7 @@ best9 − mode01 为 −0.04 至 +0.08，**不是**相对 Vina。
 
 ## Table S27. Docking attempted / successful / failed
 
-来源：`docking_failure_census_v1.csv`。AUROC 以两端均得分的配体为条件。HOAP_028 为 AutoDock 原子类型 `B`（硼）覆盖失败，不是 silent missingness。
+来源：`docking_failure_census_v1.csv`、`docking_failed_ligand_properties_v1.csv`、`docking_failure_rank_extreme_v1.csv`；脚本 `docking_failure_sensitivity_v1.py`。主 AUROC 以两端均得分的配体为条件。HOAP_028 为 AutoDock 原子类型 `B`（硼）覆盖失败，不是 silent missingness。
 
 | 集合 | 靶对 | attempted | both-end success | fail either | fail A | fail B |
 |------|------|----------:|-----------------:|------------:|-------:|-------:|
@@ -595,6 +604,32 @@ best9 − mode01 为 −0.04 至 +0.08，**不是**相对 Vina。
 | holdout | PIK3CA/mTOR | 60 | 60 | 0 | 0 | 0 |
 
 AChE 主面板失败：AB_001（dual，两端）、AB_053/054/056（A_only，两端）、AB_097（neither，B 端）。PIK3CB 主面板：PAB_034（A_only，A 端，`timeout_900s_torsdof=23`）。holdout：HOAP_028 两端硼原子类型失败。PAB_034 在 4JPS/5DXT 替换中同样超时（Table S30），不是标签过滤。
+
+### S27b. 主面板失败配体的化学覆盖
+
+描述符按去盐规则保留最大重原子片段。四个 AChE/BChE 失败是协议在 torsdof ≥25 时主动跳过；另两个是超时。因此缺失不是随机计算噪声。
+
+| 靶对 | ligand | 类别 | A/B score | heavy | MW | cLogP | TPSA | charge | rotatable | 原因 |
+|------|--------|------|-----------|------:|---:|------:|-----:|-------:|----------:|------|
+| AChE/BChE | AB_001 | dual | 0/0 | 85 | 1151.4 | 8.88 | 234.1 | 0 | 29 | torsdof=31，协议跳过 |
+| AChE/BChE | AB_053 | A-only | 0/0 | 56 | 801.1 | 10.74 | 40.6 | +2 | 27 | torsdof=31，协议跳过 |
+| AChE/BChE | AB_054 | A-only | 0/0 | 48 | 667.0 | 7.65 | 65.6 | 0 | 27 | torsdof=29，协议跳过 |
+| AChE/BChE | AB_056 | A-only | 0/0 | 50 | 693.1 | 9.32 | 40.6 | +2 | 27 | torsdof=29，协议跳过 |
+| AChE/BChE | AB_097 | neither | 1/0 | 54 | 729.0 | 9.39 | 75.4 | 0 | 17 | B 端 600 s timeout |
+| PIK3CA/PIK3CB | PAB_034 | A-only | 0/1 | 60 | 957.7 | 4.96 | 170.5 | 0 | 22 | A 端 900 s timeout |
+
+### S27c. 方向终点的 arm-available 与 rank-extreme 缺失敏感性
+
+arm-available 使用该方向所需口袋的全部已有分数，不要求另一端也成功。rank-extreme lower/upper 把每个涉及缺失所需口袋分数的比较全部判为逆向/顺向；这是确定性边界，不是插补模型，也没有 bootstrap CI。
+
+| 靶对 | 方向 | complete n+/n− | complete AUROC | arm-available n+/n− | arm AUROC | rank-extreme [lower, upper] |
+|------|------|----------------:|---------------:|--------------------:|----------:|----------------------------:|
+| AChE/BChE | D vs A, pocket B | 27/25 | 0.6504 | 27/25 | 0.6504 | [0.5599, 0.6990] |
+| AChE/BChE | D vs B, pocket A | 27/28 | 0.6058 | 27/28 | 0.6058 | [0.5842, 0.6199] |
+| PIK3CA/PIK3CB | D vs A, pocket B | 28/27 | 0.6905 | 28/28 | 0.6952 | [0.6952, 0.6952] |
+| PIK3CA/PIK3CB | D vs B, pocket A | 28/28 | 0.5000 | 28/28 | 0.5000 | [0.5000, 0.5000] |
+
+这些敏感性不改变当前 pair-level `summary_min` 判读，但只支持“可被该协议处理的化学空间”。
 
 ---
 
@@ -632,11 +667,11 @@ AChE 主面板失败：AB_001（dual，两端）、AB_053/054/056（A_only，两
 
 | 靶对 | PIK3CA | 保留 B | attempted / success / fail | D/A | D/B | summary_min [95% CI] | Δ |
 |------|--------|--------|---------------------------:|----:|----:|----------------------|--:|
-| PIK3CA/mTOR | 4L23 | 4JT6 | 48/48/0 | 0.714 | 0.692 | 0.692 [0.464, 0.802] | — |
+| PIK3CA/mTOR | 4L23 | 4JT6 | 48/48/0 | 0.714 | 0.692 | 0.692 [0.470, 0.813] | — |
 | PIK3CA/mTOR | 4JPS | 4JT6 | 48/48/0 | 0.714 | 0.486 | 0.486 [0.259, 0.692] | −0.206 |
 | PIK3CA/mTOR | 5DXT | 4JT6 | 48/48/0 | 0.714 | 0.505 | 0.505 [0.292, 0.696] | −0.187 |
 | PIK3CA/mTOR | 4L23 | 4JSX | 48/48/0 | 0.639 | 0.692 | 0.639 [0.418, 0.776] | −0.053 |
-| PIK3CA/PIK3CB | 4L23 | 2WXF | 100/99/1 | 0.691 | 0.500 | 0.500 [0.347, 0.648] | — |
+| PIK3CA/PIK3CB | 4L23 | 2WXF | 100/99/1 | 0.691 | 0.500 | 0.500 [0.350, 0.650] | — |
 | PIK3CA/PIK3CB | 4JPS | 2WXF | 100/99/1 | 0.691 | 0.707 | 0.691 [0.516, 0.779] | +0.191 |
 | PIK3CA/PIK3CB | 5DXT | 2WXF | 100/99/1 | 0.691 | 0.685 | 0.685 [0.506, 0.768] | +0.185 |
 
@@ -667,9 +702,9 @@ PIK3CA/PIK3CB 弱臂：原始 D/B = 0.500；4JPS 后弱臂切到冻结 D/A = 0.6
 
 | Pair | Engine | n_scored (dual / A-only / B-only) | Dual vs neither (`mean`) [95% CI] | n_neither | D/A (pocket B) | D/B (pocket A) | summary_min [95% CI] |
 |------|--------|----------------------------------:|----------------------------------:|----------:|---------------:|---------------:|----------------------|
-| EGFR/HER2 | Vina (frozen) | 28 / 38 / 32 | 0.756 [0.562, 0.920] | 12 | 0.666 | 0.430 | 0.430 [0.284, 0.576] |
+| EGFR/HER2 | Vina (frozen) | 28 / 38 / 32 | 0.756 [0.562, 0.920] | 12 | 0.666 | 0.430 | 0.430 [0.282, 0.578] |
 | EGFR/HER2 | GNINA dock | 28 / 38 / 32 | 0.783 [0.610, 0.922] | 11 | 0.660 | 0.220 | 0.220 [0.109, 0.343] |
-| PIK3CA/mTOR | Vina (frozen) | 18 / 14 / 12 | 0.514 [0.222, 0.806] | 4 | 0.714 | 0.692 | 0.692 [0.464, 0.802] |
+| PIK3CA/mTOR | Vina (frozen) | 18 / 14 / 12 | 0.514 [0.222, 0.806] | 4 | 0.714 | 0.692 | 0.692 [0.470, 0.813] |
 | PIK3CA/mTOR | GNINA dock | 18 / 13 / 12 | 0.569 [0.222, 0.889] | 4 | 0.633 | 0.704 | 0.633 [0.427, 0.825] |
 
 EGFR/HER2 mixed-library Top-10 by GNINA mean pocket score: 1 dual, 4 A-only, 5 B-only, 0 neither（EF10 = 0.389）。Vina `vina_mean` Top-10 为 1 / 5 / 4 / 0（Table S25；EF10 = 0.393）。PIK3CA/mTOR Dual versus neither 仍因 n_neither = 4 而效能不足，不作为设定对照主读出。
@@ -697,6 +732,128 @@ EGFR/HER2 mixed-library Top-10 by GNINA mean pocket score: 1 dual, 4 A-only, 5 B
 
 ---
 
+## Table S34. 固定口袋分数后的负类定义对照
+
+来源：`data/jcim_novelty_v0/tables/formulation_equal_score_negative_v1.csv`；脚本 `scripts/benchmark_formulation_v1.py`。每个对照保持口袋分数不变，仅将方向性 selective 负类替换为 neither。每次 bootstrap 共享 dual 抽样，两个负类分层独立抽样（B = 2000）。这是两个 AUROC 估计量差值的描述性区间，不是负配体层面的配对检验；8 个方向未做多重性校正。
+
+| 靶对 | 固定口袋 | selective 负类 | n dual/selective/neither | AUROC D vs selective | AUROC D vs neither | Δ neither−selective [95% CI] |
+|------|----------|----------------|-------------------------:|---------------------:|-------------------:|-------------------------------:|
+| EGFR/HER2 | B | A-only | 28/38/12 | 0.666 | 0.720 | 0.054 [−0.157, 0.246] |
+| EGFR/HER2 | A | B-only | 28/32/12 | 0.430 | 0.808 | 0.378 [0.205, 0.547] |
+| AChE/BChE | B | A-only | 27/25/15 | 0.650 | 0.709 | 0.058 [−0.085, 0.196] |
+| AChE/BChE | A | B-only | 27/28/15 | 0.606 | 0.590 | −0.016 [−0.154, 0.120] |
+| PIK3CA/PIK3CB | B | A-only | 28/27/16 | 0.691 | 0.501 | −0.189 [−0.421, 0.052] |
+| PIK3CA/PIK3CB | A | B-only | 28/28/16 | 0.500 | 0.659 | 0.159 [0.001, 0.321] |
+| PIK3CA/mTOR | B | A-only | 18/14/4 | 0.714 | 0.583 | −0.131 [−0.433, 0.179]* |
+| PIK3CA/mTOR | A | B-only | 18/12/4 | 0.692 | 0.472 | −0.220 [−0.514, 0.019]* |
+
+\* n_neither = 4，underpowered。
+
+---
+
+## Table S35. 按实验状态分组的测量频次诊断
+
+来源：`data/jcim_novelty_v0/tables/measurement_frequency_by_class_v1.csv` 和 `measurement_frequency_max_median_v1.csv`；脚本 `measurement_frequency_audit_v1.py`。activity records 是 ChEMBL API 返回的记录数，不是独立实验次数，也不等于独立文献数。本表不包含 assay confidence、species 或 document-level 去重，因此是 profiling-intensity 诊断，不是高置信标签重建。
+
+| 靶对 | 类别 | n | 双端 activity records 中位数 [IQR] | 最大值 | A 端重复 pChEMBL 比例 | B 端重复 pChEMBL 比例 |
+|------|------|--:|--------------------------------------:|-------:|--------------------------:|--------------------------:|
+| EGFR/HER2 | dual | 28 | 4 [2–6.5] | 318 | 0.536 | 0.429 |
+| EGFR/HER2 | A-only | 38 | 4 [2–8] | 62 | 0.474 | 0.158 |
+| EGFR/HER2 | B-only | 32 | 4 [2–5.25] | 11 | 0.125 | 0.188 |
+| EGFR/HER2 | neither | 12 | 3 [2–3] | 4 | 0.333 | 0.000 |
+| AChE/BChE | dual | 27 | 2 [2–3] | 207 | 0.185 | 0.074 |
+| AChE/BChE | A-only | 25 | 2 [2–4] | 11 | 0.280 | 0.000 |
+| AChE/BChE | B-only | 28 | 2 [2–4] | 6 | 0.107 | 0.143 |
+| AChE/BChE | neither | 15 | 2 [2–2] | 3 | 0.000 | 0.067 |
+| PIK3CA/PIK3CB | dual | 28 | 2.5 [2–5] | 46 | 0.286 | 0.286 |
+| PIK3CA/PIK3CB | A-only | 27 | 2 [2–4] | 21 | 0.222 | 0.037 |
+| PIK3CA/PIK3CB | B-only | 28 | 2 [2–3] | 15 | 0.036 | 0.429 |
+| PIK3CA/PIK3CB | neither | 16 | 2 [2–2] | 6 | 0.000 | 0.000 |
+| PIK3CA/mTOR | dual | 18 | 22 [10.75–34] | 90 | 0.944 | 0.944 |
+| PIK3CA/mTOR | A-only | 14 | 3 [2–4.75] | 28 | 0.500 | 0.143 |
+| PIK3CA/mTOR | B-only | 12 | 3 [2–6.75] | 40 | 0.167 | 0.500 |
+| PIK3CA/mTOR | neither | 4 | 2 [2–2.5] | 4 | 0.250 | 0.250 |
+
+API-max 与 median 差值和重复记录数有预期的正相关，但该诊断包含差值必然为 0 的单次记录，因此不将相关系数作为因果证据。主要结论是类别间 profiling intensity 不均衡，尤其是 PIK3CA/mTOR dual 类。
+
+---
+
+## Table S36. 当前 ChEMBL 快照的高置信标签稳健性
+
+抓取时间：2026-08-26 UTC。来源：`high_confidence_activity_audit_v1.csv`、`high_confidence_labels_v1.csv`、`high_confidence_summary_v1.csv`；脚本 `high_confidence_label_rebuild_v1.py`；运行元数据和 API 缓存见 `cache/high_confidence_v1/`。
+
+保留规则：Homo sapiens `SINGLE PROTEIN` target；assay confidence score ≥ 8；`standard_relation = "="`；endpoint 属于 IC50/Ki/Kd/EC50/Potency；无 `data_validity_comment`；`potential_duplicate = 0`。共审计 2748 条 activity records，保留 1546 条；513 条因 potential duplicate 标记被排除。完整的逐记录排除理由见源 CSV。
+
+| 靶对 | 冻结 scored n | 高置信双端完整 n | 与冻结类别一致 | dual/A-only/B-only/neither | 高置信 summary_min |
+|------|--------------:|----------------------:|------------------:|---------------------------:|-----------------------:|
+| EGFR/HER2 | 110 | 110 | 110/110 | 28/38/32/12 | 0.430 |
+| AChE/BChE | 95 | 95 | 95/95 | 27/25/28/15 | 0.606 |
+| PIK3CA/PIK3CB | 99 | 99 | 99/99 | 28/27/28/16 | 0.500 |
+| PIK3CA/mTOR | 48 | 48 | 48/48 | 18/14/12/4 | 0.692 |
+
+这一 post-hoc current-database 稳健性视图说明上述显式记录过滤不改变当前面板分类。它不是 2026-07-23 数据库状态的重建，也未统一 assay condition、protein construct、mutation context 或 source-document sampling；不得称为 assay-harmonized ground truth。
+
+---
+
+## Table S37. 完整病例覆盖与来源文献集中度
+
+来源：`complete_case_usable_pchembl_overlap_v1.csv`、`source_document_concentration_v1.csv`；脚本 `complete_case_document_audit_v1.py`。覆盖率分母为至少一个靶点存在可用 pChEMBL 的结构并集；“A-only measured / B-only measured”表示另一端在冻结可用值映射中缺失，**不表示无活性**。来源集中度使用 2026-08-26 高置信视图中保留的 activity records；record 不是独立实验重复。
+
+| 靶对 | A 有值 | B 有值 | 两端有值 | 仅 A measured | 仅 B measured | 两端/并集 |
+|------|-------:|-------:|---------:|--------------:|--------------:|----------:|
+| EGFR/HER2 | 11198 | 2619 | 1751 | 9447 | 868 | 0.145 |
+| AChE/BChE | 6197 | 3798 | 2537 | 3660 | 1261 | 0.340 |
+| PIK3CA/PIK3CB | 7732 | 2786 | 1990 | 5742 | 796 | 0.233 |
+| PIK3CA/mTOR | 7732 | 5209 | 2713 | 5019 | 2496 | 0.265 |
+
+| 靶对 | 类别 | n ligands | retained records | unique documents | top-document record fraction | top-document ligand fraction |
+|------|------|----------:|-----------------:|-----------------:|-----------------------------:|-----------------------------:|
+| EGFR/HER2 | dual | 28 | 335 | 102 | 0.134 | 0.071 |
+| EGFR/HER2 | A-only | 38 | 185 | 65 | 0.141 | 0.105 |
+| EGFR/HER2 | B-only | 32 | 74 | 16 | 0.162 | 0.188 |
+| EGFR/HER2 | neither | 12 | 28 | 8 | 0.429 | 0.333 |
+| AChE/BChE | dual | 27 | 129 | 77 | 0.047 | 0.074 |
+| AChE/BChE | A-only | 25 | 58 | 20 | 0.121 | 0.120 |
+| AChE/BChE | B-only | 28 | 64 | 20 | 0.125 | 0.107 |
+| AChE/BChE | neither | 15 | 31 | 12 | 0.194 | 0.200 |
+| PIK3CA/PIK3CB | dual | 28 | 84 | 25 | 0.119 | 0.071 |
+| PIK3CA/PIK3CB | A-only | 27 | 66 | 20 | 0.136 | 0.185 |
+| PIK3CA/PIK3CB | B-only | 28 | 75 | 15 | 0.160 | 0.143 |
+| PIK3CA/PIK3CB | neither | 16 | 32 | 11 | 0.313 | 0.313 |
+| PIK3CA/mTOR | dual | 18 | 264 | 118 | 0.083 | 0.278 |
+| PIK3CA/mTOR | A-only | 14 | 59 | 30 | 0.119 | 0.286 |
+| PIK3CA/mTOR | B-only | 12 | 58 | 19 | 0.293 | 0.083 |
+| PIK3CA/mTOR | neither | 4 | 8 | 1 | 1.000 | 1.000 |
+
+该审计量化了完整病例选择与来源集中风险，不能推断未测结构的真实活性，也不能替代 document-blocked 或外部验证。
+
+---
+
+## Table S38. 类别化学空间与骨架诊断
+
+来源：`class_chemistry_summary_v1.csv`；脚本 `class_chemistry_audit_v1.py`。数值为中位数 [IQR]；NN-dual 为 radius-2、2048-bit ECFP4 到同靶对 dual 类的最大 Tanimoto（dual 行为最近的另一个 dual）。scaffolds 为类别内 Bemis–Murcko 数；singleton fraction 为落在仅出现一次骨架中的配体比例。完整 CSV 另含 heavy atoms、formal charge、rotatable bonds 的中位数与 IQR；四对所有类别的 formal-charge 中位数与 IQR 均为 0。该表是 post-hoc 描述性混杂审计，不做多重未校正检验。
+
+| 靶对 | 类别 | n | MW [IQR] | cLogP [IQR] | TPSA [IQR] | scaffolds | singleton fraction | median NN-dual |
+|------|------|--:|----------|--------------|------------|----------:|-------------------:|---------------:|
+| EGFR/HER2 | dual | 28 | 481.6 [439.5–539.3] | 4.88 [3.73–5.75] | 95.2 [86.2–106.3] | 26 | 0.857 | 0.421 |
+| EGFR/HER2 | A-only | 38 | 433.8 [352.8–508.8] | 4.65 [3.42–5.54] | 80.2 [65.9–96.4] | 30 | 0.658 | 0.392 |
+| EGFR/HER2 | B-only | 32 | 512.8 [475.4–548.7] | 4.90 [4.19–5.46] | 97.1 [91.0–109.7] | 26 | 0.688 | 0.367 |
+| EGFR/HER2 | neither | 12 | 373.0 [323.5–416.7] | 3.76 [2.82–5.04] | 67.6 [52.1–99.5] | 10 | 0.667 | 0.154 |
+| AChE/BChE | dual | 27 | 471.6 [366.4–559.9] | 5.64 [3.26–6.98] | 76.0 [51.4–95.7] | 26 | 0.926 | 0.474 |
+| AChE/BChE | A-only | 25 | 409.5 [380.5–490.4] | 4.50 [3.83–5.54] | 38.8 [32.8–71.9] | 19 | 0.560 | 0.236 |
+| AChE/BChE | B-only | 28 | 425.6 [389.5–459.4] | 5.18 [4.36–6.69] | 48.1 [39.2–59.1] | 25 | 0.821 | 0.253 |
+| AChE/BChE | neither | 15 | 422.5 [358.6–443.6] | 4.64 [4.04–5.47] | 50.8 [30.5–59.1] | 12 | 0.667 | 0.236 |
+| PIK3CA/PIK3CB | dual | 28 | 477.7 [408.2–548.9] | 3.69 [2.64–4.32] | 97.5 [78.8–123.4] | 24 | 0.750 | 0.607 |
+| PIK3CA/PIK3CB | A-only | 27 | 417.6 [395.0–482.1] | 3.14 [2.52–3.87] | 105.1 [100.2–121.6] | 22 | 0.704 | 0.250 |
+| PIK3CA/PIK3CB | B-only | 28 | 396.2 [371.4–442.7] | 2.13 [1.65–2.55] | 88.0 [76.0–98.1] | 20 | 0.464 | 0.419 |
+| PIK3CA/PIK3CB | neither | 16 | 377.1 [320.1–497.0] | 3.43 [2.62–4.28] | 92.1 [81.6–100.1] | 14 | 0.750 | 0.177 |
+| PIK3CA/mTOR | dual | 18 | 421.5 [388.4–491.3] | 2.31 [1.65–3.16] | 102.5 [82.8–114.8] | 18 | 1.000 | 0.367 |
+| PIK3CA/mTOR | A-only | 14 | 427.5 [400.4–513.0] | 2.52 [1.31–3.50] | 124.2 [105.2–134.5] | 14 | 1.000 | 0.226 |
+| PIK3CA/mTOR | B-only | 12 | 443.0 [403.5–467.5] | 3.27 [2.64–3.97] | 97.2 [93.1–114.7] | 11 | 0.833 | 0.306 |
+| PIK3CA/mTOR | neither | 4 | 328.6 [292.6–369.7] | 2.60 [2.39–2.98] | 103.4 [93.8–107.6] | 4 | 1.000 | 0.395 |
+
+---
+
 ## Supporting Note S1. Exploratory PIK3CA/mTOR pose-level diagnostics
 
 来源：`data/pik3ca_mtor_panel48_v0/analysis/failure_typology_v0/`，仅为代表性案例，不是全面板 PLIF 或机制分析。
@@ -713,9 +870,9 @@ EGFR/HER2 mixed-library Top-10 by GNINA mean pocket score: 1 dual, 4 A-only, 5 B
 - 投稿英文 SI 时：Table 编号可按期刊习惯重排；数字不得改动。
 - Cognate 表必须同时报告 mode1 与 best_of_9，避免审稿人误读“全部 &lt; 2 Å”。
 - 早期借用 Schrodinger 处理过的姿态对照**不写入投稿稿**（无正式使用权限；主协议已统一为 RDKit/meeko）。仓库内 `pm48_directional_by_prep_v1.csv` 仅作内部记录。
-- ChEMBL median：全面板 A4 已完成（Table S29）。不得把 27 配体诊断样当成 SI 表。confidence≥8 / 物种过滤仍未重建。
+- ChEMBL median：全面板 A4 已完成（Table S29）。不得把 27 配体诊断样当成 SI 表。当前数据库的 confidence≥8 / 物种 / relation / validity / duplicate 过滤见 Table S36，但不是冻结日期重建或 assay harmonization。
 - Table S12 是计数核对（BindingDB REST + PubChem PUG REST），不是对接结果；不得把 `as_is` 的 EGFR ≥50 写成已建成 BindingDB 厚面板。
 - Table S13 是 holdout 效价/尺寸匹配诊断，不替换 Table S8；不得写成错口袋悖论已解决。
 - Table S16–S21 是冻结分数上的补表（零新对接）。S17 的 holdout Δ CI 均含 0；S19 四对描述符 Δ CI 均含 0；S21 是 vina_mean Top-10，不是 Table 2。
-- Table S22–S33 来自 `data/jcim_novelty_v0/`、`data/jcim_structure_robust_v0/` 与 `data/jcim_independent_dock_v0/`：S22 formulation comparison（主文 Figure 3）；S23 chemotype-constrained hard-negatives（T ≥ 0.7 为空；T ≥ 0.3 不是 analogue matching）；S24 incremental ECFP/docking；S25 mixed-library EF；S26 min/arithmetic/geometric/harmonic 聚合敏感性（四对排序不变）；S27 docking N_attempted/success/fail；S28 四个描述符全报；S29 max vs median（报一致率+翻转+主终点位移）；S30 两对 PIK3CA receptor-realization（方向相反；PAB_034 100/99/1）；S31 detectable-effect simulation（不是 observed power）；S32 独立 GNINA 姿态生成（EGFR/HER2 设定差距仍在；不是引擎比赛）；S33 PIK3CA 几何占有率位移（假说，非残基因果）。Figure S4 = 口袋匹配森林图；Figure S5 = unused-pool holdout；Figure S6 = detectable-effect heatmap；Figure 8 = diagnostic workflow。不得把 Dual-vs-neither 写成 “conventional benchmark”；不得把 EGFR 0.756 vs 0.430 写成配对显著性；不得把 PIK3CA/mTOR Dual-vs-neither（n = 4）写成反转；不得把受体替换写成单向 collapse 或 robustness。
+- Table S22–S38 来自 `data/jcim_novelty_v0/`、`data/jcim_structure_robust_v0/` 与 `data/jcim_independent_dock_v0/`：S22 formulation comparison（主文 Figure 3）；S23 chemotype-constrained hard-negatives（T ≥ 0.7 为空；T ≥ 0.3 不是 analogue matching）；S24 incremental ECFP/docking；S25 mixed-library EF；S26 min/arithmetic/geometric/harmonic 聚合敏感性（四对排序不变）；S27 docking N_attempted/success/fail；S28 四个描述符全报；S29 max vs median；S30 两对 PIK3CA receptor-realization；S31 detectable-effect simulation；S32 独立 GNINA 姿态生成；S33 PIK3CA 几何占有率位移；S34 固定口袋负类对照；S35 测量频次；S36 当前 ChEMBL 高置信视图；S37 完整病例覆盖与来源集中度；S38 类别化学空间。Figure S4 = 口袋匹配森林图；Figure S5 = unused-pool holdout；Figure S6 = detectable-effect heatmap；Figure 8 = diagnostic workflow。不得把 Dual-vs-neither 写成 “conventional benchmark”；不得把 EGFR 0.756 vs 0.430 写成配对显著性；不得把 PIK3CA/mTOR Dual-vs-neither（n = 4）写成反转；不得把受体替换写成单向 collapse 或 robustness。
 - Figure S3 不得复用 Figure 6 的 AUROC 柱；它只画配对 Δ ± CI。
