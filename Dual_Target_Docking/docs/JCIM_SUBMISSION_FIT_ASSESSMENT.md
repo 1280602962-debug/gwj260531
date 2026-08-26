@@ -130,12 +130,8 @@ Do not widen the claim to a general benchmark.
 ### First choice (best fit, already sufficient)
 
 1. **Journal of Computer-Aided Molecular Design (JCAMD).**
-   This is the closest intellectual home. JCAMD regularly publishes
-   docking validation, failure-mode, and reproducibility papers on
-   smaller, protocol-defined panels. A 2026 JCAMD review on docking
-   failure modes (conditional modeling, ligand-state definition,
-   out-of-distribution tests) is the same problem this manuscript
-   operationalizes. Keep the current title and limitations. Expect
+   This is the closest intellectual home. See the 2023–2026 comparator
+   note below. Keep the current title and limitations. Expect
    questions about K = 4, not a desk-reject for “not a method paper.”
 
 2. **ACS Omega.**
@@ -199,3 +195,86 @@ Submit only as an **Article** with the current title. Do not use Application Not
 The only good reason to try JCIM before JCAMD/ACS Omega is ACS manuscript transfer: a JCIM reject can often move to ACS Omega with the referee reports. That makes one JCIM attempt rational if the authors accept that **rejection is the modal outcome**.
 
 Do not submit without a Zenodo DOI. The expected path is: DOI → JCIM Article → likely reject or heavy revision → transfer to ACS Omega or resubmit to JCAMD. Direct ACS Omega or JCAMD remains the higher-probability first submission.
+
+## JCAMD 2023–2026 comparators (what actually published)
+
+There is **no 2023–2026 JCAMD original article** that is a four-pair
+experimental dual-target docking formulation audit (four ligand states,
+document-blocked CV, hard-negative vs easy-decoy, receptor realization,
+assay-context, frozen files). Dual-target *application* papers exist;
+formulation *audits* of docking-based dual-target recognition do not.
+Springer search of JCAMD 2023–2026 for “dual target” returns 114 hits,
+almost all applied CADD (QSAR + dock + MD + named candidate), not
+four-state docking audits.
+
+### Closest JCAMD neighbors (same questions, not the same paper)
+
+1. **Kittelson, Martins, Santos, Celante & Gomes, *J Comput Aided Mol Des*
+   40, 137 (2026).**
+   Review: *Reproducibility, validation, and failure modes across
+   classical and AI-driven molecular docking*
+   (https://doi.org/10.1007/s10822-026-00849-8).
+   Strongest intellectual neighbor. Treats docking as conditional
+   modeling whose interpretability depends on ligand-state definition,
+   decoys, OOD tests, and FAIR reporting. DualFourClass is an empirical
+   operationalization of one of those failure modes (negative-class /
+   Dual vs B-only), not a review. Cite it in the JCAMD cover letter.
+
+2. **Vázquez, García, Llinares, Luque & Herrero, *J Comput Aided Mol Des*
+   38, 18 (2024).**
+   *On the relevance of query definition in the performance of 3D
+   ligand-based virtual screening* (https://doi.org/10.1007/s10822-024-00561-5).
+   Same scientific sentence as DualFourClass: **how the query/class is
+   defined changes the performance number.** They use DUD-E+ and
+   ligand-based 3D VS, not dual-target docking. Larger and cleaner as a
+   public-set evaluation; DualFourClass is narrower but unique on
+   four-state dual-target docking.
+
+3. **Ugurlu & He, *J Comput Aided Mol Des* 40, 45 (2026).**
+   *Prodrug-ML: prodrug-likeness prediction via machine learning on
+   sampled negative decoys* (https://doi.org/10.1007/s10822-025-00725-x).
+   Same negative-class lesson (easy decoys inflate scores). ML/ADMET,
+   not docking, not dual-target. DualFourClass is the docking analogue
+   of this argument.
+
+4. **Bozkır, İbişoğlu, Güler & Bozkır, *J Comput Aided Mol Des* 40, 54
+   (2026).**
+   *Computational prioritization of multi-target inhibitors: explainable
+   QSAR and docking-based discovery of dual AChE/BACE1 chemotypes*
+   (https://doi.org/10.1007/s10822-025-00757-3).
+   Closest **applied dual-target** neighbor on JCAMD: ChEMBL QSAR,
+   scaffold nested CV, bootstrap CIs, docking of named chemotypes,
+   ADMET. Dual recognition is QSAR + two independent docking scores,
+   not Dual vs B-only. DualFourClass is stronger as docking evidence
+   and weaker as a product (no named lead).
+
+5. **Andola & Doble, *J Comput Aided Mol Des* 40, 77 (2026).**
+   *Design of novel PI3Kα and PI3Kγ inhibitors* using pharmacophore,
+   protein–ligand contacts, and ML (https://doi.org/10.1007/s10822-025-00734-w).
+   Same kinase family as PIK3CA/PIK3CB, but inhibitor *design*, not a
+   four-state docking audit. Do not cite as a DualFourClass analogue.
+
+### Head-to-head (honest)
+
+| Axis | Typical JCAMD dual-target CADD (e.g. Bozkır 2026) | Kittelson 2026 review | Vázquez 2024 query-definition | DualFourClass |
+|---|---|---|---|---|
+| Type | Applied pipeline | Review | Ligand-based VS evaluation | Experimental docking audit |
+| Dual-target claim | Dual QSAR + two dock scores | General docking | Not dual-target | Four ligand states, Dual vs B-only |
+| Negative-class control | Usually implicit / SMOTE | Discussed | Query definition is the paper | Easy decoy vs hard B-only, measured |
+| Scale | One pair + named candidates | Broad literature | DUD-E+ | K = 4 pairs |
+| Outcome | Named chemotypes | Recommendations | Definition changes AUC | Dual vs B-only CIs include 0.5 |
+| Fit to JCAMD | High (common type) | High | High | High if titled as an audit |
+
+DualFourClass is **not** a better version of the typical JCAMD dual-target
+hit-finding paper. It is a better version of the *evaluation* papers
+JCAMD also publishes (Vázquez 2024; Kittelson 2026). Against those
+evaluation papers it is original on dual-target docking and smaller in N.
+Against Bozkır-style applied dual-target papers it is more rigorous and
+more negative, which is an advantage at JCAMD only if the title stays
+an audit.
+
+Do not tell JCAMD editors this is the first dual-target docking paper.
+Tell them it is, to our knowledge, the first **four-pair experimental
+audit of docking-based dual-target recognition under a frozen four-state
+label protocol**. That claim is supportable from the 2023–2026 JCAMD
+record; a claim of being the first dual-target CADD paper is not.
