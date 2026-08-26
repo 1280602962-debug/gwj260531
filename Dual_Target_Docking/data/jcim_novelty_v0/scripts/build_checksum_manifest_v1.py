@@ -35,6 +35,8 @@ WATCH = [
     "data/jcim_novelty_v0/tables/time_split_auroc_v1.csv",
     "data/jcim_novelty_v0/tables/document_year_lookup_v1.csv",
     "data/jcim_novelty_v0/tables/cognate_artifact_inventory_v1.csv",
+    "data/jcim_novelty_v0/tables/bindingdb_independence_summary_v1.csv",
+    "data/egfr_her2_panel40_v0/cognate_qc/cognate_reconstructed_qc_summary_v1.csv",
     "docs/MANUSCRIPT_JCIM_EN.md",
     "docs/MANUSCRIPT_JCIM_ZH.md",
 ]

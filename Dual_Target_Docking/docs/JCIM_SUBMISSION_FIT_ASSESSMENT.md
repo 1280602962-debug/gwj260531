@@ -1,0 +1,120 @@
+# JCIM 2023–2026 submission-bar assessment (2026-08-26)
+
+This is an internal editorial judgment, not a claim in the manuscript.
+It uses the frozen DualFourClass results after the local assay-context
+metadata pass and reconstructed EGFR/HER2 cognate QC.
+
+## Verdict
+
+**As a JCIM Research Article that claims a general dual-target docking
+benchmark: no.**
+
+**As a tightly scoped evaluation Article whose claim is a four-pair
+formulation/failure-mode audit: borderline, and still below the median
+empirical scale of recent JCIM docking papers.** Honest claim language
+makes desk-rejection less likely than overclaiming, but it does not by
+itself meet the last-three-year bar.
+
+Do not submit until a Zenodo DOI exists. Even then, the remaining
+scientific gaps below are larger than the remaining writing gaps.
+
+## What recent JCIM docking papers typically bring
+
+Representative 2023–2026 JCIM docking/evaluation papers are larger or
+more method-forward than this case panel:
+
+- Schaller et al., JCIM 2024: kinase cross-docking on 589 structures /
+  423 ATP-competitive ligands, with automated pipelines.
+- Challenge and comparison papers (Polaris/ASAP 2025 and related JCIM
+  docking evaluations) use community test sets, pose-success rates, and
+  released code/data.
+- Method papers still usually report CASF, DUD-E, DEKOIS, LIT-PCBA, or
+  similarly large established sets, plus a DOI.
+
+The journal has published negative and formulation-critical work, so a
+small, honest audit is not automatically out of scope. Scale, independent
+testing, and deposit remain the usual difference between “publishable
+evaluation” and “internal methods note.”
+
+## What this manuscript actually contributes
+
+The durable contribution is not a performance ranking. It is that
+dual-target docking evidence changes with the negative class and with
+receptor realization:
+
+- EGFR/HER2 Dual versus neither 0.756 versus directional `summary_min`
+  0.430; independent GNINA pose generation 0.783 versus 0.220.
+- ECFP4/property baselines often match or beat docking; adding docking
+  to ECFP4 changed CV AUROC by at most 0.020.
+- The same PIK3CA receptor swap lowered PIK3CA/mTOR `summary_min` and
+  raised PIK3CA/PIK3CB.
+- Document-blocked CV left the EGFR/HER2 weak arm at 0.430 and showed
+  that PIK3CA/mTOR Dual versus B-only cannot be stably estimated.
+
+Those findings are JCIM-relevant. They are also empirically thin.
+
+## What the new local results change — and what they do not
+
+Completed locally on 2026-08-26:
+
+1. Assay-context metadata review of 186 priority ligands: 179 include /
+   7 uncertain / 0 exclude; **zero frozen-label flips**. Construct and
+   mutation remain `unknown`. This is **not** assay harmonization and
+   does **not** recompute Table 2.
+2. Reconstructed EGFR/HER2 cognate QC (not historical production):
+   topology-checked 3POZ top-1 9.505 Å / top-3 6.227 Å / best-of-9
+   0.760 Å (ranking fails; search coverage passes); 3RCD top-1 1.855 Å
+   (passes). This closes a reproducibility hole and strengthens the
+   search-coverage versus ranking distinction already made for 4BDS/4JT6.
+
+These items lower a specific reviewer complaint (“missing cognate
+artifacts / empty include-exclude columns”). They do not move the paper
+across the JCIM bar.
+
+## Remaining gaps versus the 2023–2026 bar
+
+| Gap | Status after local deposit | Effect on JCIM fit |
+|-----|----------------------------|--------------------|
+| K = 4; three kinase ATP sites; shared PIK3CA | Unchanged | Looks like a case series, not a benchmark |
+| All four primary `summary_min` CIs include 0.5 | Unchanged | No pair has a statistically resolved directional effect |
+| No docked database-external or time-split test | 2018 split unevaluable; BindingDB not-in-panel supply exists on all four pairs but UniChem/PMID independence was not finished and nothing was docked | Reviewers can reject for missing independent test |
+| Assay not paper-harmonized | Metadata pass only | Labels remain operational, not experimental ground truth |
+| No Zenodo DOI | Still a moving branch | Data Availability is below current JCIM practice |
+| No prospective experiment | Out of scope | Acceptable only if claims stay computational |
+
+## Permitted versus fatal claims at submission
+
+Permitted:
+
+- Four-pair formulation audit of docking-based dual-target recognition.
+- Selective hard negatives and confounder/receptor checks are necessary
+  evaluation controls in these panels.
+- EGFR/HER2 shows a descriptive Dual-versus-neither versus directional
+  gap under Vina and one GNINA protocol.
+
+Fatal if stated:
+
+- A general, representative, or comprehensive dual-target docking
+  benchmark.
+- Target-general reliability or systematic overestimation.
+- Assay-harmonized ground truth.
+- External validation, including shopping the 2015 AChE/BChE time split.
+- That reconstructed 3POZ QC is the original production pose set.
+
+## Practical recommendation
+
+Do **not** send this as a methods/benchmark Research Article claiming
+broad docking performance.
+
+A realistic path is a short, tightly titled evaluation Article (current
+title is already the right scope) after:
+
+1. minting a Zenodo DOI from a frozen tag;
+2. either docking a true BindingDB-independent slice on ≥2 pairs or
+   stating in the cover letter that independent docking was impossible
+   because supply/literature overlap failed the pre-frozen gate;
+3. keeping every CI-includes-0.5 sentence.
+
+Even then, a 2024–2026 JCIM reviewer can still reject for N and for the
+unresolved independent-test gap. That risk is scientific, not editorial
+wording.

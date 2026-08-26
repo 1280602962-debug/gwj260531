@@ -600,6 +600,67 @@ def main() -> None:
             )
         )
 
+    pri = _read(TAB / "assay_context_priority_ligands_v1.csv")
+    rows.append(
+        row(
+            block="assay_context",
+            manuscript_table="Table S42",
+            pair="all",
+            setting="metadata_review",
+            metric="n_priority",
+            value=len(pri),
+            note=(
+                "include="
+                + str(sum(r["human_include_exclude"] == "include" for r in pri))
+                + "; uncertain="
+                + str(sum(r["human_include_exclude"] == "uncertain" for r in pri))
+                + "; exclude="
+                + str(sum(r["human_include_exclude"] == "exclude" for r in pri))
+                + "; no frozen-class flips; construct/mutation unknown"
+            ),
+            source_file="data/jcim_novelty_v0/tables/assay_context_priority_ligands_v1.csv",
+        )
+    )
+    recon = ROOT / "data/egfr_her2_panel40_v0/cognate_qc/cognate_reconstructed_qc_summary_v1.csv"
+    if recon.exists():
+        for r in _read(recon):
+            rows.append(
+                row(
+                    block="cognate_reconstructed_qc",
+                    manuscript_table="Table S3",
+                    pair=r["pair"],
+                    setting=r["pdb"],
+                    metric="rmsd_top1",
+                    value=r["rmsd_top1"],
+                    note=(
+                        f"reconstructed_qc; top3={r['rmsd_top3_min']}; best9={r['rmsd_best9_min']}; "
+                        "manuscript uses cognate_rank_rmsd_reaudit_v1.csv CalcRMS"
+                    ),
+                    source_file="data/egfr_her2_panel40_v0/cognate_qc/cognate_reconstructed_qc_summary_v1.csv",
+                )
+            )
+    bdb_path = TAB / "bindingdb_independence_summary_v1.csv"
+    if bdb_path.exists() and bdb_path.stat().st_size:
+        for r in _read(bdb_path):
+            rows.append(
+                row(
+                    block="bindingdb_independence",
+                    manuscript_table="Table S43",
+                    pair=r["pair"],
+                    setting="structure_and_literature",
+                    metric="gate_independent",
+                    n_dual=r.get("indep_dual", ""),
+                    n_A_only=r.get("indep_A_only", ""),
+                    n_B_only=r.get("indep_B_only", ""),
+                    note=(
+                        f"gate={r['gate_independent']}; packaged={r['packaged_as_external_validation']}; "
+                        f"BDB_both={r['n_bindingdb_both_equal_mixed']}; "
+                        f"in_map={r['n_structure_in_chembl_map']}; pubmed={r.get('pubmed_lookup_status','')}"
+                    ),
+                    source_file="data/jcim_novelty_v0/tables/bindingdb_independence_summary_v1.csv",
+                )
+            )
+
     out_path = TAB / "MASTER_RESULTS_TABLE.csv"
     with out_path.open("w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=FIELDS, lineterminator="\n")

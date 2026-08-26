@@ -96,6 +96,13 @@ def main():
     near(one(cognate, pdb="4BDS", pose_rank="1")["best_top1_A"], 4.7941)
     near(one(cognate, pdb="4BDS", pose_rank="1")["best_top3_A"], 0.3856)
     near(one(cognate, pdb="2WXF", pose_rank="1")["best_top1_A"], 0.4048)
+    near(one(cognate, pdb="3POZ", pose_rank="1")["best_top1_A"], 9.5054)
+    near(one(cognate, pdb="3POZ", pose_rank="1")["best_top3_A"], 6.227)
+    near(one(cognate, pdb="3POZ", pose_rank="1")["best_all_deposited_A"], 0.7599)
+    assert one(cognate, pdb="3POZ", pose_rank="1")["pass_top1_lt2"] == "0"
+    assert one(cognate, pdb="3POZ", pose_rank="1")["pass_top3_lt2"] == "0"
+    near(one(cognate, pdb="3RCD", pose_rank="1")["best_top1_A"], 1.8546)
+    assert one(cognate, pdb="3RCD", pose_rank="1")["pass_top1_lt2"] == "1"
 
     chemistry = rows("class_chemistry_summary_v1.csv")
     near(one(chemistry, pair="AChE/BChE", **{"class": "dual"})["tpsa_median"], 76.02)
@@ -110,6 +117,8 @@ def main():
         "do not define a target-general reliability boundary",
         "is not claimed as external validation",
         "not stably estimable",
+        "reconstructed QC",
+        "179 include / 7 uncertain / 0 exclude",
     )
     for phrase in required_phrases:
         assert phrase in manuscript, phrase
@@ -138,13 +147,23 @@ def main():
 
     assay = rows("assay_context_priority_ligands_v1.csv")
     assert len(assay) == 186
-    # After local human review, include/exclude must be filled for every priority ligand.
     assert all(r["human_include_exclude"] in {"include", "exclude", "uncertain"} for r in assay)
     assert all(r.get("reviewed_by", "") != "" for r in assay)
+    assert sum(r["human_include_exclude"] == "include" for r in assay) == 179
+    assert sum(r["human_include_exclude"] == "uncertain" for r in assay) == 7
+    assert sum(r["human_include_exclude"] == "exclude" for r in assay) == 0
+    assert all(r["human_reviewed_class"] == r["frozen_class"] for r in assay)
+
+    bdb = TAB / "bindingdb_independence_summary_v1.csv"
+    if bdb.exists() and bdb.stat().st_size > 0:
+        summary = rows("bindingdb_independence_summary_v1.csv")
+        assert all(r["packaged_as_external_validation"] == "0" for r in summary)
 
     zh = (ROOT / "docs" / "MANUSCRIPT_JCIM_ZH.md").read_text(encoding="utf-8")
     assert "confidence≥8 与 Homo sapiens 过滤未重建" not in zh
     assert "不作为外部验证" in zh
+    assert "纳入/排除与构建体/突变核查栏仍为空" not in zh
+    assert "人工纳入/排除仍待本地阅读原文" not in zh
     print("revision validation: PASS")
 
 

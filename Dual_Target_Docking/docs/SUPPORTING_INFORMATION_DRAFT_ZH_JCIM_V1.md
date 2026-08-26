@@ -48,7 +48,8 @@
 | Table S39 | `document_blocked_cv_summary_v1.csv` + `document_cluster_bootstrap_v1.csv`（文献阻断 CV） |
 | Table S40 | `document_blocked_cv_methods_v1.csv` + `document_blocked_cv_folds_v1.csv`（同一折上的 ECFP4/物化/docking） |
 | Table S41 | `time_split_class_counts_v1.csv` + `time_split_auroc_v1.csv`（冻结文献年份分割） |
-| Table S42 | `assay_context_priority_ligands_v1.csv` + `assay_context_audit.csv`（assay-context 机器审计） |
+| Table S42 | `assay_context_priority_ligands_v1.csv` + `assay_context_audit.csv`（assay-context 机器审计 + 元数据纳入/排除） |
+| Table S43 | `bindingdb_independence_summary_v1.csv`（BindingDB 结构/文献独立性计数；未对接，不包装为外部验证） |
 | Master index | `data/jcim_novelty_v0/tables/MASTER_RESULTS_TABLE.csv` |
 | Figure S4 | `figures/jcim_article/FigS_pocket_matched_forest.png`（原主文森林图） |
 | Figure S5 | `figures/jcim_article/FigS_unused_pool_holdout.png` |
@@ -128,12 +129,12 @@
 | AChE | 4EY7 | E20 | 8 | 0.339 | 0.339 | 0.339 (8 poses) | 1 | 8 |
 | BChE | 4BDS | THA | 8 | **4.794** | **0.386** | **0.386** | 3 | 8 |
 | PIK3CB | 2WXF | 039 | 8 | 0.405 | 0.405 | 0.405 | 1 | 8 |
-| EGFR | 3POZ | 03P | 8 | **9.483** | NA† | **0.955** | 未沉积 | 8 |
-| HER2 | 3RCD | 03P | 8 | 1.941 | NA† | 1.941 | 1 | 8 |
+| EGFR | 3POZ | 03P | 8 | **9.505** | **6.227** | **0.760** | 7 | 8 |
+| HER2 | 3RCD | 03P | 8 | 1.855 | 1.394 | 1.394 | 3 | 8 |
 
 \* E = 8 历史表仅给 mode1、best mode = 2 与 best-all；因此 top-3 等于已知 best-all。
 
-† EGFR/HER2 仓库未沉积 cognate pose 文件，无法独立重算 top-3；保留历史 summary，不以推断值填表。
+EGFR/HER2 行为 **reconstructed QC**（原始九姿态生产 PDBQT 未找回；Vina seed 20260727、E = 8、9 modes）。稿件数字取 `cognate_rank_rmsd_reaudit_v1.py` 的 RDKit symmetry-aware `CalcRMS`，不是重建脚本中的匈牙利匹配 RMSD。历史 as-run summary（3POZ top-1 9.483 / best 0.955；3RCD top-1 1.941）仅作量级对照，不以推断值填 top-3。
 
 补充（EGFR 面板历史 as-run，与上表敏感性诊断一致量级）：
 
@@ -146,8 +147,8 @@
 
 1. **八个靶对口袋槽位（七个唯一受体）都做过共晶重对接**；另有未入选候选结构的失败记录（见 S3c），不纳入主协议。
 2. **在 E = 8、门槛 = best_of_9 &lt; 2 Å 时：** 4L23、4EY7、4BDS、2WXF、3POZ、3RCD 通过；**仅 4JT6 未通过**（5.003 Å）。升至 E = 16 后 4JT6 的 best_of_9 = 0.445 Å，故 PIK3CA/mTOR 全面板采用 E = 16。
-3. **不能把“best_of_9 &lt; 2 Å”等同于“Vina mode1 &lt; 2 Å”。** 4JT6 与 4BDS 都是 top-1 失败、top-3 成功；3POZ 在 E = 8/16/32 时 mode1 均约 9.5 Å，近晶构象出现在非 top1 mode。因此本 QC 证明搜索覆盖，不证明 Vina 正确排序 pose。
-4. EGFR/HER2 面板仍用 E = 8：敏感性显示升 E 不能修复 3POZ 的 mode1 排序失败，且 E = 8 时 best_of_9 已 &lt; 2 Å。
+3. **不能把“best_of_9 &lt; 2 Å”等同于“Vina mode1 &lt; 2 Å”。** 4JT6 与 4BDS 都是 top-1 失败、top-3 成功；重建的 3POZ QC 在 E = 8 时 top-1 = 9.505 Å、top-3 = 6.227 Å，近晶构象出现在 mode 7（0.760 Å）。因此本 QC 证明搜索覆盖，不证明 Vina 正确排序 pose。
+4. EGFR/HER2 面板仍用 E = 8：敏感性显示升 E 不能修复 3POZ 的 mode1 排序失败，且 E = 8 时 best_of_9 已 &lt; 2 Å。重建的 3RCD QC 通过 top-1（1.855 Å）。
 
 ### S3c. 受体筛选中试过但未冻结的候选（实验记录，非主结果）
 
@@ -904,9 +905,9 @@ API-max 与 median 差值和重复记录数有预期的正相关，但该诊断�
 
 ---
 
-## Table S42. Assay-context 优先分子机器审计
+## Table S42. Assay-context 优先分子审计与元数据纳入/排除
 
-来源：`assay_context_priority_ligands_v1.csv`、`assay_context_audit.csv`；脚本 `assay_context_audit_v1.py`。这是风险分层提取，不是完成的人工文献核查。`human_include_exclude` 等栏为空。冻结标签未改。优先集合：EGFR/HER2 全部 dual/A-only/B-only（98）、PIK3CA/mTOR neither（4）、混合端点（40）、生化+功能（22）、对主 AUROC 影响最大的分子（20）及高集中文献系列（57）。人工 SOP：`docs/ASSAY_CONTEXT_HUMAN_REVIEW_SOP.md`。
+来源：`assay_context_priority_ligands_v1.csv`、`assay_context_audit.csv`；脚本 `assay_context_audit_v1.py` 与 `assay_context_human_review_v1.py`。机器提取做风险分层；随后一次元数据审核在 ChEMBL assay 自由文本不可用时填写纳入/排除。`protein_construct` 与 `wildtype_or_mutant` 全部为 `unknown`。冻结标签未改。优先集合：EGFR/HER2 全部 dual/A-only/B-only（98）、PIK3CA/mTOR neither（4）、混合端点（40）、生化+功能（22）、对主 AUROC 影响最大的分子（20）及高集中文献系列（57）。人工 SOP：`docs/ASSAY_CONTEXT_HUMAN_REVIEW_SOP.md`。审核摘要：`analysis/ASSAY_CONTEXT_HUMAN_REVIEW_SUMMARY_V1.md`。
 
 | 标记 | n ligands |
 |------|----------:|
@@ -920,6 +921,25 @@ API-max 与 median 差值和重复记录数有预期的正相关，但该诊断�
 | pm_neither_single_document | 4 |
 | non_human_assay_organism | 3 |
 | 优先配体合计（去重） | 186 |
+| include / uncertain / exclude | 179 / 7 / 0 |
+| 相对冻结类别翻转 | 0 |
+
+7 个 uncertain 配体（EGFR/HER2 EH120_045；PIK3CA/mTOR PM48_04、PM48_05、PM48_22；AChE/BChE AB_089、AB_091、AB_094）保留冻结类别。该步骤不是文献级构建体/突变核查。
+
+---
+
+## Table S43. BindingDB 结构与文献独立性计数
+
+来源：`bindingdb_independence_summary_v1.csv`；脚本 `bindingdb_independence_audit_v1.py`；SOP `docs/BINDINGDB_EXTERNAL_SOP.md`；结论 `analysis/BINDINGDB_INDEPENDENCE_VERDICT.md`。规则在查看独立类别计数前冻结：UniProt 锁定、等式关系 IC50/Ki/Kd/EC50、θ = 6.0。相对已打分面板的 InChIKey 去重在本地完成。相对 ChEMBL 可用 pChEMBL 图的 UniChem 去重与完整面板 PMID 去重在本会话未完成（UniChem 单键查询过慢；ChEMBL document API 中途 500/超时）。**未对接，不计算 AUROC，不包装为外部验证。** 去掉面板结构后的供给不能称为数据库外部集。
+
+| 靶对 | BindingDB 两端 dual/A/B/neither | 与已打分面板 InChIKey 重叠 n | 去掉面板结构后 dual/A/B/neither | 面板结构门槛 | 文献+ChEMBL 图门槛 | 包装为外部验证 |
+|------|--------------------------------:|-----------------------------:|--------------------------------:|--------------|--------------------|:--------------:|
+| EGFR/HER2 | 1621/186/92/370 | 96 | 1589/161/62/361 | supply_enough_to_dock | unevaluable | 0 |
+| AChE/BChE | 988/467/253/1003 | 76 | 966/450/230/989 | supply_enough_to_dock | unevaluable | 0 |
+| PIK3CA/PIK3CB | 1371/286/283/605 | 90 | 1341/261/257/596 | supply_enough_to_dock | unevaluable | 0 |
+| PIK3CA/mTOR | 2027/251/279/182 | 44 | 2008/238/266/182 | supply_enough_to_dock | unevaluable | 0 |
+
+若本地后续完成 UniChem + PMID 去重且仍有 ≥2 对 dual/A/B 均 ≥10，才允许对接该独立切片。不得为追逐 AUROC 而改阈值或只对接有利子集。
 
 ---
 
@@ -943,5 +963,5 @@ API-max 与 median 差值和重复记录数有预期的正相关，但该诊断�
 - Table S12 是计数核对（BindingDB REST + PubChem PUG REST），不是对接结果；不得把 `as_is` 的 EGFR ≥50 写成已建成 BindingDB 厚面板。
 - Table S13 是 holdout 效价/尺寸匹配诊断，不替换 Table S8；不得写成错口袋悖论已解决。
 - Table S16–S21 是冻结分数上的补表（零新对接）。S17 的 holdout Δ CI 均含 0；S19 四对描述符 Δ CI 均含 0；S21 是 vina_mean Top-10，不是 Table 2。
-- Table S22–S42 来自 `data/jcim_novelty_v0/`、`data/jcim_structure_robust_v0/` 与 `data/jcim_independent_dock_v0/`：S22 formulation comparison（主文 Figure 3）；S23 chemotype-constrained hard-negatives（T ≥ 0.7 为空；T ≥ 0.3 不是 analogue matching）；S24 incremental ECFP/docking；S25 mixed-library EF；S26 min/arithmetic/geometric/harmonic 聚合敏感性（四对排序不变）；S27 docking N_attempted/success/fail；S28 四个描述符全报；S29 max vs median；S30 两对 PIK3CA receptor-realization；S31 detectable-effect simulation；S32 独立 GNINA 姿态生成；S33 PIK3CA 几何占有率位移；S34 固定口袋负类对照；S35 测量频次；S36 当前 ChEMBL 高置信视图；S37 完整病例覆盖与来源集中度；S38 类别化学空间；S39–S40 文献阻断 CV；S41 冻结时间分割（主截止年不可包装为外部验证）；S42 assay-context 机器审计。Figure S4 = 口袋匹配森林图；Figure S5 = unused-pool holdout；Figure S6 = detectable-effect heatmap；Figure 8 = diagnostic workflow。不得把 Dual-vs-neither 写成 “conventional benchmark”；不得把 EGFR 0.756 vs 0.430 写成配对显著性；不得把 PIK3CA/mTOR Dual-vs-neither（n = 4）写成反转；不得把受体替换写成单向 collapse 或 robustness。不得把 2015 AChE/BChE 时间分割写成全文外部验证。
+- Table S22–S43 来自 `data/jcim_novelty_v0/`、`data/jcim_structure_robust_v0/` 与 `data/jcim_independent_dock_v0/`：S22 formulation comparison（主文 Figure 3）；S23 chemotype-constrained hard-negatives（T ≥ 0.7 为空；T ≥ 0.3 不是 analogue matching）；S24 incremental ECFP/docking；S25 mixed-library EF；S26 min/arithmetic/geometric/harmonic 聚合敏感性（四对排序不变）；S27 docking N_attempted/success/fail；S28 四个描述符全报；S29 max vs median；S30 两对 PIK3CA receptor-realization；S31 detectable-effect simulation；S32 独立 GNINA 姿态生成；S33 PIK3CA 几何占有率位移；S34 固定口袋负类对照；S35 测量频次；S36 当前 ChEMBL 高置信视图；S37 完整病例覆盖与来源集中度；S38 类别化学空间；S39–S40 文献阻断 CV；S41 冻结时间分割（主截止年不可包装为外部验证）；S42 assay-context 元数据审核（无冻结标签翻转）；S43 BindingDB 独立性计数（未对接）。Figure S4 = 口袋匹配森林图；Figure S5 = unused-pool holdout；Figure S6 = detectable-effect heatmap；Figure 8 = diagnostic workflow。不得把 Dual-vs-neither 写成 “conventional benchmark”；不得把 EGFR 0.756 vs 0.430 写成配对显著性；不得把 PIK3CA/mTOR Dual-vs-neither（n = 4）写成反转；不得把受体替换写成单向 collapse 或 robustness。不得把 2015 AChE/BChE 时间分割写成全文外部验证。不得把 BindingDB 计数写成已对接外部验证。不得把 EGFR/HER2 reconstructed QC 写成历史生产 pose。
 - Figure S3 不得复用 Figure 6 的 AUROC 柱；它只画配对 Δ ± CI。

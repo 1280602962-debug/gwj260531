@@ -10,5 +10,13 @@ as reconstructed QC, not as the original production gate artifact.
 | 3POZ | 7.7795 | 4.9358 | 0.6802 | 0 | 0 |
 | 3RCD | 1.7294 | 1.1126 | 1.1126 | 1 | 1 |
 
+Manuscript-facing ranked RMSD uses RDKit symmetry-aware `CalcRMS` in
+`cognate_rank_rmsd_reaudit_v1.csv`, not the Hungarian values above:
+
+| target | top-1 | top-3 min | best-of-9 | pass top-1 | pass top-3 |
+|--------|------:|----------:|----------:|:----------:|:----------:|
+| 3POZ | 9.5054 | 6.2270 | 0.7599 | 0 | 0 |
+| 3RCD | 1.8546 | 1.3944 | 1.3944 | 1 | 1 |
+
 Crystal ligand: residue `03P` (TAK-285) in both 3POZ and 3RCD.
 Artifacts: `data/egfr_her2_panel40_v0/cognate_qc/`.
