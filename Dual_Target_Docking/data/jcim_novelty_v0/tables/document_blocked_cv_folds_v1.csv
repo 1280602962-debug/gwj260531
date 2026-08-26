@@ -1,0 +1,40 @@
+pair,contrast,fold,n_train,n_test,n_test_pos,n_test_neg,n_test_groups,n_test_documents,train_test_group_overlap,rank_auroc,kept,note
+EGFR/HER2,D_vs_A,1,42,24,12,12,1,123,0,0.6944,1,both classes present; document groups do not overlap
+EGFR/HER2,D_vs_A,2,55,11,7,4,7,7,0,0.7857,1,both classes present; document groups do not overlap
+EGFR/HER2,D_vs_A,3,55,11,6,5,7,8,0,0.5667,1,both classes present; document groups do not overlap
+EGFR/HER2,D_vs_A,4,56,10,2,8,6,7,0,0.625,1,both classes present; document groups do not overlap
+EGFR/HER2,D_vs_A,5,56,10,1,9,7,11,0,1.0,1,both classes present; document groups do not overlap
+EGFR/HER2,D_vs_B,1,31,29,12,17,1,90,0,0.4559,1,both classes present; document groups do not overlap
+EGFR/HER2,D_vs_B,2,52,8,7,1,5,5,0,0.5714,1,both classes present; document groups do not overlap
+EGFR/HER2,D_vs_B,3,52,8,3,5,5,5,0,0.3333,1,both classes present; document groups do not overlap
+EGFR/HER2,D_vs_B,4,52,8,4,4,6,7,0,0.625,1,both classes present; document groups do not overlap
+EGFR/HER2,D_vs_B,5,53,7,2,5,6,6,0,0.5,1,both classes present; document groups do not overlap
+AChE/BChE,D_vs_A,1,41,11,6,5,8,8,0,0.6,1,both classes present; document groups do not overlap
+AChE/BChE,D_vs_A,2,41,11,6,5,8,8,0,0.5667,1,both classes present; document groups do not overlap
+AChE/BChE,D_vs_A,3,42,10,5,5,7,7,0,0.6,1,both classes present; document groups do not overlap
+AChE/BChE,D_vs_A,4,42,10,4,6,8,11,0,0.8333,1,both classes present; document groups do not overlap
+AChE/BChE,D_vs_A,5,42,10,6,4,8,63,0,0.7083,1,both classes present; document groups do not overlap
+AChE/BChE,D_vs_B,1,44,11,4,7,8,8,0,0.8214,1,both classes present; document groups do not overlap
+AChE/BChE,D_vs_B,2,44,11,5,6,8,8,0,0.6667,1,both classes present; document groups do not overlap
+AChE/BChE,D_vs_B,3,44,11,8,3,8,62,0,0.75,1,both classes present; document groups do not overlap
+AChE/BChE,D_vs_B,4,44,11,6,5,8,8,0,0.5667,1,both classes present; document groups do not overlap
+AChE/BChE,D_vs_B,5,44,11,4,7,9,9,0,0.4643,1,both classes present; document groups do not overlap
+PIK3CA/PIK3CB,D_vs_A,1,44,11,4,7,5,11,0,1.0,1,both classes present; document groups do not overlap
+PIK3CA/PIK3CB,D_vs_A,2,44,11,2,9,7,7,0,0.7778,1,both classes present; document groups do not overlap
+PIK3CA/PIK3CB,D_vs_A,3,44,11,6,5,7,8,0,0.6,1,both classes present; document groups do not overlap
+PIK3CA/PIK3CB,D_vs_A,4,44,11,8,3,7,9,0,0.2917,1,both classes present; document groups do not overlap
+PIK3CA/PIK3CB,D_vs_A,5,44,11,8,3,7,8,0,1.0,1,both classes present; document groups do not overlap
+PIK3CA/PIK3CB,D_vs_B,1,44,12,4,8,6,8,0,0.625,1,both classes present; document groups do not overlap
+PIK3CA/PIK3CB,D_vs_B,2,45,11,5,6,6,7,0,0.3333,1,both classes present; document groups do not overlap
+PIK3CA/PIK3CB,D_vs_B,3,45,11,7,4,6,10,0,0.3929,1,both classes present; document groups do not overlap
+PIK3CA/PIK3CB,D_vs_B,4,45,11,7,4,6,7,0,0.7857,1,both classes present; document groups do not overlap
+PIK3CA/PIK3CB,D_vs_B,5,45,11,5,6,6,6,0,0.3667,1,both classes present; document groups do not overlap
+PIK3CA/mTOR,D_vs_A,2,28,4,0,4,1,2,0,,0,fold dropped: a class is missing in train or test
+PIK3CA/mTOR,D_vs_A,5,30,2,0,2,2,2,0,,0,fold dropped: a class is missing in train or test
+PIK3CA/mTOR,D_vs_A,1,12,20,15,5,1,122,0,0.8133,1,both classes present; document groups do not overlap
+PIK3CA/mTOR,D_vs_A,3,29,3,2,1,2,4,0,0.0,1,both classes present; document groups do not overlap
+PIK3CA/mTOR,D_vs_A,4,29,3,1,2,2,8,0,1.0,1,both classes present; document groups do not overlap
+PIK3CA/mTOR,D_vs_B,2,27,3,0,3,2,2,0,,0,fold dropped: a class is missing in train or test
+PIK3CA/mTOR,D_vs_B,3,27,3,0,3,2,2,0,,0,fold dropped: a class is missing in train or test
+PIK3CA/mTOR,D_vs_B,4,27,3,3,0,2,10,0,,0,fold dropped: a class is missing in train or test
+PIK3CA/mTOR,D_vs_B,5,28,2,0,2,2,2,0,,0,fold dropped: a class is missing in train or test

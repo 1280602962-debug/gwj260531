@@ -81,3 +81,11 @@ and `data/jcim_structure_robust_v0/analysis/plif_v1/` (geometric occupancy).
 SOPs remain in `docs/AGENT_COMMAND_INDEPENDENT_POSE_GENERATION_V1.md` and
 `docs/AGENT_COMMAND_RECEPTOR_PLIF_V1.md`. Do not rerun them in a cloud
 environment without GNINA/smina and frozen pose workspaces.
+
+## 5. Phase-1 revision analyses (still zero docking)
+
+```bash
+bash scripts/run_phase1_revision.sh
+```
+
+This rebuilds document-blocked CV, the assay-context machine extract, the frozen literature-year split, cognate inventory, assembled manuscripts, and the checksum manifest. It does not dock new ligands or mint a Zenodo DOI.

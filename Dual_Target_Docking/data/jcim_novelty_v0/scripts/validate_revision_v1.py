@@ -108,9 +108,41 @@ def main():
         "rank-extreme lower bounds",
         "not a top-ranked-pose validation",
         "do not define a target-general reliability boundary",
+        "is not claimed as external validation",
+        "not stably estimable",
     )
     for phrase in required_phrases:
         assert phrase in manuscript, phrase
+
+    blocked = rows("document_blocked_cv_summary_v1.csv")
+    near(one(blocked, pair="EGFR/HER2", contrast="D_vs_B")["rank_auroc_full"], 0.4297)
+    near(one(blocked, pair="EGFR/HER2", contrast="D_vs_B")["ecfp4_auroc_oof"], 0.6228)
+    assert one(blocked, pair="PIK3CA/mTOR", contrast="D_vs_B")["status"] == "cannot_stably_estimate"
+    assert sum(r["status"] == "ok" for r in blocked) == 7
+
+    time_split = rows("time_split_auroc_v1.csv")
+    assert all(
+        r["packaged_as_external_validation"] == "0"
+        for r in time_split
+        if r["cutoff_year"] == "2018"
+    )
+    counts = rows("time_split_class_counts_v1.csv")
+    primary_egfr = one(
+        counts, cutoff_year="2018", pair="EGFR/HER2", split="test_on_or_after"
+    )
+    assert (primary_egfr["n_dual"], primary_egfr["n_A_only"], primary_egfr["n_B_only"]) == (
+        "6",
+        "3",
+        "14",
+    )
+
+    assay = rows("assay_context_priority_ligands_v1.csv")
+    assert len(assay) == 186
+    assert all(r["human_include_exclude"] == "" for r in assay)
+
+    zh = (ROOT / "docs" / "MANUSCRIPT_JCIM_ZH.md").read_text(encoding="utf-8")
+    assert "confidence≥8 与 Homo sapiens 过滤未重建" not in zh
+    assert "不作为外部验证" in zh
     print("revision validation: PASS")
 
 

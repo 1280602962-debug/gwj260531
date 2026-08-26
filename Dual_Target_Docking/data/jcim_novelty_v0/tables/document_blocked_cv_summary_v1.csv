@@ -1,0 +1,9 @@
+pair,contrast,n_ligands,n_pos,n_neg,n_documents,n_pos_documents,n_neg_documents,n_groups,largest_group_n,largest_group_fraction,n_splits_requested,n_valid_folds,rank_auroc_full,rank_auroc_doc_blocked_mean_fold,rank_auroc_doc_blocked_oof,ecfp4_auroc_oof,physchem_auroc_oof,docking_logistic_auroc_oof,doc_cluster_boot_lo,doc_cluster_boot_hi,n_valid_boot,status,note
+EGFR/HER2,D_vs_A,66,28,38,156,102,65,28,24,0.3636,5,5,0.6664,0.7344,0.6664,0.6269,0.7256,0.5818,0.4644,0.7949,2000,ok,document-connected groups frozen; worse AUROC retained
+EGFR/HER2,D_vs_B,60,28,32,113,102,16,23,29,0.4833,5,5,0.4297,0.4971,0.4297,0.6228,0.3359,0.4688,0.3214,0.6171,2000,ok,document-connected groups frozen; worse AUROC retained
+AChE/BChE,D_vs_A,52,27,25,97,77,20,39,3,0.0577,5,5,0.6504,0.6617,0.6504,0.8474,0.5956,0.6148,0.497,0.8093,2000,ok,document-connected groups frozen; worse AUROC retained
+AChE/BChE,D_vs_B,55,27,28,95,77,20,41,3,0.0545,5,5,0.6058,0.6538,0.6058,0.7672,0.7262,0.5397,0.4286,0.7528,2000,ok,document-connected groups frozen; worse AUROC retained
+PIK3CA/PIK3CB,D_vs_A,55,28,27,43,25,20,33,6,0.1091,5,5,0.6905,0.7339,0.6905,0.6521,0.4974,0.5357,0.46,0.8679,2000,ok,document-connected groups frozen; worse AUROC retained
+PIK3CA/PIK3CB,D_vs_B,56,28,28,38,25,15,30,4,0.0714,5,5,0.5,0.5007,0.5,0.8342,0.7551,0.3367,0.3103,0.6982,2000,ok,document-connected groups frozen; worse AUROC retained
+PIK3CA/mTOR,D_vs_A,32,18,14,138,118,30,8,20,0.625,5,3,0.7143,0.6044,0.7778,0.5139,0.5208,0.5903,0.4,0.8864,1946,ok,document-connected groups frozen; worse AUROC retained
+PIK3CA/mTOR,D_vs_B,30,18,12,129,118,19,9,19,0.6333,5,1,0.6921,,,,,,0.0,0.8179,1949,cannot_stably_estimate,only 1 folds contained both classes; grouping rule not changed

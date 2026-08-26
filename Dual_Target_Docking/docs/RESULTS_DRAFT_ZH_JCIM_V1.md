@@ -56,6 +56,18 @@ PIK3CA/mTOR 的情况有所不同。加入重原子数和 TPSA 后，AUROC 的�
 
 主标签使用可用 pChEMBL 的最大值。将最大值换成重复测定中位数后，改变了 7/110、1/95、1/99 和 0/48 个配体状态分配，标签一致率分别为 93.6%、98.9%、99.0% 和 100%。API 重拉标签上的靶对 `summary_min` 仅适度变化（0.417→0.424、0.606→0.629、0.500→0.500 和 0.692→0.692；Table S29）。
 
+测量频次仍呈类别不平衡（Table S35）。PIK3CA/mTOR 上 dual 配体两端 API 记录数中位数为 22，A-only、B-only 与 neither 分别为 3、3 和 2。EGFR/HER2 有一个 dual 配体含 318 条记录。这些计数不证明测量频次导致了观察得的 AUROC，但说明 max-versus-median 标签稳定并不能消除类别间的 profiling 强度差异。
+
+post-hoc 当前 ChEMBL 高置信视图审计了 2748 条 activity records，在显式靶标、confidence、relation、endpoint、validity 与 duplicate 过滤后保留 1546 条；513 条因 potential duplicate 排除（Table S36）。全部 352 个已打分配体在两端均至少保留一条合格记录，且 352 个高置信 θ = 6.0 状态与冻结状态一致，因此四条方向性点估计不变。该结果针对当前数据库快照上的指定记录过滤，而不是 assay 条件等价或进入双端测定子集的选择机制。
+
+覆盖审计量化了这一选择（Table S37）。在至少一端有可用 pChEMBL 的结构中，EGFR/HER2、AChE/BChE、PIK3CA/PIK3CB 与 PIK3CA/mTOR 两端均有值的比例分别为 14.5%、34.0%、23.3% 和 26.5%。缺失不解释为无活性。来源文献集中度也随类别变化。最突出的是 PIK3CA/mTOR 的 4 个 neither 配体及其 8 条保留记录全部来自同一篇 ChEMBL 文献。
+
+在同一套冻结 Vina 分数上，按文献阻断交叉验证后，EGFR/HER2 的弱方向臂仍为 0.430（document-cluster bootstrap 95% CI [0.321, 0.617]；5 个有效折；23 个组；113 篇文献；Table S39）。Dual versus A-only 仍为 0.666。同一折上 ECFP4 logistic 的 OOF AUROC 为 0.623，低于支架分组的 0.89，说明同篇文献系列贡献了二维信号。八个方向臂中七个可估计；PIK3CA/mTOR Dual versus B-only 在 9 个文献连通组中只有 1 个折同时含两类（最大组 19/30），按原规则报告为无法稳定估计（Table S40）。
+
+预先冻结的 2018 时间分割在任何靶对上都未达到样本量门槛（测试集 dual/A-only/B-only/neither：EGFR/HER2 6/3/14/2；AChE/BChE 8/5/15/6；PIK3CA/PIK3CB 12/11/0/3；PIK3CA/mTOR 2/0/1/0；Table S41）。2015 敏感性中仅 AChE/BChE 三类均 ≥10（11/11/24）。主截止年可评估靶对少于两个，因此不包装为外部验证。BindingDB 仍是下一步独立来源选项，此处未启动。
+
+机器 assay-context 审计标记了 186 个优先配体（1163 条保留 activity 行），包括 98 个 EGFR/HER2 方向类配体、40 个混合端点配体、22 个同时有生化与功能实验的配体，以及 4 个 PIK3CA/mTOR neither 配体（Table S42）。纳入/排除与构建体/突变核查栏仍为空，冻结标签未改。
+
 将 exhaustiveness 从 16 降至 8 后，PIK3CA/mTOR 的 summary_min 从 0.692 降至 0.660（Figure S1D）。在 PM110 面板中（n_scored = 115；dual / A_only / B_only 各 30），Vina summary_min 为 0.648 [0.51, 0.76]，相比 PM48 下降约 0.04，排序趋势保持一致（Figure S1C）。在未使用配体池留出集中（每对 20 / 20 / 20，种子 20260731；EGFR/HER2 不具备同等配额），PIK3CA/mTOR 的 summary_min 为 0.765 [0.603, 0.891]，AChE/BChE 为 0.618 [0.422, 0.759]，PIK3CA/PIK3CB 则下降至 0.425 [0.241, 0.618]（Tables S8、S16）。该留出集共享同一 ChEMBL 抓取批次。
 
 我们进一步测试受体实现：一端受体冻结，只替换另一端（Figure 5；Tables S9、S30）。三个替代晶体均通过共晶重对接 QC（best-of-9 RMSD 分别为 4JPS 0.607 Å、5DXT 0.624 Å、4JSX 0.515 Å）。在 PIK3CA/mTOR 上，当 PIK3CA 4L23 替换为 4JPS 或 5DXT、mTOR 4JT6 保持不变时，PM48 的 summary_min 分别由 0.692 降至 0.486 [0.259, 0.692] 和 0.505 [0.292, 0.696]（Figure 5A）。变化主要发生在依赖替代 PIK3CA 结构的 D/B 方向，D/A 保持 0.714。将 mTOR 4JT6 替换为 4JSX 后 summary_min 为 0.639 [0.418, 0.776]。

@@ -562,6 +562,44 @@ def main() -> None:
             )
         )
 
+    blocked = _read(TAB / "document_blocked_cv_summary_v1.csv")
+    for r in blocked:
+        rows.append(
+            row(
+                block="document_blocked",
+                manuscript_table="Table S39",
+                pair=r["pair"],
+                setting=r["contrast"],
+                metric="rank_auroc_full",
+                value=r["rank_auroc_full"],
+                ci_lo=r["doc_cluster_boot_lo"],
+                ci_hi=r["doc_cluster_boot_hi"],
+                n_dual=r["n_pos"],
+                n_A_only=r["n_neg"] if r["contrast"] == "D_vs_A" else "",
+                n_B_only=r["n_neg"] if r["contrast"] == "D_vs_B" else "",
+                note=f"status={r['status']}; groups={r['n_groups']}; docs={r['n_documents']}; valid_folds={r['n_valid_folds']}",
+                source_file="data/jcim_novelty_v0/tables/document_blocked_cv_summary_v1.csv",
+            )
+        )
+    time_split = _read(TAB / "time_split_class_counts_v1.csv")
+    for r in time_split:
+        if r["split"] != "test_on_or_after":
+            continue
+        rows.append(
+            row(
+                block="time_split",
+                manuscript_table="Table S41",
+                pair=r["pair"],
+                setting=f"cutoff_{r['cutoff_year']}",
+                metric="test_gate",
+                n_dual=r["n_dual"],
+                n_A_only=r["n_A_only"],
+                n_B_only=r["n_B_only"],
+                note=f"gate={r['gate']}; neither={r['n_neither']}; not packaged as external validation at primary 2018",
+                source_file="data/jcim_novelty_v0/tables/time_split_class_counts_v1.csv",
+            )
+        )
+
     out_path = TAB / "MASTER_RESULTS_TABLE.csv"
     with out_path.open("w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=FIELDS, lineterminator="\n")

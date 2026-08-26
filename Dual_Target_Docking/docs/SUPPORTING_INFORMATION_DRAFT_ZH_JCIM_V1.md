@@ -45,6 +45,10 @@
 | Table S36 | `high_confidence_summary_v1.csv` + `high_confidence_activity_audit_v1.csv`（当前 ChEMBL 高置信标签视图） |
 | Table S37 | `complete_case_usable_pchembl_overlap_v1.csv` + `source_document_concentration_v1.csv`（完整病例覆盖与来源集中度） |
 | Table S38 | `class_chemistry_summary_v1.csv`（类别化学空间与骨架诊断） |
+| Table S39 | `document_blocked_cv_summary_v1.csv` + `document_cluster_bootstrap_v1.csv`（文献阻断 CV） |
+| Table S40 | `document_blocked_cv_methods_v1.csv` + `document_blocked_cv_folds_v1.csv`（同一折上的 ECFP4/物化/docking） |
+| Table S41 | `time_split_class_counts_v1.csv` + `time_split_auroc_v1.csv`（冻结文献年份分割） |
+| Table S42 | `assay_context_priority_ligands_v1.csv` + `assay_context_audit.csv`（assay-context 机器审计） |
 | Master index | `data/jcim_novelty_v0/tables/MASTER_RESULTS_TABLE.csv` |
 | Figure S4 | `figures/jcim_article/FigS_pocket_matched_forest.png`（原主文森林图） |
 | Figure S5 | `figures/jcim_article/FigS_unused_pool_holdout.png` |
@@ -825,7 +829,7 @@ API-max 与 median 差值和重复记录数有预期的正相关，但该诊断�
 | PIK3CA/mTOR | B-only | 12 | 58 | 19 | 0.293 | 0.083 |
 | PIK3CA/mTOR | neither | 4 | 8 | 1 | 1.000 | 1.000 |
 
-该审计量化了完整病例选择与来源集中风险，不能推断未测结构的真实活性，也不能替代 document-blocked 或外部验证。
+该审计量化了完整病例选择与来源集中风险，不能推断未测结构的真实活性。文献阻断与时间分割见 Tables S39–S41。
 
 ---
 
@@ -854,6 +858,71 @@ API-max 与 median 差值和重复记录数有预期的正相关，但该诊断�
 
 ---
 
+## Table S39. 文献阻断交叉验证与 document-cluster bootstrap
+
+来源：`document_blocked_cv_summary_v1.csv`、`document_cluster_bootstrap_v1.csv`；脚本 `document_blocked_cv_v1.py`。共享任一保留高置信 `document_id` 的配体为同一组。分组规则在看到 AUROC 后未更改。rank AUROC 为冻结 Vina 口袋匹配分数；OOF 模型使用相同 `GroupKFold`。PIK3CA/mTOR Dual versus B-only 只有 1 个同时含两类的折，报告为无法稳定估计。
+
+| 靶对 | 对比 | n_pos/n_neg | groups | documents | valid folds | rank full | rank mean-fold | ECFP4 OOF | physchem OOF | dock logistic OOF | doc-cluster 95% CI | status |
+|------|------|-------------|-------:|----------:|------------:|----------:|---------------:|----------:|-------------:|------------------:|--------------------|--------|
+| EGFR/HER2 | D_vs_A | 28/38 | 28 | 156 | 5 | 0.666 | 0.734 | 0.627 | 0.726 | 0.582 | [0.464, 0.795] | ok |
+| EGFR/HER2 | D_vs_B | 28/32 | 23 | 113 | 5 | 0.430 | 0.497 | 0.623 | 0.336 | 0.469 | [0.321, 0.617] | ok |
+| AChE/BChE | D_vs_A | 27/25 | 39 | 97 | 5 | 0.650 | 0.662 | 0.847 | 0.596 | 0.615 | [0.497, 0.809] | ok |
+| AChE/BChE | D_vs_B | 27/28 | 41 | 95 | 5 | 0.606 | 0.654 | 0.767 | 0.726 | 0.540 | [0.429, 0.753] | ok |
+| PIK3CA/PIK3CB | D_vs_A | 28/27 | 33 | 43 | 5 | 0.691 | 0.734 | 0.652 | 0.497 | 0.536 | [0.460, 0.868] | ok |
+| PIK3CA/PIK3CB | D_vs_B | 28/28 | 30 | 38 | 5 | 0.500 | 0.501 | 0.834 | 0.755 | 0.337 | [0.310, 0.698] | ok |
+| PIK3CA/mTOR | D_vs_A | 18/14 | 8 | 138 | 3 | 0.714 | 0.604 | 0.514 | 0.521 | 0.590 | [0.400, 0.886] | ok |
+| PIK3CA/mTOR | D_vs_B | 18/12 | 9 | 129 | 1 | 0.692 | — | — | — | — | [0.000, 0.818] | cannot_stably_estimate |
+
+---
+
+## Table S40. 文献阻断折明细
+
+来源：`document_blocked_cv_folds_v1.csv`。每个测试折必须同时含正负两类才会进入 OOF AUROC。训练与测试的 group overlap 必须为 0。
+
+完整折级 n_pos/n_neg/n_documents 见源 CSV。
+
+---
+
+## Table S41. 冻结文献年份分割
+
+来源：`time_split_class_counts_v1.csv`、`time_split_auroc_v1.csv`、`document_year_lookup_v1.csv`；协议见 `docs/TIME_SPLIT_PROTOCOL_FREEZE.md`。配体年份 = 保留高置信记录中最早的 `document.year`。主截止年 2018 在计算 AUROC 之前冻结。n < 10 的格子不报告 AUROC，也不为凑类别改截止年。主截止年可评估靶对为 0，**不包装为外部验证**。
+
+| cutoff | 靶对 | 测试 dual/A-only/B-only/neither | gate | D_vs_A | D_vs_B |
+|-------:|------|--------------------------------:|------|--------|--------|
+| 2015 | EGFR/HER2 | 9/8/15/6 | descriptive_only | — | — |
+| 2015 | AChE/BChE | 11/11/24/10 | underpowered_report | 0.603 | 0.636 |
+| 2015 | PIK3CA/PIK3CB | 17/20/4/8 | descriptive_only | — | — |
+| 2015 | PIK3CA/mTOR | 6/2/1/0 | descriptive_only | — | — |
+| 2018 | EGFR/HER2 | 6/3/14/2 | descriptive_only | — | — |
+| 2018 | AChE/BChE | 8/5/15/6 | descriptive_only | — | — |
+| 2018 | PIK3CA/PIK3CB | 12/11/0/3 | unevaluable | — | — |
+| 2018 | PIK3CA/mTOR | 2/0/1/0 | unevaluable | — | — |
+| 2020 | EGFR/HER2 | 6/0/14/2 | unevaluable | — | — |
+| 2020 | AChE/BChE | 5/3/14/6 | descriptive_only | — | — |
+| 2020 | PIK3CA/PIK3CB | 6/4/0/1 | unevaluable | — | — |
+| 2020 | PIK3CA/mTOR | 1/0/0/0 | unevaluable | — | — |
+
+---
+
+## Table S42. Assay-context 优先分子机器审计
+
+来源：`assay_context_priority_ligands_v1.csv`、`assay_context_audit.csv`；脚本 `assay_context_audit_v1.py`。这是风险分层提取，不是完成的人工文献核查。`human_include_exclude` 等栏为空。冻结标签未改。优先集合：EGFR/HER2 全部 dual/A-only/B-only（98）、PIK3CA/mTOR neither（4）、混合端点（40）、生化+功能（22）、对主 AUROC 影响最大的分子（20）及高集中文献系列（57）。人工 SOP：`docs/ASSAY_CONTEXT_HUMAN_REVIEW_SOP.md`。
+
+| 标记 | n ligands |
+|------|----------:|
+| egfr_directional_priority | 98 |
+| top_document_series | 57 |
+| mixed_endpoint | 40 |
+| borderline_pA | 27 |
+| biochem_and_functional | 22 |
+| high_auroc_influence | 20 |
+| borderline_pB | 20 |
+| pm_neither_single_document | 4 |
+| non_human_assay_organism | 3 |
+| 优先配体合计（去重） | 186 |
+
+---
+
 ## Supporting Note S1. Exploratory PIK3CA/mTOR pose-level diagnostics
 
 来源：`data/pik3ca_mtor_panel48_v0/analysis/failure_typology_v0/`，仅为代表性案例，不是全面板 PLIF 或机制分析。
@@ -874,5 +943,5 @@ API-max 与 median 差值和重复记录数有预期的正相关，但该诊断�
 - Table S12 是计数核对（BindingDB REST + PubChem PUG REST），不是对接结果；不得把 `as_is` 的 EGFR ≥50 写成已建成 BindingDB 厚面板。
 - Table S13 是 holdout 效价/尺寸匹配诊断，不替换 Table S8；不得写成错口袋悖论已解决。
 - Table S16–S21 是冻结分数上的补表（零新对接）。S17 的 holdout Δ CI 均含 0；S19 四对描述符 Δ CI 均含 0；S21 是 vina_mean Top-10，不是 Table 2。
-- Table S22–S38 来自 `data/jcim_novelty_v0/`、`data/jcim_structure_robust_v0/` 与 `data/jcim_independent_dock_v0/`：S22 formulation comparison（主文 Figure 3）；S23 chemotype-constrained hard-negatives（T ≥ 0.7 为空；T ≥ 0.3 不是 analogue matching）；S24 incremental ECFP/docking；S25 mixed-library EF；S26 min/arithmetic/geometric/harmonic 聚合敏感性（四对排序不变）；S27 docking N_attempted/success/fail；S28 四个描述符全报；S29 max vs median；S30 两对 PIK3CA receptor-realization；S31 detectable-effect simulation；S32 独立 GNINA 姿态生成；S33 PIK3CA 几何占有率位移；S34 固定口袋负类对照；S35 测量频次；S36 当前 ChEMBL 高置信视图；S37 完整病例覆盖与来源集中度；S38 类别化学空间。Figure S4 = 口袋匹配森林图；Figure S5 = unused-pool holdout；Figure S6 = detectable-effect heatmap；Figure 8 = diagnostic workflow。不得把 Dual-vs-neither 写成 “conventional benchmark”；不得把 EGFR 0.756 vs 0.430 写成配对显著性；不得把 PIK3CA/mTOR Dual-vs-neither（n = 4）写成反转；不得把受体替换写成单向 collapse 或 robustness。
+- Table S22–S42 来自 `data/jcim_novelty_v0/`、`data/jcim_structure_robust_v0/` 与 `data/jcim_independent_dock_v0/`：S22 formulation comparison（主文 Figure 3）；S23 chemotype-constrained hard-negatives（T ≥ 0.7 为空；T ≥ 0.3 不是 analogue matching）；S24 incremental ECFP/docking；S25 mixed-library EF；S26 min/arithmetic/geometric/harmonic 聚合敏感性（四对排序不变）；S27 docking N_attempted/success/fail；S28 四个描述符全报；S29 max vs median；S30 两对 PIK3CA receptor-realization；S31 detectable-effect simulation；S32 独立 GNINA 姿态生成；S33 PIK3CA 几何占有率位移；S34 固定口袋负类对照；S35 测量频次；S36 当前 ChEMBL 高置信视图；S37 完整病例覆盖与来源集中度；S38 类别化学空间；S39–S40 文献阻断 CV；S41 冻结时间分割（主截止年不可包装为外部验证）；S42 assay-context 机器审计。Figure S4 = 口袋匹配森林图；Figure S5 = unused-pool holdout；Figure S6 = detectable-effect heatmap；Figure 8 = diagnostic workflow。不得把 Dual-vs-neither 写成 “conventional benchmark”；不得把 EGFR 0.756 vs 0.430 写成配对显著性；不得把 PIK3CA/mTOR Dual-vs-neither（n = 4）写成反转；不得把受体替换写成单向 collapse 或 robustness。不得把 2015 AChE/BChE 时间分割写成全文外部验证。
 - Figure S3 不得复用 Figure 6 的 AUROC 柱；它只画配对 Δ ± CI。

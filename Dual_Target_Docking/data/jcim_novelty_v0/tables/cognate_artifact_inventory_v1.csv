@@ -1,0 +1,11 @@
+pair,target,pdb,cognate_ligand,crystal_present,crystal_path,pose_pdbqt_present,pose_pdbqt_path,ranked_recomputable_from_git,cloud_complete,required_local_action,status_in_paper
+AChE/BChE,AChE,4EY7,E20,1,data/ache_bche_panel_v0/cognate_qc/4EY7_E20_crystal.sdf,1,data/ache_bche_panel_v0/cognate_qc/4EY7_cognate_out.pdbqt,1,1,recompute_ranked_rmsd_from_git,recomputed in Table S3 / S38 cognate re-audit
+AChE/BChE,BChE,4BDS,THA,1,data/ache_bche_panel_v0/cognate_qc/4BDS_THA_crystal.sdf,1,data/ache_bche_panel_v0/cognate_qc/4BDS_cognate_out_E8.pdbqt,1,1,recompute_ranked_rmsd_from_git,"fails top-1, passes top-3"
+PIK3CA/PIK3CB,PIK3CB,2WXF,039,1,data/pik3ca_pik3cb_panel_v0/cognate_qc/2WXF_039_crystal.sdf,1,data/pik3ca_pik3cb_panel_v0/cognate_qc/2WXF_cognate_out_E8.pdbqt,1,1,recompute_ranked_rmsd_from_git,passes top-1
+PIK3CA/mTOR,PIK3CA,4L23,X6K,1,data/pik3ca_mtor_panel48_v0/analysis/cognate_redock_v0/COGNATE_QC_VERDICT_E16.md,0,,0,0,local_recover_pose_or_use_historical_verdict,best-of-9 verdict deposited; cognate SDF/PDBQT not in git
+PIK3CA/mTOR,mTOR,4JT6,PI-103,1,data/pik3ca_mtor_panel48_v0/analysis/cognate_redock_v0/COGNATE_QC_VERDICT_E16.md,0,,0,0,local_recover_pose_or_use_historical_verdict,"fails top-1, passes top-3 in historical ranked summary; poses not in git"
+EGFR/HER2,EGFR,3POZ,03P,1,data/egfr_her2_panel40_v0/analysis/exhaustiveness_sensitivity_v1/tables/3POZ_cocrystal_03P.pdb,0,,0,0,local_recover_or_reconstructed_qc_redock,crystal coordinates present; nine-mode cognate PDBQT absent from git
+EGFR/HER2,HER2,3RCD,TAK-285,1,data/egfr_her2_panel40_v0/analysis/exhaustiveness_sensitivity_v1/tables/3RCD_cocrystal_03P.pdb,0,,0,0,local_recover_or_reconstructed_qc_redock,file name may not be the HER2 cognate; nine-mode PDBQT absent
+EGFR/HER2,support,3POZ,,1,data/egfr_her2_panel40_v0/receptors/3POZ_receptor.pdbqt,0,,0,1,keep; insufficient without nine-mode cognate poses,receptor/box support file
+EGFR/HER2,support,3RCD,,1,data/egfr_her2_panel40_v0/receptors/3RCD_receptor.pdbqt,0,,0,1,keep; insufficient without nine-mode cognate poses,receptor/box support file
+EGFR/HER2,support,protocol.yaml,,1,data/egfr_her2_panel40_v0/protocol/protocol.yaml,0,,0,1,keep; insufficient without nine-mode cognate poses,receptor/box support file

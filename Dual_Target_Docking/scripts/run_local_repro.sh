@@ -32,6 +32,9 @@ echo "[4/4] Rebuilding forest / gate figures"
 "${PYTHON_BIN}" data/jcim_bench_v0/scripts/plot_forest_ci_v1.py
 
 echo
+echo "Optional phase-1 revision analyses: bash scripts/run_phase1_revision.sh"
+
+echo
 echo "Done."
 echo "Key outputs:"
 echo "  - data/jcim_strengthen_t0t1_v0/analysis/PRIMARY_METRIC_V2.md"

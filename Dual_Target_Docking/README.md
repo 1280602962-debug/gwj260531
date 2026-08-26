@@ -15,7 +15,7 @@ JCIM **evaluation / benchmark** 课题：双靶对接四类硬负评测。
 |------|------|
 | **[`docs/MANUSCRIPT_JCIM_EN.md`](docs/MANUSCRIPT_JCIM_EN.md)** | ★ **组装后的英文主稿**（投稿以这份为准） |
 | **[`docs/MANUSCRIPT_JCIM_ZH.md`](docs/MANUSCRIPT_JCIM_ZH.md)** | ★ **组装后的中文工作稿**（`python3 docs/assemble_manuscript_zh.py`） |
-| **[`docs/JCIM_SUBMISSION_REMEDIATION_PLAN.md`](docs/JCIM_SUBMISSION_REMEDIATION_PLAN.md)** | ★ 当前科学风险、已完成修订与投稿前仍需的新数据 |
+| **[`docs/REVISION_PHASE1_CLOUD_VS_LOCAL.md`](docs/REVISION_PHASE1_CLOUD_VS_LOCAL.md)** | ★ 本轮修订：云端已完成 vs 必须本地 |
 | [`docs/JCIM_P0_COMPLETION_GUIDE.md`](docs/JCIM_P0_COMPLETION_GUIDE.md) | 历史归档/排版指南；不能替代当前科学补强清单 |
 | **[`docs/JCIM_PREWRITING_CHECKLIST_V1.md`](docs/JCIM_PREWRITING_CHECKLIST_V1.md)** | ★ 写作前注意事项 + 逐项核对 |
 | [`docs/RESULTS_SECTION_JCIM_EN_V1.md`](docs/RESULTS_SECTION_JCIM_EN_V1.md) | ★ JCIM 英文 Results 规范源文件 |
@@ -75,6 +75,12 @@ bash scripts/run_local_repro.sh
 ```bash
 python3 docs/assemble_manuscript_en.py
 python3 docs/assemble_manuscript_zh.py
+```
+
+文献阻断 / 时间分割 / assay 机器审计（仍为零对接）：
+
+```bash
+bash scripts/run_phase1_revision.sh
 ```
 
 ## 复现主分析（零对接）
