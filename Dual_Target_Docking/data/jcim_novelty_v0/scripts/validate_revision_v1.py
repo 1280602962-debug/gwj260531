@@ -138,7 +138,9 @@ def main():
 
     assay = rows("assay_context_priority_ligands_v1.csv")
     assert len(assay) == 186
-    assert all(r["human_include_exclude"] == "" for r in assay)
+    # After local human review, include/exclude must be filled for every priority ligand.
+    assert all(r["human_include_exclude"] in {"include", "exclude", "uncertain"} for r in assay)
+    assert all(r.get("reviewed_by", "") != "" for r in assay)
 
     zh = (ROOT / "docs" / "MANUSCRIPT_JCIM_ZH.md").read_text(encoding="utf-8")
     assert "confidence≥8 与 Homo sapiens 过滤未重建" not in zh

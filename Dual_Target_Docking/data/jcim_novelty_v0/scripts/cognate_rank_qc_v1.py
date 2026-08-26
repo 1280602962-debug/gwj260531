@@ -39,6 +39,18 @@ SPECS = (
         "data/pik3ca_pik3cb_panel_v0/cognate_qc/2WXF_cognate_out_E8.pdbqt",
         "data/pik3ca_pik3cb_panel_v0/cognate_qc/2WXF_039_E8.pdbqt",
     ),
+    (
+        "EGFR", "3POZ", 8,
+        "data/egfr_her2_panel40_v0/cognate_qc/3POZ_03P_crystal.sdf",
+        "data/egfr_her2_panel40_v0/cognate_qc/3POZ_cognate_out_E8.pdbqt",
+        "data/egfr_her2_panel40_v0/cognate_qc/3POZ_03P_E8.pdbqt",
+    ),
+    (
+        "HER2", "3RCD", 8,
+        "data/egfr_her2_panel40_v0/cognate_qc/3RCD_03P_crystal.sdf",
+        "data/egfr_her2_panel40_v0/cognate_qc/3RCD_cognate_out_E8.pdbqt",
+        "data/egfr_her2_panel40_v0/cognate_qc/3RCD_03P_E8.pdbqt",
+    ),
 )
 
 
