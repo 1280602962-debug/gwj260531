@@ -20,6 +20,16 @@ are stored under `literature_sources/bindingdb_article_dumps/`. Publisher
 page locators still need the real PDFs listed in
 `literature_sources/README.md`.
 
+Local PDFs supplied on 2026-08-27 were identity/integrity screened and the
+decisive tables in Ma 2022, Hong 2024, Yang 2023, Elmenier 2019, Bass 2021,
+Sang 2020, Cheng 2021, Shi 2024, and Folkes 2008 were read. Supporting
+information for Ma, Yang, Cheng, and Shi is still not local. The Folkes SI
+is also absent, but the paper states that it contains compound-purity tables
+and HPLC traces rather than the decisive assay protocol.
+The main papers are sufficient to decide the recorded values and evidence
+tier, but not to invent unreported residue ranges, ATP concentrations, or
+mutation states.
+
 Label rule used below: DualFourClass θ = 6.0 on the per-target maximum
 pChEMBL. Class flips are recorded only as *conditional* outcomes.
 
@@ -27,15 +37,13 @@ pChEMBL. Class flips are recorded only as *conditional* outcomes.
 
 | ligand | pair | frozen class | frozen pA / pB | decisive docs | source-checked status |
 |--------|------|--------------|----------------|---------------|------------------------|
-| EH120_045 | EGFR/HER2 | dual | 9.30 / 9.12 | patent CHEMBL3886356; Ma 2022 CHEMBL5131445 | EGFR 0.5 nM confirmed in patent Table 1. HER2 Kd **0.75 nM** confirmed on Ma BindingDB (KINOMEscan). The 76 nM conflict was a **wrong-ligand** BindingDB page. Class remains dual. |
-| PM48_04 | PIK3CA/mTOR | dual | 8.85 / 9.35 | Hong 2024 CHEMBL5500428; Yang 2023 CHEMBL5620391 | 8.85 is a **cited** 1.4 nM, not a Hong measurement. Yang mTOR 0.45 nM is a truncated FLAG construct (1362–end). Class remains dual if 8.85 is dropped. |
-| **PM48_05** | PIK3CA/mTOR | dual | **10.00 / 8.52** | Bass 2021 review; Elmenier 2019 review; **must-read Folkes 2008** | Both review maxima are **wrong**. Folkes original is PI3Kα **3 nM** / mTOR **Ki 580 nM** (8.52 / 6.24). At θ=6.0 this remains dual. |
-| AB_089 | AChE/BChE | neither | 4.78 / 5.12 | Sang 2020 CHEMBL4680246 | Frozen pB matches **human serum BuChE** (7600 nM), not equine. ChEMBL species=horse is a metadata error. Class stays neither. |
-| AB_091 | AChE/BChE | neither | 4.76 / 5.19 | same | Human BuChE 6500 nM. Class stays neither. |
-| AB_094 | AChE/BChE | neither | 4.71 / 5.29 | same | Human BuChE 5100 nM. Class stays neither. |
-| PM48_22 | PIK3CA/mTOR | A_only | 8.77 / 5.83 | Cheng 2021 CHEMBL4765307; Shi 2024 CHEMBL5579880 | Shi PI3Kα 1.70 nM confirmed. Cheng cellular p70S6K row is not on the BindingDB Cheng dump. Class stays A_only. |
-
-No frozen class flips at θ=6.0. Table 2 stays as published.
+| EH120_045 | EGFR/HER2 | dual | 9.30 / 9.12 | patent CHEMBL3886356; Ma 2022 CHEMBL5131445 | EGFR 0.5 nM is in patent Table 1. Ma Table 6 prints EGFR Kd 3.9 nM and HER2 Kd **0.75 nM**; the BindingDB 76 nM page belongs to a different ligand and is not evidence against this value. |
+| PM48_04 | PIK3CA/mTOR | dual | 8.85 / 9.35 | Hong 2024 CHEMBL5500428; Yang 2023 CHEMBL5620391 | 8.85 is a **cited** 1.4 nM, not a Hong measurement. Yang Table 1 directly measures dactolisib mTOR IC50 **0.45 nM**, duplicate dose response; ATP/construct remain unreported in the main PDF. |
+| **PM48_05** | PIK3CA/mTOR | dual | **10.00 / 8.52** | Bass 2021 review; Elmenier 2019 review; Folkes 2008 CHEMBL1140078 | Review maxima are not original Pictilisib values. Folkes Table 4 directly gives p110α IC50 3 nM and mTOR Kiapp 580 nM (8.52 / 6.24). At θ=6.0 this remains dual. |
+| AB_089 | AChE/BChE | neither | 4.78 / 5.12 | Sang 2020 CHEMBL4680246 | Table 1 maps it to 4c: human erythrocyte AChE 16.6 μM and human serum BChE 7.6 μM. ChEMBL type A on AChE is a metadata error. |
+| AB_091 | AChE/BChE | neither | 4.76 / 5.19 | same | Table 1 compound 4b: hAChE 17.3 μM, hBChE 6.5 μM. |
+| AB_094 | AChE/BChE | neither | 4.71 / 5.29 | same | Table 1 compound 4a: hAChE 19.7 μM, hBChE 5.1 μM. |
+| PM48_22 | PIK3CA/mTOR | A_only | 8.77 / 5.83 | Cheng 2021 CHEMBL4765307; Shi 2024 CHEMBL5579880 | 5.83 is cellular TSC1-null p-p70S6(Thr389) ELISA. Shi directly measures alpelisib PI3Kα IC50 1.7 nM by ADP-Glo using Carna 11-101, 10 μM ATP, 60 min. |
 
 ---
 
@@ -80,31 +88,19 @@ CHEMBL3887534. That is **not** the frozen HER2 maximum.
 
 ### HER2 — Ma et al., 2022 BMCL (CHEMBL5131445) — **BindingDB dump**
 
-Frozen HER2 maximum is Kd pChEMBL **9.12** (assay CHEMBL5133798) =
-**0.76 nM**. BindingDB for the **ibrutinib** ligand BDBM50357312
-(`IBRUTINIB | US9181263, 1`) on this article deposits:
+Ma Table 6 directly prints ibrutinib Kd **3.9 nM for EGFR** and
+**0.75 nM for ERBB2/HER2**. These convert to pKd 8.41 and 9.12 and
+exactly support the ChEMBL rows. The paper describes the DiscoverX
+KINOMEscan platform and reports the experiment as a comparator panel,
+not as a designed HER2 program. The main PDF does not report a residue
+range or explicit WT/mutant state. Record `commercial KINOMEscan;
+construct not reported` and `mutation unspecified`; do not infer a
+full-length receptor or a T7-tagged kinase-domain construct from
+platform convention alone.
 
-| target | Kd (nM) | assay |
-|--------|---------|-------|
-| BTK | 0.640 | KINOMEscan |
-| **ERBB2 / HER2** | **0.75** | KINOMEscan |
-| EGFR | 3.90 | KINOMEscan |
-| ERBB4 | 0.910 | KINOMEscan |
-
-0.75 nM ≈ frozen 9.12. **This is not a 100-fold error.**
-
-An earlier BindingDB assay page showing 76 nM attached a
-**different ligand** (BDBM250082, amide-pyrazole, patent compound 27),
-not ibrutinib. That page must not be used for EH120_045.
-
-Ibrutinib is a KINOMEscan **selectivity comparator**. KINOMEscan is a
-kinase-domain competition binding assay (typically T7-tagged catalytic
-domain), not full-length cellular HER2. Construct caveat remains;
-the number itself matches.
-
-Even if the 9.12 row were dropped, remaining HER2 rows include Kd 8.92
-and IC50 8.82. EGFR remains 9.30. **Conditional class at θ=6.0: still
-dual.**
+The BindingDB 76 nM/non-ibrutinib record is therefore treated as a
+BindingDB mapping/decimal inconsistency, not as evidence to demote the
+ChEMBL value. **Class remains dual.**
 
 ---
 
@@ -138,26 +134,19 @@ PIK3CA maxima are 8.40 and 8.22. **Class remains dual.**
 
 ### mTOR — Yang et al., 2023 EJMECH (CHEMBL5620391) — **BindingDB dump**
 
-BEZ235 / dactolisib BDBM92862 on this article:
+Yang Table 1 directly reports dactolisib as the reference control:
+mTOR IC50 **0.45 nM** (pChEMBL 9.35). The table footnote states that
+8- or 10-point dose responses were run in duplicate, and the methods
+state that the mTOR enzyme screen was performed by Wuxi Bioduro
+Biologics. The main PDF does not print the ATP concentration or protein
+residue range; those fields remain `not reported in main paper` pending
+SI. This does not control the class: even a much weaker retained mTOR
+value stays ≥6.
 
-| target | IC50 (nM) | assay blurb |
-|--------|-----------|-------------|
-| **mTOR** | **0.450** | N-terminal FLAG-tagged recombinant human mTOR **(1362 to end)**; ULight-4E-BP1 Thr37/46 |
-| PI3Kα | 19 | PIP2, 60 min ATP, ADP-Glo |
-| PI3Kδ | 78 | same ADP-Glo |
-| PI3Kγ | 267 | same ADP-Glo |
-| PI3Kβ | 1000 | same ADP-Glo |
-
-0.450 nM → pChEMBL **9.35**, matching the frozen mTOR maximum.
-
-Construct: truncated catalytic fragment (residues 1362–end), not
-full-length mTORC1/mTORC2. ATP concentration, n, and SD are still
-truncated in the BindingDB blurb (“incubated for …”). Publisher SI
-is still required for those three fields. Class is insensitive:
-even a much weaker retained mTOR value stays ≥6.
-
-Yang PI3Kα 19 nM (p 7.72) is **not** the frozen 8.85; that 8.85 is
-the Hong citation.
+The archived BindingDB assay blurb additionally describes an N-terminal
+FLAG-tagged recombinant human mTOR fragment (residues 1362–end). Because
+that construct detail is not printed in the main PDF, it is retained as
+database metadata rather than attributed directly to Yang's article.
 
 ---
 
@@ -173,59 +162,33 @@ discovery values.
 
 ### Original Folkes 2008 (BindingDB entry 2822 = JMC 51:5522–32)
 
-Ligand BDBM25028 (GDC-0941 / pictilisib), Piramed Pharma deposition,
-pH 7.5, T = 2°C:
+The local Folkes paper directly establishes:
 
-| target | value | type |
-|--------|-------|------|
-| PI3Kα WT | **3 nM** | IC50 (Ysi polylysine SPA) |
-| PI3Kα H1047R | 3 nM | IC50, same SPA |
-| PI3Kα E545K | 3 nM | IC50, same SPA |
-| PI3Kδ | 3 nM | IC50 |
-| PI3Kβ | 33 nM | IC50 |
-| PI3Kγ | 75 nM | IC50 |
-| **mTOR** | **580 nM** | **Ki**, GFP-4EBP HTRF |
-| PI3KC2β | 670 nM | IC50 |
-| Vps34 | 10 000 nM | IC50 |
+- PI3Kα IC50 **3 nM** → pChEMBL **8.52** (audit rows CHEMBL967868,
+  CHEMBL967881, CHEMBL980850).
+- mTOR **Kiapp 0.58 μM**; ChEMBL stores **Ki 6.24** on CHEMBL980857
+  (~575 nM). It must not be described as an IC50.
+- Sarker 2015: “193-fold less activity against mTOR compared to
+  p110α”.
+- DNA-PK ~1230 nM in the same selectivity profile.
 
-Already in ChEMBL as `CHEMBL1140078` (pA 8.52 / pB Ki 6.24).
-Workman 2011 (PMC3242038) restates the same Folkes profile: p110α
-3 nM, p110δ 3 nM, p110β 33 nM, p110γ 75 nM, mTOR 580 nM, DNA-PK
-1230 nM, and “193-fold less activity against mTOR compared to
-p110α” in later clinical citations.
+Folkes Table 4 further shows wild-type p110α, E545K and H1047R all at
+0.003 μM. Values are averages of at least two determinations with typical
+variation below ±30%. The class-I PI3K SPA used recombinant human
+p110α/β/δ coexpressed with p85α as purified GST fusions, 1 μM ATP,
+33P-ATP, 1 h at room temperature. The mTOR assay used 8 μM ATP,
+GFP-4E-BP1, 30 min at 25 °C, duplicate dose-response curves, and a
+competitive tight-binding fit. The exact mTOR construct is not printed.
 
-### Elmenier 2019 — **confirmed column shift**
-
-BindingDB article dump of Elmenier vs Folkes original for the same
-ligand BDBM25028:
-
-| isoform | Folkes 2008 | Elmenier 2019 deposit |
-|---------|-------------|------------------------|
-| PI3Kα | **3 nM** | 33 nM (= Folkes β) |
-| PI3Kβ | 33 nM | **3 nM** (= Folkes α/δ) |
-| PI3Kδ | 3 nM | 75 nM (= Folkes γ) |
-| PI3Kγ | 75 nM | **580 nM** (= Folkes **mTOR**) |
-| mTOR | **Ki 580 nM** | **IC50 3 nM** (= Folkes **PI3Kα**) |
-
-Frozen mTOR 8.52 **is Folkes PI3Kα mis-assigned to mTOR**. It must
-not remain the reported maximum. Assay descriptions on the Elmenier
-dump are empty (“Inhibition of mTOR (unknown origin)”) because this
-is a review table, not a measured assay.
-
-### Bass 2021 — review 0.100 nM is not Folkes
-
-Bass BindingDB dump, same ligand BDBM25028:
-
-| isoform | Bass deposit | Folkes original |
-|---------|--------------|-----------------|
-| PI3Kα | **0.100 nM** | 3 nM |
-| PI3Kδ | 4 nM | 3 nM |
-| PI3Kβ | 31 nM | 33 nM |
-
-δ and β approximately match Folkes; α is **30-fold too tight**.
-Treat 0.100 nM as a review transcription error until the Bass table
-is sighted on the publisher PDF. Frozen PIK3CA 10.00 must not remain
-the reported maximum.
+Elmenier section 4.1.6 explicitly prints PI3Kα/β/δ/γ IC50 values
+3/33/3/75 nM and mTOR IC50 580 nM. The deposited mTOR 3 nM is therefore
+the PI3Kα table value shifted onto the wrong target. Bass is a broad
+HDAC-hybrid review; it discusses pictilisib as compound 114 but does
+not provide an original assay protocol supporting a 0.1 nM PI3Kα
+measurement. Both review maxima are excluded from a primary-source
+sensitivity analysis. Folkes now resolves the endpoint ambiguity: the
+580 nM mTOR value is **Kiapp**, not IC50. Missing Folkes SI affects the
+purity/HPLC audit, not the reported Table 4 assay values or methods.
 
 ### What happens if the two review maxima are dropped
 
@@ -254,30 +217,19 @@ incomparability / selectivity-ratio rule is added later.
 One document, CHEMBL4680246. Frozen class **neither** for all three
 (pA 4.71–4.78, pB 5.12–5.29).
 
-BindingDB article dump (Ellman, 15 min). Paper used **eeAChE + hAChE**
-and **eqBChE + hBChE**. Substrates: equine BuChE uses **BTC**; human
-BuChE uses **acetylcholine iodide** (same substrate as AChE).
+Sang Table 1 and its footnotes resolve the mapping:
 
-ChEMBL AChE assay type **A** is a metadata error relative to a primary
-Ellman IC50 table.
+- CHEMBL4792013 = 4c: hAChE 16.6 ± 0.17 μM; hBChE 7.6 ± 0.26 μM.
+- CHEMBL4787165 = 4b: hAChE 17.3 ± 0.24 μM; hBChE 6.5 ± 0.28 μM.
+- CHEMBL4761179 = 4a: hAChE 19.7 ± 0.32 μM; hBChE 5.1 ± 0.12 μM.
+- Values are means ± SD of three experiments. hAChE is from human
+  erythrocytes and hBChE from human serum; eel AChE and equine BChE are
+  separate columns.
 
-Frozen pB matches **human serum BuChE**, not equine. ChEMBL
-species=horse on the BChE assay is therefore a **metadata error**:
-
-| ligand | ChEMBL | frozen pB | human BuChE (BindingDB) | equine BuChE (BindingDB) |
-|--------|--------|-----------|-------------------------|--------------------------|
-| AB_089 | CHEMBL4792013 | 5.12 | **7600 nM** | 1300 nM |
-| AB_091 | CHEMBL4787165 | 5.19 | **6500 nM** | 3900 nM |
-| AB_094 | CHEMBL4761179 | 5.29 | **5100 nM** | 2800 nM |
-
-This BindingDB dump did **not** list AChE rows for these three
-CHEMBL IDs (only BuChE + MAO-A/B). Frozen pA ~4.71–4.78 (~16–20 μM)
-still needs Sang Table 1 from the publisher PDF for compound-number
-mapping. Best compound 4f is **not** these three.
-
-**Class stays neither** (all current pChEMBL values stay <6). Species
-correction for BChE (horse → human) changes construct notes, not the
-label.
+Both target arms are biochemical Ellman enzyme IC50 measurements.
+ChEMBL assay type **A** on the AChE rows is a metadata error and should
+not make those rows incomparable. All values remain below θ=6.0, so
+the three labels remain `neither`.
 
 ---
 
@@ -301,40 +253,40 @@ excluded, pB becomes 5.52. **Still A_only.**
 
 ### PIK3CA — Shi et al., 2024 JMC (CHEMBL5579880) — **BindingDB dump**
 
-Alpelisib CHEMBL2396661 / BDBM50436459:
-
-- PI3Kα IC50 **1.70 nM** → pChEMBL **8.77**
-- ADP-Glo, 60 min ATP incubation
-- construct still “unknown origin” in BindingDB
-
-Class is insensitive to the remaining p110α/p85α vs p110α-only /
-ATP-concentration detail.
+Alpelisib as PI3Kα control: IC50 **1.7 nM** → pChEMBL **8.77**.
+The main methods specify Promega ADP-Glo, PI3Kα Carna #11-101 at
+1.25 nM, **10 μM ATP**, 25 μM PIP2:3PS, 60 min at room temperature,
+and a six-point curve. The commercial catalogue number is the most
+specific construct identifier printed; the paper does not print a
+residue range or mutant state. Class is insensitive to that detail.
 
 ---
 
 ## Actions taken / not taken
 
-- Frozen `human_reviewed_class` left unchanged (7 uncertain, 0 exclude,
-  0 class flips).
-- Table 2 **not** recomputed.
-- BindingDB article dumps archived under
-  `literature_sources/bindingdb_article_dumps/`.
-- Verdict table: `tables/uncertain_ligand_source_verdicts_v1.csv`.
-- Next step after publisher PDFs land: fill `protein_construct` /
-  `wildtype_or_mutant` / `incomparable_record` on the nine decisive
-  rows; recompute maxima; recompute Table 2 **only** if a frozen class
-  actually changes.
+- Frozen `human_reviewed_class` was left unchanged; paper-level findings are
+  stored separately in `decisive_source_human_review_v1.csv` rather than
+  silently overwriting the frozen benchmark.
+- Source-verified construct, mutation, assay-context, and comparability fields
+  were recorded for the decisive rows where the papers provide them;
+  genuinely unreported fields remain `unspecified`.
+- A decision-targeted primary-only label and model sensitivity analysis was
+  run and deposited in `PRIMARY_ONLY_LABEL_MODEL_SENSITIVITY_V1.md` and its
+  companion CSV files. The frozen Table 2 remains the prespecified primary
+  analysis; the new result is an SI sensitivity analysis.
+- One ligand, EH120_059, becomes `unresolved_missing_arm` after its HER2
+  cellular surrogate is removed. Vina `summary_min` is unchanged for all four
+  pairs; this does not constitute a claim that every ChEMBL source record has
+  been paper-level adjudicated.
+- BindingDB article dumps remain archived under
+  `literature_sources/bindingdb_article_dumps/`; the earlier verdict table is
+  retained as `tables/uncertain_ligand_source_verdicts_v1.csv`.
 
-## PDF still required (highest first)
+## Material still required (highest first)
 
-1. Folkes 2008 body + SI (table locator for compound 17 = GDC-0941)
-2. Elmenier 2019 publisher table (column-shift already proven from
-   BindingDB vs Folkes, page locator still missing)
-3. Bass 2021 publisher table (0.100 nM vs Folkes 3 nM)
-4. Ma 2022 body + SI (KINOMEscan 0.75 nM already matches; kinase-panel
-   SI would pin the construct)
-5. Sang 2020 Table 1 (AChE mapping for the three neither ligands)
-6. Yang 2023 SI (ATP / n / SD for the 0.45 nM mTOR row)
-7. Cheng 2021 SI (confirm cellular ELISA)
-8. Shi 2024 SI (PI3Kα construct / ATP)
-9. Optional: Maira 2008 for the dactolisib 1.4 nM citation
+1. Yang 2023 SI (ATP / construct / error for the 0.45 nM mTOR assay)
+2. Ma 2022 SI, if available (KINOMEscan construct identifiers)
+3. Cheng 2021 SI (replicate statistics for the cellular mTOR surrogate)
+4. Shi 2024 SI (replicate statistics and any construct detail beyond catalogue ID)
+5. Optional: Folkes 2008 SI for compound purity/HPLC only
+6. Optional: Maira 2008 for the primary dactolisib 1.4/4.3 nM citation
