@@ -100,11 +100,42 @@ def main() -> None:
     base = base.merge(stab, on="ligand_id", how="left")
     base = base.merge(filt, on="name", how="left")
     base = base.merge(admet, on="name", how="left", suffixes=("", "_admet"))
+    # NLRP3 structural metrics (Amendment A2b)
+    n_path = args.a2_dir / "nlrp3_structural_metrics_seed42.csv"
+    if n_path.exists():
+        nmet = pd.read_csv(n_path)[
+            [
+                "ligand_id",
+                "keep_nlrp3_pose",
+                "keep_nlrp3_structural",
+                "pocket_overlap_frac",
+                "ifp_jaccard_vs_np3146",
+                "n_key_contacts",
+                "key_recovery_frac",
+                "CNNscore",
+            ]
+        ].rename(columns={"CNNscore": "n_CNNscore_structural"})
+        drop_cols = [c for c in ("keep_nlrp3_pose", "keep_nlrp3_structural") if c in base.columns]
+        if drop_cols:
+            base = base.drop(columns=drop_cols)
+        base = base.merge(nmet, on="ligand_id", how="left")
+    else:
+        base["keep_nlrp3_structural"] = False
+        base["pocket_overlap_frac"] = None
+        base["ifp_jaccard_vs_np3146"] = None
+        base["n_key_contacts"] = None
+
     base["alert_clean"] = (~base.pains_any.fillna(False)) & (~base.brenk.fillna(False))
     base["arg_classic_4A"] = base.acid_arg477_min_A <= 4.0
     base["soft_excluded"] = base.name.astype(str).str.upper().apply(
         lambda n: any(x in n for x in SOFT_EXCLUDE_SUBSTR)
     )
+
+    # Dual keep: URAT1 A2 geometry + NLRP3 loose pose (sensitivity) vs structural (nomination)
+    if "keep_dual_acid_geometry" not in base.columns:
+        base["keep_dual_acid_geometry"] = base.get("keep_urat1_acid", False) & base.get(
+            "keep_nlrp3_pose", False
+        )
 
     eligible = base[
         (base.keep_dual_acid_geometry == True)  # noqa: E712
@@ -123,6 +154,14 @@ def main() -> None:
     rows = []
     role_map = {}
 
+    def _flag(series_row, col: str) -> bool:
+        if col not in series_row.index:
+            return False
+        v = series_row[col]
+        if pd.isna(v):
+            return False
+        return bool(v)
+
     def pick(name_query: str, role: str, tier: str) -> None:
         hit = eligible[eligible.name.apply(lambda n: name_match(n, name_query))]
         if hit.empty:
@@ -131,6 +170,8 @@ def main() -> None:
         if r.ligand_id in role_map:
             return
         role_map[r.ligand_id] = role
+        pose_ok = _flag(r, "keep_nlrp3_pose")
+        struct_ok = _flag(r, "keep_nlrp3_structural")
         rows.append(
             {
                 "shortlist_role": role,
@@ -143,8 +184,18 @@ def main() -> None:
                 "max_phase": r.max_phase,
                 "p_active_nlrp3": r.p_active_nlrp3,
                 "qed": r.qed,
-                "n_seed_pass": int(r.get("n_seed_pass", 1)),
-                "stable_ge_2of3": bool(r.get("stable_ge_2of3", False)),
+                "n_seed_pass": int(r["n_seed_pass"]) if "n_seed_pass" in r.index and pd.notna(r["n_seed_pass"]) else 1,
+                "stable_ge_2of3": _flag(r, "stable_ge_2of3"),
+                "keep_nlrp3_pose": pose_ok,
+                "keep_nlrp3_structural": struct_ok,
+                "pocket_overlap_frac": r["pocket_overlap_frac"] if "pocket_overlap_frac" in r.index else None,
+                "ifp_jaccard_vs_np3146": r["ifp_jaccard_vs_np3146"] if "ifp_jaccard_vs_np3146" in r.index else None,
+                "n_key_contacts": r["n_key_contacts"] if "n_key_contacts" in r.index else None,
+                "nlrp3_claim": (
+                    "NP3-146-compatible pocket pose"
+                    if struct_ok
+                    else "loose pocket only — not IFP-matched; pathway evidence ≠ direct NACHT binding"
+                ),
             }
         )
 
@@ -174,9 +225,15 @@ def main() -> None:
                     "arg_classic_4A": bool(r.acid_arg477_min_A <= 4.0) if pd.notna(r.acid_arg477_min_A) else False,
                     "max_phase": r.max_phase,
                     "p_active_nlrp3": r.p_active_nlrp3,
-                    "qed": r.get("qed"),
-                    "n_seed_pass": int(r.get("n_seed_pass", 0) if pd.notna(r.get("n_seed_pass")) else 0),
-                    "stable_ge_2of3": bool(r.get("stable_ge_2of3", False)),
+                    "qed": r["qed"] if "qed" in r.index else None,
+                    "n_seed_pass": int(r["n_seed_pass"]) if "n_seed_pass" in r.index and pd.notna(r["n_seed_pass"]) else 0,
+                    "stable_ge_2of3": _flag(r, "stable_ge_2of3"),
+                    "keep_nlrp3_pose": _flag(r, "keep_nlrp3_pose"),
+                    "keep_nlrp3_structural": _flag(r, "keep_nlrp3_structural"),
+                    "pocket_overlap_frac": r["pocket_overlap_frac"] if "pocket_overlap_frac" in r.index else None,
+                    "ifp_jaccard_vs_np3146": r["ifp_jaccard_vs_np3146"] if "ifp_jaccard_vs_np3146" in r.index else None,
+                    "n_key_contacts": r["n_key_contacts"] if "n_key_contacts" in r.index else None,
+                    "nlrp3_claim": "structural control only",
                 }
             )
 

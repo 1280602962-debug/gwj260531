@@ -129,18 +129,30 @@ MD（L7）仅在 shortlist **正式授权**后启动。对照永远包含：（i
 
 **回顾性 URAT1 酸门 benchmark**（228 羧酸 active vs 64 羧酸 true decoy；phase-1 9-mode SDF，不重对接）：A1 规则 OR = **3.18**（Fisher *p* ≈ 4.5×10⁻⁴，95% CI 1.77–6.81）；A2 规则 OR ≈ **0.97**（*p* = 1.0）——A2 提高已知药召回，但**不能**作为活性检索判别器。Acid 轨主张边界不变：几何假说存在性，而非 docking rank activity retrieval。
 
-**A2 临床重算（seed 42，复用 A1 SDF）**：URAT1 keep **121**；NLRP3 keep **78**；双靶 keep **59**（含 A1 全部 24）。竞争短名单（药化/给药软降级后，`md_authorized=false`；seed 43/44 对接进行中）：
+**A2 临床重算（seed 42，复用 A1 SDF）**：URAT1 keep **121**；NLRP3 宽松 pose keep **78**；双靶宽松 keep **59**。
 
-| 角色 | 分子 | Arg477 (Å) | 备注 |
-|------|------|------------:|------|
-| primary | PF-04620110 | 7.13 | 独立 NLRP3 生物学文献锚点 + 新 URAT1 结构假说 |
-| primary | Admilparant | 3.08 | 口服 LPA1；Phase III 背景 |
-| backup | PSI-697 | 3.48 | P-selectin；痛风炎症正交假说 |
-| backup | PF-03882845 | 3.24 | 肾/代谢 backup |
-| backup | Lanifibranor | 2.91 | PPAR；高临床成熟度 |
-| structural control | GSK-3008348 | 2.98 | 几何阳性、非 URAT1 活性主张 |
+### 3.7.1 Amendment A2b：NLRP3 结构兼容门（NP3-146 IFP）
 
-产物：`08_nomination/acid_shortlist_a2_competition.csv`；过早的 A1 draft（`acid_shortlist_draft.csv`）已作废。
+7ALV 自对接（NP3-146，seeds 42/43/44）CNNscore 选姿 RMSD ≈ **0.82 / 0.67 / 0.68 Å**，支持搜索盒与采样。但临床 Acid 池的 `keep_nlrp3_pose`（COM≤6 Å + CNNscore≥0.5）仅表示“进入共晶口袋附近”，通过率约 50%（78/156），**不足以**主张恢复了 NP3-146 结合模式。
+
+**A2b 增补指标**（相对 NP3-146/RM5）：(i) 重原子口袋重叠（≤2.5 Å）；(ii) 关键残基 IFP Jaccard（Ala227/228、Arg351、Met408、Tyr443、Phe575、Arg578）；(iii) 关键残基接触恢复率；(iv) 无 2.2 Å 冲突。提名用结构门：overlap≥0.50、IFP≥0.50、关键接触≥5/7、无 clash（锚定在自对接：overlap≈1、IFP≈0.84–1.0、接触 6–7）。
+
+seed 42 临床池：宽松 78 → 结构门 **74**；与 URAT1 A2 交叉后双靶结构 keep **56**（`nlrp3_structural_metrics_seed42.csv`）。已知配体小面板（NP3-146 + MCC950 + ChEMBL 磺酰脲活性 vs Acid 背景）对接中（`05_metrics/nlrp3_structural_panel/`）。
+
+竞争短名单的 NLRP3 解读（不得写成直接结合）：
+
+| 分子 | 宽松 pose | 结构 IFP 门 | overlap | IFP | 关键接触 | 主张 |
+|------|:---:|:---:|--------:|----:|--------:|------|
+| PF-04620110 | ✓ | ✗ | 0.48 | 0.45 | 4/7 | 通路表型 + 宽松口袋；**非**共晶模式匹配 |
+| Admilparant | ✓ | ✓ | 0.97 | 0.89 | 6/7 | NP3-146 兼容口袋假说 |
+| PSI-697 | ✓ | ✓ | 0.85 | 0.84 | 6/7 | 同上 |
+| PF-03882845 | ✓ | ✓ | 0.87 | 0.85 | 7/7 | 同上 |
+| Lanifibranor | ✓ | ✓ | 0.89 | 0.84 | 6/7 | 同上 |
+| GSK-3008348 | ✓ | ✓ | 0.83 | 0.89 | 6/7 | 结构对照，非 NLRP3 活性主张 |
+
+PF-04620110 保留为 primary ** mechanistically** 是因为独立 macrophage NLRP3 inflammasome 抑制文献 + 新 URAT1 酸根假说；其 7ALV 姿态只支持“口袋可及”，**明确不支持**“已证明占据 NACHT 共晶位点”。
+
+产物：`08_nomination/acid_shortlist_a2_competition.csv`（含 IFP 列）；过早的 A1 draft 已作废。
 
 ---
 
@@ -152,4 +164,5 @@ MD（L7）仅在 shortlist **正式授权**后启动。对照永远包含：（i
 - 裸 Pareto 四分子与 legacy 7 人不是正文 lead / MD 默认人选。
 - draft 短名单未正式授权前不得开 discovery MD；未完成轨迹不得补写数值。
 - 不得把 Tegoprazan、Levotofisopam、Verinurad 或旧 P4/P2 名单写成现役跟进分子。
-- 不得主张“P2 protocol was validated for activity retrieval”。
+- 不得把 7ALV 宽松 pose gate 或 CNNaffinity 写成 NLRP3 直接结合 / 亲和力证据。
+- PF-04620110 等通路阳性分子不得升格为“已验证 NACHT pocket binder”。

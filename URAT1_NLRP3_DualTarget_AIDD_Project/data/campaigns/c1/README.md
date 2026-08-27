@@ -19,4 +19,6 @@ Claim language: **acid-pose dual-node hypotheses** (not docking-rank activity re
 | `07_clinical_dock/acid_dual_a1_frozen/` | A1 exploratory 24 dual keep (frozen) |
 | `07_clinical_dock/acid_dual_a2/` | A2 geometry-first rescoring / multiseed |
 | `05_metrics/acid_gate_retrospective_benchmark/` | A1 vs A2 OR on acid actives vs decoys |
+| `05_metrics/nlrp3_structural_panel/` | A2b known-ligand IFP panel |
+| `01_ligand_prep/selfdock_refs/nlrp3_key_residues.json` | 7 key residues mapped |
 | `08_nomination/` | A2 competition shortlist; MD not authorized |
