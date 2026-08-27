@@ -1,26 +1,25 @@
-# C1 Acid-track ops (Amendment A1)
+# Acid track operations (Amendment A2)
 
-## Locked
-- Arg477 ≤ **7.7027 Å** (= 9DKB crystal min 6.7027 + 1.0)
-- Rank track **closed**; no `unique_docking_pool` L3
-- No percentile ranking; claim = **acid-pose dual-node hypotheses**
-- Exclude Vecabrutinib from URAT1 acid claim
+## Status (2026-08-27)
 
-## Done
-- [x] A1 written (`00_preregistration/AMENDMENT_A1_*.yaml`)
-- [x] `05_metrics/pass_fail.json` (Rank FAIL / Acid OPEN)
-- [x] Acid pool: 303 acid-equivalents; 156 chemistry soft-pass
-- [x] PDBQT prep for 156 chemistry soft-pass (pH 7.4)
+| Step | Status |
+|------|--------|
+| A1 freeze (24 exploratory) | DONE — `acid_dual_a1_frozen/` |
+| Amendment A2 preregistration | DONE — `00_preregistration/AMENDMENT_A2_*.yaml` |
+| A2 reference validation | DONE — 5/6 carboxylate refs pass |
+| Retrospective acid-gate benchmark | DONE — A1 OR≈3.2; A2 OR≈1.0 (not discriminative) |
+| A2 clinical seed 42 rescore | DONE — 59 dual keep |
+| Seeds 43/44 docking | IN PROGRESS — `acid_dual_a2_multiseed.log` |
+| Competition shortlist | DONE (seed42) — `acid_shortlist_a2_competition.csv` |
+| MD (L7) | CLOSED — `md_authorized=false` |
 
-## Next (needs GPU preferred)
-1. Dock `01_ligand_prep/acid_clinical_chemistry_pass/ligand_manifest.csv`
-   - 9DKB + 7ALV, `config/docking_c1.yaml` (or `_cpu.yaml` only for smoke)
-   - `num_modes: 9`, parse SDF (CNNscore-selected pose)
-2. Keep if: carboxylate/equivalent · Arg477 ≤ 7.7027 · both pockets OK · chemistry soft
-3. Nominate ≤2 primary + ≤3 backup → `08_nomination/`
-4. MD only after shortlist freeze
+## Pose selection
+
+- **A1 (retired for nomination):** CNNscore Top-1 → geometry check
+- **A2 (active):** geometry-compatible poses → CNNscore tie-break
 
 ## Do not
-- Reopen Rank / L3 without new preregistration
-- Overwrite `data/repurposing/p2/`
-- Call results dual inhibitors or rank-prioritized hits
+
+- Overwrite `acid_dual_a1_frozen/`
+- Use A2 gate as activity retrieval (benchmark shows OR≈1)
+- Open MD before multiseed stability + explicit authorization

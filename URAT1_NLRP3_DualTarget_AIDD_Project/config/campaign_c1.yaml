@@ -6,8 +6,9 @@
 
 name: C1
 status: acid_track_active_rank_closed
-# Amendment A1 (2026-08-26): Arg477 gate corrected to crystal-relative; path = Acid.
-# See data/campaigns/c1/00_preregistration/AMENDMENT_A1_Arg477_crystal_relative.yaml
+# Amendment A2 (2026-08-27): geometry-first URAT1 pose selection.
+# See data/campaigns/c1/00_preregistration/AMENDMENT_A2_geometry_first_pose_selection.yaml
+# A1 exploratory outputs frozen under data/campaigns/c1/07_clinical_dock/acid_dual_a1_frozen/
 goal: testable URAT1–NLRP3 dual-node candidates
 product_claim_under_acid_track: acid-pose dual-node hypotheses (not docking-rank activity retrieval)
 journal_target: Molecular Diversity
@@ -100,6 +101,12 @@ acid_track:
   clinical_pool: data/repurposing/screening/docking_pool_p05.csv
   pose_protocol_preferred: local_only_or_tight_box_from_acid_prep
   ranking: none_geometry_and_chemistry_gates_only
+  # A2 (2026-08-27): among num_modes, retain geometry-compatible URAT1 poses first,
+  # then CNNscore tie-break within that subset (see AMENDMENT_A2).
+  urat1_pose_selection: geometry_first_then_cnnscore
+  urat1_pose_selection_retired_a1: cnnscore_top1_then_geometry
+  clinical_seeds_a2: [42, 43, 44]
+  clinical_stability_rule: dual_geometry_pass_in_ge_2_of_3_seeds
 
 forced_recovery_urat1_names:
   - lesinurad

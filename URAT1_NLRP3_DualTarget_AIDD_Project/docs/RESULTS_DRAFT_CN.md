@@ -115,29 +115,32 @@ lesinurad 与 verinurad 作为 URAT1 对照另做姿态检查。lesinurad 生产
 
 ### 3.6 Phase II 预告与 MD 停规则
 
-**C1 Acid 主结果**已写入 §3.7 与 `data/campaigns/c1/07_clinical_dock/acid_dual/`、`08_nomination/`。短名单为 **draft（待审）**：可点名几何假说分子，但 **MD 未授权**（`md_authorized=false`）。
+**C1 Acid 主结果**见 §3.7（A1 冻结 + Amendment A2）。竞争短名单已建立，但 **多 seed 稳定性与 MD 均未授权**（`md_authorized=false`）。
 
 MD（L7）仅在 shortlist **正式授权**后启动。对照永远包含：（i）lesinurad 晶体羧酸根姿 @ 9DKB；（ii）NP3-146 共晶姿 @ 7ALV。Discovery 槽位按角色选 2–3 个（药理证据 / 几何最清 / 重定位假说），**禁止**用旧 P2 百分位或 legacy 7 人名单直接填 MD。旧 `MD_RUN_PLAN.md` 中以 GSK-3008348 / Vecabrutinib 为跟进的六体系清单作废，待正式授权后按 draft 短名单重写。
 
 **截至本稿，不报告任何依赖轨迹的数值。** 对照失败规则不变：lesinurad 晶体对照不能维持 Arg477 / Phe 笼 → URAT1 侧一律不解释；NP3-146 漂出 → NLRP3 侧一律不解释。MD 合格不等于双靶成立。
 
-### 3.7 Phase II：C1 Acid 双靶几何与 draft 短名单
+### 3.7 Phase II：A1 探索集、Amendment A2 与竞争短名单
 
-自对接摘要：NP3-146@7ALV 三种子通过；lesinurad 自由对接三种子未过 CNNscore 选姿几何门 → Rank 关闭。Amendment A1：Arg ≤ 7.7027 Å（晶体 lesinurad O–Arg477 最短 6.7027 Å + 1.0 Å 容差）。酸等价临床子集约 303 → 药化 soft 156 → 双靶 gnina（seed 42，exh=32，`cnn_scoring=rescore`，无 GPU）**312/312 完成**，日志无批中断 FAIL。
+**A1 探索集（已冻结，不覆盖）。** 156×2 gnina（seed 42）完成。CNNscore Top-1 姿态选择下：URAT1 Arg 过门 47；NLRP3 pose 过门 78；双靶几何 keep **24**（`acid_dual_a1_frozen/`）。forced-recovery 显示已知 URAT1 羧酸药（lesinurad、verinurad、puliginurad、SHR-4640 等）在 9 个模式中**存在**晶体兼容酸根姿（best-acid ≈ 2.9–3.0 Å），但 CNNscore 未将其选为 Top-1（Top-1 Arg ≈ 12–15 Å）——仅 GSK-3008348 通过。故 A1 集合记为 **exploratory**，不作最终 shortlist。
 
-几何门（无百分位）：URAT1 Arg 过门 **47**；NLRP3 pose 过门 **78**；**双靶都过 24**（`acid_dual_summary_seed42.json`）。其中经典酸根姿 Arg ≤ 4.0 Å 共 **13**；PAINS=0、Brenk=5；剔除抗菌喹诺酮/头孢软降级后，Arg≤4 Å 且 alert-clean 池 **9**（全表见 `08_nomination/acid_dual_geometry_keep_annotated.csv`）。
+**Amendment A2（仅由对照触发）。** URAT1 姿态规则改为：9 poses → 几何兼容子集（羧酸根 + Arg ≤ 7.7027 Å + COM ≤ 6 Å）→ 在子集内取最高 CNNscore。参照验证（seed 42）：羧酸对照 **A1 1/6 → A2 5/6** 通过（`a2_reference_validation_seed42/`）。
 
-**Draft 短名单**（骨架去冗余；目标 2 primary + ≤3 backup；`md_authorized=false`）：
+**回顾性 URAT1 酸门 benchmark**（228 羧酸 active vs 64 羧酸 true decoy；phase-1 9-mode SDF，不重对接）：A1 规则 OR = **3.18**（Fisher *p* ≈ 4.5×10⁻⁴，95% CI 1.77–6.81）；A2 规则 OR ≈ **0.97**（*p* = 1.0）——A2 提高已知药召回，但**不能**作为活性检索判别器。Acid 轨主张边界不变：几何假说存在性，而非 docking rank activity retrieval。
 
-| 角色 | 分子 | Arg477 (Å) | max phase |
-|------|------|------------:|----------:|
-| primary | Lanifibranor | 2.91 | 3 |
-| primary | Caficrestat | 3.02 | 3 |
-| backup | Admilparant | 3.08 | 3 |
-| backup | Cavosonstat | 3.00 | 2 |
-| backup | Runcaciguat | 3.09 | 2 |
+**A2 临床重算（seed 42，复用 A1 SDF）**：URAT1 keep **121**；NLRP3 keep **78**；双靶 keep **59**（含 A1 全部 24）。竞争短名单（药化/给药软降级后，`md_authorized=false`；seed 43/44 对接进行中）：
 
-产物：`acid_shortlist_draft.csv`、`acid_nomination_summary.json`。GSK-3008348 同在双靶几何 keep 且 Arg ≈ 2.98 Å，进入 classic+clean 池但未挤进本轮 5 人 draft（phase 1；不因旧 P2 百分位抬升）。烟雾对照中 lesinurad/verinurad/puliginurad 自由对接 Arg 约 12–15 Å、不 keep——与 Rank 关闭一致。上述均为 **acid-pose dual-node hypotheses**，不是活性检索命中，也不是已验证双靶抑制剂。
+| 角色 | 分子 | Arg477 (Å) | 备注 |
+|------|------|------------:|------|
+| primary | PF-04620110 | 7.13 | 独立 NLRP3 生物学文献锚点 + 新 URAT1 结构假说 |
+| primary | Admilparant | 3.08 | 口服 LPA1；Phase III 背景 |
+| backup | PSI-697 | 3.48 | P-selectin；痛风炎症正交假说 |
+| backup | PF-03882845 | 3.24 | 肾/代谢 backup |
+| backup | Lanifibranor | 2.91 | PPAR；高临床成熟度 |
+| structural control | GSK-3008348 | 2.98 | 几何阳性、非 URAT1 活性主张 |
+
+产物：`08_nomination/acid_shortlist_a2_competition.csv`；过早的 A1 draft（`acid_shortlist_draft.csv`）已作废。
 
 ---
 

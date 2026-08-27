@@ -127,45 +127,20 @@ def run_one(gnina: Path, receptor: Path, ligand: Path, center, size, out_sdf: Pa
     return None
 
 
-def evaluate_acid_pose(sdf: Path, arg_json: Path, ligand_id: str, target: str, seed: int) -> dict:
-    """CNNscore-selected pose; Acid gates only (no percentiles)."""
-    poses = load_poses(sdf)
-    if not poses:
-        return {"ligand_id": ligand_id, "target": target, "seed": seed, "error": "no_poses", "keep": False}
-    i_star = max(range(len(poses)), key=lambda j: _fprop(poses[j], "CNNscore") or -1.0)
-    pose = poses[i_star]
-    arg = json.loads(arg_json.read_text()) if target == "urat1_9dkb" else None
-    d_arg = min_acid_arg_dist(pose, arg["atoms"]) if arg else None
-    has_acid_oxy = bool(carboxylate_oxygens(pose)) if target == "urat1_9dkb" else None
+def evaluate_acid_pose(sdf: Path, arg_json: Path, ligand_id: str, target: str, seed: int, pose_selection: str = "a1") -> dict:
+    """URAT1 (A1/A2) or NLRP3 pose gates; no percentiles."""
+    from c1_acid_pose_selection import evaluate_nlrp3_pose_sdf, evaluate_urat1_acid_sdf, load_ref_centroid
 
-    ref_sdf = CRYSTAL_COM[target]
-    ref_com = load_ref_centroid(ref_sdf)
-    pose_com = heavy_centroid(pose)
-    d_com = float(((pose_com[0] - ref_com[0]) ** 2 + (pose_com[1] - ref_com[1]) ** 2 + (pose_com[2] - ref_com[2]) ** 2) ** 0.5)
-    in_pocket = d_com <= CENTROID_MAX_A
-
-    row = {
-        "ligand_id": ligand_id,
-        "target": target,
-        "seed": seed,
-        "n_poses": len(poses),
-        "selected_mode": i_star + 1,
-        "CNNscore": _fprop(pose, "CNNscore"),
-        "CNNaffinity": _fprop(pose, "CNNaffinity"),
-        "C1_P2star": _fprop(pose, "CNNaffinity"),
-        "C1_VS": (_fprop(pose, "CNNscore") or 0) * (_fprop(pose, "CNNaffinity") or 0),
-        "acid_arg477_min_A": d_arg,
-        "has_carboxylate_oxy_in_pose": has_acid_oxy,
-        "pass_arg_A1": (d_arg is not None and d_arg <= ARG_THRESH) if target == "urat1_9dkb" else None,
-        "centroid_to_crystal_lig_A": d_com,
-        "pass_pocket_centroid": in_pocket,
-        "sdf": str(sdf),
-    }
     if target == "urat1_9dkb":
-        row["keep_urat1_acid"] = bool(row["pass_arg_A1"] and has_acid_oxy and in_pocket)
-    else:
-        # NLRP3: pocket COM + minimum CNN pose confidence (not a ranking score)
-        row["keep_nlrp3_pose"] = bool(in_pocket and (row["CNNscore"] or 0) >= 0.5)
+        ref_com = load_ref_centroid(CRYSTAL_COM[target])
+        row = evaluate_urat1_acid_sdf(
+            sdf, arg_json, ref_com, ligand_id, seed, rule=pose_selection  # type: ignore[arg-type]
+        )
+        row["keep"] = row.get("keep_urat1_acid", False)
+        return row
+    ref_com = load_ref_centroid(CRYSTAL_COM[target])
+    row = evaluate_nlrp3_pose_sdf(sdf, ref_com, ligand_id, seed)
+    row["keep"] = row.get("keep_nlrp3_pose", False)
     return row
 
 
@@ -180,6 +155,12 @@ def main() -> None:
     ap.add_argument("--targets", nargs="+", default=["urat1_9dkb", "nlrp3_7alv"])
     ap.add_argument("--preflight-only", action="store_true")
     ap.add_argument("--metrics-only", action="store_true", help="re-score existing SDFs; do not call gnina")
+    ap.add_argument(
+        "--pose-selection",
+        choices=["a1", "a2"],
+        default="a1",
+        help="URAT1 pose rule; a2 = geometry-first (Amendment A2)",
+    )
     args = ap.parse_args()
 
     pf = preflight(args.engine_config, args.manifest)
@@ -241,7 +222,7 @@ def main() -> None:
                 record_fail(rid, tkey, "missing_sdf")
                 continue
             try:
-                rows.append(evaluate_acid_pose(out_sdf, pf["arg_json"], rid, tkey, args.seed))
+                rows.append(evaluate_acid_pose(out_sdf, pf["arg_json"], rid, tkey, args.seed, args.pose_selection))
             except Exception as e:
                 record_fail(rid, tkey, f"evaluate_error: {type(e).__name__}: {e}")
 
