@@ -124,6 +124,7 @@ def main():
         "does not replace Table 2",
         "zero pairs meeting the pre-frozen primary external gate",
         "applicability stress-test",
+        "not formal pose-gold validation",
     )
     for phrase in required_phrases:
         assert phrase in manuscript, phrase
@@ -207,6 +208,8 @@ def main():
     assert one(lc6, pdb="3WIY")["best_top3_pass_lt_2"] == "1"
     near(one(lc6, pdb="3WIZ")["rmsd_best_of_top3"], 2.011)
     assert one(lc6, pdb="3WIZ")["best_top3_pass_lt_2"] == "0"
+    assert "not_topology_aware" in one(lc6, pdb="3WIY")["rmsd_method"]
+    assert "not a formal pose-gold result" in one(lc6, pdb="3WIY")["note"]
 
     census = rows("theta6_pair_census_v1.csv")
     assert len(census) == 49

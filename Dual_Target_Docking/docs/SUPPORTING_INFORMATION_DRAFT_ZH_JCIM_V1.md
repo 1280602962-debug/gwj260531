@@ -1025,7 +1025,7 @@ API-max 与 median 差值和重复记录数有预期的正相关，但该诊断�
 
 ## Table S50. MCL1/Bcl-xL 面板冻结
 
-来源：`mcl1_bclxl_panel_freeze_v1.csv`、`mcl1_bclxl_chembl_panel96_v1.csv`。ChEMBL θ = 6.0 图 305 个配对结构：dual/A/B/neither 82/77/24/122。冻结面板 24/24/24/24（种子 20260729）；B-only 穷尽。LC6 pose-gold gate 失败后按预先声明对接为 **applicability stress-test**（`docked=1`）。同源 BCL-2 折叠上的 PPI/BH3 槽域位移，不是异质折叠对，也不是“首次非激酶对”，**不是第五个 Table 2 靶对**。
+来源：`mcl1_bclxl_panel_freeze_v1.csv`、`mcl1_bclxl_chembl_panel96_v1.csv`。ChEMBL θ = 6.0 图 305 个配对结构：dual/A/B/neither 82/77/24/122。冻结面板 24/24/24/24（种子 20260729）；B-only 穷尽。正式 LC6 pose-gold 未有效完成后，按预先声明对接为 **applicability stress-test**（`docked=1`）。同源 BCL-2 折叠上的 PPI/BH3 槽域位移，不是异质折叠对，也不是“首次非激酶对”，**不是第五个 Table 2 靶对**。
 
 ---
 
@@ -1033,16 +1033,14 @@ API-max 与 median 差值和重复记录数有预期的正相关，但该诊断�
 
 来源：`mcl1_bclxl_receptor_freeze_v1.csv`、`data/mcl1_bclxl_panel_v0/tables/cognate_qc_lc6_v1.csv`。链来自 RCSB polymer entity 1。选择依据为分辨率与野生型占位，不是 AUROC。Gate：两端 best-of-top3 RMSD < 2.0 Å（Vina seed 20260727，exhaustiveness 8，九个姿态）。
 
-| 靶标 | PDB | 角色 | 分辨率 (Å) | 链 | top1 Å | best-top3 Å | gate |
+| 靶标 | PDB | 角色 | 分辨率 (Å) | 链 | top1 Å | best-top3 Å | 2 Å 数值筛选 |
 |------|-----|------|----------:|----|-------:|------------:|------|
-| MCL1 | 3WIY | primary | 2.15 | A | 1.689 | 1.689 | pass |
-| BCL2L1 | 3WIZ | primary | 2.45 | A | 4.17 | 2.011 | **FAIL** |
+| MCL1 | 3WIY | primary | 2.15 | A | 1.689 | 1.689 | < 2 Å |
+| BCL2L1 | 3WIZ | primary | 2.45 | A | 4.17 | 2.011 | ≥ 2 Å |
 | MCL1 | 6UDV | alternate | 1.35 | A | — | — | 未跑 |
-
-上述数值来自按元素全局 Hungarian 坐标匹配；该映射没有保持分子图同构，不能称为 topology-aware symmetry-corrected RMSD。预声明的 physical-validity、关键相互作用恢复和第二随机种子也未完成。因此正式 pose-gold gate 视为 **未满足/未有效完成**，表中的 pass/FAIL 仅记录原始 2 Å 数值筛选，不构成姿态验证证据。
 | BCL2L1 | 3SP7 | alternate | 1.4 | A | — | — | 未跑 |
 
-**Gate FAIL。** 不得包装为标准筛选性能或 domain extension。
+上述数值来自按元素全局 Hungarian 坐标匹配；该映射没有保持分子图同构，不能称为 topology-aware symmetry-corrected RMSD。预声明的 physical-validity、关键相互作用恢复和第二随机种子也未完成。因此正式 pose-gold gate 视为 **未满足/未有效完成**，表中的 2 Å 筛选不构成姿态验证证据。不得包装为标准筛选性能或 domain extension。
 
 ---
 

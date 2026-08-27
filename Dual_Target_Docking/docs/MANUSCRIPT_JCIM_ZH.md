@@ -85,7 +85,7 @@ AUROC 与 summary_min 的不确定度用配体层 bootstrap：在保持类别结
 
 事后 θ = 6.0 四状态普查复用冻结的 J0 候选靶对名单与缓存 pChEMBL 图，去掉顺序别名后剩 49 对。dual/A-only/B-only 均 n ≥ 10 记为方向可评估，neither 也 n ≥ 10 记为设定可评估（Table S44）。这些计数只诊断标签供给，不对额外靶对做对接，也不把对接评价集扩到 K = 4 以外。冻结已打分面板上的多元物化匹配按 z 标准化 MW/cLogP/TPSA/重原子做 1:1 贪心配对，欧氏 caliper 为 0.5 与 1.0 SD（Table S45）；n_matched < 8 标记效能不足。AND 式双口袋过滤在 Dual+A-only+B-only 库上按 `vina_worst` 或 `vina_mean` 的 Dual 百分位截断（Table S46）。配体层 ECFP4 与四描述符逻辑回归则在四对完整 θ = 6.0 ChEMBL 图上拟合，每类最多抽 120 个分子（种子 20260729），支架 `GroupKFold`（Table S47）。该分析只用实验标签与二维结构，不是对接结果，也不替换 Table 2。
 
-MCL1/Bcl-xL 冻结为 PPI/BH3 槽域外推候选，不是异质折叠对，也不是“首次非激酶对”（AChE/BChE 已是非激酶）。ChEMBL θ = 6.0 图为 dual/A-only/B-only/neither 82/77/24/122；按种子 20260729 抽 24/24/24/24，B-only 24 个全部纳入。主受体为 MCL1 3WIY 与 Bcl-xL 3WIZ（LC6 / Tanaka compound 10），替代 holo 为 6UDV 与 3SP7，选择依据是分辨率与野生型占位，不是 AUROC。[17] LC6 pose-gold gate 使用与生产相同的 Vina 协议（种子 20260727，exhaustiveness 8，九个姿态）。3WIY 通过 best-of-top3（1.689 Å）；3WIZ 失败（best-of-top3 2.011 Å；top-1 4.17 Å；Table S51）。因此该对只作为预先声明的 applicability stress-test 对接，不是第五个 Table 2 靶对（Table S53）。与 Zhou 2013、DUD-E、LIT-PCBA、CASF-2016、DOCKSTRING 的对照见表 S52。[5–9,18]
+MCL1/Bcl-xL 冻结为 PPI/BH3 槽域外推候选，不是异质折叠对，也不是“首次非激酶对”（AChE/BChE 已是非激酶）。ChEMBL θ = 6.0 图为 dual/A-only/B-only/neither 82/77/24/122；按种子 20260729 抽 24/24/24/24，B-only 24 个全部纳入。主受体为 MCL1 3WIY 与 Bcl-xL 3WIZ（LC6 / Tanaka compound 10），替代 holo 为 6UDV 与 3SP7，选择依据在对接前确定。[17] 初步 LC6 坐标筛查使用与生产相同的 Vina 设置（种子 20260727，exhaustiveness 8，九个姿态）和按元素 Hungarian 匹配，得到 3WIY best-of-top3 1.689 Å、3WIZ 2.011 Å（top-1 4.17 Å）。该匹配未受分子图同构约束，预声明的 physical-validity 与相互作用恢复也未完成，因此这些数值不是 topology-aware symmetry-corrected RMSD，也不是正式 pose-gold 验证（Table S51）。更严格的 gate 视为未满足，该对只作为预先声明的 applicability stress-test 对接，不是第五个 Table 2 靶对（Table S53）。与 Zhou 2013、DUD-E、LIT-PCBA、CASF-2016、DOCKSTRING 的对照见表 S52。[5–9,18]
 
 计算在 Python 3 环境下完成，主要软件为 RDKit 2026.3.1、meeko 0.7.1、AutoDock Vina 1.2.7、GNINA 1.3.2 与 RTMScore。评价面板、对接分数、分析脚本与参数表见 Data and Software Availability。评价合约见 `DUALFOURCLASS_EVALUATION_CONTRACT_v1.json`。
 
@@ -193,7 +193,7 @@ AND 式双口袋过滤在 Dual+A-only+B-only 库上把 Table S25 的 Top-10 观�
 
 BindingDB 202608 文章与专利归档按对接前冻结的合约重建（`external_slice_contract.yaml`；Methods 2.1）。[16] 原生配对 θ = 6.0 的 dual/A-only/B-only/neither 为 EGFR/HER2 371/30/54/13（n = 468）、AChE/BChE 159/46/37/76（n = 318）、PIK3CA/PIK3CB 114/29/4/149（n = 296）、PIK3CA/mTOR 1000/115/30/48（n = 1193）、MCL1/Bcl-xL 32/22/6/30（n = 90；Table S48）。去掉共享文献、共享结构并要求对开发分子最大 ECFP4 Tanimoto < 0.70 后，剩余为 180/10/20/6、4/8/14/59、9/0/3/100、91/4/1/2 与 1/0/2/0（Table S49；Figure S8）。ChEMBL 文献解析为 519/680，因此这些剩余 n 是完全文献独立集的上界。即便作为上界，也没有任何一对达到预先冻结的主外部门槛（方向类各 n ≥ 20、每类至少 3 个来源、最大单文献份额 ≤ 50%），也没有一对达到 EGFR 式薄复制门槛。0.50–0.70 Tanimoto 敏感性仍不足（AChE/BChE 39/13/20；EGFR/HER2 A-only 11；PIK3CA/mTOR B-only 6）。因此没有一对达到预先冻结主外部门槛的配体被对接，该切片不包装为外部评价。停止规则使本稿保持为四靶对评价设定审计。
 
-MCL1/Bcl-xL 仍是同源 BCL-2 折叠上的 PPI/BH3 槽候选，不是异质折叠对，也不是首次非激酶对（Table S50）。LC6 pose-gold gate 在 3WIZ 失败（best-of-top3 2.011 Å；3WIY 1.689 Å 通过；Table S51）后，冻结的 24/24/24/24 面板只作为预先声明的 applicability stress-test 对接。93/96 个配体获得两端分数（186/192 个作业；3 个嵌入失败）。Vina Dual versus neither 为 0.628 [0.462, 0.786]，Dual versus A-only 为 0.793 [0.655, 0.915]，Dual versus B-only 为 0.609 [0.439, 0.776]，`summary_min` 为 0.609（Table S53）。[17] Dual-versus-B-only 区间包含 0.5。该对不加入 Table 2，也不包装为筛选性能证据或外部验证。Table S52 把 DualFourClass 与 Zhou 2013、DUD-E、LIT-PCBA、CASF-2016、DOCKSTRING 并置为文献对照，不是 bake-off。[5–9,18]
+MCL1/Bcl-xL 仍是同源 BCL-2 折叠上的 PPI/BH3 槽候选，不是异质折叠对，也不是首次非激酶对（Table S50）。初步 LC6 坐标筛查给出 3WIY best-of-top3 1.689 Å、3WIZ 2.011 Å，但按元素匹配未受分子图约束，且未完成预声明的 physical-validity 与相互作用恢复，因此不是正式 pose-gold 验证（Table S51）。将更严格 gate 视为未满足后，冻结的 24/24/24/24 面板只作为预先声明的 applicability stress-test 对接。93/96 个配体获得两端分数（186/192 个作业；3 个嵌入失败）。Vina Dual versus neither 为 0.628 [0.462, 0.786]，Dual versus A-only 为 0.793 [0.655, 0.915]，Dual versus B-only 为 0.609 [0.439, 0.776]，`summary_min` 为 0.609（Table S53）。[17] Dual-versus-B-only 区间包含 0.5。该对不加入 Table 2，也不包装为筛选性能证据或外部验证。Table S52 把 DualFourClass 与 Zhou 2013、DUD-E、LIT-PCBA、CASF-2016、DOCKSTRING 并置为文献对照，不是 bake-off。[5–9,18]
 
 ## 4. 讨论
 
@@ -221,7 +221,7 @@ MCL1/Bcl-xL 仍是同源 BCL-2 折叠上的 PPI/BH3 槽候选，不是异质折�
 
 ### 4.5 局限性
 
-第一，评价集仅含四对靶标，因为严格建造门槛下实验定义的双靶硬负样本稀缺。主规则 θ = 6.0 下，49 对审计中有 17 对 Dual/A-only/B-only 均 n ≥ 10，但这些额外靶对未加入 Table 2。MCL1/Bcl-xL 仅在 LC6 pose-gold gate 失败后作为 applicability stress-test 对接，不是第五个评价靶对。K = 4 是受数据供给约束的对接案例面板，而不是全面的双靶基准套件。四个 `summary_min` 还混合了面板构建差异（严格 6.5/5.5 对 θ = 6.0；不等 n）与靶对生物学。当前类别样本量更容易分辨较大的方向性效应，而对中等效应较弱（Table S31）。
+第一，评价集仅含四对靶标，因为严格建造门槛下实验定义的双靶硬负样本稀缺。主规则 θ = 6.0 下，49 对审计中有 17 对 Dual/A-only/B-only 均 n ≥ 10，但这些额外靶对未加入 Table 2。MCL1/Bcl-xL 仅因更严格的 LC6 pose-gold 要求未有效完成而作为 applicability stress-test 对接，不是第五个评价靶对。K = 4 是受数据供给约束的对接案例面板，而不是全面的双靶基准套件。四个 `summary_min` 还混合了面板构建差异（严格 6.5/5.5 对 θ = 6.0；不等 n）与靶对生物学。当前类别样本量更容易分辨较大的方向性效应，而对中等效应较弱（Table S31）。
 
 第二，实验标签来自 ChEMBL，并要求两端均有可用测定。完整病例只覆盖可用值并集的 14.5%–34.0%。未使用配体池留出集仍属同一抓取批次，因此不是独立外部验证。BindingDB/PubChem 的 Table S12 核对仅为计数。Table S43 仍是去掉已打分面板 InChIKey 后的历史 REST 供给计数。随后 BindingDB 202608 原生归档在文献、结构与 ECFP4 < 0.70 过滤后，没有一对达到预先冻结的主外部门槛（Tables S48–S49）。因 ChEMBL 文献解析不完整，剩余 n 是上界；即便作为上界，该切片也不包装为外部评价，且未对接。按文献阻断后 EGFR/HER2 弱臂仍为 0.430，且 PIK3CA/mTOR Dual versus B-only 无法稳定估计。预先冻结的 2018 文献年份分割没有两个可评估靶对，故不声称时间外验证。
 
