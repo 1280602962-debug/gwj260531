@@ -37,6 +37,16 @@ Also complete the ligand-level columns in `assay_context_priority_ligands_v1.csv
 - Do not manufacture a single unified truth by majority vote.
 - If any frozen class changes, recompute Table 2 and document the sensitivity. Do not keep the original number because it was more favorable.
 
+## Local PDF drop (7 uncertain ligands)
+
+Place publisher PDFs in
+`data/jcim_novelty_v0/literature_sources/pdfs/` using the filenames in
+that folder's README. Source-reading notes:
+`data/jcim_novelty_v0/analysis/ASSAY_CONTEXT_SOURCE_READING_V1.md`.
+PDFs are gitignored. After a PDF lands, the next pass fills construct /
+mutation on the matching audit rows. Do not recompute Table 2 unless a
+frozen class actually changes.
+
 ## What this cloud pass already did
 
-Assay type, organism, relation, endpoint, document, assay ID, mixed-endpoint flags, and AUROC influence were extracted from the 2026-08-26 high-confidence view. Protein construct and mutation usually require the source paper or ChEMBL assay description and are left blank on purpose.
+Assay type, organism, relation, endpoint, document, assay ID, mixed-endpoint flags, and AUROC influence were extracted from the 2026-08-26 high-confidence view. Protein construct and mutation usually require the source paper or ChEMBL assay description and are left blank on purpose. A 2026-08-27 source-reading pass started from public full text (US9181263, Hong 2024 PMC) and ChEMBL/BindingDB cross-checks; labels were not changed.
