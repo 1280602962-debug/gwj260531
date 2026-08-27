@@ -1,12 +1,15 @@
 # 讨论（中文）
 
-> 投稿正文入口。目标期刊：***JCAMD***（不再按 *Molecular Diversity* hit 文写）。  
-> **改构：** 原目的“对接排出活性 → 双靶候选”不成立。现行目的与名单角色见 [`PROJECT_RECONCEPTION.md`](PROJECT_RECONCEPTION.md)。  
-> 结果数字以 [`RESULTS_DRAFT_CN.md`](RESULTS_DRAFT_CN.md) 的归档复算为准。  
-> 分子动力学已开跑，但轨迹未入库：本节只讨论预先写死的解释边界，不填写 RMSD 或 MM-GBSA。  
-> 下文 4.1 / 4.5 仍是改构前口径，改稿时按改构文件重写：7 个名字改为审计，Vecabrutinib 不再跟进。
+> **C1 同步声明（2026-08-26）：** Phase I = 冻结 P2 **negative transfer baseline**；Phase II = Acid-track（Arg ≤ 7.7027 Å，无百分位，Rank 关闭）。legacy 7 人与 Vecabrutinib **不是**现役跟进；MD 待 C1 shortlist 冻结。下文 4.1 起仍含旧口径，定稿以 Methods §2.14 / Results §3.0 为准。
+>
+> 投稿定位：*Molecular Diversity* 可投，但主张改为 bias-audited / failure-aware **dual-node hypotheses**（非 “discovery of dual-target inhibitors”）。拒稿后可转 *JCAMD*。  
+> 结果：[`RESULTS_DRAFT_CN.md`](RESULTS_DRAFT_CN.md)。方法：[`METHODS_DRAFT_CN.md`](METHODS_DRAFT_CN.md)。
 
 ## 4 讨论
+
+### 4.0 主张重写（现役）
+
+初始对接排名在诱饵基准上可选读出，但迁移到临床库后暴露有限可迁移性。因此不主张 “docking prioritized active compounds”，而将 URAT1 结构证据改写为晶体相对酸姿准则，并与 NLRP3 \(q_N\) 优先结合，生成可实验验证的双节点假说。
 
 ### 4.1 本研究实际回答了什么问题
 

@@ -1,20 +1,30 @@
 # 结果（中文）
 
-> 投稿正文入口。目标期刊：*Molecular Diversity*（拒稿后可转 *JCAMD*）。
-> 方法：[`METHODS_DRAFT_CN.md`](METHODS_DRAFT_CN.md)。讨论：[`DISCUSSION_DRAFT_CN.md`](DISCUSSION_DRAFT_CN.md)。大纲：[`MANUSCRIPT.md`](MANUSCRIPT.md)。
-> 数字均复算自冻结归档（`data/benchmarks/protocol_selection/`、`data/repurposing/p2/`、`data/si/`），不重新选择 Π\*，不把对接分写成亲和力。
-> 口径：产出为 URAT1–NLRP3 **双节点计算假说**，不是已验证的双靶抑制剂。
-> 分子动力学已按六体系清单开跑，**本归档仍无生产轨迹数值**，本节不报告 RMSD、氢键占据或 MM-GBSA。
+> **C1 同步声明（2026-08-26，Amendment A1）：**  
+> 本节数字中，凡来自冻结 `data/repurposing/p2/` 与协议筛选表的内容，一律按 **Phase I negative transfer baseline** 阅读；**不再**把“Π\*=P2 锁定并发现 51/7 候选”写成主发现。  
+> **Phase II** 主结果为 C1 Acid 轨（Arg477 ≤ 7.7027 Å；无百分位；Rank 关闭）。C1 短名单冻结前不报告 discovery MD 名字。  
+> 门控文件：`data/campaigns/c1/05_metrics/pass_fail.json`。
+
+> 投稿正文入口。目标期刊：*Molecular Diversity*（拒稿后可转 *JCAMD*）。  
+> 方法：[`METHODS_DRAFT_CN.md`](METHODS_DRAFT_CN.md)。讨论：[`DISCUSSION_DRAFT_CN.md`](DISCUSSION_DRAFT_CN.md)。大纲：[`MANUSCRIPT.md`](MANUSCRIPT.md)。  
+> Phase I 数字复算自冻结归档（`data/benchmarks/protocol_selection/`、`data/repurposing/p2/`、`data/si/`），不重新选择 Π\*，不把对接分写成亲和力。  
+> 口径：产出为可实验验证的 URAT1–NLRP3 **双节点计算假说**（Acid-track hypotheses），不是已验证双靶抑制剂。
 
 ## 3 结果
+
+### 3.0 Phase I 与 Phase II 的结果分工
+
+**Phase I（本节 3.1–3.x 中标注为冻结战役的部分）** 回答：在 TrueDecoy/RandomDecoy 上选定的 P2 读出，迁移到临床库后能否支撑“对接排出活性/双靶命中”的主张？答案是否定的——RandomDecoy 富集弱、lesinurad Top-1 RMSD 失败、临床库大环偏倚、生产姿 Arg477 远离晶体几何。该阶段产出的 51/7 称为 **legacy P2 audit set**，不是 C1 提名。
+
+**Phase II（C1 Acid 轨）** 回答：在关闭 Rank 轨之后，能否用晶体相对酸根几何 + NLRP3 生物学门控生成可测假说？自对接对照：NP3-146@7ALV 三种子通过；lesinurad 自由对接三种子未通过 CNNscore 选姿门，故 Rank 关闭；Amendment A1 下晶体局域羧酸姿通过相对 Arg 门。临床酸池对接与短名单见 `data/campaigns/c1/07_clinical_dock/`（完成后写入）。
 
 ### 3.1 诱饵集合的相似性泄漏审计
 
 TrueDecoy 的性质匹配诱饵在构建时已要求相对活性物的最大 Tanimoto 相似度 \(\le 0.5\)，但 80 个实验弱活分子与全部 4,690 个 RandomDecoy 诱饵均未经过该过滤，存在“诱饵实际上是活性物近邻”的潜在风险（`data/si/decoy_leakage_audit/`）。核查结果：80 个实验弱活分子中 6 个（其骨架种类的 15.8%）与某活性物共享 Murcko 骨架，14 个（17.5%）的最大相似度超过 0.5，但无一超过 0.85——这一定程度的重叠符合设计意图，弱活分子正是因为与活性物同属可比较化学空间才被选作难负例。4,690 个 RandomDecoy 诱饵与活性物的骨架重叠为 **0**，最大相似度中位数 0.20、第 90 百分位 0.25，无一超过 0.5：本次抽样中 RandomDecoy 天然疏远于活性物，不存在近邻泄漏。按“排除相似度 >0.5 的诱饵”重新计算六个读出在 RandomDecoy 上的 EF@1%/EF@5%/AUC，因无诱饵被排除，数值与未过滤结果逐位相同。因此表 1 的 RandomDecoy 否决判据不依赖这一潜在漏洞。
 
-### 3.2 URAT1 活性物–诱饵基准上的协议比较与 Π\* 锁定
+### 3.2 URAT1 活性物–诱饵基准上的协议比较（Phase I 记录，非 C1 生产锁定）
 
-协议比较在查看临床库排名之前完成。六种读出（P0–P5）均在 9DKB 上对接同一结构并集（归档主表 9,839 个独特结构），再分别汇总 TrueDecoy 与 RandomDecoy。锁定时的点估计与随后在分子级分数上的排名 bootstrap 一并列于表 1。前 1% 切片在锁定表中按约 52 个分子计（P2 TrueDecoy 为 12/52，EF@1% = 2.54）；归档重算采用 \(n_f=\lfloor 0.01N\rfloor\)，故同一 12 个命中记为 12/51，EF@1% = 2.59。两种切片不改变读出排序，**不重新选择** Π\*。
+协议比较在查看临床库排名之前完成，用于 **Phase I** 记录当时选定的排序读出。六种读出（P0–P5）均在 9DKB 上对接同一结构并集（归档主表 9,839 个独特结构），再分别汇总 TrueDecoy 与 RandomDecoy。点估计与分子级排名 bootstrap 一并列于表 1。前 1% 切片在锁定表中按约 52 个分子计（P2 TrueDecoy 为 12/52，EF@1% = 2.54）；归档重算采用 \(n_f=\lfloor 0.01N\rfloor\)，故同一 12 个命中记为 12/51，EF@1% = 2.59。两种切片不改变读出排序。**Phase II 不再把该选择解释为“已验证可迁移的活性检索协议”；C1 Rank 轨已因自对接失败关闭。**
 
 **表 1.** 9DKB 上 P0–P5 的早期富集。括号内为分子有放回重采样（1,000 次）的 95% 百分位区间。超几何 \(p\) 针对 TrueDecoy 前 1% 命中。来源：`data/si/protocol_enrichment_ci/protocol_ef_ci.csv`。
 
@@ -73,13 +83,15 @@ NLRP3 相关细胞活性分类器在 5 折骨架分组交叉验证中 AUROC = 0.
 
 测定上下文取频率最高的 1、3 或 5 个时，\(q_N\ge 0.5\) 集合彼此完全重合；与冻结的 1,588 生产池仅差 1 个分子（CT-1578），归因于模型反序列化而非测定个数。生产对接池不予替换。
 
-### 3.4 裸 Pareto 审计与双结构提名
+### 3.4 Phase I：裸 Pareto 审计与 legacy P2 audit set（非 C1 提名）
 
-在归档 1,580 行上，以 \(S_U\) 与 \(S_N=\max\{S_{N,\mathrm{ML}},S_{N,\mathrm{dock}}\}\) 做非支配分析，得到 4 个分子：Idremcinal、Alemcinal、Cethromycin 和 Zamzetoclax。四者分子量 698–766 Da，均为红霉素/大环相关骨架，相对 URAT1 / NLRP3 已知活性物的最近邻 Tanimoto 约 0.11–0.19。有放回重采样（500 次）中，四者出现在前沿的频率为 0.59–0.65（Alemcinal 0.65、Cethromycin 0.63、Idremcinal 0.63、Zamzetoclax 0.59）。该集合用于展示对接优势被高分子量骨架占据，**不是**跟进名单。两轴百分位同时 ≥99 / ≥98 / ≥95 / ≥90 的交集分别为 5、8、21、77 个分子；审计轴双阈值 85 / 90 / 95 的集合为 119 / 77 / 21 个分子。
+> **读法：** 本节全部为冻结 P2 战役的 **failure / bias audit**。51 与 7 称为 **legacy P2 audit set / historical P2 shortlist**，**不是** C1 Acid 短名单，也不得因旧百分位自动进入 MD。Vecabrutinib 等非酸默认不进入 URAT1 Acid 主张。
 
-跟进提名与 Pareto 成员身份分开，改用双对接门控 \(S_U\ge 90\) 且 \(S_{N,\mathrm{dock}}\ge 90\)，得到 51 个分子；机器学习分数不把分子抬进该门控。若改用较宽的审计轴（\(S_U\ge 90\) 且 \(S_N=\max\{\cdot\}\ge 90\)），集合扩大到 77 个，其中 26 个仅靠 NLRP3 分类器分数抬高、对接百分位未达 90，不进入第一层门控。51 个中无 PAINS、无 Brenk，且通过 Veber 与 Ro5 氢键/\(\log P\) 条件者 14 个。再要求分子量 200–550 Da、经验口服吸收标记通过、且非大环骨架后，优选候选为 **7** 个（表 4）。完整 Lipinski 分子量 \(\le 500\) 仅作注释：除 GSK-3008348 外，其余六者因分子量略高于 500 Da 未通过该注释规则，但仍落在预定的 200–550 Da 窗口内。门控内因分子量超出窗口而降级的分子包括 Atumelnant、Mioflazine、Depulfavirine、BMS-986142、XP-102、BN-104 和 JTK-853，不进入优选表。1,580 行中，PAINS 命中 78 个，Brenk 命中 626 个，NIH 警报 231 个；Lipinski 通过 752 个，Veber 通过 1,254 个，分子量 200–550 Da 者 1,199 个。
+在归档 1,580 行上，以 \(S_U\) 与 \(S_N=\max\{S_{N,\mathrm{ML}},S_{N,\mathrm{dock}}\}\) 做非支配分析，得到 4 个分子：Idremcinal、Alemcinal、Cethromycin 和 Zamzetoclax。四者分子量 698–766 Da，均为红霉素/大环相关骨架，相对 URAT1 / NLRP3 已知活性物的最近邻 Tanimoto 约 0.11–0.19。有放回重采样（500 次）中，四者出现在前沿的频率为 0.59–0.65（Alemcinal 0.65、Cethromycin 0.63、Idremcinal 0.63、Zamzetoclax 0.59）。该集合用于展示对接优势被高分子量骨架占据，**不是**跟进名单，并直接支持“排序器迁移后的大环偏倚”这一阴性结论。两轴百分位同时 ≥99 / ≥98 / ≥95 / ≥90 的交集分别为 5、8、21、77 个分子；审计轴双阈值 85 / 90 / 95 的集合为 119 / 77 / 21 个分子。
 
-**表 4.** 双结构门控后的 7 个优选候选。百分位在归档 1,580 行内计算。CNNaffinity 由归档 `dock_score` 取负还原，仅供对照，不作 \(K_i\)。最近邻 Tanimoto 相对 URAT1 清洗集 / NLRP3 已知活性物。正文跟进只取 GSK-3008348 与 Vecabrutinib。
+当时生产漏斗用双对接门控 \(S_U\ge 90\) 且 \(S_{N,\mathrm{dock}}\ge 90\)，得到 51 个分子；机器学习分数不把分子抬进该门控。若改用较宽的审计轴（\(S_U\ge 90\) 且 \(S_N=\max\{\cdot\}\ge 90\)），集合扩大到 77 个，其中 26 个仅靠 NLRP3 分类器分数抬高、对接百分位未达 90。51 个中无 PAINS、无 Brenk，且通过 Veber 与 Ro5 氢键/\(\log P\) 条件者 14 个。再要求分子量 200–550 Da、经验口服吸收标记通过、且非大环骨架后，得到历史 **7** 人 audit set（表 4）。完整 Lipinski 分子量 \(\le 500\) 仅作注释：除 GSK-3008348 外，其余六者因分子量略高于 500 Da 未通过该注释规则，但仍落在预定的 200–550 Da 窗口内。门控内因分子量超出窗口而降级的分子包括 Atumelnant、Mioflazine、Depulfavirine、BMS-986142、XP-102、BN-104 和 JTK-853。1,580 行中，PAINS 命中 78 个，Brenk 命中 626 个，NIH 警报 231 个；Lipinski 通过 752 个，Veber 通过 1,254 个，分子量 200–550 Da 者 1,199 个。
+
+**表 4.** Phase I legacy P2 audit set（历史 7 人；**非** C1 提名）。百分位在归档 1,580 行内计算。CNNaffinity 由归档 `dock_score` 取负还原，仅供对照，不作 \(K_i\)。最近邻 Tanimoto 相对 URAT1 清洗集 / NLRP3 已知活性物。C1 不预承诺其中任一进入新短名单或 MD。
 
 | 分子 | 阶段 | MW | \(S_U\) | \(S_{N,\mathrm{dock}}\) | \(S_{N,\mathrm{ML}}\) | CNNaffinity 9DKB / 7ALV | NN Tc URAT1 / NLRP3 |
 |------|------|----|---------|-------------------------|----------------------|-------------------------|---------------------|
@@ -91,29 +103,38 @@ NLRP3 相关细胞活性分类器在 5 折骨架分组交叉验证中 AUROC = 0.
 | MLN-0415 | I | 514 | 94.1 | 91.1 | 91.4 | 8.25 / 7.30 | 0.20 / 0.18 |
 | BI 653048 | I | 516 | 96.3 | 90.3 | 49.7 | 8.40 / 7.28 | 0.21 / 0.20 |
 
-七者相对 URAT1 训练集最近邻均低于化学空间邻近性参考阈值（第 5 百分位 = 0.578），标记为域外临床库化学型，不因此剔除。该判断对参考百分位的选择不敏感：在第 1、5、10 百分位（阈值分别 0.338、0.578、0.649）下重新核查，7 个候选的最近邻相似度均为 0.20–0.25，三个阈值下全部落在“域外”。GSK-3008348 带羧酸，两靶对接百分位均衡，但 NLRP3 模型百分位仅 3.5，其 NLRP3 侧证据几乎完全来自对接而非分类器。Vecabrutinib 则同时具有高对接百分位和高模型分。二者都通过了双结构门控，仍是待 URAT1 摄取与 NLRP3/IL-1 正交验证的双节点计算候选；证据不对称只决定实验顺序，不把它们降为单靶假说。其余五者保留在优选表中供审计，不作为当前叙事分子：Zelenirstat、Deucrictibant 与 BI 653048 的 NLRP3 模型分接近池中位，Praliciguat 与 MLN-0415 的模型分较高，但均无痛风双节点的既有人体证据可把对接排序升格为活性结论。
+七者相对 URAT1 训练集最近邻均低于化学空间邻近性参考阈值（第 5 百分位 = 0.578），标记为域外临床库化学型。该判断对参考百分位的选择不敏感：在第 1、5、10 百分位（阈值分别 0.338、0.578、0.649）下重新核查，最近邻相似度均为 0.20–0.25。GSK-3008348 带羧酸，两靶对接百分位均衡，但 NLRP3 模型百分位仅 3.5——说明即便在 legacy 漏斗内，NLRP3 侧证据也常不对齐。Vecabrutinib 对接与分类器同高，但**非酸**，在 C1 Acid 轨下默认不进入 URAT1 acid-pose 主张。其余五者同样只作 Phase I 审计，不得因旧百分位抬入 C1。
 
-**门控阈值敏感性（不替换生产短名单）。** 生产提名固定 τ = 90。将同一套化学规则用于其他阈值时，双结构门控 / 清洁候选 / 优选候选分别为：τ = 95 时 21 / 4 / 3；τ = 85 时 85 / 18 / 8（优选表在 7 个之外增加 Bafrekalant）；τ = 80 时 131 / 29 / 19。另有一套更宽的探索性名单（τ = 80，仅无 PAINS/Brenk、Veber、MW 200–550，不加满 Ro5 属性）含 27 个分子，仍以 GSK-3008348 与 Vecabrutinib 开头，**不是**另一套生产读出下的 Verdinexor/Niclofolan 名单。正文主表保持 τ = 90 的 7 个；较宽阈值只证明短名单对门槛的单调依赖性，不回溯改变 Π\* 或跟进分子。
+**门控阈值敏感性（仅审计 Phase I）。** 当时 τ = 90。同一规则在 τ = 95 / 85 / 80 时双结构门控 / 清洁 / 历史优选分别为 21/4/3、85/18/8、131/29/19。探索性 τ = 80 名单（27）仍以 GSK / Vecabrutinib 开头。这些数字只说明门槛单调性与偏倚，**不**回溯改变 C1，也**不**把 legacy 7 人写成现役提名。
 
-### 3.5 对接姿态质控
+### 3.5 Phase I：对接姿态质控（支持关闭 Rank / 进入 Acid）
 
-对 7 个优选候选的生产第一构象做口袋几何质控，不参与协议选择或百分位排序。以 9DKB 共晶 lesinurad 和 7ALV 共晶 NP3-146 为参考：质心位移 ≤ 6 Å 或至少 3 个预定关键残基接触（4.5 Å）即记为口袋内。七者在两靶上均 `both_in_pocket=True`，重原子冲突（2.2 Å）均为 0。URAT1 质心相对 lesinurad 为 0.64–1.62 Å，均接触苯丙氨酸笼（Phe241/360/364/365/449）。GSK-3008348 羧酸氧与 Arg477 最短距离 3.19 Å。NLRP3 质心相对 RM5 为 0.34–3.12 Å；Vecabrutinib 为 2.14 Å，大于 GSK-3008348 在 URAT1 上的位移。该检验只说明生产构象落在晶体配体腔的几何范围内，不证明结合模式，也不给出亲和力。
+对 legacy 7 人的生产第一构象做口袋几何质控。以 9DKB 共晶 lesinurad 和 7ALV 共晶 NP3-146 为参考：质心位移 ≤ 6 Å 或至少 3 个预定关键残基接触（4.5 Å）即记为口袋内。七者在两靶上均 `both_in_pocket=True`，重原子冲突（2.2 Å）均为 0。URAT1 质心相对 lesinurad 为 0.64–1.62 Å。GSK-3008348 羧酸氧与 Arg477 最短距离 3.19 Å（该条可在 C1 中按 Acid 规则独立复核，不因旧百分位自动入选）。NLRP3 质心相对 RM5 为 0.34–3.12 Å。该检验只说明生产构象落在晶体配体腔的几何范围内，不证明结合模式，也不给出亲和力。
 
-lesinurad 与 verinurad 作为 URAT1 对照另做姿态检查。lesinurad 生产第一构象质心位移 1.59 Å、口袋内，但羧酸氧与 Arg477 最短距离约 **14.2 Å**，未保持晶体盐桥几何——这与自对接中 P2 Top-1 RMSD = 4.16 Å 一致，并直接决定后续 MD 必须使用**晶体羧酸根姿**作 URAT1 阳性对照，而不是用这条生产第一构象当“已验证的结合模式”。verinurad 质心位移 5.06 Å，仍按关键残基规则记为口袋内，但芳香笼接触明显减少（仅 Phe449）。二者均不进入提名。
+lesinurad 与 verinurad 作为 URAT1 对照另做姿态检查。lesinurad 生产第一构象质心位移 1.59 Å、口袋内，但羧酸氧与 Arg477 最短距离约 **14.2 Å**，未保持晶体盐桥几何——与 P2 Top-1 RMSD = 4.16 Å 及 C1 自由自对接失败一致，是 **Rank 轨关闭** 与改用晶体相对 Arg 门（≤ 7.7027 Å）的直接证据。verinurad 质心位移 5.06 Å，仍按关键残基规则记为口袋内，但芳香笼接触明显减少（仅 Phe449）。二者均不进入任何提名。
 
-### 3.6 分子动力学：体系已指定，轨迹数值不在本文报告
+### 3.6 Phase II 预告与 MD 停规则
 
-生产 MD 的必须清单为 6 个体系（方法 2.11；`docs/MD_RUN_PLAN.md`）：lesinurad 晶体羧酸根姿 @ 9DKB（膜+脂双层）；GSK-3008348 与 Vecabrutinib 各 @ 9DKB；NP3-146/RM5 共晶坐标 @ 7ALV（水盒子）；Vecabrutinib 与 GSK-3008348 各 @ 7ALV。可选第 7 条为 lesinurad 的生产 P2 第一构象，仅作协议诊断。本归档包含部分体系的起始坐标准备记录。开跑前的羧酸根枚举与对照晶体姿提取属于配体/体系准备，不是第二套生产排名。
+**C1 Acid 主结果**（酸池重算、A1 几何、新 shortlist）在对接批完成后写入本节增补 / SI；本稿截稿时短名单尚未冻结，故**不点名 discovery MD 分子**。
 
-**截至本稿，生产轨迹的 RMSD、氢键占据、接触频率和 MM-GBSA 均未纳入分析表，本文不报告任何依赖轨迹的数值。** 预先写死的判读规则是：若 lesinurad 晶体对照不能维持 Arg477 / Phe 笼占据，则 URAT1 侧候选轨迹一律不解释；若 NP3-146 共晶配体漂出，则 NLRP3 侧一律不解释。候选只相对对照报告接触占据与 RMSD，不做 MM-GBSA 重排，不比较“谁比 lesinurad 更亲”。MD 合格不等于双靶成立；每个跟进分子仍要做 URAT1 摄取与 NLRP3/IL-1 实验。
+MD（L7）仅在 C1 shortlist 冻结后启动。对照永远包含：（i）lesinurad 晶体羧酸根姿 @ 9DKB；（ii）NP3-146 共晶姿 @ 7ALV。Discovery 槽位按角色选 2–3 个（药理证据 / 几何最清 / 重定位假说），**禁止**用旧 P2 百分位或 legacy 7 人名单直接填 MD。旧 `MD_RUN_PLAN.md` 中以 GSK-3008348 / Vecabrutinib 为跟进的六体系清单作废，待 shortlist 后重写。
+
+**截至本稿，不报告任何依赖轨迹的数值。** 对照失败规则不变：lesinurad 晶体对照不能维持 Arg477 / Phe 笼 → URAT1 侧一律不解释；NP3-146 漂出 → NLRP3 侧一律不解释。MD 合格不等于双靶成立。
+
+### 3.7 Phase II 占位（C1 Acid；完成后替换本段）
+
+自对接摘要：NP3-146@7ALV 三种子通过；lesinurad 自由对接三种子未过 CNNscore 选姿几何门 → Rank 关闭。Amendment A1：Arg ≤ 7.7027 Å。酸等价临床子集约 303 → 药化 soft 约 156；双靶对接进行中（`data/campaigns/c1/07_clinical_dock/acid_dual/`）。
+
+烟雾对照（seed 42，自由对接，非晶体局域）：lesinurad / verinurad / puliginurad 口袋质心可过、Arg 约 12–15 Å、**不** keep；GSK-3008348 在修复 SDF 读入后 Arg ≈ 2.98 Å 且双靶 keep——**仅作管道校验，不预锁定为 shortlist/MD**。短名单冻结前不报告命中名。
 
 ---
 
 ## 主张边界（本节禁止升格）
 
-- 表 4 是计算短名单，不是双靶抑制剂鉴定。
-- P2 CNNaffinity 与百分位不是 \(K_i\) 或结合自由能。
-- P2 第一构象不是近原生结合模式的证明。
-- 裸 Pareto 四分子与 Zelenirstat 等其余优选者不是正文 lead。
-- 未完成的 MD 轨迹不得补写数值。
-- 不得把 Tegoprazan、Levotofisopam、Verinurad 或 P4 旧名单写成生产跟进分子。
+- 表 4 是 **legacy P2 audit set**，不是 C1 提名，也不是双靶抑制剂鉴定。
+- 冻结 P2 CNNaffinity 与百分位不是 \(K_i\)，也不是 C1 keep 依据。
+- P2 / 自由对接第一构象不是近原生结合模式的证明；Rank 轨已关闭。
+- 裸 Pareto 四分子与 legacy 7 人不是正文 lead / MD 默认人选。
+- 未冻结 C1 shortlist 前不得选 discovery MD；未完成轨迹不得补写数值。
+- 不得把 Tegoprazan、Levotofisopam、Verinurad 或旧 P4/P2 名单写成现役跟进分子。
+- 不得主张“P2 protocol was validated for activity retrieval”。

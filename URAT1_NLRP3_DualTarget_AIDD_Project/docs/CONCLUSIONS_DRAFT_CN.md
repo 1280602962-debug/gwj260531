@@ -1,11 +1,12 @@
 # 结论初稿（中文）
 
-> **改构中。** 现行目的见 [`PROJECT_RECONCEPTION.md`](PROJECT_RECONCEPTION.md)：对接不是 URAT1 活性检索器；7 个名字是审计产出，不是双节点候选。  
-> 下文仍是改构前口径，改稿时整节重写。未完成的 MD 不得写入结合或双靶鉴定。
+> **C1 同步声明（2026-08-26）：** 下文仍是改构前“7 优选 / GSK+Vecabrutinib 跟进”口径，**整节待按 Phase I/II 重写**。现役结论应是：冻结 P2 为阴性迁移基线；Rank 关闭；C1 Acid 轨生成可测假说；短名单未冻结前不点名 discovery MD。未完成的 MD 不得写入结合或双靶鉴定。
 
 ## 4 结论
 
-在 ChEMBL 临床分期与 ATC 来源的 8,319 个小分子中，本研究按预先锁定的流程完成痛风 URAT1–NLRP3 **双节点**计算筛选。URAT1 对接读出在与临床库无关的 TrueDecoy/RandomDecoy 基准上选定为 gnina CNNaffinity（P2）；NLRP3 细胞活性分类器仅用于缩库（\(q_N\ge0.5\)，1,588 个分子）。在 1,580 个双靶完整案例上，以 \(S_U\ge90\) **且** \(S_{N,\mathrm{dock}}\ge90\) 的双结构门控，结合结构警报、Veber、Ro5 氢键/\(\log P\) 与分子量 200–550 Da，得到 **7 个优选计算候选**。操作定义即此：它们是临床库中**同时**在 URAT1 与 NLRP3 口袋排序中进入前 10%、并通过预定化学规则的命名小分子——不是为痛风设计的新骨架，也不是已证实的双靶抑制剂。裸 Pareto 的 4 个大环相关分子仅作审计。已知 URAT1 对照 lesinurad、verinurad 未进门控，说明百分位不能当作对已知促尿酸药的回收，也不能当作亲和力。
+在 ChEMBL 临床分期与 ATC 来源的 8,319 个小分子中，本研究先完成一轮冻结的 P2 对接排名战役，再转入 C1 校正。**Phase I** 在 TrueDecoy/RandomDecoy 上记录 gnina CNNaffinity（P2）读出，并迁移到临床库：在 1,580 个双靶完整案例上，τ = 90 双结构门控加化学规则得到 **7 人 legacy P2 audit set**——该集合用于 failure / bias 审计，**不是**现役双节点提名。已知 URAT1 对照 lesinurad、verinurad 未进门控，说明百分位不能当作对已知促尿酸药的回收，也不能当作亲和力。
+
+**Phase II（C1）** 在 lesinurad 自由自对接失败后关闭 Rank 轨；以晶体相对 Arg477 门（≤ 7.7027 Å）、酸微状态与 NLRP3 \(q_N\ge0.5\) 生成 acid-pose hypotheses。短名单与 MD 人选在 Acid 批对接与审计冻结前**不写入**。
 
 这 7 个分子的原适应症均不在痛风：Vecabrutinib（BTK，II 期）、Zelenirstat（N-肉豆蔻酰转移酶，II 期）、Deucrictibant（缓激肽 B2，II 期）、Praliciguat（可溶性鸟苷酸环化酶，II 期）、GSK-3008348（αvβ6 整合素，I 期）、MLN-0415（IKK-β，I 期）、BI 653048（CRTH2，I 期）。重定位的意义正在于此：在已有人体开发背景的化学空间里检索**同一分子覆盖两个病理节点**的计算线索，而不是再发现一个 lesinurad 或再发现一个秋水仙碱。
 

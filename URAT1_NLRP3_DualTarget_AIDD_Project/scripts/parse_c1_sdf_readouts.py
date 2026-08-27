@@ -33,8 +33,18 @@ def _fprop(mol: Chem.Mol, *keys: str) -> float | None:
 
 
 def load_poses(sdf: Path) -> list[Chem.Mol]:
-    suppl = Chem.SDMolSupplier(str(sdf), removeHs=False)
-    return [m for m in suppl if m is not None]
+    # GNINA SDFs often carry charged N that fail RDKit default sanitize; keep coords+props
+    suppl = Chem.SDMolSupplier(str(sdf), removeHs=False, sanitize=False)
+    out = []
+    for m in suppl:
+        if m is None:
+            continue
+        try:
+            m.UpdatePropertyCache(strict=False)
+        except Exception:
+            pass
+        out.append(m)
+    return out
 
 
 def _neutralize_for_match(mol: Chem.Mol) -> Chem.Mol:
@@ -113,6 +123,27 @@ def min_acid_arg_dist(mol: Chem.Mol, arg_atoms: dict) -> float | None:
             d = math.sqrt(sum((o[i] - n[i]) ** 2 for i in range(3)))
             best = min(best, d)
     return None if not math.isfinite(best) else float(best)
+
+
+def heavy_centroid(mol: Chem.Mol) -> tuple[float, float, float]:
+    conf = mol.GetConformer()
+    pts = []
+    for atom in mol.GetAtoms():
+        if atom.GetAtomicNum() == 1:
+            continue
+        p = conf.GetAtomPosition(atom.GetIdx())
+        pts.append((p.x, p.y, p.z))
+    if not pts:
+        raise ValueError("no heavy atoms for centroid")
+    n = len(pts)
+    return (sum(p[0] for p in pts) / n, sum(p[1] for p in pts) / n, sum(p[2] for p in pts) / n)
+
+
+def load_ref_centroid(ref_sdf: Path) -> tuple[float, float, float]:
+    poses = load_poses(ref_sdf)
+    if not poses:
+        raise ValueError(f"empty crystal ref {ref_sdf}")
+    return heavy_centroid(poses[0])
 
 
 def parse_sdf_readouts(sdf: Path) -> dict:
