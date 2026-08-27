@@ -14,6 +14,7 @@ JCIM **evaluation / benchmark** 课题：双靶对接四类硬负评测。
 | 文档 | 用途 |
 |------|------|
 | **[`docs/MANUSCRIPT_JCIM_EN.md`](docs/MANUSCRIPT_JCIM_EN.md)** | ★ **组装后的英文主稿**（投稿以这份为准） |
+| **[`docs/JCIM_PROJECT_AUDIT_AND_ACTION_PLAN_2026-08-27.md`](docs/JCIM_PROJECT_AUDIT_AND_ACTION_PLAN_2026-08-27.md)** | ★ **当前权威投稿审计、P0/P1 行动清单与停止规则** |
 | **[`docs/MANUSCRIPT_JCIM_ZH.md`](docs/MANUSCRIPT_JCIM_ZH.md)** | ★ **组装后的中文工作稿**（`python3 docs/assemble_manuscript_zh.py`） |
 | **[`docs/REVISION_PHASE1_CLOUD_VS_LOCAL.md`](docs/REVISION_PHASE1_CLOUD_VS_LOCAL.md)** | ★ 本轮修订：云端已完成 vs 必须本地 |
 | [`docs/JCIM_P0_COMPLETION_GUIDE.md`](docs/JCIM_P0_COMPLETION_GUIDE.md) | 历史归档/排版指南；不能替代当前科学补强清单 |
@@ -96,6 +97,6 @@ python3 data/jcim_bench_v0/scripts/plot_forest_ci_v1.py
 
 - 对接 + 混淆对照 + E/enrichment/PM110 + A4 max→median + B5 两对受体替换：**完成**  
 - 章节稿已按 formulation 主线重构；英文主稿 `docs/MANUSCRIPT_JCIM_EN.md`；中文工作稿 `docs/MANUSCRIPT_JCIM_ZH.md`  
-- **提交前科学性缺口**：高置信/人源/直接靶标签重建、核心 formulation contrast 的同尺度不确定性、完整选择偏差审计，以及至少一个真正外部或时间外验证；详见 `docs/JCIM_SUBMISSION_REMEDIATION_PLAN.md`。
+- **提交前科学性缺口**：MCL1 topology-aware pose QC 或证据降级、主结果 cluster uncertainty 的最终核对、K=4/无可评估外部 docking 的严格 claim ceiling；详见 `docs/JCIM_PROJECT_AUDIT_AND_ACTION_PLAN_2026-08-27.md`。
 - **提交合规缺口**：排版、版本化 Zenodo DOI 与从原始记录到主表的干净环境复现。
 - Zenodo DOI：（发布后填这里）

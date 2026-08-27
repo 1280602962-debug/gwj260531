@@ -267,7 +267,12 @@ def pdbqt_models_heavy(path: Path):
 
 
 def hungarian_rmsd(ref, mob) -> float:
-    """Element-matched Hungarian heavy-atom RMSD (Å)."""
+    """Legacy coordinate diagnostic; not topology-aware/symmetry-corrected RMSD.
+
+    The global assignment can match same-element atoms across inequivalent graph
+    positions.  Keep it only to reproduce the historical v1 table; a formal gate
+    requires a graph-isomorphism-constrained v2 implementation.
+    """
     by_el = {}
     for el, xyz in ref:
         by_el.setdefault(el, []).append(xyz)
@@ -361,7 +366,7 @@ def process(spec: dict) -> dict:
         "ligand_prep": lig_method,
         "exhaustiveness": EXHAUST,
         "seed": SEED,
-        "rmsd_method": "hungarian_element_matched_heavy_atom",
+        "rmsd_method": "legacy_hungarian_coordinate_diagnostic_not_topology_aware",
         "note": spec["note"],
         "prepared_at_utc": utc(),
     }
@@ -383,14 +388,13 @@ def main():
         lines.append(",".join(str(r[k]) for k in keys))
     (TAB / "cognate_qc_lc6_v1.csv").write_text("\n".join(lines) + "\n")
 
-    gate_ok = all(r["best_top3_pass_lt_2"] == 1 for r in rows)
     verdict = f"""# MCL1_BCLXL_LC6_POSE_GOLD_GATE_V1
 
 Updated: `{utc()}`
 
 Primary receptors frozen before panel docking: **3WIY** (MCL1) / **3WIZ** (Bcl-xL), cognate **LC6** (Tanaka compound 10).
 Protocol: Vina seed `{SEED}`, exhaustiveness `{EXHAUST}`, num_modes `{N_MODES}`, energy_range 3.
-RMSD: Hungarian element-matched heavy-atom absolute RMSD (AD4 `A`→C).
+Coordinate diagnostic: Hungarian element-matched heavy-atom absolute displacement (AD4 `A`→C). This assignment is not molecular-graph-constrained and is not topology-aware symmetry-corrected RMSD.
 
 | target | PDB | top1 Å | best-of-top3 Å | best-of-9 Å | top3 gate (<2Å) |
 |--------|-----|-------:|---------------:|------------:|:---------------:|
@@ -401,20 +405,16 @@ RMSD: Hungarian element-matched heavy-atom absolute RMSD (AD4 `A`→C).
             f"{r['rmsd_best_of_top3']} | {r['rmsd_best_of_9']} | "
             f"{r['best_top3_pass_lt_2']} |\n"
         )
-    if gate_ok:
-        verdict += (
-            "\n**Gate: PASS.** Both ends best-of-top3 < 2.0 Å. "
-            "Panel docking may proceed as PPI/BH3 domain extension.\n"
-        )
-        role = "domain_extension_candidate"
-    else:
-        verdict += (
-            "\n**Gate: FAIL.** At least one end best-of-top3 ≥ 2.0 Å. "
-            "Per `JCIM_NO_WETLAB_DEEP_PLAN_V2`, do **not** package this pair as "
-            "standard screening-performance evidence. Panel docking (if run) is a "
-            "predeclared **applicability stress-test** only.\n"
-        )
-        role = "applicability_stress_test"
+    verdict += (
+        "\n**Formal gate: UNMET / not validly completed.** The legacy coordinate "
+        "diagnostic cannot establish a pose-gold pass. A formal gate requires "
+        "graph-isomorphism-constrained RMSD, physical-validity checks, interaction "
+        "recovery, and the prespecified second seed. Independently, the 3WIZ point "
+        "value is above 2.0 Å. Do **not** package this pair as standard "
+        "screening-performance evidence; panel docking is an "
+        "**applicability stress-test** only.\n"
+    )
+    role = "applicability_stress_test"
     verdict += f"\n`panel_role={role}`\n"
     (ANALYSIS / "MCL1_BCLXL_LC6_POSE_GOLD_GATE_V1.md").write_text(verdict)
     (TAB / "lc6_gate_summary_v1.json").write_text(

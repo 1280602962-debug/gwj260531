@@ -1029,7 +1029,7 @@ API-max 与 median 差值和重复记录数有预期的正相关，但该诊断�
 
 ---
 
-## Table S51. MCL1/Bcl-xL 受体与 LC6 pose-gold gate
+## Table S51. MCL1/Bcl-xL 受体与 LC6 初步坐标诊断（非正式 pose-gold 验证）
 
 来源：`mcl1_bclxl_receptor_freeze_v1.csv`、`data/mcl1_bclxl_panel_v0/tables/cognate_qc_lc6_v1.csv`。链来自 RCSB polymer entity 1。选择依据为分辨率与野生型占位，不是 AUROC。Gate：两端 best-of-top3 RMSD < 2.0 Å（Vina seed 20260727，exhaustiveness 8，九个姿态）。
 
@@ -1038,6 +1038,8 @@ API-max 与 median 差值和重复记录数有预期的正相关，但该诊断�
 | MCL1 | 3WIY | primary | 2.15 | A | 1.689 | 1.689 | pass |
 | BCL2L1 | 3WIZ | primary | 2.45 | A | 4.17 | 2.011 | **FAIL** |
 | MCL1 | 6UDV | alternate | 1.35 | A | — | — | 未跑 |
+
+上述数值来自按元素全局 Hungarian 坐标匹配；该映射没有保持分子图同构，不能称为 topology-aware symmetry-corrected RMSD。预声明的 physical-validity、关键相互作用恢复和第二随机种子也未完成。因此正式 pose-gold gate 视为 **未满足/未有效完成**，表中的 pass/FAIL 仅记录原始 2 Å 数值筛选，不构成姿态验证证据。
 | BCL2L1 | 3SP7 | alternate | 1.4 | A | — | — | 未跑 |
 
 **Gate FAIL。** 不得包装为标准筛选性能或 domain extension。
