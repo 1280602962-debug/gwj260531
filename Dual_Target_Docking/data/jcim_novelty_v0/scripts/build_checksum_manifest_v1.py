@@ -29,6 +29,9 @@ WATCH = [
     "data/jcim_novelty_v0/tables/document_blocked_cv_summary_v1.csv",
     "data/jcim_novelty_v0/tables/document_blocked_cv_methods_v1.csv",
     "data/jcim_novelty_v0/tables/document_cluster_bootstrap_v1.csv",
+    "data/jcim_novelty_v0/tables/scaffold_cluster_bootstrap_v1.csv",
+    "docs/ANALYSIS_HIERARCHY_V1.md",
+    "docs/SUPPORTING_INFORMATION_JCIM_EN_V1.md",
     "data/jcim_novelty_v0/tables/assay_context_audit.csv",
     "data/jcim_novelty_v0/tables/assay_context_priority_ligands_v1.csv",
     "data/jcim_novelty_v0/tables/time_split_class_counts_v1.csv",
@@ -44,8 +47,6 @@ WATCH = [
     "data/jcim_novelty_v0/tables/external_slice_summary_v1.csv",
     "data/jcim_novelty_v0/tables/mcl1_bclxl_panel_freeze_v1.csv",
     "data/jcim_novelty_v0/tables/mcl1_bclxl_receptor_freeze_v1.csv",
-    "data/mcl1_bclxl_panel_v0/tables/formulation_auroc_MBX_v1.csv",
-    "data/mcl1_bclxl_panel_v0/tables/cognate_qc_lc6_v1.csv",
     "data/jcim_novelty_v0/tables/benchmark_literature_comparator_v1.csv",
     "data/jcim_novelty_v0/tables/bindingdb_archive_lock_v1.csv",
     "data/egfr_her2_panel40_v0/cognate_qc/cognate_reconstructed_qc_summary_v1.csv",
@@ -54,12 +55,22 @@ WATCH = [
 ]
 
 
+TEXT_SUFFIXES = {".csv", ".md", ".json", ".txt", ".yaml", ".yml", ".tsv"}
+
+
 def sha256(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for chunk in iter(lambda: handle.read(1 << 16), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
+    """SHA-256 of file bytes; text-like files are LF-normalized before hashing.
+
+    Cross-platform CRLF/LF differences otherwise break manuscript-facing
+    checksum verification between Windows and Linux checkouts.
+    """
+    raw = path.read_bytes()
+    if path.suffix.lower() in TEXT_SUFFIXES:
+        # Normalize newlines to LF; strip UTF-8 BOM if present.
+        text = raw.decode("utf-8-sig", errors="surrogateescape")
+        text = text.replace("\r\n", "\n").replace("\r", "\n")
+        raw = text.encode("utf-8")
+    return hashlib.sha256(raw).hexdigest()
 
 
 def build_rows() -> list[dict]:
