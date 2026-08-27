@@ -1,0 +1,5 @@
+pair,engine,formulation,contrast,score,n_pos,n_neg,auroc,ci_lo,ci_hi,note,panel_role
+MCL1/Bcl-xL,vina_mode1,conventional_dual_vs_neither,D_vs_neither_mean,score_mean,23,24,0.6277,0.4618,0.7857,dual vs neither using mean pocket score,applicability_stress_test
+MCL1/Bcl-xL,vina_mode1,dualfourclass_directional,D_vs_A_pocketB,score_B,23,24,0.7935,0.6549,0.9146,dual vs A-only scored in pocket B (Bcl-xL/3WIZ),applicability_stress_test
+MCL1/Bcl-xL,vina_mode1,dualfourclass_directional,D_vs_B_pocketA,score_A,23,22,0.6087,0.4385,0.7757,dual vs B-only scored in pocket A (MCL1/3WIY),applicability_stress_test
+MCL1/Bcl-xL,vina_mode1,dualfourclass_directional,summary_min,"min(D/A,D/B)",23,,0.6087,,,worst-arm aggregation of the two directional AUROCs,applicability_stress_test
