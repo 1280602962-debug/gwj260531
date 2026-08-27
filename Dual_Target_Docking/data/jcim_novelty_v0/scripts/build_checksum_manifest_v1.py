@@ -44,6 +44,8 @@ WATCH = [
     "data/jcim_novelty_v0/tables/external_slice_summary_v1.csv",
     "data/jcim_novelty_v0/tables/mcl1_bclxl_panel_freeze_v1.csv",
     "data/jcim_novelty_v0/tables/mcl1_bclxl_receptor_freeze_v1.csv",
+    "data/mcl1_bclxl_panel_v0/tables/formulation_auroc_MBX_v1.csv",
+    "data/mcl1_bclxl_panel_v0/tables/cognate_qc_lc6_v1.csv",
     "data/jcim_novelty_v0/tables/benchmark_literature_comparator_v1.csv",
     "data/jcim_novelty_v0/tables/bindingdb_archive_lock_v1.csv",
     "data/egfr_her2_panel40_v0/cognate_qc/cognate_reconstructed_qc_summary_v1.csv",

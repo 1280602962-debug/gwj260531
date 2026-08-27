@@ -833,6 +833,25 @@ def main() -> None:
                     source_file="data/jcim_novelty_v0/tables/benchmark_literature_comparator_v1.csv",
                 )
             )
+    mcl1_auroc_path = ROOT / "data" / "mcl1_bclxl_panel_v0" / "tables" / "formulation_auroc_MBX_v1.csv"
+    if mcl1_auroc_path.exists() and mcl1_auroc_path.stat().st_size:
+        for r in _read(mcl1_auroc_path):
+            rows.append(
+                row(
+                    block="mcl1_bclxl_stress_test",
+                    manuscript_table="Table S53",
+                    pair=r["pair"],
+                    setting=r["contrast"],
+                    metric="auroc",
+                    value=r["auroc"],
+                    ci_lo=r.get("ci_lo", ""),
+                    ci_hi=r.get("ci_hi", ""),
+                    n_dual=r.get("n_pos", ""),
+                    n_B_only=r.get("n_neg", ""),
+                    note=f"panel_role={r['panel_role']}; not Table 2",
+                    source_file="data/mcl1_bclxl_panel_v0/tables/formulation_auroc_MBX_v1.csv",
+                )
+            )
 
     out_path = TAB / "MASTER_RESULTS_TABLE.csv"
     with out_path.open("w", newline="") as f:

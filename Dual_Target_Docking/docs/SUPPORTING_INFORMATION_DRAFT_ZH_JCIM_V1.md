@@ -56,9 +56,10 @@
 | Table S47 | `ligand_only_fullmap_auroc_v1.csv`（四对完整 ChEMBL 图的配体层 AUROC；不是对接） |
 | Table S48 | `external_candidate_flow.csv`（BindingDB 202608 原生切片分层计数；未对接） |
 | Table S49 | `external_slice_summary_v1.csv`（原生切片主门槛摘要；packaged=0） |
-| Table S50 | `mcl1_bclxl_panel_freeze_v1.csv` + `mcl1_bclxl_chembl_panel96_v1.csv`（MCL1/Bcl-xL 面板冻结；未对接） |
-| Table S51 | `mcl1_bclxl_receptor_freeze_v1.csv`（3WIY/3WIZ 主受体；LC6 gate 未跑） |
+| Table S50 | `mcl1_bclxl_panel_freeze_v1.csv` + `mcl1_bclxl_chembl_panel96_v1.csv`（MCL1/Bcl-xL 面板；LC6 gate 失败后仅作 applicability stress-test） |
+| Table S51 | `mcl1_bclxl_receptor_freeze_v1.csv` + `data/mcl1_bclxl_panel_v0/tables/cognate_qc_lc6_v1.csv`（3WIY/3WIZ；LC6 gate FAIL） |
 | Table S52 | `benchmark_literature_comparator_v1.csv`（文献对照；不是 bake-off） |
+| Table S53 | `data/mcl1_bclxl_panel_v0/tables/formulation_auroc_MBX_v1.csv`（MCL1 Vina AUROC；不进 Table 2） |
 | Figure S7 | `figures/jcim_article/FigS_formulation_upgrades_v1.png` |
 | Figure S8 | `figures/jcim_article/FigS_bindingdb_native_slice_v1.png` |
 | Master index | `data/jcim_novelty_v0/tables/MASTER_RESULTS_TABLE.csv` |
@@ -1024,26 +1025,43 @@ API-max 与 median 差值和重复记录数有预期的正相关，但该诊断�
 
 ## Table S50. MCL1/Bcl-xL 面板冻结
 
-来源：`mcl1_bclxl_panel_freeze_v1.csv`、`mcl1_bclxl_chembl_panel96_v1.csv`。ChEMBL θ = 6.0 图 305 个配对结构：dual/A/B/neither 82/77/24/122。冻结面板 24/24/24/24（种子 20260729）；B-only 穷尽。**未对接；LC6 pose-gold gate 未跑。** 同源 BCL-2 折叠上的 PPI/BH3 槽域位移，不是异质折叠对，也不是“首次非激酶对”。
+来源：`mcl1_bclxl_panel_freeze_v1.csv`、`mcl1_bclxl_chembl_panel96_v1.csv`。ChEMBL θ = 6.0 图 305 个配对结构：dual/A/B/neither 82/77/24/122。冻结面板 24/24/24/24（种子 20260729）；B-only 穷尽。LC6 pose-gold gate 失败后按预先声明对接为 **applicability stress-test**（`docked=1`）。同源 BCL-2 折叠上的 PPI/BH3 槽域位移，不是异质折叠对，也不是“首次非激酶对”，**不是第五个 Table 2 靶对**。
 
 ---
 
-## Table S51. MCL1/Bcl-xL 受体冻结
+## Table S51. MCL1/Bcl-xL 受体与 LC6 pose-gold gate
 
-来源：`mcl1_bclxl_receptor_freeze_v1.csv`。链来自 RCSB polymer entity 1，不是默认链 A。选择依据为分辨率与野生型占位，不是 AUROC。LC6 pose-gold gate 未跑。
+来源：`mcl1_bclxl_receptor_freeze_v1.csv`、`data/mcl1_bclxl_panel_v0/tables/cognate_qc_lc6_v1.csv`。链来自 RCSB polymer entity 1。选择依据为分辨率与野生型占位，不是 AUROC。Gate：两端 best-of-top3 RMSD < 2.0 Å（Vina seed 20260727，exhaustiveness 8，九个姿态）。
 
-| 靶标 | PDB | 角色 | 分辨率 (Å) | 链 | mutations | cognate |
-|------|-----|------|----------:|----|----------:|---------|
-| MCL1 | 3WIY | primary | 2.15 | A（entity 1：A–F） | 0 | LC6 |
-| BCL2L1 | 3WIZ | primary | 2.45 | A（entity 1：A,B） | 0 | LC6 |
-| MCL1 | 6UDV | alternate | 1.35 | A | 0 | — |
-| BCL2L1 | 3SP7 | alternate | 1.4 | A | 0 | — |
+| 靶标 | PDB | 角色 | 分辨率 (Å) | 链 | top1 Å | best-top3 Å | gate |
+|------|-----|------|----------:|----|-------:|------------:|------|
+| MCL1 | 3WIY | primary | 2.15 | A | 1.689 | 1.689 | pass |
+| BCL2L1 | 3WIZ | primary | 2.45 | A | 4.17 | 2.011 | **FAIL** |
+| MCL1 | 6UDV | alternate | 1.35 | A | — | — | 未跑 |
+| BCL2L1 | 3SP7 | alternate | 1.4 | A | — | — | 未跑 |
+
+**Gate FAIL。** 不得包装为标准筛选性能或 domain extension。
 
 ---
 
 ## Table S52. 文献对照（不是 bake-off）
 
 来源：`benchmark_literature_comparator_v1.csv`。把 DualFourClass 的负类定义、配对测定、化学对照、受体敏感性与 Zhou 2013、DUD-E、LIT-PCBA、CASF-2016、DOCKSTRING 并置。不得写成引擎竞赛或“首次非激酶基准”。
+
+---
+
+## Table S53. MCL1/Bcl-xL Vina applicability stress-test（不进 Table 2）
+
+来源：`data/mcl1_bclxl_panel_v0/tables/formulation_auroc_MBX_v1.csv`。LC6 gate FAIL 后按预先声明对接。93/96 配体两端有分；`panel_role=applicability_stress_test`。
+
+| contrast | n_pos / n_neg | AUROC | 95% CI |
+|----------|-------------:|------:|--------|
+| Dual vs neither (mean) | 23 / 24 | 0.628 | [0.462, 0.786] |
+| Dual vs A-only @ Bcl-xL | 23 / 24 | 0.793 | [0.655, 0.915] |
+| Dual vs B-only @ MCL1 | 23 / 22 | 0.609 | [0.439, 0.776] |
+| `summary_min` | 23 / — | 0.609 | — |
+
+Dual-versus-B-only 区间包含 0.5。不得写成 PPI 筛选成功、第五对主结果或外部验证。
 
 ---
 
@@ -1067,5 +1085,5 @@ API-max 与 median 差值和重复记录数有预期的正相关，但该诊断�
 - Table S12 是计数核对（BindingDB REST + PubChem PUG REST），不是对接结果；不得把 `as_is` 的 EGFR ≥50 写成已建成 BindingDB 厚面板。
 - Table S13 是 holdout 效价/尺寸匹配诊断，不替换 Table S8；不得写成错口袋悖论已解决。
 - Table S16–S21 是冻结分数上的补表（零新对接）。S17 的 holdout Δ CI 均含 0；S19 四对描述符 Δ CI 均含 0；S21 是 vina_mean Top-10，不是 Table 2。
-- Table S22–S52 来自 `data/jcim_novelty_v0/`、`data/jcim_structure_robust_v0/` 与 `data/jcim_independent_dock_v0/`：S22 formulation comparison（主文 Figure 3）；S23 chemotype-constrained hard-negatives（T ≥ 0.7 为空；T ≥ 0.3 不是 analogue matching）；S24 incremental ECFP/docking；S25 mixed-library EF；S26 min/arithmetic/geometric/harmonic 聚合敏感性（四对排序不变）；S27 docking N_attempted/success/fail；S28 四个描述符全报；S29 max vs median；S30 两对 PIK3CA receptor-realization；S31 detectable-effect simulation；S32 独立 GNINA 姿态生成；S33 PIK3CA 几何占有率位移；S34 固定口袋负类对照；S35 测量频次；S36 当前 ChEMBL 高置信视图；S37 完整病例覆盖与来源集中度；S38 类别化学空间；S39–S40 文献阻断 CV；S41 冻结时间分割（主截止年不可包装为外部验证）；S42 assay-context 元数据审核（无冻结标签翻转）；S43 BindingDB REST 独立性计数（历史供给；未对接）；S44 θ = 6.0 标签普查（不是对接扩面）；S45 物化 caliper 匹配；S46 AND 过滤工作点；S47 配体层全图 AUROC（不是对接）；S48 BindingDB 原生候选分层；S49 原生切片门槛摘要（0 对通过主门槛；未对接）；S50–S51 MCL1/Bcl-xL 面板与受体冻结（未对接；不是异质折叠）；S52 文献对照（不是 bake-off）。Figure S4 = 口袋匹配森林图；Figure S5 = unused-pool holdout；Figure S6 = detectable-effect heatmap；Figure S7 = 普查/AND/配体层全图；Figure S8 = BindingDB 原生切片过滤漏斗；Figure 8 = diagnostic workflow。不得把 Dual-vs-neither 写成 “conventional benchmark”；不得把 EGFR 0.756 vs 0.430 写成配对显著性；不得把 PIK3CA/mTOR Dual-vs-neither（n = 4）写成反转；不得把受体替换写成单向 collapse 或 robustness。不得把 2015 AChE/BChE 时间分割写成全文外部验证。不得把 BindingDB REST 计数或原生切片写成已对接外部验证。不得把 EGFR/HER2 reconstructed QC 写成历史生产 pose。不得把 17 对标签普查写成 17 对对接基准。不得把 Table S47 写成 Table 2 的替代。不得把 MCL1/Bcl-xL 写成已对接第五对或首次非激酶对。
+- Table S22–S52 来自 `data/jcim_novelty_v0/`、`data/jcim_structure_robust_v0/` 与 `data/jcim_independent_dock_v0/`：S22 formulation comparison（主文 Figure 3）；S23 chemotype-constrained hard-negatives（T ≥ 0.7 为空；T ≥ 0.3 不是 analogue matching）；S24 incremental ECFP/docking；S25 mixed-library EF；S26 min/arithmetic/geometric/harmonic 聚合敏感性（四对排序不变）；S27 docking N_attempted/success/fail；S28 四个描述符全报；S29 max vs median；S30 两对 PIK3CA receptor-realization；S31 detectable-effect simulation；S32 独立 GNINA 姿态生成；S33 PIK3CA 几何占有率位移；S34 固定口袋负类对照；S35 测量频次；S36 当前 ChEMBL 高置信视图；S37 完整病例覆盖与来源集中度；S38 类别化学空间；S39–S40 文献阻断 CV；S41 冻结时间分割（主截止年不可包装为外部验证）；S42 assay-context 元数据审核（无冻结标签翻转）；S43 BindingDB REST 独立性计数（历史供给；未对接）；S44 θ = 6.0 标签普查（不是对接扩面）；S45 物化 caliper 匹配；S46 AND 过滤工作点；S47 配体层全图 AUROC（不是对接）；S48 BindingDB 原生候选分层；S49 原生切片门槛摘要（0 对通过主门槛；未对接）；S50–S51 MCL1/Bcl-xL 面板与 LC6 gate（FAIL；仅 stress-test）；S52 文献对照（不是 bake-off）；S53 MCL1 Vina AUROC（不进 Table 2）。Figure S4 = 口袋匹配森林图；Figure S5 = unused-pool holdout；Figure S6 = detectable-effect heatmap；Figure S7 = 普查/AND/配体层全图；Figure S8 = BindingDB 原生切片过滤漏斗；Figure 8 = diagnostic workflow。不得把 Dual-vs-neither 写成 “conventional benchmark”；不得把 EGFR 0.756 vs 0.430 写成配对显著性；不得把 PIK3CA/mTOR Dual-vs-neither（n = 4）写成反转；不得把受体替换写成单向 collapse 或 robustness。不得把 2015 AChE/BChE 时间分割写成全文外部验证。不得把 BindingDB REST 计数或原生切片写成已对接外部验证。不得把 EGFR/HER2 reconstructed QC 写成历史生产 pose。不得把 17 对标签普查写成 17 对对接基准。不得把 Table S47 写成 Table 2 的替代。不得把 MCL1/Bcl-xL 写成第五个 Table 2 靶对、异质折叠对、首次非激酶对或已通过 pose-gold 的 domain extension。
 - Figure S3 不得复用 Figure 6 的 AUROC 柱；它只画配对 Δ ± CI。

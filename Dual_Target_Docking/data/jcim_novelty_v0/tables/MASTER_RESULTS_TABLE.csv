@@ -149,9 +149,9 @@ bindingdb_native_flow,Table S48,AChE/BChE,native_paired_theta6,n_dual,,,,318,159
 bindingdb_native_flow,Table S48,PIK3CA/PIK3CB,native_paired_theta6,n_dual,,,,296,114,29,4,,,not docked; remaining later layers are upper bounds,data/jcim_novelty_v0/tables/external_candidate_flow.csv
 bindingdb_native_flow,Table S48,PIK3CA/mTOR,native_paired_theta6,n_dual,,,,1193,1000,115,30,,,not docked; remaining later layers are upper bounds,data/jcim_novelty_v0/tables/external_candidate_flow.csv
 bindingdb_native_flow,Table S48,MCL1/Bcl-xL,native_paired_theta6,n_dual,,,,90,32,22,6,,,not docked; remaining later layers are upper bounds,data/jcim_novelty_v0/tables/external_candidate_flow.csv
-mcl1_bclxl_panel,Table S50,MCL1/Bcl-xL,chembl_panel_freeze,panel_dual,,,,,24,24,24,,,map=82/77/24/122; docked=0; pose_gold=not_run_no_vina,data/jcim_novelty_v0/tables/mcl1_bclxl_panel_freeze_v1.csv
-mcl1_bclxl_receptor,Table S51,MCL1,3WIY_primary,resolution_A,2.15,,,,,,,,,chain=A; mutations=0; pose_gold_run=0,data/jcim_novelty_v0/tables/mcl1_bclxl_receptor_freeze_v1.csv
-mcl1_bclxl_receptor,Table S51,BCL2L1,3WIZ_primary,resolution_A,2.45,,,,,,,,,chain=A; mutations=0; pose_gold_run=0,data/jcim_novelty_v0/tables/mcl1_bclxl_receptor_freeze_v1.csv
+mcl1_bclxl_panel,Table S50,MCL1/Bcl-xL,chembl_panel_freeze,panel_dual,,,,,24,24,24,,,map=82/77/24/122; docked=1; pose_gold=fail_3WIZ_best_top3_2.011;role=applicability_stress_test,data/jcim_novelty_v0/tables/mcl1_bclxl_panel_freeze_v1.csv
+mcl1_bclxl_receptor,Table S51,MCL1,3WIY_primary,resolution_A,2.15,,,,,,,,,chain=A; mutations=0; pose_gold_run=1,data/jcim_novelty_v0/tables/mcl1_bclxl_receptor_freeze_v1.csv
+mcl1_bclxl_receptor,Table S51,BCL2L1,3WIZ_primary,resolution_A,2.45,,,,,,,,,chain=A; mutations=0; pose_gold_run=1,data/jcim_novelty_v0/tables/mcl1_bclxl_receptor_freeze_v1.csv
 mcl1_bclxl_receptor,Table S51,MCL1,6UDV_alternate,resolution_A,1.35,,,,,,,,,chain=A; mutations=0; pose_gold_run=0,data/jcim_novelty_v0/tables/mcl1_bclxl_receptor_freeze_v1.csv
 mcl1_bclxl_receptor,Table S51,BCL2L1,3SP7_alternate,resolution_A,1.4,,,,,,,,,chain=A; mutations=0; pose_gold_run=0,data/jcim_novelty_v0/tables/mcl1_bclxl_receptor_freeze_v1.csv
 literature_comparator,Table S52,all,DualFourClass (this work),externality,,,,,,,,,,ChEMBL internal; BindingDB-native slice frozen but not docked,data/jcim_novelty_v0/tables/benchmark_literature_comparator_v1.csv
@@ -160,3 +160,7 @@ literature_comparator,Table S52,all,DUD-E,externality,,,,,,,,,,standard VS bench
 literature_comparator,Table S52,all,LIT-PCBA,externality,,,,,,,,,,PubChem bioassay origin,data/jcim_novelty_v0/tables/benchmark_literature_comparator_v1.csv
 literature_comparator,Table S52,all,CASF-2016,externality,,,,,,,,,,PDBbind core set,data/jcim_novelty_v0/tables/benchmark_literature_comparator_v1.csv
 literature_comparator,Table S52,all,DOCKSTRING,externality,,,,,,,,,,fixed public dataset release,data/jcim_novelty_v0/tables/benchmark_literature_comparator_v1.csv
+mcl1_bclxl_stress_test,Table S53,MCL1/Bcl-xL,D_vs_neither_mean,auroc,0.6277,0.4618,0.7857,,23,,24,,,panel_role=applicability_stress_test; not Table 2,data/mcl1_bclxl_panel_v0/tables/formulation_auroc_MBX_v1.csv
+mcl1_bclxl_stress_test,Table S53,MCL1/Bcl-xL,D_vs_A_pocketB,auroc,0.7935,0.6549,0.9146,,23,,24,,,panel_role=applicability_stress_test; not Table 2,data/mcl1_bclxl_panel_v0/tables/formulation_auroc_MBX_v1.csv
+mcl1_bclxl_stress_test,Table S53,MCL1/Bcl-xL,D_vs_B_pocketA,auroc,0.6087,0.4385,0.7757,,23,,22,,,panel_role=applicability_stress_test; not Table 2,data/mcl1_bclxl_panel_v0/tables/formulation_auroc_MBX_v1.csv
+mcl1_bclxl_stress_test,Table S53,MCL1/Bcl-xL,summary_min,auroc,0.6087,,,,23,,,,,panel_role=applicability_stress_test; not Table 2,data/mcl1_bclxl_panel_v0/tables/formulation_auroc_MBX_v1.csv

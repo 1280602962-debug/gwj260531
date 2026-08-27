@@ -15,7 +15,7 @@ This plan separates repairs that can be made with the frozen repository from cla
 2. **Partially completed.** Top-1/top-3/all-deposited RMSD was topology-checked for 4EY7, 4BDS, 2WXF, and reconstructed EGFR/HER2 QC. 4BDS and reconstructed 3POZ fail at top-1; 3POZ also fails top-3 but recovers best-of-9 (0.760 Å). 3RCD reconstructed QC passes top-1 (1.855 Å). Best-of-nine remains a search-coverage rather than score-ranking check.
 3. **Completed for the main directional panels.** Table S27 reports failed ligands by class and property, arm-available AUROC, and deterministic rank-extreme bounds. Failures are concentrated among large/flexible ligands and are not missing at random. The stress test preserves current pair-level conclusions but does not extend applicability to unsupported chemistry.
 4. Define fixed train/test files and a machine-readable evaluation contract if DualFourClass-Bench is released as a reusable benchmark. **Partially completed:** `DUALFOURCLASS_EVALUATION_CONTRACT_v1.json` freezes the estimands, pairs, seeds, and table paths. Tagged Zenodo files remain a maintainer action.
-5. Add at least one non-kinase-family target pair beyond AChE/BChE before making target-general statements. A θ = 6.0 census found 17 unique pairs with Dual/A-only/B-only n ≥ 10, including PPI pairs, but those extra pairs were **not docked**.
+5. Add at least one non-kinase-family target pair beyond AChE/BChE before making target-general statements. A θ = 6.0 census found 17 unique pairs with Dual/A-only/B-only n ≥ 10, including PPI pairs. MCL1/Bcl-xL was docked only as an LC6-gate-fail applicability stress-test and is **not** a fifth Table 2 pair.
 
 ## P2: Submission and Reproducibility
 

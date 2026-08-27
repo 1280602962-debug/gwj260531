@@ -123,6 +123,7 @@ def main():
         "AND-like dual filter",
         "does not replace Table 2",
         "zero pairs meeting the pre-frozen primary external gate",
+        "applicability stress-test",
     )
     for phrase in required_phrases:
         assert phrase in manuscript, phrase
@@ -188,10 +189,24 @@ def main():
         mcl1_panel["panel_B_only"],
         mcl1_panel["panel_neither"],
     ) == ("24", "24", "24", "24")
-    assert mcl1_panel["docked"] == "0"
+    assert mcl1_panel["docked"] == "1"
+    assert "applicability_stress_test" in mcl1_panel["pose_gold_gate"]
+    assert "fail_3WIZ" in mcl1_panel["pose_gold_gate"]
     rec = one(rows("mcl1_bclxl_receptor_freeze_v1.csv"), pdb_id="3WIY")
     near(rec["resolution_A"], 2.15)
     assert rec["primary_chain"] == "A"
+    assert rec["pose_gold_gate_run"] == "1"
+    mcl1_auroc = rows_at("data/mcl1_bclxl_panel_v0/tables/formulation_auroc_MBX_v1.csv")
+    assert all(r["panel_role"] == "applicability_stress_test" for r in mcl1_auroc)
+    near(one(mcl1_auroc, contrast="summary_min")["auroc"], 0.6087)
+    near(one(mcl1_auroc, contrast="D_vs_A_pocketB")["auroc"], 0.7935)
+    near(one(mcl1_auroc, contrast="D_vs_B_pocketA")["auroc"], 0.6087)
+    near(one(mcl1_auroc, contrast="D_vs_neither_mean")["auroc"], 0.6277)
+    lc6 = rows_at("data/mcl1_bclxl_panel_v0/tables/cognate_qc_lc6_v1.csv")
+    near(one(lc6, pdb="3WIY")["rmsd_best_of_top3"], 1.689)
+    assert one(lc6, pdb="3WIY")["best_top3_pass_lt_2"] == "1"
+    near(one(lc6, pdb="3WIZ")["rmsd_best_of_top3"], 2.011)
+    assert one(lc6, pdb="3WIZ")["best_top3_pass_lt_2"] == "0"
 
     census = rows("theta6_pair_census_v1.csv")
     assert len(census) == 49

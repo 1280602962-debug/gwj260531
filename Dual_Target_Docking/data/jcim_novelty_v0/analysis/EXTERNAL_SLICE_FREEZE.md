@@ -23,8 +23,9 @@ four-pair formulation audit. Do not call the remaining ligands a database-extern
 
 ChEMBL map at θ=6.0: dual/A/B/neither 82/77/24/122.
 Frozen panel: 24/24/24/24.
-B-only is exhaustive on the cached map. No same-library holdout. LC6 pose-gold gate was not run (no Vina).
-Do not call this pair a disparate-fold pair. It is a PPI/BH3 groove domain shift.
+B-only is exhaustive on the cached map. LC6 pose-gold gate **FAIL** (3WIZ best-of-top3 2.011 Å).
+Panel docking is a predeclared applicability stress-test (93/96 complete; `summary_min` 0.609).
+Not a Table 2 pair. Do not call this pair a disparate-fold pair.
 
 ## Primary receptors
 
