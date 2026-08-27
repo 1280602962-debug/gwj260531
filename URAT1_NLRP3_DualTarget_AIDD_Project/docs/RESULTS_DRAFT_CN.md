@@ -2,7 +2,7 @@
 
 > **C1 同步声明（2026-08-26，Amendment A1）：**  
 > 本节数字中，凡来自冻结 `data/repurposing/p2/` 与协议筛选表的内容，一律按 **Phase I negative transfer baseline** 阅读；**不再**把“Π\*=P2 锁定并发现 51/7 候选”写成主发现。  
-> **Phase II** 主结果为 C1 Acid 轨（Arg477 ≤ 7.7027 Å；无百分位；Rank 关闭）。C1 短名单冻结前不报告 discovery MD 名字。  
+> **Phase II** 主结果为 C1 Acid 轨（Arg477 ≤ 7.7027 Å；无百分位；Rank 关闭）。Draft 短名单见 §3.7；**MD 未授权前**不启动 discovery 轨迹。  
 > 门控文件：`data/campaigns/c1/05_metrics/pass_fail.json`。
 
 > 投稿正文入口。目标期刊：*Molecular Diversity*（拒稿后可转 *JCAMD*）。  
@@ -115,17 +115,29 @@ lesinurad 与 verinurad 作为 URAT1 对照另做姿态检查。lesinurad 生产
 
 ### 3.6 Phase II 预告与 MD 停规则
 
-**C1 Acid 主结果**（酸池重算、A1 几何、新 shortlist）在对接批完成后写入本节增补 / SI；本稿截稿时短名单尚未冻结，故**不点名 discovery MD 分子**。
+**C1 Acid 主结果**已写入 §3.7 与 `data/campaigns/c1/07_clinical_dock/acid_dual/`、`08_nomination/`。短名单为 **draft（待审）**：可点名几何假说分子，但 **MD 未授权**（`md_authorized=false`）。
 
-MD（L7）仅在 C1 shortlist 冻结后启动。对照永远包含：（i）lesinurad 晶体羧酸根姿 @ 9DKB；（ii）NP3-146 共晶姿 @ 7ALV。Discovery 槽位按角色选 2–3 个（药理证据 / 几何最清 / 重定位假说），**禁止**用旧 P2 百分位或 legacy 7 人名单直接填 MD。旧 `MD_RUN_PLAN.md` 中以 GSK-3008348 / Vecabrutinib 为跟进的六体系清单作废，待 shortlist 后重写。
+MD（L7）仅在 shortlist **正式授权**后启动。对照永远包含：（i）lesinurad 晶体羧酸根姿 @ 9DKB；（ii）NP3-146 共晶姿 @ 7ALV。Discovery 槽位按角色选 2–3 个（药理证据 / 几何最清 / 重定位假说），**禁止**用旧 P2 百分位或 legacy 7 人名单直接填 MD。旧 `MD_RUN_PLAN.md` 中以 GSK-3008348 / Vecabrutinib 为跟进的六体系清单作废，待正式授权后按 draft 短名单重写。
 
 **截至本稿，不报告任何依赖轨迹的数值。** 对照失败规则不变：lesinurad 晶体对照不能维持 Arg477 / Phe 笼 → URAT1 侧一律不解释；NP3-146 漂出 → NLRP3 侧一律不解释。MD 合格不等于双靶成立。
 
-### 3.7 Phase II 占位（C1 Acid；完成后替换本段）
+### 3.7 Phase II：C1 Acid 双靶几何与 draft 短名单
 
-自对接摘要：NP3-146@7ALV 三种子通过；lesinurad 自由对接三种子未过 CNNscore 选姿几何门 → Rank 关闭。Amendment A1：Arg ≤ 7.7027 Å。酸等价临床子集约 303 → 药化 soft 约 156；双靶对接进行中（`data/campaigns/c1/07_clinical_dock/acid_dual/`）。
+自对接摘要：NP3-146@7ALV 三种子通过；lesinurad 自由对接三种子未过 CNNscore 选姿几何门 → Rank 关闭。Amendment A1：Arg ≤ 7.7027 Å（晶体 lesinurad O–Arg477 最短 6.7027 Å + 1.0 Å 容差）。酸等价临床子集约 303 → 药化 soft 156 → 双靶 gnina（seed 42，exh=32，`cnn_scoring=rescore`，无 GPU）**312/312 完成**，日志无批中断 FAIL。
 
-烟雾对照（seed 42，自由对接，非晶体局域）：lesinurad / verinurad / puliginurad 口袋质心可过、Arg 约 12–15 Å、**不** keep；GSK-3008348 在修复 SDF 读入后 Arg ≈ 2.98 Å 且双靶 keep——**仅作管道校验，不预锁定为 shortlist/MD**。短名单冻结前不报告命中名。
+几何门（无百分位）：URAT1 Arg 过门 **47**；NLRP3 pose 过门 **78**；**双靶都过 24**（`acid_dual_summary_seed42.json`）。其中经典酸根姿 Arg ≤ 4.0 Å 共 **13**；PAINS=0、Brenk=5；剔除抗菌喹诺酮/头孢软降级后，Arg≤4 Å 且 alert-clean 池 **9**（全表见 `08_nomination/acid_dual_geometry_keep_annotated.csv`）。
+
+**Draft 短名单**（骨架去冗余；目标 2 primary + ≤3 backup；`md_authorized=false`）：
+
+| 角色 | 分子 | Arg477 (Å) | max phase |
+|------|------|------------:|----------:|
+| primary | Lanifibranor | 2.91 | 3 |
+| primary | Caficrestat | 3.02 | 3 |
+| backup | Admilparant | 3.08 | 3 |
+| backup | Cavosonstat | 3.00 | 2 |
+| backup | Runcaciguat | 3.09 | 2 |
+
+产物：`acid_shortlist_draft.csv`、`acid_nomination_summary.json`。GSK-3008348 同在双靶几何 keep 且 Arg ≈ 2.98 Å，进入 classic+clean 池但未挤进本轮 5 人 draft（phase 1；不因旧 P2 百分位抬升）。烟雾对照中 lesinurad/verinurad/puliginurad 自由对接 Arg 约 12–15 Å、不 keep——与 Rank 关闭一致。上述均为 **acid-pose dual-node hypotheses**，不是活性检索命中，也不是已验证双靶抑制剂。
 
 ---
 
@@ -135,6 +147,6 @@ MD（L7）仅在 C1 shortlist 冻结后启动。对照永远包含：（i）lesi
 - 冻结 P2 CNNaffinity 与百分位不是 \(K_i\)，也不是 C1 keep 依据。
 - P2 / 自由对接第一构象不是近原生结合模式的证明；Rank 轨已关闭。
 - 裸 Pareto 四分子与 legacy 7 人不是正文 lead / MD 默认人选。
-- 未冻结 C1 shortlist 前不得选 discovery MD；未完成轨迹不得补写数值。
+- draft 短名单未正式授权前不得开 discovery MD；未完成轨迹不得补写数值。
 - 不得把 Tegoprazan、Levotofisopam、Verinurad 或旧 P4/P2 名单写成现役跟进分子。
 - 不得主张“P2 protocol was validated for activity retrieval”。

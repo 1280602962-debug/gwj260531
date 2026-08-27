@@ -16,4 +16,5 @@ Claim language: **acid-pose dual-node hypotheses** (not docking-rank activity re
 | `02_selfdock/` | L2 free + L2b constrained done |
 | `05_metrics/pass_fail.json` | Rank FAIL / Acid OPEN |
 | `07_clinical_dock/acid_pool/` | acid clinical lists |
-| `08_nomination/` | after dual-target acid docking |
+| `07_clinical_dock/acid_dual/` | 156×2 gnina done; 24 dual geometry keep |
+| `08_nomination/` | draft shortlist (2+3); MD not authorized |
