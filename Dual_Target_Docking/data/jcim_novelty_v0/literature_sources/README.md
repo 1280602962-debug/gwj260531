@@ -35,3 +35,8 @@ Optional primary for the dactolisib PI3Kα citation in Hong 2024:
 
 ACS/Elsevier HTML exports (`.html`) and page-range screenshots of the
 activity tables are also usable if a PDF is not available.
+
+DOI downloads on 2026-08-27 did **not** return publisher PDFs (BindingDB
+HTML or reCAPTCHA). The BindingDB article pages that were actually read
+are archived in `bindingdb_article_dumps/`. Hong 2024 was read from
+PMC11284801. The ibrutinib patent PDF is present locally and gitignored.

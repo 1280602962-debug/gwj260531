@@ -10,6 +10,15 @@ This is the minimum first-pass paper/source audit set for the 186 priority ligan
 
 Do not treat reviews or deposited datasets as primary experimental articles. For a review, trace the exact compound/value to the cited original paper. For a dataset, preserve the dataset identifier and assay metadata and do not invent a paper citation.
 
+Status of the 7 uncertain DualFourClass ligands (2026-08-27): the nine
+decisive documents plus Folkes 2008 were source-checked from the ibrutinib
+patent PDF, Hong 2024 PMC HTML, and BindingDB article dumps. No frozen
+class flipped at θ=6.0. See
+`data/jcim_novelty_v0/analysis/ASSAY_CONTEXT_SOURCE_READING_V1.md` and
+`data/jcim_novelty_v0/tables/uncertain_ligand_source_verdicts_v1.csv`.
+Rejected review maxima (pictilisib Bass / Elmenier) fall back to the
+next-highest sources already listed in `assay_source_full_inventory_v1.csv`.
+
 | # | ChEMBL document | Type | Citation/title | Affected scope | Required action |
 |---:|---|---|---|---|---|
 | 1 | [CHEMBL1125266](https://www.ebi.ac.uk/chembl/explore/document/CHEMBL1125266) | article_unclassified | [Tyrphostins. 2. Heterocyclic and alpha-substituted benzylidenemalononitrile tyrphostins as potent inhibitors of EGF receptor and ErbB2/neu tyrosine kinases.](https://doi.org/10.1021/jm00110a022) | EGFR/HER2 / EGFR;HER2 / EH120_067;EH120_070;EH120_076 | classify_then_read_full_text_and_supporting_information |
