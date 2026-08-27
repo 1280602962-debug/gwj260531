@@ -137,7 +137,9 @@ MD（L7）仅在 shortlist **正式授权**后启动。对照永远包含：（i
 
 **A2b 增补指标**（相对 NP3-146/RM5）：(i) 重原子口袋重叠（≤2.5 Å）；(ii) 关键残基 IFP Jaccard（Ala227/228、Arg351、Met408、Tyr443、Phe575、Arg578）；(iii) 关键残基接触恢复率；(iv) 无 2.2 Å 冲突。提名用结构门：overlap≥0.50、IFP≥0.50、关键接触≥5/7、无 clash（锚定在自对接：overlap≈1、IFP≈0.84–1.0、接触 6–7）。
 
-seed 42 临床池：宽松 78 → 结构门 **74**；与 URAT1 A2 交叉后双靶结构 keep **56**（`nlrp3_structural_metrics_seed42.csv`）。已知配体小面板（NP3-146 + MCC950 + ChEMBL 磺酰脲活性 vs Acid 背景）对接中（`05_metrics/nlrp3_structural_panel/`）。
+seed 42 临床池：宽松 78 → 结构门 **74**；与 URAT1 A2 交叉后双靶结构 keep **56**（`nlrp3_structural_metrics_seed42.csv`）。
+
+**已知配体结构面板**（seed 42；NP3-146 + MCC950 + 8 ChEMBL 磺酰脲活性 vs 20 Acid 背景；`05_metrics/nlrp3_structural_panel/`）：阳性 **10/10** 通过宽松与结构门；背景 **11/20**；Fisher *p* ≈ 0.013（OR 形式上为 ∞，因阳性无 FN）。本轮面板上宽松门与结构门通过集合相同——A2b 对磺酰脲阳性有完整召回，但对已过宽松门的 Acid 背景**未再额外筛减**。主张仍限于结构回收富集，**不是**结合/亲和力证明；且 ChEMBL3183703 与 MCC950 SMILES 相同，阳性侧有重复。
 
 竞争短名单的 NLRP3 解读（不得写成直接结合）：
 

@@ -11,7 +11,6 @@ from __future__ import annotations
 
 import argparse
 import json
-import subprocess
 import sys
 from pathlib import Path
 
@@ -22,6 +21,7 @@ from scipy.stats import fisher_exact
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(PROJECT_ROOT / "scripts"))
+from gnina_dock import DEFAULT_DOCK_TIMEOUT_S, run_gnina_dock  # noqa: E402
 from c1_nlrp3_pose_metrics import (  # noqa: E402
     crystal_reference_ifp,
     evaluate_nlrp3_structural,
@@ -166,9 +166,20 @@ def prepare_missing_pdbqt(df: pd.DataFrame, out_dir: Path) -> pd.DataFrame:
     return df
 
 
-def dock_one(gnina: Path, receptor: Path, ligand: Path, center, size, out_sdf: Path, seed: int, exh: int, cpu: int) -> None:
+def dock_one(
+    gnina: Path,
+    receptor: Path,
+    ligand: Path,
+    center,
+    size,
+    out_sdf: Path,
+    seed: int,
+    exh: int,
+    cpu: int,
+    timeout_s: int = DEFAULT_DOCK_TIMEOUT_S,
+) -> str | None:
     if out_sdf.exists() and out_sdf.stat().st_size > 0:
-        return
+        return None
     out_sdf.parent.mkdir(parents=True, exist_ok=True)
     cmd = [
         str(gnina), "-r", str(receptor), "-l", str(ligand),
@@ -178,7 +189,11 @@ def dock_one(gnina: Path, receptor: Path, ligand: Path, center, size, out_sdf: P
         "--cnn_scoring", "rescore", "--seed", str(seed), "--no_gpu",
         "-o", str(out_sdf),
     ]
-    subprocess.run(cmd, check=False, capture_output=True, text=True, timeout=7200)
+    print(f"RUN panel {out_sdf.name}", flush=True)
+    err = run_gnina_dock(cmd, out_sdf, timeout_s=timeout_s)
+    if err:
+        print(f"FAIL panel {out_sdf.name}: {err[:200]}", flush=True)
+    return err
 
 
 def metrics_table(df: pd.DataFrame) -> dict:
@@ -215,6 +230,12 @@ def main() -> None:
     ap.add_argument("--limit-background", type=int, default=20)
     ap.add_argument("--dock", action="store_true", help="run gnina for missing panel SDFs")
     ap.add_argument("--metrics-only", action="store_true")
+    ap.add_argument(
+        "--dock-timeout",
+        type=int,
+        default=DEFAULT_DOCK_TIMEOUT_S,
+        help="seconds before killing gnina and skipping ligand (default 1800)",
+    )
     args = ap.parse_args()
     OUT.mkdir(parents=True, exist_ok=True)
 
@@ -249,6 +270,7 @@ def main() -> None:
         gnina = Path(eng["gnina"].get("binary", "gnina"))
 
     sdf_dir = OUT / f"poses_seed{args.seed}"
+    fail_log = OUT / "panel_dock_failures.jsonl"
     if args.dock and not args.metrics_only:
         for _, r in panel.iterrows():
             if not r.get("pdbqt") or not Path(str(r["pdbqt"])).exists():
@@ -261,7 +283,7 @@ def main() -> None:
                     out_sdf.parent.mkdir(parents=True, exist_ok=True)
                     out_sdf.write_bytes(src.read_bytes())
                     continue
-            dock_one(
+            err = dock_one(
                 gnina,
                 receptor,
                 Path(str(r["pdbqt"])),
@@ -271,7 +293,22 @@ def main() -> None:
                 args.seed,
                 8,  # panel exploratory exhaustiveness; clinical Acid remains 32
                 int(eng["gnina"].get("cpu", 4)),
+                timeout_s=args.dock_timeout,
             )
+            if err:
+                with fail_log.open("a") as f:
+                    f.write(
+                        json.dumps(
+                            {
+                                "ligand_id": r["ligand_id"],
+                                "seed": args.seed,
+                                "error": err[:500],
+                            },
+                            ensure_ascii=False,
+                        )
+                        + "\n"
+                    )
+                print(f"CONTINUE panel after fail {r['ligand_id']}", flush=True)
 
     key_map = load_key_map()
     ref_ifp, ref_heavy, ref_com = crystal_reference_ifp()

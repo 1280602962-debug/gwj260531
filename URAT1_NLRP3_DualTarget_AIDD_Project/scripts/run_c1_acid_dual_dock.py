@@ -14,7 +14,6 @@ from __future__ import annotations
 
 import argparse
 import json
-import subprocess
 import sys
 from pathlib import Path
 
@@ -23,6 +22,7 @@ import yaml
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(PROJECT_ROOT / "scripts"))
+from gnina_dock import DEFAULT_DOCK_TIMEOUT_S, run_gnina_dock  # noqa: E402
 from parse_c1_sdf_readouts import (  # noqa: E402
     load_poses,
     min_acid_arg_dist,
@@ -89,14 +89,24 @@ def preflight(engine_yaml: Path, manifest: Path) -> dict:
     return {"camp": camp, "eng": eng, "manifest": man, "arg_json": arg_json}
 
 
-def run_one(gnina: Path, receptor: Path, ligand: Path, center, size, out_sdf: Path, seed: int, exh: int, modes: int, cpu: int, no_gpu: bool) -> str | None:
+def run_one(
+    gnina: Path,
+    receptor: Path,
+    ligand: Path,
+    center,
+    size,
+    out_sdf: Path,
+    seed: int,
+    exh: int,
+    modes: int,
+    cpu: int,
+    no_gpu: bool,
+    timeout_s: int = DEFAULT_DOCK_TIMEOUT_S,
+) -> str | None:
     """Run gnina. Returns None on success, error string on failure (does not abort batch)."""
-    out_sdf.parent.mkdir(parents=True, exist_ok=True)
     if out_sdf.exists() and out_sdf.stat().st_size > 0:
         print(f"SKIP {out_sdf}", flush=True)
         return None
-    if out_sdf.exists() and out_sdf.stat().st_size == 0:
-        out_sdf.unlink()
     log = out_sdf.with_suffix(".log")
     cmd = [
         str(gnina), "-r", str(receptor), "-l", str(ligand),
@@ -109,22 +119,15 @@ def run_one(gnina: Path, receptor: Path, ligand: Path, center, size, out_sdf: Pa
     if no_gpu:
         cmd.append("--no_gpu")
     print("RUN", out_sdf.name, flush=True)
-    try:
-        proc = subprocess.run(cmd, capture_output=True, text=True, timeout=7200)
-    except subprocess.TimeoutExpired as e:
-        if out_sdf.exists() and out_sdf.stat().st_size == 0:
-            out_sdf.unlink(missing_ok=True)
-        err = f"timeout_7200s: {out_sdf.name}"
-        print(f"FAIL {out_sdf.name}: {err}", flush=True)
-        return err
-    (out_sdf.parent / (out_sdf.stem + "_stdout.txt")).write_text((proc.stdout or "") + "\n" + (proc.stderr or ""))
-    if proc.returncode != 0 or not (out_sdf.exists() and out_sdf.stat().st_size > 0):
-        if out_sdf.exists() and out_sdf.stat().st_size == 0:
-            out_sdf.unlink(missing_ok=True)
-        err = (proc.stderr or proc.stdout or "gnina_failed")[:400]
+    err = run_gnina_dock(
+        cmd,
+        out_sdf,
+        timeout_s=timeout_s,
+        stdout_path=out_sdf.parent / (out_sdf.stem + "_stdout.txt"),
+    )
+    if err:
         print(f"FAIL {out_sdf.name}: {err[:200]}", flush=True)
-        return err
-    return None
+    return err
 
 
 def evaluate_acid_pose(sdf: Path, arg_json: Path, ligand_id: str, target: str, seed: int, pose_selection: str = "a1") -> dict:
@@ -160,6 +163,12 @@ def main() -> None:
         choices=["a1", "a2"],
         default="a1",
         help="URAT1 pose rule; a2 = geometry-first (Amendment A2)",
+    )
+    ap.add_argument(
+        "--dock-timeout",
+        type=int,
+        default=DEFAULT_DOCK_TIMEOUT_S,
+        help="seconds before killing gnina and skipping ligand (default 1800)",
     )
     args = ap.parse_args()
 
@@ -214,6 +223,7 @@ def main() -> None:
                     int(eng["gnina"]["num_modes"]),
                     int(eng["gnina"].get("cpu", 4)),
                     bool(eng["gnina"].get("no_gpu", True)),
+                    timeout_s=args.dock_timeout,
                 )
                 if err:
                     record_fail(rid, tkey, err)
