@@ -131,30 +131,48 @@ MD（L7）仅在 shortlist **正式授权**后启动。对照永远包含：（i
 
 **A2 临床重算（seed 42，复用 A1 SDF）**：URAT1 keep **121**；NLRP3 宽松 pose keep **78**；双靶宽松 keep **59**。
 
+**A2 多 seed 重对接（seeds 43/44，gnina exh=32）**：已完成（各 311/312 SDF；`REP_07837` @ NLRP3 超时跳过，双侧未过 dual）。汇总：
+
+| seed | URAT1 keep | NLRP3 loose | dual loose |
+|------|----------:|------------:|-----------:|
+| 42 | 121 | 78 | 59 |
+| 43 | 120 | 77 | 59 |
+| 44 | 121 | 83 | 61 |
+
+三 seed dual 交集 **42**；≥2/3 dual 通过 **59**。化学审计 + ≥2/3 后 eligible **40**（`acid_a2_eligible_audited.csv`）。
+
 ### 3.7.1 Amendment A2b：NLRP3 结构兼容门（NP3-146 IFP）
 
 7ALV 自对接（NP3-146，seeds 42/43/44）CNNscore 选姿 RMSD ≈ **0.82 / 0.67 / 0.68 Å**，支持搜索盒与采样。但临床 Acid 池的 `keep_nlrp3_pose`（COM≤6 Å + CNNscore≥0.5）仅表示“进入共晶口袋附近”，通过率约 50%（78/156），**不足以**主张恢复了 NP3-146 结合模式。
 
 **A2b 增补指标**（相对 NP3-146/RM5）：(i) 重原子口袋重叠（≤2.5 Å）；(ii) 关键残基 IFP Jaccard（Ala227/228、Arg351、Met408、Tyr443、Phe575、Arg578）；(iii) 关键残基接触恢复率；(iv) 无 2.2 Å 冲突。提名用结构门：overlap≥0.50、IFP≥0.50、关键接触≥5/7、无 clash（锚定在自对接：overlap≈1、IFP≈0.84–1.0、接触 6–7）。
 
-seed 42 临床池：宽松 78 → 结构门 **74**；与 URAT1 A2 交叉后双靶结构 keep **56**（`nlrp3_structural_metrics_seed42.csv`）。
+临床池结构重打分（不重对接）：
+
+| seed | NLRP3 loose → structural | dual loose → dual structural |
+|------|--------------------------|------------------------------|
+| 42 | 78 → **74** | 59 → **56** |
+| 43 | 77 → **74** | 59 → **57** |
+| 44 | 83 → **75** | 61 → **53** |
+
+≥2/3 dual-structural ≈ **54**；3/3 dual-structural **38**。
 
 **已知配体结构面板**（seed 42；NP3-146 + MCC950 + 8 ChEMBL 磺酰脲活性 vs 20 Acid 背景；`05_metrics/nlrp3_structural_panel/`）：阳性 **10/10** 通过宽松与结构门；背景 **11/20**；Fisher *p* ≈ 0.013（OR 形式上为 ∞，因阳性无 FN）。本轮面板上宽松门与结构门通过集合相同——A2b 对磺酰脲阳性有完整召回，但对已过宽松门的 Acid 背景**未再额外筛减**。主张仍限于结构回收富集，**不是**结合/亲和力证明；且 ChEMBL3183703 与 MCC950 SMILES 相同，阳性侧有重复。
 
-竞争短名单的 NLRP3 解读（不得写成直接结合）：
+竞争短名单（≥2/3 dual 稳定性已应用；表内结构指标为 seed42 代表值）：
 
-| 分子 | 宽松 pose | 结构 IFP 门 | overlap | IFP | 关键接触 | 主张 |
-|------|:---:|:---:|--------:|----:|--------:|------|
-| PF-04620110 | ✓ | ✗ | 0.48 | 0.45 | 4/7 | 通路表型 + 宽松口袋；**非**共晶模式匹配 |
-| Admilparant | ✓ | ✓ | 0.97 | 0.89 | 6/7 | NP3-146 兼容口袋假说 |
-| PSI-697 | ✓ | ✓ | 0.85 | 0.84 | 6/7 | 同上 |
-| PF-03882845 | ✓ | ✓ | 0.87 | 0.85 | 7/7 | 同上 |
-| Lanifibranor | ✓ | ✓ | 0.89 | 0.84 | 6/7 | 同上 |
-| GSK-3008348 | ✓ | ✓ | 0.83 | 0.89 | 6/7 | 结构对照，非 NLRP3 活性主张 |
+| 分子 | dual seeds | seed42 宽松 | seed42 结构 | overlap | IFP | 关键接触 | 主张 |
+|------|:---:|:---:|:---:|--------:|----:|--------:|------|
+| PF-04620110 | 2/3 | ✓ | ✗ | 0.48 | 0.45 | 4/7 | 通路表型 + 宽松口袋；**三 seed 均未过结构门** |
+| Admilparant | 2/3 | ✓ | ✓ | 0.97 | 0.89 | 6/7 | NP3-146 兼容口袋假说（seed44 宽松失败） |
+| PSI-697 | 3/3 | ✓ | ✓ | 0.85 | 0.84 | 6/7 | 三 seed 结构均过 |
+| PF-03882845 | 3/3 | ✓ | ✓ | 0.87 | 0.85 | 7/7 | 三 seed 结构均过 |
+| Lanifibranor | 3/3 | ✓ | ✓ | 0.89 | 0.84 | 6/7 | 三 seed 结构均过 |
+| GSK-3008348 | 3/3 | ✓ | ✓ | 0.83 | 0.89 | 6/7 | 结构对照，非 NLRP3 活性主张 |
 
-PF-04620110 保留为 primary ** mechanistically** 是因为独立 macrophage NLRP3 inflammasome 抑制文献 + 新 URAT1 酸根假说；其 7ALV 姿态只支持“口袋可及”，**明确不支持**“已证明占据 NACHT 共晶位点”。
+PF-04620110 保留为 primary **mechanistically** 是因为独立 macrophage NLRP3 inflammasome 抑制文献 + 新 URAT1 酸根假说；其 7ALV 姿态只支持“口袋可及”，**明确不支持**“已证明占据 NACHT 共晶位点”。`md_authorized=false`。
 
-产物：`08_nomination/acid_shortlist_a2_competition.csv`（含 IFP 列）；过早的 A1 draft 已作废。
+产物：`08_nomination/acid_shortlist_a2_competition.csv`；`acid_nomination_a2_summary.json`。过早的 A1 draft 已作废。
 
 ---
 

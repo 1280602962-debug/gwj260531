@@ -1,6 +1,6 @@
 # Acid track operations (Amendment A2 + A2b)
 
-## Status (2026-08-27)
+## Status (2026-08-28)
 
 | Step | Status |
 |------|--------|
@@ -9,11 +9,12 @@
 | A2 reference validation | DONE — 5/6 carboxylate refs |
 | URAT1 acid-gate benchmark | DONE — A1 OR≈3.2; A2 OR≈1.0 |
 | A2 clinical seed42 | DONE — 59 dual loose keep |
-| **A2b NLRP3 IFP / overlap / key residues** | **DONE (seed42)** — loose 78 → structural 74; dual structural 56 |
-| NLRP3 known-ligand panel | IN PROGRESS — `05_metrics/nlrp3_structural_panel/` |
-| Seeds 43/44 dual dock | IN PROGRESS |
-| Competition shortlist | DONE (seed42 + IFP annotation) |
-| MD (L7) | CLOSED |
+| **A2b NLRP3 IFP / overlap / key residues** | **DONE seeds 42/43/44** — dual structural 56 / 57 / 53 |
+| NLRP3 known-ligand panel | DONE — positives 10/10 vs bg 11/20; Fisher p≈0.013 |
+| Seeds 43/44 dual dock | DONE — 311/312 each; `REP_07837` NLRP3 timeout |
+| Multi-seed ≥2/3 stability | DONE — eligible 40 after audit |
+| Competition shortlist | DONE — `acid_shortlist_a2_competition.csv` |
+| MD (L7) | CLOSED (`md_authorized=false`) |
 
 ## NLRP3 gates
 
@@ -24,9 +25,19 @@
 
 Self-dock NP3-146 seeds 42/43/44: RMSD ≈ 0.82 / 0.67 / 0.68 Å.
 
+## Multi-seed dual keep
+
+| seed | URAT1 | NLRP3 loose | dual loose | NLRP3 struct | dual struct |
+|------|------:|------------:|-----------:|-------------:|------------:|
+| 42 | 121 | 78 | 59 | 74 | 56 |
+| 43 | 120 | 77 | 59 | 74 | 57 |
+| 44 | 121 | 83 | 61 | 75 | 53 |
+
+≥2/3 dual loose = 59; ≥2/3 dual structural ≈ 54.
+
 ## PF-04620110 note
 
-Passes loose NLRP3 pose; **fails** structural IFP (overlap 0.48, IFP 0.45, key 4/7).
+Dual-pass 2/3 seeds. **Fails structural IFP on all three seeds** (seed42: overlap 0.48 / IFP 0.45 / keys 4).
 Keep as pathway-anchored primary with explicit claim:
 `experimental NLRP3-pathway evidence + pocket-accessible pose ≠ NACHT co-crystal mode match`.
 
@@ -34,4 +45,4 @@ Keep as pathway-anchored primary with explicit claim:
 
 - Overwrite `acid_dual_a1_frozen/`
 - Claim docking affinity or validated NLRP3 binding
-- Open MD before multiseed stability + authorization
+- Open MD before explicit shortlist authorization

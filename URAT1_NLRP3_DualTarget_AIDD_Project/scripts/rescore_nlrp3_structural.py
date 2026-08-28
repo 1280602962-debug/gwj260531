@@ -92,11 +92,12 @@ def main() -> None:
         args.a2_dir.mkdir(parents=True, exist_ok=True)
         df.to_csv(out, index=False)
 
-        # join with URAT1 A2 keep if present
+        # join with URAT1 A2 keep if present (accept either filename convention)
         u_path = args.a2_dir / f"acid_dual_keep_a2_seed{seed}.csv"
-        if not u_path.exists() and seed == 42:
-            # build from A2 metrics if needed
-            u_path = args.a2_dir / "acid_dual_keep_a2_seed42.csv"
+        if not u_path.exists():
+            alt = args.a2_dir / f"acid_dual_keep_seed{seed}.csv"
+            if alt.exists():
+                u_path = alt
         summary = {
             "seed": seed,
             "n": int(len(df)),

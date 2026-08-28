@@ -34,10 +34,11 @@ SOFT_EXCLUDE_SUBSTR = [
 
 
 def load_a2_seed(seed: int, a2_dir: Path) -> pd.DataFrame:
-    p = a2_dir / f"acid_dual_keep_a2_seed{seed}.csv"
-    if not p.exists():
-        return pd.DataFrame()
-    return pd.read_csv(p)
+    for name in (f"acid_dual_keep_a2_seed{seed}.csv", f"acid_dual_keep_seed{seed}.csv"):
+        p = a2_dir / name
+        if p.exists():
+            return pd.read_csv(p)
+    return pd.DataFrame()
 
 
 def stability_table(a2_dir: Path, seeds: list[int]) -> pd.DataFrame:
@@ -144,7 +145,12 @@ def main() -> None:
     ].copy()
 
     # If multi-seed available, prefer stable; else seed42-only with flag
-    available_seeds = [s for s in args.seeds if (args.a2_dir / f"acid_dual_keep_a2_seed{s}.csv").exists()]
+    available_seeds = [
+        s
+        for s in args.seeds
+        if (args.a2_dir / f"acid_dual_keep_a2_seed{s}.csv").exists()
+        or (args.a2_dir / f"acid_dual_keep_seed{s}.csv").exists()
+    ]
     if len(available_seeds) >= 2:
         eligible = eligible[eligible.stable_ge_2of3.fillna(False)].copy()
         stability_note = f">= {args.min_seeds}/{len(available_seeds)} seeds dual-pass"
