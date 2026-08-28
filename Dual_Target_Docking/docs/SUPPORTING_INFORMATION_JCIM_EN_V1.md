@@ -91,7 +91,7 @@ PIK3CA/mTOR Dual vs B-only under document blocking: **not stably estimable**.
 | Analysis hierarchy | `docs/ANALYSIS_HIERARCHY_V1.md` |
 | MCL1 formal demotion | `data/mcl1_bclxl_panel_v0/analysis/MCL1_BCLXL_FORMAL_DEMOTION_V1.md` |
 
-**MCL1/Bcl-xL:** exploratory archive only after Option B demotion; not a main SI performance table.
+**MCL1/Bcl-xL (formally demoted; exploratory repository archive).** Prespecified LC6 topology-aware pose-gold was not established for 3WIY/3WIZ, so this pair is not a fifth main pair and is not used as confirmatory evidence. A frozen 24/24/24/24 panel was docked as an applicability archive: 93/96 ligands scored on both pockets. Vina Dual versus neither was 0.628 [0.462, 0.786], Dual versus A-only 0.793 [0.655, 0.915], Dual versus B-only 0.609 [0.439, 0.776], worst-arm AUROC 0.609 (Tables S50–S51, S53).[17] Comparator notes versus Zhou 2013, DUD-E, LIT-PCBA, CASF-2016, and DOCKSTRING are in Table S52.
 
 ## Figure list (SI)
 

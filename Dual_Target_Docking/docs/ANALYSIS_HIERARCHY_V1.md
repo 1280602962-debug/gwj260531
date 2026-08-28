@@ -39,7 +39,7 @@ Must be labeled exploratory in Methods, Results, and captions.
 - AND-like dual pocket filters and operating-point grids  
 - θ = 6.0 17-pair / 49-pair label census (supply diagnosis; no extra docking)  
 - Full-map ligand-only ECFP4 models beyond the docking panels  
-- MCL1/Bcl-xL panel docking and AUROCs after **formal demotion** (Option B; not pose-gold validated)  
+- MCL1/Bcl-xL panel docking and AUROCs after **formal demotion** (Option B; Supporting Information only; not pose-gold validated)  
 - Geometric PLIF / occupancy snapshots and contact-count baselines  
 - Property caliper matching, measurement-frequency audits, and related chemistry dumps that were not the primary endpoint  
 - Aggregation alternatives beyond the designated `summary_min` (arithmetic / geometric / harmonic) when used only to show rank stability

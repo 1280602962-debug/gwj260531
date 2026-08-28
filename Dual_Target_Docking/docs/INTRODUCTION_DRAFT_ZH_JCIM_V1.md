@@ -6,9 +6,9 @@
 
 一个严格的双靶评价需要区分 **dual-active**、**A-selective**、**B-selective** 与 **neither** 四种实验状态（Figure 1A）。A-only 与 B-only 是该任务的**选择性硬负样本（selectivity hard negatives）**：它们在一个靶点上已有较强活性。计算终点因而检验对接能否在两个方向上将 dual-active 与对应单靶选择性配体区分开。Zhou、Li 与 Hou 曾在四对激酶上评价相对非抑制剂的 dual-target docking。[^9] 本文在该设定上引入实验定义的方向性硬负，并在同一套分数上比较不同基准设定。Dual versus neither 按实验 inactive 计分，作为基准设定对照。平衡的四状态面板还受两端可比较测量与双向选择性硬负供给的约束。
 
-近期双靶生成方法仍使用相对参考配体的对接成功指标。[^10][^11] 这些指标评价相对参考配体的计算双靶设计，而本文基准检验的是相对实验定义选择性硬负样本的判别。
+近期工作已经把双靶问题做实，但回答的并不是同一评价问题。Wu 等表明，大规模对接可以前瞻性地得到选定靶对的联合结合配体，同时也报告后续优化仍然困难。[^19] 该研究问的是对接能否找到双靶活性分子；本文问的是：当负类由实验选择性配体而不是非结合配体定义时，回顾性双靶识别证据是否改变。POLYGON 在十万级结合数据上生成双靶化学空间，并合成 32 个 MEK1/mTOR 化合物做实验验证，[^20] 因此不宜把近期生成式多药理学一概写成对接成功指标。生成式双靶方法也使用相对参考配体的对接度量。[^10][^11] Kinase-Bench 汇集 6875 个选择性配体、75 个激酶与 422,799 个 decoy，检验相对激酶特异性 decoy 的选择性富集；[^22] DualFourClass 则在每一对上直接构造实验测定的 dual、A-only、B-only 与 neither 四状态。一项 147 靶的 AI 对接基准进一步表明，方法排序取决于负类是实验低活性 TrueDecoy 还是商业库随机 decoy，[^21] 说明配方本身就是科学主张的一部分。
 
-本文要问的是：基准设定是否改变双靶识别的表观证据。我们构建 DualFourClass-Bench，作为具有两条方向主任务的四状态面板：dual 对 A-only 在口袋 B 打分，dual 对 B-only 在口袋 A 打分（Figure 1B），并以保守的最差方向判别摘要（`summary_min`）汇总。我们进一步考察该判别是否能够在不同配体、活性聚合方式及受体结构条件下保持。
+本文要问的是：基准设定是否改变双靶识别的表观证据。我们构建 DualFourClass-Bench，作为具有两条方向主任务的四状态面板：dual 对 A-only 在口袋 B 打分，dual 对 B-only 在口袋 A 打分（Figure 1B），并以二者较弱一臂汇总为最弱臂 AUROC（`summary_min`）。我们进一步考察该判别是否能够在不同配体、活性聚合方式及受体结构条件下保持。
 
 ---
 
@@ -23,3 +23,7 @@
 [^9]: Zhou, Li, Hou, *J. Chem. Inf. Model.* **2013**, *53*, 982–996. DOI: 10.1021/ci400065e.
 [^10]: Zhou, Guan et al., *The Thirty-eighth Annual Conference on Neural Information Processing Systems (NeurIPS 2024)*; arXiv:2410.20688. DualDiff.
 [^11]: Wu et al., *Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining, Vol. 2*; ACM: New York, 2026; pp 12432–12443. DOI: 10.1145/3770855.3819050. FuseDiff.
+[^19]: Wu, Vigneron, Braz et al., *J. Med. Chem.* **2026**, *69*, 6210–6229. DOI: 10.1021/acs.jmedchem.5c03810.
+[^20]: Munson, Chen, Bogosian et al., *Nat. Commun.* **2024**, *15*, 3636. DOI: 10.1038/s41467-024-47120-y.
+[^21]: Gu, Shen, Zhang et al., *Nat. Mach. Intell.* **2025**, *7*, 509–520. DOI: 10.1038/s42256-025-00993-0.
+[^22]: Wei, Zhou, Jing et al., *J. Chem. Inf. Model.* **2024**, *64*, 9528–9550. DOI: 10.1021/acs.jcim.4c01830.
