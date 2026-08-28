@@ -44,6 +44,7 @@
 | S31 | Detectable-effect simulation | Prespecified sensitivity |
 | S32 | Independent GNINA pose generation | Prespecified sensitivity |
 | S39–S40 | Document-blocked CV | Prespecified sensitivity |
+| S54 | Five-seed Vina sensitivity | Prespecified sensitivity |
 | `document_cluster_bootstrap_v1.csv` | Document-cluster CIs | Prespecified sensitivity |
 | `scaffold_cluster_bootstrap_v1.csv` | Scaffold-cluster CIs | Prespecified sensitivity |
 
@@ -91,7 +92,11 @@ PIK3CA/mTOR Dual vs B-only under document blocking: **not stably estimable**.
 | Analysis hierarchy | `docs/ANALYSIS_HIERARCHY_V1.md` |
 | MCL1 formal demotion | `data/mcl1_bclxl_panel_v0/analysis/MCL1_BCLXL_FORMAL_DEMOTION_V1.md` |
 
-**MCL1/Bcl-xL:** exploratory archive only after Option B demotion; not a main SI performance table.
+**MCL1/Bcl-xL:** exploratory applicability stress test after the topology-aware pose-gold gate was not established; not a fifth primary pair. Alternate-receptor cognate jobs produced no scored poses and stopped before panel docking.
+
+## S11. Vina random-seed sensitivity
+
+Table S54 reports four additional frozen seeds (20260811–20260814) together with the production seed 20260727. Ligands, receptors, boxes, exhaustiveness, retained modes, and analysis rules were unchanged. `summary_min` medians (ranges) were EGFR/HER2 0.373 (0.321–0.430), AChE/BChE 0.599 (0.553–0.606), PIK3CA/PIK3CB 0.478 (0.468–0.502), and PIK3CA/mTOR 0.704 (0.676–0.726). The sign of Dual-versus-neither minus `summary_min` matched the primary seed for all 5/5 seeds in every pair. Source: `data/jcim_multiseed_v0/tables/multiseed_auroc_aggregate_v1.csv`; per-seed values: `multiseed_auroc_by_seed_v1.csv`.
 
 ## Figure list (SI)
 

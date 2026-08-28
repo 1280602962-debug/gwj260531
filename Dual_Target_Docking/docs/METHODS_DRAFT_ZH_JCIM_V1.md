@@ -45,6 +45,8 @@ AChE/BChE 与 PIK3CA/PIK3CB 按严格供给门槛抽样（目标 28 / 28 / 28 / 
 
 另在 EGFR/HER2 与 PIK3CA/mTOR 上以 GNINA 1.3.2 对接搜索模式独立生成姿态（不是对 Vina 姿态重打分），复用冻结 Meeko 配体 PDBQT、受体坐标、对接盒、exhaustiveness（分别为 8 与 16）、九个保留姿态和种子 20260727。读出为 mode-1 `minimizedAffinity`。两个配体在两端口袋均失败（EGFR/HER2 的 neither 配体 EH120_109；PIK3CA/mTOR 的 A-only 配体 PM48_19），从需要完整分数的分析中剔除。该协议检验设定效应在更换姿态生成引擎后是否仍在，不是多引擎比赛（Table S32）。
 
+Vina 随机种子敏感性在四个主面板上增加 20260811–20260814 四个种子，同时固定已准备配体、受体、对接盒、exhaustiveness、姿态数、能量范围和分析规则。生产种子 20260727 仍定义主分析。对五个冻结种子报告两条方向 AUROC、`summary_min`、Dual-versus-neither AUROC 及其差值的中位数、四分位距和范围；不按观察到的性能挑选种子（Table S54）。
+
 ### 2.4 主终点与统计分析
 
 全文中的“双靶识别”指这一计算判别任务。对每个靶对计算两条二分类 AUROC。dual 对 A-only 使用口袋 B 分数，\( \mathrm{AUC}_{D/A} = \mathrm{AUROC}(\text{dual},\;\text{A-only};\;S_B) \)；dual 对 B-only 使用口袋 A 分数，\( \mathrm{AUC}_{D/B} = \mathrm{AUROC}(\text{dual},\;\text{B-only};\;S_A) \)。dual 始终为正类。Vina 输出结合能 \(E_{\mathrm{Vina}}\)（kcal mol\(^{-1}\)，越负表示预测结合越强）；\(S_{\mathrm{Vina}} = -E_{\mathrm{Vina}}\)。

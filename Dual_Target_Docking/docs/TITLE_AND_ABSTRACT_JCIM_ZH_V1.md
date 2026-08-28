@@ -6,7 +6,7 @@
 
 ## 摘要
 
-两端有利的对接分数能否作为双靶活性的证据，取决于评价时采用的负类。我们用 ChEMBL 衍生的 dual、A-only、B-only 与 neither 操作性状态，对四个靶对进行评价设定审计。两条口袋匹配方向 AUROC 分别将 dual 与对应单靶选择性配体比较；二者最小值 `summary_min` 仅作保守的描述性摘要。在 EGFR/HER2 上，Vina 的 Dual versus neither AUROC 为 0.756，而方向性 `summary_min` 为 0.430；独立 GNINA 姿态生成得到的对应数值为 0.783 与 0.220。其他靶对没有出现同样的设定差距，且 PIK3CA/mTOR 的 neither 对照只有 4 个分子。在支架分组模型中，把 docking 加入 ECFP4 后交叉验证 AUROC 的最大绝对变化为 0.020。替代受体使 PIK3CA/mTOR 的 `summary_min` 从 0.692 降至 0.486/0.505，但使 PIK3CA/PIK3CB 升高，说明结果依赖受体实现而不是具有结构稳健性。四个主 `summary_min` 的 95% CI 均包含 0.5。同一套冻结 EGFR/HER2 分数上，以 Dual 中位 `vina_worst` 做 AND 式双口袋过滤时，通过者多数仍是实验选择性配体（precision 0.298；硬负比例 0.702）。在四对完整 ChEMBL 图上，仅用配体 ECFP4 仍比 Dual versus 选择性更容易分开 Dual versus neither，说明设定问题不是 n ≈ 28 对接面板的抽样伪影。按文献 `document_id` 阻断后，EGFR/HER2 的弱方向臂仍为 0.430；预先冻结的 2018 文献年份分割没有两个可评估靶对，因此不作为外部验证。BindingDB 202608 原生归档在文献、结构与 ECFP4 < 0.70 过滤后，也没有两对达到预先冻结的主外部门槛，故未对接。因此，这一受数据供给约束的案例面板支持把选择性硬负与混淆感知对照作为评价要求，但不能建立靶标通用的对接性能或生物学识别结论。
+评价集如何构建，决定了两个口袋中的有利分数能够为双靶活性提供多强的证据。我们将四个冻结靶对的 ChEMBL 配体划分为 dual、A-only、B-only 与 neither，并在两个口袋匹配方向评价 AutoDock Vina：dual 对 A-only 使用口袋 B，dual 对 B-only 使用口袋 A；较小的方向 AUROC（`summary_min`）作为保守的描述性摘要。EGFR/HER2 的 Dual versus neither AUROC 为 0.756，而 `summary_min` 为 0.430；独立 GNINA 姿态生成保留了这一差距（0.783 对 0.220），其余靶对未出现同样的设定效应。在 5 个冻结 Vina 种子中，四个靶对的 Dual-versus-neither 减 `summary_min` 差值符号均未改变；EGFR/HER2、AChE/BChE、PIK3CA/PIK3CB 与 PIK3CA/mTOR 的 `summary_min` 中位数分别为 0.373、0.599、0.478 与 0.704。将 docking 加入支架分组 ECFP4 模型后，交叉验证 AUROC 的最大绝对变化为 0.020；替代 PIK3CA 受体在两个相关靶对上引起方向相反的位移；四个主种子 `summary_min` 的 95% CI 均包含 0.5。预先冻结的 BindingDB 原生门槛没有产生可进入外部对接的靶对。因此，双口袋对接的解释需要选择性硬负、配体层对照以及受体和随机种子敏感性；当前四靶对面板不足以建立靶标通用性能。
 
 ## 关键词
 

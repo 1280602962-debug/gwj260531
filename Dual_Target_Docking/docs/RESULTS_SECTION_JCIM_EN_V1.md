@@ -16,6 +16,8 @@ As a prespecified formulation contrast on the same scores, Dual versus neither u
 
 Independent GNINA 1.3.2 pose generation on the same frozen EGFR/HER2 ligands, receptors, and boxes left the formulation gap intact: Dual versus neither 0.783 [0.610, 0.922] versus directional `summary_min` 0.220 [0.109, 0.343], with a Top-10 again dominated by selectives (Table S32). This check asks whether the formulation effect persists when pose search is changed; it is not an engine bake-off.
 
+The five-seed Vina sensitivity preserved the sign of the Dual-versus-neither minus `summary_min` gap for every pair (Table S54). Median `summary_min` (range) was 0.373 (0.321–0.430) for EGFR/HER2, 0.599 (0.553–0.606) for AChE/BChE, 0.478 (0.468–0.502) for PIK3CA/PIK3CB, and 0.704 (0.676–0.726) for PIK3CA/mTOR. EGFR/HER2 retained the largest positive gap at every seed (range 0.334–0.442). These repeats support the qualitative seed stability of the formulation contrast within the frozen panels; they do not replace the production-seed estimates in Tables 2–3.
+
 **Table 2.** Pocket-matched directional AUROC on the frozen K = 4 set (Vina; unified θ = 6.0), with all four prespecified descriptor `summary_min` values. Class sizes are n_scored (dual / A-only / B-only). The highest descriptor is a best single-descriptor reference.
 
 | Pair | n_scored (dual / A-only / B-only) | dual vs A_only (pocket B) | dual vs B_only (pocket A) | summary_min [95% CI] | heavy | MW | cLogP | TPSA |

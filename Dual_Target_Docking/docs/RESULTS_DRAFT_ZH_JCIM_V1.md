@@ -38,6 +38,8 @@ EGFR/HER2、AChE/BChE、PIK3CA/PIK3CB 和 PIK3CA/mTOR 的方向性 summary_min �
 
 四个靶对的 `summary_min` 95% bootstrap CI 均包含 0.5；因此在本研究的样本量下，没有一个靶对获得排除随机水平的明确证据。按观察得的类别样本量做可分辨效应模拟表明，当前样本更容易分辨较大的方向性效应，而对中等效应则较弱。当两臂真实 AUROC 均为 0.70 时，`summary_min` CI 排除 0.5 的概率在 EGFR/HER2、AChE/BChE、PIK3CA/PIK3CB 和 PIK3CA/mTOR 上分别为 0.62、0.50、0.56 和 0.22；真实 AUROC 为 0.60 时，相应概率为 0.03–0.07（Table S31；Figure S6）。因此，CI 未能排除 0.5 并不能建立与随机等价。
 
+五种子 Vina 敏感性中，四个靶对的 Dual-versus-neither 减 `summary_min` 差值符号均与生产种子一致（Table S54）。EGFR/HER2、AChE/BChE、PIK3CA/PIK3CB 与 PIK3CA/mTOR 的 `summary_min` 中位数（范围）分别为 0.373（0.321–0.430）、0.599（0.553–0.606）、0.478（0.468–0.502）与 0.704（0.676–0.726）。EGFR/HER2 在每个种子上均保持最大的正差值（0.334–0.442）。这一结果支持冻结面板内设定差距的定性种子稳定性，但不替换 Tables 2–3 的生产种子估计。
+
 主面板两端均得分：EGFR/HER2 110/110，AChE/BChE 95/100，PIK3CA/PIK3CB 99/100，PIK3CA/mTOR 48/48（Table S27）。一个 A-only 配体因计算超时而持续无法完成 PIK3CA 对接，因此从需要该分数的分析中剔除（Tables S27、S30）。AUROC 因此以 AutoDock Vina 能够处理的化合物为条件。同一组 Vina 姿态上的替代打分器未改变总体排序（Tables S14–S15；Figure S1B）。独立姿态生成见 Results 3.7。
 
 ### 3.3 配体性质与化学型解释了相当一部分表观信号

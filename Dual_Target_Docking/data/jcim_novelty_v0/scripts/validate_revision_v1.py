@@ -114,21 +114,35 @@ def main():
         "14.5%–34.0%",
         "rank-extreme lower bounds",
         "not a top-ranked-pose validation",
-        "do not define a target-general reliability boundary",
-        "is not claimed as external validation",
+        "does not establish target-general performance or external transfer",
+        "no eligible BindingDB external pair",
         "not stably estimable",
         "reconstructed QC",
         "179 include / 7 uncertain / 0 exclude",
         "17 unique pairs",
         "AND-like dual filter",
         "do not replace Table 2",
-        "zero pairs meeting the pre-frozen primary external gate",
+        "no pair meeting the frozen external gate",
         "formally demoted",
         "exploratory repository archive",
         "not as a fifth main pair",
+        "five frozen seeds",
+        "Table S54",
     )
     for phrase in required_phrases:
         assert phrase in manuscript, phrase
+
+    multiseed = rows_at("data/jcim_multiseed_v0/tables/multiseed_auroc_aggregate_v1.csv")
+    expected_seed_medians = {
+        "EGFR/HER2": 0.3728,
+        "AChE/BChE": 0.5988,
+        "PIK3CA/PIK3CB": 0.4783,
+        "PIK3CA/mTOR": 0.7037,
+    }
+    for pair, expected in expected_seed_medians.items():
+        near(one(multiseed, pair=pair, metric="summary_min")["median"], expected)
+    consistency = rows_at("data/jcim_multiseed_v0/tables/multiseed_consistency_v1.csv")
+    assert all(r["n_seeds_same_gap_sign"] == "5" for r in consistency)
 
     blocked = rows("document_blocked_cv_summary_v1.csv")
     near(one(blocked, pair="EGFR/HER2", contrast="D_vs_B")["rank_auroc_full"], 0.4297)
@@ -226,7 +240,7 @@ def main():
 
     zh = (ROOT / "docs" / "MANUSCRIPT_JCIM_ZH.md").read_text(encoding="utf-8")
     assert "confidence≥8 与 Homo sapiens 过滤未重建" not in zh
-    assert "不作为外部验证" in zh
+    assert "没有外部性能验证" in zh
     assert "纳入/排除与构建体/突变核查栏仍为空" not in zh
     assert "人工纳入/排除仍待本地阅读原文" not in zh
     print("revision validation: PASS")
