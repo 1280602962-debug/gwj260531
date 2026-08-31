@@ -26,7 +26,9 @@ JCIM **evaluation / benchmark** 课题：双靶对接四类硬负评测。
 | [`docs/DISCUSSION_LIMITATIONS_DRAFT_ZH_JCIM_V1.md`](docs/DISCUSSION_LIMITATIONS_DRAFT_ZH_JCIM_V1.md) | 中文 Discussion 局限（ChEMBL max-only 等） |
 | [`data/jcim_bench_v0/CLAIM_CEILING.md`](data/jcim_bench_v0/CLAIM_CEILING.md) | 可写 / 禁止写的 claim |
 | [`docs/POSITIONING_AND_FRAMEWORK_LANGUAGE_V1.md`](docs/POSITIONING_AND_FRAMEWORK_LANGUAGE_V1.md) | Intro/Abstract：“framework”怎么写才不像包装 |
-| [`data/jcim_strengthen_t0t1_v0/analysis/PRIMARY_METRIC_V2.md`](data/jcim_strengthen_t0t1_v0/analysis/PRIMARY_METRIC_V2.md) | 口袋匹配主表 |
+| [`docs/STATISTICAL_LOCK_V1.md`](docs/STATISTICAL_LOCK_V1.md) | ★ **投稿统计锁：Table 2/3 估计量与 Table 2 CI 唯一来源** |
+| [`docs/SUBMISSION_BRANCH_POLICY_V1.md`](docs/SUBMISSION_BRANCH_POLICY_V1.md) | ★ 冻结/ChatGPT 历史快照 vs 投稿整合分支 |
+| [`docs/MANUSCRIPT_LOCK_INVENTORY_V1.md`](docs/MANUSCRIPT_LOCK_INVENTORY_V1.md) | 资产来源与 CI/estimand 冲突审计 |
 | [`data/jcim_strengthen_t0t1_v0/analysis/A_GROUP_VERDICT.md`](data/jcim_strengthen_t0t1_v0/analysis/A_GROUP_VERDICT.md) | 混淆对照裁决 |
 | [`data/jcim_strengthen_t0t1_v0/analysis/B_GROUP_VERDICT.md`](data/jcim_strengthen_t0t1_v0/analysis/B_GROUP_VERDICT.md) | E8 / enrichment / PM110 |
 | [`docs/JCIM_STRENGTHENING_PLAN_V1.md`](docs/JCIM_STRENGTHENING_PLAN_V1.md) | 加厚规划（历史+路线） |

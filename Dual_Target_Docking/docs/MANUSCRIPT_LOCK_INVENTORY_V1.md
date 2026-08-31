@@ -172,14 +172,19 @@ MCL1/Bcl-xL (S50–S53) is SI-only after formal demotion: Vina Dual vs neither 0
 
 ---
 
-## 8. Recommended freeze (later; not done here)
+## 8. Integration-branch status (2026-08-31)
 
-Before any manuscript number change:
+Done on `cursor/jcim-final-integration-0b1a` without changing Table 2 CIs:
 
-1. Write a one-page statistical lock: non-stratified vs class-stratified ligand bootstrap; cluster bootstrap = sensitivity only; seed = `20260729 + stable_offset(pair, "table2_primary")` **once**, reused by every Table 2 / S4 / Figure 3 call.
-2. Rebuild `unified_threshold_sensitivity_v2.csv` and `pocket_matched_directional_v1.csv` from that single seed function so primary CIs cannot fork.
-3. Re-run `analyze_multiseed_vina_v1.py` to emit `AUC_DN_vina_mean` and keep `mean_marginal_pocket_auroc_D_vs_neither` as a named diagnostic.
-4. Rebuild MASTER, checksum manifest, figures (`plotted_values.json`), then assemble manuscripts.
-5. Only then change Table 2 CIs in Results.
+1. `docs/STATISTICAL_LOCK_V1.md` now defines the estimands on one page.
+2. Table 2 CIs remain `unified_threshold_sensitivity_v2.csv`. A read-only loader is `scripts/primary/bootstrap_primary.py`. Rebuilding a shared hash-offset bootstrap (item 2 below) is still future work.
+3. `analyze_multiseed_vina_v2.py` writes `AUC(vina_mean)` Dual-versus-neither and keeps `mean_marginal_pocket_auroc_D_vs_neither` as a named diagnostic. Primary seed recovered Table 3. Table S54 cites v2 only.
+4. MASTER, checksum, and assembled manuscripts are regenerated on this branch. Figures were not redrawn because Table 2 CIs did not change.
+5. Table 2 CIs in Results are unchanged.
 
-Until that freeze, the article should continue to cite **unified_threshold θ=6.0** for Table 2 CIs and **formulation_conventional_vs_directional_v1.csv** for Table 3.
+Still later, and **not** this integration:
+
+- Rebuild `unified_threshold_sensitivity_v2.csv` and `pocket_matched_directional_v1.csv` from one seed function so those two executable streams cannot fork.
+
+Until that later freeze, the article continues to cite **unified_threshold θ=6.0** for Table 2 CIs and **formulation_conventional_vs_directional_v1.csv** for Table 3.
+

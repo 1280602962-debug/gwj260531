@@ -852,6 +852,24 @@ def main() -> None:
                     source_file="data/mcl1_bclxl_panel_v0/tables/formulation_auroc_MBX_v1.csv",
                 )
             )
+    ms_path = ROOT / "data" / "jcim_multiseed_v0" / "tables" / "multiseed_auroc_aggregate_v2.csv"
+    if ms_path.exists() and ms_path.stat().st_size:
+        for r in _read(ms_path):
+            rows.append(
+                row(
+                    block="multiseed_vina_v2",
+                    manuscript_table="Table S54",
+                    pair=r["pair"],
+                    setting=r["metric"],
+                    metric="median_across_five_seeds",
+                    value=r["median"],
+                    note=(
+                        f"primary={r['primary_seed_value']}; range={r['min']}-{r['max']}; "
+                        "Dual-vs-neither is AUC(vina_mean)"
+                    ),
+                    source_file="data/jcim_multiseed_v0/tables/multiseed_auroc_aggregate_v2.csv",
+                )
+            )
 
     out_path = TAB / "MASTER_RESULTS_TABLE.csv"
     with out_path.open("w", newline="") as f:

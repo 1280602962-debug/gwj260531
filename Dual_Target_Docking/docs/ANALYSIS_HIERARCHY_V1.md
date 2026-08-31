@@ -1,6 +1,6 @@
 # DualFourClass analysis hierarchy (frozen before further manuscript claims)
 
-Updated: 2026-08-27  
+Updated: 2026-08-31  
 Scope: JCIM Article on DualFourClass-Bench. Every Results sentence, table title, and figure caption must use one of the three labels below. Post-hoc analyses must not be phrased as confirmatory primary evidence.
 
 ## Primary (confirmatory for the article’s core claim)
@@ -13,7 +13,7 @@ Scope: JCIM Article on DualFourClass-Bench. Every Results sentence, table title,
    - Dual vs B-only in pocket A  
    Both arms are always reported.
 5. **`summary_min`:** prespecified *descriptive* worst-arm summary only; not a calibrated score and not the sole inferential quantity.
-6. **Primary uncertainty (minimum):** ligand-level bootstrap CIs on the two directional arms (and on `summary_min` where reported), with underpowered cells flagged.
+6. **Primary uncertainty (minimum):** ligand-level **non-stratified** percentile bootstrap CIs on the two directional arms (and on `summary_min` where reported), canonical source `unified_threshold_sensitivity_v2.csv` (θ = 6.0). Do not substitute `pocket_matched_directional_v1.csv` or `PRIMARY_METRIC_V2.md`. Underpowered cells are flagged.
 
 Main-text Tables 2–3 and Figures 3–4 are primary unless explicitly labeled otherwise.
 
@@ -28,6 +28,7 @@ Report as sensitivity; do not elevate to “robustness proof.”
 - Ligand / document-cluster / scaffold-cluster bootstrap intervals on primary arms  
 - Dual vs neither on the same frozen scores as a *formulation contrast* (changes negative class; not a paired test of one estimand)  
 - Independent GNINA pose-generation on EGFR/HER2 and PIK3CA/mTOR (formulation persistence check, not engine bake-off)  
+- Five frozen Vina seeds on the four primary panels (Table S54): same directional and Dual-versus-neither (`AUC(vina_mean)`) estimands as Tables 2–3; median/IQR/range only; do not replace Table 2  
 - Unused-pool holdout (internal panel-membership only)  
 - Pre-frozen 2018 literature-year split (supply failure; not external validation)  
 - BindingDB-native archive rebuild under the pre-frozen external gate (zero pairs; not docked)

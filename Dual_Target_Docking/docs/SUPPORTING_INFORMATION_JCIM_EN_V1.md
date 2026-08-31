@@ -44,10 +44,13 @@
 | S31 | Detectable-effect simulation | Prespecified sensitivity |
 | S32 | Independent GNINA pose generation | Prespecified sensitivity |
 | S39–S40 | Document-blocked CV | Prespecified sensitivity |
+| S54 | Five-seed Vina sensitivity (`AUC(vina_mean)` Dual vs neither) | Prespecified sensitivity |
 | `document_cluster_bootstrap_v1.csv` | Document-cluster CIs | Prespecified sensitivity |
 | `scaffold_cluster_bootstrap_v1.csv` | Scaffold-cluster CIs | Prespecified sensitivity |
 
 **EGFR/HER2 weak arm (Dual vs B-only = 0.430):** ligand CI [0.282, 0.578]; document-cluster [0.321, 0.617]; scaffold-cluster [0.278, 0.595]. All span 0.5.
+
+Table S54 reports four additional frozen Vina seeds (20260811–20260814) with production seed 20260727. Ligands, receptors, boxes, exhaustiveness, retained modes, and analysis rules were unchanged. Dual versus neither uses per-ligand `vina_mean`, matching Table 3; the primary seed recovered 0.756 / 0.649 / 0.559 / 0.514. Directional `summary_min` medians (ranges) were EGFR/HER2 0.373 (0.321–0.430), AChE/BChE 0.599 (0.553–0.606), PIK3CA/PIK3CB 0.478 (0.468–0.502), and PIK3CA/mTOR 0.704 (0.676–0.726). The EGFR/HER2 formulation gap was positive at all five seeds. PIK3CA/mTOR Dual versus neither remains underpowered (n_neither = 4) and is not interpreted as a reversal. Source: `data/jcim_multiseed_v0/tables/multiseed_auroc_aggregate_v2.csv`. The v1 Dual-versus-neither column used `mean(AUC_A, AUC_B)` and is not cited.
 
 ## S5. Chemistry and source controls
 
@@ -89,6 +92,7 @@ PIK3CA/mTOR Dual vs B-only under document blocking: **not stably estimable**.
 | Validator | `data/jcim_novelty_v0/scripts/validate_revision_v1.py` |
 | Manuscript assembly | `docs/assemble_manuscript_en.py` |
 | Analysis hierarchy | `docs/ANALYSIS_HIERARCHY_V1.md` |
+| Statistical lock | `docs/STATISTICAL_LOCK_V1.md` |
 | MCL1 formal demotion | `data/mcl1_bclxl_panel_v0/analysis/MCL1_BCLXL_FORMAL_DEMOTION_V1.md` |
 
 **MCL1/Bcl-xL (formally demoted; exploratory repository archive).** Prespecified LC6 topology-aware pose-gold was not established for 3WIY/3WIZ, so this pair is not a fifth main pair and is not used as confirmatory evidence. A frozen 24/24/24/24 panel was docked as an applicability archive: 93/96 ligands scored on both pockets. Vina Dual versus neither was 0.628 [0.462, 0.786], Dual versus A-only 0.793 [0.655, 0.915], Dual versus B-only 0.609 [0.439, 0.776], worst-arm AUROC 0.609 (Tables S50–S51, S53).[17] Comparator notes versus Zhou 2013, DUD-E, LIT-PCBA, CASF-2016, and DOCKSTRING are in Table S52.

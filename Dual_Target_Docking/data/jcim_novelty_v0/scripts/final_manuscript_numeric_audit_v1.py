@@ -161,7 +161,7 @@ def main():
         "| scaffold-cluster bootstrap | yes | yes | yes | yes |",
         "| document-cluster bootstrap | yes | yes | yes / limited | neither unstable (n=4, 1 doc) |",
         "| receptor realization | — | — | yes (alt crystals) | yes (alt crystals) |",
-        "| docking seed (multi-seed) | running/queued | running/queued | running/queued | running/queued |",
+        "| docking seed (five frozen seeds, v2 AUC(vina_mean)) | complete; summary_min median 0.3728 | complete; median 0.5988 | complete; median 0.4783 | complete; median 0.7037 |",
         "| detectable-effect simulation | yes | yes | yes | yes |",
         "",
         "## Rules",

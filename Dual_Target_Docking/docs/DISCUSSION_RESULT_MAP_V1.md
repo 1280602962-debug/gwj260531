@@ -20,7 +20,7 @@ PIK3CA/mTOR 的 boxed 说法：
 | 段 | 功能 | 吃进哪些结果 |
 |---|---|---|
 | 3.1 | 公开数据能不能建成严格双靶基准 | 49 对审计、K=4、S12 |
-| 3.2 | formulation 是否改变表观证据；冻结协议下 docking 判别如何 | Fig 3、Table 2–3、θ 网格→S4、GNINA S15 |
+| 3.2 | formulation 是否改变表观证据；冻结协议下 docking 判别如何 | Fig 3、Table 2–3、θ 网格→S4、GNINA S32、五种子 S54（v2 `AUC(vina_mean)`） |
 | 3.3 | 表观信号是不是口袋特异 | 描述符 Δ、TPSA、协变量、ECFP4、匹配子集 |
 | 3.4 | PM 信号在哪些条件下成立 | E8、PM110、holdout、换晶、Cα |
 | 3.5 | specificity control 是否可靠 | 主面板 matched>wrong；holdout 反转；S11/S13 |
