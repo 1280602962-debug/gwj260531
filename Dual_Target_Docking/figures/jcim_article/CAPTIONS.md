@@ -1,68 +1,69 @@
 # Figure captions (manuscript; not printed on the image)
 
-JCIM: captions are self-contained; panel letters match the files in `figures/jcim_article/`.
-All numerical values are those plotted from the frozen CSVs (unrounded). Table 2 in the text may round to three decimals.
+JCIM: captions are self-contained; panel letters match `figures/jcim_article/`.
+All numbers are read from the frozen CSVs named in `docs/FIGURE_PANEL_LOCK_V2.md`.
+Regenerate: `python3 data/jcim_bench_v0/scripts/plot_jcim_article_figures_v2.py`
 
-Regenerate (from `Dual_Target_Docking/`):
-`python3 data/jcim_bench_v0/scripts/plot_jcim_article_figures_v1.py`
-The script re-reads the CSVs, writes PDF/PNG/TIF, and fails if any plotted value disagrees with its source (`plotted_values.json`).
+## Figure 1. Four-state dual-target evaluation and data supply.
 
-## Figure 1. Dual-target docking as dual-versus-selective discrimination.
+(A) Four experimentally labeled ligand states: dual, A-only, B-only, and neither. A-only and B-only are selectivity hard negatives. (B) Primary tasks are pocket-matched directional AUROCs: Dual versus A-only scored in pocket B, Dual versus B-only scored in pocket A. `summary_min` is a descriptive worst-arm summary. (C) J0 ChEMBL audit of 49 candidate pairs (`j0_strict_label_supply.csv`). Four pairs meet a thick hard-negative gate (min ≥50); HDAC1/HDAC6 is excluded as metal-dependent; EGFR/HER2 is retained as a supply-limited K=4 case (strict B-only = 7). Complete-case map coverage is 14.5%–34.0% (`complete_case_usable_pchembl_overlap_v1.csv`). Cross-database counts are Figure S2.
 
-(A) A strict dual-target benchmark distinguishes four experimentally labeled ligand states: dual-active (D), A-selective (A_only), B-selective (B_only), and neither. A_only and B_only are selectivity hard negatives: they are active on one target and can produce plausible docking scores, yet they lack activity on the other. Neither is curated as part of the four-state panel but is not used in the primary AUROCs. (B) The prespecified primary readout is two directional pairwise discriminations, not a four-class classifier and not a pooled score. Dual versus A_only is scored in pocket B; dual versus B_only is scored in pocket A. `summary_min` is the worst-direction discrimination summary, so a favorable score on one target cannot hide directional failure on the other. It is not a new docking score or biological activity measure.
+## Figure 2. Negative-class definition changes apparent dual-target evidence.
 
-## Figure 2. Public-data supply of strict hard negatives.
+Same frozen AutoDock Vina scores, unified θ = 6.0. (A) Directional Dual versus A-only (pocket B) and Dual versus B-only (pocket A) from `unified_threshold_sensitivity_v2.csv`. (B) Descriptive comparison of directional `summary_min` (Table 2 CIs from the same unified-threshold file) with Dual versus neither using per-ligand `vina_mean` (`formulation_conventional_vs_directional_v1.csv`). These two columns differ in both negative class and score aggregation; the difference is not a paired test of one estimand. PIK3CA/mTOR Dual versus neither is hatched (neither n = 4). (C) Pocket A score held fixed; only the negative class is replaced (B-only versus neither). EGFR/HER2 ΔAUROC = 0.378 [0.205, 0.547] (`formulation_equal_score_negative_v1.csv`). Vertical dashed line in (C), zero.
 
-(A) Minimum of the two strict hard-negative counts (A_only, B_only) for every target pair in the J0 ChEMBL audit (`j0_strict_label_supply.csv`). Dashed line, thick-panel gate (≥50); dotted line, thin-panel gate (≥20). Highlighted: the three thick pairs used as K=4 main panels, EGFR/HER2 (7 B_only; supply-limited case), and HDAC1/HDAC6 (metal enzyme; excluded). (B) Count-level comparison of the same four pairs in ChEMBL pChEMBL versus BindingDB equal-relation measurements (Table S12). No docking.
+## Figure 3. Ligand chemistry as a competing explanation.
 
-## Figure 3. Benchmark formulation changes the apparent evidence for dual-target recognition.
+(A) Scaffold GroupKFold ECFP4 logistic AUROC versus pocket-matched Vina rank AUROC on both directional arms (`ligand_ml_baseline_scaffold_cv_v1.csv`). EGFR/HER2 Dual versus B-only: ECFP4 0.8895 versus Vina 0.4297. (B) Change in GroupKFold AUROC when the pocket-matched Vina score is added to ECFP4 (`incremental_information_v1.csv`). The largest absolute change among the eight contrasts is ≤0.020. (C) AChE/BChE TPSA by class: individual ligands (jittered) with median and IQR (`assembled_AChE_BChE.csv`). n = 27/25/28.
 
-Same frozen AutoDock Vina scores under two task formulations (unified θ = 6.0). Dark bars: directional pocket-matched `summary_min` with 95% ligand-bootstrap CIs from `unified_threshold_sensitivity_v2.csv` (Table 2). Orange bars: Dual-versus-neither comparator using pooled `vina_mean`, with CIs from `formulation_conventional_vs_directional_v1.csv` (Table 3). Dual versus neither is a nonselectivity-controlled comparator, not “the conventional dual-target benchmark.” EGFR/HER2 is the proof-of-principle gap (0.756 versus 0.430). AChE/BChE and PIK3CA/PIK3CB increments are small and overlapping. PIK3CA/mTOR Dual versus neither is hatched as underpowered (neither n = 4) and is not a reverse-overestimation result. Dual versus all non-duals is reported in Table 3, not here. Vertical dashed line, chance (0.5). The former pocket-matched forest (Vina / RTM / GNINA / descriptor) is Figure S4.
+## Figure 4. Computational realization.
 
-## Figure 4. Weak-arm asymmetry and physicochemical confounding.
+(A) Independent GNINA 1.3.2 pose generation (not CNN rescoring of Vina poses) on EGFR/HER2 and PIK3CA/mTOR (`independent_dock_formulation_v1.csv`) versus the same-panel Vina values. (B) Replacing PIK3CA 4L23 with 4JPS or 5DXT while holding the second pocket frozen: PIK3CA/mTOR `summary_min` 0.692 → 0.486 / 0.505; PIK3CA/PIK3CB 0.500 → 0.691 / 0.685. 4JSX is an mTOR-pocket swap and is plotted with a distinct marker; it is not applied to PIK3CA/PIK3CB. CIs from the deposited swap tables and Table 2. (C) Directional `summary_min` across five frozen Vina seeds (`multiseed_auroc_by_seed_v2.csv`); diamond, production seed 20260727.
 
-(A) Directional Vina AUROCs at θ = 6.0: dual versus A_only (pocket B) and dual versus B_only (pocket A). (B) Vina pocket-matched summary_min versus the best single-descriptor reference, with 95% CIs. (C) TPSA on the AChE/BChE panel by class (individual ligands from `assembled_AChE_BChE.csv`; horizontal line, median). Dual ligands are more polar than either hard-negative class, matching the TPSA reference that exceeds Vina on this pair.
+## Figure 5. Matched- versus mismatched-pocket scoring controls.
 
-## Figure 5. Receptor realization can raise or lower apparent dual-target discrimination.
+Δ = matched-pocket `summary_min` − mismatched-pocket `summary_min`, ligand bootstrap B = 2000 (`wrong_pocket_paired_delta_bootstrap_v1.csv`). Matched uses Dual versus A-only in pocket B and Dual versus B-only in pocket A; mismatched swaps those score channels. This is a scoring-channel control, not redocking into a physically wrong site. (A) Main panels. EGFR/HER2 and AChE/BChE CIs exclude 0; PIK3CA pairs include 0. (B) Unused-pool holdout. All three CIs include 0; point estimates are negative (mismatched ≥ matched). EGFR/HER2 has no holdout. (C) Holdout potency (|ΔpChEMBL| ≤ 0.5) and size (|Δheavy| ≤ 2) matching: point Δ only (`holdout_matched_wrong_pocket_summary_v1.csv`). Dark, CI excludes 0; gray, CI includes 0.
 
-(A) PIK3CA/mTOR (PM48): pocket-matched summary_min after replacing one receptor at a time. 4L23 is the original PIK3CA structure (B = 4JT6 frozen); 4JPS and 5DXT replace PIK3CA; 4JSX replaces mTOR (A = 4L23 frozen). Point estimates: 0.692 (4L23), 0.486 (4JPS), 0.505 (5DXT), 0.639 (4JSX). (B) PIK3CA/PIK3CB: the same PIK3CA crystals with 2WXF held frozen. Point estimates: 0.500 (4L23), 0.691 (4JPS), 0.685 (5DXT). Error bars are 95% ligand-bootstrap CIs from the deposited swap tables and Table 2. 4JSX is an mTOR swap and is not applied to PIK3CA/PIK3CB. Receptor replacement is a realization effect, not a robustness certificate; docking coverage is detailed in Table S30. Unused-pool holdout is Figure S5.
+## Figure 6. Robustness checks and evidence boundary.
 
-## Figure 6. Wrong-pocket controls reveal an unresolved out-of-panel failure mode.
+(A) Pocket-matched `summary_min` on the unified label-threshold grid (`unified_threshold_sensitivity_v2.csv`). (B) PIK3CA/mTOR PM48 versus PM110 Vina (`pm110_vs_pm48_pocket_matched_v1.csv`). (C) PM48 exhaustiveness 16 versus 8, recomputed from `scores_vina_E8_best.csv` with the same pocket-matched definition. (D) BindingDB-native 202608 slice: zero of four pairs meet the pre-frozen external gate; nothing was docked (`external_slice_summary_v1.csv`).
 
-(A) Main K=4 panels: pocket-matched Vina summary_min versus the wrong-pocket control (`pocket_matched_directional_v1.csv`). Matched exceeds wrong-pocket on all four pairs. (B) Unused-pool holdout: the point-estimate relationship reverses (wrong-pocket ≥ matched) on all three eligible pairs (`holdout_pocket_matched_v1.csv`), but paired intervals include zero. EGFR/HER2 has no holdout. (C) The point-estimate pattern remains after potency matching (|Δp| ≤ 0.5) or size matching (|Δheavy| ≤ 2) (`holdout_matched_wrong_pocket_summary_v1.csv`). (D) Scoring-free contact-count AUROC on pocket A (D vs A_only) and pocket B (D vs B_only) versus Vina wrong-pocket summary_min (`wrong_pocket_contact_v1_output.txt`; not a PLIF). Contact count cannot account for the magnitude of PIK3CA/mTOR Vina wrong-pocket discrimination.
+## Figure S1. Protocol and panel sensitivities.
 
-## Figure 7. Ligand-structure association and matched-subset tests.
-
-(A) ECFP4 logistic regression under scaffold GroupKFold versus pocket-matched Vina on both directional arms (`ligand_ml_baseline_scaffold_cv_v1.csv`). Fingerprint AUROCs are chemotype–label association, not evidence of pocket physics. (B) Pocket-matched Vina versus all four prespecified physicochemical descriptors (heavy-atom count, MW, cLogP, TPSA) with 95% CIs. Descriptor CIs are from `forest_summary_min_ci_v1.csv`; Vina from θ = 6.0. Figure 4 reports only the best single-descriptor reference per pair; this panel shows all four. (C) Weak-arm (D vs B_only) logistic AUROC of Vina alone versus Vina plus heavy-atom count and TPSA, with the Vina odds ratio (`covariate_adjusted_v1.csv`). EGFR/HER2 score-only in that table is 0.5703 (the table’s logistic AUROC of feature `vina_A`), which is not the rank AUROC 0.4297 in Table 2. (D) D vs B_only after potency matching (|Δp| ≤ 0.5) or size matching (|Δheavy| ≤ 2) versus the unmatched full-panel contrast (`matched_subset_directional_v1.csv`). Error bars are the table’s single-contrast 95% CIs.
-
-## Figure S1. Protocol knobs that do not change the ranking.
-
-(A) Pocket-matched summary_min across the unified label-threshold grid (`unified_threshold_sensitivity_v2.csv`). Open markers are underpowered cells (EGFR/HER2 strict, n_B_only=7; PIK3CA/mTOR at θ=5.5, n_B_only=5, and strict, n_B_only=4). At the primary θ=6.0, PIK3CA/mTOR is the highest point estimate; AChE/BChE is flat at 0.6058 across the grid. The underpowered θ=5.5 PIK3CA/mTOR cell (0.5017) is not a ranking contradiction. (B) GNINA CNN mode01 versus best-of-9 versus the same-panel Vina reference (`gnina_pocket_matched_mode01_vs_best9_k4_v1.csv`). Best-of-9 versus mode01 moves summary_min by −0.04 to +0.08. EGFR/HER2 and AChE/BChE remain below chance on both GNINA channels. PIK3CA/PIK3CB GNINA best-of-9 is 0.533 versus Vina 0.500 (near chance). (C) PIK3CA/mTOR PM48 versus the PM110 expansion for Vina, RTMScore, and GNINA best-of-9 (`pm110_vs_pm48_pocket_matched_v1.csv`). (D) PM48 Vina at exhaustiveness 16 versus 8, computed from `scores_vina_E8_best.csv` (empty affinities skipped; ligands labeled neither were excluded) with the same pocket-matched definition, beside single-target enrichment AUROC and EF1% on 4L23 and 4JT6 (`single_target_enrichment_v1.csv`).
+(A) Unified label-threshold grid. Open markers, underpowered cells. (B) GNINA CNN rescoring of Vina poses (mode-1 versus best-of-9) versus primary Vina; this is not independent GNINA pose generation (Figure 4A / Table S32). (C) PM48 versus PM110 for Vina, RTMScore, and GNINA CNN best-of-9 rescoring. (D) Exhaustiveness 16 versus 8 and single-target enrichment on 4L23/4JT6.
 
 ## Figure S2. Equal-relation supply and holdout sampling shift.
 
-(A) Minimum strict hard-negative counts for the K=4 pairs in ChEMBL pChEMBL, BindingDB/PubChem `equal_only`, and BindingDB/PubChem `as_is` (`crossdb_strict_supply_v1.csv`). Count-level only; no docking. `as_is` lets EGFR/HER2 pass ≥50 because censored `>` values are treated as point estimates; `equal_only` does not. (B) Holdout minus main-panel mean pChEMBL for dual pA, A_only pA, and B_only pB (`holdout_vs_main_potency_size_v1.csv`). Sampling shift is real, especially on PIK3CA/mTOR, but does not reverse Figure 6C.
+Unchanged sources: `crossdb_strict_supply_v1.csv`; `holdout_vs_main_potency_size_v1.csv`.
 
-## Figure S3. Paired bootstrap differences that Figure 6 does not show.
+## Figure S3. Additional paired bootstrap differences.
 
-All values are from `wrong_pocket_paired_delta_bootstrap_v1.csv` and `pocket_matched_vs_best_descriptor_delta_v1.csv` (B = 2000 ligand resamples, seed 20260729). Point Δ equals the rounded Table 2 / Figure 6 AUROCs subtracted at four decimals, not a separately rounded difference. Blue, 95% CI excludes 0; gray, CI includes 0. (A) Main K=4 panels: Δ = pocket-matched − wrong-pocket summary_min. Point Δ is positive on all four pairs (EGFR/HER2 0.1697, AChE/BChE 0.1614, PIK3CA/PIK3CB 0.1511, PIK3CA/mTOR 0.0902). Only EGFR/HER2 and AChE/BChE have CIs that exclude 0; PIK3CA/PIK3CB and PIK3CA/mTOR CIs include 0. (B) Unused-pool holdout: point Δ is negative on all three eligible pairs (wrong-pocket ≥ matched), and every CI includes 0. EGFR/HER2 has no holdout. This panel quantifies the Figure 6B point-estimate reversal. (C) Pocket-matched Vina minus the best single-descriptor reference (EGFR/HER2 cLogP 0.4821; AChE/BChE TPSA 0.7333; PIK3CA/PIK3CB and PIK3CA/mTOR heavy-atom count). All four CIs include 0, including PIK3CA/mTOR +0.2291 [−0.0105, 0.4352]. This is not the pooled `vina_mean` gate (EGFR/HER2 0.2824). (D) ECFP4 logistic AUROC under scaffold GroupKFold versus random StratifiedKFold (`ligand_ml_scaffold_vs_random_v1.csv`). Mean (random − scaffold) across eight directional contrasts is 0.0258. Scaffold split remains the primary ML readout; this is a leakage check, not a search for a leakier split.
+Descriptor and scaffold-versus-random leakage checks. Matched-versus-mismatched main/holdout Δ CIs are now Figure 5.
 
-## Figure S4. Pocket-matched summary_min on the frozen K=4 set (former main Figure 3).
+## Figure S4. Pocket-matched summary_min forest (former main figure).
 
-Vina (primary), RTMScore, GNINA CNN best-of-9, and the best single-descriptor reference (heavy-atom count, MW, cLogP, or TPSA) with 95% ligand-bootstrap CIs. Vina CIs are the θ = 6.0 values in `unified_threshold_sensitivity_v2.csv` (Table 2). Best descriptor (right column, from `forest_summary_min_ci_v1.csv`): EGFR/HER2 cLogP; AChE/BChE TPSA; PIK3CA/PIK3CB and PIK3CA/mTOR heavy-atom count. Vertical dashed line, chance (0.5). GNINA is a single CNN channel, not a three-engine competition. The main-text formulation comparison is Figure 3.
+Vina CIs from `unified_threshold_sensitivity_v2.csv`. GNINA in this figure is CNN rescoring of Vina poses (best-of-9), not independent pose generation.
 
 ## Figure S5. Unused-pool holdout versus the main panel.
 
-Pocket-matched summary_min on the main panel versus the unused-pool holdout (20/20/20; seed 20260731) for the three pairs with unused-pool supply. EGFR/HER2 has no holdout. The holdout shares the same ChEMBL extraction and is a panel-external stability check, not independent external validation. PM110 is a nested stability check shown in Figure S1C.
+Pocket-matched `summary_min` only; mismatched-pocket Δ CIs are Figure 5B.
 
-## Figure S7. Zero-docking formulation upgrades.
+## Figure S7. Post-hoc formulation and screening diagnostics.
 
-(A) Unique J0 pairs (aliases dropped) that admit θ = 6.0 Dual/A-only/B-only n ≥ 10, Dual/A-only/B-only/neither n ≥ 10, versus the four docked pairs (`theta6_pair_census_v1.csv`). Not a docking scale-up. (B) AND-like Dual filter precision versus Dual recall on Dual+A-only+B-only libraries using `vina_worst` Dual-percentile cuts (`and_filter_operating_point_v1.csv`). (C) Ligand-only ECFP4 GroupKFold Dual versus neither versus directional `summary_min` on the full ChEMBL maps of the four frozen pairs, cap 120/class (`ligand_only_fullmap_auroc_v1.csv`). Not a replacement for Table 2.
+θ = 6.0 pair census, AND-like dual filter, and full-map ligand-only ECFP4. Not docking upgrades and not a replacement for Table 2.
 
-## Figure S8. BindingDB-native slice after literature, structure, and ECFP4 filters.
+## Figure S8. BindingDB-native slice.
 
-Four-state ligand counts from the versioned BindingDB 202608 article and patent TSV archives (`external_candidate_flow.csv`; `external_slice_summary_v1.csv`). Bars show dual / A-only / B-only / neither after shared-literature, shared-structure, and max ECFP4 Tanimoto < 0.70 versus development molecules. Remaining n are upper bounds because ChEMBL document lookup resolved 519/680 development documents. No pair meets the pre-frozen primary external gate; nothing was docked. Not a replacement for Table 2 or Table S43 (REST historical count).
+Filter cascade and remaining four-state counts after literature, structure, and ECFP4 < 0.70 (`external_slice_summary_v1.csv`). Zero of four pairs meet the pre-frozen external gate; nothing was docked.
+
+## Figure S9. Additional ligand-structure controls.
+
+Prespecified descriptors, covariate-adjusted logistic AUROC, and matched-subset weak-arm tests (former main Figure 7B–D). The Vina-only logistic AUROC is not the Table 2 rank AUROC.
+
+## Figure S10. Matched versus mismatched point estimates.
+
+Bar charts of matched versus mismatched `summary_min` on the main panel, unused-pool holdout, potency/size matching, and scoring-free contact counts. Paired Δ CIs are Figure 5. Contact count is exploratory and does not explain holdout reversal.
 
 ## TOC graphic (For Table of Contents Only).
 
-DualFourClass-Bench asks whether docking can distinguish experimentally labeled dual-active ligands from single-target selective hard negatives in both pockets, rather than whether both docking scores are merely favorable. The graphic does not report numerical AUROCs and is not a reuse of Figure 1.
+Four experimental states, pocket-matched directional evaluation, and the qualitative statement that Dual-versus-neither is not Dual-versus-selective. No numerical AUROCs.

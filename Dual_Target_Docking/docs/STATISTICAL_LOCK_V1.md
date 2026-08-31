@@ -53,7 +53,7 @@ Coeval, **not** Table 2: `pocket_matched_directional_v1.csv` (different hash-off
 Deprecated: `PRIMARY_METRIC_V2.md` (seed=20260729, no offset).  
 Legacy pooled control: `bootstrap_directional_ci_v1.csv`.
 
-Future Table 2 / Figure 3 / Table S4 / forest Vina CIs must **read** this CSV. They must not each re-bootstrap.
+Future Table 2 / Figure 2 / Table S4 / forest Vina CIs must **read** this CSV. They must not each re-bootstrap.
 
 ## Dual vs neither (Table 3)
 

@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
-"""Draw DualFourClass-Bench JCIM main figures from frozen CSV sources only.
-
-Every plotted number is read from a named source file. No hand-typed AUROCs.
-Run: python3 data/jcim_bench_v0/scripts/plot_jcim_article_figures_v1.py
+"""Draw DualFourClass JCIM figures (legacy entry). Delegates to v2 (six main + TOC + SI).
+Run: python3 data/jcim_bench_v0/scripts/plot_jcim_article_figures_v2.py
 """
 
 from __future__ import annotations
@@ -402,7 +400,7 @@ def fig3_forest(D: dict) -> None:
     handles = [
         Line2D([0], [0], marker="o", color=C["vina"], ls="none", ms=7, label="Vina (primary)"),
         Line2D([0], [0], marker="^", color=C["rtm"], ls="none", ms=6, label="RTMScore"),
-        Line2D([0], [0], marker="D", color=C["gnina"], ls="none", ms=5.5, label="GNINA best-of-9"),
+        Line2D([0], [0], marker="D", color=C["gnina"], ls="none", ms=5.5, label="GNINA CNN rescore (best-of-9)"),
         Line2D([0], [0], marker="s", color=C["desc"], ls="none", ms=6, label="Best descriptor reference"),
     ]
     ax.legend(
@@ -1018,38 +1016,9 @@ DualFourClass-Bench asks whether docking can distinguish experimentally labeled 
 
 
 def main() -> None:
-    apply_style()
-    D = load()
-    fig1_task()
-    fig2_supply(D)
-    fig3_forest(D)
-    fig3_formulation(D)
-    fig4_confounds(D)
-    figS_holdout(D)
-    fig5_receptor(D)
-    from plot_jcim_si_composites_v1 import draw_all, extend_load
-    extend_load(D, _read, PROVENANCE)
-    draw_all(D, PROVENANCE)
-    toc_graphic()
-    write_captions()
-    (OUT / "plotted_values.json").write_text(json.dumps(PROVENANCE, indent=2, default=str))
-    verify(D)
-    obsolete = [
-        "FigS1_wrong_pocket_main_vs_holdout",
-        "FigS2_protocol_sensitivity",
-        "FigS3_confound_anatomy",
-        "FigS4_holdout_mechanism_and_supply",
-        "Fig3_pocket_matched_forest",
-        "Fig5_holdout_and_crystal_swap",
-    ]
-    for stem in obsolete:
-        for ext in ("pdf", "png", "tif"):
-            p = OUT / f"{stem}.{ext}"
-            if p.exists():
-                p.unlink()
-    print("wrote", OUT)
-    for p in sorted(OUT.glob("*")):
-        print(" ", p.name, p.stat().st_size)
+    from plot_jcim_article_figures_v2 import main as main_v2
+
+    main_v2()
 
 
 if __name__ == "__main__":

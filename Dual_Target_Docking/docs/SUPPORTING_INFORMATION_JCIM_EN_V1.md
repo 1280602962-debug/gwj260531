@@ -65,7 +65,7 @@ See Table S27 and Methods missing-data bounds. Failures concentrate among large/
 
 ## S7. Receptor sensitivity
 
-Tables S9, S30 and Figure 5: same PIK3CA alternate crystals lower PIK3CA/mTOR `summary_min` (0.692 → 0.486/0.505) and raise PIK3CA/PIK3CB (0.500 → 0.691/0.685).
+Tables S9, S30 and Figure 4B: same PIK3CA alternate crystals lower PIK3CA/mTOR `summary_min` (0.692 → 0.486/0.505) and raise PIK3CA/PIK3CB (0.500 → 0.691/0.685).
 
 ## S8. Document / time split
 

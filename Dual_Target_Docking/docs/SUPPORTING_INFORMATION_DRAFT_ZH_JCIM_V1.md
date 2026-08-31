@@ -61,13 +61,13 @@
 | Table S52 | `benchmark_literature_comparator_v1.csv`（文献对照；不是 bake-off） |
 | Table S53 | `data/mcl1_bclxl_panel_v0/tables/formulation_auroc_MBX_v1.csv`（MCL1 Vina AUROC；不进 Table 2） |
 | Table S54 | `data/jcim_multiseed_v0/tables/multiseed_auroc_aggregate_v2.csv` + `multiseed_auroc_by_seed_v2.csv`（五种子 Vina；Dual-versus-neither = `AUC(vina_mean)`，与 Table 3 对齐） |
-| Figure S7 | `figures/jcim_article/FigS_formulation_upgrades_v1.png` |
+| Figure S7 | `figures/jcim_article/FigS7_posthoc_diagnostics.png` |
 | Figure S8 | `figures/jcim_article/FigS_bindingdb_native_slice_v1.png` |
 | Master index | `data/jcim_novelty_v0/tables/MASTER_RESULTS_TABLE.csv` |
-| Figure S4 | `figures/jcim_article/FigS_pocket_matched_forest.png`（原主文森林图） |
+| Figure S4 | `figures/jcim_article/FigS_pocket_matched_forest.png`（原主文森林图；GNINA 为 Vina 姿态的 CNN 再打分） |
 | Figure S5 | `figures/jcim_article/FigS_unused_pool_holdout.png` |
 | Figure S6 | `figures/jcim_article/FigS_detectable_effect.png` |
-| Figure 8 | `figures/jcim_article/Fig8_diagnostic_workflow.png` |
+| Figure S9 | `figures/jcim_article/FigS9_ligand_controls.png` |
 | Supporting Note S1 | `data/pik3ca_mtor_panel48_v0/analysis/failure_typology_v0/CASE_PM48_21_Aonly.md` + `CASE_PM48_10_02_injured_duals.md` |
 | ChEMBL 聚合 | `data/jcim_novelty_v0/tables/assay_max_vs_median_agreement_v1.csv`；审计 `analysis/A4_B5_STATISTICAL_AUDIT_V1.md` |
 
