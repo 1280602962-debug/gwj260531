@@ -1,0 +1,52 @@
+freeze_id: pik3ca_mtor_panel48_v0
+engine: AutoDock_Vina
+vina_version: "1.2.7"
+seed_policy: fixed_global
+seed_fixed_global: 20260727
+n_modes: 9
+energy_range: 3
+cpu_per_job: 1
+exhaustiveness: 16
+exhaustiveness_v0_1: 16
+exhaustiveness_note: >
+  Pair-specific. EGFR/HER2 panel40 remains exhaustiveness=8.
+  Raised because PI-103@4JT6 E=8 best_of_9 failed (~5.0 A) while
+  E=16 recovered best_of_9 ~0.445 A (seed 20260727).
+reporting_arms_primary:
+  - vina_mean
+  - rtm_min_z
+reporting_rule: >
+  Always report vina_mean AND rtm_min_z side-by-side. Do not report RTM alone.
+  Chemotype warning_flags are diagnostic columns only (flags_enter_score=0).
+limitations:
+  - "T2 chemotype homolog hardnegatives: PM48_26 / PM48_20 / PM48_21 (ATP-site cross-reactivity; clash gate null)"
+  - "T5 rescoring injury: Torin1 (PM48_10) / Omipalisib (PM48_02) drop under rtm_min_z"
+  - "PM48_34@4JT6 wrote only 8 valid Vina modes (phantom mode9)"
+  - "clash gating negative on panel48 case set (all clash_fail=0)"
+  - "shortfall pretest and frozen decision ablation: cannot jointly cut hardneg Top10 and spare T5 duals"
+  - "Do not claim C4 successful extrapolation to this pair"
+box_definition: "AABB(X6K) + 5A padding; min edge 20A"
+cognate_qc_gate: "both ends best_of_9 heavy-atom RMSD < 2.0 A"
+full_panel_status: "complete @ E=16; see MANIFEST.md"
+targets:
+  PIK3CA:
+    pdb: 4L23
+    prepared_protein: "D:/CADD paper exercise/dual target docking/Maestro doc/4L23_PIK3CA_prepared.pdb"
+    prepared_protein_in_freeze: receptors/4L23_PIK3CA_prepared.pdb
+    receptor_pdbqt: receptors/4L23_receptor.pdbqt
+    ligand_cocrystal_resname: X6K
+    pose_gold_panel_id: PM48_01
+    box: {"center_x": 32.443, "center_y": 45.431, "center_z": 42.139, "size_x": 20.0, "size_y": 20.0, "size_z": 20.0, "n_ligand_atoms": 42, "n_heavy_atoms": 26}
+  MTOR:
+    pdb: 4JT6
+    prepared_protein: "D:/CADD paper exercise/dual target docking/Maestro doc/4JT6_mTOR_prepared.pdb"
+    prepared_protein_in_freeze: receptors/4JT6_mTOR_prepared.pdb
+    receptor_pdbqt: receptors/4JT6_receptor.pdbqt
+    ligand_cocrystal_resname: X6K
+    pose_gold_panel_id: PM48_01
+    box: {"center_x": 51.949, "center_y": 0.065, "center_z": -47.707, "size_x": 20.332, "size_y": 20.0, "size_z": 20.0, "n_ligand_atoms": 42, "n_heavy_atoms": 26}
+ligand_prep:
+  tool: Schrodinger_LigPrep
+  maegz: "D:/CADD paper exercise/dual target docking/Maestro doc/pik3ca_mtor_panel48_v0_ligprep/pik3ca_mtor_panel48_v0_ligprep-out.maegz"
+  conversion: "RDKit MaeMolSupplier (escaped underscores fixed) -> SDF; meeko -> PDBQT; one conf per panel_id"
+vina_binary: /home/gwj/miniconda3/bin/vina

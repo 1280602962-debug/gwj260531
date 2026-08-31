@@ -1,0 +1,88 @@
+# DualFourClass pair roles — APPROVED for JCIM docking phase
+# Copied from PAIR_ROLES_DRAFT_J1.yaml; docking_authorized flipped to true.
+# Authority: docs/JCIM_NEXT_ROUTE_PLAIN.md + docs/AGENT_COMMAND_JCIM_DOCKING_PHASE.md
+# Approved date: 2026-07-29
+# Paper form: evaluation / benchmark Article (not method-win / Track B competition)
+
+meta:
+  version: "PAIR_ROLES_APPROVED_JCIM"
+  supersedes: "PAIR_ROLES_DRAFT_J1"
+  k_docked_target: 4
+  docking_authorized: true
+  approved_date: "2026-07-29"
+  plain_route_doc: "docs/JCIM_NEXT_ROUTE_PLAIN.md"
+  agent_command_doc: "docs/AGENT_COMMAND_JCIM_DOCKING_PHASE.md"
+  stage_m_track_b: "Weak"
+  ligand_prep_frozen: "rdkit_etkdg_meeko"
+  primary_metric: "directional_AUROC_dual_vs_A_only_and_dual_vs_B_only"
+  mandatory_baselines: ["heavy_atoms", "MW", "cLogP", "TPSA"]  # all four reported; max is descriptive, not confirmatory
+  scoring_channels: ["vina", "rtm", "gnina_cnn_rescore_if_available"]
+  next_commands: ["J2_PM48_RDKIT", "J3_NEW_RECEPTOR_FREEZE", "J4_NEW_PANEL_DOCK", "J5_GNINA_RESCORE", "J6_BENCH_PACK"]
+  excluded_holdout: ["NLRP3/JNK1"]
+  forbidden:
+    - "expand_EGFR_same_protocol_for_significance"
+    - "mix_LigPrep_and_RDKit_in_primary_tables"
+    - "tune_shortfall_clash_flags_into_primary_score"
+    - "claim_universal_decision_ruler_validated"
+    - "Track_B_method_arm_competition"
+
+tiers:
+  S_strict_dock_candidates:
+    - pair: PIK3CA/MTOR
+      role: development
+      supports_strict_panel: true
+      status: authorized_rdkit_reprep
+      receptors_frozen: {A: "4L23", B: "4JT6"}
+      exhaustiveness: 16
+      output_pack: "data/pik3ca_mtor_panel48_rdkit_v0/"
+    - pair: ACHE/BCHE
+      role: development
+      supports_strict_panel: true
+      status: authorized_receptor_freeze_then_panel
+      receptor_candidates:
+        A: ["4EY4", "6O5V", "4M0E"]
+        B: ["6ZWI", "1P0I", "6QAA"]
+      output_pack: "data/ache_bche_panel_v0/"
+    - pair: PIK3CA/PIK3CB
+      role: isoform_control
+      supports_strict_panel: true
+      status: authorized_receptor_freeze_then_panel
+      caveat: too_close_for_primary_narrative_but_only_remaining_nonmetal_Y
+      receptor_candidates:
+        A: ["4L23"]
+        B: ["to_be_frozen_in_J3"]
+      output_pack: "data/pik3ca_pik3cb_panel_v0/"
+
+  T_case_or_thin:
+    - pair: EGFR/HER2
+      role: case_supply_limited
+      supports_strict_panel: false
+      strict_B_only_chembl: 7
+      status: use_existing_unified_rdkit_eh110_NO_NEW_DOCKING
+      receptors_frozen: {A: "3POZ", B: "3RCD"}
+      do_not: pretend_thick_strict_panel
+
+  reject_despite_supply:
+    - pair: HDAC1/HDAC6
+      reason: metal_Zn_and_isozyme
+
+k4_roster:
+  - PIK3CA/MTOR
+  - EGFR/HER2
+  - ACHE/BCHE
+  - PIK3CA/PIK3CB
+
+budget_estimate_vina_jobs:
+  j2_pm48_rdkit: 96
+  j4_ache_bche: 220
+  j4_pik3ca_pik3cb: 220
+  optional_pm_expand: 220
+  egfr_unified_prep: 0
+  total_full_plan: "540-760"
+  gnina_rescore_new_sampling: 0
+
+output_roots:
+  - data/pik3ca_mtor_panel48_rdkit_v0/
+  - data/ache_bche_panel_v0/
+  - data/pik3ca_pik3cb_panel_v0/
+  - data/jcim_bench_v0/

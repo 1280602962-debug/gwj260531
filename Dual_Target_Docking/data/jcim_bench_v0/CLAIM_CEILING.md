@@ -1,0 +1,103 @@
+# CLAIM_CEILING — DualFourClass-Bench (JCIM)
+
+## Allowed claims
+1. This is an **evaluation / benchmark** article for dual-target docking decision metrics. “Dual-target recognition” is the task name; reported results are **computational directional discrimination**, not validated biological recognition.
+2. Primary metric = **pocket-matched directional AUROC** (D vs A_only uses pocket-B score; D vs B_only uses pocket-A score) with a **prespecified four-descriptor panel** (heavy atoms, MW, cLogP, TPSA) reported in full. The strongest descriptor is a **best single-descriptor reference**, not a confirmatory “best-of-four” hypothesis test and not a “trivial baseline competitor.” Pooled/wrong-pocket controls are reported in parallel. DualFourClass-Bench is a **four-state curated benchmark with two directional primary tasks**, not a four-class classifier. Call it a **curated four-pair benchmark panel + evaluation protocol**, not a comprehensive / LIT-PCBA-scale suite.
+3. K=4 pairs are a **frozen evaluation set**, not a claim that the metric generalizes to all target pairs.
+4. EGFR/HER2 is a **supply-limited case study** (existing unified RDKit EH110); no claim from new EGFR docking. A later BindingDB/PubChem **count-level** check (Table S12) does not rebuild this panel: under equal-relation measurements EGFR still fails the ≥50 thick-panel gate (min HN ≈ 30).
+5. Prep protocol is frozen: **RDKit ETKDG + meeko**. Do **not** mention Schrodinger LigPrep in the manuscript (no formal license; early borrow was internal-only).
+6. Contribution language may say we **implemented a four-pair proof-of-concept evaluation protocol** and released **DualFourClass-Bench**. Do not call the present K=4 panel a systematic, representative, target-general, or externally validated framework.
+
+## Forbidden / over-claim
+1. Do **not** claim a universal “decision arm” or that `rtm_min_z` (or any pooled score) is validated as a general master score.
+2. Do **not** claim score-function invariance beyond the three channels actually run (Vina / RTM / GNINA mode_01 CNN).
+3. Do **not** present Track B method competition results as the paper’s core.
+4. Do **not** fold shortfall/clash flags or architecture tags into the primary score.
+5. Do **not** mix LigPrep and RDKit poses in primary tables.
+6. Do **not** invent a grand method acronym (e.g. **D-DRAF**, “Dual-target Docking Reliability Assessment Framework”) or write “we developed a **novel** dual-target docking framework named …”.
+7. Do **not** sell ordinary analysis steps (data audit, hard-negative construction, AUROC, confounder baselines, robustness) as numbered **Framework Step 1–5** in Intro/Abstract/TOC as if they were a new algorithm. Methods section numbering is fine; packaging them as a named invention is not.
+8. Do **not** use absolute titles of the form “Docking can/cannot identify dual-target ligands.” Prefer *evaluating the reliability and limitations of docking-based dual-target recognition*.
+9. Do **not** write that public-data hard-neg supply is “ChEMBL-invariant” without Table S12. BindingDB/PubChem `as_is` counts can pass ≥50 on EGFR/HER2 because of `>` censored values; the matched `equal_only` rule does **not** recast EGFR as a thick panel.
+10. Do **not** claim a BindingDB- or PubChem-derived docking panel that was not actually docked.
+11. Do **not** write that docking the leftover unused ChEMBL pool would yield **1000 independent non-overlapping** balanced panels. Strict hard-neg leftover after main+holdout is 37/39 (PM), 141/30 (AChE), 8/19 (PIK3CB), 22/0 (EGFR). Holdout is one unused-pool draw, not a 1000-panel distribution. Do not relabel the existing ligand bootstrap as unused-pool resampling.
+12. Do **not** promote the 27-ligand max-vs-median API diagnostic (`max_vs_median_diagnostic_sample_v1.csv`) to a completed SI sensitivity table. The completed full-panel table is `assay_max_vs_median_*_v1.csv` / Table S29. Always report **label agreement** (1 − n_flip / n_scored) together with flip counts and the primary-metric shift. Do **not** mix frozen Table 2 EGFR/HER2 0.430 with A4 API-max 0.417 without naming the EH120_060 cache/API mismatch.
+13. Do **not** call the AChE/BChE or PIK3CA/PIK3CB ChEMBL-id prefix filter a chemical-diversity constraint.
+14. Do **not** call unused-pool holdout “external validation.”
+15. Do **not** present wrong-pocket as a positive control that proves pocket specificity; it is a **falsification** control.
+16. Do **not** label receptor replacement as “structure robustness that confirms stability”; it is **receptor-structure sensitivity** / a **receptor-realization effect**. Do **not** write that receptor replacement universally collapses the signal: the same PIK3CA crystals lower PIK3CA/mTOR `summary_min` and raise PIK3CA/PIK3CB `summary_min`. Do **not** hide PAB_034: 100 attempted / 99 successful / 1 timeout on original 4L23 and on both 4JPS and 5DXT.
+17. Do **not** call `summary_min` a novel scoring function or a measure of biological dual activity. It is a **worst-direction discrimination summary** of two AUROCs; it provides no calibration, sensitivity, specificity, or affinity estimate.
+18. Do **not** treat max(heavy, MW, cLogP, TPSA) as a prespecified confirmatory baseline.
+19. Do **not** write that Dual-versus-neither evaluation **systematically overestimates** dual-target docking on all K = 4 pairs, and do **not** call Dual-versus-neither “the conventional dual-target benchmark.” Prefer **dual-versus-neither comparator** or **nonselectivity-controlled comparator**. EGFR/HER2 is the pair where Dual-vs-neither (0.756) and directional summary_min (0.430) diverge; AChE and PIK3CA/PIK3CB show small overlapping increments; PIK3CA/mTOR Dual-vs-neither is underpowered (neither n = 4) and must not be used as a reverse-overestimation story.
+20. Do **not** promote Tanimoto ≥ 0.7 chemotype-matched AUROCs (the matched sets are empty). Modest T ≥ 0.3 drops are allowed with n_neg reported. Do **not** call T ≥ 0.3 “chemically matched analogues.”
+21. Do **not** treat logistic docking AUROC as Table 2 rank AUROC. Incremental wording is: **under the present scaffold-grouped benchmark, adding docking to ECFP4 produced little incremental improvement in CV AUROC (largest absolute change 0.020).** Forbidden: “docking has no structural / independent information.”
+22. Do **not** treat max pChEMBL as an unresolved fatal ground-truth threat after A4. Primary curation still uses the maximum; full-panel median relabel is Table S29. Allowed: the main pair-level findings were not sensitive to replacing max with median. Remaining limitation: pChEMBL is not assay-equivalent. Numeric max ≠ median counts belong in SI Table S29, not as a main-text claim. Always name the EH120_060 cache/API mismatch when reporting EGFR API-max 0.417 beside frozen Table 2 0.430; A4 does **not** replace Table 2. Confidence≥8 / Homo sapiens filters were not rebuilt.
+23. Do **not** treat 0.756 vs 0.430 as a **paired statistical significance test**. Different negative sets; report a **descriptive formulation contrast**. Prefer “provided an overly favorable impression” over mathematical bias / “significantly overestimated.”
+24. Do **not** interpret the four pair `summary_min` values (0.430 / 0.606 / 0.500 / 0.692) as purely intrinsic target-pair docking performance. AChE and PIK3CB were built under strict 6.5/5.5; EGFR and PM under θ = 6.0; panels also differ in n, series composition, and receptor.
+25. Do **not** write that scaffold GroupKFold “proved strong generalization.” It shows performance when the same Bemis–Murcko scaffold is not shared across folds. PIK3CA/mTOR `n_scaffolds ≈ n`, so the split is nearly leave-one-scaffold. This is not target-external generalization.
+26. Do **not** infer pocket-specific signal from main-panel matched > wrong. Holdout wrong ≥ matched is a **point-estimate reversal whose paired CIs include 0**; wrong-pocket remains an unresolved falsification control, not a statistically resolved universal failure.
+27. Do **not** write that the docking protocol “was validated.” Write: **the protocol passed cognate pose-generation QC** (best-of-9 RMSD < 2 Å ≠ top-ranked pose recovery).
+28. Do **not** omit docking coverage: report N_attempted / N_successful / N_failed. HOAP_028 is a chemical-coverage failure (AutoDock atom type `B`), not silent missingness. AChE main panel 5/100 both-end-or-either failures; PIK3CB 1/100; EGFR and PM48 0/110 and 0/48.
+29. Do **not** treat `summary_min` as the only natural aggregation. Sensitivity (Table S26): pair ranking is unchanged under min / arithmetic mean / geometric mean / harmonic mean. Keep min as primary.
+30. Do **not** call ChEMBL-derived states assay-harmonized ground truth. A post-hoc 2026-08-26 current-ChEMBL view applied human SINGLE PROTEIN, confidence≥8, exact-relation, endpoint, validity, and duplicate filters and preserved all 352 scored assignments (Table S36). This does not reconstruct the frozen database date or harmonize assay conditions, constructs, mutation context, or complete-case selection.
+31. Do **not** call complete-case paired labels representative of screening-library prevalence. Requiring measurements at both targets can enrich well-profiled compounds, known polypharmacology, and publication-specific series.
+32. Do **not** describe `summary_min` as unbiased. It is the minimum of two noisy AUROC estimates and has downward selection bias; always report both component AUROCs.
+33. Same-score negative-class contrasts are Table S34. EGFR/HER2 pocket A gives Δ(neither minus B-only) = 0.378 [0.205, 0.547]; pocket B gives 0.054 [−0.157, 0.246]. Five of the other six pair-directions include zero, PIK3CA/PIK3CB pocket A is borderline positive, and PIK3CA/mTOR has n_neither = 4. This supports an EGFR/HER2 case finding, not a universal formulation effect. Intervals are exploratory and not multiplicity adjusted.
+34. Measurement-frequency audit is Table S35. PIK3CA/mTOR median total API activity records are 22 / 3 / 3 / 2 for dual / A-only / B-only / neither. This establishes profiling imbalance, not that measurement count caused AUROC differences. Max→median stability does not remove this selection mechanism.
+35. High-confidence current-ChEMBL audit is Table S36: 2748 records audited, 1546 retained, 513 potential duplicates excluded, 352/352 scored ligand states preserved. Allowed: the specified record filters did not alter this current-snapshot classification. Forbidden: assays were harmonized or the complete-case bias was eliminated.
+36. Do **not** mention the AChE/PIK3CB ChEMBL-id prefix as a diversity constraint. Sampling on those pairs is class quotas + deterministic shuffle; no additional diversity constraint. Do not rebuild frozen panels.
+37. Complete-case coverage audit is Table S37. Only 14.5%–34.0% of structures with a usable value at either member have usable values at both. Absence means unmeasured under the usable-map definition, not inactive. These counts diagnose selection and are not screening-library prevalence.
+38. Source-document concentration is descriptive and records are not independent experiments. The PIK3CA/mTOR neither class has four ligands and eight retained records, all from one document; no stable claim may rely on this class.
+39. Class-wise chemistry audit is Table S38. Descriptor, scaffold, and nearest-dual ECFP4 differences support chemical-composition confounding but neither prove that docking lacks receptor information nor yield causal adjustment. No post-hoc descriptor test may be presented as prespecified confirmatory inference.
+40. Ranked cognate re-audit shows top-1 failure for 4BDS (4.794 Å; top-3 0.386 Å) and 4JT6 (7.118 Å; top-3 0.445 Å). Allowed: the search generated a near-crystal pose within the retained set. Forbidden: Vina reliably ranked the cognate pose first. EGFR/HER2 top-3 is not independently reproducible because cognate pose artifacts are not deposited.
+41. Docking failures are chemically structured: six main-panel failures have 48–85 heavy atoms and 17–29 rotatable bonds; four were protocol skips at high torsional freedom. Rank-extreme bounds are missing-data stress tests, not recovered scores. Claims apply to the protocol-processable subset.
+42. The θ = 6.0 census (Table S44) found 17 unique pairs with Dual/A-only/B-only n ≥ 10 among 49 audited pairs. Allowed: four-state labels exist beyond K = 4. Forbidden: docking was evaluated on 17 pairs, or K was expanded.
+43. Property-caliper matching (Table S45) is a DUDE-Z-style control with experimental selectives. Report n_matched. Do not treat n < 8 cells as confirmatory. Do not call it causal adjustment.
+44. AND-filter operating points (Table S46) diagnose dual-pocket cuts on Dual+A-only+B-only libraries. EGFR/HER2 median Dual `vina_worst` precision is 0.298. Forbidden: DualDiff/FuseDiff/LS-MolGen were re-scored on DualFourClass-Bench.
+45. Ligand-only full-map AUROC (Table S47) uses ChEMBL maps and 2D structure, cap 120/class. Allowed: Dual versus neither is easier than Dual versus selectives in ligand chemistry at map scale. Forbidden: Table S47 replaces Table 2, or ligand-only AUROC is a docking result.
+46. The BindingDB-native 202608 slice (Tables S48–S49) is a **supply freeze**, not external validation. After literature, structure, and ECFP4 < 0.70 filters, remaining class counts are **upper bounds** because ChEMBL document lookup was partial (519/680). Zero pairs met the primary external gate; zero thin replications; `packaged_as_external_evaluation = 0`; nothing was docked. Do not call remaining ligands a database-external set. Do not change θ, boxes, or receptors after seeing these counts. Table S43 remains the historical REST supply count.
+47. Remaining n after the native filters can only shrink if the unresolved 161 development documents later add shared PMID/DOI/patent matches. Incomplete literature drop cannot create a passing pair that a complete drop would remove from the insufficient side; even as upper bounds, no pair passes the primary gate.
+48. MCL1/Bcl-xL (Tables S50–S51, S53) was docked only as a predeclared **applicability stress-test** after the stricter LC6 pose-gold requirement was not validly completed. Allowed: map 82/77/24/122; panel 24/24/24/24; n_complete 93/96; preliminary element-matched coordinate values 1.689 Å (3WIY) and 2.011 Å (3WIZ); Vina `summary_min` 0.609 with Dual-versus-B-only CI including 0.5. The coordinate assignment was not graph-isomorphism-constrained and lacks the prespecified physical-validity, interaction-recovery, and second-seed checks. Forbidden: calling these values topology-aware/symmetry-corrected RMSD or a formal pass; fifth Table 2 pair; K expanded beyond 4; domain extension; target-general PPI screening performance; BindingDB AUROC. Table S52 is a literature comparator, not a bake-off.
+
+## Conclusions claim ceiling
+
+Allowed closing claims:
+- DualFourClass-Bench is an **experimentally grounded evaluation setting** (once in Conclusions; not a new algorithm).
+- The worst-direction discrimination summary was **strongly target-pair-dependent** (summary_min 0.430–0.692), and adding docking to ECFP4 produced little incremental improvement in scaffold-grouped CV AUROC.
+- Primary pair-level estimates were **largely insensitive to max-versus-median pChEMBL aggregation**.
+- On EGFR/HER2, a Dual-versus-neither comparator looked substantially stronger than the directional worst arm; this is **pair-dependent**, not a four-pair overestimation law. Do not call that comparator “the conventional benchmark.”
+- PIK3CA/mTOR had the strongest point estimate and a positive directional signal in an unused ligand pool; uncertainty + receptor-realization sensitivity **preclude a generalizable dual-target decision rule**. Receptor realization can alter **magnitude and even direction**; the same PIK3CA crystals can raise PIK3CA/PIK3CB discrimination; do not summarize receptor replacement as collapse.
+- Apparent signals can be substantially influenced by ligand properties, chemotype, and receptor realization.
+- Unused-pool wrong-pocket reversal is **unresolved**; paired CIs included zero.
+- Contribution = **reliability / evidentiary boundary**, not a docking winner.
+
+Forbidden in Conclusions:
+- “Docking is ineffective for dual-target recognition.”
+- “Docking can identify dual-target ligands.”
+- *validated* / *robust performance* / *generalizable dual-target docking strategy*.
+- PDB IDs, RTM/GNINA numbers, 4JPS/5DXT/4JSX AUROCs.
+- Repeating *experimentally grounded* more than once.
+
+## Mechanism-analysis claim ceiling (Results 3.4–3.6)
+
+Allowed:
+- PIK3CA inter-crystal global Cα RMSD (1.44–1.49 Å) is larger than mTOR (0.45 Å) **in this structure set**, consistent in **direction** with greater PIK3CA-end sensitivity.
+- Local pocket Cα conservation on 5DXT (0.343 Å) with PIK3CA/mTOR summary_min 0.505 means Cα pocket conservation is **not sufficient** to preserve that pair’s discrimination. Do not extend that sentence to PIK3CA/PIK3CB, where the same crystals raise summary_min.
+- Scoring-free `contact_count` shows a real size/burial confound, **especially on the B arm** (0.698–0.714).
+- Holdout wrong-pocket ≥ pocket-matched **survives** potency matching (|Δp|≤0.5) and size matching (|Δheavy|≤2) on all three holdout pairs (Table S13). Sampling shift exists (PM holdout weaker than the main panel) but is not a sufficient explanation.
+
+Forbidden:
+- Do **not** write that Cα RMSD “quantitatively explains” or causes an AUROC change (n = 2 / n = 1; 5DXT matched 862 vs 982 Cα). Do **not** write a universal collapse.
+- Do **not** write that contact-count matches Vina wrong-pocket in **magnitude** (PM: Vina 0.788 vs contact min 0.552). Dual vs A_only size gap on AChE/BChE is 35.1 vs 34.0.
+- Do **not** write that potency matching “solved” the holdout wrong-pocket paradox.
+- Do **not** write PLIF, rotamer, or “mechanism solved.”
+- Do **not** write that DualDiff/FuseDiff were re-scored on DualFourClass-Bench. The Intro/Discussion sentence is a **use-case** for the benchmark, not a generative bake-off.
+- Do **not** write that DualDiff’s Dual High Affinity is mean-pooling; it is dual success vs a **reference ligand’s dock scores**. The gap is missing experimental hard-negatives, not the algebraic form of the mean.
+- GNINA best-of-9 fair rescore (2026-08-24, real, not fabricated): pocket-matched summary_min moves by only −0.04 to +0.08 across K=4. On three of four pairs (EGFR/HER2, AChE/BChE, PIK3CA/mTOR) it stays at or below the same-panel Vina pocket-matched value. On **PIK3CA/PIK3CB it is marginally above** the Vina reference under both mode01 (0.554) and best9 (0.533) vs Vina 0.500 — this predates the best9 push (mode01 was already above) and the margin is well inside the bootstrap CI overlap, so it is **not** a "GNINA beats Vina" finding; both are near chance. Do **not** write "GNINA never exceeds Vina on any pair" (false for PIK3CA/PIK3CB) or that GNINA best-of-9 "resolves" the weak-signal finding on EGFR/HER2 or AChE/BChE (both remain ≤ 0.41, below chance). Do **not** call the `min(score_A, score_B)`-for-both-contrasts number in `GNINA_BEST9_STATUS.md` "pocket-matched" — it is **worst-pocket**; use `GNINA_POCKET_MATCHED_BEST9_VERDICT_V1.md` for the true directional number comparable to Table 2.
+- Do **not** write that PIK3CA/mTOR is a structure-invariant reproducible success; holdout is ligand-set same-direction, crystal swap is receptor-dependent, and mTOR-swap CI includes 0.5. Do **not** omit that the same PIK3CA crystals raise PIK3CA/PIK3CB summary_min (0.500 → 0.691 / 0.685).
+
+## Engine stack actually run
+| Channel | Status |
+|---------|--------|
+| AutoDock Vina | primary sampler (done) |
+| RTMScore best-of-K | primary rescorer (done) |
+| GNINA CNN | **DONE** — best-of-9 `--cnn_scoring rescore --minimize` (v1.3.2 CPU), pose-symmetric with RTM as of 2026-08-24; mode_01-only results retained as historical backup, not primary |

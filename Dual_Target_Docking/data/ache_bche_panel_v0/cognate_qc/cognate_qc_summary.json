@@ -1,0 +1,38 @@
+[
+  {
+    "name": "ACHE",
+    "pdb": "4EY7",
+    "ligand": "E20",
+    "ligand_prep": "meeko",
+    "n_heavy_ref": 28,
+    "best_mode": 1,
+    "best_of_9_rmsd": 0.339,
+    "pass_rmsd_lt_2": true,
+    "status": "PASS",
+    "note": "human AChE + donepezil"
+  },
+  {
+    "name": "BCHE",
+    "pdb": "6ZWI",
+    "ligand": "QRH",
+    "ligand_prep": "obabel",
+    "n_heavy_ref": 26,
+    "best_mode": 6,
+    "best_of_9_rmsd": 2.307,
+    "pass_rmsd_lt_2": false,
+    "status": "FAIL_RMSD",
+    "note": "human BChE holo"
+  },
+  {
+    "name": "PIK3CB",
+    "pdb": "2Y3A",
+    "ligand": "GD9",
+    "ligand_prep": "meeko",
+    "n_heavy_ref": 35,
+    "best_mode": 7,
+    "best_of_9_rmsd": 3.849,
+    "pass_rmsd_lt_2": false,
+    "status": "FAIL_RMSD",
+    "note": "PI3K\u03b2 ATP-site holo"
+  }
+]

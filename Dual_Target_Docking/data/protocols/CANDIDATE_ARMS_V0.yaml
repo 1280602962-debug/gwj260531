@@ -1,0 +1,133 @@
+# DualFourClass candidate decision arms — pre-registration draft v0
+# Authoritative experimental plan: docs/EXPERIMENTAL_PLAN_DUALFOURCLASS_V2.md
+# Status: DRAFT for Track B / B0 freeze. Do not invent new primary arms after scoring starts.
+# Date: 2026-07-28
+
+meta:
+  version: "CANDIDATE_ARMS_V0"
+  # REVISED 2026-07-28 after Stage M measurement audit
+  # (docs/PLAN_V2_REDTEAM_AND_REDESIGN.md). Pooled Dual-vs-A_union_B cancels
+  # opposing directional signals and is no longer the primary readout.
+  task: "report AUROC(dual vs A_only) and AUROC(dual vs B_only) separately; summarise by min or mean of the two"
+  deprecated_task: "Dual vs A_union_B pooled AUROC"
+  baseline_arm: "vina_mean"
+  mandatory_controls: ["heavy_atoms", "MW", "cLogP"]
+  arm_count_target: "3-4 primary arms (reduce selection noise)"
+  stage_m_gate: "M1 directional metric / M2 margin labels + noise ceiling / M3 trivial baselines / M4 unified prep / M5 de-leaked arm list must all pass before B0"
+  selection_protocol: "leave_one_pair_out"
+  selection_objective: "median_delta_auroc_vs_vina_mean"
+  tie_break: "simpler_arm_first"  # fewer calibrations < consensus < ML
+  confirmation: "evaluate_selected_arm_once_on_holdout_pair"
+  forbidden:
+    - "tune_thresholds_on_single_pair_then_extrapolate"
+    - "gate_warning_flags_or_architecture_into_primary_score"
+    - "restart_egfr_rtm_min_z_same_protocol_expansion_as_confirmation"
+    - "post_hoc_shortfall_clash_as_primary_arm"
+
+ligand_prep:
+  development_confirmation: "MUST_BE_UNIFORM"
+  preferred: "rdkit_meeko"  # or ligprep — choose one before B1
+  exploratory_legacy_ligprep: "EGFR_panel40_only; do not mix into Development scores without re-prep"
+
+arms:
+  - id: vina_mean
+    family: baseline
+    required: true
+    definition: "mean of per-target representative Vina scores (top1 unless protocol overrides)"
+
+  - id: vina_min
+    family: baseline
+    required: true
+    definition: "min of per-target representative Vina scores (weak-end gate)"
+
+  - id: rtm_mean
+    family: rescoring
+    required: true
+    definition: "mean of per-target RTM best-of-K over Vina modes"
+
+  - id: rtm_min
+    family: rescoring
+    required: true
+    definition: "min of per-target RTM best-of-K"
+
+  - id: rtm_min_z
+    family: rescoring
+    required: false
+    definition: "per-target z-calibration then min; calibration fit ONLY inside LOTO train folds"
+    note: "exploratory win on EGFR panel40; NOT a frozen universal primary after S1 No-Go"
+
+  - id: gnina_mean
+    family: second_engine
+    required: false
+    recommended_for_track_b: true
+    definition: "mean of per-target GNINA (or equivalent) representative scores"
+
+  - id: gnina_min
+    family: second_engine
+    required: false
+    recommended_for_track_b: true
+    definition: "min of per-target GNINA representative scores"
+
+  - id: rank_consensus_mean
+    family: consensus
+    required: false
+    provenance: "EXPLORATION_DERIVED"
+    leakage_note: >
+      Was flagged promising only because it was the single arm of four whose
+      panel40 ΔAUROC CI excluded 0 (+0.103 [+0.002, +0.205]). That is
+      selection on an exploration set under multiple comparisons; report as
+      exploration-derived, not as an independently motivated candidate.
+    definition: "mean of per-channel ranks across pre-listed channels (channels frozen before scoring)"
+    channels_example: ["vina", "rtm", "gnina"]
+
+  - id: rank_consensus_min
+    family: consensus
+    required: false
+    provenance: "EXPLORATION_DERIVED"
+    definition: "min of per-channel ranks (penalize any weak channel)"
+
+mandatory_baseline_controls:
+  - id: heavy_atoms
+    definition: "heavy-atom count as sole ranking score"
+    note: >
+      On EGFR/HER2 (N=110) this reaches pooled AUROC 0.549, above vina_mean
+      (0.516) and rtm_min_z (0.464). Any decision arm that fails to beat this
+      under the directional metric must not enter the Track B competition.
+  - id: MW
+    definition: "molecular weight as sole ranking score"
+  - id: cLogP
+    definition: "cLogP as sole ranking score"
+
+mechanism_arms_to_add_before_more_fusion:
+  - id: size_deconfounded_score
+    definition: "residual of endpoint score after regressing on heavy-atom count"
+    rationale: "separates genuine complementarity signal from volume bias"
+    do_not_use: "naive per-heavy-atom division (vina_mean_LE inverts the working dual-vs-A_only direction: 0.689 -> 0.318)"
+  - id: endpoint_comparability_correction
+    definition: "per-target applicability-domain / score-comparability correction targeting the observed end asymmetry"
+    rationale: >
+      EGFR/HER2 shows dual-vs-B_only AUROC 0.311 (inverted) while dual-vs-A_only
+      is 0.689; PIK3CA/mTOR shows no such inversion. The failure is end
+      asymmetry, not the choice of mean vs min.
+
+post_hoc_diagnostic_only:
+  - id: shortfall_gate
+    reason: "decision ablation negative / threshold fishing risk"
+  - id: clash_gate
+    reason: "do not retune to kill stubborn hardnegs"
+  - id: ml_decision_head
+    reason: "allowed only under LOTO + score-only vs fingerprint ablation; not a default primary"
+
+pair_roles_draft:
+  exploration_done:
+    - EGFR_HER2_panel40_120
+    - PIK3CA_mTOR_panel48
+  development_candidates:
+    - EGFR_HER2_unified_prep_rebuild
+    - PIK3CA_mTOR_quota_panel
+    - AChE_BChE
+  confirmation_holdout_candidates_choose_one_before_scoring:
+    - Mcl1_BclxL
+    - AChE_BChE_if_not_in_development
+  never_use_in_arm_selection:
+    - NLRP3_JNK1_private_if_any

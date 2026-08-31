@@ -1,0 +1,47 @@
+{
+  "rationale": "dual vs A_only is defined only by activity at B; the decision-relevant score is the pocket-B score",
+  "n_boot": 2000,
+  "seed": 20260729,
+  "gaps": [
+    {
+      "pair": "EGFR/HER2",
+      "pocket_matched_min": 0.4297,
+      "wrong_pocket_min": 0.26,
+      "specificity_gap": 0.1697,
+      "wrong_pocket_dev_from_0p5": 0.24,
+      "le_normalised_min": 0.3111,
+      "size_baseline_min": 0.3694,
+      "survives_le_normalisation": false
+    },
+    {
+      "pair": "AChE/BChE",
+      "pocket_matched_min": 0.6058,
+      "wrong_pocket_min": 0.4444,
+      "specificity_gap": 0.1614,
+      "wrong_pocket_dev_from_0p5": 0.0556,
+      "le_normalised_min": 0.4133,
+      "size_baseline_min": 0.582,
+      "survives_le_normalisation": false
+    },
+    {
+      "pair": "PIK3CA/PIK3CB",
+      "pocket_matched_min": 0.5,
+      "wrong_pocket_min": 0.3489,
+      "specificity_gap": 0.1511,
+      "wrong_pocket_dev_from_0p5": 0.1511,
+      "le_normalised_min": 0.3316,
+      "size_baseline_min": 0.6217,
+      "survives_le_normalisation": false
+    },
+    {
+      "pair": "PIK3CA/mTOR",
+      "pocket_matched_min": 0.6921,
+      "wrong_pocket_min": 0.6019,
+      "specificity_gap": 0.0902,
+      "wrong_pocket_dev_from_0p5": 0.1019,
+      "le_normalised_min": 0.6574,
+      "size_baseline_min": 0.463,
+      "survives_le_normalisation": true
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+pair,engine,formulation,contrast,score,n_pos,n_neg,auroc,ci_lo,ci_hi,note
+EGFR/HER2,gnina_dock_mode1,dualfourclass_directional,D_vs_A_pocketB,score_B,28,38,0.6598,0.515,0.7914,dual vs A-only scored in pocket B
+EGFR/HER2,gnina_dock_mode1,dualfourclass_directional,D_vs_B_pocketA,score_A,28,32,0.2199,0.1093,0.3427,dual vs B-only scored in pocket A
+EGFR/HER2,gnina_dock_mode1,dualfourclass_directional,summary_min,"min(D/A,D/B)",28,32,0.2199,,,worst-arm aggregation
+EGFR/HER2,gnina_dock_mode1,conventional_dual_vs_neither,D_vs_neither_mean,score_mean,28,11,0.7825,0.6104,0.9222,dual vs neither using mean pocket score
+PIK3CA/mTOR,gnina_dock_mode1,dualfourclass_directional,D_vs_A_pocketB,score_B,18,13,0.6325,0.4274,0.8248,dual vs A-only scored in pocket B
+PIK3CA/mTOR,gnina_dock_mode1,dualfourclass_directional,D_vs_B_pocketA,score_A,18,12,0.7037,0.5,0.8657,dual vs B-only scored in pocket A
+PIK3CA/mTOR,gnina_dock_mode1,dualfourclass_directional,summary_min,"min(D/A,D/B)",18,12,0.6325,,,worst-arm aggregation
+PIK3CA/mTOR,gnina_dock_mode1,conventional_dual_vs_neither,D_vs_neither_mean,score_mean,18,4,0.5694,0.2222,0.8889,dual vs neither using mean pocket score

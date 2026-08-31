@@ -1,0 +1,13 @@
+pair,dock_arm,best_baseline_arm,dock_summary_min,dock_summary_min_ci_lo,dock_summary_min_ci_hi,baseline_summary_min,baseline_summary_min_ci_lo,baseline_summary_min_ci_hi,delta_summary_min,delta_boot_mean,delta_ci_lo,delta_ci_hi,beats_baseline_point,beats_baseline_ci_excl0,loses_baseline_ci_excl0
+EGFR/HER2,vina_mean,clogp,0.2824,0.1577,0.4219,0.4821,0.33,0.6121,-0.1997,-0.188,-0.3403,-0.0332,False,False,True
+EGFR/HER2,rtm_min_z,clogp,0.2533,0.1276,0.3889,0.4821,0.33,0.6121,-0.2288,-0.2212,-0.3991,-0.0322,False,False,True
+EGFR/HER2,gnina_cnn_min,clogp,0.2645,0.1462,0.3979,0.4821,0.33,0.6121,-0.2176,-0.2046,-0.3946,0.0013,False,False,False
+AChE/BChE,vina_mean,tpsa,0.5304,0.3571,0.6689,0.7333,0.5759,0.849,-0.2029,-0.2017,-0.3959,-0.0024,False,False,True
+AChE/BChE,rtm_min_z,tpsa,0.4089,0.2533,0.5615,0.7333,0.5759,0.849,-0.3244,-0.3236,-0.4893,-0.1443,False,False,True
+AChE/BChE,gnina_cnn_min,tpsa,0.3585,0.2018,0.4762,0.7333,0.5759,0.849,-0.3748,-0.3912,-0.5933,-0.1683,False,False,True
+PIK3CA/PIK3CB,vina_mean,heavy,0.412,0.2625,0.5584,0.6217,0.4663,0.7607,-0.2097,-0.2034,-0.3928,-0.0131,False,False,True
+PIK3CA/PIK3CB,rtm_min_z,heavy,0.4388,0.2817,0.5919,0.6217,0.4663,0.7607,-0.1829,-0.1797,-0.4069,0.0399,False,False,False
+PIK3CA/PIK3CB,gnina_cnn_min,heavy,0.4337,0.2844,0.5919,0.6217,0.4663,0.7607,-0.188,-0.1806,-0.4279,0.0685,False,False,False
+PIK3CA/mTOR,vina_mean,heavy,0.6713,0.428,0.8102,0.463,0.2352,0.6139,0.2083,0.2135,-0.0241,0.4346,True,False,False
+PIK3CA/mTOR,rtm_min_z,heavy,0.5198,0.2899,0.7183,0.463,0.2352,0.6139,0.0568,0.0852,-0.2212,0.3694,True,False,False
+PIK3CA/mTOR,gnina_cnn_min,heavy,0.5952,0.375,0.7961,0.463,0.2352,0.6139,0.1322,0.1728,-0.1577,0.5096,True,False,False

@@ -1,0 +1,32 @@
+# Frozen before inspecting multi-seed AUROCs.
+# Do not add/remove seeds after results are seen.
+name: four_pair_vina_multiseed_v1
+engine: AutoDock_Vina_1.2.7
+scoring: vina (mode-1 affinity)
+num_modes: 9
+energy_range: 3
+ligand_prep: RDKit ETKDGv3 seed 20260727 + MMFF200 + Meeko (frozen; shared across Vina seeds)
+vina_seeds:
+  - 20260727   # primary production seed; reuse existing scores (no redock)
+  - 20260811
+  - 20260812
+  - 20260813
+  - 20260814
+n_seeds: 5
+note: >
+  Prespecified sensitivity: asks whether directional AUROC / summary_min /
+  Dual-vs-neither conclusions depend on the single production seed 20260727.
+  Not a search for a better seed. Primary manuscript numbers remain seed 20260727.
+pairs:
+  EGFR/HER2:
+    exhaustiveness: 8
+    receptors: [3POZ, 3RCD]
+  AChE/BChE:
+    exhaustiveness: 8
+    receptors: [ACHE/4EY7, BCHE/4BDS]
+  PIK3CA/PIK3CB:
+    exhaustiveness: 8
+    receptors: [PIK3CA/4L23, PIK3CB/2WXF]
+  PIK3CA/mTOR:
+    exhaustiveness: 16
+    receptors: [4L23, 4JT6]

@@ -1,0 +1,13 @@
+freeze_id: pik3ca_pik3cb_panel_v0
+engine: AutoDock_Vina
+vina_version: "1.2.7"
+seed_fixed_global: 20260727
+n_modes: 9
+exhaustiveness: 8
+ligand_prep: rdkit_etkdg_meeko
+rtm: best-of-9
+label_rule: strict_6.5_5.5
+role: isoform_control
+targets:
+  PIK3CA: {pdb: 4L23, receptor: receptors/PIK3CA_receptor.pdbqt, note: reused_from_PM}
+  PIK3CB: {pdb: 2WXF, cognate: "039", cognate_rmsd: 0.405, receptor: receptors/PIK3CB_receptor.pdbqt}

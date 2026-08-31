@@ -1,0 +1,33 @@
+pair,formulation,contrast,score,n_pos,n_neg,auroc,ci_lo,ci_hi,underpowered,note
+EGFR/HER2,dualfourclass_directional,D_vs_A_pocketB,vina_B,28,38,0.6664,0.5273,0.8017,0,primary: dual vs A-only scored in pocket B
+EGFR/HER2,dualfourclass_directional,D_vs_B_pocketA,vina_A,28,32,0.4297,0.2891,0.5804,0,primary: dual vs B-only scored in pocket A
+EGFR/HER2,dualfourclass_directional,summary_min,"min(D/A,D/B)",28,32,0.4297,,,0,worst-arm aggregation; CI is on the two arms separately
+EGFR/HER2,conventional_dual_vs_neither,D_vs_neither_mean,vina_mean,28,12,0.756,0.5625,0.9197,0,Zhou-like dual vs noninhibitors using pooled score
+EGFR/HER2,conventional_dual_vs_neither,D_vs_neither_worst,vina_worst,28,12,0.744,0.5536,0.9107,0,AND-like dual vs neither using min(pocket scores)
+EGFR/HER2,dual_vs_all_nondual,D_vs_A+B+neither_mean,vina_mean,28,82,0.5514,0.4429,0.6664,0,selectives counted as negatives; still not directional
+EGFR/HER2,single_target_analogue,A_inhibitors_vs_A_noninhibitors,vina_A,66,44,0.4254,0.3154,0.5365,0,pocket A: (dual+A-only) vs (B-only+neither)
+EGFR/HER2,single_target_analogue,B_inhibitors_vs_B_noninhibitors,vina_B,60,50,0.7593,0.6603,0.849,0,pocket B: (dual+B-only) vs (A-only+neither)
+AChE/BChE,dualfourclass_directional,D_vs_A_pocketB,vina_B,27,25,0.6504,0.4948,0.8059,0,primary: dual vs A-only scored in pocket B
+AChE/BChE,dualfourclass_directional,D_vs_B_pocketA,vina_A,27,28,0.6058,0.455,0.7461,0,primary: dual vs B-only scored in pocket A
+AChE/BChE,dualfourclass_directional,summary_min,"min(D/A,D/B)",27,25,0.6058,,,0,worst-arm aggregation; CI is on the two arms separately
+AChE/BChE,conventional_dual_vs_neither,D_vs_neither_mean,vina_mean,27,15,0.6494,0.484,0.8123,0,Zhou-like dual vs noninhibitors using pooled score
+AChE/BChE,conventional_dual_vs_neither,D_vs_neither_worst,vina_worst,27,15,0.6765,0.5037,0.8396,0,AND-like dual vs neither using min(pocket scores)
+AChE/BChE,dual_vs_all_nondual,D_vs_A+B+neither_mean,vina_mean,27,68,0.5792,0.4417,0.7157,0,selectives counted as negatives; still not directional
+AChE/BChE,single_target_analogue,A_inhibitors_vs_A_noninhibitors,vina_A,52,43,0.6395,0.5331,0.7438,0,pocket A: (dual+A-only) vs (B-only+neither)
+AChE/BChE,single_target_analogue,B_inhibitors_vs_B_noninhibitors,vina_B,55,40,0.6368,0.5241,0.7391,0,pocket B: (dual+B-only) vs (A-only+neither)
+PIK3CA/PIK3CB,dualfourclass_directional,D_vs_A_pocketB,vina_B,28,27,0.6905,0.5357,0.832,0,primary: dual vs A-only scored in pocket B
+PIK3CA/PIK3CB,dualfourclass_directional,D_vs_B_pocketA,vina_A,28,28,0.5,0.3495,0.6544,0,primary: dual vs B-only scored in pocket A
+PIK3CA/PIK3CB,dualfourclass_directional,summary_min,"min(D/A,D/B)",28,27,0.5,,,0,worst-arm aggregation; CI is on the two arms separately
+PIK3CA/PIK3CB,conventional_dual_vs_neither,D_vs_neither_mean,vina_mean,28,16,0.5592,0.3728,0.7456,0,Zhou-like dual vs noninhibitors using pooled score
+PIK3CA/PIK3CB,conventional_dual_vs_neither,D_vs_neither_worst,vina_worst,28,16,0.6384,0.4643,0.808,0,AND-like dual vs neither using min(pocket scores)
+PIK3CA/PIK3CB,dual_vs_all_nondual,D_vs_A+B+neither_mean,vina_mean,28,71,0.5558,0.4369,0.672,0,selectives counted as negatives; still not directional
+PIK3CA/PIK3CB,single_target_analogue,A_inhibitors_vs_A_noninhibitors,vina_A,55,44,0.4804,0.364,0.5963,0,pocket A: (dual+A-only) vs (B-only+neither)
+PIK3CA/PIK3CB,single_target_analogue,B_inhibitors_vs_B_noninhibitors,vina_B,56,43,0.6551,0.5378,0.7699,0,pocket B: (dual+B-only) vs (A-only+neither)
+PIK3CA/mTOR,dualfourclass_directional,D_vs_A_pocketB,vina_B,18,14,0.7143,0.5119,0.8929,0,primary: dual vs A-only scored in pocket B
+PIK3CA/mTOR,dualfourclass_directional,D_vs_B_pocketA,vina_A,18,12,0.6921,0.4906,0.8704,0,primary: dual vs B-only scored in pocket A
+PIK3CA/mTOR,dualfourclass_directional,summary_min,"min(D/A,D/B)",18,12,0.6921,,,0,worst-arm aggregation; CI is on the two arms separately
+PIK3CA/mTOR,conventional_dual_vs_neither,D_vs_neither_mean,vina_mean,18,4,0.5139,0.2222,0.8056,1,Zhou-like dual vs noninhibitors using pooled score
+PIK3CA/mTOR,conventional_dual_vs_neither,D_vs_neither_worst,vina_worst,18,4,0.4028,0.1385,0.7087,1,AND-like dual vs neither using min(pocket scores)
+PIK3CA/mTOR,dual_vs_all_nondual,D_vs_A+B+neither_mean,vina_mean,18,30,0.6741,0.5148,0.8167,0,selectives counted as negatives; still not directional
+PIK3CA/mTOR,single_target_analogue,A_inhibitors_vs_A_noninhibitors,vina_A,32,16,0.5244,0.3652,0.6973,0,pocket A: (dual+A-only) vs (B-only+neither)
+PIK3CA/mTOR,single_target_analogue,B_inhibitors_vs_B_noninhibitors,vina_B,30,18,0.6519,0.4685,0.8167,0,pocket B: (dual+B-only) vs (A-only+neither)

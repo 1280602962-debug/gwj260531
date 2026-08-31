@@ -1,0 +1,131 @@
+#!/usr/bin/env python3
+"""SHA-256 manifest for manuscript-facing DualFourClass tables.
+
+Default: write the manifest. --check: verify committed hashes.
+"""
+from __future__ import annotations
+
+import argparse
+import csv
+import hashlib
+import sys
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[3]
+TAB = ROOT / "data" / "jcim_novelty_v0" / "tables"
+MANIFEST = TAB / "REVISION_CHECKSUM_MANIFEST_v1.csv"
+
+WATCH = [
+    "data/jcim_novelty_v0/tables/high_confidence_summary_v1.csv",
+    "data/jcim_novelty_v0/tables/high_confidence_labels_v1.csv",
+    "data/jcim_novelty_v0/tables/formulation_equal_score_negative_v1.csv",
+    "data/jcim_novelty_v0/tables/complete_case_usable_pchembl_overlap_v1.csv",
+    "data/jcim_novelty_v0/tables/source_document_concentration_v1.csv",
+    "data/jcim_novelty_v0/tables/cognate_rank_rmsd_reaudit_v1.csv",
+    "data/jcim_novelty_v0/tables/class_chemistry_summary_v1.csv",
+    "data/jcim_novelty_v0/tables/MASTER_RESULTS_TABLE.csv",
+    "data/jcim_strengthen_t0t1_v0/tables/unified_threshold_sensitivity_v2.csv",
+    "data/jcim_strengthen_t0t1_v0/tables/ligand_ml_scaffold_vs_random_v1.csv",
+    "data/jcim_novelty_v0/tables/document_blocked_cv_summary_v1.csv",
+    "data/jcim_novelty_v0/tables/document_blocked_cv_methods_v1.csv",
+    "data/jcim_novelty_v0/tables/document_cluster_bootstrap_v1.csv",
+    "data/jcim_novelty_v0/tables/scaffold_cluster_bootstrap_v1.csv",
+    "docs/ANALYSIS_HIERARCHY_V1.md",
+    "docs/SUPPORTING_INFORMATION_JCIM_EN_V1.md",
+    "data/jcim_novelty_v0/tables/assay_context_audit.csv",
+    "data/jcim_novelty_v0/tables/assay_context_priority_ligands_v1.csv",
+    "data/jcim_novelty_v0/tables/time_split_class_counts_v1.csv",
+    "data/jcim_novelty_v0/tables/time_split_auroc_v1.csv",
+    "data/jcim_novelty_v0/tables/document_year_lookup_v1.csv",
+    "data/jcim_novelty_v0/tables/cognate_artifact_inventory_v1.csv",
+    "data/jcim_novelty_v0/tables/bindingdb_independence_summary_v1.csv",
+    "data/jcim_novelty_v0/tables/theta6_pair_census_v1.csv",
+    "data/jcim_novelty_v0/tables/property_caliper_match_v1.csv",
+    "data/jcim_novelty_v0/tables/and_filter_operating_point_v1.csv",
+    "data/jcim_novelty_v0/tables/ligand_only_fullmap_auroc_v1.csv",
+    "data/jcim_novelty_v0/tables/external_candidate_flow.csv",
+    "data/jcim_novelty_v0/tables/external_slice_summary_v1.csv",
+    "data/jcim_novelty_v0/tables/mcl1_bclxl_panel_freeze_v1.csv",
+    "data/jcim_novelty_v0/tables/mcl1_bclxl_receptor_freeze_v1.csv",
+    "data/jcim_novelty_v0/tables/benchmark_literature_comparator_v1.csv",
+    "data/jcim_novelty_v0/tables/bindingdb_archive_lock_v1.csv",
+    "data/egfr_her2_panel40_v0/cognate_qc/cognate_reconstructed_qc_summary_v1.csv",
+    "docs/MANUSCRIPT_JCIM_EN.md",
+    "docs/MANUSCRIPT_JCIM_ZH.md",
+]
+
+
+TEXT_SUFFIXES = {".csv", ".md", ".json", ".txt", ".yaml", ".yml", ".tsv"}
+
+
+def sha256(path: Path) -> str:
+    """SHA-256 of file bytes; text-like files are LF-normalized before hashing.
+
+    Cross-platform CRLF/LF differences otherwise break manuscript-facing
+    checksum verification between Windows and Linux checkouts.
+    """
+    raw = path.read_bytes()
+    if path.suffix.lower() in TEXT_SUFFIXES:
+        # Normalize newlines to LF; strip UTF-8 BOM if present.
+        text = raw.decode("utf-8-sig", errors="surrogateescape")
+        text = text.replace("\r\n", "\n").replace("\r", "\n")
+        raw = text.encode("utf-8")
+    return hashlib.sha256(raw).hexdigest()
+
+
+def build_rows() -> list[dict]:
+    rows = []
+    for relative in WATCH:
+        path = ROOT / relative
+        rows.append(
+            {
+                "path": relative.replace("\\", "/"),
+                "present": int(path.exists()),
+                "nbytes": path.stat().st_size if path.exists() else "",
+                "sha256": sha256(path) if path.exists() else "",
+            }
+        )
+    return rows
+
+
+def write_manifest(rows: list[dict]) -> None:
+    with MANIFEST.open("w", encoding="utf-8", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=["path", "present", "nbytes", "sha256"], lineterminator="\n")
+        writer.writeheader()
+        writer.writerows(rows)
+
+
+def check_manifest() -> int:
+    if not MANIFEST.exists():
+        print("missing checksum manifest", MANIFEST)
+        return 1
+    expected = {row["path"]: row for row in csv.DictReader(MANIFEST.open(encoding="utf-8"))}
+    current = {row["path"]: row for row in build_rows()}
+    failed = []
+    for path, row in expected.items():
+        got = current.get(path)
+        if got is None or got["sha256"] != row["sha256"] or str(got["present"]) != str(row["present"]):
+            failed.append(path)
+    if failed:
+        print("checksum mismatch:")
+        for path in failed:
+            print(" -", path)
+        return 1
+    print(f"checksum OK ({len(expected)} files)")
+    return 0
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--check", action="store_true")
+    args = parser.parse_args()
+    if args.check:
+        return check_manifest()
+    rows = build_rows()
+    write_manifest(rows)
+    print(f"wrote {MANIFEST} ({len(rows)} files)")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

@@ -1,0 +1,9 @@
+pair,contrast,method,cv_scheme,n_splits,n_scaffolds,n,auroc_ml,auroc_dock_pocket_matched,delta_ml_minus_dock,note
+EGFR/HER2,D_vs_A,ECFP4_logistic_cv,scaffold_GroupKFold,5,54,66,0.7453,0.6664,0.0789,primary_no_scaffold_overlap_across_folds
+EGFR/HER2,D_vs_B,ECFP4_logistic_cv,scaffold_GroupKFold,5,51,60,0.8895,0.4297,0.4598,primary_no_scaffold_overlap_across_folds
+AChE/BChE,D_vs_A,ECFP4_logistic_cv,scaffold_GroupKFold,5,45,52,0.8948,0.6504,0.2444,primary_no_scaffold_overlap_across_folds
+AChE/BChE,D_vs_B,ECFP4_logistic_cv,scaffold_GroupKFold,5,50,55,0.8214,0.6058,0.2156,primary_no_scaffold_overlap_across_folds
+PIK3CA/PIK3CB,D_vs_A,ECFP4_logistic_cv,scaffold_GroupKFold,5,46,55,0.7817,0.6905,0.0913,primary_no_scaffold_overlap_across_folds
+PIK3CA/PIK3CB,D_vs_B,ECFP4_logistic_cv,scaffold_GroupKFold,5,44,56,0.7691,0.5,0.2691,primary_no_scaffold_overlap_across_folds
+PIK3CA/mTOR,D_vs_A,ECFP4_logistic_cv,scaffold_GroupKFold,5,31,32,0.7619,0.7143,0.0476,primary_no_scaffold_overlap_across_folds
+PIK3CA/mTOR,D_vs_B,ECFP4_logistic_cv,scaffold_GroupKFold,5,28,30,0.8889,0.6921,0.1968,primary_no_scaffold_overlap_across_folds

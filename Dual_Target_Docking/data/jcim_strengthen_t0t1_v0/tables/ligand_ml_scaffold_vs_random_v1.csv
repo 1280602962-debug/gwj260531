@@ -1,0 +1,9 @@
+pair,contrast,n,n_scaffolds,n_splits,auroc_scaffold_GroupKFold,auroc_random_StratifiedKFold,delta_random_minus_scaffold,auroc_dock_pocket_matched,delta_scaffold_ml_minus_dock,note
+AChE/BChE,D_vs_A,52,45,5,0.8948,0.9096,0.0148,0.6504,0.2444,"scaffold is the primary ML readout; random is a leakage check, not a hunt for a larger gap"
+AChE/BChE,D_vs_B,55,50,5,0.8214,0.8241,0.0027,0.6058,0.2156,"scaffold is the primary ML readout; random is a leakage check, not a hunt for a larger gap"
+EGFR/HER2,D_vs_A,66,54,5,0.7453,0.7961,0.0508,0.6664,0.0789,"scaffold is the primary ML readout; random is a leakage check, not a hunt for a larger gap"
+EGFR/HER2,D_vs_B,60,51,5,0.8895,0.8884,-0.0011,0.4297,0.4598,"scaffold is the primary ML readout; random is a leakage check, not a hunt for a larger gap"
+PIK3CA/PIK3CB,D_vs_A,55,46,5,0.7817,0.8042,0.0225,0.6905,0.0912,"scaffold is the primary ML readout; random is a leakage check, not a hunt for a larger gap"
+PIK3CA/PIK3CB,D_vs_B,56,44,5,0.7691,0.889,0.1199,0.5,0.2691,"scaffold is the primary ML readout; random is a leakage check, not a hunt for a larger gap"
+PIK3CA/mTOR,D_vs_A,32,31,5,0.7619,0.7262,-0.0357,0.7143,0.0476,"scaffold is the primary ML readout; random is a leakage check, not a hunt for a larger gap"
+PIK3CA/mTOR,D_vs_B,30,28,5,0.8889,0.9213,0.0324,0.6921,0.1968,"scaffold is the primary ML readout; random is a leakage check, not a hunt for a larger gap"

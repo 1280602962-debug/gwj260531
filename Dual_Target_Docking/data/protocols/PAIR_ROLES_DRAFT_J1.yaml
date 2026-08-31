@@ -1,0 +1,72 @@
+# DualFourClass pair roles — J1 draft (machine-readable)
+# Status: DRAFT — do not start docking until user approves J2+.
+# Source: data/jcim_j0j1_v0/analysis/J1_PAIR_SELECTION_DRAFT.md
+# Date: 2026-07-29
+
+meta:
+  version: "PAIR_ROLES_DRAFT_J1"
+  k_docked_target: 4
+  docking_authorized: false
+  next_commands_if_approved: ["J2_PM48_RDKIT", "J3_NEW_RECEPTOR_FREEZE", "J4_NEW_PANEL_DOCK", "J5_GNINA_RESCORE"]
+  excluded_holdout: ["NLRP3/JNK1"]
+
+tiers:
+  S_strict_dock_candidates:
+    - pair: PIK3CA/MTOR
+      role: development
+      supports_strict_panel: true
+      status: docked_ligprep_panel48
+      needs: unified_rdkit_reprep
+      receptors_frozen: {A: "4L23", B: "4JT6"}
+    - pair: ACHE/BCHE
+      role: development
+      supports_strict_panel: true
+      status: not_docked
+      needs: receptor_freeze_then_panel
+      receptor_candidates:
+        A: ["4EY4", "6O5V", "4M0E"]
+        B: ["6ZWI", "1P0I", "6QAA"]
+    - pair: PIK3CA/PIK3CB
+      role: isoform_control
+      supports_strict_panel: true
+      status: not_docked
+      caveat: too_close_for_primary_narrative_but_only_remaining_nonmetal_Y
+      receptor_candidates:
+        A: ["4L23"]
+        B: ["to_be_frozen_in_J3"]
+
+  T_case_or_thin:
+    - pair: EGFR/HER2
+      role: case_supply_limited
+      supports_strict_panel: false
+      strict_B_only_chembl: 7
+      status: docked_unified_rdkit_eh110
+      do_not: pretend_thick_strict_panel
+      receptors_frozen: {A: "3POZ", B: "3RCD"}
+    - pair: MCL1/BCL2L1_BclxL
+      role: ppi_pose_gold_case
+      supports_strict_panel: false
+      status: not_in_K4_budget
+    - pair: PIK3CB/MTOR
+      role: thin_pathway
+      supports_thin_panel: true
+      status: not_in_K4_budget
+
+  reject_despite_supply:
+    - pair: HDAC1/HDAC6
+      reason: metal_Zn_and_isozyme
+
+k4_roster:
+  - PIK3CA/MTOR
+  - EGFR/HER2
+  - ACHE/BCHE
+  - PIK3CA/PIK3CB
+
+budget_estimate_vina_jobs:
+  j2_pm48_rdkit: 96
+  j4_ache_bche: 220
+  j4_pik3ca_pik3cb: 220
+  optional_pm_expand: 220
+  egfr_unified_prep: 0
+  total_full_plan: "540-760"
+  gnina_rescore_new_sampling: 0

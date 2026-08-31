@@ -1,0 +1,9 @@
+pair,contrast,estimator,n_groups,n_documents,auroc_point,ci_lo,ci_hi,n_valid_boot,note
+EGFR/HER2,D_vs_A,document_cluster_bootstrap,28,156,0.6664,0.4644,0.7949,2000,"resamples document-connected ligand groups, not individual ligands"
+EGFR/HER2,D_vs_B,document_cluster_bootstrap,23,113,0.4297,0.3214,0.6171,2000,"resamples document-connected ligand groups, not individual ligands"
+AChE/BChE,D_vs_A,document_cluster_bootstrap,39,97,0.6504,0.497,0.8093,2000,"resamples document-connected ligand groups, not individual ligands"
+AChE/BChE,D_vs_B,document_cluster_bootstrap,41,95,0.6058,0.4286,0.7528,2000,"resamples document-connected ligand groups, not individual ligands"
+PIK3CA/PIK3CB,D_vs_A,document_cluster_bootstrap,33,43,0.6905,0.46,0.8679,2000,"resamples document-connected ligand groups, not individual ligands"
+PIK3CA/PIK3CB,D_vs_B,document_cluster_bootstrap,30,38,0.5,0.3103,0.6982,2000,"resamples document-connected ligand groups, not individual ligands"
+PIK3CA/mTOR,D_vs_A,document_cluster_bootstrap,8,138,0.7143,0.4,0.8864,1946,"resamples document-connected ligand groups, not individual ligands"
+PIK3CA/mTOR,D_vs_B,document_cluster_bootstrap,9,129,0.6921,0.0,0.8179,1949,"resamples document-connected ligand groups, not individual ligands"

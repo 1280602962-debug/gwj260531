@@ -1,0 +1,16 @@
+/home/gwj/miniconda3/lib/python3.13/site-packages/requests/__init__.py:113: RequestsDependencyWarning: urllib3 (2.6.1) or chardet (7.4.3)/charset_normalizer (3.4.4) doesn't match a supported version!
+  warnings.warn(
+/home/gwj/miniconda3/envs/rtmscore/lib/python3.10/site-packages/prody/utilities/misctools.py:424: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+/home/gwj/miniconda3/envs/rtmscore/lib/python3.10/site-packages/dgl/heterograph.py:92: DGLWarning: Recommend creating graphs by `dgl.graph(data)` instead of `dgl.DGLGraph(data)`.
+  dgl_warning(
+Traceback (most recent call last):
+  File "/home/gwj/software/RTMScore/example/rtmscore.py", line 228, in <module>
+    main()
+  File "/home/gwj/software/RTMScore/example/rtmscore.py", line 211, in main
+    ids, scores = scoring(prot=inargs.prot, 
+  File "/home/gwj/software/RTMScore/example/rtmscore.py", line 78, in scoring
+    data = VSDataset(ligs=lig,
+  File "/home/gwj/software/RTMScore/example/../RTMScore/data/data.py", line 169, in __init__
+    self.ids, self.graphsl = zip(*filter(lambda x: x[1] != None, zip(self.idsx, self.graphsl)))
+ValueError: not enough values to unpack (expected 2, got 0)

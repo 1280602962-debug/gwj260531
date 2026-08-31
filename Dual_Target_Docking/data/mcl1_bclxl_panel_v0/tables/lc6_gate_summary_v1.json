@@ -1,0 +1,48 @@
+{
+  "gate_ok": false,
+  "panel_role": "applicability_stress_test",
+  "rows": [
+    {
+      "target": "MCL1",
+      "pdb": "3WIY",
+      "chain": "A",
+      "ligand_resname": "LC6",
+      "ligand_resid": "501",
+      "n_crystal_heavy": 63,
+      "n_modes": 9,
+      "rmsd_top1": 1.689,
+      "rmsd_best_of_top3": 1.689,
+      "rmsd_best_of_9": 1.677,
+      "top1_pass_lt_2": 1,
+      "best_top3_pass_lt_2": 1,
+      "best9_pass_lt_2": 1,
+      "ligand_prep": "meeko",
+      "exhaustiveness": 8,
+      "seed": 20260727,
+      "rmsd_method": "legacy_hungarian_coordinate_diagnostic_not_topology_aware",
+      "note": "primary; entity1 chain A; Tanaka compound 10; not a formal pose-gold result",
+      "prepared_at_utc": "2026-08-27T02:27:14Z"
+    },
+    {
+      "target": "BCL2L1",
+      "pdb": "3WIZ",
+      "chain": "A",
+      "ligand_resname": "LC6",
+      "ligand_resid": "501",
+      "n_crystal_heavy": 63,
+      "n_modes": 9,
+      "rmsd_top1": 4.17,
+      "rmsd_best_of_top3": 2.011,
+      "rmsd_best_of_9": 2.011,
+      "top1_pass_lt_2": 0,
+      "best_top3_pass_lt_2": 0,
+      "best9_pass_lt_2": 0,
+      "ligand_prep": "meeko",
+      "exhaustiveness": 8,
+      "seed": 20260727,
+      "rmsd_method": "legacy_hungarian_coordinate_diagnostic_not_topology_aware",
+      "note": "primary; entity1 chain A; Tanaka compound 10; not a formal pose-gold result",
+      "prepared_at_utc": "2026-08-27T02:37:26Z"
+    }
+  ]
+}

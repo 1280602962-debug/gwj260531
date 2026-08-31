@@ -1,0 +1,17 @@
+engine: AutoDock_Vina
+seed_policy: fixed_global
+seed_fixed_global: 20260727
+num_modes: 9
+energy_range: 3
+exhaustiveness: 8
+receptors:
+  MCL1: 3WIY
+  BCL2L1: 3WIZ
+cognate_ligand: LC6
+panel: tables/mcl1_bclxl_chembl_panel96_v1.csv
+panel_seed: 20260729
+theta: 6.0
+note: >
+  PPI/BH3-groove domain shift on homologous BCL-2 fold.
+  Not a first non-kinase pair. LC6 gate must be reported before
+  packaging as domain extension vs applicability stress-test.

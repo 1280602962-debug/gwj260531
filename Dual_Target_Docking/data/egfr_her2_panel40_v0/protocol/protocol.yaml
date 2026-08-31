@@ -1,0 +1,121 @@
+# EGFR/HER2 panel40 pilot freeze v0 — records what was run, not a universal claim
+freeze_id: egfr_her2_panel40_v0
+created: "2026-07-27"
+notes: "pilot freeze v0; not universal"
+
+panel:
+  path: data/diag_egfr_her2/panel_v0_40.csv
+  n_compounds: 40
+  id_prefix: EH40_
+  source_in_freeze: tables/panel_v0_40.csv
+
+targets:
+  EGFR:
+    pdb: 3POZ
+    prepared_protein: receptors/3POZ_protein.pdb
+    receptor_pdbqt: receptors/3POZ_receptor.pdbqt
+    prepared_complex: receptors/3POZ_prepared.pdb
+    cocrystal_ligand_resname: "03P"
+    cocrystal_ligand_panel_id: EH40_01  # TAK-285
+    box:
+      definition: "AABB of HETATM 03P + 5 Angstrom padding; min edge 20 Angstrom"
+      center: [18.68, 32.127, 11.865]
+      size: [22.189, 20.0, 22.836]
+      source: boxes/3POZ_box.json
+  HER2:
+    pdb: 3RCD
+    prepared_protein: receptors/3RCD_protein.pdb
+    receptor_pdbqt: receptors/3RCD_receptor.pdbqt
+    prepared_complex: receptors/3RCD_prepared.pdb
+    cocrystal_ligand_resname: "03P"
+    cocrystal_ligand_panel_id: EH40_01  # TAK-285
+    box:
+      definition: "AABB of HETATM 03P + 5 Angstrom padding; min edge 20 Angstrom"
+      center: [12.463, 3.371, 27.619]
+      size: [23.222, 23.155, 20.0]
+      source: boxes/3RCD_box.json
+
+protein_prep:
+  tool: "Schrodinger Protein Preparation Wizard (Maestro jobdirs)"
+  notes: "Inputs were Maestro-prepared PDBs already present in workspace; meeko mk_prepare_receptor.py --read_pdb used for PDBQT"
+
+ligand_prep:
+  tool: "Schrodinger LigPrep"
+  input_maegz: "Maestro doc/panel_v0_40_ligprep/panel_v0_40_ligprep-out.maegz"
+  converted_via: "RDKit MaeMolSupplier (escaped underscores fixed) -> SDF/PDBQT via meeko"
+
+docking:
+  engine: AutoDock_Vina
+  version: "1.2.7"
+  scoring_function: vina
+  seed_policy_v0_pilot: as_run_per_job_random
+  seed_file: protocol/seeds_as_run.csv
+  seed_policy_v0_1_forward: fixed_global
+  seed_fixed_global: 20260727
+  n_modes: 9
+  energy_range: 3
+  exhaustiveness_as_run: 8
+  exhaustiveness_v0_1: 8
+  sensitivity_report: analysis/exhaustiveness_sensitivity_v1/SENSITIVITY_VERDICT.md
+  rmsd_definition: analysis/exhaustiveness_sensitivity_v1/tables/rmsd_definition.md
+  cpu_per_job: 1
+  top_K: 9
+  seed: "per-job random; recorded in logs/vina/*.log and logs/vina_seeds.json (not fixed globally)"
+  command_pattern: "vina --config <conf.txt>"
+  conf_dir: logs/vina_confs/
+  poses_layout: "poses/<3POZ|3RCD>/<LIGAND>/mode_XX.pdbqt"
+
+reporting_arms_primary:
+  - vina_mean
+  - rtm_min_z
+reporting_rule: >
+  Always report vina_mean AND rtm_min_z side-by-side. Do not report RTM alone.
+  Chemotype warning_flags (tables/warning_flags.csv) are diagnostic only.
+
+rescoring:
+  method: RTMScore
+  model: rtmscore_model1.pth
+  repo: "https://github.com/sc8668/RTMScore"
+  pocket_cutoff_A: 10.0
+  pocket_files:
+    EGFR: receptors/3POZ_pocket_10.0.pdb
+    HER2: receptors/3RCD_pocket_10.0.pdb
+  which_mode_selected: "per ligand, mode with max RTMScore among 9 Vina modes (best_rtm_mode)"
+  dual_aggregation:
+    - rtm_mean
+    - rtm_min
+    - rtm_min_z
+  command: |
+    python RTMScore/example/rtmscore.py style scoring via VSDataset + run_an_eval_epoch
+    inputs: pocket pdb + multi-pose SDF (all 9 modes x 40 ligands)
+  env_note: "conda env rtmscore (torch 2.6 cpu, dgl 1.1.3); torch_scatter replaced with pure-PyTorch fallback"
+
+labeling:
+  pchembl_threshold: 6.0
+  classes: [dual, A_only, B_only, neither]
+  A: EGFR
+  B: HER2
+  hard_negatives: "A_only and B_only (measured weak on the other end)"
+
+primary_metrics:
+  - AUROC_dual_vs_AorB
+  - top10_dual_count
+  - top10_hardneg_count
+
+structure_gating:
+  method: "simple steric clash (no PoseBusters/GNINA in this environment)"
+  clash_distance_A: 2.2
+  rule: "if clash_count >= 3 on a target end, gate that end to target-wise 5th percentile RTMScore before rtm_min"
+  gated_arm: gated_rtm_min
+
+redock_sanity_EH40_01:
+  EGFR_3POZ:
+    vina_top1_rmsd_A: 9.514
+    rtm_top1_mode: 2
+    rtm_top1_rmsd_A: 1.015
+    pass_rmsd_lt_2: true_after_rtm
+  HER2_3RCD:
+    vina_top1_rmsd_A: 1.869
+    rtm_top1_mode: 3
+    rtm_top1_rmsd_A: 1.974
+    pass_rmsd_lt_2: true

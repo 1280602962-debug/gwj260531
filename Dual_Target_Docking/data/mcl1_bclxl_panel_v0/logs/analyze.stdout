@@ -1,0 +1,101 @@
+# MCL1_BCLXL_DOCKING_VERDICT_V1
+
+Updated: `2026-08-27T04:05:41Z`
+
+## Scope
+
+Frozen ChEMBL θ=6.0 panel96 (24/24/24/24), receptors **3WIY / 3WIZ**, Vina mode-1.
+LC6 pose-gold gate role: **`applicability_stress_test`**.
+
+## Completeness
+
+| class | complete ligands (both pockets) |
+|-------|--------------------------------:|
+| dual | 23 |
+| A_only | 24 |
+| B_only | 22 |
+| neither | 24 |
+| **total** | **93** / 96 |
+
+Jobs scored ok: 186 / 192.
+
+## Formulation AUROCs (descriptive)
+
+| contrast | n_pos | n_neg | AUROC | 95% CI |
+|----------|------:|------:|------:|--------|
+| Dual vs neither (mean) | 23 | 24 | 0.6277 | [0.4618, 0.7857] |
+| Dual vs A-only @ Bcl-xL | 23 | 24 | 0.7935 | [0.6549, 0.9146] |
+| Dual vs B-only @ MCL1 | 23 | 22 | 0.6087 | [0.4385, 0.7757] |
+| **summary_min** | 23 | — | **0.6087** | — |
+
+## Interpretation rules
+
+- If `panel_role=applicability_stress_test`: report honestly; do **not** claim target-general PPI screening performance.
+- Homologous BCL-2 fold / BH3-groove domain shift — not a first non-kinase pair (AChE/BChE already is).
+- Do not package as external validation.
+
+## Files
+
+- `tables/vina_scores_MBX_v1.csv`
+- `tables/formulation_auroc_MBX_v1.csv`
+- `tables/ligand_scores_wide_MBX_v1.csv`
+- `analysis/MCL1_BCLXL_LC6_POSE_GOLD_GATE_V1.md`
+
+[
+  {
+    "pair": "MCL1/Bcl-xL",
+    "engine": "vina_mode1",
+    "formulation": "conventional_dual_vs_neither",
+    "contrast": "D_vs_neither_mean",
+    "score": "score_mean",
+    "n_pos": 23,
+    "n_neg": 24,
+    "auroc": 0.6277,
+    "ci_lo": 0.4618,
+    "ci_hi": 0.7857,
+    "note": "dual vs neither using mean pocket score",
+    "panel_role": "applicability_stress_test"
+  },
+  {
+    "pair": "MCL1/Bcl-xL",
+    "engine": "vina_mode1",
+    "formulation": "dualfourclass_directional",
+    "contrast": "D_vs_A_pocketB",
+    "score": "score_B",
+    "n_pos": 23,
+    "n_neg": 24,
+    "auroc": 0.7935,
+    "ci_lo": 0.6549,
+    "ci_hi": 0.9146,
+    "note": "dual vs A-only scored in pocket B (Bcl-xL/3WIZ)",
+    "panel_role": "applicability_stress_test"
+  },
+  {
+    "pair": "MCL1/Bcl-xL",
+    "engine": "vina_mode1",
+    "formulation": "dualfourclass_directional",
+    "contrast": "D_vs_B_pocketA",
+    "score": "score_A",
+    "n_pos": 23,
+    "n_neg": 22,
+    "auroc": 0.6087,
+    "ci_lo": 0.4385,
+    "ci_hi": 0.7757,
+    "note": "dual vs B-only scored in pocket A (MCL1/3WIY)",
+    "panel_role": "applicability_stress_test"
+  },
+  {
+    "pair": "MCL1/Bcl-xL",
+    "engine": "vina_mode1",
+    "formulation": "dualfourclass_directional",
+    "contrast": "summary_min",
+    "score": "min(D/A,D/B)",
+    "n_pos": 23,
+    "n_neg": "",
+    "auroc": 0.6087,
+    "ci_lo": "",
+    "ci_hi": "",
+    "note": "worst-arm aggregation of the two directional AUROCs",
+    "panel_role": "applicability_stress_test"
+  }
+]

@@ -1,0 +1,14 @@
+freeze_id: pik3ca_mtor_panel48_rdkit_v0
+engine: AutoDock_Vina
+vina_version: "1.2.7"
+seed_fixed_global: 20260727
+n_modes: 9
+exhaustiveness: 16
+ligand_prep: rdkit_etkdg_meeko
+rtm: best-of-9
+targets:
+  PIK3CA: {pdb: 4L23, receptor: receptors/4L23_receptor.pdbqt}
+  MTOR: {pdb: 4JT6, receptor: receptors/4JT6_receptor.pdbqt}
+note: >
+  Same receptors/boxes/E as LigPrep panel48; only ligand prep changed to RDKit
+  for cross-pair unity with EGFR EH110 / M4.

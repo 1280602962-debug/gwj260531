@@ -1,0 +1,35 @@
+{
+  "n_mc": 1000,
+  "n_boot": 2000,
+  "seed": 20260729,
+  "score_model": "binormal_equal_variance",
+  "bootstrap": "ligand-level class-preserving percentile 95% CI, matching Methods 2.4",
+  "not": "observed/post-hoc power",
+  "pairs": {
+    "EGFR/HER2": {
+      "n_dual": 28,
+      "n_a": 38,
+      "n_b": 32,
+      "n_neither": 12
+    },
+    "AChE/BChE": {
+      "n_dual": 27,
+      "n_a": 25,
+      "n_b": 28,
+      "n_neither": 15
+    },
+    "PIK3CA/PIK3CB": {
+      "n_dual": 28,
+      "n_a": 27,
+      "n_b": 28,
+      "n_neither": 16
+    },
+    "PIK3CA/mTOR": {
+      "n_dual": 18,
+      "n_a": 14,
+      "n_b": 12,
+      "n_neither": 4
+    }
+  },
+  "source_csv": "data/jcim_novelty_v0/tables/detectable_effect_simulation_v1.csv"
+}

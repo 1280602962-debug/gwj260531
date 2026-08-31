@@ -1,0 +1,16 @@
+role,endpoint,definition,panel,reported_in,note
+primary,pocket-matched Vina summary_min at unified θ=6.0,"min(AUROC(D vs A_only; S_B), AUROC(D vs B_only; S_A)); S=-E_Vina",K=4 main panels (PM48 for PIK3CA/mTOR),Table 2; Figure 3,"Single primary. PM48 is the main PIK3CA/mTOR panel, not a secondary metric."
+pre-specified secondary,directional arms D/A and D/B,"same pocket-matched protocol, reported separately",K=4 main panels,Table 2; Figure 4A,Weak-arm inspection; not a second primary.
+pre-specified secondary,RTMScore pocket-matched summary_min (best-of-9),same pocket-matched protocol on max RTM over the 9 Vina poses,K=4 main panels,Figure 3; Table S6,"Qualitative channel contrast, not a three-engine competition."
+pre-specified secondary,GNINA CNN pocket-matched summary_min (best-of-9),same protocol on max CNNscore over the 9 Vina poses,K=4 main panels,Figure 3; Table S15,Fair pose coverage vs RTM. mode-1 retained as historical contrast.
+pre-specified secondary,strongest trivial descriptor summary_min,same AUROC protocol with heavy/mw/clogp/tpsa replacing S,K=4 main panels,Figure 3; Figure 4B,Paired Δ(Vina−descriptor) CIs in Table S19 / Figure S3C.
+robustness,"unified θ grid {5.5, 6.0, 6.5, strict 6.5/5.5}",relabel then recompute pocket-matched Vina summary_min,K=4 main panels,Table S4; Figure S1A,"Not a second primary. Underpowered cells are marked, not ranked."
+robustness,PM110 expansion,same protocol on the PM48 superset,PIK3CA/mTOR only,Figure S1C,"Stability check, not independent validation."
+robustness,exhaustiveness 8 vs 16 on PM48,same pocket-matched Vina on frozen E=8 scores,PIK3CA/mTOR PM48,Figure S1D,E=16 remains primary for this pair.
+robustness,unused-pool holdout pocket-matched Vina,same protocol; dual/A_only/B_only = 20/20/20; seed 20260731,"AChE/BChE, PIK3CA/PIK3CB, PIK3CA/mTOR only",Table S8 / Table S16; Figure 5A,"EGFR/HER2 not eligible. Same ChEMBL batch, not cross-database validation."
+robustness,"crystal swap on PM48 (4JPS, 5DXT, 4JSX)",one pocket replaced; other pocket kept at frozen scores,PIK3CA/mTOR PM48,Table S9; Figure 5B,"Pre-specified: true gene, non-chimera, cognate best-of-9 < 2 Å. 3T8M excluded."
+robustness,wrong-pocket control and paired Δ(matched−wrong),swap pockets then same summary_min; Δ on the same bootstrap sample,K=4 main + three holdout pairs,Figure 6; Table S17; Figure S3A–B,Point AUROCs already in Table S6 / S8; this table adds paired CIs.
+exploratory,ECFP4 logistic GroupKFold vs random KFold,"chemotype–label association, not pocket physics",K=4 main panels,Figure 7A; Table S20,Scaffold split is primary ML readout. Random split is leakage check only.
+exploratory,contact_count (not PLIF),"ligand heavy atoms within 4.0 Å of receptor heavy atoms, mode-1 poses",holdout only,Table S11; Figure 6D,Scoring-free burial proxy. Does not claim a residue-level mechanism.
+exploratory,top-10 hard-negative count on vina_mean,count of A_only+B_only among the 10 highest vina_mean ligands,K=4 main panels,Table S21,"Ranking readout on pooled vina_mean, NOT the Table 2 pocket-matched metric."
+not used as primary,pooled vina_mean directional AUROC,legacy forest arm; EGFR 0.2824 is not Table 2 0.4297,K=4 main panels,Table S6 (pooled_mean row),Kept as aggregation contrast only.

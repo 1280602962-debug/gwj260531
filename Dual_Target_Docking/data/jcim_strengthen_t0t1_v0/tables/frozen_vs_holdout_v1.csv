@@ -1,0 +1,9 @@
+pair,set,eligible,n_dual,n_A_only,n_B_only,auroc_D_vs_A,auroc_D_vs_B,summary_min,summary_min_ci_lo,summary_min_ci_hi,delta_holdout_minus_main,note
+EGFR/HER2,main_panel,yes,28,38,32,0.6664,0.4297,0.4297,0.284,0.5759,,Table 2 primary (unified θ=6.0 Vina)
+EGFR/HER2,unused_pool_holdout,no,,,,,,,,,,Not eligible: strict B_only=7; leftover pool cannot support 20/20/20
+AChE/BChE,main_panel,yes,27,25,28,0.6504,0.6058,0.6058,0.4396,0.74,,Table 2 primary (unified θ=6.0 Vina)
+AChE/BChE,unused_pool_holdout,yes,20,20,20,0.635,0.6175,0.6175,0.4216,0.7593,0.0117,primary: D/A via pocket B; D/B via pocket A
+PIK3CA/PIK3CB,main_panel,yes,28,27,28,0.6905,0.5,0.5,0.3468,0.648,,Table 2 primary (unified θ=6.0 Vina)
+PIK3CA/PIK3CB,unused_pool_holdout,yes,20,19,20,0.7658,0.425,0.425,0.2406,0.6184,-0.075,primary: D/A via pocket B; D/B via pocket A
+PIK3CA/mTOR,main_panel,yes,18,14,12,0.7143,0.6921,0.6921,0.4638,0.8015,,Table 2 primary (unified θ=6.0 Vina)
+PIK3CA/mTOR,unused_pool_holdout,yes,20,20,20,0.86,0.765,0.765,0.6025,0.8911,0.0729,primary: D/A via pocket B; D/B via pocket A

@@ -1,0 +1,913 @@
+{
+  "source_files": {
+    "data\\jcim_j0j1_v0\\tables\\j0_strict_label_supply.csv": 49,
+    "data\\jcim_supply_crossdb_v0\\tables\\crossdb_strict_supply_v1.csv": 20,
+    "data\\jcim_strengthen_t0t1_v0\\tables\\unified_threshold_sensitivity_v2.csv": 16,
+    "data\\jcim_bench_v0\\tables\\pocket_matched_directional_v1.csv": 40,
+    "data\\jcim_bench_v0\\tables\\forest_summary_min_ci_v1.csv": 28,
+    "data\\jcim_bench_v0\\tables\\gnina_pocket_matched_mode01_vs_best9_k4_v1.csv": 8,
+    "data\\jcim_holdout_v0\\tables\\holdout_pocket_matched_v1.csv": 21,
+    "data\\jcim_structure_robust_v0\\tables\\pocket_matched_PM48_alt4JPS_v1.csv": 1,
+    "data\\jcim_structure_robust_v0\\tables\\pocket_matched_PM48_alt5DXT_v1.csv": 1,
+    "data\\jcim_structure_robust_v0\\tables\\pocket_matched_PM48_alt4JSX_v1.csv": 1,
+    "data\\jcim_structure_robust_v0\\tables\\pocket_matched_PAB_alt4JPS_v1.csv": 1,
+    "data\\jcim_structure_robust_v0\\tables\\pocket_matched_PAB_alt5DXT_v1.csv": 1,
+    "data\\jcim_bench_v0\\tables\\assembled_AChE_BChE.csv": 95,
+    "data\\jcim_novelty_v0\\tables\\formulation_conventional_vs_directional_v1.csv": 32,
+    "data\\jcim_strengthen_t0t1_v0\\tables\\pm110_vs_pm48_pocket_matched_v1.csv": 8,
+    "data\\jcim_strengthen_t0t1_v0\\tables\\ligand_ml_baseline_scaffold_cv_v1.csv": 8,
+    "data\\jcim_strengthen_t0t1_v0\\tables\\covariate_adjusted_v1.csv": 8,
+    "data\\jcim_strengthen_t0t1_v0\\tables\\matched_subset_directional_v1.csv": 20,
+    "data\\jcim_strengthen_t0t1_v0\\tables\\single_target_enrichment_v1.csv": 2,
+    "data\\jcim_holdout_v0\\tables\\holdout_matched_wrong_pocket_summary_v1.csv": 18,
+    "data\\jcim_holdout_v0\\tables\\holdout_vs_main_potency_size_v1.csv": 27,
+    "data\\jcim_strengthen_t0t1_v0\\tables\\wrong_pocket_paired_delta_bootstrap_v1.csv": 7,
+    "data\\jcim_strengthen_t0t1_v0\\tables\\pocket_matched_vs_best_descriptor_delta_v1.csv": 4,
+    "data\\jcim_strengthen_t0t1_v0\\tables\\ligand_ml_scaffold_vs_random_v1.csv": 8,
+    "data\\pik3ca_mtor_panel48_rdkit_v0\\tables\\scores_vina_E8_best.csv": 48
+  },
+  "plotted": {
+    "fig2A_n_pairs": 49,
+    "fig2A_highlighted": {
+      "HDAC1/HDAC6": 93.0,
+      "PIK3CA/MTOR": 80.0,
+      "ACHE/BCHE": 78.0,
+      "PIK3CA/PIK3CB": 56.0,
+      "EGFR/HER2": 7.0
+    },
+    "fig2B_chembl": [
+      80.0,
+      78.0,
+      56.0,
+      7.0
+    ],
+    "fig2B_bindingdb_equal_only": [
+      76.0,
+      92.0,
+      58.0,
+      31.0
+    ],
+    "figS_forest": {
+      "EGFR/HER2": {
+        "vina": {
+          "y": 0.4297,
+          "lo": 0.2818,
+          "hi": 0.5775,
+          "da": 0.6664,
+          "db": 0.4297
+        },
+        "rtm": {
+          "y": 0.3527,
+          "lo": 0.2148,
+          "hi": 0.5038
+        },
+        "gnina_best9": {
+          "y": 0.2902,
+          "lo": 0.1632,
+          "hi": 0.4269
+        },
+        "best_desc": {
+          "arm": "clogp",
+          "y": 0.4821,
+          "lo": 0.33,
+          "hi": 0.6121
+        }
+      },
+      "AChE/BChE": {
+        "vina": {
+          "y": 0.6058,
+          "lo": 0.437,
+          "hi": 0.7303,
+          "da": 0.6504,
+          "db": 0.6058
+        },
+        "rtm": {
+          "y": 0.5185,
+          "lo": 0.3408,
+          "hi": 0.6301
+        },
+        "gnina_best9": {
+          "y": 0.4127,
+          "lo": 0.2518,
+          "hi": 0.5482
+        },
+        "best_desc": {
+          "arm": "tpsa",
+          "y": 0.7333,
+          "lo": 0.5759,
+          "hi": 0.849
+        }
+      },
+      "PIK3CA/PIK3CB": {
+        "vina": {
+          "y": 0.5,
+          "lo": 0.3502,
+          "hi": 0.6495,
+          "da": 0.6905,
+          "db": 0.5
+        },
+        "rtm": {
+          "y": 0.5421,
+          "lo": 0.3803,
+          "hi": 0.6872
+        },
+        "gnina_best9": {
+          "y": 0.5332,
+          "lo": 0.3641,
+          "hi": 0.64
+        },
+        "best_desc": {
+          "arm": "heavy",
+          "y": 0.6217,
+          "lo": 0.4663,
+          "hi": 0.7607
+        }
+      },
+      "PIK3CA/mTOR": {
+        "vina": {
+          "y": 0.6921,
+          "lo": 0.4702,
+          "hi": 0.8133,
+          "da": 0.7143,
+          "db": 0.6921
+        },
+        "rtm": {
+          "y": 0.6151,
+          "lo": 0.3791,
+          "hi": 0.7657
+        },
+        "gnina_best9": {
+          "y": 0.6548,
+          "lo": 0.4322,
+          "hi": 0.8102
+        },
+        "best_desc": {
+          "arm": "heavy",
+          "y": 0.463,
+          "lo": 0.2352,
+          "hi": 0.6139
+        }
+      }
+    },
+    "fig3": {
+      "EGFR/HER2": {
+        "directional": {
+          "y": 0.4297,
+          "lo": 0.2818,
+          "hi": 0.5775
+        },
+        "neither": {
+          "y": 0.756,
+          "lo": 0.5625,
+          "hi": 0.9197,
+          "n_neg": 12
+        }
+      },
+      "AChE/BChE": {
+        "directional": {
+          "y": 0.6058,
+          "lo": 0.437,
+          "hi": 0.7303
+        },
+        "neither": {
+          "y": 0.6494,
+          "lo": 0.484,
+          "hi": 0.8123,
+          "n_neg": 15
+        }
+      },
+      "PIK3CA/PIK3CB": {
+        "directional": {
+          "y": 0.5,
+          "lo": 0.3502,
+          "hi": 0.6495
+        },
+        "neither": {
+          "y": 0.5592,
+          "lo": 0.3728,
+          "hi": 0.7456,
+          "n_neg": 16
+        }
+      },
+      "PIK3CA/mTOR": {
+        "directional": {
+          "y": 0.6921,
+          "lo": 0.4702,
+          "hi": 0.8133
+        },
+        "neither": {
+          "y": 0.5139,
+          "lo": 0.2222,
+          "hi": 0.8056,
+          "n_neg": 4
+        }
+      }
+    },
+    "fig4A_DA": [
+      0.6664,
+      0.6504,
+      0.6905,
+      0.7143
+    ],
+    "fig4A_DB": [
+      0.4297,
+      0.6058,
+      0.5,
+      0.6921
+    ],
+    "fig4C_tpsa_n": [
+      27,
+      25,
+      28
+    ],
+    "fig4C_tpsa_mean": [
+      75.25592592592592,
+      53.7792,
+      47.87964285714286
+    ],
+    "figS_holdout": [
+      {
+        "pair": "AChE/BChE",
+        "main": 0.6058,
+        "main_lo": 0.437,
+        "main_hi": 0.7303,
+        "hold": 0.6175,
+        "hold_lo": 0.4216,
+        "hold_hi": 0.7593
+      },
+      {
+        "pair": "PIK3CA/PIK3CB",
+        "main": 0.5,
+        "main_lo": 0.3502,
+        "main_hi": 0.6495,
+        "hold": 0.425,
+        "hold_lo": 0.2406,
+        "hold_hi": 0.6184
+      },
+      {
+        "pair": "PIK3CA/mTOR",
+        "main": 0.6921,
+        "main_lo": 0.4702,
+        "main_hi": 0.8133,
+        "hold": 0.765,
+        "hold_lo": 0.6025,
+        "hold_hi": 0.8911
+      }
+    ],
+    "fig5": [
+      {
+        "pair": "PIK3CA/mTOR",
+        "crystal": "4L23",
+        "y": 0.6921,
+        "lo": 0.4702,
+        "hi": 0.8133
+      },
+      {
+        "pair": "PIK3CA/mTOR",
+        "crystal": "4JPS",
+        "y": 0.4861,
+        "lo": 0.2589,
+        "hi": 0.6923
+      },
+      {
+        "pair": "PIK3CA/mTOR",
+        "crystal": "5DXT",
+        "y": 0.5046,
+        "lo": 0.2924,
+        "hi": 0.6958
+      },
+      {
+        "pair": "PIK3CA/mTOR",
+        "crystal": "4JSX",
+        "y": 0.6389,
+        "lo": 0.4178,
+        "hi": 0.7758
+      },
+      {
+        "pair": "PIK3CA/PIK3CB",
+        "crystal": "4L23",
+        "y": 0.5,
+        "lo": 0.3502,
+        "hi": 0.6495
+      },
+      {
+        "pair": "PIK3CA/PIK3CB",
+        "crystal": "4JPS",
+        "y": 0.6905,
+        "lo": 0.5156,
+        "hi": 0.7786
+      },
+      {
+        "pair": "PIK3CA/PIK3CB",
+        "crystal": "5DXT",
+        "y": 0.6849,
+        "lo": 0.5057,
+        "hi": 0.7682
+      }
+    ],
+    "fig6A_matched": [
+      0.4297,
+      0.6058,
+      0.5,
+      0.6921
+    ],
+    "fig6A_wrong": [
+      0.26,
+      0.4444,
+      0.3489,
+      0.6019
+    ],
+    "siA_matched": [
+      0.4297,
+      0.6058,
+      0.5,
+      0.6921
+    ],
+    "siA_wrong": [
+      0.26,
+      0.4444,
+      0.3489,
+      0.6019
+    ],
+    "fig6B_matched": [
+      0.6175,
+      0.425,
+      0.765
+    ],
+    "fig6B_wrong": [
+      0.6425,
+      0.52,
+      0.7875
+    ],
+    "siB_matched": [
+      0.6175,
+      0.425,
+      0.765
+    ],
+    "siB_wrong": [
+      0.6425,
+      0.52,
+      0.7875
+    ],
+    "fig6C": [
+      {
+        "pair": "AChE/BChE",
+        "family": "unmatched",
+        "matched": 0.6175,
+        "wrong": 0.6425,
+        "n_min": 20
+      },
+      {
+        "pair": "AChE/BChE",
+        "family": "potency_matched",
+        "matched": 0.5926,
+        "wrong": 0.642,
+        "n_min": 18
+      },
+      {
+        "pair": "AChE/BChE",
+        "family": "size_matched",
+        "matched": 0.4074,
+        "wrong": 0.4321,
+        "n_min": 9
+      },
+      {
+        "pair": "PIK3CA/PIK3CB",
+        "family": "unmatched",
+        "matched": 0.425,
+        "wrong": 0.52,
+        "n_min": 19
+      },
+      {
+        "pair": "PIK3CA/PIK3CB",
+        "family": "potency_matched",
+        "matched": 0.3633,
+        "wrong": 0.5625,
+        "n_min": 11
+      },
+      {
+        "pair": "PIK3CA/PIK3CB",
+        "family": "size_matched",
+        "matched": 0.3018,
+        "wrong": 0.426,
+        "n_min": 13
+      },
+      {
+        "pair": "PIK3CA/mTOR",
+        "family": "unmatched",
+        "matched": 0.765,
+        "wrong": 0.7875,
+        "n_min": 20
+      },
+      {
+        "pair": "PIK3CA/mTOR",
+        "family": "potency_matched",
+        "matched": 0.7153,
+        "wrong": 0.7344,
+        "n_min": 12
+      },
+      {
+        "pair": "PIK3CA/mTOR",
+        "family": "size_matched",
+        "matched": 0.7153,
+        "wrong": 0.8178,
+        "n_min": 12
+      }
+    ],
+    "s4B": [
+      {
+        "pair": "AChE/BChE",
+        "family": "unmatched",
+        "matched": 0.6175,
+        "wrong": 0.6425,
+        "n_min": 20
+      },
+      {
+        "pair": "AChE/BChE",
+        "family": "potency_matched",
+        "matched": 0.5926,
+        "wrong": 0.642,
+        "n_min": 18
+      },
+      {
+        "pair": "AChE/BChE",
+        "family": "size_matched",
+        "matched": 0.4074,
+        "wrong": 0.4321,
+        "n_min": 9
+      },
+      {
+        "pair": "PIK3CA/PIK3CB",
+        "family": "unmatched",
+        "matched": 0.425,
+        "wrong": 0.52,
+        "n_min": 19
+      },
+      {
+        "pair": "PIK3CA/PIK3CB",
+        "family": "potency_matched",
+        "matched": 0.3633,
+        "wrong": 0.5625,
+        "n_min": 11
+      },
+      {
+        "pair": "PIK3CA/PIK3CB",
+        "family": "size_matched",
+        "matched": 0.3018,
+        "wrong": 0.426,
+        "n_min": 13
+      },
+      {
+        "pair": "PIK3CA/mTOR",
+        "family": "unmatched",
+        "matched": 0.765,
+        "wrong": 0.7875,
+        "n_min": 20
+      },
+      {
+        "pair": "PIK3CA/mTOR",
+        "family": "potency_matched",
+        "matched": 0.7153,
+        "wrong": 0.7344,
+        "n_min": 12
+      },
+      {
+        "pair": "PIK3CA/mTOR",
+        "family": "size_matched",
+        "matched": 0.7153,
+        "wrong": 0.8178,
+        "n_min": 12
+      }
+    ],
+    "fig6D": {
+      "contact_A": [
+        0.581,
+        0.622,
+        0.552
+      ],
+      "contact_B": [
+        0.706,
+        0.714,
+        0.698
+      ],
+      "vina_wrong": [
+        0.6425,
+        0.52,
+        0.7875
+      ]
+    },
+    "s4C": {
+      "contact_A": [
+        0.581,
+        0.622,
+        0.552
+      ],
+      "contact_B": [
+        0.706,
+        0.714,
+        0.698
+      ],
+      "vina_wrong": [
+        0.6425,
+        0.52,
+        0.7875
+      ]
+    },
+    "s3A": {
+      "da_dock": [
+        0.6664,
+        0.6504,
+        0.6905,
+        0.7143
+      ],
+      "da_ml": [
+        0.7453,
+        0.8948,
+        0.7817,
+        0.7619
+      ],
+      "db_dock": [
+        0.4297,
+        0.6058,
+        0.5,
+        0.6921
+      ],
+      "db_ml": [
+        0.8895,
+        0.8214,
+        0.7691,
+        0.8889
+      ]
+    },
+    "s3B": {
+      "EGFR/HER2": {
+        "vina": 0.4297,
+        "heavy": 0.3694,
+        "mw": 0.4163,
+        "clogp": 0.4821,
+        "tpsa": 0.4275
+      },
+      "AChE/BChE": {
+        "vina": 0.6058,
+        "heavy": 0.582,
+        "mw": 0.5785,
+        "clogp": 0.4669,
+        "tpsa": 0.7333
+      },
+      "PIK3CA/PIK3CB": {
+        "vina": 0.5,
+        "heavy": 0.6217,
+        "mw": 0.6204,
+        "clogp": 0.5952,
+        "tpsa": 0.418
+      },
+      "PIK3CA/mTOR": {
+        "vina": 0.6921,
+        "heavy": 0.463,
+        "mw": 0.4484,
+        "clogp": 0.3102,
+        "tpsa": 0.2599
+      }
+    },
+    "s3C": {
+      "only": [
+        0.5703,
+        0.6058,
+        0.5,
+        0.6921
+      ],
+      "adj": [
+        0.6283,
+        0.8069,
+        0.6977,
+        0.7593
+      ],
+      "or": [
+        1.1283,
+        1.1755,
+        0.8868,
+        3.0807
+      ]
+    },
+    "s3D": {
+      "full_panel_pocket_matched": [
+        0.4297,
+        0.6058,
+        0.5,
+        0.6921
+      ],
+      "potency_matched_D_vs_B": [
+        0.4694,
+        0.6007,
+        0.4575,
+        0.7284
+      ],
+      "size_matched_D_vs_B": [
+        0.5186,
+        0.5956,
+        0.4498,
+        0.7222
+      ]
+    },
+    "s2A": {
+      "EGFR/HER2": {
+        "y": [
+          0.4246,
+          0.4297,
+          0.4602,
+          0.3242
+        ],
+        "under": [
+          false,
+          false,
+          false,
+          true
+        ]
+      },
+      "AChE/BChE": {
+        "y": [
+          0.6058,
+          0.6058,
+          0.6058,
+          0.6058
+        ],
+        "under": [
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      "PIK3CA/PIK3CB": {
+        "y": [
+          0.522,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "under": [
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      "PIK3CA/mTOR": {
+        "y": [
+          0.5017,
+          0.6921,
+          0.674,
+          0.6387
+        ],
+        "under": [
+          true,
+          false,
+          false,
+          true
+        ]
+      }
+    },
+    "s2B": {
+      "vina": [
+        0.4297,
+        0.6058,
+        0.5,
+        0.6921
+      ],
+      "mode01": [
+        0.327,
+        0.4418,
+        0.5536,
+        0.5794
+      ],
+      "best9": [
+        0.2902,
+        0.4127,
+        0.5332,
+        0.6548
+      ]
+    },
+    "s2C": {
+      "PM48": [
+        0.6921,
+        0.6151,
+        0.6548
+      ],
+      "PM110": [
+        0.6483,
+        0.5756,
+        0.6133
+      ]
+    },
+    "s2D": {
+      "e16": 0.6921,
+      "e8": 0.6597222222222222,
+      "e8_da": 0.753968253968254,
+      "e8_db": 0.6597222222222222,
+      "e8_n": [
+        18,
+        14,
+        12
+      ],
+      "4L23": 0.6027,
+      "4JT6": 0.6288,
+      "EF_4L23": 2.0408,
+      "EF_4JT6": 2.0
+    },
+    "s4A": {
+      "ChEMBL": [
+        80.0,
+        78.0,
+        56.0,
+        7.0
+      ],
+      "BDB equal": [
+        76.0,
+        92.0,
+        58.0,
+        31.0
+      ],
+      "PubChem equal": [
+        86.0,
+        97.0,
+        61.0,
+        30.0
+      ],
+      "BDB as_is": [
+        151.0,
+        141.0,
+        129.0,
+        85.0
+      ],
+      "PubChem as_is": [
+        153.0,
+        153.0,
+        144.0,
+        88.0
+      ]
+    },
+    "s4D": {
+      "dual pA": [
+        -0.159,
+        0.605,
+        -1.072
+      ],
+      "A_only pA": [
+        0.245,
+        0.183,
+        -1.259
+      ],
+      "B_only pB": [
+        -0.153,
+        -0.145,
+        -1.76
+      ]
+    },
+    "s3newA": [
+      {
+        "label": "EGFR/HER2",
+        "x": 0.1697,
+        "lo": 0.06,
+        "hi": 0.2803,
+        "excl": true,
+        "matched": 0.4297,
+        "wrong": 0.26
+      },
+      {
+        "label": "AChE/BChE",
+        "x": 0.1614,
+        "lo": 0.037,
+        "hi": 0.269,
+        "excl": true,
+        "matched": 0.6058,
+        "wrong": 0.4444
+      },
+      {
+        "label": "PIK3CA/PIK3CB",
+        "x": 0.1511,
+        "lo": -0.0215,
+        "hi": 0.3105,
+        "excl": false,
+        "matched": 0.5,
+        "wrong": 0.3489
+      },
+      {
+        "label": "PIK3CA/mTOR",
+        "x": 0.0902,
+        "lo": -0.1222,
+        "hi": 0.2626,
+        "excl": false,
+        "matched": 0.6921,
+        "wrong": 0.6019
+      }
+    ],
+    "s3newB": [
+      {
+        "label": "AChE/BChE",
+        "x": -0.025,
+        "lo": -0.1119,
+        "hi": 0.0714,
+        "excl": false,
+        "matched": 0.6175,
+        "wrong": 0.6425
+      },
+      {
+        "label": "PIK3CA/PIK3CB",
+        "x": -0.095,
+        "lo": -0.2814,
+        "hi": 0.1143,
+        "excl": false,
+        "matched": 0.425,
+        "wrong": 0.52
+      },
+      {
+        "label": "PIK3CA/mTOR",
+        "x": -0.0225,
+        "lo": -0.1165,
+        "hi": 0.079,
+        "excl": false,
+        "matched": 0.765,
+        "wrong": 0.7875
+      }
+    ],
+    "s3newC": [
+      {
+        "label": "EGFR/HER2  (cLogP)",
+        "x": -0.0524,
+        "lo": -0.2,
+        "hi": 0.1155,
+        "excl": false,
+        "vina": 0.4297,
+        "desc": 0.4821,
+        "arm": "clogp"
+      },
+      {
+        "label": "AChE/BChE  (TPSA)",
+        "x": -0.1275,
+        "lo": -0.3039,
+        "hi": 0.0493,
+        "excl": false,
+        "vina": 0.6058,
+        "desc": 0.7333,
+        "arm": "tpsa"
+      },
+      {
+        "label": "PIK3CA/PIK3CB  (heavy)",
+        "x": -0.1217,
+        "lo": -0.3197,
+        "hi": 0.0891,
+        "excl": false,
+        "vina": 0.5,
+        "desc": 0.6217,
+        "arm": "heavy"
+      },
+      {
+        "label": "PIK3CA/mTOR  (heavy)",
+        "x": 0.2291,
+        "lo": -0.0105,
+        "hi": 0.4352,
+        "excl": false,
+        "vina": 0.6921,
+        "desc": 0.463,
+        "arm": "heavy"
+      }
+    ],
+    "s3newD": {
+      "sc_da": [
+        0.7453,
+        0.8948,
+        0.7817,
+        0.7619
+      ],
+      "rd_da": [
+        0.7961,
+        0.9096,
+        0.8042,
+        0.7262
+      ],
+      "sc_db": [
+        0.8895,
+        0.8214,
+        0.7691,
+        0.8889
+      ],
+      "rd_db": [
+        0.8884,
+        0.8241,
+        0.889,
+        0.9213
+      ],
+      "delta_random_minus_scaffold": [
+        0.05080000000000007,
+        0.014799999999999924,
+        0.022500000000000075,
+        -0.035700000000000065,
+        -0.0010999999999999899,
+        0.0027000000000000357,
+        0.1199,
+        0.032399999999999984
+      ],
+      "mean_delta": 0.025787500000000005
+    }
+  }
+}

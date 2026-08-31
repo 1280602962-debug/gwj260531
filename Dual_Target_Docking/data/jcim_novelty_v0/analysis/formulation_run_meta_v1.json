@@ -1,0 +1,87 @@
+{
+  "n_boot": 2000,
+  "seed": 20260729,
+  "no_new_docking": true,
+  "environment": {
+    "python": "3.12.13",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "numpy": "2.5.2",
+    "rdkit": "2026.3.5",
+    "scipy": "1.18.1",
+    "scikit_learn": "1.9.0",
+    "pandas": "3.0.5"
+  },
+  "zhou_2013": "10.1021/ci400065e",
+  "pairs": {
+    "EGFR/HER2": {
+      "dual": 28,
+      "A_only": 38,
+      "B_only": 32,
+      "neither": 12
+    },
+    "AChE/BChE": {
+      "dual": 27,
+      "A_only": 25,
+      "B_only": 28,
+      "neither": 15
+    },
+    "PIK3CA/PIK3CB": {
+      "dual": 28,
+      "A_only": 27,
+      "B_only": 28,
+      "neither": 16
+    },
+    "PIK3CA/mTOR": {
+      "dual": 18,
+      "A_only": 14,
+      "B_only": 12,
+      "neither": 4
+    }
+  },
+  "summary": [
+    {
+      "pair": "EGFR/HER2",
+      "directional_summary_min": 0.4297,
+      "conventional_D_vs_neither_mean": 0.756,
+      "conventional_D_vs_neither_mean_n_neg": 12,
+      "conventional_D_vs_neither_mean_underpowered": 0,
+      "conventional_D_vs_neither_worst": 0.744,
+      "single_target_pocketA": 0.4254,
+      "single_target_pocketB": 0.7593,
+      "delta_neither_mean_minus_summary_min": 0.3263
+    },
+    {
+      "pair": "AChE/BChE",
+      "directional_summary_min": 0.6058,
+      "conventional_D_vs_neither_mean": 0.6494,
+      "conventional_D_vs_neither_mean_n_neg": 15,
+      "conventional_D_vs_neither_mean_underpowered": 0,
+      "conventional_D_vs_neither_worst": 0.6765,
+      "single_target_pocketA": 0.6395,
+      "single_target_pocketB": 0.6368,
+      "delta_neither_mean_minus_summary_min": 0.0436
+    },
+    {
+      "pair": "PIK3CA/PIK3CB",
+      "directional_summary_min": 0.5,
+      "conventional_D_vs_neither_mean": 0.5592,
+      "conventional_D_vs_neither_mean_n_neg": 16,
+      "conventional_D_vs_neither_mean_underpowered": 0,
+      "conventional_D_vs_neither_worst": 0.6384,
+      "single_target_pocketA": 0.4804,
+      "single_target_pocketB": 0.6551,
+      "delta_neither_mean_minus_summary_min": 0.0592
+    },
+    {
+      "pair": "PIK3CA/mTOR",
+      "directional_summary_min": 0.6921,
+      "conventional_D_vs_neither_mean": 0.5139,
+      "conventional_D_vs_neither_mean_n_neg": 4,
+      "conventional_D_vs_neither_mean_underpowered": 1,
+      "conventional_D_vs_neither_worst": 0.4028,
+      "single_target_pocketA": 0.5244,
+      "single_target_pocketB": 0.6519,
+      "delta_neither_mean_minus_summary_min": -0.1782
+    }
+  ]
+}
