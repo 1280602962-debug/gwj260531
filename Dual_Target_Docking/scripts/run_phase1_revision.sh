@@ -12,6 +12,7 @@ echo "== Phase-1 revision analyses =="
 "${PYTHON_BIN}" data/jcim_novelty_v0/scripts/assay_context_audit_v1.py
 "${PYTHON_BIN}" data/jcim_novelty_v0/scripts/time_split_validation_v1.py
 "${PYTHON_BIN}" data/jcim_novelty_v0/scripts/cognate_artifact_inventory_v1.py
+"${PYTHON_BIN}" data/jcim_novelty_v0/scripts/leave_cognate_out_v1.py
 "${PYTHON_BIN}" data/jcim_novelty_v0/scripts/build_master_results_table_v1.py
 "${PYTHON_BIN}" docs/assemble_manuscript_en.py
 "${PYTHON_BIN}" docs/assemble_manuscript_zh.py

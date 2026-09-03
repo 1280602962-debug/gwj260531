@@ -1,81 +1,91 @@
-asset_type,asset_id,manuscript_role,hierarchy,canonical_source,supporting_script,frozen_input,status_on_8d5f2eeb,notes
-main_table,Table 1,panel composition,primary,docs/METHODS_SECTION_JCIM_EN_V1.md (hardcoded from frozen panels),n/a,panel CSVs listed below,LOCKED,n_panel and n_scored match ablation complete-case counts
-main_table,Table 2 point AUROC,worst-arm directional,primary,data/jcim_strengthen_t0t1_v0/tables/unified_threshold_sensitivity_v2.csv,data/jcim_strengthen_t0t1_v0/scripts/build_t0_strengthen_v1.py,ablation_ligand_scores.csv x4,LOCKED_POINT,0.6664/0.4297; 0.6504/0.6058; 0.6905/0.5000; 0.7143/0.6921 identical across unified_threshold and pocket_matched
-main_table,Table 2 CI,ligand bootstrap on summary_min,primary,data/jcim_strengthen_t0t1_v0/tables/unified_threshold_sensitivity_v2.csv,build_t0_strengthen_v1.py boot_pm_ci,same scores,LOCKED_BUT_CONFLICTING_EXECUTABLE,manuscript [0.282,0.578] etc. round this file; pocket_matched_directional_v1.csv is coeval with different hash-offset CIs
-main_table,Table 2 descriptors,best-single-descriptor reference,primary,data/jcim_novelty_v0/tables/descriptor_all_four_directional_v1.csv,descriptor script via novelty pipeline,same panels,LOCKED,EGFR cLogP 0.4821; AChE TPSA 0.7333; PIK3CB/mTOR heavy 0.6217/0.463
-main_table,Table 3 Dual-vs-neither,AUC(vina_mean),prespecified formulation,data/jcim_novelty_v0/tables/formulation_conventional_vs_directional_v1.csv,data/jcim_novelty_v0/scripts/benchmark_formulation_v1.py,same ablation scores,LOCKED,recomputed 0.7560/0.6494/0.5592/0.5139 exactly
-main_table,Table 3 Dual-vs-all-nondual,AUC(vina_mean),prespecified formulation,same formulation CSV,benchmark_formulation_v1.py,same,LOCKED,0.5514/0.5792/0.5558/0.6741
-index,MASTER_RESULTS_TABLE,manuscript-facing index,governance,data/jcim_novelty_v0/tables/MASTER_RESULTS_TABLE.csv,data/jcim_novelty_v0/scripts/build_master_results_table_v1.py,listed source_file column,LOCKED_INDEX,Table 2 rows point at unified_threshold NOT pocket_matched
-index,EVALUATION_CONTRACT,claim ceiling,governance,data/jcim_novelty_v0/tables/DUALFOURCLASS_EVALUATION_CONTRACT_v1.json,n/a,n/a,LOCKED,
-index,CHECKSUM_MANIFEST,SHA-256 of manuscript-facing files,governance,data/jcim_novelty_v0/tables/REVISION_CHECKSUM_MANIFEST_v1.csv,build_checksum_manifest_v1.py,WATCH list,LOCKED_TO_8d5f2eeb,
-index,ANALYSIS_HIERARCHY,primary vs sensitivity vs post-hoc,governance,docs/ANALYSIS_HIERARCHY_V1.md,n/a,n/a,LOCKED,
-index,VALIDATOR,CI-enforced phrases and numeric pins,governance,data/jcim_novelty_v0/scripts/validate_revision_v1.py,n/a,unified_threshold theta_6.0 CIs,LOCKED,pins 0.4297 [0.2818,0.5775] etc.
-figure,Fig1,task schematic,primary,figures/jcim_article/Fig1_task_schematic.{pdf,png,tif},plot_jcim_article_figures_v1.py,schematic,LOCKED,
-figure,Fig2,hard-negative supply,primary,figures/jcim_article/Fig2_hardneg_supply.{pdf,png,tif},plot_jcim_article_figures_v1.py,data/jcim_j0j1_v0/tables/j0_strict_label_supply.csv + crossdb_strict_supply_v1.csv,LOCKED,
-figure,Fig3,formulation comparison,primary,figures/jcim_article/Fig3_formulation_comparison.{pdf,png,tif},plot_jcim_article_figures_v1.py,unified_threshold + formulation CSV,LOCKED_TO_UNIFIED_CI,caption and plotted_values.json use 0.2818/0.5775 not pocket_matched CIs
-figure,Fig4,confounds,primary,figures/jcim_article/Fig4_confounds.{pdf,png,tif},plot_jcim_article_figures_v1.py,unified_threshold + assembled_AChE_BChE.csv,LOCKED,
-figure,Fig5,receptor realization,prespecified sensitivity,figures/jcim_article/Fig5_receptor_realization.{pdf,png,tif},plot_jcim_article_figures_v1.py,receptor_realization_two_pair_v1.csv + alt pocket_matched CSVs,LOCKED_POINTS,swap CIs from swap table; original-row CIs differ from Table 2
-figure,Fig6,wrong-pocket paradox,prespecified sensitivity,figures/jcim_article/Fig6_wrong_pocket_paradox.{pdf,png,tif},plot_jcim_article_figures_v1.py,pocket_matched_directional_v1.csv + holdout_pocket_matched_v1.csv,LOCKED,uses pocket_matched for wrong-pocket variants; Vina primary CIs still unified
-figure,Fig7,chemotype/matched subsets,prespecified sensitivity,figures/jcim_article/Fig7_confound_anatomy.{pdf,png,tif},plot_jcim_article_figures_v1.py,ligand_ml + covariate + matched_subset CSVs,LOCKED,
-figure,Fig8,diagnostic workflow,discussion,figures/jcim_article/Fig8_diagnostic_workflow.{pdf,png,tif},plot_jcim_article_figures_v1.py,schematic,LOCKED,
-figure,TOC,graphical abstract,front,figures/jcim_article/TOC_graphic.{png,tif},n/a,n/a,LOCKED,
-figure,FigS1,protocol sensitivity,prespecified sensitivity,figures/jcim_article/FigS1_protocol_sensitivity.{pdf,png,tif},plot_jcim_article_figures_v1.py,unified_threshold + gnina best9 + pm110 + E8,LOCKED,
-figure,FigS2,equal-relation and sampling,prespecified sensitivity,figures/jcim_article/FigS2_equal_relation_and_sampling.{pdf,png,tif},plot_jcim_article_figures_v1.py,crossdb + holdout_vs_main,LOCKED,
-figure,FigS3,paired delta bootstrap,prespecified sensitivity,figures/jcim_article/FigS3_paired_delta_bootstrap.{pdf,png,tif},plot_jcim_article_figures_v1.py,wrong_pocket_paired_delta + descriptor_delta + scaffold_vs_random,LOCKED,
-figure,FigS4,pocket-matched forest,sensitivity,figures/jcim_article/FigS_pocket_matched_forest.{pdf,png,tif},plot_jcim_article_figures_v1.py,unified_threshold Vina CIs + forest_summary_min_ci_v1.csv descriptors,LOCKED,forest vina_mean rows are LEGACY pooled 0.2824; figure uses unified for Vina
-figure,FigS5,unused-pool holdout,prespecified sensitivity,figures/jcim_article/FigS_unused_pool_holdout.{pdf,png,tif},plot_jcim_article_figures_v1.py,holdout_pocket_matched_v1.csv,LOCKED,
-figure,FigS6,detectable-effect,prespecified sensitivity,figures/jcim_article/FigS_detectable_effect.{pdf,png,tif},plot_jcim_article_figures_v1.py,detectable_effect_simulation_v1.csv,LOCKED,
-figure,FigS7,census/AND/full-map,post-hoc,figures/jcim_article/FigS_formulation_upgrades_v1.png,plot / formulation_upgrades,theta6_pair_census + and_filter + ligand_only_fullmap,LOCKED,pdf missing in article folder; png present
-figure,FigS8,BindingDB native slice,prespecified external audit,figures/jcim_article/FigS_bindingdb_native_slice_v1.{pdf,png},plot,external_candidate_flow.csv + external_slice_summary_v1.csv,LOCKED,
-si_table,S1,software/seeds,reproducibility,data/jcim_strengthen_t0t1_v0/ENV_PIN.md + panel protocol.yaml,n/a,n/a,LOCKED,
-si_table,S2,boxes,protocol,data/*/boxes/*.json,n/a,frozen receptors,LOCKED,
-si_table,S3,cognate RMSD,prespecified / reconstructed QC,data/jcim_novelty_v0/tables/cognate_rank_rmsd_reaudit_v1.csv,cognate_rank_qc scripts,reconstructed EGFR/HER2 PDBQT,LOCKED,
-si_table,S4,theta grid,prespecified sensitivity,unified_threshold_sensitivity_v2.csv,build_t0_strengthen_v1.py,same scores,LOCKED_WITH_TABLE2,
-si_table,S5,matched subsets,sensitivity,data/jcim_strengthen_t0t1_v0/tables/matched_subset_directional_v1.csv,build_t0_strengthen_v1.py,same,LOCKED,
-si_table,S6,pocket-matched variants,sensitivity,data/jcim_bench_v0/tables/pocket_matched_directional_v1.csv,build_pocket_matched_diagnostics_v1.py,same,EXECUTABLE_VARIANT_CIS,use point estimates; do not overwrite Table 2 CIs from this file until freeze
-si_table,S8,unused-pool holdout,internal sensitivity,data/jcim_holdout_v0/tables/holdout_pocket_matched_v1.csv,holdout scripts,unused-pool docking scores,LOCKED,
-si_table,S9/S30,receptor swaps,prespecified sensitivity,data/jcim_structure_robust_v0/tables/receptor_realization_two_pair_v1.csv,structure_robust scripts,alt-receptor scores,LOCKED_POINTS,
-si_table,S12,BindingDB/PubChem counts,supply,data/jcim_supply_crossdb_v0/tables/crossdb_strict_supply_v1.csv,n/a,REST counts,LOCKED,
-si_table,S17,wrong-pocket paired delta,sensitivity,data/jcim_strengthen_t0t1_v0/tables/wrong_pocket_paired_delta_bootstrap_v1.csv,build_t0_strengthen_v1.py,same,LOCKED,
-si_table,S19,vs best descriptor,sensitivity,data/jcim_strengthen_t0t1_v0/tables/pocket_matched_vs_best_descriptor_delta_v1.csv,build_t0_strengthen_v1.py,same,LOCKED,
-si_table,S20,ECFP4 scaffold vs random,sensitivity,data/jcim_strengthen_t0t1_v0/tables/ligand_ml_scaffold_vs_random_v1.csv,build_t0_strengthen_v1.py,same,LOCKED,
-si_table,S22,formulation full grid,formulation,formulation_conventional_vs_directional_v1.csv,benchmark_formulation_v1.py,same,LOCKED,
-si_table,S23,chemotype hard-neg,exploratory,data/jcim_novelty_v0/tables/chemotype_matched_hardneg_v1.csv,novelty scripts,same,LOCKED,
-si_table,S24,ECFP4+docking increment,sensitivity,data/jcim_novelty_v0/tables/incremental_information_v1.csv,novelty scripts,same,LOCKED,max |delta| 0.020 on scaffold GroupKFold
-si_table,S25,mixed-library Top-10,exploratory,data/jcim_novelty_v0/tables/mixed_library_enrichment_v1.csv,novelty scripts,same,LOCKED,EGFR vina_mean Top10 hardneg_fraction=0.90
-si_table,S26,min/mean/geo/harm,sensitivity,data/jcim_novelty_v0/tables/aggregation_min_mean_geometric_harmonic_v1.csv,novelty scripts,same,LOCKED,
-si_table,S27,docking failures,sensitivity,data/jcim_novelty_v0/tables/docking_failure_census_v1.csv + docking_failure_rank_extreme_v1.csv,novelty scripts,job logs,LOCKED,
-si_table,S28,all four descriptors,primary support,descriptor_all_four_directional_v1.csv,novelty scripts,same,LOCKED,
-si_table,S29,max vs median,sensitivity,assay_max_vs_median_auroc_v1.csv,novelty scripts,2026-08-26 API refetch,LOCKED,EGFR 0.417 vs 0.424; do not mix with Table 2 0.430
-si_table,S31,detectable-effect,sensitivity,detectable_effect_simulation_v1.csv,novelty scripts,class sizes from Table 2,LOCKED,
-si_table,S32,independent GNINA,prespecified sensitivity,data/jcim_independent_dock_v0/tables/independent_dock_formulation_v1.csv,independent dock scripts,new GNINA poses,LOCKED,Dual-vs-neither uses score_mean = AUC(mean) matching Table 3
-si_table,S33,PIK3CA occupancy,post-hoc,data/jcim_structure_robust_v0/analysis/plif_v1/plif_residue_shift_top10_v1.csv,plif scripts,PM48 poses,LOCKED,
-si_table,S34,fixed-score negative class,formulation,formulation_equal_score_negative_v1.csv,benchmark_formulation_v1.py,same,LOCKED,EGFR pocket A delta 0.3783
-si_table,S35,measurement frequency,post-hoc,measurement_frequency_by_class_v1.csv,novelty scripts,API records,LOCKED,
-si_table,S36,high-confidence ChEMBL,post-hoc,high_confidence_summary_v1.csv,novelty scripts,2026-08-26 API,LOCKED,352/352 class match; AUROCs unchanged
-si_table,S37,complete-case,limitation,complete_case_usable_pchembl_overlap_v1.csv,novelty scripts,frozen maps,LOCKED,0.145119/0.340172/0.233349/0.265252
-si_table,S38,class chemistry,post-hoc,class_chemistry_summary_v1.csv,novelty scripts,same,LOCKED,
-si_table,S39,document-blocked CV,prespecified sensitivity,document_blocked_cv_summary_v1.csv + document_cluster_bootstrap_v1.csv,novelty scripts,same scores,LOCKED,EGFR D/B still 0.4297; PIK3CA/mTOR D/B cannot_stably_estimate
-si_table,S40,document-blocked methods,prespecified sensitivity,document_blocked_cv_methods_v1.csv,novelty scripts,same,LOCKED,
-si_table,S41,time split,prespecified sensitivity,time_split_class_counts_v1.csv + time_split_auroc_v1.csv,novelty scripts,document years,LOCKED,not external validation
-si_table,S42,assay-context review,post-hoc,assay_context_priority_ligands_v1.csv,novelty scripts,186 ligands,LOCKED,179 include / 7 uncertain / 0 exclude; ligand-level source reading is NOT in manuscript
-si_table,S43,BindingDB REST counts,historical supply,bindingdb_independence_summary_v1.csv,novelty scripts,REST,LOCKED,not native slice
-si_table,S44,49-pair census,post-hoc supply,theta6_pair_census_v1.csv,novelty scripts,J0 maps,LOCKED,17 directional_n10; 4 docked
-si_table,S45,property caliper,post-hoc,property_caliper_match_v1.csv,novelty scripts,scored panels,LOCKED,
-si_table,S46,AND filter,post-hoc,and_filter_operating_point_v1.csv,novelty scripts,scored panels,LOCKED,EGFR vina_worst p50 precision 0.2979
-si_table,S47,full-map ECFP4,post-hoc,ligand_only_fullmap_auroc_v1.csv,novelty scripts,full ChEMBL maps,LOCKED,EGFR D/neither 0.9214; D/B 0.8636
-si_table,S48,BindingDB native flow,external audit,external_candidate_flow.csv,external slice scripts,202608 TSV lock,LOCKED,not docked
-si_table,S49,external gate summary,external audit,external_slice_summary_v1.csv,external slice scripts,same,LOCKED,zero pairs; packaged=0
-si_table,S50-S53,MCL1 archive,formally demoted SI,mcl1 tables + formulation_auroc_MBX_v1.csv,mcl1 scripts,MCL1 docking archive,SI_ONLY,not Table 2
-frozen_scores,EGFR/HER2 Vina,primary scores,frozen input,data/egfr_her2_panel120_v0/tables/ablation_ligand_scores.csv,production Vina seed 20260727,panel_v0_120.csv,DO_NOT_REFRESH,
-frozen_scores,AChE/BChE Vina,primary scores,frozen input,data/ache_bche_panel_v0/tables/ablation_ligand_scores.csv,production Vina,panel,DO_NOT_REFRESH,
-frozen_scores,PIK3CA/PIK3CB Vina,primary scores,frozen input,data/pik3ca_pik3cb_panel_v0/tables/ablation_ligand_scores.csv,production Vina,panel,DO_NOT_REFRESH,
-frozen_scores,PIK3CA/mTOR Vina,primary scores,frozen input,data/pik3ca_mtor_panel48_rdkit_v0/tables/ablation_ligand_scores.csv,production Vina E=16,panel_v0_48.csv,DO_NOT_REFRESH,
-frozen_scores,multi-seed long,seed sensitivity scores,prespecified sensitivity,data/jcim_multiseed_v0/tables/multiseed_scores_long_v1.csv,run_four_pair_multiseed_vina_v1.py,same receptors/boxes,SCORES_OK_METRICS_WRONG_ESTIMAND,keep scores; recompute Dual-vs-neither as AUC(vina_mean)
-legacy,PRIMARY_METRIC_V2.md,old summary,deprecated,data/jcim_strengthen_t0t1_v0/analysis/PRIMARY_METRIC_V2.md,n/a,pocket_matched CSV as of 2026-07-29,DEPRECATED,do not copy CIs into manuscript
-legacy,bootstrap_directional_ci_v1.csv,pooled vina_mean directional,legacy control,data/jcim_bench_v0/tables/bootstrap_directional_ci_v1.csv,legacy bootstrap,same,LEGACY,filename looks primary; EGFR summary_min 0.2824
-legacy,forest_summary_min_ci_v1.csv vina_mean rows,pooled vina_mean,legacy for descriptor forest,data/jcim_bench_v0/tables/forest_summary_min_ci_v1.csv,legacy,same,LEGACY_FOR_VINA,keep for descriptor CIs
-legacy,multiseed Dual-vs-neither column,mean of pocket AUCs,inconsistent estimand,data/jcim_multiseed_v0/tables/multiseed_auroc_by_seed_v1.csv,analyze_multiseed_vina_v1.py,multiseed_scores_long_v1.csv,NEEDS_REANALYSIS_NO_REDOCK,directional summary_min column is valid
-manuscript_source,ZH Results,assembled from,writing,docs/RESULTS_DRAFT_ZH_JCIM_V1.md,assemble_manuscript_zh.py,n/a,PROSE_LOCKED_NUMBERS_FROM_UNIFIED,do not edit MANUSCRIPT_JCIM_ZH.md by hand
-manuscript_source,EN Results,assembled from,writing,docs/RESULTS_SECTION_JCIM_EN_V1.md,assemble_manuscript_en.py,n/a,PROSE_LOCKED_NUMBERS_FROM_UNIFIED,
-source_reading,7 uncertain ligands,repo ledger not in article,post-hoc,data/jcim_novelty_v0/analysis/ASSAY_CONTEXT_SOURCE_READING_V1.md + uncertain_ligand_source_verdicts_v1.csv,n/a,literature_sources/,NOT_IN_MANUSCRIPT,no class flips at theta=6.0
+asset_type,asset_id,manuscript_role,hierarchy,canonical_source,supporting_script,frozen_input,status_on_8d5f2eeb,notes,status_on_integration,keep_for_release
+main_table,Table 1,panel composition,primary,docs/METHODS_SECTION_JCIM_EN_V1.md (hardcoded from frozen panels),n/a,panel CSVs listed below,LOCKED,n_panel and n_scored match ablation complete-case counts,LOCKED,1
+main_table,Table 2 point AUROC,worst-arm directional,primary,data/jcim_strengthen_t0t1_v0/tables/unified_threshold_sensitivity_v2.csv,data/jcim_strengthen_t0t1_v0/scripts/build_t0_strengthen_v1.py,ablation_ligand_scores.csv x4,LOCKED_POINT,0.6664/0.4297; 0.6504/0.6058; 0.6905/0.5000; 0.7143/0.6921 identical across unified_threshold and pocket_matched,LOCKED_POINT,1
+main_table,Table 2 CI,ligand bootstrap on summary_min,primary,data/jcim_strengthen_t0t1_v0/tables/unified_threshold_sensitivity_v2.csv,build_t0_strengthen_v1.py boot_pm_ci,same scores,LOCKED_BUT_CONFLICTING_EXECUTABLE,manuscript [0.282; integration branch declared this the sole Table 2 CI,CANONICAL_TABLE2_CI,1
+main_table,Table 2 descriptors,best-single-descriptor reference,primary,data/jcim_novelty_v0/tables/descriptor_all_four_directional_v1.csv,descriptor script via novelty pipeline,same panels,LOCKED,EGFR cLogP 0.4821; AChE TPSA 0.7333; PIK3CB/mTOR heavy 0.6217/0.463,LOCKED,1
+main_table,Table 3 Dual-vs-neither,AUC(vina_mean),prespecified formulation,data/jcim_novelty_v0/tables/formulation_conventional_vs_directional_v1.csv,data/jcim_novelty_v0/scripts/benchmark_formulation_v1.py,same ablation scores,LOCKED,recomputed 0.7560/0.6494/0.5592/0.5139 exactly,LOCKED,1
+main_table,Table 3 Dual-vs-all-nondual,AUC(vina_mean),prespecified formulation,same formulation CSV,benchmark_formulation_v1.py,same,LOCKED,0.5514/0.5792/0.5558/0.6741,LOCKED,1
+index,MASTER_RESULTS_TABLE,manuscript-facing index,governance,data/jcim_novelty_v0/tables/MASTER_RESULTS_TABLE.csv,data/jcim_novelty_v0/scripts/build_master_results_table_v1.py,listed source_file column,LOCKED_INDEX,Table 2 rows point at unified_threshold NOT pocket_matched,LOCKED_INDEX,1
+index,EVALUATION_CONTRACT,claim ceiling,governance,data/jcim_novelty_v0/tables/DUALFOURCLASS_EVALUATION_CONTRACT_v1.json,n/a,n/a,LOCKED,,LOCKED,1
+index,CHECKSUM_MANIFEST,SHA-256 of manuscript-facing files,governance,data/jcim_novelty_v0/tables/REVISION_CHECKSUM_MANIFEST_v1.csv,build_checksum_manifest_v1.py,WATCH list,LOCKED_TO_8d5f2eeb,,LOCKED_TO_8d5f2eeb,1
+index,ANALYSIS_HIERARCHY,primary vs sensitivity vs post-hoc,governance,docs/ANALYSIS_HIERARCHY_V1.md,n/a,n/a,LOCKED,,LOCKED,1
+index,VALIDATOR,CI-enforced phrases and numeric pins,governance,data/jcim_novelty_v0/scripts/validate_revision_v1.py,n/a,unified_threshold theta_6.0 CIs,LOCKED,pins 0.4297 [0.2818,LOCKED,1
+figure,Fig1,four-state evaluation and supply,primary,figures/jcim_article/Fig1_four_state_and_supply.{pdf,png,tif},plot_jcim_article_figures_v2.py,j0_strict_label_supply.csv + complete_case overlap,LOCKED,four-state schematic plus 49→K=4 funnel,LOCKED,1
+figure,Fig2,negative-class formulation,primary,figures/jcim_article/Fig2_negative_class_formulation.{pdf,png,tif},plot_jcim_article_figures_v2.py,unified_threshold + formulation + equal-score CSV,LOCKED,EGFR Δ=0.378 [0.205 0.547]; no formulation-gap effect-size label,LOCKED,1
+figure,Fig3,ligand chemistry,primary,figures/jcim_article/Fig3_ligand_chemistry.{pdf,png,tif},plot_jcim_article_figures_v2.py,ligand_ml + incremental_information + assembled_AChE_BChE.csv,LOCKED,ECFP4 vs Vina; Δ≤0.020; TPSA jitter,LOCKED,1
+figure,Fig4,computational realization,prespecified sensitivity,figures/jcim_article/Fig4_computational_realization.{pdf,png,tif},plot_jcim_article_figures_v2.py,independent_dock + alt receptor CSVs + multiseed v2,LOCKED,independent GNINA pose generation not CNN rescore,LOCKED,1
+figure,Fig5,mismatched-pocket scoring,prespecified sensitivity,figures/jcim_article/Fig5_mismatched_pocket.{pdf,png,tif},plot_jcim_article_figures_v2.py,wrong_pocket_paired_delta_bootstrap_v1.csv,LOCKED,paired Δ+95% CI; not wrong-pocket docking,LOCKED,1
+figure,Fig6,robustness and evidence boundary,prespecified sensitivity,figures/jcim_article/Fig6_evidence_boundary.{pdf,png,tif},plot_jcim_article_figures_v2.py,unified_threshold + pm110 + E8 + external_slice,LOCKED,BindingDB gate 0/4,LOCKED,1
+figure,Fig7,demoted to SI,legacy,figures/jcim_article/FigS9_ligand_controls.{pdf,png,tif},plot_jcim_si_composites_v1.py,ligand_ml + covariate + matched_subset,DEMOTED,former main Fig 7 B–D,LEGACY,0
+figure,Fig8,demoted to TOC,legacy,figures/jcim_article/TOC_graphic.{png,tif},plot_jcim_article_figures_v2.py,schematic,DEMOTED,workflow is TOC not a 8th main figure,LEGACY,0
+figure,TOC,graphical abstract,front,figures/jcim_article/TOC_graphic.{png,tif},plot_jcim_article_figures_v2.py,schematic,LOCKED,four-state to Dual-vs-neither ≠ Dual-vs-selective,LOCKED,1
+figure,FigS1,protocol and panel sensitivities,prespecified sensitivity,figures/jcim_article/FigS1_protocol_sensitivity.{pdf,png,tif},plot_jcim_article_figures_v2.py,unified_threshold + gnina CNN rescore of Vina poses + pm110 + E8,LOCKED,not independent pose generation,LOCKED,1
+figure,FigS2,equal-relation and sampling,prespecified sensitivity,figures/jcim_article/FigS2_equal_relation_and_sampling.{pdf,png,tif},plot_jcim_article_figures_v2.py,crossdb + holdout_vs_main,LOCKED,demoted former Fig 2B,LOCKED,1
+figure,FigS3,paired delta bootstrap,prespecified sensitivity,figures/jcim_article/FigS3_paired_delta_bootstrap.{pdf,png,tif},plot_jcim_article_figures_v2.py,descriptor_delta + scaffold_vs_random,LOCKED,matched/mismatched CIs now Figure 5,LOCKED,1
+figure,FigS4,pocket-matched forest,sensitivity,figures/jcim_article/FigS_pocket_matched_forest.{pdf,png,tif},plot_jcim_article_figures_v2.py,unified_threshold Vina CIs + forest_summary_min_ci_v1.csv descriptors,LOCKED,GNINA = CNN rescoring of Vina poses,LOCKED,1
+figure,FigS5,unused-pool holdout,prespecified sensitivity,figures/jcim_article/FigS_unused_pool_holdout.{pdf,png,tif},plot_jcim_article_figures_v2.py,holdout_pocket_matched_v1.csv,LOCKED,point estimates; Δ CIs in Figure 5,LOCKED,1
+figure,FigS6,detectable-effect,prespecified sensitivity,figures/jcim_article/FigS_detectable_effect.{pdf,png,tif},plot_jcim_article_figures_v2.py,detectable_effect_simulation_v1.csv,LOCKED,,LOCKED,1
+figure,FigS7,post-hoc formulation diagnostics,post-hoc,figures/jcim_article/FigS7_posthoc_diagnostics.{pdf,png,tif},plot_jcim_article_figures_v2.py,theta6_pair_census + and_filter + ligand_only_fullmap,LOCKED,not upgrades,LOCKED,1
+figure,FigS8,BindingDB native slice,prespecified external audit,figures/jcim_article/FigS_bindingdb_native_slice_v1.{pdf,png,tif},plot_jcim_article_figures_v2.py,external_slice_summary_v1.csv,LOCKED,zero pairs; not docked,LOCKED,1
+figure,FigS9,additional ligand-structure controls,sensitivity,figures/jcim_article/FigS9_ligand_controls.{pdf,png,tif},plot_jcim_si_composites_v1.py,ligand_ml + covariate + matched_subset,LOCKED,Vina logistic AUROC is not Table 2 rank AUROC,LOCKED,1
+figure,FigS10,mismatched point estimates,sensitivity,figures/jcim_article/FigS_mismatched_point_estimates.{pdf,png,tif},plot_jcim_si_composites_v1.py,pocket_matched + holdout + contact,LOCKED,bars and contact; paired Δ is Figure 5,LOCKED,1
+si_table,S1,software/seeds,reproducibility,data/jcim_strengthen_t0t1_v0/ENV_PIN.md + panel protocol.yaml,n/a,n/a,LOCKED,,LOCKED,1
+si_table,S2,boxes,protocol,data/*/boxes/*.json,n/a,frozen receptors,LOCKED,,LOCKED,1
+si_table,S3,cognate RMSD,prespecified / reconstructed QC,data/jcim_novelty_v0/tables/cognate_rank_rmsd_reaudit_v1.csv,cognate_rank_qc scripts,reconstructed EGFR/HER2 PDBQT,LOCKED,,LOCKED,1
+si_table,S4,theta grid,prespecified sensitivity,unified_threshold_sensitivity_v2.csv,build_t0_strengthen_v1.py,same scores,LOCKED_WITH_TABLE2,,LOCKED_WITH_TABLE2,1
+si_table,S5,matched subsets,sensitivity,data/jcim_strengthen_t0t1_v0/tables/matched_subset_directional_v1.csv,build_t0_strengthen_v1.py,same,LOCKED,,LOCKED,1
+si_table,S6,pocket-matched variants,sensitivity,data/jcim_bench_v0/tables/pocket_matched_directional_v1.csv,build_pocket_matched_diagnostics_v1.py,same,EXECUTABLE_VARIANT_CIS,use point estimates; do not overwrite Table 2 CIs from this file until freeze,EXECUTABLE_VARIANT_CIS,1
+si_table,S8,unused-pool holdout,internal sensitivity,data/jcim_holdout_v0/tables/holdout_pocket_matched_v1.csv,holdout scripts,unused-pool docking scores,LOCKED,,LOCKED,1
+si_table,S9/S30,receptor swaps,prespecified sensitivity,data/jcim_structure_robust_v0/tables/receptor_realization_two_pair_v1.csv,structure_robust scripts,alt-receptor scores,LOCKED_POINTS,,LOCKED_POINTS,1
+si_table,S12,BindingDB/PubChem counts,supply,data/jcim_supply_crossdb_v0/tables/crossdb_strict_supply_v1.csv,n/a,REST counts,LOCKED,,LOCKED,1
+si_table,S17,wrong-pocket paired delta,sensitivity,data/jcim_strengthen_t0t1_v0/tables/wrong_pocket_paired_delta_bootstrap_v1.csv,build_t0_strengthen_v1.py,same,LOCKED,,LOCKED,1
+si_table,S19,vs best descriptor,sensitivity,data/jcim_strengthen_t0t1_v0/tables/pocket_matched_vs_best_descriptor_delta_v1.csv,build_t0_strengthen_v1.py,same,LOCKED,,LOCKED,1
+si_table,S20,ECFP4 scaffold vs random,sensitivity,data/jcim_strengthen_t0t1_v0/tables/ligand_ml_scaffold_vs_random_v1.csv,build_t0_strengthen_v1.py,same,LOCKED,,LOCKED,1
+si_table,S22,formulation full grid,formulation,formulation_conventional_vs_directional_v1.csv,benchmark_formulation_v1.py,same,LOCKED,,LOCKED,1
+si_table,S23,chemotype hard-neg,exploratory,data/jcim_novelty_v0/tables/chemotype_matched_hardneg_v1.csv,novelty scripts,same,LOCKED,,LOCKED,1
+si_table,S24,ECFP4+docking increment,sensitivity,data/jcim_novelty_v0/tables/incremental_information_v1.csv,novelty scripts,same,LOCKED,max |delta| 0.020 on scaffold GroupKFold,LOCKED,1
+si_table,S25,mixed-library Top-10,exploratory,data/jcim_novelty_v0/tables/mixed_library_enrichment_v1.csv,novelty scripts,same,LOCKED,EGFR vina_mean Top10 hardneg_fraction=0.90,LOCKED,1
+si_table,S26,min/mean/geo/harm,sensitivity,data/jcim_novelty_v0/tables/aggregation_min_mean_geometric_harmonic_v1.csv,novelty scripts,same,LOCKED,,LOCKED,1
+si_table,S27,docking failures,sensitivity,data/jcim_novelty_v0/tables/docking_failure_census_v1.csv + docking_failure_rank_extreme_v1.csv,novelty scripts,job logs,LOCKED,,LOCKED,1
+si_table,S28,all four descriptors,primary support,descriptor_all_four_directional_v1.csv,novelty scripts,same,LOCKED,,LOCKED,1
+si_table,S29,max vs median,sensitivity,assay_max_vs_median_auroc_v1.csv,novelty scripts,2026-08-26 API refetch,LOCKED,EGFR 0.417 vs 0.424; do not mix with Table 2 0.430,LOCKED,1
+si_table,S31,detectable-effect,sensitivity,detectable_effect_simulation_v1.csv,novelty scripts,class sizes from Table 2,LOCKED,,LOCKED,1
+si_table,S32,independent GNINA,prespecified sensitivity,data/jcim_independent_dock_v0/tables/independent_dock_formulation_v1.csv,independent dock scripts,new GNINA poses,LOCKED,Dual-vs-neither uses score_mean = AUC(mean) matching Table 3,LOCKED,1
+si_table,S33,PIK3CA occupancy,post-hoc,data/jcim_structure_robust_v0/analysis/plif_v1/plif_residue_shift_top10_v1.csv,plif scripts,PM48 poses,LOCKED,,LOCKED,1
+si_table,S34,fixed-score negative class,formulation,formulation_equal_score_negative_v1.csv,benchmark_formulation_v1.py,same,LOCKED,EGFR pocket A delta 0.3783,LOCKED,1
+si_table,S35,measurement frequency,post-hoc,measurement_frequency_by_class_v1.csv,novelty scripts,API records,LOCKED,,LOCKED,1
+si_table,S36,high-confidence ChEMBL,post-hoc,high_confidence_summary_v1.csv,novelty scripts,2026-08-26 API,LOCKED,352/352 class match; AUROCs unchanged,LOCKED,1
+si_table,S37,complete-case,limitation,complete_case_usable_pchembl_overlap_v1.csv,novelty scripts,frozen maps,LOCKED,0.145119/0.340172/0.233349/0.265252,LOCKED,1
+si_table,S38,class chemistry,post-hoc,class_chemistry_summary_v1.csv,novelty scripts,same,LOCKED,,LOCKED,1
+si_table,S39,document-blocked CV,prespecified sensitivity,document_blocked_cv_summary_v1.csv + document_cluster_bootstrap_v1.csv,novelty scripts,same scores,LOCKED,EGFR D/B still 0.4297; PIK3CA/mTOR D/B cannot_stably_estimate,LOCKED,1
+si_table,S40,document-blocked methods,prespecified sensitivity,document_blocked_cv_methods_v1.csv,novelty scripts,same,LOCKED,,LOCKED,1
+si_table,S41,time split,prespecified sensitivity,time_split_class_counts_v1.csv + time_split_auroc_v1.csv,novelty scripts,document years,LOCKED,not external validation,LOCKED,1
+si_table,S42,assay-context review,post-hoc,assay_context_priority_ligands_v1.csv,novelty scripts,186 ligands,LOCKED,179 include / 7 uncertain / 0 exclude; ligand-level source reading is NOT in manuscript,LOCKED,1
+si_table,S43,BindingDB REST counts,historical supply,bindingdb_independence_summary_v1.csv,novelty scripts,REST,LOCKED,not native slice,LOCKED,1
+si_table,S44,49-pair census,post-hoc supply,theta6_pair_census_v1.csv,novelty scripts,J0 maps,LOCKED,17 directional_n10; 4 docked,LOCKED,1
+si_table,S45,property caliper,post-hoc,property_caliper_match_v1.csv,novelty scripts,scored panels,LOCKED,,LOCKED,1
+si_table,S46,AND filter,post-hoc,and_filter_operating_point_v1.csv,novelty scripts,scored panels,LOCKED,EGFR vina_worst p50 precision 0.2979,LOCKED,1
+si_table,S47,full-map ECFP4,post-hoc,ligand_only_fullmap_auroc_v1.csv,novelty scripts,full ChEMBL maps,LOCKED,EGFR D/neither 0.9214; D/B 0.8636,LOCKED,1
+si_table,S48,BindingDB native flow,external audit,external_candidate_flow.csv,external slice scripts,202608 TSV lock,LOCKED,not docked,LOCKED,1
+si_table,S49,external gate summary,external audit,external_slice_summary_v1.csv,external slice scripts,same,LOCKED,zero pairs; packaged=0,LOCKED,1
+si_table,S50-S53,MCL1 archive,formally demoted SI,mcl1 tables + formulation_auroc_MBX_v1.csv,mcl1 scripts,MCL1 docking archive,SI_ONLY,not Table 2,SI_ONLY,1
+frozen_scores,EGFR/HER2 Vina,primary scores,frozen input,data/egfr_her2_panel120_v0/tables/ablation_ligand_scores.csv,production Vina seed 20260727,panel_v0_120.csv,DO_NOT_REFRESH,,DO_NOT_REFRESH,1
+frozen_scores,AChE/BChE Vina,primary scores,frozen input,data/ache_bche_panel_v0/tables/ablation_ligand_scores.csv,production Vina,panel,DO_NOT_REFRESH,,DO_NOT_REFRESH,1
+frozen_scores,PIK3CA/PIK3CB Vina,primary scores,frozen input,data/pik3ca_pik3cb_panel_v0/tables/ablation_ligand_scores.csv,production Vina,panel,DO_NOT_REFRESH,,DO_NOT_REFRESH,1
+frozen_scores,PIK3CA/mTOR Vina,primary scores,frozen input,data/pik3ca_mtor_panel48_rdkit_v0/tables/ablation_ligand_scores.csv,production Vina E=16,panel_v0_48.csv,DO_NOT_REFRESH,,DO_NOT_REFRESH,1
+frozen_scores,multi-seed long,seed sensitivity scores,prespecified sensitivity,data/jcim_multiseed_v0/tables/multiseed_scores_long_v1.csv,run_four_pair_multiseed_vina_v1.py,same receptors/boxes,SCORES_OK_METRICS_WRONG_ESTIMAND,"keep scores; recompute Dual-vs-neither as AUC(vina_mean); v1 Dual-vs-neither is mean(AUC_A,AUC_B); Table S54 uses v2",LEGACY_WRONG_ESTIMAND; use v2,0
+legacy,PRIMARY_METRIC_V2.md,old summary,deprecated,data/jcim_strengthen_t0t1_v0/analysis/PRIMARY_METRIC_V2.md,n/a,pocket_matched CSV as of 2026-07-29,DEPRECATED,do not copy CIs into manuscript,LEGACY,0
+legacy,bootstrap_directional_ci_v1.csv,pooled vina_mean directional,legacy control,data/jcim_bench_v0/tables/bootstrap_directional_ci_v1.csv,legacy bootstrap,same,LEGACY,filename looks primary; EGFR summary_min 0.2824,LEGACY,0
+legacy,forest_summary_min_ci_v1.csv vina_mean rows,pooled vina_mean,legacy for descriptor forest,data/jcim_bench_v0/tables/forest_summary_min_ci_v1.csv,legacy,same,LEGACY_FOR_VINA,keep for descriptor CIs,LEGACY,0
+legacy,multiseed Dual-vs-neither column,mean of pocket AUCs,inconsistent estimand,data/jcim_multiseed_v0/tables/multiseed_auroc_by_seed_v1.csv,analyze_multiseed_vina_v1.py,multiseed_scores_long_v1.csv,NEEDS_REANALYSIS_NO_REDOCK,"directional summary_min column is valid; v1 Dual-vs-neither is mean(AUC_A,AUC_B); Table S54 uses v2",LEGACY_WRONG_ESTIMAND; use v2,0
+manuscript_source,ZH Results,assembled from,writing,docs/RESULTS_DRAFT_ZH_JCIM_V1.md,assemble_manuscript_zh.py,n/a,PROSE_LOCKED_NUMBERS_FROM_UNIFIED,do not edit MANUSCRIPT_JCIM_ZH.md by hand,PROSE_LOCKED_NUMBERS_FROM_UNIFIED,1
+manuscript_source,EN Results,assembled from,writing,docs/RESULTS_SECTION_JCIM_EN_V1.md,assemble_manuscript_en.py,n/a,PROSE_LOCKED_NUMBERS_FROM_UNIFIED,,PROSE_LOCKED_NUMBERS_FROM_UNIFIED,1
+source_reading,7 uncertain ligands,repo ledger not in article,post-hoc,data/jcim_novelty_v0/analysis/ASSAY_CONTEXT_SOURCE_READING_V1.md + uncertain_ligand_source_verdicts_v1.csv,n/a,literature_sources/,NOT_IN_MANUSCRIPT,no class flips at theta=6.0,NOT_IN_MANUSCRIPT,1
+index,STATISTICAL_LOCK,primary estimand definitions,governance,docs/STATISTICAL_LOCK_V1.md,n/a,n/a,absent,one-page lock; supersedes PRIMARY_METRIC_V2.md for submission,LOCKED,1
+index,SUBMISSION_BRANCH_POLICY,three-branch policy,governance,docs/SUBMISSION_BRANCH_POLICY_V1.md,n/a,n/a,absent,freeze and chatgpt branches are historical snapshots,LOCKED,1
+si_table,S54,five-seed Vina sensitivity,prespecified sensitivity,data/jcim_multiseed_v0/tables/multiseed_auroc_aggregate_v2.csv,data/jcim_multiseed_v0/scripts/analyze_multiseed_vina_v2.py,data/jcim_multiseed_v0/tables/multiseed_scores_long_v1.csv,v1 wrong Dual-vs-neither estimand,Dual-vs-neither = AUC(vina_mean); primary seed recovers Table 3; v1 not cited,LOCKED,1
+si_table,S54 per-seed,five-seed per-seed AUROCs,prespecified sensitivity,data/jcim_multiseed_v0/tables/multiseed_auroc_by_seed_v2.csv,analyze_multiseed_vina_v2.py,multiseed_scores_long_v1.csv,v1 present with wrong Dual-vs-neither,includes mean_marginal_pocket_auroc_D_vs_neither as named sensitivity only,LOCKED,1
+si_table,S54 consistency,gap-sign counts across seeds,prespecified sensitivity,data/jcim_multiseed_v0/tables/multiseed_consistency_v2.csv,analyze_multiseed_vina_v2.py,multiseed_scores_long_v1.csv,absent,EGFR positive gap 5/5; PIK3CA/mTOR positive gap 0/5 (underpowered neither),LOCKED,1
+script,Table2_CI_reader,read-only Table 2 lock,governance,scripts/primary/bootstrap_primary.py,n/a,unified_threshold_sensitivity_v2.csv,absent,does not re-bootstrap; future figures must call this reader,LOCKED,1
+script,release_packager,extract KEEP_FOR_RELEASE=1 snapshot,governance,scripts/package_jcim_release_v1.py,n/a,ARTICLE_ASSET_INDEX_v1.csv,absent,working tree keeps history; release/ is gitignored,LOCKED,1
+legacy,multiseed v1 Dual-vs-neither,wrong estimand snapshot,legacy,data/jcim_multiseed_v0/tables/multiseed_auroc_by_seed_v1.csv,analyze_multiseed_vina_v1.py,multiseed_scores_long_v1.csv,NEEDS_REANALYSIS_NO_REDOCK,"mean(AUC_A,AUC_B); kept for provenance; not Table S54",LEGACY,0

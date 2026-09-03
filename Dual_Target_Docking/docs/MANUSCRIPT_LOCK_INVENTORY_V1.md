@@ -20,13 +20,13 @@ One correction to the previous diagnosis: `pocket_matched_directional_v1.csv` is
 
 | Stream | Script | Offset key | Role today |
 |---|---|---|---|
-| Table 2 / Figure 3 / validator / MASTER | `build_t0_strengthen_v1.py` | `stable_offset(pair, "theta_6.0")` | **current manuscript lock** |
+| Table 2 / Figure 2 / validator / MASTER | `build_t0_strengthen_v1.py` | `stable_offset(pair, "theta_6.0")` | **current manuscript lock** |
 | Pocket-matched variant table (S6, Fig 6A) | `build_pocket_matched_diagnostics_v1.py` | `stable_offset(pair, "pocket_matched_vina")` | coeval executable; **do not overwrite Table 2 CIs yet** |
 | `PRIMARY_METRIC_V2.md` | prose snapshot | `seed=20260729` with no offset | **deprecated** (2026-07-29) |
 
 Both bootstrap implementations resample ligands **without class stratification** (`rng.choice` over the dual+A-only+B-only pool). Cluster bootstrap remains sensitivity only (`document_cluster_bootstrap_v1.csv`, `scaffold_cluster_bootstrap_v1.csv`).
 
-Do **not** hand-replace the four manuscript CIs with the pocket-matched column. Figure 3, `plotted_values.json`, `MASTER_RESULTS_TABLE.csv`, and `validate_revision_v1.py` are already pinned to `unified_threshold_sensitivity_v2.csv`. Swapping one file would desynchronize figures and CI.
+Do **not** hand-replace the four manuscript CIs with the pocket-matched column. Figure 2, `plotted_values.json`, `MASTER_RESULTS_TABLE.csv`, and `validate_revision_v1.py` are already pinned to `unified_threshold_sensitivity_v2.csv`. Swapping one file would desynchronize figures and CI.
 
 ---
 
@@ -127,26 +127,25 @@ All live in `figures/jcim_article/`. Captions: `figures/jcim_article/CAPTIONS.md
 
 | Figure | File stem | Reads |
 |---|---|---|
-| 1 | Fig1_task_schematic | schematic |
-| 2 | Fig2_hardneg_supply | J0 supply + Table S12 |
-| 3 | Fig3_formulation_comparison | unified_threshold + formulation CSV |
-| 4 | Fig4_confounds | unified_threshold + AChE assembled scores |
-| 5 | Fig5_receptor_realization | receptor_realization_two_pair + alt CSVs |
-| 6 | Fig6_wrong_pocket_paradox | pocket_matched_directional + holdout |
-| 7 | Fig7_confound_anatomy | ML / matched-subset tables |
-| 8 | Fig8_diagnostic_workflow | schematic |
+| 1 | Fig1_four_state_and_supply | schematic + J0 supply + complete-case overlap |
+| 2 | Fig2_negative_class_formulation | unified_threshold + formulation + equal-score CSV |
+| 3 | Fig3_ligand_chemistry | ligand_ml + incremental_information + AChE assembled |
+| 4 | Fig4_computational_realization | independent GNINA + alt PIK3CA CSVs + multiseed v2 |
+| 5 | Fig5_mismatched_pocket | wrong_pocket_paired_delta + holdout matching |
+| 6 | Fig6_evidence_boundary | unified_threshold grid + PM110 + E8 + BindingDB gate |
 | TOC | TOC_graphic | no AUROCs |
-| S1 | FigS1_protocol_sensitivity | unified_threshold grid + GNINA rescore + PM110 |
+| S1 | FigS1_protocol_sensitivity | unified_threshold grid + GNINA CNN rescore of Vina poses + PM110 |
 | S2 | FigS2_equal_relation_and_sampling | crossdb + holdout shift |
-| S3 | FigS3_paired_delta_bootstrap | paired-delta CSVs |
-| S4 | FigS_pocket_matched_forest | unified Vina CIs + forest descriptor CIs |
+| S3 | FigS3_paired_delta_bootstrap | descriptor Δ and scaffold-vs-random; matched/mismatched now Figure 5 |
+| S4 | FigS_pocket_matched_forest | unified Vina CIs + forest descriptor CIs (GNINA = CNN rescore) |
 | S5 | FigS_unused_pool_holdout | holdout_pocket_matched |
 | S6 | FigS_detectable_effect | detectable_effect_simulation |
-| S7 | FigS_formulation_upgrades_v1 | census / AND / full-map (**png only**) |
-| S8 | FigS_bindingdb_native_slice_v1 | external_candidate_flow |
+| S7 | FigS7_posthoc_diagnostics | census / AND / full-map |
+| S8 | FigS_bindingdb_native_slice_v1 | external_slice_summary |
+| S9 | FigS9_ligand_controls | descriptors / logistic covariates / matched subsets |
 
 Regenerate command (does not change scores):  
-`python3 data/jcim_bench_v0/scripts/plot_jcim_article_figures_v1.py`
+`python3 data/jcim_bench_v0/scripts/plot_jcim_article_figures_v2.py`
 
 ---
 
@@ -172,14 +171,19 @@ MCL1/Bcl-xL (S50–S53) is SI-only after formal demotion: Vina Dual vs neither 0
 
 ---
 
-## 8. Recommended freeze (later; not done here)
+## 8. Integration-branch status (2026-08-31)
 
-Before any manuscript number change:
+Done on `cursor/jcim-final-integration-0b1a` without changing Table 2 CIs:
 
-1. Write a one-page statistical lock: non-stratified vs class-stratified ligand bootstrap; cluster bootstrap = sensitivity only; seed = `20260729 + stable_offset(pair, "table2_primary")` **once**, reused by every Table 2 / S4 / Figure 3 call.
-2. Rebuild `unified_threshold_sensitivity_v2.csv` and `pocket_matched_directional_v1.csv` from that single seed function so primary CIs cannot fork.
-3. Re-run `analyze_multiseed_vina_v1.py` to emit `AUC_DN_vina_mean` and keep `mean_marginal_pocket_auroc_D_vs_neither` as a named diagnostic.
-4. Rebuild MASTER, checksum manifest, figures (`plotted_values.json`), then assemble manuscripts.
-5. Only then change Table 2 CIs in Results.
+1. `docs/STATISTICAL_LOCK_V1.md` now defines the estimands on one page.
+2. Table 2 CIs remain `unified_threshold_sensitivity_v2.csv`. A read-only loader is `scripts/primary/bootstrap_primary.py`. Rebuilding a shared hash-offset bootstrap (item 2 below) is still future work.
+3. `analyze_multiseed_vina_v2.py` writes `AUC(vina_mean)` Dual-versus-neither and keeps `mean_marginal_pocket_auroc_D_vs_neither` as a named diagnostic. Primary seed recovered Table 3. Table S54 cites v2 only.
+4. MASTER, checksum, and assembled manuscripts are regenerated on this branch. Figures were not redrawn because Table 2 CIs did not change.
+5. Table 2 CIs in Results are unchanged.
 
-Until that freeze, the article should continue to cite **unified_threshold θ=6.0** for Table 2 CIs and **formulation_conventional_vs_directional_v1.csv** for Table 3.
+Still later, and **not** this integration:
+
+- Rebuild `unified_threshold_sensitivity_v2.csv` and `pocket_matched_directional_v1.csv` from one seed function so those two executable streams cannot fork.
+
+Until that later freeze, the article continues to cite **unified_threshold θ=6.0** for Table 2 CIs and **formulation_conventional_vs_directional_v1.csv** for Table 3.
+

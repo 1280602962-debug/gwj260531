@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
-"""Summarize four-pair multi-seed Vina sensitivity (after docking completes)."""
+"""Summarize four-pair multi-seed Vina sensitivity (after docking completes).
+
+LEGACY. Dual-versus-neither here is mean(AUC_A, AUC_B), which is not the
+Table 3 estimand. Do not overwrite these v1 outputs. Use
+`analyze_multiseed_vina_v2.py` for manuscript-facing Table S54.
+"""
 from __future__ import annotations
 
 import csv

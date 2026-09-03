@@ -8,18 +8,19 @@ This is not observed (post hoc) power. For each frozen (n_dual, n_neg) and a
 grid of true AUROCs, it estimates the probability that the bootstrap CI
 excludes 0.5 under a binormal score model.
 
-summary_min uses a joint three-class resample (dual / A-only / B-only) with
-independent pocket-A and pocket-B score channels, matching the primary
-endpoint construction.
+summary_min uses class-preserving resampling of dual / A-only / B-only with
+independent pocket-A and pocket-B score channels. Fixed class sizes are part
+of the simulation design; this differs from the non-stratified empirical
+bootstrap used for the canonical Table 2 interval.
 """
 from __future__ import annotations
 
 import csv
 import json
+from statistics import NormalDist
 from pathlib import Path
 
 import numpy as np
-from scipy.stats import norm
 
 ROOT = Path(__file__).resolve().parents[3]
 OUT = ROOT / "data" / "jcim_novelty_v0"
@@ -49,7 +50,7 @@ def mu_from_auc(auc: float) -> float:
         return -np.inf
     if a >= 1.0:
         return np.inf
-    return float(np.sqrt(2.0) * norm.ppf(a))
+    return float(np.sqrt(2.0) * NormalDist().inv_cdf(a))
 
 
 def batch_auroc(pos_b: np.ndarray, neg_b: np.ndarray) -> np.ndarray:
@@ -171,7 +172,7 @@ def main() -> None:
             )
 
     out_csv = TAB / "detectable_effect_simulation_v1.csv"
-    with out_csv.open("w", newline="") as fh:
+    with out_csv.open("w", encoding="utf-8", newline="") as fh:
         w = csv.DictWriter(fh, fieldnames=list(rows[0].keys()))
         w.writeheader()
         w.writerows(rows)
@@ -181,15 +182,17 @@ def main() -> None:
         "n_boot": N_BOOT,
         "seed": SEED,
         "score_model": "binormal_equal_variance",
-        "bootstrap": "ligand-level class-preserving percentile 95% CI, matching Methods 2.4",
+        "bootstrap": "ligand-level class-preserving percentile 95% CI; fixed class sizes differ from the non-stratified empirical Table 2 bootstrap",
         "not": "observed/post-hoc power",
         "pairs": PAIRS,
-        "source_csv": str(out_csv.relative_to(ROOT)),
+        "source_csv": out_csv.relative_to(ROOT).as_posix(),
     }
     (AN / "DETECTABLE_EFFECT_SIMULATION_V1.md").write_text(
-        _verdict_md(rows, meta)
+        _verdict_md(rows, meta), encoding="utf-8"
     )
-    (TAB / "detectable_effect_simulation_v1.meta.json").write_text(json.dumps(meta, indent=2) + "\n")
+    (TAB / "detectable_effect_simulation_v1.meta.json").write_text(
+        json.dumps(meta, indent=2) + "\n", encoding="utf-8"
+    )
     print("wrote", out_csv)
 
 
@@ -203,7 +206,7 @@ def _verdict_md(rows: list[dict], meta: dict) -> str:
     lines = [
         "# Detectable-effect simulation v1",
         "",
-        "Zero docking. Binormal scores; ligand-level bootstrap as in Methods 2.4.",
+        "Zero docking. Binormal scores; ligand-level class-preserving bootstrap with fixed class sizes as part of the simulation design.",
         f"N_MC = {meta['n_mc']}; N_BOOT = {meta['n_boot']}; seed = {meta['seed']}.",
         "",
         "This is **not** observed power on the empirical AUROCs.",

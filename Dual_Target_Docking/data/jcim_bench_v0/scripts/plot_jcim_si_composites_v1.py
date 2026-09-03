@@ -1,8 +1,8 @@
-"""Extended JCIM figures from frozen CSVs (same style as Fig 1–5).
+"""Extended JCIM SI figures from frozen CSVs (same style as the six main figures).
 
-Main: Fig 6 wrong-pocket paradox · Fig 7 confound tests.
-SI: S1 protocol knobs · S2 equal-relation supply + sampling shift.
-Called from plot_jcim_article_figures_v1.py so one command regenerates everything.
+SI: S1 protocol/panel sensitivities · S2 equal-relation supply · S3 extra paired Δ
+· S9 ligand controls (former Fig 7) · mismatched point estimates (former Fig 6 bars).
+Called from plot_jcim_article_figures_v2.py.
 """
 
 from __future__ import annotations
@@ -187,21 +187,21 @@ def fig_s2_protocol(D: dict, P: dict) -> None:
     m01 = [fnum(D["gnina_mode"][p]["summary_min"]) for p in PAIR_ORDER]
     b9 = [fnum(D["gnina9"][p]["summary_min"]) for p in PAIR_ORDER]
     ax.bar(x - w, vina, w, color=C["vina"], label="Vina (primary)", zorder=3)
-    ax.bar(x, m01, w, color=C["gnina"], label="GNINA mode01", zorder=3)
-    ax.bar(x + w, b9, w, color="#005F73", label="GNINA best-of-9", zorder=3)
+    ax.bar(x, m01, w, color=C["gnina"], label="CNN mode-1", zorder=3)
+    ax.bar(x + w, b9, w, color="#005F73", label="CNN best-of-9", zorder=3)
     ax.axhline(0.5, color=C["chance"], ls="--", lw=0.9, zorder=1)
     ax.set_xticks(x)
     ax.set_xticklabels(TICK, fontsize=6.5)
     ax.set_ylabel("Pocket-matched summary_min")
     ax.set_ylim(0, 1.0)
-    ax.set_title("GNINA pose coverage", fontsize=FS_AXIS, pad=3)
+    ax.set_title("GNINA CNN rescoring of Vina poses", fontsize=FS_AXIS, pad=3)
     legend_below(ax, ncol=3, y=-0.24)
     P["s2B"] = {"vina": vina, "mode01": m01, "best9": b9}
 
     # C: PM48 vs PM110
     ax = axes[1, 0]
     panel_label(ax, "C", x=-0.18, y=1.04)
-    arms = [("vina", "Vina", C["vina"]), ("rtm", "RTMScore", C["rtm"]), ("gnina_best9", "GNINA best-of-9", C["gnina"])]
+    arms = [("vina", "Vina", C["vina"]), ("rtm", "RTMScore", C["rtm"]), ("gnina_best9", "CNN best-of-9", C["gnina"])]
     x = np.arange(len(arms))
     w = 0.32
     y48, y110 = [], []
@@ -268,8 +268,8 @@ def fig6_wrong_pocket(D: dict, P: dict) -> None:
     for p in PAIR_ORDER:
         matched.append(fnum(D["theta6"][p]["pocket_matched_summary_min"]))
         wrong.append(fnum(D["pm_by"][(p, "wrong_pocket_control_vina")]["summary_min"]))
-    ax.bar(x - w / 2, matched, w, color=C["vina"], label="Pocket-matched", zorder=3)
-    ax.bar(x + w / 2, wrong, w, color="#999999", label="Wrong-pocket", zorder=3)
+    ax.bar(x - w / 2, matched, w, color=C["vina"], label="Matched-pocket", zorder=3)
+    ax.bar(x + w / 2, wrong, w, color="#999999", label="Mismatched-pocket", zorder=3)
     ax.axhline(0.5, color=C["chance"], ls="--", lw=0.9, zorder=1)
     ax.set_xticks(x)
     ax.set_xticklabels(TICK, fontsize=6.5)
@@ -290,7 +290,7 @@ def fig6_wrong_pocket(D: dict, P: dict) -> None:
         hm.append(fnum(D["hold_pm"][p]["summary_min"]))
         hw.append(fnum(D["hold_wp"][p]["summary_min"]))
     ax.bar(x - w / 2, hm, w, color=C["vina"], label="Pocket-matched", zorder=3)
-    ax.bar(x + w / 2, hw, w, color="#999999", label="Wrong-pocket", zorder=3)
+    ax.bar(x + w / 2, hw, w, color="#999999", label="Mismatched-pocket", zorder=3)
     ax.axhline(0.5, color=C["chance"], ls="--", lw=0.9, zorder=1)
     ax.set_xticks(x)
     ax.set_xticklabels(HOLD_TICK, fontsize=6.5)
@@ -328,7 +328,7 @@ def fig6_wrong_pocket(D: dict, P: dict) -> None:
     ax.legend(
         handles=[
             Line2D([0], [0], marker="o", color=C["vina"], ls="none", ms=5.5, label="Pocket-matched"),
-            Line2D([0], [0], marker="s", color="#999999", ls="none", ms=5.5, label="Wrong-pocket"),
+            Line2D([0], [0], marker="s", color="#999999", ls="none", ms=5.5, label="Mismatched-pocket"),
         ],
         loc="upper center",
         bbox_to_anchor=(0.5, -0.24),
@@ -352,7 +352,7 @@ def fig6_wrong_pocket(D: dict, P: dict) -> None:
         vw.append(fnum(D["hold_wp"][p]["summary_min"]))
     ax.bar(x - bw, cA, bw, color=C["a_only"], label="contact pocket A", zorder=3)
     ax.bar(x, cB, bw, color=C["b_only"], label="contact pocket B", zorder=3)
-    ax.bar(x + bw, vw, bw, color="#999999", label="Vina wrong-pocket", zorder=3)
+    ax.bar(x + bw, vw, bw, color="#999999", label="Vina mismatched-pocket", zorder=3)
     ax.axhline(0.5, color=C["chance"], ls="--", lw=0.9, zorder=1)
     ax.set_xticks(x)
     ax.set_xticklabels(HOLD_TICK, fontsize=6.5)
@@ -364,7 +364,7 @@ def fig6_wrong_pocket(D: dict, P: dict) -> None:
     P["s4C"] = P["fig6D"]
 
     fig.subplots_adjust(wspace=0.38, hspace=0.64, left=0.10, right=0.98, top=0.94, bottom=0.15)
-    save_all(fig, "Fig6_wrong_pocket_paradox")
+    save_all(fig, "FigS_mismatched_point_estimates")
     plt.close(fig)
 
 
@@ -461,10 +461,11 @@ def fig_s3_confounds(D: dict, P: dict) -> None:
     ax.set_xticklabels(TICK, fontsize=6.5)
     ax.set_ylabel("D vs B_only AUROC")
     ax.set_ylim(0, 1.18)
-    ax.set_title("Covariate-adjusted weak arm", fontsize=FS_AXIS, pad=3)
+    ax.set_title("Covariate-adjusted weak arm (logistic)", fontsize=FS_AXIS, pad=3)
     legend_below(ax, ncol=2, y=-0.24)
     for i, o in enumerate(ors):
         ax.text(i, max(only[i], adj[i]) + 0.04, f"OR={o:.2f}", ha="center", fontsize=5.5, color="#555555")
+    ax.text(0.02, 0.04, "not Table 2 rank AUROC", transform=ax.transAxes, fontsize=5.5, color="#666666")
     P["s3C"] = {"only": only, "adj": adj, "or": ors}
 
     # D: potency/size-matched D vs B
@@ -504,7 +505,7 @@ def fig_s3_confounds(D: dict, P: dict) -> None:
     P["s3D"] = plotted
 
     fig.subplots_adjust(wspace=0.40, hspace=0.68, left=0.11, right=0.98, top=0.94, bottom=0.16)
-    save_all(fig, "Fig7_confound_anatomy")
+    save_all(fig, "FigS9_ligand_controls")
     plt.close(fig)
 
 
@@ -920,8 +921,8 @@ def verify_si(D: dict, provenance: dict, errors: list) -> None:
     from PIL import Image
 
     for name in (
-        "Fig6_wrong_pocket_paradox.png",
-        "Fig7_confound_anatomy.png",
+        "FigS_mismatched_point_estimates.png",
+        "FigS9_ligand_controls.png",
         "FigS1_protocol_sensitivity.png",
         "FigS2_equal_relation_and_sampling.png",
         "FigS3_paired_delta_bootstrap.png",

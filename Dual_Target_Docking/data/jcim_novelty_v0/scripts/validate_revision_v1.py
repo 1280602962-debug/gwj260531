@@ -126,6 +126,9 @@ def main():
         "formally demoted",
         "exploratory repository archive",
         "not as a fifth main pair",
+        "Table S54",
+        "Across five prespecified Vina seeds",
+        "The EGFR/HER2 formulation gap remained positive across all five seeds",
     )
     for phrase in required_phrases:
         assert phrase in manuscript, phrase
@@ -229,6 +232,45 @@ def main():
     assert "不作为外部验证" in zh
     assert "纳入/排除与构建体/突变核查栏仍为空" not in zh
     assert "人工纳入/排除仍待本地阅读原文" not in zh
+    assert "Table S54" in zh
+    assert "五个预先规定的 Vina 种子" in zh
+    assert "EGFR/HER2 的设定差距在五个 Vina 种子上均为正" in zh
+    abstract = manuscript.split("## 1.")[0]
+    assert "0.373" not in abstract
+    assert "0.7641" not in manuscript
+
+    ms = rows_at("data/jcim_multiseed_v0/tables/multiseed_auroc_by_seed_v2.csv")
+    table3 = {
+        "EGFR/HER2": 0.7560,
+        "AChE/BChE": 0.6494,
+        "PIK3CA/PIK3CB": 0.5592,
+        "PIK3CA/mTOR": 0.5139,
+    }
+    for pair, expected in table3.items():
+        rec = one(ms, pair=pair, seed="20260727")
+        near(rec["auroc_dual_vs_neither_vina_mean"], expected)
+    cons = rows_at("data/jcim_multiseed_v0/tables/multiseed_consistency_v2.csv")
+    assert one(cons, pair="EGFR/HER2")["n_seeds_positive_gap"] == "5"
+
+    leave = rows("leave_cognate_out_v1.csv")
+    assert (
+        one(leave, pair="EGFR/HER2")["n_complete_after"],
+        one(leave, pair="EGFR/HER2")["n_dual_after"],
+        one(leave, pair="EGFR/HER2")["n_A_only_after"],
+        one(leave, pair="EGFR/HER2")["n_B_only_after"],
+        one(leave, pair="EGFR/HER2")["n_neither_after"],
+    ) == ("109", "27", "38", "32", "12")
+    assert (
+        one(leave, pair="PIK3CA/mTOR")["n_complete_after"],
+        one(leave, pair="PIK3CA/mTOR")["n_dual_after"],
+        one(leave, pair="PIK3CA/mTOR")["n_A_only_after"],
+        one(leave, pair="PIK3CA/mTOR")["n_B_only_after"],
+        one(leave, pair="PIK3CA/mTOR")["n_neither_after"],
+    ) == ("47", "17", "14", "12", "4")
+    near(one(leave, pair="EGFR/HER2")["summary_min_after"], 0.4167)
+    near(one(leave, pair="EGFR/HER2")["D_vs_neither_after"], 0.7531)
+    near(one(leave, pair="PIK3CA/mTOR")["summary_min_after"], 0.6740)
+    near(one(leave, pair="PIK3CA/mTOR")["D_vs_neither_after"], 0.5000)
     print("revision validation: PASS")
 
 
