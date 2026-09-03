@@ -33,7 +33,7 @@ def main():
                 {
                     "claim_id": f"master::{r.get('table_id','') }::{r.get('pair','') }::{r.get('metric','')}",
                     "manuscript_value": r.get("value", r.get("auroc", "")),
-                    "source_file": r.get("source", r.get("source_file", str(MASTER.relative_to(ROOT)))),
+                    "source_file": r.get("source", r.get("source_file", MASTER.relative_to(ROOT).as_posix())),
                     "notes": r.get("note", ""),
                     "status": "FROM_MASTER",
                 }
@@ -78,13 +78,13 @@ def main():
         in_master = val in master_vals or any(val in x for x in master_vals)
         # search tables for exact token
         hits = []
-        for p in TAB.glob("*.csv"):
+        for p in sorted(TAB.glob("*.csv")):
             try:
                 txt = p.read_text(encoding="utf-8", errors="ignore")
             except Exception:
                 continue
             if re.search(rf"(?m)(^|,){re.escape(val)}(,|$)", txt):
-                hits.append(str(p.relative_to(ROOT)))
+                hits.append(p.relative_to(ROOT).as_posix())
                 if len(hits) >= 3:
                     break
         status = "PASS" if in_ms and hits else ("WARN_NOT_IN_MS" if hits and not in_ms else "CHECK")
@@ -124,6 +124,7 @@ def main():
         ("detectable_effect_simulation_v1.csv", TAB / "detectable_effect_simulation_v1.csv"),
         ("scaffold_cluster_bootstrap_v1.csv", TAB / "scaffold_cluster_bootstrap_v1.csv"),
         ("bindingdb_external_feasibility_flow_v1.csv", TAB / "bindingdb_external_feasibility_flow_v1.csv"),
+        ("leave_cognate_out_v1.csv", TAB / "leave_cognate_out_v1.csv"),
     ]:
         stale_checks.append((label, "PASS" if p.exists() else "PENDING"))
 
@@ -132,7 +133,7 @@ def main():
         "# FINAL_MANUSCRIPT_NUMERIC_AUDIT",
         "",
         "One-number → source check for DualFourClass JCIM manuscript package.",
-        f"Manuscript: `{MS.relative_to(ROOT) if MS.exists() else 'MISSING'}`",
+        f"Manuscript: `{MS.relative_to(ROOT).as_posix() if MS.exists() else 'MISSING'}`",
         "",
         "## Key manuscript numbers",
         "",
@@ -170,6 +171,7 @@ def main():
         "- Do not replace primary seed-20260727 Table 2 with multi-seed averages.",
         "- BindingDB remains a supply-freeze negative result.",
         "- MCL1/Bcl-xL remains exploratory stress-test.",
+        "- Leave-cognate-out removes one exact co-crystallized ligand only; it is not a train/test leakage or chemotype-removal test.",
         "",
     ]
     OUT.write_text("\n".join(lines) + "\n", encoding="utf-8")

@@ -29,6 +29,7 @@ Report as sensitivity; do not elevate to “robustness proof.”
 - Dual vs neither on the same frozen scores as a *formulation contrast* (changes negative class; not a paired test of one estimand)  
 - Independent GNINA pose-generation on EGFR/HER2 and PIK3CA/mTOR (formulation persistence check, not engine bake-off)  
 - Five frozen Vina seeds on the four primary panels (Table S54): same directional and Dual-versus-neither (`AUC(vina_mean)`) estimands as Tables 2–3; median/IQR/range only; do not replace Table 2  
+- Leave-exact-cognate-out on EGFR/HER2 and PIK3CA/mTOR (Table S55): single-ligand sensitivity only; not a train/test leakage test and not a cognate-chemotype control
 - Unused-pool holdout (internal panel-membership only)  
 - Pre-frozen 2018 literature-year split (supply failure; not external validation)  
 - BindingDB-native archive rebuild under the pre-frozen external gate (zero pairs; not docked)

@@ -37,7 +37,7 @@ FIELDS = [
 
 
 def _read(path: Path) -> list[dict]:
-    with path.open() as f:
+    with path.open(encoding="utf-8", newline="") as f:
         return list(csv.DictReader(f))
 
 
@@ -871,8 +871,35 @@ def main() -> None:
                 )
             )
 
+    leave_path = TAB / "leave_cognate_out_v1.csv"
+    if leave_path.exists() and leave_path.stat().st_size:
+        for r in _read(leave_path):
+            for metric, value, before in (
+                ("summary_min_after", r["summary_min_after"], r["summary_min_before"]),
+                ("D_vs_neither_after", r["D_vs_neither_after"], r["D_vs_neither_before"]),
+            ):
+                rows.append(
+                    row(
+                        block="leave_exact_cognate_out",
+                        manuscript_table="Table S55",
+                        pair=r["pair"],
+                        setting=f"remove_{r['cognate_name']}",
+                        metric=metric,
+                        value=value,
+                        n_scored=r["n_complete_after"],
+                        n_dual=r["n_dual_after"],
+                        n_A_only=r["n_A_only_after"],
+                        n_B_only=r["n_B_only_after"],
+                        note=(
+                            f"before={before}; single exact cognate only; "
+                            "not a train/test leakage or chemotype-removal analysis"
+                        ),
+                        source_file="data/jcim_novelty_v0/tables/leave_cognate_out_v1.csv",
+                    )
+                )
+
     out_path = TAB / "MASTER_RESULTS_TABLE.csv"
-    with out_path.open("w", newline="") as f:
+    with out_path.open("w", encoding="utf-8", newline="") as f:
         w = csv.DictWriter(f, fieldnames=FIELDS, lineterminator="\n")
         w.writeheader()
         w.writerows(rows)

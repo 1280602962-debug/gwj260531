@@ -1,6 +1,6 @@
 # Detectable-effect simulation v1
 
-Zero docking. Binormal scores; ligand-level bootstrap as in Methods 2.4.
+Zero docking. Binormal scores; ligand-level class-preserving bootstrap with fixed class sizes as part of the simulation design.
 N_MC = 1000; N_BOOT = 2000; seed = 20260729.
 
 This is **not** observed power on the empirical AUROCs.

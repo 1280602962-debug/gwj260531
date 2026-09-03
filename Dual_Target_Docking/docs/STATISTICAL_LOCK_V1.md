@@ -80,6 +80,13 @@ Primary seed Dual-versus-neither **must** recover Table 3. The v2 analyzer exits
 
 v1 Dual-versus-neither columns are a dated wrong-estimand snapshot. Do not copy them into the article.
 
+## Leave-exact-cognate-out (Table S55)
+
+Remove the exact co-crystallized ligand only when it is a member of the main panel, then recompute the Table 2 directional AUROCs, descriptive `summary_min`, and Table 3 `AUC(vina_mean)` on seed 20260727. This is a single-ligand sensitivity analysis, not a train/test leakage test and not a cognate-chemotype removal analysis.
+
+Canonical source: `data/jcim_novelty_v0/tables/leave_cognate_out_v1.csv`
+Generator: `data/jcim_novelty_v0/scripts/leave_cognate_out_v1.py`
+
 ## Sensitivity only
 
 - Cluster bootstrap (document / scaffold)

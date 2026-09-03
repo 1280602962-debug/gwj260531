@@ -251,6 +251,26 @@ def main():
         near(rec["auroc_dual_vs_neither_vina_mean"], expected)
     cons = rows_at("data/jcim_multiseed_v0/tables/multiseed_consistency_v2.csv")
     assert one(cons, pair="EGFR/HER2")["n_seeds_positive_gap"] == "5"
+
+    leave = rows("leave_cognate_out_v1.csv")
+    assert (
+        one(leave, pair="EGFR/HER2")["n_complete_after"],
+        one(leave, pair="EGFR/HER2")["n_dual_after"],
+        one(leave, pair="EGFR/HER2")["n_A_only_after"],
+        one(leave, pair="EGFR/HER2")["n_B_only_after"],
+        one(leave, pair="EGFR/HER2")["n_neither_after"],
+    ) == ("109", "27", "38", "32", "12")
+    assert (
+        one(leave, pair="PIK3CA/mTOR")["n_complete_after"],
+        one(leave, pair="PIK3CA/mTOR")["n_dual_after"],
+        one(leave, pair="PIK3CA/mTOR")["n_A_only_after"],
+        one(leave, pair="PIK3CA/mTOR")["n_B_only_after"],
+        one(leave, pair="PIK3CA/mTOR")["n_neither_after"],
+    ) == ("47", "17", "14", "12", "4")
+    near(one(leave, pair="EGFR/HER2")["summary_min_after"], 0.4167)
+    near(one(leave, pair="EGFR/HER2")["D_vs_neither_after"], 0.7531)
+    near(one(leave, pair="PIK3CA/mTOR")["summary_min_after"], 0.6740)
+    near(one(leave, pair="PIK3CA/mTOR")["D_vs_neither_after"], 0.5000)
     print("revision validation: PASS")
 
 

@@ -56,6 +56,9 @@ WATCH = [
     "data/jcim_multiseed_v0/tables/multiseed_auroc_by_seed_v2.csv",
     "data/jcim_multiseed_v0/tables/multiseed_auroc_aggregate_v2.csv",
     "data/jcim_multiseed_v0/tables/multiseed_consistency_v2.csv",
+    "data/jcim_novelty_v0/tables/leave_cognate_out_v1.csv",
+    "data/jcim_novelty_v0/analysis/LEAVE_COGNATE_OUT_V1.md",
+    "data/jcim_novelty_v0/scripts/leave_cognate_out_v1.py",
     "data/manuscript_lock/ARTICLE_ASSET_INDEX_v1.csv",
     "docs/MANUSCRIPT_LOCK_INVENTORY_V1.md",
 ]
@@ -72,10 +75,11 @@ def sha256(path: Path) -> str:
     """
     raw = path.read_bytes()
     if path.suffix.lower() in TEXT_SUFFIXES:
-        # Normalize newlines to LF; strip UTF-8 BOM if present.
-        text = raw.decode("utf-8-sig", errors="surrogateescape")
-        text = text.replace("\r\n", "\n").replace("\r", "\n")
-        raw = text.encode("utf-8")
+        # Normalize line endings as bytes so historical text files containing
+        # non-UTF-8 bytes remain hashable. Strip only an actual UTF-8 BOM.
+        if raw.startswith(b"\xef\xbb\xbf"):
+            raw = raw[3:]
+        raw = raw.replace(b"\r\n", b"\n").replace(b"\r", b"\n")
     return hashlib.sha256(raw).hexdigest()
 
 

@@ -17,8 +17,8 @@ Manuscript: `docs/MANUSCRIPT_JCIM_EN.md`
 | GNINA Dual-vs-neither EGFR | 0.783 | 1 |  |  | CHECK |
 | GNINA summary_min EGFR | 0.220 | 1 |  |  | CHECK |
 | MCL1 exploratory summary_min | 0.609 | 0 |  |  | CHECK |
-| BindingDB eligible pairs | 0 | 1 | data/jcim_novelty_v0/tables/assay_max_vs_median_flips_v1.csv; data/jcim_novelty_ | db595e9c4c247509 | PASS |
-| K pairs | 4 | 1 | data/jcim_novelty_v0/tables/assay_max_vs_median_flips_v1.csv; data/jcim_novelty_ | db595e9c4c247509 | PASS |
+| BindingDB eligible pairs | 0 | 1 | data/jcim_novelty_v0/tables/aggregation_min_mean_geometric_harmonic_v1.csv; data | 9fa170b2cf653d9a | PASS |
+| K pairs | 4 | 1 | data/jcim_novelty_v0/tables/aggregation_min_mean_geometric_harmonic_v1.csv; data | 9fa170b2cf653d9a | PASS |
 
 ## Artifact presence / stale-claim checks
 
@@ -28,6 +28,7 @@ Manuscript: `docs/MANUSCRIPT_JCIM_EN.md`
 - PASS: detectable_effect_simulation_v1.csv
 - PASS: scaffold_cluster_bootstrap_v1.csv
 - PASS: bindingdb_external_feasibility_flow_v1.csv
+- PASS: leave_cognate_out_v1.csv
 
 ## Uncertainty matrix (prespecified)
 
@@ -46,4 +47,5 @@ Manuscript: `docs/MANUSCRIPT_JCIM_EN.md`
 - Do not replace primary seed-20260727 Table 2 with multi-seed averages.
 - BindingDB remains a supply-freeze negative result.
 - MCL1/Bcl-xL remains exploratory stress-test.
+- Leave-cognate-out removes one exact co-crystallized ligand only; it is not a train/test leakage or chemotype-removal test.
 
