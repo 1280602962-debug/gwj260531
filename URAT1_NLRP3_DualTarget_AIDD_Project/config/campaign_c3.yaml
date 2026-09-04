@@ -1,14 +1,16 @@
-# campaign C3 — 预登记：cryo-EM 锚定的双节点结构指纹筛选
+# campaign C3 — 预登记：实验结构模板上的双节点结构指纹筛选
+# 「cryo-EM 锚定」不是方法名，见 docs/PROJECT_ROUTE_C3_CRYOEM_DUAL_NODE.md 用语更正。
 # 目标 = 候选分子 + 正面论文。不以负结果为产品。
-# 方案全文: docs/PROJECT_ROUTE_C3_CRYOEM_DUAL_NODE.md
 # 只读: data/repurposing/p2/ , data/campaigns/c1/
 
 name: C3
 status: preregistered_awaiting_s1
 goal: 产出经结构与回顾性验证优先排序的 URAT1-NLRP3 双节点候选分子
 positive_claim: >
-  首个以 cryo-EM 共结构锚定、以已发表突变体数据验证的 URAT1-NLRP3
-    10|  双节点结构指纹筛选，并给出机制表征的候选分子
+  在 URAT1 实验共结构（9DK 同构建体四联）上建立突变体校准的相互作用指纹，
+  并与 NLRP3 实验共结构（7ALV，X-ray）做双节点筛选。
+  「cryo-EM 锚定」只表示口袋与参考姿态取自实验坐标而非 AF2/对接姿，不是方法名。
+  「没人做过」是检索日未见 9DK 系列虚筛论文，不是方法学发明。
 journal_target: [Molecular Diversity, JCIM, IJMS, J Biomol Struct Dyn, Eur J Med Chem]
 tier_disclosure: >
   无湿实验时主张为"优先排序的候选假说"，非"已验证抑制剂"；
@@ -179,7 +181,9 @@ novelty_gap:
     ref: "Eurycoma longifolia multi-target anti-gout, PMC12340016"
     what_they_did: 配体基双靶 URAT1/NLRP3 药效团（3 疏水 + 阴离子中心）+ 表型筛选 + 64 合成物 -> 化合物 32
     implication: 方向无需辩护；缺口是"结构基"
-    180|  our_gap: 无人做过 cryo-EM 锚定 + 突变体验证的 URAT1 虚筛，更无 cryo-EM 锚定的双节点筛选
+    180|  our_gap: >
+    检索日未见以 9DK 实验共结构为受体、并以已发表突变体校准 IFP 的 URAT1 虚筛论文。
+    这是结构公开时间窗口上的缺口，不是方法学发明。NLRP3 侧 7ALV 是 X-ray，不得写成 cryo-EM。
 
 # ---------------------------------------------------------------
 # 禁止事项
