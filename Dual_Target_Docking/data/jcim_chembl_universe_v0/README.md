@@ -11,6 +11,9 @@ This is **not** the frozen J0 49-pair list, **not** Table S44, **not** a docking
 | `tables/` | Pair counts, J0/fetch-queue crosswalk, K=4 vs universe ranks, PDB/holo screen of all 86 |
 | `analysis/K4_UNIVERSE_SUITABILITY_V1.md` | Whether K=4 is a ChEMBL-wide optimum |
 | `analysis/UNIVERSE_STRUCTURE_FEASIBILITY_V1.md` | H3/H4 screen of every thick pair |
+| `analysis/FEASIBLE_PAIR_LADDER_V1.md` | **How many pairs are benchmarkable: 17 over 12 systems** |
+| `analysis/RECEPTOR_IDENTITY_AUDIT_V1.md` | **P0: 2WXF is mouse p110δ, not human PIK3CB** |
+| `analysis/PROJECT_REDESIGN_V1.md` | Proposed reframing and what docking survives |
 | `cache/` | Local dump (gitignored) |
 
 ## Reproduce
