@@ -28,10 +28,10 @@ Tier 1 = 8 pairs over 6 independent systems. **2 are already docked and receptor
 |---|------|-------------------:|--------|--------|----------------------|----------------------|
 | 1 | PIK3CA/mTOR | 71 | PI3K–mTOR | **docked** | 4L23 (frozen) | 4JT6 (frozen, 3.60 Å ATP site) |
 | 2 | AChE/BChE | 65 | cholinesterase | **docked** | 4EY7 (frozen) | 4BDS (frozen) |
-| 3 | F2/F10 | 108 | coagulation protease | new | 5AFY 1.12 Å / WCE | 2JKH 1.25 Å / BI7 |
-| 4 | JAK1/TYK2 | 91 | JAK family | new | 6N7A 1.33 Å / KEV | 3LXP 1.65 Å / IZA |
+| 3 | F2/F10 | 108 | coagulation protease | new | **4UDW** 1.16 Å / N6L (not auto 5AFY fragment) | 2JKH 1.25 Å / BI7 |
+| 4 | JAK1/TYK2 | 91 | JAK family | new | 6N7A 1.33 Å / KEV | 3LXP 1.65 Å / IZA (**JH1**, not JH2) |
 | 5 | JAK1/JAK2 | 53 | JAK family | new | 6N7A 1.33 Å / KEV | 8BXH 1.30 Å / C87 |
-| 6 | PPARG/PPARA | 82 | PPAR family | new | 9F7W 1.25 Å / 2OH | 6LXA 1.23 Å / EPA |
+| 6 | PPARG/PPARA | 82 | PPAR family | new | **9V8H** 1.39 Å / BRL rosiglitazone (not auto 9F7W BPA) | 6LXA 1.23 Å / EPA |
 | 7 | PPARA/PPARD | 82 | PPAR family | new | 6LXA 1.23 Å / EPA | 5U3Q 1.50 Å / 7UJ |
 | 8 | CTSK/CTSS | 57 | cathepsin | new | 4X6H 1.00 Å / 3XT | 9GJ2 1.15 Å / KH0 |
 
@@ -63,7 +63,7 @@ Two entity-handling traps were also found and fixed: presented peptides pass an 
 Therefore the receptor protocol is **three layers, in this order**:
 
 1. **Identity** — accession == the accession the labels came from; human; protein entity ≥ 80 aa (longest matching entity); record mutation count and complex partners.
-2. **Site** — declared `intended_site` per target, verified by a human against the cognate's location. Metadata cannot do this step. Operational items: `SITE_VERIFICATION_CHECKLIST_V1.md`. Log: `tables/site_verification_log_v1.csv` (both ends `PASS` before any Vina job).
+2. **Site** — declared `intended_site` per target, verified by a human against the cognate's location. Metadata pack: `SITE_VERIFICATION_EVIDENCE_V1.md`. What you must open: `HUMAN_VISUAL_SIGN_OFF_V1.md`. Log: `tables/site_verification_log_v1.csv` (new ends stay `AWAITING_VISUAL` until 3D sign-off).
 3. **Cognate redocking** — best-of-9 heavy-atom RMSD gate, run only after 1 and 2 pass.
 
 Layer 3 alone passed the mouse p110δ receptor at 0.405 Å. Layers 1 and 2 are what make layer 3 meaningful.

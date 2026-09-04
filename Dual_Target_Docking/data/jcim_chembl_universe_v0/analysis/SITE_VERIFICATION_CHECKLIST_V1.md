@@ -104,16 +104,16 @@ Shortlist proposals only — **not** verified:
 
 | Pair | End | Proposed PDB / CCD | Declared site | Extra visual checks |
 |------|-----|--------------------|---------------|---------------------|
-| F2/F10 | F2 | 5AFY / WCE | thrombin S1, catalytic domain | Heavy chain ≥ 80 aa; S1 not exosite; not the 28 aa light chain |
-| F2/F10 | F10 | 2JKH / BI7 | fXa S1/S4, catalytic domain | Same |
-| JAK1/TYK2 | JAK1 | 6N7A / KEV | JH1 ATP | Confirm JH1 not JH2; Type I/II ATP geometry is fine, JH2 is not |
-| JAK1/TYK2 | TYK2 | 3LXP / IZA | JH1 ATP (declare if JH2) | **Explicit JH1 vs JH2 call** |
-| JAK1/JAK2 | JAK2 | 8BXH / C87 | JH1 ATP | Same JH1 rule; JAK1 reuses 6N7A |
-| PPARG/PPARA | PPARG | 9F7W / 2OH | LBD | LBD agonist/antagonist pocket, not a coactivator-peptide-only interface |
-| PPARG/PPARA | PPARA | 6LXA / EPA | LBD | Fatty-acid / fibrate LBD; EPA is a legitimate LBD occupant if it sits in LBD |
-| PPARA/PPARD | PPARD | 5U3Q / 7UJ | LBD | Same; PPARA reuses 6LXA |
-| CTSK/CTSS | CTSK | 4X6H / 3XT | S2 papain-fold active site | Catalytic Cys/His pair facing the ligand; not an occluding-loop-only crystal |
-| CTSK/CTSS | CTSS | 9GJ2 / KH0 | S2 papain-fold active site | Same |
+| F2/F10 | F2 | **4UDW / N6L** (not 5AFY/WCE) | thrombin S1, catalytic domain | Heavy chain H 364–621; S1 not exosite |
+| F2/F10 | F10 | 2JKH / BI7 | fXa S1/S4, catalytic domain | Heavy chain 235–475 |
+| JAK1/TYK2 | JAK1 | 6N7A / KEV | JH1 ATP | Metadata: JH1 854–1154 |
+| JAK1/TYK2 | TYK2 | 3LXP / IZA | JH1 ATP | **Metadata call: JH1 888–1182, not JH2** |
+| JAK1/JAK2 | JAK2 | 8BXH / C87 | JH1 ATP | Title is JH1 + momelotinib; JAK1 reuses 6N7A |
+| PPARG/PPARA | PPARG | **9V8H / BRL** (not 9F7W/BPA) | LBD | Rosiglitazone in LBD 231–505 |
+| PPARG/PPARA | PPARA | 6LXA / EPA | LBD | EPA in LBD 200–468 |
+| PPARA/PPARD | PPARD | 5U3Q / 7UJ | LBD | Agonist in LBD 170–441; PPARA reuses 6LXA |
+| CTSK/CTSS | CTSK | 4X6H / 3XT | S2 papain-fold active site | Cys/His; possible covalent nitrile |
+| CTSK/CTSS | CTSS | 9GJ2 / KH0 | S2 papain-fold active site | Cys/His; possible covalent ketoamide |
 
 ## What this checklist is not
 
