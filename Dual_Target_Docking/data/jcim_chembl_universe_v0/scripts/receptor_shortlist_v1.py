@@ -17,8 +17,9 @@ Domain-only constructs (kinase JH1, thrombin catalytic domain, NR LBD) are
 legitimate, so entity length is reported but only peptides are rejected.
 Metadata alone cannot tell an ATP-site holo from an allosteric/interface holo:
 `intended_site` is declared per target and must be verified by a human before
-cognate redocking. mTOR is the worked example - every mTOR entry at <=2.5 A is
-an FKBP-rapamycin/FRB complex, not the ATP pocket.
+cognate redocking (see analysis/SITE_VERIFICATION_CHECKLIST_V1.md). mTOR is the
+worked example - every mTOR entry at <=2.5 A is an FKBP-rapamycin/FRB complex,
+not the ATP pocket.
 
 Also reports, per pair, the drug-like chemical components co-crystallised on
 both ends (same-ligand pose-gold candidates).

@@ -13,6 +13,9 @@ This is **not** the frozen J0 49-pair list, **not** Table S44, **not** a docking
 | `analysis/UNIVERSE_STRUCTURE_FEASIBILITY_V1.md` | H3/H4 screen of every thick pair |
 | `analysis/FEASIBLE_PAIR_LADDER_V1.md` | **How many pairs are benchmarkable: 17 over 12 systems** |
 | `analysis/TIER1_DOCKING_ROSTER_V1.md` | **Definitive dockable roster: 8 pairs / 6 systems + receptors** |
+| `analysis/SITE_VERIFICATION_CHECKLIST_V1.md` | **Layer 2: what a human must verify before any Vina job** |
+| `analysis/LITERATURE_2024_2026_DUAL_BENCHMARKS_V1.md` | DualDiff / PLINDER / LIT-PCBA audit / TopU-LBVS / DTDL URLs |
+| `tables/site_verification_log_v1.csv` | Per-end PASS/FAIL log (empty until signed) |
 | `analysis/RECEPTOR_IDENTITY_AUDIT_V1.md` | **P0: 2WXF is mouse p110δ, not human PIK3CB** |
 | `analysis/PROJECT_REDESIGN_V1.md` | Reframing, literature positioning, paper outline |
 | `cache/` | Local dump (gitignored) |

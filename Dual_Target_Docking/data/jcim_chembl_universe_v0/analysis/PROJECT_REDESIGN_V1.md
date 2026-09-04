@@ -22,6 +22,8 @@ What the field now demands of any benchmark:
 - **TopU-LBVS** (NeurIPS 2026 D&B, under review) — property-matched hard decoys at fixed 1:40, with a paired random-decoy control showing EF@1% falls roughly four-fold when decoys get hard.
 - **Systematic Investigation of Dual-Target-Directed Ligands** (2024, PMC11215722) — independent evidence that real DTDL programmes are driven by binding-pocket similarity and shared chemical space, i.e. the public dual space really is paralog-biased.
 
+Verified URLs for every item above: `LITERATURE_2024_2026_DUAL_BENCHMARKS_V1.md`. Track B must not start until Layer-2 site verification is logged (`SITE_VERIFICATION_CHECKLIST_V1.md`).
+
 The gap is obvious: **nobody has established the experimental-and-structural feasibility layer that dual-target benchmarks assume.** DualDiff asserts 12,917 usable pairs. This work shows that under paired experimental four-state labels with verified human holo receptors, the number is **17**, of which **8** are dockable with conventional rigid-receptor protocols, spanning **6** independent target systems.
 
 So the paper stays a benchmark paper. It changes from *"here is our four-pair suite"* to *"here is what a dual-target docking benchmark can be built from, the protocol that keeps it honest, and a verified demonstration set."* That is a benchmark-construction contribution, not a retreat.
@@ -53,7 +55,7 @@ So the paper stays a benchmark paper. It changes from *"here is our four-pair su
 
 **Track B — new compute, user's local machine, optional.** Dock the 6 new Tier-1 pairs (F2/F10, JAK1/TYK2, JAK1/JAK2, PPARG/PPARA, PPARA/PPARD, CTSK/CTSS): 10 receptor freezes, roughly 220 Vina jobs per pair at 110 ligands × 2 ends, ~1,300–1,500 jobs total, plus per-pair cognate QC, five-seed check and failure typology to match existing depth. Result: 8 docked pairs over 6 independent systems, with the JAK and PPAR triples supporting a within-system replication check that n = 3 cannot give.
 
-Track B is what turns "pair-dependence observed on three pairs" into "pair-dependence quantified across six independent systems". It is the difference between a case series and a benchmark. It is not required for Track A to be publishable, and it must not be started before per-pair site verification.
+Track B is what turns "pair-dependence observed on three pairs" into "pair-dependence quantified across six independent systems". It is the difference between a case series and a benchmark. It is not required for Track A to be publishable, and it must not be started before per-pair Layer-2 site verification is logged (`SITE_VERIFICATION_CHECKLIST_V1.md`).
 
 ## 6. Paper outline
 

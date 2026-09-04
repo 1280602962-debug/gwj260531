@@ -63,11 +63,13 @@ Two entity-handling traps were also found and fixed: presented peptides pass an 
 Therefore the receptor protocol is **three layers, in this order**:
 
 1. **Identity** — accession == the accession the labels came from; human; protein entity ≥ 80 aa (longest matching entity); record mutation count and complex partners.
-2. **Site** — declared `intended_site` per target, verified by a human against the cognate's location. Metadata cannot do this step.
+2. **Site** — declared `intended_site` per target, verified by a human against the cognate's location. Metadata cannot do this step. Operational items: `SITE_VERIFICATION_CHECKLIST_V1.md`. Log: `tables/site_verification_log_v1.csv` (both ends `PASS` before any Vina job).
 3. **Cognate redocking** — best-of-9 heavy-atom RMSD gate, run only after 1 and 2 pass.
 
 Layer 3 alone passed the mouse p110δ receptor at 0.405 Å. Layers 1 and 2 are what make layer 3 meaningful.
 
+2024–2026 literature URLs (DualDiff, PLINDER, LIT-PCBA audit, TopU-LBVS, DTDL review): `LITERATURE_2024_2026_DUAL_BENCHMARKS_V1.md`.
+
 ## Not authorised by this document
 
-Docking. This roster is a plan. Executing it requires local Vina/GNINA, a written protocol amendment for K, and per-pair site verification.
+Docking. This roster is a plan. Executing it requires local Vina/GNINA, a written protocol amendment for K, and a completed Layer-2 log (`site_verification_log_v1.csv`) with **both ends PASS**. Shortlist PDBs are proposals, not freezes.
