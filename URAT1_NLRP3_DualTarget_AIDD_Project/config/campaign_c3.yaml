@@ -4,7 +4,13 @@
 # 只读: data/repurposing/p2/ , data/campaigns/c1/
 
 name: C3
-status: preregistered_awaiting_s1
+status: superseded_by_c4
+superseded_by: config/campaign_c4.yaml
+superseded_reason: >
+  C3 只换读出（IFP 代替打分幅值）而没换任务形态，仍是跨化学型绝对强弱排序，
+  失败机理与 P2/酸门相同；IFP 筛选自 2004 年即有，novelty 被压缩为结构公开的
+  时间窗口；同体裁竞品（Yang 2023, Du 2024, 荷叶碱 2026）均带 HEK 实验。
+  C3 的 9DK 四联结构与突变体校准并入 C4 的 S1/S2，不再作为论文主张。
 goal: 产出经结构与回顾性验证优先排序的 URAT1-NLRP3 双节点候选分子
 positive_claim: >
   在 URAT1 实验共结构（9DK 同构建体四联）上建立突变体校准的相互作用指纹，
