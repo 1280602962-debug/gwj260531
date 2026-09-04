@@ -18,7 +18,8 @@ This is **not** the frozen J0 49-pair list, **not** Table S44, **not** a docking
 | `analysis/LAYER2_LITERATURE_SIGN_OFF_V1.md` | **2026-09-04 human PASS: which of the 10 PDBs can be used** |
 | `analysis/GEOMETRIC_POCKET_VERIFICATION_V1.md` | Independent 3D re-check: Cys25 bond lengths + pocket contacts for all 14 PDBs |
 | `analysis/RECEPTOR_FREEZE_V1.md` | **2026-09-04 freeze: keep all 14; alternatives surveyed and declined** |
-| `analysis/DOCKING_PLAN_V1.md` | **Locked Track B: five ordinary pairs; CTSK/CTSS out; PIK3CA/PIK3CB kept as special case** |
+| `analysis/DOCKING_PLAN_V1.md` | **Local Vina pack (do this now):** five pairs; Layer-3 then production |
+| `tables/track_b_local_run_v1.yaml` | Machine-readable lock of the same pack |
 | `scripts/extract_track_b_panels_v1.py` | Co-tested four-state SMILES panels for those five pairs |
 | `tables/track_b_panels/` | 110-ligand CSVs (strict 6.5/5.5, seed 20260729) |
 | `tables/track_b_panel_summary_v1.csv` | Pool sizes and sampled class counts |
