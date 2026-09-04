@@ -22,7 +22,7 @@ A pair enters Tier 1 only if it passes **all five** pre-declared gates:
 | **Tier 1: also passes G5 (dock these)** | **8** | **6** |
 | Tier 2: deferred frontier (6 GPCR + 2 SLC6 + CREBBP/BRD4) | 9 | 6 |
 
-Tier 1 = 8 pairs over 6 independent systems. **2 are already docked and receptor-verified; 6 are new.**
+Tier 1 = 8 pairs over 6 independent systems. **2 are already docked; 6 are Layer-2 PASS. All 14 receptors are frozen (`RECEPTOR_FREEZE_V1.md`); do not swap.**
 
 | # | Pair | min HN (small-mol) | System | Status | Receptor A (verified) | Receptor B (verified) |
 |---|------|-------------------:|--------|--------|----------------------|----------------------|
@@ -72,4 +72,4 @@ Layer 3 alone passed the mouse p110δ receptor at 0.405 Å. Layers 1 and 2 are w
 
 ## Not authorised by this document
 
-Production docking. Layer 2 is signed. Executing Track B still requires local Vina/GNINA, Layer-3 cognate RMSD, and a written protocol amendment before K or Table 2 change. CTSK/CTSS must follow `COVALENT_LIGAND_PREP_V1.md` (I37 / reconstructed 13b), not a 3XT/KH0 extract.
+Production docking. Layer 2 is signed and the 14 receptors are frozen (`RECEPTOR_FREEZE_V1.md`). Executing Track B still requires local Vina/GNINA, Layer-3 cognate RMSD, and a written protocol amendment before K or Table 2 change. CTSK/CTSS must follow `COVALENT_LIGAND_PREP_V1.md` (I37 / reconstructed 13b), not a 3XT/KH0 extract. Do not swap to 7AWC, 4P6G, 8EXL, or 8PPZ without a new written amendment.

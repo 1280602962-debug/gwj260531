@@ -30,7 +30,7 @@ Covalent ligand protocol: `COVALENT_LIGAND_PREP_V1.md`.
 | 9 | CTSK P43235 / **4X6H / 3XT** | **Keep 4X6H** | **Do not Meeko-cut 3XT.** 3XT is the 2-iminoethyl reacted form (C16H21FN4O2, MW 320). The pre-reaction nitrile is already in the same entry as **I37** (cyanomethyl, C16H19FN4O2, MW 318). Dock **I37**. Boríšek *J Med Chem* 2015, 10.1021/acs.jmedchem.5b00746. |
 | 10 | CTSS P25774 / **9GJ2 / KH0** | **Keep 9GJ2** | **Do not Meeko-cut KH0.** KH0 is ketoamide 13b in the bound (thiohemiketal-like) state. Reconstruct **pre-reaction α-ketoamide 13b**. Primary journal paper is still **To Be Published** (RCSB 2026-09-04: Falke/Turk et al.; no DOI). Cite the PDB deposition, not a journal article. |
 
-Do **not** swap 4X6H or 9GJ2 for a different PDB. The identity and pocket occupancy are correct; only the free-ligand representation was wrong for a uniform noncovalent Vina protocol.
+Do **not** swap 4X6H or 9GJ2 for a different PDB. The identity and pocket occupancy are correct; only the free-ligand representation was wrong for a uniform noncovalent Vina protocol. The 2026-09-04 freeze (`RECEPTOR_FREEZE_V1.md`) records that 7AWC (binary PPARG) and 4P6G/2HHN (noncovalent CTSS) were considered and declined.
 
 ## Three numbering columns (do not collapse)
 

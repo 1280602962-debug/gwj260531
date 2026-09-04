@@ -6,7 +6,7 @@ This page is no longer a to-do list. It records **what was confirmed** and **wha
 
 ## Outcome
 
-**All ten PDBs are usable as receptors.** None needs to be swapped. The only protocol change is ligand chemistry on CTSK/CTSS (`COVALENT_LIGAND_PREP_V1.md`). Numbering must keep construct / resolved / UniProt columns separate (`tables/receptor_span_registry_v1.csv`).
+**All ten PDBs are usable as receptors and are now frozen (`RECEPTOR_FREEZE_V1.md`).** None will be swapped. The only protocol change is ligand chemistry on CTSK/CTSS (`COVALENT_LIGAND_PREP_V1.md`). Numbering must keep construct / resolved / UniProt columns separate (`tables/receptor_span_registry_v1.csv`).
 
 | # | Protein (UniProt) | PDB / CCD | Layer-2 | Receptor freeze | Ligand for Vina |
 |---|-------------------|-----------|---------|-----------------|-----------------|
