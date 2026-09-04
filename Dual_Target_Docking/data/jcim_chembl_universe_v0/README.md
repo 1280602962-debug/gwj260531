@@ -34,4 +34,6 @@ python3 Dual_Target_Docking/data/jcim_chembl_universe_v0/scripts/chembl_exhausti
 
 ## Claim ceiling
 
-See `data/jcim_bench_v0/CLAIM_CEILING.md` item 50.
+See `data/jcim_bench_v0/CLAIM_CEILING.md` item 50 and `analysis/CHEMBL_UNIVERSE_PAIR_CENSUS_V1.md`.
+
+ChEMBL 37 headline (human SINGLE PROTEIN, one component, same labels as J0): 63,790 pairs with n_both ≥ 10; 5,253 directional; **86** strict thick, mostly qHTS/CYP/metal/homologs. Dump is not committed.
