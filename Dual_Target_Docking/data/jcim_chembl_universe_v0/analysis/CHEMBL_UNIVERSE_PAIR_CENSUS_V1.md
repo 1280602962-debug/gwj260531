@@ -50,9 +50,11 @@ J0’s four thick pairs reappear with **the same counts as the 2026-07-29 REST c
 
 EGFR/HER2 is still supply-limited: n_both = 1,751, min HN = **7**, directional_n10 = yes, thick = no.
 
+**K=4 is not a ChEMBL-wide top-4 ranking.** See `K4_UNIVERSE_SUITABILITY_V1.md`. Three of four paper pairs are thick under this dump; EGFR/HER2 is not. The thickest conventional cross-class pair in the dump is CREBBP/BRD4 (min HN = 270), which was never on the J0 list.
+
 ## Fetch queue (the ~20 targets that never entered `mols_*.json`)
 
-All 20 extra targets **and** NLRP3/JNK1 resolve in ChEMBL 37. The API outage did **not** mean the proteins are absent; it meant the REST harvest never wrote maps.
+All 20 extra fetch-queue targets resolve in ChEMBL 37. The API outage did **not** mean the proteins are absent; it meant the REST harvest never wrote maps.
 
 Selected intended literature pairs (`fetch_queue_intended_pairs_v1.csv`):
 
@@ -68,9 +70,6 @@ Selected intended literature pairs (`fetch_queue_intended_pairs_v1.csv`):
 | KDR/HDAC1 | 66 | 35/6/21 | 3 | no | no |
 | SERT/ESR1 | 18 | 5/10/0 | 0 | no | no |
 | SYK/HDAC1, WEE1/HDAC1, TOP1/HDAC1, ROCK1/HDAC1, PIM1/HDAC1 | <10 | — | — | no | no |
-| **NLRP3/JNK1 (MAPK8)** | **0** | — | 0 | no | no |
-
-NLRP3 has 782 mapped molecules and JNK1/MAPK8 has 1,917; **zero ligands are measured on both** in this dump. X01 is excluded as a private holdout **and** would fail a public paired-label gate anyway.
 
 MERTK resolved via UniProt Q12866 to `CHEMBL5331` (the fetch-queue file listed `CHEMBL3983`).
 
@@ -80,15 +79,17 @@ MERTK resolved via UniProt Q12866 to `CHEMBL5331` (the fetch-queue file listed `
 
 - Frozen J0 is a literature/pathway candidate list of 49 pairs, not an exhaustive ChEMBL search.
 - In ChEMBL 37, among human SINGLE PROTEIN pairs, 86 unordered pairs meet the same strict thick hard-neg gate as J0; most are qHTS counter-screens, CYP panels, metal enzymes, or close homologs.
-- After that filter, J0’s three non-metal development pairs (PIK3CA/mTOR, AChE/BChE, PIK3CA/PIK3CB) remain among the scarce **cross-family / conventional dual** thick pairs. EGFR/HER2 remains supply-limited (min HN = 7).
+- After that filter, J0’s three non-metal development pairs (PIK3CA/mTOR, AChE/BChE, PIK3CA/PIK3CB) remain among the scarce **cross-family / conventional dual** thick pairs. They are **not** a universe top-4 ranking. EGFR/HER2 remains supply-limited (min HN = 7).
+- CREBBP/BRD4 (min HN = 270) is a conventional thick pair that the J0 candidate list never included.
 - Fetch-queue targets exist in the dump; several kinase pairs (AXL/MERTK, FLT3/KDR, FGFR1/KDR, SRC/ABL1) are directional at θ = 6.0 but **none of the queued HDAC hybrids or BRAF/MEK are thick**.
 
 **Forbidden**
 
 - “ChEMBL contains only 49 dual-target pairs.”
 - “Public data have only four thick pairs” as a **universe** claim. The universe number is 86 under the same numeric gate, before scientific filters.
+- “These four are the unique best dual-target pairs in ChEMBL.”
 - Replacing Table S44 (49-pair J0 recount) with 5,253 directional pairs as if K were expanded.
-- Docking the 86 or the 5,253. This census does not unfreeze Table 2 or K = 4.
+- Docking the 86, the 5,253, or CREBBP/BRD4. This census does not unfreeze Table 2 or K = 4.
 
 ## Files
 
@@ -100,8 +101,10 @@ MERTK resolved via UniProt Q12866 to `CHEMBL5331` (the fetch-queue file listed `
 | `universe_pairs_directional_n10_all.csv` | 5,253 directional pairs |
 | `universe_pairs_strict_thick_all.csv` | 86 thick pairs |
 | `universe_pairs_strict_thick_annotated_v1.csv` | Thick pairs + supply bucket |
-| `j0_universe_crosswalk_v1.csv` | P01–P52 + X01 in this dump |
-| `fetch_queue_universe_targets_v1.csv` | 22 queued targets resolved |
+| `j0_universe_crosswalk_v1.csv` | P01–P52 in this dump |
+| `fetch_queue_universe_targets_v1.csv` | 20 queued targets resolved |
 | `fetch_queue_intended_pairs_v1.csv` | Literature pairs the queue was meant to unlock |
+| `k4_vs_universe_suitability_v1.csv` | Frozen K=4 vs universe ranks |
+| `K4_UNIVERSE_SUITABILITY_V1.md` | Whether K=4 is a ChEMBL-wide optimum |
 
 The SQLite dump is not in git.

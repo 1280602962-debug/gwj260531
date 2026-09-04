@@ -8,7 +8,8 @@ This is **not** the frozen J0 49-pair list, **not** Table S44, **not** a docking
 |------|------|
 | `analysis/PROTOCOL_CHEMBL_UNIVERSE_CENSUS_V1.md` | Frozen rules (same labels as J0) |
 | `scripts/chembl_exhaustive_pair_census_v1.py` | Local SQLite census |
-| `tables/` | Pair counts and J0/fetch-queue crosswalk |
+| `tables/` | Pair counts, J0/fetch-queue crosswalk, K=4 vs universe ranks |
+| `analysis/K4_UNIVERSE_SUITABILITY_V1.md` | Whether K=4 is a ChEMBL-wide optimum |
 | `cache/` | Local dump (gitignored) |
 
 ## Reproduce
@@ -34,6 +35,6 @@ python3 Dual_Target_Docking/data/jcim_chembl_universe_v0/scripts/chembl_exhausti
 
 ## Claim ceiling
 
-See `data/jcim_bench_v0/CLAIM_CEILING.md` item 50 and `analysis/CHEMBL_UNIVERSE_PAIR_CENSUS_V1.md`.
+See `data/jcim_bench_v0/CLAIM_CEILING.md` item 50, `analysis/CHEMBL_UNIVERSE_PAIR_CENSUS_V1.md`, and `analysis/K4_UNIVERSE_SUITABILITY_V1.md`.
 
 ChEMBL 37 headline (human SINGLE PROTEIN, one component, same labels as J0): 63,790 pairs with n_both ≥ 10; 5,253 directional; **86** strict thick, mostly qHTS/CYP/metal/homologs. Dump is not committed.

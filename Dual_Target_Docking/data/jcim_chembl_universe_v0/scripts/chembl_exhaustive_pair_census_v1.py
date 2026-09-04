@@ -32,10 +32,8 @@ METAL_RE = re.compile(
 )
 PPI_RE = re.compile(r"\bbcl-2\b|\bbcl2\b|bh3|bromodomain", re.I)
 
-# UniProt for X01 + fetch-queue names that are not in chembl_target_ids.json
+# UniProt for fetch-queue names that are not in chembl_target_ids.json
 NAMED_UNIPROT = {
-    "NLRP3": "Q96P20",
-    "JNK1": "P45983",
     "VEGFR2_KDR": "P35968",
     "AXL": "P30530",
     "MERTK": "Q12866",
@@ -57,6 +55,27 @@ NAMED_UNIPROT = {
     "ABL1": "P00519",
     "BACE1": "P56817",
 }
+
+# Literature pairs the fetch queue was meant to unlock (J0 EXTRA_TARGETS_FOR_QUEUE).
+FETCH_QUEUE_INTENDED_PAIRS = [
+    ("VEGFR2_KDR", "HDAC1", "VEGFR2/HDAC duals (JMC)"),
+    ("VEGFR2_KDR", "HDAC6", "VEGFR2/HDAC duals"),
+    ("AXL", "MERTK", "MER/AXL duals"),
+    ("SYK", "HDAC1", "SYK/HDAC duals"),
+    ("HSP90AA1", "HDAC6", "Hsp90/HDAC6 duals"),
+    ("WEE1", "HDAC1", "Wee1/HDAC duals"),
+    ("TOP1", "HDAC1", "Top/HDAC duals"),
+    ("ROCK1", "HDAC1", "ROCK/HDAC duals"),
+    ("PIM1", "HDAC1", "PIM/HDAC duals"),
+    ("SERT_SLC6A4", "ESR1", "SERT/ER duals"),
+    ("BRAF", "MAP2K1_MEK1", "BRAF/MEK"),
+    ("FGFR1", "VEGFR2_KDR", "FGFR dual TKIs"),
+    ("ALK", "EGFR", "ALK dual TKIs"),
+    ("BTK", "EGFR", "BTK duals"),
+    ("FLT3", "VEGFR2_KDR", "FLT3 dual TKIs"),
+    ("SRC", "ABL1", "BCR-ABL dual context"),
+    ("BACE1", "ACHE", "CNS duals"),
+]
 
 ROOT = Path(__file__).resolve().parents[3]
 DEFAULT_OUT = Path(__file__).resolve().parents[1]
@@ -588,6 +607,50 @@ def main() -> int:
         tables / "fetch_queue_universe_targets_v1.csv",
         fetch_rows,
         ["name", "uniprot", "resolved", "target_chembl", "n_mols", "pref_name"],
+    )
+
+    intended_rows = []
+    for name_a, name_b, reason in FETCH_QUEUE_INTENDED_PAIRS:
+        rec = lookup_pair(name_a, name_b)
+        ma, mb = resolved.get(name_a), resolved.get(name_b)
+        n_both = int(rec.get("u_n_both_measured") or 0)
+        intended_rows.append(
+            {
+                "name_A": name_a,
+                "name_B": name_b,
+                "gene_A": (ma or {}).get("gene_symbol", ""),
+                "gene_B": (mb or {}).get("gene_symbol", ""),
+                "reason": reason,
+                "found_n_both_ge10": int(n_both >= 10),
+                "n_both_measured": n_both,
+                "theta_dual": rec.get("u_theta_dual", 0),
+                "theta_A_only": rec.get("u_theta_A_only", 0),
+                "theta_B_only": rec.get("u_theta_B_only", 0),
+                "theta_neither": rec.get("u_theta_neither", 0),
+                "min_strict_hardneg": rec.get("u_min_strict_hardneg", 0),
+                "directional_n10": rec.get("u_directional_n10", 0),
+                "supports_strict_panel": rec.get("u_supports_strict_panel", 0),
+            }
+        )
+    write_csv(
+        tables / "fetch_queue_intended_pairs_v1.csv",
+        intended_rows,
+        [
+            "name_A",
+            "name_B",
+            "gene_A",
+            "gene_B",
+            "reason",
+            "found_n_both_ge10",
+            "n_both_measured",
+            "theta_dual",
+            "theta_A_only",
+            "theta_B_only",
+            "theta_neither",
+            "min_strict_hardneg",
+            "directional_n10",
+            "supports_strict_panel",
+        ],
     )
 
     print("SUMMARY primary (no confidence cut):", primary["summary"], flush=True)

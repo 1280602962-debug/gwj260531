@@ -3,7 +3,7 @@
 JCIM **evaluation / benchmark** 课题：双靶对接四类硬负评测。  
 **不是**通用决策臂 / 新打分函数论文；**也不是**名为 D-DRAF 一类的“新型 Framework”。  
 贡献定位：四靶对 *proof-of-concept formulation audit* + 可复现评价协议 **DualFourClass-Bench**。它不是通用、代表性或 LIT-PCBA 规模的 benchmark suite。
-与仓库内 `JNK1_Selectivity_Project/` **无关**。
+本 DualFourClass 树是一项独立科学课题，不导入、不依赖仓库根目录下的其他项目。
 
 ## 一句话主张
 

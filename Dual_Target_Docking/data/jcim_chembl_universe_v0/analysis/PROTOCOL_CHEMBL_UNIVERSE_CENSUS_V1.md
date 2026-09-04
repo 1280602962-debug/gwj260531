@@ -54,11 +54,12 @@ Metal-enzyme **flag** (name/class contains HDAC, carbonic anhydrase, or matrix m
 
 ## Crosswalk
 
-J0 P01–P52, X01 (NLRP3/JNK1), and `j0_fetch_queue.csv` extra targets are located in this dump by ChEMBL ID or UniProt and reported even if they fail a gate. Version drift versus the 2026-07-23 REST caches is expected and must be named.
+J0 P01–P52 and `j0_fetch_queue.csv` extra targets are located in this dump by ChEMBL ID or UniProt and reported even if they fail a gate. Version drift versus the 2026-07-23 REST caches is expected and must be named.
 
 ## Forbidden uses
 
 - Do not write “ChEMBL contains only 49 dual-target pairs.”
+- Do not write that K=4 is the unique best dual-target set in ChEMBL.
 - Do not replace Table S44’s 49-pair J0 recount with this universe count without saying the sampling frame changed.
 - Do not dock every pair that passes `directional_n10` or `supports_strict_panel`.
 - Do not expand K = 4 or unfreeze Table 2 from these counts.
