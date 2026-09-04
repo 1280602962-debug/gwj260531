@@ -1,0 +1,14 @@
+pdb_id,target,state,ligand,resolution_A,citation,verification_status,verified_how,use_in_c2,notes
+9DKB,URAT1,inward-open,lesinurad,,in-repo production structure,verified_repo,已用于 C1 生产对接,t1_reference_inward;md_control,晶体最短 O-Arg477 N = 6.7027 A（config/campaign_c1.yaml）
+9B1K,URAT1,occluded,urate (URC),3.30,"Dai & Lee, Cell Res 2024, 34:776-787",verified_rcsb,RCSB 条目页直接读取,t1_target_state;md_preferred,分辨率优于 Cell Discovery occluded (4.7 A)；关联条目 9B1F-9B1O
+9B1L,URAT1,outward-facing,urate,,"Dai & Lee, Cell Res 2024, 34:776-787",verified_rcsb_title,RCSB 检索标题 "Urate bound human URAT1 in the outward-facing state",t1_target_state;md_preferred,S0 需补分辨率
+9IRW,URAT1,outward-facing,urate,3.0-3.3,"Guo et al., Nat Commun 2025, 16:1512",verified_rcsb_title,RCSB 检索标题,t1_target_state,该论文全套 3.0-3.3 A；S0 需确认单条分辨率
+9IRX,URAT1,inward-facing,benzbromarone,3.0-3.3,"Guo et al., Nat Commun 2025, 16:1512",verified_rcsb_title,RCSB 检索标题,t1_ground_truth,真值：outward 态下与 F449 冲突
+9IRY,URAT1,inward-facing,verinurad,3.0-3.3,"Guo et al., Nat Commun 2025, 16:1512",verified_rcsb_title,RCSB 检索标题,t1_ground_truth;calibration,真值：outward 态下与 R447 冲突
+9JE1,URAT1,inward-open,dotinurad,3.2-3.6,"Cell Discovery 2025, 11",verified_rcsb_title,RCSB 检索标题 "Human URAT1 bound to dotinurad",calibration;md_control,强抑制剂对照，IC50 ~8 nM
+9JDZ,URAT1,inward-open,lesinurad,,repo docs/URAT1_THREE_STATE_DOCKING.md,needs_verification,仅仓库文档断言，本轮未核验,optional,仓库曾有 9JDZ 误标事故，S0 必须逐字核验
+TBD,URAT1,inward-open/outward-open/occluded,urate,3.3/4.1/4.7,"Cell Discovery 2025, 11",needs_verification,论文正文给出三态分辨率但本轮未确认 accession,optional,若需要则 S0 从论文 Data availability 补全；MD 仍优先 9B1K/9B1L
+7ALV,NLRP3,NACHT closed inactive,NP3-146 + ADP,2.8,"Dekker et al., 7ALV",verified_rcsb,RCSB 条目页,t1_reference_closed;md_control,自对接 RMSD 0.82/0.67/0.68 A，本课题最可靠结构对照
+8EJ4,NLRP3,active oligomer (NBD rotated ~85-90 deg),ATP analogue,,"literature: active disk-shaped oligomer",needs_verification,仅文献提及,t1_target_state,NLRP3 臂的移植目标态，S0 必须核验
+7PZC,NLRP3,closed decamer,MCC950,,"literature: MCC950-stabilised closed cage",needs_verification,仅文献提及,optional,闭合态旁证
+8ETR,NLRP3,closed inactive,G2394 + ADP,,"literature",needs_verification,仅文献提及,optional,闭合态旁证

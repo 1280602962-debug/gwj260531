@@ -1,0 +1,279 @@
+# campaign C2 — 预登记：以"转运循环阻断"选候选
+# 科学锁。不是 run_gnina_batch.py 的 drop-in --config。
+# 方案全文: docs/PROJECT_ROUTE_C2_TRANSPORT_CYCLE.md
+#
+# 只读约束: data/repurposing/p2/ 与 data/campaigns/c1/ 一律不覆盖。
+
+name: C2
+status: preregistered_awaiting_s1
+goal: 用"与转运循环不相容"判别抑制剂，替代占据型打分排序，并提名双节点候选
+journal_target: 方法学 + 候选（JCAMD / Mol. Divers. / JCIM 皆可）
+product_claim: 构象锁定型双节点假说（conformational-lock dual-node hypotheses）
+not_claimed:
+  - 双靶抑制剂
+    10|  - 亲和力或 IC50 预测
+  - 对接分数即活性
+  - 全库排序
+
+# ---------------------------------------------------------------
+# 中心论证（写死，S1 之前不得修改）
+# ---------------------------------------------------------------
+thesis:
+  statement: >
+    URAT1 是尿酸/单羧酸反向转运体，阴离子识别为被转运配体与抑制剂所共享，
+    故任何"羧酸根 + Arg 距离 + 在腔内"型特征在结构上不含判别信息；
+    20|    抑制的定义性特征是占据尿酸位点后与 outward/occluded 态不相容，即卡死异构化。
+  empirical_support_in_repo:
+    a2_acid_gate_odds_ratio: 0.970
+    a2_acid_gate_fisher_p: 1.0
+    a2_sensitivity: 0.952
+    a2_specificity: 0.047
+    a2_source: data/campaigns/c1/05_metrics/acid_gate_retrospective_benchmark/acid_gate_benchmark_summary.json
+    p2_true_ef1: 2.5867
+    p2_random_ef1: 0.2154
+    p0_true_ef1: 1.94
+    30|    p0_random_ef1: 1.9385
+    lesinurad_free_selfdock_rmsd_A: [4.30, 4.31, 4.88]
+  common_mode_argument: >
+    单构象打分中与分子尺寸/疏水体积/CNN 训练偏倚相关的成分是共模误差；
+    同一姿态在两个受体态之间的差可结构性地抵消该共模成分。
+
+# ---------------------------------------------------------------
+# 先例声明（诚实性要求，投稿时必须自陈）
+# ---------------------------------------------------------------
+prior_art_delta:
+    40|  two_state_differential_docking_is_not_novel:
+    - "Costanzi & Vilar, J Comput Chem 2011, 33:561 (beta2AR active/inactive score difference, ROC+LDA)"
+    - "Mannel & Kolb, Mol Pharmacol 2019 (selective reranking)"
+  closest_slc_prior_art: "HOLIgraph, J Cheminform 2025, 17:1020 (OATP1B1 inward+outward docking -> GNN, inhibitor vs non-inhibitor, BA>90%)"
+  our_delta:
+    - 判别对象是 inhibitor vs 被转运配体（底物/反向阴离子），不是 inhibitor vs non-inhibitor
+    - 可观测量含路径量（异构化惩罚），不只是静态双态分数
+    - 负例本体为机制匹配的被转运阴离子，任何 inhibitor/non-inhibitor 数据集都不具备
+    - 同场证明阴离子/羧酸门不可判别（自有 OR≈0.97）
+  novelty_downgrade_rule: >
+    上述四条中若少于三条成立，本工作降级为应用文，不得宣称方法学贡献。
+    50|
+# ---------------------------------------------------------------
+# 结构（S0 必须逐条核验；本仓库曾有 9JDZ 误标事故）
+# ---------------------------------------------------------------
+structures:
+  manifest: data/campaigns/c2/00_preregistration/structure_manifest.csv
+  urat1_inward_production: 9DKB          # lesinurad, 本课题生产态
+  urat1_inward_dotinurad: 9JE1
+  urat1_inward_benzbromarone: 9IRX
+  urat1_inward_verinurad: 9IRY
+    60|  urat1_outward_urate: [9B1L, 9IRW]
+  urat1_occluded_urate: 9B1K             # 3.30 A, Dai & Lee
+  urat1_preferred_for_md: [9B1K, 9B1L]   # 分辨率优于 Cell Discovery 的 4.1/4.7 A
+  nlrp3_closed_inactive: 7ALV            # NP3-146 + ADP
+  nlrp3_active_rotated: 8EJ4             # ATP 态活性寡聚，NBD 转动约 85-90 度
+  nlrp3_closed_mcc950: 7PZC
+  resolution_redlines:
+    cell_discovery_outward_open_A: 4.1
+    cell_discovery_occluded_A: 4.7
+    ecd_absent_in_outward_and_occluded: true
+    70|    no_sidechain_level_claims_below_A: 4.0
+    low_res_states_lobe_level_only: true
+
+# ---------------------------------------------------------------
+# T1 可观测量（确定性，可跑全库）
+# ---------------------------------------------------------------
+observable_t1:
+  id: delta_state
+  definition: >
+    以 NTD(TM1-6) Ca 将目标态叠合到 inward 态，原样移植 inward 姿态配体坐标，
+    计算重原子立体重叠 sum(max(0, ri+rj-dij)) / N_heavy
+    80|  dual_superposition_rule: 双叠合（NTD 与 CTD 各一次）；两者皆判不相容才计为 incompatible
+  primary_metric: delta_out_minus_delta_in     # 对比量，不用绝对值
+  secondary_metric: hard_clash_count_below_2.2A
+  normalization: per_heavy_atom
+  size_confound_gate:
+    max_abs_spearman_vs_mw: 0.4
+    max_abs_spearman_vs_heavy_atoms: 0.4
+    max_abs_spearman_vs_logp: 0.4
+    on_violation: 改用 apo 参考 z-score 或偏相关校正后重判
+  ground_truth_reproduction_required:
+    90|    - benzbromarone clashes F449 in outward-facing
+    - verinurad clashes R447 in outward-facing
+  ground_truth_source: "Guo et al., Nat Commun 2025, 16:1512"
+  threshold_calibration_poses: crystal_only   # 4 个药物用晶体姿定阈值，不用对接姿
+
+observable_t2:
+  id: state_specific_stability
+  readouts:
+    - ligand_displacement_rmsd
+    - gating_residue_contact_occupancy   # Arg477, Phe365, Ser35, F449, R447, 5-Phe cage
+   100|    - gate_distance_distribution
+  md_recipe:
+    protein_and_lipid_ff: amber14sb
+    ligand_ff: gaff2
+    membrane: POPC
+    water: TIP3P
+    electrostatics: PME
+    vdw_cutoff_A: 9
+    timestep_fs: 2
+    barostat: parrinello-rahman
+   110|    production: 3x150ns
+    recipe_source: "Nat Commun 2025, 16:61226-x"
+
+observable_t3:
+  id: isomerization_penalty
+  cv: NTD-CTD 相对刚体转动 / 门距离
+  tier1_preferred: 多副本慢生长 SMD + Jarzynski 相对功 W_iso
+  tier2_optional: 窗口伞形采样 PMF -> 相对势垒移动
+  report_relative_only: true
+  forbidden:
+   120|    - 绝对结合自由能
+    - MM-GBSA 重排
+    - 称之为亲和力或 IC50
+
+# ---------------------------------------------------------------
+# 校准集
+# ---------------------------------------------------------------
+calibration_primary_ladder:
+  assay: 14C-urate uptake, Cell Discovery 2025
+  note: 同一测定，跨度约 3.2 log，四者均有人源 cryo-EM 共结构
+   130|  compounds:
+    - {name: dotinurad,      ic50: 8nM,    state: inward-open, pdb: 9JE1}
+    - {name: verinurad,      ic50: 40nM,   state: inward-open, pdb: 9IRY}
+    - {name: benzbromarone,  ic50: 200nM,  state: inward-open, pdb: 9IRX}
+    - {name: lesinurad,      ic50: 12uM,   state: inward-open, pdb: 9DKB}
+
+calibration_extended_ladder:
+  assay: MDCKII-URAT1, Taniguchi JPET 2019, 371:162
+  cross_assay_caveat: true
+  compounds:
+   140|    - {name: dotinurad,     ic50_uM: 0.0372}
+    - {name: benzbromarone, ic50_uM: 0.190}
+    - {name: lesinurad,     ic50_uM: 30.0}
+    - {name: probenecid,    ic50_uM: 165}
+  note: probenecid 是最有价值的困难正例（A2 一直不过门）
+
+# 机制匹配负控制 —— 本路线的关键资产
+calibration_negative_transported:
+  - {name: urate,        role: substrate,             why: 同一中心位点，三态皆可容纳}
+   150|  - {name: pyrazinoate,  role: counter-anion,         why: 占据三个功能位点却是抗尿酸排泄剂}
+  - {name: nicotinate,   role: counter-anion,         why: 同类}
+  - {name: lactate,      role: physiological monocarboxylate, why: 同类}
+negative_control_source: "Dai & Lee, Cell Res 2024, 34:776-787"
+negative_control_gate: >
+  任何可观测量必须把抑制剂与被转运阴离子分开；做不到则该可观测量作废。
+
+# 有功效的大样本同场对照（零新增对接，复用 phase-1 姿态）
+retrospective_powered:
+  inputs:
+   160|    actives_p_ge_6: 469
+    experimental_weak_p_lt_5: 80
+    true_decoys: 4690
+    random_decoys: 4690
+    pose_source: 已有 phase-1 gnina SDF（9DKB）
+  stratification: bemis_murcko_scaffold        # Top-1 骨架 127/469 = 27%
+  primary_statistic: 骨架簇内 OR 与 AUC
+  head_to_head_against:
+    a2_acid_gate_or: 0.970
+    a2_acid_gate_p: 1.0
+   170|
+# ---------------------------------------------------------------
+# 阶段与门（顺序不可打乱：对照先行）
+# ---------------------------------------------------------------
+stages:
+  S0: {name: 结构清单核验, compute: none, output: structure_manifest.csv}
+  S1:
+    name: T1 实现与决胜回顾
+    critical_path: true
+    checks: [ground_truth_reproduction, negative_control_separation, powered_retrospective, size_confound]
+   180|    gate: 真值或负控制失败 -> 停止；OR 的 95% CI 覆盖 1 -> 按 negative_outcome 出稿
+  S2:
+    name: 生成阶段（召回优先）
+    no_acid_prefilter: true      # 酸性不是抑制签名，见 thesis
+    receptors: [9DKB, 9JE1]
+    metric: recall_not_precision
+    carry_in_prior_subset: data/campaigns/c1/08_nomination/acid_a2_eligible_audited.csv
+  S3:
+    name: T1 状态门筛选
+    classes: [inhibitor_like, substrate_like, non_binder]
+   190|    expected_shortlist: 20-60
+    substrate_like_handling: 单独列表并显式标注抗尿酸排泄风险，不得混入候选
+  S4:
+    name: MD 确证（对照先行）
+    md_authorized: true
+    controls_first_order:
+      - apo 9DKB 膜体系
+      - urate @ inward（底物对照）
+      - lesinurad 晶体姿 @ 9DKB（弱抑制剂对照）
+      - dotinurad @ 9JE1（强抑制剂对照）
+   200|      - pyrazinoate @ inward（反向阴离子对照）
+      - NP3-146 @ 7ALV（NLRP3 结构对照）
+    candidates_only_after_controls_pass: true
+    prewritten_readout:
+      if_control_3_or_4_fails_gating_contacts: URAT1 侧全部不解释
+      if_pyrazinoate_indistinguishable_from_inhibitors: T2 判负，退回只用 T1
+  S5:
+    name: T3 异构化惩罚
+    acceptance:
+      - W_iso 必须分开 urate 与 dotinurad
+   210|      - dotinurad > lesinurad（与约 3 log 的 IC50 差同向）
+    sample_size_disclosure: n=4 不支撑相关性主张；只主张分离与序一致
+
+# ---------------------------------------------------------------
+# 通过 / 失败
+# ---------------------------------------------------------------
+pass_criteria:
+  - t1_reproduces_published_clashes: true
+  - t1_separates_transported_anions_from_inhibitors: true
+  - t1_scaffold_stratified_or_significantly_gt_1: true
+   220|  - t1_significantly_better_than_a2_acid_gate: true
+  - delta_state_not_size_driven: true
+  - s4_all_controls_pass: true
+
+negative_outcome_is_publishable: true
+negative_outcome_product: >
+  在 SLC22 反向转运体上: (i) 单构象占据型打分与抑制无单调关系;
+  (ii) 阴离子/羧酸几何门在结构上不可判别 (OR≈0.97);
+  (iii) 双态不相容形式化后仍不足以判别 —— 并给出三态分辨率与姿态误差的定量归因。
+  配合 TrueDecoy/RandomDecoy 分解、lesinurad 自对接失败、临床库负迁移，构成完整方法学论文。
+
+   230|# ---------------------------------------------------------------
+# NLRP3 对称臂：同一物理主张
+# ---------------------------------------------------------------
+nlrp3_arm:
+  mechanism: 抑制剂充当 intramolecular glue，锁定非活性闭合态，阻止 NBD 约 85-90 度转动
+  closed_state: 7ALV
+  active_state: 8EJ4
+  transplant_direction: 闭合态姿态 -> 活性态 NACHT
+  structural_control: NP3-146
+  np3_146_selfdock_rmsd_A: [0.82, 0.67, 0.68]
+   240|  ml_prior: NLRP3 分类器 qN（AUROC 0.893），仅作生成先验，不作排序
+  unified_claim: conformational-lock virtual screening 跨两个不同折叠成立
+
+# ---------------------------------------------------------------
+# 只读与禁止
+# ---------------------------------------------------------------
+read_only_paths:
+  - data/repurposing/p2/
+  - data/campaigns/c1/
+forbidden:
+  - 覆盖冻结 P2 表或重锁 Pi*
+   250|  - 用诱饵标签训练协议选择模型
+  - 把 delta_state / W_iso 称作亲和力或 IC50
+  - MM-GBSA 重排；比"谁更像 lesinurad"
+  - 在 4.1/4.7 A 模型上做侧链级结论
+  - 把 substrate_like 分子写进候选
+  - 声称双靶抑制剂
+  - 在 n=4 阶梯上声称相关性
+  - 预先把 C1 A2 短名单当作 C2 命中
+
+c1_relationship:
+   260|  rank_track: closed（不复活）
+  acid_track: 降级为输入池中的先验假设
+  a2_or_role: 升级为"阴离子门不可判别"的实证
+  do_not_precommit_as_c2_hits:
+    - PF-04620110
+    - ADMILPARANT
+    - PSI-697
+    - PF-03882845
+    - LANIFIBRANOR
+    - GSK-3008348 FREE BASE
+
+   270|output_root: data/campaigns/c2
