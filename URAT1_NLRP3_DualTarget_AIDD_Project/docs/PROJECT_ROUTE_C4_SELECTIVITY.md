@@ -1,6 +1,11 @@
 # 路线 C4：以选择性为主轴的候选筛选（计算 SURI 画像）
 
-> **现行路线。** 取代 C3（实验结构模板 + IFP 筛选）。机器可读锁：[`config/campaign_c4.yaml`](../config/campaign_c4.yaml)
+> **已被 C5 取代（2026-09-04）。** 现行路线见 [`docs/PROJECT_ROUTE_C5_DUAL_NODE_PUBLICATION.md`](PROJECT_ROUTE_C5_DUAL_NODE_PUBLICATION.md) 与 [`config/campaign_c5.yaml`](../config/campaign_c5.yaml)。
+>
+> 取代原因：C4 把 NLRP3 降为次要注释，等于放弃双节点课题身份。C5 保留 URAT1–NLRP3 双节点为主线，把本文的选择性内容收缩为 URAT1 臂的**反靶排除注释**（W6），不进标题摘要。
+>
+> 原文以下内容仍然有效并被 C5 吸收：hOAT1 人源结构（Jeon *Structure* 2025；Wu & Luo *Sci. Adv.* 2025）、Taniguchi *JPET* 2019 同测定选择性矩阵、"分泌型 OAT 封堵会抵消尿酸排泄收益"这一必要滤器论证。
+>
 > 冻结数据只读：`data/repurposing/p2/`、`data/campaigns/c1/`。
 
 ---
