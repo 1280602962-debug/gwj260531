@@ -22,15 +22,30 @@ GNINA_LIB = Path("/mnt/d/CADD paper exercise/gnina/conda_env/lib")
 SEED = 20260727
 N_MODES = 9
 
+def resolve_panel_root(data_root: Path, results_root: Path) -> Path:
+    """Prefer in-repo `data/` panels; fall back to a local `results/` workspace."""
+    if data_root.exists():
+        return data_root
+    if results_root.exists():
+        return results_root
+    return data_root
+
+
 PANELS = {
     "EGFR/HER2": {
-        "panel_root": ROOT / "results/egfr_her2_panel120_v0",
+        "panel_root": resolve_panel_root(
+            ROOT / "data/egfr_her2_panel120_v0",
+            ROOT / "results/egfr_her2_panel120_v0",
+        ),
         "panel_csv": "tables/panel_v0_120.csv",
         "targets": ["3POZ", "3RCD"],
         "exhaustiveness": 8,
     },
     "PIK3CA/mTOR": {
-        "panel_root": ROOT / "results/pik3ca_mtor_panel48_rdkit_v0",
+        "panel_root": resolve_panel_root(
+            ROOT / "data/pik3ca_mtor_panel48_rdkit_v0",
+            ROOT / "results/pik3ca_mtor_panel48_rdkit_v0",
+        ),
         "panel_csv": "tables/panel_v0_48.csv",
         "targets": ["4L23", "4JT6"],
         "exhaustiveness": 16,

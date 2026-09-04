@@ -23,27 +23,48 @@ THETA = 6.0
 SPEC = {
     "EGFR/HER2": {
         "scores": OUT / "tables/gnina_dock_scores_EGFR_HER2.csv",
-        "panel": ROOT / "results/egfr_her2_panel120_v0/tables/panel_v0_120.csv",
+        "panel": ROOT / "data/egfr_her2_panel120_v0/tables/panel_v0_120.csv",
         "target_a": "3POZ",
         "target_b": "3RCD",
-        "vina_scores": ROOT / "results/egfr_her2_panel120_v0/tables/ablation_ligand_scores.csv",
-        "vina_a": "3POZ_affinity",
-        "vina_b": "3RCD_affinity",
-        "vina_dual_vs_neither": 0.756,
-        "vina_summary_min": 0.430,
     },
     "PIK3CA/mTOR": {
         "scores": OUT / "tables/gnina_dock_scores_PIK3CA_mTOR.csv",
-        "panel": ROOT / "results/pik3ca_mtor_panel48_rdkit_v0/tables/panel_v0_48.csv",
+        "panel": ROOT / "data/pik3ca_mtor_panel48_rdkit_v0/tables/panel_v0_48.csv",
         "target_a": "4L23",
         "target_b": "4JT6",
-        "vina_scores": ROOT / "results/pik3ca_mtor_panel48_rdkit_v0/tables/ablation_ligand_scores.csv",
-        "vina_a": "4L23_affinity",
-        "vina_b": "4JT6_affinity",
-        "vina_dual_vs_neither": None,
-        "vina_summary_min": 0.692,
     },
 }
+
+UNIFIED = ROOT / "data/jcim_strengthen_t0t1_v0/tables/unified_threshold_sensitivity_v2.csv"
+FORMULATION = ROOT / "data/jcim_novelty_v0/tables/formulation_conventional_vs_directional_v1.csv"
+
+
+def vina_refs(pair: str) -> tuple[float, float | None]:
+    """Vina comparison numbers from committed Table 2 / Table 3 sources.
+
+    Dual-versus-neither is filled only for EGFR/HER2. PIK3CA/mTOR neither n = 4
+    is underpowered and is left blank, matching the deposited summary contract.
+    """
+    summary_min = None
+    with UNIFIED.open(encoding="utf-8", newline="") as handle:
+        for row in csv.DictReader(handle):
+            if row["pair"] == pair and row["label_rule"] == "theta_6.0":
+                summary_min = float(row["pocket_matched_summary_min"])
+                break
+    neither = None
+    if pair == "EGFR/HER2":
+        with FORMULATION.open(encoding="utf-8", newline="") as handle:
+            for row in csv.DictReader(handle):
+                if (
+                    row["pair"] == pair
+                    and row["formulation"] == "conventional_dual_vs_neither"
+                    and row["contrast"] == "D_vs_neither_mean"
+                ):
+                    neither = float(row["auroc"])
+                    break
+    if summary_min is None:
+        raise KeyError(f"no Table 2 summary_min for {pair}")
+    return summary_min, neither
 
 
 def auroc(pos, neg) -> float:
@@ -194,12 +215,22 @@ def enrichment_top10(pair: str, recs: list[dict]) -> list[dict]:
     return rows
 
 
-def verdict(summary_min: float, vina_neither: float | None, vina_dir: float) -> str:
-    if vina_neither is not None and summary_min >= vina_neither - 0.05:
-        if summary_min <= vina_dir + 0.05:
-            return "gap_gone_or_reversed"
-        return "gap_smaller_same_sign"
-    if summary_min <= vina_dir + 0.08:
+def verdict(gnina_sm: float, gnina_neither: float | None, vina_sm: float, vina_neither: float | None) -> str:
+    """Label whether the Dual-versus-neither vs directional formulation gap remains.
+
+    Compares formulation gaps (neither − summary_min), not GNINA vs Vina
+    directional AUROC. EGFR/HER2 keeps `gap_remains` when both engines still
+    show a large neither-minus-directional gap.
+    """
+    if vina_neither is not None and gnina_neither is not None:
+        g_gap = gnina_neither - gnina_sm
+        v_gap = vina_neither - vina_sm
+        if g_gap >= 0.15 and v_gap >= 0.15:
+            return "gap_remains"
+        if g_gap > 0 and v_gap > 0:
+            return "gap_smaller_same_sign"
+        return "gap_gone_or_reversed"
+    if abs(gnina_sm - vina_sm) <= 0.08:
         return "gap_smaller_same_sign"
     return "gap_remains"
 
@@ -224,16 +255,17 @@ def main() -> None:
         dn_row = next((r for r in form if r["contrast"] == "D_vs_neither_mean"), None)
         sm = float(sm_row["auroc"])
         dn = float(dn_row["auroc"]) if dn_row and dn_row["auroc"] != "" else None
+        vina_sm, vina_neither = vina_refs(pair)
         summary_rows.append(
             {
                 "pair": pair,
                 "engine": "gnina_dock_mode1",
                 "gnina_summary_min": sm,
                 "gnina_D_vs_neither_mean": dn if dn is not None else "",
-                "vina_summary_min_ref": cfg["vina_summary_min"],
-                "vina_D_vs_neither_ref": cfg["vina_dual_vs_neither"] or "",
-                "delta_summary_min_vs_vina": round(sm - cfg["vina_summary_min"], 4),
-                "verdict": verdict(sm, cfg["vina_dual_vs_neither"], cfg["vina_summary_min"]),
+                "vina_summary_min_ref": vina_sm,
+                "vina_D_vs_neither_ref": vina_neither if vina_neither is not None else "",
+                "delta_summary_min_vs_vina": round(sm - vina_sm, 4),
+                "verdict": verdict(sm, dn, vina_sm, vina_neither),
             }
         )
 

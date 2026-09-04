@@ -18,9 +18,17 @@ Minimal Python packages are listed in `requirements-analysis.txt`.
 
 Expected outputs include:
 
-- `data/jcim_strengthen_t0t1_v0/analysis/PRIMARY_METRIC_V2.md`
-- `data/jcim_bench_v0/tables/forest_summary_min_ci_v1.csv`
-- `data/jcim_bench_v0/figures/forest_summary_min_ci_v1.png`
+- `data/jcim_strengthen_t0t1_v0/tables/unified_threshold_sensitivity_v2.csv` (Table 2 canonical CIs)
+- `data/jcim_strengthen_t0t1_v0/analysis/PRIMARY_METRIC_V2.md` (deprecated; do not cite as Table 2)
+- `data/jcim_bench_v0/tables/forest_summary_min_ci_v1.csv` (`vina_mean` forest, not pocket-matched Table 2)
+
+Manuscript-facing numeric regression:
+
+```bash
+python3 data/jcim_novelty_v0/scripts/validate_revision_v1.py
+python3 data/jcim_novelty_v0/scripts/build_checksum_manifest_v1.py --check
+python3 scripts/primary/bootstrap_primary.py
+```
 
 ## 2. What the minimal run does not do
 
@@ -89,3 +97,12 @@ bash scripts/run_phase1_revision.sh
 ```
 
 This rebuilds document-blocked CV, the assay-context machine extract, the frozen literature-year split, cognate inventory, assembled manuscripts, and the checksum manifest. It does not dock new ligands or mint a Zenodo DOI.
+
+## 6. Docking scripts vs deposited scores
+
+Many historical dock/RTM/GNINA drivers still point at the original local workspace (`/mnt/d/CADD paper exercise/...`, `/home/gwj/miniconda3/...`). They are the as-run recipes, not portable cloud commands. Publication numbers are regenerated from the deposited ligand-level CSVs under `data/*/tables/` by the zero-dock analysis scripts.
+
+- Canonical Table 2 CIs: `unified_threshold_sensitivity_v2.csv` (`label_rule=theta_6.0`).
+- Do not cite `pocket_matched_directional_v1.csv` or `PRIMARY_METRIC_V2.md` as Table 2.
+- Multi-seed Table S54: `analyze_multiseed_vina_v2.py`. `analyze_multiseed_vina_v1.py` uses a different Dual-versus-neither estimand and refuses to overwrite unless `--legacy` is passed.
+

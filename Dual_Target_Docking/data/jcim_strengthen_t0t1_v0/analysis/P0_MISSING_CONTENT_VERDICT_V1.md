@@ -51,7 +51,7 @@ See `tables/frozen_vs_holdout_v1.csv`. EGFR/HER2 holdout remains not eligible.
 ## ML leakage check
 
 Mean (random − scaffold) on the eight directional contrasts:
- 0.0112.
+ 0.0258.
 Do not hunt a split that inflates the gap.
 
 ## Not done (and not invented)
