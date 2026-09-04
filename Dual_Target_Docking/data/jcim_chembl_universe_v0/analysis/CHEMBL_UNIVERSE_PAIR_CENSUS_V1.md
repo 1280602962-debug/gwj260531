@@ -105,6 +105,9 @@ MERTK resolved via UniProt Q12866 to `CHEMBL5331` (the fetch-queue file listed `
 | `fetch_queue_universe_targets_v1.csv` | 20 queued targets resolved |
 | `fetch_queue_intended_pairs_v1.csv` | Literature pairs the queue was meant to unlock |
 | `k4_vs_universe_suitability_v1.csv` | Frozen K=4 vs universe ranks |
+| `universe_target_holo_v1.csv` | RCSB H3 counts for all 71 UniProts in the 86 |
+| `universe_pairs_structure_feasibility_v1.csv` | Structure decision for every thick pair |
 | `K4_UNIVERSE_SUITABILITY_V1.md` | Whether K=4 is a ChEMBL-wide optimum |
+| `UNIVERSE_STRUCTURE_FEASIBILITY_V1.md` | Which of the 86 can enter a human-holo freeze |
 
 The SQLite dump is not in git.

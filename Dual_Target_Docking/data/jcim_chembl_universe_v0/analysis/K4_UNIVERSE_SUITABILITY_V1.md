@@ -45,7 +45,7 @@ J0’s four thick pairs (HDAC1/HDAC6, PIK3CA/mTOR, AChE/BChE, PIK3CA/PIK3CB) **r
 
 These are limitations of the **candidate list and universe definition**, not evidence that Table 2 was fabricated.
 
-1. **Candidate-list incompleteness.** CREBBP/BRD4 is a conventional thick pair (min HN = 270, 3rd of 86) and was **never in J0**. BRD4 was cached; CREBBP was not in `EXTRA_TARGETS_FOR_QUEUE`. This census did **not** score holo/cognate/metal docking feasibility for CREBBP/BRD4. Do not dock it in this paper.
+1. **Candidate-list incompleteness.** CREBBP/BRD4 is a conventional thick pair (min HN = 270, 3rd of 86) and was **never in J0**. BRD4 was cached; CREBBP was not in `EXTRA_TARGETS_FOR_QUEUE`. This census did **not** originally score holo/cognate docking feasibility. That hole is now closed for **all 86** thick pairs in `UNIVERSE_STRUCTURE_FEASIBILITY_V1.md` (19 H3-pass after qHTS/CYP/metal filters). Do not dock those pairs in this paper.
 2. **Homologs were not ranked.** CNR, HCRTR, SLC6, MAO, adenosine, opioid, and JAK isoform pairs can match or beat AChE/BChE on min HN. K=4 did not pick the thickest homolog.
 3. **Isoform controls were not ranked.** PIK3CG/PIK3CB is thicker than PIK3CA/PIK3CB. The isoform seat is by design, not by universe rank.
 4. **EGFR/HER2 would lose a thick-supply ranking** to dozens of GPCR/isoform pairs. Its seat is a pose-gold case, not a supply optimum.
