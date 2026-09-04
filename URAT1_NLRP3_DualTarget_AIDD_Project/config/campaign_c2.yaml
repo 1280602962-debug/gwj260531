@@ -5,7 +5,13 @@
 # 只读约束: data/repurposing/p2/ 与 data/campaigns/c1/ 一律不覆盖。
 
 name: C2
-status: preregistered_awaiting_s1
+status: superseded_by_c3
+superseded_by: config/campaign_c3.yaml
+superseded_reason: >
+  课题目标确定为"产出候选分子 + 正面论文"，不以负结果为产品。
+  C2 的转运循环不相容思路保留为 C3 的 S4 底物/反向阴离子排除过滤器，
+  不再作为论文主张。C3 的主判别器改为 cryo-EM 锚定的 IFP 模式匹配
+  （项目内已有 NLRP3 侧 p=0.0134 的实证）。
 goal: 用"与转运循环不相容"判别抑制剂，替代占据型打分排序，并提名双节点候选
 journal_target: 方法学 + 候选（JCAMD / Mol. Divers. / JCIM 皆可）
 product_claim: 构象锁定型双节点假说（conformational-lock dual-node hypotheses）

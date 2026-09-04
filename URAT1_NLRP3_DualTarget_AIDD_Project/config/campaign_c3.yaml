@@ -1,0 +1,215 @@
+# campaign C3 — 预登记：cryo-EM 锚定的双节点结构指纹筛选
+# 目标 = 候选分子 + 正面论文。不以负结果为产品。
+# 方案全文: docs/PROJECT_ROUTE_C3_CRYOEM_DUAL_NODE.md
+# 只读: data/repurposing/p2/ , data/campaigns/c1/
+
+name: C3
+status: preregistered_awaiting_s1
+goal: 产出经结构与回顾性验证优先排序的 URAT1-NLRP3 双节点候选分子
+positive_claim: >
+  首个以 cryo-EM 共结构锚定、以已发表突变体数据验证的 URAT1-NLRP3
+    10|  双节点结构指纹筛选，并给出机制表征的候选分子
+journal_target: [Molecular Diversity, JCIM, IJMS, J Biomol Struct Dyn, Eur J Med Chem]
+tier_disclosure: >
+  无湿实验时主张为"优先排序的候选假说"，非"已验证抑制剂"；
+  进 Nat Commun 级别须补 HEK 摄取与 IL-1beta 实验。
+not_claimed:
+  - 双靶抑制剂
+  - 亲和力或 IC50 预测
+  - IFP Jaccard 是亲和力
+
+    20|# ---------------------------------------------------------------
+# 核心方法转换（这是与历史失败的分界）
+# ---------------------------------------------------------------
+method_switch:
+  from: CNNaffinity 幅值排序（与分子尺寸共变）
+  to: IFP 模式匹配 + 关键接触回收（与尺寸解耦）
+  historical_evidence:
+    cnnaffinity_true_ef1: 2.5867
+    cnnaffinity_random_ef1: 0.2154
+    acid_gate_odds_ratio: 0.970
+    30|    acid_gate_fisher_p: 1.0
+  in_project_evidence_that_ifp_works:
+    source: data/campaigns/c1/05_metrics/nlrp3_structural_panel/
+    positive_pass_rate: 1.0
+    positive_n: 10
+    background_pass_rate: 0.55
+    background_n: 20
+    fisher_exact_p: 0.01339679810444428
+    ifp_jaccard_np3_146: 0.842
+    ifp_jaccard_mcc950: 0.895
+    40|    ifp_jaccard_chembl_actives: 0.895
+    ifp_jaccard_background_range: [0.62, 0.80]
+    known_weakness: 背景通过率 55%，特异性偏弱 -> URAT1 侧必须在诱饵集上标定门限
+  lesinurad_failure_reframed: >
+    自由自对接 4.30/4.31/4.88 A 是 4x4 矩阵中最难的一格（柔性硫醚-乙酸臂），
+    不是姿态预测能力的整体判决；主验证配体改用更刚性的苯溴马隆与 TD-3。
+
+# ---------------------------------------------------------------
+# 结构（本轮 RCSB 直接核验）
+# ---------------------------------------------------------------
+    50|structures:
+  primary_set_citation: "Suo, Fedor & Lee, Nat Commun 2025, 16:5178 (Duke)"
+  matched_construct_set:
+    - {pdb: 9DK9, content: apo, resolution_A: 2.68, ligand_id: null}
+    - {pdb: 9DKA, content: benzbromarone, resolution_A: 3.00, ligand_id: R75}
+    - {pdb: 9DKB, content: lesinurad, resolution_A: 2.74, ligand_id: LES}
+    - {pdb: 9DKC, content: TD-3, resolution_A: 2.55, ligand_id: A1A45}
+  independent_construct_validation:
+    - {pdb: 9IRY, content: verinurad}
+    - {pdb: 9JE1, content: dotinurad}
+    60|  transported_ligand_reference:
+    - {pdb: 9B1K, content: urate occluded, resolution_A: 3.30}
+    - {pdb: 9B1L, content: urate outward}
+  nlrp3: {pdb: 7ALV, content: NACHT closed + ADP + NP3-146, resolution_A: 2.8}
+  manifest: data/campaigns/c2/00_preregistration/structure_manifest.csv
+  td3_chemotype: >
+    2-({1-[(4-bromonaphthalen-1-yl)methyl]-1H-imidazo[4,5-b]pyridin-2-yl}sulfanyl)-2-methylpropanoic acid
+    -> 溴萘基 + 杂芳硫醚 + alpha,alpha-二甲基羧酸；副池化学型模板
+
+# ---------------------------------------------------------------
+    70|# URAT1 IFP 关键残基（全部有已发表突变体或结构证据）
+# ---------------------------------------------------------------
+urat1_key_residues:
+  SER35:  {evidence: "S35Q/S35N 降低 lesinurad/verinurad/苯溴马隆", role: 极性}
+  MET214: {evidence: "M214Q 降低结合", role: 疏水}
+  PHE241: {evidence: "F241Y verinurad 5x down, 磺吡酮 7x down, 苯溴马隆 2x up", role: 五Phe笼/萘环堆积}
+  PHE360: {evidence: "F360T 对苯溴马隆效价影响最大; F360Y 降低", role: 五Phe笼}
+  PHE364: {evidence: "F364A 降低尿酸摄取", role: 五Phe笼}
+  PHE365: {evidence: "F365Y 降低; 啮齿类为 Tyr 且尿酸亲和力更低", role: 五Phe笼/T型pi-pi}
+  ASP389: {evidence: "D389A 显著降低 verinurad（与氰基静电）; 对 lesinurad 不同", role: 静电}
+    80|  LYS393: {evidence: "verinurad 氰基极性接触", role: 极性}
+  GLN437: {evidence: "verinurad 羧基结合", role: 酸头识别}
+  PHE449: {evidence: "F449Y 苯溴马隆 9x down 而 verinurad 无变化", role: 药物特异判别位点}
+  ARG477: {evidence: "R477K verinurad 9x down, 苯溴马隆 4x down, 丙磺舒 3x down; R477N 降低", role: 酸头盐桥}
+  GLN473: {evidence: "结构接触", role: 辅助}
+mutagenesis_sources:
+  - "Tan et al., Sci Rep 2017, 7:665 (定量 fold-change)"
+  - "Guo et al., Nat Commun 2025, 16:1512"
+  - "Dai & Lee, Cell Res 2024, 34:776-787"
+
+    90|# ---------------------------------------------------------------
+# 阶段（按成功概率排序，先做最稳的）
+# ---------------------------------------------------------------
+stages:
+  S1:
+    name: 突变体一致性（论文地基）
+    success_probability: near_certain
+    rationale: 对已沉积坐标做一致性核对，是核对不是预测
+    do: 从晶体配体提取逐残基接触图，与定量突变体响应比对，冻结 IFP 关键残基集与权重
+    must_reproduce:
+   100|      - 苯溴马隆的 F449 依赖（F449Y 9x down）与 F360 依赖
+      - verinurad 的 R477/F241/D389/S35 依赖且 F449 不敏感
+    output: data/campaigns/c3/01_ifp_reference/
+  S2:
+    name: 匹配交叉对接矩阵
+    success_probability: high
+    matrix: 4 受体（9DK9/9DKA/9DKB/9DKC） x 4 配体（BBR/LES/TD-3/verinurad）
+    seeds: [42, 43, 44]
+    primary_judge_ligands: [benzbromarone, TD-3]
+    lesinurad_role: 已知困难例，单列不定罪
+   110|    apo_docking_is_prospective_proxy: 9DK9
+    gate: BBR 或 TD-3 在自身结构上 CNNscore 选姿 RMSD <= 2.0 A
+    fallback_if_both_fail: 用晶体姿建 IFP 参考 + 局域受限对接（不终止课题）
+    output: data/campaigns/c3/02_crossdock/
+  S3:
+    name: URAT1 IFP 门标定与富集
+    success_probability: medium_high
+    inputs:
+      actives_p_ge_6: 469
+      experimental_weak_p_lt_5: 80
+      true_decoys: 4690
+   120|      random_decoys: 4690
+      pose_source: 已有 phase-1 gnina SDF（零新增对接）
+    metrics: [ifp_jaccard, pocket_overlap, key_contact_recovery]
+    threshold_calibration: 必须在诱饵集上标定，禁止照抄 NLRP3 的 0.50
+    report: [EF@1%, EF@5%, AUC]
+    stratification_mandatory: bemis_murcko_scaffold   # Top-1 骨架 127/469 = 27%
+    baseline_comparison_table: [cnnaffinity_amplitude, acid_gate]
+    fallback: 退到 key_contacts>=N 单指标
+    output: data/campaigns/c3/03_ifp_enrichment/
+   130|  S3b:
+    name: 外部药物回收
+    success_probability: medium
+    external_positives: [benzbromarone, dotinurad, verinurad, lesinurad, probenecid, sulfinpyrazone]
+    why_clean: 这些药物不在 469 活性集内，构成真正的外部保留集
+    gate: 进入临床库排序前列（预登记 top 5%，放宽上限 top 10%）
+  S4:
+    name: 底物/反向阴离子排除（C2 保留部分）
+    success_probability: high
+    build_reference_from: [urate 9B1K/9B1L, pyrazinoate 三位点]
+   140|    action: 与被转运参考更相似者标记 substrate_like 并移出候选、单列风险名单
+    rationale: URAT1 是尿酸/单羧酸反向转运体；吡嗪酸是抗尿酸排泄剂
+    differentiation: 同类工作均未做此过滤
+  S5:
+    name: 双池筛选与候选提名
+    success_probability: high
+    primary_pool: data/repurposing/screening/docking_pool_p05.csv   # 1588；可扩至 ~8319
+    secondary_pool: taosu 库（按 TD-3/verinurad 药效团取新颖化学型）
+    dual_gate: URAT1 IFP 门（S3 标定） AND NLRP3 结构门（沿用 structural 定义）
+    nlrp3_gate_definition: loose + overlap>=0.50 + IFP Jaccard>=0.50 + key_contacts>=5/7 + no clash
+   150|    附加: [ADMET, 新颖性, 骨架多样性]
+    expected_candidates: 5-15
+  S6:
+    name: MD 确证（对照先行）
+    success_probability: high
+    md_authorized: true
+    controls_first_order:
+      - apo 9DK9
+      - benzbromarone @ 9DKA（晶体姿）
+      - TD-3 @ 9DKC
+      - lesinurad @ 9DKB
+   160|      - NP3-146 @ 7ALV
+    candidates_only_after_controls_pass: true
+    production: 3x150ns
+    md_recipe: {protein_lipid_ff: amber14sb, ligand_ff: gaff2, membrane: POPC, water: TIP3P,
+                electrostatics: PME, vdw_cutoff_A: 9, timestep_fs: 2, barostat: parrinello-rahman}
+    readouts: [ligand_displacement_rmsd, key_residue_contact_occupancy_vs_crystal, gate_distance]
+    forbidden: [MM-GBSA 重排, 绝对结合自由能]
+
+# ---------------------------------------------------------------
+# 新颖性缺口（正面主张的依据）
+   170|# ---------------------------------------------------------------
+novelty_gap:
+  all_prior_urat1_vs_used_alphafold2:
+    - "Yang et al., RSC Adv 2023, 13:3474 (AlphaFold2 + watvina, ROC 0.813, 21 actives + 1050 DUD-E decoys)"
+    - "Du et al., J Biomol Struct Dyn 2024 (AlphaFold2, e-pharmacophores from DOCKED drug poses, fisetin 12.77 uM)"
+    - "Med Chem Res 2026, 35:203 (nuciferine derivatives, docking+MD, not a screen)"
+  dual_target_concept_already_validated_in_top_venue:
+    ref: "Eurycoma longifolia multi-target anti-gout, PMC12340016"
+    what_they_did: 配体基双靶 URAT1/NLRP3 药效团（3 疏水 + 阴离子中心）+ 表型筛选 + 64 合成物 -> 化合物 32
+    implication: 方向无需辩护；缺口是"结构基"
+    180|  our_gap: 无人做过 cryo-EM 锚定 + 突变体验证的 URAT1 虚筛，更无 cryo-EM 锚定的双节点筛选
+
+# ---------------------------------------------------------------
+# 禁止事项
+# ---------------------------------------------------------------
+read_only_paths:
+  - data/repurposing/p2/
+  - data/campaigns/c1/
+forbidden:
+  - 覆盖冻结 P2 表或重锁 Pi*
+  - 把 IFP Jaccard 或 CNN 分数称作亲和力/IC50
+   190|  - 照抄 NLRP3 的 0.50 门限到 URAT1
+  - 用诱饵标签训练用于门限选择的模型
+  - MM-GBSA 重排
+  - 只报全局 EF 而不做骨架分层
+  - 声称双靶抑制剂
+  - 把 substrate_like 分子写进候选
+  - 预先把 C1 A2 短名单当作 C3 命中
+
+supersedes:
+  campaign_c2: 转运循环不相容降级为 C3 的 S4 过滤器
+   200|
+c1_relationship:
+  rank_track: closed
+  nlrp3_structural_panel: 直接沿用（p=0.0134）
+  a2_shortlist: 输入池先验，接受 S3/S5 同等裁决
+  do_not_precommit_as_c3_hits:
+    - PF-04620110
+    - ADMILPARANT
+    - PSI-697
+    - PF-03882845
+    - LANIFIBRANOR
+   210|
+output_root: data/campaigns/c3

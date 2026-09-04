@@ -1,5 +1,12 @@
 # 路线 C2：以"转运循环阻断"重建课题
 
+> **已被 C3 取代（2026-09-04）。** 现行路线见 [`docs/PROJECT_ROUTE_C3_CRYOEM_DUAL_NODE.md`](PROJECT_ROUTE_C3_CRYOEM_DUAL_NODE.md) 与 [`config/campaign_c3.yaml`](../config/campaign_c3.yaml)。
+>
+> 取代原因：课题目标确定为**产出候选分子 + 正面论文**，不以负结果为产品。本文 §7.2 的"负结果也可发表"不再是可接受的产品形态。
+>
+> **保留下来的部分**：§2.1（阴离子/羧酸识别是被转运的签名而非抑制的签名）与被转运阴离子负控制集，作为 C3 的 **S4 底物排除过滤器**继续使用——它仍是同类工作都没有的差异化点，只是不再充当论文主张。
+> **本文其余内容按历史记录保留**，用于说明 C3 为何不走"路径量 + FDR"这条高风险路线。
+
 > 本文是**课题重建方案 + 预登记草案**。机器可读锁见 [`config/campaign_c2.yaml`](../config/campaign_c2.yaml)。
 >
 > 本文**不覆盖**任何冻结数据：`data/repurposing/p2/` 保持原样；C1 的 `pass_fail.json`、A1/A2 产物保持原样。

@@ -4,7 +4,8 @@
 
 **新版项目计划：** [`docs/PROJECT_REPLAN_MOLECULAR_DIVERSITY.md`](docs/PROJECT_REPLAN_MOLECULAR_DIVERSITY.md)（§12：哪些必须本地）  
 **C1 本地战役（可测双靶候选）：** [`docs/LOCAL_C1_CANDIDATE_CAMPAIGN.md`](docs/LOCAL_C1_CANDIDATE_CAMPAIGN.md) · [`config/campaign_c1.yaml`](config/campaign_c1.yaml) · [`config/docking_c1.yaml`](config/docking_c1.yaml)  
-**C2 课题重建路线（转运循环阻断，预登记）：** [`docs/PROJECT_ROUTE_C2_TRANSPORT_CYCLE.md`](docs/PROJECT_ROUTE_C2_TRANSPORT_CYCLE.md) · [`config/campaign_c2.yaml`](config/campaign_c2.yaml)  
+**C3 现行路线（cryo-EM 锚定双节点指纹筛选，候选优先）：** [`docs/PROJECT_ROUTE_C3_CRYOEM_DUAL_NODE.md`](docs/PROJECT_ROUTE_C3_CRYOEM_DUAL_NODE.md) · [`config/campaign_c3.yaml`](config/campaign_c3.yaml)  
+**C2（已被 C3 取代，仅存底物排除思路）：** [`docs/PROJECT_ROUTE_C2_TRANSPORT_CYCLE.md`](docs/PROJECT_ROUTE_C2_TRANSPORT_CYCLE.md) · [`config/campaign_c2.yaml`](config/campaign_c2.yaml)  
 **现有写作入口：** [`docs/MANUSCRIPT.md`](docs/MANUSCRIPT.md)（Results 仍是冻结 P2；C1 数字未出）  
 **引言 / Methods / Results：** [`docs/INTRO_DRAFT_CN.md`](docs/INTRO_DRAFT_CN.md) · [`docs/METHODS_DRAFT_CN.md`](docs/METHODS_DRAFT_CN.md) · [`docs/RESULTS_DRAFT_CN.md`](docs/RESULTS_DRAFT_CN.md)  
 **协议结果：** [`docs/PROTOCOL_SELECTION_RESULT.md`](docs/PROTOCOL_SELECTION_RESULT.md)  
@@ -30,7 +31,8 @@
 |------|------|
 | [新版项目计划](docs/PROJECT_REPLAN_MOLECULAR_DIVERSITY.md) | Molecular Diversity 投稿路线、协议重构、补算包与候选提名规则 |
 | [C1 本地战役](docs/LOCAL_C1_CANDIDATE_CAMPAIGN.md) | 可测双靶候选的预注册执行书：Rank/Acid 双轨、必须本地的 gnina/MD、停止规则 |
-| [C2 转运循环阻断路线](docs/PROJECT_ROUTE_C2_TRANSPORT_CYCLE.md) | 课题重建：以"与转运循环不相容"替代占据型打分排序；机制匹配负控制、T1/T2/T3 可观测量、预登记通过与失败标准 |
+| [**C3 cryo-EM 双节点路线**](docs/PROJECT_ROUTE_C3_CRYOEM_DUAL_NODE.md) | **现行路线**：9DK9/9DKA/9DKB/9DKC 同构建体四联结构、突变体一致性验证、IFP 门标定与富集、双池候选提名、MD 确证；含可行性概率排序 |
+| [C2 转运循环阻断路线](docs/PROJECT_ROUTE_C2_TRANSPORT_CYCLE.md) | 已被 C3 取代；仅保留底物/反向阴离子排除思路作为 C3 的 S4 过滤器 |
 | [文稿指南](docs/MANUSCRIPT.md) | 现有结构、claim、lead |
 | [工作流](docs/WORKFLOW.md) | 现行命令 |
 | [差异化](docs/DIFFERENTIATION_VS_PLK1_NLRP3.md) | vs 激酶–NLRP3 文 |
