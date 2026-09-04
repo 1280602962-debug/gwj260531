@@ -19,6 +19,11 @@ This is **not** the frozen J0 49-pair list, **not** Table S44, **not** a docking
 | `analysis/GEOMETRIC_POCKET_VERIFICATION_V1.md` | Independent 3D re-check: Cys25 bond lengths + pocket contacts for all 14 PDBs |
 | `analysis/RECEPTOR_FREEZE_V1.md` | **2026-09-04 freeze: keep all 14; alternatives surveyed and declined** |
 | `analysis/DOCKING_PLAN_V1.md` | **Locked Track B: five ordinary pairs; CTSK/CTSS out; PIK3CA/PIK3CB kept as special case** |
+| `scripts/extract_track_b_panels_v1.py` | Co-tested four-state SMILES panels for those five pairs |
+| `tables/track_b_panels/` | 110-ligand CSVs (strict 6.5/5.5, seed 20260729) |
+| `tables/track_b_panel_summary_v1.csv` | Pool sizes and sampled class counts |
+| `scripts/prep_track_b_ligands_v1.py` | Frozen ETKDGv3 seed 20260727 + meeko 0.7.1 |
+| `tables/track_b_ligand_prep_status_v1.csv` | 550/550 PDBQT ok (binaries in gitignored cache) |
 | `tables/receptor_freeze_v1.csv` | Locked PDB / Vina cognate / declined alternative per receptor |
 | `analysis/COVALENT_LIGAND_PREP_V1.md` | On-file 4X6H/I37 and 9GJ2/13b rule; **not** a current Track B job |
 | `analysis/HUMAN_VISUAL_SIGN_OFF_V1.md` | Sign-off record (no longer a to-do) |

@@ -49,8 +49,12 @@ Independent new systems = **3** (coagulation; JAK family; PPAR family), not 5.
 
 Cloud has RDKit + meeko + the ChEMBL 37 SQLite. Cloud **does not have Vina**. Steps 1–2 can run here; steps 3–5 need a local Vina machine.
 
-1. **Extract four-state panels** from ChEMBL 37, co-tested only (`set(map_A) ∩ set(map_B)`). Same endpoints and max pChEMBL as the census. Labels: strict 6.5/5.5 for AChE-style thick pairs; record θ = 6.0 counts in parallel. Sample with the same class-quota + deterministic shuffle used on the frozen panels (target depth **110** ligands: dual / A-only / B-only, and neither **only if** `strict_neither` ≥ 20 after small-molecule filter). JAK1/TYK2 strict neither = 35 (ok to include a neither arm); do not force a neither arm on pairs that only look thick directionally.
-2. **RDKit ETKDG + meeko PDBQT.** No LigPrep. Same as Methods.
+1. **Extract four-state panels** from ChEMBL 37, co-tested only (`set(map_A) ∩ set(map_B)`). Same endpoints and max pChEMBL as the census. Labels: strict 6.5/5.5 for AChE-style thick pairs; record θ = 6.0 counts in parallel. Sample with the same class-quota + deterministic shuffle used on the frozen panels (seed **20260729**; target depth **110** ligands: dual / A-only / B-only, and neither **only if** `strict_neither` ≥ 20 after small-molecule filter). JAK1/TYK2 strict neither after small-mol = 25 (neither arm included); do not force a neither arm on pairs that only look thick directionally.
+
+   **Done 2026-09-04** (`scripts/extract_track_b_panels_v1.py`). All five pairs sampled 32/32/32/14 = 110. Small-molecule min HN matches the QC table (108 / 91 / 53 / 82 / 82). CSVs: `tables/track_b_panels/panel_*_v1.csv`.
+2. **RDKit ETKDG + meeko PDBQT.** No LigPrep. Same as Methods (ETKDGv3 seed **20260727**, largest fragment, MMFF 200).
+
+   **Done 2026-09-04** (`scripts/prep_track_b_ligands_v1.py`). 550/550 ligands wrote PDBQT (`tables/track_b_ligand_prep_status_v1.csv`). Binaries live in gitignored `cache/track_b_ligands/`. Re-run the script on a Vina machine to regenerate them.
 3. **Layer 3 cognate best-of-9 RMSD** on the eight new receptors, box = cognate heavy-atom AABB + 5 Å/axis, min edge 20 Å. Fail the receptor if no near-crystal pose is generated (RMSD is not identity proof; 2WXF passed).
 4. **Production Vina** on both ends of each of the five pairs.
 5. Optional, only if matching frozen depth: five-seed Vina, failure typology (N_attempted / N_successful / N_failed).
