@@ -32,12 +32,21 @@ AN.mkdir(parents=True, exist_ok=True)
 N_BOOT = 2000
 SEED = 20260729
 
-# prefix -> (pair label, receptor A name, receptor B name, main-panel pocket_matched_vina summary_min)
+# prefix -> (pair label, receptor A name, receptor B name)
 PAIRS = {
-    "HOAB": ("AChE/BChE", "4EY7", "4BDS", 0.6058),
-    "HOAP": ("PIK3CA/PIK3CB", "4L23", "2WXF", 0.5000),
-    "HOPM": ("PIK3CA/mTOR", "4L23", "4JT6", 0.6921),
+    "HOAB": ("AChE/BChE", "4EY7", "4BDS"),
+    "HOAP": ("PIK3CA/PIK3CB", "4L23", "2WXF"),
+    "HOPM": ("PIK3CA/mTOR", "4L23", "4JT6"),
 }
+
+
+def main_panel_summary_min(pair: str) -> float:
+    """Table 2 pocket-matched summary_min from the canonical unified-threshold file."""
+    path = ROOT / "data/jcim_strengthen_t0t1_v0/tables/unified_threshold_sensitivity_v2.csv"
+    for row in csv.DictReader(path.open(encoding="utf-8", newline="")):
+        if row["pair"] == pair and row["label_rule"] == "theta_6.0":
+            return float(row["pocket_matched_summary_min"])
+    raise KeyError(f"no Table 2 summary_min for {pair}")
 
 
 def fnum(v):
@@ -94,7 +103,7 @@ def boot_ci(recs, key_da, key_db, n_boot=N_BOOT, seed=SEED):
 
 
 def assemble(prefix: str) -> tuple[list[dict], dict]:
-    pair, recA, recB, _ = PAIRS[prefix]
+    pair, recA, recB = PAIRS[prefix]
     panel = {r["holdout_id"]: r for r in csv.DictReader((TAB / f"holdout_panel_{prefix}.csv").open())}
     scores = list(csv.DictReader((TAB / f"scores_vina_mode1_{prefix}.csv").open()))
 
@@ -326,11 +335,11 @@ def main():
     all_ligs = []
     all_metrics = []
     metas = {}
-    for pref, (_pair, _a, _b, main_sm) in PAIRS.items():
+    for pref, (pair, _a, _b) in PAIRS.items():
         recs, meta = assemble(pref)
         metas[pref] = meta
         all_ligs.extend(recs)
-        metrics = evaluate(pref, recs, main_sm)
+        metrics = evaluate(pref, recs, main_panel_summary_min(pair))
         all_metrics.extend(metrics)
         print(
             f"{pref}: assembled={meta['n_assembled']} "

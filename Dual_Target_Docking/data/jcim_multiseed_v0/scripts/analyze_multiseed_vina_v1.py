@@ -222,4 +222,19 @@ def main():
 
 
 if __name__ == "__main__":
+    import argparse
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--legacy",
+        action="store_true",
+        help="Allow rewriting v1 tables. Default refuses: Dual-vs-neither is not Table 3.",
+    )
+    args = parser.parse_args()
+    if not args.legacy:
+        raise SystemExit(
+            "LEGACY estimator: Dual-versus-neither is mean(AUC_A, AUC_B), not Table 3 "
+            "AUC(vina_mean). Use analyze_multiseed_vina_v2.py. Pass --legacy only to "
+            "regenerate historical v1 files."
+        )
     main()
