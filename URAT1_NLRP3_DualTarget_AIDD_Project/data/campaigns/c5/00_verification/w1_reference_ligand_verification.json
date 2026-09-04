@@ -1,0 +1,44 @@
+{
+  "purpose": "W1 four-way cross-dock pre-registration inputs, verified against RCSB (this cloud sandbox has network access; files ARE fetchable here, not only on the user's local machine).",
+  "verified_2026-09-04_via": "curl https://files.rcsb.org/download/*.{pdb,cif} and https://data.rcsb.org/rest/v1/core/{entry,chemcomp}/*",
+  "citation_cross_check": {
+    "doi": "10.1038/s41467-025-60480-3",
+    "pubmed": 40467597,
+    "journal": "Nat Commun",
+    "volume": 16,
+    "page": 5178,
+    "authors": ["Suo, Y.", "Fedor, J.G.", "Zhang, H.", "Tsolova, K.", "Shi, X.", "Sharma, K.", "Kumari, S.", "Borgnia, M.", "Zhan, P.", "Im, W.", "Lee, S.Y."],
+    "matches_repo_docs": true
+  },
+  "structures": {
+    "9DK9": {"resolution_A": 2.68, "ligand_ccd": null, "state": "apo", "release_date": "2025-06-18", "fetchable_this_sandbox": true},
+    "9DKA": {"resolution_A": 3.00, "ligand_ccd": "R75", "ligand_name": "benzbromarone", "release_date": "2025-06-18", "fetchable_this_sandbox": true, "fetched_format": "pdb"},
+    "9DKB": {"resolution_A": 2.74, "ligand_ccd": "A1AIL", "ligand_name": "lesinurad", "release_date": "2025-06-18",
+      "correction": "Repo docs/config (campaign_c1/c3/c4/c5.yaml, PROJECT_ROUTE_*.md) say ligand_ccd_id=LES. Verified against local data/structures/pdb/9DKB.cif AND a fresh RCSB download: the actual HETATM code is A1AIL, chem_comp name field literally reads 'lesinurad'. LES is not the code used in this deposition. Geometry already extracted from the repo's 9DKB.cif is correct (matches REP_00207 SMILES); only the citation label 'LES' in docs/config is wrong and should read A1AIL."},
+    "9DKC": {"resolution_A": 2.55, "ligand_ccd": "A1A45", "ligand_name": "TD-3", "release_date": "2025-06-18", "fetchable_this_sandbox": true, "fetched_format": "cif_only",
+      "note": "Legacy .pdb download returns HTTP 404 for this entry; mmCIF download works (HTTP 200). Use .cif, not .pdb, for 9DKC."}
+  },
+  "ligand_smiles_from_rcsb_chemcomp": {
+    "A1AIL_lesinurad": "O=C(O)CSc1nnc(Br)n1c1ccc(C2CC2)c2ccccc12",
+    "R75_benzbromarone": "CCc1oc2ccccc2c1C(=O)c1cc(Br)c(O)c(Br)c1",
+    "A1A45_TD-3": "O=C(O)C(C)(C)Sc1nc2ncccc2n1Cc1ccc(Br)c2ccccc21"
+  },
+  "rotatable_bonds_rdkit_2026_3_6": {
+    "lesinurad": {"n": 5, "mw": 404.3, "heavy_atoms": 24},
+    "benzbromarone": {"n": 3, "mw": 424.1, "heavy_atoms": 22},
+    "TD-3": {"n": 5, "mw": 456.4, "heavy_atoms": 28}
+  },
+  "w1_design_correction": {
+    "prior_assumption_in_route_doc": "benzbromarone and TD-3 are both 'rigid' references, contrasted with flexible lesinurad.",
+    "verified_finding": "TD-3 has the SAME rotatable-bond count as lesinurad (5), driven by the same liability: a flexible thioether linker to a terminal carboxylic acid (lesinurad: -S-CH2-COOH; TD-3: -S-C(CH3)2-COOH). Only benzbromarone (3 rotatable bonds, ketone linker, no thioether-carboxylate swivel arm) is a genuinely more rigid reference.",
+    "corrected_pass_rule": {
+      "receptor_prep_sanity_control": "benzbromarone self-dock Top-1 RMSD <= 2.0 A. This is the only ligand in the triad that tests 'is the pipeline broken' independent of the flexibility hypothesis.",
+      "TD-3_role_reinterpreted": "TD-3 is a same-chemotype flexibility replicate of lesinurad, not a contrasting rigid control. If TD-3 ALSO shows elevated self-dock RMSD, that CORROBORATES (does not contradict) the flexible-thioether-carboxylate-arm explanation for lesinurad's failure, and strengthens the case for geometry-first pose selection (A2) over free Top-1 CNNscore selection (A1) on this class of ligand.",
+      "if_benzbromarone_also_fails": "stop_and_audit_receptor_prep, as originally planned -- this outcome is unchanged."
+    }
+  },
+  "residue_numbering_hazard": {
+    "finding": "data/campaigns/c1/01_ligand_prep/selfdock_refs/arg477_coords.json already documents: 'Prepared 9DKB PDBQT renumbers this residue as ARG A 476; same guanidinium.' This numbering offset (+/-1) applies potentially to ALL residues, not just Arg477.",
+    "action_required_for_W2": "Every literature key residue (S35, M214, F241, F360, F364, F365, D389, K393, Q437, F449, R477, Q473) must be re-verified against the prepared-receptor PDBQT residue numbering individually (e.g. by sequence alignment or by matching side-chain identity), not copied directly from the literature numbering."
+  }
+}

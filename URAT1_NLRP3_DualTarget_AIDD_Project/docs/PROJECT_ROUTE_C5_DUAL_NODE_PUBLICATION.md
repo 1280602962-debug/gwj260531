@@ -4,6 +4,11 @@
 > 冻结资产不覆盖：`data/repurposing/p2/`、`data/campaigns/c1/07_clinical_dock/acid_dual_a1_frozen/`、`data/si/`。
 > 门控在看到任何新分子名之前锁定于 `config/campaign_c5.yaml`。
 
+> **2026-09-04 核实修订。** 本次修订用实际检索/计算核对了上一版的关键假设，发现并修正了六处问题（详见 §7）。核实产物：
+> `data/campaigns/c5/00_verification/w1_reference_ligand_verification.json`（RCSB 结构/配体/可旋转键核实）、
+> `data/campaigns/c5/00_verification/m1_m2_nlrp3_panel_verification.json`（面板去重后 Fisher p 重算）、
+> `data/campaigns/c5/03_tiering/{tier1_candidates.csv,tier2_candidates.csv,tier_summary.json}`（W3 分层已用现有脚本 `scripts/build_c5_tier_assignment.py` 真实算出，不再是占位符）。
+
 ---
 
 ## 0 一句话产品
@@ -39,7 +44,7 @@
 | A2 多种子双臂通过 | URAT1 121/120/121；NLRP3 宽松 78/77/83；双靶宽松 59/59/61 | `acid_dual_a2/acid_dual_summary_a2_seed4*.json` | 稳定性表 |
 | A2b NLRP3 结构门 | 结构 74/74/75；双靶结构 **56/57/53**；≥2/3 ≈ **54**；3/3 = **38** | `acid_dual_a2/nlrp3_structural_summary_seed4*.json` | 漏斗末段 |
 | 三种子交集 | dual 交集 **42**；≥2/3 dual **59**；化学审计后 eligible **40** | `08_nomination/acid_a2_eligible_audited.csv` | 漏斗表 |
-| 候选逐分子结构指标 | overlap / IFP Jaccard / 关键接触 / Arg477 距离 | `08_nomination/acid_shortlist_a2_competition.csv` | 候选表 T1 |
+| 候选逐分子结构指标 | overlap / IFP Jaccard / 关键接触 / Arg477 距离 | `03_tiering/tier1_candidates.csv`（**取代**旧 `08_nomination/acid_shortlist_a2_competition.csv`，见 §7） | 候选表 T1 |
 | NLRP3 缩库模型 | AUROC **0.893**、AUPRC **0.914**、EF@10% 1.57（n = 513 分子 / 609 记录 / 25 assay） | `docs/MODEL_TRAINING_SUMMARY.json` | 仅"生物学缩库"，不作结合证明 |
 | lesinurad 姿态失败 | 自由对接 CNNscore 选姿 RMSD **4.30 / 4.31 / 4.88 Å**；生产姿 Arg477 **14.2 Å**；晶体最小 6.7027 Å | `05_metrics/pass_fail.json`、§3.5 | **改写为"为何必须用几何优先门"的动机**，不作头条失败 |
 
@@ -60,19 +65,31 @@
 
 ---
 
-## 2 投稿前必须修掉的三处（不修会被审出来）
+## 2 投稿前必须修掉的三处（不修会被审出来）——**均已核实并部分修复，见下**
 
-### M1 已知配体面板有重复且缺阴性对照
-`nlrp3_structural_panel` 阳性 10 个中 `CHEMBL3183703` 与 `MCC950` SMILES 相同；背景是 20 个临床酸，不是性质匹配阴性。当前 spec 仅 9/20。
-**修法**：去重 → 阳性 n = 9；背景改为「临床酸 20 + 性质匹配诱饵 ≥ 40（相对 NLRP3 已知活性物 max Morgan TC ≤ 0.5）」。重算 Fisher / OR / CI。
+### M1 已知配体面板有重复且缺阴性对照 —— **已修复并重算**
+核实：`nlrp3_structural_panel/panel_ligands.csv` 中 `CHEMBL3183703` 与 `MCC950` 的 SMILES **逐字符相同**，确系重复。去重后阳性 n=10→9，用与冻结脚本相同的 `scipy.stats.fisher_exact` 重算：
 
-### M2 A2b 结构门在本面板上没有增加特异性
-seed42 宽松门与结构门通过集合完全相同，等于该门只对临床池起作用、对面板不区分。
-**修法**：在 M1 扩充面板上**重新标定**四个阈值（overlap、IFP Jaccard、关键接触、clash），要求结构门在面板上相对宽松门**至少提升特异性**；若无法提升，则如实降级为"姿态质控"，不叫"结构兼容门"。阈值必须在看临床名单前锁定。
+| | 阳性 n | 背景 n | 通过/阳性 | 通过/背景 | Fisher p（两侧） |
+|---|---|---|---|---|---|
+| 冻结（含重复） | 10 | 20 | 10/10 | 11/20 | 0.01340 |
+| **M1 修复后** | **9** | 20 | 9/9 | 11/20 | **0.02703** |
 
-### M3 primary 候选内部矛盾
-PF-04620110 三种子 NLRP3 结构门**全部不过**（overlap 0.48 / IFP 0.45 / 接触 4/7），却被列为 primary。在"候选发现"型论文里这是审稿人第一刀。
-**修法**：primary 只保留 3/3 dual-structural 且化学干净者（现有：PSI-697、PF-03882845、Lanifibranor；Admilparant 为 2/3，可列 primary 但须标注 seed44 宽松失败）。PF-04620110 移至"通路证据支持、口袋可及但未恢复共晶模式"的单独类别，或直接移出候选表。GSK-3008348 保持结构对照，不作候选。
+去重后仍 <0.05，但显著性**弱了约一倍**，不是"无关紧要的小修"。产物：`data/campaigns/c5/00_verification/m1_m2_nlrp3_panel_verification.json`。
+背景仍是 20 个随机临床酸，不是性质匹配诱饵——**这部分尚未修复**，仍需补 ≥40 个诱饵（W4）。
+
+### M2 A2b 结构门在本面板上没有增加特异性 —— **已逐行核实为真**
+逐行核对 `nlrp3_panel_metrics_seed42.csv` 全部 30 行：`keep_nlrp3_pose` 与 `keep_nlrp3_structural` **完全相同**，无一例外。即结构门（overlap + IFP + 关键接触）在当前背景上贡献的判别力恰好为零——不是约等于零，是逐行相等。这说明当前 20 个背景分子只分成"完全不进口袋"和"完全进口袋且姿态合理"两类，没有"进了口袋但姿态错"的中间情形来考验结构门。
+**修法不变**：W4 扩充诱饵后重新标定；若仍无法提升特异性，如实降级为"姿态质控"。
+
+### M3 primary 候选内部矛盾 —— **根因比原判断更严重，已用机械脚本修复**
+原判断以为只是"手写表里错标了一个分子"。核实后发现：`08_nomination/acid_shortlist_a2_competition.csv` 的 primary/backup 分层**根本不是门控算出来的**——生成脚本 `build_c1_acid_shortlist_a2.py` 里硬编码了 `PRIMARY_TIER1 = ["PF-04620110"]`、`PRIMARY_TIER2 = ["ADMILPARANT", "RUNCACIGUAT", "LANIFIBRANOR"]`、`BACKUP_TIER = ["PSI-697", "PF-03882845"]` 这样的**人工名单**，门控数据只是拿来给这些预选名字打分，PF-04620110 从未真正被结构门选中过。
+
+**修法**：弃用该硬编码脚本的分层逻辑，改用纯机械交集（见 §3 W3、已跑通并产出真实数字）。
+
+### M4（本次核实新发现）化学软排除是名单而非结构筛
+`build_c1_acid_shortlist_a2.py` 的 `SOFT_EXCLUDE_SUBSTR` 只硬编码了三个头孢药名，不是 β-lactam 环的 SMARTS。用 SMARTS 一查，tier-2 的 24 个候选里立刻多出 3 个头孢类（Cefetrizole、Cefazedone、Cefoxazole）。
+**修法**：把名单排除换成/追加 β-lactam 环 SMARTS（`[#6]1[#6][#7][#6]1=O`）等结构告警，`scripts/build_c5_tier_assignment.py` 已内置该检查并标记 `beta_lactam_flag` 列，供候选表最终过滤用。
 
 ---
 
@@ -81,41 +98,67 @@ PF-04620110 三种子 NLRP3 结构门**全部不过**（overlap 0.48 / IFP 0.45 
 设计原则：**新算力全部投在"让两臂对称、各自可校准"上**，不投在提高排序名次上。
 
 ### W1 URAT1 四联体交叉对接 —— 把自对接失败变成方法学结果
-Suo/Fedor/Lee *Nat. Commun.* 2025, **16**:5178 同构建体四结构：
+Suo/Fedor/Lee *Nat. Commun.* 2025, **16**:5178 同构建体四结构（**已用 RCSB API 核实**：DOI 10.1038/s41467-025-60480-3、PubMed 40467597、四个分辨率与文档一致）：
 
-| PDB | 状态 | 分辨率 | 配体 |
-|---|---|---|---|
-| 9DK9 | apo | 2.68 Å | — |
-| 9DKA | holo | 3.00 Å | benzbromarone (R75) |
-| 9DKB | holo | 2.74 Å | lesinurad (LES) |
-| 9DKC | holo | 2.55 Å | TD-3 (A1A45) |
+| PDB | 状态 | 分辨率 | 配体 CCD | 配体 |
+|---|---|---|---|---|
+| 9DK9 | apo | 2.68 Å | — | — |
+| 9DKA | holo | 3.00 Å | R75 | benzbromarone |
+| 9DKB | holo | 2.74 Å | **A1AIL**（原文档误写 LES，已订正） | lesinurad |
+| 9DKC | holo | 2.55 Å | A1A45 | TD-3 |
+
+> **环境澄清（已核实，纠正上一轮判断）**：这台云沙箱其实**有网络**，四个结构都能直接 `curl https://files.rcsb.org/download/*.cif` 抓到（9DKC 的旧版 `.pdb` 格式返回 404，必须用 `.cif`）；`rdkit`/`pandas`/`scipy` 也能 `pip install --user` 装上。**结构下载、配体 SMILES 提取、可旋转键统计、受体准备前处理，这一层现在就能在这里做**，不必等本机。唯一真正卡在"你本机"的，是 gnina 对接本身（这台机器没有二进制、没有 GPU 假设）。核实产物：`data/campaigns/c5/00_verification/w1_reference_ligand_verification.json`。
 
 **做法**：3 个晶体配体 × 4 个受体（含 apo）× 3 种子，`run_gnina_batch.py` + `config/docking_c1.yaml` 同参数；报告 Top-1 / Top-3 / best-of-9 RMSD 与酸根–Arg477 距离矩阵。
 
-**为什么值得做**：lesinurad 的硫醚–乙酸臂是四者中最柔性的配体，4.3 Å 极可能是**配体柔性驱动**而非搜索盒或方法失败。刚性配体（benzbromarone、TD-3）若在同参数下自对接良好，就得到一个可发表的判断：*该口袋的姿态保真度依赖配体柔性，因此柔性酸必须用锚定几何门而非自由 Top-1*——这正好把 §3.5 的失败转成 W2 的方法依据。
+**判据需要修正（原判断的"刚性配体"假设部分错误，已用 RDKit 核实）**：
 
-**判据**：至少 2/3 刚性配体自对接 Top-1 ≤ 2.0 Å。若刚性配体也失败 → 受体准备/盒子有系统问题，回头查准备流程，不得直接进 W2。
+| 配体 | 可旋转键数 | 备注 |
+|---|---:|---|
+| lesinurad | 5 | 已知失败案例：硫醚–CH₂–COOH 摆臂 |
+| benzbromarone | **3** | 酮连接，无摆臂——**唯一真正更刚性的参照** |
+| TD-3 | **5** | 硫醚–C(CH₃)₂–COOH 摆臂，**与 lesinurad 同一类柔性负担，可旋转键数完全相同** |
+
+原方案把 TD-3 当"刚性对照"是错的：TD-3 和 lesinurad 共享同一个硫醚–羧酸摆臂化学型，只是端基从 –CH₂– 换成 –C(CH₃)₂–。**修正后的判据**：
+- **受体准备是否正常**只看 benzbromarone：自对接 Top-1 RMSD ≤ 2.0 Å 通过即可，这是本三角里唯一独立于柔性假说的检验。
+- **TD-3 的角色改为"柔性假说的同类复现"，不是对照**：若 TD-3 自对接也失败（Top-1 RMSD 明显偏高），这**支持**而不是推翻"柔性硫醚–羧酸摆臂导致姿态歧义"的解释，反而加强用几何优先门（W2）的必要性；若 TD-3 意外通过，说明柔性不是唯一因素，需要重新审视 lesinurad 特有的什么（例如溴苯环的取向）。
+- 若 benzbromarone 也失败 → 受体准备/盒子有系统问题，回头查准备流程，不得直接进 W2。
+
+**残基编号提醒**：`arg477_coords.json` 已记录"Prepared 9DKB PDBQT renumbers this residue as ARG A 476; same guanidinium"——即准备后的受体残基编号相对文献编号偏移 1，W2 建关键残基图时**每个残基都要单独核对编号**，不能整批套用文献序号。
 
 ### W2 URAT1 酸锚 IFP 门 —— 让 URAT1 臂与 NLRP3 臂对称
 现状不对称：NLRP3 有 IFP 门（overlap + Jaccard + 关键接触），URAT1 只有**单一 Arg477 距离**。单距离门就是 A2 那个 OR≈0.97 的东西。
 
-**做法**：
-1. 从 9DKB(lesinurad)、9DKC(TD-3)、9DKA(benzbromarone) 三个**实验尿酸排泄剂姿态**提取共识关键残基集（Arg477、Phe365、Phe449、Ser35、Tyr…，按 `extract_c1_crystal_refs.py` 实测确定，不预设）；
-2. 定义 URAT1 门 = 酸根–Arg477 距离 + 口袋重原子重叠 + 关键残基 IFP Jaccard + 无冲突，四项与 NLRP3 侧同构；
-3. **在同一回顾集（228 羧酸 active vs 64 羧酸 true decoy）上标定**，复用 `run_acid_gate_benchmark.py`，不重新对接。
+**做法（关键残基来源已更正为文献锚定，不是"实测确定"）**：
+1. **关键残基不是靠几何反推，而是已有定量突变体文献**（`docs/PROJECT_ROUTE_C3_CRYOEM_DUAL_NODE.md` 已整理，直接复用）：
+   Tan 等 *Sci. Rep.* 2017, 7:665（verinurad/苯溴马隆/磺吡酮/丙磺舒的 fold-change）+ Guo/Chen *Nat. Commun.* 2025, 16:1512（S35Q、R477N、D389A、F360T 等）+ Dai & Lee *Cell Res.* 2024（五 Phe 笼 F241/F360/F364/F365/F449）给出残基集：
+   `S35, M214, F241, F360, F364, F365, D389, K393, Q437, F449, R477`（+ Q473）。
+   这与 NLRP3 侧关键残基集（Dekker 2021 文献锚定 Ala227/228、Arg351、Met408、Tyr443、Phe575、Arg578）是**同一建法**，不是两套逻辑。
+2. **编号必须逐个核对**（见 W1 残基编号提醒），不能把文献序号直接套进准备后的受体 PDBQT。
+3. 定义 URAT1 门 = 酸根–Arg477 距离 + 口袋重原子重叠 + 关键残基 IFP Jaccard + 无冲突，四项与 NLRP3 侧同构。
 
-**判据（预登记）**：新 URAT1 IFP 门 OR 的 95% CI 下界 > 1。
+**阈值标定方法需要修正（原方案有数据窥视风险）**：原计划"网格搜索让 OR 的 CI 下界最大"，这等于在同一 228 vs 64 回顾集上先调参再报告显著性，属于用同一份数据既选阈值又检验阈值——这正是项目自己在别处明令禁止的"用诱饵标签训 ML 再选协议"的同构错误。
+
+**修正后的标定方法（锚定法，不调参）**：仿照 NLRP3 门"锚定在自对接表现之下"的建法（overlap≈1.0、IFP≈0.84–1.0、关键接触 6–7/7，是从 NP3-146 自对接直接读出来的，不是在背景集上调出来的）：URAT1 侧四个阈值同样从**晶体自对接的实测值**（benzbromarone、lesinurad、TD-3 三者的 overlap/IFP/接触数）取一个保守下界（如最低值或略低于最低值），锚定后**只评估一次** 228 vs 64 回顾集，不回头调整。
+
+**判据（预登记，不变）**：新 URAT1 IFP 门 OR 的 95% CI 下界 > 1。
 - 满足 → 成为主文 URAT1 臂门控，与 NLRP3 臂并列，两臂各有一条 OR 统计。这是全文相对同行的核心增量。
 - 不满足 → **回落到 A1 规则（OR 3.18）作判别门 + A2 作可及性门**，二者取交集定义 tier-1。不得因为想要新指标而放弃已成立的 A1。
 
-### W3 tier 分层 —— 不需要新对接，只需重打分
-现有 SDF 已含 9 个模式，A1 与 A2 只是姿态选择规则不同。
+### W3 tier 分层 —— **已用现有冻结文件机械算出，不再是占位符**
+现有 SDF 已含 9 个模式，A1 与 A2 只是姿态选择规则不同。零新对接，纯重打分/重连接，已用 `scripts/build_c5_tier_assignment.py` 跑通：
 
-- **tier-1**：A1 判别门通过（CNNscore 首选姿即几何兼容）∩ A2 可及性通过 ∩ ≥2/3 种子 dual-structural ∩ 化学审计通过；
-- **tier-2**：仅 A2 + dual-structural + 化学通过（即现有 40 eligible 的余部）；
-- **tier-3 / 不入表**：仅宽松门。
+- **tier-1** = A1(seed42) 判别门通过（24）∩ A2 ≥2/3 种子 dual-structural（54）∩ 化学审计通过（40）→ **n = 13**；
+- **tier-2** = A2 ≥2/3 dual-structural ∩ 化学审计通过，去掉 tier-1 → **n = 24**；
+- 产物：`data/campaigns/c5/03_tiering/{tier1_candidates.csv, tier2_candidates.csv, tier_summary.json}`。
 
-A1 临床双靶 keep 为 24（seed42 冻结），A2 ≥2/3 dual 为 59，因此 tier-1 必然是 24 的子集，规模小、门槛硬——正好当 primary。**具体数目由脚本算出，不预设。**
+**tier-1 的 13 个中**：
+- GSK-3008348 FREE BASE 按 M3 结论标记为"结构对照，非候选"，真正候选 **12** 个；
+- 只有 5 个（Lanifibranor、Admilparant、PF-03882845、PSI-697、GSK-3008348）与旧的手写 `acid_shortlist_a2_competition.csv` 重叠；PF-04620110 不在其中（与 M3 结论一致，机械重算自动排除了它，不需要手动"降级"）；
+- 另有 8 个新出现的候选未曾在旧表中出现：Tonapofylline、Caficrestat、Lintitript、Spiroglumide、Cavosonstat、Runcaciguat、Fulimetibant、CR-3465 Free Acid（其中 Runcaciguat 此前只出现在硬编码脚本的 `PRIMARY_TIER2` 名单里，从未真正被门控选中，现在是**门控本身**选出来的，性质不同）。
+- Tier-1 中头孢类结构告警数 = 0（用 β-lactam SMARTS 核对）。
+
+**tier-2 的 24 个里发现新问题（M4，见 §7）**：3 个头孢类抗生素（Cefetrizole、Cefazedone、Cefoxazole）混在里面，因为项目现有的化学软排除名单（`SOFT_EXCLUDE_SUBSTR`）只硬编码了 3 个具体头孢药名（`CEFCANEL`、`CEFAZAFLUR`、`CEFOVECIN`），不是结构筛（β-lactam SMARTS），漏掉了名字不在列表里的同类结构。这三个已在 tier-2 输出里被 `beta_lactam_flag=True` 标出，若把 tier-2 拿去当 W5 的 backup MD 槽位来源，投稿前必须先排除它们。
 
 ### W4 NLRP3 面板重建（含 M1/M2 修复）
 阳性去重后 9 个（NP3-146、MCC950 及 ChEMBL 磺酰脲活性物），新增 ≥40 个性质匹配诱饵；三种子；重标定结构门阈值；报告 OR / CI / Fisher。
@@ -206,3 +249,28 @@ M3 短名单修正 ──────┘
 - W5 任一对照失败 → 该靶侧不解释，MD 不进正文主张。
 
 任何一步失败都**不改变产品形态**：候选表仍是主结果，只是支撑层数减少。
+
+---
+
+## 7 本次核实修订记录（2026-09-04）
+
+上一版方案的方向判断（产品形态、两臂对称、tier 分层逻辑、止损点）**站得住**，但五处具体细节此前是猜测或未经计算的占位符，本次逐一用实际检索/计算核实：
+
+| 编号 | 上一版怎么说 | 核实后发现 | 处置 |
+|---|---|---|---|
+| E1 环境能力 | "9DK9/9DKA/9DKC 本仓库没有，你本机下载" | 这台云沙箱**有网络**，`curl files.rcsb.org` 直接可抓；`pip install rdkit/pandas/scipy` 可装。结构/配体/化学层面的准备工作现在就能做，只有 gnina 对接本身仍卡在本机 | 已下载三个结构核实分辨率/配体码，见 W1 |
+| E2 9DKB 配体代码 | 文档/config 全部写 `LES` | 本地 `9DKB.cif` 与刚下载的新副本一致，实际 CCD 是 `A1AIL`；`LES` 是错的（几何数据本身没问题，只是引用代码错） | 本文档与 `config/campaign_c5.yaml` 均已订正 |
+| E3 W1"刚性配体"假设 | benzbromarone、TD-3 都算刚性对照 | RDKit 核实可旋转键：benzbromarone=3，TD-3=**5（与 lesinurad 相同）**。TD-3 和 lesinurad 同属硫醚–羧酸摆臂化学型 | W1 判据改为：仅 benzbromarone 测受体准备；TD-3 失败反而支持柔性假说 |
+| M1/M2 面板 | "去重、重标定"写成一句话待办 | 实际重算：去重后 Fisher p 从 0.0134 变 **0.0270**（弱了一倍，仍显著）；逐行核对确认结构门与宽松门 30/30 行完全相同 | 数字已写入正文；背景诱饵扩充仍是待办 |
+| M3 短名单 | "PF-04620110 该降级" | 根因更严重：整张短名单来自脚本里硬编码的人工名单，不是门控产物 | 弃用硬编码脚本，改用机械交集重算，见 W3 |
+| M4（新发现） | 未提及 | 化学软排除是三个头孢药名的名单，不是结构筛，tier-2 混进 3 个头孢类 | 加 β-lactam SMARTS 检查，已内置进新脚本 |
+
+**核实产物清单**：
+- `data/campaigns/c5/00_verification/w1_reference_ligand_verification.json`
+- `data/campaigns/c5/00_verification/m1_m2_nlrp3_panel_verification.json`
+- `data/campaigns/c5/03_tiering/tier1_candidates.csv`（n=13，含 1 个结构对照）
+- `data/campaigns/c5/03_tiering/tier2_candidates.csv`（n=24，含 3 个待排除头孢类）
+- `data/campaigns/c5/03_tiering/tier_summary.json`
+- `scripts/build_c5_tier_assignment.py`（可重跑，无硬编码分子名）
+
+**结论**：核实没有推翻方案的整体逻辑，但把三处"计划要做"的事提前变成了"已经做完的验证"（W1 结构可获得性、W3 tier 分层、M1 面板重算），同时发现并修了两处真实缺陷（LES 引用错误、旧短名单靠硬编码而非门控）。唯一没有改变的判断是：**gnina 对接本身仍必须在你本机完成**，这一点上一轮的结论是对的。
