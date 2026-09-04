@@ -19,31 +19,34 @@ A pair enters Tier 1 only if it passes **all five** pre-declared gates:
 | Set | Pairs | Independent target systems |
 |-----|------:|---------------------------:|
 | Passes G1–G4 (full feasible universe) | 17 | 12 |
-| **Tier 1: also passes G5 (dock these)** | **8** | **6** |
+| Census G5 (conventional soluble pocket) | **8** | **6** |
+| **Track B production Vina (ordinary noncovalent)** | **5 new** + 2 already docked | **3 new** + 2 already docked |
 | Tier 2: deferred frontier (6 GPCR + 2 SLC6 + CREBBP/BRD4) | 9 | 6 |
 
-Tier 1 = 8 pairs over 6 independent systems. **2 are already docked; 6 are Layer-2 PASS. All 14 receptors are frozen (`RECEPTOR_FREEZE_V1.md`); do not swap.**
+Census G5 is still 8 pairs / 6 systems. **Production docking is not that list.** CTSK/CTSS passes G1–G5 on labels and human holos, but both crystals are reversible-covalent, so it is **out of the unified AutoDock Vina campaign** (`DOCKING_PLAN_V1.md`). All 14 receptors stay frozen (`RECEPTOR_FREEZE_V1.md`); 4X6H/9GJ2 remain structure records only.
 
 | # | Pair | min HN (small-mol) | System | Status | Receptor A (verified) | Receptor B (verified) |
 |---|------|-------------------:|--------|--------|----------------------|----------------------|
-| 1 | PIK3CA/mTOR | 71 | PI3K–mTOR | **docked** | 4L23 (frozen) | 4JT6 (frozen, 3.60 Å ATP site) |
-| 2 | AChE/BChE | 65 | cholinesterase | **docked** | 4EY7 (frozen) | 4BDS (frozen) |
-| 3 | F2/F10 | 108 | coagulation protease | Layer-2 PASS | **4UDW** 1.16 Å / N6L (not auto 5AFY fragment) | 2JKH 1.25 Å / BI7 |
-| 4 | JAK1/TYK2 | 91 | JAK family | Layer-2 PASS | 6N7A 1.33 Å / KEV | 3LXP 1.65 Å / IZA (**JH1**, not JH2) |
-| 5 | JAK1/JAK2 | 53 | JAK family | Layer-2 PASS | 6N7A 1.33 Å / KEV | 8BXH 1.30 Å / C87 |
-| 6 | PPARG/PPARA | 82 | PPAR family | Layer-2 PASS | **9V8H** 1.39 Å / BRL + PG08-NL peptide (not auto 9F7W BPA) | 6LXA 1.23 Å / EPA |
-| 7 | PPARA/PPARD | 82 | PPAR family | Layer-2 PASS | 6LXA 1.23 Å / EPA | 5U3Q 1.50 Å / 7UJ |
-| 8 | CTSK/CTSS | 57 | cathepsin | Layer-2 PASS; covalent ligand prep | 4X6H 1.00 Å / dock **I37** (not 3XT) | 9GJ2 1.15 Å / reconstruct ketoamide 13b (not KH0) |
+| 1 | PIK3CA/mTOR | 71 | PI3K–mTOR | **already docked** (ordinary thick) | 4L23 (frozen) | 4JT6 (frozen, 3.60 Å ATP site) |
+| 2 | AChE/BChE | 65 | cholinesterase | **already docked** (ordinary thick) | 4EY7 (frozen) | 4BDS (frozen) |
+| 3 | F2/F10 | 108 | coagulation protease | **Track B Vina** | **4UDW** 1.16 Å / N6L (not auto 5AFY fragment) | 2JKH 1.25 Å / BI7 |
+| 4 | JAK1/TYK2 | 91 | JAK family | **Track B Vina** | 6N7A 1.33 Å / KEV | 3LXP 1.65 Å / IZA (**JH1**, not JH2) |
+| 5 | JAK1/JAK2 | 53 | JAK family | **Track B Vina** | 6N7A 1.33 Å / KEV | 8BXH 1.30 Å / C87 |
+| 6 | PPARG/PPARA | 82 | PPAR family | **Track B Vina** | **9V8H** 1.39 Å / BRL + PG08-NL peptide (not auto 9F7W BPA) | 6LXA 1.23 Å / EPA |
+| 7 | PPARA/PPARD | 82 | PPAR family | **Track B Vina** | 6LXA 1.23 Å / EPA | 5U3Q 1.50 Å / 7UJ |
+| 8 | CTSK/CTSS | 57 | cathepsin | Layer-2 PASS; **not Track B Vina** (covalent) | 4X6H 1.00 Å / I37 (structure record) | 9GJ2 1.15 Å / KH0 (structure record) |
 
-Receptor candidates: `tables/tier1_receptor_shortlist_v1.csv` (12 ranked candidates per target, with accession, organism, entity length, mutation count, cognate). Pair-level plan: `tables/tier1_pair_receptor_plan_v1.csv`.
+Historical K=4 also keeps **EGFR/HER2** (supply-limited special case) and **PIK3CA/PIK3CB** (receptor-identity special case: 2WXF = mouse p110δ). Those two are not on this G5 roster. They stay in Table 2 with those labels; do not re-dock them.
 
-10 new receptors are needed: F2, F10, JAK1, TYK2, JAK2, PPARG, PPARA, PPARD, CTSK, CTSS. JAK1 and PPARA are each reused across two pairs, so 10 receptor freezes cover all 6 new pairs.
+Receptor candidates: `tables/tier1_receptor_shortlist_v1.csv` (12 ranked candidates per target, with accession, organism, entity length, mutation count, cognate). Pair-level plan: `tables/tier1_pair_receptor_plan_v1.csv`. Locked execution: `DOCKING_PLAN_V1.md`.
+
+Track B needs **eight** new receptors: F2, F10, JAK1, TYK2, JAK2, PPARG, PPARA, PPARD. JAK1 and PPARA are each reused. CTSK and CTSS stay frozen but are not production receptors.
 
 ## Excluded, with reasons (no silent drops)
 
 | Pair | Fails | Why |
 |------|-------|-----|
-| PIK3CA/PIK3CB | **G3 and G4** | Human PIK3CB (P42338) has zero PDB entries; hard negatives fall 56 → 40 under G4. **The protocol excludes it prospectively** — it is not a "corrected result", it is a pair that would never have been selected. It appears in the paper only as the retrospective demonstration that identity QC is necessary. |
+| PIK3CA/PIK3CB | **G3 and G4** (new selection) | Human PIK3CB (P42338) has zero PDB entries; hard negatives fall 56 → 40 under G4. The protocol would never have selected it for a *new* ordinary thick pair. **Existing docking is kept** as a declared special case, like EGFR/HER2: human-PIK3CB labels scored in mouse p110δ (2WXF / O35904). Not an isoform-control result. Do not re-dock. |
 | EGFR/HER2 | G1 | min hard-negative = 7. Retained only as a declared supply-limited case, never as a thick panel. |
 | F2/PRSS1 | G5 | Passes G1–G4, but trypsin is an antitarget, not a designed dual partner. |
 | OPRM1/OPRK1, JAK3/TYK2 | G4 | 56 → 46 and 51 → 48 once non-small-molecules are removed. |
@@ -72,4 +75,4 @@ Layer 3 alone passed the mouse p110δ receptor at 0.405 Å. Layers 1 and 2 are w
 
 ## Not authorised by this document
 
-Production docking. Layer 2 is signed and the 14 receptors are frozen (`RECEPTOR_FREEZE_V1.md`). Executing Track B still requires local Vina/GNINA, Layer-3 cognate RMSD, and a written protocol amendment before K or Table 2 change. CTSK/CTSS must follow `COVALENT_LIGAND_PREP_V1.md` (I37 / reconstructed 13b), not a 3XT/KH0 extract. Do not swap to 7AWC, 4P6G, 8EXL, or 8PPZ without a new written amendment.
+Production Vina of the five ordinary pairs (local Vina + Layer-3 cognate RMSD). Expanding K or editing Table 2. Covalent docking of CTSK/CTSS. Re-docking PIK3CA/PIK3CB. Swapping to 7AWC, 4P6G, 8EXL, or 8PPZ without a new written amendment. See `DOCKING_PLAN_V1.md`.

@@ -112,8 +112,8 @@ Signed: `LAYER2_LITERATURE_SIGN_OFF_V1.md`. Log rows are `PASS`. Production Vina
 | PPARG/PPARA | PPARG | **9V8H / BRL** | LBD | Rosiglitazone in LBD 231–505; **ternary with PG08-NL** |
 | PPARG/PPARA | PPARA | 6LXA / EPA | LBD | EPA in LBD 200–468 |
 | PPARA/PPARD | PPARD | 5U3Q / 7UJ | LBD | Agonist 1 in LBD 170–441; not PEG; PPARA reuses 6LXA |
-| CTSK/CTSS | CTSK | 4X6H / **I37** | S2 papain-fold active site | Keep receptor; dock I37 not 3XT (`COVALENT_LIGAND_PREP_V1.md`) |
-| CTSK/CTSS | CTSS | 9GJ2 / KH0 | S2 papain-fold active site | Keep receptor; reconstruct ketoamide 13b; no journal paper yet |
+| CTSK/CTSS | CTSK | 4X6H / **I37** | S2 papain-fold active site | Keep receptor as structure record; **not Track B Vina** (`DOCKING_PLAN_V1.md`) |
+| CTSK/CTSS | CTSS | 9GJ2 / KH0 | S2 papain-fold active site | Keep receptor as structure record; **not Track B Vina**; no journal paper yet |
 
 ## What this checklist is not
 

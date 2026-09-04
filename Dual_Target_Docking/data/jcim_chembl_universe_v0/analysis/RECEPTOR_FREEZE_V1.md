@@ -20,10 +20,10 @@ Locked table: `tables/receptor_freeze_v1.csv`.
 | PPARG | P37231 | **9V8H** | BRL (rosiglitazone) | PPARG/PPARA | new; ternary + PG08-NL |
 | PPARA | Q07869 | **6LXA** | EPA | PPARG/PPARA, PPARA/PPARD | new; reused |
 | PPARD | Q03181 | **5U3Q** | 7UJ | PPARA/PPARD | new |
-| CTSK | P43235 | **4X6H** | **I37** (not 3XT) | CTSK/CTSS | new; extract I37 from the same entry |
-| CTSS | P25774 | **9GJ2** | reconstructed α-ketoamide 13b (not KH0) | CTSK/CTSS | new |
+| CTSK | P43235 | **4X6H** | **I37** (not 3XT) | CTSK/CTSS | frozen **structure record only**; not Track B Vina |
+| CTSS | P25774 | **9GJ2** | reconstructed α-ketoamide 13b (not KH0) | CTSK/CTSS | frozen **structure record only**; not Track B Vina |
 
-JAK1 and PPARA are each used on two pairs, so 14 protein ends are 12 unique PDBs covering 8 pairs / 6 systems.
+JAK1 and PPARA are each used on two pairs. Census G5 is 8 pairs / 6 systems. **Track B production Vina uses the eight ordinary new receptors** (F2–PPARD). CTSK/CTSS stay in this freeze as structure records (`DOCKING_PLAN_V1.md`).
 
 ## What “most suitable” meant here
 
@@ -69,4 +69,4 @@ Do **not** revive: 8PPZ, 9CMK, 5AFY, 9F7W, 6ASH, 5JA7, 2WXF, HLA-presented 9-mer
 
 ## Still not authorised by this freeze
 
-Layer-3 cognate RMSD and production docking of the six new pairs (local Vina). Expanding K or editing Table 2. Docking CREBBP/BRD4, GPCRs, SLC6, or PIK3CA/PIK3CB.
+Layer-3 cognate RMSD and production docking of the **five** ordinary new pairs (local Vina; `DOCKING_PLAN_V1.md`). Expanding K or editing Table 2. Covalent docking of CTSK/CTSS. Re-docking PIK3CA/PIK3CB. Docking CREBBP/BRD4, GPCRs, or SLC6.

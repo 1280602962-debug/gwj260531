@@ -3,13 +3,13 @@ PIK3CA,P42336,4L23,X6K,X6K,PIK3CA/mTOR,already_docked,2.501,class I PI3K ATP,1,8
 MTOR,P42345,4JT6,X6K,X6K,PIK3CA/mTOR,already_docked,3.60,mTOR kinase ATP not FRB,1,8PPZ_1.85A_FRB;4JSP_ATPgS;4JSX_Torin2,8PPZ is wrong site; other ATP holos similar resolution without shared PI-103
 ACHE,P22303,4EY7,E20,E20,AChE/BChE,already_docked,2.351,catalytic gorge,1,4M0E_2.0A_dihydrotanshinone,Frozen clinical donepezil template
 BCHE,P06276,4BDS,THA,THA,AChE/BChE,already_docked,2.10,catalytic gorge,1,6ZWI_1.85A_atypical_ligand,Frozen tacrine template
-F2,P00734,4UDW,N6L,N6L,F2/F10,new,1.16,thrombin S1 heavy chain,1,5AFY_WCE_fragment;4UD9_FQI_fragment,Fragments MW 156-162; 4UDW is first inhibitor-sized cognate
-F10,P00742,2JKH,BI7,BI7,F2/F10,new,1.25,factor Xa S1/S4,1,none_better_under_same_rule,Auto-rank 1; pocket confirmed
-JAK1,P23458,6N7A,KEV,KEV,JAK1/TYK2;JAK1/JAK2,new,1.33,JH1 ATP,1,none_better_under_same_rule,Auto-rank 1; JH1 ATP confirmed
-TYK2,P29597,3LXP,IZA,IZA,JAK1/TYK2,new,1.65,JH1 ATP,1,later_JH1_entries_worse_reso,JH1 not JH2; auto-rank 1
-JAK2,O60674,8BXH,C87,C87,JAK1/JAK2,new,1.30,JH1 ATP,1,none_better_under_same_rule,Auto-rank 1; momelotinib ATP
-PPARG,P37231,9V8H,BRL,BRL,PPARG/PPARA,new,1.39,LBD ternary with PG08-NL,1,7AWC_1.74A_binary_BRL,Higher-reso rosiglitazone LBD kept; peptide noted in Methods; user declined swap 2026-09-04
-PPARA,Q07869,6LXA,EPA,EPA,PPARG/PPARA;PPARA/PPARD,new,1.23,LBD,1,none_better_under_same_rule,Auto-rank 1; binary LBD
-PPARD,Q03181,5U3Q,7UJ,7UJ,PPARA/PPARD,new,1.50,LBD,1,none_better_under_same_rule,Auto-rank 1; 7UJ is agonist 1 not PEG
-CTSK,P43235,4X6H,I37,3XT,CTSK/CTSS,new,1.00,papain active site,1,6ASH_wrong_site;5JA7_C25S_allosteric,No equal-rule noncovalent orthosteric swap; extract I37 from same entry
-CTSS,P25774,9GJ2,reconstructed_13b,KH0,CTSK/CTSS,new,1.15,papain active site,1,4P6G_1.58A;2HHN_1.55A_noncovalent,Identity and pocket correct; user declined swap 2026-09-04; reconstruct 13b not KH0
+F2,P00734,4UDW,N6L,N6L,F2/F10,track_b_vina,1.16,thrombin S1 heavy chain,1,5AFY_WCE_fragment;4UD9_FQI_fragment,Fragments MW 156-162; 4UDW is first inhibitor-sized cognate
+F10,P00742,2JKH,BI7,BI7,F2/F10,track_b_vina,1.25,factor Xa S1/S4,1,none_better_under_same_rule,Auto-rank 1; pocket confirmed
+JAK1,P23458,6N7A,KEV,KEV,JAK1/TYK2;JAK1/JAK2,track_b_vina,1.33,JH1 ATP,1,none_better_under_same_rule,Auto-rank 1; JH1 ATP confirmed
+TYK2,P29597,3LXP,IZA,IZA,JAK1/TYK2,track_b_vina,1.65,JH1 ATP,1,later_JH1_entries_worse_reso,JH1 not JH2; auto-rank 1
+JAK2,O60674,8BXH,C87,C87,JAK1/JAK2,track_b_vina,1.30,JH1 ATP,1,none_better_under_same_rule,Auto-rank 1; momelotinib ATP
+PPARG,P37231,9V8H,BRL,BRL,PPARG/PPARA,track_b_vina,1.39,LBD ternary with PG08-NL,1,7AWC_1.74A_binary_BRL,Higher-reso rosiglitazone LBD kept; peptide noted in Methods; user declined swap 2026-09-04
+PPARA,Q07869,6LXA,EPA,EPA,PPARG/PPARA;PPARA/PPARD,track_b_vina,1.23,LBD,1,none_better_under_same_rule,Auto-rank 1; binary LBD
+PPARD,Q03181,5U3Q,7UJ,7UJ,PPARA/PPARD,track_b_vina,1.50,LBD,1,none_better_under_same_rule,Auto-rank 1; 7UJ is agonist 1 not PEG
+CTSK,P43235,4X6H,I37,3XT,CTSK/CTSS,structure_record_not_track_b,1.00,papain active site,1,6ASH_wrong_site;5JA7_C25S_allosteric,Frozen structure record; out of unified Vina (covalent); no equal-rule noncovalent orthosteric swap
+CTSS,P25774,9GJ2,reconstructed_13b,KH0,CTSK/CTSS,structure_record_not_track_b,1.15,papain active site,1,4P6G_1.58A;2HHN_1.55A_noncovalent,Frozen structure record; out of unified Vina (covalent); user declined 4P6G/2HHN 2026-09-04

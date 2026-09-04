@@ -1,8 +1,8 @@
 # Covalent-capable cognates — Vina ligand prep (4X6H, 9GJ2)
 
-Applies only to **CTSK/CTSS**. The other eight new receptors are ordinary noncovalent holos.
+Applies only to **CTSK/CTSS**, and only if a later written amendment opens a separate covalent arm. **Current Track B does not dock this pair** (`DOCKING_PLAN_V1.md`): both holos are reversible-covalent, and a unified AutoDock Vina table cannot absorb that mechanism. The other eight new receptors are ordinary noncovalent holos and are the production set.
 
-The benchmark uses one noncovalent engine (AutoDock Vina). That is a **pre-reaction noncovalent approximation**, declared here, not a claim that the crystal complexes are noncovalent.
+This file stays as the on-record ligand-chemistry rule for the frozen 4X6H/9GJ2 structure records. It is **not** authorisation to Vina-dock CTSK/CTSS in this paper.
 
 ## Rule
 

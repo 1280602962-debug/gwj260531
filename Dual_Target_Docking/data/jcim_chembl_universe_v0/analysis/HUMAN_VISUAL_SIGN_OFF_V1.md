@@ -6,7 +6,7 @@ This page is no longer a to-do list. It records **what was confirmed** and **wha
 
 ## Outcome
 
-**All ten PDBs are usable as receptors and are now frozen (`RECEPTOR_FREEZE_V1.md`).** None will be swapped. The only protocol change is ligand chemistry on CTSK/CTSS (`COVALENT_LIGAND_PREP_V1.md`). Numbering must keep construct / resolved / UniProt columns separate (`tables/receptor_span_registry_v1.csv`).
+**All ten PDBs remain frozen (`RECEPTOR_FREEZE_V1.md`).** None will be swapped. CTSK/CTSS crystals are **structure records only** — they are out of the unified Vina campaign (`DOCKING_PLAN_V1.md`). The covalent ligand-prep note (`COVALENT_LIGAND_PREP_V1.md`) stays on file in case a later written amendment opens a separate covalent arm; it is not a Track B job. Numbering must keep construct / resolved / UniProt columns separate (`tables/receptor_span_registry_v1.csv`).
 
 | # | Protein (UniProt) | PDB / CCD | Layer-2 | Receptor freeze | Ligand for Vina |
 |---|-------------------|-----------|---------|-----------------|-----------------|
@@ -25,8 +25,8 @@ Frozen pairs (already docked): 4L23/X6K, 4JT6/X6K, 4EY7/E20, 4BDS/THA remain as 
 
 ## Still blocked after this PASS
 
-1. **Layer 3** cognate best-of-9 RMSD — needs local Vina. For 4X6H the gold is I37. For 9GJ2 there is no noncovalent CCD gold.
-2. **Production docking** of the six new pairs.
-3. Do **not** dock CREBBP/BRD4, GPCRs, SLC6, or PIK3CA/PIK3CB.
+1. **Layer 3** cognate best-of-9 RMSD on the **eight ordinary new receptors** — needs local Vina.
+2. **Production docking** of the **five** ordinary pairs in `DOCKING_PLAN_V1.md`.
+3. Do **not** Vina-dock CTSK/CTSS (covalent). Do **not** re-dock PIK3CA/PIK3CB. Do **not** dock CREBBP/BRD4, GPCRs, or SLC6.
 
-Next compute that can run in-cloud without Vina: extract four-state ligand panels for the six new pairs from the local ChEMBL 37 SQLite and RDKit/meeko-prep. Vina itself stays local.
+Next compute that can run in-cloud without Vina: extract four-state ligand panels for the five ordinary pairs from the local ChEMBL 37 SQLite and RDKit/meeko-prep. Vina itself stays local.

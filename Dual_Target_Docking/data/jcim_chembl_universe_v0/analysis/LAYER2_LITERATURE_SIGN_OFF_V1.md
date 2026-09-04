@@ -48,8 +48,8 @@ The table above is a text/literature check. `GEOMETRIC_POCKET_VERIFICATION_V1.md
 
 ## What this PASS does not authorise
 
-- Layer 3 cognate best-of-9 RMSD (needs local Vina). For 4X6H the pose-gold is **I37**, not 3XT. For 9GJ2 there is no separate pre-reaction CCD; RMSD vs KH0 is not a valid noncovalent pose-gold.
-- Production docking of the six new pairs.
-- Expanding K, editing Table 2, or docking CREBBP/BRD4, GPCR, SLC6, or PIK3CA/PIK3CB.
+- Layer 3 cognate best-of-9 RMSD on the eight ordinary new receptors (needs local Vina).
+- Production docking of the five ordinary pairs in `DOCKING_PLAN_V1.md`.
+- Covalent / ordinary Vina of CTSK/CTSS. Re-docking PIK3CA/PIK3CB. Expanding K, editing Table 2, or docking CREBBP/BRD4, GPCR, or SLC6.
 - Citing a journal paper for 9GJ2.
 - Treating 9V8H as a binary PPARγ–rosiglitazone complex when comparing PPAR subtype LBD conformations.
