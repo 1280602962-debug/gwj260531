@@ -109,7 +109,7 @@ Suo/Fedor/Lee *Nat. Commun.* 2025, **16**:5178 同构建体四结构（**已用 
 
 > **环境澄清（已核实，纠正上一轮判断）**：这台云沙箱其实**有网络**，四个结构都能直接 `curl https://files.rcsb.org/download/*.cif` 抓到（9DKC 的旧版 `.pdb` 格式返回 404，必须用 `.cif`）；`rdkit`/`pandas`/`scipy` 也能 `pip install --user` 装上。**结构下载、配体 SMILES 提取、可旋转键统计、受体准备前处理，这一层现在就能在这里做**，不必等本机。唯一真正卡在"你本机"的，是 gnina 对接本身（这台机器没有二进制、没有 GPU 假设）。核实产物：`data/campaigns/c5/00_verification/w1_reference_ligand_verification.json`。
 
-**做法**：3 个晶体配体 × 4 个受体（含 apo）× 3 种子，`run_gnina_batch.py` + `config/docking_c1.yaml` 同参数；报告 Top-1 / Top-3 / best-of-9 RMSD 与酸根–Arg477 距离矩阵。
+**做法**：3 个晶体配体 × 4 个受体（含 apo）× 3 种子，参数与 `config/docking_c1.yaml` 相同；W1 盒子与可执行靶点写在 `config/docking_c5_w1.yaml`。逐格受体/配体/复用清单见 **`docs/C5_DOCKING_WORKLIST.md`**。报告 Top-1 / Top-3 / best-of-9 RMSD 与酸根–Arg477 距离矩阵。
 
 **判据需要修正（原判断的"刚性配体"假设部分错误，已用 RDKit 核实）**：
 

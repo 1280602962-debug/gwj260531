@@ -48,6 +48,17 @@ w1_urat1_crossdock:
     - {pdb: 9DKB, state: holo, resolution_A: 2.74, ligand: A1AIL, ligand_name: lesinurad}  # verified via RCSB chemcomp API; docs previously said LES (wrong)
     - {pdb: 9DKC, state: holo, resolution_A: 2.55, ligand: A1A45, ligand_name: TD-3}
   design: 3_crystal_ligands x 4_receptors x 3_seeds
+  n_jobs_total: 36
+  n_jobs_reusable: 4   # lesinurad@9DKB seeds 42/43/44 + benzbromarone@9DKB seed42
+  n_jobs_new: 32
+  worklist: docs/C5_DOCKING_WORKLIST.md
+  engine_yaml: config/docking_c5_w1.yaml   # identical gnina params; adds 9DK9/9DKA/9DKC boxes
+  box_provenance: data/campaigns/c5/00_verification/w1_box_centers.json
+  boxes:
+    - {pdb: 9DKB, center: [99.966, 102.967, 105.699], size: [22, 22, 22], rule: locked_production}
+    - {pdb: 9DKA, center: [107.167, 105.296, 107.628], size: [22, 22, 22], rule: R75_heavy_atom_centroid}
+    - {pdb: 9DKC, center: [102.345, 103.269, 107.416], size: [22, 22, 22], rule: A1A45_heavy_atom_centroid}
+    - {pdb: 9DK9, center: [100.693, 107.700, 105.653], size: [22, 22, 22], rule: transfer_9DKB_locked_after_chainA_CA_Kabsch}
   seeds: [42, 43, 44]
   report: [rmsd_top1, rmsd_top3, rmsd_best_of_9, acid_O_Arg477_N_min_A]
   reference_ligand_rotatable_bonds_rdkit_verified:
@@ -158,10 +169,18 @@ w4_nlrp3_panel_rebuild:
       Retune thresholds on the rebuilt (larger, harder) panel or demote to
       "pose QC" in the text.
   positives: 9   # NP3-146, MCC950, ChEMBL sulfonylurea actives (deduped)
+  exhaustiveness: 32   # do NOT reuse the seed42 panel SDFs that were docked at exhaustiveness=8
+  receptor: 7ALV
+  box: {center: [16.756, 35.449, 125.714], size: [20, 20, 20]}
   background:
     clinical_acids: 20
+    reuse_clinical_poses_exh32: true
+    missing_jobs: [{ligand: REP_07837, seeds: [43, 44], receptor: 7ALV}]
     property_matched_decoys_min: 40
     decoy_rule_max_morgan_tc_vs_nlrp3_actives_le: 0.5
+    decoy_source: data/benchmarks/urat1_true_decoy/true_decoys.csv
+    do_not_name_decoys_by_hand: true
+  n_jobs_new_min: 146   # 8 positives x 3 + 40 decoys x 3 + REP_07837 seeds 43/44
   seeds: [42, 43, 44]
   gate_components: [pocket_overlap, key_residue_ifp_jaccard, key_contacts_recovered, no_clash]
   reference_thresholds_c1:

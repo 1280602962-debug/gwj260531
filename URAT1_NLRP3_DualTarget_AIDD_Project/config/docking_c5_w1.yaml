@@ -1,0 +1,72 @@
+# C5 W1 URAT1 four-structure cross-dock engine config.
+# Same gnina parameters as config/docking_c1.yaml. Do NOT change exhaustiveness,
+# num_modes, or cnn_scoring. This file is a drop-in --config for
+# scripts/run_gnina_batch.py and scripts/prepare_receptor_vina.py.
+#
+# Scientific lock / pass rules: config/campaign_c5.yaml
+# Job inventory: docs/C5_DOCKING_WORKLIST.md
+# Box provenance: data/campaigns/c5/00_verification/w1_box_centers.json
+
+default_engine: gnina
+
+gnina:
+  binary: gnina
+  no_gpu: false
+  exhaustiveness: 32
+  num_modes: 9
+  cpu: 1
+  cnn_scoring: rescore
+  score_mode: cnnaff
+  extra_args: ["--seed", "42"]   # override per job: 42 / 43 / 44
+
+receptor_prep:
+  remove_waters: true
+  remove_hetatm: true
+  protonate_ph: 7.4
+  chain: A
+
+targets:
+  urat1_9dkb:
+    pdb_id: 9DKB
+    structure_file: data/structures/pdb/9DKB.cif
+    ligand_resn: A1AIL
+    center: [99.966, 102.967, 105.699]   # locked production box; do not replace
+    size: [22, 22, 22]
+    reference: "Suo/Fedor/Lee Nat Commun 2025 16:5178; inward-open URAT1 + lesinurad"
+    prepared_receptor: data/structures/prepared/9DKB_receptor.pdbqt
+
+  urat1_9dka:
+    pdb_id: 9DKA
+    structure_file: data/structures/pdb/9DKA.cif
+    ligand_resn: R75
+    center: [107.167, 105.296, 107.628]  # R75 heavy-atom centroid, 22 atoms
+    size: [22, 22, 22]
+    reference: "same construct; benzbromarone holo"
+    prepared_receptor: data/structures/prepared/9DKA_receptor.pdbqt
+
+  urat1_9dkc:
+    pdb_id: 9DKC
+    structure_file: data/structures/pdb/9DKC.cif
+    ligand_resn: A1A45
+    center: [102.345, 103.269, 107.416]  # A1A45 heavy-atom centroid, 28 atoms
+    size: [22, 22, 22]
+    reference: "same construct; TD-3 holo. Fetch as mmCIF; .pdb is HTTP 404"
+    prepared_receptor: data/structures/prepared/9DKC_receptor.pdbqt
+
+  urat1_9dk9:
+    pdb_id: 9DK9
+    structure_file: data/structures/pdb/9DK9.cif
+    ligand_resn: null
+    center: [100.693, 107.700, 105.653]  # 9DKB locked center transferred after chain-A CA superposition
+    size: [22, 22, 22]
+    reference: "same construct; apo. Do NOT copy 9DKB Cartesian center without superposition"
+    prepared_receptor: data/structures/prepared/9DK9_receptor.pdbqt
+
+  nlrp3_7alv:
+    pdb_id: 7ALV
+    structure_file: data/structures/pdb/7ALV.pdb
+    ligand_resn: RM5
+    center: [16.756, 35.449, 125.714]    # locked; RM5 centroid matches exactly
+    size: [20, 20, 20]
+    reference: "Dekker et al., J Mol Biol 2021; NACHT + NP3-146"
+    prepared_receptor: data/structures/prepared/7ALV_receptor.pdbqt
