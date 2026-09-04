@@ -42,6 +42,10 @@ The 364–621 / 235–475 / 888–1182 disputes were all the same error: mixing 
 - **9GJ2** `rcsb_journal_abbrev` = **To be published**; authors Falke, Karnicar, Usenik, Lindic, Sekirnik, Reinke, Guenther, Turk, Meents; no DOI. CCD **KH0** formula C31 H41 N5 O7, MW 595.687.
 - **9V8H** title: *PPARgamma ligand-binding domain in complex with PG08-NL and rosiglitazone*.
 
+## Independent geometric re-check (same day)
+
+The table above is a text/literature check. `GEOMETRIC_POCKET_VERIFICATION_V1.md` re-does it from the raw mmCIF coordinates: real Cys25 bond lengths (3XT 1.83 Å covalent, I37 2.93 Å non-bonded, KH0 1.78 Å covalent) and real ligand-residue contact lists for all 14 receptors. No pocket assignment failed; no accession or organism failed. Use that file when a reviewer wants numbers instead of a title.
+
 ## What this PASS does not authorise
 
 - Layer 3 cognate best-of-9 RMSD (needs local Vina). For 4X6H the pose-gold is **I37**, not 3XT. For 9GJ2 there is no separate pre-reaction CCD; RMSD vs KH0 is not a valid noncovalent pose-gold.
