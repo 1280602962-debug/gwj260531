@@ -28,12 +28,12 @@ Tier 1 = 8 pairs over 6 independent systems. **2 are already docked and receptor
 |---|------|-------------------:|--------|--------|----------------------|----------------------|
 | 1 | PIK3CA/mTOR | 71 | PI3K–mTOR | **docked** | 4L23 (frozen) | 4JT6 (frozen, 3.60 Å ATP site) |
 | 2 | AChE/BChE | 65 | cholinesterase | **docked** | 4EY7 (frozen) | 4BDS (frozen) |
-| 3 | F2/F10 | 108 | coagulation protease | new | **4UDW** 1.16 Å / N6L (not auto 5AFY fragment) | 2JKH 1.25 Å / BI7 |
-| 4 | JAK1/TYK2 | 91 | JAK family | new | 6N7A 1.33 Å / KEV | 3LXP 1.65 Å / IZA (**JH1**, not JH2) |
-| 5 | JAK1/JAK2 | 53 | JAK family | new | 6N7A 1.33 Å / KEV | 8BXH 1.30 Å / C87 |
-| 6 | PPARG/PPARA | 82 | PPAR family | new | **9V8H** 1.39 Å / BRL rosiglitazone (not auto 9F7W BPA) | 6LXA 1.23 Å / EPA |
-| 7 | PPARA/PPARD | 82 | PPAR family | new | 6LXA 1.23 Å / EPA | 5U3Q 1.50 Å / 7UJ |
-| 8 | CTSK/CTSS | 57 | cathepsin | new | 4X6H 1.00 Å / 3XT | 9GJ2 1.15 Å / KH0 |
+| 3 | F2/F10 | 108 | coagulation protease | Layer-2 PASS | **4UDW** 1.16 Å / N6L (not auto 5AFY fragment) | 2JKH 1.25 Å / BI7 |
+| 4 | JAK1/TYK2 | 91 | JAK family | Layer-2 PASS | 6N7A 1.33 Å / KEV | 3LXP 1.65 Å / IZA (**JH1**, not JH2) |
+| 5 | JAK1/JAK2 | 53 | JAK family | Layer-2 PASS | 6N7A 1.33 Å / KEV | 8BXH 1.30 Å / C87 |
+| 6 | PPARG/PPARA | 82 | PPAR family | Layer-2 PASS | **9V8H** 1.39 Å / BRL + PG08-NL peptide (not auto 9F7W BPA) | 6LXA 1.23 Å / EPA |
+| 7 | PPARA/PPARD | 82 | PPAR family | Layer-2 PASS | 6LXA 1.23 Å / EPA | 5U3Q 1.50 Å / 7UJ |
+| 8 | CTSK/CTSS | 57 | cathepsin | Layer-2 PASS; covalent ligand prep | 4X6H 1.00 Å / dock **I37** (not 3XT) | 9GJ2 1.15 Å / reconstruct ketoamide 13b (not KH0) |
 
 Receptor candidates: `tables/tier1_receptor_shortlist_v1.csv` (12 ranked candidates per target, with accession, organism, entity length, mutation count, cognate). Pair-level plan: `tables/tier1_pair_receptor_plan_v1.csv`.
 
@@ -58,12 +58,12 @@ The shortlist verifies accession, organism, entity length, mutation count, and c
 - **mTOR**: every entry at ≤ 2.5 Å is an FKBP–rapamycin/FRB complex. The automated top pick, 8PPZ (1.85 Å, cognate 0AN), is the allosteric FRB site, **not** the ATP pocket. The correct ATP-site receptor is 4JT6 at 3.60 Å — worse resolution, right site.
 - **PIK3CA**: ranks 4–10 at ≤ 2.5 Å are HLA class I + β2-microglobulin complexes in which "PIK3CA" is a presented **9-mer peptide**, and the top pick 9CMK is a molecular-glue structure already blacklisted in `FROZEN_PUBLIC_PAIRS.yaml`. The correct receptor remains the frozen 4L23.
 
-Two entity-handling traps were also found and fixed: presented peptides pass an accession match (rejected by a ≥ 80-residue protein cut), and zymogen-derived proteases split catalytic and light chains across entities sharing one accession, so the **longest** matching entity must be used (thrombin: 259 aa heavy chain, not the 28 aa light chain).
+Two entity-handling traps were also found and fixed: presented peptides pass an accession match (rejected by a ≥ 80-residue protein cut), and zymogen-derived proteases split catalytic and light chains across entities sharing one accession, so the **longest** matching entity must be used (thrombin 4UDW: **258 aa** PDB heavy 364–621, not the 28 aa light chain; UniProt mature heavy is 364–622).
 
 Therefore the receptor protocol is **three layers, in this order**:
 
 1. **Identity** — accession == the accession the labels came from; human; protein entity ≥ 80 aa (longest matching entity); record mutation count and complex partners.
-2. **Site** — declared `intended_site` per target, verified by a human against the cognate's location. Metadata pack: `SITE_VERIFICATION_EVIDENCE_V1.md`. What you must open: `HUMAN_VISUAL_SIGN_OFF_V1.md`. Log: `tables/site_verification_log_v1.csv` (new ends stay `AWAITING_VISUAL` until 3D sign-off).
+2. **Site** — declared `intended_site` per target, verified by a human against the cognate's location. Metadata pack: `SITE_VERIFICATION_EVIDENCE_V1.md`. Human + literature PASS: `LAYER2_LITERATURE_SIGN_OFF_V1.md`. Log: `tables/site_verification_log_v1.csv` (all ten new ends `PASS` as of 2026-09-04). Numbering: `tables/receptor_span_registry_v1.csv`. Covalent ligand rule: `COVALENT_LIGAND_PREP_V1.md`.
 3. **Cognate redocking** — best-of-9 heavy-atom RMSD gate, run only after 1 and 2 pass.
 
 Layer 3 alone passed the mouse p110δ receptor at 0.405 Å. Layers 1 and 2 are what make layer 3 meaningful.
@@ -72,4 +72,4 @@ Layer 3 alone passed the mouse p110δ receptor at 0.405 Å. Layers 1 and 2 are w
 
 ## Not authorised by this document
 
-Docking. This roster is a plan. Executing it requires local Vina/GNINA, a written protocol amendment for K, and a completed Layer-2 log (`site_verification_log_v1.csv`) with **both ends PASS**. Shortlist PDBs are proposals, not freezes.
+Production docking. Layer 2 is signed. Executing Track B still requires local Vina/GNINA, Layer-3 cognate RMSD, and a written protocol amendment before K or Table 2 change. CTSK/CTSS must follow `COVALENT_LIGAND_PREP_V1.md` (I37 / reconstructed 13b), not a 3XT/KH0 extract.

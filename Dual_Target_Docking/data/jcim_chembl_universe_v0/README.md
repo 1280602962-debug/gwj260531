@@ -14,10 +14,13 @@ This is **not** the frozen J0 49-pair list, **not** Table S44, **not** a docking
 | `analysis/FEASIBLE_PAIR_LADDER_V1.md` | **How many pairs are benchmarkable: 17 over 12 systems** |
 | `analysis/TIER1_DOCKING_ROSTER_V1.md` | **Definitive dockable roster: 8 pairs / 6 systems + receptors** |
 | `analysis/SITE_VERIFICATION_CHECKLIST_V1.md` | Layer 2 item list |
-| `analysis/SITE_VERIFICATION_EVIDENCE_V1.md` | RCSB/PDBe metadata pack (not a visual PASS) |
-| `analysis/HUMAN_VISUAL_SIGN_OFF_V1.md` | **The 10 PDBs you must open in 3D** |
+| `analysis/SITE_VERIFICATION_EVIDENCE_V1.md` | RCSB/PDBe metadata pack |
+| `analysis/LAYER2_LITERATURE_SIGN_OFF_V1.md` | **2026-09-04 human PASS: which of the 10 PDBs can be used** |
+| `analysis/COVALENT_LIGAND_PREP_V1.md` | 4X6H/I37 and 9GJ2/13b pre-reaction Vina rule |
+| `analysis/HUMAN_VISUAL_SIGN_OFF_V1.md` | Sign-off record (no longer a to-do) |
 | `analysis/LITERATURE_2024_2026_DUAL_BENCHMARKS_V1.md` | DualDiff / PLINDER / LIT-PCBA audit / TopU-LBVS / DTDL URLs |
-| `tables/site_verification_log_v1.csv` | Per-end log (new rows `AWAITING_VISUAL`) |
+| `tables/site_verification_log_v1.csv` | Per-end log (ten new ends `PASS`) |
+| `tables/receptor_span_registry_v1.csv` | PDB construct vs resolved vs UniProt domain |
 | `analysis/RECEPTOR_IDENTITY_AUDIT_V1.md` | **P0: 2WXF is mouse p110δ, not human PIK3CB** |
 | `analysis/PROJECT_REDESIGN_V1.md` | Reframing, literature positioning, paper outline |
 | `cache/` | Local dump (gitignored) |
@@ -45,6 +48,6 @@ python3 Dual_Target_Docking/data/jcim_chembl_universe_v0/scripts/chembl_exhausti
 
 ## Claim ceiling
 
-See `data/jcim_bench_v0/CLAIM_CEILING.md` item 50, `analysis/CHEMBL_UNIVERSE_PAIR_CENSUS_V1.md`, `analysis/K4_UNIVERSE_SUITABILITY_V1.md`, and `analysis/UNIVERSE_STRUCTURE_FEASIBILITY_V1.md`.
+See `data/jcim_bench_v0/CLAIM_CEILING.md` items 50–55, `analysis/CHEMBL_UNIVERSE_PAIR_CENSUS_V1.md`, `analysis/K4_UNIVERSE_SUITABILITY_V1.md`, and `analysis/UNIVERSE_STRUCTURE_FEASIBILITY_V1.md`.
 
 ChEMBL 37 headline (human SINGLE PROTEIN, one component, same labels as J0): 63,790 pairs with n_both ≥ 10; 5,253 directional; **86** strict thick, mostly qHTS/CYP/metal/homologs. Dump is not committed.

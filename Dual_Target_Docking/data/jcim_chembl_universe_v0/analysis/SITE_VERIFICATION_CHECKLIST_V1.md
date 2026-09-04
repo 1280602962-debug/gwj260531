@@ -98,22 +98,22 @@ Fill the log even though docking already happened. Identity audit (`RECEPTOR_IDE
 
 Do **not** replace 4L23 with auto-rank 9CMK, or 4JT6 with auto-rank 8PPZ, during this log. Auto-rank 4M0E / 6ZWI for AChE/BChE are not the frozen receptors.
 
-## New Tier-1 receptors (no Vina until both ends PASS)
+## New Tier-1 receptors (Layer-2 PASS 2026-09-04)
 
-Shortlist proposals only — **not** verified:
+Signed: `LAYER2_LITERATURE_SIGN_OFF_V1.md`. Log rows are `PASS`. Production Vina still waits on Layer 3.
 
-| Pair | End | Proposed PDB / CCD | Declared site | Extra visual checks |
-|------|-----|--------------------|---------------|---------------------|
-| F2/F10 | F2 | **4UDW / N6L** (not 5AFY/WCE) | thrombin S1, catalytic domain | Heavy chain H 364–621; S1 not exosite |
-| F2/F10 | F10 | 2JKH / BI7 | fXa S1/S4, catalytic domain | Heavy chain 235–475 |
-| JAK1/TYK2 | JAK1 | 6N7A / KEV | JH1 ATP | Metadata: JH1 854–1154 |
-| JAK1/TYK2 | TYK2 | 3LXP / IZA | JH1 ATP | **Metadata call: JH1 888–1182, not JH2** |
-| JAK1/JAK2 | JAK2 | 8BXH / C87 | JH1 ATP | Title is JH1 + momelotinib; JAK1 reuses 6N7A |
-| PPARG/PPARA | PPARG | **9V8H / BRL** (not 9F7W/BPA) | LBD | Rosiglitazone in LBD 231–505 |
+| Pair | End | PDB / CCD | Declared site | Locked notes |
+|------|-----|-----------|---------------|--------------|
+| F2/F10 | F2 | **4UDW / N6L** | thrombin S1, catalytic domain | Heavy chain H; PDB 364–621 vs UniProt mature 364–622 |
+| F2/F10 | F10 | 2JKH / BI7 | fXa S1/S4, catalytic domain | PDB heavy 235–475, not UniProt 235–488 |
+| JAK1/TYK2 | JAK1 | 6N7A / KEV | JH1 ATP | Construct ~854–1154; UniProt JH1 875–1153 |
+| JAK1/TYK2 | TYK2 | 3LXP / IZA | JH1 ATP | Construct 888–1182; resolved ~1178; JH1 897–1176 |
+| JAK1/JAK2 | JAK2 | 8BXH / C87 | JH1 ATP | PDB 840–1132; UniProt JH1 849–1124; JAK1 reuses 6N7A |
+| PPARG/PPARA | PPARG | **9V8H / BRL** | LBD | Rosiglitazone in LBD 231–505; **ternary with PG08-NL** |
 | PPARG/PPARA | PPARA | 6LXA / EPA | LBD | EPA in LBD 200–468 |
-| PPARA/PPARD | PPARD | 5U3Q / 7UJ | LBD | Agonist in LBD 170–441; PPARA reuses 6LXA |
-| CTSK/CTSS | CTSK | 4X6H / 3XT | S2 papain-fold active site | Cys/His; possible covalent nitrile |
-| CTSK/CTSS | CTSS | 9GJ2 / KH0 | S2 papain-fold active site | Cys/His; possible covalent ketoamide |
+| PPARA/PPARD | PPARD | 5U3Q / 7UJ | LBD | Agonist 1 in LBD 170–441; not PEG; PPARA reuses 6LXA |
+| CTSK/CTSS | CTSK | 4X6H / **I37** | S2 papain-fold active site | Keep receptor; dock I37 not 3XT (`COVALENT_LIGAND_PREP_V1.md`) |
+| CTSK/CTSS | CTSS | 9GJ2 / KH0 | S2 papain-fold active site | Keep receptor; reconstruct ketoamide 13b; no journal paper yet |
 
 ## What this checklist is not
 

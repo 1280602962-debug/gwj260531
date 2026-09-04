@@ -55,7 +55,7 @@ So the paper stays a benchmark paper. It changes from *"here is our four-pair su
 
 **Track B — new compute, user's local machine, optional.** Dock the 6 new Tier-1 pairs (F2/F10, JAK1/TYK2, JAK1/JAK2, PPARG/PPARA, PPARA/PPARD, CTSK/CTSS): 10 receptor freezes, roughly 220 Vina jobs per pair at 110 ligands × 2 ends, ~1,300–1,500 jobs total, plus per-pair cognate QC, five-seed check and failure typology to match existing depth. Result: 8 docked pairs over 6 independent systems, with the JAK and PPAR triples supporting a within-system replication check that n = 3 cannot give.
 
-Track B is what turns "pair-dependence observed on three pairs" into "pair-dependence quantified across six independent systems". It is the difference between a case series and a benchmark. It is not required for Track A to be publishable. Metadata for Layer 2 is packed (`SITE_VERIFICATION_EVIDENCE_V1.md`); production docking starts only after the 10 new PDBs are visually signed (`HUMAN_VISUAL_SIGN_OFF_V1.md`) and Layer-3 cognate RMSD passes locally.
+Track B is what turns "pair-dependence observed on three pairs" into "pair-dependence quantified across six independent systems". It is the difference between a case series and a benchmark. It is not required for Track A to be publishable. Layer 2 is signed (`LAYER2_LITERATURE_SIGN_OFF_V1.md`): all ten new PDBs are kept; CTSK/CTSS use pre-reaction ligands (`COVALENT_LIGAND_PREP_V1.md`). Production docking still waits on local Layer-3 cognate RMSD.
 
 ## 6. Paper outline
 
