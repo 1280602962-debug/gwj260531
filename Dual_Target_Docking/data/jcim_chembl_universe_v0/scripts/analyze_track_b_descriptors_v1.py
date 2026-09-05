@@ -11,6 +11,7 @@ from __future__ import annotations
 import csv
 import hashlib
 import json
+import statistics
 import sys
 from pathlib import Path
 
@@ -83,8 +84,7 @@ def class_medians(recs):
             continue
         rec = {"cls": cls, "n": len(sub)}
         for d in DESC:
-            vals = sorted(r[d] for r in sub)
-            rec[f"{d}_median"] = round(vals[len(vals) // 2], 3)
+            rec[f"{d}_median"] = round(statistics.median(r[d] for r in sub), 3)
         rows.append(rec)
     return rows
 
