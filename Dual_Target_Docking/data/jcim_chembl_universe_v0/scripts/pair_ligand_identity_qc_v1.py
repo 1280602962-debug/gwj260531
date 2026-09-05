@@ -33,9 +33,20 @@ STANDARD_OK = ("IC50", "Ki", "Kd", "EC50", "Potency", "IC50app", "Ki app")
 MW_MIN, MW_MAX = 150.0, 750.0
 HEAVY_MIN, HEAVY_MAX = 10, 60
 
-METAL_RE = re.compile(
-    r"\b(Pt|Ru|Au|Ag|Hg|Cd|As|Sb|Bi|Tc|Re|Gd|Fe|Cu|Zn|Mn|Co|Ni|V|Mo|W|Ti|Sn|Pb|Cr|Pd|Rh|Ir|Os)\b"
-)
+METAL_SYMBOLS = {
+    "Pt", "Ru", "Au", "Ag", "Hg", "Cd", "As", "Sb", "Bi", "Tc", "Re", "Gd",
+    "Fe", "Cu", "Zn", "Mn", "Co", "Ni", "V", "Mo", "W", "Ti", "Sn", "Pb",
+    "Cr", "Pd", "Rh", "Ir", "Os",
+}
+# Hill-notation formulas concatenate element symbols directly against digits
+# (e.g. "C20H15FeN4"), so a \b-anchored alternation never matches: digits and
+# letters are both \w, so there is no word boundary between "5" and "Fe".
+# Tokenize element symbols explicitly instead of relying on \b.
+ELEMENT_TOKEN_RE = re.compile(r"([A-Z][a-z]?)(\d*)")
+
+
+def has_metal(formula: str) -> bool:
+    return any(sym in METAL_SYMBOLS for sym, _ in ELEMENT_TOKEN_RE.findall(formula))
 
 # Pairs to audit: frozen K=4 first, then the H3-pass fresh-roster candidates.
 PAIRS = [
@@ -148,7 +159,7 @@ def classify(props: dict) -> tuple[bool, str]:
         return False, f"structure_type_{st or 'NONE'}"
     if mt and mt != "Small molecule":
         return False, f"molecule_type_{mt.replace(' ', '_')}"
-    if METAL_RE.search(formula):
+    if has_metal(formula):
         return False, "metal_containing"
     if mw is None or heavy is None:
         return False, "missing_props"

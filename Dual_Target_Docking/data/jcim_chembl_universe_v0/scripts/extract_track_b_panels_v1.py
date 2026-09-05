@@ -11,6 +11,11 @@ Rules match DOCKING_PLAN_V1.md and pair_ligand_identity_qc_v1.py:
   - class-quota + deterministic shuffle (seed 20260729)
   - neither arm only if strict_neither after the small-molecule filter ≥ 20
   - target depth 110 ligands
+
+Note (2026-09-05): the intersection ordering was fixed (sorted) after the five
+committed `panel_*_v1.csv` files were produced. The committed panels stay
+frozen as-is; do NOT re-run this script to "fix" them. This change only makes
+future extractions from a fresh SQLite dump reproducible.
 """
 from __future__ import annotations
 
@@ -104,7 +109,10 @@ def main() -> int:
         pair = f"{a}/{b}"
         ma = maps.get(meta[a]["tid"], {})
         mb = maps.get(meta[b]["tid"], {})
-        both = set(ma) & set(mb)
+        # Sort before shuffling: a bare set intersection has no guaranteed
+        # iteration order, so the seeded shuffle downstream would not be
+        # reproducible across Python builds/runs from the raw SQLite dump.
+        both = sorted(set(ma) & set(mb))
         buckets: dict[str, list[int]] = defaultdict(list)
         t6 = defaultdict(int)
         for mol in both:
