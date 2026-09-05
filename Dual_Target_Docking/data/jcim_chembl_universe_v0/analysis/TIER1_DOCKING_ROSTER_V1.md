@@ -36,7 +36,7 @@ Census G5 is still 8 pairs / 6 systems. **Production docking is not that list.**
 | 7 | PPARA/PPARD | 82 | PPAR family | **Track B Vina** | 6LXA 1.23 Å / EPA | 5U3Q 1.50 Å / 7UJ |
 | 8 | CTSK/CTSS | 57 | cathepsin | Layer-2 PASS; **not Track B Vina** (covalent) | 4X6H 1.00 Å / I37 (structure record) | 9GJ2 1.15 Å / KH0 (structure record) |
 
-Historical K=4 also keeps **EGFR/HER2** (supply-limited special case) and **PIK3CA/PIK3CB** (receptor-identity special case: 2WXF = mouse p110δ). Those two are not on this G5 roster. They stay in Table 2 with those labels; do not re-dock them.
+Historical K=4 also docked **EGFR/HER2** (supply-limited special case) and **PIK3CA/PIK3CB** (receptor-identity special case: 2WXF = mouse p110δ). Those two are not on this G5 roster. Destination identity (`PROJECT_IDENTITY_LOCK_V1.md`): EGFR/HER2 remains a main-table row; PIK3CA/PIK3CB is withdrawn to SI as a documented receptor-identity failure. Do not re-dock either. The five Track B pairs are not a side chapter — they join the same article's analysis stack (8 main-table rows after PIK3CB withdrawal). CTSK/CTSS is still not ordinary Vina.
 
 Receptor candidates: `tables/tier1_receptor_shortlist_v1.csv` (12 ranked candidates per target, with accession, organism, entity length, mutation count, cognate). Pair-level plan: `tables/tier1_pair_receptor_plan_v1.csv`. Locked execution: `DOCKING_PLAN_V1.md`.
 

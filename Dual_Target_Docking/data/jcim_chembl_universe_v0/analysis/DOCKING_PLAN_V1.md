@@ -13,7 +13,9 @@ This is the pack to run **now** on a local machine that has AutoDock Vina 1.2.7.
 
 Do not start those two until this pack is finished and a later written go-ahead exists.
 
-Table 2 / K = 4 stay frozen. This plan does not unfreeze K and does not restock Table 2 from census ranks. Seed stays **20260727** (dock / ETKDG) and **20260729** (panel shuffle). Do not switch to 42.
+This file froze the **local Vina pack** (five new pairs, seed 20260727 / 20260729). It does not by itself restock Table 2 from census ranks, and it does not rewrite 2026-07-23 as an eight-pair freeze.
+
+Destination article identity is now `PROJECT_IDENTITY_LOCK_V1.md`: same paper, 8 main-table rows after withdrawing PIK3CA/PIK3CB, five new pairs get the already-written all-pairs analysis stack. Seed stays **20260727** (dock / ETKDG) and **20260729** (panel shuffle). Do not switch to 42.
 
 ---
 
