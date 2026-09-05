@@ -10,8 +10,8 @@
 | `analysis/J1_PAIR_SELECTION_DRAFT.md` | K=4 draft + budget (not executed) |
 | `analysis/TRACK_A_FIGURE_CLAIM_PACK.md` | Claims + figure plan |
 | `tables/j0_strict_label_supply.csv` | 49-pair strict audit |
-| `tables/j0_candidate_pairs.csv` | 53 candidates + auditable flags |
-| `tables/j0_fetch_queue.csv` | Targets to fetch when ChEMBL API recovers |
+| `tables/j0_candidate_pairs.csv` | 52 candidates (P01–P52) + auditable flags |
+| `tables/j0_fetch_queue.csv` | 20 extra targets to fetch when ChEMBL API recovers |
 | `tables/eh110_unified_prep_directional.csv` | Copied from feasibility pack |
 
 Related: `../protocols/PAIR_ROLES_DRAFT_J1.yaml`, `../track_a_starter_v0/`.

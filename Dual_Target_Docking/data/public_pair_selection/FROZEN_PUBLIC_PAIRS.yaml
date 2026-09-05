@@ -135,7 +135,7 @@ selected_public_pairs:
     docking_class: PPI_BH3_grooves
     notes: >
       Smaller paired N than kinase pairs but clear four-class + linked Tier-A
-      pose gold. Good mechanistic distance from NLRP3/JNK1 holdout.
+      pose gold.
 
 leave_pair_candidates_not_frozen:
   - name: AChE / BChE
@@ -146,7 +146,6 @@ leave_pair_candidates_not_frozen:
     reason: Passes; overlaps chemically with DTPAIR-03. Prefer Bcl-xL for Tier-A same-ligand crystals.
 
 explicitly_rejected_as_public_main:
-  - NLRP3/JNK1: private holdout only
   - BRD4/HDAC1: fails A-only (0); HDAC Zn pocket
   - BRD4/HDAC6: fails A-only/B-only thresholds; metal
   - JAK2/HDAC1: fails B-only

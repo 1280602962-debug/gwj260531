@@ -79,8 +79,6 @@ CANDIDATE_PAIRS = [
     ("P50", "MCL1", "AKT1", "PPI_pathway", "apoptosis + AKT", "combo literature", False, True, ""),
     ("P51", "ACHE", "HDAC1", "hydrolase_epigenetic", "rare hybrid", "exploratory", True, False, "metal_Zn_HDAC;weak_lit"),
     ("P52", "BCHE", "EGFR", "cross_fold", "negative-control-ish pair", "exploratory", False, False, "weak_lit"),
-    # --- explicit exclusions (still listed for transparency; not audited as main) ---
-    ("X01", "NLRP3", "JNK1", "inflammasome", "private holdout", "project holdout", False, False, "EXCLUDED_private_holdout"),
 ]
 
 # Targets not in cache that would unlock additional literature pairs (fetch queue).

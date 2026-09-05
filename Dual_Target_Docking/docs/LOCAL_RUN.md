@@ -83,6 +83,8 @@ python3 data/jcim_novelty_v0/scripts/detectable_effect_simulation_v1.py
 python3 data/jcim_novelty_v0/scripts/plot_detectable_effect_and_workflow_v1.py
 ```
 
+Track B five-pair local Vina (F2/F10, JAK1/TYK2, JAK1/JAK2, PPARG/PPARA, PPARA/PPARD) is specified in `data/jcim_chembl_universe_v0/analysis/DOCKING_PLAN_V1.md` and `tables/track_b_local_run_v1.yaml`. Cloud has no Vina. Do not run F2/F10 protonation sensitivity or 2Y3A E=32 cognate retest in this pack.
+
 Independent pose-generation and optional PLIF **results are deposited**:
 `data/jcim_independent_dock_v0/` (GNINA docking search, not Vina-pose rescore)
 and `data/jcim_structure_robust_v0/analysis/plif_v1/` (geometric occupancy).
@@ -106,3 +108,7 @@ Many historical dock/RTM/GNINA drivers still point at the original local workspa
 - Do not cite `pocket_matched_directional_v1.csv` or `PRIMARY_METRIC_V2.md` as Table 2.
 - Multi-seed Table S54: `analyze_multiseed_vina_v2.py`. `analyze_multiseed_vina_v1.py` uses a different Dual-versus-neither estimand and refuses to overwrite unless `--legacy` is passed.
 
+
+## Track B local Vina (five pairs)
+
+See `data/jcim_chembl_universe_v0/local_track_b_v0/analysis/TRACK_B_DIRECTIONAL_AUROC_V1.md`.

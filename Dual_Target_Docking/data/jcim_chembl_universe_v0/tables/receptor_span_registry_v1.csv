@@ -1,0 +1,15 @@
+pdb,gene,uniprot,pdb_construct_span,resolved_span_approx,uniprot_functional_or_mature_span,span_used_in_log,why_not_the_same
+4UDW,F2,P00734,heavy 364-621 (258 aa deposited),heavy 364-621,mature thrombin heavy chain 364-622,364-621,PDB construct omits C-terminal 622; not an error
+2JKH,F10,P00742,heavy 235-475 (241 aa deposited),heavy 235-475,activated Factor Xa heavy 235-488; peptidase S1 domain ~235-467,235-475,table reports this PDB construct not the UniProt mature chain
+6N7A,JAK1,P23458,~854-1154,~854-1154,catalytic JH1 875-1153,construct_854-1154,construct is larger than the UniProt JH1 annotation; do not equate 854-1154 with JH1
+3LXP,TYK2,P29597,888-1182,888-1178 (1179-1182 present in sample without coordinates),catalytic JH1 897-1176,construct_888-1182,888-1182 is construct; 888-1178 is resolved; 897-1176 is the domain
+8BXH,JAK2,O60674,840-1132,840-1132,catalytic JH1 849-1124,840-1132,construct vs UniProt JH1
+9V8H,PPARG,P37231,LBD 231-505 (275 aa),231-505,PPARgamma LBD,231-505,ternary complex with PG08-NL peptide; span is still LBD
+6LXA,PPARA,Q07869,200-468,200-468,PPARalpha LBD construct,200-468,construct equals the deposited LBD
+5U3Q,PPARD,Q03181,170-441,170-441,PPARdelta LBD construct,170-441,construct equals the deposited LBD
+4X6H,CTSK,P43235,papain 115-329,115-329,mature CatK catalytic domain,115-329,receptor span OK; ligand chemistry is the issue not numbering
+9GJ2,CTSS,P25774,papain 114-331,114-331,mature CatS catalytic domain,114-331,receptor span OK; ligand chemistry is the issue not numbering
+4L23,PIK3CA,P42336,1-1068,1-1068,p110alpha,1-1068,frozen
+4JT6,MTOR,P42345,1376-2549 (includes FRB+kinase),1376-2549,kinase ATP site is a subset of this construct,1376-2549,construct includes FRB; cognate is ATP not FRB
+4EY7,ACHE,P22303,33-574,33-574,catalytic subunit,33-574,frozen
+4BDS,BCHE,P06276,29-557,29-557,catalytic subunit,29-557,frozen

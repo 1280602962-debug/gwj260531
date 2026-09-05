@@ -7,7 +7,7 @@ Manuscript: `docs/MANUSCRIPT_JCIM_EN.md`
 
 | claim | value | in_ms | source hits | checksum16 | status |
 |---|---|---:|---|---|---|
-| EGFR/HER2 Dual-vs-neither | 0.756 | 1 | data/jcim_novelty_v0/tables/aggregation_min_mean_geometric_harmonic_v1.csv; data | 9fa170b2cf653d9a | PASS |
+| EGFR/HER2 Dual-vs-neither | 0.756 | 1 | data/jcim_novelty_v0/tables/MASTER_RESULTS_TABLE.csv; data/jcim_novelty_v0/table | a38a9fb9e3fa93e3 | PASS |
 | EGFR/HER2 summary_min | 0.430 | 1 |  |  | CHECK |
 | EGFR/HER2 weak arm Dual-vs-B-only | 0.430 | 1 |  |  | CHECK |
 | AChE/BChE summary_min | 0.606 | 1 |  |  | CHECK |
@@ -17,8 +17,8 @@ Manuscript: `docs/MANUSCRIPT_JCIM_EN.md`
 | GNINA Dual-vs-neither EGFR | 0.783 | 1 |  |  | CHECK |
 | GNINA summary_min EGFR | 0.220 | 1 |  |  | CHECK |
 | MCL1 exploratory summary_min | 0.609 | 0 |  |  | CHECK |
-| BindingDB eligible pairs | 0 | 1 | data/jcim_novelty_v0/tables/aggregation_min_mean_geometric_harmonic_v1.csv; data | 9fa170b2cf653d9a | PASS |
-| K pairs | 4 | 1 | data/jcim_novelty_v0/tables/aggregation_min_mean_geometric_harmonic_v1.csv; data | 9fa170b2cf653d9a | PASS |
+| BindingDB eligible pairs | 0 | 1 | data/jcim_novelty_v0/tables/MASTER_RESULTS_TABLE.csv; data/jcim_novelty_v0/table | a38a9fb9e3fa93e3 | PASS |
+| K pairs | 4 | 1 | data/jcim_novelty_v0/tables/MASTER_RESULTS_TABLE.csv; data/jcim_novelty_v0/table | a38a9fb9e3fa93e3 | PASS |
 
 ## Artifact presence / stale-claim checks
 

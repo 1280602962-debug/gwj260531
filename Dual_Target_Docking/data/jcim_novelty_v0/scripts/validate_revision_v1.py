@@ -110,7 +110,7 @@ def main():
 
     manuscript = (ROOT / "docs" / "MANUSCRIPT_JCIM_EN.md").read_text(encoding="utf-8")
     required_phrases = (
-        "Four-Pair Formulation Audit",
+        "Three-Pair Formulation Audit",
         "14.5%–34.0%",
         "rank-extreme lower bounds",
         "not a top-ranked-pose validation",
