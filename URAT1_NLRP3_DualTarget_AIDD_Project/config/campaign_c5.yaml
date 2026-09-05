@@ -70,6 +70,36 @@ w1_urat1_crossdock:
     receptor_prep_sanity_top1_le_A: 2.0
     td3_role: flexibility_hypothesis_replicate_not_contrast   # TD-3 failing CORROBORATES the flexibility explanation
   on_fail: stop_and_audit_receptor_prep    # do not proceed to W2
+  gate_status: failed_pending_audit
+  gate_result_user_reported_2026-09-05:
+    ligand: benzbromarone
+    receptor: 9DKA
+    seeds: [42, 43, 44]
+    readout: CNNscore_top1_heavy_atom_rmsd_vs_crystal_R75
+    rmsd_A: [3.59, 3.60]   # user-reported range; deposit per-seed 9-mode tables before interpreting
+    threshold_A: 2.0
+    remaining_29_not_started: true
+    w4_not_started: true
+    w2_not_started: true
+    forbid_after_seeing_number:
+      - raise_threshold_to_4A
+      - treat_3p6_as_pass
+      - start_remaining_29_as_if_gate_passed
+      - start_w2_on_failed_selfdock_poses
+  audit_required_before_any_new_gnina:
+    on_existing_sdfs_zero_new_dock:
+      - per_seed_all_9_mode_rmsd_top1_top3min_bestof9
+      - confirm_box_was_9DKA_native_107.167_105.296_107.628_not_9DKB
+      - confirm_prepared_receptor_has_no_R75
+      - confirm_ligand_pdbqt_is_frozen_phenolate
+      - symmetry_corrected_heavy_atom_rmsd
+    diagnostic_gnina_only_if_audit_files_are_clean:
+      - phenol_vs_phenolate_seed42
+      - local_only_minimize_from_crystal_R75
+    after_audit:
+      prep_bug: fix_and_rerun_gate_3_seeds_only
+      search_ok_selection_fail: keep_gate_fail; w2_anchor_from_crystal_poses_not_selfdock; w4_may_start
+      pocket_cannot_hold_crystal: stop_urat1_free_dock_story; crystal_IFP_only; do_not_run_remaining_29
   residue_numbering_hazard: >
     data/campaigns/c1/01_ligand_prep/selfdock_refs/arg477_coords.json documents a
     +/-1 numbering offset between literature residue numbers and the prepared
