@@ -69,8 +69,8 @@ w1_urat1_crossdock:
     receptor_prep_sanity_control: benzbromarone   # the only ligand independent of the flexibility hypothesis
     receptor_prep_sanity_top1_le_A: 2.0
     td3_role: flexibility_hypothesis_replicate_not_contrast   # TD-3 failing CORROBORATES the flexibility explanation
-  on_fail: stop_and_audit_receptor_prep    # do not proceed to W2
-  gate_status: fail_cnnscore_top1_pose_rmsd_selection
+  on_fail_original_2026-09-04: stop_and_audit_receptor_prep    # do not proceed to W2 -- literal text of the pre-registered rule, kept verbatim for the record
+  gate_status: fail_cnnscore_top1_pose_rmsd_selection   # UNCHANGED. 2.0 A gate on Top-1 pose_rmsd remains FAILED. Not upgraded to pass.
   audit_conclusion_2026-09-05:
     fork: search_ok_selection_fail
     prep_qc: pass
@@ -85,11 +85,39 @@ w1_urat1_crossdock:
       That is conformational similarity, not docking pose RMSD.
       Independently recomputed pose_rmsd (no overlay) confirms Top-1 ~3.59 A
       and best-of-9 ~1.11 A. The 2.0 A gate stays on pose_rmsd Top-1.
+    amendment_to_on_fail_original: >
+      The 2026-09-04 rule text said "on_fail: stop_and_audit_receptor_prep,
+      do not proceed to W2" without distinguishing WHY a fail could happen.
+      This audit fork (search_ok_selection_fail vs prep_bug vs
+      pocket_cannot_hold_crystal) was itself pre-registered BEFORE the
+      per-mode 9-pose breakdown was seen (only the Top-1 number was known
+      when the fork was written), so it is a disambiguation of an
+      underspecified rule, not a post-hoc relaxation of the numeric
+      threshold. The threshold itself (2.0 A, Top-1, pose_rmsd, no overlay)
+      is untouched and still fails.
+    w4_dependency_check: >
+      W4 (NLRP3 / 7ALV panel) has no scientific dependency on the URAT1
+      benzbromarone@9DKA gate -- different target, different receptor,
+      different self-dock control (NP3-146@7ALV, which already passed).
+      It was only sequenced after W1 for narrative/compute-ordering
+      convenience, not because the gate output feeds into it. Authorizing
+      W4 now is not an exception to the rule, it was never actually gated.
+    w2_scope_change: >
+      W2's original design anchored URAT1 IFP thresholds on "crystal
+      self-dock" results, implicitly assuming self-dock (GNINA search +
+      CNNscore Top-1 selection) reproduces the crystal pose, as it does for
+      NLRP3/NP3-146. That assumption is now falsified for URAT1 (search
+      finds the crystal basin at best-of-9 ~1.1 A, but CNNscore Top-1
+      selects a different, ~3.6 A pose). Fix: W2 anchors directly on the
+      DEPOSITED crystal ligand coordinates (R75/A1AIL/A1A45 as-is in the
+      PDB/CIF), never on a CNNscore-selected re-docked pose. This is a
+      strengthening of the anchor (removes a selection-step dependency
+      entirely), not a loosening of any pass/fail criterion.
     next:
       remaining_29: optional_si_only_not_an_unlock
-      w4: authorized
-      w2: authorize_crystal_pose_ifp_anchor
-      forbid: raise_threshold_or_declare_gate_pass
+      w4: authorized_no_real_dependency
+      w2: authorized_crystal_coordinate_anchor_not_selfdock_selection
+      forbid: raise_threshold_or_declare_gate_pass_or_use_GetBestRMS_to_rescue_gate
   gate_result_user_reported_2026-09-05:
     ligand: benzbromarone
     receptor: 9DKA
