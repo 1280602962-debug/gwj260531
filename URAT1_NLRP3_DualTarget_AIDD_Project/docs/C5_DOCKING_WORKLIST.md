@@ -1,11 +1,37 @@
 # C5 对接工单：还要补哪些、受体、配体、设置
 
 > 权威科学锁：`config/campaign_c5.yaml`  
+> 结论汇总（闸门含义 / 能不能排序 / MD 对照 / 要不要另开排序轨）：**`docs/C5_RANKING_AND_NEXT_DOCKS.md`**  
 > 引擎锁：GNINA **1.3.1**，参数与 `config/docking_c1.yaml` 完全相同  
 > W1 盒子出处：`data/campaigns/c5/00_verification/w1_box_centers.json`（2026-09-04 用沉积坐标重算）  
 > W1 可执行配置：`config/docking_c5_w1.yaml`  
 > 这台云沙箱**没有 gnina**。结构下载和受体/配体准备可以在这里做；对接必须在本机跑。  
-> **现在不提名 MD 分子。** W1 / W2 / W4 跑完并冻结短名单之前，`md_authorized` 保持 `false`。
+> **现在不提名 MD 分子。** W2 / W4 跑完并冻结短名单之前，`md_authorized` 保持 `false`。
+
+---
+
+## 现在要开的对接（2026-09-05 执行锁）
+
+URAT1 上对接分**没有筛选排序能力**（`rank_track: closed`）。新算力只投在校准门上，不投在给分子排名上。
+
+| 优先级 | 任务 | 新 gnina job | 开不开 |
+|---|---|---:|---|
+| **1 必须** | **W4 / Task2**：NLRP3 7ALV 面板重建 | **146** | **开** |
+| **2 必须** | **W2 / Task3**：URAT1 IFP 门（晶体坐标锚定） | **0** | **开**（重打分，不对接） |
+| 3 可选 SI | W1 其余 29 格交叉对接 | 29 | 不开作推进条件 |
+| 不做 | 临床 156 重对接、Rank 轨、换引擎、W5/W6 | — | 冻结前不做 |
+
+**W4 146 格明细**（受体只有 7ALV；盒 `[16.756, 35.449, 125.714]` 20³；exh=32 / 9 modes / seeds 42/43/44）：
+
+| 子集 | 配体 | 种子 | job |
+|---|---|---|---:|
+| 8 个非共晶阳性 | MCC950、CHEMBL4204644、CHEMBL5219789、CHEMBL4212407、CHEMBL6143743、CHEMBL4209503、CHEMBL4216836、CHEMBL6171925 | 42/43/44 | 24 |
+| 40 个已锁诱饵 | `data/campaigns/c5/02_nlrp3_panel/w4_decoys_locked.csv`（C5W4D_001–040） | 42/43/44 | 120 |
+| 缺的背景酸 | `REP_07837` | 43、44 | 2 |
+
+复用：NP3-146@7ALV × 3；其余背景临床酸已有 exh=32 姿态。不要用旧 `exh=8` 面板 SDF。
+
+**W2**：不对新分子。IFP 锚在沉积 R75/A1AIL/A1A45 上，不用苯溴马隆 CNNscore Top-1 失败姿。
 
 ---
 
@@ -229,8 +255,8 @@ SMILES 以 `data/campaigns/c1/05_metrics/nlrp3_structural_panel/panel_ligands.cs
 - 集合：228 羧酸 active vs 64 羧酸 true decoy  
   `data/campaigns/c1/05_metrics/acid_gate_retrospective_benchmark/`
 - 关键残基（文献锚定，不是几何反推）：`S35, M214, F241, F360, F364, F365, D389, K393, Q437, F449, R477, Q473`
-- 阈值从**晶体自对接**锚定（W1 跑完才能读），在 228-vs-64 上**只评估一次**，禁止网格搜索最大化 OR
-- 通过：OR 的 95% CI 下界 > 1；失败则回落到 A1 ∩ A2
+- 阈值从**晶体沉积坐标**（R75 / A1AIL / A1A45 的 PDB/CIF 原始坐标）锚定，**不用** CNNscore 选出的重对接姿态；在 228-vs-64 上**只评估一次**，禁止网格搜索最大化 OR
+- 通过：OR 的 95% CI 下界 > 1；失败则回落到 A1 ∩ A2，不得再发明新门
 
 ---
 
@@ -243,17 +269,17 @@ SMILES 以 `data/campaigns/c1/05_metrics/nlrp3_structural_panel/panel_ligands.cs
 | 临床 156 重对接 | 三种子双臂已齐 |
 | Rank 轨 / 9DKB 全诱饵 | 已关 |
 | 为提高 EF 新建 RandomDecoy | 禁止 |
-| 换打分引擎 | 禁止 |
+| 换打分引擎 / 重训 URAT1 ML / 用 MM-GBSA 给 URAT1 排名 | 禁止（见 `docs/C5_RANKING_AND_NEXT_DOCKS.md`） |
+| 为“有个 URAT1 排序分”另开新轨 | 禁止 |
 
 ---
 
-## 6 建议执行顺序（本机）
+## 6 建议执行顺序（本机，闸门失败后）
 
-1. 准备 9DKA / 9DKC / 9DK9 受体 + TD-3 PDBQT  
-2. **先跑苯溴马隆 @ 9DKA seeds 42/43/44**（3 job）。Top-1 RMSD ≤ 2.0 Å 再铺开其余 29 格  
-3. 抽 W4 诱饵 CSV（先锁阈值规则，再看临床名）  
-4. 跑 W4 ≥146 job  
-5. W1+W4 姿态齐了再做 W2 重打分  
-6. 机械重算 tier（`scripts/build_c5_tier_assignment.py`）→ 冻结短名单 → 才谈 MD
+1. 9DKA / 9DKC / 9DK9 受体与 TD-3 已准备；W1 闸门 3 job 已跑完且失败——**不要**再把其余 29 格当解锁条件。  
+2. W4 诱饵 CSV 已锁（`w4_decoys_locked.csv`，n=40）。  
+3. **先跑 W4 146 job**。  
+4. **开 W2 重打分**（0 对接；晶体坐标锚定）。不必等 W1 其余 29 格。  
+5. W4+W2 出数后机械重算 tier → 冻结短名单 → 才谈 MD。
 
-本机合计新 gnina job：**32（W1）+ ≥146（W4）= ≥178**。W2 为 0。
+本机**必须**新 gnina job：**146（W4）**。W2 = 0。W1 剩余 29 = 可选 SI。

@@ -31,8 +31,36 @@ frozen_do_not_overwrite:
 rank_track:
   status: closed
   reason: lesinurad free-dock CNNscore-selected RMSD 4.30/4.31/4.88 A (seeds 42/43/44)
+  corroboration_2026-09-05: benzbromarone@9DKA CNNscore top1 pose_rmsd 3.585/3.603/3.595 A
   allow_L3_full_decoy: false
   role_in_paper: supplementary_limitation_only
+
+# Docking scores cannot rank URAT1 ligands in this campaign. Locked 2026-09-05.
+ranking_policy:
+  urat1_docking_score_ranking: false
+  meaning: >
+    GNINA search can recover the crystal basin (benzbromarone best-of-9 pose_rmsd
+    ~1.11 A) but CNNscore does not select it as Top-1. Therefore CNNscore /
+    CNNaffinity / CNN_VS must not be used as a URAT1 activity ranker.
+  allowed_priority_order:
+    - geometric_or_ifp_gate_pass_fail
+    - multi_seed_stability_3of3_then_2of3
+    - nlrp3_structural_or_qn_as_second_key_among_dual_passers
+    - chemistry_audit_flags
+  forbidden_as_urat1_ranker:
+    - cnnscore
+    - cnnaffinity
+    - cnn_vs
+    - mmgbsa_as_affinity
+    - retrain_urat1_regressor
+    - tanimoto_to_known_drugs_as_activity
+    - new_scoring_engine
+  do_not_open_a_new_ranking_track: true
+  summary_doc: docs/C5_RANKING_AND_NEXT_DOCKS.md
+  next_docks:
+    w4_nlrp3_panel: {status: authorized_must_run, n_jobs_new: 146}
+    w2_urat1_ifp: {status: authorized_must_run, n_jobs_new: 0}
+    w1_remaining_29: {status: optional_si_only_not_an_unlock, n_jobs_new: 29}
 
 # ---------------------------------------------------------------- W1
 w1_urat1_crossdock:
@@ -177,15 +205,18 @@ w2_urat1_acid_anchor_ifp_gate:
     source: data/campaigns/c1/05_metrics/acid_gate_retrospective_benchmark/
     reuse_phase1_9mode_sdf: true     # no re-docking
     script: scripts/run_acid_gate_benchmark.py
-    method: anchor_from_selfdock_do_not_grid_search
+    method: anchor_from_deposited_crystal_coordinates_do_not_grid_search
     method_rationale: >
       grid-searching thresholds to maximize OR/CI on the SAME 228-vs-64 set that
       is then reported as the significance test is data peeping -- the same
       methodological error the project already forbids elsewhere ("train ML on
       decoy labels for protocol selection"). Thresholds must instead be anchored
-      to the crystal self-dock overlap/IFP/contact values (as NLRP3's gate was:
-      anchored below NP3-146 self-dock, overlap~=1.0, IFP~=0.84-1.0, contacts
-      6-7/7), then evaluated ONCE on the benchmark, no re-tuning after seeing p.
+      to deposited crystal ligand coordinates (R75/A1AIL/A1A45 as-is in the
+      PDB/CIF), never to a CNNscore-selected re-docked pose. NLRP3's gate was
+      anchored below NP3-146 self-dock because that self-dock reproduces the
+      crystal (Top-1 RMSD 0.67-0.82 A). URAT1 self-dock selection fails, so the
+      crystal coordinates themselves are the anchor. Evaluate ONCE on the
+      benchmark, no re-tuning after seeing p.
   pass_rule:
     odds_ratio_ci95_low_gt: 1.0
   on_fail:
@@ -355,14 +386,16 @@ do_not_do:
   - dft_without_a_specific_electronic_question
   - pursue_pareto_macrolides_as_leads
   - train_ml_on_decoy_labels_for_protocol_selection
+  - open_new_urat1_ranking_engine_after_score_failure
+  - use_mmgbsa_or_cnn_to_rank_urat1
+  - treat_w1_remaining_29_as_unlock_for_w2_or_w4
 
-execution_order: [w1_prep_now_in_sandbox, w4_m1_m2_done, m3_done, m4_done, w3_done, w1_docking_local_machine, w2, shortlist_freeze, w5, w6, rewrite_manuscript]
+execution_order: [w1_gate_done_fail_selection, w4_must_run, w2_must_run_zero_dock, shortlist_freeze, w5, w6, rewrite_manuscript]
 execution_order_note: >
-  m3, m4, w3, and w1's structure/ligand verification are already done (this
-  sandbox has network + pip; see w1_urat1_crossdock.environment_note and
-  data/campaigns/c5/00_verification/). Only actual gnina docking (w1's 36
-  cross-dock runs, w4's panel re-docking, w2's benchmark re-evaluation, w5 MD)
-  requires the user's local machine.
+  W1 benzbromarone@9DKA gate has been run and failed on Top-1 pose_rmsd
+  (search_ok_selection_fail). Do not wait on the remaining 29 W1 jobs.
+  Next required compute: W4 = 146 new GNINA jobs on 7ALV; W2 = 0 new docks
+  (crystal-coordinate IFP rescoring). Summary: docs/C5_RANKING_AND_NEXT_DOCKS.md.
 
 stale_docs_to_rewrite_before_submission:
   - docs/MANUSCRIPT.md
