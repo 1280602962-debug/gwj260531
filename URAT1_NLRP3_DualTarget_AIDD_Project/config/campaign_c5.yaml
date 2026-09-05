@@ -5,7 +5,7 @@
 # Engine yaml stays config/docking_c1.yaml (identical gnina parameters as C1).
 
 name: C5
-status: w1_gate_fail_selection_not_prep
+status: w4_scored_w2_evaluated_shortlist_freeze_next
 supersedes: [C2, C3, C4]
 inherits_from: C1
 journal_target: Molecular Diversity
@@ -58,9 +58,11 @@ ranking_policy:
   do_not_open_a_new_ranking_track: true
   summary_doc: docs/C5_RANKING_AND_NEXT_DOCKS.md
   next_docks:
-    w4_nlrp3_panel: {status: authorized_must_run, n_jobs_new: 146}
-    w2_urat1_ifp: {status: authorized_must_run, n_jobs_new: 0}
+    w4_nlrp3_panel: {status: docked_131_ok_15_fail_scored_pass, n_jobs_new: 146, n_ok: 131, n_fail: 15}
+    w2_urat1_ifp: {status: evaluated_gate_pass_subset_of_a1, n_jobs_new: 0}
     w1_remaining_29: {status: optional_si_only_not_an_unlock, n_jobs_new: 29}
+    next_compute: shortlist_freeze_zero_dock
+  upload_analysis: data/campaigns/c5/04_next/W4_W2_UPLOAD_ANALYSIS.md
 
 # ---------------------------------------------------------------- W1
 w1_urat1_crossdock:
@@ -298,9 +300,21 @@ w4_nlrp3_panel_rebuild:
   pass_rule:
     structural_gate_specificity_gt_loose_gate: true
     fisher_p_lt: 0.05
-  on_fail: report_as_pose_qc_not_structural_compatibility_gate
+    on_fail: report_as_pose_qc_not_structural_compatibility_gate
   threshold_freeze: before_reading_clinical_names
   script: scripts/run_nlrp3_structural_panel.py
+  scored_2026-09-05:
+    scorer: scripts/score_c5_w4_nlrp3_panel.py
+    jobs: {ok: 131, fail: 15, failed_decoys: [C5W4D_002, C5W4D_022, C5W4D_026, C5W4D_027, C5W4D_029]}
+    primary_seed42_positives_vs_decoys_n40:
+      loose: {tp: 9, fp: 15, fisher_p: 6.36e-4}
+      structural: {tp: 9, fp: 11, fisher_p: 8.18e-5}
+      structural_specificity_gt_loose: true
+      gate_pass: true
+    clinical_background_still_identical: true
+    note: >
+      M2 is fixed on property-matched decoys (structural rejects 4 extra decoys).
+      On the original 20 clinical acids, loose==structural still. Report both.
 
 # ---------------------------------------------------------------- M3
 m3_shortlist_correction:
@@ -390,7 +404,7 @@ do_not_do:
   - use_mmgbsa_or_cnn_to_rank_urat1
   - treat_w1_remaining_29_as_unlock_for_w2_or_w4
 
-execution_order: [w1_gate_done_fail_selection, w4_must_run, w2_must_run_zero_dock, shortlist_freeze, w5, w6, rewrite_manuscript]
+execution_order: [w1_gate_done_fail_selection, w4_docked_and_scored_pass, w2_evaluated_subset_of_a1, shortlist_freeze, rewrite_manuscript, w5, w6]
 execution_order_note: >
   W1 benzbromarone@9DKA gate has been run and failed on Top-1 pose_rmsd
   (search_ok_selection_fail). Do not wait on the remaining 29 W1 jobs.
