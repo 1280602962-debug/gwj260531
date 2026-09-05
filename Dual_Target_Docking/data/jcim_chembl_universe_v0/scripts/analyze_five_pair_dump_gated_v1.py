@@ -58,7 +58,16 @@ MURCKO_CAP = 3
 QUOTA = {"dual": 20, "A_only": 20, "B_only": 20}
 N_BOOT = 2000
 THETA = 6.0
-YEAR_CUT = 2018
+YEAR_CUTS = (2015, 2018, 2020)
+PRIMARY_YEAR_CUT = 2018
+EXPECTED_LEFTOVER = {
+    # n_strict_smallmol − n_panel from frozen track_b_panel_summary_v1.csv
+    "F2/F10": {"dual": 312, "A_only": 76, "B_only": 245},
+    "JAK1/TYK2": {"dual": 1874, "A_only": 59, "B_only": 80},
+    "JAK1/JAK2": {"dual": 5953, "A_only": 76, "B_only": 21},
+    "PPARG/PPARA": {"dual": 408, "A_only": 50, "B_only": 59},
+    "PPARA/PPARD": {"dual": 187, "A_only": 50, "B_only": 68},
+}
 
 PAIRS = [
     {
@@ -259,11 +268,13 @@ def main() -> int:
     maps = harvest(con, {m["tid"] for m in meta.values()})
 
     maxmed_rows = []
+    maxmed_auroc = []
     year_rows = []
     cluster_rows = []
     cv_rows = []
     holdout_all = []
     leftover_counts = []
+    leftover_ok_all = True
 
     for spec in PAIRS:
         pair = spec["pair"]
@@ -284,7 +295,6 @@ def main() -> int:
                 by[a["molecule_chembl_id"]]["years"].append(int(a["year"]))
 
         recs_max, recs_med = [], []
-        recs_late = []
         pack = []
         for row in panel:
             cid = row["molecule_chembl_id"]
@@ -303,10 +313,8 @@ def main() -> int:
             recs_max.append({"cls": cls_max, "vina_A": sa, "vina_B": sb})
             if cls_med:
                 recs_med.append({"cls": cls_med, "vina_A": sa, "vina_B": sb})
-            years = vals["years"]
-            late = max(years) >= YEAR_CUT if years else False
-            if late:
-                recs_late.append({"cls": cls_max, "vina_A": sa, "vina_B": sb})
+            years = [y for y in vals["years"] if y is not None]
+            first_year = min(years) if years else None
             mol = Chem.MolFromSmiles(row["canonical_smiles"])
             fp = AllChem.GetMorganFingerprintAsBitVect(mol, 2, nBits=2048) if mol is not None else None
             pack.append(
@@ -316,6 +324,7 @@ def main() -> int:
                     "vina_A": sa,
                     "vina_B": sb,
                     "documents": sorted(vals["docs"]),
+                    "first_year": first_year,
                     "fp": fp,
                     "flip_max_to_median": int(cls_max != cls_med) if cls_med else "",
                     "max_ne_median_A": int(med_a is not None and abs(max_a - med_a) > 1e-6),
@@ -337,18 +346,21 @@ def main() -> int:
                     "class_median": cls_med or "",
                     "flip_max_to_median": int(cls_max != cls_med) if cls_med else "",
                     "n_documents": len(vals["docs"]),
-                    "max_year": max(years) if years else "",
+                    "first_year": first_year if first_year is not None else "",
+                    "panel_pA": row["pchembl_A"],
+                    "panel_pB": row["pchembl_B"],
+                    "dump_max_matches_panel_A": int(abs(max_a - float(row["pchembl_A"])) < 0.015),
+                    "dump_max_matches_panel_B": int(abs(max_b - float(row["pchembl_B"])) < 0.015),
                 }
             )
 
         for label, recs in (("max_pchembl", recs_max), ("median_pchembl", recs_med)):
             da, db, sm, nD, nA, nB = directional(recs)
             lo, hi = boot_pm_ci(recs, SEED + stable_offset(pair, label))
-            year_rows.append(
+            maxmed_auroc.append(
                 {
                     "pair": pair,
                     "aggregation": label,
-                    "subset": "all_scored",
                     "n_dual": nD,
                     "n_A_only": nA,
                     "n_B_only": nB,
@@ -357,28 +369,51 @@ def main() -> int:
                     "summary_min": r4(sm),
                     "ci_lo": r4(lo),
                     "ci_hi": r4(hi),
-                    "note": "same frozen Vina; labels from dump max vs median",
+                    "note": "same frozen Vina; labels from dump max vs median at θ=6.0",
                 }
             )
-        da, db, sm, nD, nA, nB = directional(recs_late)
-        powered = nD >= 10 and nA >= 10 and nB >= 10
-        lo, hi = boot_pm_ci(recs_late, SEED + stable_offset(pair, "year")) if powered else (float("nan"), float("nan"))
-        year_rows.append(
-            {
-                "pair": pair,
-                "aggregation": "max_pchembl",
-                "subset": f"max_document_year_ge_{YEAR_CUT}",
-                "n_dual": nD,
-                "n_A_only": nA,
-                "n_B_only": nB,
-                "auroc_D_vs_A": r4(da) if powered else "",
-                "auroc_D_vs_B": r4(db) if powered else "",
-                "summary_min": r4(sm) if powered else "",
-                "ci_lo": r4(lo) if powered else "",
-                "ci_hi": r4(hi) if powered else "",
-                "note": "AUROC only if dual/A/B each n≥10; otherwise counts only",
-            }
-        )
+        for cut in YEAR_CUTS:
+            for split, pred in (
+                ("train_first_year_lt", lambda y: y is not None and y < cut),
+                ("test_first_year_ge", lambda y: y is not None and y >= cut),
+            ):
+                sub = [
+                    {"cls": r["cls"], "vina_A": r["vina_A"], "vina_B": r["vina_B"]}
+                    for r in pack
+                    if pred(r.get("first_year"))
+                ]
+                da, db, sm, nD, nA, nB = directional(sub)
+                nN = sum(r["cls"] == "neither" for r in pack if pred(r.get("first_year")))
+                n_undated = sum(r.get("first_year") is None for r in pack)
+                powered = split.startswith("test") and nD >= 10 and nA >= 10 and nB >= 10
+                if powered:
+                    lo, hi = boot_pm_ci(sub, SEED + stable_offset(pair, "year", cut, split))
+                else:
+                    lo = hi = float("nan")
+                year_rows.append(
+                    {
+                        "pair": pair,
+                        "cutoff_year": cut,
+                        "split": split,
+                        "year_definition": "min_document_year_STANDARD_OK_pchembl",
+                        "n_dual": nD,
+                        "n_A_only": nA,
+                        "n_B_only": nB,
+                        "n_neither": nN,
+                        "n_undated_panel_scored": n_undated,
+                        "auroc_reportable": int(powered),
+                        "auroc_D_vs_A": r4(da) if powered else "",
+                        "auroc_D_vs_B": r4(db) if powered else "",
+                        "summary_min": r4(sm) if powered else "",
+                        "ci_lo": r4(lo) if powered else "",
+                        "ci_hi": r4(hi) if powered else "",
+                        "note": (
+                            "TIME_SPLIT_PROTOCOL_FREEZE: earliest document.year; "
+                            "test AUROC only if dual/A/B each n≥10; do not shop cutoffs; "
+                            "train is counts only"
+                        ),
+                    }
+                )
 
         nodes = []
         for rec in pack:
@@ -509,12 +544,14 @@ def main() -> int:
         all_mols = {m for v in buckets.values() for m in v}
         props = mol_properties(con, all_mols)
         leftover_pools = {k: [] for k in QUOTA}
+        n_strict_sm = {k: 0 for k in QUOTA}
         for cls, mols in buckets.items():
             for mol in mols:
                 p = props.get(mol) or {}
                 good, _ = classify(p)
                 if not good:
                     continue
+                n_strict_sm[cls] += 1
                 cid = p["chembl_id"]
                 if cid in used:
                     continue
@@ -527,17 +564,30 @@ def main() -> int:
                         "class": cls,
                     }
                 )
+        for cls in QUOTA:
+            leftover_pools[cls].sort(key=lambda r: r["molecule_chembl_id"])
+        exp = EXPECTED_LEFTOVER[pair]
+        leftover_ok = all(len(leftover_pools[c]) == exp[c] for c in QUOTA)
+        leftover_ok_all = leftover_ok_all and leftover_ok
         leftover_counts.append(
             {
                 "pair": pair,
+                "n_strict_smallmol_dual": n_strict_sm["dual"],
+                "n_strict_smallmol_A_only": n_strict_sm["A_only"],
+                "n_strict_smallmol_B_only": n_strict_sm["B_only"],
                 "leftover_dual": len(leftover_pools["dual"]),
                 "leftover_A_only": len(leftover_pools["A_only"]),
                 "leftover_B_only": len(leftover_pools["B_only"]),
+                "expected_leftover_dual": exp["dual"],
+                "expected_leftover_A_only": exp["A_only"],
+                "expected_leftover_B_only": exp["B_only"],
+                "matches_frozen_summary": int(leftover_ok),
                 "holdout_20_20_20_eligible": int(all(len(leftover_pools[c]) >= 20 for c in QUOTA)),
                 "holdout_thin_margin": int(
                     all(len(leftover_pools[c]) >= 20 for c in QUOTA)
                     and min(len(leftover_pools[c]) for c in QUOTA) < 25
                 ),
+                "holdout_drawn": 0,
                 "note": (
                     "JAK1/JAK2 leftover B-only is thin (margin=1); still eligible"
                     if pair == "JAK1/JAK2"
@@ -545,6 +595,15 @@ def main() -> int:
                 ),
             }
         )
+        if not leftover_ok:
+            print(
+                f"ERROR {pair}: leftover "
+                f"{len(leftover_pools['dual'])}/{len(leftover_pools['A_only'])}/{len(leftover_pools['B_only'])} "
+                f"!= expected {exp['dual']}/{exp['A_only']}/{exp['B_only']}; "
+                f"holdout IDs not drawn",
+                flush=True,
+            )
+            continue
         rng = random.Random(HOLDOUT_SEED)
         picked = []
         scaffold_caps: dict[tuple[str, str], int] = {}
@@ -584,6 +643,7 @@ def main() -> int:
                     "source": "chembl37_unused_pool_post_panel_freeze",
                 }
             )
+        leftover_counts[-1]["holdout_drawn"] = len(picked)
         write_csv(
             OUT / f"holdout_panel_{spec['prefix']}_v1.csv",
             [r for r in holdout_all if r["pair"] == pair],
@@ -591,27 +651,50 @@ def main() -> int:
         print(
             f"{pair}: leftover "
             f"{len(leftover_pools['dual'])}/{len(leftover_pools['A_only'])}/{len(leftover_pools['B_only'])} "
-            f"holdout={sum(1 for r in holdout_all if r['pair']==pair)}",
+            f"match={leftover_ok} holdout={len(picked)}",
             flush=True,
         )
 
     write_csv(OUT / "max_vs_median_ligand_v1.csv", maxmed_rows)
-    write_csv(OUT / "max_vs_median_and_year_auroc_v1.csv", year_rows)
+    write_csv(OUT / "max_vs_median_auroc_v1.csv", maxmed_auroc)
+    write_csv(OUT / "time_split_v1.csv", year_rows)
     write_csv(OUT / "document_cluster_bootstrap_v1.csv", cluster_rows)
     write_csv(OUT / "document_blocked_cv_v1.csv", cv_rows)
     write_csv(OUT / "holdout_leftover_counts_v1.csv", leftover_counts)
     write_csv(OUT / "holdout_panels_all_v1.csv", holdout_all)
-    (AN / "FIVE_PAIR_DUMP_GATED_V1.md").write_text(
-        "# Five-pair dump-gated stack\n\n"
-        f"sqlite: `{args.sqlite}`\n\n"
-        "Holdout IDs are frozen here (`HOLDOUT_SEED=20260731`). "
-        "Do not re-draw after seeing scores. Do not dock until these CSVs exist.\n"
-        "JAK1/JAK2 leftover B-only is eligible but thin. "
-        "Does not replace Table 2.\n",
-        encoding="utf-8",
+    n_flip = sum(int(r["flip_max_to_median"] or 0) for r in maxmed_rows)
+    n_mismatch = sum(
+        1
+        for r in maxmed_rows
+        if not (int(r["dump_max_matches_panel_A"]) and int(r["dump_max_matches_panel_B"]))
     )
+    n_2018_ok = sum(
+        1
+        for r in year_rows
+        if r["cutoff_year"] == PRIMARY_YEAR_CUT and r["split"].startswith("test") and int(r["auroc_reportable"])
+    )
+    lines = [
+        "# Five-pair dump-gated stack\n\n",
+        f"sqlite: `{args.sqlite}` (ChEMBL 37; tarball SHA-256 ",
+        "`33c203740555f96067710cdfc1c3c55d890660e5908ec5cbf5817492c290d281`).\n\n",
+        "Document year = **earliest** `docs.year` among STANDARD_OK pChEMBL rows ",
+        "(same endpoints as panel harvest). This is the dump analogue of ",
+        "`TIME_SPLIT_PROTOCOL_FREEZE.md`; it is not the later K=4 API ",
+        "high-confidence audit.\n\n",
+        f"- dump max vs panel pChEMBL mismatches (tol 0.015): **{n_mismatch}** / {len(maxmed_rows)}\n",
+        f"- θ=6.0 class flips max→median (scored ligands): **{n_flip}** / {len(maxmed_rows)}\n",
+        f"- leftover vs frozen `track_b_panel_summary_v1.csv`: **{'MATCH' if leftover_ok_all else 'MISMATCH'}**\n",
+        f"- 2018 test pairs with dual/A/B each n≥10: **{n_2018_ok}** / 5 ",
+        "(package as external validation only if ≥2)\n",
+        f"- holdout ligands drawn: **{len(holdout_all)}** (seed {HOLDOUT_SEED}, Murcko cap {MURCKO_CAP})\n\n",
+        "Holdout IDs are frozen here. Do not re-draw after seeing scores. ",
+        "Do not dock until these CSVs exist. JAK1/JAK2 leftover B-only is ",
+        "eligible but thin. Does **not** replace Table 2. BindingDB is count-only.\n",
+    ]
+    (AN / "FIVE_PAIR_DUMP_GATED_V1.md").write_text("".join(lines), encoding="utf-8")
     print("wrote", OUT)
-    return 0
+    print("".join(lines))
+    return 0 if leftover_ok_all and n_mismatch == 0 else 1
 
 
 if __name__ == "__main__":
