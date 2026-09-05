@@ -53,3 +53,17 @@ Bootstrap for `summary_min` is the Table 2 estimand: ligand-level non-stratified
 | PPARA/PPARD | D_vs_B | 0.8584 | 0.835 | -0.0234 | 0.4463 |
 
 Independent GNINA search is **not** in this run. JAK1/TYK2 is the only new pair that qualifies under the original formulation-gap rule.
+
+## S31 detectable-effect (`summary_min`, class-preserving simulation)
+
+N_MC=1000, N_BOOT=2000, same settings as K=4. P(`CI` excludes 0.5) at true AUROC 0.65 / 0.70 / 0.75:
+
+| pair | n D/A/B | true 0.65 | true 0.70 | true 0.75 |
+|---|---:|---:|---:|---:|
+| F2/F10 | 31/32/32 | 0.296 | 0.629 | 0.908 |
+| JAK1/TYK2 | 31/32/32 | 0.257 | 0.669 | 0.887 |
+| JAK1/JAK2 | 32/32/32 | 0.278 | 0.641 | 0.921 |
+| PPARG/PPARA | 32/31/32 | 0.272 | 0.629 | 0.918 |
+| PPARA/PPARD | 32/32/32 | 0.279 | 0.644 | 0.912 |
+
+These panels are powered for a large `summary_min` effect (≈0.75), not for a moderate 0.65. Source: `tables/five_pair_stack_v1/detectable_effect_s31_v1.csv`. This is a simulation, not the empirical Table 2 bootstrap.
