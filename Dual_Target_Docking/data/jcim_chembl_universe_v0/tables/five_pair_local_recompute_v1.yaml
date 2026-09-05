@@ -69,9 +69,12 @@ independent_gnina_search:
   exhaustiveness: 8
   seed: 20260727
   n_modes: 9
+  timeout_s: 600
+  skip_torsdof_ge: 25
   readout: mode-1 minimizedAffinity
   script: scripts/dock_track_b_gnina_independent_v1.py
   expected_jobs: 220  # 110 ligands × 2 pockets
+  known_production_timeout: {ligand: J1TYK2_092, target: 3LXP}
 
 dump_gated:
   requires: ChEMBL 37 sqlite (chembl_37.db)

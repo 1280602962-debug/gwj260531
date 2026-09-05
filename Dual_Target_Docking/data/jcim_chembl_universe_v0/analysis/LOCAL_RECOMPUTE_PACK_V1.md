@@ -93,12 +93,14 @@ Original rule: independent GNINA search only on formulation-gap pairs
 (EGFR/HER2, PIK3CA/mTOR). The only new pair that qualifies is **JAK1/TYK2**.
 
 ```bash
-python3 scripts/dock_track_b_gnina_independent_v1.py --workers 6
+python3 scripts/dock_track_b_gnina_independent_v1.py --workers 6 --timeout 600
 ```
 
 220 jobs (110 × 2). Seed 20260727, E=8, nine modes. Readout = mode-1
 `minimizedAffinity`. Frozen Meeko ligands, same 6N7A / 3LXP receptors and boxes.
-This is not a multi-engine bake-off.
+Per-job timeout 600 s and `TORSDOF ≥ 25` skip match production Vina
+(`J1TYK2_092` already timed out on 3LXP at 600 s). Timeout → recorded skip,
+partial output deleted. This is not a multi-engine bake-off.
 
 ---
 

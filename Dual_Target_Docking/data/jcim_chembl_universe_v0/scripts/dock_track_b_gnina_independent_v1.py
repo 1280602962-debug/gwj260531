@@ -29,9 +29,18 @@ GNINA_LIB_DEFAULT = Path("/mnt/d/CADD paper exercise/gnina/conda_env/lib")
 SEED = 20260727
 N_MODES = 9
 EXHAUSTIVENESS = 8
+SKIP_TORSDOF_GE = 25
+TIMEOUT_DEFAULT = 600
 PAIR = "JAK1/TYK2"
 TARGETS = ["6N7A", "3LXP"]
 PANEL = TABLES / "track_b_panels" / "panel_JAK1_TYK2_v1.csv"
+
+
+def torsdof(ligand_pdbqt: Path) -> int:
+    for line in ligand_pdbqt.read_text().splitlines():
+        if line.startswith("TORSDOF"):
+            return int(line.split()[1])
+    return 0
 
 
 def parse_mode1_affinity(out_pdbqt: Path) -> float | None:
@@ -84,7 +93,7 @@ def receptor_for(target: str) -> Path:
     raise SystemExit(f"missing receptor for {target}")
 
 
-def dock_one(target: str, lig: str, gnina: Path, lib: Path) -> dict:
+def dock_one(target: str, lig: str, gnina: Path, lib: Path, timeout_s: int) -> dict:
     t0 = time.time()
     pose_dir = OUT / "poses" / target / lig
     out_pdbqt = OUT / "logs" / f"{target}_{lig}_gnina_out.pdbqt"
@@ -113,6 +122,19 @@ def dock_one(target: str, lig: str, gnina: Path, lib: Path) -> dict:
             "n_modes": 0,
             "status": "fail",
             "reason": f"missing ligand {lig_pdbqt}",
+            "seconds": 0.0,
+        }
+    td = torsdof(lig_pdbqt)
+    if td >= SKIP_TORSDOF_GE:
+        return {
+            "pair": PAIR,
+            "target": target,
+            "ligand": lig,
+            "gnina_mode1": None,
+            "score_S": None,
+            "n_modes": 0,
+            "status": "skip",
+            "reason": f"skip_torsdof={td}_ge_{SKIP_TORSDOF_GE}",
             "seconds": 0.0,
         }
     box = load_box(target)
@@ -149,7 +171,31 @@ def dock_one(target: str, lig: str, gnina: Path, lib: Path) -> dict:
         "-o",
         str(out_pdbqt),
     ]
-    proc = subprocess.run(cmd, capture_output=True, text=True, env=env)
+    try:
+        proc = subprocess.run(
+            cmd, capture_output=True, text=True, env=env, timeout=timeout_s
+        )
+    except subprocess.TimeoutExpired as exc:
+        elapsed = time.time() - t0
+        extra = ""
+        if exc.stdout:
+            extra += exc.stdout if isinstance(exc.stdout, str) else exc.stdout.decode(errors="ignore")
+        if exc.stderr:
+            extra += "\n" + (exc.stderr if isinstance(exc.stderr, str) else exc.stderr.decode(errors="ignore"))
+        log_path.write_text(f"TIMEOUT after {timeout_s}s torsdof={td}\n{extra}")
+        if out_pdbqt.exists():
+            out_pdbqt.unlink()
+        return {
+            "pair": PAIR,
+            "target": target,
+            "ligand": lig,
+            "gnina_mode1": None,
+            "score_S": None,
+            "n_modes": 0,
+            "status": "skip",
+            "reason": f"timeout_{timeout_s}s_torsdof={td}",
+            "seconds": round(elapsed, 1),
+        }
     log_path.write_text((proc.stdout or "") + "\n" + (proc.stderr or ""))
     if proc.returncode != 0 or not out_pdbqt.exists():
         return {
@@ -180,6 +226,7 @@ def dock_one(target: str, lig: str, gnina: Path, lib: Path) -> dict:
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--workers", type=int, default=6)
+    ap.add_argument("--timeout", type=int, default=TIMEOUT_DEFAULT, help="per-job GNINA timeout seconds; timeout → skip")
     ap.add_argument("--gnina", type=Path, default=GNINA_DEFAULT)
     ap.add_argument("--gnina-lib", type=Path, default=GNINA_LIB_DEFAULT)
     args = ap.parse_args()
@@ -190,10 +237,17 @@ def main() -> int:
     (OUT / "logs").mkdir(parents=True, exist_ok=True)
     jobs = [(t, r["panel_id"]) for r in panel for t in TARGETS]
     scores_path = LOCAL / "tables" / "scores_gnina_independent_jak1_tyk2_v1.csv"
-    print(f"{PAIR}: {len(jobs)} jobs workers={args.workers} (do not add other pairs)", flush=True)
+    print(
+        f"{PAIR}: {len(jobs)} jobs workers={args.workers} timeout={args.timeout}s "
+        f"skip_torsdof>={SKIP_TORSDOF_GE} (do not add other pairs)",
+        flush=True,
+    )
     results = []
     with ThreadPoolExecutor(max_workers=args.workers) as ex:
-        futs = {ex.submit(dock_one, t, lig, args.gnina, args.gnina_lib): (t, lig) for t, lig in jobs}
+        futs = {
+            ex.submit(dock_one, t, lig, args.gnina, args.gnina_lib, args.timeout): (t, lig)
+            for t, lig in jobs
+        }
         n = 0
         for fut in as_completed(futs):
             res = fut.result()
@@ -208,8 +262,10 @@ def main() -> int:
                 _write(results, scores_path)
     _write(results, scores_path)
     ok = sum(1 for r in results if r.get("status") in ("success", "exists"))
-    print(f"DONE {PAIR}: {ok}/{len(results)} -> {scores_path}", flush=True)
-    return 0 if ok == len(results) else 1
+    skip = sum(1 for r in results if r.get("status") == "skip")
+    fail = sum(1 for r in results if r.get("status") == "fail")
+    print(f"DONE {PAIR}: ok={ok} skip={skip} fail={fail} / {len(results)} -> {scores_path}", flush=True)
+    return 0 if fail == 0 else 1
 
 
 def _write(rows, path: Path):
