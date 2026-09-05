@@ -6,22 +6,24 @@
 > W1 盒子出处：`data/campaigns/c5/00_verification/w1_box_centers.json`（2026-09-04 用沉积坐标重算）  
 > W1 可执行配置：`config/docking_c5_w1.yaml`  
 > 这台云沙箱**没有 gnina**。结构下载和受体/配体准备可以在这里做；对接必须在本机跑。  
-> **现在不提名 MD 分子。** W2 / W4 跑完并冻结短名单之前，`md_authorized` 保持 `false`。
+> **短名单已冻结。** 选出候选之前不再需要本机 gnina。`md_authorized` 仍为 `false`，改正文后再谈 MD。
 
 ---
 
-## 现在要开的对接（2026-09-05 执行锁；上传后已复算）
+## 现在要开的对接（2026-09-05；短名单已冻结）
 
-URAT1 上对接分**没有筛选排序能力**（`rank_track: closed`）。上传分析见 `data/campaigns/c5/04_next/W4_W2_UPLOAD_ANALYSIS.md`。
+URAT1 上对接分**没有筛选排序能力**（`rank_track: closed`）。  
+冻结表：`data/campaigns/c5/04_shortlist_frozen/SHORTLIST_FROZEN.md`（主名单 12 + 备份 21）。
 
 | 优先级 | 任务 | 新 gnina job | 状态 |
 |---|---|---:|---|
 | 1 | **W4 / Task2** 7ALV 面板 | 146 | **已跑 131 ok / 15 fail；结构门已打分并通过（vs 诱饵）** |
 | 2 | **W2 / Task3** URAT1 IFP | 0 | **已评；gate_pass，但是 A1 的更严子集** |
-| 3 可选 SI | 重试 5 个空 SDF 诱饵 × 3 | 15 | 不为过门；完整矩阵才需要 |
-| 4 可选 SI | W1 其余 29 格 | 29 | 不当推进条件 |
-| **下一步（零对接）** | **冻结短名单** + 写正文 | 0 | **现在做这个** |
-| 不做 | 临床 156 重对接、Rank 轨、换引擎、未冻结就 MD | — | 禁止 |
+| 3 | **短名单冻结** | 0 | **已冻：12 主 + 21 备份** |
+| 4 可选 SI | 重试 5 个空 SDF 诱饵 × 3 | 15 | 不为过门；完整矩阵才需要 |
+| 5 可选 SI | W1 其余 29 格 | 29 | 不当推进条件 |
+| **下一步（零对接）** | **写正文** | 0 | **现在做这个** |
+| 不做 | 临床 156 重对接、Rank 轨、换引擎、未授权就 MD | — | 禁止 |
 
 **W4 146 格明细**（受体只有 7ALV；盒 `[16.756, 35.449, 125.714]` 20³；exh=32 / 9 modes / seeds 42/43/44）：
 
@@ -266,7 +268,7 @@ SMILES 以 `data/campaigns/c1/05_metrics/nlrp3_structural_panel/panel_ligands.cs
 
 | 工作 | 何时 / 为何不做 |
 |---|---|
-| W5 MD | `md_authorized: false`，短名单冻结之后 |
+| W5 MD | `md_authorized: false`；短名单已冻，仍须显式授权后才开 |
 | W6 OAT1 反筛 | 可选，冻结之后；Jeon *Structure* 2025 / Wu & Luo *Sci. Adv.* 2025；同一 gnina 设置；不进标题摘要 |
 | 临床 156 重对接 | 三种子双臂已齐 |
 | Rank 轨 / 9DKB 全诱饵 | 已关 |
@@ -282,6 +284,6 @@ SMILES 以 `data/campaigns/c1/05_metrics/nlrp3_structural_panel/panel_ligands.cs
 2. W4 诱饵 CSV 已锁（`w4_decoys_locked.csv`，n=40）。  
 3. W4 146 job **已跑**（131 ok / 15 fail）；结构门 **已打分并通过**（vs 诱饵）。  
 4. W2 **已评**（IFP 过门但是 A1 子集）。不必等 W1 其余 29 格。  
-5. **现在：冻结短名单**（W2 注释 + 去掉 β-内酰胺）→ 写正文 → 才谈 MD。
+5. **短名单已冻结**（12 主 + 21 备份）。现在写正文，才谈 MD。
 
-本机不再有必须新跑的 gnina。可选 SI：15 个失败诱饵重试，或 W1 剩余 29。
+本机不再有必须新跑的 gnina。选出候选之前不必再算。可选 SI：15 个失败诱饵重试，或 W1 剩余 29。

@@ -182,7 +182,7 @@ Suo/Fedor/Lee *Nat. Commun.* 2025, **16**:5178 同构建体四结构（**已用 
 - MM-GBSA 仅作**同池相对比较**，明确写不作亲和力
 
 **停规则（不变）**：对照 A 失去 Arg477/Phe 笼 → URAT1 侧一律不解释；对照 B 漂出 → NLRP3 侧一律不解释。MD 合格 ≠ 双靶成立。
-`md_authorized` 在 W1–W4 完成并冻结短名单后方可置 true。
+`md_authorized` 在 W1–W4 完成并冻结短名单后方可置 true。短名单已冻（12 主 + 21 备份）；该开关仍为 false，改正文后再显式授权。
 
 ### W6（可选，推荐但不改题）OAT1 反筛作为**排除性**注释
 只做一层：把 tier-1/tier-2 与参照药对接进人 OAT1 结构（Jeon *Structure* 2025 apo/olmesartan/probenecid；Wu & Luo *Sci. Adv.* 2025 cidofovir），报告"预测的分泌型 OAT 反靶风险"。
@@ -240,7 +240,7 @@ Suo/Fedor/Lee *Nat. Commun.* 2025, **16**:5178 同构建体四结构（**已用 
 
 ```
 W1 四联体交叉对接 ──┐
-W4 面板重建(M1/M2) ─┤→ 门控冻结 → W2 标定 → W3 分层 → 冻结短名单 → W5 MD → W6 OAT1 注释 → 重写正文
+W4 面板重建(M1/M2) ─┤→ 门控冻结 → W2 标定 → W3 分层 → 冻结短名单（已冻） → 重写正文 → W5 MD → W6 OAT1 注释
 M3 短名单修正 ──────┘
 ```
 

@@ -5,7 +5,7 @@
 # Engine yaml stays config/docking_c1.yaml (identical gnina parameters as C1).
 
 name: C5
-status: w4_scored_w2_evaluated_shortlist_freeze_next
+status: shortlist_frozen
 supersedes: [C2, C3, C4]
 inherits_from: C1
 journal_target: Molecular Diversity
@@ -61,8 +61,10 @@ ranking_policy:
     w4_nlrp3_panel: {status: docked_131_ok_15_fail_scored_pass, n_jobs_new: 146, n_ok: 131, n_fail: 15}
     w2_urat1_ifp: {status: evaluated_gate_pass_subset_of_a1, n_jobs_new: 0}
     w1_remaining_29: {status: optional_si_only_not_an_unlock, n_jobs_new: 29}
-    next_compute: shortlist_freeze_zero_dock
+    next_compute: none_required_manuscript_next
+    shortlist_freeze: {status: frozen, n_jobs_new: 0, primary_n: 12, backup_n: 21}
   upload_analysis: data/campaigns/c5/04_next/W4_W2_UPLOAD_ANALYSIS.md
+  shortlist_freeze_dir: data/campaigns/c5/04_shortlist_frozen/
 
 # ---------------------------------------------------------------- W1
 w1_urat1_crossdock:
@@ -351,11 +353,31 @@ m4_chemistry_soft_exclude_is_a_namelist:
   implemented_in: scripts/build_c5_tier_assignment.py (beta_lactam_flag column)
   action_required: exclude beta_lactam_flag==true rows before using tier2 as
     W5 backup MD candidates or reporting tier2 in the manuscript
+  applied_in_shortlist_freeze: true   # 3 cephalosporins dropped from reportable backup
+
+# ---------------------------------------------------------------- shortlist freeze (0 new docks)
+shortlist_freeze:
+  status: frozen_2026-09-05
+  script: scripts/freeze_c5_shortlist.py
+  membership: W3_mechanical_intersection_no_ifp_reshuffle
+  output_dir: data/campaigns/c5/04_shortlist_frozen
+  primary_n: 12
+  backup_n: 21
+  excluded:
+    - {name: GSK-3008348 FREE BASE, reason: structural_control_not_candidate}
+    - {name: CEFETRIZOLE, reason: beta_lactam}
+    - {name: CEFAZEDONE, reason: beta_lactam}
+    - {name: CEFOXAZOLE, reason: beta_lactam}
+  w2_ifp_annotation_only: true
+  primary_w2_ifp_ge_2of3_n: 8
+  do_not: promote_or_demote_by_ifp_or_cnnscore
+  names_doc: data/campaigns/c5/04_shortlist_frozen/SHORTLIST_FROZEN.md
 
 # ---------------------------------------------------------------- W5
 w5_md:
   md_authorized: false
   authorize_after: [w1, w2, w3, w4, m3, shortlist_freeze]
+  shortlist_freeze_complete: true   # freeze done; still do not start MD until explicit authorize
   controls_always_included:
     - {system: lesinurad_crystal_acid_pose, receptor: 9DKB, membrane: POPC}
     - {system: NP3_146_cocrystal_pose,      receptor: 7ALV, membrane: none}
@@ -404,12 +426,12 @@ do_not_do:
   - use_mmgbsa_or_cnn_to_rank_urat1
   - treat_w1_remaining_29_as_unlock_for_w2_or_w4
 
-execution_order: [w1_gate_done_fail_selection, w4_docked_and_scored_pass, w2_evaluated_subset_of_a1, shortlist_freeze, rewrite_manuscript, w5, w6]
+execution_order: [w1_gate_done_fail_selection, w4_docked_and_scored_pass, w2_evaluated_subset_of_a1, shortlist_frozen, rewrite_manuscript, w5, w6]
 execution_order_note: >
-  W1 benzbromarone@9DKA gate has been run and failed on Top-1 pose_rmsd
-  (search_ok_selection_fail). Do not wait on the remaining 29 W1 jobs.
-  Next required compute: W4 = 146 new GNINA jobs on 7ALV; W2 = 0 new docks
-  (crystal-coordinate IFP rescoring). Summary: docs/C5_RANKING_AND_NEXT_DOCKS.md.
+  Shortlist is frozen (12 primary + 21 backup). No required GNINA remains.
+  Next is manuscript rewrite. Do not wait on the remaining 29 W1 jobs or the
+  15 failed W4 decoys. W5 stays unauthorized until explicitly flipped.
+  Summary: data/campaigns/c5/04_shortlist_frozen/SHORTLIST_FROZEN.md.
 
 stale_docs_to_rewrite_before_submission:
   - docs/MANUSCRIPT.md
