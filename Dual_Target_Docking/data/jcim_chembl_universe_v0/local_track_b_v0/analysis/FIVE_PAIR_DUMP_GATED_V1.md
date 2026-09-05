@@ -19,7 +19,7 @@ high-confidence audit.
 
 | check | result |
 |---|---|
-| dump max vs panel pChEMBL (tol 0.015) | **0 / 545** mismatches |
+| dump max vs panel pChEMBL (tol 0.015; missing dump ends count as fail) | **0 / 545** mismatches; **0** missing dump ends |
 | leftover D/A/B vs frozen `track_b_panel_summary_v1.csv` | **MATCH** on all five pairs |
 | holdout overlap with *same-pair* main panel | **0** (by construction) |
 | undated scored panel ligands | **0** |

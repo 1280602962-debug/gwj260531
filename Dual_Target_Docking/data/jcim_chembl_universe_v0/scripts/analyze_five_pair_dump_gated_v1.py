@@ -18,6 +18,7 @@ from __future__ import annotations
 import argparse
 import csv
 import hashlib
+import json
 import random
 import statistics
 import sys
@@ -304,10 +305,14 @@ def main() -> int:
             if sa is None or sb is None:
                 continue
             vals = by[cid]
-            max_a = max(vals["A"]) if vals["A"] else float(row["pchembl_A"])
-            max_b = max(vals["B"]) if vals["B"] else float(row["pchembl_B"])
-            med_a = statistics.median(vals["A"]) if vals["A"] else None
-            med_b = statistics.median(vals["B"]) if vals["B"] else None
+            has_a = bool(vals["A"])
+            has_b = bool(vals["B"])
+            max_a = max(vals["A"]) if has_a else float(row["pchembl_A"])
+            max_b = max(vals["B"]) if has_b else float(row["pchembl_B"])
+            med_a = statistics.median(vals["A"]) if has_a else None
+            med_b = statistics.median(vals["B"]) if has_b else None
+            match_a = int(has_a and abs(max_a - float(row["pchembl_A"])) < 0.015)
+            match_b = int(has_b and abs(max_b - float(row["pchembl_B"])) < 0.015)
             cls_max = assign_theta(max_a, max_b)
             cls_med = assign_theta(med_a, med_b) if med_a is not None and med_b is not None else None
             recs_max.append({"cls": cls_max, "vina_A": sa, "vina_B": sb})
@@ -349,8 +354,10 @@ def main() -> int:
                     "first_year": first_year if first_year is not None else "",
                     "panel_pA": row["pchembl_A"],
                     "panel_pB": row["pchembl_B"],
-                    "dump_max_matches_panel_A": int(abs(max_a - float(row["pchembl_A"])) < 0.015),
-                    "dump_max_matches_panel_B": int(abs(max_b - float(row["pchembl_B"])) < 0.015),
+                    "dump_missing_A": int(not has_a),
+                    "dump_missing_B": int(not has_b),
+                    "dump_max_matches_panel_A": match_a,
+                    "dump_max_matches_panel_B": match_b,
                 }
             )
 
@@ -663,6 +670,9 @@ def main() -> int:
     write_csv(OUT / "holdout_leftover_counts_v1.csv", leftover_counts)
     write_csv(OUT / "holdout_panels_all_v1.csv", holdout_all)
     n_flip = sum(int(r["flip_max_to_median"] or 0) for r in maxmed_rows)
+    n_missing = sum(
+        1 for r in maxmed_rows if int(r["dump_missing_A"]) or int(r["dump_missing_B"])
+    )
     n_mismatch = sum(
         1
         for r in maxmed_rows
@@ -681,7 +691,10 @@ def main() -> int:
         "(same endpoints as panel harvest). This is the dump analogue of ",
         "`TIME_SPLIT_PROTOCOL_FREEZE.md`; it is not the later K=4 API ",
         "high-confidence audit.\n\n",
-        f"- dump max vs panel pChEMBL mismatches (tol 0.015): **{n_mismatch}** / {len(maxmed_rows)}\n",
+        f"- dump rows missing on a scored ligand: **{n_missing}** / {len(maxmed_rows)} ",
+        "(missing ends are mismatches; they do not fall back to a pass)\n",
+        f"- dump max vs panel pChEMBL mismatches (tol 0.015, requires dump rows): ",
+        f"**{n_mismatch}** / {len(maxmed_rows)}\n",
         f"- θ=6.0 class flips max→median (scored ligands): **{n_flip}** / {len(maxmed_rows)}\n",
         f"- leftover vs frozen `track_b_panel_summary_v1.csv`: **{'MATCH' if leftover_ok_all else 'MISMATCH'}**\n",
         f"- 2018 test pairs with dual/A/B each n≥10: **{n_2018_ok}** / 5 ",
@@ -691,10 +704,26 @@ def main() -> int:
         "Do not dock until these CSVs exist. JAK1/JAK2 leftover B-only is ",
         "eligible but thin. Does **not** replace Table 2. BindingDB is count-only.\n",
     ]
-    (AN / "FIVE_PAIR_DUMP_GATED_V1.md").write_text("".join(lines), encoding="utf-8")
+    (OUT / "run_checks_v1.json").write_text(
+        json.dumps(
+            {
+                "n_scored": len(maxmed_rows),
+                "n_missing_dump_end": n_missing,
+                "n_mismatch": n_mismatch,
+                "n_flip_max_to_median": n_flip,
+                "leftover_ok": leftover_ok_all,
+                "n_2018_test_powered": n_2018_ok,
+                "n_holdout": len(holdout_all),
+            },
+            indent=2,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+    (AN / "FIVE_PAIR_DUMP_GATED_RUN_V1.md").write_text("".join(lines), encoding="utf-8")
     print("wrote", OUT)
     print("".join(lines))
-    return 0 if leftover_ok_all and n_mismatch == 0 else 1
+    return 0 if leftover_ok_all and n_mismatch == 0 and n_missing == 0 else 1
 
 
 if __name__ == "__main__":
