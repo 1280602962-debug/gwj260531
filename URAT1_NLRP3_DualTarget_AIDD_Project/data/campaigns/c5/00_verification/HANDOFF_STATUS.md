@@ -47,3 +47,26 @@ Worklist asks GNINA **1.3.1**; local binary may be **1.3.2**. Settings otherwise
 - Declare the 2.0 Å gate passed via GetBestRMS
 - Start W5/W6 before shortlist freeze
 - Treat remaining 29 W1 jobs as required
+
+## W4 launch 2026-09-05 03:07 UTC
+
+- Authorized despite W1 gate fail (`search_ok_selection_fail`).
+- Positives+decoys re-prepped with `prepare_ligands_c1.py` (Dimorphite→Meeko); old panel Meeko-only PDBQT not used.
+- Jobs: 146 (8×3 + 40×3 + REP_07837 seeds 43/44).
+- Runner: `scripts/run_c5_w4_nlrp3_panel.py --cpu 3 --workers 2`.
+- Status CSV: `data/campaigns/c5/02_nlrp3_panel/w4_job_status.csv`
+
+## W2 complete 2026-09-05 08:18 UTC
+
+- Crystal-anchored IFP gate on Phase I 9DKB SDFs (228 vs 64), 0 new docks.
+- Key map: 11/12 (Q437 = LEU in 9DKB, unmatched).
+- Primary IFP (CNNscore Top-1): **gate_pass=false** → fallback A1∩A2.
+- Outputs: `data/campaigns/c5/02_urat1_ifp/`
+
+## W2 final 2026-09-05 08:21 UTC
+
+- IFP primary (CNNscore Top-1 + overlap/IFP/key/clash; Arg≤7.7027 from A1AIL): **gate_pass=true**
+  OR=3.15, CI95=[1.72, 7.08], Fisher p=6.7e-4 (228 vs 64).
+- Arg max locked to pre-registered 7.7027 (not loosened by Kabsch R75/A1A45 O–Arg).
+- Q437 unmatched (LEU in 9DKB). Outputs under `data/campaigns/c5/02_urat1_ifp/`.
+

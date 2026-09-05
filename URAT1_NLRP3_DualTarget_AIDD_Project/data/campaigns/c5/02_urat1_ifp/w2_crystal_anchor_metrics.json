@@ -1,0 +1,193 @@
+{
+  "thresholds": {
+    "min_overlap": 0.5,
+    "min_ifp_jaccard": 0.5,
+    "min_key_frac": 0.5,
+    "min_key_contacts": 6,
+    "arg_max_A": 7.7027,
+    "clash_cutoff_A": 2.2,
+    "anchor_method": "deposited_crystal_R75_A1AIL_A1A45_kabsch_to_9DKB",
+    "crystal_key_fracs": {
+      "A1AIL": 0.9090909090909091,
+      "R75": 0.8181818181818182,
+      "A1A45": 0.8181818181818182
+    },
+    "crystal_arg_A": {
+      "A1AIL": 6.7026966215098716,
+      "R75": 12.64579590738551,
+      "A1A45": 10.538430082011828
+    },
+    "arg_anchor": "ARG_THRESH_A_7.7027_from_A1AIL_crystal_plus_1A",
+    "arg_anchor_note": "R75 phenolate and Kabsch-A1A45 O\u2013Arg reported for audit only; do not inflate 9DKB arg_max",
+    "note": "Thresholds fixed from protocol floors below crystal self-metrics; not tuned on 228vs64."
+  },
+  "crystal_refs": {
+    "A1AIL": {
+      "n_heavy": 24,
+      "n_key_contacts": 10,
+      "key_frac": 0.9090909090909091,
+      "acid_arg477_min_A": 6.7026966215098716,
+      "ifp_bits": [
+        "AROMATIC:PHE241",
+        "AROMATIC:PHE360",
+        "AROMATIC:PHE364",
+        "AROMATIC:PHE365",
+        "AROMATIC:PHE449",
+        "CONTACT:ARG477",
+        "CONTACT:GLN473",
+        "CONTACT:LYS393",
+        "CONTACT:MET214",
+        "CONTACT:PHE241",
+        "CONTACT:PHE360",
+        "CONTACT:PHE364",
+        "CONTACT:PHE365",
+        "CONTACT:PHE449",
+        "CONTACT:SER35",
+        "HYDROPHOBIC:MET214",
+        "HYDROPHOBIC:PHE241",
+        "HYDROPHOBIC:PHE360",
+        "HYDROPHOBIC:PHE364",
+        "HYDROPHOBIC:PHE365",
+        "HYDROPHOBIC:PHE449",
+        "POLAR:ARG477"
+      ],
+      "n_ifp_bits": 22,
+      "com": [
+        100.042375,
+        102.27925000000003,
+        105.46974999999999
+      ],
+      "transformed": false,
+      "ca_rmsd_A": 0.0
+    },
+    "R75": {
+      "n_heavy": 22,
+      "n_key_contacts": 9,
+      "key_frac": 0.8181818181818182,
+      "acid_arg477_min_A": 12.64579590738551,
+      "ifp_bits": [
+        "AROMATIC:PHE241",
+        "AROMATIC:PHE360",
+        "AROMATIC:PHE364",
+        "AROMATIC:PHE365",
+        "AROMATIC:PHE449",
+        "CONTACT:ARG477",
+        "CONTACT:LYS393",
+        "CONTACT:MET214",
+        "CONTACT:PHE241",
+        "CONTACT:PHE360",
+        "CONTACT:PHE364",
+        "CONTACT:PHE365",
+        "CONTACT:PHE449",
+        "CONTACT:SER35",
+        "HBOND:LYS393",
+        "HYDROPHOBIC:MET214",
+        "HYDROPHOBIC:PHE241",
+        "HYDROPHOBIC:PHE360",
+        "HYDROPHOBIC:PHE364",
+        "HYDROPHOBIC:PHE365",
+        "HYDROPHOBIC:PHE449",
+        "POLAR:ARG477"
+      ],
+      "n_ifp_bits": 22,
+      "com": [
+        101.50643265259859,
+        102.74147758761575,
+        105.47599416519138
+      ],
+      "transformed": true,
+      "ca_rmsd_A": 0.896780157140983
+    },
+    "A1A45": {
+      "n_heavy": 28,
+      "n_key_contacts": 9,
+      "key_frac": 0.8181818181818182,
+      "acid_arg477_min_A": 10.538430082011828,
+      "ifp_bits": [
+        "AROMATIC:PHE241",
+        "AROMATIC:PHE360",
+        "AROMATIC:PHE364",
+        "AROMATIC:PHE365",
+        "AROMATIC:PHE449",
+        "CLASH:ANY",
+        "CONTACT:ARG477",
+        "CONTACT:LYS393",
+        "CONTACT:MET214",
+        "CONTACT:PHE241",
+        "CONTACT:PHE360",
+        "CONTACT:PHE364",
+        "CONTACT:PHE365",
+        "CONTACT:PHE449",
+        "CONTACT:SER35",
+        "HBOND:LYS393",
+        "HYDROPHOBIC:MET214",
+        "HYDROPHOBIC:PHE241",
+        "HYDROPHOBIC:PHE360",
+        "HYDROPHOBIC:PHE364",
+        "HYDROPHOBIC:PHE365",
+        "HYDROPHOBIC:PHE449",
+        "POLAR:ARG477"
+      ],
+      "n_ifp_bits": 23,
+      "com": [
+        100.39382592853575,
+        100.95151970983355,
+        105.01411907651881
+      ],
+      "transformed": true,
+      "ca_rmsd_A": 0.5806083769757905
+    }
+  },
+  "transforms": {
+    "R75": {
+      "ca_rmsd_A": 0.896780157140983,
+      "n_ca": 517,
+      "src": "/home/gwj/work/c1-campaign/URAT1_NLRP3_DualTarget_AIDD_Project/data/structures/pdb/9DKA.cif"
+    },
+    "A1A45": {
+      "ca_rmsd_A": 0.5806083769757905,
+      "n_ca": 517,
+      "src": "/home/gwj/work/c1-campaign/URAT1_NLRP3_DualTarget_AIDD_Project/data/structures/pdb/9DKC.cif"
+    }
+  },
+  "ref_ifp_bits": [
+    "AROMATIC:PHE241",
+    "AROMATIC:PHE360",
+    "AROMATIC:PHE364",
+    "AROMATIC:PHE365",
+    "AROMATIC:PHE449",
+    "CLASH:ANY",
+    "CONTACT:ARG477",
+    "CONTACT:GLN473",
+    "CONTACT:LYS393",
+    "CONTACT:MET214",
+    "CONTACT:PHE241",
+    "CONTACT:PHE360",
+    "CONTACT:PHE364",
+    "CONTACT:PHE365",
+    "CONTACT:PHE449",
+    "CONTACT:SER35",
+    "HBOND:LYS393",
+    "HYDROPHOBIC:MET214",
+    "HYDROPHOBIC:PHE241",
+    "HYDROPHOBIC:PHE360",
+    "HYDROPHOBIC:PHE364",
+    "HYDROPHOBIC:PHE365",
+    "HYDROPHOBIC:PHE449",
+    "POLAR:ARG477"
+  ],
+  "n_key_mapped": 11,
+  "key_labels": [
+    "SER35",
+    "MET214",
+    "PHE241",
+    "PHE360",
+    "PHE364",
+    "PHE365",
+    "ASP389",
+    "LYS393",
+    "PHE449",
+    "GLN473",
+    "ARG477"
+  ]
+}
