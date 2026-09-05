@@ -1,0 +1,71 @@
+{
+  "n_primary": 12,
+  "n_nlrp3_train_mols": 513,
+  "n_nlrp3_assays": 39,
+  "n_library": 8319,
+  "n_train_ids_in_8319": 3,
+  "train_ids_in_8319": [
+    "CHEMBL4650350",
+    "CHEMBL5219660",
+    "CHEMBL5409389"
+  ],
+  "train_names_in_8319": [
+    {
+      "chembl_id": "CHEMBL5409389",
+      "name": "NT-0796"
+    },
+    {
+      "chembl_id": "CHEMBL4650350",
+      "name": "INZOMELID"
+    },
+    {
+      "chembl_id": "CHEMBL5219660",
+      "name": "JT-001"
+    }
+  ],
+  "n_train_inchikey_in_8319": 3,
+  "any_primary_exact_train": false,
+  "any_primary_in_urat1_curated": false,
+  "literature_extra": [
+    {
+      "term": "PF-03882845 AND (URAT1 OR SLC22A12 OR NLRP3 OR gout)",
+      "count": 0,
+      "pmids": [],
+      "ok": true
+    },
+    {
+      "term": "PF-03882845 AND mineralocorticoid",
+      "count": 8,
+      "pmids": [
+        "41765963",
+        "28797006",
+        "26083526",
+        "25147524",
+        "24738581"
+      ],
+      "ok": true
+    },
+    {
+      "term": "HNW005 AND (URAT1 OR NLRP3)",
+      "count": 1,
+      "pmids": [
+        "40286449"
+      ],
+      "ok": true
+    }
+  ],
+  "named_dual_smiles_source": [
+    {
+      "name": "HNW005",
+      "smiles": "O=C(Nc1ccccc1C(=O)O)c1cc(-c2ccc(C(F)(F)F)cc2)[nH]n1",
+      "source": "vendor_DCChemicals_citing_EJMC_2025_117644",
+      "note": "NLRP3 KD 204.6 nM / IC50 1.7 uM; URAT1 IC50 6.4 uM"
+    },
+    {
+      "name": "NatCommun_compound_32",
+      "smiles": "O=C(NS(=O)(=O)c1cccs1)c1cc2ccccc2n1Cc1ccc(Br)c2ccccc12",
+      "source": "vendor_TargetMol_NLRP3_URAT1_IN_1_citing_NatCommun_2025_7430",
+      "note": "URAT1 IC50 ~3.8 uM; NLRP3 SPR KD 27.8 uM"
+    }
+  ]
+}

@@ -38,6 +38,9 @@
 
 ---
 
+上述 1–4 已在 2026-09-05 做完（无新对接）：`docs/C5_PRESUBMISSION_AUDIT.md`。  
+12 个名字未改。Lintitript 是唯一对 Arg +0.5 Å 和 9DKA 姿态转移敏感的主名单成员。
+
 ## 值得做（投稿前，零或极少新对接）
 
 1. **Novelty / leakage 表（必做）**  

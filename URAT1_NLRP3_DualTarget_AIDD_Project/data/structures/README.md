@@ -29,5 +29,7 @@ C5 W1 交叉对接盒子：`docs/C5_DOCKING_WORKLIST.md`、`config/docking_c5_w1
 | 9JDZ | 也是 lesinurad inward-open，**不是** occluded/outward |
 | 9B1K / 9B1L | Dai 2024 的 occluded / outward；**本文不做三态对接** |
 | 9DKA / 9JDY / 9JE1 / 8ETR | 对照或 redock 用，不进临床库主表 |
+| 9B1I | verinurad inward；C5 投稿前姿态转移用，**不重对接、不进主表** |
+| 8ETR | NLRP3 NACHT–GDC-2394；同上 |
 
 详见 `docs/URAT1_THREE_STATE_DOCKING.md`。
