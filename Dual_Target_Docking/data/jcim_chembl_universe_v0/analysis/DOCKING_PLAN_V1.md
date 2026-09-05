@@ -63,7 +63,7 @@ Volume: 5 × 110 × 2 = **1,100** production jobs + 8 × 9 cognate poses. JAK1 (
 | CREBBP/BRD4, GPCR, SLC6, F2/PRSS1, JAK3/TYK2, OPRM1/OPRK1 | Failed a gate or undeclared site. |
 | PIK3CA/PIK3CB re-dock / 2Y3A production | Special case kept; 2Y3A E32 is deferred and cognate-only. |
 | F2/F10 protonation enum | Deferred. |
-| GNINA independent search, RTM / GNINA CNN rescore, five-seed | Optional later, only to match frozen depth. |
+| GNINA independent search, RTM / GNINA CNN rescore, five-seed | **Authorized now** as the local recompute pack (`LOCAL_RECOMPUTE_PACK_V1.md`). Independent GNINA is JAK1/TYK2 only. |
 | LigPrep; seed 42 | Forbidden protocol change. |
 
 ---

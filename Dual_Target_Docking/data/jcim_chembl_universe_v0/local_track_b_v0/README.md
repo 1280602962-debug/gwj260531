@@ -9,3 +9,7 @@ Layer-3 cognate QC (8/8 PASS at E=8) and production AutoDock Vina 1.2.7 on five 
 - Poses / full Vina logs are gitignored (regenerate with `scripts/dock_track_b_production_v1.py`)
 
 Does **not** replace Table 2. Count three systems (coagulation, JAK, PPAR).
+
+Zero-dock stack on production Vina: `tables/five_pair_stack_v1/` and
+`analysis/FIVE_PAIR_STACK_V1.md` (Table-2-comparable non-stratified CIs).
+Local docking / rescoring still to submit: `../analysis/LOCAL_RECOMPUTE_PACK_V1.md`.

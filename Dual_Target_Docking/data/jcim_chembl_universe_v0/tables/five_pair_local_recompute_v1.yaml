@@ -1,0 +1,124 @@
+# Locked local recompute pack for the five post-census pairs.
+# Human-readable twin: analysis/LOCAL_RECOMPUTE_PACK_V1.md
+# Do not add pairs, engines, or seeds after seeing new AUROCs.
+schema: five_pair_local_recompute_v1
+locked: 2026-09-05
+identity: PROJECT_IDENTITY_LOCK_V1.md
+does_not_replace_table2: true
+does_not_retitle: true
+no_ligprep: true
+forbidden_seed: 42
+
+ligand_prep: RDKit ETKDGv3 seed 20260727 + MMFF maxIters 200 + meeko 0.7.1
+dock_seed_primary: 20260727
+panel_seed: 20260729
+holdout_seed: 20260731
+n_modes: 9
+energy_range_kcal: 3
+exhaustiveness: 8
+skip_torsdof_ge: 25
+
+do_now_local:
+  - five_seed_vina
+  - rtm_best_of_9
+  - gnina_cnn_best_of_9
+  - independent_gnina_jak1_tyk2
+  - dump_gated_sqlite
+  - leftover_holdout_ids
+
+do_not_now:
+  - restock_table2
+  - retitle_article
+  - pik3ca_pik3cb_redock
+  - pik3cb_2y3a_production
+  - ctsk_ctss_vina
+  - crystal_swap_on_five_pairs
+  - pm110_exhaustiveness_on_five_pairs
+  - independent_gnina_on_non_gap_pairs
+  - holdout_docking_before_ids
+  - f2_f10_protonation_sensitivity
+  - ligprep
+  - seed_42
+
+five_seed_vina:
+  engine: AutoDock Vina 1.2.7
+  scoring_function: vina
+  readout: mode-1 affinity; analysis uses S = -E
+  seeds: [20260727, 20260811, 20260812, 20260813, 20260814]
+  reuse_primary: true  # 20260727 = existing scores_vina_mode1_v1.csv; do not redock
+  ligands: frozen Meeko PDBQT from ETKDG 20260727 (do not re-embed per Vina seed)
+  script: scripts/dock_track_b_fiveseed_v1.py
+  expected_new_jobs: 4400  # 4 seeds × 1100; primary reused
+
+rtm_best_of_9:
+  model: rtmscore_model1
+  input: production Vina 9-mode poses at seed 20260727
+  readout: best-of-9 RTM (higher better)
+  script: scripts/rescore_track_b_rtm_v1.py
+
+gnina_cnn_best_of_9:
+  engine: GNINA 1.3.2
+  flags: [--cnn_scoring, rescore, --minimize, --no_gpu]
+  input: same production Vina 9-mode poses
+  readout: best-of-9 CNNscore (fallback CNNaffinity)
+  script: scripts/rescore_track_b_gnina_cnn_v1.py
+
+independent_gnina_search:
+  engine: GNINA 1.3.2 docking search (not Vina-pose rescore)
+  pairs: [JAK1/TYK2]  # formulation-gap rule; do not add F2/F10, JAK1/JAK2, PPAR*
+  exhaustiveness: 8
+  seed: 20260727
+  n_modes: 9
+  readout: mode-1 minimizedAffinity
+  script: scripts/dock_track_b_gnina_independent_v1.py
+  expected_jobs: 220  # 110 ligands × 2 pockets
+
+dump_gated:
+  requires: ChEMBL 37 sqlite (chembl_37.db)
+  script: scripts/analyze_five_pair_dump_gated_v1.py
+  items:
+    - max_to_median_relabel
+    - document_year_split
+    - document_cluster_bootstrap
+    - document_blocked_cv
+    - leftover_holdout_ids
+  holdout:
+    quota: {dual: 20, A_only: 20, B_only: 20}
+    seed: 20260731
+    murcko_cap: 3
+    exclude: main panel molecule_chembl_id
+    jak1_jak2_note: leftover B-only = 21; eligible under 20/20/20, thin (margin=1)
+    do_not_dock_until_ids_frozen: true
+
+pairs:
+  - pair: F2/F10
+    holdout_prefix: HOF2F10
+    holdout_eligible: true
+    independent_gnina: false
+    receptor_A: 4UDW
+    receptor_B: 2JKH
+  - pair: JAK1/TYK2
+    holdout_prefix: HOJ1TYK2
+    holdout_eligible: true
+    independent_gnina: true
+    receptor_A: 6N7A
+    receptor_B: 3LXP
+  - pair: JAK1/JAK2
+    holdout_prefix: HOJ1J2
+    holdout_eligible: true
+    holdout_thin: true
+    independent_gnina: false
+    receptor_A: 6N7A
+    receptor_B: 8BXH
+  - pair: PPARG/PPARA
+    holdout_prefix: HOPGPA
+    holdout_eligible: true
+    independent_gnina: false
+    receptor_A: 9V8H
+    receptor_B: 6LXA
+  - pair: PPARA/PPARD
+    holdout_prefix: HOPAPD
+    holdout_eligible: true
+    independent_gnina: false
+    receptor_A: 6LXA
+    receptor_B: 5U3Q
