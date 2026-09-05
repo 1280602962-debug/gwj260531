@@ -1,0 +1,64 @@
+{
+  "method": "pose_transfer_not_redock",
+  "gnina_available": false,
+  "urat1_align": {
+    "9DKB_native": {
+      "ca_rms": 1.511655612828822e-14,
+      "n_ca": 517,
+      "identity": 1.0,
+      "arg477_maps_to": [
+        477,
+        "ARG"
+      ]
+    },
+    "9DKA_benzbromarone": {
+      "ca_rms": 0.8967801571409842,
+      "n_ca": 517,
+      "identity": 1.0,
+      "arg477_maps_to": [
+        477,
+        "ARG"
+      ]
+    },
+    "9DKC_TD3": {
+      "ca_rms": 0.5806083769757915,
+      "n_ca": 517,
+      "identity": 1.0,
+      "arg477_maps_to": [
+        477,
+        "ARG"
+      ]
+    },
+    "9B1I_verinurad": {
+      "ca_rms": 1.3600925578057894,
+      "n_ca": 507,
+      "identity": 0.8757396449704142,
+      "arg477_maps_to": [
+        473,
+        "ARG"
+      ]
+    }
+  },
+  "nlrp3_align": {
+    "7ALV_native": {
+      "ca_rms": 7.159809744182879e-15,
+      "n_ca": 472,
+      "identity": 1.0
+    },
+    "8ETR_GDC2394": {
+      "ca_rms": 1.328811509886653,
+      "n_ca": 469,
+      "identity": 1.0
+    }
+  },
+  "interpretation": "This asks whether the frozen 9DKB/7ALV CNNscore Top-1 pose remains geometrically compatible after rigid CA superposition onto another experimental conformation. It does not ask whether GNINA would find a new pose on that receptor.",
+  "nlrp3_key_residue_file": [
+    "ALA227",
+    "ALA228",
+    "ARG351",
+    "MET408",
+    "TYR443",
+    "PHE575",
+    "ARG578"
+  ]
+}

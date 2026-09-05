@@ -1,0 +1,53 @@
+# C1 Amendment A2 — geometry-first Acid pose selection (URAT1)
+# Date: 2026-08-27
+# Trigger: A1 exploratory forced-recovery showed GNINA samples crystal-compatible
+#   carboxylate poses for known URAT1 ligands, but CNNscore Top-1 fails to select them.
+#   Amendment is based ONLY on reference/control compounds, not on clinical candidate identities.
+#
+# A1 exploratory outputs are FROZEN under:
+#   data/campaigns/c1/07_clinical_dock/acid_dual_a1_frozen/
+# Do not overwrite A1 tables when running A2.
+
+status: accepted
+path: Acid
+rank_track: closed
+amendment_chain: [A1, A2]
+supersedes_pose_selection: A1_cnnscore_first
+crystal_pdb: 9DKB
+crystal_ligand: A1AIL/lesinurad
+crystal_min_O_Arg477_N_A: 6.7027
+acid_arg477_le_A: 7.7027
+pocket_centroid_le_A: 6.0
+
+pose_selection:
+  urat1:
+    rule_id: geometry_first_then_cnnscore_tiebreak
+    description: >
+      Among num_modes GNINA poses, first retain poses with carboxylate oxygen,
+      acid–Arg477 <= 7.7027 Å, and ligand heavy-atom COM within 6 Å of lesinurad crystal COM.
+      If |P_acid| = 0 → URAT1 acid gate FAIL.
+      If |P_acid| >= 1 → select argmax CNNscore within P_acid as analysis pose.
+    a1_retired_rule: CNNscore Top-1 pose, then check geometry (exploratory only)
+  nlrp3:
+    rule_id: unchanged_from_a1
+    description: CNNscore Top-1 pose; pocket COM <= 6 Å vs NP3-146; CNNscore >= 0.5
+
+clinical_rerun:
+  seeds: [42, 43, 44]
+  stability_rule: keep if >= 2/3 seeds pass dual geometry under A2
+  engine: gnina 1.3.1, exhaustiveness 32, num_modes 9, cnn_scoring rescore
+  note: seed 42 may be rescored from existing SDFs without re-docking
+
+retrospective_benchmark:
+  dataset: data/benchmarks/urat1_true_decoy/
+  subset: carboxylate-compatible actives vs property-matched true decoys
+  poses: docking_export_20260820/01_phase1_benchmark_URAT1_9DKB/poses/gnina_sdf/
+  metrics: [OR, fisher_exact_p, sensitivity, specificity, PPV, bootstrap_CI_95]
+
+claim_language:
+  allowed: acid-pose dual-node hypotheses; geometry-compatible pose exists
+  forbidden: docking-rank activity retrieval; validated dual inhibitor
+
+md_gate:
+  shortlist_authorization_required: true
+  md_authorized: false

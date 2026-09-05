@@ -1,0 +1,27 @@
+# C1 Amendment A1 — Arg477 gate (Acid track path)
+# Date: 2026-08-26
+# Decision: user chose path A (amend gate → Acid track). Rank track remains CLOSED.
+#
+# Empirical basis (measured on 9DKB CIF, lesinurad A1AIL):
+#   crystal_min O(carboxylate)–Arg477(N) = 6.7027 Å (O23–NH2)
+# Absolute cutoff 4.0 Å was stricter than the crystal and is RETIRED for Acid-track
+# geometry and for the lesinurad self-dock Arg clause.
+#
+# New rule (crystal-relative):
+#   acid_arg477_le_A = crystal_min + 1.0 = 7.7027 Å
+#
+# Claim language under this amendment:
+#   "acid-pose dual-node hypotheses" / crystal-relative acid geometry
+#   NOT "docking ranks retrieve actives" (Rank track still failed free self-dock RMSD)
+
+status: accepted
+path: Acid
+rank_track: closed
+l3_full_decoy: forbidden_until_rank_reopened_by_separate_preregistration
+crystal_pdb: 9DKB
+crystal_ligand: A1AIL/lesinurad
+crystal_min_O_Arg477_N_A: 6.7027
+tolerance_A: 1.0
+acid_arg477_le_A_amended: 7.7027
+old_acid_arg477_le_A: 4.0
+old_rule_status: retired_error_vs_crystal

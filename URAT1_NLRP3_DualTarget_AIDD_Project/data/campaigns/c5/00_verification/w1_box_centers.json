@@ -1,0 +1,166 @@
+{
+  "purpose": "W1 docking-box centers from crystal ligand centroids / CA superposition",
+  "computed_2026-09-04": true,
+  "method": "gemmi parse + Kabsch CA superposition (chain A)",
+  "locked_production_boxes": {
+    "9DKB": {
+      "center": [
+        99.966,
+        102.967,
+        105.699
+      ],
+      "size": [
+        22,
+        22,
+        22
+      ],
+      "source": "config/docking_c1.yaml"
+    },
+    "7ALV": {
+      "center": [
+        16.756,
+        35.449,
+        125.714
+      ],
+      "size": [
+        20,
+        20,
+        20
+      ],
+      "source": "config/docking_c1.yaml"
+    }
+  },
+  "receptors": {
+    "9DKB": {
+      "ligand_ccd": "A1AIL",
+      "ligand_chains": [
+        "A"
+      ],
+      "n_heavy_atoms": 24,
+      "crystal_ligand_centroid": [
+        100.042,
+        102.279,
+        105.47
+      ],
+      "size": [
+        22,
+        22,
+        22
+      ],
+      "box_rule": "crystal_ligand_heavy_atom_centroid",
+      "vs_locked_center_abs_delta": [
+        0.076,
+        0.688,
+        0.229
+      ],
+      "use": "locked production center from docking_c1.yaml",
+      "note": "Fresh heavy-atom centroid differs from the locked production box by 0.076 / 0.688 / 0.229 A. Keep the locked docking_c1.yaml center for all 9DKB jobs so C1 self-dock / acid-track poses stay in the same box. The 0.7 A offset is well inside the 22 A cube."
+    },
+    "9DKA": {
+      "ligand_ccd": "R75",
+      "ligand_chains": [
+        "A"
+      ],
+      "n_heavy_atoms": 22,
+      "crystal_ligand_centroid": [
+        107.167,
+        105.296,
+        107.628
+      ],
+      "size": [
+        22,
+        22,
+        22
+      ],
+      "box_rule": "crystal_ligand_heavy_atom_centroid",
+      "superpose_onto_9DKB_ca_rmsd_A": 0.897,
+      "n_ca_pairs_vs_9DKB": 517,
+      "centroid_mapped_into_9DKB_frame": [
+        101.507,
+        102.741,
+        105.476
+      ],
+      "native_centroid_vs_9DKB_locked_abs_delta": [
+        7.201,
+        2.329,
+        1.929
+      ],
+      "use_native_crystal_centroid": true,
+      "do_not": "do not copy the 9DKB Cartesian center onto 9DKA/9DKC"
+    },
+    "9DKC": {
+      "ligand_ccd": "A1A45",
+      "ligand_chains": [
+        "A"
+      ],
+      "n_heavy_atoms": 28,
+      "crystal_ligand_centroid": [
+        102.345,
+        103.269,
+        107.416
+      ],
+      "size": [
+        22,
+        22,
+        22
+      ],
+      "box_rule": "crystal_ligand_heavy_atom_centroid",
+      "superpose_onto_9DKB_ca_rmsd_A": 0.581,
+      "n_ca_pairs_vs_9DKB": 517,
+      "centroid_mapped_into_9DKB_frame": [
+        100.393,
+        100.952,
+        105.014
+      ],
+      "native_centroid_vs_9DKB_locked_abs_delta": [
+        2.379,
+        0.302,
+        1.717
+      ],
+      "use_native_crystal_centroid": true,
+      "do_not": "do not copy the 9DKB Cartesian center onto 9DKA/9DKC"
+    },
+    "9DK9": {
+      "ligand_ccd": null,
+      "state": "apo",
+      "box_rule": "transfer_9DKB_locked_center_after_chainA_CA_superposition_9DKB_onto_9DK9",
+      "center": [
+        100.693,
+        107.7,
+        105.653
+      ],
+      "size": [
+        22,
+        22,
+        22
+      ],
+      "superposition_rmsd_A": 0.573,
+      "n_ca_pairs": 517,
+      "do_not": "copy 9DKB Cartesian center without superposition (different coordinate frame)",
+      "superpose_onto_9DKB_ca_rmsd_A": 0.573,
+      "n_ca_pairs_vs_9DKB": 517
+    }
+  },
+  "7ALV_RM5": {
+    "n_heavy": 29,
+    "centroid": [
+      16.756,
+      35.449,
+      125.714
+    ],
+    "vs_locked_abs_delta": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "use": "locked production center from docking_c1.yaml"
+  },
+  "structure_files": {
+    "9DK9": "data/structures/pdb/9DK9.cif",
+    "9DKA": "data/structures/pdb/9DKA.cif",
+    "9DKB": "data/structures/pdb/9DKB.cif",
+    "9DKC": "data/structures/pdb/9DKC.cif",
+    "7ALV": "data/structures/pdb/7ALV.pdb",
+    "9DKC_format": "mmCIF only; legacy .pdb download is HTTP 404"
+  }
+}

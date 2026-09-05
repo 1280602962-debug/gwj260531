@@ -1,0 +1,8 @@
+{
+  "ranking_files_present": true,
+  "source": "data/benchmarks/protocol_selection/mol_protocol_scores.csv",
+  "n_molecules": 9839,
+  "n_boot": 1000,
+  "ef_ci_method": "Molecule-resampled ranking bootstrap (1000 draws with replacement) on archived per-molecule P0\u2013P5 scores. EF and AUC recomputed each draw. This replaces the previous Clopper\u2013Pearson intervals that used only published hits@1% counts. Point estimates match the locked protocol table within rounding; \u03a0* is not re-selected.",
+  "auc_ci": "bootstrap 95% percentile interval"
+}

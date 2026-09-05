@@ -1,0 +1,36 @@
+{
+  "seed": 42,
+  "gates": {
+    "loose": "COM<=6A and CNNscore>=0.5",
+    "structural": "loose + overlap>=0.50 + IFP Jaccard>=0.50 + key_contacts>=5/7 + no clash"
+  },
+  "metrics": {
+    "keep_nlrp3_pose": {
+      "positive_pass_rate": 1.0,
+      "background_pass_rate": 0.55,
+      "positive_n": 10,
+      "background_n": 20,
+      "tp": 10,
+      "fn": 0,
+      "fp": 11,
+      "tn": 9,
+      "odds_ratio": Infinity,
+      "fisher_exact_p": 0.01339679810444428
+    },
+    "keep_nlrp3_structural": {
+      "positive_pass_rate": 1.0,
+      "background_pass_rate": 0.55,
+      "positive_n": 10,
+      "background_n": 20,
+      "tp": 10,
+      "fn": 0,
+      "fp": 11,
+      "tn": 9,
+      "odds_ratio": Infinity,
+      "fisher_exact_p": 0.01339679810444428
+    }
+  },
+  "n_rows": 30,
+  "n_scored": 30,
+  "claim": "structural recovery enrichment only \u2014 not binding affinity proof"
+}

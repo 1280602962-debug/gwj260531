@@ -1,0 +1,16 @@
+pdb_id,target,state,ligand,ligand_ccd_id,resolution_A,citation,verification_status,verified_how,use_in_campaign,notes
+9DK9,URAT1,inward-open,apo (no external ligand),,2.68,"Suo, Fedor & Lee, Nat Commun 2025, 16:5178",verified_rcsb,RCSB 条目页直接读取,c3_s2_crossdock_apo;c3_s6_md_control,前瞻性对接场景代表（口袋未见过配体）；同构建体四联之一
+9DKA,URAT1,inward-open,benzbromarone,R75,3.00,"Suo, Fedor & Lee, Nat Commun 2025, 16:5178",verified_rcsb,RCSB 条目页直接读取,c3_s1_ifp_reference;c3_s2_primary_judge;c3_s6_md_control,主判据配体（约 2 个可旋转键）；F449Y 9x down / F360 依赖需在 S1 重现
+9DKB,URAT1,inward-open,lesinurad,LES,2.74,"Suo, Fedor & Lee, Nat Commun 2025, 16:5178",verified_rcsb,RCSB 条目页 + 论文 cryo-EM 统计表,c3_s1_ifp_reference;c3_s2_hard_case,本项目历史生产结构；自由自对接 4.30/4.31/4.88 A（柔性硫醚-乙酸臂），S2 中单列不定罪；晶体最短 O-Arg477 N = 6.7027 A
+9DKC,URAT1,inward-open,TD-3,A1A45,2.55,"Suo, Fedor & Lee, Nat Commun 2025, 16:5178",verified_rcsb,RCSB 条目页直接读取,c3_s1_ifp_reference;c3_s2_primary_judge;c3_s5_chemotype_template,四联中分辨率最高；化学型 = 4-溴萘基 + 咪唑并吡啶硫醚 + a,a-二甲基羧酸，作副池模板
+9IRY,URAT1,inward-facing,verinurad,,3.0-3.3,"Guo et al., Nat Commun 2025, 16:1512",verified_rcsb_title,RCSB 检索标题,c3_s1_ifp_reference;c3_s2_crossdock,突变体依赖 R477(9x) / F241(5x) / D389 / S35，F449 不敏感——S1 判别性检验的关键对照
+9IRX,URAT1,inward-facing,benzbromarone,,3.0-3.3,"Guo et al., Nat Commun 2025, 16:1512",verified_rcsb_title,RCSB 检索标题,independent_construct_check,与 9DKA 互为跨构建体一致性检查
+9IRW,URAT1,outward-facing,urate,,3.0-3.3,"Guo et al., Nat Commun 2025, 16:1512",verified_rcsb_title,RCSB 检索标题,c3_s4_transported_reference,S0 需确认单条分辨率
+9JE1,URAT1,inward-open,dotinurad,,3.2-3.6,"Cell Discovery 2025, 11",verified_rcsb_title,RCSB 检索标题,c3_s1_ifp_reference;c3_s3b_external_positive,最强抑制剂 IC50 ~8 nM
+9B1K,URAT1,occluded,urate,URC,3.30,"Dai & Lee, Cell Res 2024, 34:776-787",verified_rcsb,RCSB 条目页直接读取,c3_s4_transported_reference,关联条目 9B1F-9B1O（含吡嗪酸）；分辨率优于 Cell Discovery occluded 4.7 A
+9B1L,URAT1,outward-facing,urate,,,"Dai & Lee, Cell Res 2024, 34:776-787",verified_rcsb_title,RCSB 检索标题,c3_s4_transported_reference,S0 需补分辨率
+TBD-pyrazinoate,URAT1,three functional sites,pyrazinoate,,,"Dai & Lee, Cell Res 2024, 34:776-787",needs_verification,论文述及吡嗪酸三位点，accession 待从 9B1F-9B1O 中定位,c3_s4_transported_reference,抗尿酸排泄反向阴离子，S4 的关键负参考
+9JDZ,URAT1,inward-open,lesinurad,,,repo docs/URAT1_THREE_STATE_DOCKING.md,needs_verification,仅仓库文档断言，未核验,optional,仓库曾有 9JDZ 误标事故，使用前必须逐字核验
+7ALV,NLRP3,NACHT closed inactive,NP3-146 + ADP,,2.8,"Dekker et al.",verified_rcsb,RCSB 条目页,c3_s5_dual_gate;c3_s6_md_control,自对接 RMSD 0.82/0.67/0.68 A；IFP Jaccard 参考 0.842；结构门正例 10/10, Fisher p=0.0134
+8EJ4,NLRP3,active oligomer (NBD rotated ~85-90 deg),ATP analogue,,,"literature",needs_verification,仅文献提及,optional,C2 遗留的构象锁思路，C3 中非必需
+7PZC,NLRP3,closed decamer,MCC950,,,"literature",needs_verification,仅文献提及,optional,闭合态旁证

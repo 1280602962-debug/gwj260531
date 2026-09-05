@@ -1,0 +1,39 @@
+# Server GPU config — protocol Π* = P2 (gnina CNNaffinity)
+# Same centers/sizes/exhaustiveness as local production; no_gpu: false for NVIDIA.
+
+default_engine: gnina
+
+gnina:
+  binary: /home/hww/gwj/NLRP3_URAT1/software/gnina_5090.sh
+  no_gpu: false
+  exhaustiveness: 32
+  num_modes: 1
+  cpu: 4
+  cnn_scoring: rescore
+  score_mode: cnnaff
+  extra_args: []
+
+receptor_prep:
+  remove_waters: true
+  remove_hetatm: true
+  protonate_ph: 7.4
+  chain: A
+
+targets:
+  urat1_9dkb:
+    pdb_id: 9DKB
+    structure_file: data/structures/pdb/9DKB.cif
+    ligand_resn: A1AIL
+    center: [99.966, 102.967, 105.699]
+    size: [22, 22, 22]
+    reference: "Suo et al., Nat Commun 2025; inward-open URAT1 + lesinurad"
+    prepared_receptor: data/structures/prepared/9DKB_receptor.pdbqt
+
+  nlrp3_7alv:
+    pdb_id: 7ALV
+    structure_file: data/structures/pdb/7ALV.pdb
+    ligand_resn: RM5
+    center: [16.756, 35.449, 125.714]
+    size: [20, 20, 20]
+    reference: "Dekker et al., J Mol Biol 2021; NACHT sulfonylurea-class pocket"
+    prepared_receptor: data/structures/prepared/7ALV_receptor.pdbqt

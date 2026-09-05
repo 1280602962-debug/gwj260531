@@ -1,0 +1,125 @@
+{
+  "curated": {
+    "OAT1": {
+      "n_compounds": 63,
+      "n_scaffolds": 40,
+      "pactivity_mean": 5.133412698412698,
+      "pactivity_std": 0.7239624530212437,
+      "n_pactivity_ge_6": 8,
+      "source_chembl_id": "CHEMBL1641347",
+      "overlap_urat1_smiles": 13
+    },
+    "OAT3": {
+      "n_compounds": 41,
+      "n_scaffolds": 30,
+      "pactivity_mean": 5.351829268292683,
+      "pactivity_std": 0.7681111215976183,
+      "n_pactivity_ge_6": 7,
+      "source_chembl_id": "CHEMBL1641348",
+      "overlap_urat1_smiles": 5
+    },
+    "OCT1": {
+      "n_compounds": 108,
+      "n_scaffolds": 73,
+      "pactivity_mean": 4.782638888888889,
+      "pactivity_std": 0.48563353858709446,
+      "n_pactivity_ge_6": 3,
+      "source_chembl_id": "CHEMBL5685",
+      "overlap_urat1_smiles": 0
+    },
+    "OCT2": {
+      "n_compounds": 105,
+      "n_scaffolds": 56,
+      "pactivity_mean": 5.327523809523811,
+      "pactivity_std": 0.8651331388782584,
+      "n_pactivity_ge_6": 24,
+      "source_chembl_id": "CHEMBL1743122",
+      "overlap_urat1_smiles": 0
+    }
+  },
+  "oat_combined_n": 73,
+  "oat_combined_overlap_urat1": 13,
+  "raw": {
+    "OAT1": {
+      "source_file": "/home/ubuntu/.cursor/projects/workspace/uploads/OAT1_ALL_2a82.csv",
+      "n_rows": 280,
+      "target_ids_in_file": [
+        "CHEMBL1641347"
+      ],
+      "standard_type_counts": {
+        "Activity": 87,
+        "IC50": 76,
+        "Km": 35,
+        "Ki": 30,
+        "Inhibition": 29,
+        "Ratio": 8,
+        "Vmax": 4,
+        "Drug uptake": 3,
+        "Drug transport": 2,
+        "Jmax": 2,
+        "FC": 2,
+        "Ratio IC50": 1,
+        "INH": 1
+      },
+      "inhibition_ic50_ki_ec50_rows": 98,
+      "inhibition_unique_smiles": 76,
+      "ic50_equals_smiles": 60
+    },
+    "OAT3": {
+      "source_file": "/home/ubuntu/.cursor/projects/workspace/uploads/OAT3_ALL_aa9d.csv",
+      "n_rows": 254,
+      "target_ids_in_file": [
+        "CHEMBL1641348"
+      ],
+      "standard_type_counts": {
+        "Activity": 71,
+        "Inhibition": 61,
+        "IC50": 36,
+        "Ki": 34,
+        "Km": 22,
+        "Ratio": 16,
+        "Vmax": 4,
+        "Drug uptake": 3,
+        "Drug transport": 2,
+        "FC": 2,
+        "Jmax": 2,
+        "INH": 1
+      },
+      "inhibition_ic50_ki_ec50_rows": 61,
+      "inhibition_unique_smiles": 51,
+      "ic50_equals_smiles": 26
+    },
+    "OCT1": {
+      "source_file": "/workspace/URAT1_NLRP3_DualTarget_AIDD_Project/data/raw/auxiliary/OCT1_chembl_cf12.csv",
+      "n_rows": 156,
+      "target_ids_in_file": [
+        "CHEMBL5685"
+      ],
+      "standard_type_counts": {
+        "IC50": 156
+      },
+      "inhibition_ic50_ki_ec50_rows": 142,
+      "inhibition_unique_smiles": 125,
+      "ic50_equals_smiles": 125
+    },
+    "OCT2": {
+      "source_file": "/workspace/URAT1_NLRP3_DualTarget_AIDD_Project/data/raw/auxiliary/OCT2_chembl_cf12.csv",
+      "n_rows": 160,
+      "target_ids_in_file": [
+        "CHEMBL1743122"
+      ],
+      "standard_type_counts": {
+        "IC50": 160
+      },
+      "inhibition_ic50_ki_ec50_rows": 153,
+      "inhibition_unique_smiles": 117,
+      "ic50_equals_smiles": 117
+    }
+  },
+  "notes": [
+    "OAT curation uses standard_types IC50/Ki/EC50 only; Km/Activity/%Inhibition excluded.",
+    "pChEMBL missing values filled from Standard Value when units are nM or \u00b5M.",
+    "ChEMBL human OAT1/OAT3 total bioactivities ~280/254 \u2014 curated scale often <150 combined.",
+    "OCT exports may use legacy ChEMBL target IDs CHEMBL5685 / CHEMBL1743122."
+  ]
+}

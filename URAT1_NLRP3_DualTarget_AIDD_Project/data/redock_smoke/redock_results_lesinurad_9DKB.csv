@@ -1,0 +1,13 @@
+protocol_id,engine,score_readout,compound,pdb,exhaustiveness,num_modes,top1_score,score_direction,top1_rmsd_A,best_ensemble_rmsd_A,rtmscore_selected_rmsd_A,sampling_ok_le2,scoring_ok_top1_le2,notes,date,operator
+P1,vina,vina_affinity,lesinurad,9DKB,8,9,-9.0050,lower_better,0.886,0.886,,True,True,top1_mode=1,2026-07-24,auto
+P2,gnina,CNNaffinity,lesinurad,9DKB,8,9,7.2734,higher_better,4.824,0.810,,True,False,top1_mode=1; cnn_scoring=rescore,2026-07-24,auto
+P3,gnina,gnina_affinity,lesinurad,9DKB,8,9,-9.3210,lower_better,0.810,0.810,,True,True,top1_mode=7; cnn_scoring=rescore,2026-07-24,auto
+P0,gnina,CNNscore,lesinurad,9DKB,8,9,0.9340,higher_better,4.824,0.810,,True,False,top1_mode=1; cnn_scoring=rescore,2026-07-24,auto
+P4,vina,RTMScore,lesinurad,9DKB,8,9,29.4757,higher_better,2.612,0.886,2.612,True,False,top1_mode=4; rtm_model1,2026-07-24,auto
+P5,gnina,RTMScore,lesinurad,9DKB,8,9,33.9145,higher_better,4.566,0.810,4.566,True,False,top1_mode=8; rtm_model1; cnn_scoring=rescore,2026-07-24,auto
+P1,vina,vina_affinity,lesinurad,9DKB,32,9,-9.0030,lower_better,0.856,0.856,,True,True,top1_mode=1,2026-07-24,auto
+P2,gnina,CNNaffinity,lesinurad,9DKB,32,9,7.4444,higher_better,4.163,0.994,,True,False,top1_mode=1; cnn_scoring=rescore,2026-07-24,auto
+P3,gnina,gnina_affinity,lesinurad,9DKB,32,9,-9.1479,lower_better,5.693,0.994,,True,False,top1_mode=2; cnn_scoring=rescore,2026-07-24,auto
+P0,gnina,CNNscore,lesinurad,9DKB,32,9,0.9582,higher_better,4.163,0.994,,True,False,top1_mode=1; cnn_scoring=rescore,2026-07-24,auto
+P4,vina,RTMScore,lesinurad,9DKB,32,9,29.1470,higher_better,0.856,0.856,0.856,True,True,top1_mode=1; rtm_model1,2026-07-24,auto
+P5,gnina,RTMScore,lesinurad,9DKB,32,9,33.1466,higher_better,0.994,0.994,0.994,True,True,top1_mode=6; rtm_model1; cnn_scoring=rescore,2026-07-24,auto

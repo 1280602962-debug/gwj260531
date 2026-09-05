@@ -1,0 +1,65 @@
+# Open-source docking (protocol comparison / redock smoke tests).
+# Production ranking: config/docking_production_p2.yaml (gnina CNNaffinity).
+# Do not mix these scores with historical Glide tables or experimental Ki.
+
+default_engine: vina
+
+vina:
+  binary: vina  # or absolute path, e.g. /opt/vina/vina_1.2.5_linux_x86_64
+  exhaustiveness: 32
+  num_modes: 9
+  energy_range: 3.0
+  cpu: 1
+
+smina:
+  binary: smina.static
+  exhaustiveness: 32
+  num_modes: 9
+  custom_scoring: vinardo  # optional: vinardo | default
+
+gnina:
+  binary: gnina  # or tools/gnina after setup_gnina_wsl_cpu.sh
+  no_gpu: true       # WSL without NVIDIA: must be true
+  exhaustiveness: 32
+  num_modes: 1
+  cpu: 2
+  cnn_scoring: rescore  # none | rescore | refinement | all
+  score_mode: affinity  # affinity (kcal/mol, lower=better) | cnnaff
+  extra_args: []
+
+receptor_prep:
+  remove_waters: true
+  remove_hetatm: true
+  protonate_ph: 7.4
+  chain: A
+
+targets:
+  urat1_9dkb:
+    pdb_id: 9DKB
+    structure_file: data/structures/pdb/9DKB.cif
+    ligand_resn: A1AIL
+    center: [99.966, 102.967, 105.699]
+    size: [22, 22, 22]
+    reference: "Suo et al., Nat Commun 2025; inward-open URAT1 + lesinurad"
+    prepared_receptor: data/structures/prepared/9DKB_receptor.pdbqt
+
+  nlrp3_7alv:
+    pdb_id: 7ALV
+    structure_file: data/structures/pdb/7ALV.pdb
+    ligand_resn: RM5
+    center: [16.756, 35.449, 125.714]
+    size: [20, 20, 20]
+    reference: "Dekker et al., J Mol Biol 2021; NACHT sulfonylurea-class pocket"
+    prepared_receptor: data/structures/prepared/7ALV_receptor.pdbqt
+
+benchmark_redock:
+  urat1:
+    - name: lesinurad
+      smiles: "O=C(O)CSc1nnc(Br)n1-c1ccc(C2CC2)c2ccccc12"
+    - name: benzbromarone
+      smiles: "CCc1oc2ccccc2c1C(=O)c1cc(Br)c(O)c(Br)c1"
+    - name: dotinurad
+      smiles: "O=C(c1cc(Cl)c(O)c(Cl)c1)N1CS(=O)(=O)c2ccccc21"
+  nlrp3:
+    - name: MCC950
+      smiles: "CC(C)(O)c1coc(S(=O)(=O)NC(=O)Nc2c3c(cc4c2CCC4)CCC3)c1"

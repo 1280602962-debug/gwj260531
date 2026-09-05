@@ -1,0 +1,40 @@
+{
+  "campaign": "C1",
+  "amendment": "A1",
+  "timestamp_note": "2026-08-26 path A accepted by user",
+  "rank_track": {
+    "status": "FAIL",
+    "reason": "free-dock CNNscore-selected RMSD > 2.0 on all seeds (A1 Arg amend does not reopen Rank)",
+    "lesinurad_rmsd_selected": {
+      "42": 4.297886016209987,
+      "43": 4.311697896420853,
+      "44": 4.878339398982675
+    },
+    "allow_L3_full_decoy": false
+  },
+  "acid_track": {
+    "status": "OPEN",
+    "amendment": "A1_crystal_relative",
+    "urat1_acid_arg477_le_A": 7.7027,
+    "crystal_min_O_Arg477_N_A": 6.7027,
+    "lesinurad_local_only_pass_A1": {
+      "42": true,
+      "43": true,
+      "44": true
+    },
+    "lesinurad_local_only_all_pass": true,
+    "NP3_146_selfdock_pass": true,
+    "claim_language": "acid-pose dual-node hypotheses (not docking-rank activity retrieval)",
+    "exclude_default": [
+      "VECABRUTINIB"
+    ],
+    "clinical_pool": "data/campaigns/c1/07_clinical_dock/acid_pool/acid_clinical_pool.csv"
+  },
+  "frozen_p2": "negative_baseline_only_do_not_overwrite",
+  "next_ops": [
+    "Prepare acid clinical pool PDBQTs (pH 7.4 carboxylate)",
+    "Dock acids @9DKB+7ALV with num_modes=9; evaluate Arg gate + pocket QC (no percentiles)",
+    "Nominate 2 primary + <=3 backup acid-pose hypotheses",
+    "MD only after shortlist freeze; no Vecabrutinib URAT1 membrane unless Rank reopened"
+  ]
+}

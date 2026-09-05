@@ -1,0 +1,16 @@
+results/
+data/libraries/
+*.pyc
+__pycache__/
+.venv/
+*.log
+
+# P2 funnel scores stay local (results/). Do not re-commit commercial docking exports.
+# Downloaded docking binaries (see scripts/setup_gnina_wsl_cpu.sh)
+tools/gnina
+tools/vina
+
+# Keep full docking export (including logs) under version control
+!docking_export_20260820/
+!docking_export_20260820/**
+!docking_export_20260820/**/*.log

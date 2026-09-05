@@ -1,0 +1,235 @@
+{
+  "framework": "asymmetric_dual_evidence",
+  "urat1_backtest": {
+    "benchmarks": [
+      {
+        "compound": "lesinurad",
+        "role": "must_recover",
+        "canonical_smiles": "O=C(O)CSc1nnc(Br)n1-c1ccc(C2CC2)c2ccccc12",
+        "in_training_set": false,
+        "max_tanimoto_to_train": 0.689,
+        "in_applicability_domain": true,
+        "y_true_pActivity": null,
+        "literature_pActivity": 7.0,
+        "y_pred": 5.642,
+        "interval_lo": 4.724,
+        "interval_hi": 6.559,
+        "percentile_vs_train": 29.6,
+        "predicted_active_ge6": false,
+        "conformal_lower_ge6": false,
+        "within_1log_of_literature": false,
+        "binary_pass": false
+      },
+      {
+        "compound": "benzbromarone",
+        "role": "must_recover",
+        "canonical_smiles": "CCc1oc2ccccc2c1C(=O)c1cc(Br)c(O)c(Br)c1",
+        "in_training_set": false,
+        "max_tanimoto_to_train": 0.75,
+        "in_applicability_domain": true,
+        "y_true_pActivity": null,
+        "literature_pActivity": 7.5,
+        "y_pred": 6.559,
+        "interval_lo": 5.642,
+        "interval_hi": 7.476,
+        "percentile_vs_train": 60.7,
+        "predicted_active_ge6": true,
+        "conformal_lower_ge6": false,
+        "within_1log_of_literature": true,
+        "binary_pass": true
+      },
+      {
+        "compound": "verinurad",
+        "role": "must_recover",
+        "canonical_smiles": "CC(C)(Sc1ccncc1-c1ccc(C#N)c2ccccc12)C(=O)O",
+        "in_training_set": true,
+        "max_tanimoto_to_train": 1.0,
+        "in_applicability_domain": true,
+        "y_true_pActivity": 7.6,
+        "literature_pActivity": 8.0,
+        "y_pred": 7.083,
+        "interval_lo": 6.166,
+        "interval_hi": 8.001,
+        "percentile_vs_train": 84.9,
+        "predicted_active_ge6": true,
+        "conformal_lower_ge6": true,
+        "within_1log_of_literature": true,
+        "binary_pass": true
+      },
+      {
+        "compound": "dotinurad",
+        "role": "must_recover",
+        "canonical_smiles": "O=C(c1cc(Cl)c(O)c(Cl)c1)N1CS(=O)(=O)c2ccccc21",
+        "in_training_set": false,
+        "max_tanimoto_to_train": 0.837,
+        "in_applicability_domain": true,
+        "y_true_pActivity": null,
+        "literature_pActivity": 8.2,
+        "y_pred": 5.071,
+        "interval_lo": 4.154,
+        "interval_hi": 5.989,
+        "percentile_vs_train": 9.5,
+        "predicted_active_ge6": false,
+        "conformal_lower_ge6": false,
+        "within_1log_of_literature": false,
+        "binary_pass": false
+      },
+      {
+        "compound": "allopurinol",
+        "role": "negative_control",
+        "canonical_smiles": "Cn1cnc2c(O)ncnc21",
+        "in_training_set": false,
+        "max_tanimoto_to_train": 0.22,
+        "in_applicability_domain": false,
+        "y_true_pActivity": null,
+        "literature_pActivity": null,
+        "y_pred": 5.416,
+        "interval_lo": 4.499,
+        "interval_hi": 6.333,
+        "percentile_vs_train": 18.1,
+        "predicted_active_ge6": false,
+        "conformal_lower_ge6": false,
+        "within_1log_of_literature": null,
+        "binary_pass": true
+      }
+    ],
+    "must_recover_binary_pass": 2,
+    "must_recover_count": 4,
+    "in_training_must_pass": 1,
+    "in_training_must_count": 1,
+    "novel_must_pass": 1,
+    "novel_must_count": 3,
+    "pass_strict_top20pct": false,
+    "pass_binary": false
+  },
+  "nlrp3_backtest": {
+    "benchmarks": [
+      {
+        "compound": "MCC950",
+        "role": "must_recover",
+        "canonical_smiles": "CC(C)(O)c1coc(S(=O)(=O)NC(=O)Nc2c3c(cc4c2CCC4)CCC3)c1",
+        "in_training_set": true,
+        "max_tanimoto_to_train": 1.0,
+        "in_applicability_domain": true,
+        "y_true_active": 1,
+        "p_active_ensemble": 1.0,
+        "percentile_vs_train": 58.5,
+        "predicted_active": true,
+        "binary_pass": true
+      },
+      {
+        "compound": "GDC-2394",
+        "role": "must_recover",
+        "canonical_smiles": "CN[C@@H]1COc2c(S(=O)(=O)NC(=O)Nc3c4c(cc5c3CCC5)CCC4)cnn2C1",
+        "in_training_set": true,
+        "max_tanimoto_to_train": 1.0,
+        "in_applicability_domain": true,
+        "y_true_active": 1,
+        "p_active_ensemble": 0.917,
+        "percentile_vs_train": 45.6,
+        "predicted_active": true,
+        "binary_pass": true
+      }
+    ],
+    "ensemble_assays": [
+      "CHEMBL5549264",
+      "CHEMBL5149834",
+      "CHEMBL5374758",
+      "CHEMBL6157329",
+      "CHEMBL5374759"
+    ],
+    "must_recover_binary_pass": 2,
+    "must_recover_count": 2,
+    "pass_binary": true,
+    "note": "High base rate of actives (~61%) makes percentile rank less informative than binary predicted_active."
+  },
+  "scaffold_overlap_check": [
+    {
+      "compound": "lesinurad",
+      "target": "URAT1",
+      "scaffold": "c1ccc2c(-n3cnnc3)ccc(C3CC3)c2c1",
+      "scaffold_in_urat1_train": true,
+      "scaffold_in_nlrp3_train": false
+    },
+    {
+      "compound": "benzbromarone",
+      "target": "URAT1",
+      "scaffold": "O=C(c1ccccc1)c1coc2ccccc12",
+      "scaffold_in_urat1_train": true,
+      "scaffold_in_nlrp3_train": false
+    },
+    {
+      "compound": "verinurad",
+      "target": "URAT1",
+      "scaffold": "c1cncc(-c2cccc3ccccc23)c1",
+      "scaffold_in_urat1_train": true,
+      "scaffold_in_nlrp3_train": false
+    },
+    {
+      "compound": "dotinurad",
+      "target": "URAT1",
+      "scaffold": "O=C(c1ccccc1)N1CS(=O)(=O)c2ccccc21",
+      "scaffold_in_urat1_train": true,
+      "scaffold_in_nlrp3_train": false
+    },
+    {
+      "compound": "MCC950",
+      "target": "NLRP3",
+      "scaffold": "O=C(Nc1c2c(cc3c1CCC3)CCC2)NS(=O)(=O)c1ccco1",
+      "scaffold_in_urat1_train": false,
+      "scaffold_in_nlrp3_train": true
+    },
+    {
+      "compound": "GDC-2394",
+      "target": "NLRP3",
+      "scaffold": "O=C(Nc1c2c(cc3c1CCC3)CCC2)NS(=O)(=O)c1cnn2c1OCCC2",
+      "scaffold_in_urat1_train": false,
+      "scaffold_in_nlrp3_train": true
+    },
+    {
+      "compound": "allopurinol",
+      "target": "URAT1",
+      "scaffold": "c1ncc2nc[nH]c2n1",
+      "scaffold_in_urat1_train": false,
+      "scaffold_in_nlrp3_train": false
+    }
+  ],
+  "overall_verdict": {
+    "verdict": "URAT1_NO_GO",
+    "summary": "NLRP3 model is screening-ready; URAT1 model fails strict CV and/or benchmark recovery. URAT1 library ranking must NOT rely on ML. Production URAT1 evidence is gnina P2 docking at 9DKB (inward-open).",
+    "cv_pass": {
+      "urat1": true,
+      "nlrp3": true
+    },
+    "benchmark_binary_pass": {
+      "urat1": false,
+      "nlrp3": true
+    }
+  },
+  "training_cv_summary": {
+    "urat1": {
+      "rmse": 0.6634725892592518,
+      "mae": 0.49847748712321566,
+      "r2": 0.5079205459521259,
+      "spearman": 0.7258124808529701,
+      "ef_10pct_p6": 1.70991731239274,
+      "ef_5pct_p7": 3.2930364086249555,
+      "roc_auc_p7": 0.8520835788068024,
+      "active_rate_p6": 0.5705596107055961,
+      "active_rate_p7": 0.2518248175182482,
+      "ef_p6_theoretical_max": 1.7526652452025586,
+      "mean_interval_width": 2.51048066552248,
+      "n_compounds": 822,
+      "oat_transfer": false,
+      "oat_pretrain_compounds": 0
+    },
+    "nlrp3": {
+      "auroc": 0.8934017784193573,
+      "auprc": 0.9143469018214805,
+      "ef_10pct": 1.5706359287488578,
+      "n_compounds": 513,
+      "n_records": 609,
+      "n_assays_used": 25
+    }
+  }
+}

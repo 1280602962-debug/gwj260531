@@ -1,0 +1,500 @@
+# campaign C5 — dual-node candidate publication lock
+# Route doc: docs/PROJECT_ROUTE_C5_DUAL_NODE_PUBLICATION.md
+# Supersedes C2/C3/C4 as the single active spine. C1 acid-track assets are inherited.
+# This file is the scientific pre-registration. It is NOT a drop-in --config for run_gnina_batch.py.
+# Engine yaml stays config/docking_c1.yaml (identical gnina parameters as C1).
+
+name: C5
+status: shortlist_frozen
+supersedes: [C2, C3, C4]
+inherits_from: C1
+journal_target: Molecular Diversity
+
+product_claim: >
+  putative URAT1-NLRP3 dual-node candidate hypotheses from clinical-stage acid
+  pharmacophores, with retrospectively calibrated gates on both arms.
+  Docking scores are never interpreted as affinity. No wet-lab validation.
+
+forbidden_claims:
+  - dual inhibitors
+  - validated / confirmed binder
+  - docking score as affinity or Ki
+  - NACHT pocket binder for pathway-only evidence
+  - selectivity claim from OAT1 counter-dock
+
+frozen_do_not_overwrite:
+  - data/repurposing/p2/
+  - data/campaigns/c1/07_clinical_dock/acid_dual_a1_frozen/
+  - data/si/
+  - data/campaigns/c1/05_metrics/acid_gate_retrospective_benchmark/
+
+rank_track:
+  status: closed
+  reason: lesinurad free-dock CNNscore-selected RMSD 4.30/4.31/4.88 A (seeds 42/43/44)
+  corroboration_2026-09-05: benzbromarone@9DKA CNNscore top1 pose_rmsd 3.585/3.603/3.595 A
+  allow_L3_full_decoy: false
+  role_in_paper: supplementary_limitation_only
+
+# Docking scores cannot rank URAT1 ligands in this campaign. Locked 2026-09-05.
+ranking_policy:
+  urat1_docking_score_ranking: false
+  meaning: >
+    GNINA search can recover the crystal basin (benzbromarone best-of-9 pose_rmsd
+    ~1.11 A) but CNNscore does not select it as Top-1. Therefore CNNscore /
+    CNNaffinity / CNN_VS must not be used as a URAT1 activity ranker.
+  allowed_priority_order:
+    - geometric_or_ifp_gate_pass_fail
+    - multi_seed_stability_3of3_then_2of3
+    - nlrp3_structural_or_qn_as_second_key_among_dual_passers
+    - chemistry_audit_flags
+  forbidden_as_urat1_ranker:
+    - cnnscore
+    - cnnaffinity
+    - cnn_vs
+    - mmgbsa_as_affinity
+    - retrain_urat1_regressor
+    - tanimoto_to_known_drugs_as_activity
+    - new_scoring_engine
+  do_not_open_a_new_ranking_track: true
+  summary_doc: docs/C5_RANKING_AND_NEXT_DOCKS.md
+  journal_comparison_after_md: docs/C5_JOURNAL_COMPARISON_MD_AFTER.md
+  next_docks:
+    w4_nlrp3_panel: {status: docked_131_ok_15_fail_scored_pass, n_jobs_new: 146, n_ok: 131, n_fail: 15}
+    w2_urat1_ifp: {status: evaluated_gate_pass_subset_of_a1, n_jobs_new: 0}
+    w1_remaining_29: {status: optional_si_only_not_an_unlock, n_jobs_new: 29}
+    next_compute: none_required_manuscript_next
+    shortlist_freeze: {status: frozen, n_jobs_new: 0, primary_n: 12, backup_n: 21}
+    presubmission_audit: {status: done_2026-09-05, dir: data/campaigns/c5/05_presubmission_audit/, doc: docs/C5_PRESUBMISSION_AUDIT.md}
+  upload_analysis: data/campaigns/c5/04_next/W4_W2_UPLOAD_ANALYSIS.md
+  shortlist_freeze_dir: data/campaigns/c5/04_shortlist_frozen/
+
+# ---------------------------------------------------------------- W1
+w1_urat1_crossdock:
+  purpose: pose-fidelity as a function of ligand flexibility (not ranking)
+  reference: "Suo/Fedor/Lee Nat. Commun. 2025, 16:5178 (verified via RCSB entry API: DOI 10.1038/s41467-025-60480-3, PubMed 40467597)"
+  environment_note: >
+    structure files ARE fetchable from this cloud sandbox (curl files.rcsb.org
+    works; rdkit/pandas/scipy installable via pip --user). Only the gnina
+    docking run itself requires the user's local machine (no gnina binary here).
+  receptors:
+    - {pdb: 9DK9, state: apo,  resolution_A: 2.68, ligand: null}
+    - {pdb: 9DKA, state: holo, resolution_A: 3.00, ligand: R75,   ligand_name: benzbromarone}
+    - {pdb: 9DKB, state: holo, resolution_A: 2.74, ligand: A1AIL, ligand_name: lesinurad}  # verified via RCSB chemcomp API; docs previously said LES (wrong)
+    - {pdb: 9DKC, state: holo, resolution_A: 2.55, ligand: A1A45, ligand_name: TD-3}
+  design: 3_crystal_ligands x 4_receptors x 3_seeds
+  n_jobs_total: 36
+  n_jobs_reusable: 4   # lesinurad@9DKB seeds 42/43/44 + benzbromarone@9DKB seed42
+  n_jobs_new: 32
+  worklist: docs/C5_DOCKING_WORKLIST.md
+  engine_yaml: config/docking_c5_w1.yaml   # identical gnina params; adds 9DK9/9DKA/9DKC boxes
+  box_provenance: data/campaigns/c5/00_verification/w1_box_centers.json
+  boxes:
+    - {pdb: 9DKB, center: [99.966, 102.967, 105.699], size: [22, 22, 22], rule: locked_production}
+    - {pdb: 9DKA, center: [107.167, 105.296, 107.628], size: [22, 22, 22], rule: R75_heavy_atom_centroid}
+    - {pdb: 9DKC, center: [102.345, 103.269, 107.416], size: [22, 22, 22], rule: A1A45_heavy_atom_centroid}
+    - {pdb: 9DK9, center: [100.693, 107.700, 105.653], size: [22, 22, 22], rule: transfer_9DKB_locked_after_chainA_CA_Kabsch}
+  seeds: [42, 43, 44]
+  report: [rmsd_top1, rmsd_top3, rmsd_best_of_9, acid_O_Arg477_N_min_A]
+  reference_ligand_rotatable_bonds_rdkit_verified:
+    lesinurad: 5
+    benzbromarone: 3
+    TD-3: 5   # same as lesinurad -- NOT a rigid control, shares the thioether-carboxylate swivel arm
+  pass_rule:
+    receptor_prep_sanity_control: benzbromarone   # the only ligand independent of the flexibility hypothesis
+    receptor_prep_sanity_top1_le_A: 2.0
+    td3_role: flexibility_hypothesis_replicate_not_contrast   # TD-3 failing CORROBORATES the flexibility explanation
+  on_fail_original_2026-09-04: stop_and_audit_receptor_prep    # do not proceed to W2 -- literal text of the pre-registered rule, kept verbatim for the record
+  gate_status: fail_cnnscore_top1_pose_rmsd_selection   # UNCHANGED. 2.0 A gate on Top-1 pose_rmsd remains FAILED. Not upgraded to pass.
+  audit_conclusion_2026-09-05:
+    fork: search_ok_selection_fail
+    prep_qc: pass
+    box_ok: true
+    leftover_R75: false
+    ligand_phenolate: true
+    cnnscore_top1_pose_rmsd_A: [3.585, 3.603, 3.595]
+    best_of_9_pose_rmsd_A: [1.110, 1.087, 1.109]
+    gate_top1_le_2A: false
+    do_not_use_GetBestRMS_overlay_to_pass_gate: >
+      RDKit GetBestRMS aligns (superposes) the ligand before scoring.
+      That is conformational similarity, not docking pose RMSD.
+      Independently recomputed pose_rmsd (no overlay) confirms Top-1 ~3.59 A
+      and best-of-9 ~1.11 A. The 2.0 A gate stays on pose_rmsd Top-1.
+    amendment_to_on_fail_original: >
+      The 2026-09-04 rule text said "on_fail: stop_and_audit_receptor_prep,
+      do not proceed to W2" without distinguishing WHY a fail could happen.
+      This audit fork (search_ok_selection_fail vs prep_bug vs
+      pocket_cannot_hold_crystal) was itself pre-registered BEFORE the
+      per-mode 9-pose breakdown was seen (only the Top-1 number was known
+      when the fork was written), so it is a disambiguation of an
+      underspecified rule, not a post-hoc relaxation of the numeric
+      threshold. The threshold itself (2.0 A, Top-1, pose_rmsd, no overlay)
+      is untouched and still fails.
+    w4_dependency_check: >
+      W4 (NLRP3 / 7ALV panel) has no scientific dependency on the URAT1
+      benzbromarone@9DKA gate -- different target, different receptor,
+      different self-dock control (NP3-146@7ALV, which already passed).
+      It was only sequenced after W1 for narrative/compute-ordering
+      convenience, not because the gate output feeds into it. Authorizing
+      W4 now is not an exception to the rule, it was never actually gated.
+    w2_scope_change: >
+      W2's original design anchored URAT1 IFP thresholds on "crystal
+      self-dock" results, implicitly assuming self-dock (GNINA search +
+      CNNscore Top-1 selection) reproduces the crystal pose, as it does for
+      NLRP3/NP3-146. That assumption is now falsified for URAT1 (search
+      finds the crystal basin at best-of-9 ~1.1 A, but CNNscore Top-1
+      selects a different, ~3.6 A pose). Fix: W2 anchors directly on the
+      DEPOSITED crystal ligand coordinates (R75/A1AIL/A1A45 as-is in the
+      PDB/CIF), never on a CNNscore-selected re-docked pose. This is a
+      strengthening of the anchor (removes a selection-step dependency
+      entirely), not a loosening of any pass/fail criterion.
+    next:
+      remaining_29: optional_si_only_not_an_unlock
+      w4: authorized_no_real_dependency
+      w2: authorized_crystal_coordinate_anchor_not_selfdock_selection
+      forbid: raise_threshold_or_declare_gate_pass_or_use_GetBestRMS_to_rescue_gate
+  gate_result_user_reported_2026-09-05:
+    ligand: benzbromarone
+    receptor: 9DKA
+    seeds: [42, 43, 44]
+    readout: CNNscore_top1_heavy_atom_rmsd_vs_crystal_R75
+    rmsd_A: [3.59, 3.60]   # user-reported range; deposit per-seed 9-mode tables before interpreting
+    threshold_A: 2.0
+    remaining_29_not_started: true
+    w4_not_started: true
+    w2_not_started: true
+    forbid_after_seeing_number:
+      - raise_threshold_to_4A
+      - treat_3p6_as_pass
+      - start_remaining_29_as_if_gate_passed
+      - start_w2_on_failed_selfdock_poses
+  audit_required_before_any_new_gnina:
+    on_existing_sdfs_zero_new_dock:
+      - per_seed_all_9_mode_rmsd_top1_top3min_bestof9
+      - confirm_box_was_9DKA_native_107.167_105.296_107.628_not_9DKB
+      - confirm_prepared_receptor_has_no_R75
+      - confirm_ligand_pdbqt_is_frozen_phenolate
+      - symmetry_corrected_heavy_atom_rmsd
+    diagnostic_gnina_only_if_audit_files_are_clean:
+      - phenol_vs_phenolate_seed42
+      - local_only_minimize_from_crystal_R75
+    after_audit:
+      prep_bug: fix_and_rerun_gate_3_seeds_only
+      search_ok_selection_fail: keep_gate_fail; w2_anchor_from_crystal_poses_not_selfdock; w4_may_start
+      pocket_cannot_hold_crystal: stop_urat1_free_dock_story; crystal_IFP_only; do_not_run_remaining_29
+  residue_numbering_hazard: >
+    data/campaigns/c1/01_ligand_prep/selfdock_refs/arg477_coords.json documents a
+    +/-1 numbering offset between literature residue numbers and the prepared
+    receptor PDBQT (Arg477 -> ARG A 476). Verify every key residue individually
+    in W2, do not bulk-copy literature numbering.
+
+# ---------------------------------------------------------------- W2
+w2_urat1_acid_anchor_ifp_gate:
+  purpose: make the URAT1 arm structurally symmetric to the NLRP3 arm
+  rationale: >
+    the current URAT1 gate is a single Arg477 distance; as the A2 rule it scores
+    OR ~= 0.97 (p = 1.0) on the retrospective acid benchmark and therefore
+    cannot discriminate activity. An IFP-based gate is calibrated instead.
+  key_residue_source: literature-anchored, NOT geometry-derived (mirrors how the
+    NLRP3 key-residue set was built from Dekker 2021, not tuned post hoc)
+  key_residues: [S35, M214, F241, F360, F364, F365, D389, K393, Q437, F449, R477, Q473]
+  key_residue_literature:
+    - "Tan et al. Sci. Rep. 2017, 7:665 (fold-change: verinurad, benzbromarone, sulfinpyrazone, probenecid)"
+    - "Guo/Chen Nat. Commun. 2025, 16:1512 (S35Q, R477N, D389A, F360T mutants)"
+    - "Dai & Lee Cell Res. 2024 (five-Phe cage F241/F360/F364/F365/F449)"
+  numbering_caveat: each residue must be individually re-verified against the
+    prepared-receptor PDBQT numbering (see w1 residue_numbering_hazard), not
+    bulk-copied from literature numbering.
+  gate_components: [acid_O_Arg477_N_min_A, heavy_atom_pocket_overlap, key_residue_ifp_jaccard, no_clash]
+  clash_A: 2.2
+  calibration:
+    benchmark: 228 carboxylate actives vs 64 carboxylate true decoys
+    source: data/campaigns/c1/05_metrics/acid_gate_retrospective_benchmark/
+    reuse_phase1_9mode_sdf: true     # no re-docking
+    script: scripts/run_acid_gate_benchmark.py
+    method: anchor_from_deposited_crystal_coordinates_do_not_grid_search
+    method_rationale: >
+      grid-searching thresholds to maximize OR/CI on the SAME 228-vs-64 set that
+      is then reported as the significance test is data peeping -- the same
+      methodological error the project already forbids elsewhere ("train ML on
+      decoy labels for protocol selection"). Thresholds must instead be anchored
+      to deposited crystal ligand coordinates (R75/A1AIL/A1A45 as-is in the
+      PDB/CIF), never to a CNNscore-selected re-docked pose. NLRP3's gate was
+      anchored below NP3-146 self-dock because that self-dock reproduces the
+      crystal (Top-1 RMSD 0.67-0.82 A). URAT1 self-dock selection fails, so the
+      crystal coordinates themselves are the anchor. Evaluate ONCE on the
+      benchmark, no re-tuning after seeing p.
+  pass_rule:
+    odds_ratio_ci95_low_gt: 1.0
+  on_fail:
+    fallback: intersect_A1_discriminative_and_A2_admissibility
+    a1_reference: {odds_ratio: 3.1758, ci95: [1.7728, 6.8088], fisher_p: 4.4959e-4}
+    forbid: inventing_new_metrics_to_replace_a_gate_that_already_works
+
+# ---------------------------------------------------------------- W3
+w3_tiering:
+  requires_no_new_docking: true
+  status: computed_2026-09-04   # no longer a placeholder
+  script: scripts/build_c5_tier_assignment.py
+  tier1:
+    - a1_rule_pass                # CNNscore top-1 pose is itself geometry-compatible
+    - a2_rule_pass                # a geometry-compatible pose exists (admissibility)
+    - dual_structural_in_ge_2_of_3_seeds
+    - chemistry_audit_pass
+  tier2:
+    - a2_rule_pass
+    - dual_structural_in_ge_2_of_3_seeds
+    - chemistry_audit_pass
+  tier3_excluded_from_table: loose_gate_only
+  inherited_counts:
+    a1_clinical_dual_keep_seed42: 24
+    a2_dual_loose_ge_2of3: 59
+    a2_dual_structural_ge_2of3: 54
+    a2_dual_structural_3of3: 38
+    eligible_after_chemistry_audit: 40
+  verified_output:
+    tier1_n: 13   # includes GSK-3008348 as structural-control-not-candidate -> 12 true candidates
+    tier2_n: 24   # includes 3 beta-lactam (cephalosporin) hits that must be excluded before use, see m4
+    tier1_overlap_with_old_hand_curated_shortlist: 5   # Lanifibranor, Admilparant, PF-03882845, PSI-697, GSK-3008348
+    pf_04620110_in_tier1_or_tier2: false   # mechanically excluded, consistent with m3
+    output_files:
+      - data/campaigns/c5/03_tiering/tier1_candidates.csv
+      - data/campaigns/c5/03_tiering/tier2_candidates.csv
+      - data/campaigns/c5/03_tiering/tier_summary.json
+  superseded_file: data/campaigns/c1/08_nomination/acid_shortlist_a2_competition.csv
+  superseded_reason: >
+    that file's primary/backup tiers were hardcoded ligand-name lists
+    (PRIMARY_TIER1/PRIMARY_TIER2/BACKUP_TIER in build_c1_acid_shortlist_a2.py),
+    not gate-derived. PF-04620110 was never actually selected by any structural
+    gate; it was a hardcoded name being scored, not screened.
+
+# ---------------------------------------------------------------- W4
+w4_nlrp3_panel_rebuild:
+  fixes:
+    m1_dedupe: >
+      CHEMBL3183703 == MCC950 (identical SMILES, verified by string comparison);
+      positives 10 -> 9. Fisher p recomputed with scipy.stats.fisher_exact:
+      0.01340 (n=10, frozen) -> 0.02703 (n=9, deduped). Still significant but
+      ~2x weaker; report 0.02703, not the frozen 0.01340.
+    m2_recalibrate: >
+      verified row-by-row on all 30 rows of nlrp3_panel_metrics_seed42.csv:
+      keep_nlrp3_pose == keep_nlrp3_structural on every single row. The
+      structural gate adds exactly zero discrimination on this panel (not
+      "approximately zero" -- literally identical pass/fail on every ligand).
+      Retune thresholds on the rebuilt (larger, harder) panel or demote to
+      "pose QC" in the text.
+  positives: 9   # NP3-146, MCC950, ChEMBL sulfonylurea actives (deduped)
+  exhaustiveness: 32   # do NOT reuse the seed42 panel SDFs that were docked at exhaustiveness=8
+  receptor: 7ALV
+  box: {center: [16.756, 35.449, 125.714], size: [20, 20, 20]}
+  background:
+    clinical_acids: 20
+    reuse_clinical_poses_exh32: true
+    missing_jobs: [{ligand: REP_07837, seeds: [43, 44], receptor: 7ALV}]
+    property_matched_decoys_min: 40
+    decoy_rule_max_morgan_tc_vs_nlrp3_actives_le: 0.5
+    decoy_source: data/benchmarks/urat1_true_decoy/true_decoys.csv
+    do_not_name_decoys_by_hand: true
+  n_jobs_new_min: 146   # 8 positives x 3 + 40 decoys x 3 + REP_07837 seeds 43/44
+  seeds: [42, 43, 44]
+  gate_components: [pocket_overlap, key_residue_ifp_jaccard, key_contacts_recovered, no_clash]
+  reference_thresholds_c1:
+    overlap_ge: 0.50
+    ifp_jaccard_ge: 0.50
+    key_contacts_ge: 5             # of 7
+  pass_rule:
+    structural_gate_specificity_gt_loose_gate: true
+    fisher_p_lt: 0.05
+    on_fail: report_as_pose_qc_not_structural_compatibility_gate
+  threshold_freeze: before_reading_clinical_names
+  script: scripts/run_nlrp3_structural_panel.py
+  scored_2026-09-05:
+    scorer: scripts/score_c5_w4_nlrp3_panel.py
+    jobs: {ok: 131, fail: 15, failed_decoys: [C5W4D_002, C5W4D_022, C5W4D_026, C5W4D_027, C5W4D_029]}
+    primary_seed42_positives_vs_decoys_n40:
+      loose: {tp: 9, fp: 15, fisher_p: 6.36e-4}
+      structural: {tp: 9, fp: 11, fisher_p: 8.18e-5}
+      structural_specificity_gt_loose: true
+      gate_pass: true
+    clinical_background_still_identical: true
+    note: >
+      M2 is fixed on property-matched decoys (structural rejects 4 extra decoys).
+      On the original 20 clinical acids, loose==structural still. Report both.
+
+# ---------------------------------------------------------------- M3
+m3_shortlist_correction:
+  root_cause_verified: >
+    deeper than initially assessed: the entire primary/backup tiering in the
+    superseded file was a hardcoded name list in build_c1_acid_shortlist_a2.py,
+    not a gate output. Fixed by discarding that script's tiering logic and
+    using scripts/build_c5_tier_assignment.py (pure set intersection, no names).
+  primary_requires: dual_structural_3of3_or_documented_2of3
+  demote_from_primary:
+    - name: PF-04620110
+      reason: NLRP3 structural gate fails on all 3 seeds (overlap 0.48, IFP 0.45, contacts 4/7)
+      allowed_language: pathway-supported, pocket-accessible only; not NP3-146-mode recovery
+      verified: mechanically absent from both tier1 and tier2 in the rebuilt assignment
+  structural_control_not_candidate:
+    - GSK-3008348 FREE BASE
+  never_in_candidate_table:
+    - VECABRUTINIB
+    - ZELENIRSTAT
+    - DEUCRICTIBANT
+    - PRALICIGUAT
+    - MLN-0415
+    - BI 653048
+
+# ---------------------------------------------------------------- M4 (found during 2026-09-04 verification)
+m4_chemistry_soft_exclude_is_a_namelist:
+  finding: >
+    SOFT_EXCLUDE_SUBSTR in build_c1_acid_shortlist_a2.py hardcodes 3 specific
+    cephalosporin names (CEFCANEL, CEFAZAFLUR, CEFOVECIN), not a beta-lactam
+    substructure filter. 3 other cephalosporins (Cefetrizole, Cefazedone,
+    Cefoxazole) slipped into tier2 (verified via beta-lactam SMARTS).
+  fix: use a structural filter, not a name list
+  smarts: "[#6]1[#6][#7][#6]1=O"
+  implemented_in: scripts/build_c5_tier_assignment.py (beta_lactam_flag column)
+  action_required: exclude beta_lactam_flag==true rows before using tier2 as
+    W5 backup MD candidates or reporting tier2 in the manuscript
+  applied_in_shortlist_freeze: true   # 3 cephalosporins dropped from reportable backup
+
+# ------------------------------------------------- screening validity disclosures (must appear in text)
+screening_validity_disclosures:
+  audit_doc: docs/C5_SCREENING_AUDIT_AND_MD_PICK.md
+  recomputed_2026-09-05: true
+  benchmark_prevalence: 0.781    # 228 actives / 292 -> PPV is prevalence-inflated, do not headline PPV
+  a1_gate:
+    sensitivity: 0.447
+    specificity: 0.797
+    likelihood_ratio_pos: 2.20   # weak-to-moderate enrichment, not a discovery ranker
+    ppv_gain_over_prior: 0.106
+  a2_gate:
+    likelihood_ratio_pos: 1.00   # no discrimination
+    consequence: tier2_backup_is_essentially_unfiltered_on_the_urat1_arm
+    forbid_language: calling_backup_21_second_best_candidates
+  known_drug_recall_failure:     # the single most important disclosure
+    lesinurad_arg_A: 14.11
+    verinurad_arg_A: 12.30
+    puliginurad_arg_A: 14.55
+    all_fail_a1_threshold_7.7027: true
+    cause: cnnscore_top1_selection_fail_inherited_by_a1
+    honest_reading: >
+      the 12 primary names are clinical acids whose Top-1 pose happens to be
+      acid-anchored, NOT molecules more likely to inhibit URAT1 than lesinurad.
+    forbid_language: candidates_outperform_known_uricosurics
+  nlrp3_arm:
+    qn_is_pool_prior_not_within_shortlist_discriminator: true   # pool built at qN>=0.5
+    label_source: cell_IL1_readout_not_NACHT_binding
+    m2_status: fixed_on_property_matched_decoys_still_unfixed_on_20_clinical_acids
+  no_prospective_validation: true
+  transportability_assumption: >
+    gates were calibrated on URAT1 carboxylate actives/decoys and then applied
+    to a clinical library that is mostly not URAT1 drugs.
+
+# ---------------------------------------------------------------- shortlist freeze (0 new docks)
+shortlist_freeze:
+  status: frozen_2026-09-05
+  script: scripts/freeze_c5_shortlist.py
+  membership: W3_mechanical_intersection_no_ifp_reshuffle
+  output_dir: data/campaigns/c5/04_shortlist_frozen
+  primary_n: 12
+  backup_n: 21
+  excluded:
+    - {name: GSK-3008348 FREE BASE, reason: structural_control_not_candidate}
+    - {name: CEFETRIZOLE, reason: beta_lactam}
+    - {name: CEFAZEDONE, reason: beta_lactam}
+    - {name: CEFOXAZOLE, reason: beta_lactam}
+  w2_ifp_annotation_only: true
+  primary_w2_ifp_ge_2of3_n: 8
+  do_not: promote_or_demote_by_ifp_or_cnnscore
+  names_doc: data/campaigns/c5/04_shortlist_frozen/SHORTLIST_FROZEN.md
+
+# ---------------------------------------------------------------- W5
+w5_md:
+  md_authorized: false
+  authorize_after: [w1, w2, w3, w4, m3, shortlist_freeze]
+  shortlist_freeze_complete: true   # freeze done; still do not start MD until explicit authorize
+  controls_always_included:
+    - {system: lesinurad_crystal_acid_pose, receptor: 9DKB, membrane: POPC}
+    - {system: NP3_146_cocrystal_pose,      receptor: 7ALV, membrane: none}
+  discovery_slots: 2-3             # from tier1 only
+  single_slot_preregistered_pick:  # recorded 2026-09-05 BEFORE any MD; md_authorized still false
+    molecule: PF-03882845
+    ligand_id: REP_07580
+    derivation: ranking_policy.allowed_priority_order_applied_mechanically
+    why: >
+      only primary-list molecule that is 3/3 on both arms AND has 7/7 NLRP3 key
+      contacts in all three seeds, qN=1.0, URAT1 acid-Arg477 3.24 A with 10/11
+      key contacts, and the highest QED (0.736) of the 3/3 subset.
+    urat1_node: structural_hypothesis_cyanoaryl_carboxylate_hydrophobic_anion_no_prior_urate_literature
+    nlrp3_node: pocket_geometry_compatible_plus_pathway_level_MR_literature_only
+    known_confound: >
+      MR antagonism suppresses NLRP3 output upstream (aldosterone-MR-ROS-NF-kB).
+      A direct NACHT-binding claim is NOT parsimonious and is forbidden. Same
+      trap that demoted PF-04620110. Disclose, do not resolve with MD.
+    weight_sensitivity:
+      urat1_arm_only: LANIFIBRANOR      # best URAT1 geometry, weaker NLRP3 arm
+      least_pathway_confound: [CAFICRESTAT, PSI-697]   # but weaker URAT1 IFP detail
+    falsification_experiments_not_done_here:
+      - cell_free_NACHT_binding_or_ATPase
+      - IL1b_in_MR_knockdown_macrophages
+      - HEK293_URAT1_urate_uptake_dose_response
+    audit_doc: docs/C5_SCREENING_AUDIT_AND_MD_PICK.md
+  replicas: 3
+  production_ns: 200
+  readouts_urat1: [acid_Arg477_saltbridge_occupancy_pct, key_contact_persistence_pct, ligand_rmsd]
+  readouts_nlrp3: [key_residue_ifp_persistence_pct, pocket_overlap_timeseries, ligand_rmsd]
+  mmgbsa: relative_within_pool_only_never_affinity
+  stop_rules:
+    urat1: control_loses_Arg477_or_Phe_cage -> do_not_interpret_urat1_side
+    nlrp3: NP3_146_drifts_out -> do_not_interpret_nlrp3_side
+  forbidden: writing_trajectory_numbers_before_trajectories_exist
+
+# ---------------------------------------------------------------- W6
+w6_oat1_counterscreen:
+  status: optional_recommended
+  role: exclusion_annotation_only
+  receptors:
+    - {ref: "Jeon Structure 2025", states: [apo, olmesartan, probenecid]}
+    - {ref: "Wu & Luo Sci. Adv. 2025", states: [cidofovir]}
+  calibration_reference: >
+    Taniguchi JPET 2019 same-assay matrix (dotinurad ~110x, benzbromarone 16.5x,
+    lesinurad 0.23x, probenecid 0.066x)
+  output: predicted_secretory_OAT_counter_target_liability
+  constraints:
+    - nlrp3_remains_second_node
+    - one_table_plus_one_discussion_paragraph
+    - no_selectivity_ranking_claim
+    - absent_from_title_and_abstract
+
+# ---------------------------------------------------------------- do-not-do
+do_not_do:
+  - reopen_rank_track_or_full_decoy_docking
+  - build_new_random_decoys_to_raise_EF
+  - retrain_urat1_regressor_or_oat_transfer_learning
+  - fep_rbfe_or_absolute_binding_free_energy
+  - c2_transport_cycle_delta_score_as_method_novelty
+  - generative_design_reinvent_gflownet
+  - network_pharmacology_or_herbal_extract_work    # out of journal scope
+  - conformal_selection_at_n_under_50
+  - dft_without_a_specific_electronic_question
+  - pursue_pareto_macrolides_as_leads
+  - train_ml_on_decoy_labels_for_protocol_selection
+  - open_new_urat1_ranking_engine_after_score_failure
+  - use_mmgbsa_or_cnn_to_rank_urat1
+  - treat_w1_remaining_29_as_unlock_for_w2_or_w4
+
+execution_order: [w1_gate_done_fail_selection, w4_docked_and_scored_pass, w2_evaluated_subset_of_a1, shortlist_frozen, rewrite_manuscript, w5, w6]
+execution_order_note: >
+  Shortlist is frozen (12 primary + 21 backup). No required GNINA remains.
+  Next is manuscript rewrite. Do not wait on the remaining 29 W1 jobs or the
+  15 failed W4 decoys. W5 stays unauthorized until explicitly flipped.
+  Summary: data/campaigns/c5/04_shortlist_frozen/SHORTLIST_FROZEN.md.
+
+stale_docs_to_rewrite_before_submission:
+  - docs/MANUSCRIPT.md
+  - docs/MD_RUN_PLAN.md
+  - docs/CONCLUSIONS_DRAFT_CN.md
+  - docs/DISCUSSION_DRAFT_CN.md
+  - docs/METHODS_DRAFT_CN.md
+
+output_root: data/campaigns/c5

@@ -1,0 +1,46 @@
+{
+  "status": "L2_COMPLETE",
+  "lesinurad_9DKB": {
+    "n_pass_cnnscore_selected": 0,
+    "per_seed_pass": {
+      "42": false,
+      "43": false,
+      "44": false
+    },
+    "rmsd_selected": {
+      "42": 4.297886016209987,
+      "43": 4.311697896420853,
+      "44": 4.878339398982675
+    },
+    "arg_selected": {
+      "42": 14.107409436179271,
+      "43": 14.12549942479911,
+      "44": 13.772946634616712
+    },
+    "n_poses_both_gates": 0,
+    "note": "CNNscore prefers high-score distant-acid poses (~14A). Near-native RMSD poses lack Arg<=4; Arg-close poses lack RMSD<=2. No free-dock pose passes both."
+  },
+  "NP3_146_7ALV": {
+    "n_pass_cnnscore_selected": 3,
+    "per_seed_pass": {
+      "42": true,
+      "43": true,
+      "44": true
+    },
+    "rmsd_selected": {
+      "42": 0.8208828930718026,
+      "43": 0.6675196238882132,
+      "44": 0.6829418615130404
+    },
+    "note": "PASS after neutralizing protonation for RMSD match. Initial null RMSD was a parser bug + bad ref SDF, not docking failure."
+  },
+  "gate_seed42": {
+    "lesinurad_pass": false,
+    "NP3_146_pass": true,
+    "allow_L3_rank_track": false,
+    "nlrp3_structure_exploratory_only": false,
+    "reason_L3_blocked": "lesinurad free self-dock failed CNNscore-selected RMSD/Arg gates on seed 42"
+  },
+  "campaign_next_step": "Arg477-constrained lesinurad self-dock (still L2). Do not open unique_docking_pool L3.",
+  "article_language_if_stop_here": "If constrained dock used for acid geometry: claim crystal acid-pose matching, NOT activity retrieval by docking ranks."
+}

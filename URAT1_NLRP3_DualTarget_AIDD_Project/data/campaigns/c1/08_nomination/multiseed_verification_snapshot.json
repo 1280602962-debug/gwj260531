@@ -1,0 +1,61 @@
+{
+  "verified_at": "2026-08-28",
+  "dock": {
+    "seed43": {
+      "urat1_sdf": 156,
+      "nlrp3_sdf": 155,
+      "urat1_keep": 120,
+      "nlrp3_loose": 77,
+      "dual_loose": 59,
+      "nlrp3_struct": 74,
+      "dual_struct": 57
+    },
+    "seed44": {
+      "urat1_sdf": 156,
+      "nlrp3_sdf": 155,
+      "urat1_keep": 121,
+      "nlrp3_loose": 83,
+      "dual_loose": 61,
+      "nlrp3_struct": 75,
+      "dual_struct": 53
+    },
+    "seed42": {
+      "urat1_keep": 121,
+      "nlrp3_loose": 78,
+      "dual_loose": 59,
+      "nlrp3_struct": 74,
+      "dual_struct": 56
+    },
+    "timeout_skip": [
+      {
+        "ligand_id": "REP_07837",
+        "target": "nlrp3_7alv",
+        "seeds": [
+          43,
+          44
+        ]
+      }
+    ]
+  },
+  "stability": {
+    "ge_2of3_dual_loose": 59,
+    "ge_2of3_dual_struct": 54,
+    "eligible_after_audit": 40
+  },
+  "shortlist": {
+    "md_authorized": false,
+    "primary": [
+      "PF-04620110",
+      "ADMILPARANT"
+    ],
+    "backup": [
+      "PSI-697",
+      "PF-03882845",
+      "LANIFIBRANOR"
+    ],
+    "control": [
+      "GSK-3008348 FREE BASE"
+    ],
+    "pf_struct_any_seed": false
+  }
+}
