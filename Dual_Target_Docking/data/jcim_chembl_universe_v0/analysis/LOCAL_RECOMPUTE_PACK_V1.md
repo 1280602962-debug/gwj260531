@@ -25,8 +25,9 @@ Holdout draw seed is **20260731**. No LigPrep. No seed 42.
 2. RTM `rtmscore_model1` best-of-9 on production 9-mode poses.
 3. GNINA 1.3.2 CNN `--cnn_scoring rescore --minimize` best-of-9 on the same poses.
 4. Independent GNINA search on **JAK1/TYK2 only**.
-5. Dump-gated tables if `chembl_37.db` is on that machine (max→median,
-   document year, document-cluster, document-blocked CV, leftover holdout IDs).
+5. *(done on cloud)* Dump-gated tables and BindingDB/PubChem count-only.
+   Holdout IDs are frozen. Do not re-draw. JAK1/JAK2 drawn panel is
+   20/20/18 (Murcko cap). See `local_track_b_v0/analysis/FIVE_PAIR_DUMP_GATED_V1.md`.
 
 **Do not do now**
 
@@ -104,24 +105,26 @@ partial output deleted. This is not a multi-engine bake-off.
 
 ---
 
-## D. Dump-gated (sqlite on the local machine)
+## D. Dump-gated and BindingDB (done)
+
+Already run against the frozen ChEMBL 37 dump (tarball SHA-256
+`33c203740555f96067710cdfc1c3c55d890660e5908ec5cbf5817492c290d281`).
+
+- Tables: `local_track_b_v0/tables/five_pair_dump_gated_v1/`
+- Verdict: `local_track_b_v0/analysis/FIVE_PAIR_DUMP_GATED_V1.md`
+- BindingDB/PubChem: `local_track_b_v0/tables/five_pair_crossdb_v1/`
+  and `local_track_b_v0/analysis/FIVE_PAIR_CROSSDB_V1.md`
+
+Holdout IDs are frozen (`HOLDOUT_SEED=20260731`). JAK1/JAK2 is 20/20/18
+because Murcko cap 3 blocked two leftover B-only ligands. Do not relax
+the cap. Do not re-draw. Do not hard-dock BindingDB.
+
+To reproduce only:
 
 ```bash
 python3 scripts/analyze_five_pair_dump_gated_v1.py --sqlite PATH_TO_chembl_37.db
+python3 scripts/five_pair_bindingdb_pubchem_count_v1.py --sqlite PATH_TO_chembl_37.db
 ```
-
-Uses the same ChEMBL 37 dump as the census (`STANDARD_OK` endpoints, max
-pChEMBL harvest). Writes under `local_track_b_v0/tables/five_pair_dump_gated_v1/`.
-
-Holdout IDs: unused-pool 20/20/20 after excluding the frozen main-panel
-`molecule_chembl_id`s, `HOLDOUT_SEED=20260731`, Murcko cap 3 / class.
-All five pairs meet the numeric gate. JAK1/JAK2 leftover B-only = 21
-(thin, margin=1) — still eligible; do not silently mark it like EGFR
-(EGFR leftover B ≈ 0). **Do not dock holdout until these CSVs exist.**
-
-BindingDB / PubChem count-only for the five new UniProts is a separate
-local fetch (no cache on this VM). Do not hard-dock BindingDB as external
-validation.
 
 ---
 
@@ -140,9 +143,9 @@ contrast as EGFR/HER2.
 
 ## F. Claim ceiling (this pack)
 
-Allowed: submit the jobs above; keep production Vina 20260727 as the
-primary five-pair readout; keep leftover holdout as counts until IDs
-are drawn.
+Allowed: submit the local docking/rescoring jobs above; keep production
+Vina 20260727 as the primary five-pair readout; leftover holdout IDs
+are already drawn (JAK1/JAK2 = 20/20/18).
 
 Forbidden: LigPrep or seed 42; expanding independent GNINA beyond
 JAK1/TYK2; treating JAK1/JAK2 leftover as ineligible; CTSK Vina;

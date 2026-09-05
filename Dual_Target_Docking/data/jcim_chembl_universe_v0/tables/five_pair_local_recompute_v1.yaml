@@ -77,7 +77,9 @@ independent_gnina_search:
   known_production_timeout: {ligand: J1TYK2_092, target: 3LXP}
 
 dump_gated:
+  status: done_on_cloud
   requires: ChEMBL 37 sqlite (chembl_37.db)
+  archive_sha256: 33c203740555f96067710cdfc1c3c55d890660e5908ec5cbf5817492c290d281
   script: scripts/analyze_five_pair_dump_gated_v1.py
   items:
     - max_to_median_relabel
@@ -90,8 +92,16 @@ dump_gated:
     seed: 20260731
     murcko_cap: 3
     exclude: main panel molecule_chembl_id
-    jak1_jak2_note: leftover B-only = 21; eligible under 20/20/20, thin (margin=1)
-    do_not_dock_until_ids_frozen: true
+    ids_frozen: true
+    jak1_jak2_note: leftover B-only = 21; drawn 20/20/18 because Murcko cap 3; still eligible
+    do_not_redraw: true
+    do_not_relax_murcko_cap: true
+
+crossdb_count_only:
+  status: done_on_cloud
+  script: scripts/five_pair_bindingdb_pubchem_count_v1.py
+  rule: equal_only is the primary comparison
+  do_not_hard_dock_bindingdb: true
 
 pairs:
   - pair: F2/F10

@@ -12,4 +12,7 @@ Does **not** replace Table 2. Count three systems (coagulation, JAK, PPAR).
 
 Zero-dock stack on production Vina: `tables/five_pair_stack_v1/` and
 `analysis/FIVE_PAIR_STACK_V1.md` (Table-2-comparable non-stratified CIs).
+Dump-gated + BindingDB/PubChem count-only: `tables/five_pair_dump_gated_v1/`,
+`tables/five_pair_crossdb_v1/`, `analysis/FIVE_PAIR_DUMP_GATED_V1.md`,
+`analysis/FIVE_PAIR_CROSSDB_V1.md`. Holdout IDs frozen (JAK1/JAK2 = 20/20/18).
 Local docking / rescoring still to submit: `../analysis/LOCAL_RECOMPUTE_PACK_V1.md`.

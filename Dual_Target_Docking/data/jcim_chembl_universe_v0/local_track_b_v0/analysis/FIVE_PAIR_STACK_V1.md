@@ -14,24 +14,31 @@ Bootstrap for `summary_min` is the Table 2 estimand: ligand-level non-stratified
 | PPARG/PPARA | 32/31/32 | 0.6492 | 0.7061 | 0.6492 [0.5045, 0.7508] | 0.6853 | tpsa 0.6274 |
 | PPARA/PPARD | 32/32/32 | 0.6465 | 0.4463 | 0.4463 [0.2958, 0.5841] | 0.5647 | clogp 0.5635 |
 
-## Holdout leftover (counts only; IDs need sqlite)
+## Holdout leftover
 
-| pair | leftover D/A/B | 20/20/20 | thin |
+Counts matched the frozen panel summary. Member lists are now frozen
+(`HOLDOUT_SEED=20260731`; `tables/five_pair_dump_gated_v1/`). JAK1/JAK2
+drew **20/20/18** (Murcko cap 3 on leftover B = 21). See
+`FIVE_PAIR_DUMP_GATED_V1.md`.
+
+| pair | leftover D/A/B | drawn | thin |
 |---|---:|---:|---:|
-| F2/F10 | 312/76/245 | 1 | 0 |
-| JAK1/TYK2 | 1874/59/80 | 1 | 0 |
-| JAK1/JAK2 | 5953/76/21 | 1 | 1 |
-| PPARG/PPARA | 408/50/59 | 1 | 0 |
-| PPARA/PPARD | 187/50/68 | 1 | 0 |
+| F2/F10 | 312/76/245 | 20/20/20 | 0 |
+| JAK1/TYK2 | 1874/59/80 | 20/20/20 | 0 |
+| JAK1/JAK2 | 5953/76/21 | 20/20/18 | 1 |
+| PPARG/PPARA | 408/50/59 | 20/20/20 | 0 |
+| PPARA/PPARD | 187/50/68 | 20/20/20 | 0 |
 
-## Still blocked or local
+## Dump-gated and cross-DB (done on this VM)
 
-- **max_vs_median_pchembl** — `blocked_no_sqlite`: panel CSV stores one pChEMBL per end; repeat-record graph needs ChEMBL 37 sqlite
-- **document_year_split** — `blocked_no_sqlite`: no document.year on panels; report counts only after dump join; AUROC only if dual/A/B each n≥10 after 2018
-- **document_cluster_bootstrap** — `blocked_no_sqlite`: no document_id; scaffold-cluster bootstrap was computed instead
-- **document_blocked_cv** — `blocked_no_sqlite`: same missing document_id; ECFP4 used Bemis–Murcko GroupKFold
-- **bindingdb_pubchem_count_only** — `blocked_no_cache`: jcim_supply_crossdb_v0 caches only the original K=4 UniProts; five new pairs need a new count-only fetch (no Docker)
-- **holdout_panel_ids** — `blocked_no_sqlite`: leftover counts are known; 20/20/20 member lists need the dump + HOLDOUT_SEED=20260731
+- **max_vs_median_pchembl** — done; 1 class flip (CHEMBL121 on PPARA/PPARD)
+- **document_year_split** — done; earliest year; 2018 test n≥10 on JAK1/TYK2 and JAK1/JAK2 only; **not** packaged as external validation
+- **document_cluster_bootstrap** / **document_blocked_cv** — done
+- **bindingdb_pubchem_count_only** — done; equal_only does not flip the ≥50 gate; `FIVE_PAIR_CROSSDB_V1.md`
+- **holdout_panel_ids** — frozen; do not re-draw
+
+## Still local (user machine)
+
 - **five_seed_vina** — `local_recompute`: user will submit locally; seeds 20260727 + 20260811–20260814; see LOCAL_RECOMPUTE_PACK_V1.md
 - **rtm_best_of_9** — `local_recompute`: poses gitignored; regenerate 9 modes then rtmscore_model1
 - **gnina_cnn_rescore** — `local_recompute`: same poses; --cnn_scoring rescore --minimize
