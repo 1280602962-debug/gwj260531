@@ -108,3 +108,7 @@ Many historical dock/RTM/GNINA drivers still point at the original local workspa
 - Do not cite `pocket_matched_directional_v1.csv` or `PRIMARY_METRIC_V2.md` as Table 2.
 - Multi-seed Table S54: `analyze_multiseed_vina_v2.py`. `analyze_multiseed_vina_v1.py` uses a different Dual-versus-neither estimand and refuses to overwrite unless `--legacy` is passed.
 
+
+## Track B local Vina (five pairs)
+
+See `data/jcim_chembl_universe_v0/local_track_b_v0/analysis/TRACK_B_DIRECTIONAL_AUROC_V1.md`.
