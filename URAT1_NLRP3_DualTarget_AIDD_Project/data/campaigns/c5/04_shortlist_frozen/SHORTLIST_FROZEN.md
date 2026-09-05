@@ -6,6 +6,9 @@
 
 这些名字是 **putative dual-node 候选假说**，不是 dual inhibitors。对接分不是亲和力。没有湿实验。
 
+**筛选过程逐步审计 + 单槽 MD 分子预登记：`docs/C5_SCREENING_AUDIT_AND_MD_PICK.md`。**  
+读表前必看两条：A1 门 LR+ 只有 2.20，且**挡掉了同池中的 lesinurad / verinurad / puliginurad**；A2 门 LR+ = 1.00（无判别力），所以备份 21 个在 URAT1 侧基本等于未筛，**不得称"次优候选"**。
+
 ---
 
 ## 冻结规则（不再改名单）

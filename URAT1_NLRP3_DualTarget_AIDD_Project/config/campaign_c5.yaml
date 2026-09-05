@@ -355,6 +355,39 @@ m4_chemistry_soft_exclude_is_a_namelist:
     W5 backup MD candidates or reporting tier2 in the manuscript
   applied_in_shortlist_freeze: true   # 3 cephalosporins dropped from reportable backup
 
+# ------------------------------------------------- screening validity disclosures (must appear in text)
+screening_validity_disclosures:
+  audit_doc: docs/C5_SCREENING_AUDIT_AND_MD_PICK.md
+  recomputed_2026-09-05: true
+  benchmark_prevalence: 0.781    # 228 actives / 292 -> PPV is prevalence-inflated, do not headline PPV
+  a1_gate:
+    sensitivity: 0.447
+    specificity: 0.797
+    likelihood_ratio_pos: 2.20   # weak-to-moderate enrichment, not a discovery ranker
+    ppv_gain_over_prior: 0.106
+  a2_gate:
+    likelihood_ratio_pos: 1.00   # no discrimination
+    consequence: tier2_backup_is_essentially_unfiltered_on_the_urat1_arm
+    forbid_language: calling_backup_21_second_best_candidates
+  known_drug_recall_failure:     # the single most important disclosure
+    lesinurad_arg_A: 14.11
+    verinurad_arg_A: 12.30
+    puliginurad_arg_A: 14.55
+    all_fail_a1_threshold_7.7027: true
+    cause: cnnscore_top1_selection_fail_inherited_by_a1
+    honest_reading: >
+      the 12 primary names are clinical acids whose Top-1 pose happens to be
+      acid-anchored, NOT molecules more likely to inhibit URAT1 than lesinurad.
+    forbid_language: candidates_outperform_known_uricosurics
+  nlrp3_arm:
+    qn_is_pool_prior_not_within_shortlist_discriminator: true   # pool built at qN>=0.5
+    label_source: cell_IL1_readout_not_NACHT_binding
+    m2_status: fixed_on_property_matched_decoys_still_unfixed_on_20_clinical_acids
+  no_prospective_validation: true
+  transportability_assumption: >
+    gates were calibrated on URAT1 carboxylate actives/decoys and then applied
+    to a clinical library that is mostly not URAT1 drugs.
+
 # ---------------------------------------------------------------- shortlist freeze (0 new docks)
 shortlist_freeze:
   status: frozen_2026-09-05
@@ -382,6 +415,28 @@ w5_md:
     - {system: lesinurad_crystal_acid_pose, receptor: 9DKB, membrane: POPC}
     - {system: NP3_146_cocrystal_pose,      receptor: 7ALV, membrane: none}
   discovery_slots: 2-3             # from tier1 only
+  single_slot_preregistered_pick:  # recorded 2026-09-05 BEFORE any MD; md_authorized still false
+    molecule: PF-03882845
+    ligand_id: REP_07580
+    derivation: ranking_policy.allowed_priority_order_applied_mechanically
+    why: >
+      only primary-list molecule that is 3/3 on both arms AND has 7/7 NLRP3 key
+      contacts in all three seeds, qN=1.0, URAT1 acid-Arg477 3.24 A with 10/11
+      key contacts, and the highest QED (0.736) of the 3/3 subset.
+    urat1_node: structural_hypothesis_cyanoaryl_carboxylate_hydrophobic_anion_no_prior_urate_literature
+    nlrp3_node: pocket_geometry_compatible_plus_pathway_level_MR_literature_only
+    known_confound: >
+      MR antagonism suppresses NLRP3 output upstream (aldosterone-MR-ROS-NF-kB).
+      A direct NACHT-binding claim is NOT parsimonious and is forbidden. Same
+      trap that demoted PF-04620110. Disclose, do not resolve with MD.
+    weight_sensitivity:
+      urat1_arm_only: LANIFIBRANOR      # best URAT1 geometry, weaker NLRP3 arm
+      least_pathway_confound: [CAFICRESTAT, PSI-697]   # but weaker URAT1 IFP detail
+    falsification_experiments_not_done_here:
+      - cell_free_NACHT_binding_or_ATPase
+      - IL1b_in_MR_knockdown_macrophages
+      - HEK293_URAT1_urate_uptake_dose_response
+    audit_doc: docs/C5_SCREENING_AUDIT_AND_MD_PICK.md
   replicas: 3
   production_ns: 200
   readouts_urat1: [acid_Arg477_saltbridge_occupancy_pct, key_contact_persistence_pct, ligand_rmsd]
