@@ -25,4 +25,6 @@ Count **three systems** (coagulation, JAK, PPAR), not five pairs.
 | PPARG/PPARA | PPAR | 109 | 0.6492 | 0.7061 | 0.6492 [0.5039, 0.7393] |
 | PPARA/PPARD | PPAR | 110 | 0.6465 | 0.4463 | 0.4463 [0.2988, 0.5879] |
 
+Companion four-descriptor reference (same scored ligands): `analysis/TRACK_B_DESCRIPTOR_REFERENCE_V1.md`. Vina does not beat the best single descriptor by more than +0.022 on any pair.
+
 Artifacts: `tables/track_b_summary_min_v1.csv`, `tables/track_b_directional_auroc_v1.csv`, `tables/scores_vina_mode1_v1.csv`, `tables/job_status.csv`, `tables/layer3_cognate_rmsd_v1.csv`.
