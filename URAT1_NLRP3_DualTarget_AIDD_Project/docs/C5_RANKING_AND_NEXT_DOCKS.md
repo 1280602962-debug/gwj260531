@@ -48,6 +48,8 @@
 
 ---
 
+更完整的两刊对照（含 *JCAMD*、MD 做完之后还剩什么）：`docs/C5_JOURNAL_COMPARISON_MD_AFTER.md`。
+
 ## 3 近半年 *Molecular Diversity* 同行怎么排
 
 检索日 2026-09-05。对照的是路线文档点过的几篇，外加能核到方法的 2026 年虚筛文。

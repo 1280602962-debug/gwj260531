@@ -11,6 +11,9 @@ Names: `data/campaigns/c5/04_shortlist_frozen/SHORTLIST_FROZEN.md`.
 4. **Shortlist frozen**: 12 primary + 21 backup. No name shuffle by IFP.
    GSK-3008348 = control. Three cephalosporins dropped from reportable backup.
 
+Journal comparison (Mol. Divers. vs JCAMD, post-MD highlights/defects):
+`docs/C5_JOURNAL_COMPARISON_MD_AFTER.md`.
+
 ## Next (no required docking)
 
 1. Rewrite manuscript drafts (`stale_docs` in campaign yaml) using the frozen tables.
