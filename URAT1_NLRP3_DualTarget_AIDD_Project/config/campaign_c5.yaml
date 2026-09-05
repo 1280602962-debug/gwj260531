@@ -5,7 +5,7 @@
 # Engine yaml stays config/docking_c1.yaml (identical gnina parameters as C1).
 
 name: C5
-status: planned_gates_locked_before_new_names
+status: w1_gate_fail_selection_not_prep
 supersedes: [C2, C3, C4]
 inherits_from: C1
 journal_target: Molecular Diversity
@@ -70,7 +70,26 @@ w1_urat1_crossdock:
     receptor_prep_sanity_top1_le_A: 2.0
     td3_role: flexibility_hypothesis_replicate_not_contrast   # TD-3 failing CORROBORATES the flexibility explanation
   on_fail: stop_and_audit_receptor_prep    # do not proceed to W2
-  gate_status: failed_pending_audit
+  gate_status: fail_cnnscore_top1_pose_rmsd_selection
+  audit_conclusion_2026-09-05:
+    fork: search_ok_selection_fail
+    prep_qc: pass
+    box_ok: true
+    leftover_R75: false
+    ligand_phenolate: true
+    cnnscore_top1_pose_rmsd_A: [3.585, 3.603, 3.595]
+    best_of_9_pose_rmsd_A: [1.110, 1.087, 1.109]
+    gate_top1_le_2A: false
+    do_not_use_GetBestRMS_overlay_to_pass_gate: >
+      RDKit GetBestRMS aligns (superposes) the ligand before scoring.
+      That is conformational similarity, not docking pose RMSD.
+      Independently recomputed pose_rmsd (no overlay) confirms Top-1 ~3.59 A
+      and best-of-9 ~1.11 A. The 2.0 A gate stays on pose_rmsd Top-1.
+    next:
+      remaining_29: optional_si_only_not_an_unlock
+      w4: authorized
+      w2: authorize_crystal_pose_ifp_anchor
+      forbid: raise_threshold_or_declare_gate_pass
   gate_result_user_reported_2026-09-05:
     ligand: benzbromarone
     receptor: 9DKA

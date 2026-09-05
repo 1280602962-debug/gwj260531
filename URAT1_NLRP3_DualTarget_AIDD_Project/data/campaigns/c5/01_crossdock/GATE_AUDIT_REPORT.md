@@ -71,3 +71,11 @@
 - Gate runner used `pose_rmsd` → recorded `pass=false`. No Task2/3 started.
 
 Artifacts: `gate_audit_9mode_rmsd_dual.csv`, `gate_audit_summary_dual.csv`.
+
+## Independent reread (2026-09-05)
+
+`pose_rmsd` (no ligand overlay) was independently recomputed with `scripts/parse_c1_sdf_readouts.py` and matches the tables above: Top-1 ≈ 3.59 Å, best-of-9 ≈ 1.11 Å.
+
+**Do not use GetBestRMS to declare the 2.0 Å gate passed.** RDKit `GetBestRMS` superposes the probe onto the reference. That number is conformational similarity after alignment, not docking-pose RMSD in the receptor frame. The pre-registered gate stays on unaligned CNNscore Top-1 `pose_rmsd`.
+
+Conclusion: prep QC pass; search recovered the crystal basin; CNNscore selected the wrong pose. Same failure mode as lesinurad@9DKB. Next: authorize W4; run W2 from crystal-pose IFP anchors; remaining 29 jobs are SI-only.
