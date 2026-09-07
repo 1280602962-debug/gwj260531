@@ -149,5 +149,11 @@ are already drawn (JAK1/JAK2 = 20/20/18).
 
 Forbidden: LigPrep or seed 42; expanding independent GNINA beyond
 JAK1/TYK2; treating JAK1/JAK2 leftover as ineligible; CTSK Vina;
-PIK3CB re-dock; restocking Table 2 from these scores before the
-all-pairs stack (including local channels) is actually complete.
+PIK3CB re-dock; restocking Table 2 from these scores.
+
+Local A–E scores are uploaded (`ALLPAIRS_STACK_RUN_COMPLETE_V1.md`).
+Table-2-comparable channel statistics and the merged reading are in
+`local_track_b_v0/analysis/FIVE_PAIR_LOCAL_CHANNELS_V1.md` and
+`FIVE_PAIR_MERGED_V1.md`. Primary numbers remain Vina 20260727.
+Stack completeness is a precondition for a later 8-row Table 2 draft,
+not permission to restock today.

@@ -37,12 +37,9 @@ drew **20/20/18** (Murcko cap 3 on leftover B = 21). See
 - **bindingdb_pubchem_count_only** — done; equal_only does not flip the ≥50 gate; `FIVE_PAIR_CROSSDB_V1.md`
 - **holdout_panel_ids** — frozen; do not re-draw
 
-## Still local (user machine)
+## Local channels (scores uploaded; stats in this repo)
 
-- **five_seed_vina** — `local_recompute`: user will submit locally; seeds 20260727 + 20260811–20260814; see LOCAL_RECOMPUTE_PACK_V1.md
-- **rtm_best_of_9** — `local_recompute`: poses gitignored; regenerate 9 modes then rtmscore_model1
-- **gnina_cnn_rescore** — `local_recompute`: same poses; --cnn_scoring rescore --minimize
-- **independent_gnina_search** — `local_rule_subset`: JAK1/TYK2 only (EGFR-like formulation gap)
+Local A–E scores are in `local_track_b_v0/tables/` (`ALLPAIRS_STACK_RUN_COMPLETE_V1.md`). Table-2-comparable statistics are in `FIVE_PAIR_LOCAL_CHANNELS_V1.md` and the merged reading in `FIVE_PAIR_MERGED_V1.md`. Primary manuscript numbers remain production Vina 20260727. Does not restock Table 2.
 
 ## ECFP4 scaffold GroupKFold (docking increment)
 

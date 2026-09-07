@@ -755,7 +755,9 @@ def main() -> int:
         bullets.append(
             "- Wrong-pocket Δ CI excludes 0 on: "
             + ", ".join(f"{r['channel']} {r['pair']}" for r in wp_ex)
-            + "."
+            + ". Those are **same-pose rescores**, not independent docking. "
+            "Production Vina Δ CIs all include 0. Do not read rescore Δ as "
+            "pocket-geometry proof. `cnn_score` on F2/F10 is sensitivity only."
         )
 
     lines = [
@@ -788,14 +790,22 @@ def main() -> int:
             f"({sa.get('min_five_seed', '')}–{sa.get('max_five_seed', '')}) | "
             f"{cell(m)} | {cell(r)} | {cell(c)} | {cell(h)} | {gcell} |\n"
         )
+    channel_table = "".join(lines[lines.index(
+        "## Primary Vina (seed 20260727) vs local channels (`summary_min` [95% CI])\n\n"
+    ):])
     lines += [
         "\n## Completeness that matters\n\n",
-        "- Production / five-seed / RTM / CNN: both-end scores match the zero-dock ",
-        "stack (F2 107, JAK1/TYK2 109, JAK1/JAK2 110, PPARG 109, PPARA/PPARD 110).\n",
-        "- Independent GNINA JAK1/TYK2: 210/220 jobs ok; 4 ligands CG0-fail both ",
-        "ends + 1 timeout both ends are dropped (not imputed).\n",
-        "- Holdout: `HOF2F10_045` both-end timeout; `HOPGPA_001` missing 9V8H. ",
-        "JAK1/JAK2 remains 20/20/18.\n",
+        "- Production Vina / RTM / CNN / per-ligand five-seed median use the same ",
+        "both-end set as the zero-dock stack (F2 107, JAK1/TYK2 109, JAK1/JAK2 110, ",
+        "PPARG 109, PPARA/PPARD 110).\n",
+        "- Later Vina seeds recovered a few production misses (`F2F10_105/106`, ",
+        "`J1TYK2_092`, `PGPA_030`). Per-seed AUROCs are therefore not on an identical ",
+        "ligand set. The per-ligand median requires all five seeds and stays on the ",
+        "production intersection. Do not prefer a later seed because it scored more ligands.\n",
+        "- Independent GNINA JAK1/TYK2: 210/220 jobs ok; four CG0-fail ligands ",
+        "(`J1TYK2_033/034/039/065`) plus `J1TYK2_092` timeout are dropped (not imputed).\n",
+        "- Holdout: `HOF2F10_045` both-end timeout (dual; 19/20/20); `HOPGPA_001` ",
+        "missing 9V8H (A-only; 20/19/20). JAK1/JAK2 remains 20/20/18.\n",
         "- CNN `pair_hint` concatenates shared receptors; join is by ligand ID. ",
         f"Duplicate ligand+target rows: {aff_dups}.\n\n",
         "## What changes relative to production Vina\n\n",
@@ -846,9 +856,9 @@ def main() -> int:
         "## 4. Local score channels (this run)\n\n",
         "Source: `FIVE_PAIR_LOCAL_CHANNELS_V1.md` and ",
         "`tables/five_pair_local_channels_v1/`.\n\n",
+        channel_table,
+        "\n",
     ]
-    merged_md.append("".join(lines[lines.index("## Primary Vina (seed 20260727) vs local channels (`summary_min` [95% CI])\n\n"):
-                                    lines.index("## Completeness that matters\n\n")]))
     merged_md += [
         "## 5. What the channels do to the story\n\n",
     ]
