@@ -48,12 +48,52 @@ C = {
     "ink": "#222222",
 }
 
+# Historical four-pair order (v1/v2 SI). Do not use for the eight-row primary set.
 PAIR_ORDER = ["EGFR/HER2", "AChE/BChE", "PIK3CA/PIK3CB", "PIK3CA/mTOR"]
+# Eight-row primary set after PIK3CA/PIK3CB withdrawal + five-pair census completion.
+PRIMARY_PAIRS = [
+    "EGFR/HER2",
+    "AChE/BChE",
+    "PIK3CA/mTOR",
+    "F2/F10",
+    "JAK1/TYK2",
+    "JAK1/JAK2",
+    "PPARG/PPARA",
+    "PPARA/PPARD",
+]
+ORIGINAL_THREE = ["EGFR/HER2", "AChE/BChE", "PIK3CA/mTOR"]
+CENSUS_FIVE = ["F2/F10", "JAK1/TYK2", "JAK1/JAK2", "PPARG/PPARA", "PPARA/PPARD"]
+HOLDOUT_PAIRS = [
+    "AChE/BChE",
+    "PIK3CA/mTOR",
+    "F2/F10",
+    "JAK1/TYK2",
+    "JAK1/JAK2",
+    "PPARG/PPARA",
+    "PPARA/PPARD",
+]
 PAIR_SHORT = {
     "EGFR/HER2": "EGFR/HER2",
     "AChE/BChE": "AChE/BChE",
     "PIK3CA/PIK3CB": "PIK3CA/PIK3CB",
     "PIK3CA/mTOR": "PIK3CA/mTOR",
+    "F2/F10": "F2/F10",
+    "JAK1/TYK2": "JAK1/TYK2",
+    "JAK1/JAK2": "JAK1/JAK2",
+    "PPARG/PPARA": "PPARG/PPARA",
+    "PPARA/PPARD": "PPARA/PPARD",
+}
+# Okabe–Ito plus two extra colorblind-safe inks for eight pair traces.
+PAIR_COLOR = {
+    "EGFR/HER2": "#D55E00",
+    "AChE/BChE": "#009E73",
+    "PIK3CA/mTOR": "#0072B2",
+    "F2/F10": "#E69F00",
+    "JAK1/TYK2": "#56B4E9",
+    "JAK1/JAK2": "#CC79A7",
+    "PPARG/PPARA": "#000000",
+    "PPARA/PPARD": "#999999",
+    "PIK3CA/PIK3CB": "#882255",
 }
 DESC_LABEL = {
     "heavy": "heavy atoms",

@@ -1,4 +1,7 @@
-# Six-figure panel lock (submission)
+# Six-figure panel lock (superseded)
+
+Superseded by `docs/FIGURE_PANEL_LOCK_V3.md` (eight-row primary set).  
+Historical four-pair / K=4 lock. Do not regenerate submission figures from v2.
 
 Branch: `cursor/jcim-final-integration-0b1a`  
 Script: `data/jcim_bench_v0/scripts/plot_jcim_article_figures_v2.py`  

@@ -18,7 +18,6 @@ meta:
   mandatory_baselines: ["heavy_atoms", "MW", "cLogP", "TPSA"]  # all four reported; max is descriptive, not confirmatory
   scoring_channels: ["vina", "rtm", "gnina_cnn_rescore_if_available"]
   next_commands: ["J2_PM48_RDKIT", "J3_NEW_RECEPTOR_FREEZE", "J4_NEW_PANEL_DOCK", "J5_GNINA_RESCORE", "J6_BENCH_PACK"]
-  excluded_holdout: ["NLRP3/JNK1"]
   forbidden:
     - "expand_EGFR_same_protocol_for_significance"
     - "mix_LigPrep_and_RDKit_in_primary_tables"

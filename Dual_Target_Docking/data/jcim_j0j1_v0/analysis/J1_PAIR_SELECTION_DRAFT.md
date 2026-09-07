@@ -23,7 +23,6 @@
 
 ### Explicitly not selected
 
-- NLRP3/JNK1 — private holdout  
 - BRD4/HDAC*, JAK2/HDAC1 — metal + failed supply  
 - Expanding EGFR for significance — forbidden by Stage M / route doc  
 

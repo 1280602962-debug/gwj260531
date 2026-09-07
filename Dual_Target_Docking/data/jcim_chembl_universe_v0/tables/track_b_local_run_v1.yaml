@@ -1,0 +1,78 @@
+# Locked Track B local-run spec. Do not edit after seeing AUROCs.
+# Human-readable protocol: analysis/DOCKING_PLAN_V1.md
+schema: track_b_local_run_v1
+locked: 2026-09-04
+do_now: [receptor_prep, layer3_cognate_rmsd, production_vina]
+do_not_now:
+  - f2_f10_protonation_sensitivity
+  - pik3cb_2y3a_e32_cognate_retest
+  - gnina_independent_search
+  - rtm_or_gnina_cnn_rescore
+  - five_seed_vina
+  - ctsk_ctss_vina
+  - pik3ca_pik3cb_redock
+engine: AutoDock Vina 1.2.7
+scoring_function: vina
+ligand_prep: RDKit ETKDGv3 seed 20260727 + MMFF maxIters 200 + meeko 0.7.1
+no_ligprep: true
+dock_seed: 20260727
+panel_seed: 20260729
+n_modes: 9
+energy_range_kcal: 3
+exhaustiveness_default: 8
+exhaustiveness_fallback_if_layer3_fails: 16
+cognate_gate: best_of_9 heavy-atom RMSD < 2.0 A
+box:
+  definition: cognate heavy-atom AABB + 5 A per axis
+  min_edge_A: 20
+skip_torsdof_ge: 25
+pairs:
+  - pair: F2/F10
+    panel_csv: tables/track_b_panels/panel_F2_F10_v1.csv
+    n_panel: 110
+    classes: {dual: 32, A_only: 32, B_only: 32, neither: 14}
+    receptor_A: {pdb: 4UDW, uniprot: P00734, cognate: N6L, site: thrombin S1 chain H}
+    receptor_B: {pdb: 2JKH, uniprot: P00742, cognate: BI7, site: FXa S1/S4}
+  - pair: JAK1/TYK2
+    panel_csv: tables/track_b_panels/panel_JAK1_TYK2_v1.csv
+    n_panel: 110
+    classes: {dual: 32, A_only: 32, B_only: 32, neither: 14}
+    receptor_A: {pdb: 6N7A, uniprot: P23458, cognate: KEV, site: JH1 ATP}
+    receptor_B: {pdb: 3LXP, uniprot: P29597, cognate: IZA, site: JH1 ATP not JH2}
+  - pair: JAK1/JAK2
+    panel_csv: tables/track_b_panels/panel_JAK1_JAK2_v1.csv
+    n_panel: 110
+    classes: {dual: 32, A_only: 32, B_only: 32, neither: 14}
+    receptor_A: {pdb: 6N7A, uniprot: P23458, cognate: KEV, site: JH1 ATP}
+    receptor_B: {pdb: 8BXH, uniprot: O60674, cognate: C87, site: JH1 ATP}
+  - pair: PPARG/PPARA
+    panel_csv: tables/track_b_panels/panel_PPARG_PPARA_v1.csv
+    n_panel: 110
+    classes: {dual: 32, A_only: 32, B_only: 32, neither: 14}
+    receptor_A: {pdb: 9V8H, uniprot: P37231, cognate: BRL, site: LBD ternary keep PG08-NL peptide}
+    receptor_B: {pdb: 6LXA, uniprot: Q07869, cognate: EPA, site: LBD}
+  - pair: PPARA/PPARD
+    panel_csv: tables/track_b_panels/panel_PPARA_PPARD_v1.csv
+    n_panel: 110
+    classes: {dual: 32, A_only: 32, B_only: 32, neither: 14}
+    receptor_A: {pdb: 6LXA, uniprot: Q07869, cognate: EPA, site: LBD}
+    receptor_B: {pdb: 5U3Q, uniprot: Q03181, cognate: 7UJ, site: LBD agonist 1 not PEG}
+unique_new_receptors: [4UDW, 2JKH, 6N7A, 3LXP, 8BXH, 9V8H, 6LXA, 5U3Q]
+expected_production_jobs: 1100
+expected_cognate_jobs: 72
+report:
+  estimand: pocket-matched directional AUROC
+  dual_vs_A_only_uses: pocket_B
+  dual_vs_B_only_uses: pocket_A
+  summary: summary_min
+  count_systems_not_pairs: true
+  new_systems: [coagulation, JAK, PPAR]
+  do_not_replace_table2: true
+deferred:
+  f2_f10_protonation_sensitivity:
+    when: after production Vina of the five pairs
+    what: open-source protonation enum on F2/F10 only (not LigPrep)
+  pik3cb_2y3a_e32_cognate_retest:
+    when: after production Vina of the five pairs
+    what: 2Y3A / GD9 cognate best-of-9 at exhaustiveness 32 only
+    not: production redock of PIK3CA/PIK3CB

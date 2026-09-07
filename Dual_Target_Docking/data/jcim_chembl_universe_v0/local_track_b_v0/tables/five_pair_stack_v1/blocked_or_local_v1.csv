@@ -1,0 +1,11 @@
+item,status,why
+max_vs_median_pchembl,blocked_no_sqlite,panel CSV stores one pChEMBL per end; repeat-record graph needs ChEMBL 37 sqlite
+document_year_split,blocked_no_sqlite,no document.year on panels; report counts only after dump join; AUROC only if dual/A/B each n≥10 after 2018
+document_cluster_bootstrap,blocked_no_sqlite,no document_id; scaffold-cluster bootstrap was computed instead
+document_blocked_cv,blocked_no_sqlite,same missing document_id; ECFP4 used Bemis–Murcko GroupKFold
+bindingdb_pubchem_count_only,blocked_no_cache,jcim_supply_crossdb_v0 caches only the original K=4 UniProts; five new pairs need a new count-only fetch (no Docker)
+holdout_panel_ids,blocked_no_sqlite,leftover counts are known; 20/20/20 member lists need the dump + HOLDOUT_SEED=20260731
+five_seed_vina,local_recompute,user will submit locally; seeds 20260727 + 20260811–20260814; see LOCAL_RECOMPUTE_PACK_V1.md
+rtm_best_of_9,local_recompute,poses gitignored; regenerate 9 modes then rtmscore_model1
+gnina_cnn_rescore,local_recompute,same poses; --cnn_scoring rescore --minimize
+independent_gnina_search,local_rule_subset,JAK1/TYK2 only (EGFR-like formulation gap)

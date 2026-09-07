@@ -3,7 +3,7 @@
 JCIM **evaluation / benchmark** 课题：双靶对接四类硬负评测。  
 **不是**通用决策臂 / 新打分函数论文；**也不是**名为 D-DRAF 一类的“新型 Framework”。  
 贡献定位：四靶对 *proof-of-concept formulation audit* + 可复现评价协议 **DualFourClass-Bench**。它不是通用、代表性或 LIT-PCBA 规模的 benchmark suite。
-与仓库内 `JNK1_Selectivity_Project/` **无关**。
+本 DualFourClass 树是一项独立科学课题，不导入、不依赖仓库根目录下的其他项目。
 
 ## 一句话主张
 
@@ -97,7 +97,8 @@ python3 data/jcim_bench_v0/scripts/plot_forest_ci_v1.py
 
 ## 状态
 
-- 对接 + 混淆对照 + E/enrichment/PM110 + A4 max→median + B5 两对受体替换：**完成**  
+- 对接 + 混淆对照 + E/enrichment/PM110 + A4 max→median + B5 两对受体替换：**完成**（K=4 冻结；PIK3CA/PIK3CB 作为受体身份特殊案例保留，不重对接）
+- ChEMBL 37 宇宙普查 + 14 受体冻结：`data/jcim_chembl_universe_v0/`。**现在要跑的本地 Vina 方案**：`analysis/DOCKING_PLAN_V1.md` + `tables/track_b_local_run_v1.yaml`（五对；Layer-3 后生产对接）。F2/F10 质子化敏感性与 2Y3A E32 cognate 复测已写下、**本包不做**。
 - 章节稿已按 formulation 主线重构；英文主稿 `docs/MANUSCRIPT_JCIM_EN.md`；中文工作稿 `docs/MANUSCRIPT_JCIM_ZH.md`  
 - **提交前科学性缺口**：MCL1 topology-aware pose QC 或证据降级、主结果 cluster uncertainty 的最终核对、K=4/无可评估外部 docking 的严格 claim ceiling；详见 `docs/JCIM_PROJECT_AUDIT_AND_ACTION_PLAN_2026-08-27.md`。
 - **提交合规缺口**：排版、版本化 Zenodo DOI 与从原始记录到主表的干净环境复现。

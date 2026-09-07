@@ -10,10 +10,9 @@
 
 | Item | Count |
 |------|------:|
-| Candidate pairs listed | 53 (incl. private holdout + aliases) |
+| Candidate pairs listed | 52 (incl. aliases P31/P42/P43) |
 | **Audited now** (both `mols_*.json` present) | **49** |
-| Fetch queue (new targets; ChEMBL API was 500) | 22 |
-| Explicit exclude | NLRP3/JNK1 (private holdout) |
+| Fetch queue (new targets; ChEMBL API was 500) | 20 |
 
 > ChEMBL Web API returned HTTP 500 during this run. Audited pairs use **already-cached** dictionaries only. Additional literature pairs that need new targets are queued — **not** fabricated.
 

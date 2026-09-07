@@ -1,0 +1,18 @@
+# Track B local Vina pack (`local_track_b_v0`)
+
+Layer-3 cognate QC (8/8 PASS at E=8) and production AutoDock Vina 1.2.7 on five pairs (~1100 jobs).
+
+- Protocol: `../analysis/DOCKING_PLAN_V1.md`, lock `../tables/track_b_local_run_v1.yaml`
+- Results: `analysis/TRACK_B_DIRECTIONAL_AUROC_V1.md`
+- Descriptor reference: `analysis/TRACK_B_DESCRIPTOR_REFERENCE_V1.md`
+- Scores: `tables/scores_vina_mode1_v1.csv` (1094 successes; 6 timeout skips)
+- Poses / full Vina logs are gitignored (regenerate with `scripts/dock_track_b_production_v1.py`)
+
+Does **not** replace Table 2. Count three systems (coagulation, JAK, PPAR).
+
+Zero-dock stack on production Vina: `tables/five_pair_stack_v1/` and
+`analysis/FIVE_PAIR_STACK_V1.md` (Table-2-comparable non-stratified CIs).
+Dump-gated + BindingDB/PubChem count-only: `tables/five_pair_dump_gated_v1/`,
+`tables/five_pair_crossdb_v1/`, `analysis/FIVE_PAIR_DUMP_GATED_V1.md`,
+`analysis/FIVE_PAIR_CROSSDB_V1.md`. Holdout IDs frozen (JAK1/JAK2 = 20/20/18).
+Local docking / rescoring still to submit: `../analysis/LOCAL_RECOMPUTE_PACK_V1.md`.

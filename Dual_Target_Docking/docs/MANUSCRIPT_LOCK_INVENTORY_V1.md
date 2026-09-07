@@ -145,7 +145,7 @@ All live in `figures/jcim_article/`. Captions: `figures/jcim_article/CAPTIONS.md
 | S9 | FigS9_ligand_controls | descriptors / logistic covariates / matched subsets |
 
 Regenerate command (does not change scores):  
-`python3 data/jcim_bench_v0/scripts/plot_jcim_article_figures_v2.py`
+`python3 data/jcim_bench_v0/scripts/plot_jcim_article_figures_v3.py`
 
 ---
 
