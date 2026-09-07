@@ -2,7 +2,7 @@
 
 当前论文源仅为[MANUSCRIPT_MASTER.md](MANUSCRIPT_MASTER.md)，与[事实锁](../MANUSCRIPT_FACTS.yaml)及[data/manuscript](../data/manuscript/README.md)配套。
 
-- [CONSOLIDATION_AUDIT.md](CONSOLIDATION_AUDIT.md)：本次正确性核对与未闭合事项。
+- [CONSOLIDATION_AUDIT.md](CONSOLIDATION_AUDIT.md)：本次正确性核对；第1条（1588模型环境）已检索并标为限制。
 - [NOMINATION_RATIONALE.md](NOMINATION_RATIONALE.md)：PF-03882845跟进依据。
 - [archive](archive/README.md)：原路线、旧稿和开发审计，原路径仅保留兼容重定向。
 - [internal](internal/README.md)：内部期刊/投稿策略讨论。

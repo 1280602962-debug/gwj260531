@@ -4,7 +4,7 @@
 
 | 证据包 | 主文数据 | SI/溯源 |
 |---|---|---|
-| 1. 数据与NLRP3模型 | [模型验证](tables/model_validation.json)、[漏斗](tables/screening_funnel.csv) | [39 assay来源](si/nlrp3_assay_provenance.csv)、[阈值敏感性](si/nlrp3_threshold_sensitivity.json)、[模型登记](../frozen/model_manifest.json) |
+| 1. 数据与NLRP3模型 | [模型验证](tables/model_validation.json)、[漏斗](tables/screening_funnel.csv) | [39 assay来源](si/nlrp3_assay_provenance.csv)、[阈值敏感性](si/nlrp3_threshold_sensitivity.json)、[模型登记](../frozen/model_manifest.json)、[1588环境检索](audit/nlrp3_scoring_env_search.json) |
 | 2. 酸性化学空间 | [描述符](tables/acid_descriptors.csv)、[总体分布](tables/chemical_space_summary.csv) | [微观状态](si/ligand_microstates.csv)、原303/156成员清单哈希见provenance |
 | 3. URAT1结构方法 | [重对接](tables/urat1_redocking_summary.csv)、[A1/A2/W2验证](tables/urat1_gate_validation.csv) | [受体来源](tables/receptor_manifest.csv)、[残基映射](tables/residue_mapping.csv)、[规则](../../config/urat1_gate_definition.yaml) |
 | 4. NLRP3结构方法 | [自对接](tables/nlrp3_selfdocking_summary.csv)、[分seed门验证](tables/nlrp3_gate_validation.csv) | [阳性骨架](si/w4_positive_scaffolds.csv)、[规则](../../config/nlrp3_gate_definition.yaml) |

@@ -1,0 +1,56 @@
+{
+  "question": "Is the original NLRP3 1588-pool scoring environment in another GitHub repository?",
+  "searched_at_utc": "2026-09-07",
+  "conclusion": "No second GitHub repository holds a missing original environment. The model artifact and 1588 scores are already in this repo from 2026-07-01. What is missing is a contemporaneous software lockfile and a model hash inside the screening summary. August 2026 did not rescore. Item 1 is a limitation, not an open hunt.",
+  "github": {
+    "account": "1280602962-debug",
+    "account_created_at": "2026-05-19T07:25:10Z",
+    "public_repos_reported": 1,
+    "repos_visible_to_this_token": ["1280602962-debug/gwj260531"],
+    "private_repo_list_via_gh": "only gwj260531 returned",
+    "org_list": "API 403; cannot enumerate organizations",
+    "other_remotes_in_this_clone": "none",
+    "note": "A private repo under a different login would not be visible here. Nothing in this workspace points to another GitHub URL for NLRP3 scoring."
+  },
+  "what_is_in_this_repo": {
+    "nlrp3_model_joblib": "URAT1_NLRP3_DualTarget_AIDD_Project/data/models/nlrp3_model.joblib",
+    "joblib_git_blob": "819d2b4ea9bab0197748381f4c5dc0bd82637d78",
+    "joblib_sha256": "1809caf1ca6c2cef84bb437510cab49edfa755fc823b44cd18e9fbf3c8834e30",
+    "joblib_first_and_only_commit": "72b132282e941a308dd7541d8e0d5711fc07d82e",
+    "joblib_commit_date_utc": "2026-07-01T08:45:18Z",
+    "joblib_unchanged_since": true,
+    "scores_csv_git_blob": "bbdf32b00e425439cfe2ad28e9993ef1b72da232",
+    "pool_csv_git_blob": "4852bcbddc1bc327d2fac4e0f437d380dcd9867f",
+    "pool_n": 1588,
+    "scores_and_pool_unchanged_since": "72b13228",
+    "training_script": "scripts/02_train_asymmetric_models.py",
+    "screening_script": "scripts/screen_repurposing_library.py"
+  },
+  "pickle_strings_in_deposited_joblib": {
+    "sklearn_version": "1.9.0",
+    "n_jobs_encoded": -1,
+    "contains": ["xgboost.sklearn.XGBClassifier", "sklearn.isotonic.IsotonicRegression", "sklearn.preprocessing scaler"],
+    "xgboost_package_version": "not present as a clear ASCII version string"
+  },
+  "august_2026": {
+    "rescore_happened": false,
+    "summary_json_edits": [
+      "2026-08-18 and 2026-08-20 changed next_step text and added n_dual_docked=1580",
+      "score CSV and docking_pool_p05.csv blobs unchanged"
+    ]
+  },
+  "what_is_missing": {
+    "results_training_runtime_copy": "gitignored by URAT1_NLRP3_DualTarget_AIDD_Project/.gitignore (results/); data/models/ is the committed backup",
+    "pip_or_conda_lockfile_from_2026-07-01": "absent in this repo and in visible GitHub account",
+    "model_sha256_inside_screening_summary": "absent; summary records n_scored=8319 and n_pred_active_ge_threshold=1588 only",
+    "xgboost_numpy_rdkit_python_versions_from_scoring_VM": "absent",
+    "original_cloud_VM": "ephemeral; scoring commit was produced in /workspace by Cursor Agent on 2026-07-01"
+  },
+  "1377_is_not_the_lost_original": {
+    "source": "later SI retrain in scripts/si_nlrp3_sensitivity.py / data/manuscript/si/nlrp3_threshold_sensitivity.json",
+    "n_pool_at_threshold_6.0": 1377,
+    "do_not_attribute_to_n_jobs_without_controlled_experiment": true,
+    "deposited_model_also_has_n_jobs_-1": true
+  },
+  "reproduction_boundary": "Production membership is the frozen 1588-row docking_pool_p05.csv. The deposited joblib is an artifact from the same 2026-07-01 commit, but bit-identical regeneration of those 1588 scores is not independently demonstrated."
+}

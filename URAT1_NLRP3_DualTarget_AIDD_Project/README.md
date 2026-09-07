@@ -11,7 +11,7 @@
 | [现行科学配置](config/campaign_final.yaml) | 当前解释规则和专题配置入口 |
 | [冻结候选](data/frozen/README.md) | 唯一当前primary/reserve视图及模型哈希 |
 | [论文数据](data/manuscript/README.md) | 六个证据包、主文表、SI与溯源 |
-| [整理核对报告](docs/CONSOLIDATION_AUDIT.md) | 已纠正的解释、尚未解决的科学限制 |
+| [整理核对报告](docs/CONSOLIDATION_AUDIT.md) | 已纠正的解释；1588模型环境已检索并标为限制 |
 | [复现工作流](scripts/manuscript_pipeline/README.md) | 重建、核对、生成图表 |
 | [开发归档](docs/archive/README.md) | 原文快照及兼容重定向；非当前主线 |
 
