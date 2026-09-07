@@ -1,0 +1,56 @@
+schema_version: 1
+audited_base_commit: cf5fd75833baac94be603ebaf6188022de4d0275
+status: evidence_layer_audited_not_submission_ready
+counts:
+  clinical_library: 8319
+  nlrp3_training_molecules: 513
+  nlrp3_training_records: 609
+  nlrp3_unique_assays: 39
+  nlrp3_one_hot_assays: 25
+  prediction_assay_contexts: 5
+  production_pool: 1588
+  acid_equivalents: 303
+  chemistry_soft: 156
+  primary: 12
+  reserve: 21
+  historical_chemistry_eligible: 40
+  dual_structural_ge2of3: 54
+  intersection_before_final_exclusions: 37
+nlrp3_cv:
+  auroc: 0.8934017784193573
+  auprc: 0.9143469018214805
+  ef_10pct: 1.5706359287488578
+  n_compounds: 513
+  n_records: 609
+  n_assays_used: 25
+urat1_a1_arg_max_A: 7.7027
+urat1_a1_lr_plus: 2.2024291497975708
+nlrp3_w4_seed42:
+  tp: 9
+  fn: 0
+  fp: 11
+  tn: 29
+production_receptors:
+- 9DKB
+- 7ALV
+docking_seeds:
+- 42
+- 43
+- 44
+a1_nomination_seed: 42
+w2_role: annotation; 8 of 12 primary pass >=2/3; not membership criterion
+pf_followup: PF-03882845
+pf_ligand_id: REP_07580
+md_authorized: false
+md_results_available: false
+structure_only_counterfactual_additions:
+- REP_07825
+- REP_05460
+- REP_01598
+limitations:
+- historical chemistry name exclusions remain part of frozen cohort provenance
+- acid atom matcher recognizes COOH/carboxylate only, not all pool acid equivalents
+- model hash identifies deposited artifact, not proven historical generator of frozen
+  pool
+- W4 includes scaffold-concentrated positives and five all-seed failed decoys
+- A1 has no explicit clash or IFP gate; W2 annotations cannot be assigned to all 12

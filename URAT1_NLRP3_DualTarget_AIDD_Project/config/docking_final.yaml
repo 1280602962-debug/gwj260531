@@ -1,0 +1,42 @@
+# Consolidated execution parameters. This file does not launch or authorize runs.
+# Scientific selection policy is in campaign_final.yaml, not batch CSV scores.
+default_engine: gnina
+gnina:
+  binary: gnina
+  no_gpu: true
+  exhaustiveness: 32
+  num_modes: 9
+  cpu: 4
+  cnn_scoring: rescore
+  score_mode: cnnaff
+  extra_args: ['--seed', '42']
+replicate_seeds: [42, 43, 44]
+replicate_execution_note: extra_args must be overridden per seed; batch runner does not iterate replicate_seeds
+batch_csv_note: max_CNNaffinity_is_not_a_candidate_ranking_metric_parse_SDF_for_pose_selection
+execution_provenance_note: inherited_CPU_and_GPU_configs_coexist_original_logs_remain_authoritative_for_each_completed_job
+ligand_preparation:
+  ph: 7.4
+  method: dimorphite_dl_then_meeko
+  manifest: data/manuscript/si/ligand_microstates.csv
+  scope: selected_microstate_per_molecule_not_full_microstate_ensemble
+receptor_prep:
+  remove_waters: true
+  remove_hetatm: true
+  protonate_ph: 7.4
+  chain: A
+prepared_numbering_note: prepared_7ALV_has_resegmented_chains_use_residue_mapping_not_native_chain_numbers
+targets:
+  urat1_9dkb:
+    pdb_id: 9DKB
+    structure_file: data/structures/pdb/9DKB.cif
+    ligand_resn: A1AIL
+    center: [99.966, 102.967, 105.699]
+    size: [22, 22, 22]
+    prepared_receptor: data/structures/prepared/9DKB_receptor.pdbqt
+  nlrp3_7alv:
+    pdb_id: 7ALV
+    structure_file: data/structures/pdb/7ALV.pdb
+    ligand_resn: RM5
+    center: [16.756, 35.449, 125.714]
+    size: [20, 20, 20]
+    prepared_receptor: data/structures/prepared/7ALV_receptor.pdbqt

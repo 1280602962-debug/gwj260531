@@ -1,14 +1,9 @@
-# 与 PLK1/NLRP3 不对称筛选文的差异（投稿用）
+<!-- manuscript-redirect -->
+# Archived development document
 
-可承认的共性：双靶、数据不对称、纯计算、多阶段漏斗。**共性不是创新。**
+此文件已退出论文主线；保留原路径作为兼容入口。历史数字、候选和路线不能作为现行结论。
 
-| | 近邻激酶–NLRP3 文 | 本文 |
-|--|-------------------|------|
-| 数据丰富臂 | 激酶 QSAR + 单结构对接 | **URAT1 转运体**；ML **不主排**；对接协议先经 True/Random 双诱饵选定 |
-| 弱数据臂 | 锚点指纹相似性 | NLRP3 **assay-conditioned 分类缩库**（513 分子 / 39 assay，足够监督） |
-| 融合 | 固定 0.5/0.5 | **百分位 Pareto**，再与 **化学提名分层**（无等权总分） |
-| 化学空间 | 商业库 VS | **ChEMBL 临床阶段库** |
-| 结构 | 激酶口袋 | **9DKB inward-open** + **7ALV NACHT** |
-| 产出 | 库筛命中优先 | 可审计假说；PAINS/大环可进 Pareto 但被降级 |
+- [现行论文入口](MANUSCRIPT_MASTER.md)
+- [原文完整存档](internal/development/DIFFERENTIATION_VS_PLK1_NLRP3.md)
 
-正文 Introduction 用一段 Unlike 即可。不要把未实现的 \(S_{\mathrm{trap}}\)、生成式路径或 SLC22 迁移写进本文差异化。
+原文快照：`cf5fd75833baac94be603ebaf6188022de4d0275`。存档文件内的相对路径按原位置解释，原始位置见归档索引。

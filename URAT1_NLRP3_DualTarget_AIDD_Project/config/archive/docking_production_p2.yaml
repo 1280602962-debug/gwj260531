@@ -1,0 +1,54 @@
+# Production docking config — protocol Π* = P2 (gnina CNNaffinity).
+# Chosen after TrueDecoy/RandomDecoy protocol selection (see docs/PROTOCOL_SELECTION_RESULT.md):
+#   P2 (gnina CNNaffinity) had statistically significant TrueDecoy early enrichment
+#   (EF@1%=2.54, p≈0.002) AND non-zero RandomDecoy performance, unlike P5 (RTMScore/gnina)
+#   which failed on RandomDecoy (EF@1%=0). Use P2 as the production ranking read-out;
+#   keep P5 only as a sensitivity analysis.
+#
+# Score convention: dock_score stored lower-is-better (CNNaffinity is negated in the batch).
+# Ranking uses within-pool percentiles only — absolute values are NOT physical affinities.
+
+default_engine: gnina
+
+gnina:
+  binary: gnina            # or tools/gnina after setup_gnina_wsl_cpu.sh
+  no_gpu: true             # set false if an NVIDIA GPU is available (much faster)
+  exhaustiveness: 32       # same depth as the protocol-selection run
+  num_modes: 1             # single best pose per ligand for VS ranking
+  cpu: 2
+  cnn_scoring: rescore     # CNN rescoring required for CNNaffinity
+  score_mode: cnnaff       # P2 read-out = CNNaffinity (higher pK better; batch negates)
+  extra_args: []
+
+# Vina block kept for optional P1/P4 sensitivity runs (not the production read-out).
+vina:
+  binary: vina
+  exhaustiveness: 32
+  num_modes: 9
+  energy_range: 3.0
+  cpu: 1
+
+receptor_prep:
+  remove_waters: true
+  remove_hetatm: true
+  protonate_ph: 7.4
+  chain: A
+
+targets:
+  urat1_9dkb:
+    pdb_id: 9DKB
+    structure_file: data/structures/pdb/9DKB.cif
+    ligand_resn: A1AIL
+    center: [99.966, 102.967, 105.699]
+    size: [22, 22, 22]
+    reference: "Suo et al., Nat Commun 2025; inward-open URAT1 + lesinurad"
+    prepared_receptor: data/structures/prepared/9DKB_receptor.pdbqt
+
+  nlrp3_7alv:
+    pdb_id: 7ALV
+    structure_file: data/structures/pdb/7ALV.pdb
+    ligand_resn: RM5
+    center: [16.756, 35.449, 125.714]
+    size: [20, 20, 20]
+    reference: "Dekker et al., J Mol Biol 2021; NACHT sulfonylurea-class pocket"
+    prepared_receptor: data/structures/prepared/7ALV_receptor.pdbqt

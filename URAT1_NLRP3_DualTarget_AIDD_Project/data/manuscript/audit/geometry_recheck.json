@@ -1,0 +1,53 @@
+{
+  "paired_jobs": 468,
+  "sdf_files": 936,
+  "gate_mismatches": [],
+  "inputs": [
+    {
+      "path": "scripts/manuscript_pipeline/verify_geometry.py",
+      "sha256": "14854e57881a5d4c7986d8d66ce0e292505078e1bea3d202351be81857efcdbd"
+    },
+    {
+      "path": "scripts/c1_acid_pose_selection.py",
+      "sha256": "fea6fed659d158f0c183d4e146fa66f7d2bbd9494eb3b141c7b1e4099a846a60"
+    },
+    {
+      "path": "scripts/c1_nlrp3_pose_metrics.py",
+      "sha256": "c9ac21f93b5d5ad17399b45d05be2fc19d8240bf11e69a1685806f26855a2f09"
+    },
+    {
+      "path": "scripts/parse_c1_sdf_readouts.py",
+      "sha256": "f2aad60a179844d3dcacc54c3be911b288a3c657a3c500fa2bf07ee602711304"
+    },
+    {
+      "path": "scripts/run_c5_w2_urat1_ifp_gate.py",
+      "sha256": "8a28cfe516e5fcfacac9a69364129a76e3528d2e7df4011d26ddd6c845552f79"
+    },
+    {
+      "path": "data/campaigns/c1/01_ligand_prep/selfdock_refs/arg477_coords.json",
+      "sha256": "4217dc59572a66861791fbd21c27d76c66efdf1e9126d9eb64770995a852896f"
+    },
+    {
+      "path": "data/campaigns/c1/01_ligand_prep/selfdock_refs/lesinurad_crystal_ref.sdf",
+      "sha256": "2ff6caf89cdd22c5d4b4306da2410930a855edd3ff9a1c332e1a7d9fa1e127f4"
+    },
+    {
+      "path": "data/structures/prepared/9DKB_receptor.pdbqt",
+      "sha256": "9a4b4f1ffd2a6673a18ba0131f21f9f505739e3f3b962c241e3d9560b28616ec"
+    },
+    {
+      "path": "data/structures/prepared/7ALV_receptor.pdbqt",
+      "sha256": "5ddf40d8ddb0d8302c57cbef8b567d6c970e2bdfeab694724059b5d0aec9c8b7"
+    },
+    {
+      "path": "data/campaigns/c5/02_urat1_ifp/urat1_key_residues.json",
+      "sha256": "a30e21ea56c098aa489d5d5d0232095fcc00aa608dac19a0b25d7d120e554ac4"
+    },
+    {
+      "path": "data/campaigns/c1/01_ligand_prep/selfdock_refs/nlrp3_key_residues.json",
+      "sha256": "965afd7d6100015c4212ae490bd2c7661bb387b2dc42084306e58b43d5b5c116"
+    }
+  ],
+  "hash_policy": "SHA256 text normalized CRLF to LF",
+  "method": "re-evaluation of deposited definitions; no docking and no frozen membership changes"
+}

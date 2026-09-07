@@ -1,0 +1,30 @@
+schema_version: 1
+status: planning_only_not_executed
+md_authorized: false
+candidate: {name: PF-03882845, ligand_id: REP_07580}
+systems:
+  - {receptor: 9DKB, ligand: lesinurad, role: deposited_pose_control, membrane: POPC}
+  - {receptor: 9DKB, ligand: PF-03882845, role: candidate, membrane: POPC}
+  - {receptor: 7ALV, ligand: NP3-146, role: deposited_pose_control, membrane: none}
+  - {receptor: 7ALV, ligand: PF-03882845, role: candidate, membrane: none}
+replicas_per_system: 3
+production_ns_per_replica: 200
+planned_total_production_ns: 2400
+readouts:
+  urat1: [acid_Arg_distance_distribution, Phe_cage_contact_persistence, ligand_RMSD_in_receptor_frame]
+  nlrp3: [key_residue_contact_persistence, pocket_retention, ligand_RMSD_in_receptor_frame]
+interpretation_gate: control_must_retain_expected_pocket_mode_before_candidate_side_is_interpreted
+unresolved_before_execution:
+  - force_fields_water_ions_temperature_pressure_equilibration_parameters
+  - replicate_random_seeds_and_analysis_window
+  - numerical_control_failure_criteria
+  - salt_bridge_definition_separate_from_7.7027A_static_proximity
+  - ligand_parameterization_and_protonation_QC
+mmgbsa:
+  role: optional_supporting_post_MD_analysis
+  changes_frozen_nomination: false
+  affinity_or_cross_target_rank: false
+  output_directory: data/analysis_supporting
+results_directory: data/md_results
+results_available: false
+note: Consolidation of a historical plan; not evidence that simulations ran or a new preregistration date.

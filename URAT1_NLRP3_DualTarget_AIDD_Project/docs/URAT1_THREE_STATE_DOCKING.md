@@ -1,12 +1,9 @@
-# URAT1 / NLRP3 结构选择
+<!-- manuscript-redirect -->
+# Archived development document
 
-本文生产对接只用：
+此文件已退出论文主线；保留原路径作为兼容入口。历史数字、候选和路线不能作为现行结论。
 
-| 靶点 | PDB | 构象 / 口袋 | 共晶参考 |
-|------|-----|-------------|----------|
-| URAT1 | **9DKB** | inward-open | lesinurad |
-| NLRP3 | **7ALV** | NACHT | MCC950 类类似物 NP3-146 / RM5 |
+- [现行论文入口](MANUSCRIPT_MASTER.md)
+- [原文完整存档](archive/development/URAT1_THREE_STATE_DOCKING.md)
 
-**不要用 9JDZ 当 occluded/outward。** RCSB 标注 9JDZ 也是 lesinurad 结合的 inward-open。occluded / outward 对应 Dai 等的 **9B1K / 9B1L**，本文不作为生产口袋。
-
-搜索盒见 [`OPEN_SOURCE_DOCKING.md`](OPEN_SOURCE_DOCKING.md) 与 `config/docking_production_p2.yaml`。
+原文快照：`cf5fd75833baac94be603ebaf6188022de4d0275`。存档文件内的相对路径按原位置解释，原始位置见归档索引。

@@ -1,0 +1,36 @@
+schema_version: 1
+role: faithful_description_of_deposited_selection_plus_structural_counterfactual
+acid_smarts:
+  carboxylate: '[CX3](=O)[OH,O-]'
+  tetrazole: 'c1nnn[nH]1'
+  acyl_sulfonamide: '[CX3](=O)N[SX4](=O)(=O)'
+soft_gate:
+  mw_min: 200
+  mw_max: 550
+  tpsa_max: 140
+  rotatable_bonds_max: 10
+  hbd_max: 5
+  hba_max: 10
+  clogp_role: annotation_only_not_a_soft_gate_in_executed_script
+historical_alert_policy:
+  pains_any: hard_exclusion_in_historical_eligible_set
+  brenk: hard_exclusion_in_historical_eligible_set
+  nih: annotation_only
+  missing_alerts: historical_script_filled_false_audit_must_check_completeness
+historical_name_exclusion_substrings:
+  - FLOXACIN
+  - PIROMIDIC
+  - TERBOGREL
+  - KIO-100
+  - MK-5108
+  - CEFCANEL
+  - CEFAZAFLUR
+  - CEFOVECIN
+  - MARBOFLOXACIN
+historical_name_exclusions_role: disclosed_legacy_decisions_not_a_general_structural_filter
+beta_lactam_smarts: '[#6]1[#6][#7][#6]1=O'
+beta_lactam_role: hard_exclusion_before_C5_final_freeze
+structural_control_exclusion_id: REP_07907
+candidate_names_are_not_selection_rules: true
+counterfactual_policy: remove_name_exclusions_keep_alert_and_beta_lactam_rules_report_delta_only
+acid_geometry_implemented_scope: COOH_or_carboxylate_oxygen_only

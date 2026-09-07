@@ -269,4 +269,9 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(
+        "RETIRED: this script contains historical name-based nomination. "
+        "Use scripts/manuscript_pipeline/build_evidence.py for current evidence. "
+        "Replay the original implementation only from the archived base commit "
+        "cf5fd75833baac94be603ebaf6188022de4d0275 in an isolated historical checkout."
+    )

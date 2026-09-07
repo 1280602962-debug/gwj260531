@@ -1,10 +1,9 @@
-# PaperSpine（投稿脊柱）
+<!-- manuscript-redirect -->
+# Archived development document
 
-当前写作入口：[`../MANUSCRIPT.md`](../MANUSCRIPT.md)。
+此文件已退出论文主线；保留原路径作为兼容入口。历史数字、候选和路线不能作为现行结论。
 
-| 文件 | 用途 |
-|------|------|
-| [`confirmed_contribution.md`](confirmed_contribution.md) | 可写进稿的贡献 |
-| [`confirmed_motivation.md`](confirmed_motivation.md) | 动机 ≠ 贡献 |
-| [`target_journal_research.md`](target_journal_research.md) | Mol Divers → JCAMD |
-| [`reviewer_audit.md`](reviewer_audit.md) | 审稿异议与禁句 |
+- [现行论文入口](../MANUSCRIPT_MASTER.md)
+- [原文完整存档](../internal/development/paper_spine_ars_analysis/README.md)
+
+原文快照：`cf5fd75833baac94be603ebaf6188022de4d0275`。存档文件内的相对路径按原位置解释，原始位置见归档索引。

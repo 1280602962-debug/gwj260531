@@ -1,22 +1,11 @@
 # gwj260531
 
-## 项目目录
+本分支URAT1–NLRP3项目已建立论文证据层。当前路线为临床库缩减、酸性化学空间限定、双靶结构相容性评估及候选复核。
 
-| 项目 | 说明 |
-|------|------|
-| [**JNK1_Selectivity_Project/**](JNK1_Selectivity_Project/README.md) | JNK1/2/3 亚型选择性抑制剂 CADD/AIDD |
-| [**URAT1_NLRP3_DualTarget_AIDD_Project/**](URAT1_NLRP3_DualTarget_AIDD_Project/README.md) | 痛风 URAT1–NLRP3 双节点临床库重定位（协议先选 + 不对称漏斗） |
+- [URAT1–NLRP3复现入口](URAT1_NLRP3_DualTarget_AIDD_Project/README.md)
+- [唯一论文主稿](URAT1_NLRP3_DualTarget_AIDD_Project/docs/MANUSCRIPT_MASTER.md)
+- [事实锁](URAT1_NLRP3_DualTarget_AIDD_Project/MANUSCRIPT_FACTS.yaml)
+- [正确性审计及待解决问题](URAT1_NLRP3_DualTarget_AIDD_Project/docs/CONSOLIDATION_AUDIT.md)
+- [独立JNK1项目（此次未改动）](JNK1_Selectivity_Project/README.md)
 
-### URAT1/NLRP3（当前写作入口）
-
-```bash
-cd URAT1_NLRP3_DualTarget_AIDD_Project
-# 唯一文稿入口：docs/MANUSCRIPT.md
-# 产品规划：docs/PROJECT_REPLAN_MOLECULAR_DIVERSITY.md
-# C1 本地战役：docs/LOCAL_C1_CANDIDATE_CAMPAIGN.md
-# 引言 / Methods：docs/INTRO_DRAFT_CN.md 、 docs/METHODS_DRAFT_CN.md
-```
-
-生产对接协议 **Π\* = P2（gnina CNNaffinity）**。首投 *Molecular Diversity*。
-
-> 仓库默认分支 `main` 仍以 JNK 项目为主说明；URAT1 最新文稿在分支 `cursor/urat1-nlrp3-dualtarget-aidd-e43d`。
+P2、C1–C4的路线和旧候选属于历史开发证据。C5已存结果经核对进入论文层。当前冻结12个primary与21个reserve，PF-03882845是后续验证优先对象；MD尚无结果，稿件尚未达到投稿完成状态。

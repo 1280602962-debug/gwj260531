@@ -1,5 +1,9 @@
-# Confirmed Motivation
+<!-- manuscript-redirect -->
+# Archived development document
 
-痛风耦合肾脏 URAT1 重吸收与 MSU 驱动的 NLRP3/IL-1β 炎症，但多数药物与多数虚拟筛选把二者当分轴问题。湿法双作用化学证明疾病逻辑真实，却很少在 **尊重转运体 vs 炎症小体数据不对称** 的协议下筛 **已上市/临床阶段** 分子。读者应关心的是：一条会拒绝过声称、能滤掉 PAINS/大环 Pareto 命中的临床库漏斗，比又一篇未验证的“双靶发现”口号更有用。
+此文件已退出论文主线；保留原路径作为兼容入口。历史数字、候选和路线不能作为现行结论。
 
-动机回答“为何值得做”；贡献回答“这篇计算上交付了什么”。不要用“我们发现了双靶抑制剂”或未实现的生成式/\(S_{\mathrm{trap}}\) 来动机。
+- [现行论文入口](../MANUSCRIPT_MASTER.md)
+- [原文完整存档](../internal/development/paper_spine_ars_analysis/confirmed_motivation.md)
+
+原文快照：`cf5fd75833baac94be603ebaf6188022de4d0275`。存档文件内的相对路径按原位置解释，原始位置见归档索引。

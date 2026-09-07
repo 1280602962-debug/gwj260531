@@ -1,21 +1,9 @@
-# 开源对接栈
+<!-- manuscript-redirect -->
+# Archived development document
 
-生产排序读出是 **Π\* = P2（gnina CNNaffinity）**，见 [`PROTOCOL_SELECTION_RESULT.md`](PROTOCOL_SELECTION_RESULT.md) 与 `config/docking_production_p2.yaml`。  
-AutoDock Vina 用于协议比较中的 P1，不是临床库主表。
+此文件已退出论文主线；保留原路径作为兼容入口。历史数字、候选和路线不能作为现行结论。
 
-| 步骤 | 工具 |
-|------|------|
-| 受体 | gemmi + Open Babel → PDBQT，pH 7.4 |
-| 配体 | RDKit ETKDG + Meeko |
-| 生产对接 | **gnina**，`cnn_scoring=rescore`，`score_mode=cnnaff`，exh=32 |
-| 协议对照 | Vina 1.2.5（P1）；RTMScore 仅敏感性（P4/P5，不生产） |
+- [现行论文入口](MANUSCRIPT_MASTER.md)
+- [原文完整存档](archive/development/OPEN_SOURCE_DOCKING.md)
 
-临床库一键：`bash scripts/run_funnel_p2.sh`（[`LOCAL_AGENT_TASKS.md`](LOCAL_AGENT_TASKS.md)）。
-
-| 靶点 | PDB | 中心 (Å) | 盒边长 (Å) |
-|------|-----|----------|------------|
-| URAT1 | 9DKB | 99.97, 102.97, 105.70 | 22³ |
-| NLRP3 | 7ALV | 16.76, 35.45, 125.71 | 20³ |
-
-`dock_score` 存为越低越好（CNNaffinity 取负）。只做池内百分位，不与实验 \(K_i\)、也不与历史 Glide 分混比。  
-P2 自对接：集合内可出现近原生姿，但 CNNaffinity Top-1 可能失败——见 [`REDOCK_SMOKE_ANALYSIS.md`](REDOCK_SMOKE_ANALYSIS.md)。
+原文快照：`cf5fd75833baac94be603ebaf6188022de4d0275`。存档文件内的相对路径按原位置解释，原始位置见归档索引。
