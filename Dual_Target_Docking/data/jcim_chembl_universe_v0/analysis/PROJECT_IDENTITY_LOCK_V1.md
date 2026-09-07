@@ -87,12 +87,13 @@ Do **not** spread items the original paper only ran on a subset:
 The 2026-09-05 edit that retitled the article “Three-Pair” and removed
 the PIK3CA/PIK3CB row from Tables 1–3 is an **intermediate** withdrawal
 of a failed receptor, not the destination identity. Do not treat
-“Three-Pair Formulation Audit” as the final title. Do not further
-rewrite Abstract / Table 2 / title until the five new pairs have the
-all-pairs stack (zero-dock + five-seed / RTM / GNINA-CNN). Then expand
-the main table to the 8 rows above and retitle as a multi-pair
-four-state formulation audit (not “Bench”, not a pre-frozen eight-pair
-study).
+“Three-Pair Formulation Audit” as the final title. The five-pair all-pairs stack is now complete (zero-dock + five-seed /
+RTM / GNINA-CNN + unused-pool holdout). Manuscript title, Abstract, and
+Tables 1–3 were restocked to the **8-row destination** on
+2026-09-07 (`A Multi-Pair Formulation Audit…`). Timeline honesty is
+unchanged: collection completion after the census, not a 2026-07-23
+eight-pair freeze. Do not put PIK3CA/PIK3CB back as a ninth main-table
+row. Do not average eight pairs.
 
 ## Forbidden recurrences
 

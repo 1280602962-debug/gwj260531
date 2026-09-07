@@ -1,6 +1,6 @@
 # Five-pair results merged (zero-dock + dump-gated + local channels)
 
-Same article, 8-row destination after withdrawing PIK3CA/PIK3CB (`PROJECT_IDENTITY_LOCK_V1.md`). Five pairs added after the ChEMBL 37 census; not a 2026-07-23 freeze. **Does not restock Table 2 or retitle.**
+Same article, 8-row destination after withdrawing PIK3CA/PIK3CB (`PROJECT_IDENTITY_LOCK_V1.md`). Five pairs added after the ChEMBL 37 census; not a 2026-07-23 freeze. Manuscript title / Tables 1–3 were restocked to this destination on 2026-09-07.
 
 This note merges three already-run layers. It does not re-dock.
 
@@ -64,7 +64,7 @@ Source: `FIVE_PAIR_LOCAL_CHANNELS_V1.md` and `tables/five_pair_local_channels_v1
 - F2/F10, JAK1/TYK2, and PPARA/PPARD stay weak-armed under Vina. RTM/CNN can move a point estimate without turning the stack into a pocket-matched dual classifier.
 - Independent GNINA on the gap pair does not close the EGFR-like gap.
 - Unused-pool holdout and 2018 year-split are **internal** confirmations. The frozen BindingDB external contract still has 0 pairs. Do not relax it.
-- Stack completeness is now a **precondition** for a later 8-row Table 2 draft. That retitle/restock is a later manuscript step, not this commit.
+- Stack completeness was the precondition for the 8-row Table 2 restock now in `docs/MANUSCRIPT_JCIM_{EN,ZH}.md`. Do not treat that restock as a 2026-07-23 eight-pair freeze.
 
 ## 7. Still forbidden
 

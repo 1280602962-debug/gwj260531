@@ -1,6 +1,6 @@
 # Supporting Information (English, compressed submission draft)
 
-**Article:** A Three-Pair Formulation Audit of Docking-Based Dual-Target Recognition  
+**Article:** A Multi-Pair Formulation Audit of Docking-Based Dual-Target Recognition  
 **Hierarchy:** Primary / Prespecified sensitivity / Post-hoc exploratory — see `docs/ANALYSIS_HIERARCHY_V1.md`.  
 **Archive policy:** Run logs, per-ligand long tables, historical receptor candidates, and full filter streams remain in the GitHub repository; this SI retains tables that answer a distinct reviewer question.
 
