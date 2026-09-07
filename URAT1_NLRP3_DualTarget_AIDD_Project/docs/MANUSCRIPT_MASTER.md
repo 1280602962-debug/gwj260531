@@ -22,11 +22,11 @@ NLRP3训练数据包含609条记录、513个唯一标准化分子及39个assay�
 
 冻结1,588池中使用COOH/carboxylate、tetrazole及acylsulfonamide SMARTS得到303个分子，类别允许重叠。MW 200–550、TPSA≤140、可旋转键≤10、HBD≤5及HBA≤10得到156个。实际脚本没有logP硬阈值，不声称完整Ro5通过。配体按pH 7.4经Dimorphite-DL及Meeko准备，使用清单选定微观状态，并非合理状态穷举。描述符和Murcko骨架在整理时重算为注释，不改动冻结名单。
 
-酸等价物入池规则与姿势规则覆盖范围不同：已执行酸基识别仅匹配COOH/carboxylate氧，不识别没有COOH的四唑或酰基磺酰胺。这些分子保留在分母并单独报告，其不通过不能解释为普遍无URAT1活性。
+酸等价物入池规则与姿势规则覆盖范围不同：已执行酸基识别仅匹配COOH/carboxylate氧，不识别没有COOH的四唑或酰基磺酰胺。这些分子保留在分母并单独报告，其不通过不能解释为普遍无URAT1活性。历史40个药化合格集合另含按药名排除；仅去掉药名规则会另入MK-5108、Piromidic acid、Pradofloxacin。该差异接受为限制，不改12/21。[对照表](../data/manuscript/si/structure_only_chemistry_counterfactual.csv)、[决策说明](../data/manuscript/si/chemistry_limitation_acceptance.md)
 
 ### 受体、对接与姿势选择
 
-生产受体为URAT1 9DKB和NLRP3 7ALV，GNINA使用exhaustiveness 32、最多9个pose及CNN rescore；seed42为初始筛选，43/44为重复。盒子及已准备受体见[docking_final](../config/docking_final.yaml)，受体用途见[receptor manifest](../data/manuscript/tables/receptor_manifest.csv)。CPU/GPU实际执行信息以原始逐任务日志为准，统一配置是整理后的描述，不替代历史日志。
+生产受体为URAT1 9DKB和NLRP3 7ALV，GNINA使用exhaustiveness 32、最多9个pose及CNN rescore；seed42为初始筛选，43/44为重复。盒子及已准备受体见[docking_final](../config/docking_final.yaml)，受体用途见[receptor manifest](../data/manuscript/tables/receptor_manifest.csv)。已沉积日志中的二进制为GNINA 1.3.2（`master:f23dd2b` 建于2025-07-08，或 `HEAD:f23dd2b+` 建于2026-07-28）；未见1.3.1。12/21所依据的C1临床酸对接SDF在库，但该目录无版本日志，标为unknown。P2导出为关闭的排序轨，且 `num_modes=1`，不与C1/C5九姿混用。[日志表](../data/manuscript/tables/gnina_execution_log_summary.csv)
 
 其他URAT1结构用于晶体锚定、自对接审计或有限刚体姿势转移；8ETR用于NLRP3刚体转移敏感性。它们不构成全库ensemble docking。接触采用已准备受体实际编号，[residue mapping](../data/manuscript/tables/residue_mapping.csv)记录9DKB Arg477→A/476及7ALV重新分段链/编号。URAT1预期12个关键残基中仅11个匹配；Q437在9DKB为LEU，不强行计为GLN接触。
 
@@ -46,7 +46,7 @@ W4诱饵来自URAT1 true-decoy数据中的性质匹配抽样，不是经实验�
 
 156个分子中，54个在至少2/3 seed满足URAT1 A2及NLRP3结构门；与历史40个药化合格集合取交集得37个。A1 seed42通过者13个，去除结构对照得12个primary；其余24个去除3个β-lactam得21个reserve。历史40个集合包含PAINS/Brenk排除及按药名排除，NIH为注释。β-lactam采用SMARTS末级排除。见[决策台账](../data/manuscript/tables/screening_decision_ledger.csv)及[药化规则](../config/chemistry_final.yaml)。本次整理复现冻结成员，不重新赋予前瞻性预注册身份。
 
-PF-03882845优先级综合多seed结构一致性、NLRP3关键接触与药化注释，详见[提名说明](NOMINATION_RATIONALE.md)。优先级不是效力排名。MD目前仅有[计划](../config/md_protocol.yaml)，未报告轨迹、占有率或MM/GBSA数值。
+PF-03882845优先级综合多seed结构一致性、NLRP3关键接触与药化注释，详见[提名说明](NOMINATION_RATIONALE.md)。优先级不是效力排名。已知主靶为盐皮质激素受体（Meyers等，2010）；Orena等（2013）显示醛固酮肾损伤模型中炎症基因表达下降，故IL-1β下降不能证明NACHT结合。HNW005与Nat. Commun. compound 32已是实验双节点/多靶抗痛风分子，本工作不声称首次双靶。compound 32结构引Nature SI IUPAC名。MD仅有[锁定计划](../config/md_protocol.yaml)与[实验清单](FOLLOWUP_EXPERIMENTS.md)，未授权、未执行，不报告轨迹数字。
 
 ## Results
 
@@ -62,10 +62,10 @@ A1的TP/FN/FP/TN为102/126/13/51，LR+ 2.20；A2为217/11/61/3，LR+约1；W2为
 
 价值在于明确证据适用范围并形成可实验检验候选：NLRP3模型提供缩库依据，URAT1 A1提供有限回顾富集，NLRP3结构门提供家族内相容性证据。URAT1回归与P2评分失败保留为SI的方法选择依据，不作为现行筛选分数。
 
-限制包括：A1漏掉已知URAT1药物Top-1姿势，不能把入选者解释为优于已知降尿酸药；W4阳性少且家族集中，并含失败诱饵；酸等价物定义宽于几何匹配器；历史药化集合含人工药名排除；1,588生产池以2026-07-01沉积的成员表为准，未保存当时精确软件版本，不声称概率可比特级重算；微观状态为单选；构象转移只提供静态敏感性。PF-03882845的MR拮抗作用提供上游炎症抑制解释，MD不能排除该混杂或确认直接NACHT结合。
+限制包括：A1漏掉已知URAT1药物Top-1姿势，不能把入选者解释为优于已知降尿酸药；W4阳性少且家族集中，并含失败诱饵；酸等价物定义宽于几何匹配器，且历史药化名单含药名排除（已接受，不改12/21）；1,588生产池以2026-07-01沉积的成员表为准，后来同阈值重训得1,377仅作SI，不编多线程因果；微观状态为单选；构象转移只提供静态敏感性；C1生产对接缺少GNINA版本日志。PF-03882845的MR拮抗作用提供上游炎症抑制解释。不得由肾病适应症推断URAT1顶膜暴露，也不得由文献零命中确认新靶点。MD计划已锁定参数但未跑，不能排除该混杂或确认直接NACHT结合。
 
-当前支持12个冻结结构候选及明确的后续选择，不支持已确认双靶抑制剂、新靶点注释或临床治疗结论。后续需区分URAT1尿酸转运功能、NLRP3直接结合/ATPase及上游通路效应。最终摘要和结论应随真实实验/MD证据更新。
+当前支持12个冻结结构候选及明确的后续选择，不支持已确认双靶抑制剂、新靶点注释或临床治疗结论。后续需区分URAT1尿酸转运功能、NLRP3直接结合/ATPase及上游通路效应，见[实验清单](FOLLOWUP_EXPERIMENTS.md)。最终摘要和结论应随真实实验/MD证据更新。
 
 ## 主图表与SI
 
-主图1：最终漏斗和交集；主图2：酸池与primary化学空间；主表1：双靶结构验证；主表2：12个primary的分seed指标。SI包括assay provenance、阈值敏感性、URAT1 ML、P2 negative-transfer分析、reserve、泄漏/相似性、受体映射与刚体转移。旧稿的51/7集合只能作为legacy audit set出现在归档或历史SI。
+主图1：最终漏斗和交集；主图2：酸池与primary化学空间；主表1：双靶结构验证；主表2：12个primary的分seed指标。SI包括assay provenance、阈值敏感性、URAT1 ML、P2 negative-transfer分析、reserve、泄漏/相似性、受体映射与刚体转移、药化反事实、GNINA日志汇总、原始文献核对。旧稿的51/7集合只能作为legacy audit set出现在归档或历史SI。

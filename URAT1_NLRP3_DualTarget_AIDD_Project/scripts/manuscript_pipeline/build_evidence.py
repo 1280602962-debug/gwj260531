@@ -177,10 +177,18 @@ def main():
         'production_pool_is_frozen':True, 'stored_model_generation_link':'not established by a contemporaneous hash',
         'retraining_is_sensitivity_not_production_replay':True})
     model = source('data/models/nlrp3_model.joblib')
-    write('data/frozen/model_manifest.json', {'path':'data/models/nlrp3_model.joblib', 'sha256':digest(model),
-        'role':'deposited model artifact; historical linkage to 1588 pool not independently demonstrated',
-        'unpickled_in_this_audit':False, 'production_membership':'data/repurposing/screening/docking_pool_p05.csv',
-        'pool_sha256':digest(source('data/repurposing/screening/docking_pool_p05.csv'))})
+    write('data/frozen/model_manifest.json', {
+        'path':'data/models/nlrp3_model.joblib', 'sha256':digest(model),
+        'git_blob':'819d2b4ea9bab0197748381f4c5dc0bd82637d78',
+        'first_commit':'72b132282e941a308dd7541d8e0d5711fc07d82e',
+        'first_commit_utc':'2026-07-01T08:45:18Z',
+        'unchanged_since_first_commit':True,
+        'role':'deposited model artifact from the same commit as the 1588 pool; bit-identical regeneration of those scores is not independently demonstrated',
+        'unpickled_in_this_audit':False,
+        'pickle_strings':{'sklearn_version':'1.9.0','n_jobs':-1,'xgboost_package_version':None},
+        'production_membership':'data/repurposing/screening/docking_pool_p05.csv',
+        'pool_sha256':digest(source('data/repurposing/screening/docking_pool_p05.csv')),
+        'env_search':'data/manuscript/audit/nlrp3_scoring_env_search.json'})
 
     # Reconstruct the actual set operations, retaining historical chemistry decisions.
     a1 = frame(C1+'07_clinical_dock/acid_dual_a1_frozen/acid_dual_keep_seed42.csv')
@@ -371,7 +379,7 @@ def main():
         ('primary',len(eligible),len(prim),'A1 seed42; remove structural control',C5+'04_shortlist_frozen/primary_candidates.csv','scripts/freeze_c5_shortlist.py'),
         ('reserve_parallel_branch',len(eligible),len(backup),'not A1; beta-lactam exclusion; not second-best potency',C5+'04_shortlist_frozen/backup_candidates.csv','scripts/freeze_c5_shortlist.py')]
     write('data/manuscript/tables/screening_funnel.csv',pd.DataFrame(funnel,columns=['stage','input_n','output_n','rule','source','historical_script']))
-    facts={'schema_version':1,'audited_base_commit':base,'status':'evidence_layer_audited_not_submission_ready',
+    facts={'schema_version':1,'audited_base_commit':base,'status':'evidence_layer_audited_limitations_accepted_md_not_run',
         'counts':{'clinical_library':len(library),'nlrp3_training_molecules':records.canonical_smiles.nunique(),
         'nlrp3_training_records':len(records),'nlrp3_unique_assays':records['Assay ChEMBL ID'].nunique(),
         'nlrp3_one_hot_assays':25,'prediction_assay_contexts':5,'production_pool':len(pool),'acid_equivalents':len(acids),
@@ -385,9 +393,15 @@ def main():
         'structure_only_counterfactual_additions':delta.ligand_id.tolist(),
         'limitations':['historical chemistry name exclusions remain part of frozen cohort provenance',
         'acid atom matcher recognizes COOH/carboxylate only, not all pool acid equivalents',
+        'items 2 chemistry rules accepted as limitations; 12/21 not replaced',
         'model hash identifies deposited artifact, not proven historical generator of frozen pool',
+        '1377 is SI retrain only; multithreading is not an established cause',
         'W4 includes scaffold-concentrated positives and five all-seed failed decoys',
-        'A1 has no explicit clash or IFP gate; W2 annotations cannot be assigned to all 12']}
+        'A1 has no explicit clash or IFP gate; W2 annotations cannot be assigned to all 12',
+        'C1 production acid docks have SDFs without GNINA version logs',
+        'GNINA 1.3.1 is documented in old text but not observed in deposited logs',
+        'PF-03882845 MR papers do not establish URAT1 apical exposure or a new target',
+        'MD protocol is locked but unauthorized and unexecuted; no trajectory numbers']}
     write('MANUSCRIPT_FACTS.yaml',facts)
     write('data/manuscript/audit/checks.json',CHECKS)
     write('data/manuscript/audit/environment.json',{'python':platform.python_version(),'pandas':pd.__version__,
@@ -421,7 +435,10 @@ def main():
         write('data/manuscript/audit/base_file_inventory.csv',pd.DataFrame(inventory))
     # Source files are stable; include manuscript generators/config as provenance too.
     source('scripts/manuscript_pipeline/build_evidence.py')
-    for rel in ['config/docking_final.yaml','config/urat1_gate_definition.yaml','config/nlrp3_gate_definition.yaml','config/md_protocol.yaml']:
+    for rel in ['config/docking_final.yaml','config/urat1_gate_definition.yaml','config/nlrp3_gate_definition.yaml','config/md_protocol.yaml',
+                'data/manuscript/tables/gnina_execution_log_summary.csv',
+                'data/manuscript/si/literature_primary_sources.md','data/manuscript/si/chemistry_limitation_acceptance.md',
+                'data/manuscript/si/published_dual_structures.csv','docs/FOLLOWUP_EXPERIMENTS.md']:
         source(rel)
     for rel in ['data/manuscript/audit/base_file_inventory.csv','data/manuscript/audit/geometry_recheck.json',
                 'data/manuscript/audit/clinical_pose_recheck.csv']:

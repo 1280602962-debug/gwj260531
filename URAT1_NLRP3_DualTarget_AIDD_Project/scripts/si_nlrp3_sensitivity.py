@@ -215,11 +215,10 @@ def main() -> None:
         if abs(t - 6.0) < 1e-9:
             np.save(OUT_THRESH / "q_max_threshold_6.0.npy", q_max)
 
-    # Apples-to-apples: compare freshly-retrained thresholds against each other
-    # (the frozen production model was trained in a separate run; XGBoost with
-    # n_jobs>1 is not bit-reproducible across runs even with a fixed seed, so a
-    # retrain-vs-frozen gap is expected and reported separately from the
-    # threshold effect itself).
+    # Apples-to-apples: compare freshly-retrained thresholds against each other.
+    # The frozen 1588 pool is the production membership table. A later retrain
+    # at threshold 6.0 gave n=1377; that SI result does not replace 1588, and
+    # the cause of the membership gap is not identified.
     pairwise_rows = []
     for i, ti in enumerate(thresholds):
         for tj in thresholds[i + 1:]:
@@ -269,7 +268,9 @@ def main() -> None:
             "Per-molecule probabilities differ by <1e-6 across the five assay "
             "contexts for clinical-library molecules (none of which appear in any "
             "training assay), so max/mean/median/top-2-mean give an identical "
-            "n=1377 pool at threshold=6.0 in this retrained model."
+            "n=1377 pool at threshold=6.0 in this retrained model. "
+            "The production membership remains docking_pool_p05.csv (n=1588). "
+            "The membership gap is reported; its cause is not identified."
         ),
         "n_library": int(len(lib)),
         "n_production_pool": len(prod_ids),

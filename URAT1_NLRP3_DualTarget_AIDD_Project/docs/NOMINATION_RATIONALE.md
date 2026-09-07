@@ -6,8 +6,10 @@
 
 受体刚体转移分析中，PF在9DKB/9DKA/9DKC/9B1I的酸基邻近距离约3.24/3.23/3.20/3.18 Å。该分析没有重对接，也没有考虑完整松弛。在NLRP3的8ETR转移中最短关键距离约2.14 Å，存在近接触，不能称为跨构象无冲突结合。
 
-关键混杂：已知MR药理背景可提供上游炎症抑制解释；即使未来观察到IL-1β下降，也不足以证明直接结合NACHT。原适应症为肾病亦不能代替肾小管腔侧游离暴露证据。当前不将文献无命中写作已确立新靶点。
+已知药理来自原始论文，不是新靶点发现。Meyers 等（2010，DOI 10.1021/jm100505n）将 PF-3882845 报告为非甾体盐皮质激素受体拮抗剂（MR 结合 IC50 2.7 nM），并在 Dahl 盐敏感大鼠肾病模型中显示降压与肾脏保护。Orena 等（2013，PMC3796291）在醛固酮肾损伤模型中观察到肾脏 *Il-6* 等炎症基因表达下降。因此，即使将来 IL-1β 下降，优先解释仍是 MR 上游通路，而不是直接结合 NACHT。糖尿病肾病适应症或肾脏保护动物数据**不能**推断近端小管顶膜游离暴露。对 `PF-03882845 AND (URAT1 OR NLRP3 OR gout)` 的公开检索无命中，只说明文献检索未把该药连到这些词，**不是**已确认的新靶点注释。
+
+HNW005（Sun 等，2025，DOI 10.1016/j.ejmech.2025.117644）与 Nature Communications compound 32（Zhang 等，2025，DOI 10.1038/s41467-025-62645-6；SI 化合物名为 1-((4-bromonaphthalen-1-yl)methyl)-N-(thiophen-2-ylsulfonyl)-1H-indole-2-carboxamide）已经是实验报道的 URAT1/NLRP3（或多转运体）抗痛风化学型。本工作不得写成首次双靶策略。结构来源见[文献核对](../data/manuscript/si/literature_primary_sources.md)。
 
 优先级具有规则依赖：更偏URAT1接触会偏向Lanifibranor；不同通路混杂考量可改变后续选择。固定选择PF的目的在于使后续验证可追溯，不产生“所有指标最优”的结论。
 
-下一阶段见[MD计划](../config/md_protocol.yaml)。MD需两个晶体配体对照，四个候选/对照体系各3×200 ns；当前尚未执行且关键运行细节待锁定。MM/GBSA不能回头改变12个primary或PF选择。直接URAT1转运抑制、NLRP3结合/ATPase及MR干预条件下的通路实验，是不同问题的验证方向。
+下一阶段见[MD计划](../config/md_protocol.yaml)与[实验清单](FOLLOWUP_EXPERIMENTS.md)。MD需两个晶体配体对照，四个体系各3×200 ns；当前尚未授权、尚未执行，不得写入轨迹数字。MM/GBSA不能回头改变12个primary或PF选择。直接URAT1转运抑制、NLRP3结合/ATPase及MR干预条件下的通路实验，是不同问题的验证方向。

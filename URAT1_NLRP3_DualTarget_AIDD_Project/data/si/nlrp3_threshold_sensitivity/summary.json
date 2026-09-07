@@ -89,7 +89,7 @@
       "jaccard_vs_production_frozen": 0.8671284634760705
     }
   ],
-  "aggregation_note": "Per-molecule probabilities differ by <1e-6 across the five assay contexts for clinical-library molecules (none of which appear in any training assay), so max/mean/median/top-2-mean give an identical n=1377 pool at threshold=6.0 in this retrained model.",
+  "aggregation_note": "Per-molecule probabilities differ by <1e-6 across the five assay contexts for clinical-library molecules (none of which appear in any training assay), so max/mean/median/top-2-mean give an identical n=1377 pool at threshold=6.0 in this retrained model. The production membership remains docking_pool_p05.csv (n=1588). The membership gap is reported; its cause is not identified.",
   "n_library": 8319,
   "n_production_pool": 1588
 }

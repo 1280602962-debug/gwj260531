@@ -1,6 +1,6 @@
 schema_version: 1
 audited_base_commit: cf5fd75833baac94be603ebaf6188022de4d0275
-status: evidence_layer_audited_not_submission_ready
+status: evidence_layer_audited_limitations_accepted_md_not_run
 counts:
   clinical_library: 8319
   nlrp3_training_molecules: 513
@@ -50,7 +50,13 @@ structure_only_counterfactual_additions:
 limitations:
 - historical chemistry name exclusions remain part of frozen cohort provenance
 - acid atom matcher recognizes COOH/carboxylate only, not all pool acid equivalents
+- items 2 chemistry rules accepted as limitations; 12/21 not replaced
 - model hash identifies deposited artifact, not proven historical generator of frozen
   pool
+- 1377 is SI retrain only; multithreading is not an established cause
 - W4 includes scaffold-concentrated positives and five all-seed failed decoys
 - A1 has no explicit clash or IFP gate; W2 annotations cannot be assigned to all 12
+- C1 production acid docks have SDFs without GNINA version logs
+- GNINA 1.3.1 is documented in old text but not observed in deposited logs
+- PF-03882845 MR papers do not establish URAT1 apical exposure or a new target
+- MD protocol is locked but unauthorized and unexecuted; no trajectory numbers
