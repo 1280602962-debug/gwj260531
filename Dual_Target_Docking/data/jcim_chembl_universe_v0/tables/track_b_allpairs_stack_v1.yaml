@@ -1,0 +1,36 @@
+# Synced pointer — prefer five_pair_local_recompute_v1.yaml on PR tip.
+# Local drafts run_track_b_*.py are superseded by official dock_/rescore_ scripts.
+schema: track_b_allpairs_stack_v1
+locked: 2026-09-05
+canonical: tables/five_pair_local_recompute_v1.yaml
+identity: analysis/PROJECT_IDENTITY_LOCK_V1.md
+primary_vina: done
+zero_dock_and_dump_gated: done_on_cloud
+holdout_ids: frozen_in_five_pair_dump_gated_v1
+
+do_now_ordered:
+  - A_gnina_independent_jak1_tyk2  # scripts/dock_track_b_gnina_independent_v1.py
+  - B_five_seed_vina              # scripts/dock_track_b_fiveseed_v1.py; reuse 20260727
+  - C_rtm_rescore                 # scripts/rescore_track_b_rtm_v1.py
+  - D_gnina_cnn_rescore           # scripts/rescore_track_b_gnina_cnn_v1.py
+  - E_holdout_dock_frozen_ids     # dock HO* panels; do NOT rebuild/redraw
+
+do_not_now:
+  - restock_table2_or_retitle
+  - rebuild_or_redraw_holdout
+  - pik3ca_pik3cb_redock
+  - ctsk_ctss_vina
+  - independent_gnina_non_gap_pairs
+  - crystal_swap_pm110_e16_on_five
+  - ligprep_or_seed_42
+  - bindingdb_hard_dock
+  - f2_f10_protonation_sensitivity
+
+frozen:
+  dock_seed_primary: 20260727
+  panel_seed: 20260729
+  holdout_seed: 20260731
+  vina_extra_seeds: [20260811, 20260812, 20260813, 20260814]
+  timeout_s: 600
+  skip_torsdof_ge: 25
+  jak1_jak2_holdout_drawn: "20/20/18"

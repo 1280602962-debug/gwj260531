@@ -101,7 +101,45 @@ def write_sdfs(targets: list[str]) -> None:
         print("wrote", out_sdf, n, flush=True)
 
 
-def run_rtm(target: str, protein: Path, reflig: Path | None, rtm_python: Path, rtm_py: Path, model: Path, rtm_root: Path):
+def cognate_pdb(target: str) -> Path | None:
+    """Prefer cognate PDB (no Open Babel). SDF is last resort only."""
+    cog = LOCAL / "cognates"
+    if not cog.exists():
+        return None
+    for p in sorted(cog.glob(f"{target}_*.pdb")):
+        return p
+    for p in sorted(cog.glob(f"{target}_*.sdf")):
+        return p
+    return None
+
+
+def ensure_pocket(target: str, protein: Path, cutoff: float = 10.0) -> Path:
+    """Build pocket PDB with ProDy only — same as K=4 cached pockets.
+
+    Avoids RTMScore ``-gen_pocket`` (needs Open Babel, missing in rtmscore env).
+    """
+    pocket = LOCAL / "receptors" / f"{target}_pocket_{cutoff:.1f}.pdb"
+    if pocket.exists() and pocket.stat().st_size > 100:
+        return pocket
+    reflig = cognate_pdb(target)
+    if reflig is None or reflig.suffix.lower() != ".pdb":
+        raise RuntimeError(
+            f"{target}: need cognate .pdb to build pocket without Open Babel (got {reflig})"
+        )
+    import prody as pr  # noqa: PLC0415 — only in rtmscore env / when building
+
+    xprot = pr.parsePDB(str(protein))
+    xlig = pr.parsePDB(str(reflig)).copy()
+    xlig.setResnames(["LIG"] * xlig.numAtoms())
+    ret = (xlig + xprot).select(f"same residue as exwithin {cutoff} of resname LIG")
+    if ret is None or ret.numAtoms() < 10:
+        raise RuntimeError(f"{target}: empty pocket from {protein.name} + {reflig.name}")
+    pr.writePDB(str(pocket), ret)
+    print(f"built pocket {pocket} n_atoms={ret.numAtoms()}", flush=True)
+    return pocket
+
+
+def run_rtm(target: str, protein: Path, rtm_python: Path, rtm_py: Path, model: Path, rtm_root: Path):
     logs = LOCAL / "logs" / "rtmscore"
     sdf = logs / f"{target}_poses.sdf"
     out_prefix = logs / f"{target}_rtmscore"
@@ -109,42 +147,32 @@ def run_rtm(target: str, protein: Path, reflig: Path | None, rtm_python: Path, r
     if csv_path.exists() and csv_path.stat().st_size > 100:
         print("reuse", csv_path, flush=True)
         return csv_path
-    pocket = LOCAL / "receptors" / f"{target}_pocket_10.0.pdb"
+    pocket = ensure_pocket(target, protein)
     log = logs / f"{target}_rtmscore.log"
-    print("RTM", target, flush=True)
-    if pocket.exists() and pocket.stat().st_size > 100:
-        cmd = [str(rtm_python), str(rtm_py), "-p", str(pocket), "-l", str(sdf), "-m", str(model), "-o", str(out_prefix)]
-    else:
-        if reflig is None or not reflig.exists():
-            raise SystemExit(f"need pocket or cognate reflig for {target}")
-        cmd = [
-            str(rtm_python),
-            str(rtm_py),
-            "-p",
-            str(protein),
-            "-l",
-            str(sdf),
-            "-m",
-            str(model),
-            "-o",
-            str(out_prefix),
-            "-gen_pocket",
-            "-c",
-            "10.0",
-            "-rl",
-            str(reflig),
-        ]
+    print("RTM", target, "pocket=", pocket.name, "(no -gen_pocket)", flush=True)
+    # Pass pre-built pocket only — never -gen_pocket (Open Babel broken/missing in env).
+    cmd = [
+        str(rtm_python),
+        str(rtm_py),
+        "-p",
+        str(pocket),
+        "-l",
+        str(sdf),
+        "-m",
+        str(model),
+        "-o",
+        str(out_prefix),
+    ]
     with log.open("w") as fh:
         proc = subprocess.run(cmd, cwd=str(rtm_root / "example"), stdout=fh, stderr=subprocess.STDOUT)
     if proc.returncode != 0:
-        raise SystemExit(f"RTM failed {target}; see {log}")
-    gen = protein.with_name(protein.stem + "_pocket_10.0.pdb")
-    if gen.exists() and not pocket.exists():
-        pocket.write_bytes(gen.read_bytes())
+        raise RuntimeError(f"RTM failed {target}; see {log}")
     if not csv_path.exists():
         alt = rtm_root / "example" / f"{out_prefix.name}.csv"
         if alt.exists():
             alt.rename(csv_path)
+    if not csv_path.exists():
+        raise RuntimeError(f"RTM produced no CSV for {target}; see {log}")
     print("OK", csv_path, flush=True)
     return csv_path
 
@@ -170,22 +198,36 @@ def main() -> int:
 
     targets = sorted({t for _, ts, _ in PAIRS for t in ts})
     write_sdfs(targets)
+    failed: list[str] = []
     for t in targets:
         protein = LOCAL / "receptors" / f"{t}_protein.pdb"
         if not protein.exists():
             protein = LOCAL / "receptors" / f"{t}_receptor.pdb"
-        reflig = None
-        cog = LOCAL / "cognates"
-        if cog.exists():
-            hits = list(cog.glob(f"{t}_*.sdf")) + list(cog.glob(f"{t}_*.pdb"))
-            reflig = hits[0] if hits else None
-        run_rtm(t, protein, reflig, args.rtm_python, rtm_py, args.model, args.rtm_root)
+        try:
+            run_rtm(t, protein, args.rtm_python, rtm_py, args.model, args.rtm_root)
+        except Exception as exc:  # noqa: BLE001 — continue other targets (K=4 style resilience)
+            failed.append(t)
+            print(f"WARN: RTM {t} failed ({exc}); continuing", flush=True)
 
     rows = []
     for pair, ts, panel_csv in PAIRS:
         panel = list(csv.DictReader(panel_csv.open()))
         for t in ts:
-            d = pd.read_csv(LOCAL / "logs" / "rtmscore" / f"{t}_rtmscore.csv")
+            csv_t = LOCAL / "logs" / "rtmscore" / f"{t}_rtmscore.csv"
+            if not csv_t.exists():
+                for rec in panel:
+                    rows.append(
+                        {
+                            "pair": pair,
+                            "target": t,
+                            "ligand": rec["panel_id"],
+                            "rtm_best": "",
+                            "best_mode": "",
+                            "status": "missing_rtm",
+                        }
+                    )
+                continue
+            d = pd.read_csv(csv_t)
             id_col = "id" if "id" in d.columns else d.columns[0]
             sc_col = "score" if "score" in d.columns else d.columns[1]
             by = {}
@@ -214,8 +256,8 @@ def main() -> int:
         w = csv.DictWriter(fh, fieldnames=["pair", "target", "ligand", "rtm_best", "best_mode", "status"])
         w.writeheader()
         w.writerows(rows)
-    print("wrote", out, "n=", len(rows), flush=True)
-    return 0
+    print("wrote", out, "n=", len(rows), "failed_targets=", failed, flush=True)
+    return 1 if failed else 0
 
 
 if __name__ == "__main__":
