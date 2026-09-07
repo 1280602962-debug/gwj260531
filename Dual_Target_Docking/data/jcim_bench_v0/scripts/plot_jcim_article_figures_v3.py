@@ -397,7 +397,7 @@ def fig1_framework(D: dict) -> None:
     for i, v in enumerate(vals):
         ax.text(v + 0.8, i, str(v), va="center", fontsize=6.4)
     ax.text(0.02, -0.18, "EGFR kept as supply-limited (B-only = 7), not a J0 thick pair.",
-            transform=ax.transAxes, ha="left", fontsize=5.8, color="#555555")
+            transform=ax.transAxes, ha="left", fontsize=6.0, color="#555555")
 
     bx = fig.add_subplot(gs_c[0, 1])
     j0_keys = ["HDAC1/HDAC6", "PIK3CA/MTOR", "ACHE/BCHE", "PIK3CA/PIK3CB", "EGFR/HER2"]
@@ -414,13 +414,13 @@ def fig1_framework(D: dict) -> None:
     bx.bar(x2, dump_vals, color=C["vina"], width=0.78, zorder=3)
     bx.axhline(50, color=C["ink"], ls="--", lw=0.8, zorder=2)
     bx.set_xticks(list(x1) + list(x2))
-    bx.set_xticklabels(j0_lab + dump_lab, fontsize=5.4)
+    bx.set_xticklabels(j0_lab + dump_lab, fontsize=6.0)
     bx.set_ylabel("min strict hard-neg.")
     bx.set_ylim(0, 140)
     bx.set_title("Hard-negative supply (two audits)", fontsize=FS_AXIS, pad=4)
     bx.text(2.0, 128, "J0 scrape", ha="center", fontsize=6.0, color="#555555")
     bx.text(8.2, 128, "later ChEMBL 37 dump", ha="center", fontsize=6.0, color="#555555")
-    bx.text(0.02, 0.52, "gate ≥50", transform=bx.transAxes, ha="left", va="bottom",
+    bx.text(0.98, 0.38, "gate ≥50", transform=bx.transAxes, ha="right", va="bottom",
             fontsize=6.0, color="#555555")
     bx.axvline(5.6, color="#DDDDDD", lw=0.8, zorder=1)
 
@@ -489,7 +489,7 @@ def fig2_formulation(D: dict) -> None:
     ax.set_title("Descriptive formulation contrast", fontsize=FS_AXIS, pad=3)
     ax.legend(loc="lower right", fontsize=6.2, frameon=False)
     ax.text(0.98, 0.04, "PIK3CA/mTOR neither n=4, hatched", transform=ax.transAxes,
-            ha="right", va="bottom", fontsize=5.8, color="#666666")
+            ha="right", va="bottom", fontsize=6.0, color="#666666")
     ax.axhline(2.5, color="#E6E6E6", lw=0.7, zorder=0)
     PROVENANCE["plotted"]["fig2B"] = {
         p: {"directional": {"y": plotted[p]["smin"], "lo": plotted[p]["lo"], "hi": plotted[p]["hi"]},
@@ -530,7 +530,7 @@ def fig2_formulation(D: dict) -> None:
 
 
 def fig3_chemistry(D: dict) -> None:
-    fig = plt.figure(figsize=(7.0, 6.85))
+    fig = plt.figure(figsize=(7.0, 7.15))
     gs = fig.add_gridspec(2, 2, height_ratios=[1.18, 1.00], hspace=0.36, wspace=0.32)
 
     ax = fig.add_subplot(gs[0, :])
@@ -577,7 +577,7 @@ def fig3_chemistry(D: dict) -> None:
     ax.barh(yy, deltas, color=bar_cols, height=0.72, zorder=3)
     ax.axvline(0, color=C["ink"], lw=0.8, zorder=2)
     ax.set_yticks(yy)
-    ax.set_yticklabels(labels, fontsize=5.3)
+    ax.set_yticklabels(labels, fontsize=6.0)
     ax.invert_yaxis()
     ax.set_xlabel("ΔAUROC (ECFP4+Vina − ECFP4)")
     ax.set_xlim(-0.040, 0.040)
@@ -638,7 +638,7 @@ def fig4_realization(D: dict) -> None:
     ax.set_ylabel("AUROC")
     ax.set_ylim(0, 1.08)
     ax.set_title("Independent GNINA pose generation", fontsize=FS_AXIS, pad=3)
-    ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.28), ncol=1, fontsize=5.4, frameon=False)
+    ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.28), ncol=1, fontsize=6.0, frameon=False)
     PROVENANCE["plotted"]["fig4A"] = {
         "pairs": list(GNINA_INDEP_PAIRS),
         "vina_smin": vina_smin, "gnina_smin": g_smin,
@@ -688,7 +688,7 @@ def fig4_realization(D: dict) -> None:
     ax.legend(handles=[
         Line2D([0], [0], marker="D", color=C["desc"], ls="none", ms=5, label="primary seed"),
         Line2D([0], [0], marker="o", color=C["vina"], ls="none", ms=5, label="median"),
-    ], loc="upper center", bbox_to_anchor=(0.5, -0.28), ncol=1, fontsize=5.6, frameon=False)
+    ], loc="upper center", bbox_to_anchor=(0.5, -0.28), ncol=1, fontsize=6.0, frameon=False)
     ax.axhline(2.5, color="#E6E6E6", lw=0.7, zorder=0)
     PROVENANCE["plotted"]["fig4C"] = plotted_s
 
@@ -719,7 +719,7 @@ def fig5_mismatched(D: dict) -> None:
     forest_pairs(ax, HOLDOUT_PAIRS, recs_b, "Unused-pool holdout Δ",
                  "ΔAUROC (matched − mismatched)", (-0.36, 0.38))
     ax.text(0.02, 0.02, "no EGFR/HER2 holdout", transform=ax.transAxes,
-            ha="left", va="bottom", fontsize=5.8, color="#666666")
+            ha="left", va="bottom", fontsize=6.0, color="#666666")
     ax.axhline(1.5, color="#E6E6E6", lw=0.7, zorder=0)
     PROVENANCE["plotted"]["fig5B"] = recs_b
 
@@ -745,7 +745,7 @@ def fig5_mismatched(D: dict) -> None:
     ax.legend(handles=[
         Line2D([0], [0], marker="o", color=C["vina"], ls="none", ms=5.5, label="main"),
         Line2D([0], [0], marker="s", color=C["holdout"], ls="none", ms=5.0, label="holdout"),
-    ], loc="lower right", fontsize=5.8, frameon=False)
+    ], loc="upper left", fontsize=6.0, frameon=False)
     ax.axhline(1.5, color="#E6E6E6", lw=0.7, zorder=0)
     PROVENANCE["plotted"]["fig5C"] = recs_c
 
@@ -776,7 +776,7 @@ def fig6_boundary(D: dict) -> None:
     ax.set_ylabel("summary_min")
     ax.set_ylim(0.15, 0.85)
     ax.set_title("Label-threshold sensitivity", fontsize=FS_AXIS, pad=3)
-    ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.24), ncol=2, fontsize=5.2, frameon=False)
+    ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.24), ncol=2, fontsize=6.0, frameon=False)
     PROVENANCE["plotted"]["fig6A"] = grid
 
     ax = axes[0, 1]
@@ -823,10 +823,10 @@ def fig6_boundary(D: dict) -> None:
     ax.set_title("BindingDB-native external gate", fontsize=FS_AXIS, pad=3)
     ax.text(0, n_fail + 0.12, str(n_fail), ha="center", fontsize=8, fontweight="bold")
     ax.text(1, n_pass + 0.12, str(n_pass), ha="center", fontsize=8, fontweight="bold")
-    ax.text(0.5, 4.45, "original four-pair contract; not docked", ha="center", fontsize=5.8, color="#666666")
+    ax.text(0.5, 4.45, "original four-pair contract; not docked", ha="center", fontsize=6.0, color="#666666")
     PROVENANCE["plotted"]["fig6D"] = {"n_fail": n_fail, "n_pass": n_pass, "contract": contract}
 
-    fig.subplots_adjust(wspace=0.38, hspace=0.62, left=0.10, right=0.98, top=0.94, bottom=0.14)
+    fig.subplots_adjust(wspace=0.38, hspace=0.68, left=0.10, right=0.98, top=0.94, bottom=0.16)
     save_all(fig, "Fig6_evidence_boundary")
     plt.close(fig)
 
@@ -871,7 +871,7 @@ def fig_s4_forest(D: dict) -> None:
         ax.plot(r["smin"], i + 0.12, "o", color=C["vina"], markersize=5.6, zorder=4)
         ax.plot(dval, i - 0.14, "s", color=C["desc"], markersize=4.8, zorder=4)
         ax.text(0.98, i, name, transform=ax.get_yaxis_transform(), ha="right", va="center",
-                fontsize=5.6, color=C["desc"])
+                fontsize=6.0, color=C["desc"])
     ax.axvline(0.5, color=C["chance"], ls="--", lw=0.85, zorder=1)
     ax.set_yticks(y)
     ax.set_yticklabels([PAIR_SHORT[p] for p in PRIMARY_PAIRS], fontsize=7.0)
@@ -933,7 +933,7 @@ def fig_s7_diagnostics(D: dict) -> None:
     labels = ["audited\nJ0 pairs", "directional\nn≥10", "formulation\nn≥10", "J0-era\ndocked", "primary\nrows now"]
     ax.bar(range(5), counts, color=[C["vina"], C["desc"], C["thick"], C["egfr"], C["dual"]], width=0.68, zorder=3)
     ax.set_xticks(range(5))
-    ax.set_xticklabels(labels, fontsize=5.6)
+    ax.set_xticklabels(labels, fontsize=6.0)
     ax.set_ylabel("Pair count")
     ax.set_ylim(0, max(counts) + 8)
     ax.set_title("θ=6.0 label census + later primary set", fontsize=FS_AXIS, pad=3)
@@ -952,7 +952,7 @@ def fig_s7_diagnostics(D: dict) -> None:
     ax.set_xlim(0, 1.02)
     ax.set_ylim(0, 1.02)
     ax.set_title("AND-like filter (vina_worst)", fontsize=FS_AXIS, pad=3)
-    ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.28), ncol=1, fontsize=5.4, frameon=False)
+    ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.28), ncol=1, fontsize=6.0, frameon=False)
 
     ax = axes[2]
     panel_label(ax, "C", x=-0.18, y=1.06)
@@ -971,7 +971,7 @@ def fig_s7_diagnostics(D: dict) -> None:
     ax.set_ylim(0.35, 1.05)
     ax.set_ylabel("GroupKFold AUROC")
     ax.set_title("Ligand-only full maps (original three)", fontsize=FS_AXIS, pad=3)
-    ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.28), ncol=1, fontsize=5.4, frameon=False)
+    ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.28), ncol=1, fontsize=6.0, frameon=False)
 
     PROVENANCE["plotted"]["figS7"] = {
         "n_pairs": n_pairs, "n_dir": n_dir, "n_form": n_form, "n_dock_j0": n_dock_j0,
@@ -1002,7 +1002,7 @@ def fig_s8_bindingdb(D: dict) -> None:
     ax.set_xticklabels(labs, fontsize=6.2)
     ax.set_ylabel("Remaining InChIKeys")
     ax.set_title("BindingDB-native filter cascade", fontsize=FS_AXIS, pad=3)
-    ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.28), ncol=2, fontsize=5.4, frameon=False)
+    ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.28), ncol=2, fontsize=6.0, frameon=False)
 
     ax = axes[1]
     panel_label(ax, "B", x=-0.18, y=1.06)
@@ -1020,7 +1020,7 @@ def fig_s8_bindingdb(D: dict) -> None:
     ax.set_xticklabels(["EGFR/\nHER2", "AChE/\nBChE", "PIK3CA/\nPIK3CB", "PIK3CA/\nmTOR"], fontsize=6.0)
     ax.set_ylabel("Count after ECFP4 filter")
     ax.set_title("Four-state remainder (not docked)", fontsize=FS_AXIS, pad=3)
-    ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.28), ncol=4, fontsize=5.4, frameon=False)
+    ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.28), ncol=4, fontsize=6.0, frameon=False)
     n_fail = sum(r["packaged_as_external_evaluation"] == "0" for r in four)
     ax.text(0.98, 0.95, f"external gate pass = {4 - n_fail}/4", transform=ax.transAxes,
             ha="right", va="top", fontsize=6.0, color="#555555")
