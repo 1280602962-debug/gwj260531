@@ -13,6 +13,7 @@
 | [论文数据](data/manuscript/README.md) | 六个证据包、主文表、SI与溯源 |
 | [整理核对报告](docs/CONSOLIDATION_AUDIT.md) | 条目1–4已闭合；MD未跑 |
 | [后续实验](docs/FOLLOWUP_EXPERIMENTS.md) | MD参数与湿实验清单；无轨迹数字 |
+| [URAT1能力对接](docs/URAT1_CAPABILITY_DOCK.md) | 本机D1/D2；20个新作业；不改12/21 |
 | [复现工作流](scripts/manuscript_pipeline/README.md) | 重建、核对、生成图表 |
 | [开发归档](docs/archive/README.md) | 原文快照及兼容重定向；非当前主线 |
 
