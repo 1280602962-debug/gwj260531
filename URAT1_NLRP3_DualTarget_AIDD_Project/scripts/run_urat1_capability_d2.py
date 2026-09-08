@@ -104,8 +104,28 @@ def ligand_heavy_xyz(st: gemmi.Structure, chain: str, resn: str, seqid: int) -> 
     return np.array(xyz, dtype=float)
 
 
+def _pdb_atom_name(atom: gemmi.Atom) -> str:
+    """Format atom name into PDB columns 13-16."""
+    elem = (atom.element.name or "").strip().upper()
+    raw = (atom.name or elem or "X").strip()
+    if len(raw) >= 4:
+        return raw[:4]
+    if len(elem) == 1 and raw.upper().startswith(elem):
+        return f" {raw:<3s}"[:4]
+    return f"{raw:<4s}"[:4]
+
+
 def write_ligand_sdf(st: gemmi.Structure, chain: str, resn: str, seqid: int, dest: Path) -> Path:
+    """Write crystal ligand ref as SDF.
+
+    CCD codes can exceed the PDB 3-character residue field (e.g. A1AIK); truncate
+    only for the temporary PDB bridge. Bond orders come from Open Babel geometry
+    perception — bare RDKit PDB import yields saturated nonsense and breaks RMSD.
+    """
+    import subprocess
+
     model = st[0]
+    pdb_resn = (resn.strip()[:3] or "LIG").rjust(3)[:3]
     pdb_lines = []
     serial = 1
     for res in model[chain]:
@@ -114,24 +134,30 @@ def write_ligand_sdf(st: gemmi.Structure, chain: str, resn: str, seqid: int, des
         for atom in res:
             if atom.is_hydrogen():
                 continue
+            elem = (atom.element.name or "C").strip()[:2]
             pdb_lines.append(
-                f"HETATM{serial:5d} {atom.name:^4s}{resn:>3s} "
+                f"HETATM{serial:5d} {_pdb_atom_name(atom)}{pdb_resn} "
                 f"{chain}{seqid:4d}    "
                 f"{atom.pos.x:8.3f}{atom.pos.y:8.3f}{atom.pos.z:8.3f}"
-                f"  1.00  0.00           {atom.element.name:>2s}\n"
+                f"  1.00  0.00          {elem:>2s}\n"
             )
             serial += 1
     pdb_lines.append("END\n")
     dest.parent.mkdir(parents=True, exist_ok=True)
     pdb_path = dest.with_suffix(".pdb")
     pdb_path.write_text("".join(pdb_lines))
-    mol = Chem.MolFromPDBFile(str(pdb_path), removeHs=False, sanitize=False)
+    proc = subprocess.run(
+        ["obabel", str(pdb_path), "-O", str(dest)],
+        capture_output=True,
+        text=True,
+    )
+    if proc.returncode != 0 or not dest.exists() or dest.stat().st_size == 0:
+        raise ValueError(
+            f"Open Babel failed to write {dest}: {(proc.stderr or proc.stdout or '').strip()}"
+        )
+    mol = Chem.MolFromMolFile(str(dest), removeHs=False, sanitize=False)
     if mol is None:
-        raise ValueError(f"RDKit failed to read {pdb_path}")
-    mol.UpdatePropertyCache(strict=False)
-    writer = Chem.SDWriter(str(dest))
-    writer.write(mol)
-    writer.close()
+        raise ValueError(f"RDKit failed to read Open Babel SDF {dest}")
     return dest
 
 
