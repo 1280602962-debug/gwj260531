@@ -1,6 +1,6 @@
 # Zenodo / GitHub release pack (do this last)
 
-Do **not** mint a DOI while document-blocked, assay-context, or time-split tables may still change.
+Do **not** mint a DOI while SI table numbering or document-blocked / assay-context / time-split tables may still change. Typeset SI is now Note S0 + Tables S1–S13; remaining working tables are Note S14 / GitHub Release.
 
 ## Cloud-prepared now
 
