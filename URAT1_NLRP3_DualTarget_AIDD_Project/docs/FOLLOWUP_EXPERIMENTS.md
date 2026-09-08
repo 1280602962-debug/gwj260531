@@ -2,6 +2,8 @@
 
 状态：计划。`md_authorized` 仍为 false。没有轨迹、占有率或 MM/GBSA 数字。不改 12/21。
 
+本机若要补 URAT1 搜索/选择/构象依赖对接，用[`URAT1_CAPABILITY_DOCK.md`](URAT1_CAPABILITY_DOCK.md)：D1 为 9DKA/B/C 的 20 个新作业，不是旧 W1 闸门，也不重对 156 库。
+
 详细 MD 参数见 [`config/md_protocol.yaml`](../config/md_protocol.yaml)。PF 选择理由见 [`NOMINATION_RATIONALE.md`](NOMINATION_RATIONALE.md)。
 
 ## A. 投稿前已闭合（计算稿）

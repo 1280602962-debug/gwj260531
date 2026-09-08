@@ -1,0 +1,915 @@
+[
+  {
+    "layer": "d1",
+    "ligand": "lesinurad",
+    "target": "urat1_9dkb",
+    "pdb": "9DKB",
+    "seed": 42,
+    "self_dock": true,
+    "sdf": "data/campaigns/c5/06_capability_dock/d1/9dkb/seed42/lesinurad_out.sdf",
+    "status": "ok",
+    "rmsd_definition": "symmetry-aware heavy-atom pose RMSD in docking-receptor frame; no ligand superposition",
+    "native_like_cutoff_A": 2.0,
+    "reference": {
+      "ligand": "lesinurad",
+      "native_pdb": "9DKB",
+      "dock_pdb": "9DKB",
+      "self_dock": true,
+      "source_ref": "data/campaigns/c5/01_ligand_prep/w1_crystal_refs/lesinurad_A1AIL_crystal_ref.sdf",
+      "transform": "identity"
+    },
+    "n_poses": 9,
+    "n_scored_poses": 9,
+    "CNNscore_top1": 0.940526247,
+    "top1_pose_rmsd_A": 4.361537544261201,
+    "best_of_9_pose_rmsd_A": 1.2425226523756692,
+    "best_rmsd_cnnscore_rank": 7,
+    "success_at_1": false,
+    "success_at_3": false,
+    "success_at_5": false,
+    "success_at_9": true,
+    "capability_class": "search_ok_selection_fail",
+    "acid_arg_top1_A": 14.107409436179271,
+    "acid_arg_best_rmsd_A": 6.116582787799083,
+    "per_mode": [
+      {
+        "cnnscore_rank": 1,
+        "sdf_index": 0,
+        "CNNscore": 0.940526247,
+        "pose_rmsd_A": 4.361537544261201
+      },
+      {
+        "cnnscore_rank": 2,
+        "sdf_index": 1,
+        "CNNscore": 0.889491022,
+        "pose_rmsd_A": 4.919529893699196
+      },
+      {
+        "cnnscore_rank": 3,
+        "sdf_index": 2,
+        "CNNscore": 0.692628026,
+        "pose_rmsd_A": 4.797894512179275
+      },
+      {
+        "cnnscore_rank": 4,
+        "sdf_index": 3,
+        "CNNscore": 0.678801417,
+        "pose_rmsd_A": 4.722129392551628
+      },
+      {
+        "cnnscore_rank": 5,
+        "sdf_index": 4,
+        "CNNscore": 0.67098254,
+        "pose_rmsd_A": 2.0169794454414576
+      },
+      {
+        "cnnscore_rank": 6,
+        "sdf_index": 5,
+        "CNNscore": 0.670793176,
+        "pose_rmsd_A": 5.0529484214664215
+      },
+      {
+        "cnnscore_rank": 7,
+        "sdf_index": 6,
+        "CNNscore": 0.642901361,
+        "pose_rmsd_A": 1.2425226523756692
+      },
+      {
+        "cnnscore_rank": 8,
+        "sdf_index": 7,
+        "CNNscore": 0.62732774,
+        "pose_rmsd_A": 5.758293573186418
+      },
+      {
+        "cnnscore_rank": 9,
+        "sdf_index": 8,
+        "CNNscore": 0.625947595,
+        "pose_rmsd_A": 5.028103560654519
+      }
+    ],
+    "run_status": "reused"
+  },
+  {
+    "layer": "d1",
+    "ligand": "lesinurad",
+    "target": "urat1_9dkb",
+    "pdb": "9DKB",
+    "seed": 43,
+    "self_dock": true,
+    "sdf": "data/campaigns/c5/06_capability_dock/d1/9dkb/seed43/lesinurad_out.sdf",
+    "status": "ok",
+    "rmsd_definition": "symmetry-aware heavy-atom pose RMSD in docking-receptor frame; no ligand superposition",
+    "native_like_cutoff_A": 2.0,
+    "reference": {
+      "ligand": "lesinurad",
+      "native_pdb": "9DKB",
+      "dock_pdb": "9DKB",
+      "self_dock": true,
+      "source_ref": "data/campaigns/c5/01_ligand_prep/w1_crystal_refs/lesinurad_A1AIL_crystal_ref.sdf",
+      "transform": "identity"
+    },
+    "n_poses": 9,
+    "n_scored_poses": 9,
+    "CNNscore_top1": 0.943714678,
+    "top1_pose_rmsd_A": 4.374537618423235,
+    "best_of_9_pose_rmsd_A": 4.374537618423235,
+    "best_rmsd_cnnscore_rank": 1,
+    "success_at_1": false,
+    "success_at_3": false,
+    "success_at_5": false,
+    "success_at_9": false,
+    "capability_class": "search_incomplete",
+    "acid_arg_top1_A": 14.12549942479911,
+    "acid_arg_best_rmsd_A": 14.12549942479911,
+    "per_mode": [
+      {
+        "cnnscore_rank": 1,
+        "sdf_index": 0,
+        "CNNscore": 0.943714678,
+        "pose_rmsd_A": 4.374537618423235
+      },
+      {
+        "cnnscore_rank": 2,
+        "sdf_index": 1,
+        "CNNscore": 0.801610649,
+        "pose_rmsd_A": 4.849220624663994
+      },
+      {
+        "cnnscore_rank": 3,
+        "sdf_index": 2,
+        "CNNscore": 0.771478295,
+        "pose_rmsd_A": 4.847461810061015
+      },
+      {
+        "cnnscore_rank": 4,
+        "sdf_index": 3,
+        "CNNscore": 0.715349972,
+        "pose_rmsd_A": 4.8364666941201335
+      },
+      {
+        "cnnscore_rank": 5,
+        "sdf_index": 4,
+        "CNNscore": 0.680831134,
+        "pose_rmsd_A": 4.65013848808112
+      },
+      {
+        "cnnscore_rank": 6,
+        "sdf_index": 5,
+        "CNNscore": 0.660731316,
+        "pose_rmsd_A": 5.081863306570402
+      },
+      {
+        "cnnscore_rank": 7,
+        "sdf_index": 6,
+        "CNNscore": 0.637030959,
+        "pose_rmsd_A": 5.243106796070436
+      },
+      {
+        "cnnscore_rank": 8,
+        "sdf_index": 7,
+        "CNNscore": 0.618129492,
+        "pose_rmsd_A": 5.052643561377879
+      },
+      {
+        "cnnscore_rank": 9,
+        "sdf_index": 8,
+        "CNNscore": 0.616280019,
+        "pose_rmsd_A": 5.785668270246172
+      }
+    ],
+    "run_status": "reused"
+  },
+  {
+    "layer": "d1",
+    "ligand": "lesinurad",
+    "target": "urat1_9dkb",
+    "pdb": "9DKB",
+    "seed": 44,
+    "self_dock": true,
+    "sdf": "data/campaigns/c5/06_capability_dock/d1/9dkb/seed44/lesinurad_out.sdf",
+    "status": "ok",
+    "rmsd_definition": "symmetry-aware heavy-atom pose RMSD in docking-receptor frame; no ligand superposition",
+    "native_like_cutoff_A": 2.0,
+    "reference": {
+      "ligand": "lesinurad",
+      "native_pdb": "9DKB",
+      "dock_pdb": "9DKB",
+      "self_dock": true,
+      "source_ref": "data/campaigns/c5/01_ligand_prep/w1_crystal_refs/lesinurad_A1AIL_crystal_ref.sdf",
+      "transform": "identity"
+    },
+    "n_poses": 9,
+    "n_scored_poses": 9,
+    "CNNscore_top1": 0.904750764,
+    "top1_pose_rmsd_A": 4.927145928425501,
+    "best_of_9_pose_rmsd_A": 3.88515891995853,
+    "best_rmsd_cnnscore_rank": 5,
+    "success_at_1": false,
+    "success_at_3": false,
+    "success_at_5": false,
+    "success_at_9": false,
+    "capability_class": "search_incomplete",
+    "acid_arg_top1_A": 13.772946634616712,
+    "acid_arg_best_rmsd_A": 3.0596414822655196,
+    "per_mode": [
+      {
+        "cnnscore_rank": 1,
+        "sdf_index": 0,
+        "CNNscore": 0.904750764,
+        "pose_rmsd_A": 4.927145928425501
+      },
+      {
+        "cnnscore_rank": 2,
+        "sdf_index": 1,
+        "CNNscore": 0.866775095,
+        "pose_rmsd_A": 4.266978141300157
+      },
+      {
+        "cnnscore_rank": 3,
+        "sdf_index": 2,
+        "CNNscore": 0.832185984,
+        "pose_rmsd_A": 4.847537480515237
+      },
+      {
+        "cnnscore_rank": 4,
+        "sdf_index": 3,
+        "CNNscore": 0.827785313,
+        "pose_rmsd_A": 4.05448996484145
+      },
+      {
+        "cnnscore_rank": 5,
+        "sdf_index": 4,
+        "CNNscore": 0.746032953,
+        "pose_rmsd_A": 3.88515891995853
+      },
+      {
+        "cnnscore_rank": 6,
+        "sdf_index": 5,
+        "CNNscore": 0.71249032,
+        "pose_rmsd_A": 4.832001125310298
+      },
+      {
+        "cnnscore_rank": 7,
+        "sdf_index": 6,
+        "CNNscore": 0.679266632,
+        "pose_rmsd_A": 4.448401613688527
+      },
+      {
+        "cnnscore_rank": 8,
+        "sdf_index": 7,
+        "CNNscore": 0.666584134,
+        "pose_rmsd_A": 5.049277299772711
+      },
+      {
+        "cnnscore_rank": 9,
+        "sdf_index": 8,
+        "CNNscore": 0.628572941,
+        "pose_rmsd_A": 5.759231079319531
+      }
+    ],
+    "run_status": "reused"
+  },
+  {
+    "layer": "d1",
+    "ligand": "benzbromarone",
+    "target": "urat1_9dka",
+    "pdb": "9DKA",
+    "seed": 42,
+    "self_dock": true,
+    "sdf": "data/campaigns/c5/06_capability_dock/d1/9dka/seed42/benzbromarone_out.sdf",
+    "status": "ok",
+    "rmsd_definition": "symmetry-aware heavy-atom pose RMSD in docking-receptor frame; no ligand superposition",
+    "native_like_cutoff_A": 2.0,
+    "reference": {
+      "ligand": "benzbromarone",
+      "native_pdb": "9DKA",
+      "dock_pdb": "9DKA",
+      "self_dock": true,
+      "source_ref": "data/campaigns/c5/01_ligand_prep/w1_crystal_refs/benzbromarone_R75_crystal_ref.sdf",
+      "transform": "identity"
+    },
+    "n_poses": 9,
+    "n_scored_poses": 9,
+    "CNNscore_top1": 0.966074467,
+    "top1_pose_rmsd_A": 3.585375725207765,
+    "best_of_9_pose_rmsd_A": 1.110232858458081,
+    "best_rmsd_cnnscore_rank": 3,
+    "success_at_1": false,
+    "success_at_3": true,
+    "success_at_5": true,
+    "success_at_9": true,
+    "capability_class": "search_ok_selection_fail",
+    "acid_arg_top1_A": null,
+    "acid_arg_best_rmsd_A": null,
+    "per_mode": [
+      {
+        "cnnscore_rank": 1,
+        "sdf_index": 0,
+        "CNNscore": 0.966074467,
+        "pose_rmsd_A": 3.585375725207765
+      },
+      {
+        "cnnscore_rank": 2,
+        "sdf_index": 1,
+        "CNNscore": 0.963265657,
+        "pose_rmsd_A": 3.6173257387191464
+      },
+      {
+        "cnnscore_rank": 3,
+        "sdf_index": 2,
+        "CNNscore": 0.94948566,
+        "pose_rmsd_A": 1.110232858458081
+      },
+      {
+        "cnnscore_rank": 4,
+        "sdf_index": 3,
+        "CNNscore": 0.948014677,
+        "pose_rmsd_A": 1.1337018407131398
+      },
+      {
+        "cnnscore_rank": 5,
+        "sdf_index": 4,
+        "CNNscore": 0.924003303,
+        "pose_rmsd_A": 6.360617390702661
+      },
+      {
+        "cnnscore_rank": 6,
+        "sdf_index": 5,
+        "CNNscore": 0.92080617,
+        "pose_rmsd_A": 6.3823386316530515
+      },
+      {
+        "cnnscore_rank": 7,
+        "sdf_index": 6,
+        "CNNscore": 0.862618506,
+        "pose_rmsd_A": 1.5280759738370955
+      },
+      {
+        "cnnscore_rank": 8,
+        "sdf_index": 7,
+        "CNNscore": 0.861266375,
+        "pose_rmsd_A": 4.299447718232912
+      },
+      {
+        "cnnscore_rank": 9,
+        "sdf_index": 8,
+        "CNNscore": 0.837722301,
+        "pose_rmsd_A": 4.290546839485406
+      }
+    ],
+    "run_status": "reused"
+  },
+  {
+    "layer": "d1",
+    "ligand": "benzbromarone",
+    "target": "urat1_9dka",
+    "pdb": "9DKA",
+    "seed": 43,
+    "self_dock": true,
+    "sdf": "data/campaigns/c5/06_capability_dock/d1/9dka/seed43/benzbromarone_out.sdf",
+    "status": "ok",
+    "rmsd_definition": "symmetry-aware heavy-atom pose RMSD in docking-receptor frame; no ligand superposition",
+    "native_like_cutoff_A": 2.0,
+    "reference": {
+      "ligand": "benzbromarone",
+      "native_pdb": "9DKA",
+      "dock_pdb": "9DKA",
+      "self_dock": true,
+      "source_ref": "data/campaigns/c5/01_ligand_prep/w1_crystal_refs/benzbromarone_R75_crystal_ref.sdf",
+      "transform": "identity"
+    },
+    "n_poses": 9,
+    "n_scored_poses": 9,
+    "CNNscore_top1": 0.966175914,
+    "top1_pose_rmsd_A": 3.603307962515454,
+    "best_of_9_pose_rmsd_A": 1.0870610712960318,
+    "best_rmsd_cnnscore_rank": 3,
+    "success_at_1": false,
+    "success_at_3": true,
+    "success_at_5": true,
+    "success_at_9": true,
+    "capability_class": "search_ok_selection_fail",
+    "acid_arg_top1_A": null,
+    "acid_arg_best_rmsd_A": null,
+    "per_mode": [
+      {
+        "cnnscore_rank": 1,
+        "sdf_index": 0,
+        "CNNscore": 0.966175914,
+        "pose_rmsd_A": 3.603307962515454
+      },
+      {
+        "cnnscore_rank": 2,
+        "sdf_index": 1,
+        "CNNscore": 0.963544428,
+        "pose_rmsd_A": 3.6118181143170953
+      },
+      {
+        "cnnscore_rank": 3,
+        "sdf_index": 2,
+        "CNNscore": 0.953806698,
+        "pose_rmsd_A": 1.0870610712960318
+      },
+      {
+        "cnnscore_rank": 4,
+        "sdf_index": 3,
+        "CNNscore": 0.948569119,
+        "pose_rmsd_A": 1.130674416604373
+      },
+      {
+        "cnnscore_rank": 5,
+        "sdf_index": 4,
+        "CNNscore": 0.922009528,
+        "pose_rmsd_A": 6.361888756136386
+      },
+      {
+        "cnnscore_rank": 6,
+        "sdf_index": 5,
+        "CNNscore": 0.920121074,
+        "pose_rmsd_A": 6.380193948320212
+      },
+      {
+        "cnnscore_rank": 7,
+        "sdf_index": 6,
+        "CNNscore": 0.823719263,
+        "pose_rmsd_A": 5.768667433172544
+      },
+      {
+        "cnnscore_rank": 8,
+        "sdf_index": 7,
+        "CNNscore": 0.815185666,
+        "pose_rmsd_A": 4.244704342418381
+      },
+      {
+        "cnnscore_rank": 9,
+        "sdf_index": 8,
+        "CNNscore": 0.790275156,
+        "pose_rmsd_A": 5.789986446051026
+      }
+    ],
+    "run_status": "reused"
+  },
+  {
+    "layer": "d1",
+    "ligand": "benzbromarone",
+    "target": "urat1_9dka",
+    "pdb": "9DKA",
+    "seed": 44,
+    "self_dock": true,
+    "sdf": "data/campaigns/c5/06_capability_dock/d1/9dka/seed44/benzbromarone_out.sdf",
+    "status": "ok",
+    "rmsd_definition": "symmetry-aware heavy-atom pose RMSD in docking-receptor frame; no ligand superposition",
+    "native_like_cutoff_A": 2.0,
+    "reference": {
+      "ligand": "benzbromarone",
+      "native_pdb": "9DKA",
+      "dock_pdb": "9DKA",
+      "self_dock": true,
+      "source_ref": "data/campaigns/c5/01_ligand_prep/w1_crystal_refs/benzbromarone_R75_crystal_ref.sdf",
+      "transform": "identity"
+    },
+    "n_poses": 9,
+    "n_scored_poses": 9,
+    "CNNscore_top1": 0.965928435,
+    "top1_pose_rmsd_A": 3.5953747370754017,
+    "best_of_9_pose_rmsd_A": 1.108933066264393,
+    "best_rmsd_cnnscore_rank": 3,
+    "success_at_1": false,
+    "success_at_3": true,
+    "success_at_5": true,
+    "success_at_9": true,
+    "capability_class": "search_ok_selection_fail",
+    "acid_arg_top1_A": null,
+    "acid_arg_best_rmsd_A": null,
+    "per_mode": [
+      {
+        "cnnscore_rank": 1,
+        "sdf_index": 0,
+        "CNNscore": 0.965928435,
+        "pose_rmsd_A": 3.5953747370754017
+      },
+      {
+        "cnnscore_rank": 2,
+        "sdf_index": 1,
+        "CNNscore": 0.963407815,
+        "pose_rmsd_A": NaN
+      },
+      {
+        "cnnscore_rank": 3,
+        "sdf_index": 2,
+        "CNNscore": 0.949915946,
+        "pose_rmsd_A": 1.108933066264393
+      },
+      {
+        "cnnscore_rank": 4,
+        "sdf_index": 3,
+        "CNNscore": 0.947470546,
+        "pose_rmsd_A": 1.1300546044731248
+      },
+      {
+        "cnnscore_rank": 5,
+        "sdf_index": 4,
+        "CNNscore": 0.922844172,
+        "pose_rmsd_A": NaN
+      },
+      {
+        "cnnscore_rank": 6,
+        "sdf_index": 5,
+        "CNNscore": 0.919270754,
+        "pose_rmsd_A": 6.366887665528155
+      },
+      {
+        "cnnscore_rank": 7,
+        "sdf_index": 6,
+        "CNNscore": 0.894343555,
+        "pose_rmsd_A": 1.6805194948965259
+      },
+      {
+        "cnnscore_rank": 8,
+        "sdf_index": 7,
+        "CNNscore": 0.851953506,
+        "pose_rmsd_A": 4.281730899998271
+      },
+      {
+        "cnnscore_rank": 9,
+        "sdf_index": 8,
+        "CNNscore": 0.846100926,
+        "pose_rmsd_A": 4.302849563212312
+      }
+    ],
+    "run_status": "reused"
+  },
+  {
+    "layer": "d1",
+    "ligand": "benzbromarone",
+    "target": "urat1_9dkb",
+    "pdb": "9DKB",
+    "seed": 42,
+    "self_dock": false,
+    "sdf": "data/campaigns/c5/06_capability_dock/d1/9dkb/seed42/benzbromarone_out.sdf",
+    "status": "ok",
+    "rmsd_definition": "symmetry-aware heavy-atom pose RMSD in docking-receptor frame; no ligand superposition",
+    "native_like_cutoff_A": 2.0,
+    "reference": {
+      "ligand": "benzbromarone",
+      "native_pdb": "9DKA",
+      "dock_pdb": "9DKB",
+      "self_dock": false,
+      "source_ref": "data/campaigns/c5/01_ligand_prep/w1_crystal_refs/benzbromarone_R75_crystal_ref.sdf",
+      "transform": "chainA_CA_Kabsch_native_onto_dock_receptor",
+      "ca_rmsd_A": 0.8968,
+      "n_ca": 517,
+      "transformed_ref": "data/campaigns/c5/06_capability_dock/refs_transformed/benzbromarone_onto_9DKB.sdf"
+    },
+    "n_poses": 9,
+    "n_scored_poses": 9,
+    "CNNscore_top1": 0.7638309,
+    "top1_pose_rmsd_A": 1.3715431783214116,
+    "best_of_9_pose_rmsd_A": 1.3715431783214116,
+    "best_rmsd_cnnscore_rank": 1,
+    "success_at_1": true,
+    "success_at_3": true,
+    "success_at_5": true,
+    "success_at_9": true,
+    "capability_class": "selection_ok",
+    "acid_arg_top1_A": null,
+    "acid_arg_best_rmsd_A": null,
+    "per_mode": [
+      {
+        "cnnscore_rank": 1,
+        "sdf_index": 0,
+        "CNNscore": 0.7638309,
+        "pose_rmsd_A": 1.3715431783214116
+      },
+      {
+        "cnnscore_rank": 2,
+        "sdf_index": 1,
+        "CNNscore": 0.730990589,
+        "pose_rmsd_A": 6.08306314427795
+      },
+      {
+        "cnnscore_rank": 3,
+        "sdf_index": 2,
+        "CNNscore": 0.703404129,
+        "pose_rmsd_A": 1.4426194228177132
+      },
+      {
+        "cnnscore_rank": 4,
+        "sdf_index": 3,
+        "CNNscore": 0.605372787,
+        "pose_rmsd_A": 5.98674788701907
+      },
+      {
+        "cnnscore_rank": 5,
+        "sdf_index": 4,
+        "CNNscore": 0.593791962,
+        "pose_rmsd_A": NaN
+      },
+      {
+        "cnnscore_rank": 6,
+        "sdf_index": 5,
+        "CNNscore": 0.588659525,
+        "pose_rmsd_A": 6.257643438881911
+      },
+      {
+        "cnnscore_rank": 7,
+        "sdf_index": 6,
+        "CNNscore": 0.588630497,
+        "pose_rmsd_A": 6.136522786414292
+      },
+      {
+        "cnnscore_rank": 8,
+        "sdf_index": 7,
+        "CNNscore": 0.579643965,
+        "pose_rmsd_A": 5.37904490246431
+      },
+      {
+        "cnnscore_rank": 9,
+        "sdf_index": 8,
+        "CNNscore": 0.57844156,
+        "pose_rmsd_A": 3.9613767497722767
+      }
+    ],
+    "run_status": "reused"
+  },
+  {
+    "layer": "d1",
+    "ligand": "benzbromarone",
+    "target": "urat1_9dkb",
+    "pdb": "9DKB",
+    "seed": 43,
+    "self_dock": false,
+    "sdf": "/workspace/URAT1_NLRP3_DualTarget_AIDD_Project/data/campaigns/c5/06_capability_dock/d1/9dkb/seed43/benzbromarone_out.sdf",
+    "status": "missing",
+    "rmsd_definition": "symmetry-aware heavy-atom pose RMSD in docking-receptor frame; no ligand superposition",
+    "native_like_cutoff_A": 2.0,
+    "capability_class": "unevaluable",
+    "run_status": "scored"
+  },
+  {
+    "layer": "d1",
+    "ligand": "benzbromarone",
+    "target": "urat1_9dkb",
+    "pdb": "9DKB",
+    "seed": 44,
+    "self_dock": false,
+    "sdf": "/workspace/URAT1_NLRP3_DualTarget_AIDD_Project/data/campaigns/c5/06_capability_dock/d1/9dkb/seed44/benzbromarone_out.sdf",
+    "status": "missing",
+    "rmsd_definition": "symmetry-aware heavy-atom pose RMSD in docking-receptor frame; no ligand superposition",
+    "native_like_cutoff_A": 2.0,
+    "capability_class": "unevaluable",
+    "run_status": "scored"
+  },
+  {
+    "layer": "d1",
+    "ligand": "benzbromarone",
+    "target": "urat1_9dkc",
+    "pdb": "9DKC",
+    "seed": 42,
+    "self_dock": false,
+    "sdf": "/workspace/URAT1_NLRP3_DualTarget_AIDD_Project/data/campaigns/c5/06_capability_dock/d1/9dkc/seed42/benzbromarone_out.sdf",
+    "status": "missing",
+    "rmsd_definition": "symmetry-aware heavy-atom pose RMSD in docking-receptor frame; no ligand superposition",
+    "native_like_cutoff_A": 2.0,
+    "capability_class": "unevaluable",
+    "run_status": "scored"
+  },
+  {
+    "layer": "d1",
+    "ligand": "benzbromarone",
+    "target": "urat1_9dkc",
+    "pdb": "9DKC",
+    "seed": 43,
+    "self_dock": false,
+    "sdf": "/workspace/URAT1_NLRP3_DualTarget_AIDD_Project/data/campaigns/c5/06_capability_dock/d1/9dkc/seed43/benzbromarone_out.sdf",
+    "status": "missing",
+    "rmsd_definition": "symmetry-aware heavy-atom pose RMSD in docking-receptor frame; no ligand superposition",
+    "native_like_cutoff_A": 2.0,
+    "capability_class": "unevaluable",
+    "run_status": "scored"
+  },
+  {
+    "layer": "d1",
+    "ligand": "benzbromarone",
+    "target": "urat1_9dkc",
+    "pdb": "9DKC",
+    "seed": 44,
+    "self_dock": false,
+    "sdf": "/workspace/URAT1_NLRP3_DualTarget_AIDD_Project/data/campaigns/c5/06_capability_dock/d1/9dkc/seed44/benzbromarone_out.sdf",
+    "status": "missing",
+    "rmsd_definition": "symmetry-aware heavy-atom pose RMSD in docking-receptor frame; no ligand superposition",
+    "native_like_cutoff_A": 2.0,
+    "capability_class": "unevaluable",
+    "run_status": "scored"
+  },
+  {
+    "layer": "d1",
+    "ligand": "lesinurad",
+    "target": "urat1_9dka",
+    "pdb": "9DKA",
+    "seed": 42,
+    "self_dock": false,
+    "sdf": "/workspace/URAT1_NLRP3_DualTarget_AIDD_Project/data/campaigns/c5/06_capability_dock/d1/9dka/seed42/lesinurad_out.sdf",
+    "status": "missing",
+    "rmsd_definition": "symmetry-aware heavy-atom pose RMSD in docking-receptor frame; no ligand superposition",
+    "native_like_cutoff_A": 2.0,
+    "capability_class": "unevaluable",
+    "run_status": "scored"
+  },
+  {
+    "layer": "d1",
+    "ligand": "lesinurad",
+    "target": "urat1_9dka",
+    "pdb": "9DKA",
+    "seed": 43,
+    "self_dock": false,
+    "sdf": "/workspace/URAT1_NLRP3_DualTarget_AIDD_Project/data/campaigns/c5/06_capability_dock/d1/9dka/seed43/lesinurad_out.sdf",
+    "status": "missing",
+    "rmsd_definition": "symmetry-aware heavy-atom pose RMSD in docking-receptor frame; no ligand superposition",
+    "native_like_cutoff_A": 2.0,
+    "capability_class": "unevaluable",
+    "run_status": "scored"
+  },
+  {
+    "layer": "d1",
+    "ligand": "lesinurad",
+    "target": "urat1_9dka",
+    "pdb": "9DKA",
+    "seed": 44,
+    "self_dock": false,
+    "sdf": "/workspace/URAT1_NLRP3_DualTarget_AIDD_Project/data/campaigns/c5/06_capability_dock/d1/9dka/seed44/lesinurad_out.sdf",
+    "status": "missing",
+    "rmsd_definition": "symmetry-aware heavy-atom pose RMSD in docking-receptor frame; no ligand superposition",
+    "native_like_cutoff_A": 2.0,
+    "capability_class": "unevaluable",
+    "run_status": "scored"
+  },
+  {
+    "layer": "d1",
+    "ligand": "lesinurad",
+    "target": "urat1_9dkc",
+    "pdb": "9DKC",
+    "seed": 42,
+    "self_dock": false,
+    "sdf": "/workspace/URAT1_NLRP3_DualTarget_AIDD_Project/data/campaigns/c5/06_capability_dock/d1/9dkc/seed42/lesinurad_out.sdf",
+    "status": "missing",
+    "rmsd_definition": "symmetry-aware heavy-atom pose RMSD in docking-receptor frame; no ligand superposition",
+    "native_like_cutoff_A": 2.0,
+    "capability_class": "unevaluable",
+    "run_status": "scored"
+  },
+  {
+    "layer": "d1",
+    "ligand": "lesinurad",
+    "target": "urat1_9dkc",
+    "pdb": "9DKC",
+    "seed": 43,
+    "self_dock": false,
+    "sdf": "/workspace/URAT1_NLRP3_DualTarget_AIDD_Project/data/campaigns/c5/06_capability_dock/d1/9dkc/seed43/lesinurad_out.sdf",
+    "status": "missing",
+    "rmsd_definition": "symmetry-aware heavy-atom pose RMSD in docking-receptor frame; no ligand superposition",
+    "native_like_cutoff_A": 2.0,
+    "capability_class": "unevaluable",
+    "run_status": "scored"
+  },
+  {
+    "layer": "d1",
+    "ligand": "lesinurad",
+    "target": "urat1_9dkc",
+    "pdb": "9DKC",
+    "seed": 44,
+    "self_dock": false,
+    "sdf": "/workspace/URAT1_NLRP3_DualTarget_AIDD_Project/data/campaigns/c5/06_capability_dock/d1/9dkc/seed44/lesinurad_out.sdf",
+    "status": "missing",
+    "rmsd_definition": "symmetry-aware heavy-atom pose RMSD in docking-receptor frame; no ligand superposition",
+    "native_like_cutoff_A": 2.0,
+    "capability_class": "unevaluable",
+    "run_status": "scored"
+  },
+  {
+    "layer": "d1",
+    "ligand": "TD-3",
+    "target": "urat1_9dka",
+    "pdb": "9DKA",
+    "seed": 42,
+    "self_dock": false,
+    "sdf": "/workspace/URAT1_NLRP3_DualTarget_AIDD_Project/data/campaigns/c5/06_capability_dock/d1/9dka/seed42/TD-3_out.sdf",
+    "status": "missing",
+    "rmsd_definition": "symmetry-aware heavy-atom pose RMSD in docking-receptor frame; no ligand superposition",
+    "native_like_cutoff_A": 2.0,
+    "capability_class": "unevaluable",
+    "run_status": "scored"
+  },
+  {
+    "layer": "d1",
+    "ligand": "TD-3",
+    "target": "urat1_9dka",
+    "pdb": "9DKA",
+    "seed": 43,
+    "self_dock": false,
+    "sdf": "/workspace/URAT1_NLRP3_DualTarget_AIDD_Project/data/campaigns/c5/06_capability_dock/d1/9dka/seed43/TD-3_out.sdf",
+    "status": "missing",
+    "rmsd_definition": "symmetry-aware heavy-atom pose RMSD in docking-receptor frame; no ligand superposition",
+    "native_like_cutoff_A": 2.0,
+    "capability_class": "unevaluable",
+    "run_status": "scored"
+  },
+  {
+    "layer": "d1",
+    "ligand": "TD-3",
+    "target": "urat1_9dka",
+    "pdb": "9DKA",
+    "seed": 44,
+    "self_dock": false,
+    "sdf": "/workspace/URAT1_NLRP3_DualTarget_AIDD_Project/data/campaigns/c5/06_capability_dock/d1/9dka/seed44/TD-3_out.sdf",
+    "status": "missing",
+    "rmsd_definition": "symmetry-aware heavy-atom pose RMSD in docking-receptor frame; no ligand superposition",
+    "native_like_cutoff_A": 2.0,
+    "capability_class": "unevaluable",
+    "run_status": "scored"
+  },
+  {
+    "layer": "d1",
+    "ligand": "TD-3",
+    "target": "urat1_9dkb",
+    "pdb": "9DKB",
+    "seed": 42,
+    "self_dock": false,
+    "sdf": "/workspace/URAT1_NLRP3_DualTarget_AIDD_Project/data/campaigns/c5/06_capability_dock/d1/9dkb/seed42/TD-3_out.sdf",
+    "status": "missing",
+    "rmsd_definition": "symmetry-aware heavy-atom pose RMSD in docking-receptor frame; no ligand superposition",
+    "native_like_cutoff_A": 2.0,
+    "capability_class": "unevaluable",
+    "run_status": "scored"
+  },
+  {
+    "layer": "d1",
+    "ligand": "TD-3",
+    "target": "urat1_9dkb",
+    "pdb": "9DKB",
+    "seed": 43,
+    "self_dock": false,
+    "sdf": "/workspace/URAT1_NLRP3_DualTarget_AIDD_Project/data/campaigns/c5/06_capability_dock/d1/9dkb/seed43/TD-3_out.sdf",
+    "status": "missing",
+    "rmsd_definition": "symmetry-aware heavy-atom pose RMSD in docking-receptor frame; no ligand superposition",
+    "native_like_cutoff_A": 2.0,
+    "capability_class": "unevaluable",
+    "run_status": "scored"
+  },
+  {
+    "layer": "d1",
+    "ligand": "TD-3",
+    "target": "urat1_9dkb",
+    "pdb": "9DKB",
+    "seed": 44,
+    "self_dock": false,
+    "sdf": "/workspace/URAT1_NLRP3_DualTarget_AIDD_Project/data/campaigns/c5/06_capability_dock/d1/9dkb/seed44/TD-3_out.sdf",
+    "status": "missing",
+    "rmsd_definition": "symmetry-aware heavy-atom pose RMSD in docking-receptor frame; no ligand superposition",
+    "native_like_cutoff_A": 2.0,
+    "capability_class": "unevaluable",
+    "run_status": "scored"
+  },
+  {
+    "layer": "d1",
+    "ligand": "TD-3",
+    "target": "urat1_9dkc",
+    "pdb": "9DKC",
+    "seed": 42,
+    "self_dock": true,
+    "sdf": "/workspace/URAT1_NLRP3_DualTarget_AIDD_Project/data/campaigns/c5/06_capability_dock/d1/9dkc/seed42/TD-3_out.sdf",
+    "status": "missing",
+    "rmsd_definition": "symmetry-aware heavy-atom pose RMSD in docking-receptor frame; no ligand superposition",
+    "native_like_cutoff_A": 2.0,
+    "capability_class": "unevaluable",
+    "run_status": "scored"
+  },
+  {
+    "layer": "d1",
+    "ligand": "TD-3",
+    "target": "urat1_9dkc",
+    "pdb": "9DKC",
+    "seed": 43,
+    "self_dock": true,
+    "sdf": "/workspace/URAT1_NLRP3_DualTarget_AIDD_Project/data/campaigns/c5/06_capability_dock/d1/9dkc/seed43/TD-3_out.sdf",
+    "status": "missing",
+    "rmsd_definition": "symmetry-aware heavy-atom pose RMSD in docking-receptor frame; no ligand superposition",
+    "native_like_cutoff_A": 2.0,
+    "capability_class": "unevaluable",
+    "run_status": "scored"
+  },
+  {
+    "layer": "d1",
+    "ligand": "TD-3",
+    "target": "urat1_9dkc",
+    "pdb": "9DKC",
+    "seed": 44,
+    "self_dock": true,
+    "sdf": "/workspace/URAT1_NLRP3_DualTarget_AIDD_Project/data/campaigns/c5/06_capability_dock/d1/9dkc/seed44/TD-3_out.sdf",
+    "status": "missing",
+    "rmsd_definition": "symmetry-aware heavy-atom pose RMSD in docking-receptor frame; no ligand superposition",
+    "native_like_cutoff_A": 2.0,
+    "capability_class": "unevaluable",
+    "run_status": "scored"
+  }
+]

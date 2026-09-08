@@ -5,6 +5,7 @@
 - [CONSOLIDATION_AUDIT.md](CONSOLIDATION_AUDIT.md)：正确性核对；条目1–4已按限制或日志闭合。
 - [NOMINATION_RATIONALE.md](NOMINATION_RATIONALE.md)：PF-03882845跟进依据。
 - [FOLLOWUP_EXPERIMENTS.md](FOLLOWUP_EXPERIMENTS.md)：MD与湿实验清单；无轨迹数字。
+- [URAT1_CAPABILITY_DOCK.md](URAT1_CAPABILITY_DOCK.md)：本机 D1/D2 对接能力矩阵；不改12/21。
 - [archive](archive/README.md)：原路线、旧稿和开发审计，原路径仅保留兼容重定向。
 - [internal](internal/README.md)：内部期刊/投稿策略讨论。
 
