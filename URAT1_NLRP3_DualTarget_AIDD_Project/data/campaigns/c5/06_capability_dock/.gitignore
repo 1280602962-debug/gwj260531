@@ -1,0 +1,10 @@
+# Keep scored tables, prep metadata, and deposited pose SDFs.
+# Ignore bulky/noisy GNINA side files and intermediate PDB bridges.
+**/seed*/**/*_stdout.txt
+**/seed*/**/*_TIMEOUT.txt
+**/seed*/**/*.log
+d2/**/*_crystal_ref.pdb
+d2/**/*_crystal_ref_ob.pdb
+d2/**/*_receptor.pdbqt
+**/d1_run_*.log
+**/d2_run_*.log

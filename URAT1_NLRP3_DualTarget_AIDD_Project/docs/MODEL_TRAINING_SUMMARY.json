@@ -1,0 +1,186 @@
+{
+  "framework": "asymmetric_dual_evidence",
+  "urat1": {
+    "model": "XGBoost regression + split conformal (alpha=0.1)",
+    "transfer_learning": {
+      "enabled": false,
+      "method": "sequential_finetune",
+      "auxiliary": "slc22_oat_transfer",
+      "oat_pretrain_compounds": 0,
+      "final_model_oat_transfer": false
+    },
+    "cv_metrics": {
+      "rmse": 0.6634725892592518,
+      "mae": 0.49847748712321566,
+      "r2": 0.5079205459521259,
+      "spearman": 0.7258124808529701,
+      "ef_10pct_p6": 1.70991731239274,
+      "ef_5pct_p7": 3.2930364086249555,
+      "roc_auc_p7": 0.8520835788068024,
+      "active_rate_p6": 0.5705596107055961,
+      "active_rate_p7": 0.2518248175182482,
+      "ef_p6_theoretical_max": 1.7526652452025586,
+      "mean_interval_width": 2.51048066552248,
+      "n_compounds": 822,
+      "oat_transfer": false,
+      "oat_pretrain_compounds": 0
+    },
+    "fold_metrics": [
+      {
+        "rmse": 0.5752767573375747,
+        "mae": 0.4254818649291992,
+        "r2": 0.3377831402699074,
+        "spearman": 0.478775970816229,
+        "n": 165,
+        "fold": 0,
+        "ef_10pct_p6": 1.0893485915492958,
+        "ef_5pct_p7": 2.0625,
+        "roc_auc_p7": 0.7184920634920635,
+        "mean_interval_width": 1.9974853992462158,
+        "oat_pretrain_used": false
+      },
+      {
+        "rmse": 0.6765377199637405,
+        "mae": 0.48490243588071885,
+        "r2": 0.4827625231411845,
+        "spearman": 0.7381533697179082,
+        "n": 165,
+        "fold": 1,
+        "ef_10pct_p6": 1.7368421052631577,
+        "ef_5pct_p7": 2.4264705882352944,
+        "roc_auc_p7": 0.8874269005847953,
+        "mean_interval_width": 2.242053270339966,
+        "oat_pretrain_used": false
+      },
+      {
+        "rmse": 0.6692101442508086,
+        "mae": 0.5552477416759584,
+        "r2": 0.5769284223598345,
+        "spearman": 0.7663980626395088,
+        "n": 164,
+        "fold": 2,
+        "ef_10pct_p6": 1.842696629213483,
+        "ef_5pct_p7": 3.075,
+        "roc_auc_p7": 0.8616935483870968,
+        "mean_interval_width": 1.9161626100540161,
+        "oat_pretrain_used": false
+      },
+      {
+        "rmse": 0.7544164491145245,
+        "mae": 0.5436160039901734,
+        "r2": 0.29447302036710044,
+        "spearman": 0.5502203136336032,
+        "n": 164,
+        "fold": 3,
+        "ef_10pct_p6": 1.75,
+        "ef_5pct_p7": 3.53448275862069,
+        "roc_auc_p7": 0.8367816091954023,
+        "mean_interval_width": 4.436159133911133,
+        "oat_pretrain_used": false
+      },
+      {
+        "rmse": 0.6292104377884095,
+        "mae": 0.48366725910000685,
+        "r2": 0.5185909188574604,
+        "spearman": 0.7151540350801654,
+        "n": 164,
+        "fold": 4,
+        "ef_10pct_p6": 2.6885245901639343,
+        "ef_5pct_p7": 5.314814814814815,
+        "roc_auc_p7": 0.9071370640713707,
+        "mean_interval_width": 1.9653081893920898,
+        "oat_pretrain_used": false
+      }
+    ],
+    "screening_assessment": {
+      "suitable_for_screening": true,
+      "checks": {
+        "spearman_oof_ok": true,
+        "r2_oof_ok": true,
+        "rmse_oof_ok": true,
+        "roc_auc_p7_ok": true,
+        "ef_5pct_p7_ok": true,
+        "fold_stability_ok": true
+      },
+      "criteria_passed": 6,
+      "criteria_total": 6,
+      "thresholds": {
+        "spearman_oof": 0.65,
+        "r2_oof": 0.45,
+        "rmse_oof": 0.7,
+        "roc_auc_p7": 0.8,
+        "ef_5pct_p7": 2.5,
+        "fold_spearman_min": 0.45
+      },
+      "metric_note": "EF@10% at p>=6 is NOT used: with ~57% actives the theoretical maximum EF is only ~1.75, so values near 1.8 do not indicate good virtual screening performance.",
+      "recommendation": "Passes strict OOF scaffold-CV criteria; still requires benchmark backtest before library screening."
+    }
+  },
+  "nlrp3": {
+    "model": "Assay-conditioned XGBoost classifier (top-25 assays one-hot)",
+    "cv_metrics": {
+      "auroc": 0.8934017784193573,
+      "auprc": 0.9143469018214805,
+      "ef_10pct": 1.5706359287488578,
+      "n_compounds": 513,
+      "n_records": 609,
+      "n_assays_used": 25
+    },
+    "fold_metrics": [
+      {
+        "auroc": 0.943351691581432,
+        "auprc": 0.9654681820700037,
+        "n": 103,
+        "fold": 0,
+        "ef_10pct": 1.6612903225806452
+      },
+      {
+        "auroc": 0.9285714285714286,
+        "auprc": 0.9359886832663735,
+        "n": 103,
+        "fold": 1,
+        "ef_10pct": 1.9074074074074074
+      },
+      {
+        "auroc": 0.8782201405152226,
+        "auprc": 0.9028451152326918,
+        "n": 103,
+        "fold": 2,
+        "ef_10pct": 1.5196721311475412
+      },
+      {
+        "auroc": 0.7948190789473685,
+        "auprc": 0.8449282318932392,
+        "n": 102,
+        "fold": 3,
+        "ef_10pct": 1.434375
+      },
+      {
+        "auroc": 0.9220465524813352,
+        "auprc": 0.9225042966450939,
+        "n": 102,
+        "fold": 4,
+        "ef_10pct": 1.3304347826086955
+      }
+    ],
+    "screening_assessment": {
+      "suitable_for_screening": true,
+      "checks": {
+        "auroc_ok": true,
+        "auprc_ok": true,
+        "ef_ok": true
+      },
+      "criteria_passed": 3,
+      "criteria_total": 3,
+      "thresholds": {
+        "auroc": 0.7,
+        "auprc": 0.65,
+        "ef_10pct": 1.5
+      },
+      "metric_note": null,
+      "recommendation": "Passes strict OOF scaffold-CV criteria; still requires benchmark backtest before library screening."
+    }
+  },
+  "overall_screening_ready": true,
+  "warning": "CV pass alone is insufficient for URAT1. Run 07_benchmark_backtest.py; URAT1 requires benchmark recovery before library screening."
+}

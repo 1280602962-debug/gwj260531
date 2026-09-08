@@ -1,0 +1,40 @@
+schema_version: 1
+target: URAT1
+production_receptor: 9DKB
+distance_atoms: COOH_or_carboxylate_O_to_Arg_NE_NH1_NH2
+literature_arg: 477
+prepared_arg: {chain: A, residue: 476, resname: ARG}
+distance_anchor_A: 6.7026966215098716
+distance_margin_A: 1.0
+distance_max_A: 7.7027
+distance_meaning: crystal_relative_proximity_not_salt_bridge
+centroid_max_A: 6.0
+A1:
+  pose_selection: highest_CNNscore_then_geometry
+  checks: [COOH_or_carboxylate_present, acid_distance, heavy_atom_centroid]
+  explicit_clash_gate: false
+  explicit_ifp_gate: false
+  nomination_seed: 42
+  role: retrospective_weak_to_moderate_enrichment_primary_gate
+A2:
+  pose_selection: geometry_passing_modes_then_highest_CNNscore
+  role: pose_accessibility_only_no_activity_discrimination
+  joint_with_nlrp3_structural_required_seeds: 2
+  seeds: [42, 43, 44]
+W2:
+  pose_selection: highest_CNNscore_then_ifp_checks
+  anchors: [deposited_A1AIL_9DKB, deposited_R75_9DKA_transformed, deposited_A1A45_9DKC_transformed]
+  pocket_overlap_min: 0.5
+  pocket_overlap_atom_radius_A: 2.5
+  ifp_jaccard_min: 0.5
+  key_contacts_min: 6
+  mapped_key_residues: 11
+  expected_key_residues: 12
+  unmapped: Q437_is_LEU_in_9DKB
+  contact_cutoff_A: 4.5
+  clash_below_A: 2.2
+  role: annotation_on_frozen_membership_not_independent_ranking
+  primary_ge2of3_n: 8
+implemented_acid_equivalent_limitation: tetrazole_and_acylsulfonamide_without_COOH_are_not_recognized_by_pose_matcher
+validation: data/manuscript/tables/urat1_gate_validation.csv
+mapping: data/manuscript/tables/residue_mapping.csv

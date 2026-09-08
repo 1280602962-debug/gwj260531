@@ -1,0 +1,26 @@
+{
+  "urat1": {
+    "n_compounds": 822,
+    "pactivity_mean": 6.230711678832117,
+    "pactivity_std": 0.9463890336462843,
+    "n_scaffolds": 218,
+    "source": "/workspace/URAT1_NLRP3_DualTarget_AIDD_Project/data/raw/URAT1_CHEMBL_cf12.csv"
+  },
+  "nlrp3": {
+    "n_records": 609,
+    "n_compounds": 513,
+    "n_assays": 39,
+    "n_multi_assay_compounds": 80,
+    "n_conflict_gt_1log_compounds": 37,
+    "pct_conflict_gt_1log": 7.2,
+    "active_rate": 0.5911330049261084,
+    "thp1_n_records": 313,
+    "thp1_n_compounds": 302,
+    "source": "/workspace/URAT1_NLRP3_DualTarget_AIDD_Project/data/raw/NLRP3_CHEMBL_4807.csv"
+  },
+  "overlap_smiles": 0,
+  "curation": {
+    "nlrp3_filter": "IL-1beta endpoint + Assay Type B + assay>=5 compounds",
+    "urat1_aggregation": "median per SMILES with conflict discard"
+  }
+}

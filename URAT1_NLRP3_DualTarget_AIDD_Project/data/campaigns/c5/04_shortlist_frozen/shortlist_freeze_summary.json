@@ -1,0 +1,97 @@
+{
+  "method": "W3_mechanical_tiers_plus_W2_IFP_annotation_no_name_shuffle",
+  "w2_thresholds_frozen": {
+    "min_overlap": 0.5,
+    "min_ifp_jaccard": 0.5,
+    "min_key_frac": 0.5,
+    "min_key_contacts": 6,
+    "arg_max_A": 7.7027,
+    "clash_cutoff_A": 2.2,
+    "anchor_method": "deposited_crystal_R75_A1AIL_A1A45_kabsch_to_9DKB",
+    "crystal_key_fracs": {
+      "A1AIL": 0.9090909090909091,
+      "R75": 0.8181818181818182,
+      "A1A45": 0.8181818181818182
+    },
+    "crystal_arg_A": {
+      "A1AIL": 6.7026966215098716,
+      "R75": 12.64579590738549,
+      "A1A45": 10.538430082011795
+    },
+    "arg_anchor": "ARG_THRESH_A_7.7027_from_A1AIL_crystal_plus_1A",
+    "arg_anchor_note": "R75 phenolate and Kabsch-A1A45 O\u2013Arg reported for audit only; do not inflate 9DKB arg_max",
+    "note": "Thresholds fixed from protocol floors below crystal self-metrics; not tuned on 228vs64."
+  },
+  "tier1_n": 13,
+  "tier2_n": 24,
+  "primary_n": 12,
+  "backup_n": 21,
+  "reportable_n": 33,
+  "excluded": [
+    {
+      "ligand_id": "REP_07907",
+      "name": "GSK-3008348 FREE BASE",
+      "tier": "tier1",
+      "excluded_reason": "structural_control_not_candidate"
+    },
+    {
+      "ligand_id": "REP_02721",
+      "name": "CEFETRIZOLE",
+      "tier": "tier2",
+      "excluded_reason": "beta_lactam"
+    },
+    {
+      "ligand_id": "REP_04581",
+      "name": "CEFAZEDONE",
+      "tier": "tier2",
+      "excluded_reason": "beta_lactam"
+    },
+    {
+      "ligand_id": "REP_04623",
+      "name": "CEFOXAZOLE",
+      "tier": "tier2",
+      "excluded_reason": "beta_lactam"
+    }
+  ],
+  "primary_names": [
+    "LANIFIBRANOR",
+    "TONAPOFYLLINE",
+    "CAFICRESTAT",
+    "ADMILPARANT",
+    "LINTITRIPT",
+    "SPIROGLUMIDE",
+    "CAVOSONSTAT",
+    "RUNCACIGUAT",
+    "FULIMETIBANT",
+    "PF-03882845",
+    "PSI-697",
+    "CR-3465 FREE ACID"
+  ],
+  "backup_names": [
+    "LESINURAD",
+    "TERUTROBAN",
+    "GLYCOCHOLIC ACID",
+    "ALEGLITAZAR",
+    "TENIVASTATIN",
+    "ABITESARTAN",
+    "ASERIPIDE",
+    "FLORANTYRONE",
+    "GW590735",
+    "VERINURAD",
+    "DEFERITRIN",
+    "POSENACAFTOR",
+    "PULIGINURAD",
+    "POCENBRODIB",
+    "TAS-119",
+    "GSK-2018682",
+    "ORE-1001",
+    "AGG-523",
+    "AZD-8075",
+    "CHOLYLSARCOSINE",
+    "ASP-7657"
+  ],
+  "primary_w2_ifp_ge_2of3_n": 8,
+  "backup_w2_ifp_ge_2of3_n": 2,
+  "missing_sdfs": [],
+  "note": "W2 IFP is an annotation on the frozen W3 intersection. It does not promote or demote names. GSK-3008348 is a control. Three cephalosporins are excluded from reportable backup."
+}

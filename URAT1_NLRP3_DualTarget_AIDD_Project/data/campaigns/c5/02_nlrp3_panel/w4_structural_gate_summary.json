@@ -1,0 +1,334 @@
+{
+  "n_rows": 207,
+  "failed_decoys_all_seeds": [
+    "C5W4D_002",
+    "C5W4D_022",
+    "C5W4D_026",
+    "C5W4D_027",
+    "C5W4D_029"
+  ],
+  "n_failed_decoy_jobs": 15,
+  "thresholds_frozen": {
+    "overlap_ge": 0.5,
+    "ifp_jaccard_ge": 0.5,
+    "key_contacts_ge": 5,
+    "note": "copied from c1_nlrp3_pose_metrics; not retuned"
+  },
+  "empty_sdf_rule": "keep_loose=False and keep_structural=False",
+  "by_seed": {
+    "42": {
+      "positives_vs_decoys_intent_to_score_n40": {
+        "loose": {
+          "tp": 9,
+          "fn": 0,
+          "fp": 15,
+          "tn": 25,
+          "positive_n": 9,
+          "background_n": 40,
+          "positive_pass_rate": 1.0,
+          "background_pass_rate": 0.375,
+          "odds_ratio": null,
+          "odds_ratio_note": "infinite because all positives passed (fn=0)",
+          "fisher_exact_p": 0.0006364235753557286
+        },
+        "structural": {
+          "tp": 9,
+          "fn": 0,
+          "fp": 11,
+          "tn": 29,
+          "positive_n": 9,
+          "background_n": 40,
+          "positive_pass_rate": 1.0,
+          "background_pass_rate": 0.275,
+          "odds_ratio": null,
+          "odds_ratio_note": "infinite because all positives passed (fn=0)",
+          "fisher_exact_p": 8.175401659707975e-05
+        },
+        "structural_specificity_gt_loose": true,
+        "structural_and_loose_identical": false
+      },
+      "positives_vs_decoys_complete_case_n35": {
+        "loose": {
+          "tp": 9,
+          "fn": 0,
+          "fp": 15,
+          "tn": 20,
+          "positive_n": 9,
+          "background_n": 35,
+          "positive_pass_rate": 1.0,
+          "background_pass_rate": 0.42857142857142855,
+          "odds_ratio": null,
+          "odds_ratio_note": "infinite because all positives passed (fn=0)",
+          "fisher_exact_p": 0.00208125335748705
+        },
+        "structural": {
+          "tp": 9,
+          "fn": 0,
+          "fp": 11,
+          "tn": 24,
+          "positive_n": 9,
+          "background_n": 35,
+          "positive_pass_rate": 1.0,
+          "background_pass_rate": 0.3142857142857143,
+          "odds_ratio": null,
+          "odds_ratio_note": "infinite because all positives passed (fn=0)",
+          "fisher_exact_p": 0.00023692025960885855
+        },
+        "structural_specificity_gt_loose": true,
+        "structural_and_loose_identical": false
+      },
+      "positives_vs_clinical_background_n20": {
+        "loose": {
+          "tp": 9,
+          "fn": 0,
+          "fp": 12,
+          "tn": 8,
+          "positive_n": 9,
+          "background_n": 20,
+          "positive_pass_rate": 1.0,
+          "background_pass_rate": 0.6,
+          "odds_ratio": null,
+          "odds_ratio_note": "infinite because all positives passed (fn=0)",
+          "fisher_exact_p": 0.03323722754007612
+        },
+        "structural": {
+          "tp": 9,
+          "fn": 0,
+          "fp": 12,
+          "tn": 8,
+          "positive_n": 9,
+          "background_n": 20,
+          "positive_pass_rate": 1.0,
+          "background_pass_rate": 0.6,
+          "odds_ratio": null,
+          "odds_ratio_note": "infinite because all positives passed (fn=0)",
+          "fisher_exact_p": 0.03323722754007612
+        },
+        "structural_specificity_gt_loose": false,
+        "structural_and_loose_identical": true
+      }
+    },
+    "43": {
+      "positives_vs_decoys_intent_to_score_n40": {
+        "loose": {
+          "tp": 9,
+          "fn": 0,
+          "fp": 17,
+          "tn": 23,
+          "positive_n": 9,
+          "background_n": 40,
+          "positive_pass_rate": 1.0,
+          "background_pass_rate": 0.425,
+          "odds_ratio": null,
+          "odds_ratio_note": "infinite because all positives passed (fn=0)",
+          "fisher_exact_p": 0.0019186298962930047
+        },
+        "structural": {
+          "tp": 9,
+          "fn": 0,
+          "fp": 13,
+          "tn": 27,
+          "positive_n": 9,
+          "background_n": 40,
+          "positive_pass_rate": 1.0,
+          "background_pass_rate": 0.325,
+          "odds_ratio": null,
+          "odds_ratio_note": "infinite because all positives passed (fn=0)",
+          "fisher_exact_p": 0.0002421176645375054
+        },
+        "structural_specificity_gt_loose": true,
+        "structural_and_loose_identical": false
+      },
+      "positives_vs_decoys_complete_case_n35": {
+        "loose": {
+          "tp": 9,
+          "fn": 0,
+          "fp": 17,
+          "tn": 18,
+          "positive_n": 9,
+          "background_n": 35,
+          "positive_pass_rate": 1.0,
+          "background_pass_rate": 0.4857142857142857,
+          "odds_ratio": null,
+          "odds_ratio_note": "infinite because all positives passed (fn=0)",
+          "fisher_exact_p": 0.0060808188550971485
+        },
+        "structural": {
+          "tp": 9,
+          "fn": 0,
+          "fp": 13,
+          "tn": 22,
+          "positive_n": 9,
+          "background_n": 35,
+          "positive_pass_rate": 1.0,
+          "background_pass_rate": 0.37142857142857144,
+          "odds_ratio": null,
+          "odds_ratio_note": "infinite because all positives passed (fn=0)",
+          "fisher_exact_p": 0.0014032969222986238
+        },
+        "structural_specificity_gt_loose": true,
+        "structural_and_loose_identical": false
+      },
+      "positives_vs_clinical_background_n20": {
+        "loose": {
+          "tp": 9,
+          "fn": 0,
+          "fp": 10,
+          "tn": 10,
+          "positive_n": 9,
+          "background_n": 20,
+          "positive_pass_rate": 1.0,
+          "background_pass_rate": 0.5,
+          "odds_ratio": null,
+          "odds_ratio_note": "infinite because all positives passed (fn=0)",
+          "fisher_exact_p": 0.011359255437216454
+        },
+        "structural": {
+          "tp": 9,
+          "fn": 0,
+          "fp": 10,
+          "tn": 10,
+          "positive_n": 9,
+          "background_n": 20,
+          "positive_pass_rate": 1.0,
+          "background_pass_rate": 0.5,
+          "odds_ratio": null,
+          "odds_ratio_note": "infinite because all positives passed (fn=0)",
+          "fisher_exact_p": 0.011359255437216454
+        },
+        "structural_specificity_gt_loose": false,
+        "structural_and_loose_identical": true
+      }
+    },
+    "44": {
+      "positives_vs_decoys_intent_to_score_n40": {
+        "loose": {
+          "tp": 9,
+          "fn": 0,
+          "fp": 13,
+          "tn": 27,
+          "positive_n": 9,
+          "background_n": 40,
+          "positive_pass_rate": 1.0,
+          "background_pass_rate": 0.325,
+          "odds_ratio": null,
+          "odds_ratio_note": "infinite because all positives passed (fn=0)",
+          "fisher_exact_p": 0.0002421176645375054
+        },
+        "structural": {
+          "tp": 9,
+          "fn": 0,
+          "fp": 9,
+          "tn": 31,
+          "positive_n": 9,
+          "background_n": 40,
+          "positive_pass_rate": 1.0,
+          "background_pass_rate": 0.225,
+          "odds_ratio": null,
+          "odds_ratio_note": "infinite because all positives passed (fn=0)",
+          "fisher_exact_p": 2.366563638336519e-05
+        },
+        "structural_specificity_gt_loose": true,
+        "structural_and_loose_identical": false
+      },
+      "positives_vs_decoys_complete_case_n35": {
+        "loose": {
+          "tp": 9,
+          "fn": 0,
+          "fp": 13,
+          "tn": 22,
+          "positive_n": 9,
+          "background_n": 35,
+          "positive_pass_rate": 1.0,
+          "background_pass_rate": 0.37142857142857144,
+          "odds_ratio": null,
+          "odds_ratio_note": "infinite because all positives passed (fn=0)",
+          "fisher_exact_p": 0.0014032969222986238
+        },
+        "structural": {
+          "tp": 9,
+          "fn": 0,
+          "fp": 9,
+          "tn": 26,
+          "positive_n": 9,
+          "background_n": 35,
+          "positive_pass_rate": 1.0,
+          "background_pass_rate": 0.2571428571428571,
+          "odds_ratio": null,
+          "odds_ratio_note": "infinite because all positives passed (fn=0)",
+          "fisher_exact_p": 6.858218041309064e-05
+        },
+        "structural_specificity_gt_loose": true,
+        "structural_and_loose_identical": false
+      },
+      "positives_vs_clinical_background_n20": {
+        "loose": {
+          "tp": 9,
+          "fn": 0,
+          "fp": 14,
+          "tn": 6,
+          "positive_n": 9,
+          "background_n": 20,
+          "positive_pass_rate": 1.0,
+          "background_pass_rate": 0.7,
+          "odds_ratio": null,
+          "odds_ratio_note": "infinite because all positives passed (fn=0)",
+          "fisher_exact_p": 0.1374763167866616
+        },
+        "structural": {
+          "tp": 9,
+          "fn": 0,
+          "fp": 14,
+          "tn": 6,
+          "positive_n": 9,
+          "background_n": 20,
+          "positive_pass_rate": 1.0,
+          "background_pass_rate": 0.7,
+          "odds_ratio": null,
+          "odds_ratio_note": "infinite because all positives passed (fn=0)",
+          "fisher_exact_p": 0.1374763167866616
+        },
+        "structural_specificity_gt_loose": false,
+        "structural_and_loose_identical": true
+      }
+    }
+  },
+  "pass_rule": {
+    "structural_gate_specificity_gt_loose_gate": true,
+    "fisher_p_lt_0.05": true
+  },
+  "primary": {
+    "seed": 42,
+    "contrast": "positives_vs_decoys_intent_to_score_n40",
+    "loose": {
+      "tp": 9,
+      "fn": 0,
+      "fp": 15,
+      "tn": 25,
+      "positive_n": 9,
+      "background_n": 40,
+      "positive_pass_rate": 1.0,
+      "background_pass_rate": 0.375,
+      "odds_ratio": null,
+      "odds_ratio_note": "infinite because all positives passed (fn=0)",
+      "fisher_exact_p": 0.0006364235753557286
+    },
+    "structural": {
+      "tp": 9,
+      "fn": 0,
+      "fp": 11,
+      "tn": 29,
+      "positive_n": 9,
+      "background_n": 40,
+      "positive_pass_rate": 1.0,
+      "background_pass_rate": 0.275,
+      "odds_ratio": null,
+      "odds_ratio_note": "infinite because all positives passed (fn=0)",
+      "fisher_exact_p": 8.175401659707975e-05
+    },
+    "structural_specificity_gt_loose": true,
+    "structural_and_loose_identical": false
+  },
+  "gate_pass": true,
+  "on_fail": null
+}

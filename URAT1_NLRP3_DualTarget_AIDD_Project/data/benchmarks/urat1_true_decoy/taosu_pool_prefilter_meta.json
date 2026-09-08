@@ -1,0 +1,27 @@
+{
+  "source": "/mnt/d/CADD paper exercise/NLRP3_URAT1/taosu_20210823_100w_asteroid_murcko_protonized.csv",
+  "n_library_seen": 999205,
+  "n_sample": 200000,
+  "n_in_envelope": 60000,
+  "n_pool_final": 60000,
+  "max_pool": 60000,
+  "envelope_lo": {
+    "MolWt": 178.24599999999998,
+    "MolLogP": -3.5035999999999987,
+    "TPSA": -0.20000000000000284,
+    "NumHDonors": -2.25,
+    "NumHAcceptors": -2.75,
+    "NumRotatableBonds": -2.75
+  },
+  "envelope_hi": {
+    "MolWt": 787.0960000000001,
+    "MolLogP": 9.127500000000005,
+    "TPSA": 211.44,
+    "NumHDonors": 8.25,
+    "NumHAcceptors": 12.75,
+    "NumRotatableBonds": 13.75
+  },
+  "windows_scale_for_envelope": 1.5,
+  "n_workers": 8,
+  "note": "Random reservoir sample from taosu then property-envelope filter for matchability"
+}

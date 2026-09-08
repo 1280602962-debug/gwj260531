@@ -1,0 +1,65 @@
+schema_version: 2
+status: planning_only_not_executed
+md_authorized: false
+candidate: {name: PF-03882845, ligand_id: REP_07580}
+starting_poses:
+  policy: seed42_CNNscore_Top-1_mode_1_not_best_of_9_IFP
+  pf_urat1_sdf: data/campaigns/c1/07_clinical_dock/acid_dual/urat1_9dkb/seed42/REP_07580_out.sdf
+  pf_nlrp3_sdf: data/campaigns/c1/07_clinical_dock/acid_dual/nlrp3_7alv/seed42/REP_07580_out.sdf
+  lesinurad: deposited_crystal_acid_pose_A1AIL_on_prepared_9DKB
+  np3_146: deposited_cocrystal_RM5_on_prepared_7ALV
+systems:
+  - {id: U_ctrl, receptor: 9DKB, ligand: lesinurad, role: deposited_pose_control, membrane: POPC}
+  - {id: U_cand, receptor: 9DKB, ligand: PF-03882845, role: candidate, membrane: POPC}
+  - {id: N_ctrl, receptor: 7ALV, ligand: NP3-146, role: deposited_pose_control, membrane: none}
+  - {id: N_cand, receptor: 7ALV, ligand: PF-03882845, role: candidate, membrane: none}
+replicas_per_system: 3
+replica_seeds: [42, 43, 44]
+production_ns_per_replica: 200
+planned_total_production_ns: 2400
+analysis_window: last_150_ns_of_production
+force_field:
+  protein: Amber_ff19SB
+  membrane: Lipid21
+  ligand: GAFF2_with_AM1-BCC_charges
+  water: TIP3P
+  ions: 0.15_M_NaCl
+thermodynamics:
+  temperature_K: 310
+  pressure_bar: 1.0
+  timestep_fs: 2
+equilibration:
+  - energy_minimization
+  - NVT_125_ps_heavy_atom_restraints
+  - NPT_1_ns_membrane_and_solvent_relax
+  - NPT_5_ns_backbone_restraints_released
+ligand_qc_before_production:
+  - match_Dimorphite_pH74_carboxylate_microstate
+  - net_charge_and_bond_check
+  - no_start_if_starting_pose_has_heavy_atom_clash_below_2.2A_to_receptor
+md_salt_bridge:
+  definition: min_distance_acid_oxygen_to_Arg_NE_NH1_NH2_lt_4.0_A
+  not_the_static_A1_gate: 7.7027_A_is_crystal_relative_proximity_only
+readouts:
+  urat1: [acid_Arg_distance_distribution, Phe_cage_contact_persistence, ligand_RMSD_in_receptor_frame]
+  nlrp3: [key_residue_contact_persistence, pocket_retention, ligand_RMSD_in_receptor_frame]
+control_failure:
+  urat1: lesinurad_heavy_atom_RMSD_gt_5A_for_gt_50pct_of_analysis_window_OR_acid_Arg_lt_4A_occupancy_lt_30pct
+  nlrp3: NP3_146_heavy_atom_RMSD_gt_5A_for_gt_50pct_of_analysis_window_OR_fewer_than_3_of_7_key_contacts_persistent
+  action: do_not_interpret_candidate_on_that_target_side
+interpretation_gate: control_must_retain_expected_pocket_mode_before_candidate_side_is_interpreted
+forbidden_before_trajectories_exist:
+  - writing_ns_RMSD_occupancy_or_MMGBSA_numbers_in_manuscript
+  - claiming_binding_or_dual_inhibition_from_planned_MD
+mmgbsa:
+  role: optional_supporting_post_MD_analysis
+  changes_frozen_nomination: false
+  affinity_or_cross_target_rank: false
+  output_directory: data/analysis_supporting
+results_directory: data/md_results
+results_available: false
+wet_lab_cannot_be_replaced_by_MD:
+  - HEK293_URAT1_urate_uptake_dose_response
+  - cell_free_NACHT_binding_or_ATPase
+  - IL1b_with_MR_knockdown_or_MR_antagonist_background
+note: Locked planning parameters for execution after md_authorized is flipped. Not evidence that simulations ran.

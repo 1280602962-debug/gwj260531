@@ -1,0 +1,21 @@
+schema_version: 1
+audited_base_commit: cf5fd75833baac94be603ebaf6188022de4d0275
+status: evidence_layer_audited_limitations_accepted_md_not_run
+scientific_route: clinical_library_to_dual_node_structural_hypotheses
+historical_campaign: C5
+facts: MANUSCRIPT_FACTS.yaml
+manuscript: docs/MANUSCRIPT_MASTER.md
+primary_source: data/frozen/primary_candidates_frozen.csv
+reserve_source: data/frozen/backup_candidates_frozen.csv
+production_pool_source: data/repurposing/screening/docking_pool_p05.csv
+chemistry_rules: config/chemistry_final.yaml
+engine_configuration: config/docking_final.yaml
+urat1_rules: config/urat1_gate_definition.yaml
+nlrp3_rules: config/nlrp3_gate_definition.yaml
+md_protocol: config/md_protocol.yaml
+capability_dock: config/docking_capability.yaml
+ranking_track_open: false
+md_authorized: false
+membership_policy: preserve_deposited_C5_names_and_disclose_inherited_chemistry_exclusions
+claim: putative_dual_node_structural_candidates_requiring_experimental_validation
+scope_note: Consolidation records existing evidence; it is not a new prospective preregistration.

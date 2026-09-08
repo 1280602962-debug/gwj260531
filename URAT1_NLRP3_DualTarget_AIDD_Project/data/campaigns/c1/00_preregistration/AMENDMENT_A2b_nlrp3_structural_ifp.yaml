@@ -1,0 +1,39 @@
+# C1 Amendment A2b — NLRP3 structural pose gate (7ALV / NP3-146)
+# Date: 2026-08-27
+# Complements A2 (URAT1 geometry-first). Does not reopen Rank track.
+#
+# Motivation: keep_nlrp3_pose (COM ≤ 6 Å + CNNscore ≥ 0.5) only asks whether a
+# pose sits near the NP3-146 pocket. Shortlist nomination additionally requires
+# interaction compatibility with the co-crystal binding mode.
+#
+# Metrics (per CNNscore-selected pose among num_modes=9):
+#   1. pocket_overlap_frac: fraction of ligand heavy atoms within 2.5 Å of any NP3-146 heavy atom
+#   2. ifp_jaccard_vs_np3146: Jaccard of key-residue contact / H-bond / hydrophobic bits
+#   3. key_recovery_frac: contacts (≤4.5 Å) to Ala227, Ala228, Arg351, Met408, Tyr443, Phe575, Arg578
+#   4. no heavy-atom clash (<2.2 Å) with receptor
+#
+# Thresholds anchored below NP3-146 3-seed self-dock
+#   (overlap≈1.0, IFP≈0.84–1.0, key contacts 6–7/7):
+#   overlap ≥ 0.50; IFP Jaccard ≥ 0.50; key contacts ≥ 5/7; no clash
+#
+# Claim language:
+#   allowed: NP3-146-compatible pocket pose / structural hypothesis
+#   forbidden: validated NLRP3 binder / docking affinity
+
+status: accepted
+path: Acid
+rank_track: closed
+parent_amendment: A2
+receptor: 7ALV
+crystal_ligand: NP3-146/RM5
+key_residues: [ALA227, ALA228, ARG351, MET408, TYR443, PHE575, ARG578]
+loose_gate_retired_for_nomination: COM_le_6A_and_CNNscore_ge_0.5_only
+loose_gate_kept_as: sensitivity_annotation
+structural_gate:
+  pocket_overlap_frac_ge: 0.50
+  ifp_jaccard_ge: 0.50
+  key_contacts_ge: 5
+  key_contacts_denominator: 7
+  clash_forbidden: true
+panel_experiment: data/campaigns/c1/05_metrics/nlrp3_structural_panel/
+md_authorized: false

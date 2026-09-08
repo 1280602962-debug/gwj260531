@@ -1,0 +1,48 @@
+{
+  "n_decoys": 40,
+  "seed": 12967616,
+  "max_tc": 0.5,
+  "property_windows": {
+    "MolWt": 40.0,
+    "MolLogP": 1.0,
+    "TPSA": 25.0,
+    "NumHDonors": 1.5,
+    "NumHAcceptors": 2.5,
+    "NumRotatableBonds": 2.5
+  },
+  "envelope_lo": {
+    "MolWt": 364.48800000000034,
+    "MolLogP": 0.35129999999999906,
+    "TPSA": 70.5,
+    "NumHDonors": 1.5,
+    "NumHAcceptors": 2.5,
+    "NumRotatableBonds": 1.5
+  },
+  "envelope_hi": {
+    "MolWt": 565.4790000000004,
+    "MolLogP": 6.948400000000004,
+    "TPSA": 176.78000000000003,
+    "NumHDonors": 4.5,
+    "NumHAcceptors": 9.5,
+    "NumRotatableBonds": 8.5
+  },
+  "positives_locked": "/home/gwj/work/c1-campaign/URAT1_NLRP3_DualTarget_AIDD_Project/data/campaigns/c5/02_nlrp3_panel/positives_locked.csv",
+  "positives": [
+    "NP3-146",
+    "MCC950",
+    "CHEMBL4204644",
+    "CHEMBL5219789",
+    "CHEMBL4212407",
+    "CHEMBL6143743",
+    "CHEMBL4209503",
+    "CHEMBL4216836",
+    "CHEMBL6171925"
+  ],
+  "rejected": {
+    "prop": 404,
+    "tc": 0,
+    "parse": 0
+  },
+  "pool": "/home/gwj/work/c1-campaign/URAT1_NLRP3_DualTarget_AIDD_Project/data/benchmarks/urat1_true_decoy/true_decoys.csv",
+  "note": "CSV locked before docking; do not rename decoys by hand"
+}

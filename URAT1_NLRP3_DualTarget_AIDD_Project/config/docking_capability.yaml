@@ -1,0 +1,72 @@
+# URAT1 docking-capability matrix (search / selection / receptor-state).
+# Does not reopen rank_track, change 12/21, or authorize MD.
+# Engine parameters match config/docking_final.yaml / docking_c5_w1.yaml.
+schema_version: 1
+status: local_results_deposited_d1_d2_20260908
+purpose: >
+  Diagnose what the production GNINA protocol can and cannot do on URAT1.
+  Not a receptor-selection screen and not a clinical-library redock.
+ranking_track_open: false
+md_authorized: false
+shortlist_membership_frozen: true
+native_like_rmsd_A: 2.0
+rmsd_definition: symmetry-aware heavy-atom pose RMSD in the docking-receptor frame; no ligand superposition
+get_best_rms_role: si_diagnostic_only
+selection_failure_requires_native_like_in_nine_poses: true
+
+gnina:
+  exhaustiveness: 32
+  num_modes: 9
+  cnn_scoring: rescore
+  seeds: [42, 43, 44]
+  score_for_pose_rank: CNNscore
+
+ligand_prep:
+  ph: 7.4
+  method: dimorphite_dl_then_meeko
+  embed_seed: 0xC0FFEE
+  lesinurad: deposited_carboxylate
+  benzbromarone: deposited_phenolate
+  TD-3: deposited_carboxylate
+  verinurad: deposited_carboxylate
+  dotinurad: >
+    Use the already prepared forced-recovery PDBQT (neutral phenol selected at
+    prep time). Do not switch to phenolate after seeing RMSD.
+
+# D1: same-paper URAT1_CS holo series. Apo 9DK9 is excluded from this matrix.
+d1:
+  layer: 9dk_holo_self_cross
+  receptors: [9DKA, 9DKB, 9DKC]
+  ligands: [benzbromarone, lesinurad, TD-3]
+  n_jobs_total: 27
+  n_jobs_reuse: 7
+  n_jobs_new: 20
+  box_source: config/docking_c5_w1.yaml
+  output_dir: data/campaigns/c5/06_capability_dock/d1
+  do_not:
+    - include_9DK9_apo_in_primary_matrix
+    - stop_on_benzbromarone_top1_gt_2A
+    - pick_best_receptor_for_156_ranking
+    - redock_clinical_library
+
+# D2: native self-dock expansion. Separate table from D1; not a fair league.
+d2:
+  layer: native_selfdock_expansion
+  optional: true
+  output_dir: data/campaigns/c5/06_capability_dock/d2
+  jobs:
+    - {ligand: TD-3, pdb: 9DKC, note: already the D1 diagonal; do not rerun}
+    - {ligand: dotinurad, pdb: 9B1G, resolution_A: 2.70, ligand_ccd: auto}
+    - {ligand: verinurad, pdb: 9IRY, resolution_A: 3.20, ligand_ccd: auto}
+    - {ligand: lesinurad, pdb: 9B1H, resolution_A: 2.90, ligand_ccd: auto}
+  n_jobs_new: 9
+  box_rule: deposited_ligand_heavy_atom_centroid_22A
+  report_separately_from_d1: true
+
+forbidden:
+  - redock_156
+  - new_scoring_function
+  - mmgbsa_rescue
+  - md
+  - change_frozen_12_21
+  - treat_9B1_and_9DK_as_one_benchmark

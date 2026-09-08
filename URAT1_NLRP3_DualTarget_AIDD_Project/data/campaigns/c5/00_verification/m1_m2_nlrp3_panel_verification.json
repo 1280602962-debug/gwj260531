@@ -1,0 +1,35 @@
+{
+  "purpose": "M1 fix verification: CHEMBL3183703 has identical SMILES to MCC950 (confirmed by string comparison of panel_ligands.csv), so it is a duplicate, not an independent positive.",
+  "panel_source": "data/campaigns/c1/05_metrics/nlrp3_structural_panel/{panel_ligands.csv,nlrp3_panel_metrics_seed42.csv}",
+  "original_frozen_table_n10_positives": {
+    "contingency_pass_fail": [
+      [
+        10,
+        0
+      ],
+      [
+        11,
+        9
+      ]
+    ],
+    "odds_ratio": "inf (fn=0)",
+    "fisher_p_two_sided": 0.01339679810444428,
+    "matches_frozen_json_p_0.01339679810444428": true
+  },
+  "m1_fixed_table_n9_positives_dedup": {
+    "contingency_pass_fail": [
+      [
+        9,
+        0
+      ],
+      [
+        11,
+        9
+      ]
+    ],
+    "odds_ratio": "inf (fn=0)",
+    "fisher_p_two_sided": 0.02703353617896347
+  },
+  "interpretation": "Removing the duplicate weakens the panel: p goes from 0.0134 to 0.0270 (~2x weaker), still <0.05 but the margin is much thinner than the frozen number implied. This should be reported as the corrected number in the paper, not silently kept at 0.0134.",
+  "m2_finding_row_level_verified": "Every single row of nlrp3_panel_metrics_seed42.csv has keep_nlrp3_pose == keep_nlrp3_structural (checked all 30 rows). The structural gate (overlap+IFP+contacts) adds ZERO additional discrimination beyond the loose COM<=6A + CNNscore>=0.5 gate on THIS panel. Recommendation: either enlarge the panel with harder property-matched decoys that can actually get into the pocket with wrong orientation (current background is just 20 random clinical acids, not decoys designed to stress-test geometry), or demote the structural gate to pose QC language in the manuscript."
+}

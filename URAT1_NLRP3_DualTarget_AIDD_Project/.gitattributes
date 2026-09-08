@@ -1,0 +1,7 @@
+# Stable text exports for manuscript evidence across Windows and Linux.
+config/docking_c1_cpu.yaml text eol=lf
+data/manuscript/** text eol=lf
+data/frozen/*.csv text eol=lf
+data/frozen/*.json text eol=lf
+data/manuscript/figures/*.png binary
+data/manuscript/figures/*.svg text eol=lf

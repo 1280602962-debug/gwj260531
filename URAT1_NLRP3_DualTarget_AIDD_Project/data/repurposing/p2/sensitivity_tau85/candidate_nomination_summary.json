@@ -1,0 +1,269 @@
+{
+  "module": "F_candidate_nomination",
+  "tau": 85.0,
+  "gate_mode": "dual_dock",
+  "mw_min": 200.0,
+  "mw_max": 550.0,
+  "require_structure_for_preferred": true,
+  "ranking_note": "gate_mode=dual_dock uses S_U & S_N_dock (not max with ML). preferred_candidate = clean (no PAINS/Brenk, Veber + Ro5 HBD/HBA/logP) + oral MW window + oral_absorption_ok + not macro scaffold + NLRP3 dock >= tau; scaffold-diverse shortlist is the follow-up list \u2014 not raw Pareto.",
+  "n_dual_gate": 85,
+  "n_clean_candidate": 18,
+  "n_preferred_candidate": 8,
+  "n_clean_novel": 18,
+  "n_preferred_novel": 8,
+  "n_clean_novel_structure_supported": 18,
+  "n_preferred_novel_structure_supported": 8,
+  "n_diverse_shortlist": 8,
+  "top_preferred_novel": [
+    {
+      "name": "VECABRUTINIB",
+      "max_phase": 2.0,
+      "mw": 529.9260000000003,
+      "s_u_percentile": 96.0759493670886,
+      "s_n_dock_percentile": 98.95569620253164,
+      "p_active_nlrp3": 1.0,
+      "qed": 0.5075186920017714,
+      "chemistry_rank_score": 0.2280999768007082,
+      "nlrp3_structure_supported": true
+    },
+    {
+      "name": "ZELENIRSTAT",
+      "max_phase": 2.0,
+      "mw": 537.5170000000003,
+      "s_u_percentile": 98.29113924050633,
+      "s_n_dock_percentile": 95.126582278481,
+      "p_active_nlrp3": 0.9166667,
+      "qed": 0.4611650615256415,
+      "chemistry_rank_score": 0.20006977461025627,
+      "nlrp3_structure_supported": true
+    },
+    {
+      "name": "DEUCRICTIBANT",
+      "max_phase": 2.0,
+      "mw": 534.9441017780002,
+      "s_u_percentile": 91.0759493670886,
+      "s_n_dock_percentile": 92.53164556962024,
+      "p_active_nlrp3": 0.9166667,
+      "qed": 0.3201430604211338,
+      "chemistry_rank_score": 0.14687709694595324,
+      "nlrp3_structure_supported": true
+    },
+    {
+      "name": "PRALICIGUAT",
+      "max_phase": 2.0,
+      "mw": 534.3670000000001,
+      "s_u_percentile": 92.40506329113924,
+      "s_n_dock_percentile": 90.85443037974684,
+      "p_active_nlrp3": 1.0,
+      "qed": 0.3347230408174785,
+      "chemistry_rank_score": 0.1534304663269913,
+      "nlrp3_structure_supported": true
+    },
+    {
+      "name": "BAFREKALANT",
+      "max_phase": 2.0,
+      "mw": 531.0600000000002,
+      "s_u_percentile": 88.9873417721519,
+      "s_n_dock_percentile": 92.78481012658229,
+      "p_active_nlrp3": 0.9166666,
+      "qed": 0.3464502676900512,
+      "chemistry_rank_score": 0.16225510707602028,
+      "nlrp3_structure_supported": true
+    },
+    {
+      "name": "GSK-3008348 FREE BASE",
+      "max_phase": 1.0,
+      "mw": 487.6480000000004,
+      "s_u_percentile": 97.46835443037976,
+      "s_n_dock_percentile": 97.53164556962024,
+      "p_active_nlrp3": 0.5725967,
+      "qed": 0.4530334697206116,
+      "chemistry_rank_score": 0.4091533878882442,
+      "nlrp3_structure_supported": true
+    },
+    {
+      "name": "MLN-0415",
+      "max_phase": 1.0,
+      "mw": 514.0260000000002,
+      "s_u_percentile": 94.11392405063292,
+      "s_n_dock_percentile": 91.10759493670886,
+      "p_active_nlrp3": 1.0,
+      "qed": 0.5542645895945439,
+      "chemistry_rank_score": 0.2666733358378174,
+      "nlrp3_structure_supported": true
+    },
+    {
+      "name": "BI 653048",
+      "max_phase": 1.0,
+      "mw": 515.5290000000001,
+      "s_u_percentile": 96.32911392405065,
+      "s_n_dock_percentile": 90.3481012658228,
+      "p_active_nlrp3": 0.9166667,
+      "qed": 0.393646603004665,
+      "chemistry_rank_score": 0.20054739120186588,
+      "nlrp3_structure_supported": true
+    }
+  ],
+  "top_diverse_shortlist": [
+    {
+      "diverse_rank": 1,
+      "name": "VECABRUTINIB",
+      "max_phase": 2.0,
+      "mw": 529.9260000000003,
+      "scaffold": "O=C1C(Nc2ccccc2)CCCN1C1CCCN(c2ccncn2)C1",
+      "dual_structure_balance": 96.0759493670886,
+      "qed": 0.5075186920017714,
+      "chemistry_rank_score": 0.2280999768007082,
+      "s_u_percentile": 96.0759493670886,
+      "s_n_dock_percentile": 98.95569620253164
+    },
+    {
+      "diverse_rank": 2,
+      "name": "ZELENIRSTAT",
+      "max_phase": 2.0,
+      "mw": 537.5170000000003,
+      "scaffold": "O=S(=O)(Nc1cn[nH]c1)c1ccc(-c2ccnc(N3CCNCC3)c2)cc1",
+      "dual_structure_balance": 95.126582278481,
+      "qed": 0.4611650615256415,
+      "chemistry_rank_score": 0.20006977461025627,
+      "s_u_percentile": 98.29113924050633,
+      "s_n_dock_percentile": 95.126582278481
+    },
+    {
+      "diverse_rank": 3,
+      "name": "DEUCRICTIBANT",
+      "max_phase": 2.0,
+      "mw": 534.9441017780002,
+      "scaffold": "c1ccc(COc2cccc3c(-c4ncn[nH]4)ccnc23)cc1",
+      "dual_structure_balance": 91.0759493670886,
+      "qed": 0.3201430604211338,
+      "chemistry_rank_score": 0.14687709694595324,
+      "s_u_percentile": 91.0759493670886,
+      "s_n_dock_percentile": 92.53164556962024
+    },
+    {
+      "diverse_rank": 4,
+      "name": "PRALICIGUAT",
+      "max_phase": 2.0,
+      "mw": 534.3670000000001,
+      "scaffold": "c1ccc(Cn2nc(-c3ncccn3)cc2-c2ccon2)cc1",
+      "dual_structure_balance": 90.85443037974684,
+      "qed": 0.3347230408174785,
+      "chemistry_rank_score": 0.1534304663269913,
+      "s_u_percentile": 92.40506329113924,
+      "s_n_dock_percentile": 90.85443037974684
+    },
+    {
+      "diverse_rank": 5,
+      "name": "BAFREKALANT",
+      "max_phase": 2.0,
+      "mw": 531.0600000000002,
+      "scaffold": "O=C(c1ccccn1)N1C2CCC1CN(Cc1c(-c3ccccc3)nc3ncccn13)C2",
+      "dual_structure_balance": 88.9873417721519,
+      "qed": 0.3464502676900512,
+      "chemistry_rank_score": 0.16225510707602028,
+      "s_u_percentile": 88.9873417721519,
+      "s_n_dock_percentile": 92.78481012658229
+    },
+    {
+      "diverse_rank": 6,
+      "name": "GSK-3008348 FREE BASE",
+      "max_phase": 1.0,
+      "mw": 487.6480000000004,
+      "scaffold": "c1cc(CCN2CCC(CCc3ccc4c(n3)NCCC4)C2)cc(-n2cccn2)c1",
+      "dual_structure_balance": 97.46835443037976,
+      "qed": 0.4530334697206116,
+      "chemistry_rank_score": 0.4091533878882442,
+      "s_u_percentile": 97.46835443037976,
+      "s_n_dock_percentile": 97.53164556962024
+    },
+    {
+      "diverse_rank": 7,
+      "name": "MLN-0415",
+      "max_phase": 1.0,
+      "mw": 514.0260000000002,
+      "scaffold": "O=C(Nc1cccc2c1[nH]c1cnccc12)C1COCCN1CC(=O)N1CCOCC1",
+      "dual_structure_balance": 91.10759493670886,
+      "qed": 0.5542645895945439,
+      "chemistry_rank_score": 0.2666733358378174,
+      "s_u_percentile": 94.11392405063292,
+      "s_n_dock_percentile": 91.10759493670886
+    },
+    {
+      "diverse_rank": 8,
+      "name": "BI 653048",
+      "max_phase": 1.0,
+      "mw": 515.5290000000001,
+      "scaffold": "c1ccc(CCCCc2cc3ccncc3[nH]2)cc1",
+      "dual_structure_balance": 90.3481012658228,
+      "qed": 0.393646603004665,
+      "chemistry_rank_score": 0.20054739120186588,
+      "s_u_percentile": 96.32911392405065,
+      "s_n_dock_percentile": 90.3481012658228
+    }
+  ],
+  "known_reference_in_gate": [],
+  "demoted_high_mw_in_gate": [
+    {
+      "name": "ZIRITAXESTAT",
+      "mw": 588.7130000000002,
+      "s_u_percentile": 85.75949367088607,
+      "s_n_dock_percentile": 96.9620253164557
+    },
+    {
+      "name": "ATUMELNANT",
+      "mw": 613.7249999999998,
+      "s_u_percentile": 98.22784810126582,
+      "s_n_dock_percentile": 94.49367088607596
+    },
+    {
+      "name": "MIOFLAZINE",
+      "mw": 575.4870000000004,
+      "s_u_percentile": 93.48101265822784,
+      "s_n_dock_percentile": 97.46835443037976
+    },
+    {
+      "name": "DEPULFAVIRINE",
+      "mw": 573.2270000000003,
+      "s_u_percentile": 96.9620253164557,
+      "s_n_dock_percentile": 93.16455696202532
+    },
+    {
+      "name": "BMS-986142",
+      "mw": 572.6120000000001,
+      "s_u_percentile": 91.17088607594935,
+      "s_n_dock_percentile": 99.0506329113924
+    },
+    {
+      "name": "LINPERLISIB",
+      "mw": 588.7060000000002,
+      "s_u_percentile": 86.93037974683544,
+      "s_n_dock_percentile": 86.13924050632912
+    },
+    {
+      "name": "XP-102",
+      "mw": 569.6820000000004,
+      "s_u_percentile": 99.24050632911391,
+      "s_n_dock_percentile": 99.81012658227849
+    },
+    {
+      "name": "BN-104",
+      "mw": 570.673,
+      "s_u_percentile": 96.77215189873418,
+      "s_n_dock_percentile": 94.36708860759494
+    },
+    {
+      "name": "JTK-853",
+      "mw": 704.6500000000004,
+      "s_u_percentile": 90.31645569620254,
+      "s_n_dock_percentile": 91.51898734177216
+    },
+    {
+      "name": "XL-418",
+      "mw": 609.4949999999999,
+      "s_u_percentile": 85.8860759493671,
+      "s_n_dock_percentile": 96.0126582278481
+    }
+  ],
+  "raw_pareto_front_note": "Raw docking Pareto (4 hits) is dominated by macrolide/erythromycin scaffolds and is NOT the nomination list."
+}

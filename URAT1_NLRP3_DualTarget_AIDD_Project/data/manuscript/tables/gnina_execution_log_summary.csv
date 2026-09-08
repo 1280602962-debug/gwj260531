@@ -1,0 +1,8 @@
+task,role_in_manuscript,n_output_files_or_jobs,n_logs_with_version_line,gnina_version,git_or_build,built,device,host_path_class,num_modes_in_logged_cmd,remainder_without_version_log,note
+c1_clinical_acid_dual,production_156_and_12_21_selection,seed42_sdf_present;_seed43_44_156_and_155_sdf,0,unknown,unknown,unknown,unknown,unknown,unknown,all,SDF present under acid_dual and acid_dual_a2; no *.log in that tree
+c1_selfdock_urat1_nlrp3,redocking_gate_audit,12_stdout_or_log,12,1.3.2,master:f23dd2b,Jul 8 2025,CPU_--no_gpu,wsl_gwj,9,0,lesinurad@9DKB and NP3-146@7ALV seeds 42/43/44
+c5_w1_benzbromarone_9dka,selection_fail_audit,6,6,1.3.2,master:f23dd2b,Jul 8 2025,CPU_--no_gpu,wsl_gwj,9,0,three seeds
+c5_w4_nlrp3_panel,nlrp3_gate_validation,146_jobs_in_w4_run_summary,15,1.3.2,master:f23dd2b,Jul 8 2025,CPU_--no_gpu,wsl_gwj,9,131,only a decoy subset of logs deposited; do not impute the missing 131
+p2_export_9dkb,legacy_rank_track_closed_not_used_for_12_21,1583_logs,1583,mixed_1.3.2,HEAD:f23dd2b+_or_master:f23dd2b,Jul 28 2026 (881) / Jul 8 2025 (702),881_no_--no_gpu_flag;_702_CPU,hww_gpu_server_and_wsl_gwj,1,0,P2 used num_modes=1; not the C1/C5 production pose set
+p2_export_7alv,legacy_rank_track_closed_not_used_for_12_21,1583_logs,1583,1.3.2,HEAD:f23dd2b+,Jul 28 2026,no_--no_gpu_in_sampled_cmd,hww_gpu_server,1,0,same P2 export
+config_yaml_claimed,documentation_only,n/a,0,1.3.1_claimed_in_old_docs,not_observed,not_observed,n/a,n/a,n/a,n/a,no deposited log contains gnina v1.3.1; do not backfill

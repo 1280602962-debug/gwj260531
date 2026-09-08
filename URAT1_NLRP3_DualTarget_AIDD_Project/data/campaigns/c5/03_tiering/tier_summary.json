@@ -1,0 +1,15 @@
+{
+  "method": "mechanical_gate_intersection_no_hardcoded_names",
+  "a1_seed42_dual_pass": 24,
+  "a2_dual_structural_ge2of3": 54,
+  "chemistry_audited_eligible": 40,
+  "tier1_n": 13,
+  "tier2_n": 24,
+  "tier1_beta_lactam_flagged": 0,
+  "tier2_beta_lactam_flagged": 3,
+  "tier1_structural_control_not_candidate": [
+    "GSK-3008348 FREE BASE"
+  ],
+  "superseded_hand_curated_file": "data/campaigns/c1/08_nomination/acid_shortlist_a2_competition.csv",
+  "note": "The superseded file hardcoded PRIMARY_TIER1=[PF-04620110] etc. in build_c1_acid_shortlist_a2.py; PF-04620110 was never selected by any gate (it fails the NLRP3 structural gate on 3/3 seeds) and is absent from tier1/tier2 here."
+}

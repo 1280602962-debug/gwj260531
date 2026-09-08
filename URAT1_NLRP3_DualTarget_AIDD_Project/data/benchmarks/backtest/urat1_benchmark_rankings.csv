@@ -1,0 +1,6 @@
+compound,role,canonical_smiles,in_training_set,max_tanimoto_to_train,in_applicability_domain,y_true_pActivity,literature_pActivity,y_pred,interval_lo,interval_hi,percentile_vs_train,predicted_active_ge6,conformal_lower_ge6,within_1log_of_literature,binary_pass
+lesinurad,must_recover,O=C(O)CSc1nnc(Br)n1-c1ccc(C2CC2)c2ccccc12,False,0.689,True,,7.0,5.642,4.724,6.559,29.6,False,False,False,False
+benzbromarone,must_recover,CCc1oc2ccccc2c1C(=O)c1cc(Br)c(O)c(Br)c1,False,0.75,True,,7.5,6.559,5.642,7.476,60.7,True,False,True,True
+verinurad,must_recover,CC(C)(Sc1ccncc1-c1ccc(C#N)c2ccccc12)C(=O)O,True,1.0,True,7.6,8.0,7.083,6.166,8.001,84.9,True,True,True,True
+dotinurad,must_recover,O=C(c1cc(Cl)c(O)c(Cl)c1)N1CS(=O)(=O)c2ccccc21,False,0.837,True,,8.2,5.071,4.154,5.989,9.5,False,False,False,False
+allopurinol,negative_control,Cn1cnc2c(O)ncnc21,False,0.22,False,,,5.416,4.499,6.333,18.1,False,False,,True

@@ -1,0 +1,75 @@
+{
+  "w4_positive_n": 9,
+  "w4_unique_murcko": 5,
+  "w4_scaffolds": {
+    "O=C(Nc1c2c(cc3c1CCC3)CCC2)NS(=O)(=O)c1ccco1": 5,
+    "O=C(Nc1ccccc1)NS(=O)(=O)c1ccco1": 1,
+    "O=C(Nc1c2c(cc3c1CCC3)CCC2)NS(=O)(=O)c1cnn2c1OCCC2": 1,
+    "O=C(Nc1c(-c2ccccc2)ccc2c1CCC2)NS(=O)(=O)c1ccco1": 1,
+    "O=C(Nc1c(-c2ccccc2)ccc2c1CCC2)NS(=O)(=O)c1cccs1": 1
+  },
+  "w4_chemotype_note": "W4 positives are sulfonylurea / NP3-146\u2013MCC950 family. 9/9 sensitivity is within this chemotype, not a general NACHT-pocket classifier.",
+  "w2_or_ci_already_in_repo": {
+    "a1": {
+      "n": 292,
+      "n_active": 228,
+      "n_decoy": 64,
+      "tp": 102,
+      "fn": 126,
+      "fp": 13,
+      "tn": 51,
+      "sensitivity": 0.4473684210526316,
+      "specificity": 0.796875,
+      "ppv": 0.8869565217391304,
+      "odds_ratio": 3.1758241758241756,
+      "fisher_exact_p": 0.00044959208155959335,
+      "or_bootstrap_ci95_lo": 1.7727694843168527,
+      "or_bootstrap_ci95_hi": 6.808788670148644
+    },
+    "a2": {
+      "n": 292,
+      "n_active": 228,
+      "n_decoy": 64,
+      "tp": 217,
+      "fn": 11,
+      "fp": 61,
+      "tn": 3,
+      "sensitivity": 0.9517543859649122,
+      "specificity": 0.046875,
+      "ppv": 0.7805755395683454,
+      "odds_ratio": 0.970193740685544,
+      "fisher_exact_p": 1.0,
+      "or_bootstrap_ci95_lo": 0.0,
+      "or_bootstrap_ci95_hi": 3.1547740546280423
+    },
+    "ifp_cnn_top1": {
+      "n": 292,
+      "n_active": 228,
+      "n_decoy": 64,
+      "tp": 96,
+      "fn": 132,
+      "fp": 12,
+      "tn": 52,
+      "sensitivity": 0.42105263157894735,
+      "specificity": 0.8125,
+      "ppv": 0.8888888888888888,
+      "odds_ratio": 3.1515151515151514,
+      "fisher_exact_p": 0.0006676574761972647,
+      "or_bootstrap_ci95_lo": 1.7153023983315954,
+      "or_bootstrap_ci95_hi": 7.081149020471054
+    }
+  },
+  "w4_primary_seed42_structural": {
+    "tp": 9,
+    "fn": 0,
+    "fp": 11,
+    "tn": 29,
+    "positive_n": 9,
+    "background_n": 40,
+    "positive_pass_rate": 1.0,
+    "background_pass_rate": 0.275,
+    "odds_ratio": null,
+    "odds_ratio_note": "infinite because all positives passed (fn=0)",
+    "fisher_exact_p": 8.175401659707975e-05
+  }
+}

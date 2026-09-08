@@ -1,0 +1,202 @@
+# campaign C4 — 预登记：以选择性为主轴的候选筛选（计算 SURI 画像）
+# 方案全文: docs/PROJECT_ROUTE_C4_SELECTIVITY.md
+# 取代 C3。只读: data/repurposing/p2/ , data/campaigns/c1/
+
+name: C4
+status: preregistered_awaiting_s1
+supersedes: [campaign_c3, campaign_c2]
+
+goal: 提名具备 SURI 画像（强 URAT1 + 弱 OAT）的候选分子
+    10|journal_target: [Eur J Med Chem, JCIM, Molecular Diversity, J Med Chem (计算栏目)]
+
+# ---------------------------------------------------------------
+# 任务形态的转换 —— 这是与 C1-C3 的根本区别
+# ---------------------------------------------------------------
+task_switch:
+  old_task: 跨化学型的绝对强弱排序（同一口袋内比较不同分子的打分幅值）
+  new_task: 选择性 = 同一配体在两个同源口袋之间的差
+  why_old_failed:
+    p2_true_ef1: 2.5867
+    20|    p2_random_ef1: 0.2154
+    acid_gate_or: 0.970
+    acid_gate_p: 1.0
+    mechanism: 分子大小/疏水体积等共模成分直接进入排序
+  why_new_is_favorable: >
+    同配体作差可抵消共模成分；同源蛋白间的选择性预测是计算化学中
+    成绩最好的任务形态之一，而跨化学型绝对排序是最差的一类。
+  c3_retired_reason: >
+    C3 只换读出（IFP 代替分数）不换任务形态，失败机理照旧；
+    且 IFP 筛选自 2004 年即有，novelty 被压缩成结构公开的时间窗口；
+    30|    同体裁竞品（Yang 2023, Du 2024, 荷叶碱 2026）均带 HEK 实验。
+
+# ---------------------------------------------------------------
+# 领域真问题（非自造缺口）
+# ---------------------------------------------------------------
+problem_is_real:
+  clinical_failures_are_selectivity_not_potency:
+    benzbromarone: 肝毒性（线粒体抑制），多国限用
+    lesinurad: 肾脏不良反应，须与 XOI 联用
+    probenecid: 广谱抑制 -> DDI
+    40|    dotinurad: 唯一以选择性为卖点获批
+  suri_is_official_class: >
+    SURI = selective urate reabsorption inhibitor，日本痛风指南第 3 版
+    2022 补充版收录；定义为强效 URAT1 抑制 + 对 ABCG2 与 OAT1/3 影响极小
+  structural_biologists_flagged_it:
+    cell_discovery_2025: >
+      designing inhibitors for URAT1 is challenging due to the high sequence
+      homology among OAT family members; probenecid also binds OAT1;
+      URAT1 vs probenecid-bound rOAT1 shows high similarity in binding residues
+    50|    dai_lee_2024_design_hypothesis: >
+      "Engaging Arg477 can be explored and incorporated into the design of
+      future compounds targeting URAT1" —— 公开且未经计算检验的设计假设
+  supporting_gradient_already_visible: >
+    verinurad 与 dotinurad 均结合 Arg477 且为最强两者；
+    低亲和力 lesinurad 稳定 apo 样构象，verinurad/dotinurad 稳定收缩开放态
+
+# ---------------------------------------------------------------
+# 结构（两边都有结构是 2025 才成立的）
+# ---------------------------------------------------------------
+    60|structures:
+  urat1:
+    - {pdb: 9DK9, content: apo, resolution_A: 2.68, cite: "Nat Commun 2025, 16:5178"}
+    - {pdb: 9DKA, content: benzbromarone, resolution_A: 3.00, ligand_id: R75}
+    - {pdb: 9DKB, content: lesinurad, resolution_A: 2.74, ligand_id: LES}
+    - {pdb: 9DKC, content: TD-3, resolution_A: 2.55, ligand_id: A1A45}
+    - {pdb: 9IRY, content: verinurad, cite: "Nat Commun 2025, 16:1512"}
+    - {pdb: 9JE1, content: dotinurad, cite: "Cell Discovery 2025, 11"}
+    - {pdb: 9J5X, content: lingdolinurad (humanized rat), cite: "JACS Au 2025, 5:1308"}
+  hoat1:
+    70|    - {content: "apo / olmesartan+Cl / olmesartan+Br / probenecid", resolution_A: "3.33-3.88",
+       cite: "Jeon et al., Structure 2025, 33:1856", note: "人源 hOAT1，2025 年才公开"}
+    - {content: "apo / cidofovir / glibenclamide", resolution_A: "3.15-3.68",
+       cite: "Wu, Luo et al., Sci Adv 2025"}
+  hoat3: {status: no_experimental_structure, plan: 由 hOAT1 同源建模，标注为模型}
+  abcg2: {status: different_fold_ABC_family, plan: 不做结构差分，仅文献/配体基注释}
+  nlrp3: {pdb: 7ALV, method: X-ray, resolution_A: 2.83, role: secondary_annotation_only}
+  resolution_discipline:
+    urat1_better_than_oat1: true
+    80|    asymmetric_quality_must_be_disclosed: true
+    no_sidechain_claims_on_oat1_below_A: 3.0
+    oat1_side_lobe_and_pocket_level_only: true
+
+# ---------------------------------------------------------------
+# 定量锚点：4 药 x 4 转运体（同一测定体系）
+# ---------------------------------------------------------------
+selectivity_anchor:
+  source: "Taniguchi et al., JPET 2019, 371:162"
+  units: uM
+    90|  matrix:
+    dotinurad:     {URAT1: 0.0372, ABCG2: 4.16,  OAT1: 4.08,  OAT3: 1.32,  urat1_over_oat1: 110}
+    benzbromarone: {URAT1: 0.190,  ABCG2: 0.289, OAT1: 3.14,  OAT3: 0.967, urat1_over_oat1: 16.5}
+    lesinurad:     {URAT1: 30.0,   ABCG2: 26.4,  OAT1: 6.99,  OAT3: 1.07,  urat1_over_oat1: 0.23}
+    probenecid:    {URAT1: 165,    ABCG2: 433,   OAT1: 10.9,  OAT3: 2.37,  urat1_over_oat1: 0.066}
+  dynamic_range_fold: ~1600
+  direction_reverses: true    # dotinurad 选择性 vs 丙磺舒反选择
+  why_better_than_469_actives: >
+    同一篇同一体系、无标签病理、方向有反转；
+    对比 469 个 ChEMBL IC50（27% 单骨架、上市药缺席、lesinurad assay 冲突）
+   100|  extension_data:
+    - "verinurad: URAT1 25-40 nM; 依赖 Cys32/Ser35/Phe365/Ile481 (Tan 2017, Sci Rep 7:665)"
+    - "lingdolinurad/ABP-671: URAT1EM ~70 nM; Phase 2b/3"
+    - "AR882 / pozdeutinurad: Phase 2"
+    - "CDER167, verinurad 类似物: URAT1/GLUT9 双抑"
+    - "Zhao et al., J Med Chem 2020, 63:10829 同系列 SAR"
+  deliverable: 整理后的 URAT1-vs-抗靶选择性数据集本身作为可复用资源
+
+# ---------------------------------------------------------------
+# 阶段
+   110|# ---------------------------------------------------------------
+stages:
+  S1:
+    name: 选择性数据集与结构对齐
+    compute: low
+    do: [整理 IC50 与选择性比并标注测定体系, URAT1 与 hOAT1 结合位点残基对齐, 列出差异残基]
+    output: data/campaigns/c4/01_selectivity_dataset/
+  S2:
+    name: Arg477 假设检验（别人提出的公开假设）
+    compute: minimal
+   120|    do: 用晶体坐标量化各药与 Arg477/Lys393 结合，与效价及选择性比作图
+    test: Arg477 结合是否同时解释效价与选择性（OAT1 对应位置是否不同）
+    publishable_either_way: true
+    note: 正负结论都有意义，因为这是 Dai & Lee 的公开假设而非我们的退路
+  S3:
+    name: 差分判据标定（核心验证）
+    method: 同一配体分别对接 URAT1 与 hOAT1，取差分而非绝对分数
+    candidate_criteria: [差分 IFP, 差异残基接触, 口袋形状互补差]
+    retrospective_gate:
+      must_reproduce_direction: dotinurad >> benzbromarone > lesinurad > probenecid
+   130|      must_capture_reversal: true      # lesinurad/丙磺舒 为反选择
+      max_abs_spearman_vs_size: 0.4
+    output: data/campaigns/c4/03_differential/
+  S4:
+    name: 候选获取（两路并行）
+    library_route:
+      pools: [data/repurposing/screening/docking_pool_p05.csv, 全 ~8319, taosu 库]
+      filter: URAT1 强 / OAT1 弱
+      advantage: 提供可直接购买或已上市的候选
+    design_route:
+   140|      scaffolds: [TD-3 (9DKC, 2.55 A), verinurad, lingdolinurad]
+      objective: 增强 Arg477 结合并放大 URAT1/OAT1 差异
+      constraint: 必须同系列（congeneric）—— 相对自由能只在小扰动上可靠
+      disclosure: 设计分子需合成验证，明确标注为设计假设
+  S5:
+    name: MD / 相对自由能确证
+    md_authorized: true
+    controls_first:
+      - benzbromarone @ 9DKA
+      - TD-3 @ 9DKC
+      - dotinurad @ 9JE1
+   150|      - lesinurad @ 9DKB
+      - probenecid @ hOAT1
+    md_recipe: {protein_lipid_ff: amber14sb, ligand_ff: gaff2, membrane: POPC, water: TIP3P,
+                electrostatics: PME, vdw_cutoff_A: 9, timestep_fs: 2, barostat: parrinello-rahman,
+                production: 3x150ns}
+    rbfe:
+      scope: congeneric_only
+      precedent: "膜蛋白 RBFE：4 个 GPCR 上 RMSE ~0.80 kcal/mol, Spearman ~0.55（含脂双层与显式水）；同源模型表现与晶体相当"
+      order: 先回顾性验证已知药对，再用于设计分子
+      fallback: 不收敛则只报 MD 接触占据与位移的差分
+   160|  S6:
+    name: NLRP3 二级注释
+    reuse: data/campaigns/c1/05_metrics/nlrp3_structural_panel/
+    positive_pass_rate: 1.0
+    background_pass_rate: 0.55
+    fisher_exact_p: 0.01339679810444428
+    role: 候选的附加价值标注，不作主轴
+
+# ---------------------------------------------------------------
+# 风险
+   170|# ---------------------------------------------------------------
+risks:
+  hoat3_no_structure: 同源建模并标注置信度低于 OAT1
+  abcg2_different_fold: 不入结构差分主判据
+  hoat1_lower_resolution: 非对称质量声明；OAT1 侧只做口袋级判读
+  rbfe_charged_ligand_convergence: 先回顾性；不收敛退到 MD 差分
+  small_calibration_n: 完整 4x4 仅 4 药；主张限于方向与分类，不报相关系数
+  designed_molecules_need_synthesis: 库筛路并行提供现成分子
+  scope_change_dual_target: 主轴改为 URAT1 选择性，NLRP3 降为二级注释（显式记录）
+
+   180|# ---------------------------------------------------------------
+# 禁止事项
+# ---------------------------------------------------------------
+read_only_paths:
+  - data/repurposing/p2/
+  - data/campaigns/c1/
+forbidden:
+  - 把差分判据或对接分数称作 IC50 或选择性比的预测值（只作方向与分类）
+  - 在 hOAT1 3.15-3.88 A 模型上做侧链级断言
+  - 在 n=4 校准集上报相关系数
+   190|  - 跨化学型的绝对强弱排序（已失败的任务形态）
+  - 相对自由能用于非同系列比较
+  - 声称双靶抑制剂
+  - 把 substrate_like（吡嗪酸样，抗尿酸排泄风险）分子写进候选
+  - 声称"发明"了选择性计算（标准任务形态；新的是首次两边都有结构）
+  - 覆盖冻结 P2 表或重锁 Pi*
+  - 用诱饵标签训练用于门限选择的模型
+
+retained_from_earlier_routes:
+  c3_9dk_structures_and_mutagenesis: 并入 S1/S2，但不再作为论文主张
+   200|  c2_substrate_exclusion: 保留为候选安全过滤（吡嗪酸样风险）
+  c1_nlrp3_structural_panel: S6 直接沿用
+
+output_root: data/campaigns/c4

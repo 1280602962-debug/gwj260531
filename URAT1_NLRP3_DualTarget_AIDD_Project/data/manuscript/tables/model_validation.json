@@ -1,0 +1,40 @@
+{
+  "nlrp3_activity_classifier": {
+    "auroc": 0.8934017784193573,
+    "auprc": 0.9143469018214805,
+    "ef_10pct": 1.5706359287488578,
+    "n_compounds": 513,
+    "n_records": 609,
+    "n_assays_used": 25
+  },
+  "n_unique_assays_in_records": 39,
+  "n_named_one_hot_assay_categories": 25,
+  "n_one_hot_dimensions_including_other": 26,
+  "n_production_prediction_contexts": 5,
+  "production_assay_contexts": [
+    "CHEMBL5549264",
+    "CHEMBL5149834",
+    "CHEMBL5374758",
+    "CHEMBL6157329",
+    "CHEMBL5374759"
+  ],
+  "urat1_regression_SI_only": {
+    "rmse": 0.6634725892592518,
+    "mae": 0.49847748712321566,
+    "r2": 0.5079205459521259,
+    "spearman": 0.7258124808529701,
+    "ef_10pct_p6": 1.70991731239274,
+    "ef_5pct_p7": 3.2930364086249555,
+    "roc_auc_p7": 0.8520835788068024,
+    "active_rate_p6": 0.5705596107055961,
+    "active_rate_p7": 0.2518248175182482,
+    "ef_p6_theoretical_max": 1.7526652452025586,
+    "mean_interval_width": 2.51048066552248,
+    "n_compounds": 822,
+    "oat_transfer": false,
+    "oat_pretrain_compounds": 0
+  },
+  "production_pool_is_frozen": true,
+  "stored_model_generation_link": "not established by a contemporaneous hash",
+  "retraining_is_sensitivity_not_production_replay": true
+}

@@ -1,0 +1,74 @@
+# 仓库整理与正确性核对
+
+审计基点：`cf5fd75833baac94be603ebaf6188022de4d0275`；整理日期：2026-09-07。附件要求中的数字和解释经核对后才进入论文层。全分支30,059个受版本控制文件已按Git blob登记并计算SHA-256；这不是对每个二进制或独立JNK项目的科学同行评审。此次实际修改限定URAT1–NLRP3项目和仓库总入口。
+
+## 已完成核对
+
+- 从源表检查8319→1588→303→156的数量、唯一ID、集合嵌套与qN门；12/21名单由原始交集及排除规则重建一致。
+- 39个assay描述逐项读取并集中，609条记录和513个标准化分子复核；25是one-hot assay类别，5是临床推断上下文，不应抹掉这两个数字。
+- 从逐分子表重算A1/A2/W2的2×2、灵敏度、特异度、LR+及Fisher；MLE OR、Haldane OR及不同区间方法分别命名。
+- 重新读取936份临床SDF，复核A1 seed42、A2和NLRP3结构门，以及33个冻结分子的W2注释，未发现门控不一致。REP_07837的seed43/44采用W4目录补算文件并在检查表注明来源。
+- W4逐seed完整面板、complete-case及20个临床背景分开统计；不把重复seed合并当独立分子。
+- 受体分辨率和实验类型从已存结构文件提取；7ALV为2.84 Å X射线结构。9DKB为唯一URAT1全库对接受体，其余受体用途单列。
+- 重算303/156/12化学描述符及Murcko骨架，保留原SMILES、原InChIKey及重算InChIKey。重算描述符不改变候选。
+- 原始数据、冻结历史结果和JNK项目未修改；45份旧Markdown保留字节一致的完整存档，原路径成为醒目重定向。
+
+机器结果：[基础检查](../data/manuscript/audit/checks.json)、[几何复核](../data/manuscript/audit/geometry_recheck.json)、[全分支基点清单](../data/manuscript/audit/base_file_inventory.csv)、[输入输出溯源](../data/manuscript/provenance.json)。
+
+## 与附件建议不同、必须纠正的事实
+
+| 问题 | 核对结果 | 当前处理 |
+|---|---|---|
+| 39 vs 25 assays | 数据覆盖39个；模型编码25个；推断5个上下文 | 三个独立字段，不将25一律当旧错误 |
+| “SMARTS已完全替代药名名单” | C5读取的40个eligible仍来自旧脚本药名排除 | 显式记录历史规则，重建40个并产生对照表 |
+| “156满足完整Ro5/logP门” | 实际仅MW、TPSA、可旋转键、HBD/HBA门；logP是注释 | Methods按代码写，主名单也可能logP>5 |
+| “全部酸等价物都进入相同Arg门” | pose matcher只认识COOH/carboxylate氧 | 156中21个无该药效团；不通过含适用范围限制 |
+| “A1就是无冲突IFP结构门” | A1仅酸距离和质心；W2才增加IFP/clash | W2只作注释，12个primary仅8个≥2/3通过W2 |
+| “54→40→12/21顺序筛选” | 54与40取交集是37；13−1=12，24−3=21 | 漏斗明确交集与并列分支 |
+| “W4特异度0.725是纯结构识别能力” | 40中5个全seed计算失败；成功对接35中TN=24，特异度0.686 | 两个分母并列，失败不叫实验阴性 |
+| “W4诱饵是NLRP3实测阴性” | 来源为URAT1 true-decoy库的性质匹配抽样 | 不把面板特异度解释成已验证的NLRP3非活性识别概率 |
+| “MD对照必须保持7.7 Å盐桥” | 7.7 Å只是静态邻近门，晶体本身约6.7 Å | MD计划改用 <4.0 Å 接触定义与数值失败规则；尚未执行 |
+| “固定模型哈希即可证明1588可重算” | 原summary无同时生成的模型哈希；重训6.0池1377；模型与分数于2026-07-01由本Agent提交，无第二GitHub仓库 | 冻结池是成员依据；不声称比特级重算概率，标为限制 |
+
+## 药化反事实检查
+
+在保留seed42宽松通过、≥2/3结构一致性、PAINS/Brenk和β-lactam规则条件下，仅移除历史药名排除，会新增：MK-5108、Piromidic acid、Pradofloxacin。前两者也通过A1 seed42。见[对照表](../data/manuscript/si/structure_only_chemistry_counterfactual.csv)。因此，声称纯结构过滤自动产生原12/21不正确。
+
+这三个名字没有加入冻结名单。**投稿前决策：接受为限制**，不版本化重算、不改12/21。见[决策说明](../data/manuscript/si/chemistry_limitation_acceptance.md)。
+
+## 第1条：检索后标为限制，不再挖原因
+
+生产1588池的**分数表和模型文件都在本仓库**，不是放在另一个GitHub仓库里找不到。
+
+检索（2026-09-07）见 [nlrp3_scoring_env_search.json](../data/manuscript/audit/nlrp3_scoring_env_search.json)：
+
+- GitHub账号 `1280602962-debug` 可见仓库只有 `gwj260531`（本仓库）。`gh repo list` 含私有可见性也只返回这一项；账号 `public_repos=1`。工作区没有第二个 Git remote，文档里也没有指向其他仓库的 NLRP3 打分 URL。
+- `nlrp3_model.joblib` 于 **2026-07-01** 随1588池一起提交（`72b13228`），Git blob 此后未改。pickle 内可见 `sklearn_version=1.9.0`、`n_jobs=-1`。
+- **2026-08 没有重打分。** 8月18/20日只改了 summary 的 `next_step` 文案并写入 `n_dual_docked=1580`；分数CSV与 `docking_pool_p05.csv` 的 Git blob 仍是7月1日那份。
+- 模型是在**本 Cloud Agent**（`urat1-nlrp3-dualtarget-aidd`，2026-06-29 启动）里训练并打分的，不是另一台丢失的电脑。Git 记录提交时间为 **2026-07-01 08:45:18 UTC**（commit `72b13228`）。
+- 缺的不是模型文件，而是那天容器里 **pip/conda 的精确版本清单**（XGBoost、NumPy、RDKit、Python 各是哪一版）。Cloud Agent 的对话和 Git 会留下来，但 7 月 1 日那台 Linux 容器关掉后不会作为可启动镜像保存。screening summary 也未写入模型哈希。
+- SI 的1377是后来**重训**敏感性，不是丢失的原池。不能把1377 vs 1588归因于多线程并当作已验证原因。
+
+因此：生产成员以冻结1588行表为准。已存 joblib 与该表同一次提交。不能声称“现在重跑分类器一定得到完全相同的1588个概率”。1377仅SI。不把差异写成已验证的多线程因果。
+
+## 第2条：接受限制（已闭合）
+
+药名排除与COOH匹配器范围作为历史规则披露。SI对照表保留。12/21不改。
+
+## 第3条：GNINA日志表（已闭合）
+
+已有log写入[汇总表](../data/manuscript/tables/gnina_execution_log_summary.csv)。所见二进制均为1.3.2；旧文1.3.1未见。C1生产酸对接有SDF无log，标unknown。P2为关闭排序轨且num_modes=1。不回填。
+
+## 第4条：文献与措辞（已闭合）
+
+核对 Meyers 2010、Orena 2013、HNW005 EJMC 2025、Nat. Commun. compound 32。compound 32 SMILES改引Nature SI IUPAC名。HNW005 SI本次未取到，SMILES仍标厂商。删除顶膜暴露与新靶点确认。见[文献核对](../data/manuscript/si/literature_primary_sources.md)。
+
+## 仍开着：MD与实验（审计第5条）
+
+现有数据不能闭合。参数已写入[`config/md_protocol.yaml`](../config/md_protocol.yaml)，`md_authorized: false`。正文不写轨迹数字。需要补的内容和实验见[`docs/FOLLOWUP_EXPERIMENTS.md`](FOLLOWUP_EXPERIMENTS.md)。
+
+## 整理策略与复现边界
+
+论文主稿、专题配置和论文表成为唯一当前入口。历史文档存档；脚本和旧配置保留原路径以防破坏导入或绝对来源链，并在登记表明确退出现行工作流。新生成器只写data/manuscript、data/frozen和事实锁；原data/raw、data/campaigns及P2不改动。旧版本主名单仅作为审计源保留，不再具有现行候选入口地位。
+
+本次核对不包括重训ML、重新GNINA搜索、MD模拟、全量文献/专利新颖性审查或实验有效性验证。“数值重现”与“科学有效”分别报告。静态门的可迁移性、选择偏倚和样本规模限制保留在主文，而非通过归档隐藏。

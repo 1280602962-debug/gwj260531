@@ -1,0 +1,28 @@
+{
+  "ligand": "MCC950",
+  "chembl_id": "CHEMBL230208",
+  "smiles": "CC(C)(O)c1coc(S(=O)(=O)NC(=O)Nc2c3c(cc4c2CCC4)CCC3)c1",
+  "receptor": "7ALV",
+  "co_crystal_ligand": "NP3-146 / RM5 (not MCC950)",
+  "interpretation": "Pharmacological analog/control dock, not a true self-dock. RMSD versus RM5 is not a self-dock pass/fail. Does not re-lock \u03a0*.",
+  "in_production_1588": false,
+  "in_nlrp3_train_chembl230208": false,
+  "gnina_binary": "tools/gnina",
+  "status": "docked",
+  "in_nlrp3_train_canonical_smiles": true,
+  "output_csv": "data/si/mcc950_7alv/dock/docking_7alv_gnina.csv",
+  "dock_row": {
+    "repurposing_id": "MCC950",
+    "canonical_smiles": "CC(C)(O)c1coc(S(=O)(=O)NC(=O)Nc2c3c(cc4c2CCC4)CCC3)c1",
+    "dock_score": -7.018,
+    "docking_status": "docked",
+    "pdb_id": "7ALV",
+    "docking_engine": "gnina_cpu",
+    "pose_file": "data/si/mcc950_7alv/dock/poses/MCC950_out.sdf",
+    "log_file": "data/si/mcc950_7alv/dock/poses/MCC950_out.log"
+  },
+  "cnn_affinity": 7.018,
+  "gnina_affinity_kcal": -10.2,
+  "cnn_score": 0.9013,
+  "gnina_version": "v1.3.1"
+}

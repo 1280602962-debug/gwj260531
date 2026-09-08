@@ -1,0 +1,19 @@
+{
+  "seed": 42,
+  "arg_threshold_A": 7.7027,
+  "carboxylate_references": [
+    "lesinurad",
+    "verinurad",
+    "probenecid",
+    "puliginurad",
+    "SHR-4640",
+    "GSK-3008348"
+  ],
+  "a1_pass": 1,
+  "a2_pass": 5,
+  "n_carboxylate_refs": 6,
+  "trigger_for_A2": "a1 fails to recover known URAT1 carboxylate ligands despite sampling near-crystal poses",
+  "outputs": {
+    "csv": "data/campaigns/c1/03_forced_recovery/a2_reference_validation_seed42/a2_reference_validation.csv"
+  }
+}

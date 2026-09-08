@@ -1,0 +1,16 @@
+[2026-07-28 16:52:12] launch SEQUENTIAL: vina(timeout=300s,jobs=8) -> gnina(timeout=300s) + incremental RTM
+[2026-07-28 16:52:12] vina done=1021/9838  gnina done=114/9839
+[2026-07-28 16:52:12] started incremental RTM(vina) pid=1163107
+[2026-07-28 16:52:12] === STAGE 1/2: Vina (CPU) ===
+[2026-07-29 08:51:00] vina finished: 9750/9838
+[2026-07-29 08:51:01] rtm vina scored=9748
+[2026-07-29 08:51:01] === STAGE 2/2: gnina (CPUs freed from vina; GPU CNN) ===
+[2026-07-29 08:51:01] gnina jobs=6 devices=0 bin=/home/hww/gwj/NLRP3_URAT1/software/gnina_5090.sh
+[2026-07-29 08:51:01] started incremental RTM(gnina) pid=1551873
+[2026-07-29 23:50:54] gnina finished: 9839/9839
+[2026-07-29 23:51:21] all docking + RTM finished
+[2026-07-29 23:51:21] final vina=9750/9838 gnina=9839/9839 rtm_v=9748 rtm_g=9830
+    2 /home/hww/gwj/NLRP3_URAT1/server_dock_maestro_prep/work/logs/vina/skipped.txt
+  194 /home/hww/gwj/NLRP3_URAT1/server_dock_maestro_prep/work/logs/vina/timeouts.txt
+  196 total
+0 total

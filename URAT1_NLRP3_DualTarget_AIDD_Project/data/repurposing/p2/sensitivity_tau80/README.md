@@ -1,0 +1,1 @@
+Sensitivity re-nomination at dual-dock τ=80 using archived P2 percentiles. Does not replace production τ=90 files in the parent directory. Preferred n=19. Do not use the phase-sorted diverse top-12 as the manuscript follow-up list.

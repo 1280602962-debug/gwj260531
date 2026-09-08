@@ -1,0 +1,63 @@
+{
+  "module": "D_chemical_space_novelty",
+  "n_urat1_active": 822,
+  "n_nlrp3_active": 360,
+  "n_pool": 1580,
+  "n_shortlist": 4,
+  "pca_explained_variance_ratio": [
+    0.0478,
+    0.0255
+  ],
+  "shortlist_novelty": [
+    {
+      "name": "IDREMCINAL",
+      "canonical_smiles": "CC[C@H]1OC(=O)[C@H](C)[C@@H](O[C@H]2C[C@@](C)(OC)[C@@H](O)[C@H](C)O2)[C@H](C)[C@@H](O[C@@H]2O[C@H](C)C[C@H](N(C)C(C)C)[C@H]2O)[C@@]2(C)CC(C)=C(O2)[C@H](C)[C@@H](O)[C@]1(C)O",
+      "max_phase": 2.0,
+      "s_u_percentile": 99.9367088607595,
+      "s_n_percentile": 96.32911392405065,
+      "pareto_front": true,
+      "nn_tanimoto_urat1_active": 0.115,
+      "nn_tanimoto_nlrp3_active": 0.146,
+      "novel_vs_urat1_tc_lt_0.4": true,
+      "novel_vs_nlrp3_tc_lt_0.4": true
+    },
+    {
+      "name": "ZAMZETOCLAX",
+      "canonical_smiles": "COc1nn(C)cc1C(=O)N[SH]1(=O)C[C@@H](C)C/C=C/[C@H](OC)[C@@H]2CC[C@H]2CN2C[C@@]3(CCCc4cc(Cl)ccc43)COc3ccc(cc32)C(=O)N1",
+      "max_phase": 2.0,
+      "s_u_percentile": 99.873417721519,
+      "s_n_percentile": 99.33544303797468,
+      "pareto_front": true,
+      "nn_tanimoto_urat1_active": 0.174,
+      "nn_tanimoto_nlrp3_active": 0.191,
+      "novel_vs_urat1_tc_lt_0.4": true,
+      "novel_vs_nlrp3_tc_lt_0.4": true
+    },
+    {
+      "name": "ALEMCINAL",
+      "canonical_smiles": "CC[C@H]1OC(=O)[C@H](C)[C@@H](O[C@H]2C[C@@](C)(OC)C[C@H](C)O2)[C@H](C)[C@@H](O[C@@H]2O[C@H](C)C[C@H](N(C)CC)[C@H]2O)[C@@]2(C)CC(C)=C(O2)[C@H](C)[C@@H](O)[C@H]1C",
+      "max_phase": 2.0,
+      "s_u_percentile": 99.74683544303798,
+      "s_n_percentile": 99.873417721519,
+      "pareto_front": true,
+      "nn_tanimoto_urat1_active": 0.114,
+      "nn_tanimoto_nlrp3_active": 0.142,
+      "novel_vs_urat1_tc_lt_0.4": true,
+      "novel_vs_nlrp3_tc_lt_0.4": true
+    },
+    {
+      "name": "CETHROMYCIN",
+      "canonical_smiles": "CC[C@H]1OC(=O)[C@H](C)C(=O)[C@H](C)[C@@H](O[C@@H]2O[C@H](C)C[C@H](N(C)C)[C@H]2O)[C@](C)(OCC=Cc2cnc3ccccc3c2)C[C@@H](C)C(=O)[C@H](C)[C@H]2NC(=O)O[C@@]21C",
+      "max_phase": 3.0,
+      "s_u_percentile": 99.49367088607596,
+      "s_n_percentile": 99.9367088607595,
+      "pareto_front": true,
+      "nn_tanimoto_urat1_active": 0.167,
+      "nn_tanimoto_nlrp3_active": 0.164,
+      "novel_vs_urat1_tc_lt_0.4": true,
+      "novel_vs_nlrp3_tc_lt_0.4": true
+    }
+  ],
+  "pool_median_nn_tc_urat1": 0.216,
+  "pool_median_nn_tc_nlrp3": 0.202
+}

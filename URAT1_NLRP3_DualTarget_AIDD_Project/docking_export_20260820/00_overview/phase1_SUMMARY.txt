@@ -1,0 +1,23 @@
+NLRP3/URAT1 (9DKB) docking results bundle
+Generated: 2026-07-30
+
+== Run status ==
+Library size: 9839 molecules (active 469 + true_decoy 4687 + random_decoy 4683)
+Vina poses: 9750/9838 (88 timeout/skip; 1 no pdbqt)
+Gnina poses: 9839/9839
+RTM vina scored mols in CSV: 8983/9839 (incomplete; ~765 missing from scores.csv)
+RTM gnina scored mols in CSV: 9827/9839
+
+== Protocol metrics (True decoy bench, sorted by EF@1%) ==
+ID                Protocol  Coverage         True_N  True_EF@1% True_hits@1%  True_EF@5%  True_AUC  Random_EF@1%  Random_EF@5%  Random_AUC
+P5       RTM (gnina poses) 9827/9839 5148 (468 act)       2.804        13/51       2.440     0.590         0.000         1.198       0.553
+P2       gnina CNNaffinity 9839/9839 5156 (469 act)       2.537        12/52       1.875     0.580         0.211         0.766       0.540
+P0          gnina CNNscore 9839/9839 5156 (469 act)       1.903         9/52       2.386     0.647         1.901         2.086       0.631
+P4        RTM (Vina poses) 8983/9839 5044 (468 act)       0.647         3/50       1.026     0.625         0.000         0.214       0.562
+P1           Vina affinity 9750/9839 5149 (469 act)       0.431         2/51       0.513     0.531         0.848         0.809       0.630
+P3 gnina minimizedAffinity 9839/9839 5156 (469 act)       0.423         2/52       0.511     0.503         0.634         0.639       0.564
+
+== Notes ==
+- poses/ contains symlinks to original pose directories (not copies).
+- P4 RTM(Vina) coverage incomplete; do not over-interpret vs P5.
+- EF=1 / AUC=0.5 = random baseline.

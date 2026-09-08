@@ -1,0 +1,20 @@
+              _             
+             (_)            
+   __ _ _ __  _ _ __   __ _ 
+  / _` | '_ \| | '_ \ / _` |
+ | (_| | | | | | | | | (_| |
+  \__, |_| |_|_|_| |_|\__,_|
+   __/ |                    
+  |___/                     
+
+gnina v1.3.2 HEAD:f23dd2b+   Built Jul 28 2026.
+gnina is based on smina and AutoDock Vina.
+Please cite appropriately.
+
+Commandline: /home/hww/gwj/NLRP3_URAT1/software/gnina_install/bin/gnina -r /home/hww/gwj/NLRP3_URAT1/server_p2_gpu_upload/data/structures/prepared/9DKB_receptor.pdbqt -l results/repurposing/ligands_p05/REP_07757.pdbqt --center_x 99.966 --center_y 102.967 --center_z 105.699 --size_x 22 --size_y 22 --size_z 22 --exhaustiveness 32 --num_modes 1 --cpu 4 --cnn_scoring rescore -o results/repurposing/docking_p2/9dkb/poses/REP_07757_out.sdf --log results/repurposing/docking_p2/9dkb/poses/REP_07757_out.log
+Using random seed: 1355237567
+
+mode |  affinity  |  intramol  |    CNN     |   CNN
+     | (kcal/mol) | (kcal/mol) | pose score | affinity
+-----+------------+------------+------------+----------
+    1       -8.85       -2.03       0.5615      8.130

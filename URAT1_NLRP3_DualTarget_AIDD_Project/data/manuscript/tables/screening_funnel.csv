@@ -1,0 +1,9 @@
+stage,input_n,output_n,rule,source,historical_script
+clinical_library,,8319,clinical_all deposited library,data/repurposing/repurposing_manifest.csv,scripts/build_repurposing_library.py
+nlrp3_activity_pool,8319.0,1588,frozen model score >=0.5,data/repurposing/screening/docking_pool_p05.csv,scripts/screen_repurposing_library.py
+acid_equivalents,1588.0,303,deposited acid SMARTS,data/campaigns/c1/07_clinical_dock/acid_pool/acid_clinical_pool.csv,scripts/build_c1_acid_clinical_pool.py
+chemistry_soft,303.0,156,MW 200-550; TPSA<=140; rotatable<=10; HBD<=5; HBA<=10,data/campaigns/c1/07_clinical_dock/acid_pool/acid_clinical_pool_chemistry_pass.csv,scripts/build_c1_acid_clinical_pool.py
+dual_structural_ge2of3,156.0,54,URAT1 A2 AND NLRP3 structural in >=2/3 seeds,data/campaigns/c1/07_clinical_dock/acid_dual_a2/,scripts/build_c5_tier_assignment.py
+intersection_with_historical_chemistry_40,54.0,37,intersection with historical eligible set (not sequential 54->40),data/campaigns/c1/08_nomination/acid_a2_eligible_audited.csv,scripts/build_c5_tier_assignment.py
+primary,37.0,12,A1 seed42; remove structural control,data/campaigns/c5/04_shortlist_frozen/primary_candidates.csv,scripts/freeze_c5_shortlist.py
+reserve_parallel_branch,37.0,21,not A1; beta-lactam exclusion; not second-best potency,data/campaigns/c5/04_shortlist_frozen/backup_candidates.csv,scripts/freeze_c5_shortlist.py

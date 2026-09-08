@@ -1,0 +1,45 @@
+{
+  "framework": "urat1_distill_retrospective",
+  "stage": "0.3_distill_set",
+  "n_total_unique": 8973,
+  "n_by_subset_manifest": {
+    "A": 822,
+    "B": 0,
+    "C": 59,
+    "D": 8000,
+    "E": 92
+  },
+  "n_by_subset_file": {
+    "A": 822,
+    "B": 218,
+    "C": 882,
+    "D": 8000,
+    "E": 200
+  },
+  "n_labeled": 973,
+  "n_unlabeled": 8000,
+  "targets_masfl": {
+    "A": "~650/fold URAT1 train (all curated used)",
+    "B": "500\u20131000 scaffold reps",
+    "C": "2000\u20135000 SLC22 FPS",
+    "D": "3000\u201310000 unlabeled",
+    "E": "~200 benchmark boundary",
+    "total": "5k\u201320k"
+  },
+  "data_limits": {
+    "urat1_scaffolds": 218,
+    "slc22_pool_unique": 882,
+    "note": "Subset C below 2k target because ChEMBL SLC22 exports are small (~822 URAT1 + 73 OAT)."
+  },
+  "seed": 42,
+  "files": {
+    "manifest": "/workspace/URAT1_NLRP3_DualTarget_AIDD_Project/data/distill/distill_manifest.csv",
+    "subsets": [
+      "distill_subset_a.csv",
+      "distill_subset_b.csv",
+      "distill_subset_c.csv",
+      "distill_subset_d.csv",
+      "distill_subset_e.csv"
+    ]
+  }
+}

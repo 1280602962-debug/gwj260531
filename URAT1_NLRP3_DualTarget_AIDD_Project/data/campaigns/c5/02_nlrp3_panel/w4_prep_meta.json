@@ -1,0 +1,45 @@
+{
+  "protocol": "dimorphite_dl_ph7.4_then_meeko_embed_0xC0FFEE",
+  "script": "scripts/prepare_ligands_c1.py",
+  "do_not_reuse": "data/campaigns/c1/05_metrics/nlrp3_structural_panel/pdbqt (Meeko-only, no Dimorphite)",
+  "positives_n": 8,
+  "decoys_n": 40,
+  "positives_dir": "/home/gwj/work/c1-campaign/URAT1_NLRP3_DualTarget_AIDD_Project/data/campaigns/c5/02_nlrp3_panel/positive_ligands/pdbqt",
+  "decoys_dir": "/home/gwj/work/c1-campaign/URAT1_NLRP3_DualTarget_AIDD_Project/data/campaigns/c5/02_nlrp3_panel/decoy_ligands/pdbqt",
+  "rep_07837_pdbqt": "/home/gwj/work/c1-campaign/URAT1_NLRP3_DualTarget_AIDD_Project/data/campaigns/c1/01_ligand_prep/acid_clinical_chemistry_pass/pdbqt/REP_07837.pdbqt",
+  "receptor": "/home/gwj/work/c1-campaign/URAT1_NLRP3_DualTarget_AIDD_Project/data/structures/prepared/7ALV_receptor.pdbqt",
+  "box": {
+    "center": [
+      16.756,
+      35.449,
+      125.714
+    ],
+    "size": [
+      20,
+      20,
+      20
+    ]
+  },
+  "authorization": {
+    "gate_path": "/home/gwj/work/c1-campaign/URAT1_NLRP3_DualTarget_AIDD_Project/data/campaigns/c5/01_crossdock/gate_benzbromarone_9dka.json",
+    "authorized": true,
+    "reason": "campaign_c5_authorized_after_search_ok_selection_fail",
+    "gate_pass": false,
+    "fork": "search_ok_selection_fail",
+    "n_jobs_new": 146
+  },
+  "settings": {
+    "exhaustiveness": 32,
+    "num_modes": 9,
+    "cnn_scoring": "rescore",
+    "seeds": [
+      42,
+      43,
+      44
+    ],
+    "no_gpu": true,
+    "cpu_per_job": 3,
+    "workers": 2
+  },
+  "started_unix": 1788577663.2779062
+}

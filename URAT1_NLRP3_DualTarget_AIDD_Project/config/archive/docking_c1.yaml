@@ -1,0 +1,46 @@
+# Executable GNINA engine config for campaign C1.
+# Scientific lock (pass/fail, tracks, names): config/campaign_c1.yaml
+# Do NOT pass campaign_c1.yaml to scripts/run_gnina_batch.py — different schema.
+# Frozen production (num_modes=1) remains config/docking_production_p2.yaml.
+#
+# WARNING: run_gnina_batch.py currently stores max CNNaffinity (= C1_P2max).
+# C1_P2star / C1_VS MUST be parsed from the multi-pose SDF after docking.
+# See docs/LOCAL_C1_CANDIDATE_CAMPAIGN.md §12.
+
+default_engine: gnina
+
+gnina:
+  binary: gnina            # or tools/gnina after setup_gnina_wsl_cpu.sh
+  no_gpu: false            # set true only for L0/L2 CPU smoke; L3 needs GPU
+  exhaustiveness: 32
+  num_modes: 9
+  cpu: 1                   # GPU path: one CPU thread per worker; scale with --jobs
+  cnn_scoring: rescore
+  score_mode: cnnaff       # batch CSV = C1_P2max; not the Rank-track primary
+  extra_args: ["--seed", "42"]
+
+receptor_prep:
+  remove_waters: true
+  remove_hetatm: true
+  protonate_ph: 7.4
+  chain: A
+
+# Same receptors and boxes as frozen P2. C1 changes ligand microspecies and num_modes.
+targets:
+  urat1_9dkb:
+    pdb_id: 9DKB
+    structure_file: data/structures/pdb/9DKB.cif
+    ligand_resn: A1AIL
+    center: [99.966, 102.967, 105.699]
+    size: [22, 22, 22]
+    reference: "Suo et al., Nat Commun 2025; inward-open URAT1 + lesinurad"
+    prepared_receptor: data/structures/prepared/9DKB_receptor.pdbqt
+
+  nlrp3_7alv:
+    pdb_id: 7ALV
+    structure_file: data/structures/pdb/7ALV.pdb
+    ligand_resn: RM5
+    center: [16.756, 35.449, 125.714]
+    size: [20, 20, 20]
+    reference: "Dekker et al., J Mol Biol 2021; NACHT sulfonylurea-class pocket"
+    prepared_receptor: data/structures/prepared/7ALV_receptor.pdbqt
