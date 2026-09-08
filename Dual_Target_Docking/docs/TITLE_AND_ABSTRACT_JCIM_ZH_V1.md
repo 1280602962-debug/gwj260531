@@ -6,8 +6,8 @@
 
 ## 摘要
 
-对接常被用来解释双靶识别，但负类通常是非结合配体或未匹配 decoy，而不是实验测定的单靶选择性配体。本文将 DualFourClass 建成该选择的四状态配方审计。最初的主评价集是 2026-07-23 的四靶对冻结。事后 ChEMBL 37 宇宙普查之后，五个通过预先声明门槛的普通非共价靶对被加入同一分析栈——这是收集补全，不是预先注册的八靶对冻结。原先对接的第四个候选靶对 PIK3CA/PIK3CB 在受体身份审计中被撤回——其"PIK3CB"受体（PDB 2WXF）实为小鼠 PIK3CD，并非人源 PIK3CB，因此仅作为已记录的受体身份错误在 Supporting Information 中报告。主表因此为八行：PIK3CA/mTOR、AChE/BChE、供给受限的 EGFR/HER2，以及 F2/F10、JAK1/TYK2、JAK1/JAK2、PPARG/PPARA、PPARA/PPARD。在 AutoDock Vina 下，实验定义的双靶配体相对 A-only 与 B-only 选择性配体排序。最弱臂 AUROC 分别为 EGFR/HER2 0.430、AChE/BChE 0.606、PIK3CA/mTOR 0.692、F2/F10 0.345、JAK1/TYK2 0.365、JAK1/JAK2 0.588、PPARG/PPARA 0.649 与 PPARA/PPARD 0.446。仅 PPARG/PPARA 的 95% 置信区间完全高于 0.5，且该区间对面板成员与打分公式敏感。同一套 EGFR/HER2 分数在双靶对 neither 时 AUROC 为 0.756，定向评价则降至 0.430；JAK1/TYK2 再现同一配方差距（0.770 对 0.365）。独立 GNINA 姿态生成再现了这两处差距。支架分组的纯配体模型已捕获大部分表观排序，替换备选 PIK3CA 晶体结构则使 PIK3CA/mTOR 对比降至接近随机水平。双口袋分数过滤因此需要选择性感知的负类；两个口袋同时给出有利分数，本身并不是双靶识别的证据。
+对接常被用来排序潜在双靶配体，但回顾性评价中的负类既可以是两个靶点均低活性的化合物，也可以是仍保留一个靶点活性的选择性配体。本文在八个靶对上构建四状态评价，保持对接评分不变，比较 dual-versus-selective 与 dual-versus-neither。EGFR/HER2 在固定 EGFR 评分时，dual 对 B-only 的 AUROC 为 0.430，将负类换成 neither 后升至 0.808；JAK1/TYK2 出现同类差距。八个靶对的方向性较弱方向汇总 \(\mathrm{summary}_{\min}\) 介于 0.345–0.692，仅 PPARG/PPARA 的配体水平 95% 置信区间完全高于 0.5。骨架分组交叉验证下，将对接评分加入 ECFP4 模型后，16 个方向的 AUROC 最大绝对变化为 0.023；主评价集中出现的对应口袋优势未能在未使用池留出集上稳定重现。按预先规定的准入条件，BindingDB 没有靶对进入外部对接。结果表明，这两类比较不是同一评价任务的难度差异；回顾性 AUROC 不能直接当作前瞻发现能力，也不能自动归因于靶点结构信息。
 
 ## 关键词
 
-双靶对接；选择性；硬负例；AutoDock Vina；GNINA；虚拟筛选
+双靶对接；实验状态；选择性；AutoDock Vina；虚拟筛选评价
