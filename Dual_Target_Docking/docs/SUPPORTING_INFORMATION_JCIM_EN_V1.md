@@ -111,6 +111,8 @@ Relabeling on frozen Vina scores. Primary analysis is θ = 6.0 (Table 2). Interv
 
 **pChEMBL max versus median (2026-08-26 API snapshot; does not replace Table 2):** EGFR/HER2 label agreement 93.6%, `summary_min` 0.430 frozen vs API-max 0.417 and median 0.424; AChE/BChE agreement 98.9%, median `summary_min` 0.629 (Δ = +0.023); PIK3CA/mTOR agreement 100%, `summary_min` unchanged. Source: `unified_threshold_sensitivity_v2.csv`; `threshold_grid_v1.csv`; `assay_max_vs_median_agreement_v1.csv`.
 
+**High-confidence human SINGLE PROTEIN view (same-day API snapshot; does not replace Table 2):** 352/352 originally scored ligands match the frozen four-state labels and directional AUROCs are unchanged. The view covers EGFR/HER2, AChE/BChE, and PIK3CA/mTOR, plus withdrawn PIK3CA/PIK3CB (not in the main tables); the five census pairs are not included. Source: `high_confidence_summary_v1.csv`.
+
 ---
 
 ## Table S4. Fixed score channel, negative class only

@@ -111,6 +111,8 @@
 
 **pChEMBL 最大对中位数（2026-08-26 API 快照；不替换 Table 2）：** EGFR/HER2 标签一致率 93.6%，`summary_min` 由冻结 0.430 变为 API-max 0.417、median 0.424；AChE/BChE 一致率 98.9%，median 使 `summary_min` 变为 0.629（Δ = +0.023）；PIK3CA/mTOR 一致率 100%，`summary_min` 不变。源：`unified_threshold_sensitivity_v2.csv`；`threshold_grid_v1.csv`；`assay_max_vs_median_agreement_v1.csv`。
 
+**高置信人源单蛋白视图（同日 API 快照；不替换 Table 2）：** 原冻结已打分配体中 352/352 与冻结四状态类别一致，方向性 AUROC 不变。该视图覆盖 EGFR/HER2、AChE/BChE 与 PIK3CA/mTOR，以及已撤回、不进入主表的 PIK3CA/PIK3CB；普查后五对未纳入。源：`high_confidence_summary_v1.csv`。
+
 ---
 
 ## Table S4. 固定评分通道后仅改变负类
