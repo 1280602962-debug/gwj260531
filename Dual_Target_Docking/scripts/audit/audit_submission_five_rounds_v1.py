@@ -272,8 +272,8 @@ def round1() -> dict:
             if row is None:
                 rec("R1", "FAIL", f"Table 1 missing {pair}")
                 continue
-            got = (row[1], row[2], row[6], row[7], row[8])
-            exp = (pool, quota, n_panel, n_scored, exh)
+            got = (row[1], row[2], row[4], row[5])
+            exp = (pool, quota, n_scored, exh)
             if got != exp:
                 rec("R1", "FAIL", f"Table 1 {pair}: {got} != {exp}")
             else:

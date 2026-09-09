@@ -12,7 +12,7 @@ Results are shown for the eight primary target pairs at θ = 6.0. Throughout (A)
 
 ## Figure 3. Ligand chemistry as a competing explanation.
 
-(A) Primary rank-based Vina AUROC is shown alongside out-of-fold ECFP4 logistic-regression AUROC obtained under Bemis–Murcko scaffold-grouped cross-validation for both directional contrasts. Blue markers are Vina and orange markers ECFP4; circles are Dual versus A-only and squares Dual versus B-only. (B) Change after adding the corresponding Vina score to ECFP4 under the same scaffold-grouped cross-validation. Positive values favor ECFP4 plus Vina. Circles and squares denote Dual versus A-only and Dual versus B-only; grayscale is used so that color remains reserved for method in (A). The axis is limited to ±0.03 so that the 16 changes remain visible on their native scale. (C) Illustrative TPSA separation in AChE/BChE. Points represent individual ligands; horizontal and vertical black lines show the median and interquartile range.
+(A) Primary rank-based Vina AUROC is shown alongside out-of-fold ECFP4 logistic-regression AUROC obtained under Bemis–Murcko scaffold-grouped cross-validation for both directional contrasts. Blue markers are Vina and orange markers ECFP4; circles are Dual versus A-only and squares Dual versus B-only. (B) Change after adding the corresponding Vina score to ECFP4 under the same scaffold-grouped cross-validation. Positive values favor ECFP4 plus Vina. Circles and squares denote Dual versus A-only and Dual versus B-only; grayscale is used so that color remains reserved for method in (A). Connectors join the two methods on the same arm and are not confidence intervals. The axis is limited to ±0.03 so that the 16 changes remain visible on their native scale. (C) Illustrative TPSA separation in AChE/BChE. Points represent individual ligands; horizontal and vertical black lines show the median and interquartile range.
 
 ## Figure 4. Matched- versus mismatched-pocket scoring controls.
 
@@ -20,7 +20,7 @@ Matched-pocket scoring uses target B for Dual versus A-only and target A for Dua
 
 ## Figure 5. Computational realization.
 
-(A) Independent GNINA 1.3.2 pose generation versus Vina on the three evaluated target pairs. Filled circles are Vina; open squares are GNINA. Blue markers show directional summary$_{\mathrm{min}}$ and orange markers Dual versus neither. Gray segments connect the two tasks for the same engine. GNINA points use the available-score subsets (EGFR/HER2: 11 versus 12 for Vina; PIK3CA/mTOR: 13 versus 14 for Vina), so they are not paired bootstrap estimates. (B) PIK3CA/mTOR summary$_{\mathrm{min}}$ after substituting the PIK3CA structure (4JPS or 5DXT) or the mTOR structure (4JSX) for the primary pair (PIK3CA 4L23 and mTOR 4JT6). The first column is the primary receptor pair. Blue: primary receptors. Orange: PIK3CA substituted. Gold: mTOR substituted. Error bars are ligand-level bootstrap 95% confidence intervals. (C) Directional summary$_{\mathrm{min}}$ across five Vina random seeds for all eight pairs (8 × 5). Horizontal segments show the five-seed min–max range, circles the median, and diamonds the primary seed; the dashed line marks AUROC = 0.5.
+(A) Independent GNINA 1.3.2 pose generation versus Vina on the three evaluated target pairs. Filled circles are Vina; open squares are GNINA. Blue markers show directional summary$_{\mathrm{min}}$ and orange markers Dual versus neither. Gray segments connect the two tasks for the same engine and are not confidence intervals. The legend is placed outside the plotting area. GNINA points use the available-score subsets (EGFR/HER2: 11 versus 12 for Vina; PIK3CA/mTOR: 13 versus 14 for Vina), so they are not paired bootstrap estimates. (B) PIK3CA/mTOR summary$_{\mathrm{min}}$ after substituting the PIK3CA structure (4JPS or 5DXT) or the mTOR structure (4JSX) for the primary pair (PIK3CA 4L23 and mTOR 4JT6). The first column is the primary receptor pair. Blue: primary receptors. Orange: PIK3CA substituted. Gold: mTOR substituted. Error bars are ligand-level bootstrap 95% confidence intervals. (C) Directional summary$_{\mathrm{min}}$ across five Vina random seeds for all eight pairs (8 × 5). Horizontal segments show the five-seed min–max range, circles the median, and diamonds the primary seed; the dashed line marks AUROC = 0.5. Panel C does not show the dual-versus-neither minus summary$_{\mathrm{min}}$ task difference; those values are in Table S9.
 
 ## Figure 6. Evidence boundary.
 
@@ -28,35 +28,23 @@ Matched-pocket scoring uses target B for Dual versus A-only and target A for Dua
 
 ## Figure S1. Post-hoc formulation and screening diagnostics.
 
-EGFR/HER2 operating points: class composition among the top ten compounds ranked by mean Vina score and among compounds passing the median dual worst-target-score threshold. These analyses use different denominators and are exploratory (Table S13).
+EGFR/HER2 operating points: class composition among the top ten compounds ranked by mean Vina score (denominator 110) and among compounds passing the median dual worst-target-score threshold on Dual+A-only+B-only (denominator 98, neither excluded). These analyses use different denominators and are exploratory (Table S13).
 
 ## Figure S2. Pocket-matched summary_min forest.
 
-Vina CIs and the best single-descriptor reference on the eight primary rows. PIK3CA/PIK3CB is omitted.
+Vina ligand-level bootstrap 95% CIs and the best single-descriptor point estimates on the eight primary rows. Difference CIs of Vina minus the best descriptor are in Table S5, not in this figure.
 
 ## Figure S3. Protocol sensitivity on PIK3CA/mTOR.
 
-(A) Vina summary$_{\mathrm{min}}$ on the PM48 and PM110 panels. (B) Vina summary$_{\mathrm{min}}$ at exhaustiveness 16 versus 8 on PM48. Both panels are descriptive point estimates.
+(A) Vina summary$_{\mathrm{min}}$ on the PM48 and PM110 panels. PM48 is the primary PIK3CA/mTOR panel (quota 18/14/12/4; n_scored dual/A/B = 18/14/12; exhaustiveness = 16). PM110 is a larger protocol-sensitivity panel on the same pair. (B) Vina summary$_{\mathrm{min}}$ at exhaustiveness 16 versus 8 on PM48. Both panels are descriptive point estimates.
 
 ## Figure S4. Cognate redocking RMSD for the 14 primary receptors.
 
-Heavy-atom RMSD of the cognate ligand after redocking into each primary receptor. Circles: top-1 pose. Diamonds: minimum among all saved poses (best-of-9). The dashed line marks RMSD = 2 Å. Values above 3.5 Å are indicated off-scale; the EGFR 3POZ top-1 RMSD was 9.505 Å. Values are those locked in Table S2.
+Heavy-atom RMSD of the cognate ligand after redocking into each primary receptor. Circles: top-1 pose. Diamonds: lowest heavy-atom RMSD among all saved poses. AChE 4EY7 deposited 8 poses; the other primary receptors deposited 9. The dashed line marks RMSD = 2 Å. Values above 3.5 Å are indicated off-scale; the EGFR 3POZ top-1 RMSD was 9.505 Å. PPARA 6LXA is included. Values are those locked in Table S2.
 
-## Figure S5. Unused-pool holdout versus the main panel.
+## Figure S5. Detectable-effect simulation.
 
-Pocket-matched `summary_min` on the seven pairs that have a holdout. EGFR/HER2 has no holdout. Matched-minus-mismatched Δ CIs are Figure 4A.
-
-## Figure S6. Detectable-effect simulation.
-
-Probability that a ligand-level 95% confidence interval for `summary_min` excludes 0.5 under the simulated true AUROC values and the observed class sizes. The simulation is available for three pairs only, uses 1,000 Monte Carlo replicates per grid point and 2,000 bootstrap replicates, and is a power-oriented diagnostic rather than an estimate of observed docking performance.
-
-## Figure S7. BindingDB-native slice.
-
-BindingDB compound and source counts after independence filters for all eight target pairs. The same two matrices appear as Figure 6C and 6D. After those filters, no pair met the full external-evaluation admission criteria.
-
-## Figure S8. Fixed-score comparator differences under cluster resampling.
-
-Target-A score differences between Dual-versus-neither and Dual-versus-B-only for EGFR/HER2 and JAK1/TYK2 under ligand, scaffold-cluster, and document-cluster resampling. The same estimates are shown in Figure 6B. Cluster intervals supplement the primary ligand-level intervals. EGFR/HER2 excludes zero under both cluster schemes; the JAK1/TYK2 document-cluster interval includes zero.
+Probability that a simulated `summary_min` percentile 95% interval has lower bound > 0.5 or upper bound < 0.5, under the simulated true AUROC values and the observed class sizes. The simulation is available for three pairs only, uses 1,000 Monte Carlo replicates per grid point and 2,000 bootstrap replicates, and is an independent scenario diagnostic. At true AUROC = 0.50 the probabilities are 0.109, 0.119, and 0.128, indicating a coverage artifact. The figure is not an estimate of observed docking performance and does not by itself explain Table 2 uncertainty. Artwork file: `FigS6_detectable_effect`. Holdout, BindingDB-matrix, and cluster-copy figures remain in the repository and are not repeated in the submission SI.
 
 ## TOC graphic (For Table of Contents Only).
 

@@ -4,7 +4,7 @@
 **Numeric rule:** cells below are read from frozen CSVs. Displayed values are three-decimal rounded from the CSV string (half-up or, where already typeset, half-even / banker's). A trailing digit of exactly 5 can therefore appear as either neighbor (for example 0.5045 as 0.504 or 0.505). The CSV is authoritative. EGFR/HER2 Table 2 TPSA is 0.4275 → 0.428. Per-ligand long tables, exploratory slices, and demoted pairs are archived with code and SHA-256 checksums (Note S14).  
 **Legacy map:** `data/manuscript_lock/SI_TABLE_MERGE_MAP_v1.csv` (former Tables S1–S54 → Tables S1–S13).
 
-**Main-text tables (not repeated here):** Table 1 panel composition; Table 2 eight-pair directional AUROC and four descriptors; Table 3 Dual-versus-neither versus directional contrast.
+**Main-text tables (not repeated here):** Table 1 panel composition; Table 2 eight-pair directional AUROC; Table 3 Dual-versus-neither versus directional contrast. Physicochemical descriptors are in Table S5.
 
 ---
 
@@ -130,7 +130,20 @@ The pocket score is held fixed. Dual ligands are resampled once; selective and n
 | PPARA/PPARD | pocket A | 0.446 | 0.484 | 0.038 | [−0.139, 0.216] | no |
 | PPARA/PPARD | pocket B | 0.646 | 0.665 | 0.019 | [−0.172, 0.198] | no |
 
-Source: `formulation_equal_score_negative_v1.csv`; `equal_score_negative_s34_v1.csv`. Cluster resampling of the two pocket-A Δ values is in Table S10. Dual-versus-neither with two-pocket mean scores is main-text Table 3 and does not isolate the negative-class effect.
+**Dual versus all non-duals (two-pocket mean score; descriptive reference, not main-text Table 3):**
+
+| Pair | Dual vs all non-duals [95% CI] |
+|------|-------------------------------:|
+| EGFR/HER2 | 0.551 [0.443, 0.666] |
+| JAK1/JAK2 | 0.668 [0.561, 0.770] |
+| JAK1/TYK2 | 0.527 [0.411, 0.638] |
+| PIK3CA/mTOR | 0.674 [0.515, 0.817] |
+| AChE/BChE | 0.579 [0.442, 0.716] |
+| F2/F10 | 0.405 [0.273, 0.534] |
+| PPARG/PPARA | 0.675 [0.571, 0.780] |
+| PPARA/PPARD | 0.522 [0.406, 0.640] |
+
+Source: `formulation_equal_score_negative_v1.csv`; `equal_score_negative_s34_v1.csv`. Cluster resampling of the two pocket-A Δ values is in Table S10; this table no longer cross-points to a continuation block. EGFR/HER2 pocket-A Δ = 0.378 excludes 0 under both document- and scaffold-cluster resampling. JAK1/TYK2 pocket-A Δ = 0.444 excludes 0 under scaffold clusters and includes 0 under document clusters. Dual-versus-neither with two-pocket mean scores is main-text Table 3 and does not isolate the negative-class effect.
 
 ---
 
