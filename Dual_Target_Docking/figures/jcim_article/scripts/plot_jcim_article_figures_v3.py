@@ -281,6 +281,19 @@ def theta_grid_smin(D: dict, pair: str, rule: str) -> float:
     return fnum(r["summary_min"])
 
 
+def theta_grid_record(D: dict, pair: str, rule: str) -> dict:
+    """Value and sample-size flag for the categorical label-rule grid."""
+    if pair in ORIGINAL_THREE:
+        r = next(row for row in D["theta_all"] if row["pair"] == pair and row["label_rule"] == rule)
+        value = fnum(r["pocket_matched_summary_min"])
+        under = r.get("underpowered", "0") == "1"
+    else:
+        r = next(row for row in D["five_grid"] if row["pair"] == pair and row["label_rule"] == rule)
+        value = fnum(r["summary_min"])
+        under = min(int(r["n_dual"]), int(r["n_A_only"]), int(r["n_B_only"])) < 10
+    return {"value": value, "under": under}
+
+
 def gnina_indep(D: dict, pair: str) -> dict:
     if pair == "JAK1/TYK2":
         r = D["five_ch"][("gnina_independent_jak1_tyk2", pair)]
@@ -320,8 +333,8 @@ def forest_pairs(ax, pairs, records, title, xlabel, xlim):
 
 
 def fig1_framework(D: dict) -> None:
-    fig = plt.figure(figsize=(7.0, 6.20))
-    gs = fig.add_gridspec(2, 2, height_ratios=[1.00, 1.38], hspace=0.34, wspace=0.16)
+    fig = plt.figure(figsize=(7.0, 5.10))
+    gs = fig.add_gridspec(2, 2, height_ratios=[0.72, 1.28], hspace=0.28, wspace=0.18)
 
     ax = fig.add_subplot(gs[0, 0])
     ax.set_xlim(0, 10)
@@ -329,24 +342,26 @@ def fig1_framework(D: dict) -> None:
     ax.axis("off")
     panel_label(ax, "A", x=-0.02, y=1.04)
     ax.text(5.0, 9.55, "Four experimental states", ha="center", fontsize=FS_AXIS, fontweight="bold")
-    for x, title, col in ((1.15, "Pocket A", C["a_only"]), (5.55, "Pocket B", C["b_only"])):
-        ax.add_patch(FancyBboxPatch(
-            (x, 5.85), 3.2, 3.15, boxstyle="round,pad=0.06,rounding_size=0.28",
-            facecolor="#F4F7FA", edgecolor=col, lw=1.3, clip_on=False,
-        ))
-        ax.text(x + 1.6, 8.55, title, ha="center", fontsize=FS_AXIS, fontweight="bold")
-    classes = [
-        (1.7, "dual", C["dual"], C["dual"]),
-        (3.9, "A-only", C["a_only"], "#DDDDDD"),
-        (6.1, "B-only", "#DDDDDD", C["b_only"]),
-        (8.3, "neither", "#DDDDDD", "#DDDDDD"),
+    ax.text(4.55, 8.55, "B active", ha="center", fontsize=FS_ANNO, fontweight="bold")
+    ax.text(7.55, 8.55, "B low activity", ha="center", fontsize=FS_ANNO, fontweight="bold")
+    ax.text(1.65, 6.80, "A active", ha="center", va="center", fontsize=FS_ANNO, fontweight="bold")
+    ax.text(1.65, 3.75, "A low activity", ha="center", va="center", fontsize=FS_ANNO, fontweight="bold")
+    cells = [
+        (3.05, 5.45, "dual", C["dual"]),
+        (6.05, 5.45, "A-only", C["a_only"]),
+        (3.05, 2.40, "B-only", C["b_only"]),
+        (6.05, 2.40, "neither", "#D9D9D9"),
     ]
-    ax.text(5.0, 5.15, "four-state dual-target evaluation", ha="center", fontsize=FS_ANNO, color="#555555")
-    for x, name, c1, c2 in classes:
-        ax.add_patch(Circle((x - 0.28, 3.05), 0.36, facecolor=c1, edgecolor=C["ink"], lw=0.55, clip_on=False))
-        ax.add_patch(Circle((x + 0.28, 3.05), 0.36, facecolor=c2, edgecolor=C["ink"], lw=0.55, clip_on=False))
-        ax.text(x, 2.15, name, ha="center", fontsize=FS_ANNO)
-    ax.text(5.0, 0.85, "A-only / B-only = single-target-selective controls", ha="center", fontsize=6.5, color="#555555")
+    for x, y0, name, col in cells:
+        ax.add_patch(FancyBboxPatch(
+            (x, y0), 3.0, 2.35, boxstyle="round,pad=0.04,rounding_size=0.20",
+            facecolor=col, alpha=0.20 if name != "neither" else 0.55,
+            edgecolor=col if name != "neither" else "#A5A5A5", lw=1.0,
+        ))
+        ax.text(x + 1.50, y0 + 1.35, name, ha="center", va="center", fontsize=FS_AXIS, fontweight="bold")
+        if name in {"A-only", "B-only"}:
+            ax.text(x + 1.50, y0 + 0.62, "selective control", ha="center", va="center",
+                    fontsize=6.0, color="#555555")
 
     ax = fig.add_subplot(gs[0, 1])
     ax.set_xlim(0, 10)
@@ -378,54 +393,62 @@ def fig1_framework(D: dict) -> None:
     n_thick = sum(1 for r in rows if fnum(r["min_strict_hardneg"]) >= 50)
     stages = [
         (n_pairs, "J0 scrape"),
-        (n_thick, "min selective ≥50"),
-        (8, "eight-pair evaluation set"),
+        (n_thick, "min hard-neg ≥50"),
+        (3, "after HDAC metal exclusion"),
+        (4, "historically docked"),
+        (3, "after PIK3CB withdrawal"),
+        (8, "primary rows after census"),
     ]
-    y = np.arange(len(stages))
     vals = [s[0] for s in stages]
-    cols = [C["other"], C["thick"], C["dual"]]
-    ax.barh(y, vals, color=cols, height=0.68, zorder=3)
-    ax.set_yticks(y)
-    ax.set_yticklabels([s[1] for s in stages], fontsize=6.2)
-    ax.invert_yaxis()
-    ax.set_xlabel("Pair count")
-    ax.set_xlim(0, 56)
-    ax.set_title("Supply screen to eight-pair evaluation set", fontsize=FS_AXIS, pad=4)
-    for i, v in enumerate(vals):
-        ax.text(v + 0.8, i, str(v), va="center", fontsize=6.4)
-    ax.text(0.02, -0.18, "EGFR kept as supply-limited (B-only = 7), not a J0 thick pair.",
-            transform=ax.transAxes, ha="left", fontsize=6.0, color="#555555")
+    stage_labels = [
+        "J0 candidates", "hard-negative gate", "after HDAC exclusion",
+        "plus supply-limited EGFR/HER2", "after PIK3CB withdrawal", "plus five census pairs",
+    ]
+    cols = [C["other"], C["thick"], C["metal"], C["egfr"], C["vina"], C["dual"]]
+    ax.set_xlim(0, 1)
+    ax.set_ylim(-0.45, 5.55)
+    ax.axis("off")
+    for i, (value, label, col) in enumerate(zip(vals, stage_labels, cols)):
+        yy0 = 5 - i
+        ax.add_patch(FancyBboxPatch(
+            (0.09, yy0 - 0.31), 0.82, 0.62, boxstyle="round,pad=0.015,rounding_size=0.035",
+            facecolor="white", edgecolor=col, lw=1.0,
+        ))
+        ax.text(0.18, yy0, str(value), ha="center", va="center", fontsize=7.0,
+                fontweight="bold", color=col)
+        ax.text(0.28, yy0, label, ha="left", va="center", fontsize=6.1)
+        if i < len(vals) - 1:
+            ax.annotate("", xy=(0.50, yy0 - 0.50), xytext=(0.50, yy0 - 0.32),
+                        arrowprops={"arrowstyle": "-|>", "color": "#999999", "lw": 0.75})
+    ax.set_title("J0 scrape to eight-row primary set", fontsize=FS_AXIS, pad=4)
 
     bx = fig.add_subplot(gs_c[0, 1])
-    # J0 scrape keys as stored in j0_strict_label_supply.csv. HDAC is the metal
-    # exclusion; EGFR is the supply-limited primary pair. Withdrawn PIK3CA/PIK3CB
-    # is not in that CSV and is not a bar.
-    j0_keys = ["HDAC1/HDAC6", "PIK3CA/MTOR", "ACHE/BCHE", "EGFR/HER2"]
-    j0_lab = ["HDAC1/\nHDAC6", "PIK3CA/\nmTOR", "AChE/\nBChE", "EGFR/\nHER2"]
+    j0_keys = ["HDAC1/HDAC6", "PIK3CA/MTOR", "ACHE/BCHE", "PIK3CA/PIK3CB", "EGFR/HER2"]
+    j0_lab = ["HDAC1/\nHDAC6", "PIK3CA/\nmTOR", "AChE/\nBChE", "PIK3CA/\nPIK3CB", "EGFR/\nHER2"]
     j0_map = {r["pair"]: fnum(r["min_strict_hardneg"]) for r in rows}
     j0_vals = [j0_map[k] for k in j0_keys]
-    j0_cols = [C["metal"], C["thick"], C["thick"], C["egfr"]]
+    j0_cols = [C["metal"], C["thick"], C["thick"], C["thick"], C["egfr"]]
     dump_vals = [fnum(D["five_xdb"][(p, "ChEMBL37_dump", "pChEMBL_STANDARD_OK")]["min_strict_hardneg"])
                  for p in CENSUS_FIVE]
     dump_lab = ["F2/\nF10", "JAK1/\nTYK2", "JAK1/\nJAK2", "PPARG/\nPPARA", "PPARA/\nPPARD"]
-    x1 = np.arange(len(j0_keys))
-    x2 = np.arange(len(CENSUS_FIVE)) + len(j0_keys) + 1.2
-    bx.bar(x1, j0_vals, color=j0_cols, width=0.78, zorder=3)
-    bx.bar(x2, dump_vals, color=C["vina"], width=0.78, zorder=3)
-    bx.axhline(50, color=C["ink"], ls="--", lw=0.8, zorder=2)
-    bx.set_xticks(list(x1) + list(x2))
-    bx.set_xticklabels(j0_lab + dump_lab, fontsize=6.0)
-    bx.set_ylabel("min strict selectives")
-    bx.set_ylim(0, 140)
-    bx.set_title("Selective-ligand supply (two extracts)", fontsize=FS_AXIS, pad=4)
-    bx.text(float(np.mean(x1)), 128, "J0 scrape", ha="center", fontsize=6.0, color="#555555")
-    bx.text(float(np.mean(x2)), 128, "later ChEMBL 37 dump", ha="center", fontsize=6.0, color="#555555")
-    bx.text(0.98, 0.38, "gate ≥50", transform=bx.transAxes, ha="right", va="bottom",
-            fontsize=6.0, color="#555555")
-    bx.axvline(len(j0_keys) + 0.55, color="#DDDDDD", lw=0.8, zorder=1)
+    labels = [s.replace("\n", "/") for s in j0_lab + dump_lab]
+    vals = j0_vals + dump_vals
+    yy = np.arange(len(vals))
+    bx.barh(yy, vals, color=j0_cols + [C["vina"]] * 5, height=0.66, zorder=3)
+    bx.axvline(50, color=C["ink"], ls="--", lw=0.8, zorder=2)
+    bx.set_yticks(yy)
+    bx.set_yticklabels(labels, fontsize=6.0)
+    bx.invert_yaxis()
+    bx.set_xlabel("Minimum strict hard-negative count")
+    bx.set_xlim(0, 140)
+    bx.set_title("Hard-negative supply (two audits)", fontsize=FS_AXIS, pad=4)
+    bx.axhline(4.5, color="#DDDDDD", lw=0.8, zorder=1)
+    bx.text(50, -0.43, "gate ≥50", ha="center", va="center", fontsize=6.0,
+            color="#555555", zorder=4,
+            bbox={"facecolor": "white", "edgecolor": "none", "pad": 0.8})
 
     fracs = [fnum(D["overlap"][p]["fraction_union_measured_both"]) for p in
-             ["EGFR/HER2", "AChE/BChE", "PIK3CA/mTOR"]]
+             ["EGFR/HER2", "AChE/BChE", "PIK3CA/PIK3CB", "PIK3CA/mTOR"]]
     PROVENANCE["plotted"]["fig1C"] = {
         "n_pairs": n_pairs,
         "n_thick": n_thick,
@@ -435,31 +458,38 @@ def fig1_framework(D: dict) -> None:
         "complete_case_min": min(fracs),
         "complete_case_max": max(fracs),
     }
-    fig.subplots_adjust(left=0.08, right=0.98, top=0.94, bottom=0.10)
+    fig.subplots_adjust(left=0.13, right=0.98, top=0.94, bottom=0.10)
     save_all(fig, "Fig1_four_state_and_supply")
     plt.close(fig)
 
 
 def fig2_formulation(D: dict) -> None:
-    fig = plt.figure(figsize=(7.0, 7.05))
-    gs = fig.add_gridspec(3, 1, height_ratios=[1.05, 1.15, 1.12], hspace=0.38)
+    fig = plt.figure(figsize=(7.0, 5.95))
+    gs = fig.add_gridspec(3, 1, height_ratios=[1.00, 1.12, 1.08], hspace=0.42)
     y = np.arange(len(PRIMARY_PAIRS))
-    h = 0.36
+    off = 0.12
 
     ax = fig.add_subplot(gs[0, 0])
     panel_label(ax, "A", x=-0.16, y=1.04)
     da = [primary_row(D, p)["da"] for p in PRIMARY_PAIRS]
     db = [primary_row(D, p)["db"] for p in PRIMARY_PAIRS]
-    ax.barh(y + h / 2, da, h, color=C["vina"], label="D vs A-only (pocket B)", zorder=3)
-    ax.barh(y - h / 2, db, h, color=C["a_only"], label="D vs B-only (pocket A)", zorder=3)
+    for i, (a, b) in enumerate(zip(da, db)):
+        ax.plot([a, b], [i, i], color="#B8B8B8", lw=0.85, zorder=2)
+        ax.plot(a, i, "o", color=C["vina"], markersize=4.8, zorder=4)
+        ax.plot(b, i, "s", color=C["a_only"], markersize=4.5, zorder=4)
     ax.axvline(0.5, color=C["chance"], ls="--", lw=0.85, zorder=1)
     ax.set_yticks(y)
     ax.set_yticklabels([PAIR_SHORT[p] for p in PRIMARY_PAIRS], fontsize=6.5)
     ax.invert_yaxis()
     ax.set_xlabel("AUROC")
-    ax.set_xlim(0, 1.0)
-    ax.set_title("Directional pocket-matched arms", fontsize=FS_AXIS, pad=3)
-    ax.legend(loc="lower right", fontsize=6.2, frameon=False)
+    ax.set_xlim(0.25, 0.85)
+    ax.set_title("Pocket-matched directional AUROC", fontsize=FS_AXIS, pad=3)
+    ax.legend(handles=[
+        Line2D([0], [0], marker="o", color=C["vina"], ls="none", ms=5,
+               label="Dual vs A-only, pocket B"),
+        Line2D([0], [0], marker="s", color=C["a_only"], ls="none", ms=4.7,
+               label="Dual vs B-only, pocket A"),
+    ], loc="lower right", fontsize=6.0, frameon=False)
     ax.axhline(2.5, color="#E6E6E6", lw=0.7, zorder=0)
     PROVENANCE["plotted"]["fig2A"] = {"DA": da, "DB": db, "pairs": list(PRIMARY_PAIRS)}
 
@@ -471,25 +501,29 @@ def fig2_formulation(D: dict) -> None:
         plotted[p] = r
         dir_err = np.array([[r["smin"] - r["lo"]], [r["hi"] - r["smin"]]])
         nei_err = np.array([[r["nei"] - r["nei_lo"]], [r["nei_hi"] - r["nei"]]])
-        b1 = ax.barh(i + h / 2, r["smin"], h, xerr=dir_err, capsize=1.8,
-                     color=C["vina"], ecolor=C["vina"], error_kw={"elinewidth": 0.85},
-                     label="directional summary_min" if i == 0 else None, zorder=3)
-        b2 = ax.barh(i - h / 2, r["nei"], h, xerr=nei_err, capsize=1.8,
-                     color=C["desc"], ecolor=C["desc"], error_kw={"elinewidth": 0.85},
-                     label="Dual vs neither (vina_mean)" if i == 0 else None, zorder=3)
+        ax.errorbar(r["smin"], i + off, xerr=dir_err, fmt="o", color=C["vina"],
+                    ecolor=C["vina"], capsize=1.8, elinewidth=0.9, markersize=4.8, zorder=4)
+        marker = "D" if p == "PIK3CA/mTOR" else "s"
+        ax.errorbar(r["nei"], i - off, xerr=nei_err, fmt=marker, color=C["desc"],
+                    ecolor=C["desc"], capsize=1.8, elinewidth=0.9, markersize=4.5, zorder=4)
         if p == "PIK3CA/mTOR":
-            b2[0].set_hatch("///")
-            b2[0].set_edgecolor(C["desc"])
+            ax.text(r["nei"] + 0.025, i - off, "n=4", va="center", fontsize=6.0,
+                    color=C["desc"], fontweight="bold")
     ax.axvline(0.5, color=C["chance"], ls="--", lw=0.85, zorder=1)
     ax.set_yticks(y)
     ax.set_yticklabels([PAIR_SHORT[p] for p in PRIMARY_PAIRS], fontsize=6.5)
     ax.invert_yaxis()
     ax.set_xlabel("AUROC")
-    ax.set_xlim(0.05, 1.08)
-    ax.set_title("Descriptive formulation contrast", fontsize=FS_AXIS, pad=3)
-    ax.legend(loc="lower right", fontsize=6.2, frameon=False)
-    ax.text(0.98, 0.04, "PIK3CA/mTOR neither n=4, hatched", transform=ax.transAxes,
-            ha="right", va="bottom", fontsize=6.0, color="#666666")
+    ax.set_xlim(0.15, 1.02)
+    ax.set_title("Directional summary and Dual vs neither", fontsize=FS_AXIS, pad=3)
+    ax.legend(handles=[
+        Line2D([0], [0], marker="o", color=C["vina"], ls="none", ms=5,
+               label=r"directional summary$_{\mathrm{min}}$"),
+        Line2D([0], [0], marker="s", color=C["desc"], ls="none", ms=4.8,
+               label=r"Dual vs neither, Vina$_{\mathrm{mean}}$"),
+        Line2D([0], [0], marker="D", color=C["desc"], ls="none", ms=4.8,
+               label="neither n=4"),
+    ], loc="lower right", fontsize=5.9, frameon=False)
     ax.axhline(2.5, color="#E6E6E6", lw=0.7, zorder=0)
     PROVENANCE["plotted"]["fig2B"] = {
         p: {"directional": {"y": plotted[p]["smin"], "lo": plotted[p]["lo"], "hi": plotted[p]["hi"]},
@@ -524,13 +558,13 @@ def fig2_formulation(D: dict) -> None:
     ax.axhline(2.5, color="#E6E6E6", lw=0.7, zorder=0)
     PROVENANCE["plotted"]["fig2C"] = recs
 
-    fig.subplots_adjust(left=0.18, right=0.97, top=0.96, bottom=0.07)
+    fig.subplots_adjust(left=0.18, right=0.97, top=0.96, bottom=0.075)
     save_all(fig, "Fig2_negative_class_formulation")
     plt.close(fig)
 
 
 def fig3_chemistry(D: dict) -> None:
-    fig = plt.figure(figsize=(7.0, 7.15))
+    fig = plt.figure(figsize=(7.0, 5.95))
     gs = fig.add_gridspec(2, 2, height_ratios=[1.18, 1.00], hspace=0.36, wspace=0.32)
 
     ax = fig.add_subplot(gs[0, :])
@@ -559,28 +593,38 @@ def fig3_chemistry(D: dict) -> None:
         Line2D([0], [0], marker="s", color=C["gnina"], ls="none", ms=5.0, label="Vina D/B"),
         Line2D([0], [0], marker="^", color=C["desc"], ls="none", ms=5.5, label="ECFP4 D/A"),
         Line2D([0], [0], marker="D", color=C["a_only"], ls="none", ms=5.0, label="ECFP4 D/B"),
-    ], loc="lower right", ncol=2, fontsize=6.0, frameon=False)
+    ], loc="lower left", ncol=2, fontsize=6.0, frameon=False)
     ax.axhline(2.5, color="#E6E6E6", lw=0.7, zorder=0)
     PROVENANCE["plotted"]["fig3A"] = plotted
 
     ax = fig.add_subplot(gs[1, 0])
     panel_label(ax, "B", x=-0.22, y=1.06)
-    deltas, labels = [], []
+    deltas, labels, arm_tags = [], [], []
     for p in PRIMARY_PAIRS:
         for contrast, tag in (("D_vs_A", "D/A"), ("D_vs_B", "D/B")):
             r = ecfp_row(D, p, contrast)
             dlt = r["ecfp_plus"] - r["ecfp_base"]
             deltas.append(dlt)
-            labels.append(f"{PAIR_SHORT[p]} {tag}")
-    yy = np.arange(len(deltas))
-    bar_cols = [C["vina"] if abs(d) <= 0.025 else C["egfr"] for d in deltas]
-    ax.barh(yy, deltas, color=bar_cols, height=0.72, zorder=3)
+            labels.append(PAIR_SHORT[p])
+            arm_tags.append(tag)
+    yy = np.arange(len(PRIMARY_PAIRS))
+    for i, p in enumerate(PRIMARY_PAIRS):
+        d_a, d_b = deltas[2 * i], deltas[2 * i + 1]
+        ax.plot([0, d_a], [i + 0.10, i + 0.10], color=C["vina"], lw=0.9, zorder=2)
+        ax.plot([0, d_b], [i - 0.10, i - 0.10], color=C["a_only"], lw=0.9, zorder=2)
+        ax.plot(d_a, i + 0.10, "o", color=C["vina"], markersize=4.2, zorder=4)
+        ax.plot(d_b, i - 0.10, "s", color=C["a_only"], markersize=4.0, zorder=4)
     ax.axvline(0, color=C["ink"], lw=0.8, zorder=2)
     ax.set_yticks(yy)
-    ax.set_yticklabels(labels, fontsize=6.0)
+    ax.set_yticklabels([PAIR_SHORT[p] for p in PRIMARY_PAIRS], fontsize=6.0)
     ax.invert_yaxis()
     ax.set_xlabel("ΔAUROC (ECFP4+Vina − ECFP4)")
-    ax.set_xlim(-0.040, 0.040)
+    ax.set_xlim(-0.028, 0.028)
+    ax.set_title("Increment from adding Vina", fontsize=FS_AXIS, pad=3)
+    ax.legend(handles=[
+        Line2D([0], [0], marker="o", color=C["vina"], ls="none", ms=4.5, label="D/A"),
+        Line2D([0], [0], marker="s", color=C["a_only"], ls="none", ms=4.3, label="D/B"),
+    ], loc="lower left", fontsize=5.9, frameon=False)
     PROVENANCE["plotted"]["fig3B_deltas"] = deltas
     PROVENANCE["plotted"]["fig3B_max_abs"] = float(max(abs(d) for d in deltas))
 
@@ -601,22 +645,20 @@ def fig3_chemistry(D: dict) -> None:
     ax.set_xticks([1, 2, 3])
     ax.set_xticklabels([f"dual\nn={ns[0]}", f"A-only\nn={ns[1]}", f"B-only\nn={ns[2]}"], fontsize=6.2)
     ax.set_ylabel(r"TPSA ($\mathrm{\AA}^2$)")
-    ax.set_title("AChE/BChE", fontsize=FS_AXIS, pad=3)
+    ax.set_title("AChE/BChE TPSA by activity class", fontsize=FS_AXIS, pad=3)
     PROVENANCE["plotted"]["fig3C"] = {
         "n": ns,
         "mean": [float(np.mean(d)) for d in data],
         "median": [float(np.median(d)) for d in data],
     }
 
-    fig.subplots_adjust(left=0.16, right=0.98, top=0.94, bottom=0.08)
+    fig.subplots_adjust(left=0.16, right=0.98, top=0.94, bottom=0.09)
     save_all(fig, "Fig3_ligand_chemistry")
     plt.close(fig)
 
 
 def fig4_realization(D: dict) -> None:
-    fig, axes = plt.subplots(1, 3, figsize=(7.0, 3.95), gridspec_kw={"width_ratios": [1.20, 1.05, 1.15]})
-    w = 0.18
-    x = np.arange(len(GNINA_INDEP_PAIRS))
+    fig, axes = plt.subplots(1, 3, figsize=(7.0, 3.45), gridspec_kw={"width_ratios": [1.32, 1.02, 1.16]})
 
     ax = axes[0]
     panel_label(ax, "A", x=-0.20, y=1.06)
@@ -628,17 +670,25 @@ def fig4_realization(D: dict) -> None:
         vina_nei.append(pr["nei"])
         g_smin.append(g["smin"])
         g_nei.append(g["nei"])
-    ax.bar(x - 1.5 * w, vina_smin, w, color=C["vina"], label="Vina summary_min", zorder=3)
-    ax.bar(x - 0.5 * w, g_smin, w, color=C["gnina"], label="GNINA dock summary_min", zorder=3)
-    ax.bar(x + 0.5 * w, vina_nei, w, color=C["desc"], label="Vina Dual vs neither", zorder=3)
-    ax.bar(x + 1.5 * w, g_nei, w, color=C["a_only"], label="GNINA dock Dual vs neither", zorder=3)
-    ax.axhline(0.5, color=C["chance"], ls="--", lw=0.85, zorder=1)
-    ax.set_xticks(x)
-    ax.set_xticklabels(["EGFR/\nHER2", "PIK3CA/\nmTOR", "JAK1/\nTYK2"], fontsize=6.3)
-    ax.set_ylabel("AUROC")
-    ax.set_ylim(0, 1.08)
-    ax.set_title("Independent GNINA pose generation", fontsize=FS_AXIS, pad=3)
-    ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.28), ncol=1, fontsize=6.0, frameon=False)
+    yy = np.arange(len(GNINA_INDEP_PAIRS))
+    for i in range(len(yy)):
+        ax.plot([vina_smin[i], g_smin[i]], [i - 0.12, i - 0.12], color="#B8B8B8", lw=0.9, zorder=2)
+        ax.plot([vina_nei[i], g_nei[i]], [i + 0.12, i + 0.12], color="#B8B8B8", lw=0.9, zorder=2)
+    ax.scatter(vina_smin, yy - 0.12, s=27, marker="o", color=C["vina"], zorder=4, label="Vina directional")
+    ax.scatter(g_smin, yy - 0.12, s=27, marker="s", color=C["vina"], zorder=4, label="GNINA directional")
+    ax.scatter(vina_nei, yy + 0.12, s=27, marker="o", facecolors="white", edgecolors=C["desc"], linewidths=1.0,
+               zorder=4, label="Vina Dual vs neither")
+    ax.scatter(g_nei, yy + 0.12, s=27, marker="s", facecolors="white", edgecolors=C["desc"], linewidths=1.0,
+               zorder=4, label="GNINA Dual vs neither")
+    ax.axvline(0.5, color=C["chance"], ls="--", lw=0.85, zorder=1)
+    ax.set_yticks(yy)
+    ax.set_yticklabels([PAIR_SHORT[p] for p in GNINA_INDEP_PAIRS], fontsize=6.2)
+    ax.invert_yaxis()
+    ax.set_xlabel("AUROC")
+    ax.set_xlim(0.12, 0.92)
+    ax.set_title("Independent pose generation", fontsize=FS_AXIS, pad=3)
+    ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.17), ncol=2, fontsize=5.7, frameon=False,
+              columnspacing=0.7, handletextpad=0.35)
     PROVENANCE["plotted"]["fig4A"] = {
         "pairs": list(GNINA_INDEP_PAIRS),
         "vina_smin": vina_smin, "gnina_smin": g_smin,
@@ -663,9 +713,9 @@ def fig4_realization(D: dict) -> None:
     ax.axhline(0.5, color=C["chance"], ls="--", lw=0.85, zorder=1)
     ax.set_xticks(range(4))
     ax.set_xticklabels(["4L23\nPIK3CA", "4JPS\nPIK3CA", "5DXT\nPIK3CA", "4JSX\nmTOR"], fontsize=6.0)
-    ax.set_ylabel("summary_min")
+    ax.set_ylabel(r"summary$_{\mathrm{min}}$")
     ax.set_ylim(0.12, 1.02)
-    ax.set_title("PIK3CA/mTOR receptor swap", fontsize=FS_AXIS, pad=3)
+    ax.set_title("PIK3CA/mTOR receptor structures", fontsize=FS_AXIS, pad=3)
     PROVENANCE["plotted"]["fig4B"] = fig4b
 
     ax = axes[2]
@@ -682,23 +732,26 @@ def fig4_realization(D: dict) -> None:
     ax.set_yticks(yy)
     ax.set_yticklabels([PAIR_SHORT[p] for p in PRIMARY_PAIRS], fontsize=6.1)
     ax.invert_yaxis()
-    ax.set_xlabel("summary_min across 5 Vina seeds")
+    ax.set_xlabel(r"summary$_{\mathrm{min}}$ across five Vina seeds")
     ax.set_xlim(0.22, 0.82)
-    ax.set_title("Five-seed range", fontsize=FS_AXIS, pad=3)
+    ax.set_title("Five Vina seeds", fontsize=FS_AXIS, pad=3)
     ax.legend(handles=[
         Line2D([0], [0], marker="D", color=C["desc"], ls="none", ms=5, label="primary seed"),
         Line2D([0], [0], marker="o", color=C["vina"], ls="none", ms=5, label="median"),
-    ], loc="upper center", bbox_to_anchor=(0.5, -0.28), ncol=1, fontsize=6.0, frameon=False)
+    ], loc="upper center", bbox_to_anchor=(0.5, -0.18), ncol=2, fontsize=6.0, frameon=False)
     ax.axhline(2.5, color="#E6E6E6", lw=0.7, zorder=0)
     PROVENANCE["plotted"]["fig4C"] = plotted_s
 
-    fig.subplots_adjust(wspace=0.42, left=0.08, right=0.98, top=0.88, bottom=0.30)
+    fig.subplots_adjust(wspace=0.45, left=0.11, right=0.98, top=0.88, bottom=0.23)
     save_all(fig, "Fig4_computational_realization")
     plt.close(fig)
 
 
 def fig5_mismatched(D: dict) -> None:
-    fig, axes = plt.subplots(1, 3, figsize=(7.0, 5.55))
+    fig, axes = plt.subplots(
+        1, 3, figsize=(7.0, 4.55), sharey=True,
+        gridspec_kw={"width_ratios": [1.00, 1.00, 1.18]},
+    )
 
     ax = axes[0]
     panel_label(ax, "A", x=-0.28, y=1.04)
@@ -706,27 +759,45 @@ def fig5_mismatched(D: dict) -> None:
     for p in PRIMARY_PAIRS:
         r = wp_main(D, p)
         recs.append({"pair": p, "y": r["delta"], "lo": r["lo"], "hi": r["hi"], "excl": r["excl"]})
-    forest_pairs(ax, PRIMARY_PAIRS, recs, "Main panels", "ΔAUROC (matched − mismatched)", (-0.22, 0.36))
+    forest_pairs(ax, PRIMARY_PAIRS, recs, "Main panels",
+                 r"Δsummary$_{\mathrm{min}}$ (matched − mismatched)", (-0.22, 0.36))
     ax.axhline(2.5, color="#E6E6E6", lw=0.7, zorder=0)
     PROVENANCE["plotted"]["fig5A"] = recs
 
     ax = axes[1]
     panel_label(ax, "B", x=-0.28, y=1.04)
     recs_b = []
-    for p in HOLDOUT_PAIRS:
+    for p in PRIMARY_PAIRS:
+        if p == "EGFR/HER2":
+            recs_b.append({"pair": p, "missing": True})
+            continue
         r = wp_hold(D, p)
         recs_b.append({"pair": p, "y": r["delta"], "lo": r["lo"], "hi": r["hi"], "excl": r["excl"]})
-    forest_pairs(ax, HOLDOUT_PAIRS, recs_b, "Unused-pool holdout Δ",
-                 "ΔAUROC (matched − mismatched)", (-0.36, 0.38))
-    ax.text(0.02, 0.02, "no EGFR/HER2 holdout", transform=ax.transAxes,
-            ha="left", va="bottom", fontsize=6.0, color="#666666")
-    ax.axhline(1.5, color="#E6E6E6", lw=0.7, zorder=0)
+    y_all = np.arange(len(PRIMARY_PAIRS))
+    for i, rec in enumerate(recs_b):
+        if rec.get("missing"):
+            ax.text(-0.33, i, "n/a", color="#777777", fontsize=6.0, va="center")
+            continue
+        col = C["vina"] if rec["excl"] else "#888888"
+        ax.plot([rec["lo"], rec["hi"]], [i, i], color=col, lw=1.45, zorder=3)
+        ax.plot(rec["y"], i, "o", color=col, markersize=5.2, zorder=4)
+    ax.axvline(0, color=C["ink"], ls="--", lw=0.85, zorder=1)
+    ax.set_yticks(y_all)
+    ax.set_yticklabels([PAIR_SHORT[p] for p in PRIMARY_PAIRS], fontsize=6.0)
+    ax.set_xlim(-0.36, 0.38)
+    ax.set_title("Unused-pool holdout", fontsize=FS_AXIS, pad=3)
+    ax.set_xlabel(r"Δsummary$_{\mathrm{min}}$ (matched − mismatched)")
+    ax.axhline(2.5, color="#E6E6E6", lw=0.7, zorder=0)
     PROVENANCE["plotted"]["fig5B"] = recs_b
 
     ax = axes[2]
     panel_label(ax, "C", x=-0.28, y=1.04)
     recs_c = []
-    for i, p in enumerate(HOLDOUT_PAIRS):
+    for i, p in enumerate(PRIMARY_PAIRS):
+        if p == "EGFR/HER2":
+            recs_c.append({"pair": p, "missing": True})
+            ax.text(0.17, i, "n/a", color="#777777", fontsize=6.0, va="center")
+            continue
         main = primary_row(D, p)
         h = holdout_smin(D, p)
         recs_c.append({"pair": p, "main": main["smin"], "main_lo": main["lo"], "main_hi": main["hi"],
@@ -736,20 +807,21 @@ def fig5_mismatched(D: dict) -> None:
         ax.errorbar(h["y"], i - 0.14, xerr=[[h["y"] - h["lo"]], [h["hi"] - h["y"]]],
                     fmt="s", color=C["holdout"], ecolor=C["holdout"], elinewidth=1.1, capsize=1.8, markersize=4.8, zorder=4)
     ax.axvline(0.5, color=C["chance"], ls="--", lw=0.85, zorder=1)
-    ax.set_yticks(np.arange(len(HOLDOUT_PAIRS)))
-    ax.set_yticklabels([PAIR_SHORT[p] for p in HOLDOUT_PAIRS], fontsize=6.2)
-    ax.invert_yaxis()
-    ax.set_xlabel("summary_min")
+    ax.set_yticks(np.arange(len(PRIMARY_PAIRS)))
+    ax.set_yticklabels([PAIR_SHORT[p] for p in PRIMARY_PAIRS], fontsize=6.0)
+    ax.set_xlabel(r"summary$_{\mathrm{min}}$")
     ax.set_xlim(0.12, 1.02)
     ax.set_title("Holdout vs main panel", fontsize=FS_AXIS, pad=3)
     ax.legend(handles=[
         Line2D([0], [0], marker="o", color=C["vina"], ls="none", ms=5.5, label="main"),
         Line2D([0], [0], marker="s", color=C["holdout"], ls="none", ms=5.0, label="holdout"),
-    ], loc="upper left", fontsize=6.0, frameon=False)
-    ax.axhline(1.5, color="#E6E6E6", lw=0.7, zorder=0)
+    ], loc="upper right", fontsize=6.0, frameon=False)
+    ax.axhline(2.5, color="#E6E6E6", lw=0.7, zorder=0)
     PROVENANCE["plotted"]["fig5C"] = recs_c
 
-    fig.subplots_adjust(wspace=0.55, left=0.16, right=0.98, top=0.90, bottom=0.10)
+    for ax in axes[1:]:
+        ax.tick_params(labelleft=True)
+    fig.subplots_adjust(wspace=0.48, left=0.15, right=0.98, top=0.89, bottom=0.13)
     save_all(fig, "Fig5_mismatched_pocket")
     plt.close(fig)
 
@@ -757,85 +829,94 @@ def fig5_mismatched(D: dict) -> None:
 def fig6_boundary(D: dict) -> None:
     from plot_jcim_si_composites_v1 import _pm48_e8
 
-    fig, axes = plt.subplots(2, 2, figsize=(7.0, 6.15))
+    fig = plt.figure(figsize=(7.0, 5.25))
+    gs = fig.add_gridspec(3, 3, width_ratios=[1.20, 1.20, 1.00], hspace=0.72, wspace=0.55)
+    ax_a = fig.add_subplot(gs[:, :2])
+    ax_b = fig.add_subplot(gs[0, 2])
+    ax_c = fig.add_subplot(gs[1, 2])
+    ax_d = fig.add_subplot(gs[2, 2])
     rules = ["theta_5.5", "theta_6.0", "theta_6.5", "strict_6.5_5.5"]
     rule_lab = ["θ=5.5", "θ=6.0", "θ=6.5", "strict"]
 
-    ax = axes[0, 0]
-    panel_label(ax, "A", x=-0.18, y=1.04)
-    x = np.arange(len(rules))
+    ax = ax_a
+    panel_label(ax, "A", x=-0.14, y=1.03)
     grid = {}
+    matrix = []
+    under = []
     for p in PRIMARY_PAIRS:
-        ys = [theta_grid_smin(D, p, rule) for rule in rules]
-        ls = "-" if p in ORIGINAL_THREE else "--"
-        ax.plot(x, ys, ls, color=PAIR_COLOR[p], lw=1.05, marker="o", markersize=3.6, label=PAIR_SHORT[p], zorder=3)
-        grid[p] = ys
-    ax.axhline(0.5, color=C["chance"], ls="--", lw=0.85, zorder=1)
-    ax.set_xticks(x)
-    ax.set_xticklabels(rule_lab, fontsize=6.5)
-    ax.set_ylabel("summary_min")
-    ax.set_ylim(0.15, 0.85)
-    ax.set_title("Label-threshold sensitivity", fontsize=FS_AXIS, pad=3)
-    ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.24), ncol=2, fontsize=6.0, frameon=False)
+        recs = [theta_grid_record(D, p, rule) for rule in rules]
+        vals = [r["value"] for r in recs]
+        matrix.append(vals)
+        under.append([r["under"] for r in recs])
+        grid[p] = vals
+    im = ax.imshow(matrix, cmap="RdBu", vmin=0.25, vmax=0.75, aspect="auto", interpolation="nearest")
+    for i, vals in enumerate(matrix):
+        for j, value in enumerate(vals):
+            suffix = "†" if under[i][j] else ""
+            ax.text(j, i, f"{value:.3f}{suffix}", ha="center", va="center", fontsize=5.9,
+                    color="white" if value < 0.35 or value > 0.67 else C["ink"])
+    ax.set_xticks(np.arange(len(rules)))
+    ax.set_xticklabels(rule_lab, fontsize=6.4)
+    ax.set_yticks(np.arange(len(PRIMARY_PAIRS)))
+    ax.set_yticklabels([PAIR_SHORT[p] for p in PRIMARY_PAIRS], fontsize=6.4)
+    ax.set_title(r"Label rule and summary$_{\mathrm{min}}$", fontsize=FS_AXIS, pad=4)
+    for spine in ax.spines.values():
+        spine.set_visible(False)
+    cbar = fig.colorbar(im, ax=ax, orientation="horizontal", fraction=0.045, pad=0.08)
+    cbar.set_label(r"summary$_{\mathrm{min}}$", fontsize=FS_ANNO)
+    cbar.ax.tick_params(labelsize=5.8, length=2)
     PROVENANCE["plotted"]["fig6A"] = grid
 
-    ax = axes[0, 1]
-    panel_label(ax, "B", x=-0.18, y=1.04)
+    ax = ax_b
+    panel_label(ax, "B", x=-0.30, y=1.03)
     y48 = fnum(D["pm110"][("PM48", "vina")]["summary_min"])
     y110 = fnum(D["pm110"][("PM110", "vina")]["summary_min"])
-    ax.bar([0], [y48], 0.55, color=C["vina"], zorder=3)
-    ax.bar([1], [y110], 0.55, color=C["holdout"], zorder=3)
-    ax.axhline(0.5, color=C["chance"], ls="--", lw=0.85, zorder=1)
-    ax.set_xticks([0, 1])
-    ax.set_xticklabels(["PM48\n(primary)", "PM110"], fontsize=6.5)
-    ax.set_ylabel("Vina summary_min")
-    ax.set_ylim(0, 1.0)
+    ax.plot([y48, y110], [0, 0], color="#B8B8B8", lw=1.0, zorder=2)
+    ax.plot(y48, 0, "o", color=C["vina"], markersize=5.2, zorder=4, label="PM48")
+    ax.plot(y110, 0, "s", color=C["holdout"], markersize=4.8, zorder=4, label="PM110")
+    ax.axvline(0.5, color=C["chance"], ls="--", lw=0.85, zorder=1)
+    ax.set_yticks([])
+    ax.set_xlabel(r"Vina summary$_{\mathrm{min}}$")
+    ax.set_xlim(0.45, 0.78)
     ax.set_title("PIK3CA/mTOR panel size", fontsize=FS_AXIS, pad=3)
-    ax.text(0, y48 + 0.035, f"{y48:.3f}", ha="center", fontsize=6.2)
-    ax.text(1, y110 + 0.035, f"{y110:.3f}", ha="center", fontsize=6.2)
+    ax.legend(loc="upper center", ncol=2, fontsize=5.7, frameon=False)
     PROVENANCE["plotted"]["fig6B"] = {"PM48": y48, "PM110": y110}
 
-    ax = axes[1, 0]
-    panel_label(ax, "C", x=-0.18, y=1.04)
+    ax = ax_c
+    panel_label(ax, "C", x=-0.30, y=1.03)
     e8 = _pm48_e8()
     e16 = primary_row(D, "PIK3CA/mTOR")["smin"]
-    ax.bar([0], [e16], 0.55, color=C["vina"], zorder=3)
-    ax.bar([1], [e8["summary_min"]], 0.55, color=C["gnina"], zorder=3)
-    ax.axhline(0.5, color=C["chance"], ls="--", lw=0.85, zorder=1)
-    ax.set_xticks([0, 1])
-    ax.set_xticklabels(["E=16\n(primary)", "E=8"], fontsize=6.5)
-    ax.set_ylabel("PIK3CA/mTOR summary_min")
-    ax.set_ylim(0, 1.0)
+    ax.plot([e16, e8["summary_min"]], [0, 0], color="#B8B8B8", lw=1.0, zorder=2)
+    ax.plot(e16, 0, "o", color=C["vina"], markersize=5.2, zorder=4, label="E=16")
+    ax.plot(e8["summary_min"], 0, "s", color=C["gnina"], markersize=4.8, zorder=4, label="E=8")
+    ax.axvline(0.5, color=C["chance"], ls="--", lw=0.85, zorder=1)
+    ax.set_yticks([])
+    ax.set_xlabel(r"Vina summary$_{\mathrm{min}}$")
+    ax.set_xlim(0.45, 0.78)
     ax.set_title("Search exhaustiveness", fontsize=FS_AXIS, pad=3)
-    ax.text(0, e16 + 0.035, f"{e16:.3f}", ha="center", fontsize=6.2)
-    ax.text(1, e8["summary_min"] + 0.035, f"{e8['summary_min']:.3f}", ha="center", fontsize=6.2)
+    ax.legend(loc="upper center", ncol=2, fontsize=5.7, frameon=False)
     PROVENANCE["plotted"]["fig6C"] = {"E16": e16, "E8": e8["summary_min"], "e8_n": (e8["nD"], e8["nA"], e8["nB"])}
 
-    ax = axes[1, 1]
-    panel_label(ax, "D", x=-0.18, y=1.04)
-    contract = [
-        "EGFR/HER2",
-        "AChE/BChE",
-        "PIK3CA/mTOR",
-        "F2/F10",
-        "JAK1/TYK2",
-        "JAK1/JAK2",
-        "PPARG/PPARA",
-        "PPARA/PPARD",
-    ]
-    eight = [next(r for r in D["native"] if r["pair"] == p) for p in contract]
-    n_pass = sum(r["gate"] == "primary_external" for r in eight)
-    n_fail = len(eight) - n_pass
-    ax.bar(["primary fail", "primary pass"], [n_fail, n_pass], color=[C["egfr"], C["thick"]], width=0.55, zorder=3)
-    ax.set_ylabel("Number of pairs")
-    ax.set_ylim(0, 9)
-    ax.set_title("BindingDB-native external gate", fontsize=FS_AXIS, pad=3)
-    ax.text(0, n_fail + 0.12, str(n_fail), ha="center", fontsize=8, fontweight="bold")
-    ax.text(1, n_pass + 0.12, str(n_pass), ha="center", fontsize=8, fontweight="bold")
-    ax.text(0.5, 8.2, "eight primary pairs; not docked", ha="center", fontsize=6.0, color="#666666")
+    ax = ax_d
+    panel_label(ax, "D", x=-0.30, y=1.03)
+    contract = ["EGFR/HER2", "AChE/BChE", "PIK3CA/PIK3CB", "PIK3CA/mTOR"]
+    four = [next(r for r in D["native"] if r["pair"] == p) for p in contract]
+    n_fail = sum(r["packaged_as_external_evaluation"] == "0" for r in four)
+    n_pass = 4 - n_fail
+    y_contract = np.arange(len(contract))
+    ax.scatter(np.zeros(len(contract)), y_contract, marker="x", s=28, color=C["egfr"], linewidths=1.2, zorder=4)
+    ax.set_yticks(y_contract)
+    ax.set_yticklabels(["EGFR/HER2", "AChE/BChE", "PIK3CA/PIK3CB†", "PIK3CA/mTOR"], fontsize=5.7)
+    ax.invert_yaxis()
+    ax.set_xticks([0, 1])
+    ax.set_xticklabels(["fail", "pass"], fontsize=6.0)
+    ax.set_xlim(-0.25, 1.15)
+    ax.set_title("BindingDB external gate", fontsize=FS_AXIS, pad=3)
+    ax.text(0.0, -0.20, "† historical contract", transform=ax.transAxes,
+            ha="left", fontsize=5.6, color="#555555")
     PROVENANCE["plotted"]["fig6D"] = {"n_fail": n_fail, "n_pass": n_pass, "contract": contract}
 
-    fig.subplots_adjust(wspace=0.38, hspace=0.68, left=0.10, right=0.98, top=0.94, bottom=0.16)
+    fig.subplots_adjust(left=0.15, right=0.98, top=0.94, bottom=0.12)
     save_all(fig, "Fig6_evidence_boundary")
     plt.close(fig)
 
@@ -885,7 +966,7 @@ def fig_s4_forest(D: dict) -> None:
     ax.set_yticks(y)
     ax.set_yticklabels([PAIR_SHORT[p] for p in PRIMARY_PAIRS], fontsize=7.0)
     ax.invert_yaxis()
-    ax.set_xlabel("Pocket-matched summary_min AUROC (95% ligand bootstrap CI)")
+    ax.set_xlabel(r"Pocket-matched summary$_{\mathrm{min}}$ AUROC (95% ligand bootstrap CI)")
     ax.set_xlim(0.12, 1.02)
     ax.legend(handles=[
         Line2D([0], [0], marker="o", color=C["vina"], ls="none", ms=6, label="Vina"),
@@ -893,7 +974,7 @@ def fig_s4_forest(D: dict) -> None:
     ], loc="lower right", fontsize=6.4, frameon=False)
     PROVENANCE["plotted"]["figS4"] = plotted
     fig.subplots_adjust(left=0.16, right=0.86, top=0.94, bottom=0.12)
-    save_all(fig, "FigS_pocket_matched_forest")
+    save_all(fig, "FigS4_pocket_matched_forest")
     plt.close(fig)
 
 
@@ -913,7 +994,7 @@ def fig_s5_holdout(D: dict) -> None:
     ax.axhline(0.5, color=C["chance"], ls="--", lw=0.85, zorder=1)
     ax.set_xticks(x)
     ax.set_xticklabels([PAIR_SHORT[p].replace("/", "/\n") for p in HOLDOUT_PAIRS], fontsize=6.0)
-    ax.set_ylabel("Pocket-matched summary_min")
+    ax.set_ylabel(r"Pocket-matched summary$_{\mathrm{min}}$")
     ax.set_ylim(0.10, 1.02)
     ax.legend(handles=[
         Line2D([0], [0], marker="o", color=C["vina"], ls="none", ms=6, label="Main panel"),
@@ -922,7 +1003,7 @@ def fig_s5_holdout(D: dict) -> None:
     ax.text(0.98, 0.03, "EGFR/HER2 has no holdout", transform=ax.transAxes, ha="right", fontsize=6.0, color="#666666")
     PROVENANCE["plotted"]["figS5"] = fig_s
     fig.subplots_adjust(left=0.10, right=0.98, top=0.92, bottom=0.16)
-    save_all(fig, "FigS_unused_pool_holdout")
+    save_all(fig, "FigS5_unused_pool_holdout")
     plt.close(fig)
 
 
@@ -939,15 +1020,17 @@ def fig_s7_diagnostics(D: dict) -> None:
     ax = axes[0]
     panel_label(ax, "A", x=-0.18, y=1.06)
     counts = [n_pairs, n_dir, n_form, n_dock_j0, 8]
-    labels = ["audited\nJ0 pairs", "directional\nn≥10", "formulation\nn≥10", "J0-era\ndocked", "primary\nrows now"]
-    ax.bar(range(5), counts, color=[C["vina"], C["desc"], C["thick"], C["egfr"], C["dual"]], width=0.68, zorder=3)
-    ax.set_xticks(range(5))
-    ax.set_xticklabels(labels, fontsize=6.0)
-    ax.set_ylabel("Pair count")
-    ax.set_ylim(0, max(counts) + 8)
-    ax.set_title("θ=6.0 label census + later primary set", fontsize=FS_AXIS, pad=3)
+    labels = ["J0 pairs", "directional ≥10", "formulation ≥10", "docked in J0", "primary now"]
+    yy = np.arange(5)
+    ax.barh(yy, counts, color=[C["vina"], C["desc"], C["thick"], C["egfr"], C["dual"]], height=0.64, zorder=3)
+    ax.set_yticks(yy)
+    ax.set_yticklabels(labels, fontsize=6.0)
+    ax.invert_yaxis()
+    ax.set_xlabel("Pair count")
+    ax.set_xlim(0, max(counts) + 8)
+    ax.set_title("θ=6.0 census and primary set", fontsize=FS_AXIS, pad=3)
     for i, v in enumerate(counts):
-        ax.text(i, v + 1.0, str(v), ha="center", fontsize=6.5)
+        ax.text(v + 0.8, i, str(v), va="center", fontsize=6.5)
 
     ax = axes[1]
     panel_label(ax, "B", x=-0.18, y=1.06)
@@ -986,68 +1069,59 @@ def fig_s7_diagnostics(D: dict) -> None:
         "n_pairs": n_pairs, "n_dir": n_dir, "n_form": n_form, "n_dock_j0": n_dock_j0,
         "n_primary_now": 8, "neither": neither, "directional": directional,
     }
-    fig.subplots_adjust(wspace=0.42, left=0.08, right=0.98, top=0.86, bottom=0.30)
+    fig.subplots_adjust(wspace=0.46, left=0.13, right=0.98, top=0.86, bottom=0.30)
     save_all(fig, "FigS7_posthoc_diagnostics")
     plt.close(fig)
 
 
 def fig_s8_bindingdb(D: dict) -> None:
-    contract = [
-        "EGFR/HER2",
-        "AChE/BChE",
-        "PIK3CA/mTOR",
-        "F2/F10",
-        "JAK1/TYK2",
-        "JAK1/JAK2",
-        "PPARG/PPARA",
-        "PPARA/PPARD",
-    ]
-    eight = [next(r for r in D["native"] if r["pair"] == p) for p in contract]
-    fig, axes = plt.subplots(1, 2, figsize=(7.0, 3.55), gridspec_kw={"width_ratios": [1.15, 1.10]})
+    contract = ["EGFR/HER2", "AChE/BChE", "PIK3CA/PIK3CB", "PIK3CA/mTOR"]
+    four = [next(r for r in D["native"] if r["pair"] == p) for p in contract]
+    fig, axes = plt.subplots(1, 2, figsize=(7.0, 3.40), gridspec_kw={"width_ratios": [1.2, 1.05]})
     ax = axes[0]
     panel_label(ax, "A", x=-0.16, y=1.06)
     stages = ["native_paired", "after_literature", "after_structure", "after_ecfp_lt_0.70"]
     labs = ["paired", "−literature", "−structure", "ECFP4<0.70"]
     x = np.arange(len(stages))
     plotted = {}
-    cmap = plt.cm.tab10(np.linspace(0, 0.9, len(contract)))
-    for p, col in zip(contract, cmap):
-        r = next(row for row in eight if row["pair"] == p)
+    cols = [C["egfr"], C["rtm"], C["gnina"], C["vina"]]
+    for p, col in zip(contract, cols):
+        r = next(row for row in four if row["pair"] == p)
         ys = [fnum(r[s]) for s in stages]
-        ax.plot(x, ys, "-o", color=col, lw=1.0, markersize=3.6, label=p, zorder=3)
+        ax.plot(x, ys, "-o", color=col, lw=1.1, markersize=4.2, label=p, zorder=3)
         plotted[p] = ys
     ax.set_xticks(x)
     ax.set_xticklabels(labs, fontsize=6.2)
     ax.set_ylabel("Remaining InChIKeys")
     ax.set_title("BindingDB-native filter cascade", fontsize=FS_AXIS, pad=3)
-    ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.30), ncol=2, fontsize=5.2, frameon=False)
+    ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.28), ncol=2, fontsize=6.0, frameon=False)
 
     ax = axes[1]
     panel_label(ax, "B", x=-0.18, y=1.06)
     x = np.arange(len(contract))
     w = 0.18
-    dual = [int(r["n_dual"]) for r in eight]
-    ao = [int(r["n_A_only"]) for r in eight]
-    bo = [int(r["n_B_only"]) for r in eight]
-    nei = [int(r["n_neither"]) for r in eight]
+    dual = [int(r["n_dual"]) for r in four]
+    ao = [int(r["n_A_only"]) for r in four]
+    bo = [int(r["n_B_only"]) for r in four]
+    nei = [int(r["n_neither"]) for r in four]
     ax.bar(x - 1.5 * w, dual, w, color=C["dual"], label="dual", zorder=3)
     ax.bar(x - 0.5 * w, ao, w, color=C["a_only"], label="A-only", zorder=3)
     ax.bar(x + 0.5 * w, bo, w, color=C["b_only"], label="B-only", zorder=3)
     ax.bar(x + 1.5 * w, nei, w, color=C["neither"], label="neither", zorder=3)
     ax.set_xticks(x)
-    ax.set_xticklabels([p.replace("/", "/\n") for p in contract], fontsize=5.2)
+    ax.set_xticklabels(["EGFR/\nHER2", "AChE/\nBChE", "PIK3CA/\nPIK3CB", "PIK3CA/\nmTOR"], fontsize=6.0)
     ax.set_ylabel("Count after ECFP4 filter")
     ax.set_title("Four-state remainder (not docked)", fontsize=FS_AXIS, pad=3)
-    ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.30), ncol=4, fontsize=5.5, frameon=False)
-    n_fail = sum(r["gate"] != "primary_external" for r in eight)
-    ax.text(0.98, 0.95, f"primary gate pass = {len(eight) - n_fail}/8", transform=ax.transAxes,
+    ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.28), ncol=4, fontsize=6.0, frameon=False)
+    n_fail = sum(r["packaged_as_external_evaluation"] == "0" for r in four)
+    ax.text(0.98, 0.95, f"external gate pass = {4 - n_fail}/4", transform=ax.transAxes,
             ha="right", va="top", fontsize=6.0, color="#555555")
     PROVENANCE["plotted"]["figS8"] = {
         "cascade": plotted, "n_dual": dual, "n_fail": n_fail,
-        "after_ecfp": [fnum(r["after_ecfp_lt_0.70"]) for r in eight],
+        "after_ecfp": [fnum(r["after_ecfp_lt_0.70"]) for r in four],
     }
     fig.subplots_adjust(wspace=0.36, left=0.08, right=0.98, top=0.86, bottom=0.30)
-    save_all(fig, "FigS_bindingdb_native_slice_v1")
+    save_all(fig, "FigS8_bindingdb_native_slice")
     plt.close(fig)
 
 
@@ -1055,17 +1129,13 @@ def verify(D: dict) -> None:
     errors: list[str] = []
 
     p1 = PROVENANCE["plotted"]["fig1C"]
-    if p1["n_pairs"] != 48:
-        errors.append(f"fig1C n_pairs {p1['n_pairs']} != 48")
-    if p1["n_thick"] != 3:
-        errors.append(f"fig1C n_thick {p1['n_thick']} != 3")
-    if p1["stages"]["eight-pair evaluation set"] != 8:
+    if p1["n_pairs"] != 49:
+        errors.append(f"fig1C n_pairs {p1['n_pairs']} != 49")
+    if p1["n_thick"] != 4:
+        errors.append(f"fig1C n_thick {p1['n_thick']} != 4")
+    if p1["stages"]["primary rows after census"] != 8:
         errors.append("fig1C primary rows != 8")
-    if "historically docked" in p1["stages"] or "after PIK3CB withdrawal" in p1["stages"]:
-        errors.append("fig1C funnel must not retain historical PIK3CB-withdrawal stages")
-    if "PIK3CA/PIK3CB" in p1["j0_hardneg"]:
-        errors.append("fig1C J0 bars must not include withdrawn PIK3CA/PIK3CB")
-    for pair, val in {"PIK3CA/MTOR": 80, "ACHE/BCHE": 78, "EGFR/HER2": 7, "HDAC1/HDAC6": 93}.items():
+    for pair, val in {"PIK3CA/MTOR": 80, "ACHE/BCHE": 78, "PIK3CA/PIK3CB": 56, "EGFR/HER2": 7, "HDAC1/HDAC6": 93}.items():
         _eq(errors, p1["j0_hardneg"][pair], val, 1e-6, f"fig1C J0 {pair}")
     for pair, val in {"F2/F10": 117, "JAK1/TYK2": 94, "JAK1/JAK2": 53, "PPARG/PPARA": 85, "PPARA/PPARD": 84}.items():
         _eq(errors, p1["dump_hardneg"][pair], val, 1e-6, f"fig1C dump {pair}")
@@ -1156,7 +1226,7 @@ def verify(D: dict) -> None:
     bhold = {r["pair"]: r for r in PROVENANCE["plotted"]["fig5B"]}
     _eq(errors, bhold["PIK3CA/mTOR"]["y"], -0.0225, 5e-4, "fig5B PM delta")
     _eq(errors, bhold["PPARG/PPARA"]["y"], 0.0061, 5e-4, "fig5B PPARG holdout delta")
-    if any(r["excl"] for r in PROVENANCE["plotted"]["fig5B"]):
+    if any(r.get("excl", False) for r in PROVENANCE["plotted"]["fig5B"]):
         errors.append("fig5B all CIs should include 0")
     c5 = {r["pair"]: r for r in PROVENANCE["plotted"]["fig5C"]}
     _eq(errors, c5["PPARG/PPARA"]["hold"], 0.535, 5e-4, "fig5C PPARG holdout smin")
@@ -1168,7 +1238,7 @@ def verify(D: dict) -> None:
     _eq(errors, PROVENANCE["plotted"]["fig6B"]["PM110"], 0.6483, 5e-4, "fig6B PM110")
     _eq(errors, PROVENANCE["plotted"]["fig6C"]["E16"], 0.6921, 5e-4, "fig6C E16")
     _eq(errors, PROVENANCE["plotted"]["fig6C"]["E8"], 0.6597, 5e-4, "fig6C E8")
-    if PROVENANCE["plotted"]["fig6D"]["n_pass"] != 0 or PROVENANCE["plotted"]["fig6D"]["n_fail"] != 8:
+    if PROVENANCE["plotted"]["fig6D"]["n_pass"] != 0 or PROVENANCE["plotted"]["fig6D"]["n_fail"] != 4:
         errors.append("fig6D BindingDB gate")
 
     s4 = PROVENANCE["plotted"]["figS4"]
@@ -1181,11 +1251,11 @@ def verify(D: dict) -> None:
     if "PIK3CA/PIK3CB" in s5 or "EGFR/HER2" in s5:
         errors.append("S5 pair set")
     s7 = PROVENANCE["plotted"]["figS7"]
-    if s7["n_dir"] != 16 or s7["n_form"] != 16 or s7["n_dock_j0"] != 3 or s7["n_primary_now"] != 8:
+    if s7["n_dir"] != 17 or s7["n_dock_j0"] != 4 or s7["n_primary_now"] != 8:
         errors.append(f"figS7 census {s7}")
     _eq(errors, s7["neither"][0], 0.9214, 5e-4, "figS7 EGFR Dual vs neither")
     s8 = PROVENANCE["plotted"]["figS8"]
-    if s8["n_fail"] != 8:
+    if s8["n_fail"] != 4:
         errors.append("figS8 gate")
     _eq(errors, s8["after_ecfp"][0], 216, 5e-4, "figS8 EGFR after ECFP")
 
@@ -1214,13 +1284,13 @@ def write_lock_and_captions() -> None:
 
 Branch: `cursor/chembl-exhaustive-pair-census-0b1a`  
 Script: `data/jcim_bench_v0/scripts/plot_jcim_article_figures_v3.py`  
-Rule: every plotted number is read from the CSV in this table. No hand-typed AUROCs. No AI-drawn figures. No decorative arrows unrelated to the data. The primary set is the eight pairs in Table 1.
+Rule: every plotted number is read from the CSV in this table. No hand-typed AUROCs. No AI-drawn figures. No decorative arrows unrelated to the data. PIK3CA/PIK3CB is withdrawn and is not a primary-set row.
 
 | Figure | Panel | Content | Unique source |
 |---|---|---|---|
 | 1 | A | Four ligand states (schematic) | none |
 | 1 | B | Pocket-matched directional tasks (schematic; no arrows) | none |
-| 1 | C | J0 scrape → min selective ≥50 → eight-pair evaluation set; J0 selective-supply bars (HDAC + PIK3CA/mTOR + AChE/BChE + EGFR); later ChEMBL 37 dump selectives for the five census pairs | `j0_strict_label_supply.csv`; `five_pair_crossdb_v1/crossdb_strict_supply_v1.csv` ChEMBL37_dump; `complete_case_usable_pchembl_overlap_v1.csv` (original three maps only) |
+| 1 | C | J0 49-pair scrape → thick gate → HDAC exclusion → historically docked 4 → PIK3CB withdrawal → census +5 → 8 primary; J0 hard-neg bars; later ChEMBL 37 dump hard-neg for the five new pairs | `j0_strict_label_supply.csv`; `five_pair_crossdb_v1/crossdb_strict_supply_v1.csv` ChEMBL37_dump; `complete_case_usable_pchembl_overlap_v1.csv` (J0-docked pairs only) |
 | 2 | A | Directional D/A and D/B AUROC, eight primary pairs | original three: `unified_threshold_sensitivity_v2.csv` θ=6.0; five: `five_pair_stack_v1/table2_comparable_theta6_v1.csv` |
 | 2 | B | Dual-vs-neither (`vina_mean`) vs directional `summary_min` | original three: formulation CSV; five: same table2 file |
 | 2 | C | Fixed pocket-A score, negative-class ΔAUROC | original three: `formulation_equal_score_negative_v1.csv`; five: `equal_score_negative_s34_v1.csv` |
@@ -1236,50 +1306,50 @@ Rule: every plotted number is read from the CSV in this table. No hand-typed AUR
 | 6 | A | θ-grid `summary_min`, eight pairs | original three: `unified_threshold_sensitivity_v2.csv`; five: `threshold_grid_v1.csv` |
 | 6 | B | PM48 vs PM110 Vina | `pm110_vs_pm48_pocket_matched_v1.csv` |
 | 6 | C | PM48 E=16 vs E=8 | E=16 from unified_threshold; E=8 from `scores_vina_E8_best.csv` |
-| 6 | D | BindingDB-native gate on all eight primary pairs (0 primary pass). | `external_slice_summary_v1.csv` |
+| 6 | D | BindingDB-native gate on the original four-pair contract (0 pass). Five census pairs were not re-opened as BindingDB external. | `external_slice_summary_v1.csv` |
 | S4 | — | Eight-row Vina forest + best single descriptor | same Table-2 sources + `descriptor_all_four_directional_v1.csv` |
 | S5 | — | Unused-pool holdout vs main, seven pairs | same holdout sources as Fig 5C |
-| S7 | — | J0 θ=6.0 candidate-pair census plus current primary n=8 | `theta6_pair_census_v1.csv` |
-| S8 | — | BindingDB-native cascade; eight primary pairs; 0 primary pass | `external_slice_summary_v1.csv` |
+| S7 | — | J0 θ=6.0 census (docked=4 includes later-withdrawn PIK3CB) plus current primary n=8 | `theta6_pair_census_v1.csv` |
+| S8 | — | BindingDB-native cascade; original four-pair contract; 0 pass | `external_slice_summary_v1.csv` |
 | TOC | — | Four states and Dual-vs-neither ≠ Dual-vs-selective | schematic; no AUROCs; no arrows |
 
-S1–S3, S9, S10 are SI records for the pairs that have those sensitivity tables. They are not a second primary set.
+S1–S3, S7, S9, and S10 remain data-derived SI diagnostics. S1–S3, S9, and S10 use the original-set records where that is what their source CSVs contain; they are not eight-row primary figures. S4, S5, S6, and S8 use the current canonical filenames.
 """
     (ROOT / "docs" / "FIGURE_PANEL_LOCK_V3.md").write_text(lock, encoding="utf-8", newline="\n")
 
-    text = """# Figure captions (manuscript; not printed on the image)
+    text = r"""# Figure captions (manuscript; not printed on the image)
 
 JCIM: captions are self-contained; panel letters match `figures/jcim_article/`.
 All numbers are read from the frozen CSVs named in `docs/FIGURE_PANEL_LOCK_V3.md`.
-Regenerate: `python3 data/jcim_bench_v0/scripts/plot_jcim_article_figures_v3.py`
+Regenerate: `python3 data/jcim_bench_v0/scripts/plot_jcim_article_figures_v3.py` (main figures and S4/S5/S7/S8); run `python3 data/jcim_bench_v0/scripts/plot_jcim_si_composites_v1.py` for S1–S3/S9/S10 and `python3 data/jcim_novelty_v0/scripts/plot_detectable_effect_and_workflow_v1.py` for S6.
 
 ## Figure 1. Four-state dual-target evaluation and data supply.
 
-(A) Four experimentally labeled ligand states: dual, A-only, B-only, and neither. A-only and B-only are single-target-selective controls. (B) Primary tasks are pocket-matched directional AUROCs: Dual versus A-only scored in pocket B, Dual versus B-only scored in pocket A. `summary_min` is a descriptive worst-arm summary. (C) Bidirectional selective supply is scarce under a strict 6.5/5.5 rule. HDAC1/HDAC6 is excluded as metal-dependent. EGFR/HER2 is retained as a supply-limited construction case (strict B-only = 7; primary θ = 6.0 n = 28/38/32). The eight primary pairs use one extract protocol with pair-specific candidate pools, quotas, and scaffold caps (Table 1). Right: J0 scrape selectives (HDAC + PIK3CA/mTOR + AChE/BChE + EGFR) and later ChEMBL 37 dump selectives for the five census pairs. Cross-database counts are Figure S2.
+(A) Four activity states defined from experimental measurements at targets A and B. A-only and B-only serve as single-target selective controls. (B) Pocket-matched directional evaluation: Dual versus A-only is scored at target B, whereas Dual versus B-only is scored at target A. The lower of the two directional AUROCs is reported as the descriptive summary$_{\mathrm{min}}$. (C) Assembly of the eight primary target-pair rows. The initial ChEMBL audit contained 49 candidate pairs; four met the hard-negative supply gate, HDAC1/HDAC6 was excluded because metal-dependent docking was outside the protocol, and supply-limited EGFR/HER2 was retained. PIK3CA/PIK3CB was subsequently withdrawn after receptor-identity review, and five pairs from the later census were added. Bars show the smaller of the A-only and B-only pools under the strict activity rule. The dashed line marks the supply gate of 50 compounds; the upper and lower bar groups derive from the initial and later audits, respectively.
 
 ## Figure 2. Negative-class definition changes apparent dual-target evidence.
 
-Same frozen AutoDock Vina scores, unified θ = 6.0, eight primary rows. (A) Directional Dual versus A-only (pocket B) and Dual versus B-only (pocket A). (B) Descriptive comparison of directional `summary_min` with Dual versus neither using per-ligand `vina_mean`. These two columns differ in both negative class and score aggregation. PIK3CA/mTOR Dual versus neither is hatched (neither n = 4). (C) Pocket A score held fixed; only the negative class is replaced (B-only versus neither). EGFR/HER2 ΔAUROC = 0.378 [0.205, 0.547]; JAK1/TYK2 reproduces the gap (0.444 [0.263, 0.620]). Document-cluster and scaffold-cluster intervals for those two Δ values are in Table S4. Diamond, underpowered neither. Vertical dashed line, zero.
+Results are shown for the eight primary target pairs at θ = 6.0. Horizontal gray rules separate the three initially evaluated pairs from the five pairs added after the census. (A) AUROC for Dual versus A-only scored at target B (circles) and Dual versus B-only scored at target A (squares). (B) Directional summary$_{\mathrm{min}}$ (circles) and Dual versus neither using the mean Vina score across the two targets (squares). Error bars are ligand-level bootstrap 95% confidence intervals. The diamond marks PIK3CA/mTOR Dual versus neither, for which the neither class contained four ligands. (C) Change in AUROC after replacing B-only with neither while holding the target-A score fixed. Error bars are 95% confidence intervals; diamonds indicate comparisons with an underpowered neither class. The dashed vertical line indicates no change.
 
 ## Figure 3. Ligand chemistry as a competing explanation.
 
-(A) Scaffold GroupKFold ECFP4 logistic AUROC versus pocket-matched Vina rank AUROC on both directional arms for the eight primary pairs. EGFR/HER2 Dual versus B-only: ECFP4 0.8895 versus Vina 0.4297. Five-pair ECFP4 from `ecfp4_incremental_s20s24_v1.csv`. (B) Change in GroupKFold AUROC when the pocket-matched Vina score is added to ECFP4 (16 contrasts). (C) AChE/BChE TPSA by class: individual ligands (jittered) with median and IQR (`assembled_AChE_BChE.csv`). n = 27/25/28.
+(A) Pocket-matched Vina rank AUROC and ECFP4 logistic-regression AUROC under Bemis–Murcko scaffold-grouped cross-validation for both directional contrasts. (B) Change in scaffold-grouped cross-validated AUROC after adding the corresponding Vina score to ECFP4. Positive values favor ECFP4 plus Vina; circles and squares denote Dual versus A-only and Dual versus B-only, respectively. (C) Topological polar surface area (TPSA) of the AChE/BChE ligands by activity class. Points represent individual ligands; horizontal and vertical black lines show the median and interquartile range, respectively.
 
 ## Figure 4. Computational realization.
 
-(A) Independent GNINA 1.3.2 pose generation (not CNN rescoring of Vina poses) on EGFR/HER2, PIK3CA/mTOR, and JAK1/TYK2 only. Independent search was not run on F2/F10, JAK1/JAK2, or the PPAR pairs. JAK1/TYK2 independent GNINA: `summary_min` 0.317 [0.183, 0.463], Dual versus neither 0.705. (B) Replacing PIK3CA 4L23 with 4JPS or 5DXT while holding mTOR frozen: PIK3CA/mTOR `summary_min` 0.692 → 0.486 / 0.505. 4JSX is an mTOR-pocket swap. (C) Directional `summary_min` across five frozen Vina seeds; diamond, production seed 20260727. No five-seed range on F2/F10, JAK1/TYK2, JAK1/JAK2, PPARG/PPARA, or PPARA/PPARD crossed 0.5.
+(A) Comparison of Vina and independent GNINA 1.3.2 pose generation for the three evaluated target pairs. Circles and squares denote Vina and GNINA, respectively; filled blue symbols show directional summary$_{\mathrm{min}}$, and open orange symbols show Dual versus neither. (B) PIK3CA/mTOR summary$_{\mathrm{min}}$ after substituting the PIK3CA structure (4JPS or 5DXT) or the mTOR structure (4JSX) for the primary structures (PIK3CA 4L23 and mTOR 4JT6). Error bars are ligand-level bootstrap 95% confidence intervals. (C) Directional summary$_{\mathrm{min}}$ across five Vina random seeds. Horizontal segments show the range, circles the median, and diamonds the primary seed; the dashed line marks AUROC = 0.5.
 
 ## Figure 5. Matched- versus mismatched-pocket scoring controls.
 
-Δ = matched-pocket `summary_min` − mismatched-pocket `summary_min`, ligand bootstrap B = 2000. Matched uses Dual versus A-only in pocket B and Dual versus B-only in pocket A; mismatched swaps those score channels. This is a scoring-channel control, not redocking into a physically wrong site. Dark, CI excludes 0; gray, CI includes 0. (A) Main panels, eight primary pairs. EGFR/HER2 and AChE/BChE CIs exclude 0. (B) Unused-pool holdout Δ. All seven CIs include 0. EGFR/HER2 has no holdout. (C) Holdout versus main-panel `summary_min`. PPARG/PPARA holdout is 0.535 [0.350, 0.717]; JAK1/JAK2 stays same-direction (0.619 [0.420, 0.749]; drawn 20/20/18).
+Matched-pocket scoring uses target B for Dual versus A-only and target A for Dual versus B-only; the mismatched control exchanges these score channels without redocking. (A) Difference in summary$_{\mathrm{min}}$ between matched and mismatched scoring in the primary panels. (B) The same paired difference in unused-pool holdouts. Points and horizontal lines show the estimate and ligand-level bootstrap 95% confidence interval; blue intervals exclude zero and gray intervals include zero. EGFR/HER2 had no holdout. (C) Primary-panel (circles) and holdout (squares) summary$_{\mathrm{min}}$ estimates with 95% confidence intervals. Dashed vertical lines indicate zero in panels A and B and AUROC = 0.5 in panel C.
 
 ## Figure 6. Robustness checks and evidence boundary.
 
-(A) Pocket-matched `summary_min` on the unified label-threshold grid for the eight primary pairs. (B) PIK3CA/mTOR PM48 versus PM110 Vina. (C) PM48 exhaustiveness 16 versus 8, recomputed from `scores_vina_E8_best.csv` with the same pocket-matched definition. (D) BindingDB and PubChem counts of all eight pairs plus the external-docking gate: no pair was packaged or docked as an external evaluation set (Table S11).
+(A) Directional summary$_{\mathrm{min}}$ under three single activity thresholds and a strict two-threshold rule. The strict rule is a separate categorical definition rather than a continuation of θ. Daggers mark settings with fewer than 10 ligands in at least one directional class. (B) PIK3CA/mTOR summary$_{\mathrm{min}}$ in the PM48 and PM110 panels. (C) PIK3CA/mTOR PM48 summary$_{\mathrm{min}}$ at Vina exhaustiveness 16 and 8. In panels B and C, connected symbols are descriptive point-estimate comparisons and the dashed line marks AUROC = 0.5. (D) Outcome of the preregistered BindingDB external-set gate for the four historical contract pairs. None provided sufficient Dual, A-only, and B-only compounds after source, structure-identity, and chemical-similarity filtering; no external docking evaluation was performed.
 
 ## Figure S1. Protocol and panel sensitivities.
 
-Protocol grid, GNINA CNN rescoring of Vina poses, PM48 versus PM110, and exhaustiveness. Independent GNINA pose generation is Figure 4A.
+Original-set protocol grid, GNINA CNN rescoring of Vina poses, PM48 versus PM110, and exhaustiveness. This SI record still includes the later-withdrawn PIK3CA/PIK3CB row where that is what the source CSVs contain. Independent GNINA pose generation is Figure 4A.
 
 ## Figure S2. Equal-relation supply and holdout sampling shift.
 
@@ -1287,11 +1357,11 @@ Unchanged original-scrape sources: `crossdb_strict_supply_v1.csv`; `holdout_vs_m
 
 ## Figure S3. Additional paired bootstrap differences.
 
-Descriptor and scaffold-versus-random leakage checks on the original docked set. Matched-versus-mismatched main/holdout Δ CIs are Figure 5.
+Paired bootstrap comparisons on the original docked set: matched versus mismatched scoring in the primary and holdout panels, Vina versus the strongest single-descriptor baseline, and ECFP4 estimates under scaffold-grouped and random folds. The later-withdrawn PIK3CA/PIK3CB row is marked with a dagger.
 
 ## Figure S4. Pocket-matched summary_min forest.
 
-Vina CIs and the best single-descriptor reference on the eight primary rows.
+Vina CIs and the best single-descriptor reference on the eight primary rows. PIK3CA/PIK3CB is omitted.
 
 ## Figure S5. Unused-pool holdout versus the main panel.
 
@@ -1299,19 +1369,19 @@ Pocket-matched `summary_min` on the seven pairs that have a holdout. EGFR/HER2 h
 
 ## Figure S7. Post-hoc formulation and screening diagnostics.
 
-θ = 6.0 candidate-pair census, current primary n = 8, AND-like dual filter, and ligand-only full-map ECFP4. Not docking upgrades and not a replacement for Table 2.
+θ = 6.0 J0 pair census (`docked_in_this_paper` = 4 includes the later-withdrawn PIK3CA/PIK3CB row), current primary n = 8, AND-like dual filter on the original three, and ligand-only full-map ECFP4 on the original three. Not docking upgrades and not a replacement for Table 2.
 
 ## Figure S8. BindingDB-native slice.
 
-BindingDB / PubChem supply counts for all eight pairs and the remainder after independence filters (`crossdb_strict_supply_v1.csv`; `external_slice_summary_v1.csv`). No pair met the external-docking gate; nothing was docked as an external evaluation set.
+Filter cascade and remaining four-state counts after literature, structure, and ECFP4 < 0.70 on the original four-pair contract (`external_slice_summary_v1.csv`). Zero of four pairs meet the pre-frozen external gate; nothing was docked. Five census pairs were not re-opened as BindingDB external.
 
 ## Figure S9. Additional ligand-structure controls.
 
-Prespecified descriptors, covariate-adjusted logistic AUROC, and matched-subset weak-arm tests on the original docked set. The Vina-only logistic AUROC is not the Table 2 rank AUROC.
+Additional ligand-structure controls on the original docked set: ECFP4 versus Vina directional AUROCs, Vina and prespecified single-descriptor baselines, covariate-adjusted Dual versus B-only logistic models, and potency- or size-matched subsets. The Vina-only logistic AUROC in panel C is distinct from the rank-based AUROC in the primary analysis.
 
 ## Figure S10. Matched versus mismatched point estimates.
 
-Bar charts of matched versus mismatched `summary_min` on the original docked set. Paired Δ CIs are Figure 5.
+Matched and mismatched scoring point estimates for the original primary panels, unused-pool holdouts, potency- and size-matched holdout subsets, and contact-count controls. Paired confidence intervals for the primary and holdout differences are shown in Figure 5.
 
 ## TOC graphic (For Table of Contents Only).
 

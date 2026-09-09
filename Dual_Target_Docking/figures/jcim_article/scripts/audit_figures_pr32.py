@@ -1,0 +1,72 @@
+"""Independent table/manuscript/figure checks and contact sheets for visual QA."""
+from pathlib import Path
+import csv
+import hashlib
+import json
+import re
+from PIL import Image, ImageOps, ImageDraw
+
+OUT=Path(__file__).resolve().parents[1]
+audit=json.loads((OUT/'plotted_values.json').read_text(encoding='utf-8'))
+checks=[]
+def check(ok,what):
+    checks.append((bool(ok),what))
+
+def content(rel):
+    return (OUT/audit['input_files'][rel]).read_text(encoding='utf-8-sig')
+
+def rows(rel):return list(csv.DictReader(content(rel).splitlines()))
+def nums(s):return [float(x) for x in re.findall(r'-?\d+(?:\.\d+)?',s)]
+def close(a,b):return len(a)==len(b) and all(abs(x-y)<=.00051 for x,y in zip(a,b))
+
+for rel,digest in audit['inputs_sha256'].items():
+    check(hashlib.sha256((OUT/audit['input_files'][rel]).read_bytes()).hexdigest()==digest,'SHA256 '+rel)
+
+primary=audit['plotted']['primary']
+for lang in ['ZH','EN']:
+    manuscript=content('docs/MANUSCRIPT_JCIM_'+lang+'.md')
+    for pair,r in primary.items():
+        lines=[line for line in manuscript.splitlines() if line.startswith('| '+pair+' |')]
+        t2=next(line for line in lines if len(line.split('|'))==11 and re.fullmatch(r'\s*\d+ / \d+ / \d+\s*',line.split('|')[2]) and re.fullmatch(r'\s*0?\.\d+\s*',line.split('|')[3]))
+        cells=[x.strip() for x in t2.split('|')[1:-1]]
+        # Table 2 cells: D/A, D/B, summary_min [lo, hi].
+        observed=[float(cells[2]),float(cells[3])]+nums(cells[4])
+        check(close(observed,[r['da'],r['db'],r['smin'],r['lo'],r['hi']]),lang+' Table 2 plotted AUROCs/CI '+pair)
+        t3=next(line for line in lines if len(line.split('|'))==7 and '[' in line)
+        cells=[x.strip() for x in t3.split('|')[1:-1]]
+        # Table 3 cells: directional summary [lo, hi], neither, n_neither.
+        observed=nums(cells[1])+nums(cells[2])+[float(cells[3])]
+        check(close(observed,[r['smin'],r['lo'],r['hi'],r['nei'],r['nei_lo'],r['nei_hi'],r['n_neg']]),lang+' Table 3 plotted AUROCs/CI/n_neither '+pair)
+
+external=rows('data/jcim_novelty_v0/tables/external_slice_summary_v1.csv')
+check(len(external)==8 and all(r['packaged_as_external_evaluation']=='0' for r in external),'BindingDB: eight pairs and zero external evaluations')
+check(all(min(int(r[k]) for k in ['n_dual','n_A_only','n_B_only'])<20 or min(int(r[k]) for k in ['n_sources_dual','n_sources_A_only','n_sources_B_only'])<3 for r in external),'BindingDB failures follow class-count/source-count criteria')
+check('PIK3CA/PIK3CB' not in primary,'Withdrawn PIK3CB absent from primary figures')
+check(abs(audit['plotted']['fig3B_max_abs']-.0231)<.0006,'ECFP4 incremental maximum agrees with manuscript 0.023')
+sim=audit['plotted']['figS6']
+check(len({r['pair'] for r in sim})==3 and {float(r['true_auroc']) for r in sim}=={.50,.55,.60,.65,.70,.75},'Simulation: three pairs, complete six-point grid')
+cl=audit['plotted']['figS11']
+jdoc=next(r for r in cl if r['pair']=='JAK1/TYK2' and r['estimator']=='document_cluster')
+check(float(jdoc['delta_ci_lo'])<0<float(jdoc['delta_ci_hi']),'JAK1/TYK2 document-cluster interval crosses zero')
+top=audit['plotted']['figS7']['top10'];filt=audit['plotted']['figS7']['and_filter']
+check([int(top[k]) for k in ['n_dual_top','n_A_only_top','n_B_only_top','n_neither_top']]==[1,5,4,0],'Top-10 class counts: 1/5/4/0')
+check([int(filt[k]) for k in ['n_dual_pass','n_A_only_pass','n_B_only_pass']]==[14,9,24],'AND-filter class counts: 14/9/24')
+files={}
+for stem in audit['generated']:
+    for ext in (['png','tif'] if stem=='TOC_graphic' else ['png','tif','pdf']):
+        path=OUT/(stem+'.'+ext);files[path.name]=hashlib.sha256(path.read_bytes()).hexdigest()
+        if ext!='pdf':
+            with Image.open(path) as im:check(im.mode=='RGB' and abs(im.info['dpi'][0]-300)<1 and im.width<=2101 and im.height<=2751,'RGB/300dpi/size '+path.name)
+(OUT/'FIGURE_SHA256.json').write_text(json.dumps(files,indent=2),encoding='utf-8')
+qa=OUT/'qa';qa.mkdir(exist_ok=True)
+for group,stems in [('main',[s for s in audit['generated'] if re.match(r'Fig[1-6]_',s)]),('supplement',[s for s in audit['generated'] if s.startswith('FigS')]+['TOC_graphic'])]:
+    canvas=Image.new('RGB',(1400,550*((len(stems)+1)//2)),'#eeeeee');draw=ImageDraw.Draw(canvas)
+    for i,s in enumerate(stems):
+        with Image.open(OUT/(s+'.png')) as im:thumb=ImageOps.contain(im,(680,510))
+        xx=(i%2)*700;yy=(i//2)*550;canvas.paste(thumb,(xx+(700-thumb.width)//2,yy+25));draw.text((xx+12,yy+5),s,fill='black')
+    canvas.save(qa/(group+'_contact_sheet.jpg'),quality=92)
+report=['# PR32 figure numerical audit','',f"Source commit: `{audit['commit']}`",'',f"{sum(x for x,_ in checks)} PASS / {sum(not x for x,_ in checks)} FAIL",'', '| Status | Check |','|---|---|']
+report += [f'| {"PASS" if ok else "FAIL"} | {what} |' for ok,what in checks]
+(OUT/'FIGURE_AUDIT_PR32.md').write_text('\n'.join(report)+'\n',encoding='utf-8')
+print(report[4])
+if any(not ok for ok,_ in checks):raise SystemExit('Figure audit failed')

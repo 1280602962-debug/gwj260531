@@ -1,246 +1,1080 @@
 {
-  "source_files": {
-    "data/jcim_j0j1_v0/tables/j0_strict_label_supply.csv": 48,
-    "data/jcim_novelty_v0/tables/complete_case_usable_pchembl_overlap_v1.csv": 3,
-    "data/jcim_strengthen_t0t1_v0/tables/unified_threshold_sensitivity_v2.csv": 12,
-    "data/jcim_novelty_v0/tables/formulation_conventional_vs_directional_v1.csv": 24,
-    "data/jcim_novelty_v0/tables/formulation_equal_score_negative_v1.csv": 6,
-    "data/jcim_strengthen_t0t1_v0/tables/ligand_ml_baseline_scaffold_cv_v1.csv": 6,
-    "data/jcim_novelty_v0/tables/incremental_information_v1.csv": 42,
-    "data/jcim_bench_v0/tables/assembled_AChE_BChE.csv": 95,
-    "data/jcim_independent_dock_v0/tables/independent_dock_formulation_v1.csv": 8,
-    "data/jcim_structure_robust_v0/tables/pocket_matched_PM48_alt4JPS_v1.csv": 1,
-    "data/jcim_structure_robust_v0/tables/pocket_matched_PM48_alt5DXT_v1.csv": 1,
-    "data/jcim_structure_robust_v0/tables/pocket_matched_PM48_alt4JSX_v1.csv": 1,
-    "data/jcim_multiseed_v0/tables/multiseed_auroc_by_seed_v2.csv": 15,
-    "data/jcim_strengthen_t0t1_v0/tables/wrong_pocket_paired_delta_bootstrap_v1.csv": 5,
-    "data/jcim_holdout_v0/tables/holdout_pocket_matched_v1.csv": 14,
-    "data/jcim_strengthen_t0t1_v0/tables/pm110_vs_pm48_pocket_matched_v1.csv": 8,
-    "data/jcim_novelty_v0/tables/external_slice_summary_v1.csv": 8,
-    "data/jcim_novelty_v0/tables/descriptor_all_four_directional_v1.csv": 3,
-    "data/jcim_chembl_universe_v0/local_track_b_v0/tables/five_pair_stack_v1/table2_comparable_theta6_v1.csv": 5,
-    "data/jcim_chembl_universe_v0/local_track_b_v0/tables/five_pair_stack_v1/equal_score_negative_s34_v1.csv": 10,
-    "data/jcim_chembl_universe_v0/local_track_b_v0/tables/five_pair_stack_v1/ecfp4_incremental_s20s24_v1.csv": 30,
-    "data/jcim_chembl_universe_v0/local_track_b_v0/tables/five_pair_stack_v1/threshold_grid_v1.csv": 20,
-    "data/jcim_chembl_universe_v0/local_track_b_v0/tables/five_pair_local_channels_v1/table2_comparable_by_channel_v1.csv": 60,
-    "data/jcim_chembl_universe_v0/local_track_b_v0/tables/five_pair_local_channels_v1/fiveseed_summary_min_aggregate_v1.csv": 5,
-    "data/jcim_chembl_universe_v0/local_track_b_v0/tables/five_pair_local_channels_v1/wrong_pocket_by_channel_v1.csv": 31,
-    "data/jcim_chembl_universe_v0/local_track_b_v0/tables/five_pair_crossdb_v1/crossdb_strict_supply_v1.csv": 25,
-    "data/jcim_novelty_v0/tables/theta6_pair_census_v1.csv": 48,
-    "data/jcim_novelty_v0/tables/and_filter_operating_point_v1.csv": 30,
-    "data/jcim_novelty_v0/tables/ligand_only_fullmap_auroc_v1.csv": 15
+  "commit": "abb61a20a04eb6a085ad526876624eadb518c4cc",
+  "source": "https://github.com/1280602962-debug/gwj260531/pull/32",
+  "inputs_sha256": {
+    "data/jcim_j0j1_v0/tables/j0_strict_label_supply.csv": "c17a7ff26079b4c0fbecb7f47285a52a842278b7055d6775a76df43982907c2c",
+    "data/jcim_novelty_v0/tables/complete_case_usable_pchembl_overlap_v1.csv": "79610c706d4a2ceb637ed5b943668b36e209f2b2cb044aca72f9ebc6d731928b",
+    "data/jcim_strengthen_t0t1_v0/tables/unified_threshold_sensitivity_v2.csv": "8e0f3f49f63686b139dcaf4387ef5977c3a0ee90e5bffa86d9f784c3eee3aeef",
+    "data/jcim_novelty_v0/tables/formulation_conventional_vs_directional_v1.csv": "b4aa87d38cb33111c8b7b2dccab4a77bf3052eed4469ba18cdd4d6a1bb12aa23",
+    "data/jcim_novelty_v0/tables/formulation_equal_score_negative_v1.csv": "40c2a943a12625d81557f5ab0291c58e3b13da1e09639026bf1af69687e27ef4",
+    "data/jcim_strengthen_t0t1_v0/tables/ligand_ml_baseline_scaffold_cv_v1.csv": "3ccf7c14bb972aeb8a834e62c752671824daee2a4e77df8aee817cdadd38f794",
+    "data/jcim_novelty_v0/tables/incremental_information_v1.csv": "739ba377cfa8e001073fcddfb452ef1b8a785e847df154079caaebd9ebadb6c7",
+    "data/jcim_bench_v0/tables/assembled_AChE_BChE.csv": "71882df130c9bdb9a8615b17d510b83d1beb080f33685b3399f5d3fc74807492",
+    "data/jcim_independent_dock_v0/tables/independent_dock_formulation_v1.csv": "d1e2abe469953886b6a07a200162be290293fbe0bd24393241ef176c9fd86ad9",
+    "data/jcim_structure_robust_v0/tables/pocket_matched_PM48_alt4JPS_v1.csv": "27d3ea8a993f72373a79cf5723228cf50046925f13a2cb01c9c05c0e707279fe",
+    "data/jcim_structure_robust_v0/tables/pocket_matched_PM48_alt5DXT_v1.csv": "a2d27f03101362db0b217f223acb3e98718cbdb011cb181ce1d839202955e602",
+    "data/jcim_structure_robust_v0/tables/pocket_matched_PM48_alt4JSX_v1.csv": "fa4f9ef28300100dfb4b03544cfa26630e4bd77f9a8fd8001a3a887599994f8c",
+    "data/jcim_multiseed_v0/tables/multiseed_auroc_by_seed_v2.csv": "218a360550d9933e9aa1878e4262911af53b929b7088f1259550256932e7b43e",
+    "data/jcim_strengthen_t0t1_v0/tables/wrong_pocket_paired_delta_bootstrap_v1.csv": "6bd40077565e154ec896de530acf630990f6a797b4b87252fd6ae26632f898e2",
+    "data/jcim_holdout_v0/tables/holdout_pocket_matched_v1.csv": "cd47d21216360d4731af1d27952f4e9e5a3af0ed05963cd381b36628b8ec136d",
+    "data/jcim_strengthen_t0t1_v0/tables/pm110_vs_pm48_pocket_matched_v1.csv": "41e63552207c7495b3233b005ae10bbfe1d0500f7aa15cb74423e672ecb14dcb",
+    "data/jcim_novelty_v0/tables/external_slice_summary_v1.csv": "8fe0f8cf9cdda0055ce69628d3f00453e3267cfbab5edca90e18d42b9940e5d4",
+    "data/jcim_novelty_v0/tables/descriptor_all_four_directional_v1.csv": "a5170682ee2afedb733bf006b724baeef0a30726ac0b7be2246308b3f951f950",
+    "data/jcim_chembl_universe_v0/local_track_b_v0/tables/five_pair_stack_v1/table2_comparable_theta6_v1.csv": "16ce2448d52a26f01f9df5ae4d46aaa0269104393310363345d7e61afeb3fc63",
+    "data/jcim_chembl_universe_v0/local_track_b_v0/tables/five_pair_stack_v1/equal_score_negative_s34_v1.csv": "8b0abf799a5e4caa0a9a595ade4ab1e700c27d882e71087bf5a9e2ba8b276698",
+    "data/jcim_chembl_universe_v0/local_track_b_v0/tables/five_pair_stack_v1/ecfp4_incremental_s20s24_v1.csv": "3aa385cdb5cd5399b2254bfbe58a9fa6b2fd2be85700905d4c0476c11f63dc2c",
+    "data/jcim_chembl_universe_v0/local_track_b_v0/tables/five_pair_stack_v1/threshold_grid_v1.csv": "9b8ec3a118e1aa1fec3543ed692356a960b2fb3eee804a6ef05d3f47fbe2029c",
+    "data/jcim_chembl_universe_v0/local_track_b_v0/tables/five_pair_local_channels_v1/table2_comparable_by_channel_v1.csv": "16c6965f3a9c133a1dc0dbde7665b1cd8ef58152fbe0a39c0e6324ab439ce65b",
+    "data/jcim_chembl_universe_v0/local_track_b_v0/tables/five_pair_local_channels_v1/fiveseed_summary_min_aggregate_v1.csv": "cbb0fb057ad20a7475a4b02df98c3fd05335c80b5f86605ecb104fab35067fb5",
+    "data/jcim_chembl_universe_v0/local_track_b_v0/tables/five_pair_local_channels_v1/wrong_pocket_by_channel_v1.csv": "35bfaee9b783f550cf30c7d9dea95b54ad48326c3b80a127b76891dcbaf44de5",
+    "data/jcim_chembl_universe_v0/local_track_b_v0/tables/five_pair_crossdb_v1/crossdb_strict_supply_v1.csv": "e9e8e7a8da84e7acc2d162a8f8bd86ffb8f0164f8d3b85ad01859bc31dd2249d",
+    "data/jcim_chembl_universe_v0/tables/universe_census_summary_v1.csv": "11e18268e8e4ef5e4e7a85cd929d1fe26154b6a55ffb507e7471bcbfe28f5ceb",
+    "data/pik3ca_mtor_panel48_rdkit_v0/tables/panel_v0_48.csv": "592c9cc5123bdbdfe7e4550956e14b8ddb237051eac1ac528af530e1732c7158",
+    "data/pik3ca_mtor_panel48_rdkit_v0/tables/scores_vina_E8_best.csv": "689a2105d8075ecbb86557579b5b1beeae69e70ebf548409b867513e38298241",
+    "data/jcim_novelty_v0/tables/detectable_effect_simulation_v1.csv": "516517ee71776ee360b119e794938651d848ab49508acb33cf52d7336e6a39a9",
+    "data/jcim_novelty_v0/tables/equal_score_cluster_bootstrap_v1.csv": "2fb14defe44b4d52f4a61efd9dc571c4b604c63c1be44bda7df32c0644e48601",
+    "data/jcim_novelty_v0/tables/mixed_library_enrichment_v1.csv": "82e1d8d69a83a7dee057ce8a02fafc1a51007883c80d94d93052e3b41be23e7a",
+    "data/jcim_novelty_v0/tables/and_filter_operating_point_v1.csv": "d35e8542f5aee5ed05dd5ab9bd4c1f1ad460a391aa8b3ebdb09866919ad0e93d",
+    "docs/MANUSCRIPT_JCIM_ZH.md": "d72c77974fbf23f1ea488ec6f12d5fe91c18bbfc9e3187543572273efd6b7d41",
+    "docs/MANUSCRIPT_JCIM_EN.md": "00a1e01f75ddda726760110dadf72b140d7e8d82914654f2170b319977bb84c8",
+    "docs/SUPPORTING_INFORMATION_DRAFT_ZH_JCIM_V1.md": "06ec7264812f39318c2fa50b1a4d724ea6e63b8cd4bce33c6a4103ab17b1056b"
   },
+  "input_files": {
+    "data/jcim_j0j1_v0/tables/j0_strict_label_supply.csv": "input_snapshot\\8282b54957d0d216.csv",
+    "data/jcim_novelty_v0/tables/complete_case_usable_pchembl_overlap_v1.csv": "input_snapshot\\bfa3565a102c81a8.csv",
+    "data/jcim_strengthen_t0t1_v0/tables/unified_threshold_sensitivity_v2.csv": "input_snapshot\\15cebddde966c340.csv",
+    "data/jcim_novelty_v0/tables/formulation_conventional_vs_directional_v1.csv": "input_snapshot\\32933ba838db7cc6.csv",
+    "data/jcim_novelty_v0/tables/formulation_equal_score_negative_v1.csv": "input_snapshot\\3ca8b2416953b064.csv",
+    "data/jcim_strengthen_t0t1_v0/tables/ligand_ml_baseline_scaffold_cv_v1.csv": "input_snapshot\\b4ecb4649e34815c.csv",
+    "data/jcim_novelty_v0/tables/incremental_information_v1.csv": "input_snapshot\\e295c98b98070124.csv",
+    "data/jcim_bench_v0/tables/assembled_AChE_BChE.csv": "input_snapshot\\104090f4faf4641e.csv",
+    "data/jcim_independent_dock_v0/tables/independent_dock_formulation_v1.csv": "input_snapshot\\9ceb321e2be4ae25.csv",
+    "data/jcim_structure_robust_v0/tables/pocket_matched_PM48_alt4JPS_v1.csv": "input_snapshot\\b0370705a193cf1a.csv",
+    "data/jcim_structure_robust_v0/tables/pocket_matched_PM48_alt5DXT_v1.csv": "input_snapshot\\7f79c383ee6a0031.csv",
+    "data/jcim_structure_robust_v0/tables/pocket_matched_PM48_alt4JSX_v1.csv": "input_snapshot\\3e880ea67876aa4b.csv",
+    "data/jcim_multiseed_v0/tables/multiseed_auroc_by_seed_v2.csv": "input_snapshot\\b5b96110b1233cc5.csv",
+    "data/jcim_strengthen_t0t1_v0/tables/wrong_pocket_paired_delta_bootstrap_v1.csv": "input_snapshot\\df1096b1842bda12.csv",
+    "data/jcim_holdout_v0/tables/holdout_pocket_matched_v1.csv": "input_snapshot\\0c7503a6790dc92e.csv",
+    "data/jcim_strengthen_t0t1_v0/tables/pm110_vs_pm48_pocket_matched_v1.csv": "input_snapshot\\8834ecf31a542f99.csv",
+    "data/jcim_novelty_v0/tables/external_slice_summary_v1.csv": "input_snapshot\\d5dd7e44f041ae52.csv",
+    "data/jcim_novelty_v0/tables/descriptor_all_four_directional_v1.csv": "input_snapshot\\4ee93c8c3e18de4b.csv",
+    "data/jcim_chembl_universe_v0/local_track_b_v0/tables/five_pair_stack_v1/table2_comparable_theta6_v1.csv": "input_snapshot\\a6dd2ee4ed49a74b.csv",
+    "data/jcim_chembl_universe_v0/local_track_b_v0/tables/five_pair_stack_v1/equal_score_negative_s34_v1.csv": "input_snapshot\\808efacb954e3d39.csv",
+    "data/jcim_chembl_universe_v0/local_track_b_v0/tables/five_pair_stack_v1/ecfp4_incremental_s20s24_v1.csv": "input_snapshot\\a6d420ac7e4ed840.csv",
+    "data/jcim_chembl_universe_v0/local_track_b_v0/tables/five_pair_stack_v1/threshold_grid_v1.csv": "input_snapshot\\a39979d432fd46d9.csv",
+    "data/jcim_chembl_universe_v0/local_track_b_v0/tables/five_pair_local_channels_v1/table2_comparable_by_channel_v1.csv": "input_snapshot\\5c4767c80afc8c8f.csv",
+    "data/jcim_chembl_universe_v0/local_track_b_v0/tables/five_pair_local_channels_v1/fiveseed_summary_min_aggregate_v1.csv": "input_snapshot\\561c3a1673e38b57.csv",
+    "data/jcim_chembl_universe_v0/local_track_b_v0/tables/five_pair_local_channels_v1/wrong_pocket_by_channel_v1.csv": "input_snapshot\\160295ba5b5750ff.csv",
+    "data/jcim_chembl_universe_v0/local_track_b_v0/tables/five_pair_crossdb_v1/crossdb_strict_supply_v1.csv": "input_snapshot\\1cd679d72d21e881.csv",
+    "data/jcim_chembl_universe_v0/tables/universe_census_summary_v1.csv": "input_snapshot\\793297a72a51fc7d.csv",
+    "data/pik3ca_mtor_panel48_rdkit_v0/tables/panel_v0_48.csv": "input_snapshot\\edb0f2b9570d77ab.csv",
+    "data/pik3ca_mtor_panel48_rdkit_v0/tables/scores_vina_E8_best.csv": "input_snapshot\\6a193035eefcaeab.csv",
+    "data/jcim_novelty_v0/tables/detectable_effect_simulation_v1.csv": "input_snapshot\\0eae1bed12ef317c.csv",
+    "data/jcim_novelty_v0/tables/equal_score_cluster_bootstrap_v1.csv": "input_snapshot\\4945fa2b6d4b13ef.csv",
+    "data/jcim_novelty_v0/tables/mixed_library_enrichment_v1.csv": "input_snapshot\\139e5ebeaf8188d0.csv",
+    "data/jcim_novelty_v0/tables/and_filter_operating_point_v1.csv": "input_snapshot\\db934e608b749ec7.csv",
+    "docs/MANUSCRIPT_JCIM_ZH.md": "input_snapshot\\07de2023ea42fd0b.md",
+    "docs/MANUSCRIPT_JCIM_EN.md": "input_snapshot\\8b06d3df915be913.md",
+    "docs/SUPPORTING_INFORMATION_DRAFT_ZH_JCIM_V1.md": "input_snapshot\\21c8473e6bcb08d2.md"
+  },
+  "generated": [
+    "Fig1_four_state_and_supply",
+    "Fig1_C_chEMBL_supply",
+    "Fig2_negative_class_formulation",
+    "Fig3_ligand_chemistry",
+    "Fig4_computational_realization",
+    "Fig5_mismatched_pocket",
+    "Fig6_evidence_boundary",
+    "FigS4_pocket_matched_forest",
+    "FigS5_unused_pool_holdout",
+    "FigS6_detectable_effect",
+    "FigS8_bindingdb_native_slice",
+    "FigS11_cluster_uncertainty",
+    "FigS7_posthoc_diagnostics",
+    "TOC_graphic"
+  ],
   "plotted": {
     "fig1C": {
-      "n_pairs": 48,
-      "n_thick": 3,
-      "stages": {
-        "J0 scrape": 48,
-        "min selective \u226550": 3,
-        "eight-pair evaluation set": 8
-      },
-      "j0_hardneg": {
-        "HDAC1/HDAC6": 93.0,
-        "PIK3CA/MTOR": 80.0,
-        "ACHE/BCHE": 78.0,
-        "EGFR/HER2": 7.0
-      },
-      "dump_hardneg": {
-        "F2/F10": 117.0,
-        "JAK1/TYK2": 94.0,
-        "JAK1/JAK2": 53.0,
-        "PPARG/PPARA": 85.0,
-        "PPARA/PPARD": 84.0
-      },
-      "complete_case_min": 0.145119,
-      "complete_case_max": 0.340172
+      "slice": "all",
+      "n_human_single_protein_targets": "5869",
+      "n_targets_with_map": "4672",
+      "n_unordered_pairs_possible": "10911456",
+      "n_pairs_n_both_ge_1": "2164618",
+      "n_pairs_n_both_ge_10": "63790",
+      "n_directional_n10": "5253",
+      "n_formulation_n10": "4564",
+      "n_strict_thick": "86",
+      "n_strict_thick_nonmetal": "78",
+      "n_thin_or_thick": "275"
     },
-    "fig2A": {
-      "DA": [
-        0.6664,
-        0.6504,
-        0.7143,
-        0.4133,
-        0.5751,
-        0.5884,
-        0.6492,
-        0.6465
-      ],
-      "DB": [
-        0.4297,
-        0.6058,
-        0.6921,
-        0.3448,
-        0.3649,
-        0.7275,
-        0.7061,
-        0.4463
-      ],
-      "pairs": [
-        "EGFR/HER2",
-        "AChE/BChE",
-        "PIK3CA/mTOR",
-        "F2/F10",
-        "JAK1/TYK2",
-        "JAK1/JAK2",
-        "PPARG/PPARA",
-        "PPARA/PPARD"
-      ]
+    "fig1C_standalone": {
+      "slice": "all",
+      "n_human_single_protein_targets": "5869",
+      "n_targets_with_map": "4672",
+      "n_unordered_pairs_possible": "10911456",
+      "n_pairs_n_both_ge_1": "2164618",
+      "n_pairs_n_both_ge_10": "63790",
+      "n_directional_n10": "5253",
+      "n_formulation_n10": "4564",
+      "n_strict_thick": "86",
+      "n_strict_thick_nonmetal": "78",
+      "n_thin_or_thick": "275"
     },
-    "fig2B": {
+    "fig2": {
       "EGFR/HER2": {
-        "directional": {
-          "y": 0.4297,
+        "primary": {
+          "da": 0.6664,
+          "db": 0.4297,
+          "smin": 0.4297,
           "lo": 0.2818,
-          "hi": 0.5775
-        },
-        "neither": {
-          "y": 0.756,
-          "lo": 0.5625,
-          "hi": 0.9197,
+          "hi": 0.5775,
+          "nei": 0.756,
+          "nei_lo": 0.5625,
+          "nei_hi": 0.9197,
           "n_neg": 12
+        },
+        "fixed_A": {
+          "pair": "EGFR/HER2",
+          "contrast": "D_vs_B_or_neither_pocketA",
+          "score": "vina_A",
+          "n_dual": "28",
+          "n_selective": "32",
+          "n_neither": "12",
+          "auroc_dual_vs_selective": "0.4297",
+          "auroc_dual_vs_neither": "0.808",
+          "delta_neither_minus_selective": "0.3783",
+          "delta_ci_lo": "0.205",
+          "delta_ci_hi": "0.5469",
+          "underpowered_neither": "0",
+          "note": "pocket A fixed; B-only versus neither negative class; joint stratified bootstrap, not paired negative ligands"
+        },
+        "fixed_B": {
+          "pair": "EGFR/HER2",
+          "contrast": "D_vs_A_or_neither_pocketB",
+          "score": "vina_B",
+          "n_dual": "28",
+          "n_selective": "38",
+          "n_neither": "12",
+          "auroc_dual_vs_selective": "0.6664",
+          "auroc_dual_vs_neither": "0.7202",
+          "delta_neither_minus_selective": "0.0539",
+          "delta_ci_lo": "-0.1571",
+          "delta_ci_hi": "0.2455",
+          "underpowered_neither": "0",
+          "note": "pocket B fixed; A-only versus neither negative class; joint stratified bootstrap, not paired negative ligands"
         }
       },
       "AChE/BChE": {
-        "directional": {
-          "y": 0.6058,
+        "primary": {
+          "da": 0.6504,
+          "db": 0.6058,
+          "smin": 0.6058,
           "lo": 0.437,
-          "hi": 0.7303
-        },
-        "neither": {
-          "y": 0.6494,
-          "lo": 0.484,
-          "hi": 0.8123,
+          "hi": 0.7303,
+          "nei": 0.6494,
+          "nei_lo": 0.484,
+          "nei_hi": 0.8123,
           "n_neg": 15
+        },
+        "fixed_A": {
+          "pair": "AChE/BChE",
+          "contrast": "D_vs_B_or_neither_pocketA",
+          "score": "vina_A",
+          "n_dual": "27",
+          "n_selective": "28",
+          "n_neither": "15",
+          "auroc_dual_vs_selective": "0.6058",
+          "auroc_dual_vs_neither": "0.5901",
+          "delta_neither_minus_selective": "-0.0157",
+          "delta_ci_lo": "-0.1536",
+          "delta_ci_hi": "0.1202",
+          "underpowered_neither": "0",
+          "note": "pocket A fixed; B-only versus neither negative class; joint stratified bootstrap, not paired negative ligands"
+        },
+        "fixed_B": {
+          "pair": "AChE/BChE",
+          "contrast": "D_vs_A_or_neither_pocketB",
+          "score": "vina_B",
+          "n_dual": "27",
+          "n_selective": "25",
+          "n_neither": "15",
+          "auroc_dual_vs_selective": "0.6504",
+          "auroc_dual_vs_neither": "0.7086",
+          "delta_neither_minus_selective": "0.0583",
+          "delta_ci_lo": "-0.0845",
+          "delta_ci_hi": "0.1961",
+          "underpowered_neither": "0",
+          "note": "pocket B fixed; A-only versus neither negative class; joint stratified bootstrap, not paired negative ligands"
         }
       },
       "PIK3CA/mTOR": {
-        "directional": {
-          "y": 0.6921,
+        "primary": {
+          "da": 0.7143,
+          "db": 0.6921,
+          "smin": 0.6921,
           "lo": 0.4702,
-          "hi": 0.8133
-        },
-        "neither": {
-          "y": 0.5139,
-          "lo": 0.2222,
-          "hi": 0.8056,
+          "hi": 0.8133,
+          "nei": 0.5139,
+          "nei_lo": 0.2222,
+          "nei_hi": 0.8056,
           "n_neg": 4
+        },
+        "fixed_A": {
+          "pair": "PIK3CA/mTOR",
+          "contrast": "D_vs_B_or_neither_pocketA",
+          "score": "vina_A",
+          "n_dual": "18",
+          "n_selective": "12",
+          "n_neither": "4",
+          "auroc_dual_vs_selective": "0.6921",
+          "auroc_dual_vs_neither": "0.4722",
+          "delta_neither_minus_selective": "-0.2199",
+          "delta_ci_lo": "-0.5139",
+          "delta_ci_hi": "0.0186",
+          "underpowered_neither": "1",
+          "note": "pocket A fixed; B-only versus neither negative class; joint stratified bootstrap, not paired negative ligands"
+        },
+        "fixed_B": {
+          "pair": "PIK3CA/mTOR",
+          "contrast": "D_vs_A_or_neither_pocketB",
+          "score": "vina_B",
+          "n_dual": "18",
+          "n_selective": "14",
+          "n_neither": "4",
+          "auroc_dual_vs_selective": "0.7143",
+          "auroc_dual_vs_neither": "0.5833",
+          "delta_neither_minus_selective": "-0.131",
+          "delta_ci_lo": "-0.4326",
+          "delta_ci_hi": "0.1786",
+          "underpowered_neither": "1",
+          "note": "pocket B fixed; A-only versus neither negative class; joint stratified bootstrap, not paired negative ligands"
         }
       },
       "F2/F10": {
-        "directional": {
-          "y": 0.3448,
+        "primary": {
+          "da": 0.4133,
+          "db": 0.3448,
+          "smin": 0.3448,
           "lo": 0.2109,
-          "hi": 0.4773
-        },
-        "neither": {
-          "y": 0.5188,
-          "lo": 0.3495,
-          "hi": 0.6882,
+          "hi": 0.4773,
+          "nei": 0.5188,
+          "nei_lo": 0.3495,
+          "nei_hi": 0.6882,
           "n_neg": 12
+        },
+        "fixed_A": {
+          "pair": "F2/F10",
+          "contrast": "D_vs_B_or_neither_pocketA",
+          "score": "vina_A",
+          "n_dual": "31",
+          "n_selective": "32",
+          "n_neither": "12",
+          "auroc_dual_vs_selective": "0.3448",
+          "auroc_dual_vs_neither": "0.5081",
+          "delta_neither_minus_selective": "0.1633",
+          "delta_ci_lo": "-0.0051",
+          "delta_ci_hi": "0.3391",
+          "underpowered_neither": "0",
+          "note": "pocket A fixed; B-only versus neither; shared dual resample, independent negatives; exploratory, not multiplicity-adjusted"
+        },
+        "fixed_B": {
+          "pair": "F2/F10",
+          "contrast": "D_vs_A_or_neither_pocketB",
+          "score": "vina_B",
+          "n_dual": "31",
+          "n_selective": "32",
+          "n_neither": "12",
+          "auroc_dual_vs_selective": "0.4133",
+          "auroc_dual_vs_neither": "0.5282",
+          "delta_neither_minus_selective": "0.1149",
+          "delta_ci_lo": "-0.0175",
+          "delta_ci_hi": "0.2544",
+          "underpowered_neither": "0",
+          "note": "pocket B fixed; A-only versus neither; shared dual resample, independent negatives; exploratory, not multiplicity-adjusted"
         }
       },
       "JAK1/TYK2": {
-        "directional": {
-          "y": 0.3649,
+        "primary": {
+          "da": 0.5751,
+          "db": 0.3649,
+          "smin": 0.3649,
           "lo": 0.2306,
-          "hi": 0.503
-        },
-        "neither": {
-          "y": 0.7696,
-          "lo": 0.5967,
-          "hi": 0.9055,
+          "hi": 0.503,
+          "nei": 0.7696,
+          "nei_lo": 0.5967,
+          "nei_hi": 0.9055,
           "n_neg": 14
+        },
+        "fixed_A": {
+          "pair": "JAK1/TYK2",
+          "contrast": "D_vs_B_or_neither_pocketA",
+          "score": "vina_A",
+          "n_dual": "31",
+          "n_selective": "32",
+          "n_neither": "14",
+          "auroc_dual_vs_selective": "0.3649",
+          "auroc_dual_vs_neither": "0.8088",
+          "delta_neither_minus_selective": "0.4438",
+          "delta_ci_lo": "0.2626",
+          "delta_ci_hi": "0.6201",
+          "underpowered_neither": "0",
+          "note": "pocket A fixed; B-only versus neither; shared dual resample, independent negatives; exploratory, not multiplicity-adjusted"
+        },
+        "fixed_B": {
+          "pair": "JAK1/TYK2",
+          "contrast": "D_vs_A_or_neither_pocketB",
+          "score": "vina_B",
+          "n_dual": "31",
+          "n_selective": "32",
+          "n_neither": "14",
+          "auroc_dual_vs_selective": "0.5751",
+          "auroc_dual_vs_neither": "0.7051",
+          "delta_neither_minus_selective": "0.13",
+          "delta_ci_lo": "-0.0599",
+          "delta_ci_hi": "0.2952",
+          "underpowered_neither": "0",
+          "note": "pocket B fixed; A-only versus neither; shared dual resample, independent negatives; exploratory, not multiplicity-adjusted"
         }
       },
       "JAK1/JAK2": {
-        "directional": {
-          "y": 0.5884,
+        "primary": {
+          "da": 0.5884,
+          "db": 0.7275,
+          "smin": 0.5884,
           "lo": 0.4444,
-          "hi": 0.7246
-        },
-        "neither": {
-          "y": 0.7299,
-          "lo": 0.5468,
-          "hi": 0.875,
+          "hi": 0.7246,
+          "nei": 0.7299,
+          "nei_lo": 0.5468,
+          "nei_hi": 0.875,
           "n_neg": 14
+        },
+        "fixed_A": {
+          "pair": "JAK1/JAK2",
+          "contrast": "D_vs_B_or_neither_pocketA",
+          "score": "vina_A",
+          "n_dual": "32",
+          "n_selective": "32",
+          "n_neither": "14",
+          "auroc_dual_vs_selective": "0.7275",
+          "auroc_dual_vs_neither": "0.7232",
+          "delta_neither_minus_selective": "-0.0043",
+          "delta_ci_lo": "-0.177",
+          "delta_ci_hi": "0.1699",
+          "underpowered_neither": "0",
+          "note": "pocket A fixed; B-only versus neither; shared dual resample, independent negatives; exploratory, not multiplicity-adjusted"
+        },
+        "fixed_B": {
+          "pair": "JAK1/JAK2",
+          "contrast": "D_vs_A_or_neither_pocketB",
+          "score": "vina_B",
+          "n_dual": "32",
+          "n_selective": "32",
+          "n_neither": "14",
+          "auroc_dual_vs_selective": "0.5884",
+          "auroc_dual_vs_neither": "0.7299",
+          "delta_neither_minus_selective": "0.1415",
+          "delta_ci_lo": "-0.0582",
+          "delta_ci_hi": "0.3341",
+          "underpowered_neither": "0",
+          "note": "pocket B fixed; A-only versus neither; shared dual resample, independent negatives; exploratory, not multiplicity-adjusted"
         }
       },
       "PPARG/PPARA": {
-        "directional": {
-          "y": 0.6492,
+        "primary": {
+          "da": 0.6492,
+          "db": 0.7061,
+          "smin": 0.6492,
           "lo": 0.5045,
-          "hi": 0.7508
-        },
-        "neither": {
-          "y": 0.6853,
-          "lo": 0.4933,
-          "hi": 0.8482,
+          "hi": 0.7508,
+          "nei": 0.6853,
+          "nei_lo": 0.4933,
+          "nei_hi": 0.8482,
           "n_neg": 14
+        },
+        "fixed_A": {
+          "pair": "PPARG/PPARA",
+          "contrast": "D_vs_B_or_neither_pocketA",
+          "score": "vina_A",
+          "n_dual": "32",
+          "n_selective": "32",
+          "n_neither": "14",
+          "auroc_dual_vs_selective": "0.7061",
+          "auroc_dual_vs_neither": "0.7589",
+          "delta_neither_minus_selective": "0.0529",
+          "delta_ci_lo": "-0.1392",
+          "delta_ci_hi": "0.2283",
+          "underpowered_neither": "0",
+          "note": "pocket A fixed; B-only versus neither; shared dual resample, independent negatives; exploratory, not multiplicity-adjusted"
+        },
+        "fixed_B": {
+          "pair": "PPARG/PPARA",
+          "contrast": "D_vs_A_or_neither_pocketB",
+          "score": "vina_B",
+          "n_dual": "32",
+          "n_selective": "31",
+          "n_neither": "14",
+          "auroc_dual_vs_selective": "0.6492",
+          "auroc_dual_vs_neither": "0.644",
+          "delta_neither_minus_selective": "-0.0052",
+          "delta_ci_lo": "-0.2081",
+          "delta_ci_hi": "0.2054",
+          "underpowered_neither": "0",
+          "note": "pocket B fixed; A-only versus neither; shared dual resample, independent negatives; exploratory, not multiplicity-adjusted"
         }
       },
       "PPARA/PPARD": {
-        "directional": {
-          "y": 0.4463,
+        "primary": {
+          "da": 0.6465,
+          "db": 0.4463,
+          "smin": 0.4463,
           "lo": 0.2958,
-          "hi": 0.5841
-        },
-        "neither": {
-          "y": 0.5647,
-          "lo": 0.3683,
-          "hi": 0.7656,
+          "hi": 0.5841,
+          "nei": 0.5647,
+          "nei_lo": 0.3683,
+          "nei_hi": 0.7656,
           "n_neg": 14
+        },
+        "fixed_A": {
+          "pair": "PPARA/PPARD",
+          "contrast": "D_vs_B_or_neither_pocketA",
+          "score": "vina_A",
+          "n_dual": "32",
+          "n_selective": "32",
+          "n_neither": "14",
+          "auroc_dual_vs_selective": "0.4463",
+          "auroc_dual_vs_neither": "0.4844",
+          "delta_neither_minus_selective": "0.0381",
+          "delta_ci_lo": "-0.1391",
+          "delta_ci_hi": "0.216",
+          "underpowered_neither": "0",
+          "note": "pocket A fixed; B-only versus neither; shared dual resample, independent negatives; exploratory, not multiplicity-adjusted"
+        },
+        "fixed_B": {
+          "pair": "PPARA/PPARD",
+          "contrast": "D_vs_A_or_neither_pocketB",
+          "score": "vina_B",
+          "n_dual": "32",
+          "n_selective": "32",
+          "n_neither": "14",
+          "auroc_dual_vs_selective": "0.6465",
+          "auroc_dual_vs_neither": "0.6652",
+          "delta_neither_minus_selective": "0.0187",
+          "delta_ci_lo": "-0.1724",
+          "delta_ci_hi": "0.1978",
+          "underpowered_neither": "0",
+          "note": "pocket B fixed; A-only versus neither; shared dual resample, independent negatives; exploratory, not multiplicity-adjusted"
         }
       }
     },
-    "fig2C": {
-      "EGFR/HER2": {
-        "delta": 0.3783,
-        "lo": 0.205,
-        "hi": 0.5469,
-        "under": false
+    "fig6A": [
+      [
+        0.4246,
+        0.4297,
+        0.4602,
+        0.3242
+      ],
+      [
+        0.6058,
+        0.6058,
+        0.6058,
+        0.6058
+      ],
+      [
+        0.5017,
+        0.6921,
+        0.674,
+        0.6387
+      ],
+      [
+        0.3529,
+        0.3448,
+        0.3448,
+        0.3448
+      ],
+      [
+        0.3845,
+        0.3649,
+        0.3649,
+        0.3649
+      ],
+      [
+        0.5716,
+        0.5884,
+        0.5884,
+        0.5884
+      ],
+      [
+        0.6444,
+        0.6492,
+        0.6492,
+        0.6492
+      ],
+      [
+        0.4539,
+        0.4463,
+        0.4463,
+        0.4463
+      ]
+    ],
+    "fig6B": {
+      "PM48": 0.6921,
+      "PM110": 0.6483
+    },
+    "fig6C": {
+      "16": 0.6921,
+      "8": 0.6597222222222222
+    },
+    "fig6D": [
+      [
+        180,
+        10,
+        20
+      ],
+      [
+        4,
+        8,
+        14
+      ],
+      [
+        91,
+        4,
+        1
+      ],
+      [
+        46,
+        15,
+        16
+      ],
+      [
+        323,
+        7,
+        103
+      ],
+      [
+        928,
+        40,
+        14
+      ],
+      [
+        0,
+        0,
+        1
+      ],
+      [
+        0,
+        1,
+        0
+      ]
+    ],
+    "figS6": [
+      {
+        "pair": "EGFR/HER2",
+        "contrast": "summary_min",
+        "n_pos": "28",
+        "n_neg": "38/32",
+        "true_auroc": "0.50",
+        "n_mc": "1000",
+        "n_boot": "2000",
+        "p_ci_excludes_0p5": "0.109",
+        "se_binomial": "0.0098549",
+        "mean_point_auroc": "0.458309"
       },
-      "AChE/BChE": {
-        "delta": -0.0157,
-        "lo": -0.1536,
-        "hi": 0.1202,
-        "under": false
+      {
+        "pair": "EGFR/HER2",
+        "contrast": "summary_min",
+        "n_pos": "28",
+        "n_neg": "38/32",
+        "true_auroc": "0.55",
+        "n_mc": "1000",
+        "n_boot": "2000",
+        "p_ci_excludes_0p5": "0.025",
+        "se_binomial": "0.0049371",
+        "mean_point_auroc": "0.512225"
       },
-      "PIK3CA/mTOR": {
-        "delta": -0.2199,
-        "lo": -0.5139,
-        "hi": 0.0186,
-        "under": true
+      {
+        "pair": "EGFR/HER2",
+        "contrast": "summary_min",
+        "n_pos": "28",
+        "n_neg": "38/32",
+        "true_auroc": "0.60",
+        "n_mc": "1000",
+        "n_boot": "2000",
+        "p_ci_excludes_0p5": "0.065",
+        "se_binomial": "0.00779583",
+        "mean_point_auroc": "0.561108"
       },
-      "F2/F10": {
-        "delta": 0.1633,
-        "lo": -0.0051,
-        "hi": 0.3391,
-        "under": false
+      {
+        "pair": "EGFR/HER2",
+        "contrast": "summary_min",
+        "n_pos": "28",
+        "n_neg": "38/32",
+        "true_auroc": "0.65",
+        "n_mc": "1000",
+        "n_boot": "2000",
+        "p_ci_excludes_0p5": "0.268",
+        "se_binomial": "0.0140063",
+        "mean_point_auroc": "0.609232"
       },
-      "JAK1/TYK2": {
-        "delta": 0.4438,
-        "lo": 0.2626,
-        "hi": 0.6201,
-        "under": false
+      {
+        "pair": "EGFR/HER2",
+        "contrast": "summary_min",
+        "n_pos": "28",
+        "n_neg": "38/32",
+        "true_auroc": "0.70",
+        "n_mc": "1000",
+        "n_boot": "2000",
+        "p_ci_excludes_0p5": "0.621",
+        "se_binomial": "0.0153414",
+        "mean_point_auroc": "0.661021"
       },
-      "JAK1/JAK2": {
-        "delta": -0.0043,
-        "lo": -0.177,
-        "hi": 0.1699,
-        "under": false
+      {
+        "pair": "EGFR/HER2",
+        "contrast": "summary_min",
+        "n_pos": "28",
+        "n_neg": "38/32",
+        "true_auroc": "0.75",
+        "n_mc": "1000",
+        "n_boot": "2000",
+        "p_ci_excludes_0p5": "0.907",
+        "se_binomial": "0.00918428",
+        "mean_point_auroc": "0.715532"
       },
-      "PPARG/PPARA": {
-        "delta": 0.0529,
-        "lo": -0.1392,
-        "hi": 0.2283,
-        "under": false
+      {
+        "pair": "AChE/BChE",
+        "contrast": "summary_min",
+        "n_pos": "27",
+        "n_neg": "25/28",
+        "true_auroc": "0.50",
+        "n_mc": "1000",
+        "n_boot": "2000",
+        "p_ci_excludes_0p5": "0.119",
+        "se_binomial": "0.0102391",
+        "mean_point_auroc": "0.454643"
       },
-      "PPARA/PPARD": {
-        "delta": 0.0381,
-        "lo": -0.1391,
-        "hi": 0.216,
-        "under": false
+      {
+        "pair": "AChE/BChE",
+        "contrast": "summary_min",
+        "n_pos": "27",
+        "n_neg": "25/28",
+        "true_auroc": "0.55",
+        "n_mc": "1000",
+        "n_boot": "2000",
+        "p_ci_excludes_0p5": "0.02",
+        "se_binomial": "0.00442719",
+        "mean_point_auroc": "0.505609"
+      },
+      {
+        "pair": "AChE/BChE",
+        "contrast": "summary_min",
+        "n_pos": "27",
+        "n_neg": "25/28",
+        "true_auroc": "0.60",
+        "n_mc": "1000",
+        "n_boot": "2000",
+        "p_ci_excludes_0p5": "0.049",
+        "se_binomial": "0.00682635",
+        "mean_point_auroc": "0.555232"
+      },
+      {
+        "pair": "AChE/BChE",
+        "contrast": "summary_min",
+        "n_pos": "27",
+        "n_neg": "25/28",
+        "true_auroc": "0.65",
+        "n_mc": "1000",
+        "n_boot": "2000",
+        "p_ci_excludes_0p5": "0.225",
+        "se_binomial": "0.0132051",
+        "mean_point_auroc": "0.611047"
+      },
+      {
+        "pair": "AChE/BChE",
+        "contrast": "summary_min",
+        "n_pos": "27",
+        "n_neg": "25/28",
+        "true_auroc": "0.70",
+        "n_mc": "1000",
+        "n_boot": "2000",
+        "p_ci_excludes_0p5": "0.504",
+        "se_binomial": "0.0158109",
+        "mean_point_auroc": "0.657309"
+      },
+      {
+        "pair": "AChE/BChE",
+        "contrast": "summary_min",
+        "n_pos": "27",
+        "n_neg": "25/28",
+        "true_auroc": "0.75",
+        "n_mc": "1000",
+        "n_boot": "2000",
+        "p_ci_excludes_0p5": "0.828",
+        "se_binomial": "0.0119338",
+        "mean_point_auroc": "0.711461"
+      },
+      {
+        "pair": "PIK3CA/mTOR",
+        "contrast": "summary_min",
+        "n_pos": "18",
+        "n_neg": "14/12",
+        "true_auroc": "0.50",
+        "n_mc": "1000",
+        "n_boot": "2000",
+        "p_ci_excludes_0p5": "0.128",
+        "se_binomial": "0.0105648",
+        "mean_point_auroc": "0.436667"
+      },
+      {
+        "pair": "PIK3CA/mTOR",
+        "contrast": "summary_min",
+        "n_pos": "18",
+        "n_neg": "14/12",
+        "true_auroc": "0.55",
+        "n_mc": "1000",
+        "n_boot": "2000",
+        "p_ci_excludes_0p5": "0.037",
+        "se_binomial": "0.00596917",
+        "mean_point_auroc": "0.487774"
+      },
+      {
+        "pair": "PIK3CA/mTOR",
+        "contrast": "summary_min",
+        "n_pos": "18",
+        "n_neg": "14/12",
+        "true_auroc": "0.60",
+        "n_mc": "1000",
+        "n_boot": "2000",
+        "p_ci_excludes_0p5": "0.025",
+        "se_binomial": "0.0049371",
+        "mean_point_auroc": "0.539848"
+      },
+      {
+        "pair": "PIK3CA/mTOR",
+        "contrast": "summary_min",
+        "n_pos": "18",
+        "n_neg": "14/12",
+        "true_auroc": "0.65",
+        "n_mc": "1000",
+        "n_boot": "2000",
+        "p_ci_excludes_0p5": "0.072",
+        "se_binomial": "0.00817411",
+        "mean_point_auroc": "0.590348"
+      },
+      {
+        "pair": "PIK3CA/mTOR",
+        "contrast": "summary_min",
+        "n_pos": "18",
+        "n_neg": "14/12",
+        "true_auroc": "0.70",
+        "n_mc": "1000",
+        "n_boot": "2000",
+        "p_ci_excludes_0p5": "0.219",
+        "se_binomial": "0.0130782",
+        "mean_point_auroc": "0.644808"
+      },
+      {
+        "pair": "PIK3CA/mTOR",
+        "contrast": "summary_min",
+        "n_pos": "18",
+        "n_neg": "14/12",
+        "true_auroc": "0.75",
+        "n_mc": "1000",
+        "n_boot": "2000",
+        "p_ci_excludes_0p5": "0.452",
+        "se_binomial": "0.0157384",
+        "mean_point_auroc": "0.696817"
+      }
+    ],
+    "figS8": [
+      {
+        "pair": "EGFR/HER2",
+        "role": "thin_or_primary",
+        "pubmed_status": "chembl_document_api_partial",
+        "n_dev_inchikeys": "110",
+        "n_map_inchikeys": "488",
+        "native_paired": "468",
+        "after_literature": "380",
+        "after_structure": "346",
+        "after_ecfp_lt_0.70": "216",
+        "n_dual": "180",
+        "n_A_only": "10",
+        "n_B_only": "20",
+        "n_neither": "6",
+        "n_sources_dual": "16",
+        "n_sources_A_only": "5",
+        "n_sources_B_only": "4",
+        "top_doc_frac_dual": "0.5",
+        "top_doc_frac_A_only": "0.4",
+        "top_doc_frac_B_only": "0.45",
+        "gate": "insufficient",
+        "packaged_as_external_evaluation": "0",
+        "note": "does not meet primary or thin gate; no docking in this session"
+      },
+      {
+        "pair": "AChE/BChE",
+        "role": "primary_external",
+        "pubmed_status": "chembl_document_api_partial",
+        "n_dev_inchikeys": "159",
+        "n_map_inchikeys": "480",
+        "native_paired": "318",
+        "after_literature": "225",
+        "after_structure": "170",
+        "after_ecfp_lt_0.70": "85",
+        "n_dual": "4",
+        "n_A_only": "8",
+        "n_B_only": "14",
+        "n_neither": "59",
+        "n_sources_dual": "2",
+        "n_sources_A_only": "6",
+        "n_sources_B_only": "3",
+        "top_doc_frac_dual": "0.75",
+        "top_doc_frac_A_only": "0.375",
+        "top_doc_frac_B_only": "0.8571",
+        "gate": "insufficient",
+        "packaged_as_external_evaluation": "0",
+        "note": "does not meet primary or thin gate; no docking in this session"
+      },
+      {
+        "pair": "PIK3CA/mTOR",
+        "role": "primary_external",
+        "pubmed_status": "chembl_document_api_partial",
+        "n_dev_inchikeys": "175",
+        "n_map_inchikeys": "926",
+        "native_paired": "1193",
+        "after_literature": "1192",
+        "after_structure": "958",
+        "after_ecfp_lt_0.70": "98",
+        "n_dual": "91",
+        "n_A_only": "4",
+        "n_B_only": "1",
+        "n_neither": "2",
+        "n_sources_dual": "9",
+        "n_sources_A_only": "2",
+        "n_sources_B_only": "1",
+        "top_doc_frac_dual": "0.2088",
+        "top_doc_frac_A_only": "0.5",
+        "top_doc_frac_B_only": "1.0",
+        "gate": "insufficient",
+        "packaged_as_external_evaluation": "0",
+        "note": "does not meet primary or thin gate; no docking in this session"
+      },
+      {
+        "pair": "F2/F10",
+        "role": "primary_external",
+        "pubmed_status": "chembl_document_api_partial",
+        "n_dev_inchikeys": "170",
+        "n_map_inchikeys": "9652",
+        "native_paired": "451",
+        "after_literature": "262",
+        "after_structure": "152",
+        "after_ecfp_lt_0.70": "134",
+        "n_dual": "46",
+        "n_A_only": "15",
+        "n_B_only": "16",
+        "n_neither": "57",
+        "n_sources_dual": "4",
+        "n_sources_A_only": "1",
+        "n_sources_B_only": "3",
+        "top_doc_frac_dual": "0.8696",
+        "top_doc_frac_A_only": "1.0",
+        "top_doc_frac_B_only": "0.625",
+        "gate": "below_primary",
+        "packaged_as_external_evaluation": "0",
+        "note": "directional n 15-19 but not a designated thin pair; no docking in this session"
+      },
+      {
+        "pair": "JAK1/TYK2",
+        "role": "primary_external",
+        "pubmed_status": "chembl_document_api_partial",
+        "n_dev_inchikeys": "170",
+        "n_map_inchikeys": "13137",
+        "native_paired": "2594",
+        "after_literature": "2594",
+        "after_structure": "503",
+        "after_ecfp_lt_0.70": "438",
+        "n_dual": "323",
+        "n_A_only": "7",
+        "n_B_only": "103",
+        "n_neither": "5",
+        "n_sources_dual": "20",
+        "n_sources_A_only": "3",
+        "n_sources_B_only": "6",
+        "top_doc_frac_dual": "0.4303",
+        "top_doc_frac_A_only": "0.5714",
+        "top_doc_frac_B_only": "0.7961",
+        "gate": "insufficient",
+        "packaged_as_external_evaluation": "0",
+        "note": "does not meet primary or thin gate; no docking in this session"
+      },
+      {
+        "pair": "JAK1/JAK2",
+        "role": "primary_external",
+        "pubmed_status": "chembl_document_api_partial",
+        "n_dev_inchikeys": "168",
+        "n_map_inchikeys": "14665",
+        "native_paired": "7748",
+        "after_literature": "7748",
+        "after_structure": "1209",
+        "after_ecfp_lt_0.70": "1091",
+        "n_dual": "928",
+        "n_A_only": "40",
+        "n_B_only": "14",
+        "n_neither": "109",
+        "n_sources_dual": "28",
+        "n_sources_A_only": "7",
+        "n_sources_B_only": "4",
+        "top_doc_frac_dual": "0.2629",
+        "top_doc_frac_A_only": "0.6",
+        "top_doc_frac_B_only": "0.5",
+        "gate": "insufficient",
+        "packaged_as_external_evaluation": "0",
+        "note": "does not meet primary or thin gate; no docking in this session"
+      },
+      {
+        "pair": "PPARG/PPARA",
+        "role": "primary_external",
+        "pubmed_status": "chembl_document_api_partial",
+        "n_dev_inchikeys": "170",
+        "n_map_inchikeys": "5115",
+        "native_paired": "69",
+        "after_literature": "6",
+        "after_structure": "1",
+        "after_ecfp_lt_0.70": "1",
+        "n_dual": "0",
+        "n_A_only": "0",
+        "n_B_only": "1",
+        "n_neither": "0",
+        "n_sources_dual": "0",
+        "n_sources_A_only": "0",
+        "n_sources_B_only": "1",
+        "top_doc_frac_dual": "0.0",
+        "top_doc_frac_A_only": "0.0",
+        "top_doc_frac_B_only": "1.0",
+        "gate": "insufficient",
+        "packaged_as_external_evaluation": "0",
+        "note": "does not meet primary or thin gate; no docking in this session"
+      },
+      {
+        "pair": "PPARA/PPARD",
+        "role": "primary_external",
+        "pubmed_status": "chembl_document_api_partial",
+        "n_dev_inchikeys": "170",
+        "n_map_inchikeys": "3475",
+        "native_paired": "59",
+        "after_literature": "29",
+        "after_structure": "1",
+        "after_ecfp_lt_0.70": "1",
+        "n_dual": "0",
+        "n_A_only": "1",
+        "n_B_only": "0",
+        "n_neither": "0",
+        "n_sources_dual": "0",
+        "n_sources_A_only": "1",
+        "n_sources_B_only": "0",
+        "top_doc_frac_dual": "0.0",
+        "top_doc_frac_A_only": "1.0",
+        "top_doc_frac_B_only": "0.0",
+        "gate": "insufficient",
+        "packaged_as_external_evaluation": "0",
+        "note": "does not meet primary or thin gate; no docking in this session"
+      }
+    ],
+    "figS11": [
+      {
+        "pair": "EGFR/HER2",
+        "contrast": "D_vs_B_or_neither_pocketA",
+        "estimator": "document_cluster",
+        "n_groups": "28",
+        "n_dual": "28",
+        "n_selective": "32",
+        "n_neither": "12",
+        "delta_point": "0.3783",
+        "delta_ci_lo": "0.0828",
+        "delta_ci_hi": "0.5288",
+        "n_valid_boot": "1998",
+        "excludes_zero": "True",
+        "note": "resamples connected groups, not ligands; shared dual within each resample",
+        "seed_offset": "44042"
+      },
+      {
+        "pair": "EGFR/HER2",
+        "contrast": "D_vs_B_or_neither_pocketA",
+        "estimator": "scaffold_cluster",
+        "n_groups": "61",
+        "n_dual": "28",
+        "n_selective": "32",
+        "n_neither": "12",
+        "delta_point": "0.3783",
+        "delta_ci_lo": "0.1678",
+        "delta_ci_hi": "0.5618",
+        "n_valid_boot": "2000",
+        "excludes_zero": "True",
+        "note": "resamples connected groups, not ligands; shared dual within each resample",
+        "seed_offset": "73878"
+      },
+      {
+        "pair": "JAK1/TYK2",
+        "contrast": "D_vs_B_or_neither_pocketA",
+        "estimator": "document_cluster",
+        "n_groups": "31",
+        "n_dual": "31",
+        "n_selective": "32",
+        "n_neither": "14",
+        "delta_point": "0.4438",
+        "delta_ci_lo": "-0.0337",
+        "delta_ci_hi": "0.6824",
+        "n_valid_boot": "1995",
+        "excludes_zero": "False",
+        "note": "resamples connected groups, not ligands; shared dual within each resample",
+        "seed_offset": "76987"
+      },
+      {
+        "pair": "JAK1/TYK2",
+        "contrast": "D_vs_B_or_neither_pocketA",
+        "estimator": "scaffold_cluster",
+        "n_groups": "68",
+        "n_dual": "31",
+        "n_selective": "32",
+        "n_neither": "14",
+        "delta_point": "0.4438",
+        "delta_ci_lo": "0.2341",
+        "delta_ci_hi": "0.633",
+        "n_valid_boot": "2000",
+        "excludes_zero": "True",
+        "note": "resamples connected groups, not ligands; shared dual within each resample",
+        "seed_offset": "34807"
+      }
+    ],
+    "figS7": {
+      "top10": {
+        "pair": "EGFR/HER2",
+        "score": "vina_mean",
+        "cutoff": "Top10",
+        "k": "10",
+        "n_library": "110",
+        "n_dual_library": "28",
+        "n_dual_top": "1",
+        "n_A_only_top": "5",
+        "n_B_only_top": "4",
+        "n_neither_top": "0",
+        "hit_rate": "0.1",
+        "EF": "0.393",
+        "hardneg_fraction_top": "0.9"
+      },
+      "and_filter": {
+        "pair": "EGFR/HER2",
+        "score": "vina_worst",
+        "dual_percentile": "50",
+        "threshold": "9.6995",
+        "n_library": "98",
+        "n_dual_library": "28",
+        "n_pass": "47",
+        "n_dual_pass": "14",
+        "n_A_only_pass": "9",
+        "n_B_only_pass": "24",
+        "precision_dual": "0.2979",
+        "recall_dual": "0.5",
+        "hardneg_fraction_pass": "0.7021",
+        "note": "AND-like dual filter on Dual+A-only+B-only; neither excluded. Not a docking scale-up."
       }
     },
     "fig3A": {
@@ -501,6 +1335,10 @@
     ],
     "fig5B": [
       {
+        "pair": "EGFR/HER2",
+        "missing": true
+      },
+      {
         "pair": "AChE/BChE",
         "y": -0.025,
         "lo": -0.1119,
@@ -551,6 +1389,10 @@
       }
     ],
     "fig5C": [
+      {
+        "pair": "EGFR/HER2",
+        "missing": true
+      },
       {
         "pair": "AChE/BChE",
         "main": 0.6058,
@@ -615,83 +1457,6 @@
         "hold_hi": 0.5585
       }
     ],
-    "fig6A": {
-      "EGFR/HER2": [
-        0.4246,
-        0.4297,
-        0.4602,
-        0.3242
-      ],
-      "AChE/BChE": [
-        0.6058,
-        0.6058,
-        0.6058,
-        0.6058
-      ],
-      "PIK3CA/mTOR": [
-        0.5017,
-        0.6921,
-        0.674,
-        0.6387
-      ],
-      "F2/F10": [
-        0.3529,
-        0.3448,
-        0.3448,
-        0.3448
-      ],
-      "JAK1/TYK2": [
-        0.3845,
-        0.3649,
-        0.3649,
-        0.3649
-      ],
-      "JAK1/JAK2": [
-        0.5716,
-        0.5884,
-        0.5884,
-        0.5884
-      ],
-      "PPARG/PPARA": [
-        0.6444,
-        0.6492,
-        0.6492,
-        0.6492
-      ],
-      "PPARA/PPARD": [
-        0.4539,
-        0.4463,
-        0.4463,
-        0.4463
-      ]
-    },
-    "fig6B": {
-      "PM48": 0.6921,
-      "PM110": 0.6483
-    },
-    "fig6C": {
-      "E16": 0.6921,
-      "E8": 0.6597222222222222,
-      "e8_n": [
-        18,
-        14,
-        12
-      ]
-    },
-    "fig6D": {
-      "n_fail": 8,
-      "n_pass": 0,
-      "contract": [
-        "EGFR/HER2",
-        "AChE/BChE",
-        "PIK3CA/mTOR",
-        "F2/F10",
-        "JAK1/TYK2",
-        "JAK1/JAK2",
-        "PPARG/PPARA",
-        "PPARA/PPARD"
-      ]
-    },
     "figS4": {
       "EGFR/HER2": {
         "vina": {
@@ -879,95 +1644,95 @@
         "hold_hi": 0.5585
       }
     ],
-    "figS7": {
-      "n_pairs": 48,
-      "n_dir": 16,
-      "n_form": 16,
-      "n_dock_j0": 3,
-      "n_primary_now": 8,
-      "neither": [
-        0.9214,
-        0.8511,
-        0.9555
-      ],
-      "directional": [
-        0.8013,
-        0.7439,
-        0.8869
-      ]
-    },
-    "figS8": {
-      "cascade": {
-        "EGFR/HER2": [
-          468.0,
-          380.0,
-          346.0,
-          216.0
-        ],
-        "AChE/BChE": [
-          318.0,
-          225.0,
-          170.0,
-          85.0
-        ],
-        "PIK3CA/mTOR": [
-          1193.0,
-          1192.0,
-          958.0,
-          98.0
-        ],
-        "F2/F10": [
-          451.0,
-          262.0,
-          152.0,
-          134.0
-        ],
-        "JAK1/TYK2": [
-          2594.0,
-          2594.0,
-          503.0,
-          438.0
-        ],
-        "JAK1/JAK2": [
-          7748.0,
-          7748.0,
-          1209.0,
-          1091.0
-        ],
-        "PPARG/PPARA": [
-          69.0,
-          6.0,
-          1.0,
-          1.0
-        ],
-        "PPARA/PPARD": [
-          59.0,
-          29.0,
-          1.0,
-          1.0
-        ]
+    "primary": {
+      "EGFR/HER2": {
+        "da": 0.6664,
+        "db": 0.4297,
+        "smin": 0.4297,
+        "lo": 0.2818,
+        "hi": 0.5775,
+        "nei": 0.756,
+        "nei_lo": 0.5625,
+        "nei_hi": 0.9197,
+        "n_neg": 12
       },
-      "n_dual": [
-        180,
-        4,
-        91,
-        46,
-        323,
-        928,
-        0,
-        0
-      ],
-      "n_fail": 8,
-      "after_ecfp": [
-        216.0,
-        85.0,
-        98.0,
-        134.0,
-        438.0,
-        1091.0,
-        1.0,
-        1.0
-      ]
+      "AChE/BChE": {
+        "da": 0.6504,
+        "db": 0.6058,
+        "smin": 0.6058,
+        "lo": 0.437,
+        "hi": 0.7303,
+        "nei": 0.6494,
+        "nei_lo": 0.484,
+        "nei_hi": 0.8123,
+        "n_neg": 15
+      },
+      "PIK3CA/mTOR": {
+        "da": 0.7143,
+        "db": 0.6921,
+        "smin": 0.6921,
+        "lo": 0.4702,
+        "hi": 0.8133,
+        "nei": 0.5139,
+        "nei_lo": 0.2222,
+        "nei_hi": 0.8056,
+        "n_neg": 4
+      },
+      "F2/F10": {
+        "da": 0.4133,
+        "db": 0.3448,
+        "smin": 0.3448,
+        "lo": 0.2109,
+        "hi": 0.4773,
+        "nei": 0.5188,
+        "nei_lo": 0.3495,
+        "nei_hi": 0.6882,
+        "n_neg": 12
+      },
+      "JAK1/TYK2": {
+        "da": 0.5751,
+        "db": 0.3649,
+        "smin": 0.3649,
+        "lo": 0.2306,
+        "hi": 0.503,
+        "nei": 0.7696,
+        "nei_lo": 0.5967,
+        "nei_hi": 0.9055,
+        "n_neg": 14
+      },
+      "JAK1/JAK2": {
+        "da": 0.5884,
+        "db": 0.7275,
+        "smin": 0.5884,
+        "lo": 0.4444,
+        "hi": 0.7246,
+        "nei": 0.7299,
+        "nei_lo": 0.5468,
+        "nei_hi": 0.875,
+        "n_neg": 14
+      },
+      "PPARG/PPARA": {
+        "da": 0.6492,
+        "db": 0.7061,
+        "smin": 0.6492,
+        "lo": 0.5045,
+        "hi": 0.7508,
+        "nei": 0.6853,
+        "nei_lo": 0.4933,
+        "nei_hi": 0.8482,
+        "n_neg": 14
+      },
+      "PPARA/PPARD": {
+        "da": 0.6465,
+        "db": 0.4463,
+        "smin": 0.4463,
+        "lo": 0.2958,
+        "hi": 0.5841,
+        "nei": 0.5647,
+        "nei_lo": 0.3683,
+        "nei_hi": 0.7656,
+        "n_neg": 14
+      }
     }
   }
 }
