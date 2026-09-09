@@ -24,8 +24,6 @@ The snapshot commit pins tables and assembled manuscripts. Artwork may be newer 
 - `Fig1_C_chEMBL_supply.png/.tif/.pdf`: Python-rendered census panel.
 - `Fig1_four_state_and_supply.*`: combined reference composite.
 
-## Historical SI figure IDs
+## Historical figure IDs
 
-S2, S3, S9, and S10 remain SI **table** records. No artwork for those original-set panels is shipped. Table numbers S1–S13 are unchanged.
-
-S8 and S11 repeat Figure 6C/D and 6B for SI readers who want a standalone page.
+SI figures are numbered S1–S8 by first citation in the manuscript. Tables S1–S13 are unchanged. No additional artwork was created to fill former skip numbers.

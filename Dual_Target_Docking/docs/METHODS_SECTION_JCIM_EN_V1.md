@@ -4,7 +4,7 @@
 
 ### 2.1 Study design
 
-Ligands were assigned to dual, A-only, B-only, or neither classes from experimental activity at both targets. Directional evaluation compared dual ligands with each single-target selective class, treating dual as the positive class. Dual and A-only ligands both meet the activity threshold at target A. Their experimental difference lies at target B, so pocket B scores were used. Dual and B-only ligands differ at target A, so pocket A scores were used.
+Ligands were assigned to dual, A-only, B-only, or neither classes from experimental activity at both targets. Directional evaluation compared dual ligands with each single-target selective class, treating dual as the positive class. Dual and A-only ligands both meet the activity threshold at target A. Their experimental difference lies at target B, so pocket B scores were used. Dual and B-only ligands differ at target A, so pocket A scores were used. The four experimental states and two directional tasks are shown in Figure 1A,B.
 
 The same target score channel was held fixed while dual ligands were compared with single-target selectives and with neither ligands. A ligand-chemistry baseline that does not use receptor structure was then used to test whether that discrimination can be explained by ligand features alone. Pocket correspondence, receptor substitution, and an independent docking implementation were used to test whether remaining discrimination is consistent with the corresponding target structure. Analyses of data processing, sample composition, and external-data availability were used to assess stability and scope.
 
@@ -22,22 +22,22 @@ To examine activity-processing choices, the maximum pChEMBL was replaced by the 
 
 **Pair-supply screen.** Candidate pairs came from one ChEMBL extract. Targets were restricted to human, single-component SINGLE PROTEIN records with both-end quantitative activity. Maximum pChEMBL was the representative value, and ligands were assigned to four states as in section 2.2. Bidirectional selective supply was counted under the strict 6.5/5.5 rule (active end \(\geq 6.5\), low-activity end \(\leq 5.5\); gray-zone ligands were excluded from that candidate pool). Inclusion also depended on protein class, site chemistry, and whether human experimental structures were suitable for unified noncovalent docking. A pair was retained only if a four-state panel could be drawn under those rules. The included pairs were EGFR/HER2, JAK1/JAK2, JAK1/TYK2, PIK3CA/mTOR, AChE/BChE, F2/F10, PPARG/PPARA, and PPARA/PPARD.
 
-**Panel construction.** Sample-supply size and structure feasibility differed across pairs, so some pairs used different candidate-pool rules, class quotas, or scaffold caps (Table 1). EGFR/HER2 and PIK3CA/mTOR were drawn from the \(\theta=6.0\) pool. The other six pairs were drawn from the strict 6.5/5.5 pool under quota sampling.
+**Panel construction.** Sample-supply size and structure feasibility differed across pairs, so some pairs used different candidate-pool rules, class quotas, or scaffold caps (Table 1). EGFR/HER2 and PIK3CA/mTOR were drawn from the \(\theta=6.0\) pool. The other six pairs were drawn from the strict 6.5/5.5 pool under quota sampling. EGFR/HER2 and PIK3CA/mTOR limited a single Bemis–Murcko scaffold to at most 5 and 2 repeats within a class, respectively; the remaining pairs had no additional scaffold cap.
 
 **Unified primary analysis.** All primary AUROCs used experimental states reassigned at \(\theta=6.0\). Only ligands with valid docking scores in the required direction were included, so n_scored can fall below n_panel.
 
-**Table 1.** Composition and main docking settings of the dual-target evaluation panels. Quotas are construction targets (dual / A-only / B-only / neither). n_panel is panel membership, including neither. n_scored is the dual / A-only / B-only count with valid both-end Vina scores that entered the primary directional AUROCs. The PG08-NL peptide was retained in the PPARG pocket 9V8H.
+**Table 1.** Composition and main docking settings of the dual-target evaluation panels. Quotas are construction targets (dual / A-only / B-only / neither). n_scored is the dual / A-only / B-only count with valid both-end Vina scores that entered the primary directional AUROCs. Receptor resolutions are in Table S2. The PG08-NL peptide was retained in the PPARG pocket 9V8H.
 
-| Pair | Candidate pool | Quota (D / A / B / N) | Scaffold cap | PDB (A / B) | Resolution (Å) | n_panel | n_scored (dual / A-only / B-only) | Vina exhaustiveness |
-|------|----------------|----------------------:|:------------:|-------------|----------------|-------:|------------------------------------:|--------------------:|
-| EGFR/HER2 | θ = 6.0 | 28 / 38 / 32 / 12 | ≤5 | 3POZ / 3RCD | 1.50 / 3.21 | 110 | 28 / 38 / 32 | 8 |
-| JAK1/JAK2 | strict 6.5/5.5 | 32 / 32 / 32 / 14 | none | 6N7A / 8BXH | 1.33 / 1.30 | 110 | 32 / 32 / 32 | 8 |
-| JAK1/TYK2 | strict 6.5/5.5 | 32 / 32 / 32 / 14 | none | 6N7A / 3LXP | 1.33 / 1.65 | 110 | 31 / 32 / 32 | 8 |
-| PIK3CA/mTOR | θ = 6.0 | 18 / 14 / 12 / 4 | ≤2 | 4L23 / 4JT6 | 2.50 / 3.60 | 48 | 18 / 14 / 12 | 16 |
-| AChE/BChE | strict 6.5/5.5 | 28 / 28 / 28 / 16 | none | 4EY7 / 4BDS | 2.35 / 2.10 | 100 | 27 / 25 / 28 | 8 |
-| F2/F10 | strict 6.5/5.5 | 32 / 32 / 32 / 14 | none | 4UDW / 2JKH | 1.16 / 1.25 | 110 | 31 / 32 / 32 | 8 |
-| PPARG/PPARA | strict 6.5/5.5 | 32 / 32 / 32 / 14 | none | 9V8H / 6LXA | 1.39 / 1.23 | 110 | 32 / 31 / 32 | 8 |
-| PPARA/PPARD | strict 6.5/5.5 | 32 / 32 / 32 / 14 | none | 6LXA / 5U3Q | 1.23 / 1.50 | 110 | 32 / 32 / 32 | 8 |
+| Pair | Candidate pool | Quota (D / A / B / N) | PDB (A / B) | n_scored (dual / A-only / B-only) | Vina exhaustiveness |
+|------|----------------|----------------------:|-------------|------------------------------------:|--------------------:|
+| EGFR/HER2 | θ = 6.0 | 28 / 38 / 32 / 12 | 3POZ / 3RCD | 28 / 38 / 32 | 8 |
+| JAK1/JAK2 | strict 6.5/5.5 | 32 / 32 / 32 / 14 | 6N7A / 8BXH | 32 / 32 / 32 | 8 |
+| JAK1/TYK2 | strict 6.5/5.5 | 32 / 32 / 32 / 14 | 6N7A / 3LXP | 31 / 32 / 32 | 8 |
+| PIK3CA/mTOR | θ = 6.0 | 18 / 14 / 12 / 4 | 4L23 / 4JT6 | 18 / 14 / 12 | 16 |
+| AChE/BChE | strict 6.5/5.5 | 28 / 28 / 28 / 16 | 4EY7 / 4BDS | 27 / 25 / 28 | 8 |
+| F2/F10 | strict 6.5/5.5 | 32 / 32 / 32 / 14 | 4UDW / 2JKH | 31 / 32 / 32 | 8 |
+| PPARG/PPARA | strict 6.5/5.5 | 32 / 32 / 32 / 14 | 9V8H / 6LXA | 32 / 31 / 32 | 8 |
+| PPARA/PPARD | strict 6.5/5.5 | 32 / 32 / 32 / 14 | 6LXA / 5U3Q | 32 / 32 / 32 | 8 |
 
 ### 2.4 Receptor and ligand preparation and docking
 
@@ -63,7 +63,7 @@ Before panel docking, each main receptor was redocked with its cognate ligand to
 
 RTMScore and GNINA 1.3.2 CNN were used to rescore all available Vina poses. RTMScore took the highest score among saved poses as the ligand-level result. GNINA used CNN affinity as the main CNN rescoring readout, with CNNscore as a supplementary analysis. These results re-score poses already generated by Vina and are not independent pose generation.
 
-GNINA 1.3.2 was also used to generate poses independently on EGFR/HER2, PIK3CA/mTOR, and JAK1/TYK2. This analysis used the same receptors, ligands, and docking boxes as the primary analysis. Exhaustiveness values were 8, 16, and 8, respectively, with at most nine poses per ligand. The ligand-level score was the rank-1 minimizedAffinity, inverted so that higher values indicate more favorable predicted binding. Independent GNINA did not return both-end scores for every ligand. EGFR/HER2 dual-versus-neither used n_neither = 11 (EH120_109 missing) rather than the Vina Table 3 count of 12; PIK3CA/mTOR A-only was n = 13 rather than 14; JAK1/TYK2 Dual/A-only/B-only/neither counts were 30/32/29/14 rather than 31/32/32/14. The analysis asks whether the main observation remains under another pose-generation and scoring pipeline. It is not a comparison of overall GNINA versus Vina performance (Table S9).
+GNINA 1.3.2 was also used to generate poses independently on EGFR/HER2, PIK3CA/mTOR, and JAK1/TYK2. This analysis used the same receptors, ligands, and docking boxes as the primary analysis. Exhaustiveness values were 8, 16, and 8, respectively, with at most nine poses per ligand. The ligand-level score was the rank-1 minimizedAffinity, inverted so that higher values indicate more favorable predicted binding. Independent GNINA did not return both-end scores for every ligand. EGFR/HER2 dual-versus-neither used n_neither = 11 (EH120_109 missing) rather than the primary Vina dual-versus-neither count of 12; PIK3CA/mTOR A-only was n = 13 rather than 14; JAK1/TYK2 Dual/A-only/B-only/neither counts were 30/32/29/14 rather than 31/32/32/14. The analysis asks whether the main observation remains under another pose-generation and scoring pipeline. It is not a comparison of overall GNINA versus Vina performance (Table S9).
 
 ### 2.5 Evaluation metrics and statistical analysis
 
@@ -75,7 +75,7 @@ More negative AutoDock Vina affinity indicates more favorable predicted binding.
 
 #### 2.5.2 Control-class and two-pocket filter comparisons
 
-Neither ligands, which are below threshold at both targets, were also used as a control class to evaluate dual-versus-neither discrimination. For ligands scored at both targets, the mean score was \(S_{\mathrm{mean}}=(S_{A}+S_{B})/2\). AUROC was then computed with dual as the positive class and neither as the control. Merging A-only, B-only, and neither into one control set gave a dual-versus-all-nonduals AUROC that is reported only as a mixed-library descriptive reference (Table 3).
+Neither ligands, which are below threshold at both targets, were also used as a control class to evaluate dual-versus-neither discrimination. For ligands scored at both targets, the mean score was \(S_{\mathrm{mean}}=(S_{A}+S_{B})/2\). AUROC was then computed with dual as the positive class and neither as the control. Merging A-only, B-only, and neither into one control set gave a dual-versus-all-nonduals AUROC that is reported only as a mixed-library descriptive reference (Table S4).
 
 To isolate the effect of changing the control class, the target score was held fixed and only the control composition was changed. Pocket A scores were used for dual-versus-B-only and dual-versus-neither. Pocket B scores were used for dual-versus-A-only and dual-versus-neither (Table S4). The lower of the two pocket scores, \(S_{\mathrm{worst}}=\min(S_{A},S_{B})\), was also used as a two-pocket filter. The median of dual \(S_{\mathrm{worst}}\) values defined the filter threshold. Dual counts, dual recall, dual precision, and retained single-target selectives at that threshold were tabulated (Table S13). Because the two-pocket mean score changes both control composition and score form, the isolated effect of control-class change was taken from the fixed-pocket comparisons.
 
@@ -83,19 +83,19 @@ To isolate the effect of changing the control class, the target score was held f
 
 The 95% confidence intervals for \(\mathrm{summary}_{\min}\) in Table 2 were estimated from 2000 ligand-level non-stratified percentile bootstrap replicates. Each replicate drew, with replacement, the original number of ligands from the pooled dual, A-only, and B-only set used in that pair’s directional analysis. Dual-versus-A-only and dual-versus-B-only AUROCs were then recomputed, and the smaller value was that replicate’s \(\mathrm{summary}_{\min}\). The 95% interval was the 2.5th and 97.5th percentiles of valid \(\mathrm{summary}_{\min}\) values. Point estimates were computed from the full analysis sample, not from bootstrap means. Dual-versus-neither AUROC intervals used class-stratified percentile bootstrap.
 
-When different scoring methods or matched versus mismatched pocket scores were compared, each scheme reused the same ligand resample to preserve pairing. Cluster bootstrap with Bemis–Murcko scaffold groups and literature-connected groups was used to assess scaffold and source correlation. Algorithm details are in the Supporting Information (Table S4; Table S10; Figure S6). Table S10 also reports an independent sample-size scenario that preserves class sizes by design; that simulation is not the Table 2 ligand-level interval.
+When different scoring methods or matched versus mismatched pocket scores were compared, each scheme reused the same ligand resample to preserve pairing. Cluster bootstrap with Bemis–Murcko scaffold groups and literature-connected groups was used to assess scaffold and source correlation. Algorithm details are in the Supporting Information (Table S4; Table S10). Table S10 also reports an independent sample-size scenario that preserves class sizes by design; that simulation is not the Table 2 ligand-level interval.
 
 ### 2.6 Baselines, controls, and sensitivity analyses
 
 #### 2.6.1 Ligand-chemistry controls
 
-To test discrimination from ligand chemistry without receptor structure, ECFP4 fingerprints (radius = 2, 2048 bits) were computed, together with molecular weight, heavy-atom count, cLogP, and TPSA. Directional AUROCs and \(\mathrm{summary}_{\min}\) were computed for each of the four single descriptors. The single descriptor with the highest \(\mathrm{summary}_{\min}\) on each pair served as the physicochemical baseline. Because that best descriptor was selected on the same panel, its difference from Vina is descriptive only (Table 2; Table S5).
+To test discrimination from ligand chemistry without receptor structure, ECFP4 fingerprints (radius = 2, 2048 bits) were computed, together with molecular weight, heavy-atom count, cLogP, and TPSA. Directional AUROCs and \(\mathrm{summary}_{\min}\) were computed for each of the four single descriptors. The single descriptor with the highest \(\mathrm{summary}_{\min}\) on each pair served as the physicochemical baseline. Because that best descriptor was selected on the same panel, its difference from Vina is descriptive only (Table S5).
 
 ECFP4, docking-only, and ECFP4+docking models used logistic regression without feature scaling. Bemis–Murcko scaffolds were the grouping variable, and out-of-fold predictions under the same GroupKFold splits were used to compute AUROC. The docking-only model used only the corresponding directional docking score. That AUROC is computed from out-of-fold predictions, whereas the primary analysis ranks the raw docking scores, so the two values are not identical. The AUROC difference between ECFP4 and ECFP4+docking describes incremental discrimination after adding the docking score. A sensitivity analysis applied StandardScaler on each training fold of the same splits (Table S5).
 
 #### 2.6.2 Structural attribution and score correspondence
 
-The main pocket-correspondence analysis compared \(\mathrm{summary}_{\min}\) under matched versus mismatched conditions and estimated the difference with a paired bootstrap. Same-direction AUROC differences were supplementary (Figure 5; Table S6). A positive \(\Delta=\mathrm{summary}_{\min}^{\mathrm{matched}}-\mathrm{summary}_{\min}^{\mathrm{mismatched}}\) means the weaker matched arm is higher.
+The main pocket-correspondence analysis compared \(\mathrm{summary}_{\min}\) under matched versus mismatched conditions and estimated the difference with a paired bootstrap. Same-direction AUROC differences were supplementary (Table S6). A positive \(\Delta=\mathrm{summary}_{\min}^{\mathrm{matched}}-\mathrm{summary}_{\min}^{\mathrm{mismatched}}\) means the weaker matched arm is higher.
 
 Receptor-structure sensitivity was evaluated mainly on PIK3CA/mTOR. With mTOR 4JT6 held fixed, PIK3CA 4L23 was replaced by 4JPS or 5DXT. mTOR 4JT6 was also replaced by 4JSX. Ligand sets, experimental states, score definitions, and statistics were otherwise unchanged (Table S8).
 

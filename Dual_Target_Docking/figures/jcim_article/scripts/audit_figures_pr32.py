@@ -36,18 +36,23 @@ captions=(OUT/'MANUSCRIPT_FIGURE_CAPTIONS.md').read_text(encoding='utf-8')
 for phrase in ['initially evaluated','added after the census','original three','census five','later five','Horizontal gray rules','underpowered','flagship','data-collection sequence','were then selected','python3','PowerPoint','historical original-set','Regenerate']:
     check(phrase.lower() not in captions.lower(),'caption has no '+phrase)
 check('The census summarizes the availability' in captions,'Fig1C caption separates census from the eight-pair evaluation')
+check('## Figure 4. Matched- versus mismatched-pocket scoring controls.' in captions,'Figure 4 caption is pocket correspondence')
+check('## Figure 5. Computational realization.' in captions,'Figure 5 caption is computational realization')
+check('## Figure S1. Post-hoc formulation and screening diagnostics.' in captions,'SI figures start at Top-10/AND diagnostics')
 check('Primary rank-based Vina AUROC' in captions,'Fig3A caption distinguishes Vina rank from ECFP4 GroupKFold')
-check('FigS1_protocol_sensitivity' in audit['generated'] and 'FigS12_cognate_rmsd' in audit['generated'],'SI protocol and cognate RMSD figures generated')
+check('FigS3_protocol_sensitivity' in audit['generated'] and 'FigS4_cognate_rmsd' in audit['generated'],'SI protocol and cognate RMSD figures generated')
+check('Fig4_mismatched_pocket' in audit['generated'] and 'Fig5_computational_realization' in audit['generated'],'main Figures 4/5 are pocket then computational')
+check('FigS1_posthoc_diagnostics' in audit['generated'] and 'FigS2_pocket_matched_forest' in audit['generated'],'SI figures start with Top-10 then descriptor forest')
 for lang in ['ZH','EN']:
     manuscript=content('docs/MANUSCRIPT_JCIM_'+lang+'.md')
     for pair,r in primary.items():
         lines=[line for line in manuscript.splitlines() if line.startswith('| '+pair+' |')]
-        t2=next(line for line in lines if len(line.split('|'))==11 and re.fullmatch(r'\s*\d+ / \d+ / \d+\s*',line.split('|')[2]) and re.fullmatch(r'\s*0?\.\d+\s*',line.split('|')[3]))
+        t2=next(line for line in lines if len(line.split('|'))==7 and re.fullmatch(r'\s*\d+ / \d+ / \d+\s*',line.split('|')[2]) and re.fullmatch(r'\s*0?\.\d+\s*',line.split('|')[3]))
         cells=[x.strip() for x in t2.split('|')[1:-1]]
-        # Table 2 cells: D/A, D/B, summary_min [lo, hi].
+        # Table 2 cells: n_scored, D/A, D/B, summary_min [lo, hi].
         observed=[float(cells[2]),float(cells[3])]+nums(cells[4])
         check(close(observed,[r['da'],r['db'],r['smin'],r['lo'],r['hi']]),lang+' Table 2 plotted AUROCs/CI '+pair)
-        t3=next(line for line in lines if len(line.split('|'))==7 and '[' in line)
+        t3=next(line for line in lines if len(line.split('|'))==6 and '[' in line)
         cells=[x.strip() for x in t3.split('|')[1:-1]]
         # Table 3 cells: directional summary [lo, hi], neither, n_neither.
         observed=nums(cells[1])+nums(cells[2])+[float(cells[3])]
@@ -62,7 +67,7 @@ sim=audit['plotted']['figS6']
 check(len({r['pair'] for r in sim})==3 and {float(r['true_auroc']) for r in sim}=={.50,.55,.60,.65,.70,.75},'Simulation: three pairs, complete six-point grid')
 off=audit['plotted'].get('figS12_offscale') or []
 check(any(abs(float(r['rmsd'])-9.505)<.002 and r.get('series')=='top1' for r in off),'EGFR 3POZ top-1 is plotted off-scale')
-check(all('top3' not in r for r in audit['plotted']['figS12']),'Figure S12 plots only top-1 and best-of-9')
+check(all('top3' not in r for r in audit['plotted']['figS12']),'Figure S4 plots only top-1 and best-of-9')
 cl=audit['plotted']['figS11']
 jdoc=next(r for r in cl if r['pair']=='JAK1/TYK2' and r['estimator']=='document_cluster')
 check(float(jdoc['delta_ci_lo'])<0<float(jdoc['delta_ci_hi']),'JAK1/TYK2 document-cluster interval crosses zero')

@@ -31,7 +31,7 @@ Ligands need both-end scores for directional AUROC; n_scored may be below n_pane
 
 ## Table S2. Primary receptor boxes and cognate redocking RMSD
 
-The eight pairs use 14 PDB slots (JAK1 6N7A and PPARA 6LXA are shared). PIK3CA/mTOR used E = 16 because 4JT6 failed the gate at E = 8. EGFR 3POZ is reconstructed QC (original nine-mode production files were not recovered). 9V8H is a PPARγ LBD–BRL–PG08-NL ternary complex; the peptide was retained. Figure S12 plots top-1 and best-of-9 RMSD for these 14 receptors. The top-3 column is min(mode 1–3) where per-pose RMSDs exist, or equals best-of-9 when the best saved pose is among modes 1–3. PPARA 6LXA has its best saved pose at mode 5, so a uniform top-3 minimum is not available and is not plotted.
+The eight pairs use 14 PDB slots (JAK1 6N7A and PPARA 6LXA are shared). PIK3CA/mTOR used E = 16 because 4JT6 failed the gate at E = 8. EGFR 3POZ is reconstructed QC (original nine-mode production files were not recovered). 9V8H is a PPARγ LBD–BRL–PG08-NL ternary complex; the peptide was retained. Figure S4 plots top-1 and best-of-9 RMSD for these 14 receptors. The top-3 column is min(mode 1–3) where per-pose RMSDs exist, or equals best-of-9 when the best saved pose is among modes 1–3. PPARA 6LXA has its best saved pose at mode 5, so a uniform top-3 minimum is not available and is not plotted.
 
 **S2a. Docking boxes (Å)**
 

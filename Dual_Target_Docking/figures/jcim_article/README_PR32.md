@@ -28,20 +28,19 @@ Historical CSV splits remain routing keys only and are not drawn.
 | 1 | Four states, two directional tasks, whole-database census | State matrix and count boxes preserve exact counts over several orders of magnitude without a misleading linear funnel. |
 | 2 | Fixed-score ΔAUROC (hero), directional dumbbells, Dual–neither | Forest and paired points show that the same scores change interpretation with the experimental-state comparison. |
 | 3 | Sixteen ECFP4/Vina comparisons, incremental AUROC (±0.03), illustrative AChE/BChE TPSA | Point comparisons and individual-compound distributions preserve the paired design. |
-| 4 | Three independent GNINA systems, PIK3CA/mTOR receptor changes, five Vina seeds | 2-up / 1-full-width layout; point plots emphasize the task gap, not engine ranking. |
-| 5 | Main and holdout matched−mismatched Δ on the same rows; holdout vs main summary | Color encodes ligand set (main vs holdout), not interval exclusion of zero. |
+| 4 | Matched and holdout pocket Δ; main vs holdout summary | Color encodes ligand set (main vs holdout), not interval exclusion of zero. |
+| 5 | Three independent GNINA systems, PIK3CA/mTOR receptor changes, five Vina seeds | 2-up / 1-full-width layout; point plots emphasize the task gap, not engine ranking. |
 | 6 | Label-rule heatmap, cluster resampling of fixed-score Δ, BindingDB compound and source gates | Evidence boundary is label robustness, source dependence, and external supply. |
-| S1 | PIK3CA/mTOR panel size and exhaustiveness | Protocol sensitivity demoted from the main evidence-boundary figure. |
-| S4 | Vina intervals and best descriptor points | Descriptive reference. |
+| S1 | EGFR/HER2 Top-10 and AND-filter composition | Exploratory; remains SI. |
+| S2 | Vina intervals and best descriptor points | Descriptive reference. |
+| S3 | PIK3CA/mTOR panel size and exhaustiveness | Protocol sensitivity demoted from the main evidence-boundary figure. |
+| S4 | Cognate RMSD for 14 primary receptors (top-1 and best-of-9) | Protocol QC, not a main-text structural claim. |
 | S5 | Seven holdout/main comparisons | Matches Table S7. |
 | S6 | Detectability simulation in the three available systems | Full true-AUROC grid 0.50–0.75. |
-| S7 | EGFR/HER2 Top-10 and AND-filter composition | Exploratory; remains SI. |
-| S8 | Filtered compound and source counts | Same matrices as Figure 6C/D. |
-| S11 | EGFR/HER2 and JAK1/TYK2 cluster intervals | SI copy of Figure 6B. |
-| S12 | Cognate RMSD for 14 primary receptors (top-1 and best-of-9) | Protocol QC, not a main-text structural claim. |
+| S7 | Filtered compound and source counts | Same matrices as Figure 6C/D. |
+| S8 | EGFR/HER2 and JAK1/TYK2 cluster intervals | SI copy of Figure 6B. |
 
-S11 is an additional **figure** identifier and does not renumber SI tables.
-Tables S1–S13 remain unchanged. Historical original-set figure files are not kept
+SI figures are numbered S1–S8 by first citation. Tables S1–S13 remain unchanged. Historical original-set figure files are not kept
 in this directory.
 
 Figure 1 split deliverables:
@@ -56,7 +55,7 @@ Figure 1 split deliverables:
   12 for Vina. PIK3CA/mTOR GNINA Dual-versus-A-only has 13 negatives versus
   14 for Vina. These are available-score comparisons, not common-ligand
   performance tests between algorithms.
-- Figure 4A shows point estimates and does not substitute weak-arm intervals
+- Figure 5A shows point estimates and does not substitute weak-arm intervals
   for summary intervals.
 - Simulation Figure S6 reports two-sided CI exclusion of 0.5, including at
   true AUROC 0.50. It is not a probability of demonstrating superiority.

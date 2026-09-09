@@ -745,7 +745,7 @@ def fig4_realization(D: dict) -> None:
     PROVENANCE["plotted"]["fig4C"] = plotted_s
 
     fig.subplots_adjust(left=0.10, right=0.995, top=0.88, bottom=0.23)
-    save_all(fig, "Fig4_computational_realization")
+    save_all(fig, "Fig5_computational_realization")
     plt.close(fig)
 
 
@@ -821,7 +821,7 @@ def fig5_mismatched(D: dict) -> None:
     for ax in axes[1:]:
         ax.tick_params(labelleft=True)
     fig.subplots_adjust(wspace=0.48, left=0.15, right=0.98, top=0.89, bottom=0.13)
-    save_all(fig, "Fig5_mismatched_pocket")
+    save_all(fig, "Fig4_mismatched_pocket")
     plt.close(fig)
 
 
@@ -973,7 +973,7 @@ def fig_s4_forest(D: dict) -> None:
     ], loc="lower right", fontsize=6.4, frameon=False)
     PROVENANCE["plotted"]["figS4"] = plotted
     fig.subplots_adjust(left=0.16, right=0.86, top=0.94, bottom=0.12)
-    save_all(fig, "FigS4_pocket_matched_forest")
+    save_all(fig, "FigS2_pocket_matched_forest")
     plt.close(fig)
 
 
@@ -1069,7 +1069,7 @@ def fig_s7_diagnostics(D: dict) -> None:
         "n_primary_now": 8, "neither": neither, "directional": directional,
     }
     fig.subplots_adjust(wspace=0.46, left=0.13, right=0.98, top=0.86, bottom=0.30)
-    save_all(fig, "FigS7_posthoc_diagnostics")
+    save_all(fig, "FigS1_posthoc_diagnostics")
     plt.close(fig)
 
 
@@ -1120,7 +1120,7 @@ def fig_s8_bindingdb(D: dict) -> None:
         "after_ecfp": [fnum(r["after_ecfp_lt_0.70"]) for r in four],
     }
     fig.subplots_adjust(wspace=0.36, left=0.08, right=0.98, top=0.86, bottom=0.30)
-    save_all(fig, "FigS8_bindingdb_native_slice")
+    save_all(fig, "FigS7_bindingdb_native_slice")
     plt.close(fig)
 
 
@@ -1261,7 +1261,7 @@ def verify(D: dict) -> None:
     from PIL import Image
     for name, (w_in, h_in) in {
         "Fig2_negative_class_formulation.png": (7.0, None),
-        "Fig5_mismatched_pocket.png": (7.0, None),
+        "Fig4_mismatched_pocket.png": (7.0, None),
         "TOC_graphic.tif": (3.25, 1.75),
     }.items():
         im = Image.open(OUT / name)

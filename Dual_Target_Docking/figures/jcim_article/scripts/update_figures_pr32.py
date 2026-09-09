@@ -2,7 +2,7 @@
 
 Figure contract (evaluation paper, six main figures):
   1 setup/supply → 2 experimental-state comparison (hero) → 3 ligand chemistry
-  → 4 computational realization → 5 pocket correspondence → 6 evidence boundary.
+  → 4 pocket correspondence → 5 computational realization → 6 evidence boundary.
 
 Display order is protein-system grouped. ORIGINAL_THREE / CENSUS_FIVE are CSV
 routing keys only and must not appear on figures or captions.
@@ -412,7 +412,7 @@ def fig4(D):
     ], loc='upper center', bbox_to_anchor=(.5, -.18), ncol=3, fontsize=6.2)
     P['fig4C'] = plotted_s
     fig.subplots_adjust(left=.16, right=.98, top=.93, bottom=.11)
-    save(fig, 'Fig4_computational_realization')
+    save(fig, 'Fig5_computational_realization')
 
 
 def fig5(D):
@@ -463,7 +463,7 @@ def fig5(D):
     P['fig5C'] = recs_c
     fig.text(.57, .015, r'$\dagger$ no unused-pool holdout available', ha='center', fontsize=6.4, color='#555555')
     fig.subplots_adjust(left=.20, right=.97, top=.95, bottom=.08, hspace=.50)
-    save(fig, 'Fig5_mismatched_pocket')
+    save(fig, 'Fig4_mismatched_pocket')
 
 
 def e8_value():
@@ -593,7 +593,7 @@ def fig_s1_protocol(D):
     # Former main-text keys retained for any downstream numeric lock.
     P['fig6B_protocol'] = {'PM48': y48, 'PM110': y110}
     fig.subplots_adjust(left=.10, right=.98, wspace=.38, top=.82, bottom=.18)
-    save(fig, 'FigS1_protocol_sensitivity')
+    save(fig, 'FigS3_protocol_sensitivity')
 
 
 def cognate_rmsd_rows():
@@ -681,7 +681,7 @@ def fig_s12_cognate():
     P['figS12'] = rows
     P['figS12_offscale'] = offscale
     fig.subplots_adjust(left=.18, right=.90, top=.93, bottom=.14)
-    save(fig, 'FigS12_cognate_rmsd')
+    save(fig, 'FigS4_cognate_rmsd')
 
 
 def toc_graphic():
@@ -743,7 +743,7 @@ def supplements(D):
         label(ax, letter); counts_heatmap(ax, rows, cols, title, gate)
     fig.subplots_adjust(left=.16, right=.98, wspace=.55, bottom=.14, top=.87)
     P['figS8'] = rows
-    save(fig, 'FigS8_bindingdb_native_slice')
+    save(fig, 'FigS7_bindingdb_native_slice')
     clusters = read('data/jcim_novelty_v0/tables/equal_score_cluster_bootstrap_v1.csv')
     fig, axs = plt.subplots(1, 2, figsize=(7, 3), sharex=True)
     for ax, p, letter in zip(axs, ['EGFR/HER2', 'JAK1/TYK2'], 'AB'):
@@ -763,7 +763,7 @@ def supplements(D):
         ], loc='upper center', bbox_to_anchor=(.5, -.28), ncol=3, fontsize=5.6)
     fig.subplots_adjust(left=.18, right=.97, wspace=.55, top=.83, bottom=.28)
     P['figS11'] = clusters
-    save(fig, 'FigS11_cluster_uncertainty')
+    save(fig, 'FigS8_cluster_uncertainty')
     top = next(r for r in read('data/jcim_novelty_v0/tables/mixed_library_enrichment_v1.csv')
                if r['pair'] == 'EGFR/HER2' and r['score'] == 'vina_mean' and r['cutoff'] == 'Top10')
     filt = next(r for r in read('data/jcim_novelty_v0/tables/and_filter_operating_point_v1.csv')
@@ -786,7 +786,7 @@ def supplements(D):
         ax.set_title(title, fontsize=7.5)
     fig.subplots_adjust(left=.10, right=.97, wspace=.35, top=.80, bottom=.20)
     P['figS7'] = {'top10': top, 'and_filter': filt}
-    save(fig, 'FigS7_posthoc_diagnostics')
+    save(fig, 'FigS1_posthoc_diagnostics')
     fig_s12_cognate()
 
 

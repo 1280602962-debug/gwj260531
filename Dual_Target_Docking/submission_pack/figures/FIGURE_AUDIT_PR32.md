@@ -1,9 +1,9 @@
 # PR32 figure numerical audit
 
 Pinned numerical-data snapshot: `abb61a20a04eb6a085ad526876624eadb518c4cc`
-Artwork generated from git HEAD: `a96655c3cbdb10125277fee59c05cf95f189d47e`
+Artwork generated from git HEAD: `fa819da825e9a1994aff425247fde786b2003310`
 
-136 PASS / 0 FAIL
+141 PASS / 0 FAIL
 
 | Status | Check |
 |---|---|
@@ -67,8 +67,13 @@ Artwork generated from git HEAD: `a96655c3cbdb10125277fee59c05cf95f189d47e`
 | PASS | caption has no historical original-set |
 | PASS | caption has no Regenerate |
 | PASS | Fig1C caption separates census from the eight-pair evaluation |
+| PASS | Figure 4 caption is pocket correspondence |
+| PASS | Figure 5 caption is computational realization |
+| PASS | SI figures start at Top-10/AND diagnostics |
 | PASS | Fig3A caption distinguishes Vina rank from ECFP4 GroupKFold |
 | PASS | SI protocol and cognate RMSD figures generated |
+| PASS | main Figures 4/5 are pocket then computational |
+| PASS | SI figures start with Top-10 then descriptor forest |
 | PASS | ZH Table 2 plotted AUROCs/CI EGFR/HER2 |
 | PASS | ZH Table 3 plotted AUROCs/CI/n_neither EGFR/HER2 |
 | PASS | ZH Table 2 plotted AUROCs/CI JAK1/JAK2 |
@@ -107,7 +112,7 @@ Artwork generated from git HEAD: `a96655c3cbdb10125277fee59c05cf95f189d47e`
 | PASS | ECFP4 incremental maximum agrees with manuscript 0.023 |
 | PASS | Simulation: three pairs, complete six-point grid |
 | PASS | EGFR 3POZ top-1 is plotted off-scale |
-| PASS | Figure S12 plots only top-1 and best-of-9 |
+| PASS | Figure S4 plots only top-1 and best-of-9 |
 | PASS | JAK1/TYK2 document-cluster interval crosses zero |
 | PASS | Top-10 class counts: 1/5/4/0 |
 | PASS | AND-filter class counts: 14/9/24 |
@@ -119,27 +124,27 @@ Artwork generated from git HEAD: `a96655c3cbdb10125277fee59c05cf95f189d47e`
 | PASS | RGB/300dpi/size Fig2_negative_class_formulation.tif |
 | PASS | RGB/300dpi/size Fig3_ligand_chemistry.png |
 | PASS | RGB/300dpi/size Fig3_ligand_chemistry.tif |
-| PASS | RGB/300dpi/size Fig4_computational_realization.png |
-| PASS | RGB/300dpi/size Fig4_computational_realization.tif |
-| PASS | RGB/300dpi/size Fig5_mismatched_pocket.png |
-| PASS | RGB/300dpi/size Fig5_mismatched_pocket.tif |
+| PASS | RGB/300dpi/size Fig5_computational_realization.png |
+| PASS | RGB/300dpi/size Fig5_computational_realization.tif |
+| PASS | RGB/300dpi/size Fig4_mismatched_pocket.png |
+| PASS | RGB/300dpi/size Fig4_mismatched_pocket.tif |
 | PASS | RGB/300dpi/size Fig6_evidence_boundary.png |
 | PASS | RGB/300dpi/size Fig6_evidence_boundary.tif |
-| PASS | RGB/300dpi/size FigS1_protocol_sensitivity.png |
-| PASS | RGB/300dpi/size FigS1_protocol_sensitivity.tif |
-| PASS | RGB/300dpi/size FigS4_pocket_matched_forest.png |
-| PASS | RGB/300dpi/size FigS4_pocket_matched_forest.tif |
+| PASS | RGB/300dpi/size FigS3_protocol_sensitivity.png |
+| PASS | RGB/300dpi/size FigS3_protocol_sensitivity.tif |
+| PASS | RGB/300dpi/size FigS2_pocket_matched_forest.png |
+| PASS | RGB/300dpi/size FigS2_pocket_matched_forest.tif |
 | PASS | RGB/300dpi/size FigS5_unused_pool_holdout.png |
 | PASS | RGB/300dpi/size FigS5_unused_pool_holdout.tif |
 | PASS | RGB/300dpi/size FigS6_detectable_effect.png |
 | PASS | RGB/300dpi/size FigS6_detectable_effect.tif |
-| PASS | RGB/300dpi/size FigS8_bindingdb_native_slice.png |
-| PASS | RGB/300dpi/size FigS8_bindingdb_native_slice.tif |
-| PASS | RGB/300dpi/size FigS11_cluster_uncertainty.png |
-| PASS | RGB/300dpi/size FigS11_cluster_uncertainty.tif |
-| PASS | RGB/300dpi/size FigS7_posthoc_diagnostics.png |
-| PASS | RGB/300dpi/size FigS7_posthoc_diagnostics.tif |
-| PASS | RGB/300dpi/size FigS12_cognate_rmsd.png |
-| PASS | RGB/300dpi/size FigS12_cognate_rmsd.tif |
+| PASS | RGB/300dpi/size FigS7_bindingdb_native_slice.png |
+| PASS | RGB/300dpi/size FigS7_bindingdb_native_slice.tif |
+| PASS | RGB/300dpi/size FigS8_cluster_uncertainty.png |
+| PASS | RGB/300dpi/size FigS8_cluster_uncertainty.tif |
+| PASS | RGB/300dpi/size FigS1_posthoc_diagnostics.png |
+| PASS | RGB/300dpi/size FigS1_posthoc_diagnostics.tif |
+| PASS | RGB/300dpi/size FigS4_cognate_rmsd.png |
+| PASS | RGB/300dpi/size FigS4_cognate_rmsd.tif |
 | PASS | RGB/300dpi/size TOC_graphic.png |
 | PASS | RGB/300dpi/size TOC_graphic.tif |
