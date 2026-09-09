@@ -329,8 +329,8 @@ def fig3(D):
 
 
 def fig4(D):
-    fig = plt.figure(figsize=(7, 6.15))
-    gs = fig.add_gridspec(2, 2, height_ratios=[1.05, 1.18], hspace=.42, wspace=.34)
+    fig = plt.figure(figsize=(7, 6.55))
+    gs = fig.add_gridspec(2, 2, height_ratios=[1.22, 1.18], hspace=.58, wspace=.34)
     ax = fig.add_subplot(gs[0, 0]); label(ax, 'A', x=-0.18, y=1.06)
     vina_smin, vina_nei, g_smin, g_nei = [], [], [], []
     yy = np.arange(len(v.GNINA_INDEP_PAIRS))
@@ -355,9 +355,8 @@ def fig4(D):
         L(C['vina'], 's', 'GNINA', ms=4.8, mfc='white', mec=C['vina']),
         L(C['vina'], 'o', 'directional', ms=5.0),
         L(C['desc'], 'o', 'Dual vs neither', ms=5.0),
-    ], loc='lower left', fontsize=6.5, frameon=True, fancybox=False, edgecolor='none',
-       facecolor='white', framealpha=.92, ncol=2, columnspacing=.8, labelspacing=.28,
-       handletextpad=.35)
+    ], loc='upper center', bbox_to_anchor=(0.5, -0.30), ncol=2, fontsize=6.0, frameon=False,
+       columnspacing=.8, labelspacing=.28, handletextpad=.35)
     P['fig4A'] = {
         'pairs': list(v.GNINA_INDEP_PAIRS),
         'vina_smin': vina_smin, 'gnina_smin': g_smin,
@@ -411,12 +410,12 @@ def fig4(D):
         L(C['desc'], 'D', 'primary seed', ms=4.6),
     ], loc='upper center', bbox_to_anchor=(.5, -.18), ncol=3, fontsize=6.2)
     P['fig4C'] = plotted_s
-    fig.subplots_adjust(left=.16, right=.98, top=.93, bottom=.11)
+    fig.subplots_adjust(left=.16, right=.98, top=.93, bottom=.13)
     save(fig, 'Fig5_computational_realization')
 
 
 def fig5(D):
-    fig, axs = plt.subplots(2, 1, figsize=(7, 6.70))
+    fig, axs = plt.subplots(2, 1, figsize=(7, 7.20))
     ax = axs[0]; label(ax, 'A'); pair_yticks(ax, fontsize=7, egfr_note=True)
     recs_a, recs_b = [], []
     for i, p in enumerate(PAIRS):
@@ -461,8 +460,8 @@ def fig5(D):
         L(C['holdout'], 's', 'holdout', ms=4.4),
     ], loc='upper center', bbox_to_anchor=(.5, -.20), ncol=2, fontsize=6.3)
     P['fig5C'] = recs_c
-    fig.text(.57, .015, r'$\dagger$ no unused-pool holdout available', ha='center', fontsize=6.4, color='#555555')
-    fig.subplots_adjust(left=.20, right=.97, top=.95, bottom=.08, hspace=.50)
+    fig.text(.57, .018, r'$\dagger$ no unused-pool holdout available', ha='center', fontsize=6.4, color='#555555')
+    fig.subplots_adjust(left=.20, right=.97, top=.95, bottom=.14, hspace=.58)
     save(fig, 'Fig4_mismatched_pocket')
 
 
@@ -574,11 +573,11 @@ def fig_s1_protocol(D):
     ax.plot(0, y48, 'o', color=C['vina'], ms=6)
     ax.plot(1, y110, 's', color=C['holdout'], ms=5.6)
     ax.axhline(.5, color=C['chance'], ls='--', lw=.7)
-    ax.set_xticks([0, 1], ['PM48', 'PM110'], fontsize=7)
+    ax.set_xticks([0, 1], ['PM48\n(primary)', 'PM110'], fontsize=6.4)
     ax.set(xlim=(-.35, 1.35), ylim=(.45, .82), ylabel=SMIN)
     ax.set_title('PIK3CA/mTOR panel size', fontsize=8)
-    ax.legend(handles=[L(C['vina'], 'o', 'PM48', ms=5.4), L(C['holdout'], 's', 'PM110', ms=5.2)],
-              loc='lower right', fontsize=6.0)
+    ax.legend(handles=[L(C['vina'], 'o', 'PM48 (n=48)', ms=5.4), L(C['holdout'], 's', 'PM110 (n=110)', ms=5.2)],
+              loc='lower right', fontsize=5.8)
     ax = axs[1]; label(ax, 'B', x=-0.18, y=1.08)
     ax.plot([0, 1], [e16, e8], '-', color=C['vina'], lw=1.0)
     ax.plot(0, e16, 'o', color=C['vina'], ms=6)

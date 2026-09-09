@@ -17,8 +17,8 @@
 | 9 | Figure S1 | 仅 SI；正文引用 | Results 3.2 Top-10 / AND filter |
 | 10 | Figure 3C, A, B | 3.3 第二段后整图 | 3.3 第一段 C；第二段 A 然后 B |
 | 11 | Figure 4 | 3.4 口袋段后 | Results 3.4（A）；3.5 holdout（B） |
-| 12 | Figure 5 | 3.4 计算敏感性段后 | 3.4：B 受体替换 → A GNINA → C 五种子 |
-| 13 | Figure 6 | 3.6 段后 | 3.2 第一段提前引用 6B；3.5 为 A/B；3.6 为 C/D |
+| 12 | Figure 5 | 3.4 计算敏感性段后 | 3.4：A GNINA → B 受体替换 → C 五种子 |
+| 13 | Figure 6 | 3.6 段后 | 3.5 为 A/B；3.6 为 C/D |
 
 SI 图不插入正文。
 
@@ -30,28 +30,27 @@ SI 图不插入正文。
 
 ## 主图 4/5
 
-只换编号，不改画面：Figure 4 = 口袋对应；Figure 5 = 计算实现。正文 3.4 仍先讲口袋后讲计算，图号与首次出现一致。
+只换编号，不改画面：Figure 4 = 口袋对应；Figure 5 = 计算实现。正文 3.4 先讲口袋，再按 A→B→C 讲计算实现。
 
-## SI 图按正文首次出现重编号（S1–S8）
+## SI 图按正文首次出现编号（S1–S5）
 
-| 新编号 | 内容 | 旧编号 | 正文首次引用 | SI PDF |
+| 新编号 | 内容 | 文件名 | 正文首次引用 | 投稿 SI |
 |--------|------|--------|--------------|--------|
-| S1 | EGFR/HER2 Top-10 / AND | S7 | 3.2 末 | Supporting Figures 第 1 项 |
-| S2 | Vina+描述符森林 | S4 | 3.3 | 第 2 项 |
-| S3 | PIK3CA/mTOR 协议敏感性 | S1 | 3.4 | 第 3 项 |
-| S4 | 14 受体 redocking RMSD | S12 | 3.4 末 | 第 4 项 |
-| S5 | holdout vs main | S5 | 3.5 | 第 5 项 |
-| S6 | detectable-effect | S6 | Discussion 4.5 | 第 6 项 |
-| S7 | BindingDB 矩阵（SI 独立页） | S8 | 主文不引（与 Figure 6C,D 重复） | 第 7 项 |
-| S8 | 簇重采样（SI 独立页） | S11 | 主文不引（与 Figure 6B 重复） | 第 8 项 |
+| S1 | EGFR/HER2 Top-10 / AND | FigS1_posthoc_diagnostics | 3.2 末 | 是 |
+| S2 | Vina+描述符森林 | FigS2_pocket_matched_forest | 3.3 | 是 |
+| S3 | PIK3CA/mTOR 协议敏感性 | FigS3_protocol_sensitivity | 3.4 | 是 |
+| S4 | 14 受体 redocking RMSD | FigS4_cognate_rmsd | 3.4 末 | 是 |
+| S5 | detectable-effect | FigS6_detectable_effect | Discussion 4.5 | 是 |
 
-SI 表仍为 Table S1–S13，SI PDF 中先全部表格、后全部图。未为连续编号新造分析图。
+与主图重复的 holdout（FigS5_unused_pool_holdout）、BindingDB 矩阵（FigS7）和簇重采样（FigS8）保留在仓库，不进入投稿 SI。
+
+SI 表仍为 Table S1–S13，SI PDF 中先全部表格、后全部图。
 
 ## 有意保留的非严格顺序
 
-- Figure 6B 在 3.2 第一段提前引用，因为固定评分差值的文献簇结果与核心观察绑在一起；整图仍放在 3.6 之后。
+- Figure 6B 的簇敏感性解释放在 3.5，避免 3.2 提前跳图。
 - Methods 2.5.3 提到 Table 2 只说明 bootstrap，不放置该表。
 
 ## 复核
 
-组装稿中 SI 图首次引用顺序为 S1→S2→S3→S4→S5→S6。主图在 Results 中为 1（3.1）→2（3.2）→3（3.3）→4（3.4）→5（3.4）。Figure 4 不再晚于 Figure 5。
+组装稿中 SI 图首次引用顺序为 S1→S2→S3→S4→S5。主图在 Results 中为 1（3.1）→2（3.2）→3（3.3）→4（3.4）→5（3.4）。
