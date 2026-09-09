@@ -263,13 +263,20 @@ def main():
     near(one(ligand, pair="EGFR/HER2", contrast="summary_min_ecfp4")["ecfp4_groupkfold_auroc"], 0.8013)
 
     zh = (ROOT / "docs" / "MANUSCRIPT_JCIM_ZH.md").read_text(encoding="utf-8")
+    assert "双靶分子对接评价：多靶对实验状态比较与判别来源分析" in zh
+    assert "双靶识别" not in zh
     assert "confidence≥8 与 Homo sapiens 过滤未重建" not in zh
     assert "不作为外部验证" in zh
     assert "纳入/排除与构建体/突变核查栏仍为空" not in zh
     assert "人工纳入/排除仍待本地阅读原文" not in zh
-    assert "Table S54" in zh
+    assert "Table S54" not in zh
+    assert "Note S14" not in zh
+    assert "旗舰" not in zh
+    assert "剩余判别" not in zh
+    assert "AutoDock Vina 默认参数" not in zh
     assert ("五个固定 Vina 随机种子" in zh or "五个预先规定的 Vina 种子" in zh)
     assert "EGFR/HER2 的设定差距在五个 Vina 种子上均为正" in zh
+    assert "github.com/1280602962-debug/gwj260531" in zh
     abstract = manuscript.split("## 1.")[0]
     assert "0.373" not in abstract
     assert "0.7641" not in manuscript

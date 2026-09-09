@@ -104,4 +104,4 @@
 - `pack_submission_v1.py` (7978 bytes)
 - `plot_jcim_article_figures_v3.py` (69826 bytes)
 - `plot_jcim_si_composites_v1.py` (43184 bytes)
-- `validate_revision_v1.py` (13197 bytes)
+- `validate_revision_v1.py` (13537 bytes)
