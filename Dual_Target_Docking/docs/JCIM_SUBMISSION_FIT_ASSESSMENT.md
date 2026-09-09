@@ -57,7 +57,7 @@ Those findings are JCIM-relevant. They are also empirically thin.
 
 Completed locally on 2026-08-26:
 
-1. Assay-context metadata review of 186 priority ligands: 179 include /
+1. Assay-context metadata review of 162 priority ligands: 155 include /
    7 uncertain / 0 exclude; **zero frozen-label flips**. Construct and
    mutation remain `unknown`. This is **not** assay harmonization and
    does **not** recompute Table 2.

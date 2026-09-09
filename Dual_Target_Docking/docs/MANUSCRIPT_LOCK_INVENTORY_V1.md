@@ -116,7 +116,7 @@ These are consistent with MASTER / validator / current Results (3 d.p. rounding 
 - AND filter EGFR Dual-median `vina_worst`: precision 0.2979, hard-negative fraction 0.7021.
 - Full-map ECFP4 EGFR: Dual vs neither 0.9214; Dual vs B-only 0.8636.
 - θ=6.0 census: 49 pairs, 17 with directional n≥10, 4 docked.
-- Assay-context: 179 include / 7 uncertain / 0 exclude. Ligand-level source-reading ledger is **not** in the article (`ASSAY_CONTEXT_SOURCE_READING_V1.md`).
+- Assay-context: 162 priority ligands; 155 include / 7 uncertain / 0 exclude (PIK3CA/PIK3CB withdrawn). Ligand-level source-reading ledger is **not** in the article (`ASSAY_CONTEXT_SOURCE_READING_V1.md`).
 - BindingDB native slice: zero pairs through the pre-frozen gate; not docked.
 
 ---

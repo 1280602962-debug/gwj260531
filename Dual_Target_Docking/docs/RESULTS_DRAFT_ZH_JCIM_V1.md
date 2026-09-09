@@ -56,7 +56,7 @@ ChEMBL 中能够支持四状态评价的双端活性数据随样本要求提高�
 
 在 PIK3CA/mTOR 中，将 PIK3CA 受体由 4L23 替换为 4JPS 后，\(\mathrm{summary}_{\min}\) 从 0.692 [0.470, 0.813] 降至 0.486 [0.259, 0.692]；替换为 5DXT 后为 0.505 [0.292, 0.696]；将 mTOR 4JT6 替换为 4JSX 后为 0.639 [0.418, 0.776]（Figure 4B；Table S8）。
 
-采用 GNINA 1.3.2 独立生成姿态和评分后，EGFR/HER2 的 dual–neither 比较 AUROC 为 0.783 [0.610, 0.922]，方向性较弱臂 dual–B-only 比较为 0.220 [0.109, 0.343]；JAK1/TYK2 同样呈现该模式，dual–neither 比较为 0.705，方向性 \(\mathrm{summary}_{\min}\) 为 0.317 [0.183, 0.463]（Figure 4A；Table S9）。在独立姿态生成流程下，类似差异仍可观察到。
+采用 GNINA 1.3.2 独立生成姿态和评分后，EGFR/HER2 的 dual–neither 比较 AUROC 为 0.783 [0.610, 0.922]，n_neither = 11；方向性较弱臂 dual–B-only 比较为 0.220 [0.109, 0.343]（n_dual = 28，n_B = 32）。JAK1/TYK2 同样呈现该模式，dual–neither 比较为 0.705，方向性 \(\mathrm{summary}_{\min}\) 为 0.317 [0.183, 0.463]（Figure 4A；Table S9）。在独立姿态生成流程下，类似差异仍可观察到。
 
 PPARG/PPARA 在主要 Vina 评价中是唯一 \(\mathrm{summary}_{\min}\) 置信区间完全高于 0.5 的靶对（0.649 [0.504, 0.751]），但在同姿态 RTMScore 重评分下降至 0.369 [0.233, 0.475]，GNINA CNN 重评分降至 0.500，且在未使用池留出集中降至 0.535 [0.350, 0.717]（Table S7；Table S9）。五个固定 Vina 随机种子及 PIK3CA/mTOR 的 exhaustiveness 设置产生的数值波动相对有限（Figure 4C；Figure 6C；Table S9）。EGFR/HER2 的设定差距在五个 Vina 种子上均为正。共晶配体重对接作为协议质控：所有主受体的保存姿态中均存在重原子 RMSD < 2.0 Å 的近天然构象；EGFR 3POZ 的 top-1 RMSD 为 9.505 Å，全部保存姿态中的最低 RMSD 为 0.760 Å（Table S2）。
 
@@ -64,7 +64,7 @@ PPARG/PPARA 在主要 Vina 评价中是唯一 \(\mathrm{summary}_{\min}\) 置信
 
 改变活性阈值（\(\theta=5.5\)、6.0、6.5 及严格 6.5/5.5）后，样本较充足靶对的 \(\mathrm{summary}_{\min}\) 数值变化较小（AChE/BChE 稳定在 0.606）；当单侧选择性样本量减少时估计波动增大（Figure 6A；Table S3）。将重复活性记录由最大值改为中位数后，主要结果总体稳定；在可进行高置信记录复核的评价集中，进一步筛选也未改变相应方向性结果（Table S3）。
 
-在排除主评价集分子后，基于剩余候选分子构建的未使用池留出集显示，结果存在一定的样本组成依赖：AChE/BChE、PIK3CA/mTOR 与 JAK1/JAK2 与主评价接近；JAK1/TYK2 有所上升；F2/F10 与 PPARA/PPARD 仍处于较低水平；PPARG/PPARA 则由 0.649 降至 0.535 [0.350, 0.717]（Figure 5C；Table S7）。此外，改用文献连通簇重采样或样本量可检测效应模拟表明，文献来源集中度和有限样本量增大了统计估计的不确定性（Table S10；Figure S6）。
+在排除主评价集分子后，基于剩余候选分子构建的未使用池留出集显示，结果存在一定的样本组成依赖：AChE/BChE、PIK3CA/mTOR 与 JAK1/JAK2 与主评价接近；JAK1/TYK2 有所上升；F2/F10 与 PPARA/PPARD 仍处于较低水平；PPARG/PPARA 则由 0.649 降至 0.535 [0.350, 0.717]（Figure 5C；Table S7）。改用文献连通簇重采样表明，文献来源集中度增大了统计估计的不确定性（Table S10；Figure S6）。Table S10 另报告一项保持类别样本量的情景模拟，不用于解释 Table 2 区间。
 
 ### 3.6 外部评价数据的可用性
 

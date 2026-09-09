@@ -1,6 +1,6 @@
 # Assay-context machine audit
 
-Priority ligands: 186 / 352 scored panel compounds.
+Priority ligands: 162 / 352 scored panel compounds. The earlier 186-ligand machine extraction included 24 PIK3CA/PIK3CB compounds later withdrawn from the primary set.
 Activity rows extracted: 1163.
 
 This file is not a completed human audit. Include/exclude columns are empty.

@@ -43,7 +43,7 @@ si_table,S19,vs best descriptor,sensitivity,data/jcim_strengthen_t0t1_v0/tables/
 si_table,S20,ECFP4 scaffold vs random,sensitivity,data/jcim_strengthen_t0t1_v0/tables/ligand_ml_scaffold_vs_random_v1.csv,build_t0_strengthen_v1.py,same,LOCKED,,LOCKED,1
 si_table,S22,formulation full grid,formulation,formulation_conventional_vs_directional_v1.csv,benchmark_formulation_v1.py,same,LOCKED,,LOCKED,1
 si_table,S23,chemotype hard-neg,exploratory,data/jcim_novelty_v0/tables/chemotype_matched_hardneg_v1.csv,novelty scripts,same,LOCKED,,LOCKED,1
-si_table,S24,ECFP4+docking increment,sensitivity,data/jcim_novelty_v0/tables/incremental_information_v1.csv,novelty scripts,same,LOCKED,max |delta| 0.020 on scaffold GroupKFold,LOCKED,1
+si_table,S24,ECFP4+docking increment,sensitivity,data/jcim_novelty_v0/tables/incremental_information_v1.csv,novelty scripts,same,LOCKED,max |delta| 0.023 unscaled; StandardScaler sensitivity max |delta| 0.008,LOCKED,1
 si_table,S25,mixed-library Top-10,exploratory,data/jcim_novelty_v0/tables/mixed_library_enrichment_v1.csv,novelty scripts,same,LOCKED,EGFR vina_mean Top10 hardneg_fraction=0.90,LOCKED,1
 si_table,S26,min/mean/geo/harm,sensitivity,data/jcim_novelty_v0/tables/aggregation_min_mean_geometric_harmonic_v1.csv,novelty scripts,same,LOCKED,,LOCKED,1
 si_table,S27,docking failures,sensitivity,data/jcim_novelty_v0/tables/docking_failure_census_v1.csv + docking_failure_rank_extreme_v1.csv,novelty scripts,job logs,LOCKED,,LOCKED,1
@@ -60,7 +60,7 @@ si_table,S38,class chemistry,post-hoc,class_chemistry_summary_v1.csv,novelty scr
 si_table,S39,document-blocked CV,prespecified sensitivity,document_blocked_cv_summary_v1.csv + document_cluster_bootstrap_v1.csv,novelty scripts,same scores,LOCKED,EGFR D/B still 0.4297; PIK3CA/mTOR D/B cannot_stably_estimate,LOCKED,1
 si_table,S40,document-blocked methods,prespecified sensitivity,document_blocked_cv_methods_v1.csv,novelty scripts,same,LOCKED,,LOCKED,1
 si_table,S41,time split,prespecified sensitivity,time_split_class_counts_v1.csv + time_split_auroc_v1.csv,novelty scripts,document years,LOCKED,not external validation,LOCKED,1
-si_table,S42,assay-context review,post-hoc,assay_context_priority_ligands_v1.csv,novelty scripts,186 ligands,LOCKED,179 include / 7 uncertain / 0 exclude; ligand-level source reading is NOT in manuscript,LOCKED,1
+si_table,S42,assay-context review,post-hoc,assay_context_priority_ligands_v1.csv,novelty scripts,162 ligands,LOCKED,155 include / 7 uncertain / 0 exclude after PIK3CA/PIK3CB withdrawal; ligand-level source reading is NOT in manuscript,LOCKED,1
 si_table,S43,BindingDB REST counts,historical supply,bindingdb_independence_summary_v1.csv,novelty scripts,REST,LOCKED,not native slice,LOCKED,1
 si_table,S44,49-pair census,post-hoc supply,theta6_pair_census_v1.csv,novelty scripts,J0 maps,LOCKED,17 directional_n10; 4 docked,LOCKED,1
 si_table,S45,property caliper,post-hoc,property_caliper_match_v1.csv,novelty scripts,scored panels,LOCKED,,LOCKED,1

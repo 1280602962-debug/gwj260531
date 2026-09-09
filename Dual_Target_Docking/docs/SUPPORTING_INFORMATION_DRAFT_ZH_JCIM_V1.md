@@ -136,7 +136,7 @@
 
 ## Table S5. 配体化学基线：ECFP4 与加入 docking 后的增量
 
-Bemis–Murcko 骨架 `GroupKFold` 逻辑回归 out-of-fold AUROC。docking 列是同一划分下仅用对应方向对接分数的 logistic AUROC，**不等于** Table 2 的原始分数排序 AUROC。Δ = (ECFP4+docking) − ECFP4。八个靶对、16 个方向上 |Δ| 最大为 0.023。
+Bemis–Murcko 骨架 `GroupKFold` 逻辑回归 out-of-fold AUROC。docking 列是同一划分下仅用对应方向对接分数的 logistic AUROC，**不等于** Table 2 的原始分数排序 AUROC。Δ = (ECFP4+docking) − ECFP4。八个靶对、16 个方向上 |Δ| 最大为 0.023。上述主结果为未做特征缩放的逻辑回归。
 
 | 靶对 | 方向 | ECFP4 | ECFP4+docking | Δ | Vina 排序 AUROC（Table 2） |
 |------|------|------:|--------------:|--:|--------------------------:|
@@ -158,6 +158,8 @@ Bemis–Murcko 骨架 `GroupKFold` 逻辑回归 out-of-fold AUROC。docking 列�
 | PPARA/PPARD | D vs B | 0.858 | 0.835 | −0.023 | 0.446 |
 
 四种单一物化描述符的 `summary_min` 已列于正文 Table 2。AChE/BChE 的 TPSA 方向 AUROC 为 0.733 / 0.801。源：`incremental_information_v1.csv`；`ecfp4_incremental_s20s24_v1.csv`；`ligand_ml_baseline_scaffold_cv_v1.csv`。
+
+**特征缩放敏感性。** 在相同 GroupKFold 划分下，于各训练折拟合 `StandardScaler`。16 个方向上 |Δ| 最大为 0.008（PIK3CA/mTOR D vs A）。缩放结果不替换未缩放的主结果 0.023。源：`ecfp4_docking_scaler_sensitivity_v1.csv`。
 
 ---
 
@@ -222,18 +224,18 @@ Bemis–Murcko 骨架 `GroupKFold` 逻辑回归 out-of-fold AUROC。docking 列�
 
 ## Table S9. 独立 GNINA、替代重评分与五种子 Vina
 
-独立 GNINA 为重新搜索姿态，不是对 Vina 姿态重打分；范围仅 EGFR/HER2、PIK3CA/mTOR、JAK1/TYK2。RTMScore / GNINA CNN 为同一套 Vina 姿态的 best-of-9 重打分。五种子不替换 Table 2。
+独立 GNINA 为重新搜索姿态，不是对 Vina 姿态重打分；范围仅 EGFR/HER2、PIK3CA/mTOR、JAK1/TYK2。RTMScore / GNINA CNN 为同一套 Vina 姿态的 best-of-9 重打分。五种子不替换 Table 2。独立 GNINA 并未对每个配体都返回双端评分（EGFR/HER2 缺 EH120_109；PIK3CA/mTOR 缺 PM48_19；JAK1/TYK2 缺 1 个 dual 和 3 个 B-only）。EGFR/HER2 的 dual–neither 因此使用 n_neither = 11，而 Vina Table 3 为 12。
 
 **S9a. 独立 GNINA pose generation**
 
-| 靶对 | 引擎 | summary_min [95% CI] | Dual vs neither |
-|------|------|----------------------|----------------:|
-| EGFR/HER2 | Vina 主分析 | 0.430 [0.282, 0.578] | 0.756 [0.562, 0.920] |
-| EGFR/HER2 | GNINA 独立 | 0.220 [0.109, 0.343] | 0.783 [0.610, 0.922] |
-| PIK3CA/mTOR | Vina 主分析 | 0.692 [0.470, 0.813] | 0.514 [0.222, 0.806] |
-| PIK3CA/mTOR | GNINA 独立 | 0.633 | 0.569 [0.222, 0.889] |
-| JAK1/TYK2 | Vina 主分析 | 0.365 [0.231, 0.503] | 0.770 [0.597, 0.906] |
-| JAK1/TYK2 | GNINA 独立 | 0.317 [0.183, 0.463] | 0.705 |
+| 靶对 | 引擎 | n_dual / n_A / n_B / n_neither | summary_min [95% CI] | Dual vs neither |
+|------|------|------|----------------------|----------------:|
+| EGFR/HER2 | Vina 主分析 | 28 / 38 / 32 / 12 | 0.430 [0.282, 0.578] | 0.756 [0.562, 0.920] |
+| EGFR/HER2 | GNINA 独立 | 28 / 38 / 32 / 11 | 0.220 [0.109, 0.343] | 0.783 [0.610, 0.922] |
+| PIK3CA/mTOR | Vina 主分析 | 18 / 14 / 12 / 4 | 0.692 [0.470, 0.813] | 0.514 [0.222, 0.806] |
+| PIK3CA/mTOR | GNINA 独立 | 18 / 13 / 12 / 4 | 0.633 | 0.569 [0.222, 0.889] |
+| JAK1/TYK2 | Vina 主分析 | 31 / 32 / 32 / 14 | 0.365 [0.231, 0.503] | 0.770 [0.597, 0.906] |
+| JAK1/TYK2 | GNINA 独立 | 30 / 32 / 29 / 14 | 0.317 [0.183, 0.463] | 0.705 |
 
 **S9b. PPARG/PPARA 同姿态重评分（说明主面板优势不稳定）**
 
@@ -261,7 +263,7 @@ F2/F10、JAK1/TYK2、JAK1/JAK2、PPARG/PPARA 和 PPARA/PPARD 的五种子范围�
 
 ---
 
-## Table S10. 文献簇不确定度与可检测效应模拟
+## Table S10. 文献簇不确定度与样本量情景模拟
 
 文献簇 bootstrap 只在具有完整 `document_id` 的评价集上报告，不替代 Table 2 的配体层区间。PIK3CA/mTOR Dual versus B-only 在文献阻断交叉验证中不能稳定估计。
 
@@ -276,7 +278,7 @@ F2/F10、JAK1/TYK2、JAK1/JAK2、PPARG/PPARA 和 PPARA/PPARD 的五种子范围�
 
 **固定通道 \(\Delta\) 的簇重采样：** 见 Table S4 续段；源 `equal_score_cluster_bootstrap_v1.csv`。该分析不替代 Table S4 配体水平区间。
 
-**可检测效应：** 在观察得的类别样本量下，若两臂真实 AUROC 均为 0.70，`summary_min` 的 95% CI 排除 0.5 的概率为 0.219–0.621；若真实 AUROC 为 0.60，该概率为 0.025–0.065。源：`document_cluster_bootstrap_v1.csv`；`detectable_effect_simulation_v1.csv`。CI 包含 0.5 表示当前估计不够精确，其解释见正文讨论，不在本表中等同于“与随机等价”。
+**样本量情景（独立于 Table 2）。** 该模拟按设计保持观察得的 dual / A-only / B-only 类别样本量，并使用类别内重采样；这不是 Table 2 所用的合并、非分层配体层 bootstrap。在这些类别样本量下，若两臂真实 AUROC 均为 0.70，模拟 `summary_min` 的 95% CI 排除 0.5 的概率为 0.219–0.621；若真实 AUROC 为 0.60，该概率为 0.025–0.065。源：`document_cluster_bootstrap_v1.csv`；`detectable_effect_simulation_v1.csv`。CI 包含 0.5 表示当前估计不够精确，其解释见正文讨论，不在本表中等同于“与随机等价”。
 
 ---
 

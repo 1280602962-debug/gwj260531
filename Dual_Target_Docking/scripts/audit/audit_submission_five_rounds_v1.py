@@ -443,6 +443,27 @@ def round2(t2: dict) -> None:
     else:
         rec("R2", "PASS", f"ECFP increment max |Δ| = {max_abs:.4f} (manuscript 0.023)")
 
+    scaler = rows(ROOT / "data/jcim_novelty_v0/tables/ecfp4_docking_scaler_sensitivity_v1.csv")
+    scaled_by = defaultdict(dict)
+    unscaled_by = defaultdict(dict)
+    for r in scaler:
+        if r["model"] not in {"ECFP4", "ECFP4+docking"} or r["cv_auroc"] == "":
+            continue
+        dest = scaled_by if r["scaling"] == "standardscaler_train_fold" else unscaled_by
+        dest[(r["pair"], r["contrast"])][r["model"]] = float(r["cv_auroc"])
+    scaled_deltas = [
+        abs(models["ECFP4+docking"] - models["ECFP4"]) for models in scaled_by.values()
+    ]
+    max_scaled = max(scaled_deltas) if scaled_deltas else float("nan")
+    if abs(max_scaled - 0.0079) > 5e-4:
+        rec("R2", "FAIL", f"StandardScaler increment max |Δ| {max_scaled:.4f} unexpected")
+    else:
+        rec("R2", "PASS", f"StandardScaler increment max |Δ| = {max_scaled:.4f} (does not replace 0.023)")
+    if "0.008" not in en_si or "0.008" not in zh_si:
+        rec("R2", "FAIL", "Table S5 scaling sensitivity 0.008 missing from EN or ZH SI")
+    else:
+        rec("R2", "PASS", "Table S5 scaling sensitivity 0.008 in EN and ZH SI")
+
     gnina = rows(ROOT / "data/jcim_independent_dock_v0/tables/independent_dock_formulation_v1.csv")
     jak_g = one(
         rows(
@@ -460,8 +481,10 @@ def round2(t2: dict) -> None:
         rec("R2", "PASS", "EGFR independent GNINA 0.220 / 0.783 (0.7825)")
     if int(egfr_n["n_neg"]) != 11:
         rec("R2", "FAIL", f"EGFR GNINA Dual-vs-neither n_neg={egfr_n['n_neg']} (one neither failed)")
+    elif "n_neither = 11" not in en_si or "n_neither = 11" not in zh_si:
+        rec("R2", "FAIL", "EGFR GNINA n_neither = 11 missing from EN or ZH SI")
     else:
-        rec("R2", "NOTE", "EGFR GNINA Dual-vs-neither n_neg=11 (EH120_109 failed); Vina Table 3 uses n=12")
+        rec("R2", "PASS", "EGFR GNINA Dual-vs-neither n_neither = 11 stated in SI")
     if r3(jak_g["summary_min"]) != "0.317" or r3(jak_g["D_vs_neither_mean"]) != "0.705":
         rec("R2", "FAIL", f"JAK1 GNINA {jak_g['summary_min']} / {jak_g['D_vs_neither_mean']}")
     else:

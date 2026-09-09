@@ -66,6 +66,8 @@ Legacy pooled control: `bootstrap_directional_ci_v1.csv`.
 
 Future Table 2 / Figure 2 Vina CIs must **read** these CSVs. They must not each re-bootstrap.
 
+A class-preserving binormal sample-size scenario (`detectable_effect_simulation_v1.csv`) holds class sizes fixed by design. It is **not** the Table 2 ligand-level non-stratified bootstrap and must not be used to interpret Table 2 CIs.
+
 ## Dual vs neither (Table 3)
 
 Per-ligand \(\mathrm{vina\_mean} = (S_A+S_B)/2\), then **one** AUROC.

@@ -46,6 +46,7 @@ WATCH = [
     "data/jcim_novelty_v0/tables/property_caliper_match_v1.csv",
     "data/jcim_novelty_v0/tables/and_filter_operating_point_v1.csv",
     "data/jcim_novelty_v0/tables/ligand_only_fullmap_auroc_v1.csv",
+    "data/jcim_novelty_v0/tables/ecfp4_docking_scaler_sensitivity_v1.csv",
     "data/jcim_novelty_v0/tables/external_candidate_flow.csv",
     "data/jcim_novelty_v0/tables/external_slice_summary_v1.csv",
     "data/jcim_novelty_v0/tables/mcl1_bclxl_panel_freeze_v1.csv",
