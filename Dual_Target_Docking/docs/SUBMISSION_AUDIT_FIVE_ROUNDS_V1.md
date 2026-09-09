@@ -7,7 +7,7 @@ Script: `scripts/audit/audit_submission_five_rounds_v1.py`
 This audit compares assembled manuscripts and SI tables to frozen CSVs.
 It does not re-bootstrap and does not mint a DOI.
 
-Summary: **111 PASS**, **0 FAIL**, **4 NOTE**.
+Summary: **114 PASS**, **0 FAIL**, **3 NOTE**.
 
 | Round | Status | Finding |
 |---|---|---|
@@ -84,8 +84,10 @@ Summary: **111 PASS**, **0 FAIL**, **4 NOTE**.
 | R2 | PASS | S11b PPARG/PPARA 0 / 0 / 1 |
 | R2 | PASS | S11b PPARA/PPARD 0 / 1 / 0 |
 | R2 | PASS | ECFP increment max \|Δ\| = 0.0234 (manuscript 0.023) |
+| R2 | PASS | StandardScaler increment max \|Δ\| = 0.0079 (does not replace 0.023) |
+| R2 | PASS | Table S5 scaling sensitivity 0.008 in EN and ZH SI |
 | R2 | PASS | EGFR independent GNINA 0.220 / 0.783 (0.7825) |
-| R2 | NOTE | EGFR GNINA Dual-vs-neither n_neg=11 (EH120_109 failed); Vina Table 3 uses n=12 |
+| R2 | PASS | EGFR GNINA Dual-vs-neither n_neither = 11 stated in SI |
 | R2 | PASS | JAK1/TYK2 independent GNINA 0.317 / 0.705 |
 | R2 | PASS | JAK1 GNINA CI [0.183, 0.463] |
 | R2 | PASS | Table S9 EGFR/HER2 median 0.373 |

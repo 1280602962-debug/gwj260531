@@ -136,7 +136,7 @@ Source: `formulation_equal_score_negative_v1.csv`; `equal_score_negative_s34_v1.
 
 ## Table S5. Ligand chemistry: ECFP4 and docking increment
 
-Bemis–Murcko scaffold `GroupKFold` logistic out-of-fold AUROC. The docking column is logistic AUROC from the directional docking score on the same splits; it is **not** the raw ranking AUROC in Table 2. Δ = (ECFP4+docking) − ECFP4. Across 16 arms the largest |Δ| is 0.023.
+Bemis–Murcko scaffold `GroupKFold` logistic out-of-fold AUROC. The docking column is logistic AUROC from the directional docking score on the same splits; it is **not** the raw ranking AUROC in Table 2. Δ = (ECFP4+docking) − ECFP4. Across 16 arms the largest |Δ| is 0.023. These primary values use unscaled logistic regression.
 
 | Pair | Arm | ECFP4 | ECFP4+docking | Δ | Vina ranking AUROC (Table 2) |
 |------|------|------:|--------------:|--:|--------------------------:|
@@ -158,6 +158,8 @@ Bemis–Murcko scaffold `GroupKFold` logistic out-of-fold AUROC. The docking col
 | PPARA/PPARD | D vs B | 0.858 | 0.835 | −0.023 | 0.446 |
 
 Four single-descriptor `summary_min` values are in main-text Table 2. AChE/BChE TPSA directional AUROCs are 0.733 / 0.801. Source: `incremental_information_v1.csv`; `ecfp4_incremental_s20s24_v1.csv`; `ligand_ml_baseline_scaffold_cv_v1.csv`.
+
+**Feature-scaling sensitivity.** The same GroupKFold splits were repeated with `StandardScaler` fitted on each training fold only. Across the 16 arms the largest |Δ| was 0.008 (PIK3CA/mTOR D vs A). Scaling does not replace the unscaled 0.023 primary result. Source: `ecfp4_docking_scaler_sensitivity_v1.csv`.
 
 ---
 
@@ -222,18 +224,18 @@ Source: `pocket_matched_PM48_alt4JPS_v1.csv`, `..._alt5DXT_v1.csv`, `..._alt4JSX
 
 ## Table S9. Independent GNINA, alternative rescoring, and five-seed Vina
 
-Independent GNINA searches new poses; it is not a Vina rescore. Scope is EGFR/HER2, PIK3CA/mTOR, and JAK1/TYK2. RTMScore / GNINA CNN are best-of-9 rescores of the same Vina poses. Five-seed results do not replace Table 2.
+Independent GNINA searches new poses; it is not a Vina rescore. Scope is EGFR/HER2, PIK3CA/mTOR, and JAK1/TYK2. RTMScore / GNINA CNN are best-of-9 rescores of the same Vina poses. Five-seed results do not replace Table 2. Independent GNINA did not return both-end scores for every ligand (EGFR/HER2 EH120_109; PIK3CA/mTOR PM48_19; JAK1/TYK2 one dual and three B-only). EGFR/HER2 dual-versus-neither therefore uses n_neither = 11 versus 12 in the primary Vina Table 3.
 
 **S9a. Independent GNINA pose generation**
 
-| Pair | Engine | summary_min [95% CI] | Dual vs neither |
-|------|------|----------------------|----------------:|
-| EGFR/HER2 | Vina primary | 0.430 [0.282, 0.578] | 0.756 [0.562, 0.920] |
-| EGFR/HER2 | GNINA independent | 0.220 [0.109, 0.343] | 0.783 [0.610, 0.922] |
-| PIK3CA/mTOR | Vina primary | 0.692 [0.470, 0.813] | 0.514 [0.222, 0.806] |
-| PIK3CA/mTOR | GNINA independent | 0.633 | 0.569 [0.222, 0.889] |
-| JAK1/TYK2 | Vina primary | 0.365 [0.231, 0.503] | 0.770 [0.597, 0.906] |
-| JAK1/TYK2 | GNINA independent | 0.317 [0.183, 0.463] | 0.705 |
+| Pair | Engine | n_dual / n_A / n_B / n_neither | summary_min [95% CI] | Dual vs neither |
+|------|------|------|----------------------|----------------:|
+| EGFR/HER2 | Vina primary | 28 / 38 / 32 / 12 | 0.430 [0.282, 0.578] | 0.756 [0.562, 0.920] |
+| EGFR/HER2 | GNINA independent | 28 / 38 / 32 / 11 | 0.220 [0.109, 0.343] | 0.783 [0.610, 0.922] |
+| PIK3CA/mTOR | Vina primary | 18 / 14 / 12 / 4 | 0.692 [0.470, 0.813] | 0.514 [0.222, 0.806] |
+| PIK3CA/mTOR | GNINA independent | 18 / 13 / 12 / 4 | 0.633 | 0.569 [0.222, 0.889] |
+| JAK1/TYK2 | Vina primary | 31 / 32 / 32 / 14 | 0.365 [0.231, 0.503] | 0.770 [0.597, 0.906] |
+| JAK1/TYK2 | GNINA independent | 30 / 32 / 29 / 14 | 0.317 [0.183, 0.463] | 0.705 |
 
 **S9b. PPARG/PPARA same-pose rescoring (primary advantage is unstable)**
 
@@ -261,7 +263,7 @@ No five-seed range on F2/F10, JAK1/TYK2, JAK1/JAK2, PPARG/PPARA, or PPARA/PPARD 
 
 ---
 
-## Table S10. Document-cluster uncertainty and detectable-effect simulation
+## Table S10. Document-cluster uncertainty and sample-size scenario
 
 Document-cluster bootstrap is reported only on pairs with complete `document_id` coverage. It does not replace Table 2 ligand-level intervals. PIK3CA/mTOR Dual versus B-only is not stably estimable under document-blocked CV.
 
@@ -276,7 +278,7 @@ Document-cluster bootstrap is reported only on pairs with complete `document_id`
 
 **Fixed-channel Δ cluster resampling:** see the Table S4 continuation; source `equal_score_cluster_bootstrap_v1.csv`. That analysis does not replace the Table S4 ligand-level intervals.
 
-**Detectable effect:** at the observed class sizes, if both true directional AUROCs are 0.70, the probability that the `summary_min` 95% CI excludes 0.5 is 0.219–0.621; if both are 0.60, that probability is 0.025–0.065. Source: `document_cluster_bootstrap_v1.csv`; `detectable_effect_simulation_v1.csv`. A CI that includes 0.5 means the estimate is imprecise; it is not interpreted here as equivalence to chance (see Discussion).
+**Sample-size scenario (independent of Table 2).** Class-preserving binormal draws hold the observed dual / A-only / B-only counts fixed. This design is not the pooled, non-stratified ligand-level bootstrap used for Table 2 intervals. At those class sizes, if both true directional AUROCs are 0.70, the probability that the simulated `summary_min` 95% CI excludes 0.5 is 0.219–0.621; if both are 0.60, that probability is 0.025–0.065. Source: `document_cluster_bootstrap_v1.csv`; `detectable_effect_simulation_v1.csv`. A CI that includes 0.5 means the estimate is imprecise; it is not interpreted here as equivalence to chance (see Discussion).
 
 ---
 
