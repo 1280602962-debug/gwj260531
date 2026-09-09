@@ -20,9 +20,11 @@
 
 ### 2.3 靶对筛选与评价集构建
 
-候选靶对来自同一套 ChEMBL 收获：人源单组分 SINGLE PROTEIN、两端均有可用定量活性、以最大 pChEMBL 为代表值，并按 2.2 节划分为四状态。双向选择性供给另用严格 6.5/5.5 规则清点（活性端 \(\geq 6.5\)，低活性端 \(\leq 5.5\)，灰区不入该候选池）。最终是否纳入还取决于蛋白类别、结合位点性质、人源实验结构是否适合统一非共价对接，以及该靶对在上述规则下能否抽出可分析的四状态面板。据此纳入 PIK3CA/mTOR、AChE/BChE、EGFR/HER2、F2/F10、JAK1/TYK2、JAK1/JAK2、PPARG/PPARA 和 PPARA/PPARD。
+**靶对供给筛选。** 候选靶对来自同一批 ChEMBL 数据提取结果：人源单组分 SINGLE PROTEIN、两端均有可用定量活性、以最大 pChEMBL 为代表值，并按 2.2 节划分为四状态。双向选择性供给另用严格 6.5/5.5 规则清点（活性端 \(\geq 6.5\)，低活性端 \(\leq 5.5\)，灰区不入该候选池）。最终是否纳入还取决于蛋白类别、结合位点性质、人源实验结构是否适合统一非共价对接，以及该靶对在上述规则下能否抽出可分析的四状态面板。据此纳入 PIK3CA/mTOR、AChE/BChE、EGFR/HER2、F2/F10、JAK1/TYK2、JAK1/JAK2、PPARG/PPARA 和 PPARA/PPARD。
 
-八个靶对共用同一收获与四状态逻辑，但候选池规则、类别配额和骨架上限并不相同，因为严格双向选择性供给的厚度、可建面板规模以及结构/对接可行性因靶对而异（Table 1）。EGFR/HER2 在严格规则下 B-only 仅 7 个，无法抽出均衡的严格面板，故从 \(\theta=6.0\) 候选池抽样，并作为双向选择性供给受限的体系保留。AChE/BChE 以及 F2/F10、JAK1/TYK2、JAK1/JAK2、PPARG/PPARA、PPARA/PPARD 的严格双向供给较充足，面板从严格 6.5/5.5 候选池按配额抽出，灰区不入池。PIK3CA/mTOR 可配对体较少，按 \(\theta=6.0\) 建成 48 成员面板，并对同一实验状态下的 Bemis–Murcko 骨架设上限 2；该对因 4JT6 在 exhaustiveness = 8 时未过共晶重对接门槛而使用 exhaustiveness = 16。EGFR/HER2 的骨架上限为 5；AChE/BChE 与其余五个靶对的主面板按配额确定性抽样，主面板不另加骨架上限。主要统计分析一律按 \(\theta=6.0\) 重新确定实验状态，并仅纳入相应方向具有有效对接评分的配体，因此 n_scored 可以低于 n_panel。
+**评价面板构建。** 因样本供给规模和结构可行性不同，部分靶对采用不同的候选池规则、类别配额或骨架限制；具体规则见 Table 1。EGFR/HER2 与 PIK3CA/mTOR 从 \(\theta=6.0\) 候选池抽样，其余六对从严格 6.5/5.5 候选池按配额抽出。这些构建差异只决定面板成员，不替代统一的主要分析标签。
+
+**统一主要分析。** 主要统计分析一律按 \(\theta=6.0\) 重新确定实验状态，并仅纳入相应方向具有有效对接评分的配体，因此 n_scored 可以低于 n_panel。候选池规则、配额和骨架上限可以因靶对而异，但不能替代统一的 \(\theta=6.0\) 主标签。
 
 **Table 1.** 双靶评价集的组成与主要对接设置。候选池是面板抽样所用的四状态规则，与 Tables 2–3 的分析标签分开记录：主 AUROC 一律使用 \(\theta=6.0\)。配额为构建目标（dual / A-only / B-only / neither）。n_panel 为面板成员数（含 neither）；n_scored 为两端均有有效 Vina 分数、进入方向性主 AUROC 的 dual / A-only / B-only 计数。PPARG 口袋 9V8H 为 PPARγ LBD + BRL + PG08-NL 肽的三元复合物，肽链保留在受体中。
 
@@ -51,7 +53,7 @@
 
 #### 2.4.3 AutoDock Vina 对接与评分
 
-主要对接采用 AutoDock Vina 1.2.7 和默认 Vina scoring function。每个配体–受体组合最多输出 9 个姿态，`energy_range` 设为 3 kcal mol\(^{-1}\)。PIK3CA/mTOR 使用 exhaustiveness = 16，其余主要评价靶对使用 exhaustiveness = 8。所有主要 Vina 分析均以排名第 1 姿态的 affinity 作为配体–受体评分。
+主要对接采用 AutoDock Vina 1.2.7 和默认 Vina scoring function。每个配体–受体组合最多输出 9 个姿态，`energy_range` 设为 3 kcal mol\(^{-1}\)。PIK3CA/mTOR 因 4JT6 在 exhaustiveness = 8 时未过共晶重对接门槛而使用 exhaustiveness = 16，其余主要评价靶对使用 exhaustiveness = 8。所有主要 Vina 分析均以排名第 1 姿态的 affinity 作为配体–受体评分。
 
 #### 2.4.4 共晶配体重对接
 

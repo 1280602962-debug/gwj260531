@@ -346,7 +346,7 @@ Source: `mixed_library_enrichment_v1.csv`; `and_filter_operating_point_v1.csv`. 
 These files answer questions that do not need a separate typeset SI table. Full CSVs and scripts ship with the GitHub Release and a later Zenodo pack:
 
 - per-ligand docking scores, holdout membership, multi-seed long tables;
-- property-caliper 1:1 matching, chemotype hard-negatives, aggregation means (arithmetic / geometric / harmonic), scaffold versus random splits;
+- property-caliper 1:1 matching, chemotype-matched selectives, aggregation means (arithmetic / geometric / harmonic), scaffold versus random splits;
 - complete-case coverage, measurement frequency, assay-context ledger, J0 candidate-pair θ = 6.0 census;
 - historical BindingDB REST counts, leave-cognate-out, PIK3CA occupancy snapshots, contact counts, and whole-chain sequence identity;
 - MCL1/Bcl-xL applicability stress test (LC6 pose-gold was not established; not Table 2);
