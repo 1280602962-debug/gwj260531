@@ -7,7 +7,7 @@ Script: `scripts/audit/audit_submission_five_rounds_v1.py`
 This audit compares assembled manuscripts and SI tables to frozen CSVs.
 It does not re-bootstrap and does not mint a DOI.
 
-Summary: **110 PASS**, **1 FAIL**, **4 NOTE**.
+Summary: **111 PASS**, **0 FAIL**, **4 NOTE**.
 
 | Round | Status | Finding |
 |---|---|---|
@@ -122,9 +122,7 @@ Summary: **110 PASS**, **1 FAIL**, **4 NOTE**.
 | R5 | PASS | ZH manuscript has no PIK3CA/PIK3CB primary-set mention |
 | R5 | PASS | bootstrap_primary OK |
 | R5 | PASS | validate_revision_v1 OK |
-| R5 | FAIL | checksum --check exit 1: checksum mismatch:
- - docs/MANUSCRIPT_JCIM_ZH.md
- |
+| R5 | PASS | checksum --check OK |
 | R5 | PASS | MASTER Table 2 has exactly the eight primary pairs |
 | R5 | PASS | n_scored D+A+B matches Table 2 class counts |
 | R5 | NOTE | J0 θ=6.0 census docked_in_this_paper != 4 (historical J0-era count may include withdrawn PIK3CB) |

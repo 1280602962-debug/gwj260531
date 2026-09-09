@@ -1,16 +1,16 @@
 # Inventory
 
 ## manuscript
-- `DATA_AND_SOFTWARE_AVAILABILITY_JCIM_EN.md` (2320 bytes)
+- `DATA_AND_SOFTWARE_AVAILABILITY_JCIM_EN.md` (2355 bytes)
 - `DATA_AND_SOFTWARE_AVAILABILITY_JCIM_ZH.md` (1990 bytes)
 - `FIGURE_PANEL_LOCK_V3.md` (3893 bytes)
-- `MANUSCRIPT_JCIM_EN.md` (58942 bytes)
+- `MANUSCRIPT_JCIM_EN.md` (54106 bytes)
 - `MANUSCRIPT_JCIM_ZH.md` (50765 bytes)
 - `REFERENCES_JCIM.md` (5939 bytes)
 - `STATISTICAL_LOCK_V1.md` (5044 bytes)
-- `SUBMISSION_AUDIT_FIVE_ROUNDS_V1.md` (9690 bytes)
+- `SUBMISSION_AUDIT_FIVE_ROUNDS_V1.md` (9635 bytes)
 - `SUPPORTING_INFORMATION_DRAFT_ZH_JCIM_V1.md` (22487 bytes)
-- `SUPPORTING_INFORMATION_JCIM_EN_V1.md` (22465 bytes)
+- `SUPPORTING_INFORMATION_JCIM_EN_V1.md` (22547 bytes)
 
 ## tables
 - `DUALFOURCLASS_EVALUATION_CONTRACT_v1.json` (2269 bytes)
@@ -85,4 +85,4 @@
 - `pack_submission_v1.py` (7364 bytes)
 - `plot_jcim_article_figures_v3.py` (69826 bytes)
 - `plot_jcim_si_composites_v1.py` (43184 bytes)
-- `validate_revision_v1.py` (13497 bytes)
+- `validate_revision_v1.py` (13197 bytes)

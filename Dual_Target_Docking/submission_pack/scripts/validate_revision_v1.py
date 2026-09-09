@@ -138,25 +138,15 @@ def main():
 
     manuscript = (ROOT / "docs" / "MANUSCRIPT_JCIM_EN.md").read_text(encoding="utf-8")
     required_phrases = (
-        "Multi-Pair Formulation Audit",
-        "14.5%–34.0%",
-        "rank-extreme lower bounds",
-        "not a top-ranked-pose validation",
-        "do not define a target-general reliability boundary",
-        "is not claimed as external validation",
-        "not stably estimable",
-        "reconstructed QC",
-        "155 include / 7 uncertain / 0 exclude",
-        "16 unique pairs",
-        "AND-like dual filter",
-        "do not replace Table 2",
-        "No pair was packaged as an external evaluation set",
-        "formally demoted",
-        "exploratory repository archive",
-        "not as a fifth main pair",
+        "Docking-Based Dual-Target Recognition",
+        "Multi-Pair Evaluation Design and Sources of Discrimination",
+        "not external validation",
+        "Five fixed Vina random seeds",
+        "The EGFR/HER2 task difference was positive on all five Vina seeds",
+        "No pair met the independent external-evaluation eligibility criteria",
+        "changed AUROC by at most 0.023",
+        "A matched-pocket advantage was not stably recovered",
         "Table S54",
-        "Across five prespecified Vina seeds",
-        "The EGFR/HER2 formulation gap remained positive across all five seeds",
     )
     for phrase in required_phrases:
         assert phrase in manuscript, phrase
