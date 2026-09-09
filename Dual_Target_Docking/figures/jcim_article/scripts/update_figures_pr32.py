@@ -50,19 +50,20 @@ def save(fig, stem, toc=False):
     # Preserve established 7-inch, 300-dpi RGB triplets and embedded PDF fonts.
     if stem=='Fig3_ligand_chemistry':
         # Lift 3A title+legend above the EGFR/HER2 row; park 3B legend inside the axes.
-        fig.set_size_inches(7,6.9)
-        fig.subplots_adjust(hspace=.50,bottom=.09,top=.82,left=.16,right=.98)
+        fig.set_size_inches(7,6.85)
+        fig.subplots_adjust(hspace=.48,bottom=.09,top=.88,left=.16,right=.98)
         old=fig.axes[0].get_legend()
         handles=old.legend_handles; labels=[t.get_text() for t in old.get_texts()]
         old.remove()
-        fig.axes[0].legend(handles,labels,loc='lower center',bbox_to_anchor=(.5,1.04),ncol=4,fontsize=6,
-                           columnspacing=.9,handletextpad=.35,borderaxespad=0)
+        fig.axes[0].legend(handles,labels,loc='upper center',ncol=4,fontsize=6,
+                           columnspacing=.9,handletextpad=.35,borderaxespad=.12,
+                           frameon=True,fancybox=False,edgecolor='none',facecolor='white',framealpha=.92)
         old=fig.axes[1].get_legend()
         handles=old.legend_handles; labels=[t.get_text() for t in old.get_texts()]
         old.remove()
-        fig.axes[1].legend(handles,labels,loc='lower right',fontsize=6,ncol=1,frameon=True,
+        fig.axes[1].legend(handles,labels,loc='lower right',bbox_to_anchor=(.98,.06),fontsize=6,ncol=1,frameon=True,
                            fancybox=False,edgecolor='none',facecolor='white',framealpha=.92,
-                           borderpad=.35,handletextpad=.35)
+                           borderpad=.35,handletextpad=.35,borderaxespad=0)
     if stem=='Fig5_mismatched_pocket':
         for ax in fig.axes[:2]:ax.set_xlabel('Δ'+SMIN+'\n(matched − mismatched)',fontsize=7)
     GENERATED.append(stem)
@@ -187,8 +188,8 @@ def counts_heatmap(ax,rows,columns,title,gate):
 
 def fig6(D):
     # Stack B/C/D in the right column so the two-point traces match panel A in scale.
-    fig=plt.figure(figsize=(7,6.85))
-    gs=fig.add_gridspec(3,2,height_ratios=[.90,.90,1.42],width_ratios=[1.18,1.00],wspace=.40,hspace=.48)
+    fig=plt.figure(figsize=(7,7.35))
+    gs=fig.add_gridspec(3,2,height_ratios=[1.18,1.18,1.05],width_ratios=[1.12,1.00],wspace=.34,hspace=.28)
     ax=fig.add_subplot(gs[:,0]);label(ax,'A')
     rules=['theta_5.5','theta_6.0','theta_6.5','strict_6.5_5.5']
     recs=[[v.theta_grid_record(D,p,r) for r in rules] for p in PAIRS]
@@ -209,7 +210,7 @@ def fig6(D):
     rows=[next(r for r in D['native'] if r['pair']==p) for p in PAIRS]
     P['fig6D']=counts_heatmap(ax,rows,['n_dual','n_A_only','n_B_only'],'BindingDB after independence filters',20)
     ax.text(.5,-.16,'Cell color saturates at n=20\n0/8 pairs meet all external criteria',transform=ax.transAxes,ha='center',fontsize=6.5)
-    fig.subplots_adjust(left=.16,right=.98,top=.94,bottom=.10)
+    fig.subplots_adjust(left=.15,right=.98,top=.96,bottom=.08)
     save(fig,'Fig6_evidence_boundary')
 
 def supplements(D):
