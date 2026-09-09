@@ -31,7 +31,7 @@
 
 ## Table S2. 主受体对接盒子与共晶重对接 RMSD
 
-八个靶对使用 14 个 PDB 槽位（JAK1 的 6N7A 与 PPARA 的 6LXA 被两对共用）。PIK3CA/mTOR 因 4JT6 在 E = 8 时未过门槛而采用 E = 16。EGFR 3POZ 为重建 QC（原始九姿态生产文件未找回）。9V8H 为 PPARγ LBD–BRL–PG08-NL 三元复合物，对接保留肽链。这 14 个主受体的 top-1、top-3 与 best-of-9 RMSD 见 Figure S12。
+八个靶对使用 14 个 PDB 槽位（JAK1 的 6N7A 与 PPARA 的 6LXA 被两对共用）。PIK3CA/mTOR 因 4JT6 在 E = 8 时未过门槛而采用 E = 16。EGFR 3POZ 为重建 QC（原始九姿态生产文件未找回）。9V8H 为 PPARγ LBD–BRL–PG08-NL 三元复合物，对接保留肽链。Figure S12 只画这 14 个主受体的 top-1 与 best-of-9 RMSD。表中 top-3 列为 mode 1–3 的最小值：有逐姿态 RMSD 时直接计算；若最佳保存姿态落在 mode 1–3，则 top-3 等于 best-of-9。PPARA 6LXA 的最佳保存姿态为 mode 5，因此没有统一定义的 top-3，也不进入 Figure S12。
 
 **S2a. 对接盒子（Å）**
 
@@ -68,10 +68,10 @@
 | TYK2 | 3LXP | 8 | 0.197 | 0.197 | 0.197 | 通过 |
 | JAK2 | 8BXH | 8 | 4.064 | 0.807 | 0.807 | 通过 |
 | PPARG | 9V8H | 8 | 6.493 | 1.459 | 1.459 | 通过 |
-| PPARA | 6LXA | 8 | 7.508 | 1.098 | 1.098 | 通过 |
+| PPARA | 6LXA | 8 | 7.508 | — | 1.098 | 通过 |
 | PPARD | 5U3Q | 8 | 1.452 | 1.452 | 1.452 | 通过 |
 
-源：各面板 `boxes/*.json`；`cognate_rank_rmsd_reaudit_v1.csv`；`layer3_cognate_rmsd_v1.csv`。
+源：各面板 `boxes/*.json`；`cognate_rank_rmsd_reaudit_v1.csv`；`layer3_cognate_rmsd_v1.csv`。PPARA 6LXA 的 top-3 从缺，因为 `layer3_cognate_rmsd_v1.csv` 记录 best_mode = 5。
 
 ---
 
