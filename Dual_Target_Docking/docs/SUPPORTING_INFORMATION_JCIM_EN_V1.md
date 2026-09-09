@@ -282,7 +282,7 @@ Document-cluster bootstrap is reported only on pairs with complete `document_id`
 
 ## Table S11. BindingDB / PubChem supply counts and the external-docking gate (zero pairs pass)
 
-BindingDB and PubChem were counted for all eight pairs under the same four-state rules used in the main evaluation. External docking further required dropping shared literature sources, duplicate structures, and ECFP4 Tanimoto ≥ 0.70 molecules, plus dual / A-only / B-only each n ≥ 20 with at least three sources per class. No pair was packaged as an external evaluation set or docked externally.
+BindingDB and PubChem were counted for all eight pairs under the same four-state rules used in the main evaluation. External docking further required dropping shared literature sources, duplicate structures, and ECFP4 Tanimoto ≥ 0.70 molecules, plus dual / A-only / B-only each n ≥ 20 with at least three sources per class. No pair met the independent external-evaluation eligibility criteria, so no external docking was performed.
 
 **S11a. BindingDB equal-quantity strict 6.5/5.5 supply counts (zero docking)**
 
@@ -310,13 +310,13 @@ BindingDB and PubChem were counted for all eight pairs under the same four-state
 | PPARG/PPARA | 0 / 0 / 1 | 0 / 0 / 1 | fail |
 | PPARA/PPARD | 0 / 1 / 0 | 0 / 1 / 0 | fail |
 
-Source: `crossdb_strict_supply_v1.csv` (S11a; BindingDB `equal_only`); `external_slice_summary_v1.csv` (S11b). S11a is a supply count, not external validation. S11b applies the same independence remainder to all eight pairs: drop shared literature, duplicate structures, and ECFP4 Tanimoto ≥ 0.70 molecules, then apply the class-size and source-diversity gate. No pair met the primary external-docking gate or was packaged or docked.
+Source: `crossdb_strict_supply_v1.csv` (S11a; BindingDB `equal_only`); `external_slice_summary_v1.csv` (S11b). S11a is a supply count, not external validation. S11b applies the same independence remainder to all eight pairs: drop shared literature, duplicate structures, and ECFP4 Tanimoto ≥ 0.70 molecules, then apply the class-size and source-diversity criteria. No pair met the independent external-evaluation eligibility criteria, and none was docked externally.
 
 ---
 
 ## Table S12. Literature-year split (primary cutoff 2018)
 
-The test set is earliest `document.year` ≥ 2018. Directional AUROC is reported only if dual, A-only, and B-only each have n ≥ 10. Pairs with reportable year-split counts did not meet that gate on the 2018 test set, so no two-direction time-split test set was packaged.
+The test set is earliest `document.year` ≥ 2018. Directional AUROC is reported only if dual, A-only, and B-only each have n ≥ 10. Pairs with reportable year-split counts did not meet that sample requirement on the 2018 test set, so no two-direction time-split test set was constructed.
 
 | Pair | 2018 test n (D / A / B / neither) | Gate |
 |------|------------------------------------:|------|
@@ -324,7 +324,7 @@ The test set is earliest `document.year` ≥ 2018. Directional AUROC is reported
 | AChE/BChE | 8 / 5 / 15 / 6 | counts only |
 | PIK3CA/mTOR | 2 / 0 / 1 / 0 | not evaluable |
 
-Source: `time_split_class_counts_v1.csv`. 2015 / 2020 are prespecified sensitivity cutoffs and were likewise not packaged as external validation.
+Source: `time_split_class_counts_v1.csv`. 2015 / 2020 are additional sensitivity cutoffs and were likewise not treated as external validation.
 
 ---
 
