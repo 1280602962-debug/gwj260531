@@ -47,7 +47,7 @@
 
 #### 2.4.2 配体准备
 
-以 2.2 节处理后的 ChEMBL SMILES 作为配体输入。使用 RDKit 添加氢原子，并采用 ETKDGv3 生成一个三维初始构象。随后使用 MMFF 力场进行局部几何优化，最大迭代次数为 200。优化后的配体使用 Meeko 转换为 PDBQT。三维构象生成使用固定随机种子（Table S1）。
+以 2.2 节处理后的 ChEMBL SMILES 作为配体输入。使用 RDKit 添加氢原子，并采用 ETKDGv3 生成一个三维初始构象。随后使用 MMFF 力场进行局部几何优化，最大迭代次数为 200。优化后的配体使用 Meeko 转换为 PDBQT。三维构象生成使用固定随机种子（Table S1）。质子化状态、互变异构体和构象系综未系统枚举；未指定立体化学按所给 SMILES 由 RDKit 默认处理。该项质量控制不能由商业配体准备软件名称代替。
 
 #### 2.4.3 AutoDock Vina 对接与评分
 
@@ -83,7 +83,7 @@ Table 2 中 \(\mathrm{summary}_{\min}\) 的 95% 置信区间基于 2000 次配�
 
 dual-versus-neither 和 dual-versus-all-nonduals 的 AUROC 置信区间采用按类别重采样的百分位 bootstrap，每次分别在正类和负类内有放回抽取，并保持原分析中的类别样本量。固定同一评分通道比较 dual-versus-selective 与 dual-versus-neither 时，两项分析共用 dual 的重采样结果，而选择性负类和 neither 分别独立重采样。
 
-比较同一配体集合上的不同评分方法，或对应口袋与非对应口袋评分时，各方案在每次 bootstrap 中使用相同的配体重采样结果，以保持配对关系。另针对单个方向性比较，以 Bemis–Murcko 骨架簇为重采样单位进行 cluster bootstrap；在具有完整文献来源信息的评价集中，进一步进行文献来源簇重采样（Table S10）。对 EGFR/HER2 与 JAK1/TYK2 口袋 A 上的固定评分通道差值 \(\Delta\)，同样以文献连通簇和骨架簇为重采样单位重复计算，并在每次重采样内共用 dual 抽次（Table S4；Table S10）。上述分析用于考察骨架相关性和文献来源相关性对区间估计的影响，仅作为敏感性分析，不替代 Table 2 与 Table S4 的配体水平 bootstrap 区间。
+比较同一配体集合上的不同评分方法，或对应口袋与非对应口袋评分时，各方案在每次 bootstrap 中使用相同的配体重采样结果，以保持配对关系。另针对单个方向性比较，以 Bemis–Murcko 骨架簇为重采样单位进行 cluster bootstrap；在具有完整文献来源信息的评价集中，进一步进行文献来源簇重采样（Table S10）。对 EGFR/HER2 与 JAK1/TYK2 口袋 A 上的固定评分通道差值 \(\Delta\)，同样以文献连通簇和骨架簇为重采样单位重复计算，并在每次重采样内共用 dual 抽次（Table S4；Table S10）。上述分析用于考察骨架相关性和文献来源相关性对区间估计的影响，仅作为敏感性分析，不替代 Table 2 与 Table S4 的配体水平 bootstrap 区间。另按观测到的类别样本量做可检测效应模拟：在双正态评分模型下，对真实 AUROC 网格（0.50–0.75）重复配体水平 bootstrap，估计 \(\mathrm{summary}_{\min}\) 的 95% 置信区间排除 0.5 的频率（Table S10；Figure S6）。该模拟描述当前样本量下较大效应比中等效应更容易被区间排除 0.5，不是观测功效，也不替代 Table 2 区间。
 
 ### 2.6 基线、对照与敏感性分析
 
@@ -95,7 +95,7 @@ ECFP4、docking-only 和 ECFP4+docking 模型均采用逻辑回归。以 Bemis�
 
 #### 2.6.2 结构归因与评分对应性检验
 
-为考察方向性判别是否与实验活性差异所在的靶点相对应，保持配体集合和实验标签不变，分别使用对应口袋和非对应口袋的对接评分计算同一方向的 AUROC。两种评分所得 AUROC 的差值通过配对 bootstrap 估计，每次重采样均对两种评分使用相同的配体样本（Table S6）。
+为考察方向性判别是否与实验活性差异所在的靶点相对应，保持配体集合和实验标签不变，分别使用对应口袋和非对应口袋的对接评分。本文报告两类统计量，二者不可互换。同一方向的 AUROC 差比较的是固定任务（例如 dual-versus-B-only）在对应口袋与非对应口袋上的 AUROC。Figure 5 与 Table S6 报告的则是较弱方向汇总差值 \(\Delta=\mathrm{summary}_{\min}^{\mathrm{matched}}-\mathrm{summary}_{\min}^{\mathrm{mismatched}}\)，正值表示对应口袋的较弱方向更高；该 \(\Delta\) 的 95% 置信区间由配对配体水平 bootstrap 估计，每次重采样对两套评分使用相同配体样本。正文口袋对照以 Figure 5 / Table S6 的 \(\mathrm{summary}_{\min}\) 差值为准；分通道 AUROC 差另见 Supporting Information。
 
 受体结构敏感性主要在 PIK3CA/mTOR 中评价。在保持 mTOR 4JT6 不变时，分别以 4JPS 和 5DXT 替换 PIK3CA 4L23；另以 4JSX 替换 mTOR 4JT6。除被替换的受体外，其余配体集合、实验状态、评分定义和统计方法保持不变（Table S8）。
 

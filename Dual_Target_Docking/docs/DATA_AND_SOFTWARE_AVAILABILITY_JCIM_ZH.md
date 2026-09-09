@@ -4,7 +4,7 @@
 
 评价面板成员、实验状态标签、受体与对接盒定义、逐配体对接分数、分析表，以及重建本文统计与图件所需的全部脚本，均可在公开仓库 https://github.com/1280602962-debug/gwj260531 的 `Dual_Target_Docking` 目录中获取。
 
-排入 Supporting Information 的核实表为 **Tables S1–S13**（软件与种子、对接盒子与共晶 RMSD、阈值与 pChEMBL 聚合、固定评分负类、ECFP4 增量、对应/非对应口袋、未使用池留出集、PIK3CA/mTOR 晶体替换、独立 GNINA 与五种子 Vina、文献簇与可检测效应、BindingDB 外部准入、2018 年切分计数、EGFR/HER2 操作点）。历史工作表 S1–S54（含原 Table S54 多种子表）的合并对照见 `data/manuscript_lock/SI_TABLE_MERGE_MAP_v1.csv`。
+排入 Supporting Information 的核实表为 **Tables S1–S13**（软件与种子、对接盒子与共晶 RMSD、阈值与 pChEMBL 聚合、固定评分负类、ECFP4 增量、对应/非对应口袋、未使用池留出集、PIK3CA/mTOR 晶体替换、独立 GNINA 与五种子 Vina、文献簇与可检测效应、BindingDB 外部准入、2018 年切分计数、EGFR/HER2 操作点）。历史工作表 S1–S54（含原 Table S54 多种子表）的合并对照见仓库内 `Dual_Target_Docking/data/manuscript_lock/SI_TABLE_MERGE_MAP_v1.csv`。
 
 更长的逐配体分数、holdout 成员、多种子长表、物化 caliper、chemotype 硬负、聚合均值、完整病例与 assay-context 底表、J0 候选对普查、BindingDB REST 历史计数、leave-cognate-out、PIK3CA 占有率快照、接触计数、全链序列一致性，以及 MCL1/Bcl-xL 适用性压力测试（不进入 Table 2），见 **Note S14**，随代码与 SHA-256 清单归档至 GitHub Release；Zenodo DOI 将从打标签快照签发，而不是从当前仍可能变化的分支签发。
 
