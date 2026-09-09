@@ -31,8 +31,10 @@ fb=float(audit['plotted']['fig2']['JAK1/TYK2']['fixed_A']['delta_neither_minus_s
 check(abs(fa-0.378)<0.001,'Figure 2A EGFR/HER2 fixed-score Δ is 0.378')
 check(abs(fb-0.444)<0.001,'Figure 2A JAK1/TYK2 fixed-score Δ is 0.444')
 captions=(OUT/'CAPTIONS.md').read_text(encoding='utf-8')
-for phrase in ['initially evaluated','added after the census','original three','census five','later five','Horizontal gray rules','underpowered']:
+for phrase in ['initially evaluated','added after the census','original three','census five','later five','Horizontal gray rules','underpowered','flagship','data-collection sequence','were then selected']:
     check(phrase.lower() not in captions.lower(),'caption has no '+phrase)
+check('The census summarizes the availability' in captions,'Fig1C caption separates census from the eight-pair evaluation')
+check('Primary rank-based Vina AUROC' in captions,'Fig3A caption distinguishes Vina rank from ECFP4 GroupKFold')
 check('FigS1_protocol_sensitivity' in audit['generated'] and 'FigS12_cognate_rmsd' in audit['generated'],'SI protocol and cognate RMSD figures generated')
 for lang in ['ZH','EN']:
     manuscript=content('docs/MANUSCRIPT_JCIM_'+lang+'.md')
@@ -56,6 +58,8 @@ check('PIK3CA/PIK3CB' not in primary,'Withdrawn PIK3CB absent from primary figur
 check(abs(audit['plotted']['fig3B_max_abs']-.0231)<.0006,'ECFP4 incremental maximum agrees with manuscript 0.023')
 sim=audit['plotted']['figS6']
 check(len({r['pair'] for r in sim})==3 and {float(r['true_auroc']) for r in sim}=={.50,.55,.60,.65,.70,.75},'Simulation: three pairs, complete six-point grid')
+off=audit['plotted'].get('figS12_offscale') or []
+check(any(abs(float(r['rmsd'])-9.505)<.002 and r.get('series')=='top1' for r in off),'EGFR 3POZ top-1 is plotted off-scale')
 cl=audit['plotted']['figS11']
 jdoc=next(r for r in cl if r['pair']=='JAK1/TYK2' and r['estimator']=='document_cluster')
 check(float(jdoc['delta_ci_lo'])<0<float(jdoc['delta_ci_hi']),'JAK1/TYK2 document-cluster interval crosses zero')

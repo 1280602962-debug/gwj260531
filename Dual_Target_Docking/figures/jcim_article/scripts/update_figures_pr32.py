@@ -82,8 +82,9 @@ def dotci(ax, x, lo, hi, y, color, marker='o', ms=4.1, mfc=None, mec=None, z=4):
     ax.plot(x, y, marker=marker, color=edge, mfc=face, mec=edge, ms=ms, ls='none', zorder=z)
 
 
-def pair_yticks(ax, fontsize=7):
-    ax.set_yticks(range(len(PAIRS)), PAIRS, fontsize=fontsize)
+def pair_yticks(ax, fontsize=7, egfr_note=False):
+    labels = [p + ('†' if egfr_note and p == 'EGFR/HER2' else '') for p in PAIRS]
+    ax.set_yticks(range(len(PAIRS)), labels, fontsize=fontsize)
     ax.set_ylim(len(PAIRS) - 0.35, -0.65)
 
 
@@ -91,18 +92,46 @@ def equal_src(D, pair):
     return D['equal'] if pair in v.ORIGINAL_THREE else D['five_s34']
 
 
+def draw_census_and_primary(ax, census):
+    """ChEMBL supply census with an independent 8-pair evaluation box (no 86→8 arrow)."""
+    ax.set(xlim=(0, 1), ylim=(0, 1))
+    ax.axis('off')
+    ax.text(.50, .975, 'ChEMBL data-supply census', ha='center', va='top', fontsize=8, fontweight='bold')
+    keys = ['n_pairs_n_both_ge_1', 'n_pairs_n_both_ge_10', 'n_directional_n10', 'n_strict_thick']
+    names = ['≥1 ligand measured at both targets',
+             '≥10 ligands measured at both targets',
+             'Dual, A-only and B-only each ≥10 (θ=6.0)',
+             'Strict bidirectional supply criterion (6.5/5.5)']
+    tops = [.855, .695, .535, .375]
+    h = .112
+    for i, (k, txt, yc) in enumerate(zip(keys, names, tops)):
+        ax.add_patch(FancyBboxPatch((.03, yc - h / 2), .94, h, boxstyle='round,pad=.006',
+                                    fc='#F4F7FA', ec='#D5DDE4', lw=.7))
+        ax.text(.07, yc, format(int(census[k]), ','), va='center', fontsize=8.6, fontweight='bold', color=C['vina'])
+        ax.text(.30, yc, txt, va='center', fontsize=7.1)
+        if i < 3:
+            gap = (tops[i] - h / 2 + tops[i + 1] + h / 2) / 2
+            ax.text(.50, gap, '↓', ha='center', va='center', fontsize=8, color='#888888')
+    ax.add_patch(FancyBboxPatch((.03, .035), .94, .215, boxstyle='round,pad=.008',
+                                fc='#FFF8F0', ec=C['a_only'], lw=1.05))
+    ax.text(.50, .175, 'Primary evaluation: 8 target pairs', ha='center', va='center',
+            fontsize=7.6, fontweight='bold')
+    ax.text(.50, .085, 'data availability  ·  structural eligibility  ·  pair-specific panel criteria',
+            ha='center', va='center', fontsize=6.3, color='#555555')
+
+
 def fig1(D):
     census = next(r for r in read('data/jcim_chembl_universe_v0/tables/universe_census_summary_v1.csv') if r['slice'] == 'all')
-    fig = plt.figure(figsize=(7, 4.85))
-    gs = fig.add_gridspec(2, 2, height_ratios=[1, 1.22], wspace=.34, hspace=.42)
+    fig = plt.figure(figsize=(7, 5.20))
+    gs = fig.add_gridspec(2, 2, height_ratios=[1, 1.48], wspace=.34, hspace=.38)
     ax = fig.add_subplot(gs[0, 0]); label(ax, 'A')
     ax.set(xlim=(0, 2), ylim=(0, 2)); ax.set_aspect('equal')
     for x, y, name, col in [(0, 1, 'dual', C['dual']), (1, 1, 'A-only', C['a_only']),
                             (0, 0, 'B-only', C['b_only']), (1, 0, 'neither', C['neither'])]:
         ax.add_patch(plt.Rectangle((x, y), 1, 1, fc=col, alpha=.23, ec='white', lw=2))
         ax.text(x + .5, y + .5, name, ha='center', va='center', fontsize=8)
-    ax.set_xticks([.5, 1.5], ['B active', 'B low activity'], fontsize=7)
-    ax.set_yticks([.5, 1.5], ['A low activity', 'A active'], fontsize=7)
+    ax.set_xticks([.5, 1.5], [r'B $\geq\theta$', r'B $<\theta$'], fontsize=7)
+    ax.set_yticks([.5, 1.5], [r'A $<\theta$', r'A $\geq\theta$'], fontsize=7)
     ax.tick_params(length=0); ax.set_title('Experimental activity states', fontsize=8)
     for s in ax.spines.values():
         s.set_visible(False)
@@ -119,43 +148,20 @@ def fig1(D):
             ha='center', fontsize=7.0)
     ax.set_title('Directional evaluation', fontsize=8)
 
-    ax = fig.add_subplot(gs[1, :]); style.panel_label(ax, 'C', x=0, y=1.04); ax.axis('off')
-    ax.set_title('ChEMBL target-pair census', fontsize=8, pad=7)
-    keys = ['n_pairs_n_both_ge_1', 'n_pairs_n_both_ge_10', 'n_directional_n10', 'n_strict_thick']
-    names = ['≥1 ligand measured at both targets',
-             '≥10 ligands measured at both targets',
-             'Dual, A-only and B-only each ≥10 (θ=6.0)',
-             'Strict bidirectional supply criterion (6.5/5.5)']
-    for i, (k, txt) in enumerate(zip(keys, names)):
-        yy = .91 - i * .205
-        ax.add_patch(FancyBboxPatch((.03, yy - .073), .94, .145, boxstyle='round,pad=.007', fc='#F4F7FA', ec='#D5DDE4', lw=.7))
-        ax.text(.075, yy, format(int(census[k]), ','), va='center', fontsize=9, fontweight='bold', color=C['vina'])
-        ax.text(.32, yy, txt, va='center', fontsize=7.5)
-    ax.text(.5, .04, '8 primary target pairs after panel construction and structural assessment', ha='center', fontsize=7.4)
+    ax = fig.add_subplot(gs[1, :]); style.panel_label(ax, 'C', x=0, y=1.02)
+    draw_census_and_primary(ax, census)
     P['fig1C'] = census
-    fig.subplots_adjust(left=.16, right=.97, top=.92, bottom=.055)
+    fig.subplots_adjust(left=.16, right=.97, top=.93, bottom=.04)
     save(fig, 'Fig1_four_state_and_supply')
 
 
 def fig1_c_data(D):
     census = next(r for r in read('data/jcim_chembl_universe_v0/tables/universe_census_summary_v1.csv') if r['slice'] == 'all')
-    fig, ax = plt.subplots(figsize=(7, 3.25))
-    style.panel_label(ax, 'C', x=0.0, y=1.08)
-    ax.axis('off')
-    ax.set_title('ChEMBL target-pair census', fontsize=9, pad=8)
-    keys = ['n_pairs_n_both_ge_1', 'n_pairs_n_both_ge_10', 'n_directional_n10', 'n_strict_thick']
-    names = ['≥1 ligand measured at both targets',
-             '≥10 ligands measured at both targets',
-             'Dual, A-only and B-only each ≥10 (θ=6.0)',
-             'Strict bidirectional supply criterion (6.5/5.5)']
-    for i, (k, txt) in enumerate(zip(keys, names)):
-        yy = .88 - i * .22
-        ax.add_patch(FancyBboxPatch((.03, yy - .075), .94, .15, boxstyle='round,pad=.007', fc='#F4F7FA', ec='#D5DDE4', lw=.75))
-        ax.text(.075, yy, format(int(census[k]), ','), va='center', fontsize=10, fontweight='bold', color=C['vina'])
-        ax.text(.32, yy, txt, va='center', fontsize=8.1)
-    ax.text(.5, .035, '8 primary target pairs after panel construction and structural assessment', ha='center', fontsize=7.8)
+    fig, ax = plt.subplots(figsize=(7, 3.55))
+    style.panel_label(ax, 'C', x=0.0, y=1.06)
+    draw_census_and_primary(ax, census)
     P['fig1C_standalone'] = census
-    fig.subplots_adjust(left=.02, right=.98, top=.86, bottom=.05)
+    fig.subplots_adjust(left=.02, right=.98, top=.90, bottom=.04)
     save(fig, 'Fig1_C_chEMBL_supply')
 
 
@@ -165,26 +171,28 @@ def fig2(D):
         label(ax, letter)
         pair_yticks(ax, fontsize=7)
 
-    # A — flagship: fixed-score ΔAUROC forest (was panel C)
+    # A — fixed-score ΔAUROC forest. Encoding matches panel B:
+    # blue circle = A-only comparison / target B score
+    # orange square = B-only comparison / target A score
     for i, p in enumerate(PAIRS):
         src = equal_src(D, p)
         for j, (contrast, col, m) in enumerate([
-            ('D_vs_B_or_neither_pocketA', C['vina'], 'o'),
-            ('D_vs_A_or_neither_pocketB', C['a_only'], 's'),
+            ('D_vs_A_or_neither_pocketB', C['vina'], 'o'),
+            ('D_vs_B_or_neither_pocketA', C['a_only'], 's'),
         ]):
             rr = src[(p, contrast)]
             y = i + (-.16 if j == 0 else .16)
             dlt = float(rr['delta_neither_minus_selective'])
             lo, hi = float(rr['delta_ci_lo']), float(rr['delta_ci_hi'])
             dotci(axs[0], dlt, lo, hi, y, col, m)
-            if p in FLAGSHIP and j == 0:
+            if p in FLAGSHIP and contrast.endswith('pocketA'):
                 axs[0].text(hi + 0.018, y, f'{dlt:.3f}', va='center', fontsize=6.4, color=col)
     axs[0].axvline(0, color=C['chance'], ls='--', lw=.8)
-    axs[0].set(xlim=(-.58, .78), xlabel=r'$\Delta$AUROC (neither $-$ selective)')
+    axs[0].set(xlim=(-.58, .78), xlabel=r'$\Delta$AUROC (Dual–neither $-$ Dual–selective)')
     axs[0].set_title('Fixed score channel; experimental-state comparison', fontsize=8, pad=4)
     axs[0].legend(handles=[
-        L(C['vina'], 'o', 'Target A score: B-only → neither', ms=4.4),
-        L(C['a_only'], 's', 'Target B score: A-only → neither', ms=4.2),
+        L(C['vina'], 'o', 'Target B score: A-only → neither', ms=4.4),
+        L(C['a_only'], 's', 'Target A score: B-only → neither', ms=4.2),
     ], loc='upper center', bbox_to_anchor=(.5, -.22), ncol=2, fontsize=6.2)
 
     # B — directional dumbbell (was panel A)
@@ -209,7 +217,7 @@ def fig2(D):
         dotci(axs[2], r['nei'], r['nei_lo'], r['nei_hi'], i + .16, C['desc'], nei_m)
     axs[2].axvline(.5, color=C['chance'], ls='--', lw=.8)
     axs[2].set(xlim=(0.08, 1.05), xlabel='AUROC')
-    axs[2].set_title('Directional ' + SMIN + ' and Dual vs neither', fontsize=8, pad=4)
+    axs[2].set_title('Descriptive two-pocket comparison', fontsize=8, pad=4)
     axs[2].legend(handles=[
         L(C['vina'], 'o', 'Directional ' + SMIN, ms=4.4),
         L(C['desc'], 's', 'Dual vs neither, mean score', ms=4.2),
@@ -232,9 +240,11 @@ def fig3(D):
     gs = fig.add_gridspec(2, 2, height_ratios=[1.18, 1.00], hspace=.42, wspace=.32)
     ax = fig.add_subplot(gs[0, :])
     label(ax, 'A', x=-0.08, y=1.08)
+    # Color = method (Vina blue, ECFP4 orange); shape = direction (circle D/A, square D/B).
     off = {'vina_da': .30, 'vina_db': .10, 'ecfp_da': -.10, 'ecfp_db': -.30}
-    cols = {'vina_da': C['vina'], 'vina_db': C['gnina'], 'ecfp_da': C['desc'], 'ecfp_db': C['a_only']}
-    marks = {'vina_da': 'o', 'vina_db': 's', 'ecfp_da': '^', 'ecfp_db': 'D'}
+    cols = {'vina_da': C['vina'], 'vina_db': C['vina'], 'ecfp_da': C['desc'], 'ecfp_db': C['desc']}
+    marks = {'vina_da': 'o', 'vina_db': 's', 'ecfp_da': 'o', 'ecfp_db': 's'}
+    filled = {'vina_da': C['vina'], 'vina_db': C['vina'], 'ecfp_da': 'white', 'ecfp_db': 'white'}
     plotted = {k: [] for k in off}
     for i, p in enumerate(PAIRS):
         a = v.ecfp_row(D, p, 'D_vs_A')
@@ -242,17 +252,17 @@ def fig3(D):
         vals = {'vina_da': a['vina'], 'vina_db': b['vina'], 'ecfp_da': a['ecfp'], 'ecfp_db': b['ecfp']}
         for k, val in vals.items():
             plotted[k].append(val)
-            ax.plot(val, i + off[k], marks[k], color=cols[k], ms=5.0, zorder=4)
+            ax.plot(val, i + off[k], marks[k], color=cols[k], mfc=filled[k], mec=cols[k], ms=5.0, zorder=4)
     ax.axvline(.5, color=C['chance'], ls='--', lw=.85)
     ax.set_yticks(range(len(PAIRS)), PAIRS, fontsize=6.5)
     ax.set_ylim(7.55, -1.85)
     ax.set_xlabel('AUROC'); ax.set_xlim(.20, 1.05)
-    ax.set_title('Vina rank AUROC versus ECFP4 scaffold GroupKFold', fontsize=8, pad=6)
+    ax.set_title('Vina rank AUROC and ECFP4 scaffold GroupKFold', fontsize=8, pad=6)
     ax.legend(handles=[
         L(C['vina'], 'o', 'Vina D/A', ms=5.2),
-        L(C['gnina'], 's', 'Vina D/B', ms=4.8),
-        L(C['desc'], '^', 'ECFP4 D/A', ms=5.2),
-        L(C['a_only'], 'D', 'ECFP4 D/B', ms=4.8),
+        L(C['vina'], 's', 'Vina D/B', ms=4.8),
+        L(C['desc'], 'o', 'ECFP4 D/A', ms=5.2, mfc='white', mec=C['desc']),
+        L(C['desc'], 's', 'ECFP4 D/B', ms=4.8, mfc='white', mec=C['desc']),
     ], loc='upper center', ncol=4, fontsize=6.0, frameon=True, fancybox=False,
        edgecolor='none', facecolor='white', framealpha=.92,
        columnspacing=.9, handletextpad=.35)
@@ -341,13 +351,13 @@ def fig4(D):
 
     ax = fig.add_subplot(gs[0, 1]); label(ax, 'B', x=-0.18, y=1.06)
     items = [
-        ('PIK3CA 4L23', v.primary_row(D, 'PIK3CA/mTOR')['smin'],
+        ('Primary\n4L23 / 4JT6', v.primary_row(D, 'PIK3CA/mTOR')['smin'],
          v.primary_row(D, 'PIK3CA/mTOR')['lo'], v.primary_row(D, 'PIK3CA/mTOR')['hi'], C['vina'], 'primary'),
-        ('PIK3CA 4JPS', float(D['jps']['summary_min']), float(D['jps']['summary_min_ci_lo']),
+        ('PIK3CA\n4JPS', float(D['jps']['summary_min']), float(D['jps']['summary_min_ci_lo']),
          float(D['jps']['summary_min_ci_hi']), C['a_only'], 'PIK3CA swapped'),
-        ('PIK3CA 5DXT', float(D['dxt']['summary_min']), float(D['dxt']['summary_min_ci_lo']),
+        ('PIK3CA\n5DXT', float(D['dxt']['summary_min']), float(D['dxt']['summary_min_ci_lo']),
          float(D['dxt']['summary_min_ci_hi']), C['a_only'], 'PIK3CA swapped'),
-        ('mTOR 4JSX', float(D['jsx']['summary_min']), float(D['jsx']['summary_min_ci_lo']),
+        ('mTOR\n4JSX', float(D['jsx']['summary_min']), float(D['jsx']['summary_min_ci_lo']),
          float(D['jsx']['summary_min_ci_hi']), C['holdout'], 'mTOR swapped'),
     ]
     fig4b = []
@@ -356,7 +366,7 @@ def fig4(D):
                     elinewidth=1.2, capsize=2.0, markersize=6.0, zorder=4)
         fig4b.append({'label': name, 'y': y, 'lo': lo, 'hi': hi, 'group': grp})
     ax.axhline(.5, color=C['chance'], ls='--', lw=.85)
-    ax.set_xticks(range(4), [n.replace(' ', '\n') for n, *_ in items], fontsize=6.1)
+    ax.set_xticks(range(4), [n for n, *_ in items], fontsize=6.1)
     ax.set_ylabel(SMIN); ax.set_ylim(.12, 1.02); ax.set_xlim(-.55, 3.45)
     ax.set_title('PIK3CA/mTOR receptor structures', fontsize=8, pad=3)
     ax.legend(handles=[
@@ -381,17 +391,18 @@ def fig4(D):
     ax.set_xlim(.22, .82)
     ax.set_title('Five Vina seeds (8 pairs × 5 seeds)', fontsize=8, pad=3)
     ax.legend(handles=[
+        Line2D([], [], color=C['vina'], ls='-', lw=1.4, marker='', label='five-seed range'),
         L(C['vina'], 'o', 'median of five seeds', ms=5.0),
         L(C['desc'], 'D', 'primary seed', ms=4.6),
-    ], loc='upper center', bbox_to_anchor=(.5, -.18), ncol=2, fontsize=6.2)
+    ], loc='upper center', bbox_to_anchor=(.5, -.18), ncol=3, fontsize=6.2)
     P['fig4C'] = plotted_s
     fig.subplots_adjust(left=.16, right=.98, top=.93, bottom=.11)
     save(fig, 'Fig4_computational_realization')
 
 
 def fig5(D):
-    fig, axs = plt.subplots(2, 1, figsize=(7, 6.55))
-    ax = axs[0]; label(ax, 'A'); pair_yticks(ax, fontsize=7)
+    fig, axs = plt.subplots(2, 1, figsize=(7, 6.70))
+    ax = axs[0]; label(ax, 'A'); pair_yticks(ax, fontsize=7, egfr_note=True)
     recs_a, recs_b = [], []
     for i, p in enumerate(PAIRS):
         m = v.wp_main(D, p)
@@ -399,7 +410,6 @@ def fig5(D):
         dotci(ax, m['delta'], m['lo'], m['hi'], i - .16, C['main'], 'o')
         if p == 'EGFR/HER2':
             recs_b.append({'pair': p, 'missing': True})
-            ax.text(.33, i + .16, 'n/a', color='#777777', fontsize=6.2, va='center')
             continue
         h = v.wp_hold(D, p)
         recs_b.append({'pair': p, 'y': h['delta'], 'lo': h['lo'], 'hi': h['hi'], 'excl': h['excl']})
@@ -415,14 +425,13 @@ def fig5(D):
     P['fig5A'] = recs_a
     P['fig5B'] = recs_b  # holdout Δ retained under former key for lock continuity
 
-    ax = axs[1]; label(ax, 'B'); pair_yticks(ax, fontsize=7)
+    ax = axs[1]; label(ax, 'B'); pair_yticks(ax, fontsize=7, egfr_note=True)
     recs_c = []
     for i, p in enumerate(PAIRS):
         main = v.primary_row(D, p)
         dotci(ax, main['smin'], main['lo'], main['hi'], i - .16, C['main'], 'o')
         if p == 'EGFR/HER2':
             recs_c.append({'pair': p, 'missing': True})
-            ax.text(.17, i + .16, 'n/a', color='#777777', fontsize=6.2, va='center')
             continue
         h = v.holdout_smin(D, p)
         recs_c.append({'pair': p, 'main': main['smin'], 'main_lo': main['lo'], 'main_hi': main['hi'],
@@ -437,7 +446,8 @@ def fig5(D):
         L(C['holdout'], 's', 'holdout', ms=4.4),
     ], loc='upper center', bbox_to_anchor=(.5, -.20), ncol=2, fontsize=6.3)
     P['fig5C'] = recs_c
-    fig.subplots_adjust(left=.18, right=.97, top=.95, bottom=.09, hspace=.48)
+    fig.text(.57, .015, r'$\dagger$ no unused-pool holdout available', ha='center', fontsize=6.4, color='#555555')
+    fig.subplots_adjust(left=.20, right=.97, top=.95, bottom=.08, hspace=.50)
     save(fig, 'Fig5_mismatched_pocket')
 
 
@@ -486,38 +496,42 @@ def fig6(D):
                     ha='center', va='center', fontsize=6,
                     color='white' if mat[i, j] < .35 or mat[i, j] > .67 else C['ink'])
     ax.set_yticks(range(8), PAIRS, fontsize=6.5)
-    ax.set_xticks(range(4), ['θ=5.5', 'θ=6.0', 'θ=6.5', 'strict'], fontsize=6.3)
+    ax.set_xticks(range(4), ['θ=5.5', 'θ=6.0', 'θ=6.5', 'strict\n6.5/5.5'], fontsize=6.1)
     ax.set_title('Activity definitions', fontsize=8)
     cb = fig.colorbar(im, ax=ax, orientation='horizontal', fraction=.045, pad=.10)
     cb.set_label(SMIN, fontsize=7)
     P['fig6A'] = mat.tolist()
 
-    ax = fig.add_subplot(gs[0, 1]); label(ax, 'B', x=-0.22, y=1.04)
+    ax = fig.add_subplot(gs[0, 1]); label(ax, 'B', x=-0.28, y=1.04)
     clusters = read('data/jcim_novelty_v0/tables/equal_score_cluster_bootstrap_v1.csv')
     ylabels, plotted = [], {}
-    row = 0
+    y = 0
     for p in ['EGFR/HER2', 'JAK1/TYK2']:
+        ylabels.append(p)
+        y += 1
         r = v.s34_row(D, p)
-        ylabels.append(f'{p}  ligand')
-        dotci(ax, r['delta'], r['lo'], r['hi'], row, C['vina'], 'o')
+        ylabels.append('ligand')
+        dotci(ax, r['delta'], r['lo'], r['hi'], y, C['vina'], 'o')
         plotted[(p, 'ligand')] = r
-        row += 1
+        y += 1
         for key, col, m, lab in [
-            ('scaffold_cluster', C['desc'], 's', 'scaffold cluster'),
-            ('document_cluster', C['a_only'], 'D', 'document cluster'),
+            ('scaffold_cluster', C['desc'], 's', 'scaffold'),
+            ('document_cluster', C['a_only'], 'D', 'document'),
         ]:
             rr = next(z for z in clusters if z['pair'] == p and z['estimator'] == key)
             ylabels.append(lab)
-            dotci(ax, float(rr['delta_point']), float(rr['delta_ci_lo']), float(rr['delta_ci_hi']), row, col, m)
+            dotci(ax, float(rr['delta_point']), float(rr['delta_ci_lo']), float(rr['delta_ci_hi']), y, col, m)
             plotted[(p, key)] = rr
-            row += 1
-        if p == 'EGFR/HER2':
-            ax.axhline(row - .5, color='#DDDDDD', lw=.7)
+            y += 1
     ax.axvline(0, color=C['chance'], ls='--', lw=.7)
     ax.set_yticks(range(len(ylabels)), ylabels, fontsize=5.8)
+    for tick, lab in zip(ax.get_yticklabels(), ylabels):
+        if lab in ('EGFR/HER2', 'JAK1/TYK2'):
+            tick.set_fontweight('bold')
+            tick.set_fontsize(6.3)
     ax.set_ylim(len(ylabels) - .4, -.6)
     ax.set(xlim=(-.12, .78), xlabel=r'$\Delta$AUROC, target A score')
-    ax.set_title('Resampling of flagship differences', fontsize=8)
+    ax.set_title('Cluster-resampling sensitivity\nof fixed-score differences', fontsize=7.4)
     ax.legend(handles=[
         L(C['vina'], 'o', 'ligand', ms=4.4),
         L(C['desc'], 's', 'scaffold cluster', ms=4.2),
@@ -530,13 +544,13 @@ def fig6(D):
     rows = [next(r for r in D['native'] if r['pair'] == p) for p in PAIRS]
     ax = fig.add_subplot(gs[1, 0]); label(ax, 'C', x=-0.18, y=1.04)
     P['fig6C'] = counts_heatmap(ax, rows, ['n_dual', 'n_A_only', 'n_B_only'],
-                                'BindingDB compounds (saturates at n=20)', 20)
-    ax.text(.5, -.18, '0/8 pairs meet all external criteria', transform=ax.transAxes, ha='center', fontsize=6.3)
+                                'BindingDB compounds (gate: n ≥ 20 / class)', 20)
     ax = fig.add_subplot(gs[1, 1]); label(ax, 'D', x=-0.18, y=1.04)
     P['fig6D'] = counts_heatmap(ax, rows, ['n_sources_dual', 'n_sources_A_only', 'n_sources_B_only'],
-                                'BindingDB sources (saturates at n=3)', 3)
-    ax.text(.5, -.18, 'Independent-source gate: ≥3 / class', transform=ax.transAxes, ha='center', fontsize=6.3)
-    fig.subplots_adjust(left=.16, right=.98, top=.94, bottom=.10)
+                                'BindingDB sources (gate: ≥ 3 / class)', 3)
+    fig.text(.57, .02, '0/8 pairs met both compound-count and independent-source criteria.',
+             ha='center', fontsize=6.5)
+    fig.subplots_adjust(left=.16, right=.98, top=.94, bottom=.08)
     save(fig, 'Fig6_evidence_boundary')
 
 
@@ -628,25 +642,42 @@ def cognate_rmsd_rows():
 
 def fig_s12_cognate():
     rows = cognate_rmsd_rows()
+    xmax = 3.5
     fig, ax = plt.subplots(figsize=(7, 6.35))
+    offscale = []
     for i, r in enumerate(rows):
-        ax.plot(r['top1'], i - .18, 'o', color=C['vina'], ms=4.6, zorder=4)
-        if r['top3'] is not None:
-            ax.plot(r['top3'], i, 's', color=C['desc'], ms=4.3, zorder=4)
-        ax.plot(r['best9'], i + .18, 'D', color=C['a_only'], ms=4.1, zorder=4)
+        pts = [('top1', r['top1'], i - .18, 'o', C['vina']),
+               ('top3', r['top3'], i, 's', C['desc']),
+               ('best9', r['best9'], i + .18, 'D', C['a_only'])]
+        for name, val, yy, m, col in pts:
+            if val is None:
+                continue
+            if val <= xmax:
+                ax.plot(val, yy, m, color=col, ms=4.5, zorder=4)
+            else:
+                offscale.append({'label': r['label'], 'series': name, 'rmsd': val})
+                ax.annotate(
+                    '',
+                    xy=(xmax + 0.22, yy),
+                    xytext=(xmax - 0.05, yy),
+                    arrowprops=dict(arrowstyle='-|>', color=col, lw=0.9),
+                    annotation_clip=False,
+                )
+                ax.text(xmax + 0.26, yy, f'{val:.3f}', va='center', ha='left', fontsize=6.0, color=col)
     ax.axvline(2.0, color=C['chance'], ls='--', lw=.9)
     ax.set_yticks(range(len(rows)), [r['label'] for r in rows], fontsize=7)
     ax.set_ylim(len(rows) - .35, -.65)
     ax.set_xlabel(r'Heavy-atom RMSD ($\mathrm{\AA}$)')
-    ax.set_xlim(-0.2, 10.2)
+    ax.set_xlim(-0.12, 4.35)
     ax.set_title('Cognate redocking of the 14 primary receptors', fontsize=8, pad=4)
     ax.legend(handles=[
         L(C['vina'], 'o', 'top-1', ms=4.8),
         L(C['desc'], 's', 'top-3 minimum', ms=4.6),
         L(C['a_only'], 'D', 'best-of-9 minimum', ms=4.4),
-    ], loc='upper right', fontsize=6.4)
+    ], loc='upper center', bbox_to_anchor=(.5, -.11), ncol=3, fontsize=6.4)
     P['figS12'] = rows
-    fig.subplots_adjust(left=.18, right=.97, top=.93, bottom=.10)
+    P['figS12_offscale'] = offscale
+    fig.subplots_adjust(left=.18, right=.90, top=.93, bottom=.14)
     save(fig, 'FigS12_cognate_rmsd')
 
 
@@ -660,9 +691,9 @@ def toc_graphic():
     for x, y, name, col in cells:
         ax.add_patch(Rectangle((x, y), 4.15, 3.7, fc=col, alpha=.22, ec=col, lw=.5))
         ax.text(x + 2.07, y + 1.85, name, ha='center', va='center', fontsize=5.8)
-    ax.text(5.2, 1.35, 'B active          B low', ha='center', fontsize=5.2, color='#555555')
+    ax.text(5.2, 1.35, r'B $\geq\theta$          B $<\theta$', ha='center', fontsize=5.2, color='#555555')
     ax.text(11.0, 8.4, '→', ha='center', va='center', fontsize=11, color='#888888')
-    ax.text(17.4, 14.7, 'Same docking scores', ha='center', fontsize=6.4, fontweight='bold')
+    ax.text(17.4, 14.7, 'Same docking results', ha='center', fontsize=6.4, fontweight='bold')
     ax.add_patch(FancyBboxPatch((11.7, 8.55), 11.4, 4.55, boxstyle='round,pad=0.06,rounding_size=0.18',
                                 fc='#F7F7F7', ec=C['vina'], lw=.7))
     ax.text(17.4, 11.85, 'dual — A-only  |  score B', ha='center', fontsize=5.8)

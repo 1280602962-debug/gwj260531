@@ -2,7 +2,7 @@
 
 Source commit: `abb61a20a04eb6a085ad526876624eadb518c4cc`
 
-123 PASS / 0 FAIL
+129 PASS / 0 FAIL
 
 | Status | Check |
 |---|---|
@@ -56,6 +56,11 @@ Source commit: `abb61a20a04eb6a085ad526876624eadb518c4cc`
 | PASS | caption has no later five |
 | PASS | caption has no Horizontal gray rules |
 | PASS | caption has no underpowered |
+| PASS | caption has no flagship |
+| PASS | caption has no data-collection sequence |
+| PASS | caption has no were then selected |
+| PASS | Fig1C caption separates census from the eight-pair evaluation |
+| PASS | Fig3A caption distinguishes Vina rank from ECFP4 GroupKFold |
 | PASS | SI protocol and cognate RMSD figures generated |
 | PASS | ZH Table 2 plotted AUROCs/CI EGFR/HER2 |
 | PASS | ZH Table 3 plotted AUROCs/CI/n_neither EGFR/HER2 |
@@ -94,6 +99,7 @@ Source commit: `abb61a20a04eb6a085ad526876624eadb518c4cc`
 | PASS | Withdrawn PIK3CB absent from primary figures |
 | PASS | ECFP4 incremental maximum agrees with manuscript 0.023 |
 | PASS | Simulation: three pairs, complete six-point grid |
+| PASS | EGFR 3POZ top-1 is plotted off-scale |
 | PASS | JAK1/TYK2 document-cluster interval crosses zero |
 | PASS | Top-10 class counts: 1/5/4/0 |
 | PASS | AND-filter class counts: 14/9/24 |

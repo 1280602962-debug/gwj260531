@@ -26,7 +26,7 @@ Historical CSV splits remain routing keys only and are not drawn.
 | 3 | Sixteen ECFP4/Vina comparisons, incremental AUROC (±0.03), illustrative AChE/BChE TPSA | Point comparisons and individual-compound distributions preserve the paired design. |
 | 4 | Three independent GNINA systems, PIK3CA/mTOR receptor changes, five Vina seeds | 2-up / 1-full-width layout; point plots emphasize the task gap, not engine ranking. |
 | 5 | Main and holdout matched−mismatched Δ on the same rows; holdout vs main summary | Color encodes ligand set (main vs holdout), not interval exclusion of zero. |
-| 6 | Label-rule heatmap, cluster resampling of flagship Δ, BindingDB compound and source gates | Evidence boundary is label robustness, source dependence, and external supply. |
+| 6 | Label-rule heatmap, cluster resampling of fixed-score Δ, BindingDB compound and source gates | Evidence boundary is label robustness, source dependence, and external supply. |
 | S1 | PIK3CA/mTOR panel size and exhaustiveness | Protocol sensitivity demoted from the main evidence-boundary figure. |
 | S4 | Vina intervals and best descriptor points | Descriptive reference. |
 | S5 | Seven holdout/main comparisons | Matches Table S7. |
