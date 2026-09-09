@@ -49,7 +49,7 @@ def main() -> None:
     parts.extend(section_body(name, marker) + "\n\n" for name, marker in SECTIONS)
     parts.append(read("REFERENCES_JCIM.md").replace("## References", "## 参考文献", 1).strip() + "\n")
     manuscript = "".join(parts)
-    forbidden = ("供阅读与内部核对", "写法说明（不进正文）", "投稿以英文为准", "不要使用：")
+    forbidden = ("供阅读与内部核对", "写法说明（不进正文）", "投稿以英文为准", "不要使用：", "旗舰", "Note S14", "历史工作表")
     leaked = [term for term in forbidden if term in manuscript]
     if leaked:
         raise ValueError(f"internal author notes leaked into manuscript: {leaked}")

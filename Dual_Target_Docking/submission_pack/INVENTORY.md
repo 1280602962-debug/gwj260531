@@ -2,10 +2,10 @@
 
 ## manuscript
 - `DATA_AND_SOFTWARE_AVAILABILITY_JCIM_EN.md` (2347 bytes)
-- `DATA_AND_SOFTWARE_AVAILABILITY_JCIM_ZH.md` (1990 bytes)
+- `DATA_AND_SOFTWARE_AVAILABILITY_JCIM_ZH.md` (314 bytes)
 - `FIGURE_PANEL_LOCK_V3.md` (4456 bytes)
 - `MANUSCRIPT_JCIM_EN.md` (54767 bytes)
-- `MANUSCRIPT_JCIM_ZH.md` (51353 bytes)
+- `MANUSCRIPT_JCIM_ZH.md` (51006 bytes)
 - `REFERENCES_JCIM.md` (5939 bytes)
 - `STATISTICAL_LOCK_V1.md` (5280 bytes)
 - `SUBMISSION_AUDIT_FIVE_ROUNDS_V1.md` (9777 bytes)
@@ -94,7 +94,7 @@
 
 ## scripts
 - `assemble_manuscript_en.py` (2259 bytes)
-- `assemble_manuscript_zh.py` (2361 bytes)
+- `assemble_manuscript_zh.py` (2402 bytes)
 - `audit_submission_five_rounds_v1.py` (34574 bytes)
 - `bootstrap_primary.py` (2979 bytes)
 - `build_checksum_manifest_v1.py` (6144 bytes)
