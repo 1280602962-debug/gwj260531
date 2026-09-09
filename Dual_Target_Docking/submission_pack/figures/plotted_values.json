@@ -1,5 +1,7 @@
 {
   "commit": "abb61a20a04eb6a085ad526876624eadb518c4cc",
+  "data_snapshot_commit": "abb61a20a04eb6a085ad526876624eadb518c4cc",
+  "artwork_git_head": "a96655c3cbdb10125277fee59c05cf95f189d47e",
   "source": "https://github.com/1280602962-debug/gwj260531/pull/32",
   "inputs_sha256": {
     "data/jcim_j0j1_v0/tables/j0_strict_label_supply.csv": "c47c515baed799b954ae99cb8c93516030acc5bd508a6bc571a99694715df853",
@@ -1602,7 +1604,6 @@
         "protein": "EGFR",
         "pdb": "3POZ",
         "top1": 9.5054,
-        "top3": 6.227,
         "best9": 0.7599,
         "label": "EGFR 3POZ"
       },
@@ -1610,7 +1611,6 @@
         "protein": "HER2",
         "pdb": "3RCD",
         "top1": 1.8546,
-        "top3": 1.3944,
         "best9": 1.3944,
         "label": "HER2 3RCD"
       },
@@ -1619,7 +1619,6 @@
         "pdb": "6N7A",
         "top1": 0.459,
         "best9": 0.459,
-        "top3": 0.459,
         "label": "JAK1 6N7A"
       },
       {
@@ -1627,7 +1626,6 @@
         "pdb": "8BXH",
         "top1": 4.064,
         "best9": 0.807,
-        "top3": 0.807,
         "label": "JAK2 8BXH"
       },
       {
@@ -1635,7 +1633,6 @@
         "pdb": "3LXP",
         "top1": 0.197,
         "best9": 0.197,
-        "top3": 0.197,
         "label": "TYK2 3LXP"
       },
       {
@@ -1643,7 +1640,6 @@
         "pdb": "4L23",
         "top1": 0.624,
         "best9": 0.624,
-        "top3": 0.624,
         "label": "PIK3CA 4L23"
       },
       {
@@ -1651,14 +1647,12 @@
         "pdb": "4JT6",
         "top1": 7.118,
         "best9": 0.445,
-        "top3": 0.445,
         "label": "mTOR 4JT6"
       },
       {
         "protein": "AChE",
         "pdb": "4EY7",
         "top1": 0.3385,
-        "top3": 0.3385,
         "best9": 0.3385,
         "label": "AChE 4EY7"
       },
@@ -1666,7 +1660,6 @@
         "protein": "BChE",
         "pdb": "4BDS",
         "top1": 4.7941,
-        "top3": 0.3856,
         "best9": 0.3856,
         "label": "BChE 4BDS"
       },
@@ -1675,7 +1668,6 @@
         "pdb": "4UDW",
         "top1": 0.382,
         "best9": 0.382,
-        "top3": 0.382,
         "label": "F2 4UDW"
       },
       {
@@ -1683,7 +1675,6 @@
         "pdb": "2JKH",
         "top1": 0.658,
         "best9": 0.658,
-        "top3": 0.658,
         "label": "F10 2JKH"
       },
       {
@@ -1691,7 +1682,6 @@
         "pdb": "9V8H",
         "top1": 6.493,
         "best9": 1.459,
-        "top3": 1.459,
         "label": "PPARG 9V8H"
       },
       {
@@ -1699,7 +1689,6 @@
         "pdb": "6LXA",
         "top1": 7.508,
         "best9": 1.098,
-        "top3": null,
         "label": "PPARA 6LXA"
       },
       {
@@ -1707,7 +1696,6 @@
         "pdb": "5U3Q",
         "top1": 1.452,
         "best9": 1.452,
-        "top3": 1.452,
         "label": "PPARD 5U3Q"
       }
     ],
@@ -1716,11 +1704,6 @@
         "label": "EGFR 3POZ",
         "series": "top1",
         "rmsd": 9.5054
-      },
-      {
-        "label": "EGFR 3POZ",
-        "series": "top3",
-        "rmsd": 6.227
       },
       {
         "label": "JAK2 8BXH",

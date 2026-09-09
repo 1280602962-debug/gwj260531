@@ -1,8 +1,12 @@
 # PR #32 figure update
 
-Source: PR #32, commit `abb61a20a04eb6a085ad526876624eadb518c4cc`.
-The source manuscripts and every table read by the generator are retained in
-`input_snapshot/`, with SHA-256 values in `plotted_values.json`.
+Pinned numerical-data snapshot: `abb61a20a04eb6a085ad526876624eadb518c4cc`.
+Artwork is generated from that snapshot; `plotted_values.json` records both
+`data_snapshot_commit` and `artwork_git_head` (git HEAD when the generator ran).
+Input SHA-256 values are in the same JSON file.
+
+Manuscript captions: `MANUSCRIPT_FIGURE_CAPTIONS.md`.
+Repository notes: `FIGURE_ASSET_NOTES.md`.
 
 Run from any directory:
 
@@ -34,7 +38,7 @@ Historical CSV splits remain routing keys only and are not drawn.
 | S7 | EGFR/HER2 Top-10 and AND-filter composition | Exploratory; remains SI. |
 | S8 | Filtered compound and source counts | Same matrices as Figure 6C/D. |
 | S11 | EGFR/HER2 and JAK1/TYK2 cluster intervals | SI copy of Figure 6B. |
-| S12 | Cognate RMSD for 14 primary receptors | Protocol QC, not a main-text structural claim. |
+| S12 | Cognate RMSD for 14 primary receptors (top-1 and best-of-9) | Protocol QC, not a main-text structural claim. |
 
 S11 is an additional **figure** identifier and does not renumber SI tables.
 Tables S1–S13 remain unchanged. Historical original-set figure files are not kept

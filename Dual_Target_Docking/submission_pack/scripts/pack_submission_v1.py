@@ -113,7 +113,7 @@ def main() -> None:
         "FigS8_bindingdb_native_slice",
         "FigS11_cluster_uncertainty",
         "FigS12_cognate_rmsd",
-        "CAPTIONS",
+        "MANUSCRIPT_FIGURE_CAPTIONS",
         "plotted_values",
         "FIGURE_AUDIT_PR32",
         "FIGURE_SHA256",

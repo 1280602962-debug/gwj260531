@@ -30,8 +30,10 @@ fa=float(audit['plotted']['fig2']['EGFR/HER2']['fixed_A']['delta_neither_minus_s
 fb=float(audit['plotted']['fig2']['JAK1/TYK2']['fixed_A']['delta_neither_minus_selective'])
 check(abs(fa-0.378)<0.001,'Figure 2A EGFR/HER2 fixed-score Δ is 0.378')
 check(abs(fb-0.444)<0.001,'Figure 2A JAK1/TYK2 fixed-score Δ is 0.444')
-captions=(OUT/'CAPTIONS.md').read_text(encoding='utf-8')
-for phrase in ['initially evaluated','added after the census','original three','census five','later five','Horizontal gray rules','underpowered','flagship','data-collection sequence','were then selected']:
+check(audit.get('data_snapshot_commit')=='abb61a20a04eb6a085ad526876624eadb518c4cc','data snapshot commit is pinned separately from artwork')
+check(bool(audit.get('artwork_git_head')),'artwork git HEAD recorded at generation')
+captions=(OUT/'MANUSCRIPT_FIGURE_CAPTIONS.md').read_text(encoding='utf-8')
+for phrase in ['initially evaluated','added after the census','original three','census five','later five','Horizontal gray rules','underpowered','flagship','data-collection sequence','were then selected','python3','PowerPoint','historical original-set','Regenerate']:
     check(phrase.lower() not in captions.lower(),'caption has no '+phrase)
 check('The census summarizes the availability' in captions,'Fig1C caption separates census from the eight-pair evaluation')
 check('Primary rank-based Vina AUROC' in captions,'Fig3A caption distinguishes Vina rank from ECFP4 GroupKFold')
@@ -60,6 +62,7 @@ sim=audit['plotted']['figS6']
 check(len({r['pair'] for r in sim})==3 and {float(r['true_auroc']) for r in sim}=={.50,.55,.60,.65,.70,.75},'Simulation: three pairs, complete six-point grid')
 off=audit['plotted'].get('figS12_offscale') or []
 check(any(abs(float(r['rmsd'])-9.505)<.002 and r.get('series')=='top1' for r in off),'EGFR 3POZ top-1 is plotted off-scale')
+check(all('top3' not in r for r in audit['plotted']['figS12']),'Figure S12 plots only top-1 and best-of-9')
 cl=audit['plotted']['figS11']
 jdoc=next(r for r in cl if r['pair']=='JAK1/TYK2' and r['estimator']=='document_cluster')
 check(float(jdoc['delta_ci_lo'])<0<float(jdoc['delta_ci_hi']),'JAK1/TYK2 document-cluster interval crosses zero')
@@ -80,8 +83,11 @@ for group,stems in [('main',[s for s in audit['generated'] if re.match(r'Fig[1-6
         with Image.open(OUT/(s+'.png')) as im:thumb=ImageOps.contain(im,(680,510))
         xx=(i%2)*700;yy=(i//2)*550;canvas.paste(thumb,(xx+(700-thumb.width)//2,yy+25));draw.text((xx+12,yy+5),s,fill='black')
     canvas.save(qa/(group+'_contact_sheet.jpg'),quality=92)
-report=['# PR32 figure numerical audit','',f"Source commit: `{audit['commit']}`",'',f"{sum(x for x,_ in checks)} PASS / {sum(not x for x,_ in checks)} FAIL",'', '| Status | Check |','|---|---|']
+report=['# PR32 figure numerical audit','',
+        f"Pinned numerical-data snapshot: `{audit.get('data_snapshot_commit', audit.get('commit'))}`",
+        f"Artwork generated from git HEAD: `{audit.get('artwork_git_head','')}`",
+        '',f"{sum(x for x,_ in checks)} PASS / {sum(not x for x,_ in checks)} FAIL",'', '| Status | Check |','|---|---|']
 report += [f'| {"PASS" if ok else "FAIL"} | {what} |' for ok,what in checks]
 (OUT/'FIGURE_AUDIT_PR32.md').write_text('\n'.join(report)+'\n',encoding='utf-8')
-print(report[4])
+print(next(line for line in report if 'PASS /' in line))
 if any(not ok for ok,_ in checks):raise SystemExit('Figure audit failed')

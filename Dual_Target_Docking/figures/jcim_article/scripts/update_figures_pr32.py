@@ -30,7 +30,7 @@ import plot_jcim_article_figures_v3 as v
 
 OUT = Path(__file__).resolve().parents[1]
 SNAP = OUT / 'input_snapshot'
-SHA = 'abb61a20a04eb6a085ad526876624eadb518c4cc'
+DATA_SNAPSHOT_COMMIT = 'abb61a20a04eb6a085ad526876624eadb518c4cc'
 C = style.C
 PAIRS = style.PRIMARY_PAIRS
 SMIN = r'summary$_{\mathrm{min}}$'
@@ -39,6 +39,19 @@ READS = {}
 P = {}
 SOURCE = None
 FLAGSHIP = {'EGFR/HER2', 'JAK1/TYK2'}
+
+
+def git_head():
+    import subprocess
+    try:
+        return subprocess.check_output(
+            ['git', 'rev-parse', 'HEAD'],
+            cwd=Path(__file__).resolve().parents[4],
+            text=True,
+            stderr=subprocess.DEVNULL,
+        ).strip()
+    except Exception:
+        return ''
 
 
 def snapshot_path(rel):
@@ -263,7 +276,7 @@ def fig3(D):
         L(C['vina'], 's', 'Vina D/B', ms=4.8),
         L(C['desc'], 'o', 'ECFP4 D/A', ms=5.2, mfc='white', mec=C['desc']),
         L(C['desc'], 's', 'ECFP4 D/B', ms=4.8, mfc='white', mec=C['desc']),
-    ], loc='upper center', ncol=4, fontsize=6.0, frameon=True, fancybox=False,
+    ], loc='upper center', ncol=4, fontsize=6.5, frameon=True, fancybox=False,
        edgecolor='none', facecolor='white', framealpha=.92,
        columnspacing=.9, handletextpad=.35)
     P['fig3A'] = plotted
@@ -271,23 +284,24 @@ def fig3(D):
     ax = fig.add_subplot(gs[1, 0])
     label(ax, 'B', x=-0.22, y=1.06)
     deltas = []
+    ink = C['ink']
     for i, p in enumerate(PAIRS):
-        for contrast, yoff, col, m in (('D_vs_A', .12, C['vina'], 'o'), ('D_vs_B', -.12, C['a_only'], 's')):
+        for contrast, yoff, m in (('D_vs_A', .12, 'o'), ('D_vs_B', -.12, 's')):
             r = v.ecfp_row(D, p, contrast)
             dlt = r['ecfp_plus'] - r['ecfp_base']
             deltas.append(dlt)
-            ax.plot([0, dlt], [i + yoff, i + yoff], color=col, lw=.9, zorder=2)
-            ax.plot(dlt, i + yoff, m, color=col, ms=4.2, zorder=4)
+            ax.plot([0, dlt], [i + yoff, i + yoff], color='#888888', lw=.9, zorder=2)
+            ax.plot(dlt, i + yoff, m, color=ink, ms=4.2, zorder=4)
     ax.axvline(0, color=C['ink'], lw=.8)
-    ax.set_yticks(range(len(PAIRS)), PAIRS, fontsize=6.0)
+    ax.set_yticks(range(len(PAIRS)), PAIRS, fontsize=6.5)
     ax.invert_yaxis()
     ax.set_xlabel(r'$\Delta$AUROC (ECFP4+Vina − ECFP4)')
     ax.set_xlim(-0.03, 0.03)
-    ax.set_title('Increment from adding Vina', fontsize=8, pad=3)
+    ax.set_title('ECFP4 + Vina versus ECFP4', fontsize=8, pad=3)
     ax.legend(handles=[
-        L(C['vina'], 'o', 'D/A', ms=4.4),
-        L(C['a_only'], 's', 'D/B', ms=4.2),
-    ], loc='lower right', bbox_to_anchor=(.98, .06), fontsize=6.0, frameon=True,
+        L(ink, 'o', 'D/A', ms=4.4),
+        L(ink, 's', 'D/B', ms=4.2),
+    ], loc='lower right', bbox_to_anchor=(.98, .06), fontsize=6.5, frameon=True,
        fancybox=False, edgecolor='none', facecolor='white', framealpha=.92)
     P['fig3B_deltas'] = deltas
     P['fig3B_max_abs'] = float(max(abs(d) for d in deltas))
@@ -332,17 +346,18 @@ def fig4(D):
         ax.plot(g['smin'], i + .14, 's', color=C['vina'], mfc='white', mec=C['vina'], ms=4.8, zorder=4)
         ax.plot(g['nei'], i + .14, 's', color=C['desc'], mfc='white', mec=C['desc'], ms=4.8, zorder=4)
     ax.axvline(.5, color=C['chance'], ls='--', lw=.85)
-    ax.set_yticks(yy, v.GNINA_INDEP_PAIRS, fontsize=6.3)
+    ax.set_yticks(yy, v.GNINA_INDEP_PAIRS, fontsize=6.5)
     ax.invert_yaxis()
     ax.set_xlabel('AUROC'); ax.set_xlim(.12, .95)
     ax.set_title('Independent pose generation', fontsize=8, pad=3)
     ax.legend(handles=[
-        L(C['vina'], 'o', 'Vina directional', ms=5.0),
-        L(C['desc'], 'o', 'Vina Dual vs neither', ms=5.0),
-        L(C['vina'], 's', 'GNINA directional', ms=4.8, mfc='white', mec=C['vina']),
-        L(C['desc'], 's', 'GNINA Dual vs neither', ms=4.8, mfc='white', mec=C['desc']),
-    ], loc='lower left', fontsize=5.5, frameon=True, fancybox=False, edgecolor='none',
-       facecolor='white', framealpha=.92, ncol=1, labelspacing=.25)
+        L(C['vina'], 'o', 'Vina', ms=5.0),
+        L(C['vina'], 's', 'GNINA', ms=4.8, mfc='white', mec=C['vina']),
+        L(C['vina'], 'o', 'directional', ms=5.0),
+        L(C['desc'], 'o', 'Dual vs neither', ms=5.0),
+    ], loc='lower left', fontsize=6.5, frameon=True, fancybox=False, edgecolor='none',
+       facecolor='white', framealpha=.92, ncol=2, columnspacing=.8, labelspacing=.28,
+       handletextpad=.35)
     P['fig4A'] = {
         'pairs': list(v.GNINA_INDEP_PAIRS),
         'vina_smin': vina_smin, 'gnina_smin': g_smin,
@@ -366,14 +381,14 @@ def fig4(D):
                     elinewidth=1.2, capsize=2.0, markersize=6.0, zorder=4)
         fig4b.append({'label': name, 'y': y, 'lo': lo, 'hi': hi, 'group': grp})
     ax.axhline(.5, color=C['chance'], ls='--', lw=.85)
-    ax.set_xticks(range(4), [n for n, *_ in items], fontsize=6.1)
+    ax.set_xticks(range(4), [n for n, *_ in items], fontsize=6.5)
     ax.set_ylabel(SMIN); ax.set_ylim(.12, 1.02); ax.set_xlim(-.55, 3.45)
     ax.set_title('PIK3CA/mTOR receptor structures', fontsize=8, pad=3)
     ax.legend(handles=[
         L(C['vina'], 'o', 'Primary (4L23 / 4JT6)', ms=5.2),
         L(C['a_only'], 'o', 'PIK3CA substituted', ms=5.2),
         L(C['holdout'], 'o', 'mTOR substituted', ms=5.2),
-    ], loc='lower left', fontsize=5.6, frameon=True, fancybox=False, edgecolor='none',
+    ], loc='lower left', fontsize=6.5, frameon=True, fancybox=False, edgecolor='none',
        facecolor='white', framealpha=.92, labelspacing=.25)
     P['fig4B'] = fig4b
 
@@ -524,20 +539,14 @@ def fig6(D):
             plotted[(p, key)] = rr
             y += 1
     ax.axvline(0, color=C['chance'], ls='--', lw=.7)
-    ax.set_yticks(range(len(ylabels)), ylabels, fontsize=5.8)
+    ax.set_yticks(range(len(ylabels)), ylabels, fontsize=6.5)
     for tick, lab in zip(ax.get_yticklabels(), ylabels):
         if lab in ('EGFR/HER2', 'JAK1/TYK2'):
             tick.set_fontweight('bold')
-            tick.set_fontsize(6.3)
+            tick.set_fontsize(7.0)
     ax.set_ylim(len(ylabels) - .4, -.6)
     ax.set(xlim=(-.12, .78), xlabel=r'$\Delta$AUROC, target A score')
     ax.set_title('Cluster-resampling sensitivity\nof fixed-score differences', fontsize=7.4)
-    ax.legend(handles=[
-        L(C['vina'], 'o', 'ligand', ms=4.4),
-        L(C['desc'], 's', 'scaffold cluster', ms=4.2),
-        L(C['a_only'], 'D', 'document cluster', ms=4.2),
-    ], loc='upper left', fontsize=5.6, frameon=True, fancybox=False, edgecolor='none',
-       facecolor='white', framealpha=.92, labelspacing=.25)
     P['fig6B'] = {f'{p}|{k}': rec for (p, k), rec in plotted.items()}
     P['figS11'] = clusters  # same table; SI figure still generated
 
@@ -548,7 +557,7 @@ def fig6(D):
     ax = fig.add_subplot(gs[1, 1]); label(ax, 'D', x=-0.18, y=1.04)
     P['fig6D'] = counts_heatmap(ax, rows, ['n_sources_dual', 'n_sources_A_only', 'n_sources_B_only'],
                                 'BindingDB sources (gate: ≥ 3 / class)', 3)
-    fig.text(.57, .02, '0/8 pairs met both compound-count and independent-source criteria.',
+    fig.text(.57, .02, '0/8 pairs met the full external-evaluation gate.',
              ha='center', fontsize=6.5)
     fig.subplots_adjust(left=.16, right=.98, top=.94, bottom=.08)
     save(fig, 'Fig6_evidence_boundary')
@@ -588,7 +597,11 @@ def fig_s1_protocol(D):
 
 
 def cognate_rmsd_rows():
-    """Assemble 14 main-receptor RMSD markers from frozen CSVs only."""
+    """Assemble 14 main-receptor RMSD markers from frozen CSVs only.
+
+    Only top-1 and best-of-9 are plotted. A uniform top-3 minimum is not
+    available for every receptor (per-pose RMSDs exist for four PDBs only).
+    """
     rank = read('data/jcim_novelty_v0/tables/cognate_rank_rmsd_reaudit_v1.csv')
     layer = read('data/jcim_chembl_universe_v0/local_track_b_v0/tables/layer3_cognate_rmsd_v1.csv')
     pm = read('data/pik3ca_mtor_panel48_v0/analysis/cognate_redock_v0/tables/pm48_01_rmsd_E16.csv')
@@ -600,29 +613,23 @@ def cognate_rmsd_rows():
         by_pdb[pdb] = {
             'protein': r['target'], 'pdb': pdb,
             'top1': float(r['best_top1_A']),
-            'top3': float(r['best_top3_A']),
             'best9': float(r['best_all_deposited_A']),
         }
     for r in layer:
-        mode = int(float(r['best_mode']))
-        rec = {
+        by_pdb[r['pdb']] = {
             'protein': r['protein'], 'pdb': r['pdb'],
             'top1': float(r['top1_rmsd']),
             'best9': float(r['best_of_9_rmsd']),
-            'top3': float(r['best_of_9_rmsd']) if mode <= 3 else None,
         }
-        by_pdb[r['pdb']] = rec
     seed_row = {'4L23': None, '4JT6': None}
     for r in pm:
         if r['seed'] != '20260727':
             continue
         pdb = r['target']
-        mode = int(float(r['best_of_9_mode']))
         seed_row[pdb] = {
             'protein': 'PIK3CA' if pdb == '4L23' else 'mTOR', 'pdb': pdb,
             'top1': float(r['rmsd_mode1']),
             'best9': float(r['rmsd_best_of_9']),
-            'top3': float(r['rmsd_best_of_9']) if mode <= 3 else None,
         }
     by_pdb.update({k: v for k, v in seed_row.items() if v})
     order = [
@@ -646,12 +653,9 @@ def fig_s12_cognate():
     fig, ax = plt.subplots(figsize=(7, 6.35))
     offscale = []
     for i, r in enumerate(rows):
-        pts = [('top1', r['top1'], i - .18, 'o', C['vina']),
-               ('top3', r['top3'], i, 's', C['desc']),
-               ('best9', r['best9'], i + .18, 'D', C['a_only'])]
+        pts = [('top1', r['top1'], i - .14, 'o', C['vina']),
+               ('best9', r['best9'], i + .14, 'D', C['a_only'])]
         for name, val, yy, m, col in pts:
-            if val is None:
-                continue
             if val <= xmax:
                 ax.plot(val, yy, m, color=col, ms=4.5, zorder=4)
             else:
@@ -663,7 +667,7 @@ def fig_s12_cognate():
                     arrowprops=dict(arrowstyle='-|>', color=col, lw=0.9),
                     annotation_clip=False,
                 )
-                ax.text(xmax + 0.26, yy, f'{val:.3f}', va='center', ha='left', fontsize=6.0, color=col)
+                ax.text(xmax + 0.26, yy, f'{val:.3f}', va='center', ha='left', fontsize=6.5, color=col)
     ax.axvline(2.0, color=C['chance'], ls='--', lw=.9)
     ax.set_yticks(range(len(rows)), [r['label'] for r in rows], fontsize=7)
     ax.set_ylim(len(rows) - .35, -.65)
@@ -672,9 +676,8 @@ def fig_s12_cognate():
     ax.set_title('Cognate redocking of the 14 primary receptors', fontsize=8, pad=4)
     ax.legend(handles=[
         L(C['vina'], 'o', 'top-1', ms=4.8),
-        L(C['desc'], 's', 'top-3 minimum', ms=4.6),
         L(C['a_only'], 'D', 'best-of-9 minimum', ms=4.4),
-    ], loc='upper center', bbox_to_anchor=(.5, -.11), ncol=3, fontsize=6.4)
+    ], loc='upper center', bbox_to_anchor=(.5, -.11), ncol=2, fontsize=6.5)
     P['figS12'] = rows
     P['figS12_offscale'] = offscale
     fig.subplots_adjust(left=.18, right=.90, top=.93, bottom=.14)
@@ -822,7 +825,10 @@ def main():
         if SOURCE != SNAP.resolve():
             shutil.copyfile(path, dest)
     audit = {
-        'commit': SHA, 'source': 'https://github.com/1280602962-debug/gwj260531/pull/32',
+        'commit': DATA_SNAPSHOT_COMMIT,
+        'data_snapshot_commit': DATA_SNAPSHOT_COMMIT,
+        'artwork_git_head': git_head(),
+        'source': 'https://github.com/1280602962-debug/gwj260531/pull/32',
         'inputs_sha256': READS,
         'input_files': {rel: str(snapshot_path(rel).relative_to(OUT)) for rel in READS},
         'generated': GENERATED, 'plotted': P,

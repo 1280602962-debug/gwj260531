@@ -1,8 +1,9 @@
 # PR32 figure numerical audit
 
-Source commit: `abb61a20a04eb6a085ad526876624eadb518c4cc`
+Pinned numerical-data snapshot: `abb61a20a04eb6a085ad526876624eadb518c4cc`
+Artwork generated from git HEAD: `a96655c3cbdb10125277fee59c05cf95f189d47e`
 
-129 PASS / 0 FAIL
+136 PASS / 0 FAIL
 
 | Status | Check |
 |---|---|
@@ -49,6 +50,8 @@ Source commit: `abb61a20a04eb6a085ad526876624eadb518c4cc`
 | PASS | primary plotted dict follows scientific order |
 | PASS | Figure 2A EGFR/HER2 fixed-score Δ is 0.378 |
 | PASS | Figure 2A JAK1/TYK2 fixed-score Δ is 0.444 |
+| PASS | data snapshot commit is pinned separately from artwork |
+| PASS | artwork git HEAD recorded at generation |
 | PASS | caption has no initially evaluated |
 | PASS | caption has no added after the census |
 | PASS | caption has no original three |
@@ -59,6 +62,10 @@ Source commit: `abb61a20a04eb6a085ad526876624eadb518c4cc`
 | PASS | caption has no flagship |
 | PASS | caption has no data-collection sequence |
 | PASS | caption has no were then selected |
+| PASS | caption has no python3 |
+| PASS | caption has no PowerPoint |
+| PASS | caption has no historical original-set |
+| PASS | caption has no Regenerate |
 | PASS | Fig1C caption separates census from the eight-pair evaluation |
 | PASS | Fig3A caption distinguishes Vina rank from ECFP4 GroupKFold |
 | PASS | SI protocol and cognate RMSD figures generated |
@@ -100,6 +107,7 @@ Source commit: `abb61a20a04eb6a085ad526876624eadb518c4cc`
 | PASS | ECFP4 incremental maximum agrees with manuscript 0.023 |
 | PASS | Simulation: three pairs, complete six-point grid |
 | PASS | EGFR 3POZ top-1 is plotted off-scale |
+| PASS | Figure S12 plots only top-1 and best-of-9 |
 | PASS | JAK1/TYK2 document-cluster interval crosses zero |
 | PASS | Top-10 class counts: 1/5/4/0 |
 | PASS | AND-filter class counts: 14/9/24 |

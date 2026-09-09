@@ -123,7 +123,7 @@ These are consistent with MASTER / validator / current Results (3 d.p. rounding 
 
 ## 5. Figures (submission files)
 
-All live in `figures/jcim_article/`. Captions: `figures/jcim_article/CAPTIONS.md`. Numeric lock: `figures/jcim_article/plotted_values.json` (Vina CIs = unified_threshold).
+All live in `figures/jcim_article/`. Captions: `figures/jcim_article/MANUSCRIPT_FIGURE_CAPTIONS.md`. Numeric lock: `figures/jcim_article/plotted_values.json` (Vina CIs = unified_threshold). Data snapshot commit `abb61a20…` is distinct from the artwork git HEAD.
 
 | Figure | File stem | Reads |
 |---|---|---|
@@ -142,7 +142,7 @@ All live in `figures/jcim_article/`. Captions: `figures/jcim_article/CAPTIONS.md
 | S7 | FigS7_posthoc_diagnostics | Top-10 / AND filter |
 | S8 | FigS8_bindingdb_native_slice | external_slice_summary |
 | S11 | FigS11_cluster_uncertainty | equal_score_cluster_bootstrap (same as Fig 6B) |
-| S12 | FigS12_cognate_rmsd | cognate redocking RMSD, 14 receptors |
+| S12 | FigS12_cognate_rmsd | cognate redocking RMSD, 14 receptors, top-1 and best-of-9 |
 
 Regenerate command (does not change scores):  
 `python3 figures/jcim_article/scripts/update_figures_pr32.py`

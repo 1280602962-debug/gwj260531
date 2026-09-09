@@ -34,7 +34,7 @@ Display order (Figures 2–6 and Tables 1–3): EGFR/HER2, JAK1/JAK2, JAK1/TYK2,
 | S7 | — | EGFR/HER2 Top-10 (1/5/4/0) and dual-median AND filter (14/9/24) | `mixed_library_enrichment_v1.csv`; `and_filter_operating_point_v1.csv` |
 | S8 | — | BindingDB compound and source counts; eight primary pairs; 0 primary pass | `external_slice_summary_v1.csv` |
 | S11 | — | Same cluster intervals as Figure 6B (SI copy) | `equal_score_cluster_bootstrap_v1.csv` |
-| S12 | — | Cognate redocking RMSD, 14 primary receptors, top-1 / top-3 / best-of-9; EGFR 3POZ top-1 off-scale | `cognate_rank_rmsd_reaudit_v1.csv`; `layer3_cognate_rmsd_v1.csv`; `pm48_01_rmsd_E16.csv` |
+| S12 | — | Cognate redocking RMSD, 14 primary receptors, top-1 and best-of-9; values >3.5 Å off-scale | `cognate_rank_rmsd_reaudit_v1.csv`; `layer3_cognate_rmsd_v1.csv`; `pm48_01_rmsd_E16.csv` |
 | TOC | — | Four states → directional and Dual–neither tasks → ligand-only and pocket-correspondence controls | schematic; no AUROCs |
 
 S2, S3, S9, and S10 remain SI **table** records. No artwork for those historical original-set panels is shipped. Table numbers S1–S13 are unchanged.
