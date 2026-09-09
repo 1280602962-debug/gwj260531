@@ -15,14 +15,6 @@ AChE/BChE,conventional_dual_vs_neither,D_vs_neither_worst,vina_worst,27,15,0.676
 AChE/BChE,dual_vs_all_nondual,D_vs_A+B+neither_mean,vina_mean,27,68,0.5792,0.4417,0.7157,0,selectives counted as negatives; still not directional
 AChE/BChE,single_target_analogue,A_inhibitors_vs_A_noninhibitors,vina_A,52,43,0.6395,0.5331,0.7438,0,pocket A: (dual+A-only) vs (B-only+neither)
 AChE/BChE,single_target_analogue,B_inhibitors_vs_B_noninhibitors,vina_B,55,40,0.6368,0.5241,0.7391,0,pocket B: (dual+B-only) vs (A-only+neither)
-PIK3CA/PIK3CB,dualfourclass_directional,D_vs_A_pocketB,vina_B,28,27,0.6905,0.5357,0.832,0,primary: dual vs A-only scored in pocket B
-PIK3CA/PIK3CB,dualfourclass_directional,D_vs_B_pocketA,vina_A,28,28,0.5,0.3495,0.6544,0,primary: dual vs B-only scored in pocket A
-PIK3CA/PIK3CB,dualfourclass_directional,summary_min,"min(D/A,D/B)",28,27,0.5,,,0,worst-arm aggregation; CI is on the two arms separately
-PIK3CA/PIK3CB,conventional_dual_vs_neither,D_vs_neither_mean,vina_mean,28,16,0.5592,0.3728,0.7456,0,Zhou-like dual vs noninhibitors using pooled score
-PIK3CA/PIK3CB,conventional_dual_vs_neither,D_vs_neither_worst,vina_worst,28,16,0.6384,0.4643,0.808,0,AND-like dual vs neither using min(pocket scores)
-PIK3CA/PIK3CB,dual_vs_all_nondual,D_vs_A+B+neither_mean,vina_mean,28,71,0.5558,0.4369,0.672,0,selectives counted as negatives; still not directional
-PIK3CA/PIK3CB,single_target_analogue,A_inhibitors_vs_A_noninhibitors,vina_A,55,44,0.4804,0.364,0.5963,0,pocket A: (dual+A-only) vs (B-only+neither)
-PIK3CA/PIK3CB,single_target_analogue,B_inhibitors_vs_B_noninhibitors,vina_B,56,43,0.6551,0.5378,0.7699,0,pocket B: (dual+B-only) vs (A-only+neither)
 PIK3CA/mTOR,dualfourclass_directional,D_vs_A_pocketB,vina_B,18,14,0.7143,0.5119,0.8929,0,primary: dual vs A-only scored in pocket B
 PIK3CA/mTOR,dualfourclass_directional,D_vs_B_pocketA,vina_A,18,12,0.6921,0.4906,0.8704,0,primary: dual vs B-only scored in pocket A
 PIK3CA/mTOR,dualfourclass_directional,summary_min,"min(D/A,D/B)",18,12,0.6921,,,0,worst-arm aggregation; CI is on the two arms separately

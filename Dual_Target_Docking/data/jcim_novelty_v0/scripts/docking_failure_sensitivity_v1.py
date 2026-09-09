@@ -21,15 +21,6 @@ SPECS = {
         "A": "vina_ACHE",
         "B": "vina_BCHE",
     },
-    "PIK3CA/PIK3CB": {
-        "panel": "data/pik3ca_pik3cb_panel_v0/tables/panel_v0_strict_with_smiles.csv",
-        "scores": "data/pik3ca_pik3cb_panel_v0/tables/ablation_ligand_scores.csv",
-        "status": "data/pik3ca_pik3cb_panel_v0/tables/job_status.csv",
-        "id": "panel_id",
-        "score_id": "ligand",
-        "A": "vina_PIK3CA",
-        "B": "vina_PIK3CB",
-    },
 }
 
 

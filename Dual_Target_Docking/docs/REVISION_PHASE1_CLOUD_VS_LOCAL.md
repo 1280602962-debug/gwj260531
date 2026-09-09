@@ -1,5 +1,7 @@
 # Revision items: cloud-complete vs local
 
+> **Historical revision checklist.** Current eight-pair lock: `docs/STATISTICAL_LOCK_V1.md`.
+
 Wet-lab prospective testing is out of scope. Everything else is listed below. Cloud work uses only frozen scores and public ChEMBL metadata; it does not redock.
 
 | Item | Cloud now | Local required | Status in this revision |

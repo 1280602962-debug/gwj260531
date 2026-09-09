@@ -23,7 +23,7 @@ TAB = ROOT / "data" / "jcim_bench_v0" / "tables"
 FIG = ROOT / "data" / "jcim_bench_v0" / "figures"
 FIG.mkdir(parents=True, exist_ok=True)
 
-PAIRS = ["PIK3CA/mTOR", "AChE/BChE", "PIK3CA/PIK3CB", "EGFR/HER2"]
+PAIRS = ["PIK3CA/mTOR", "AChE/BChE", "EGFR/HER2"]
 ARMS_ORDER = ["vina_mean", "rtm_min_z", "gnina_cnn_min", "heavy", "mw", "clogp", "tpsa"]
 COLORS = {
     "vina_mean": "#1b6ca8",

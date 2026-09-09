@@ -36,12 +36,6 @@ PAIRS = {
         "pB": "pchembl_BCHE",
         "assembled": "assembled_AChE_BChE.csv",
     },
-    "HOAP": {
-        "pair": "PIK3CA/PIK3CB",
-        "pA": "pchembl_PIK3CA",
-        "pB": "pchembl_PIK3CB",
-        "assembled": "assembled_PIK3CA_PIK3CB.csv",
-    },
     "HOPM": {
         "pair": "PIK3CA/mTOR",
         "pA": "pchembl_PIK3CA",

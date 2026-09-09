@@ -345,7 +345,7 @@ def main() -> int:
         "vina_20260727",
         packs,
         "theta_6.0",
-        "primary production Vina; Table-2-comparable; does not replace K=4 Table 2",
+        "primary production Vina; canonical Table 2 row for this pair",
         miss,
         dict(Counter(r["status"] for r in vina_st)),
         match_stack=True,

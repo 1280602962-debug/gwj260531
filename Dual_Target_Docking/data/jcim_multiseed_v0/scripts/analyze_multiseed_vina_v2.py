@@ -38,10 +38,9 @@ PRIMARY_SEED = 20260727
 TABLE3_VINA_MEAN = {
     "EGFR/HER2": 0.7560,
     "AChE/BChE": 0.6494,
-    "PIK3CA/PIK3CB": 0.5592,
     "PIK3CA/mTOR": 0.5139,
 }
-PAIR_ORDER = ["EGFR/HER2", "AChE/BChE", "PIK3CA/PIK3CB", "PIK3CA/mTOR"]
+PAIR_ORDER = ["EGFR/HER2", "AChE/BChE", "PIK3CA/mTOR"]
 
 
 def auroc(pos, neg) -> float:

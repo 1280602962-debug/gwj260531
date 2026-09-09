@@ -7,7 +7,6 @@ pre-specified secondary,strongest trivial descriptor summary_min,same AUROC prot
 robustness,"unified θ grid {5.5, 6.0, 6.5, strict 6.5/5.5}",relabel then recompute pocket-matched Vina summary_min,K=4 main panels,Table S4; Figure S1A,"Not a second primary. Underpowered cells are marked, not ranked."
 robustness,PM110 expansion,same protocol on the PM48 superset,PIK3CA/mTOR only,Figure S1C,"Stability check, not independent validation."
 robustness,exhaustiveness 8 vs 16 on PM48,same pocket-matched Vina on frozen E=8 scores,PIK3CA/mTOR PM48,Figure S1D,E=16 remains primary for this pair.
-robustness,unused-pool holdout pocket-matched Vina,same protocol; dual/A_only/B_only = 20/20/20; seed 20260731,"AChE/BChE, PIK3CA/PIK3CB, PIK3CA/mTOR only",Table S8 / Table S16; Figure 5A,"EGFR/HER2 not eligible. Same ChEMBL batch, not cross-database validation."
 robustness,"crystal swap on PM48 (4JPS, 5DXT, 4JSX)",one pocket replaced; other pocket kept at frozen scores,PIK3CA/mTOR PM48,Table S9; Figure 5B,"Pre-specified: true gene, non-chimera, cognate best-of-9 < 2 Å. 3T8M excluded."
 robustness,wrong-pocket control and paired Δ(matched−wrong),swap pockets then same summary_min; Δ on the same bootstrap sample,K=4 main + three holdout pairs,Figure 6; Table S17; Figure S3A–B,Point AUROCs already in Table S6 / S8; this table adds paired CIs.
 exploratory,ECFP4 logistic GroupKFold vs random KFold,"chemotype–label association, not pocket physics",K=4 main panels,Figure 7A; Table S20,Scaffold split is primary ML readout. Random split is leakage check only.

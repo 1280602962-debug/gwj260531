@@ -3,7 +3,7 @@
 
 Design (must match CLAIM_CEILING.md — no new label rule, no post-hoc tuning):
   1. Recompute the SAME strict label rule (pChEMBL >= 6.5 / <= 5.5) used to build the
-     three frozen main panels (PIK3CA/mTOR, AChE/BChE, PIK3CA/PIK3CB), from the same
+     frozen main panels (PIK3CA/mTOR, AChE/BChE), from the same
      cached ChEMBL max-pChEMBL dictionaries (`data/public_pair_selection/mols_*.json`).
   2. Remove every ChEMBL ID already present in the corresponding frozen panel CSV
      (the panel that produced the reported Table 2 numbers). What remains is a
@@ -55,13 +55,6 @@ PAIRS = [
         "pair_label": "AChE/BChE",
         "used_panel_csv": ROOT / "data/ache_bche_panel_v0/tables/panel_v0_strict_with_smiles.csv",
         "prefix": "HOAB",
-    },
-    {
-        "name_a": "PIK3CA",
-        "name_b": "PIK3CB",
-        "pair_label": "PIK3CA/PIK3CB",
-        "used_panel_csv": ROOT / "data/pik3ca_pik3cb_panel_v0/tables/panel_v0_strict_with_smiles.csv",
-        "prefix": "HOAP",
     },
 ]
 

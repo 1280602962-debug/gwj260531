@@ -47,7 +47,6 @@ TARGETS = {
     "MTOR": "P42345",
     "ACHE": "P22303",
     "BCHE": "P06276",
-    "PIK3CB": "P42338",
     "EGFR": "P00533",
     "HER2": "P04626",
 }
@@ -55,7 +54,6 @@ TARGETS = {
 PAIRS = [
     ("PIK3CA/MTOR", "PIK3CA", "MTOR"),
     ("ACHE/BCHE", "ACHE", "BCHE"),
-    ("PIK3CA/PIK3CB", "PIK3CA", "PIK3CB"),
     ("EGFR/HER2", "EGFR", "HER2"),
 ]
 
@@ -64,7 +62,6 @@ CHEMBL_FILES = {
     "MTOR": "mols_MTOR.json",
     "ACHE": "mols_ACHE.json",
     "BCHE": "mols_BCHE.json",
-    "PIK3CB": "mols_PIK3CB.json",
     "EGFR": "mols_EGFR.json",
     "HER2": "mols_HER2.json",
 }

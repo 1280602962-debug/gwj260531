@@ -20,7 +20,6 @@ TAB = ROOT / "data" / "jcim_novelty_v0" / "tables"
 PAIR_MAPS = {
     "EGFR/HER2": ("mols_EGFR.json", "mols_HER2.json", "CHEMBL203", "CHEMBL1824"),
     "AChE/BChE": ("mols_ACHE.json", "mols_BCHE.json", "CHEMBL220", "CHEMBL1914"),
-    "PIK3CA/PIK3CB": ("mols_PIK3CA.json", "mols_PIK3CB.json", "CHEMBL4005", "CHEMBL3145"),
     "PIK3CA/mTOR": ("mols_PIK3CA.json", "mols_MTOR.json", "CHEMBL4005", "CHEMBL2842"),
 }
 

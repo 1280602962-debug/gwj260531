@@ -29,8 +29,8 @@ RECEPTORS = [
     ("PIK3CA/mTOR", "B", "MTOR", "P42345", "4JT6", "X6K", "pik3ca_mtor_panel48_rdkit_v0"),
     ("AChE/BChE", "A", "ACHE", "P22303", "4EY7", "E20", "ache_bche_panel_v0"),
     ("AChE/BChE", "B", "BCHE", "P06276", "4BDS", "THA", "ache_bche_panel_v0"),
-    ("PIK3CA/PIK3CB", "A", "PIK3CA", "P42336", "4L23", "X6K", "pik3ca_pik3cb_panel_v0"),
-    ("PIK3CA/PIK3CB", "B", "PIK3CB", "P42338", "2WXF", "039", "pik3ca_pik3cb_panel_v0"),
+    ("A", "PIK3CA", "P42336", "4L23", "X6K", "pik3ca_pik3cb_panel_v0"),
+    ("B", "PIK3CB", "P42338", "2WXF", "039", "pik3ca_pik3cb_panel_v0"),
     ("EGFR/HER2", "A", "EGFR", "P00533", "3POZ", "03P", "egfr_her2_panel120_v0"),
     ("EGFR/HER2", "B", "ERBB2", "P04626", "3RCD", "03P", "egfr_her2_panel120_v0"),
     # Receptor-realization alternates (Table S30)

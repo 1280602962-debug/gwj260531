@@ -17,7 +17,7 @@ TAB = ROOT / "data" / "jcim_novelty_v0" / "tables"
 OUT = ROOT / "data" / "jcim_novelty_v0" / "figures"
 OUT.mkdir(parents=True, exist_ok=True)
 
-ORDER = ["EGFR/HER2", "AChE/BChE", "PIK3CA/PIK3CB", "PIK3CA/mTOR"]
+ORDER = ["EGFR/HER2", "AChE/BChE", "PIK3CA/mTOR"]
 
 
 def load(name):
@@ -66,7 +66,7 @@ def main():
     ax.bar(x + width, alln, width, yerr=alln_e, capsize=2.5, label="Dual vs all non-duals", color="#7f7f7f")
     ax.axhline(0.5, color="0.4", lw=0.8, ls="--")
     ax.set_xticks(x)
-    ax.set_xticklabels(["EGFR/HER2", "AChE/BChE", "PIK3CA/PIK3CB", "PIK3CA/mTOR"], fontsize=8)
+    ax.set_xticklabels(["EGFR/HER2", "AChE/BChE", "PIK3CA/mTOR"], fontsize=8)
     ax.set_ylabel("AUROC")
     ax.set_ylim(0.15, 1.02)
     ax.legend(frameon=False, fontsize=7.5, loc="upper right")

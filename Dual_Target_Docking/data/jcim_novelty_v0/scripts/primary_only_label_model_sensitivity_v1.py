@@ -53,11 +53,6 @@ SCORE_SPEC = {
         "vina_A": "vina_ACHE", "vina_B": "vina_BCHE",
         "rtmscore_A": "rtm_ACHE", "rtmscore_B": "rtm_BCHE",
     },
-    "PIK3CA/PIK3CB": {
-        "path": "data/pik3ca_pik3cb_panel_v0/tables/ablation_ligand_scores.csv",
-        "vina_A": "vina_PIK3CA", "vina_B": "vina_PIK3CB",
-        "rtmscore_A": "rtm_PIK3CA", "rtmscore_B": "rtm_PIK3CB",
-    },
     "PIK3CA/mTOR": {
         "path": "data/pik3ca_mtor_panel48_rdkit_v0/tables/ablation_ligand_scores.csv",
         "vina_A": "4L23_affinity", "vina_B": "4JT6_affinity",

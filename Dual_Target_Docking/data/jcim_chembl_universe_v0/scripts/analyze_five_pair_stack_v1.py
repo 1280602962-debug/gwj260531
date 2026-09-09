@@ -365,7 +365,7 @@ def table2_comparable(packs):
                 "tpsa_summary_min": r4(desc_mins["tpsa"]),
                 "best_single_descriptor": best,
                 "best_single_descriptor_summary_min": r4(desc_mins[best]),
-                "note": "Table-2-comparable; does not replace frozen K=4 Table 2",
+                "note": "Canonical Table 2 row for this pair",
             }
         )
     return rows

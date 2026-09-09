@@ -42,15 +42,6 @@ tiers:
         A: ["4EY4", "6O5V", "4M0E"]
         B: ["6ZWI", "1P0I", "6QAA"]
       output_pack: "data/ache_bche_panel_v0/"
-    - pair: PIK3CA/PIK3CB
-      role: isoform_control
-      supports_strict_panel: true
-      status: authorized_receptor_freeze_then_panel
-      caveat: too_close_for_primary_narrative_but_only_remaining_nonmetal_Y
-      receptor_candidates:
-        A: ["4L23"]
-        B: ["to_be_frozen_in_J3"]
-      output_pack: "data/pik3ca_pik3cb_panel_v0/"
 
   T_case_or_thin:
     - pair: EGFR/HER2
@@ -69,12 +60,10 @@ k4_roster:
   - PIK3CA/MTOR
   - EGFR/HER2
   - ACHE/BCHE
-  - PIK3CA/PIK3CB
 
 budget_estimate_vina_jobs:
   j2_pm48_rdkit: 96
   j4_ache_bche: 220
-  j4_pik3ca_pik3cb: 220
   optional_pm_expand: 220
   egfr_unified_prep: 0
   total_full_plan: "540-760"
@@ -83,5 +72,4 @@ budget_estimate_vina_jobs:
 output_roots:
   - data/pik3ca_mtor_panel48_rdkit_v0/
   - data/ache_bche_panel_v0/
-  - data/pik3ca_pik3cb_panel_v0/
   - data/jcim_bench_v0/

@@ -40,7 +40,7 @@ def stable_offset(*parts, modulus=99991):
 K4_PACKS = [
     ("EGFR/HER2", "egfr_her2_panel120_v0", "3POZ", "3RCD", "ablation"),
     ("AChE/BChE", "ache_bche_panel_v0", "ACHE", "BCHE", "ablation"),
-    ("PIK3CA/PIK3CB", "pik3ca_pik3cb_panel_v0", "PIK3CA", "PIK3CB", "ablation"),
+    ("pik3ca_pik3cb_panel_v0", "PIK3CA", "PIK3CB", "ablation"),
     ("PIK3CA/mTOR", "pik3ca_mtor_panel48_rdkit_v0", "4L23", "4JT6", "ablation"),
 ]
 
@@ -68,7 +68,6 @@ STABILITY_PACKS = [
 VINA_REF = {
     "EGFR/HER2": 0.430,
     "AChE/BChE": 0.606,
-    "PIK3CA/PIK3CB": 0.500,
     "PIK3CA/mTOR": 0.692,
 }
 

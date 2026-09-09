@@ -73,14 +73,12 @@ UNIPROT_TO_TARGET = {v: k for k, v in TARGETS.items()}
 PAIRS = (
     ("EGFR/HER2", "EGFR", "HER2"),
     ("AChE/BChE", "ACHE", "BCHE"),
-    ("PIK3CA/PIK3CB", "PIK3CA", "PIK3CB"),
     ("PIK3CA/mTOR", "PIK3CA", "MTOR"),
     ("MCL1/Bcl-xL", "MCL1", "BCL2L1"),
 )
 PAIR_ROLES = {
     "EGFR/HER2": "thin_or_primary",
     "AChE/BChE": "primary_external",
-    "PIK3CA/PIK3CB": "backup",
     "PIK3CA/mTOR": "primary_external",
     "MCL1/Bcl-xL": "ppi_bh3_extension",
 }
@@ -100,10 +98,6 @@ PANEL_SMILES = {
     "AChE/BChE": [
         "data/ache_bche_panel_v0/tables/ablation_ligand_scores.csv",
         "data/jcim_holdout_v0/tables/holdout_panel_HOAB.csv",
-    ],
-    "PIK3CA/PIK3CB": [
-        "data/pik3ca_pik3cb_panel_v0/tables/panel_v0_strict_with_smiles.csv",
-        "data/jcim_holdout_v0/tables/holdout_panel_HOAP.csv",
     ],
     "PIK3CA/mTOR": [
         "data/pik3ca_mtor_panel48_rdkit_v0/tables/panel_v0_48.csv",
@@ -423,7 +417,7 @@ def development_molecules(pair: str) -> tuple[set[str], dict[str, object], set[s
         if not path.exists():
             continue
         for row in read_csv(path):
-            smiles = row.get("smiles") or ""
+            smiles = row.get("smiles") or row.get("canonical_smiles") or ""
             chembl = row.get("molecule_chembl_id") or ""
             if chembl:
                 chembl_ids.add(chembl)

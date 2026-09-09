@@ -14,6 +14,29 @@ ROOT = Path(__file__).resolve().parents[3]
 TAB = ROOT / "data" / "jcim_novelty_v0" / "tables"
 SR = ROOT / "data" / "jcim_structure_robust_v0" / "tables"
 TH = ROOT / "data" / "jcim_strengthen_t0t1_v0" / "tables"
+FIVE = (
+    ROOT
+    / "data"
+    / "jcim_chembl_universe_v0"
+    / "local_track_b_v0"
+    / "tables"
+    / "five_pair_stack_v1"
+    / "table2_comparable_theta6_v1.csv"
+)
+FIVE_REL = (
+    "data/jcim_chembl_universe_v0/local_track_b_v0/tables/"
+    "five_pair_stack_v1/table2_comparable_theta6_v1.csv"
+)
+PRIMARY_PAIRS = [
+    "EGFR/HER2",
+    "AChE/BChE",
+    "PIK3CA/mTOR",
+    "F2/F10",
+    "JAK1/TYK2",
+    "JAK1/JAK2",
+    "PPARG/PPARA",
+    "PPARA/PPARD",
+]
 TAB.mkdir(parents=True, exist_ok=True)
 
 FIELDS = [
@@ -79,13 +102,12 @@ def main() -> None:
     pm_jps = _read(SR / "pocket_matched_PM48_alt4JPS_v1.csv")[0]
     pm_dxt = _read(SR / "pocket_matched_PM48_alt5DXT_v1.csv")[0]
     pm_jsx = _read(SR / "pocket_matched_PM48_alt4JSX_v1.csv")[0]
-    pab_jps = _read(SR / "pocket_matched_PAB_alt4JPS_v1.csv")[0]
-    pab_dxt = _read(SR / "pocket_matched_PAB_alt5DXT_v1.csv")[0]
 
     rows: list[dict] = []
 
-    # --- Table 2 frozen directional ---
-    for pair, r in theta6.items():
+    # --- Table 2 frozen directional (original three pairs) ---
+    for pair in PRIMARY_PAIRS[:3]:
+        r = theta6[pair]
         rows.append(
             row(
                 block="primary_directional",
@@ -131,6 +153,55 @@ def main() -> None:
             )
         )
 
+    five = {r["pair"]: r for r in _read(FIVE)}
+    for pair in PRIMARY_PAIRS[3:]:
+        r = five[pair]
+        n_scored = int(r["n_dual"]) + int(r["n_A_only"]) + int(r["n_B_only"])
+        rows.append(
+            row(
+                block="primary_directional",
+                manuscript_table="Table 2",
+                pair=pair,
+                setting="frozen_cached_max_theta6",
+                metric="summary_min",
+                value=r["summary_min"],
+                ci_lo=r["ci_lo"],
+                ci_hi=r["ci_hi"],
+                n_dual=r["n_dual"],
+                n_A_only=r["n_A_only"],
+                n_B_only=r["n_B_only"],
+                n_scored=n_scored,
+                note="Primary endpoint. Cached max pChEMBL labels. Neither excluded.",
+                source_file=FIVE_REL,
+            )
+        )
+        rows.append(
+            row(
+                block="primary_directional",
+                manuscript_table="Table 2",
+                pair=pair,
+                setting="frozen_cached_max_theta6",
+                metric="auroc_D_vs_A_pocketB",
+                value=r["auroc_D_vs_A_pocketB"],
+                n_dual=r["n_dual"],
+                n_A_only=r["n_A_only"],
+                source_file=FIVE_REL,
+            )
+        )
+        rows.append(
+            row(
+                block="primary_directional",
+                manuscript_table="Table 2",
+                pair=pair,
+                setting="frozen_cached_max_theta6",
+                metric="auroc_D_vs_B_pocketA",
+                value=r["auroc_D_vs_B_pocketA"],
+                n_dual=r["n_dual"],
+                n_B_only=r["n_B_only"],
+                source_file=FIVE_REL,
+            )
+        )
+
     # --- Table 3 formulation ---
     for r in form:
         if r["contrast"] in ("D_vs_neither_mean", "D_vs_all_nondual_mean", "summary_min"):
@@ -149,6 +220,55 @@ def main() -> None:
                     source_file="data/jcim_novelty_v0/tables/formulation_conventional_vs_directional_v1.csv",
                 )
             )
+
+    for pair in PRIMARY_PAIRS[3:]:
+        r = five[pair]
+        rows.append(
+            row(
+                block="formulation",
+                manuscript_table="Table 3",
+                pair=pair,
+                setting="dualfourclass_directional",
+                metric="summary_min",
+                value=r["summary_min"],
+                ci_lo=r["ci_lo"],
+                ci_hi=r["ci_hi"],
+                n_dual=r["n_dual"],
+                note="worst-arm aggregation; CI is on the two arms separately",
+                source_file=FIVE_REL,
+            )
+        )
+        rows.append(
+            row(
+                block="formulation",
+                manuscript_table="Table 3",
+                pair=pair,
+                setting="conventional_dual_vs_neither",
+                metric="D_vs_neither_mean",
+                value=r["D_vs_neither_vina_mean"],
+                ci_lo=r["D_vs_neither_ci_lo"],
+                ci_hi=r["D_vs_neither_ci_hi"],
+                n_dual=r["n_dual"],
+                n_B_only=r["n_neither"],
+                note="Dual versus neither using pooled vina_mean",
+                source_file=FIVE_REL,
+            )
+        )
+        rows.append(
+            row(
+                block="formulation",
+                manuscript_table="Table 3",
+                pair=pair,
+                setting="dual_vs_all_nondual",
+                metric="D_vs_all_nonduals",
+                value=r["D_vs_all_nonduals"],
+                ci_lo=r["D_vs_all_nonduals_ci_lo"],
+                ci_hi=r["D_vs_all_nonduals_ci_hi"],
+                n_dual=r["n_dual"],
+                note="selectives counted as negatives; still not directional",
+                source_file=FIVE_REL,
+            )
+        )
 
     # --- aggregation sensitivity ---
     for r in agg:
@@ -285,9 +405,7 @@ def main() -> None:
     # Original-crystal CIs must come from Table 2 canonical file, not the
     # coeval pocket_matched_directional bootstrap (different hash offset).
     pm0 = theta6["PIK3CA/mTOR"]
-    pab0 = theta6["PIK3CA/PIK3CB"]
     pm0_sm = float(pm0["pocket_matched_summary_min"])
-    pab0_sm = float(pab0["pocket_matched_summary_min"])
     two_pair = [
         {
             "pair": "PIK3CA/mTOR",
@@ -368,66 +486,6 @@ def main() -> None:
             "weak_arm": "D_vs_A",
             "failed_ligand": "",
             "note": "Pocket B replaced (mTOR 4JSX); pocket A frozen 4L23. Not a PIK3CA swap.",
-        },
-        {
-            "pair": "PIK3CA/PIK3CB",
-            "pik3ca_receptor": "4L23",
-            "kept_pocket_B": "2WXF",
-            "n_attempted": 100,
-            "n_successful": 99,
-            "n_failed": 1,
-            "n_dual": pab0["n_dual"],
-            "n_A_only": pab0["n_A_only"],
-            "n_B_only": pab0["n_B_only"],
-            "auroc_D_vs_A": pab0["auroc_D_vs_A"],
-            "auroc_D_vs_B": pab0["auroc_D_vs_B"],
-            "summary_min": pab0["pocket_matched_summary_min"],
-            "ci_lo": pab0["ci_lo"],
-            "ci_hi": pab0["ci_hi"],
-            "delta_vs_original": 0.0,
-            "weak_arm": "D_vs_B",
-            "failed_ligand": "PAB_034 A_only timeout_900s_torsdof=23 on 4L23; 2WXF success. Not a label filter.",
-            "note": "Original frozen panel. Exhaustiveness 8. Same 99-ligand AUROC set as Table 2.",
-        },
-        {
-            "pair": "PIK3CA/PIK3CB",
-            "pik3ca_receptor": "4JPS",
-            "kept_pocket_B": "2WXF",
-            "n_attempted": 100,
-            "n_successful": 99,
-            "n_failed": 1,
-            "n_dual": pab_jps["n_dual"],
-            "n_A_only": pab_jps["n_A_only"],
-            "n_B_only": pab_jps["n_B_only"],
-            "auroc_D_vs_A": pab_jps["auroc_D_vs_A"],
-            "auroc_D_vs_B": pab_jps["auroc_D_vs_B"],
-            "summary_min": pab_jps["summary_min"],
-            "ci_lo": pab_jps["summary_min_ci_lo"],
-            "ci_hi": pab_jps["summary_min_ci_hi"],
-            "delta_vs_original": float(pab_jps["summary_min"]) - pab0_sm,
-            "weak_arm": "D_vs_A",
-            "failed_ligand": "PAB_034 A_only timeout_600s (668.6 s) on 4JPS; 2WXF frozen success. Same ligand as original 4L23 timeout.",
-            "note": "Pocket A replaced; pocket B frozen 2WXF. Exhaustiveness 8. Weak arm switches from D/B to D/A. Use deposited CSV CIs.",
-        },
-        {
-            "pair": "PIK3CA/PIK3CB",
-            "pik3ca_receptor": "5DXT",
-            "kept_pocket_B": "2WXF",
-            "n_attempted": 100,
-            "n_successful": 99,
-            "n_failed": 1,
-            "n_dual": pab_dxt["n_dual"],
-            "n_A_only": pab_dxt["n_A_only"],
-            "n_B_only": pab_dxt["n_B_only"],
-            "auroc_D_vs_A": pab_dxt["auroc_D_vs_A"],
-            "auroc_D_vs_B": pab_dxt["auroc_D_vs_B"],
-            "summary_min": pab_dxt["summary_min"],
-            "ci_lo": pab_dxt["summary_min_ci_lo"],
-            "ci_hi": pab_dxt["summary_min_ci_hi"],
-            "delta_vs_original": float(pab_dxt["summary_min"]) - pab0_sm,
-            "weak_arm": "D_vs_B",
-            "failed_ligand": "PAB_034 A_only timeout_600s (665.0 s) on 5DXT; 2WXF frozen success. Same ligand as original 4L23 timeout.",
-            "note": "Pocket A replaced; pocket B frozen 2WXF. Exhaustiveness 8. D/B 0.6849 ≈ D/A 0.6905. Use deposited CSV CIs.",
         },
     ]
     two_path = SR / "receptor_realization_two_pair_v1.csv"

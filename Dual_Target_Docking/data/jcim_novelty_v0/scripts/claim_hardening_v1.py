@@ -37,13 +37,6 @@ SPEC = {
         cls="class",
         ligand="ligand",
     ),
-    "PIK3CA/PIK3CB": dict(
-        scores="data/pik3ca_pik3cb_panel_v0/tables/ablation_ligand_scores.csv",
-        vina_a="vina_PIK3CA",
-        vina_b="vina_PIK3CB",
-        cls="class",
-        ligand="ligand",
-    ),
     "PIK3CA/mTOR": dict(
         scores="data/pik3ca_mtor_panel48_rdkit_v0/tables/ablation_ligand_scores.csv",
         vina_a="4L23_affinity",
@@ -55,11 +48,10 @@ SPEC = {
 
 HOLDOUT = [
     dict(pair="AChE/BChE", prefix="HOAB", path="data/jcim_holdout_v0/tables/scores_vina_mode1_HOAB.csv"),
-    dict(pair="PIK3CA/PIK3CB", prefix="HOAP", path="data/jcim_holdout_v0/tables/scores_vina_mode1_HOAP.csv"),
     dict(pair="PIK3CA/mTOR", prefix="HOPM", path="data/jcim_holdout_v0/tables/scores_vina_mode1_HOPM.csv"),
 ]
 
-ORDER = ["EGFR/HER2", "AChE/BChE", "PIK3CA/PIK3CB", "PIK3CA/mTOR"]
+ORDER = ["EGFR/HER2", "AChE/BChE", "PIK3CA/mTOR"]
 DIRECTIONAL = ROOT / "data" / "jcim_bench_v0" / "tables" / "pocket_matched_directional_v1.csv"
 ASSEMBLED = ROOT / "data" / "jcim_bench_v0" / "tables" / "assembled_all_pairs_long.csv"
 FORM = OUT / "tables" / "formulation_conventional_vs_directional_v1.csv"
@@ -280,12 +272,7 @@ def docking_census() -> list[dict]:
                 "fail_rate_pocket_A": round(fail_a / n_attempted, 4) if n_attempted else "",
                 "fail_rate_pocket_B": round(fail_b / n_attempted, 4) if n_attempted else "",
                 "failed_ligands": ";".join(fail_ligands),
-                "note": (
-                    "HOAP_028 is a boron AutoDock atom-type B coverage failure on both ends, "
-                    "excluded from AUROC (59/60)"
-                    if h["pair"] == "PIK3CA/PIK3CB"
-                    else "All attempted holdout ligands yielded both-end scores"
-                ),
+                "note": "All attempted holdout ligands yielded both-end scores",
             }
         )
     return out

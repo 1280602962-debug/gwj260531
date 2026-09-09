@@ -64,15 +64,6 @@ PAIR_SPEC = {
         pB="pchembl_BCHE",
         lig="ligand",
     ),
-    "PIK3CA/PIK3CB": dict(
-        scores="data/pik3ca_pik3cb_panel_v0/tables/ablation_ligand_scores.csv",
-        panel="data/pik3ca_pik3cb_panel_v0/tables/panel_v0_strict_with_smiles.csv",
-        vina_a="vina_PIK3CA",
-        vina_b="vina_PIK3CB",
-        pA="pchembl_PIK3CA",
-        pB="pchembl_PIK3CB",
-        lig="ligand",
-    ),
     "PIK3CA/mTOR": dict(
         scores="data/pik3ca_mtor_panel48_rdkit_v0/tables/ablation_ligand_scores.csv",
         panel="data/pik3ca_mtor_panel48_rdkit_v0/tables/panel_v0_48.csv",
@@ -482,7 +473,6 @@ def chembl_aggregation_sensitivity(packs):
     target_map = {
         "EGFR/HER2": ("EGFR", "HER2"),
         "AChE/BChE": ("ACHE", "BCHE"),
-        "PIK3CA/PIK3CB": ("PIK3CA", "PIK3CB"),
         "PIK3CA/mTOR": ("PIK3CA", "MTOR"),
     }
     mols_cache = {}

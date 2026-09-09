@@ -63,7 +63,7 @@ TARGETS = {
 PAIRS = (
     ("EGFR/HER2", "EGFR", "HER2"),
     ("AChE/BChE", "ACHE", "BCHE"),
-    ("PIK3CA/PIK3CB", "PIK3CA", "PIK3CB"),
+    ("PIK3CA", "PIK3CB"),
     ("PIK3CA/mTOR", "PIK3CA", "MTOR"),
 )
 CHEMBL_FILES = {
@@ -78,7 +78,6 @@ CHEMBL_FILES = {
 PANEL_SMILES = {
     "EGFR/HER2": "data/egfr_her2_panel120_v0/tables/panel_v0_120.csv",
     "AChE/BChE": "data/ache_bche_panel_v0/tables/ablation_ligand_scores.csv",
-    "PIK3CA/PIK3CB": "data/pik3ca_pik3cb_panel_v0/tables/panel_v0_strict_with_smiles.csv",
     "PIK3CA/mTOR": "data/pik3ca_mtor_panel48_rdkit_v0/tables/panel_v0_48.csv",
 }
 

@@ -20,13 +20,6 @@ CONFIGS = {
         "panel": ROOT / "data/jcim_holdout_v0/tables/holdout_panel_HOPM.csv",
         "pose_root": ROOT / "data/jcim_holdout_v0/HOPM/poses",
     },
-    "HOAP": {
-        "pair": "PIK3CA/PIK3CB",
-        "pocket_A": ("4L23", ROOT / "data/pik3ca_pik3cb_panel_v0/receptors/4L23_receptor.pdbqt"),
-        "pocket_B": ("2WXF", ROOT / "data/pik3ca_pik3cb_panel_v0/receptors/2WXF_receptor.pdbqt"),
-        "panel": ROOT / "data/jcim_holdout_v0/tables/holdout_panel_HOAP.csv",
-        "pose_root": ROOT / "data/jcim_holdout_v0/HOAP/poses",
-    },
 }
 
 

@@ -1,12 +1,14 @@
 # CLAIM_CEILING — DualFourClass-Bench (JCIM)
 
+Current manuscript: **eight primary pairs**. PIK3CA/PIK3CB is withdrawn and is not a Table 2 row. Older bullets below that still name K=4 or PIK3CA/PIK3CB are historical guardrails, not the current docking menu.
+
 ## Allowed claims
 1. This is an **evaluation / benchmark** article for dual-target docking decision metrics. “Dual-target recognition” is the task name; reported results are **computational directional discrimination**, not validated biological recognition.
-2. Primary metric = **pocket-matched directional AUROC** (D vs A_only uses pocket-B score; D vs B_only uses pocket-A score) with a **prespecified four-descriptor panel** (heavy atoms, MW, cLogP, TPSA) reported in full. The strongest descriptor is a **best single-descriptor reference**, not a confirmatory “best-of-four” hypothesis test and not a “trivial baseline competitor.” Pooled/wrong-pocket controls are reported in parallel. DualFourClass-Bench is a **four-state curated benchmark with two directional primary tasks**, not a four-class classifier. Call it a **curated four-pair benchmark panel + evaluation protocol**, not a comprehensive / LIT-PCBA-scale suite.
-3. K=4 pairs are a **frozen evaluation set**, not a claim that the metric generalizes to all target pairs.
-4. EGFR/HER2 is a **supply-limited case study** (existing unified RDKit EH110); no claim from new EGFR docking. A later BindingDB/PubChem **count-level** check (Table S12) does not rebuild this panel: under equal-relation measurements EGFR still fails the ≥50 thick-panel gate (min HN ≈ 30).
+2. Primary metric = **pocket-matched directional AUROC** (D vs A_only uses pocket-B score; D vs B_only uses pocket-A score) with a **prespecified four-descriptor panel** (heavy atoms, MW, cLogP, TPSA) reported in full. DualFourClass-Bench is a **four-state curated benchmark with two directional primary tasks**, not a four-class classifier. Call it a **curated eight-pair formulation audit + evaluation protocol**, not a comprehensive / LIT-PCBA-scale suite.
+3. The eight pairs are a **frozen evaluation set** used to test consistency across systems, not eight independent replicates and not a claim that the metric generalizes to all target pairs.
+4. EGFR/HER2 is a **supply-limited case study** (existing unified RDKit EH110); no claim from new EGFR docking. A later BindingDB/PubChem **count-level** check does not rebuild this panel.
 5. Prep protocol is frozen: **RDKit ETKDG + meeko**. Do **not** mention Schrodinger LigPrep in the manuscript (no formal license; early borrow was internal-only).
-6. Contribution language may say we **implemented a four-pair proof-of-concept evaluation protocol** and released **DualFourClass-Bench**. Do not call the present K=4 panel a systematic, representative, target-general, or externally validated framework.
+6. Contribution language may say we **implemented an eight-pair proof-of-concept evaluation protocol** and released **DualFourClass-Bench**. Do not call the present panel a systematic, representative, target-general, or externally validated framework.
 
 ## Forbidden / over-claim
 1. Do **not** claim a universal “decision arm” or that `rtm_min_z` (or any pooled score) is validated as a general master score.

@@ -1,0 +1,126 @@
+# PIK3CA/PIK3CB purge
+
+- deleted dir data/pik3ca_pik3cb_panel_v0
+- deleted file data/jcim_novelty_v0/tables/external_panel_PIK3CA_PIK3CB_v1.csv
+- deleted file data/jcim_novelty_v0/tables/external_panel_PIK3CA_PIK3CB_v1.sha256
+- deleted file data/jcim_bench_v0/tables/assembled_PIK3CA_PIK3CB.csv
+- deleted file data/jcim_structure_robust_v0/scripts/redock_pik3cb_alt_pik3ca_v1.py
+- deleted file data/jcim_structure_robust_v0/scripts/run_pik3cb_receptor_swap_local.sh
+- deleted file data/jcim_structure_robust_v0/tables/pocket_matched_PAB_alt4JPS_v1.csv
+- deleted file data/jcim_structure_robust_v0/tables/pocket_matched_PAB_alt5DXT_v1.csv
+- deleted file data/public_pair_selection/mols_PIK3CB.json
+- csv filtered data/public_pair_selection/chembl_pair_fourclass.csv kept=11
+- csv filtered data/manuscript_lock/ARTICLE_ASSET_INDEX_v1.csv kept=90
+- csv filtered data/manuscript_lock/table3_vs_multiseed_estimand_v1.csv kept=3
+- csv filtered data/manuscript_lock/table2_ci_source_conflict_v1.csv kept=13
+- csv filtered data/jcim_j0j1_v0/tables/j0_strict_label_supply.csv kept=48
+- csv filtered data/jcim_j0j1_v0/tables/j0_candidate_pairs.csv kept=51
+- csv filtered data/jcim_strengthen_t0t1_v0/tables/aggregation_sensitivity_v1.csv kept=15
+- csv filtered data/jcim_strengthen_t0t1_v0/tables/ranking_top10_vina_mean_exploratory_v1.csv kept=3
+- csv filtered data/jcim_strengthen_t0t1_v0/tables/ligand_ml_baseline_v1.csv kept=6
+- csv filtered data/jcim_strengthen_t0t1_v0/tables/ligand_ml_scaffold_vs_random_v1.csv kept=6
+- csv filtered data/jcim_strengthen_t0t1_v0/tables/scaffold_inventory_v1.csv kept=253
+- csv filtered data/jcim_strengthen_t0t1_v0/tables/scaffold_bootstrap_ci_v1.csv kept=3
+- csv filtered data/jcim_strengthen_t0t1_v0/tables/chembl_aggregation_sensitivity_v1.csv kept=6
+- csv filtered data/jcim_strengthen_t0t1_v0/tables/wrong_pocket_paired_delta_bootstrap_v1.csv kept=5
+- csv filtered data/jcim_strengthen_t0t1_v0/tables/covariate_adjusted_v1.csv kept=6
+- csv filtered data/jcim_strengthen_t0t1_v0/tables/ligand_ml_baseline_scaffold_cv_v1.csv kept=6
+- csv filtered data/jcim_strengthen_t0t1_v0/tables/matched_subset_directional_v1.csv kept=15
+- csv filtered data/jcim_strengthen_t0t1_v0/tables/unified_threshold_sensitivity_v2.csv kept=12
+- csv filtered data/jcim_strengthen_t0t1_v0/tables/frozen_vs_holdout_v1.csv kept=6
+- csv filtered data/jcim_strengthen_t0t1_v0/tables/ligand_ml_baseline_random_cv_v1.csv kept=6
+- csv filtered data/jcim_strengthen_t0t1_v0/tables/endpoint_hierarchy_v1.csv kept=14
+- csv filtered data/jcim_strengthen_t0t1_v0/tables/pocket_matched_vs_best_descriptor_delta_v1.csv kept=3
+- csv filtered data/jcim_holdout_v0/tables/holdout_pocket_matched_v1.csv kept=14
+- csv filtered data/jcim_holdout_v0/tables/holdout_matched_wrong_pocket_v1.csv kept=24
+- csv filtered data/jcim_holdout_v0/tables/holdout_ligand_scores_v1.csv kept=120
+- csv filtered data/jcim_holdout_v0/tables/holdout_vs_main_potency_size_v1.csv kept=18
+- csv filtered data/jcim_holdout_v0/tables/scores_vina_mode1_HOAP.csv kept=120
+- csv filtered data/jcim_holdout_v0/tables/holdout_matched_wrong_pocket_summary_v1.csv kept=12
+- csv filtered data/jcim_multiseed_v0/tables/multiseed_auroc_aggregate_v1.csv kept=15
+- csv filtered data/jcim_multiseed_v0/tables/multiseed_auroc_by_seed_v1.csv kept=15
+- csv filtered data/jcim_multiseed_v0/tables/multiseed_consistency_v2.csv kept=3
+- csv filtered data/jcim_multiseed_v0/tables/multiseed_auroc_by_seed_v2.csv kept=15
+- csv filtered data/jcim_multiseed_v0/tables/multiseed_consistency_v1.csv kept=3
+- csv filtered data/jcim_multiseed_v0/tables/multiseed_ligand_prep_v1.csv kept=258
+- csv filtered data/jcim_multiseed_v0/tables/multiseed_scores_long_v1.csv kept=2571
+- csv filtered data/jcim_multiseed_v0/tables/multiseed_auroc_aggregate_v2.csv kept=18
+- csv filtered data/jcim_chembl_universe_v0/tables/pair_ligand_identity_qc_v1.csv kept=20
+- csv filtered data/jcim_chembl_universe_v0/tables/k4_vs_universe_suitability_v1.csv kept=7
+- csv filtered data/jcim_chembl_universe_v0/tables/pair_ligand_reject_reasons_v1.csv kept=120
+- csv filtered data/jcim_chembl_universe_v0/tables/receptor_identity_audit_v1.csv kept=14
+- csv filtered data/jcim_bench_v0/tables/forest_summary_min_ci_v1.csv kept=21
+- csv filtered data/jcim_bench_v0/tables/directional_with_baselines_v1.csv kept=21
+- csv filtered data/jcim_bench_v0/tables/baseline_gate_bootstrap_v1.csv kept=9
+- csv filtered data/jcim_bench_v0/tables/top10_hardneg_bootstrap_v1.csv kept=21
+- csv filtered data/jcim_bench_v0/tables/bootstrap_directional_ci_v1.csv kept=21
+- csv filtered data/jcim_bench_v0/tables/inventory_v1.csv kept=3
+- csv filtered data/jcim_bench_v0/tables/pocket_matched_directional_v1.csv kept=30
+- csv filtered data/jcim_bench_v0/tables/gnina_pocket_matched_mode01_vs_best9_k4_v1.csv kept=6
+- csv filtered data/jcim_bench_v0/tables/continuous_spearman_v1.csv kept=84
+- csv filtered data/jcim_bench_v0/tables/asymmetry_pooled_vs_directional_v1.csv kept=21
+- csv filtered data/jcim_bench_v0/tables/pocket_matched_size_strata_v1.csv kept=9
+- csv filtered data/jcim_bench_v0/tables/gnina_mode01_vs_best9_auroc.csv kept=3
+- csv filtered data/jcim_bench_v0/tables/threshold_sensitivity_v1.csv kept=54
+- csv filtered data/jcim_bench_v0/tables/gnina_mode01_vs_best9_ligand.csv kept=258
+- csv filtered data/jcim_bench_v0/tables/assembled_all_pairs_long.csv kept=253
+- csv filtered data/jcim_bench_v0/tables/pocket_specificity_gap_v1.csv kept=3
+- csv filtered data/jcim_bench_v0/tables/descriptor_by_class_v1.csv kept=96
+- csv filtered data/jcim_bench_v0/tables/directional_forest_v0.csv kept=6
+- csv filtered data/jcim_supply_crossdb_v0/tables/crossdb_strict_supply_v1.csv kept=15
+- csv filtered data/jcim_structure_robust_v0/tables/receptor_realization_two_pair_v1.csv kept=4
+- csv filtered data/jcim_novelty_v0/tables/class_chemistry_summary_v1.csv kept=12
+- csv filtered data/jcim_novelty_v0/tables/document_blocked_cv_folds_v1.csv kept=29
+- csv filtered data/jcim_novelty_v0/tables/external_candidate_flow.csv kept=20
+- csv filtered data/jcim_novelty_v0/tables/document_blocked_cv_summary_v1.csv kept=6
+- csv filtered data/jcim_novelty_v0/tables/bindingdb_external_feasibility_funnel_long_v1.csv kept=20
+- csv filtered data/jcim_novelty_v0/tables/time_split_class_counts_v1.csv kept=18
+- csv filtered data/jcim_novelty_v0/tables/detectable_effect_simulation_v1.csv kept=72
+- csv filtered data/jcim_novelty_v0/tables/document_cluster_bootstrap_v1.csv kept=6
+- csv filtered data/jcim_novelty_v0/tables/assay_max_vs_median_auroc_v1.csv kept=6
+- csv filtered data/jcim_novelty_v0/tables/assay_source_full_inventory_v1.csv kept=376
+- csv filtered data/jcim_novelty_v0/tables/complete_case_usable_pchembl_overlap_v1.csv kept=3
+- csv filtered data/jcim_novelty_v0/tables/scaffold_cluster_bootstrap_v1.csv kept=9
+- csv filtered data/jcim_novelty_v0/tables/external_slice_summary_v1.csv kept=4
+- csv filtered data/jcim_novelty_v0/tables/downloaded_source_pdf_inventory_v1.csv kept=135
+- csv filtered data/jcim_novelty_v0/tables/cognate_rank_rmsd_reaudit_v1.csv kept=35
+- csv filtered data/jcim_novelty_v0/tables/source_document_concentration_v1.csv kept=12
+- csv filtered data/jcim_novelty_v0/tables/external_slice_ligands_v1.csv kept=402
+- csv filtered data/jcim_novelty_v0/tables/bindingdb_independence_ligands_v1.csv kept=7719
+- csv filtered data/jcim_novelty_v0/tables/bindingdb_external_feasibility_flow_v1.csv kept=4
+- csv filtered data/jcim_novelty_v0/tables/chemotype_matched_hardneg_v1.csv kept=30
+- csv filtered data/jcim_novelty_v0/tables/high_confidence_labels_v1.csv kept=253
+- csv filtered data/jcim_novelty_v0/tables/bindingdb_independence_summary_v1.csv kept=3
+- csv filtered data/jcim_novelty_v0/tables/time_split_auroc_v1.csv kept=18
+- csv filtered data/jcim_novelty_v0/tables/mixed_library_enrichment_v1.csv kept=36
+- csv filtered data/jcim_novelty_v0/tables/assay_max_vs_median_flips_v1.csv kept=8
+- csv filtered data/jcim_novelty_v0/tables/primary_only_label_sensitivity_v1.csv kept=253
+- csv filtered data/jcim_novelty_v0/tables/theta6_pair_census_v1.csv kept=48
+- csv filtered data/jcim_novelty_v0/tables/time_split_ligand_years_v1.csv kept=253
+- csv filtered data/jcim_novelty_v0/tables/assay_max_vs_median_agreement_v1.csv kept=3
+- csv filtered data/jcim_novelty_v0/tables/measurement_frequency_by_class_v1.csv kept=12
+- csv filtered data/jcim_novelty_v0/tables/assay_source_reading_list_v1.csv kept=135
+- csv filtered data/jcim_novelty_v0/tables/primary_only_model_sensitivity_v1.csv kept=18
+- csv filtered data/jcim_novelty_v0/tables/assay_context_audit.csv kept=1083
+- csv filtered data/jcim_novelty_v0/tables/and_filter_operating_point_v1.csv kept=30
+- csv filtered data/jcim_novelty_v0/tables/formulation_equal_score_negative_v1.csv kept=6
+- csv filtered data/jcim_novelty_v0/tables/docking_failure_census_v1.csv kept=5
+- csv filtered data/jcim_novelty_v0/tables/aggregation_min_mean_geometric_harmonic_v1.csv kept=3
+- csv filtered data/jcim_novelty_v0/tables/formulation_conventional_vs_directional_v1.csv kept=24
+- csv filtered data/jcim_novelty_v0/tables/high_confidence_summary_v1.csv kept=3
+- csv filtered data/jcim_novelty_v0/tables/docking_failed_ligand_properties_v1.csv kept=5
+- csv filtered data/jcim_novelty_v0/tables/measurement_frequency_max_median_v1.csv kept=6
+- csv filtered data/jcim_novelty_v0/tables/property_caliper_match_v1.csv kept=12
+- csv filtered data/jcim_novelty_v0/tables/ligand_only_fullmap_auroc_v1.csv kept=15
+- csv filtered data/jcim_novelty_v0/tables/formulation_summary_v1.csv kept=3
+- csv filtered data/jcim_novelty_v0/tables/MASTER_RESULTS_TABLE.csv kept=155
+- csv filtered data/jcim_novelty_v0/tables/cognate_artifact_inventory_v1.csv kept=9
+- csv filtered data/jcim_novelty_v0/tables/descriptor_all_four_directional_v1.csv kept=3
+- csv filtered data/jcim_novelty_v0/tables/assay_max_vs_median_ligand_v1.csv kept=253
+- csv filtered data/jcim_novelty_v0/tables/assay_context_priority_ligands_v1.csv kept=162
+- csv filtered data/jcim_novelty_v0/tables/docking_failure_rank_extreme_v1.csv kept=2
+- csv filtered data/jcim_novelty_v0/tables/incremental_information_v1.csv kept=42
+- csv filtered data/jcim_novelty_v0/tables/document_blocked_cv_methods_v1.csv kept=20
+- csv filtered data/jcim_novelty_v0/tables/document_blocked_ligand_groups_v1.csv kept=253
+- csv filtered data/jcim_novelty_v0/tables/assay_max_vs_median_summary_v1.csv kept=3
+- scrubbed plotted_values.json
