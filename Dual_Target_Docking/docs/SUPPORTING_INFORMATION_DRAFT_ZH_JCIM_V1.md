@@ -191,7 +191,7 @@ Bemis–Murcko 骨架 `GroupKFold` 逻辑回归 out-of-fold AUROC。docking 列�
 
 ## Table S7. 未使用池留出集（unused-pool holdout）
 
-配体来自同一 ChEMBL 批次，排除主面板成员后按冻结配额抽样。EGFR/HER2 剩余候选不足，未构建同等 holdout。JAK1/JAK2 实抽 20 / 20 / 18。
+配体来自同一 ChEMBL 批次，排除主面板成员后按冻结配额抽样。EGFR/HER2 剩余候选不足，未构建同等 holdout。JAK1/JAK2 实抽 20 / 20 / 18。留出集为方向性样本（dual / A-only / B-only），不含 neither。
 
 | 靶对 | 主评价 summary_min [95% CI] | holdout n (D / A / B) | holdout summary_min [95% CI] |
 |------|----------------------------:|----------------------:|------------------------------|
@@ -259,7 +259,7 @@ Bemis–Murcko 骨架 `GroupKFold` 逻辑回归 out-of-fold AUROC。docking 列�
 | PPARG/PPARA | 0.649 | 0.651 | 0.649–0.691 |
 | PPARA/PPARD | 0.446 | 0.454 | 0.446–0.469 |
 
-F2/F10、JAK1/TYK2、JAK1/JAK2、PPARG/PPARA 和 PPARA/PPARD 的五种子范围均未跨过 0.5。源：`independent_dock_formulation_v1.csv`；`table2_comparable_by_channel_v1.csv`；`multiseed_auroc_aggregate_v2.csv`；`fiveseed_summary_min_aggregate_v1.csv`。
+F2/F10、JAK1/TYK2、JAK1/JAK2、PPARG/PPARA 和 PPARA/PPARD 的五种子范围均未跨过 0.5。备选种子按完整病例计：AChE/BChE 生产种子 n_complete 为 95（27 / 25 / 28），其余四种子为 89–90（最低 25 / 22 / 27）。部分五对种子上 JAK1/TYK2 的 n_dual 为 32 而非 31，PPARG/PPARA 的 n_A 为 32 而非 31。上述 n 变化不构成第二套 Table 2。源：`independent_dock_formulation_v1.csv`；`table2_comparable_by_channel_v1.csv`；`multiseed_auroc_aggregate_v2.csv`；`multiseed_auroc_by_seed_v2.csv`；`fiveseed_summary_min_aggregate_v1.csv`。
 
 ---
 

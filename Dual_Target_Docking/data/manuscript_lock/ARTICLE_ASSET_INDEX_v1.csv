@@ -54,7 +54,7 @@ si_table,S32,independent GNINA,prespecified sensitivity,data/jcim_independent_do
 si_table,S33,PIK3CA occupancy,post-hoc,data/jcim_structure_robust_v0/analysis/plif_v1/plif_residue_shift_top10_v1.csv,plif scripts,PM48 poses,LOCKED,,LOCKED,1
 si_table,S34,fixed-score negative class,formulation,formulation_equal_score_negative_v1.csv,benchmark_formulation_v1.py,same,LOCKED,EGFR pocket A delta 0.3783,LOCKED,1
 si_table,S35,measurement frequency,post-hoc,measurement_frequency_by_class_v1.csv,novelty scripts,API records,LOCKED,,LOCKED,1
-si_table,S36,high-confidence ChEMBL,post-hoc,high_confidence_summary_v1.csv,novelty scripts,2026-08-26 API,LOCKED,352/352 class match; AUROCs unchanged,LOCKED,1
+si_table,S36,high-confidence ChEMBL,post-hoc,high_confidence_summary_v1.csv,novelty scripts,2026-08-26 API,LOCKED,253/253 class match on the three remaining original pairs; AUROCs unchanged,LOCKED,1
 si_table,S37,complete-case,limitation,complete_case_usable_pchembl_overlap_v1.csv,novelty scripts,frozen maps,LOCKED,0.145119/0.340172/0.233349/0.265252,LOCKED,1
 si_table,S38,class chemistry,post-hoc,class_chemistry_summary_v1.csv,novelty scripts,same,LOCKED,,LOCKED,1
 si_table,S39,document-blocked CV,prespecified sensitivity,document_blocked_cv_summary_v1.csv + document_cluster_bootstrap_v1.csv,novelty scripts,same scores,LOCKED,EGFR D/B still 0.4297; PIK3CA/mTOR D/B cannot_stably_estimate,LOCKED,1

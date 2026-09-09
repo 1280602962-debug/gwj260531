@@ -191,7 +191,7 @@ Source: `wrong_pocket_paired_delta_bootstrap_v1.csv` (`set=main_panel` / `unused
 
 ## Table S7. Unused-pool holdout
 
-Ligands come from the same ChEMBL harvest after excluding main-panel members, then frozen quotas. EGFR/HER2 leftovers were too thin for a matched holdout. JAK1/JAK2 drew 20 / 20 / 18.
+Ligands come from the same ChEMBL harvest after excluding main-panel members, then frozen quotas. EGFR/HER2 leftovers were too thin for a matched holdout. JAK1/JAK2 drew 20 / 20 / 18. Holdout panels are directional (dual / A-only / B-only) and do not include a neither class.
 
 | Pair | Main summary_min [95% CI] | holdout n (D / A / B) | holdout summary_min [95% CI] |
 |------|----------------------------:|----------------------:|------------------------------|
@@ -259,7 +259,7 @@ Independent GNINA searches new poses; it is not a Vina rescore. Scope is EGFR/HE
 | PPARG/PPARA | 0.649 | 0.651 | 0.649–0.691 |
 | PPARA/PPARD | 0.446 | 0.454 | 0.446–0.469 |
 
-No five-seed range on F2/F10, JAK1/TYK2, JAK1/JAK2, PPARG/PPARA, or PPARA/PPARD crossed 0.5. Source: `independent_dock_formulation_v1.csv`; `table2_comparable_by_channel_v1.csv`; `multiseed_auroc_aggregate_v2.csv`; `fiveseed_summary_min_aggregate_v1.csv`.
+No five-seed range on F2/F10, JAK1/TYK2, JAK1/JAK2, PPARG/PPARA, or PPARA/PPARD crossed 0.5. Alternate seeds are complete-case: AChE/BChE n_complete is 95 on the production seed (27 / 25 / 28) and 89–90 on the other four (as low as 25 / 22 / 27). On some five-pair seeds JAK1/TYK2 n_dual is 32 rather than 31, and PPARG/PPARA n_A is 32 rather than 31. Those n shifts are not a second Table 2. Source: `independent_dock_formulation_v1.csv`; `table2_comparable_by_channel_v1.csv`; `multiseed_auroc_aggregate_v2.csv`; `multiseed_auroc_by_seed_v2.csv`; `fiveseed_summary_min_aggregate_v1.csv`.
 
 ---
 

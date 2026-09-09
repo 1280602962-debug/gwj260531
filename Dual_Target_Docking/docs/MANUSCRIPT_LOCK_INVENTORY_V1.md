@@ -100,7 +100,7 @@ Multi-seed **directional** columns (D vs A, D vs B, summary_min) are pocket-matc
 | PIK3CA/PIK3CB | 4L23 / 2WXF | 8 | 100 | 28/27/28 | `data/pik3ca_pik3cb_panel_v0/tables/ablation_ligand_scores.csv` |
 | EGFR/HER2 | 3POZ / 3RCD | 8 | 110 | 28/38/32 | `data/egfr_her2_panel120_v0/tables/ablation_ligand_scores.csv` |
 
-Primary labels: unified θ = 6.0, max pChEMBL, freeze date 2026-07-23. 2026-08-26 API refetch is sensitivity (`assay_max_vs_median_auroc_v1.csv`; EGFR 0.417 vs 0.424). High-confidence view: 352/352 class match (`high_confidence_summary_v1.csv`).
+Primary labels: unified θ = 6.0, max pChEMBL, freeze date 2026-07-23. 2026-08-26 API refetch is sensitivity (`assay_max_vs_median_auroc_v1.csv`; EGFR 0.417 vs 0.424). High-confidence view: 253/253 class match on the three remaining original pairs (`high_confidence_summary_v1.csv`).
 
 ---
 
