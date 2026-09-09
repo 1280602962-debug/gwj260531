@@ -1,0 +1,60 @@
+old_id,new_id,role,disposition,canonical_source
+Table 1,Table 1,main_text_primary,keep_verify_eight_pairs,docs/METHODS_DRAFT_ZH_JCIM_V1.md
+Table 2,Table 2,main_text_primary,keep_verify_eight_pairs,unified_threshold_sensitivity_v2.csv + five_pair table2_comparable_theta6_v1.csv + descriptor_all_four_directional_v1.csv
+Table 3,Table 3,main_text_formulation,keep_verify_eight_pairs,formulation_conventional_vs_directional_v1.csv + five_pair table2_comparable_theta6_v1.csv
+S0,Note S0,receptor_identity_failure,keep_narrative_not_performance,RECEPTOR_IDENTITY_AUDIT_V1.md
+S1,Table S1,software_seeds,keep_compressed,ENV_PIN.md
+S2,Table S2,docking_boxes,merge_with_cognate,boxes/*.json
+S3,Table S2,cognate_rmsd,merge_with_boxes,cognate_rank_rmsd_reaudit_v1.csv + layer3_cognate_rmsd_v1.csv
+S4,Table S3,theta_grid,merge_with_aggregation,unified_threshold_sensitivity_v2.csv + five_pair threshold_grid_v1.csv
+S5,Note S14,matched_subsets,archive_csv,matched_subset_directional_v1.csv
+S6,Note S14,pocket_matched_variant_CI,archive_not_table2,pocket_matched_directional_v1.csv
+S7,Note S14,sequence_identity,archive_exploratory,full_chain_identity_v1
+S8,Table S7,unused_pool_holdout,merge_seven_pairs,holdout_pocket_matched_v1.csv + table2_comparable_by_channel_v1.csv holdout
+S9,Table S8,alt_receptor_QC,merge_with_S30,pocket_matched_PM48_alt*.csv
+S10,Table S8,Ca_superposition,footnote_on_S8,pocket_superposition
+S11,Note S14,contact_count,archive_exploratory,wrong_pocket_contact
+S12,Table S11,crossdb_counts,merge_with_external_gate,crossdb_strict_supply_v1.csv
+S13,Table S7,holdout_wrong_pocket,merge_into_S6_S7,holdout_matched_wrong_pocket_summary_v1.csv
+S14,Table S9,GNINA_rescore_worst,compress_into_realization,gnina_mode01_vs_best9
+S15,Table S9,GNINA_rescore_matched,compress_into_realization,gnina_pocket_matched
+S16,Note S14,endpoint_hierarchy,archive,endpoint_hierarchy_v1.csv
+S17,Table S6,wrong_pocket_delta,merge_eight_pairs,wrong_pocket_paired_delta_bootstrap_v1.csv + wrong_pocket_by_channel_v1.csv
+S18,Note S14,pose_fairness,archive,pose_fairness_channels_v1.csv
+S19,Table S5,descriptor_delta,merge_chemistry,pocket_matched_vs_best_descriptor_delta_v1.csv
+S20,Table S5,scaffold_vs_random,merge_chemistry,ligand_ml_scaffold_vs_random_v1.csv
+S21,Table S13,top10_exploratory,merge_operating_point,ranking_top10
+S22,Table 3,formulation_full_grid,main_text,formulation_conventional_vs_directional_v1.csv
+S23,Note S14,chemotype_hardneg,archive_exploratory,chemotype_matched_hardneg_v1.csv
+S24,Table S5,ECFP4_increment,merge_chemistry,incremental_information_v1.csv + ecfp4_incremental_s20s24_v1.csv
+S25,Table S13,mixed_library_top10,merge_operating_point,mixed_library_enrichment_v1.csv
+S26,Note S14,aggregation_means,archive_sensitivity,aggregation_min_mean_geometric_harmonic_v1.csv
+S27,Table S1,docking_failures,footnote_n_scored,docking_failure_census_v1.csv
+S28,Table 2,four_descriptors,main_text_already,descriptor_all_four_directional_v1.csv
+S29,Table S3,max_vs_median,merge_with_theta,assay_max_vs_median_agreement_v1.csv
+S30,Table S8,PIK3CA_receptor_swap,keep_PM_only,pocket_matched_PM48_alt*.csv
+S31,Table S10,detectable_effect,merge_with_cluster,detectable_effect_simulation_v1.csv
+S32,Table S9,independent_GNINA,merge_realization,independent_dock_formulation_v1.csv + gnina_independent_jak1_tyk2
+S33,Note S14,PIK3CA_occupancy,archive_posthoc,plif_residue_shift_top10_v1.csv
+S34,Table S4,fixed_score_negative,flagship_SI,formulation_equal_score_negative_v1.csv + equal_score_negative_s34_v1.csv
+S35,Note S14,measurement_frequency,archive_posthoc,measurement_frequency_by_class_v1.csv
+S36,Table S3,high_confidence_view,compress_into_labels,high_confidence_summary_v1.csv
+S37,Note S14,complete_case,archive_limitation,complete_case_usable_pchembl_overlap_v1.csv
+S38,Note S14,class_chemistry,archive_posthoc,class_chemistry_summary_v1.csv
+S39,Table S10,document_cluster,merge_uncertainty,document_cluster_bootstrap_v1.csv
+S40,Table S10,document_blocked_cv,merge_uncertainty,document_blocked_cv_summary_v1.csv
+S41,Table S12,time_split,keep_counts,time_split_class_counts_v1.csv
+S42,Note S14,assay_context,archive_posthoc,assay_context_priority_ligands_v1.csv
+S43,Note S14,bindingdb_REST_historical,archive,bindingdb_independence_summary_v1.csv
+S44,Note S14,j0_theta6_census,archive_supply,theta6_pair_census_v1.csv
+S45,Note S14,property_caliper,archive_exploratory,property_caliper_match_v1.csv
+S46,Table S13,AND_filter,merge_operating_point,and_filter_operating_point_v1.csv
+S47,Note S14,fullmap_ECFP4,archive_posthoc,ligand_only_fullmap_auroc_v1.csv
+S48,Table S11,external_flow,merge_gate,external_candidate_flow.csv
+S49,Table S11,external_summary,merge_gate,external_slice_summary_v1.csv
+S50,Note S14,MCL1_panel,zenodo_archive,mcl1 tables
+S51,Note S14,MCL1_LC6,zenodo_archive,cognate_qc_lc6
+S52,Note S14,literature_comparator,zenodo_archive,benchmark_literature_comparator_v1.csv
+S53,Note S14,MCL1_AUROC,zenodo_archive,formulation_auroc_MBX_v1.csv
+S54,Table S9,five_seed_vina,merge_realization,multiseed_auroc_aggregate_v2.csv + fiveseed_summary_min_aggregate_v1.csv
+S55,Note S14,leave_cognate,archive_sensitivity,leave_cognate_out_v1.csv

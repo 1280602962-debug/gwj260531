@@ -15,6 +15,7 @@ JCIM **evaluation / benchmark** 课题：双靶对接四类硬负评测。
 |------|------|
 | **[`docs/MANUSCRIPT_JCIM_EN.md`](docs/MANUSCRIPT_JCIM_EN.md)** | ★ **组装后的英文主稿** |
 | **[`docs/MANUSCRIPT_JCIM_ZH.md`](docs/MANUSCRIPT_JCIM_ZH.md)** | ★ **组装后的中文工作稿**（`python3 docs/assemble_manuscript_zh.py`） |
+| **[`submission_pack/`](submission_pack/)** | ★ **投稿切片：文稿、SI、锁定表、图、核对报告** |
 | **[`docs/STATISTICAL_LOCK_V1.md`](docs/STATISTICAL_LOCK_V1.md)** | ★ **八靶对 Table 2/3 估计量与 canonical CSV** |
 | **[`docs/SUPPORTING_INFORMATION_JCIM_EN_V1.md`](docs/SUPPORTING_INFORMATION_JCIM_EN_V1.md)** | 英文 SI（Tables S1–S13） |
 | [`data/jcim_bench_v0/CLAIM_CEILING.md`](data/jcim_bench_v0/CLAIM_CEILING.md) | 可写 / 禁止写的 claim |
