@@ -21,7 +21,7 @@ It is not a second copy of the docking pose workspaces.
 ## Do not submit as primary evidence
 
 - `plot_jcim_article_figures_v1.py` / `v2.py` (withdrawn-pair leftovers)
-- `plot_jcim_si_composites_v1.py` S1–S3 / S9 / S10 (original-set archive; may still tick PIK3CA/PIK3CB)
+- `plot_jcim_si_composites_v1.py` S1–S3 / S9 / S10 (historical original-set artwork; removed from this repository; may still tick PIK3CA/PIK3CB)
 - `data/pik3ca_pik3cb_panel_v0/` (withdrawn pair archive)
 - `external_slice_summary_202608_contract_v1.csv` (legacy three-pair BindingDB snapshot)
 - Pose workspaces and multi-GB score dumps (indexed in the repository, not copied here)

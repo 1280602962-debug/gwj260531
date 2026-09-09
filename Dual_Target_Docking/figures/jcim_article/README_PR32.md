@@ -37,10 +37,8 @@ Historical CSV splits remain routing keys only and are not drawn.
 | S12 | Cognate RMSD for 14 primary receptors | Protocol QC, not a main-text structural claim. |
 
 S11 is an additional **figure** identifier and does not renumber SI tables.
-Tables S1–S13 remain unchanged.
-
-`archive_before_pr32/` contains previous local outputs. Historical original-set
-S2/S3/S9/S10 records must not be mixed into the eight-pair submission figures.
+Tables S1–S13 remain unchanged. Historical original-set figure files are not kept
+in this directory.
 
 Figure 1 split deliverables:
 

@@ -37,4 +37,4 @@ Display order (Figures 2–6 and Tables 1–3): EGFR/HER2, JAK1/JAK2, JAK1/TYK2,
 | S12 | — | Cognate redocking RMSD, 14 primary receptors, top-1 / top-3 / best-of-9 | `cognate_rank_rmsd_reaudit_v1.csv`; `layer3_cognate_rmsd_v1.csv`; `pm48_01_rmsd_E16.csv` |
 | TOC | — | Four states → directional and Dual–neither tasks → ligand-only and pocket-correspondence controls | schematic; no AUROCs |
 
-S2, S3, S9, and S10 remain SI records for historical sensitivity tables. They are not a second primary set. Table numbers S1–S13 are unchanged.
+S2, S3, S9, and S10 remain SI **table** records. No artwork for those historical original-set panels is shipped. Table numbers S1–S13 are unchanged.

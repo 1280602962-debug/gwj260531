@@ -96,11 +96,33 @@ def main() -> None:
 
     fig_src = ROOT / "figures" / "jcim_article"
     allowed_suffix = {".png", ".pdf", ".tif", ".tiff", ".md", ".json"}
+    official_stems = {
+        "Fig1_four_state_and_supply",
+        "Fig1_C_chEMBL_supply",
+        "Fig2_negative_class_formulation",
+        "Fig3_ligand_chemistry",
+        "Fig4_computational_realization",
+        "Fig5_mismatched_pocket",
+        "Fig6_evidence_boundary",
+        "TOC_graphic",
+        "FigS1_protocol_sensitivity",
+        "FigS4_pocket_matched_forest",
+        "FigS5_unused_pool_holdout",
+        "FigS6_detectable_effect",
+        "FigS7_posthoc_diagnostics",
+        "FigS8_bindingdb_native_slice",
+        "FigS11_cluster_uncertainty",
+        "FigS12_cognate_rmsd",
+        "CAPTIONS",
+        "plotted_values",
+        "FIGURE_AUDIT_PR32",
+        "FIGURE_SHA256",
+    }
     if fig_src.exists():
         for path in sorted(fig_src.iterdir()):
             if path.suffix.lower() not in allowed_suffix:
                 continue
-            if path.stem.startswith(("Fig", "TOC", "CAPTIONS", "plotted", "FIGURE_AUDIT", "FIGURE_SHA")):
+            if path.stem in official_stems:
                 shutil.copy2(path, PACK / "figures" / path.name)
 
     readme = """# JCIM submission pack
@@ -126,7 +148,7 @@ It is not a second copy of the docking pose workspaces.
 ## Do not submit as primary evidence
 
 - `plot_jcim_article_figures_v1.py` / `v2.py` (withdrawn-pair leftovers)
-- `plot_jcim_si_composites_v1.py` S1–S3 / S9 / S10 (original-set archive; may still tick PIK3CA/PIK3CB)
+- `plot_jcim_si_composites_v1.py` S1–S3 / S9 / S10 (historical original-set artwork; removed from this repository; may still tick PIK3CA/PIK3CB)
 - `data/pik3ca_pik3cb_panel_v0/` (withdrawn pair archive)
 - `external_slice_summary_202608_contract_v1.csv` (legacy three-pair BindingDB snapshot)
 - Pose workspaces and multi-GB score dumps (indexed in the repository, not copied here)

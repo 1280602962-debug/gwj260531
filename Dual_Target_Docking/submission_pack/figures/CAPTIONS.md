@@ -36,13 +36,9 @@ Matched-pocket scoring uses target B for Dual versus A-only and target A for Dua
 
 (A) Vina summary$_{\mathrm{min}}$ on the PM48 and PM110 panels. (B) Vina summary$_{\mathrm{min}}$ at exhaustiveness 16 versus 8 on PM48. Both panels are descriptive point estimates.
 
-## Figure S2. Equal-relation supply and holdout sampling shift.
+## Figure S2–S3 and S9–S10.
 
-Unchanged original-scrape sources: `crossdb_strict_supply_v1.csv`; `holdout_vs_main_potency_size_v1.csv`. Five-pair ChEMBL 37 dump supply is Figure 1C.
-
-## Figure S3. Additional paired bootstrap differences.
-
-Paired bootstrap comparisons on the original docked set: matched versus mismatched scoring in the primary and holdout panels, Vina versus the strongest single-descriptor baseline, and ECFP4 estimates under scaffold-grouped and random folds. The later-withdrawn PIK3CA/PIK3CB row is marked with a dagger.
+These identifiers belong to historical original-set sensitivity tables. They are **not** part of the current eight-pair submission artwork. The corresponding SI tables remain.
 
 ## Figure S4. Pocket-matched summary_min forest.
 
@@ -63,14 +59,6 @@ EGFR/HER2 operating points: class composition among the top ten compounds ranked
 ## Figure S8. BindingDB-native slice.
 
 BindingDB compound and source counts after independence filters for all eight target pairs (`external_slice_summary_v1.csv`). The same two matrices appear as Figure 6C and 6D. No pair meets the external admission criteria.
-
-## Figure S9. Additional ligand-structure controls.
-
-Additional ligand-structure controls on the original docked set: ECFP4 versus Vina directional AUROCs, Vina and prespecified single-descriptor baselines, covariate-adjusted Dual versus B-only logistic models, and potency- or size-matched subsets. The Vina-only logistic AUROC in panel C is distinct from the rank-based AUROC in the primary analysis.
-
-## Figure S10. Matched versus mismatched point estimates.
-
-Matched and mismatched scoring point estimates for the original primary panels, unused-pool holdouts, potency- and size-matched holdout subsets, and contact-count controls. Paired confidence intervals for the primary and holdout differences are shown in Figure 5A.
 
 ## Figure S11. Fixed-score comparator differences under cluster resampling.
 

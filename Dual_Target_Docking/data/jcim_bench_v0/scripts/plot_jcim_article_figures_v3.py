@@ -893,7 +893,7 @@ def fig_s4_forest(D: dict) -> None:
     ], loc="lower right", fontsize=6.4, frameon=False)
     PROVENANCE["plotted"]["figS4"] = plotted
     fig.subplots_adjust(left=0.16, right=0.86, top=0.94, bottom=0.12)
-    save_all(fig, "FigS_pocket_matched_forest")
+    save_all(fig, "FigS4_pocket_matched_forest")
     plt.close(fig)
 
 
@@ -922,7 +922,7 @@ def fig_s5_holdout(D: dict) -> None:
     ax.text(0.98, 0.03, "EGFR/HER2 has no holdout", transform=ax.transAxes, ha="right", fontsize=6.0, color="#666666")
     PROVENANCE["plotted"]["figS5"] = fig_s
     fig.subplots_adjust(left=0.10, right=0.98, top=0.92, bottom=0.16)
-    save_all(fig, "FigS_unused_pool_holdout")
+    save_all(fig, "FigS5_unused_pool_holdout")
     plt.close(fig)
 
 
@@ -1047,7 +1047,7 @@ def fig_s8_bindingdb(D: dict) -> None:
         "after_ecfp": [fnum(r["after_ecfp_lt_0.70"]) for r in eight],
     }
     fig.subplots_adjust(wspace=0.36, left=0.08, right=0.98, top=0.86, bottom=0.30)
-    save_all(fig, "FigS_bindingdb_native_slice_v1")
+    save_all(fig, "FigS8_bindingdb_native_slice")
     plt.close(fig)
 
 

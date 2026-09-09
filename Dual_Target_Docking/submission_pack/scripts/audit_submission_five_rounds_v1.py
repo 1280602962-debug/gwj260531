@@ -722,7 +722,7 @@ def write_report() -> int:
             "- Table 2 EGFR/HER2 TPSA displayed 0.427 for CSV 0.4275, which is not valid under half-up or half-even; corrected to **0.428** in EN/ZH Table 2.",
             "- Fig1C had five x-tick labels (including withdrawn PIK3CA/PIK3CB) but only four J0 bars, and read complete-case overlap for a pair no longer in that CSV. Bars/labels now match `j0_strict_label_supply.csv`; overlap uses the three original maps (14.5%–34.0%).",
             "- Figure verify locks now match the current J0 scrape (48 pairs, 3 thick) and θ=6.0 census (`directional_n10` = 16, `docked_in_this_paper` = 3). The formal Figure 1 funnel shows J0 scrape → min selective ≥50 → eight-pair evaluation set and no longer records historically docked 4 → PIK3CB withdrawal.",
-            "- `plot_jcim_si_composites_v1.py` S1–S3/S9/S10 remain original-set archive figures (may still tick PIK3CB) and were moved to `figures/jcim_article/archive_original_set/`.",
+            "- Historical original-set S1–S3/S9/S10 artwork from `plot_jcim_si_composites_v1.py` (may still tick PIK3CB) was removed; current SI artwork is S1 protocol, S4–S8, S11, and S12 only.",
             "- Submission slice: `submission_pack/`.",
             "",
         ]

@@ -127,25 +127,25 @@ All live in `figures/jcim_article/`. Captions: `figures/jcim_article/CAPTIONS.md
 
 | Figure | File stem | Reads |
 |---|---|---|
-| 1 | Fig1_four_state_and_supply | schematic + J0 supply + complete-case overlap |
+| 1 | Fig1_four_state_and_supply | schematic + ChEMBL census |
+| 1C | Fig1_C_chEMBL_supply | census panel for split-asset submission |
 | 2 | Fig2_negative_class_formulation | unified_threshold + formulation + equal-score CSV |
 | 3 | Fig3_ligand_chemistry | ligand_ml + incremental_information + AChE assembled |
 | 4 | Fig4_computational_realization | independent GNINA + alt PIK3CA CSVs + multiseed v2 |
 | 5 | Fig5_mismatched_pocket | wrong_pocket_paired_delta + holdout matching |
-| 6 | Fig6_evidence_boundary | unified_threshold grid + PM110 + E8 + BindingDB gate |
+| 6 | Fig6_evidence_boundary | θ grid + cluster bootstrap + BindingDB compound/source |
 | TOC | TOC_graphic | no AUROCs |
-| S1 | FigS1_protocol_sensitivity | unified_threshold grid + GNINA CNN rescore of Vina poses + PM110 |
-| S2 | FigS2_equal_relation_and_sampling | crossdb + holdout shift |
-| S3 | FigS3_paired_delta_bootstrap | descriptor Δ and scaffold-vs-random; matched/mismatched now Figure 5 |
-| S4 | FigS_pocket_matched_forest | unified Vina CIs + forest descriptor CIs (GNINA = CNN rescore) |
-| S5 | FigS_unused_pool_holdout | holdout_pocket_matched |
-| S6 | FigS_detectable_effect | detectable_effect_simulation |
-| S7 | FigS7_posthoc_diagnostics | census / AND / full-map |
-| S8 | FigS_bindingdb_native_slice_v1 | external_slice_summary |
-| S9 | FigS9_ligand_controls | descriptors / logistic covariates / matched subsets |
+| S1 | FigS1_protocol_sensitivity | PM48/PM110 + exhaustiveness 16/8 |
+| S4 | FigS4_pocket_matched_forest | unified Vina CIs + best single descriptor |
+| S5 | FigS5_unused_pool_holdout | holdout vs main summary_min |
+| S6 | FigS6_detectable_effect | detectable_effect_simulation |
+| S7 | FigS7_posthoc_diagnostics | Top-10 / AND filter |
+| S8 | FigS8_bindingdb_native_slice | external_slice_summary |
+| S11 | FigS11_cluster_uncertainty | equal_score_cluster_bootstrap (same as Fig 6B) |
+| S12 | FigS12_cognate_rmsd | cognate redocking RMSD, 14 receptors |
 
 Regenerate command (does not change scores):  
-`python3 data/jcim_bench_v0/scripts/plot_jcim_article_figures_v3.py`
+`python3 figures/jcim_article/scripts/update_figures_pr32.py`
 
 ---
 
