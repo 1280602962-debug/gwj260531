@@ -49,16 +49,20 @@ def read(rel):
 def save(fig, stem, toc=False):
     # Preserve established 7-inch, 300-dpi RGB triplets and embedded PDF fonts.
     if stem=='Fig3_ligand_chemistry':
-        fig.set_size_inches(7,6.7)
-        fig.subplots_adjust(hspace=.68,bottom=.13)
+        # Lift 3A title+legend above the EGFR/HER2 row; park 3B legend inside the axes.
+        fig.set_size_inches(7,6.9)
+        fig.subplots_adjust(hspace=.50,bottom=.09,top=.82,left=.16,right=.98)
         old=fig.axes[0].get_legend()
         handles=old.legend_handles; labels=[t.get_text() for t in old.get_texts()]
         old.remove()
-        fig.axes[0].legend(handles,labels,loc='upper center',bbox_to_anchor=(.5,.99),ncol=4,fontsize=6)
+        fig.axes[0].legend(handles,labels,loc='lower center',bbox_to_anchor=(.5,1.04),ncol=4,fontsize=6,
+                           columnspacing=.9,handletextpad=.35,borderaxespad=0)
         old=fig.axes[1].get_legend()
         handles=old.legend_handles; labels=[t.get_text() for t in old.get_texts()]
         old.remove()
-        fig.axes[1].legend(handles,labels,loc='upper left',bbox_to_anchor=(.0,-.22),ncol=2,fontsize=6)
+        fig.axes[1].legend(handles,labels,loc='lower right',fontsize=6,ncol=1,frameon=True,
+                           fancybox=False,edgecolor='none',facecolor='white',framealpha=.92,
+                           borderpad=.35,handletextpad=.35)
     if stem=='Fig5_mismatched_pocket':
         for ax in fig.axes[:2]:ax.set_xlabel('Δ'+SMIN+'\n(matched − mismatched)',fontsize=7)
     GENERATED.append(stem)
@@ -145,7 +149,13 @@ def fig2(D):
     labs=[['Dual vs A-only, target B','Dual vs B-only, target A'],['Directional '+SMIN,'Dual vs neither, mean score'],['Target A score: B-only → neither','Target B score: A-only → neither']]
     for n,(ax,title,ll) in enumerate(zip(axs,titles,labs)):
         ax.set_title(title,fontsize=8,pad=5)
-        ax.legend(handles=[Line2D([],[],color=C['vina'],marker='o',ls='none',ms=4,label=ll[0]),Line2D([],[],color=C['desc'] if n==1 else C['a_only'],marker='s',ls='none',ms=4,label=ll[1])],loc='upper center',bbox_to_anchor=(.5,-.24),ncol=2,fontsize=6.5)
+        handles=[Line2D([],[],color=C['vina'],marker='o',ls='none',ms=4,label=ll[0]),
+                 Line2D([],[],color=C['desc'] if n==1 else C['a_only'],marker='s',ls='none',ms=4,label=ll[1])]
+        if n==1:
+            handles.append(Line2D([],[],color=C['desc'],marker='D',ls='none',ms=4,label='neither n=4'))
+        if n==2:
+            handles.append(Line2D([],[],color=C['desc'],marker='D',ls='none',ms=4,label='underpowered neither'))
+        ax.legend(handles=handles,loc='upper center',bbox_to_anchor=(.5,-.24),ncol=len(handles),fontsize=6.3)
     P['fig2']={p:{'primary':v.primary_row(D,p),'fixed_A':D['equal' if p in v.ORIGINAL_THREE else 'five_s34'][(p,'D_vs_B_or_neither_pocketA')],'fixed_B':D['equal' if p in v.ORIGINAL_THREE else 'five_s34'][(p,'D_vs_A_or_neither_pocketB')]} for p in PAIRS}
     fig.subplots_adjust(left=.19,right=.97,top=.945,bottom=.085,hspace=.76)
     save(fig,'Fig2_negative_class_formulation')
@@ -176,7 +186,9 @@ def counts_heatmap(ax,rows,columns,title,gate):
     return mat.tolist()
 
 def fig6(D):
-    fig=plt.figure(figsize=(7,6.45));gs=fig.add_gridspec(2,2,height_ratios=[.78,1.45],wspace=.48,hspace=.55)
+    # Stack B/C/D in the right column so the two-point traces match panel A in scale.
+    fig=plt.figure(figsize=(7,6.85))
+    gs=fig.add_gridspec(3,2,height_ratios=[.90,.90,1.42],width_ratios=[1.18,1.00],wspace=.40,hspace=.48)
     ax=fig.add_subplot(gs[:,0]);label(ax,'A')
     rules=['theta_5.5','theta_6.0','theta_6.5','strict_6.5_5.5']
     recs=[[v.theta_grid_record(D,p,r) for r in rules] for p in PAIRS]
@@ -187,18 +199,17 @@ def fig6(D):
     ax.set_yticks(range(8),PAIRS,fontsize=6.7);ax.set_xticks(range(4),['θ=5.5','θ=6.0','θ=6.5','strict'],fontsize=6.5);ax.set_title('Activity definitions',fontsize=8)
     cb=fig.colorbar(im,ax=ax,orientation='horizontal',fraction=.035,pad=.065);cb.set_label(SMIN,fontsize=7)
     P['fig6A']=mat.tolist()
-    sub=gs[0,1].subgridspec(1,2,wspace=.75)
-    for letter,j,title,vals,names in [('B',0,'Panel size',[float(D['pm110'][('PM48','vina')]['summary_min']),float(D['pm110'][('PM110','vina')]['summary_min'])],['PM48','PM110']),('C',1,'Exhaustiveness',[v.primary_row(D,'PIK3CA/mTOR')['smin'],e8_value()],['16','8'])]:
-        ax=fig.add_subplot(sub[0,j]);label(ax,letter)
-        ax.plot(range(2),vals,'-o',color=C['vina'],ms=4,lw=.8);ax.axhline(.5,color=C['chance'],ls='--',lw=.7)
-        ax.set_xticks(range(2),names,fontsize=6.3);ax.set(xlim=(-.4,1.4),ylim=(.45,.8));ax.set_title(title,fontsize=7.5)
-        if j==0:ax.set_ylabel(SMIN,fontsize=7)
+    for letter,row,title,vals,names in [('B',0,'Panel size',[float(D['pm110'][('PM48','vina')]['summary_min']),float(D['pm110'][('PM110','vina')]['summary_min'])],['PM48','PM110']),('C',1,'Exhaustiveness',[v.primary_row(D,'PIK3CA/mTOR')['smin'],e8_value()],['16','8'])]:
+        ax=fig.add_subplot(gs[row,1]);label(ax,letter)
+        ax.plot(range(2),vals,'-o',color=C['vina'],ms=5.5,lw=1.0);ax.axhline(.5,color=C['chance'],ls='--',lw=.7)
+        ax.set_xticks(range(2),names,fontsize=7);ax.set(xlim=(-.35,1.35),ylim=(.45,.82));ax.set_title(title,fontsize=8)
+        ax.set_ylabel(SMIN,fontsize=7)
         P['fig6'+letter]=dict(zip(names,vals))
-    ax=fig.add_subplot(gs[1,1]);label(ax,'D')
+    ax=fig.add_subplot(gs[2,1]);label(ax,'D')
     rows=[next(r for r in D['native'] if r['pair']==p) for p in PAIRS]
     P['fig6D']=counts_heatmap(ax,rows,['n_dual','n_A_only','n_B_only'],'BindingDB after independence filters',20)
-    ax.text(.5,-.14,'Cell color saturates at n=20\n0/8 pairs meet all external criteria',transform=ax.transAxes,ha='center',fontsize=6.7)
-    fig.subplots_adjust(left=.17,right=.98,top=.93,bottom=.12)
+    ax.text(.5,-.16,'Cell color saturates at n=20\n0/8 pairs meet all external criteria',transform=ax.transAxes,ha='center',fontsize=6.5)
+    fig.subplots_adjust(left=.16,right=.98,top=.94,bottom=.10)
     save(fig,'Fig6_evidence_boundary')
 
 def supplements(D):
