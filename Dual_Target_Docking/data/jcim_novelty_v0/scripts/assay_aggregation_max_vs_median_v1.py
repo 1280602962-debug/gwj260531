@@ -30,7 +30,6 @@ BASE = "https://www.ebi.ac.uk/chembl/api/data/activity.json"
 TARGETS = {
     "EGFR/HER2": ("CHEMBL203", "CHEMBL1824"),
     "AChE/BChE": ("CHEMBL220", "CHEMBL1914"),
-    "PIK3CA/PIK3CB": ("CHEMBL4005", "CHEMBL3145"),
     "PIK3CA/mTOR": ("CHEMBL4005", "CHEMBL2842"),
 }
 
@@ -51,15 +50,6 @@ PANELS = {
         vina_b="vina_BCHE",
         p_a="pchembl_ACHE",
         p_b="pchembl_BCHE",
-        id_from_panel=False,
-    ),
-    "PIK3CA/PIK3CB": dict(
-        scores="data/pik3ca_pik3cb_panel_v0/tables/ablation_ligand_scores.csv",
-        panel=None,
-        vina_a="vina_PIK3CA",
-        vina_b="vina_PIK3CB",
-        p_a="pchembl_PIK3CA",
-        p_b="pchembl_PIK3CB",
         id_from_panel=False,
     ),
     "PIK3CA/mTOR": dict(

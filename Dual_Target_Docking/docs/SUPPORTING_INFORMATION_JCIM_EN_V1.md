@@ -2,17 +2,9 @@
 
 **Article companion:** `MANUSCRIPT_JCIM_EN.md`  
 **Numeric rule:** cells below are read from frozen CSVs and rounded to three decimals, matching the main text. Per-ligand long tables, exploratory slices, and demoted pairs are archived with code and SHA-256 checksums (Note S14).  
-**Legacy map:** `data/manuscript_lock/SI_TABLE_MERGE_MAP_v1.csv` (former Tables S1–S54 → Note S0 + Tables S1–S13).
+**Legacy map:** `data/manuscript_lock/SI_TABLE_MERGE_MAP_v1.csv` (former Tables S1–S54 → Tables S1–S13).
 
 **Main-text tables (not repeated here):** Table 1 panel composition; Table 2 eight-pair directional AUROC and four descriptors; Table 3 Dual-versus-neither versus directional contrast.
-
----
-
-## Note S0. Receptor-identity failure: PIK3CA/PIK3CB (withdrawn)
-
-This pair passed the same ChEMBL supply screen as the primary set and was docked (4L23/2WXF, exhaustiveness = 8, n_panel = 100, n_scored 28/27/28). A post-hoc identity audit showed PDB 2WXF is murine PIK3CD (UniProt O35904), not human PIK3CB (P42338). Pocket A (4L23) is correct; pocket B is not. Cognate best-of-9 RMSD = 0.405 Å because ligand 039 belongs to the docked mouse protein, so QC cannot certify receptor identity.
-
-Numbers computed before withdrawal are a documented failure case, **not** primary or sensitivity evidence: directional `summary_min` 0.500 [0.350, 0.650]; Dual versus neither 0.559 [0.373, 0.746] (n_neither = 16). The same PIK3CA 4JPS/5DXT swaps raised `summary_min` to 0.691/0.685 on the wrong B end, opposite to the verified PIK3CA/mTOR drop. That contrast shows only that substitution is uninterpretable once identity is wrong.
 
 ---
 
@@ -39,7 +31,7 @@ Ligands need both-end scores for directional AUROC; n_scored may be below n_pane
 
 ## Table S2. Primary receptor boxes and cognate redocking RMSD
 
-The eight pairs use 14 PDB slots (JAK1 6N7A and PPARA 6LXA are shared). PIK3CA/mTOR used E = 16 because 4JT6 failed the gate at E = 8. EGFR 3POZ is reconstructed QC (original nine-mode production files were not recovered). 9V8H is a PPARγ LBD–BRL–PG08-NL ternary complex; the peptide was retained. 2WXF appears only in Note S0.
+The eight pairs use 14 PDB slots (JAK1 6N7A and PPARA 6LXA are shared). PIK3CA/mTOR used E = 16 because 4JT6 failed the gate at E = 8. EGFR 3POZ is reconstructed QC (original nine-mode production files were not recovered). 9V8H is a PPARγ LBD–BRL–PG08-NL ternary complex; the peptide was retained.
 
 **S2a. Docking boxes (Å)**
 
@@ -111,7 +103,7 @@ Relabeling on frozen Vina scores. Primary analysis is θ = 6.0 (Table 2). Interv
 
 **pChEMBL max versus median (2026-08-26 API snapshot; does not replace Table 2):** EGFR/HER2 label agreement 93.6%, `summary_min` 0.430 frozen vs API-max 0.417 and median 0.424; AChE/BChE agreement 98.9%, median `summary_min` 0.629 (Δ = +0.023); PIK3CA/mTOR agreement 100%, `summary_min` unchanged. Source: `unified_threshold_sensitivity_v2.csv`; `threshold_grid_v1.csv`; `assay_max_vs_median_agreement_v1.csv`.
 
-**High-confidence human SINGLE PROTEIN view (same-day API snapshot; does not replace Table 2):** 352/352 originally scored ligands match the frozen four-state labels and directional AUROCs are unchanged. The view covers EGFR/HER2, AChE/BChE, and PIK3CA/mTOR, plus withdrawn PIK3CA/PIK3CB (not in the main tables); the five census pairs are not included. Source: `high_confidence_summary_v1.csv`.
+**High-confidence human SINGLE PROTEIN view (same-day API snapshot; does not replace Table 2):** 253/253 scored ligands with that snapshot match the four-state labels and directional AUROCs are unchanged. The view covers EGFR/HER2, AChE/BChE, and PIK3CA/mTOR. Source: `high_confidence_summary_v1.csv`.
 
 ---
 
@@ -138,7 +130,7 @@ The pocket score is held fixed. Dual ligands are resampled once; selective and n
 | PPARA/PPARD | pocket A | 0.446 | 0.484 | 0.038 | [−0.139, 0.216] | no |
 | PPARA/PPARD | pocket B | 0.646 | 0.665 | 0.019 | [−0.172, 0.198] | no |
 
-Source: `formulation_equal_score_negative_v1.csv`; `equal_score_negative_s34_v1.csv`. Dual-versus-neither with two-pocket mean scores is main-text Table 3 and does not isolate the negative-class effect.
+Source: `formulation_equal_score_negative_v1.csv`; `equal_score_negative_s34_v1.csv`. Cluster resampling of the two flagship pocket-A Δ values (shared dual draws) is in `equal_score_cluster_bootstrap_v1.csv`: EGFR/HER2 document-cluster [0.083, 0.529] and scaffold-cluster [0.168, 0.562] both exclude 0; JAK1/TYK2 scaffold-cluster [0.234, 0.633] excludes 0, document-cluster [−0.034, 0.682] includes 0. Dual-versus-neither with two-pocket mean scores is main-text Table 3 and does not isolate the negative-class effect.
 
 ---
 
@@ -171,7 +163,7 @@ Four single-descriptor `summary_min` values are in main-text Table 2. AChE/BChE 
 
 ## Table S6. Matched minus mismatched pocket
 
-Δ = matched `summary_min` − mismatched `summary_min`. Positive Δ means the correct pocket is higher. On the main panels only EGFR/HER2 and AChE/BChE have 95% CIs excluding 0; all seven scored holdouts include 0. Withdrawn PIK3CA/PIK3CB is omitted.
+Δ = matched `summary_min` − mismatched `summary_min`. Positive Δ means the correct pocket is higher. On the main panels only EGFR/HER2 and AChE/BChE have 95% CIs excluding 0; all seven scored holdouts include 0.
 
 | Pair | Set | Δ | 95% CI | CI excludes 0 |
 |------|------|--:|--------|:---------:|
@@ -224,7 +216,7 @@ One pocket at a time: the other pocket keeps frozen main-panel scores. Only this
 | PIK3CA → 5DXT | A | 0.714 | 0.505 | 0.505 [0.292, 0.696] |
 | mTOR → 4JSX | B | 0.639 | 0.692 | 0.639 [0.418, 0.776] |
 
-Source: `pocket_matched_PM48_alt4JPS_v1.csv`, `..._alt5DXT_v1.csv`, `..._alt4JSX_v1.csv`. Parallel swaps that used wrong-protein 2WXF are Note S0, not evidence in this table. Rigid Cα superposition was exploratory and is archived with occupancy snapshots (Note S14).
+Source: `pocket_matched_PM48_alt4JPS_v1.csv`, `..._alt5DXT_v1.csv`, `..._alt4JSX_v1.csv`. Rigid Cα superposition was exploratory and is archived with occupancy snapshots (Note S14).
 
 ---
 
@@ -265,13 +257,13 @@ Independent GNINA searches new poses; it is not a Vina rescore. Scope is EGFR/HE
 | PPARG/PPARA | 0.649 | 0.651 | 0.649–0.691 |
 | PPARA/PPARD | 0.446 | 0.454 | 0.446–0.469 |
 
-No post-census five-seed range crossed 0.5. Source: `independent_dock_formulation_v1.csv`; `table2_comparable_by_channel_v1.csv`; `multiseed_auroc_aggregate_v2.csv`; `fiveseed_summary_min_aggregate_v1.csv`.
+No five-seed range on F2/F10, JAK1/TYK2, JAK1/JAK2, PPARG/PPARA, or PPARA/PPARD crossed 0.5. Source: `independent_dock_formulation_v1.csv`; `table2_comparable_by_channel_v1.csv`; `multiseed_auroc_aggregate_v2.csv`; `fiveseed_summary_min_aggregate_v1.csv`.
 
 ---
 
 ## Table S10. Document-cluster uncertainty and detectable-effect simulation
 
-Document-cluster bootstrap is reported only on the original freeze pairs with complete `document_id` coverage. It does not replace Table 2 ligand-level intervals. PIK3CA/mTOR Dual versus B-only is not stably estimable under document-blocked CV.
+Document-cluster bootstrap is reported only on pairs with complete `document_id` coverage. It does not replace Table 2 ligand-level intervals. PIK3CA/mTOR Dual versus B-only is not stably estimable under document-blocked CV.
 
 | Pair | Contrast | Ligand-level point | Document-cluster 95% CI | n_document groups |
 |------|------|------------:|---------------|---------:|
@@ -282,35 +274,50 @@ Document-cluster bootstrap is reported only on the original freeze pairs with co
 | PIK3CA/mTOR | D vs A | 0.714 | [0.400, 0.886] | 8 |
 | PIK3CA/mTOR | D vs B | 0.692 | [0.000, 0.818] | 9 |
 
+**Fixed-channel Δ cluster resampling:** see the Table S4 continuation; source `equal_score_cluster_bootstrap_v1.csv`. That analysis does not replace the Table S4 ligand-level intervals.
+
 **Detectable effect:** at the observed class sizes, if both true directional AUROCs are 0.70, the probability that the `summary_min` 95% CI excludes 0.5 is 0.219–0.621; if both are 0.60, that probability is 0.025–0.065. Source: `document_cluster_bootstrap_v1.csv`; `detectable_effect_simulation_v1.csv`. A CI that includes 0.5 means the estimate is imprecise; it is not interpreted here as equivalence to chance (see Discussion).
 
 ---
 
-## Table S11. BindingDB-native external gate (zero pairs pass)
+## Table S11. BindingDB / PubChem supply counts and the external-docking gate (zero pairs pass)
 
-The contract was frozen in advance: human wild-type, exact quantitative activity, shared-source and structure filters, ECFP4 Tanimoto < 0.70, and dual/A-only/B-only each n ≥ 20 with ≥3 sources per class. All four historical contract rows (including later-withdrawn PIK3CA/PIK3CB) have `gate = insufficient`, `packaged_as_external_evaluation = 0`, and were not docked. The five post-census pairs were not reopened as BindingDB external docking.
+BindingDB and PubChem were counted for all eight pairs under the same four-state rules used in the main evaluation. External docking further required dropping shared literature sources, duplicate structures, and ECFP4 Tanimoto ≥ 0.70 molecules, plus dual / A-only / B-only each n ≥ 20 with at least three sources per class. No pair was packaged as an external evaluation set or docked externally.
+
+**S11a. BindingDB equal-quantity strict 6.5/5.5 supply counts (zero docking)**
+
+| Pair | Both-end measured | Strict dual / A-only / B-only |
+|------|------------------:|------------------------------:|
+| PIK3CA/mTOR | 2739 | 1579 / 76 / 96 |
+| AChE/BChE | 2711 | 698 / 181 / 92 |
+| EGFR/HER2 | 2269 | 1336 / 34 / 31 |
+| F2/F10 | 1985 | 376 / 129 / 314 |
+| JAK1/TYK2 | 4184 | 2455 / 95 / 165 |
+| JAK1/JAK2 | 9761 | 7134 / 131 / 54 |
+| PPARG/PPARA | 2026 | 413 / 84 / 95 |
+| PPARA/PPARD | 1155 | 253 / 71 / 103 |
+
+**S11b. Remainder after independence filters (external-docking gate)**
 
 | Pair | After filters dual / A-only / B-only | n_sources (D / A / B) | Gate |
 |------|------------------------------:|-------------------:|------|
 | EGFR/HER2 | 180 / 10 / 20 | 16 / 5 / 4 | fail (A-only n = 10 < 20) |
 | AChE/BChE | 4 / 8 / 14 | 2 / 6 / 3 | fail |
 | PIK3CA/mTOR | 91 / 4 / 1 | 9 / 2 / 1 | fail |
-| PIK3CA/PIK3CB (historical) | 9 / 0 / 3 | 4 / 0 / 1 | fail; also withdrawn on identity |
 
-Source: `external_slice_summary_v1.csv`. Zero-dock BindingDB/PubChem supply counts are in `crossdb_strict_supply_v1.csv` and are not external validation.
+Source: `crossdb_strict_supply_v1.csv` (S11a; BindingDB `equal_only`); `external_slice_summary_v1.csv` (S11b). S11a is a supply count, not external validation. S11b is the remainder after dropping shared sources, duplicate structures, and high-similarity molecules. The other five pairs were counted in S11a under the same rules and likewise did not form an independence-filtered external set.
 
 ---
 
 ## Table S12. Literature-year split (primary cutoff 2018)
 
-The test set is earliest `document.year` ≥ 2018. Directional AUROC is reported only if dual, A-only, and B-only each have n ≥ 10. None of the original freeze pairs met that gate on the 2018 test set, so no two-direction time-split test set was packaged.
+The test set is earliest `document.year` ≥ 2018. Directional AUROC is reported only if dual, A-only, and B-only each have n ≥ 10. Pairs with reportable year-split counts did not meet that gate on the 2018 test set, so no two-direction time-split test set was packaged.
 
 | Pair | 2018 test n (D / A / B / neither) | Gate |
 |------|------------------------------------:|------|
 | EGFR/HER2 | 6 / 3 / 14 / 2 | counts only |
 | AChE/BChE | 8 / 5 / 15 / 6 | counts only |
 | PIK3CA/mTOR | 2 / 0 / 1 / 0 | not evaluable |
-| PIK3CA/PIK3CB (historical) | 12 / 11 / 0 / 3 | not evaluable |
 
 Source: `time_split_class_counts_v1.csv`. 2015 / 2020 are prespecified sensitivity cutoffs and were likewise not packaged as external validation.
 
@@ -335,7 +342,7 @@ These files answer questions that do not need a separate typeset SI table. Full 
 
 - per-ligand docking scores, holdout membership, multi-seed long tables;
 - property-caliper 1:1 matching, chemotype hard-negatives, aggregation means (arithmetic / geometric / harmonic), scaffold versus random splits;
-- complete-case coverage, measurement frequency, assay-context 186-ligand ledger, J0 49-pair θ = 6.0 census;
+- complete-case coverage, measurement frequency, assay-context ledger, J0 candidate-pair θ = 6.0 census;
 - historical BindingDB REST counts, leave-cognate-out, PIK3CA occupancy snapshots, contact counts, and whole-chain sequence identity;
 - MCL1/Bcl-xL applicability stress test (LC6 pose-gold was not established; not Table 2);
 - SHA-256 manifest `REVISION_CHECKSUM_MANIFEST_v1.csv` and evaluation contract `DUALFOURCLASS_EVALUATION_CONTRACT_v1.json`.

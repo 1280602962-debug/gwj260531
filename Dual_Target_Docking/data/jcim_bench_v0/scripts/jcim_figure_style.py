@@ -49,8 +49,8 @@ C = {
 }
 
 # Historical four-pair order (v1/v2 SI). Do not use for the eight-row primary set.
-PAIR_ORDER = ["EGFR/HER2", "AChE/BChE", "PIK3CA/PIK3CB", "PIK3CA/mTOR"]
-# Eight-row primary set after PIK3CA/PIK3CB withdrawal + five-pair census completion.
+PAIR_ORDER = ["EGFR/HER2", "AChE/BChE", "PIK3CA/mTOR"]
+# Eight-row primary set.
 PRIMARY_PAIRS = [
     "EGFR/HER2",
     "AChE/BChE",
@@ -75,7 +75,6 @@ HOLDOUT_PAIRS = [
 PAIR_SHORT = {
     "EGFR/HER2": "EGFR/HER2",
     "AChE/BChE": "AChE/BChE",
-    "PIK3CA/PIK3CB": "PIK3CA/PIK3CB",
     "PIK3CA/mTOR": "PIK3CA/mTOR",
     "F2/F10": "F2/F10",
     "JAK1/TYK2": "JAK1/TYK2",
@@ -93,7 +92,6 @@ PAIR_COLOR = {
     "JAK1/JAK2": "#CC79A7",
     "PPARG/PPARA": "#000000",
     "PPARA/PPARD": "#999999",
-    "PIK3CA/PIK3CB": "#882255",
 }
 DESC_LABEL = {
     "heavy": "heavy atoms",

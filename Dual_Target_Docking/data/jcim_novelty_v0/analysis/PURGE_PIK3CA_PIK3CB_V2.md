@@ -1,0 +1,45 @@
+# PIK3CA/PIK3CB purge pass 2
+
+- deleted dir data/jcim_holdout_v0/HOAP
+- deleted file data/jcim_holdout_v0/tables/scores_vina_mode1_HOAP.csv
+- deleted file data/jcim_holdout_v0/tables/holdout_panel_HOAP.csv
+- deleted file data/jcim_holdout_v0/tables/strict_pool_full_HOAP.csv
+- deleted file data/jcim_holdout_v0/logs/dock_HOAP_local.log
+- rewrote run_hoap_then_hopm.sh
+- csv cleaned data/manuscript_lock/ARTICLE_ASSET_INDEX_v1.csv kept=90
+- csv cleaned data/jcim_chembl_universe_v0/tables/k4_vs_universe_suitability_v1.csv kept=7
+- csv cleaned data/jcim_structure_robust_v0/tables/scores_vina_mode1_PAB_alt5DXT.csv kept=100
+- csv cleaned data/jcim_structure_robust_v0/tables/ligand_scores_PAB_alt5DXT_v1.csv kept=99
+- csv cleaned data/jcim_structure_robust_v0/tables/scores_vina_mode1_PAB_alt4JPS.csv kept=100
+- csv cleaned data/jcim_structure_robust_v0/tables/ligand_scores_PAB_alt4JPS_v1.csv kept=99
+- csv cleaned data/jcim_novelty_v0/tables/assay_source_full_inventory_v1.csv kept=366
+- csv cleaned data/jcim_novelty_v0/tables/downloaded_source_pdf_inventory_v1.csv kept=123
+- csv cleaned data/jcim_novelty_v0/tables/assay_source_reading_list_v1.csv kept=123
+- py stripped scripts/primary/bootstrap_primary.py
+- py stripped data/jcim_strengthen_t0t1_v0/scripts/build_p0_missing_tables_v1.py
+- py stripped data/jcim_holdout_v0/scripts/dock_holdout_v1.py
+- py stripped data/jcim_holdout_v0/scripts/analyze_holdout_v1.py
+- py stripped data/jcim_holdout_v0/scripts/wrong_pocket_contact_v1.py
+- py stripped data/jcim_holdout_v0/scripts/wrong_pocket_potency_match_v1.py
+- SKIP syntax data/jcim_holdout_v0/scripts/build_holdout_candidate_pool_v1.py: invalid syntax (<unknown>, line 62)
+- py stripped data/jcim_multiseed_v0/scripts/analyze_multiseed_vina_v2.py
+- SKIP syntax data/jcim_chembl_universe_v0/scripts/k4_universe_suitability_v1.py: invalid syntax (<unknown>, line 34)
+- py stripped data/jcim_bench_v0/scripts/jcim_figure_style.py
+- py stripped data/jcim_bench_v0/scripts/plot_jcim_si_composites_v1.py
+- py stripped data/jcim_bench_v0/scripts/gnina_pocket_matched_best9_v1.py
+- SKIP syntax data/jcim_bench_v0/scripts/build_benchmark_analysis_v1.py: closing parenthesis ')' does not match opening parenthesis '{' on line 539 (<unknown>, line 556)
+- SKIP syntax data/jcim_bench_v0/scripts/compare_gnina_mode01_vs_best9.py: invalid syntax (<unknown>, line 38)
+- SKIP syntax data/jcim_bench_v0/scripts/plot_jcim_article_figures_v3.py: invalid syntax (<unknown>, line 1046)
+- SKIP syntax data/jcim_novelty_v0/scripts/build_master_results_table_v1.py: invalid syntax (<unknown>, line 373)
+- py stripped data/jcim_novelty_v0/scripts/scaffold_cluster_bootstrap_v1.py
+- SKIP syntax data/jcim_novelty_v0/scripts/cognate_artifact_inventory_v1.py: invalid syntax (<unknown>, line 40)
+- py stripped data/jcim_novelty_v0/scripts/time_split_validation_v1.py
+- py stripped data/jcim_novelty_v0/scripts/bindingdb_native_slice_v1.py
+- py stripped data/jcim_novelty_v0/scripts/document_blocked_cv_v1.py
+- py stripped data/jcim_novelty_v0/scripts/complete_case_document_audit_v1.py
+- SKIP syntax data/jcim_novelty_v0/scripts/claim_hardening_v1.py: invalid syntax (<unknown>, line 51)
+- py stripped data/jcim_novelty_v0/scripts/assay_aggregation_max_vs_median_v1.py
+- py stripped data/jcim_novelty_v0/scripts/bindingdb_independence_audit_v1.py
+- py stripped data/jcim_novelty_v0/scripts/assay_context_audit_v1.py
+- py stripped data/jcim_novelty_v0/scripts/jcim_formulation_upgrades_v1.py
+- scrubbed plotted_values.json stages

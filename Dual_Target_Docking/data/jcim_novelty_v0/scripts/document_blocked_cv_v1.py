@@ -38,14 +38,12 @@ MIN_VALID_FOLDS = 2
 TARGETS = {
     "EGFR/HER2": ("CHEMBL203", "CHEMBL1824"),
     "AChE/BChE": ("CHEMBL220", "CHEMBL1914"),
-    "PIK3CA/PIK3CB": ("CHEMBL4005", "CHEMBL3145"),
     "PIK3CA/mTOR": ("CHEMBL4005", "CHEMBL2842"),
 }
 
 PANEL_SMILES = {
     "EGFR/HER2": "data/egfr_her2_panel120_v0/tables/panel_v0_120.csv",
     "AChE/BChE": "data/ache_bche_panel_v0/tables/ablation_ligand_scores.csv",
-    "PIK3CA/PIK3CB": "data/pik3ca_pik3cb_panel_v0/tables/panel_v0_strict_with_smiles.csv",
     "PIK3CA/mTOR": "data/pik3ca_mtor_panel48_rdkit_v0/tables/panel_v0_48.csv",
 }
 

@@ -46,13 +46,6 @@ SPEC = {
         cls="class",
         lig="ligand",
     ),
-    "PIK3CA/PIK3CB": dict(
-        scores="data/pik3ca_pik3cb_panel_v0/tables/ablation_ligand_scores.csv",
-        vina_a="vina_PIK3CA",
-        vina_b="vina_PIK3CB",
-        cls="class",
-        lig="ligand",
-    ),
     "PIK3CA/mTOR": dict(
         scores="data/pik3ca_mtor_panel48_rdkit_v0/tables/ablation_ligand_scores.csv",
         vina_a="4L23_affinity",
@@ -103,18 +96,16 @@ AN = OUT / "analysis"
 TAB.mkdir(parents=True, exist_ok=True)
 AN.mkdir(parents=True, exist_ok=True)
 
-PAIR_ORDER = ["EGFR/HER2", "AChE/BChE", "PIK3CA/PIK3CB", "PIK3CA/mTOR"]
-HOLD_PAIRS = ["AChE/BChE", "PIK3CA/PIK3CB", "PIK3CA/mTOR"]
+PAIR_ORDER = ["EGFR/HER2", "AChE/BChE", "PIK3CA/mTOR"]
+HOLD_PAIRS = ["AChE/BChE", "PIK3CA/mTOR"]
 BEST_DESC = {
     "EGFR/HER2": "clogp",
     "AChE/BChE": "tpsa",
-    "PIK3CA/PIK3CB": "heavy",
     "PIK3CA/mTOR": "heavy",
 }
 ASSEMBLED = {
     "EGFR/HER2": ROOT / "data/jcim_bench_v0/tables/assembled_EGFR_HER2.csv",
     "AChE/BChE": ROOT / "data/jcim_bench_v0/tables/assembled_AChE_BChE.csv",
-    "PIK3CA/PIK3CB": ROOT / "data/jcim_bench_v0/tables/assembled_PIK3CA_PIK3CB.csv",
     "PIK3CA/mTOR": ROOT / "data/jcim_bench_v0/tables/assembled_PIK3CA_mTOR.csv",
 }
 
@@ -122,29 +113,24 @@ ASSEMBLED = {
 EXPECTED_MATCHED = {
     "EGFR/HER2": (0.6664, 0.4297, 0.4297),
     "AChE/BChE": (0.6504, 0.6058, 0.6058),
-    "PIK3CA/PIK3CB": (0.6905, 0.5, 0.5),
     "PIK3CA/mTOR": (0.7143, 0.6921, 0.6921),
 }
 EXPECTED_WRONG = {
     "EGFR/HER2": (0.6983, 0.26, 0.26),
     "AChE/BChE": (0.4444, 0.5582, 0.4444),
-    "PIK3CA/PIK3CB": (0.6442, 0.3489, 0.3489),
     "PIK3CA/mTOR": (0.7103, 0.6019, 0.6019),
 }
 EXPECTED_HOLD_MATCHED = {
     "AChE/BChE": (0.635, 0.6175, 0.6175),
-    "PIK3CA/PIK3CB": (0.7658, 0.425, 0.425),
     "PIK3CA/mTOR": (0.86, 0.765, 0.765),
 }
 EXPECTED_HOLD_WRONG = {
     "AChE/BChE": (0.6425, 0.6525, 0.6425),
-    "PIK3CA/PIK3CB": (0.6395, 0.52, 0.52),
     "PIK3CA/mTOR": (0.7875, 0.8575, 0.7875),
 }
 EXPECTED_DESC = {
     "EGFR/HER2": 0.4821,
     "AChE/BChE": 0.7333,
-    "PIK3CA/PIK3CB": 0.6217,
     "PIK3CA/mTOR": 0.463,
 }
 
@@ -363,7 +349,7 @@ def write_endpoint_hierarchy() -> list[dict]:
             "role": "robustness",
             "endpoint": "unused-pool holdout pocket-matched Vina",
             "definition": "same protocol; dual/A_only/B_only = 20/20/20; seed 20260731",
-            "panel": "AChE/BChE, PIK3CA/PIK3CB, PIK3CA/mTOR only",
+            "panel": "AChE/BChE, PIK3CA/mTOR only",
             "reported_in": "Table S8 / Table S16; Figure 5A",
             "note": "EGFR/HER2 not eligible. Same ChEMBL batch, not cross-database validation.",
         },

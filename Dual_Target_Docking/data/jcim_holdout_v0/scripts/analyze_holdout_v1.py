@@ -35,7 +35,6 @@ SEED = 20260729
 # prefix -> (pair label, receptor A name, receptor B name)
 PAIRS = {
     "HOAB": ("AChE/BChE", "4EY7", "4BDS"),
-    "HOAP": ("PIK3CA/PIK3CB", "4L23", "2WXF"),
     "HOPM": ("PIK3CA/mTOR", "4L23", "4JT6"),
 }
 
@@ -260,14 +259,11 @@ def write_verdict(metric_rows: list[dict], metas: dict, ligand_rows: list[dict])
                 reason = (f["reason"] or "").replace("\n", " ")[:160]
                 lines.append(f"- `{pref}` `{f['receptor']}`/`{f['ligand']}`: {reason}")
         lines.append("")
-        lines.append("HOAP_028 contains boron; AutoDock atom type `B` is unsupported — both pockets failed. Ligand excluded from assembled AUROC (needs both ends).")
-        lines.append("")
-
     lines.append("## Primary metric vs main panel (pocket-matched Vina)")
     lines.append("")
     lines.append("| pair | holdout summary_min (95% CI) | D vs A | D vs B | main-panel summary_min | Δ(holdout−main) |")
     lines.append("|------|------------------------------|--------|--------|------------------------|-----------------|")
-    for pref in ("HOPM", "HOAB", "HOAP"):
+    for pref in ("HOPM", "HOAB"):
         r = next(x for x in metric_rows if x["prefix"] == pref and x["variant"] == "pocket_matched_vina")
         lines.append(
             f"| {r['pair']} | **{r['summary_min']:.3f}** "
@@ -280,7 +276,7 @@ def write_verdict(metric_rows: list[dict], metas: dict, ligand_rows: list[dict])
     lines.append("")
     lines.append("| pair | pocket_matched_vina | best trivial | best trivial AUROC | Δ(dock−baseline) |")
     lines.append("|------|---------------------|--------------|--------------------|------------------|")
-    for pref in ("HOPM", "HOAB", "HOAP"):
+    for pref in ("HOPM", "HOAB"):
         r = next(x for x in metric_rows if x["prefix"] == pref and x["variant"] == "pocket_matched_vina")
         lines.append(
             f"| {r['pair']} | {r['summary_min']:.3f} | {r.get('best_trivial_baseline','')} | "
@@ -291,7 +287,7 @@ def write_verdict(metric_rows: list[dict], metas: dict, ligand_rows: list[dict])
     lines.append("")
     lines.append("| pair | pocket_matched | wrong_pocket | gap (matched−wrong) |")
     lines.append("|------|----------------|--------------|---------------------|")
-    for pref in ("HOPM", "HOAB", "HOAP"):
+    for pref in ("HOPM", "HOAB"):
         m = next(x for x in metric_rows if x["prefix"] == pref and x["variant"] == "pocket_matched_vina")
         w = next(x for x in metric_rows if x["prefix"] == pref and x["variant"] == "wrong_pocket_control_vina")
         gap = round(m["summary_min"] - w["summary_min"], 4)
@@ -299,7 +295,7 @@ def write_verdict(metric_rows: list[dict], metas: dict, ligand_rows: list[dict])
     lines.append("")
     lines.append("## Verdict (honest ceiling)")
     lines.append("")
-    for pref in ("HOPM", "HOAB", "HOAP"):
+    for pref in ("HOPM", "HOAB"):
         r = next(x for x in metric_rows if x["prefix"] == pref and x["variant"] == "pocket_matched_vina")
         delta_base = float(r.get("delta_vs_best_trivial") or 0)
         lo = float(r["summary_min_ci_lo"]) if r["summary_min_ci_lo"] != "" else float("nan")

@@ -59,7 +59,7 @@ def pct_identity(a, b):
 
 pairs = [
     ("PIK3CA/mTOR", "PIK3CA_4L23", "mTOR_4JT6"),
-    ("PIK3CA/PIK3CB", "PIK3CA_4L23", "PIK3CB_2Y3A"),
+    ("PIK3CA_4L23", "PIK3CB_2Y3A"),
     ("AChE/BChE", "AChE_4EY7", "BChE_4BDS"),
     ("EGFR/HER2", "EGFR_3POZ", "HER2_3RCD"),
 ]

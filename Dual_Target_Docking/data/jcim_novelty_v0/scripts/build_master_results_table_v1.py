@@ -79,8 +79,6 @@ def main() -> None:
     pm_jps = _read(SR / "pocket_matched_PM48_alt4JPS_v1.csv")[0]
     pm_dxt = _read(SR / "pocket_matched_PM48_alt5DXT_v1.csv")[0]
     pm_jsx = _read(SR / "pocket_matched_PM48_alt4JSX_v1.csv")[0]
-    pab_jps = _read(SR / "pocket_matched_PAB_alt4JPS_v1.csv")[0]
-    pab_dxt = _read(SR / "pocket_matched_PAB_alt5DXT_v1.csv")[0]
 
     rows: list[dict] = []
 
@@ -285,9 +283,7 @@ def main() -> None:
     # Original-crystal CIs must come from Table 2 canonical file, not the
     # coeval pocket_matched_directional bootstrap (different hash offset).
     pm0 = theta6["PIK3CA/mTOR"]
-    pab0 = theta6["PIK3CA/PIK3CB"]
     pm0_sm = float(pm0["pocket_matched_summary_min"])
-    pab0_sm = float(pab0["pocket_matched_summary_min"])
     two_pair = [
         {
             "pair": "PIK3CA/mTOR",
@@ -368,66 +364,6 @@ def main() -> None:
             "weak_arm": "D_vs_A",
             "failed_ligand": "",
             "note": "Pocket B replaced (mTOR 4JSX); pocket A frozen 4L23. Not a PIK3CA swap.",
-        },
-        {
-            "pair": "PIK3CA/PIK3CB",
-            "pik3ca_receptor": "4L23",
-            "kept_pocket_B": "2WXF",
-            "n_attempted": 100,
-            "n_successful": 99,
-            "n_failed": 1,
-            "n_dual": pab0["n_dual"],
-            "n_A_only": pab0["n_A_only"],
-            "n_B_only": pab0["n_B_only"],
-            "auroc_D_vs_A": pab0["auroc_D_vs_A"],
-            "auroc_D_vs_B": pab0["auroc_D_vs_B"],
-            "summary_min": pab0["pocket_matched_summary_min"],
-            "ci_lo": pab0["ci_lo"],
-            "ci_hi": pab0["ci_hi"],
-            "delta_vs_original": 0.0,
-            "weak_arm": "D_vs_B",
-            "failed_ligand": "PAB_034 A_only timeout_900s_torsdof=23 on 4L23; 2WXF success. Not a label filter.",
-            "note": "Original frozen panel. Exhaustiveness 8. Same 99-ligand AUROC set as Table 2.",
-        },
-        {
-            "pair": "PIK3CA/PIK3CB",
-            "pik3ca_receptor": "4JPS",
-            "kept_pocket_B": "2WXF",
-            "n_attempted": 100,
-            "n_successful": 99,
-            "n_failed": 1,
-            "n_dual": pab_jps["n_dual"],
-            "n_A_only": pab_jps["n_A_only"],
-            "n_B_only": pab_jps["n_B_only"],
-            "auroc_D_vs_A": pab_jps["auroc_D_vs_A"],
-            "auroc_D_vs_B": pab_jps["auroc_D_vs_B"],
-            "summary_min": pab_jps["summary_min"],
-            "ci_lo": pab_jps["summary_min_ci_lo"],
-            "ci_hi": pab_jps["summary_min_ci_hi"],
-            "delta_vs_original": float(pab_jps["summary_min"]) - pab0_sm,
-            "weak_arm": "D_vs_A",
-            "failed_ligand": "PAB_034 A_only timeout_600s (668.6 s) on 4JPS; 2WXF frozen success. Same ligand as original 4L23 timeout.",
-            "note": "Pocket A replaced; pocket B frozen 2WXF. Exhaustiveness 8. Weak arm switches from D/B to D/A. Use deposited CSV CIs.",
-        },
-        {
-            "pair": "PIK3CA/PIK3CB",
-            "pik3ca_receptor": "5DXT",
-            "kept_pocket_B": "2WXF",
-            "n_attempted": 100,
-            "n_successful": 99,
-            "n_failed": 1,
-            "n_dual": pab_dxt["n_dual"],
-            "n_A_only": pab_dxt["n_A_only"],
-            "n_B_only": pab_dxt["n_B_only"],
-            "auroc_D_vs_A": pab_dxt["auroc_D_vs_A"],
-            "auroc_D_vs_B": pab_dxt["auroc_D_vs_B"],
-            "summary_min": pab_dxt["summary_min"],
-            "ci_lo": pab_dxt["summary_min_ci_lo"],
-            "ci_hi": pab_dxt["summary_min_ci_hi"],
-            "delta_vs_original": float(pab_dxt["summary_min"]) - pab0_sm,
-            "weak_arm": "D_vs_B",
-            "failed_ligand": "PAB_034 A_only timeout_600s (665.0 s) on 5DXT; 2WXF frozen success. Same ligand as original 4L23 timeout.",
-            "note": "Pocket A replaced; pocket B frozen 2WXF. Exhaustiveness 8. D/B 0.6849 ≈ D/A 0.6905. Use deposited CSV CIs.",
         },
     ]
     two_path = SR / "receptor_realization_two_pair_v1.csv"

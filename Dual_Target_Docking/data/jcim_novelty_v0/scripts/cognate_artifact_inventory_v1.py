@@ -37,16 +37,6 @@ SPECS = (
         "status_in_paper": "fails top-1, passes top-3",
     },
     {
-        "pair": "PIK3CA/PIK3CB",
-        "target": "PIK3CB",
-        "pdb": "2WXF",
-        "ligand": "039",
-        "crystal_sdf": "data/pik3ca_pik3cb_panel_v0/cognate_qc/2WXF_039_crystal.sdf",
-        "pose_pdbqt": "data/pik3ca_pik3cb_panel_v0/cognate_qc/2WXF_cognate_out_E8.pdbqt",
-        "ranked_recomputable": True,
-        "status_in_paper": "passes top-1",
-    },
-    {
         "pair": "PIK3CA/mTOR",
         "target": "PIK3CA",
         "pdb": "4L23",

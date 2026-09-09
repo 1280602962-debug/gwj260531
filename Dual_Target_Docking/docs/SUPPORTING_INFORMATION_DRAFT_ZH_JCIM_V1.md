@@ -2,17 +2,9 @@
 
 **对应正文：** `MANUSCRIPT_JCIM_ZH.md`  
 **数字原则：** 下列单元格均从冻结 CSV 读取并按正文惯例四舍五入至三位小数。逐配体长表、探索性切片与已退出体系的完整记录不进入本 SI，而随代码与 SHA-256 清单归档（Note S14）。  
-**旧编号对照：** `data/manuscript_lock/SI_TABLE_MERGE_MAP_v1.csv`（原 S1–S54 合并为本稿 Note S0 + Tables S1–S13）。
+**旧编号对照：** `data/manuscript_lock/SI_TABLE_MERGE_MAP_v1.csv`（原 S1–S54 合并为本稿 Tables S1–S13）。
 
 **正文主表（不在 SI 重复）：** Table 1 评价集组成；Table 2 八靶对方向性 AUROC 与四种物化描述符；Table 3 Dual-versus-neither 与方向性对照。
-
----
-
-## Note S0. 受体身份错误：PIK3CA/PIK3CB（已从主文撤回）
-
-该靶对曾通过与主评价相同的 ChEMBL 供给筛选并完成对接（4L23/2WXF，exhaustiveness = 8，n_panel = 100，n_scored 28/27/28）。事后受体身份审计表明 PDB 2WXF 对应小鼠 PIK3CD（UniProt O35904），并非人源 PIK3CB（P42338）。A 端 4L23 身份正确；B 端错误。共晶重对接 best-of-9 RMSD = 0.405 Å，因为共晶配体 039 本身属于该小鼠蛋白，故 QC 通过不能证明受体身份正确。
-
-撤回前按统一 θ = 6.0 计算的数字仅作为失败案例保留，**不作为双靶识别的主结果或敏感性证据**：方向性 `summary_min` 0.500 [0.350, 0.650]；Dual versus neither 0.559 [0.373, 0.746]（n_neither = 16）。同一套 PIK3CA 4JPS/5DXT 替换在错误 B 端上使 `summary_min` 升至 0.691/0.685，与经身份核实的 PIK3CA/mTOR 下降方向相反；该对比只说明受体身份错误后替换结果不可解释，不能推广为“受体效应因靶对而方向相反”。
 
 ---
 
@@ -39,7 +31,7 @@
 
 ## Table S2. 主受体对接盒子与共晶重对接 RMSD
 
-八个靶对使用 14 个 PDB 槽位（JAK1 的 6N7A 与 PPARA 的 6LXA 被两对共用）。PIK3CA/mTOR 因 4JT6 在 E = 8 时未过门槛而采用 E = 16。EGFR 3POZ 为重建 QC（原始九姿态生产文件未找回）。9V8H 为 PPARγ LBD–BRL–PG08-NL 三元复合物，对接保留肽链。2WXF 仅见 Note S0。
+八个靶对使用 14 个 PDB 槽位（JAK1 的 6N7A 与 PPARA 的 6LXA 被两对共用）。PIK3CA/mTOR 因 4JT6 在 E = 8 时未过门槛而采用 E = 16。EGFR 3POZ 为重建 QC（原始九姿态生产文件未找回）。9V8H 为 PPARγ LBD–BRL–PG08-NL 三元复合物，对接保留肽链。
 
 **S2a. 对接盒子（Å）**
 
@@ -111,7 +103,7 @@
 
 **pChEMBL 最大对中位数（2026-08-26 API 快照；不替换 Table 2）：** EGFR/HER2 标签一致率 93.6%，`summary_min` 由冻结 0.430 变为 API-max 0.417、median 0.424；AChE/BChE 一致率 98.9%，median 使 `summary_min` 变为 0.629（Δ = +0.023）；PIK3CA/mTOR 一致率 100%，`summary_min` 不变。源：`unified_threshold_sensitivity_v2.csv`；`threshold_grid_v1.csv`；`assay_max_vs_median_agreement_v1.csv`。
 
-**高置信人源单蛋白视图（同日 API 快照；不替换 Table 2）：** 原冻结已打分配体中 352/352 与冻结四状态类别一致，方向性 AUROC 不变。该视图覆盖 EGFR/HER2、AChE/BChE 与 PIK3CA/mTOR，以及已撤回、不进入主表的 PIK3CA/PIK3CB；普查后五对未纳入。源：`high_confidence_summary_v1.csv`。
+**高置信人源单蛋白视图（同日 API 快照；不替换 Table 2）：** 具有该快照的已打分配体中 253/253 与四状态类别一致，方向性 AUROC 不变。该视图覆盖 EGFR/HER2、AChE/BChE 与 PIK3CA/mTOR。源：`high_confidence_summary_v1.csv`。
 
 ---
 
@@ -138,7 +130,7 @@
 | PPARA/PPARD | 口袋 A | 0.446 | 0.484 | 0.038 | [−0.139, 0.216] | 否 |
 | PPARA/PPARD | 口袋 B | 0.646 | 0.665 | 0.019 | [−0.172, 0.198] | 否 |
 
-源：`formulation_equal_score_negative_v1.csv`；`equal_score_negative_s34_v1.csv`。双口袋平均评分的 Dual-versus-neither 见正文 Table 3，不能单独代表负类效应。
+**固定通道 \(\Delta\) 的簇重采样（不替代上行配体水平区间）：** 文献连通簇和 Bemis–Murcko 骨架簇重采样共用 dual 抽次。EGFR/HER2 口袋 A 的 \(\Delta=0.378\) 在文献簇下为 [0.083, 0.529]（28 组），骨架簇下为 [0.168, 0.562]（61 组），均排除 0。JAK1/TYK2 口袋 A 的 \(\Delta=0.444\) 在骨架簇下为 [0.234, 0.633]（68 组），排除 0；文献簇下为 [−0.034, 0.682]（31 组），包含 0。源：`formulation_equal_score_negative_v1.csv`；`equal_score_negative_s34_v1.csv`；`equal_score_cluster_bootstrap_v1.csv`。双口袋平均评分的 Dual-versus-neither 见正文 Table 3，不能单独代表负类效应。
 
 ---
 
@@ -171,7 +163,7 @@ Bemis–Murcko 骨架 `GroupKFold` 逻辑回归 out-of-fold AUROC。docking 列�
 
 ## Table S6. 对应口袋与非对应口袋的配对差值
 
-Δ = matched `summary_min` − mismatched `summary_min`。正值表示正确口袋更高。主评价集仅 EGFR/HER2 与 AChE/BChE 的 95% CI 排除 0；七个可评 holdout 的 CI 均包含 0。已撤回的 PIK3CA/PIK3CB 不列入。
+Δ = matched `summary_min` − mismatched `summary_min`。正值表示正确口袋更高。主评价集仅 EGFR/HER2 与 AChE/BChE 的 95% CI 排除 0；七个可评 holdout 的 CI 均包含 0。
 
 | 靶对 | 集合 | Δ | 95% CI | CI 排除 0 |
 |------|------|--:|--------|:---------:|
@@ -224,7 +216,7 @@ Bemis–Murcko 骨架 `GroupKFold` 逻辑回归 out-of-fold AUROC。docking 列�
 | PIK3CA → 5DXT | A | 0.714 | 0.505 | 0.505 [0.292, 0.696] |
 | mTOR → 4JSX | B | 0.639 | 0.692 | 0.639 [0.418, 0.776] |
 
-源：`pocket_matched_PM48_alt4JPS_v1.csv`、`..._alt5DXT_v1.csv`、`..._alt4JSX_v1.csv`。平行替换若使用错误的 2WXF，见 Note S0，不作为本表证据。
+源：`pocket_matched_PM48_alt4JPS_v1.csv`、`..._alt5DXT_v1.csv`、`..._alt4JSX_v1.csv`。
 
 ---
 
@@ -265,13 +257,13 @@ Bemis–Murcko 骨架 `GroupKFold` 逻辑回归 out-of-fold AUROC。docking 列�
 | PPARG/PPARA | 0.649 | 0.651 | 0.649–0.691 |
 | PPARA/PPARD | 0.446 | 0.454 | 0.446–0.469 |
 
-普查后五对的五种子范围均未跨过 0.5。源：`independent_dock_formulation_v1.csv`；`table2_comparable_by_channel_v1.csv`；`multiseed_auroc_aggregate_v2.csv`；`fiveseed_summary_min_aggregate_v1.csv`。
+F2/F10、JAK1/TYK2、JAK1/JAK2、PPARG/PPARA 和 PPARA/PPARD 的五种子范围均未跨过 0.5。源：`independent_dock_formulation_v1.csv`；`table2_comparable_by_channel_v1.csv`；`multiseed_auroc_aggregate_v2.csv`；`fiveseed_summary_min_aggregate_v1.csv`。
 
 ---
 
 ## Table S10. 文献簇不确定度与可检测效应模拟
 
-文献簇 bootstrap 只在具有完整 `document_id` 的原冻结评价集上报告，不替代 Table 2 的配体层区间。PIK3CA/mTOR Dual versus B-only 在文献阻断交叉验证中不能稳定估计。
+文献簇 bootstrap 只在具有完整 `document_id` 的评价集上报告，不替代 Table 2 的配体层区间。PIK3CA/mTOR Dual versus B-only 在文献阻断交叉验证中不能稳定估计。
 
 | 靶对 | 对比 | 配体层点估计 | 文献簇 95% CI | 文献组数 |
 |------|------|------------:|---------------|---------:|
@@ -282,35 +274,50 @@ Bemis–Murcko 骨架 `GroupKFold` 逻辑回归 out-of-fold AUROC。docking 列�
 | PIK3CA/mTOR | D vs A | 0.714 | [0.400, 0.886] | 8 |
 | PIK3CA/mTOR | D vs B | 0.692 | [0.000, 0.818] | 9 |
 
+**固定通道 \(\Delta\) 的簇重采样：** 见 Table S4 续段；源 `equal_score_cluster_bootstrap_v1.csv`。该分析不替代 Table S4 配体水平区间。
+
 **可检测效应：** 在观察得的类别样本量下，若两臂真实 AUROC 均为 0.70，`summary_min` 的 95% CI 排除 0.5 的概率为 0.219–0.621；若真实 AUROC 为 0.60，该概率为 0.025–0.065。源：`document_cluster_bootstrap_v1.csv`；`detectable_effect_simulation_v1.csv`。CI 包含 0.5 表示当前估计不够精确，其解释见正文讨论，不在本表中等同于“与随机等价”。
 
 ---
 
-## Table S11. BindingDB 原生外部切片准入（零靶对通过）
+## Table S11. BindingDB / PubChem 供给清点与外部对接准入（零靶对通过）
 
-合约预先冻结：人源野生型、等式定量活性、去掉共享来源与结构重复、ECFP4 Tanimoto < 0.70、dual/A-only/B-only 各 n ≥ 20 且每类至少 3 个来源。历史四对合约（含随后撤回的 PIK3CA/PIK3CB）全部 `gate = insufficient`，`packaged_as_external_evaluation = 0`，未对接。普查后五对未重开为 BindingDB 外部对接。
+BindingDB 与 PubChem 按与主评价相同的四状态规则清点八个靶对的双向供给。进入外部对接另要求去掉与主评价共享的文献来源、结构重复和 ECFP4 Tanimoto \(\geq 0.70\) 的分子，并满足 dual / A-only / B-only 各 n ≥ 20 且每类至少 3 个来源。按该准入，没有任何靶对被包装为外部评价集或进入外部对接。
+
+**S11a. BindingDB 等式定量记录的严格 6.5/5.5 供给计数（零对接）**
+
+| 靶对 | 双端测量 | 严格 dual / A-only / B-only |
+|------|--------:|----------------------------:|
+| PIK3CA/mTOR | 2739 | 1579 / 76 / 96 |
+| AChE/BChE | 2711 | 698 / 181 / 92 |
+| EGFR/HER2 | 2269 | 1336 / 34 / 31 |
+| F2/F10 | 1985 | 376 / 129 / 314 |
+| JAK1/TYK2 | 4184 | 2455 / 95 / 165 |
+| JAK1/JAK2 | 9761 | 7134 / 131 / 54 |
+| PPARG/PPARA | 2026 | 413 / 84 / 95 |
+| PPARA/PPARD | 1155 | 253 / 71 / 103 |
+
+**S11b. 独立来源过滤后剩余计数（外部对接准入）**
 
 | 靶对 | 过滤后 dual / A-only / B-only | 来源数 (D / A / B) | 门槛 |
 |------|------------------------------:|-------------------:|------|
 | EGFR/HER2 | 180 / 10 / 20 | 16 / 5 / 4 | 未通过（A-only n = 10 < 20） |
 | AChE/BChE | 4 / 8 / 14 | 2 / 6 / 3 | 未通过 |
 | PIK3CA/mTOR | 91 / 4 / 1 | 9 / 2 / 1 | 未通过 |
-| PIK3CA/PIK3CB（历史行） | 9 / 0 / 3 | 4 / 0 / 1 | 未通过；且已因受体身份撤回 |
 
-源：`external_slice_summary_v1.csv`。BindingDB/PubChem 的零对接供给计数见 `crossdb_strict_supply_v1.csv`，不作为外部验证。
+源：`crossdb_strict_supply_v1.csv`（S11a；BindingDB `equal_only`）；`external_slice_summary_v1.csv`（S11b）。S11a 只清点供给，不作为外部验证。S11b 为去掉共享来源、结构重复和高相似分子后的剩余计数；其余靶对的 BindingDB 清点见 S11a，均未形成满足同一准入的独立评价集。
 
 ---
 
 ## Table S12. 文献年份切分（主截止年 2018）
 
-测试集定义为 earliest `document.year` ≥ 2018。仅当 dual、A-only、B-only 均 n ≥ 10 时报告方向 AUROC。原冻结四对在 2018 测试集上均未同时达到该门槛，因此未形成可同时评价两个方向的时间独立测试集。
+测试集定义为 earliest `document.year` ≥ 2018。仅当 dual、A-only、B-only 均 n ≥ 10 时报告方向 AUROC。已报告年份切分计数的靶对在 2018 测试集上均未同时达到该门槛，因此未形成可同时评价两个方向的时间独立测试集。
 
 | 靶对 | 2018 测试集 n (D / A / B / neither) | 门槛 |
 |------|------------------------------------:|------|
 | EGFR/HER2 | 6 / 3 / 14 / 2 | 仅描述计数 |
 | AChE/BChE | 8 / 5 / 15 / 6 | 仅描述计数 |
 | PIK3CA/mTOR | 2 / 0 / 1 / 0 | 不可评价 |
-| PIK3CA/PIK3CB（历史行） | 12 / 11 / 0 / 3 | 不可评价 |
 
 源：`time_split_class_counts_v1.csv`。2015 / 2020 为预先指定的敏感性截止年，同样未包装为外部验证。
 
@@ -335,7 +342,7 @@ Bemis–Murcko 骨架 `GroupKFold` 逻辑回归 out-of-fold AUROC。docking 列�
 
 - 逐配体对接分数、holdout 成员表、多种子长表；
 - 物化 caliper 1:1 匹配、chemotype 硬负、聚合均值（算术/几何/调和）、骨架随机划分对照；
-- 完整病例覆盖、测量频次、assay-context 186 分子底表、J0 的 49 对 θ = 6.0 普查；
+- 完整病例覆盖、测量频次、assay-context 底表、J0 候选对 θ = 6.0 普查；
 - BindingDB REST 历史计数、leave-cognate-out、PIK3CA 占有率快照、接触计数与全链序列一致性；
 - MCL1/Bcl-xL 适用性压力测试（LC6 pose-gold 未建立，不进入 Table 2）；
 - SHA-256 清单 `REVISION_CHECKSUM_MANIFEST_v1.csv` 与评价合约 `DUALFOURCLASS_EVALUATION_CONTRACT_v1.json`。

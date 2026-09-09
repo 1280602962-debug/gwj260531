@@ -65,14 +65,6 @@ PAIR_CONFIGS = {
         },
         "exhaustiveness": 8,
     },
-    "HOAP": {
-        "pair_label": "PIK3CA/PIK3CB",
-        "receptors": {
-            "A": {"name": "4L23", "pdbqt": ROOT / "data/pik3ca_pik3cb_panel_v0/receptors/4L23_receptor.pdbqt", "box": ROOT / "data/pik3ca_pik3cb_panel_v0/boxes/4L23_box.json"},
-            "B": {"name": "2WXF", "pdbqt": ROOT / "data/pik3ca_pik3cb_panel_v0/receptors/2WXF_receptor.pdbqt", "box": ROOT / "data/pik3ca_pik3cb_panel_v0/boxes/2WXF_box.json"},
-        },
-        "exhaustiveness": 8,
-    },
 }
 
 

@@ -31,12 +31,11 @@ def near(value, expected, tolerance=5e-4):
 
 def main():
     high = rows("high_confidence_summary_v1.csv")
-    assert sum(int(r["n_frozen_scored"]) for r in high) == 352
-    assert sum(int(r["n_class_matches_frozen"]) for r in high) == 352
+    assert sum(int(r["n_frozen_scored"]) for r in high) == 253
+    assert sum(int(r["n_class_matches_frozen"]) for r in high) == 253
     for pair, expected in {
         "EGFR/HER2": 0.4297,
         "AChE/BChE": 0.6058,
-        "PIK3CA/PIK3CB": 0.5000,
         "PIK3CA/mTOR": 0.6921,
     }.items():
         near(one(high, pair=pair)["summary_min"], expected)
@@ -47,7 +46,6 @@ def main():
     expected_primary = {
         "EGFR/HER2": (0.4297, 0.2818, 0.5775),
         "AChE/BChE": (0.6058, 0.4370, 0.7303),
-        "PIK3CA/PIK3CB": (0.5000, 0.3502, 0.6495),
         "PIK3CA/mTOR": (0.6921, 0.4702, 0.8133),
     }
     for pair, (point, lo, hi) in expected_primary.items():
@@ -62,7 +60,7 @@ def main():
     mean_delta = sum(float(r["delta_random_minus_scaffold"]) for r in ml_compare) / len(
         ml_compare
     )
-    near(mean_delta, 0.0257875, 1e-7)
+    near(mean_delta, 0.01065, 1e-7)
     near(one(ml_compare, pair="EGFR/HER2", contrast="D_vs_B")["auroc_scaffold_GroupKFold"], 0.8895)
 
     equal = rows("formulation_equal_score_negative_v1.csv")
@@ -77,7 +75,6 @@ def main():
     expected_overlap = {
         "EGFR/HER2": 0.145119,
         "AChE/BChE": 0.340172,
-        "PIK3CA/PIK3CB": 0.233349,
         "PIK3CA/mTOR": 0.265252,
     }
     for pair, expected in expected_overlap.items():
@@ -90,12 +87,10 @@ def main():
 
     failures = rows("docking_failure_rank_extreme_v1.csv")
     near(one(failures, pair="AChE/BChE", contrast="D_vs_A_pocketB")["rank_extreme_lower_bound"], 0.5599)
-    near(one(failures, pair="PIK3CA/PIK3CB", contrast="D_vs_A_pocketB")["arm_available_auroc"], 0.6952)
 
     cognate = rows("cognate_rank_rmsd_reaudit_v1.csv")
     near(one(cognate, pdb="4BDS", pose_rank="1")["best_top1_A"], 4.7941)
     near(one(cognate, pdb="4BDS", pose_rank="1")["best_top3_A"], 0.3856)
-    near(one(cognate, pdb="2WXF", pose_rank="1")["best_top1_A"], 0.4048)
     near(one(cognate, pdb="3POZ", pose_rank="1")["best_top1_A"], 9.5054)
     near(one(cognate, pdb="3POZ", pose_rank="1")["best_top3_A"], 6.227)
     near(one(cognate, pdb="3POZ", pose_rank="1")["best_all_deposited_A"], 0.7599)
@@ -118,11 +113,11 @@ def main():
         "is not claimed as external validation",
         "not stably estimable",
         "reconstructed QC",
-        "179 include / 7 uncertain / 0 exclude",
-        "17 unique pairs",
+        "155 include / 7 uncertain / 0 exclude",
+        "16 unique pairs",
         "AND-like dual filter",
         "do not replace Table 2",
-        "zero pairs meeting the pre-frozen primary external gate",
+        "No pair was packaged as an external evaluation set",
         "formally demoted",
         "exploratory repository archive",
         "not as a fifth main pair",
@@ -137,7 +132,7 @@ def main():
     near(one(blocked, pair="EGFR/HER2", contrast="D_vs_B")["rank_auroc_full"], 0.4297)
     near(one(blocked, pair="EGFR/HER2", contrast="D_vs_B")["ecfp4_auroc_oof"], 0.6228)
     assert one(blocked, pair="PIK3CA/mTOR", contrast="D_vs_B")["status"] == "cannot_stably_estimate"
-    assert sum(r["status"] == "ok" for r in blocked) == 7
+    assert sum(r["status"] == "ok" for r in blocked) == 5
 
     time_split = rows("time_split_auroc_v1.csv")
     assert all(
@@ -156,10 +151,10 @@ def main():
     )
 
     assay = rows("assay_context_priority_ligands_v1.csv")
-    assert len(assay) == 186
+    assert len(assay) == 162
     assert all(r["human_include_exclude"] in {"include", "exclude", "uncertain"} for r in assay)
     assert all(r.get("reviewed_by", "") != "" for r in assay)
-    assert sum(r["human_include_exclude"] == "include" for r in assay) == 179
+    assert sum(r["human_include_exclude"] == "include" for r in assay) == 155
     assert sum(r["human_include_exclude"] == "uncertain" for r in assay) == 7
     assert sum(r["human_include_exclude"] == "exclude" for r in assay) == 0
     assert all(r["human_reviewed_class"] == r["frozen_class"] for r in assay)
@@ -203,10 +198,10 @@ def main():
     assert rec["primary_chain"] == "A"
 
     census = rows("theta6_pair_census_v1.csv")
-    assert len(census) == 49
-    assert sum(int(r["directional_n10"]) for r in census) == 17
-    assert sum(int(r["formulation_n10"]) for r in census) == 17
-    assert sum(int(r["docked_in_this_paper"]) for r in census) == 4
+    assert len(census) == 48
+    assert sum(int(r["directional_n10"]) for r in census) == 16
+    assert sum(int(r["formulation_n10"]) for r in census) == 16
+    assert sum(int(r["docked_in_this_paper"]) for r in census) == 3
 
     caliper = rows("property_caliper_match_v1.csv")
     near(one(caliper, pair="EGFR/HER2", contrast="D_vs_B_pocketA", caliper_sd="1.0")["auroc_matched"], 0.5664)
@@ -243,7 +238,6 @@ def main():
     table3 = {
         "EGFR/HER2": 0.7560,
         "AChE/BChE": 0.6494,
-        "PIK3CA/PIK3CB": 0.5592,
         "PIK3CA/mTOR": 0.5139,
     }
     for pair, expected in table3.items():

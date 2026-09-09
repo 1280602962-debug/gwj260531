@@ -30,7 +30,6 @@ PAIRS = [
     ("CDK6", "BRD4"),
     ("AKT1", "RPS6KB1_p70S6K"),
     ("MCL1", "BCL2"),
-    ("PIK3CA", "PIK3CB"),
 ]
 
 

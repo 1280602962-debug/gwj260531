@@ -63,15 +63,6 @@ SPEC = {
         panel=None,
         panel_key=None,
     ),
-    "PIK3CA/PIK3CB": dict(
-        scores="data/pik3ca_pik3cb_panel_v0/tables/ablation_ligand_scores.csv",
-        vina_a="vina_PIK3CA",
-        vina_b="vina_PIK3CB",
-        rtm_a="rtm_PIK3CA",
-        rtm_b="rtm_PIK3CB",
-        panel=None,
-        panel_key=None,
-    ),
     "PIK3CA/mTOR": dict(
         scores="data/pik3ca_mtor_panel48_rdkit_v0/tables/ablation_ligand_scores.csv",
         vina_a="4L23_affinity",

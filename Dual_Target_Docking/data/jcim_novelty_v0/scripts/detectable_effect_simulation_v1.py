@@ -38,7 +38,6 @@ TRUE_AUCS = (0.50, 0.55, 0.60, 0.65, 0.70, 0.75)
 PAIRS = {
     "EGFR/HER2": dict(n_dual=28, n_a=38, n_b=32, n_neither=12),
     "AChE/BChE": dict(n_dual=27, n_a=25, n_b=28, n_neither=15),
-    "PIK3CA/PIK3CB": dict(n_dual=28, n_a=27, n_b=28, n_neither=16),
     "PIK3CA/mTOR": dict(n_dual=18, n_a=14, n_b=12, n_neither=4),
 }
 

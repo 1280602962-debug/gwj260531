@@ -32,13 +32,12 @@ HOLD_TICK = ["AChE/\nBChE", "PIK3CA/\nPIK3CB", "PIK3CA/\nmTOR"]
 PAIR_COLOR = {
     "EGFR/HER2": C["egfr"],
     "AChE/BChE": C["rtm"],
-    "PIK3CA/PIK3CB": C["gnina"],
     "PIK3CA/mTOR": C["vina"],
 }
 RULES = ["theta_5.5", "theta_6.0", "theta_6.5", "strict_6.5_5.5"]
 RULE_LAB = ["θ=5.5", "θ=6.0", "θ=6.5", "strict\n6.5/5.5"]
-S12_PAIRS = ["PIK3CA/MTOR", "ACHE/BCHE", "PIK3CA/PIK3CB", "EGFR/HER2"]
-HOLD_PAIRS = ["AChE/BChE", "PIK3CA/PIK3CB", "PIK3CA/mTOR"]
+S12_PAIRS = ["PIK3CA/MTOR", "ACHE/BCHE", "EGFR/HER2"]
+HOLD_PAIRS = ["AChE/BChE", "PIK3CA/mTOR"]
 
 
 def legend_below(ax, ncol=2, fontsize=5.5, y=-0.22):
@@ -614,7 +613,7 @@ def fig_s3_paired_deltas(D: dict, P: dict) -> None:
     P["s3newA"] = _delta_forest(
         ax,
         main_rows,
-        ["EGFR/HER2", "AChE/BChE", "PIK3CA/PIK3CB", "PIK3CA/mTOR"],
+        ["EGFR/HER2", "AChE/BChE", "PIK3CA/mTOR"],
         "Δ summary_min (matched − wrong)",
     )
     for rec, src in zip(P["s3newA"], main_rows):
@@ -642,7 +641,7 @@ def fig_s3_paired_deltas(D: dict, P: dict) -> None:
     P["s3newB"] = _delta_forest(
         ax,
         hold_rows,
-        ["AChE/BChE", "PIK3CA/PIK3CB", "PIK3CA/mTOR"],
+        ["AChE/BChE", "PIK3CA/mTOR"],
         "Δ summary_min (matched − wrong)",
     )
     for rec, src in zip(P["s3newB"], hold_rows):
@@ -849,7 +848,6 @@ def verify_si(D: dict, provenance: dict, errors: list) -> None:
         expected_main_delta = {
             "EGFR/HER2": (0.1697, 0.06, 0.2803, True, 0.4297, 0.26),
             "AChE/BChE": (0.1614, 0.037, 0.269, True, 0.6058, 0.4444),
-            "PIK3CA/PIK3CB": (0.1511, -0.0215, 0.3105, False, 0.5, 0.3489),
             "PIK3CA/mTOR": (0.0902, -0.1222, 0.2626, False, 0.6921, 0.6019),
         }
         for rec, pair in zip(P["s3newA"], PAIR_ORDER):
@@ -871,7 +869,6 @@ def verify_si(D: dict, provenance: dict, errors: list) -> None:
 
         expected_hold_delta = {
             "AChE/BChE": (-0.025, -0.1119, 0.0714, 0.6175, 0.6425),
-            "PIK3CA/PIK3CB": (-0.095, -0.2814, 0.1143, 0.425, 0.52),
             "PIK3CA/mTOR": (-0.0225, -0.1165, 0.079, 0.765, 0.7875),
         }
         for rec, pair in zip(P["s3newB"], HOLD_PAIRS):
@@ -892,7 +889,6 @@ def verify_si(D: dict, provenance: dict, errors: list) -> None:
         expected_desc = {
             "EGFR/HER2": (-0.0524, -0.2, 0.1155, "clogp", 0.4821, 0.4297),
             "AChE/BChE": (-0.1275, -0.3039, 0.0493, "tpsa", 0.7333, 0.6058),
-            "PIK3CA/PIK3CB": (-0.1217, -0.3197, 0.0891, "heavy", 0.6217, 0.5),
             "PIK3CA/mTOR": (0.2291, -0.0105, 0.4352, "heavy", 0.463, 0.6921),
         }
         for rec, pair in zip(P["s3newC"], PAIR_ORDER):

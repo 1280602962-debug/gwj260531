@@ -54,7 +54,6 @@ UA = "DualFourClass-audit/1.0 (zero-docking formulation upgrade; academic)"
 FROZEN_MAPS = {
     "EGFR/HER2": ("EGFR", "HER2"),
     "AChE/BChE": ("ACHE", "BCHE"),
-    "PIK3CA/PIK3CB": ("PIK3CA", "PIK3CB"),
     "PIK3CA/mTOR": ("PIK3CA", "MTOR"),
 }
 
@@ -70,13 +69,6 @@ SCORE_SPEC = {
         scores="data/ache_bche_panel_v0/tables/ablation_ligand_scores.csv",
         vina_a="vina_ACHE",
         vina_b="vina_BCHE",
-        panel=None,
-        panel_key=None,
-    ),
-    "PIK3CA/PIK3CB": dict(
-        scores="data/pik3ca_pik3cb_panel_v0/tables/ablation_ligand_scores.csv",
-        vina_a="vina_PIK3CA",
-        vina_b="vina_PIK3CB",
         panel=None,
         panel_key=None,
     ),
@@ -547,7 +539,7 @@ def plot_upgrades(census, caliper, and_rows, ligand_rows):
     axes[0].set_ylim(0, max(len(census), 1) + 5)
 
     for pair, color in zip(
-        ("EGFR/HER2", "AChE/BChE", "PIK3CA/PIK3CB", "PIK3CA/mTOR"),
+        ("EGFR/HER2", "AChE/BChE", "PIK3CA/mTOR"),
         ("#4C78A8", "#F58518", "#54A24B", "#E45756"),
     ):
         sub = [r for r in and_rows if r["pair"] == pair and r["score"] == "vina_worst"]
@@ -564,7 +556,7 @@ def plot_upgrades(census, caliper, and_rows, ligand_rows):
     axes[1].legend(fontsize=7, frameon=False)
 
     labels, neither, directional = [], [], []
-    for pair in ("EGFR/HER2", "AChE/BChE", "PIK3CA/PIK3CB", "PIK3CA/mTOR"):
+    for pair in ("EGFR/HER2", "AChE/BChE", "PIK3CA/mTOR"):
         n = next((r for r in ligand_rows if r["pair"] == pair and r["contrast"] == "D_vs_neither"), None)
         s = next((r for r in ligand_rows if r["pair"] == pair and r["contrast"] == "summary_min_ecfp4"), None)
         if n and s and n["ecfp4_groupkfold_auroc"] != "" and s["ecfp4_groupkfold_auroc"] != "":

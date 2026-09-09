@@ -1,4 +1,6 @@
-# Discussion (JCIM Articles draft, English)
+# Discussion and conclusions (English working draft)
+
+Canonical wording is copied from `MANUSCRIPT_JCIM_EN.md`.
 
 ## 4. Discussion
 
@@ -10,7 +12,7 @@ The primary question is whether negative-class definition changes apparent dual-
 
 Physicochemical descriptors and chemotype already carry much of the experimental-label information. Docking contributed little incremental discrimination beyond scaffold-grouped ligand-only models (Results 3.3; Table S5). Without ligand-level controls, an apparently strong dual-target docking result may only recover molecular properties associated with the dual label.[7,12]
 
-Apparent discrimination also depends on receptor realization. Holding mTOR fixed and replacing PIK3CA with alternate crystals lowered discrimination on PIK3CA/mTOR (Results 3.4; Figure 4B), consistent with kinase cross-docking work that treats receptor representation as a performance variable.[14] A parallel swap on the receptor-identity-compromised PIK3CA/PIK3CB pair moved in the opposite direction, but because that pocket was later shown to be a nonhuman off-target receptor (Supporting Information), it is not used here as evidence that receptor effects are pair-direction-dependent in general; on the single receptor-verified pair available, substitution only lowered apparent discrimination.
+Apparent discrimination also depends on receptor realization. Holding mTOR fixed and replacing PIK3CA with alternate crystals lowered discrimination on PIK3CA/mTOR (Results 3.4; Figure 4B), consistent with kinase cross-docking work that treats receptor representation as a performance variable.[14] On the single receptor-verified pair available for this test, substitution only lowered apparent discrimination.
 
 ### 4.3 Implications for dual-target virtual screening
 
@@ -18,4 +20,8 @@ Favorable scores in both pockets do not automatically establish experimentally d
 
 ### 4.4 Limitations
 
-The analysis covers eight target pairs rather than a target-general benchmark: three from the 2026-07-23 freeze after withdrawing PIK3CA/PIK3CB, plus five ordinary pairs added after a post-hoc ChEMBL 37 census. This is collection completion, not a pre-registered eight-pair freeze. PPARG/PPARA is the only main-panel worst-arm CI entirely above 0.5, and that number is membership-sensitive (unused-pool holdout) and formulation-sensitive (RTM). PIK3CA/PIK3CB was docked but withdrawn after a post-hoc receptor-identity audit found that its intended PIK3CB receptor (PDB 2WXF) is murine PIK3CD; it is retained in the Supporting Information as a documented receptor-identity failure and a caution that cognate-ligand redocking QC cannot, by itself, verify receptor identity, not as a primary result. Labels are derived from heterogeneous public bioactivity records and require complete measurements at both targets (complete-case fractions 14.5%–34.0%). Receptor dependence was evaluated only for selected structures, and no prospective experimental validation of newly predicted dual ligands was performed. No target pair met the prespecified BindingDB external-slice gate, so the slice is not claimed as external validation. Cognate best-of-nine QC establishes search coverage, not a top-ranked-pose validation. MCL1/Bcl-xL was formally demoted to Supporting Information.
+The analysis covers eight target pairs rather than a target-general benchmark. PPARG/PPARA is the only main-panel worst-arm CI entirely above 0.5, and that number is membership-sensitive (unused-pool holdout) and formulation-sensitive (RTM). Labels are derived from heterogeneous public bioactivity records and require complete measurements at both targets (complete-case fractions 14.5%–34.0%). Receptor dependence was evaluated only for selected structures, and no prospective experimental validation of newly predicted dual ligands was performed. No target pair met the prespecified BindingDB external-slice gate, so the slice is not claimed as external validation. Cognate best-of-nine QC establishes search coverage, not a top-ranked-pose validation. MCL1/Bcl-xL was formally demoted to Supporting Information.
+
+## 5. Conclusions
+
+Using experimentally defined single-target-selective ligands as hard negatives substantially altered the apparent evidence for dual-target recognition in some settings. Ligand chemistry and receptor realization further contributed to this variability, indicating that favorable scores in two pockets should be interpreted together with selectivity-aware controls. These findings are derived from eight target-pair case studies and motivate broader validation rather than establishing target-general docking performance; they do not define a target-general reliability boundary. Eight pairs are not averaged. Uncertainty remained substantial, and a failed BindingDB-native rebuild is not claimed as external validation.

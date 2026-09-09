@@ -22,7 +22,6 @@ ANALYSIS.mkdir(parents=True, exist_ok=True)
 TARGETS = {
     "EGFR/HER2": ("CHEMBL203", "CHEMBL1824", "EGFR", "HER2"),
     "AChE/BChE": ("CHEMBL220", "CHEMBL1914", "AChE", "BChE"),
-    "PIK3CA/PIK3CB": ("CHEMBL4005", "CHEMBL3145", "PIK3CA", "PIK3CB"),
     "PIK3CA/mTOR": ("CHEMBL4005", "CHEMBL2842", "PIK3CA", "mTOR"),
 }
 THETA = 6.0

@@ -97,31 +97,6 @@ PAIRS = {
             },
         ],
     },
-    "PIK3CA/PIK3CB": {
-        "panel": ROOT / "data/pik3ca_pik3cb_panel_v0/tables/panel_v0_strict_with_smiles.csv",
-        "id": "panel_id",
-        "class": "class",
-        "smiles": "smiles",
-        "E": 8,
-        "primary_scores": ROOT / "data/pik3ca_pik3cb_panel_v0/tables/ablation_ligand_scores.csv",
-        "primary_id": "ligand",
-        "primary_A": "vina_PIK3CA",
-        "primary_B": "vina_PIK3CB",
-        "pockets": [
-            {
-                "name": "A",
-                "pdb": "4L23",
-                "rec": ROOT / "data/pik3ca_pik3cb_panel_v0/receptors/PIK3CA_receptor.pdbqt",
-                "box": ROOT / "data/pik3ca_pik3cb_panel_v0/boxes/PIK3CA_box.json",
-            },
-            {
-                "name": "B",
-                "pdb": "2WXF",
-                "rec": ROOT / "data/pik3ca_pik3cb_panel_v0/receptors/PIK3CB_receptor.pdbqt",
-                "box": ROOT / "data/pik3ca_pik3cb_panel_v0/boxes/PIK3CB_box.json",
-            },
-        ],
-    },
     "PIK3CA/mTOR": {
         "panel": ROOT / "data/pik3ca_mtor_panel48_rdkit_v0/tables/panel_v0_48.csv",
         "id": "panel_id",
