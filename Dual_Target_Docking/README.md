@@ -1,13 +1,13 @@
 # DualFourClass-Bench（Dual_Target_Docking）
 
-JCIM **evaluation / benchmark** 课题：双靶对接四类硬负评测。  
+JCIM **evaluation / benchmark** 课题：双靶对接的四状态实验比较评价。  
 **不是**通用决策臂 / 新打分函数论文。  
-贡献定位：八靶对 *formulation audit* + 可复现评价协议 **DualFourClass-Bench**。它不是通用、代表性或 LIT-PCBA 规模的 benchmark suite。
+贡献定位：八靶对上的评价设定审计 + 可复现评价协议 **DualFourClass-Bench**。它不是通用、代表性或 LIT-PCBA 规模的 benchmark suite。
 本 DualFourClass 树是一项独立科学课题，不导入、不依赖仓库根目录下的其他项目。
 
 ## 一句话主张
 
-双靶对接应建成 dual / A-only / B-only / neither 四状态任务。主指标是两条口袋匹配方向 AUROC 及其较弱方向摘要。在具有双端实验测量的化合物中，双端低活性对照可能掩盖对单靶活性化合物的识别不足。
+同一套对接分数在不同实验状态比较下回答不同的评价问题。主指标是两条口袋匹配方向 AUROC 及其较弱方向摘要。在具有双端实验测量的化合物中，双端低活性对照可能掩盖对单靶活性化合物的识别不足。配体化学与口袋对应对照是解释这些差异所必需的。
 
 ## 快速入口（投稿用）
 

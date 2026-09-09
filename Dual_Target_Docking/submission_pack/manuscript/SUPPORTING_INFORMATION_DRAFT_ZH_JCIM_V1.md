@@ -31,7 +31,7 @@
 
 ## Table S2. 主受体对接盒子与共晶重对接 RMSD
 
-八个靶对使用 14 个 PDB 槽位（JAK1 的 6N7A 与 PPARA 的 6LXA 被两对共用）。PIK3CA/mTOR 因 4JT6 在 E = 8 时未过门槛而采用 E = 16。EGFR 3POZ 为重建 QC（原始九姿态生产文件未找回）。9V8H 为 PPARγ LBD–BRL–PG08-NL 三元复合物，对接保留肽链。
+八个靶对使用 14 个 PDB 槽位（JAK1 的 6N7A 与 PPARA 的 6LXA 被两对共用）。PIK3CA/mTOR 因 4JT6 在 E = 8 时未过门槛而采用 E = 16。EGFR 3POZ 为重建 QC（原始九姿态生产文件未找回）。9V8H 为 PPARγ LBD–BRL–PG08-NL 三元复合物，对接保留肽链。这 14 个主受体的 top-1、top-3 与 best-of-9 RMSD 见 Figure S12。
 
 **S2a. 对接盒子（Å）**
 

@@ -23,6 +23,17 @@ for rel,digest in audit['inputs_sha256'].items():
     check(hashlib.sha256((OUT/audit['input_files'][rel]).read_bytes()).hexdigest()==digest,'SHA256 '+rel)
 
 primary=audit['plotted']['primary']
+order=['EGFR/HER2','JAK1/JAK2','JAK1/TYK2','PIK3CA/mTOR','AChE/BChE','F2/F10','PPARG/PPARA','PPARA/PPARD']
+check(audit['plotted'].get('pair_order')==order,'scientific display order on figures')
+check(list(primary)==order,'primary plotted dict follows scientific order')
+fa=float(audit['plotted']['fig2']['EGFR/HER2']['fixed_A']['delta_neither_minus_selective'])
+fb=float(audit['plotted']['fig2']['JAK1/TYK2']['fixed_A']['delta_neither_minus_selective'])
+check(abs(fa-0.378)<0.001,'Figure 2A EGFR/HER2 fixed-score Δ is 0.378')
+check(abs(fb-0.444)<0.001,'Figure 2A JAK1/TYK2 fixed-score Δ is 0.444')
+captions=(OUT/'CAPTIONS.md').read_text(encoding='utf-8')
+for phrase in ['initially evaluated','added after the census','original three','census five','later five','Horizontal gray rules','underpowered']:
+    check(phrase.lower() not in captions.lower(),'caption has no '+phrase)
+check('FigS1_protocol_sensitivity' in audit['generated'] and 'FigS12_cognate_rmsd' in audit['generated'],'SI protocol and cognate RMSD figures generated')
 for lang in ['ZH','EN']:
     manuscript=content('docs/MANUSCRIPT_JCIM_'+lang+'.md')
     for pair,r in primary.items():

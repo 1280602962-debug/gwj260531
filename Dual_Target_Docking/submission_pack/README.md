@@ -15,7 +15,7 @@ It is not a second copy of the docking pose workspaces.
 | `manuscript/FIGURE_PANEL_LOCK_V3.md` | Figure-to-CSV map |
 | `manuscript/SUBMISSION_AUDIT_FIVE_ROUNDS_V1.md` | Five-round numeric audit |
 | `tables/` | Frozen CSVs cited by Tables 1–3 and S2–S11 |
-| `figures/` | Regenerated main and SI figures from `plot_jcim_article_figures_v3.py` |
+| `figures/` | Regenerated main and SI figures from `figures/jcim_article/scripts/update_figures_pr32.py` |
 | `scripts/` | Assemble, validate, bootstrap-lock reader, figure v3, audit, pack |
 
 ## Do not submit as primary evidence
@@ -36,6 +36,7 @@ python3 scripts/primary/bootstrap_primary.py
 python3 data/jcim_novelty_v0/scripts/validate_revision_v1.py
 python3 data/jcim_novelty_v0/scripts/build_checksum_manifest_v1.py --check
 python3 scripts/audit/audit_submission_five_rounds_v1.py
-python3 data/jcim_bench_v0/scripts/plot_jcim_article_figures_v3.py
+python3 figures/jcim_article/scripts/update_figures_pr32.py --source-root .
+python3 figures/jcim_article/scripts/audit_figures_pr32.py
 python3 scripts/audit/pack_submission_v1.py
 ```

@@ -20,7 +20,7 @@ To examine activity-processing choices, the maximum pChEMBL was replaced by the 
 
 ### 2.3 Pair screening and panel construction
 
-**Pair-supply screen.** Candidate pairs came from one ChEMBL extract. Targets were restricted to human, single-component SINGLE PROTEIN records with both-end quantitative activity. Maximum pChEMBL was the representative value, and ligands were assigned to four states as in section 2.2. Bidirectional selective supply was counted under the strict 6.5/5.5 rule (active end \(\geq 6.5\), low-activity end \(\leq 5.5\); gray-zone ligands were excluded from that candidate pool). Inclusion also depended on protein class, site chemistry, and whether human experimental structures were suitable for unified noncovalent docking. A pair was retained only if a four-state panel could be drawn under those rules. The included pairs were PIK3CA/mTOR, AChE/BChE, EGFR/HER2, F2/F10, JAK1/TYK2, JAK1/JAK2, PPARG/PPARA, and PPARA/PPARD.
+**Pair-supply screen.** Candidate pairs came from one ChEMBL extract. Targets were restricted to human, single-component SINGLE PROTEIN records with both-end quantitative activity. Maximum pChEMBL was the representative value, and ligands were assigned to four states as in section 2.2. Bidirectional selective supply was counted under the strict 6.5/5.5 rule (active end \(\geq 6.5\), low-activity end \(\leq 5.5\); gray-zone ligands were excluded from that candidate pool). Inclusion also depended on protein class, site chemistry, and whether human experimental structures were suitable for unified noncovalent docking. A pair was retained only if a four-state panel could be drawn under those rules. The included pairs were EGFR/HER2, JAK1/JAK2, JAK1/TYK2, PIK3CA/mTOR, AChE/BChE, F2/F10, PPARG/PPARA, and PPARA/PPARD.
 
 **Panel construction.** Sample-supply size and structure feasibility differed across pairs, so some pairs used different candidate-pool rules, class quotas, or scaffold caps (Table 1). EGFR/HER2 and PIK3CA/mTOR were drawn from the \(\theta=6.0\) pool. The other six pairs were drawn from the strict 6.5/5.5 pool under quota sampling.
 
@@ -30,12 +30,12 @@ To examine activity-processing choices, the maximum pChEMBL was replaced by the 
 
 | Pair | Candidate pool | Quota (D / A / B / N) | Scaffold cap | PDB (A / B) | Resolution (Å) | n_panel | n_scored (dual / A-only / B-only) | Vina exhaustiveness |
 |------|----------------|----------------------:|:------------:|-------------|----------------|-------:|------------------------------------:|--------------------:|
+| EGFR/HER2 | θ = 6.0 | 28 / 38 / 32 / 12 | ≤5 | 3POZ / 3RCD | 1.50 / 3.21 | 110 | 28 / 38 / 32 | 8 |
+| JAK1/JAK2 | strict 6.5/5.5 | 32 / 32 / 32 / 14 | none | 6N7A / 8BXH | 1.33 / 1.30 | 110 | 32 / 32 / 32 | 8 |
+| JAK1/TYK2 | strict 6.5/5.5 | 32 / 32 / 32 / 14 | none | 6N7A / 3LXP | 1.33 / 1.65 | 110 | 31 / 32 / 32 | 8 |
 | PIK3CA/mTOR | θ = 6.0 | 18 / 14 / 12 / 4 | ≤2 | 4L23 / 4JT6 | 2.50 / 3.60 | 48 | 18 / 14 / 12 | 16 |
 | AChE/BChE | strict 6.5/5.5 | 28 / 28 / 28 / 16 | none | 4EY7 / 4BDS | 2.35 / 2.10 | 100 | 27 / 25 / 28 | 8 |
-| EGFR/HER2 | θ = 6.0 | 28 / 38 / 32 / 12 | ≤5 | 3POZ / 3RCD | 1.50 / 3.21 | 110 | 28 / 38 / 32 | 8 |
 | F2/F10 | strict 6.5/5.5 | 32 / 32 / 32 / 14 | none | 4UDW / 2JKH | 1.16 / 1.25 | 110 | 31 / 32 / 32 | 8 |
-| JAK1/TYK2 | strict 6.5/5.5 | 32 / 32 / 32 / 14 | none | 6N7A / 3LXP | 1.33 / 1.65 | 110 | 31 / 32 / 32 | 8 |
-| JAK1/JAK2 | strict 6.5/5.5 | 32 / 32 / 32 / 14 | none | 6N7A / 8BXH | 1.33 / 1.30 | 110 | 32 / 32 / 32 | 8 |
 | PPARG/PPARA | strict 6.5/5.5 | 32 / 32 / 32 / 14 | none | 9V8H / 6LXA | 1.39 / 1.23 | 110 | 32 / 31 / 32 | 8 |
 | PPARA/PPARD | strict 6.5/5.5 | 32 / 32 / 32 / 14 | none | 6LXA / 5U3Q | 1.23 / 1.50 | 110 | 32 / 32 / 32 | 8 |
 

@@ -41,7 +41,7 @@ DATA = ROOT / "data"
 PROVENANCE: dict = {"source_files": {}, "plotted": {}}
 
 S34_CONTRAST = "D_vs_B_or_neither_pocketA"
-GNINA_INDEP_PAIRS = ["EGFR/HER2", "PIK3CA/mTOR", "JAK1/TYK2"]
+GNINA_INDEP_PAIRS = ["EGFR/HER2", "JAK1/TYK2", "PIK3CA/mTOR"]
 
 
 def _read(path: Path) -> list[dict]:
@@ -490,7 +490,6 @@ def fig2_formulation(D: dict) -> None:
         Line2D([0], [0], marker="s", color=C["a_only"], ls="none", ms=4.7,
                label="Dual vs B-only, pocket A"),
     ], loc="lower right", fontsize=6.0, frameon=False)
-    ax.axhline(2.5, color="#E6E6E6", lw=0.7, zorder=0)
     PROVENANCE["plotted"]["fig2A"] = {"DA": da, "DB": db, "pairs": list(PRIMARY_PAIRS)}
 
     ax = fig.add_subplot(gs[1, 0])
@@ -524,7 +523,6 @@ def fig2_formulation(D: dict) -> None:
         Line2D([0], [0], marker="D", color=C["desc"], ls="none", ms=4.8,
                label="neither n=4"),
     ], loc="lower right", fontsize=5.9, frameon=False)
-    ax.axhline(2.5, color="#E6E6E6", lw=0.7, zorder=0)
     PROVENANCE["plotted"]["fig2B"] = {
         p: {"directional": {"y": plotted[p]["smin"], "lo": plotted[p]["lo"], "hi": plotted[p]["hi"]},
             "neither": {"y": plotted[p]["nei"], "lo": plotted[p]["nei_lo"], "hi": plotted[p]["nei_hi"],
@@ -555,7 +553,6 @@ def fig2_formulation(D: dict) -> None:
         Line2D([0], [0], marker="o", color=C["egfr"], ls="none", ms=6, label="EGFR/HER2 and JAK1/TYK2"),
         Line2D([0], [0], marker="D", color=C["vina"], ls="none", ms=6, label="underpowered neither"),
     ], loc="lower right", fontsize=6.0, frameon=False)
-    ax.axhline(2.5, color="#E6E6E6", lw=0.7, zorder=0)
     PROVENANCE["plotted"]["fig2C"] = recs
 
     fig.subplots_adjust(left=0.18, right=0.97, top=0.96, bottom=0.075)
@@ -597,7 +594,6 @@ def fig3_chemistry(D: dict) -> None:
     ], loc="upper center", ncol=4, fontsize=6.0, frameon=True,
        columnspacing=0.9, handletextpad=0.35, borderaxespad=0.1,
        fancybox=False, edgecolor="none", facecolor="white", framealpha=0.92)
-    ax.axhline(2.5, color="#E6E6E6", lw=0.7, zorder=0)
     PROVENANCE["plotted"]["fig3A"] = plotted
 
     ax = fig.add_subplot(gs[1, 0])
@@ -746,7 +742,6 @@ def fig4_realization(D: dict) -> None:
         Line2D([0], [0], marker="D", color=C["desc"], ls="none", ms=5, label="primary seed"),
         Line2D([0], [0], marker="o", color=C["vina"], ls="none", ms=5, label="median"),
     ], loc="upper center", bbox_to_anchor=(0.5, -0.18), ncol=2, fontsize=6.0, frameon=False)
-    ax.axhline(2.5, color="#E6E6E6", lw=0.7, zorder=0)
     PROVENANCE["plotted"]["fig4C"] = plotted_s
 
     fig.subplots_adjust(left=0.10, right=0.995, top=0.88, bottom=0.23)
@@ -768,7 +763,6 @@ def fig5_mismatched(D: dict) -> None:
         recs.append({"pair": p, "y": r["delta"], "lo": r["lo"], "hi": r["hi"], "excl": r["excl"]})
     forest_pairs(ax, PRIMARY_PAIRS, recs, "Main panels",
                  r"Δsummary$_{\mathrm{min}}$ (matched − mismatched)", (-0.22, 0.36))
-    ax.axhline(2.5, color="#E6E6E6", lw=0.7, zorder=0)
     PROVENANCE["plotted"]["fig5A"] = recs
 
     ax = axes[1]
@@ -794,7 +788,6 @@ def fig5_mismatched(D: dict) -> None:
     ax.set_xlim(-0.36, 0.38)
     ax.set_title("Unused-pool holdout", fontsize=FS_AXIS, pad=3)
     ax.set_xlabel(r"Δsummary$_{\mathrm{min}}$ (matched − mismatched)")
-    ax.axhline(2.5, color="#E6E6E6", lw=0.7, zorder=0)
     PROVENANCE["plotted"]["fig5B"] = recs_b
 
     ax = axes[2]
@@ -823,7 +816,6 @@ def fig5_mismatched(D: dict) -> None:
         Line2D([0], [0], marker="o", color=C["vina"], ls="none", ms=5.5, label="main"),
         Line2D([0], [0], marker="s", color=C["holdout"], ls="none", ms=5.0, label="holdout"),
     ], loc="upper right", fontsize=6.0, frameon=False)
-    ax.axhline(2.5, color="#E6E6E6", lw=0.7, zorder=0)
     PROVENANCE["plotted"]["fig5C"] = recs_c
 
     for ax in axes[1:]:
