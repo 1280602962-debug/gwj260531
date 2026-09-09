@@ -1,5 +1,7 @@
 # JCIM 投稿前全项目审计与行动计划（2026-08-27）
 
+> **Historical (2026-08-27).** This four-pair audit is not the current eight-pair statistical lock. Use `docs/STATISTICAL_LOCK_V1.md` and `docs/MANUSCRIPT_JCIM_EN.md`.
+
 > 本文件取代此前分散的“下一步计划”作为当前投稿决策入口。历史计划用于追溯，不再代表待办优先级。
 
 ## 一、结论先行

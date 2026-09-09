@@ -33,6 +33,7 @@ WATCH = [
     "data/jcim_novelty_v0/tables/scaffold_cluster_bootstrap_v1.csv",
     "docs/ANALYSIS_HIERARCHY_V1.md",
     "docs/STATISTICAL_LOCK_V1.md",
+    "data/jcim_chembl_universe_v0/local_track_b_v0/tables/five_pair_stack_v1/table2_comparable_theta6_v1.csv",
     "docs/SUPPORTING_INFORMATION_JCIM_EN_V1.md",
     "data/jcim_novelty_v0/tables/assay_context_audit.csv",
     "data/jcim_novelty_v0/tables/assay_context_priority_ligands_v1.csv",

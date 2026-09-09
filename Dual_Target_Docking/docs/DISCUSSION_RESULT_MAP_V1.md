@@ -1,7 +1,9 @@
+> **Historical writing map (pre-eight-pair).** Do not use for the current manuscript. Canonical claims: `docs/MANUSCRIPT_JCIM_ZH.md`, `docs/STATISTICAL_LOCK_V1.md`, `data/jcim_bench_v0/CLAIM_CEILING.md`.
+
 # 已有结果清单 ↔ Discussion 口径
 
 > 只收录仓库里已经跑完、可以写进稿的结果。讨论句必须不越过 `CLAIM_CEILING.md`。  
-> 配套：`RESULTS_DRAFT_ZH_JCIM_V1.md`（3.1–3.6）、`DISCUSSION_DRAFT_ZH_JCIM_V1.md`（4.1–4.5）、`DISCUSSION_LIMITATIONS_DRAFT_ZH_JCIM_V1.md`。
+> 配套：`RESULTS_DRAFT_ZH_JCIM_V1.md`（3.1–3.6）、`DISCUSSION_DRAFT_ZH_JCIM_V1.md`（4.1–4.5）。
 
 全文定位：不是 “docking can/cannot identify dual-target ligands”，也不是新打分函数；而是评价对接分数在四状态硬负面板、双向 pairwise 主终点上的**可靠性与边界**。资源名 DualFourClass-Bench。
 

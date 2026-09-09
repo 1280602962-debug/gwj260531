@@ -39,7 +39,7 @@ drew **20/20/18** (Murcko cap 3 on leftover B = 21). See
 
 ## Local channels (scores uploaded; stats in this repo)
 
-Local A–E scores are in `local_track_b_v0/tables/` (`ALLPAIRS_STACK_RUN_COMPLETE_V1.md`). Table-2-comparable statistics are in `FIVE_PAIR_LOCAL_CHANNELS_V1.md` and the merged reading in `FIVE_PAIR_MERGED_V1.md`. Primary manuscript numbers remain production Vina 20260727. Does not restock Table 2.
+Local A–E scores are in `local_track_b_v0/tables/` (`ALLPAIRS_STACK_RUN_COMPLETE_V1.md`). Table 2 statistics for these five pairs are in `table2_comparable_theta6_v1.csv` and are canonical Table 2 rows.
 
 ## ECFP4 scaffold GroupKFold (docking increment)
 

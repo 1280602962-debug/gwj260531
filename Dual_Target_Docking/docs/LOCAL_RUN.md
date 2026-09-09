@@ -18,7 +18,8 @@ Minimal Python packages are listed in `requirements-analysis.txt`.
 
 Expected outputs include:
 
-- `data/jcim_strengthen_t0t1_v0/tables/unified_threshold_sensitivity_v2.csv` (Table 2 canonical CIs)
+- `data/jcim_strengthen_t0t1_v0/tables/unified_threshold_sensitivity_v2.csv` (Table 2 CIs for EGFR/HER2, AChE/BChE, PIK3CA/mTOR)
+- `data/jcim_chembl_universe_v0/local_track_b_v0/tables/five_pair_stack_v1/table2_comparable_theta6_v1.csv` (Table 2 CIs for the other five pairs)
 - `data/jcim_strengthen_t0t1_v0/analysis/PRIMARY_METRIC_V2.md` (deprecated; do not cite as Table 2)
 - `data/jcim_bench_v0/tables/forest_summary_min_ci_v1.csv` (`vina_mean` forest, not pocket-matched Table 2)
 

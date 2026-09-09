@@ -47,12 +47,45 @@ def main():
         "EGFR/HER2": (0.4297, 0.2818, 0.5775),
         "AChE/BChE": (0.6058, 0.4370, 0.7303),
         "PIK3CA/mTOR": (0.6921, 0.4702, 0.8133),
+        "F2/F10": (0.3448, 0.2109, 0.4773),
+        "JAK1/TYK2": (0.3649, 0.2306, 0.5030),
+        "JAK1/JAK2": (0.5884, 0.4444, 0.7246),
+        "PPARG/PPARA": (0.6492, 0.5045, 0.7508),
+        "PPARA/PPARD": (0.4463, 0.2958, 0.5841),
     }
     for pair, (point, lo, hi) in expected_primary.items():
-        record = one(primary, pair=pair, label_rule="theta_6.0")
-        near(record["pocket_matched_summary_min"], point)
+        if pair in {"EGFR/HER2", "AChE/BChE", "PIK3CA/mTOR"}:
+            record = one(primary, pair=pair, label_rule="theta_6.0")
+            near(record["pocket_matched_summary_min"], point)
+            near(record["ci_lo"], lo)
+            near(record["ci_hi"], hi)
+
+    five_t2 = rows_at(
+        "data/jcim_chembl_universe_v0/local_track_b_v0/tables/"
+        "five_pair_stack_v1/table2_comparable_theta6_v1.csv"
+    )
+    for pair, (point, lo, hi) in expected_primary.items():
+        if pair in {"EGFR/HER2", "AChE/BChE", "PIK3CA/mTOR"}:
+            continue
+        record = one(five_t2, pair=pair)
+        near(record["summary_min"], point)
         near(record["ci_lo"], lo)
         near(record["ci_hi"], hi)
+        assert "does not replace" not in record.get("note", "")
+
+    master = rows_at("data/jcim_novelty_v0/tables/MASTER_RESULTS_TABLE.csv")
+    table2_pairs = {
+        r["pair"]
+        for r in master
+        if r["manuscript_table"] == "Table 2" and r["metric"] == "summary_min"
+    }
+    assert table2_pairs == set(expected_primary), table2_pairs
+    table3_neither = {
+        r["pair"]
+        for r in master
+        if r["manuscript_table"] == "Table 3" and r["metric"] == "D_vs_neither_mean"
+    }
+    assert table3_neither == set(expected_primary), table3_neither
 
     ml_compare = rows_at(
         "data/jcim_strengthen_t0t1_v0/tables/ligand_ml_scaffold_vs_random_v1.csv"
@@ -218,7 +251,7 @@ def main():
     assert len(census) == 48
     assert sum(int(r["directional_n10"]) for r in census) == 16
     assert sum(int(r["formulation_n10"]) for r in census) == 16
-    assert sum(int(r["docked_in_this_paper"]) for r in census) == 3
+    # J0-list diagnostic only; the docking menu is the eight primary pairs.
 
     caliper = rows("property_caliper_match_v1.csv")
     near(one(caliper, pair="EGFR/HER2", contrast="D_vs_B_pocketA", caliper_sd="1.0")["auroc_matched"], 0.5664)

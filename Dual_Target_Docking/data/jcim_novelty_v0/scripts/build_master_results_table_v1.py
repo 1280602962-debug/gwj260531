@@ -14,6 +14,29 @@ ROOT = Path(__file__).resolve().parents[3]
 TAB = ROOT / "data" / "jcim_novelty_v0" / "tables"
 SR = ROOT / "data" / "jcim_structure_robust_v0" / "tables"
 TH = ROOT / "data" / "jcim_strengthen_t0t1_v0" / "tables"
+FIVE = (
+    ROOT
+    / "data"
+    / "jcim_chembl_universe_v0"
+    / "local_track_b_v0"
+    / "tables"
+    / "five_pair_stack_v1"
+    / "table2_comparable_theta6_v1.csv"
+)
+FIVE_REL = (
+    "data/jcim_chembl_universe_v0/local_track_b_v0/tables/"
+    "five_pair_stack_v1/table2_comparable_theta6_v1.csv"
+)
+PRIMARY_PAIRS = [
+    "EGFR/HER2",
+    "AChE/BChE",
+    "PIK3CA/mTOR",
+    "F2/F10",
+    "JAK1/TYK2",
+    "JAK1/JAK2",
+    "PPARG/PPARA",
+    "PPARA/PPARD",
+]
 TAB.mkdir(parents=True, exist_ok=True)
 
 FIELDS = [
@@ -82,8 +105,9 @@ def main() -> None:
 
     rows: list[dict] = []
 
-    # --- Table 2 frozen directional ---
-    for pair, r in theta6.items():
+    # --- Table 2 frozen directional (original three pairs) ---
+    for pair in PRIMARY_PAIRS[:3]:
+        r = theta6[pair]
         rows.append(
             row(
                 block="primary_directional",
@@ -129,6 +153,55 @@ def main() -> None:
             )
         )
 
+    five = {r["pair"]: r for r in _read(FIVE)}
+    for pair in PRIMARY_PAIRS[3:]:
+        r = five[pair]
+        n_scored = int(r["n_dual"]) + int(r["n_A_only"]) + int(r["n_B_only"])
+        rows.append(
+            row(
+                block="primary_directional",
+                manuscript_table="Table 2",
+                pair=pair,
+                setting="frozen_cached_max_theta6",
+                metric="summary_min",
+                value=r["summary_min"],
+                ci_lo=r["ci_lo"],
+                ci_hi=r["ci_hi"],
+                n_dual=r["n_dual"],
+                n_A_only=r["n_A_only"],
+                n_B_only=r["n_B_only"],
+                n_scored=n_scored,
+                note="Primary endpoint. Cached max pChEMBL labels. Neither excluded.",
+                source_file=FIVE_REL,
+            )
+        )
+        rows.append(
+            row(
+                block="primary_directional",
+                manuscript_table="Table 2",
+                pair=pair,
+                setting="frozen_cached_max_theta6",
+                metric="auroc_D_vs_A_pocketB",
+                value=r["auroc_D_vs_A_pocketB"],
+                n_dual=r["n_dual"],
+                n_A_only=r["n_A_only"],
+                source_file=FIVE_REL,
+            )
+        )
+        rows.append(
+            row(
+                block="primary_directional",
+                manuscript_table="Table 2",
+                pair=pair,
+                setting="frozen_cached_max_theta6",
+                metric="auroc_D_vs_B_pocketA",
+                value=r["auroc_D_vs_B_pocketA"],
+                n_dual=r["n_dual"],
+                n_B_only=r["n_B_only"],
+                source_file=FIVE_REL,
+            )
+        )
+
     # --- Table 3 formulation ---
     for r in form:
         if r["contrast"] in ("D_vs_neither_mean", "D_vs_all_nondual_mean", "summary_min"):
@@ -147,6 +220,55 @@ def main() -> None:
                     source_file="data/jcim_novelty_v0/tables/formulation_conventional_vs_directional_v1.csv",
                 )
             )
+
+    for pair in PRIMARY_PAIRS[3:]:
+        r = five[pair]
+        rows.append(
+            row(
+                block="formulation",
+                manuscript_table="Table 3",
+                pair=pair,
+                setting="dualfourclass_directional",
+                metric="summary_min",
+                value=r["summary_min"],
+                ci_lo=r["ci_lo"],
+                ci_hi=r["ci_hi"],
+                n_dual=r["n_dual"],
+                note="worst-arm aggregation; CI is on the two arms separately",
+                source_file=FIVE_REL,
+            )
+        )
+        rows.append(
+            row(
+                block="formulation",
+                manuscript_table="Table 3",
+                pair=pair,
+                setting="conventional_dual_vs_neither",
+                metric="D_vs_neither_mean",
+                value=r["D_vs_neither_vina_mean"],
+                ci_lo=r["D_vs_neither_ci_lo"],
+                ci_hi=r["D_vs_neither_ci_hi"],
+                n_dual=r["n_dual"],
+                n_B_only=r["n_neither"],
+                note="Dual versus neither using pooled vina_mean",
+                source_file=FIVE_REL,
+            )
+        )
+        rows.append(
+            row(
+                block="formulation",
+                manuscript_table="Table 3",
+                pair=pair,
+                setting="dual_vs_all_nondual",
+                metric="D_vs_all_nonduals",
+                value=r["D_vs_all_nonduals"],
+                ci_lo=r["D_vs_all_nonduals_ci_lo"],
+                ci_hi=r["D_vs_all_nonduals_ci_hi"],
+                n_dual=r["n_dual"],
+                note="selectives counted as negatives; still not directional",
+                source_file=FIVE_REL,
+            )
+        )
 
     # --- aggregation sensitivity ---
     for r in agg:

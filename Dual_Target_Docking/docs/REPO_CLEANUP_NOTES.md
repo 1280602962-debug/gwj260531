@@ -38,3 +38,11 @@
 ## 未动
 
 - Dual_Target_Docking/ 不导入、不依赖仓库根目录下的其他课题。根目录若仍有其他项目目录，与本评测文无关。
+
+## 2026-09-09（八靶对权威来源）
+
+- 统计锁、MASTER Table 2/3、`bootstrap_primary.py` 和 `validate_revision_v1.py` 改为八个主靶对。
+- 五对 CSV 的 note 从 “does not replace frozen K=4 Table 2” 改为 canonical Table 2 行。
+- 删除未进入组装稿的过时局限草稿 `docs/DISCUSSION_LIMITATIONS_DRAFT_ZH_JCIM_V1.md`（仍写四靶对和 PIK3CA/PIK3CB）。
+- **未删除**：八对对接分数、独立 GNINA、多种子、留出集、BindingDB 八对剩余、MCL1 档案、PIK3CA/PIK3CB 撤出面板目录、202608 BindingDB 三对快照。这些仍是文章或可追溯记录。
+
