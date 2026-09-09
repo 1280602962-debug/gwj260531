@@ -568,7 +568,7 @@ def fig3_chemistry(D: dict) -> None:
     gs = fig.add_gridspec(2, 2, height_ratios=[1.18, 1.00], hspace=0.36, wspace=0.32)
 
     ax = fig.add_subplot(gs[0, :])
-    panel_label(ax, "A", x=-0.08, y=1.04)
+    panel_label(ax, "A", x=-0.08, y=1.28)
     y = np.arange(len(PRIMARY_PAIRS))
     off = {"vina_da": 0.30, "vina_db": 0.10, "ecfp_da": -0.10, "ecfp_db": -0.30}
     cols = {"vina_da": C["vina"], "vina_db": C["gnina"], "ecfp_da": C["desc"], "ecfp_db": C["a_only"]}
@@ -587,13 +587,14 @@ def fig3_chemistry(D: dict) -> None:
     ax.invert_yaxis()
     ax.set_xlabel("AUROC")
     ax.set_xlim(0.20, 1.05)
-    ax.set_title("Vina rank AUROC versus ECFP4 scaffold GroupKFold", fontsize=FS_AXIS, pad=3)
+    ax.set_title("Vina rank AUROC versus ECFP4 scaffold GroupKFold", fontsize=FS_AXIS, pad=32)
     ax.legend(handles=[
         Line2D([0], [0], marker="o", color=C["vina"], ls="none", ms=5.5, label="Vina D/A"),
         Line2D([0], [0], marker="s", color=C["gnina"], ls="none", ms=5.0, label="Vina D/B"),
         Line2D([0], [0], marker="^", color=C["desc"], ls="none", ms=5.5, label="ECFP4 D/A"),
         Line2D([0], [0], marker="D", color=C["a_only"], ls="none", ms=5.0, label="ECFP4 D/B"),
-    ], loc="lower left", ncol=2, fontsize=6.0, frameon=False)
+    ], loc="lower center", bbox_to_anchor=(0.5, 1.04), ncol=4, fontsize=6.0, frameon=False,
+       columnspacing=0.9, handletextpad=0.35, borderaxespad=0)
     ax.axhline(2.5, color="#E6E6E6", lw=0.7, zorder=0)
     PROVENANCE["plotted"]["fig3A"] = plotted
 
@@ -624,7 +625,8 @@ def fig3_chemistry(D: dict) -> None:
     ax.legend(handles=[
         Line2D([0], [0], marker="o", color=C["vina"], ls="none", ms=4.5, label="D/A"),
         Line2D([0], [0], marker="s", color=C["a_only"], ls="none", ms=4.3, label="D/B"),
-    ], loc="lower left", fontsize=5.9, frameon=False)
+    ], loc="lower right", fontsize=5.9, frameon=True, fancybox=False, edgecolor="none",
+       facecolor="white", framealpha=0.92, borderpad=0.35)
     PROVENANCE["plotted"]["fig3B_deltas"] = deltas
     PROVENANCE["plotted"]["fig3B_max_abs"] = float(max(abs(d) for d in deltas))
 
@@ -658,7 +660,7 @@ def fig3_chemistry(D: dict) -> None:
 
 
 def fig4_realization(D: dict) -> None:
-    fig, axes = plt.subplots(1, 3, figsize=(7.0, 3.45), gridspec_kw={"width_ratios": [1.32, 1.02, 1.16]})
+    fig, axes = plt.subplots(1, 3, figsize=(7.0, 3.50), gridspec_kw={"width_ratios": [1.26, 0.96, 1.18]})
 
     ax = axes[0]
     panel_label(ax, "A", x=-0.20, y=1.06)
@@ -742,7 +744,7 @@ def fig4_realization(D: dict) -> None:
     ax.axhline(2.5, color="#E6E6E6", lw=0.7, zorder=0)
     PROVENANCE["plotted"]["fig4C"] = plotted_s
 
-    fig.subplots_adjust(wspace=0.45, left=0.11, right=0.98, top=0.88, bottom=0.23)
+    fig.subplots_adjust(wspace=0.72, left=0.10, right=0.995, top=0.88, bottom=0.23)
     save_all(fig, "Fig4_computational_realization")
     plt.close(fig)
 
