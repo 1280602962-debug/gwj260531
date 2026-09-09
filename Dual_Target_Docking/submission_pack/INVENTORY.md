@@ -1,16 +1,16 @@
 # Inventory
 
 ## manuscript
-- `DATA_AND_SOFTWARE_AVAILABILITY_JCIM_EN.md` (2316 bytes)
-- `DATA_AND_SOFTWARE_AVAILABILITY_JCIM_ZH.md` (1976 bytes)
-- `FIGURE_PANEL_LOCK_V3.md` (3961 bytes)
-- `MANUSCRIPT_JCIM_EN.md` (57596 bytes)
-- `MANUSCRIPT_JCIM_ZH.md` (56469 bytes)
+- `DATA_AND_SOFTWARE_AVAILABILITY_JCIM_EN.md` (2320 bytes)
+- `DATA_AND_SOFTWARE_AVAILABILITY_JCIM_ZH.md` (1990 bytes)
+- `FIGURE_PANEL_LOCK_V3.md` (3893 bytes)
+- `MANUSCRIPT_JCIM_EN.md` (58942 bytes)
+- `MANUSCRIPT_JCIM_ZH.md` (56380 bytes)
 - `REFERENCES_JCIM.md` (5939 bytes)
 - `STATISTICAL_LOCK_V1.md` (5044 bytes)
 - `SUBMISSION_AUDIT_FIVE_ROUNDS_V1.md` (9561 bytes)
-- `SUPPORTING_INFORMATION_DRAFT_ZH_JCIM_V1.md` (22473 bytes)
-- `SUPPORTING_INFORMATION_JCIM_EN_V1.md` (22461 bytes)
+- `SUPPORTING_INFORMATION_DRAFT_ZH_JCIM_V1.md` (22487 bytes)
+- `SUPPORTING_INFORMATION_JCIM_EN_V1.md` (22465 bytes)
 
 ## tables
 - `DUALFOURCLASS_EVALUATION_CONTRACT_v1.json` (2269 bytes)
@@ -39,10 +39,10 @@
 - `wrong_pocket_paired_delta_bootstrap_v1.csv` (1027 bytes)
 
 ## figures
-- `CAPTIONS.md` (6533 bytes)
-- `Fig1_four_state_and_supply.pdf` (36683 bytes)
-- `Fig1_four_state_and_supply.png` (211255 bytes)
-- `Fig1_four_state_and_supply.tif` (318906 bytes)
+- `CAPTIONS.md` (6537 bytes)
+- `Fig1_four_state_and_supply.pdf` (36543 bytes)
+- `Fig1_four_state_and_supply.png` (202576 bytes)
+- `Fig1_four_state_and_supply.tif` (316366 bytes)
 - `Fig2_negative_class_formulation.pdf` (26361 bytes)
 - `Fig2_negative_class_formulation.png` (194605 bytes)
 - `Fig2_negative_class_formulation.tif` (295842 bytes)
@@ -72,17 +72,17 @@
 - `FigS_unused_pool_holdout.tif` (115922 bytes)
 - `TOC_graphic.png` (37088 bytes)
 - `TOC_graphic.tif` (48554 bytes)
-- `plotted_values.json` (20871 bytes)
+- `plotted_values.json` (20759 bytes)
 
 ## scripts
 - `assemble_manuscript_en.py` (2259 bytes)
 - `assemble_manuscript_zh.py` (2361 bytes)
-- `audit_submission_five_rounds_v1.py` (33235 bytes)
+- `audit_submission_five_rounds_v1.py` (33309 bytes)
 - `bootstrap_primary.py` (2979 bytes)
 - `build_checksum_manifest_v1.py` (6069 bytes)
 - `build_master_results_table_v1.py` (40380 bytes)
 - `jcim_figure_style.py` (6478 bytes)
 - `pack_submission_v1.py` (7364 bytes)
-- `plot_jcim_article_figures_v3.py` (69841 bytes)
+- `plot_jcim_article_figures_v3.py` (69826 bytes)
 - `plot_jcim_si_composites_v1.py` (43184 bytes)
 - `validate_revision_v1.py` (13453 bytes)

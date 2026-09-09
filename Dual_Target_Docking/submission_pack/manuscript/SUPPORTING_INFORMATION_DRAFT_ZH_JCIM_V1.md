@@ -346,7 +346,7 @@ BindingDB 与 PubChem 按与主评价相同的四状态规则清点八个靶对�
 下列内容回答的不是本 SI 需要单独排版的审稿问题，完整 CSV 与脚本随 GitHub Release 和 Zenodo 数据包提供：
 
 - 逐配体对接分数、holdout 成员表、多种子长表；
-- 物化 caliper 1:1 匹配、chemotype 硬负、聚合均值（算术/几何/调和）、骨架随机划分对照；
+- 物化 caliper 1:1 匹配、骨架相近的选择性对照、聚合均值（算术/几何/调和）、骨架随机划分对照；
 - 完整病例覆盖、测量频次、assay-context 底表、J0 候选对 θ = 6.0 普查；
 - BindingDB REST 历史计数、leave-cognate-out、PIK3CA 占有率快照、接触计数与全链序列一致性；
 - MCL1/Bcl-xL 适用性压力测试（LC6 pose-gold 未建立，不进入 Table 2）；
