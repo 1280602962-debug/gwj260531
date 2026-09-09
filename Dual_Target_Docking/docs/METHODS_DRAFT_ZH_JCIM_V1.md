@@ -20,7 +20,7 @@
 
 ### 2.3 靶对筛选与评价集构建
 
-**靶对供给筛选。** 候选靶对来自同一批 ChEMBL 数据提取结果：人源单组分 SINGLE PROTEIN、两端均有可用定量活性、以最大 pChEMBL 为代表值，并按 2.2 节划分为四状态。双向选择性供给另用严格 6.5/5.5 规则清点（活性端 \(\geq 6.5\)，低活性端 \(\leq 5.5\)，灰区不入该候选池）。最终是否纳入还取决于蛋白类别、结合位点性质、人源实验结构是否适合统一非共价对接，以及该靶对在上述规则下能否抽出可分析的四状态面板。据此纳入 PIK3CA/mTOR、AChE/BChE、EGFR/HER2、F2/F10、JAK1/TYK2、JAK1/JAK2、PPARG/PPARA 和 PPARA/PPARD。
+**靶对供给筛选。** 候选靶对来自同一批 ChEMBL 数据，其中靶点限定为人源、单组分 SINGLE PROTEIN、两端均有可用定量活性、以最大 pChEMBL 为代表值，并按 2.2 节划分为四状态。双向选择性供给另用严格 6.5/5.5 规则清点（活性端 \(\geq 6.5\)，低活性端 \(\leq 5.5\)，灰区不入该候选池）。最终是否纳入还取决于蛋白类别、结合位点性质、人源实验结构是否适合统一非共价对接，以及该靶对在上述规则下能否抽出可分析的四状态面板。据此纳入 PIK3CA/mTOR、AChE/BChE、EGFR/HER2、F2/F10、JAK1/TYK2、JAK1/JAK2、PPARG/PPARA 和 PPARA/PPARD。
 
 **评价面板构建。** 因样本供给规模和结构可行性不同，部分靶对采用不同的候选池规则、类别配额或骨架限制；具体规则见 Table 1。EGFR/HER2 与 PIK3CA/mTOR 从 \(\theta=6.0\) 候选池抽样，其余六对从严格 6.5/5.5 候选池按配额抽出。
 
@@ -73,15 +73,15 @@
 
 AutoDock Vina 输出的 affinity 越低表示预测结合越有利。为统一 AUROC 的评分方向，将 Vina affinity 转换为 \(S_{\mathrm{Vina}}=-E_{\mathrm{Vina}}\)，因此较高的 \(S_{\mathrm{Vina}}\) 表示更有利的预测结合。两个方向的 AUROC 分别报告，并将两者中的较低值定义为 \(\mathrm{summary}_{\min}\)，仅用于描述较弱方向的总体表现，不作为新的配体评分函数：\(\mathrm{summary}_{\min}=\min(\mathrm{AUC}_{D/A}(B),\;\mathrm{AUC}_{D/B}(A))\)。
 
-#### 2.5.2 不同负类与双口袋过滤的描述性比较
+#### 2.5.2 不同对照类别与双口袋过滤的描述性比较
 
-另以两个靶点均低活性的 neither 配体作为负类，评价对接评分区分 dual 与 neither 的能力。对于两个靶点均获得评分的配体，计算平均评分 \(S_{\mathrm{mean}}=(S_{A}+S_{B})/2\)，随后以 dual 为正类、neither 为负类计算 AUROC。将 A-only、B-only 和 neither 合并为负类得到的 dual-versus-all-nonduals AUROC 仅作为混合候选库的描述性比较，并在 Table 3 中报告。
+另以两个靶点均低活性的 neither 配体作为对照类别，评价对接评分区分 dual 与 neither 的能力。对于两个靶点均获得评分的配体，计算平均评分 \(S_{\mathrm{mean}}=(S_{A}+S_{B})/2\)，随后以 dual 为正类、neither 为对照计算 AUROC。将 A-only、B-only 和 neither 合并为对照得到的 dual 与所有非 dual 配体比较 AUROC 仅作为混合候选库的描述性参考，并在 Table 3 中报告。
 
-为单独考察对照类别变化对判别结果的影响，保持所用靶点评分不变，仅改变对照组成。使用靶点 A 的评分时，分别比较 dual 与 B-only、dual 与 neither；使用靶点 B 的评分时，分别比较 dual 与 A-only、dual 与 neither（Table S4）。另取两个靶点评分中的较低值作为双口袋联合过滤评分 \(S_{\mathrm{worst}}=\min(S_{A},S_{B})\)，用于评价配体是否在两个靶点上均获得有利评分。以 dual 配体 \(S_{\mathrm{worst}}\) 分布的中位数作为双口袋过滤阈值，并统计不低于该阈值的 dual 配体数、dual recall、dual precision 以及保留的单靶选择性配体数（Table S13）。由于双口袋平均评分同时改变了对照组成和评分形式，对照类别变化的单独影响以固定同一口袋评分的比较为准。
+为单独考察对照类别变化对判别结果的影响，保持所用靶点评分不变，仅改变对照组成。使用靶点 A 的评分时，分别计算 dual–B-only 比较和 dual–neither 比较；使用靶点 B 的评分时，分别计算 dual–A-only 比较和 dual–neither 比较（Table S4）。另取两个靶点评分中的较低值作为双口袋联合过滤评分 \(S_{\mathrm{worst}}=\min(S_{A},S_{B})\)，用于评价配体是否在两个靶点上均获得有利评分。以 dual 配体 \(S_{\mathrm{worst}}\) 分布的中位数作为双口袋过滤阈值，并统计不低于该阈值的 dual 配体数、dual recall、dual precision 以及保留的单靶选择性配体数（Table S13）。由于双口袋平均评分同时改变了对照组成和评分形式，对照类别变化的单独影响以固定同一口袋评分的比较为准。
 
 #### 2.5.3 置信区间与重采样分析
 
-Table 2 中 \(\mathrm{summary}_{\min}\) 的 95% 置信区间基于 2000 次配体水平的非分层百分位 bootstrap 估计。每次从参与该靶对方向性分析的 dual、A-only 和 B-only 联合配体库中有放回抽取与原集合相同数量的配体，重新计算 dual-versus-A-only 和 dual-versus-B-only 的 AUROC，并取两者较小值作为该次重采样的 \(\mathrm{summary}_{\min}\)。95% 置信区间由所有有效 \(\mathrm{summary}_{\min}\) 的第 2.5 和第 97.5 百分位数确定。表中点估计均由完整分析样本直接计算，而非 bootstrap 均值。dual-versus-neither 和 dual-versus-all-nonduals 的 AUROC 置信区间采用按类别重采样的百分位 bootstrap。
+Table 2 中 \(\mathrm{summary}_{\min}\) 的 95% 置信区间基于 2000 次配体水平的非分层百分位 bootstrap 估计。每次从参与该靶对方向性分析的 dual、A-only 和 B-only 联合配体库中有放回抽取与原集合相同数量的配体，重新计算 dual–A-only 比较和 dual–B-only 比较的 AUROC，并取两者较小值作为该次重采样的 \(\mathrm{summary}_{\min}\)。95% 置信区间由所有有效 \(\mathrm{summary}_{\min}\) 的第 2.5 和第 97.5 百分位数确定。表中点估计均由完整分析样本直接计算，而非 bootstrap 均值。dual–neither 比较的 AUROC 置信区间采用按类别重采样的百分位 bootstrap。
 
 比较不同评分方法或对应与非对应口袋评分时，各方案在每次 bootstrap 中使用相同的配体重采样结果以保持配对。为评估化学骨架相关性和文献来源相关性的影响，另以 Bemis–Murcko 骨架簇和文献连通簇为单位进行 cluster bootstrap，具体算法细节及样本量可检测效应模拟见 Supporting Information（Table S4；Table S10；Figure S6）。
 
@@ -103,7 +103,7 @@ ECFP4、docking-only 和 ECFP4+docking 模型均采用逻辑回归。以 Bemis�
 
 通过改变活性阈值及重复活性记录的汇总方式重新确定实验状态，并在保持评价集成员和对接评分不变的条件下重复主要分析（Table S3）。对于具有足够剩余候选配体的靶对，在排除主评价集成员后构建未使用池留出集。留出配体使用固定抽样规则，并限制单一 Bemis–Murcko 骨架的过度重复。该分析使用不同配体重新计算主要方向性 AUROC，用于评价结果对评价集成员组成的敏感性。由于这些配体仍来自同一数据来源，该分析属于内部稳健性检验（Table S7）。另通过多个固定随机种子重复主要 Vina 对接，并在 PIK3CA/mTOR 中比较不同 exhaustiveness 设置，以评价搜索随机性和搜索强度对结果的影响（Table S9）。
 
-另按配体最早来源文献的发表年份进行时间切分，以考察结果对文献时间分布的敏感性（Table S12）。BindingDB 和 PubChem 按与 ChEMBL 相同的四状态规则清点八个靶对的双向选择性供给（Table S11a）。进入外部对接还要求对同一八个靶对做独立来源剩余清点：去掉与主评价共享的文献来源、结构重复和 ECFP4 Tanimoto \(\geq 0.70\) 的分子，并满足 dual、A-only、B-only 各 \(n\geq 20\) 且每类至少 3 个来源（Table S11b）。只有同时满足这些条件的靶对才被包装为外部评价集并对接。相关清点、准入标准和时间界点见 Table S11 与 Table S12。
+另按配体最早来源文献的发表年份进行时间切分，以考察结果对文献时间分布的敏感性（Table S12）。BindingDB 和 PubChem 按与 ChEMBL 相同的四状态规则清点八个靶对的双向选择性供给（Table S11a）。进入外部对接还要求对同一八个靶对做独立来源剩余清点：去掉与主评价共享的文献来源、结构重复和 ECFP4 Tanimoto \(\geq 0.70\) 的分子，并满足 dual、A-only、B-only 各 \(n\geq 20\) 且每类至少 3 个来源（Table S11b）。只有同时满足上述条件的靶对才进入外部评价并进行对接。相关清点、准入标准和时间界点见 Table S11 与 Table S12。
 
 ### 2.7 软件与可重复性
 
