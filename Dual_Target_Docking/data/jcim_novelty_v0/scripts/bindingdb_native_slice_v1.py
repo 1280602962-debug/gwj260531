@@ -73,7 +73,6 @@ UNIPROT_TO_TARGET = {v: k for k, v in TARGETS.items()}
 PAIRS = (
     ("EGFR/HER2", "EGFR", "HER2"),
     ("AChE/BChE", "ACHE", "BCHE"),
-    ("PIK3CA", "PIK3CB"),
     ("PIK3CA/mTOR", "PIK3CA", "MTOR"),
     ("MCL1/Bcl-xL", "MCL1", "BCL2L1"),
 )
@@ -418,7 +417,7 @@ def development_molecules(pair: str) -> tuple[set[str], dict[str, object], set[s
         if not path.exists():
             continue
         for row in read_csv(path):
-            smiles = row.get("smiles") or ""
+            smiles = row.get("smiles") or row.get("canonical_smiles") or ""
             chembl = row.get("molecule_chembl_id") or ""
             if chembl:
                 chembl_ids.add(chembl)

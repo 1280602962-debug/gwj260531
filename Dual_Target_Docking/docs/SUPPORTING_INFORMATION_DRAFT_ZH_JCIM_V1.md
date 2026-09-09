@@ -304,8 +304,13 @@ BindingDB 与 PubChem 按与主评价相同的四状态规则清点八个靶对�
 | EGFR/HER2 | 180 / 10 / 20 | 16 / 5 / 4 | 未通过（A-only n = 10 < 20） |
 | AChE/BChE | 4 / 8 / 14 | 2 / 6 / 3 | 未通过 |
 | PIK3CA/mTOR | 91 / 4 / 1 | 9 / 2 / 1 | 未通过 |
+| F2/F10 | 46 / 15 / 16 | 4 / 1 / 3 | 未通过（A/B n = 15/16；A-only 仅 1 个来源） |
+| JAK1/TYK2 | 323 / 7 / 103 | 20 / 3 / 6 | 未通过（A-only n = 7） |
+| JAK1/JAK2 | 928 / 40 / 14 | 28 / 7 / 4 | 未通过（B-only n = 14） |
+| PPARG/PPARA | 0 / 0 / 1 | 0 / 0 / 1 | 未通过 |
+| PPARA/PPARD | 0 / 1 / 0 | 0 / 1 / 0 | 未通过 |
 
-源：`crossdb_strict_supply_v1.csv`（S11a；BindingDB `equal_only`）；`external_slice_summary_v1.csv`（S11b）。S11a 只清点供给，不作为外部验证。S11b 为去掉共享来源、结构重复和高相似分子后的剩余计数；其余靶对的 BindingDB 清点见 S11a，均未形成满足同一准入的独立评价集。
+源：`crossdb_strict_supply_v1.csv`（S11a；BindingDB `equal_only`）；`external_slice_summary_v1.csv`（S11b）。S11a 只清点供给，不作为外部验证。S11b 对八个靶对使用同一独立来源过滤：去掉共享文献、结构重复和 ECFP4 Tanimoto ≥ 0.70 的分子后再卡门檻。没有任何靶对达到 primary 外部对接准入，也没有一对被包装或对接。
 
 ---
 

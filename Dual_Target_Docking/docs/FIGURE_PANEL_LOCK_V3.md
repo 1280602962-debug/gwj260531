@@ -24,11 +24,11 @@ Rule: every plotted number is read from the CSV in this table. No hand-typed AUR
 | 6 | A | θ-grid `summary_min`, eight pairs | original three: `unified_threshold_sensitivity_v2.csv`; five: `threshold_grid_v1.csv` |
 | 6 | B | PM48 vs PM110 Vina | `pm110_vs_pm48_pocket_matched_v1.csv` |
 | 6 | C | PM48 E=16 vs E=8 | E=16 from unified_threshold; E=8 from `scores_vina_E8_best.csv` |
-| 6 | D | BindingDB-native gate on the original four-pair contract (0 pass). Five census pairs were not re-opened as BindingDB external. | `external_slice_summary_v1.csv` |
+| 6 | D | BindingDB-native gate on all eight primary pairs (0 primary pass). | `external_slice_summary_v1.csv` |
 | S4 | — | Eight-row Vina forest + best single descriptor | same Table-2 sources + `descriptor_all_four_directional_v1.csv` |
 | S5 | — | Unused-pool holdout vs main, seven pairs | same holdout sources as Fig 5C |
 | S7 | — | J0 θ=6.0 census (docked=4 includes later-withdrawn PIK3CB) plus current primary n=8 | `theta6_pair_census_v1.csv` |
-| S8 | — | BindingDB-native cascade; original four-pair contract; 0 pass | `external_slice_summary_v1.csv` |
+| S8 | — | BindingDB-native cascade; eight primary pairs; 0 primary pass | `external_slice_summary_v1.csv` |
 | TOC | — | Four states and Dual-vs-neither ≠ Dual-vs-selective | schematic; no AUROCs; no arrows |
 
 S1–S3, S9, S10 remain the original-set SI records and include the later-withdrawn PIK3CA/PIK3CB row where that is what those CSVs contain. They are not eight-row primary figures.

@@ -304,8 +304,13 @@ BindingDB and PubChem were counted for all eight pairs under the same four-state
 | EGFR/HER2 | 180 / 10 / 20 | 16 / 5 / 4 | fail (A-only n = 10 < 20) |
 | AChE/BChE | 4 / 8 / 14 | 2 / 6 / 3 | fail |
 | PIK3CA/mTOR | 91 / 4 / 1 | 9 / 2 / 1 | fail |
+| F2/F10 | 46 / 15 / 16 | 4 / 1 / 3 | fail (A/B n = 15/16; A-only has 1 source) |
+| JAK1/TYK2 | 323 / 7 / 103 | 20 / 3 / 6 | fail (A-only n = 7) |
+| JAK1/JAK2 | 928 / 40 / 14 | 28 / 7 / 4 | fail (B-only n = 14) |
+| PPARG/PPARA | 0 / 0 / 1 | 0 / 0 / 1 | fail |
+| PPARA/PPARD | 0 / 1 / 0 | 0 / 1 / 0 | fail |
 
-Source: `crossdb_strict_supply_v1.csv` (S11a; BindingDB `equal_only`); `external_slice_summary_v1.csv` (S11b). S11a is a supply count, not external validation. S11b is the remainder after dropping shared sources, duplicate structures, and high-similarity molecules. The other five pairs were counted in S11a under the same rules and likewise did not form an independence-filtered external set.
+Source: `crossdb_strict_supply_v1.csv` (S11a; BindingDB `equal_only`); `external_slice_summary_v1.csv` (S11b). S11a is a supply count, not external validation. S11b applies the same independence remainder to all eight pairs: drop shared literature, duplicate structures, and ECFP4 Tanimoto ≥ 0.70 molecules, then apply the class-size and source-diversity gate. No pair met the primary external-docking gate or was packaged or docked.
 
 ---
 

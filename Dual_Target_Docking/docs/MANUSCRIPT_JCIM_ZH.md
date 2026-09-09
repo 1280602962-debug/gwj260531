@@ -119,7 +119,7 @@ ECFP4、docking-only 和 ECFP4+docking 模型均采用逻辑回归。以 Bemis�
 
 通过改变活性阈值及重复活性记录的汇总方式重新确定实验状态，并在保持评价集成员和对接评分不变的条件下重复主要分析（Table S3）。对于具有足够剩余候选配体的靶对，在排除主评价集成员后构建未使用池留出集。留出配体使用固定抽样规则，并限制单一 Bemis–Murcko 骨架的过度重复。该分析使用不同配体重新计算主要方向性 AUROC，用于评价结果对评价集成员组成的敏感性。由于这些配体仍来自同一数据来源，该分析属于内部稳健性检验（Table S7）。另通过多个固定随机种子重复主要 Vina 对接，并在 PIK3CA/mTOR 中比较不同 exhaustiveness 设置，以评价搜索随机性和搜索强度对结果的影响（Table S9）。
 
-另按配体最早来源文献的发表年份进行时间切分，以考察结果对文献时间分布的敏感性（Table S12）。BindingDB 和 PubChem 按与 ChEMBL 相同的四状态规则清点八个靶对的双向选择性供给。进入外部对接还要求去掉与主评价共享的文献来源、结构重复和 ECFP4 Tanimoto \(\geq 0.70\) 的分子，并满足 dual、A-only、B-only 各 \(n\geq 20\) 且每类至少 3 个来源。只有同时满足这些条件的靶对才被包装为外部评价集并对接。相关清点、准入标准和时间界点见 Table S11 与 Table S12。
+另按配体最早来源文献的发表年份进行时间切分，以考察结果对文献时间分布的敏感性（Table S12）。BindingDB 和 PubChem 按与 ChEMBL 相同的四状态规则清点八个靶对的双向选择性供给（Table S11a）。进入外部对接还要求对同一八个靶对做独立来源剩余清点：去掉与主评价共享的文献来源、结构重复和 ECFP4 Tanimoto \(\geq 0.70\) 的分子，并满足 dual、A-only、B-only 各 \(n\geq 20\) 且每类至少 3 个来源（Table S11b）。只有同时满足这些条件的靶对才被包装为外部评价集并对接。相关清点、准入标准和时间界点见 Table S11 与 Table S12。
 
 ### 2.7 软件与可重复性
 
@@ -199,7 +199,7 @@ PPARG/PPARA 在主要 Vina 评价中是唯一 \(\mathrm{summary}_{\min}\) 置信
 
 ### 3.6 外部评价数据的可用性
 
-BindingDB 与 PubChem 按同一四状态规则清点八个靶对的双向供给。进入外部对接还要求去掉共享来源、结构重复和高相似分子，并满足每类样本量和来源多样性。按该准入，没有任何靶对被包装为外部评价集或进入外部对接（Figure 6D；Table S11）。按配体发表年份进行时间切分同样受到双向选择性样本供给的限制。以 2018 年为界，没有靶对在时间切分测试集中满足双向评价所需的类别样本量，因此未能构建出可同时独立评价两个方向的时间切分测试集（Table S12）。未使用池留出集与年份切分都只是内部敏感性，不作为外部验证。在本研究采用的准入标准下，当前公开数据尚不足以为这些靶对构建独立的双向四状态外部评价集。
+BindingDB 与 PubChem 按同一四状态规则清点八个靶对的双向供给。进入外部对接还要求对这八个靶对做同一独立来源剩余清点：去掉共享来源、结构重复和高相似分子，并满足每类样本量和来源多样性。按该准入，没有任何靶对被包装为外部评价集或进入外部对接；最接近的是 F2/F10（过滤后 46 / 15 / 16），仍未达到 primary n ≥ 20（Figure 6D；Table S11）。按配体发表年份进行时间切分同样受到双向选择性样本供给的限制。以 2018 年为界，没有靶对在时间切分测试集中满足双向评价所需的类别样本量，因此未能构建出可同时独立评价两个方向的时间切分测试集（Table S12）。未使用池留出集与年份切分都只是内部敏感性，不作为外部验证。在本研究采用的准入标准下，当前公开数据尚不足以为这些靶对构建独立的双向四状态外部评价集。
 
 ## 4. 讨论
 
@@ -255,7 +255,7 @@ EGFR/HER2 在保持同一靶点评分不变、仅改变对照类别后仍表现�
 
 更长的逐配体分数、holdout 成员、多种子长表、物化 caliper、chemotype 硬负、聚合均值、完整病例与 assay-context 底表、J0 候选对普查、BindingDB REST 历史计数、leave-cognate-out、PIK3CA 占有率快照、接触计数、全链序列一致性，以及 MCL1/Bcl-xL 适用性压力测试（不进入 Table 2），见 **Note S14**，随代码与 SHA-256 清单归档至 GitHub Release；Zenodo DOI 将从打标签快照签发，而不是从当前仍可能变化的分支签发。
 
-`data/jcim_novelty_v0/tables/MASTER_RESULTS_TABLE.csv` 索引主要数值结果及其来源 CSV。面向稿件的表 SHA-256 校验和见 `REVISION_CHECKSUM_MANIFEST_v1.csv`。原生切片合约为 `protocol/external_slice_contract.yaml`；评价合约为 `DUALFOURCLASS_EVALUATION_CONTRACT_v1.json`。ChEMBL 供给审计冻结于 2026-07-23；高置信 activity 视图抓取于 2026-08-26；BindingDB 原生归档锁定为 202608。分析环境与零新对接的复现命令见仓库 README。BindingDB TSV 归档本身不随仓库分发；CI 只核对已提交的 CSV。
+`data/jcim_novelty_v0/tables/MASTER_RESULTS_TABLE.csv` 索引主要数值结果及其来源 CSV。面向稿件的表 SHA-256 校验和见 `REVISION_CHECKSUM_MANIFEST_v1.csv`。原生切片合约为 `protocol/external_slice_contract.yaml`；评价合约为 `DUALFOURCLASS_EVALUATION_CONTRACT_v1.json`。ChEMBL 供给审计冻结于 2026-07-23；高置信 activity 视图抓取于 2026-08-26；BindingDB 原生归档锁定为 202609。分析环境与零新对接的复现命令见仓库 README。BindingDB TSV 归档本身不随仓库分发；CI 只核对已提交的 CSV。
 
 ## 参考文献
 

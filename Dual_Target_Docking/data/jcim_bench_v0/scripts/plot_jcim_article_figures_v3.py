@@ -813,17 +813,26 @@ def fig6_boundary(D: dict) -> None:
 
     ax = axes[1, 1]
     panel_label(ax, "D", x=-0.18, y=1.04)
-    contract = ["EGFR/HER2", "AChE/BChE", "PIK3CA/PIK3CB", "PIK3CA/mTOR"]
-    four = [next(r for r in D["native"] if r["pair"] == p) for p in contract]
-    n_fail = sum(r["packaged_as_external_evaluation"] == "0" for r in four)
-    n_pass = 4 - n_fail
-    ax.bar(["gate fail", "gate pass"], [n_fail, n_pass], color=[C["egfr"], C["thick"]], width=0.55, zorder=3)
+    contract = [
+        "EGFR/HER2",
+        "AChE/BChE",
+        "PIK3CA/mTOR",
+        "F2/F10",
+        "JAK1/TYK2",
+        "JAK1/JAK2",
+        "PPARG/PPARA",
+        "PPARA/PPARD",
+    ]
+    eight = [next(r for r in D["native"] if r["pair"] == p) for p in contract]
+    n_pass = sum(r["gate"] == "primary_external" for r in eight)
+    n_fail = len(eight) - n_pass
+    ax.bar(["primary fail", "primary pass"], [n_fail, n_pass], color=[C["egfr"], C["thick"]], width=0.55, zorder=3)
     ax.set_ylabel("Number of pairs")
-    ax.set_ylim(0, 5)
+    ax.set_ylim(0, 9)
     ax.set_title("BindingDB-native external gate", fontsize=FS_AXIS, pad=3)
     ax.text(0, n_fail + 0.12, str(n_fail), ha="center", fontsize=8, fontweight="bold")
     ax.text(1, n_pass + 0.12, str(n_pass), ha="center", fontsize=8, fontweight="bold")
-    ax.text(0.5, 4.45, "original four-pair contract; not docked", ha="center", fontsize=6.0, color="#666666")
+    ax.text(0.5, 8.2, "eight primary pairs; not docked", ha="center", fontsize=6.0, color="#666666")
     PROVENANCE["plotted"]["fig6D"] = {"n_fail": n_fail, "n_pass": n_pass, "contract": contract}
 
     fig.subplots_adjust(wspace=0.38, hspace=0.68, left=0.10, right=0.98, top=0.94, bottom=0.16)
@@ -983,50 +992,59 @@ def fig_s7_diagnostics(D: dict) -> None:
 
 
 def fig_s8_bindingdb(D: dict) -> None:
-    contract = ["EGFR/HER2", "AChE/BChE", "PIK3CA/PIK3CB", "PIK3CA/mTOR"]
-    four = [next(r for r in D["native"] if r["pair"] == p) for p in contract]
-    fig, axes = plt.subplots(1, 2, figsize=(7.0, 3.40), gridspec_kw={"width_ratios": [1.2, 1.05]})
+    contract = [
+        "EGFR/HER2",
+        "AChE/BChE",
+        "PIK3CA/mTOR",
+        "F2/F10",
+        "JAK1/TYK2",
+        "JAK1/JAK2",
+        "PPARG/PPARA",
+        "PPARA/PPARD",
+    ]
+    eight = [next(r for r in D["native"] if r["pair"] == p) for p in contract]
+    fig, axes = plt.subplots(1, 2, figsize=(7.0, 3.55), gridspec_kw={"width_ratios": [1.15, 1.10]})
     ax = axes[0]
     panel_label(ax, "A", x=-0.16, y=1.06)
     stages = ["native_paired", "after_literature", "after_structure", "after_ecfp_lt_0.70"]
     labs = ["paired", "−literature", "−structure", "ECFP4<0.70"]
     x = np.arange(len(stages))
     plotted = {}
-    cols = [C["egfr"], C["rtm"], C["gnina"], C["vina"]]
-    for p, col in zip(contract, cols):
-        r = next(row for row in four if row["pair"] == p)
+    cmap = plt.cm.tab10(np.linspace(0, 0.9, len(contract)))
+    for p, col in zip(contract, cmap):
+        r = next(row for row in eight if row["pair"] == p)
         ys = [fnum(r[s]) for s in stages]
-        ax.plot(x, ys, "-o", color=col, lw=1.1, markersize=4.2, label=p, zorder=3)
+        ax.plot(x, ys, "-o", color=col, lw=1.0, markersize=3.6, label=p, zorder=3)
         plotted[p] = ys
     ax.set_xticks(x)
     ax.set_xticklabels(labs, fontsize=6.2)
     ax.set_ylabel("Remaining InChIKeys")
     ax.set_title("BindingDB-native filter cascade", fontsize=FS_AXIS, pad=3)
-    ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.28), ncol=2, fontsize=6.0, frameon=False)
+    ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.30), ncol=2, fontsize=5.2, frameon=False)
 
     ax = axes[1]
     panel_label(ax, "B", x=-0.18, y=1.06)
     x = np.arange(len(contract))
     w = 0.18
-    dual = [int(r["n_dual"]) for r in four]
-    ao = [int(r["n_A_only"]) for r in four]
-    bo = [int(r["n_B_only"]) for r in four]
-    nei = [int(r["n_neither"]) for r in four]
+    dual = [int(r["n_dual"]) for r in eight]
+    ao = [int(r["n_A_only"]) for r in eight]
+    bo = [int(r["n_B_only"]) for r in eight]
+    nei = [int(r["n_neither"]) for r in eight]
     ax.bar(x - 1.5 * w, dual, w, color=C["dual"], label="dual", zorder=3)
     ax.bar(x - 0.5 * w, ao, w, color=C["a_only"], label="A-only", zorder=3)
     ax.bar(x + 0.5 * w, bo, w, color=C["b_only"], label="B-only", zorder=3)
     ax.bar(x + 1.5 * w, nei, w, color=C["neither"], label="neither", zorder=3)
     ax.set_xticks(x)
-    ax.set_xticklabels(["EGFR/\nHER2", "AChE/\nBChE", "PIK3CA/\nPIK3CB", "PIK3CA/\nmTOR"], fontsize=6.0)
+    ax.set_xticklabels([p.replace("/", "/\n") for p in contract], fontsize=5.2)
     ax.set_ylabel("Count after ECFP4 filter")
     ax.set_title("Four-state remainder (not docked)", fontsize=FS_AXIS, pad=3)
-    ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.28), ncol=4, fontsize=6.0, frameon=False)
-    n_fail = sum(r["packaged_as_external_evaluation"] == "0" for r in four)
-    ax.text(0.98, 0.95, f"external gate pass = {4 - n_fail}/4", transform=ax.transAxes,
+    ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.30), ncol=4, fontsize=5.5, frameon=False)
+    n_fail = sum(r["gate"] != "primary_external" for r in eight)
+    ax.text(0.98, 0.95, f"primary gate pass = {len(eight) - n_fail}/8", transform=ax.transAxes,
             ha="right", va="top", fontsize=6.0, color="#555555")
     PROVENANCE["plotted"]["figS8"] = {
         "cascade": plotted, "n_dual": dual, "n_fail": n_fail,
-        "after_ecfp": [fnum(r["after_ecfp_lt_0.70"]) for r in four],
+        "after_ecfp": [fnum(r["after_ecfp_lt_0.70"]) for r in eight],
     }
     fig.subplots_adjust(wspace=0.36, left=0.08, right=0.98, top=0.86, bottom=0.30)
     save_all(fig, "FigS_bindingdb_native_slice_v1")
@@ -1146,7 +1164,7 @@ def verify(D: dict) -> None:
     _eq(errors, PROVENANCE["plotted"]["fig6B"]["PM110"], 0.6483, 5e-4, "fig6B PM110")
     _eq(errors, PROVENANCE["plotted"]["fig6C"]["E16"], 0.6921, 5e-4, "fig6C E16")
     _eq(errors, PROVENANCE["plotted"]["fig6C"]["E8"], 0.6597, 5e-4, "fig6C E8")
-    if PROVENANCE["plotted"]["fig6D"]["n_pass"] != 0 or PROVENANCE["plotted"]["fig6D"]["n_fail"] != 4:
+    if PROVENANCE["plotted"]["fig6D"]["n_pass"] != 0 or PROVENANCE["plotted"]["fig6D"]["n_fail"] != 8:
         errors.append("fig6D BindingDB gate")
 
     s4 = PROVENANCE["plotted"]["figS4"]
@@ -1163,7 +1181,7 @@ def verify(D: dict) -> None:
         errors.append(f"figS7 census {s7}")
     _eq(errors, s7["neither"][0], 0.9214, 5e-4, "figS7 EGFR Dual vs neither")
     s8 = PROVENANCE["plotted"]["figS8"]
-    if s8["n_fail"] != 4:
+    if s8["n_fail"] != 8:
         errors.append("figS8 gate")
     _eq(errors, s8["after_ecfp"][0], 216, 5e-4, "figS8 EGFR after ECFP")
 
@@ -1214,11 +1232,11 @@ Rule: every plotted number is read from the CSV in this table. No hand-typed AUR
 | 6 | A | θ-grid `summary_min`, eight pairs | original three: `unified_threshold_sensitivity_v2.csv`; five: `threshold_grid_v1.csv` |
 | 6 | B | PM48 vs PM110 Vina | `pm110_vs_pm48_pocket_matched_v1.csv` |
 | 6 | C | PM48 E=16 vs E=8 | E=16 from unified_threshold; E=8 from `scores_vina_E8_best.csv` |
-| 6 | D | BindingDB-native gate on the original four-pair contract (0 pass). Five census pairs were not re-opened as BindingDB external. | `external_slice_summary_v1.csv` |
+| 6 | D | BindingDB-native gate on all eight primary pairs (0 primary pass). | `external_slice_summary_v1.csv` |
 | S4 | — | Eight-row Vina forest + best single descriptor | same Table-2 sources + `descriptor_all_four_directional_v1.csv` |
 | S5 | — | Unused-pool holdout vs main, seven pairs | same holdout sources as Fig 5C |
 | S7 | — | J0 θ=6.0 candidate-pair census plus current primary n=8 | `theta6_pair_census_v1.csv` |
-| S8 | — | BindingDB-native cascade; original four-pair contract; 0 pass | `external_slice_summary_v1.csv` |
+| S8 | — | BindingDB-native cascade; eight primary pairs; 0 primary pass | `external_slice_summary_v1.csv` |
 | TOC | — | Four states and Dual-vs-neither ≠ Dual-vs-selective | schematic; no AUROCs; no arrows |
 
 S1–S3, S9, S10 are SI records for the pairs that have those sensitivity tables. They are not a second primary set.

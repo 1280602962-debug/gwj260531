@@ -165,8 +165,18 @@ def main():
         assert all(r["packaged_as_external_validation"] == "0" for r in summary)
 
     native = rows("external_slice_summary_v1.csv")
+    assert {r["pair"] for r in native} == {
+        "EGFR/HER2",
+        "AChE/BChE",
+        "PIK3CA/mTOR",
+        "F2/F10",
+        "JAK1/TYK2",
+        "JAK1/JAK2",
+        "PPARG/PPARA",
+        "PPARA/PPARD",
+    }
     assert all(r["packaged_as_external_evaluation"] == "0" for r in native)
-    assert all(r["gate"] == "insufficient" for r in native)
+    assert all(r["gate"] != "primary_external" for r in native)
     egfr_native = one(native, pair="EGFR/HER2")
     assert (egfr_native["n_dual"], egfr_native["n_A_only"], egfr_native["n_B_only"]) == (
         "180",
@@ -178,6 +188,13 @@ def main():
         "4",
         "8",
         "14",
+    )
+    f2_native = one(native, pair="F2/F10")
+    assert (f2_native["n_dual"], f2_native["n_A_only"], f2_native["n_B_only"], f2_native["gate"]) == (
+        "46",
+        "15",
+        "16",
+        "below_primary",
     )
     flow = rows("external_candidate_flow.csv")
     native_egfr = one(flow, pair="EGFR/HER2", layer="native_paired_theta6")

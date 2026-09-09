@@ -20,14 +20,14 @@ not_claimed_even_if_gates_pass_without_docking:
   - prospective utility
 
 bindingdb_archive:
-  release: "202608"
-  updated: "2026-07-31"
+  release: "202609"
+  updated: "2026-08-30"
   base_url: "https://www.bindingdb.org/rwd/bind/downloads"
   files:
-    - BindingDB_BindingDB_Articles_202608_tsv.zip
-    - BindingDB_Patents_202608_tsv.zip
-    - BindingDB_Assays_202608_tsv.zip
-    - BindingDB_rsid_eaids_202608_tsv.zip
+    - BindingDB_BindingDB_Articles_202609_tsv.zip
+    - BindingDB_Patents_202609_tsv.zip
+    - BindingDB_Assays_202609_tsv.zip
+    - BindingDB_rsid_eaids_202609_tsv.zip
 
 targets:
   EGFR: P00533
@@ -35,10 +35,15 @@ targets:
   ACHE: P22303
   BCHE: P06276
   PIK3CA: P42336
-  PIK3CB: P42338
   MTOR: P42345
-  MCL1: Q07820
-  BCL2L1: Q07817
+  F2: P00734
+  F10: P00742
+  JAK1: P23458
+  TYK2: P29597
+  JAK2: O60674
+  PPARG: P37231
+  PPARA: Q07869
+  PPARD: Q03181
 
 pairs:
   - name: EGFR/HER2
@@ -49,22 +54,30 @@ pairs:
     A: ACHE
     B: BCHE
     role: primary_external
-  - name: PIK3CA/PIK3CB
-    A: PIK3CA
-    B: PIK3CB
-    role: backup_not_preferred
   - name: PIK3CA/mTOR
     A: PIK3CA
     B: MTOR
     role: primary_external_if_EGFR_fails
-  - name: MCL1/Bcl-xL
-    A: MCL1
-    B: BCL2L1
-    role: ppi_bh3_domain_shift_not_disparate_fold
-    note: >
-      Homologous BCL-2 family fold. Value is non-ATP PPI/BH3 groove plus
-      LC6 compound-10 crystals 3WIY/3WIZ, not a first non-kinase pair
-      (AChE/BChE already is).
+  - name: F2/F10
+    A: F2
+    B: F10
+    role: primary_external
+  - name: JAK1/TYK2
+    A: JAK1
+    B: TYK2
+    role: primary_external
+  - name: JAK1/JAK2
+    A: JAK1
+    B: JAK2
+    role: primary_external
+  - name: PPARG/PPARA
+    A: PPARG
+    B: PPARA
+    role: primary_external
+  - name: PPARA/PPARD
+    A: PPARA
+    B: PPARD
+    role: primary_external
 
 independence_definition:
   curation_keep_substrings:
