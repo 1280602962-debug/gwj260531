@@ -278,7 +278,7 @@ def main():
     assert "纳入/排除与构建体/突变核查栏仍为空" not in zh
     assert "人工纳入/排除仍待本地阅读原文" not in zh
     assert "Table S54" in zh
-    assert "五个预先规定的 Vina 种子" in zh
+    assert ("五个固定 Vina 随机种子" in zh or "五个预先规定的 Vina 种子" in zh)
     assert "EGFR/HER2 的设定差距在五个 Vina 种子上均为正" in zh
     abstract = manuscript.split("## 1.")[0]
     assert "0.373" not in abstract

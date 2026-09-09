@@ -6,7 +6,7 @@
 
 配体按两个靶点上的实验活性划分为 dual、A-only、B-only 和 neither 四类。方向性评价分别比较 dual 与两类单靶选择性配体，并以 dual 为正类。dual 与 A-only 在靶点 A 上均达到活性阈值，实验状态差异位于靶点 B，因此使用靶点 B 的对接评分；dual 与 B-only 的实验状态差异位于靶点 A，因此使用靶点 A 的对接评分。
 
-在保持所用靶点评分不变时，分别以单靶选择性配体和 neither 作为负类计算 AUROC，以检验实验状态定义是否改变对对接判别的判断。随后用不使用受体结构的配体化学基线考察该判别能否由配体自身化学特征解释，再用口袋对应、受体替换和独立对接实现检验剩余判别是否与相应靶点结构信息一致。数据处理、样本组成和外部数据可用性相关分析用于评估稳定性和适用范围。
+在保持同一靶点评分通道不变时，分别比较 dual 与单靶选择性配体、dual 与 neither。随后用不使用受体结构的配体化学基线考察该判别能否由配体自身化学特征解释，再用口袋对应、受体替换和独立对接实现检验剩余判别是否与相应靶点结构信息一致。数据处理、样本组成和外部数据可用性相关分析用于评估稳定性和适用范围。
 
 ### 2.2 生物活性数据处理与活性状态定义
 
@@ -14,7 +14,7 @@
 
 对任一靶对 A/B，以活性阈值 \(\theta\) 定义四种活性类别：dual，\(p_{\mathrm{A}}\geq\theta\) 且 \(p_{\mathrm{B}}\geq\theta\)；A-only，\(p_{\mathrm{A}}\geq\theta\) 且 \(p_{\mathrm{B}}<\theta\)；B-only，\(p_{\mathrm{A}}<\theta\) 且 \(p_{\mathrm{B}}\geq\theta\)；neither，两端均 \(<\theta\)。主要分析统一采用 \(\theta=6.0\)。
 
-候选靶对的双向选择性供给另用严格 6.5/5.5 活性分离规则评估：活性端 pChEMBL \(\geq 6.5\)，低活性端 \(\leq 5.5\)，位于 5.5–6.5 灰区的配体不计入该严格分类。该规则只用于供给评估，不替换主要统计分析中的 \(\theta=6.0\) 四状态定义。
+候选靶对的双向选择性供给另用严格 6.5/5.5 活性分离规则评估：活性端 pChEMBL \(\geq 6.5\)，低活性端 \(\leq 5.5\)，位于 5.5–6.5 灰区的配体不计入该严格分类。严格规则用于候选靶对供给评估；主要分析统一使用 \(\theta=6.0\)。
 
 为考察活性数据处理方式的影响，分别以中位 pChEMBL 替代最大值，并在具有同日 API 快照的已打分配体上按更严格的人源单蛋白高置信记录重新确定实验状态；两项分析均保持评价集成员和对接评分不变（Table S3）。
 
@@ -22,11 +22,11 @@
 
 **靶对供给筛选。** 候选靶对来自同一批 ChEMBL 数据提取结果：人源单组分 SINGLE PROTEIN、两端均有可用定量活性、以最大 pChEMBL 为代表值，并按 2.2 节划分为四状态。双向选择性供给另用严格 6.5/5.5 规则清点（活性端 \(\geq 6.5\)，低活性端 \(\leq 5.5\)，灰区不入该候选池）。最终是否纳入还取决于蛋白类别、结合位点性质、人源实验结构是否适合统一非共价对接，以及该靶对在上述规则下能否抽出可分析的四状态面板。据此纳入 PIK3CA/mTOR、AChE/BChE、EGFR/HER2、F2/F10、JAK1/TYK2、JAK1/JAK2、PPARG/PPARA 和 PPARA/PPARD。
 
-**评价面板构建。** 因样本供给规模和结构可行性不同，部分靶对采用不同的候选池规则、类别配额或骨架限制；具体规则见 Table 1。EGFR/HER2 与 PIK3CA/mTOR 从 \(\theta=6.0\) 候选池抽样，其余六对从严格 6.5/5.5 候选池按配额抽出。这些构建差异只决定面板成员，不替代统一的主要分析标签。
+**评价面板构建。** 因样本供给规模和结构可行性不同，部分靶对采用不同的候选池规则、类别配额或骨架限制；具体规则见 Table 1。EGFR/HER2 与 PIK3CA/mTOR 从 \(\theta=6.0\) 候选池抽样，其余六对从严格 6.5/5.5 候选池按配额抽出。
 
-**统一主要分析。** 主要统计分析一律按 \(\theta=6.0\) 重新确定实验状态，并仅纳入相应方向具有有效对接评分的配体，因此 n_scored 可以低于 n_panel。候选池规则、配额和骨架上限可以因靶对而异，但不能替代统一的 \(\theta=6.0\) 主标签。
+**统一主要分析。** 所有主要 AUROC 均按 \(\theta=6.0\) 重新确定实验状态，并仅纳入相应方向具有有效对接评分的配体，因此 n_scored 可以低于 n_panel。
 
-**Table 1.** 双靶评价集的组成与主要对接设置。候选池是面板抽样所用的四状态规则，与 Tables 2–3 的分析标签分开记录：主 AUROC 一律使用 \(\theta=6.0\)。配额为构建目标（dual / A-only / B-only / neither）。n_panel 为面板成员数（含 neither）；n_scored 为两端均有有效 Vina 分数、进入方向性主 AUROC 的 dual / A-only / B-only 计数。PPARG 口袋 9V8H 为 PPARγ LBD + BRL + PG08-NL 肽的三元复合物，肽链保留在受体中。
+**Table 1.** 双靶评价集的组成与主要对接设置。配额为构建目标（dual / A-only / B-only / neither）。n_panel 为面板成员数（含 neither）；n_scored 为两端均有有效 Vina 分数、进入方向性主 AUROC 的 dual / A-only / B-only 计数。PPARG 口袋 9V8H 中保留与受体复合的 PG08-NL 肽。
 
 | 靶对 | 候选池 | 配额 (D / A / B / N) | 骨架上限 | 受体 PDB (A / B) | 分辨率 (Å) | n_panel | n_scored (dual / A-only / B-only) | Vina exhaustiveness |
 |------|--------|---------------------:|:--------:|------------------|------------:|-------:|----------------------------------:|--------------------:|
@@ -49,11 +49,11 @@
 
 #### 2.4.2 配体准备
 
-以 2.2 节处理后的 ChEMBL SMILES 作为配体输入。使用 RDKit 添加氢原子，并采用 ETKDGv3 生成一个三维初始构象。随后使用 MMFF 力场进行局部几何优化，最大迭代次数为 200。优化后的配体使用 Meeko 转换为 PDBQT。三维构象生成使用固定随机种子（Table S1）。质子化状态、互变异构体和构象系综未系统枚举；未指定立体化学按所给 SMILES 由 RDKit 默认处理。该项质量控制不能由商业配体准备软件名称代替。
+以 2.2 节处理后的 ChEMBL SMILES 作为配体输入。使用 RDKit 添加氢原子，并采用 ETKDGv3 生成一个三维初始构象。随后使用 MMFF 力场进行局部几何优化，最大迭代次数为 200。优化后的配体使用 Meeko 转换为 PDBQT。三维构象生成使用固定随机种子（Table S1）。未进行系统的质子化状态和互变异构体枚举；未指定立体化学按所给 SMILES 由 RDKit 默认处理。
 
 #### 2.4.3 AutoDock Vina 对接与评分
 
-主要对接采用 AutoDock Vina 1.2.7 和默认 Vina scoring function。每个配体–受体组合最多输出 9 个姿态，`energy_range` 设为 3 kcal mol\(^{-1}\)。PIK3CA/mTOR 因 4JT6 在 exhaustiveness = 8 时未过共晶重对接门槛而使用 exhaustiveness = 16，其余主要评价靶对使用 exhaustiveness = 8。所有主要 Vina 分析均以排名第 1 姿态的 affinity 作为配体–受体评分。
+主要对接采用 AutoDock Vina 1.2.7 和默认 Vina scoring function。每个配体–受体组合最多输出 9 个姿态，`energy_range` 设为 3 kcal mol\(^{-1}\)。PIK3CA/mTOR 使用 exhaustiveness = 16，以获得满足重对接近天然构象覆盖要求的搜索设置；其余靶对使用 8。所有主要 Vina 分析均以排名第 1 姿态的 affinity 作为配体–受体评分。
 
 #### 2.4.4 共晶配体重对接
 
@@ -77,15 +77,13 @@ AutoDock Vina 输出的 affinity 越低表示预测结合越有利。为统一 A
 
 另以两个靶点均低活性的 neither 配体作为负类，评价对接评分区分 dual 与 neither 的能力。对于两个靶点均获得评分的配体，计算平均评分 \(S_{\mathrm{mean}}=(S_{A}+S_{B})/2\)，随后以 dual 为正类、neither 为负类计算 AUROC。将 A-only、B-only 和 neither 合并为负类得到的 dual-versus-all-nonduals AUROC 仅作为混合候选库的描述性比较，并在 Table 3 中报告。
 
-为单独考察负类选择对判别结果的影响，保持所用靶点评分不变，仅改变负类组成。使用靶点 A 的评分时，分别比较 dual 与 B-only、dual 与 neither；使用靶点 B 的评分时，分别比较 dual 与 A-only、dual 与 neither（Table S4）。另取两个靶点评分中的较低值作为双口袋联合过滤评分 \(S_{\mathrm{worst}}=\min(S_{A},S_{B})\)，用于评价配体是否在两个靶点上均获得有利评分。以 dual 配体 \(S_{\mathrm{worst}}\) 分布的中位数作为双口袋过滤阈值，并统计不低于该阈值的 dual 配体数、dual recall、dual precision 以及保留的单靶选择性配体数（Table S13）。由于双口袋平均评分同时改变了负类组成和评分形式，负类定义的单独影响以固定同一口袋评分的比较为准。
+为单独考察对照类别变化对判别结果的影响，保持所用靶点评分不变，仅改变对照组成。使用靶点 A 的评分时，分别比较 dual 与 B-only、dual 与 neither；使用靶点 B 的评分时，分别比较 dual 与 A-only、dual 与 neither（Table S4）。另取两个靶点评分中的较低值作为双口袋联合过滤评分 \(S_{\mathrm{worst}}=\min(S_{A},S_{B})\)，用于评价配体是否在两个靶点上均获得有利评分。以 dual 配体 \(S_{\mathrm{worst}}\) 分布的中位数作为双口袋过滤阈值，并统计不低于该阈值的 dual 配体数、dual recall、dual precision 以及保留的单靶选择性配体数（Table S13）。由于双口袋平均评分同时改变了对照组成和评分形式，对照类别变化的单独影响以固定同一口袋评分的比较为准。
 
 #### 2.5.3 置信区间与重采样分析
 
-Table 2 中 \(\mathrm{summary}_{\min}\) 的 95% 置信区间基于 2000 次配体水平的非分层百分位 bootstrap 估计。每次从参与该靶对方向性分析的 dual、A-only 和 B-only 联合配体库中有放回抽取与原集合相同数量的配体，重新计算 dual-versus-A-only 和 dual-versus-B-only 的 AUROC，并取两者较小值作为该次重采样的 \(\mathrm{summary}_{\min}\)。若某次重采样缺少计算两个方向 AUROC 所需的任一类别，则该次结果不计入区间估计。95% 置信区间由所有有效 \(\mathrm{summary}_{\min}\) 的第 2.5 和第 97.5 百分位数确定。表中点估计均由完整分析样本直接计算，而非 bootstrap 均值。
+Table 2 中 \(\mathrm{summary}_{\min}\) 的 95% 置信区间基于 2000 次配体水平的非分层百分位 bootstrap 估计。每次从参与该靶对方向性分析的 dual、A-only 和 B-only 联合配体库中有放回抽取与原集合相同数量的配体，重新计算 dual-versus-A-only 和 dual-versus-B-only 的 AUROC，并取两者较小值作为该次重采样的 \(\mathrm{summary}_{\min}\)。95% 置信区间由所有有效 \(\mathrm{summary}_{\min}\) 的第 2.5 和第 97.5 百分位数确定。表中点估计均由完整分析样本直接计算，而非 bootstrap 均值。dual-versus-neither 和 dual-versus-all-nonduals 的 AUROC 置信区间采用按类别重采样的百分位 bootstrap。
 
-dual-versus-neither 和 dual-versus-all-nonduals 的 AUROC 置信区间采用按类别重采样的百分位 bootstrap，每次分别在正类和负类内有放回抽取，并保持原分析中的类别样本量。固定同一评分通道比较 dual-versus-selective 与 dual-versus-neither 时，两项分析共用 dual 的重采样结果，而选择性负类和 neither 分别独立重采样。
-
-比较同一配体集合上的不同评分方法，或对应口袋与非对应口袋评分时，各方案在每次 bootstrap 中使用相同的配体重采样结果，以保持配对关系。另针对单个方向性比较，以 Bemis–Murcko 骨架簇为重采样单位进行 cluster bootstrap；在具有完整文献来源信息的评价集中，进一步进行文献来源簇重采样（Table S10）。对 EGFR/HER2 与 JAK1/TYK2 口袋 A 上的固定评分通道差值 \(\Delta\)，同样以文献连通簇和骨架簇为重采样单位重复计算，并在每次重采样内共用 dual 抽次（Table S4；Table S10）。上述分析用于考察骨架相关性和文献来源相关性对区间估计的影响，仅作为敏感性分析，不替代 Table 2 与 Table S4 的配体水平 bootstrap 区间。另按观测到的类别样本量做可检测效应模拟：在双正态评分模型下，对真实 AUROC 网格（0.50–0.75）重复配体水平 bootstrap，估计 \(\mathrm{summary}_{\min}\) 的 95% 置信区间排除 0.5 的频率（Table S10；Figure S6）。该模拟描述当前样本量下较大效应比中等效应更容易被区间排除 0.5，不是观测功效，也不替代 Table 2 区间。
+比较不同评分方法或对应与非对应口袋评分时，各方案在每次 bootstrap 中使用相同的配体重采样结果以保持配对。为评估化学骨架相关性和文献来源相关性的影响，另以 Bemis–Murcko 骨架簇和文献连通簇为单位进行 cluster bootstrap，具体算法细节及样本量可检测效应模拟见 Supporting Information（Table S4；Table S10；Figure S6）。
 
 ### 2.6 基线、对照与敏感性分析
 
@@ -97,7 +95,7 @@ ECFP4、docking-only 和 ECFP4+docking 模型均采用逻辑回归。以 Bemis�
 
 #### 2.6.2 结构归因与评分对应性检验
 
-为考察方向性判别是否与实验活性差异所在的靶点相对应，保持配体集合和实验标签不变，分别使用对应口袋和非对应口袋的对接评分。本文报告两类统计量，二者不可互换。同一方向的 AUROC 差比较的是固定任务（例如 dual-versus-B-only）在对应口袋与非对应口袋上的 AUROC。Figure 5 与 Table S6 报告的则是较弱方向汇总差值 \(\Delta=\mathrm{summary}_{\min}^{\mathrm{matched}}-\mathrm{summary}_{\min}^{\mathrm{mismatched}}\)，正值表示对应口袋的较弱方向更高；该 \(\Delta\) 的 95% 置信区间由配对配体水平 bootstrap 估计，每次重采样对两套评分使用相同配体样本。正文口袋对照以 Figure 5 / Table S6 的 \(\mathrm{summary}_{\min}\) 差值为准；分通道 AUROC 差另见 Supporting Information。
+主要口袋对应性分析比较 matched 与 mismatched 条件下的 \(\mathrm{summary}_{\min}\)，并以配对 bootstrap 估计差值区间；单个方向的 AUROC 差异作为补充分析（Figure 5；Table S6）。差值 \(\Delta=\mathrm{summary}_{\min}^{\mathrm{matched}}-\mathrm{summary}_{\min}^{\mathrm{mismatched}}\) 为正值表示对应口袋的较弱方向更高。
 
 受体结构敏感性主要在 PIK3CA/mTOR 中评价。在保持 mTOR 4JT6 不变时，分别以 4JPS 和 5DXT 替换 PIK3CA 4L23；另以 4JSX 替换 mTOR 4JT6。除被替换的受体外，其余配体集合、实验状态、评分定义和统计方法保持不变（Table S8）。
 
