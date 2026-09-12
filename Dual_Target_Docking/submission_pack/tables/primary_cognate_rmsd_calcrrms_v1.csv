@@ -1,0 +1,15 @@
+protein,pdb,exhaustiveness,n_modes,top1_A,top3_A,best_A,pass_best_lt2,pass_top1_lt2,mapping_method,rmsd_method,source_table,pose_in_git,note
+PIK3CA,4L23,16,9,0.624,0.624,0.624,1,1,Meeko SMILES index map + automorphism min CalcRMS,RDKit symmetry-aware CalcRMS; no superposition,pm48_01_rmsd_E16.csv,0,Historical production QC; cognate SDF/PDBQT not in git. Not a new docking run.
+mTOR,4JT6,16,9,7.118,0.445,0.445,1,0,Meeko SMILES index map + automorphism min CalcRMS,RDKit symmetry-aware CalcRMS; no superposition,pm48_01_rmsd_E16.csv,0,Historical production QC; cognate SDF/PDBQT not in git. Not a new docking run.
+AChE,4EY7,8,8,0.339,0.339,0.339,1,1,Meeko topology reconstruction,RDKit symmetry-aware CalcRMS; no superposition,cognate_rank_rmsd_reaudit_v1.csv,1,
+BChE,4BDS,8,9,4.794,0.386,0.386,1,0,element-constrained crystal-coordinate map to reference SDF,RDKit symmetry-aware CalcRMS; no superposition,cognate_rank_rmsd_reaudit_v1.csv,1,
+EGFR,3POZ,8,9,9.505,6.227,0.760,1,0,element-constrained crystal-coordinate map to reference SDF,RDKit symmetry-aware CalcRMS; no superposition,cognate_rank_rmsd_reaudit_v1.csv,1,"EGFR 3POZ and HER2 3RCD poses are reconstructed QC, not recovered production files."
+HER2,3RCD,8,9,1.855,1.394,1.394,1,1,element-constrained crystal-coordinate map to reference SDF,RDKit symmetry-aware CalcRMS; no superposition,cognate_rank_rmsd_reaudit_v1.csv,1,"EGFR 3POZ and HER2 3RCD poses are reconstructed QC, not recovered production files."
+F2,4UDW,8,9,0.382,0.382,0.382,1,1,Meeko topology + RDKit CalcRMS; no superposition,RDKit symmetry-aware CalcRMS; no superposition,layer3_cognate_rmsd_calcrrms_v1.csv,1,
+F10,2JKH,8,9,0.658,0.658,0.658,1,1,CCD SMILES + bond-aware crystal coords + CalcRMS,RDKit symmetry-aware CalcRMS; no superposition,layer3_cognate_rmsd_calcrrms_v1.csv,1,2JKH/BI7 used CCD SMILES because the OpenBabel SDF had invalid nitrogen valence.
+JAK1,6N7A,8,9,0.459,0.459,0.459,1,1,Meeko topology + RDKit CalcRMS; no superposition,RDKit symmetry-aware CalcRMS; no superposition,layer3_cognate_rmsd_calcrrms_v1.csv,1,
+TYK2,3LXP,8,8,0.196,0.196,0.196,1,1,Meeko topology + RDKit CalcRMS; no superposition,RDKit symmetry-aware CalcRMS; no superposition,layer3_cognate_rmsd_calcrrms_v1.csv,1,
+JAK2,8BXH,8,9,10.596,0.807,0.807,1,0,Meeko topology + RDKit CalcRMS; no superposition,RDKit symmetry-aware CalcRMS; no superposition,layer3_cognate_rmsd_calcrrms_v1.csv,1,
+PPARG,9V8H,8,9,7.085,1.636,1.636,1,0,Meeko topology + RDKit CalcRMS; no superposition,RDKit symmetry-aware CalcRMS; no superposition,layer3_cognate_rmsd_calcrrms_v1.csv,1,
+PPARA,6LXA,8,9,7.857,7.848,1.401,1,0,Meeko topology + RDKit CalcRMS; no superposition,RDKit symmetry-aware CalcRMS; no superposition,layer3_cognate_rmsd_calcrrms_v1.csv,1,
+PPARD,5U3Q,8,9,1.510,1.510,1.510,1,1,Meeko topology + RDKit CalcRMS; no superposition,RDKit symmetry-aware CalcRMS; no superposition,layer3_cognate_rmsd_calcrrms_v1.csv,1,

@@ -16,5 +16,5 @@
 
 1. 高可比性确认：现有测定背景材料不足以完成 EGFR/HER2 与 JAK1/TYK2 的可比子集复查；JAK1/TYK2 不在优先复核范围。见 `HIGH_COMPARABILITY_FEASIBILITY_V1.md`。
 2. 独立外部集：BindingDB 仍未过原门槛，未降低标准。
-3. 未重跑 LigPrep，未补齐全部算法，未重画 Figure S4。
+3. 未重跑 LigPrep，未补齐全部算法。Figure S4 已改用统一化学对应 CalcRMS 表。
 4. 公开仓库仍不能从生产姿态文件重建新增五对分数；目前能重建的是分数长表上的统计。

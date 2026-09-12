@@ -9,8 +9,8 @@
 | Table 2 `summary_min` | 两方向取较小值 | 同上 | 同上 | `track_b_summary_min_v1.csv` 及原三对锁定表 |
 | Table 3 dual–neither | 同一评分通道换 neither | 同上 | 同上 | Table 3 锁定 CSV |
 | Table S2a 对接盒 | — | 主受体 | `boxes/*.json` | SI Table S2a |
-| Table S2b 共晶 RMSD | 搜索覆盖（坐标匹配） | 保存共晶姿态 | `cognate_qc/*_out_E8.pdbqt` 等 | `layer3_cognate_rmsd_v1.csv`；Figure S4 仍用此表 |
-| Table S2c 共晶 RMSD | 化学对应复核 | 同一套保存姿态，不重对接 | 同上 | `layer3_cognate_rmsd_calcrrms_v1.csv` |
+| Table S2b 共晶 RMSD | 搜索覆盖（化学对应 CalcRMS） | 14 个主受体 | 已保存共晶姿态或历史生产 QC | `primary_cognate_rmsd_calcrrms_v1.csv`；Figure S4 用此表 |
+| Table S2c | 姿态来源与匈牙利历史对照 | 不用于近天然判断 | 同上 | `layer3_cognate_rmsd_v1.csv`；`cognate_rank_rmsd_reaudit_v1.csv` |
 | 新增五对分数回放 | 生产 Vina | 本地 `poses/`（未入 git） | `scores_vina_mode1_pose_replay_v1.csv` | `replay_track_b_vina_mode1_v1.py` |
 | Table S6 / S6b | 对应 vs 非对应口袋 | Vina 主评价与 holdout | 已锁定口袋分数 | `pocket_unidirectional_delta_v1.csv` |
 | Table S9c / S9e | 多种子 | Vina / 主评价 / 五种子 / θ=6.0 | `multiseed/scores_vina_mode1_seed*.csv` | 完整病例：`fiveseed_summary_min_aggregate_v1.csv`；固定成员：`multiseed_fixed_membership_v1.csv` |

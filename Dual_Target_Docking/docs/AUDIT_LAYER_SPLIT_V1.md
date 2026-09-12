@@ -14,4 +14,4 @@
 
 - “高置信人源单蛋白复核”属于自动字段筛查，见 Methods 2.2 与 Table S3。
 - 主 Vina 分数回放见 `local_track_b_v0/analysis/PRODUCTION_POSE_INVENTORY_V1.md`。
-- 新增八受体共晶 RMSD 复核见 `LAYER3_COGNATE_RMSD_REAUDIT_V1.md`。
+- 14 个主受体共晶 RMSD 统一表见 `primary_cognate_rmsd_calcrrms_v1.csv`。新增八受体化学对应复核见 `LAYER3_COGNATE_RMSD_REAUDIT_V1.md`。

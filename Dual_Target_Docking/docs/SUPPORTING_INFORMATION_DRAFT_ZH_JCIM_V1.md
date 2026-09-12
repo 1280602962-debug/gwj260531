@@ -34,7 +34,7 @@
 
 ## Table S2. 主受体对接盒子与共晶重对接 RMSD
 
-八个靶对使用 14 个 PDB 槽位（JAK1 的 6N7A 与 PPARA 的 6LXA 被两对共用）。PIK3CA/mTOR 因 4JT6 在 E = 8 时未过门槛而采用 E = 16。EGFR 3POZ 为重建 QC（原始九姿态生产文件未找回）。9V8H 为 PPARγ LBD–BRL–PG08-NL 三元复合物，对接保留肽链。表中分辨率由主文 Table 1 移入。Figure S4 对新增八个受体采用 Table S2c，对原有六个受体沿用其已有复核表。Table S2b 仅作历史对照。AChE 4EY7 与 TYK2 3LXP 实际保存 8 个姿态。
+八个靶对使用 14 个主受体结构（JAK1 的 6N7A 与 PPARA 的 6LXA 被两对共用）。PIK3CA/mTOR 因 4JT6 在 E = 8 时未过门槛而采用 E = 16。9V8H 为 PPARγ LBD–BRL–PG08-NL 三元复合物，对接保留肽链。表中分辨率由主文 Table 1 移入。Table S2b 为全部 14 个主受体的化学对应重原子 RMSD（RDKit CalcRMS）。姿态来源、映射细节和历史坐标匹配对照见 S2c。Figure S4 使用 Table S2b。AChE 4EY7 与 TYK2 3LXP 实际保存 8 个姿态。
 
 **S2a. 对接盒子（Å）与分辨率**
 
@@ -55,7 +55,9 @@
 | PPARA | 6LXA | EPA | 1.23 | 11.998, 5.742, −7.443 | 20.000, 20.200, 23.432 |
 | PPARD | 5U3Q | 7UJ | 1.50 | 40.599, 0.533, 135.353 | 20.223, 20.000, 21.346 |
 
-**S2b. 共晶重对接（生产 exhaustiveness）**
+**S2b. 共晶重对接（化学对应 CalcRMS；生产 exhaustiveness）**
+
+全部 14 个主受体均按化学对应关系报告重原子 RMSD，不重对接。近天然判断以本表为准。
 
 | 蛋白 | PDB | E | top-1 RMSD (Å) | top-3 (Å) | 全部保存姿态最低 RMSD (Å) | 门槛 |
 |------|-----|--:|---------------:|----------:|--------------:|------|
@@ -68,30 +70,42 @@
 | F2 | 4UDW | 8 | 0.382 | 0.382 | 0.382 | 通过 |
 | F10 | 2JKH | 8 | 0.658 | 0.658 | 0.658 | 通过 |
 | JAK1 | 6N7A | 8 | 0.459 | 0.459 | 0.459 | 通过 |
-| TYK2 | 3LXP | 8 | 0.197 | 0.197 | 0.197 | 通过 |
-| JAK2 | 8BXH | 8 | 4.064 | 0.807 | 0.807 | 通过 |
-| PPARG | 9V8H | 8 | 6.493 | 1.459 | 1.459 | 通过 |
-| PPARA | 6LXA | 8 | 7.508 | — | 1.098 | 通过 |
-| PPARD | 5U3Q | 8 | 1.452 | 1.452 | 1.452 | 通过 |
+| TYK2 | 3LXP | 8 | 0.196 | 0.196 | 0.196 | 通过 |
+| JAK2 | 8BXH | 8 | 10.596 | 0.807 | 0.807 | 通过 |
+| PPARG | 9V8H | 8 | 7.085 | 1.636 | 1.636 | 通过 |
+| PPARA | 6LXA | 8 | 7.857 | 7.848 | 1.401 | 通过 |
+| PPARD | 5U3Q | 8 | 1.510 | 1.510 | 1.510 | 通过 |
 
-S2b 为原先坐标匈牙利匹配，仅作历史对照。PPARA 6LXA 在该表中未记录前三姿态 RMSD。AChE 4EY7 与 TYK2 3LXP 保存 8 个姿态，其最低 RMSD 不是统一的 best-of-9。Figure S4 对新增八个受体改用 Table S2c；原有六个受体沿用其已有 CalcRMS/生产 QC 表。化学对应复核后，新增八个受体的搜索覆盖门槛仍全部通过；JAK2、PPARG、PPARA 的第一姿态未回到 2 Å 以内。原有六个受体未纳入该新增复核。
+AChE 4EY7 与 TYK2 3LXP 保存 8 个姿态，其最低 RMSD 不是统一的 best-of-9。JAK2、PPARG、PPARA 的第一姿态未回到 2 Å 以内。源：`primary_cognate_rmsd_calcrrms_v1.csv`。
 
-**S2c. 新增八受体共晶 RMSD（化学对应，RDKit CalcRMS）**
+**S2c. 计算方法、姿态来源与历史对照**
 
-不重对接。`2JKH/BI7` 因 OpenBabel SDF 键级无效，改用 CCD SMILES。
+主表一律为 RDKit CalcRMS（考虑对称、不做蛋白叠合）。不同批次只是姿态来源和原子映射实现不同，不是两套近天然标准。
 
-| 蛋白 | PDB | top-1 (Å) | top-3 (Å) | 全部保存姿态最低 (Å) | 搜索覆盖 | 第一姿态 < 2 Å |
-|------|-----|----------:|----------:|---------------------:|:--------:|:--------------:|
-| F2 | 4UDW | 0.382 | 0.382 | 0.382 | 通过 | 是 |
-| F10 | 2JKH | 0.658 | 0.658 | 0.658 | 通过 | 是 |
-| JAK1 | 6N7A | 0.459 | 0.459 | 0.459 | 通过 | 是 |
-| TYK2 | 3LXP | 0.196 | 0.196 | 0.196 | 通过 | 是 |
-| JAK2 | 8BXH | 10.596 | 0.807 | 0.807 | 通过 | 否 |
-| PPARG | 9V8H | 7.085 | 1.636 | 1.636 | 通过 | 否 |
-| PPARA | 6LXA | 7.857 | 7.848 | 1.401 | 通过 | 否 |
-| PPARD | 5U3Q | 1.510 | 1.510 | 1.510 | 通过 | 是 |
+| 蛋白 | PDB | 主表来源 | 姿态是否在 git | 映射 |
+|------|-----|----------|:--------------:|------|
+| PIK3CA | 4L23 | `pm48_01_rmsd_E16.csv` | 否 | 历史生产 QC：Meeko SMILES 序号 + 自同构最小 CalcRMS |
+| mTOR | 4JT6 | `pm48_01_rmsd_E16.csv` | 否 | 同上 |
+| AChE | 4EY7 | `cognate_rank_rmsd_reaudit_v1.csv` | 是 | Meeko 拓扑重建 |
+| BChE | 4BDS | `cognate_rank_rmsd_reaudit_v1.csv` | 是 | 元素约束坐标映射到参考 SDF |
+| EGFR | 3POZ | `cognate_rank_rmsd_reaudit_v1.csv` | 是 | 元素约束坐标映射；姿态为后来重建的 QC，不是已找回的原始生产输出 |
+| HER2 | 3RCD | `cognate_rank_rmsd_reaudit_v1.csv` | 是 | 同上 |
+| F2–PPARD（8 个） | 见表 | `layer3_cognate_rmsd_calcrrms_v1.csv` | 是 | Meeko 拓扑或 CCD SMILES（2JKH/BI7）后 CalcRMS |
 
-源：`layer3_cognate_rmsd_calcrrms_v1.csv`；逐姿态 `layer3_cognate_rmsd_calcrrms_modes_v1.csv`。S2b 中 JAK2 / PPARG / PPARA 的 top-1 分别为 4.064 / 6.493 / 7.508 Å，匈牙利匹配低估了错误姿态。
+下列坐标匈牙利匹配仅作历史对照，不用于近天然判断。PPARA 6LXA 在该历史表中未记录前三姿态 RMSD。JAK2 / PPARG / PPARA 的匈牙利 top-1 分别为 4.064 / 6.493 / 7.508 Å，低于 Table S2b 的化学对应值。
+
+| 蛋白 | PDB | Hungarian top-1 (Å) | Hungarian 全部保存姿态最低 (Å) |
+|------|-----|--------------------:|------------------------------:|
+| F2 | 4UDW | 0.382 | 0.382 |
+| F10 | 2JKH | 0.658 | 0.658 |
+| JAK1 | 6N7A | 0.459 | 0.459 |
+| TYK2 | 3LXP | 0.197 | 0.197 |
+| JAK2 | 8BXH | 4.064 | 0.807 |
+| PPARG | 9V8H | 6.493 | 1.459 |
+| PPARA | 6LXA | 7.508 | 1.098 |
+| PPARD | 5U3Q | 1.452 | 1.452 |
+
+源：`layer3_cognate_rmsd_v1.csv`。
 
 ---
 
@@ -344,9 +358,9 @@ ECFP4及ECFP4+docking的AUROC来自相同骨架分组交叉验证下的折外预
 
 F2/F10、JAK1/TYK2、JAK1/JAK2、PPARG/PPARA 和 PPARA/PPARD 的五种子 \(\mathrm{summary}_{\min}\) 范围均未跨过 0.5。备选种子按完整病例计：AChE/BChE 生产种子 n_complete 为 95（27 / 25 / 28），其余四种子为 89–90（最低 25 / 22 / 27）。部分五对种子上 JAK1/TYK2 的 n_dual 为 32 而非 31，PPARG/PPARA 的 n_A 为 32 而非 31。上述 n 变化不构成第二套 Table 2。
 
-**S9e. 新增五对固定成员交集（五个种子均有双端分数）**
+**S9e. 新增五对固定成员交集（五个种子均有双端有限分数）**
 
-完整病例（S9c）估计的是该种子实际打分成功的成员；下表把成员固定为五种子均有双端有限分数的交集。`n_intersection` 含 neither；方向性 AUROC 只用 dual / A-only / B-only。成员 ID 见 `multiseed_fixed_membership_ids_v1.csv`。本表只覆盖新增五对，不外推为八对，也不替换 Table 2。较小的种子波动不能解释为对实验标签或数据来源稳健。
+完整病例（S9c）估计的是该种子实际打分成功的成员；下表把成员固定为五种子均有双端有限分数的交集。进入交集前，评分须通过 `math.isfinite` 检查；空值、非数字、NaN 和无穷值均排除，并写入 `multiseed_fixed_membership_exclusions_v1.csv`。当前重跑未额外排除任何行，545 条成员与 25 行结果与修复前一致。`n_intersection` 含 neither；方向性 AUROC 只用 dual / A-only / B-only。成员 ID 见 `multiseed_fixed_membership_ids_v1.csv`。本表只覆盖新增五对，不外推为八对，也不替换 Table 2。较小的种子波动不能解释为对实验标签或数据来源稳健。
 
 | 靶对 | n_intersection (D / A / B) | 生产种子 summary_min | 五种子范围 | 较弱方向是否切换 |
 |------|---------------------------:|---------------------:|------------|:----------------:|
@@ -492,7 +506,7 @@ S11a 是严格 6.5/5.5 的 **供给清点**（BindingDB 与 PubChem 的 `equal_o
 
 ![Figure S4](../figures/jcim_article/FigS4_cognate_rmsd.png)
 
-**Figure S4.** 各主受体共晶配体重对接的重原子 RMSD。圆点为 top-1，菱形为全部保存姿态中的最低重原子 RMSD。AChE 4EY7 与 TYK2 3LXP 保存 8 个姿态，其余主受体保存 9 个姿态。虚线为 2 Å。EGFR 3POZ 的 top-1 为 9.505 Å，在图中标为超轴。新增八个受体采用 Table S2c 的化学对应 CalcRMS；原有六个受体沿用其已有复核表。Table S2b 的坐标匹配结果仅作历史对照。
+**Figure S4.** 各主受体共晶配体重对接的重原子 RMSD。圆点为 top-1，菱形为全部保存姿态中的最低重原子 RMSD。AChE 4EY7 与 TYK2 3LXP 保存 8 个姿态，其余主受体保存 9 个姿态。虚线为 2 Å。EGFR 3POZ 的 top-1 为 9.505 Å，在图中标为超轴。14 个主受体均取 Table S2b 的化学对应 CalcRMS。历史坐标匹配见 Table S2c。
 
 ### Figure S5. 可检测效应情景模拟
 
