@@ -2,11 +2,11 @@
 
 ## 3. 结果
 
-### 3.1 双端实验数据供给与四状态评价集构建
+### 3.1 成对实验数据供给与四状态评价集构建
 
-ChEMBL 中能够支持四状态评价的双端测量数据随样本要求提高而迅速减少。在人源单组分 SINGLE PROTEIN 靶点的无序对中，2,164,618 对至少有 1 个两端均被测定的配体，63,790 对具有不少于 10 个此类配体。若再要求在 \(\theta=6.0\) 下 dual、A-only 和 B-only 均不少于 10 个，仅剩 5,253 对；采用严格 6.5/5.5 双向选择性供给标准后，减至 86 对。这一数据供给变化见 Figure 1C。普查计数及后续结构和口袋门槛见 2.3 节。
+ChEMBL 中能够支持四状态评价、且两端均有实验测量的数据随样本要求提高而迅速减少。在人源单组分 SINGLE PROTEIN 靶点的无序对中，2,164,618 对至少有 1 个两端均被测定的配体，63,790 对具有不少于 10 个此类配体。若再要求在 \(\theta=6.0\) 下 dual、A-only 和 B-only 均不少于 10 个，仅剩 5,253 对；采用严格 6.5/5.5 双向选择性供给标准后，减至 86 对。这一数据供给变化见 Figure 1C。普查计数及后续结构和口袋门槛见 2.3 节。
 
-该普查描述能够支持双方向评价的数据供给，而不是对接菜单本身。经过这些门槛后，主要评价包括 EGFR/HER2、JAK1/JAK2、JAK1/TYK2、PIK3CA/mTOR、AChE/BChE、F2/F10、PPARG/PPARA 和 PPARA/PPARD（Table 1）。EGFR/HER2 与 PIK3CA/mTOR 从 \(\theta=6.0\) 候选池抽样，其余六对从严格 6.5/5.5 池按配额抽出。四状态分类要求同一配体两端均有实验测量，因此严格评价集的规模同时受双端覆盖和双向选择性供给限制。
+该普查描述能够支持双方向评价的数据供给，而不是对接菜单本身。经过这些门槛后，主要评价包括 EGFR/HER2、JAK1/JAK2、JAK1/TYK2、PIK3CA/mTOR、AChE/BChE、F2/F10、PPARG/PPARA 和 PPARA/PPARD（Table 1）。EGFR/HER2 与 PIK3CA/mTOR 从 \(\theta=6.0\) 候选池抽样，其余六对从严格 6.5/5.5 池按配额抽出。四状态分类要求同一配体在两个靶点上均有实验测量，因此严格评价集的规模同时受成对覆盖和双向选择性供给限制。
 
 ![Figure 1](../figures/jcim_article/Fig1_four_state_and_supply.png)
 
@@ -56,7 +56,7 @@ EGFR/HER2 的排序是该构建评价集上的回顾性操作点诊断，不是�
 
 部分靶对中，配体自身的物理化学特征即可对 dual 和单靶选择性配体产生一定区分。AChE/BChE 仅使用 TPSA 时，dual–A-only 比较和 dual–B-only 比较的 AUROC 分别为 0.733 和 0.801（Figure 3C；Table S5）。单一物化性质的判别能力在不同靶对之间差异明显，PIK3CA/mTOR 中最佳单一描述符（重原子数）的 \(\mathrm{summary}_{\min}\) 为 0.463（Table S5）。在八个靶对中，Vina 与最佳单一描述符之间的差异方向和幅度因靶对而异，Vina 并未在各靶对上一致优于单一物化描述符；八对中六对差值的 95% 置信区间包含 0，F2/F10 与 JAK1/TYK2 不包含 0（Table S5）。Vina \(\mathrm{summary}_{\min}\) 区间与最佳描述符点估计见 Figure S2。
 
-在 Bemis–Murcko 骨架分组交叉验证下，不使用受体结构的 ECFP4 分子指纹在多个方向上获得与对接相当甚至更高的 AUROC（Figure 3A）。该比较是竞争解释对照：ECFP4 使用骨架分组折外预测，而主分析 Vina 使用全面板原始排序。将对应方向的对接评分加入 ECFP4 逻辑回归模型后，16 个方向的 AUROC 最大绝对变化为 0.023（Figure 3B；Table S5）。16 个方向上未观察到一致的点估计提升。
+在 Bemis–Murcko 骨架分组交叉验证下，不依赖受体的 ECFP4 分子指纹在多个方向上携带了明显的类别信息（Figure 3A）。该比较是竞争解释对照：ECFP4 使用骨架分组折外预测，而主分析 Vina 使用全面板原始排序。将对应方向的对接评分加入 ECFP4 逻辑回归模型后，16 个方向的 AUROC 最大绝对变化为 0.023（Figure 3B；Table S5）。16 个方向上未观察到一致的点估计提升。
 
 ![Figure 3](../figures/jcim_article/Fig3_ligand_chemistry.png)
 

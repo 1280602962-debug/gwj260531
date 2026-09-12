@@ -2,11 +2,11 @@
 
 ## 3. Results
 
-### 3.1 Both-end experimental supply and four-state panel construction
+### 3.1 Paired experimental supply and four-state panel construction
 
-Both-end ChEMBL activity that can support four-state evaluation declined rapidly as sample requirements increased. Among unordered pairs of human single-component SINGLE PROTEIN targets, 2,164,618 pairs had at least one ligand measured at both targets, and 63,790 pairs had at least 10. Requiring at least 10 dual, A-only, and B-only ligands at \(\theta=6.0\) left 5,253 pairs. A strict 6.5/5.5 bidirectional selective-supply criterion reduced that number to 86 pairs. This supply change is shown in Figure 1C. The census counts and the later structure and pocket gates are defined in section 2.3.
+ChEMBL measurements at both targets that can support four-state evaluation declined rapidly as sample requirements increased. Among unordered pairs of human single-component SINGLE PROTEIN targets, 2,164,618 pairs had at least one ligand measured at both targets, and 63,790 pairs had at least 10. Requiring at least 10 dual, A-only, and B-only ligands at \(\theta=6.0\) left 5,253 pairs. A strict 6.5/5.5 bidirectional selective-supply criterion reduced that number to 86 pairs. This supply change is shown in Figure 1C. The census counts and the later structure and pocket gates are defined in section 2.3.
 
-The census describes four-state supply, not the docking menu. After those gates, the primary evaluation comprised EGFR/HER2, JAK1/JAK2, JAK1/TYK2, PIK3CA/mTOR, AChE/BChE, F2/F10, PPARG/PPARA, and PPARA/PPARD (Table 1). EGFR/HER2 and PIK3CA/mTOR were drawn from the \(\theta=6.0\) pool; the other six pairs were drawn from the strict 6.5/5.5 pool. Four-state classification requires both-end measurements of the same ligand, so both-end coverage and bidirectional selective supply jointly limited panel size.
+The census describes four-state supply, not the docking menu. After those gates, the primary evaluation comprised EGFR/HER2, JAK1/JAK2, JAK1/TYK2, PIK3CA/mTOR, AChE/BChE, F2/F10, PPARG/PPARA, and PPARA/PPARD (Table 1). EGFR/HER2 and PIK3CA/mTOR were drawn from the \(\theta=6.0\) pool; the other six pairs were drawn from the strict 6.5/5.5 pool. Four-state classification requires experimental measurements of the same ligand at both targets, so paired coverage and bidirectional selective supply jointly limited panel size.
 
 ![Figure 1](../figures/jcim_article/Fig1_four_state_and_supply.png)
 
@@ -56,7 +56,7 @@ Panel ranking was a retrospective operating-point diagnostic on this constructed
 
 On some pairs, ligand physicochemical features alone separated dual ligands from single-target selectives. On AChE/BChE, TPSA alone gave dual-versus-A-only and dual-versus-B-only AUROCs of 0.733 and 0.801 (Figure 3C; Table S5). Single-descriptor discrimination varied across pairs. On PIK3CA/mTOR, the best single descriptor (heavy-atom count) had \(\mathrm{summary}_{\min}\) 0.463 (Table S5). Across the eight pairs, Vina and the best single descriptor differed in direction and magnitude; six of eight difference 95% intervals included 0, whereas F2/F10 and JAK1/TYK2 excluded 0 (Table S5). Vina \(\mathrm{summary}_{\min}\) intervals and best-descriptor points are in Figure S2.
 
-Under Bemis–Murcko scaffold-grouped cross-validation, receptor-free ECFP4 fingerprints matched or exceeded docking AUROC on several directions (Figure 3A). That comparison is a competing-explanation contrast: ECFP4 uses scaffold-grouped out-of-fold predictions, whereas primary Vina uses full-panel raw ranking. Adding the corresponding docking score to an ECFP4 logistic model changed AUROC by at most 0.023 across all 16 directions (Figure 3B; Table S5). No consistent point-estimate improvement was observed across the 16 directions.
+Under Bemis–Murcko scaffold-grouped cross-validation, receptor-free ECFP4 fingerprints carried substantial class information on several directions (Figure 3A). That comparison is a competing-explanation contrast: ECFP4 uses scaffold-grouped out-of-fold predictions, whereas primary Vina uses full-panel raw ranking. Adding the corresponding docking score to an ECFP4 logistic model changed AUROC by at most 0.023 across all 16 directions (Figure 3B; Table S5). No consistent point-estimate improvement was observed across the 16 directions.
 
 ![Figure 3](../figures/jcim_article/Fig3_ligand_chemistry.png)
 
@@ -94,7 +94,7 @@ Unused-pool holdouts built from remaining candidates, after excluding main-panel
 
 ### 3.6 Availability of external evaluation data
 
-BindingDB[16] and PubChem were surveyed for all eight pairs under the strict 6.5/5.5 supply definition (Table S11a). After the separate \(\theta=6.0\) independence filter removed shared literature, duplicate structures, and molecules with ECFP4 Tanimoto similarity \(\geq 0.70\) to the development set, no pair retained at least 20 dual, A-only, and B-only ligands from at least three independent sources per class. No pair met the independent external-evaluation eligibility criteria; therefore, no external docking set was formed (Figure 6C,D; Table S11b). In the internal 2018 publication-year subset, only JAK1/TYK2 and JAK1/JAK2 met the two-direction reporting gate (Table S12). This publication-year analysis is an internal sensitivity analysis, not external validation.
+BindingDB[16] and PubChem were surveyed for all eight pairs under the strict 6.5/5.5 supply definition (Table S11a). After the separate \(\theta=6.0\) independence filter removed shared literature, duplicate structures, and molecules with ECFP4 Tanimoto similarity \(\geq 0.70\) to the development set, the remainder was tested against the independent-source gate. No pair met the independent external-evaluation eligibility criteria of at least 20 dual, A-only, and B-only ligands from at least three independent sources per class. Therefore, no external docking set was formed (Figure 6C,D; Table S11b). In the internal 2018 publication-year subset, only JAK1/TYK2 and JAK1/JAK2 met the two-direction reporting gate (Table S12). This publication-year analysis is an internal sensitivity analysis, not external validation.
 
 ![Figure 6](../figures/jcim_article/Fig6_evidence_boundary.png)
 
