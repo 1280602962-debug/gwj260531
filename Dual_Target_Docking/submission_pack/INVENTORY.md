@@ -3,11 +3,13 @@
 ## manuscript
 - `DATA_AND_SOFTWARE_AVAILABILITY_JCIM_EN.md` (2655 bytes)
 - `DATA_AND_SOFTWARE_AVAILABILITY_JCIM_ZH.md` (1016 bytes)
+- `FACT_CHECK_TABLE.md` (3917 bytes)
 - `FIGURE_PANEL_LOCK_V3.md` (3764 bytes)
 - `HIGH_COMPARABILITY_FEASIBILITY_V1.md` (1420 bytes)
-- `MANUSCRIPT_CONSOLIDATION_REPORT_20260912.md` (6849 bytes)
-- `MANUSCRIPT_JCIM_EN.md` (60664 bytes)
-- `MANUSCRIPT_JCIM_ZH.md` (57657 bytes)
+- `LANGUAGE_CHANGELOG.md` (2267 bytes)
+- `MANUSCRIPT_CONSOLIDATION_REPORT_20260912.md` (6988 bytes)
+- `MANUSCRIPT_JCIM_EN.md` (60902 bytes)
+- `MANUSCRIPT_JCIM_ZH.md` (54785 bytes)
 - `PRIMARY_RESULT_INDEX_V1.md` (7690 bytes)
 - `PRODUCTION_POSE_ARCHIVE_PREP_V1.md` (912 bytes)
 - `REFERENCES_JCIM.md` (5537 bytes)
@@ -15,6 +17,7 @@
 - `SUBMISSION_AUDIT_FIVE_ROUNDS_V1.md` (9896 bytes)
 - `SUPPORTING_INFORMATION_DRAFT_ZH_JCIM_V1.md` (37013 bytes)
 - `SUPPORTING_INFORMATION_JCIM_EN_V1.md` (35481 bytes)
+- `UNRESOLVED_ISSUES.md` (1056 bytes)
 
 ## tables
 - `DUALFOURCLASS_EVALUATION_CONTRACT_v1.json` (2269 bytes)
@@ -106,7 +109,7 @@
 - `ecfp4_docking_scaler_sensitivity_v1.py` (11999 bytes)
 - `jcim_figure_style.py` (6478 bytes)
 - `multiseed_fixed_membership_v1.py` (6089 bytes)
-- `pack_submission_v1.py` (8960 bytes)
+- `pack_submission_v1.py` (9044 bytes)
 - `pocket_unidirectional_delta_v1.py` (3485 bytes)
 - `replay_track_b_vina_mode1_v1.py` (5743 bytes)
 - `update_figures_pr32.py` (42478 bytes)
