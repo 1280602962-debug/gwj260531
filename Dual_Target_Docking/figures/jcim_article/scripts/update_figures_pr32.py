@@ -106,17 +106,17 @@ def equal_src(D, pair):
 
 
 def draw_census_and_primary(ax, census):
-    """ChEMBL supply census with an independent 8-pair evaluation box (no 86→8 arrow)."""
+    """ChEMBL supply census; the eight-pair box is independent (no 86→8 arrow)."""
     ax.set(xlim=(0, 1), ylim=(0, 1))
     ax.axis('off')
-    ax.text(.50, .975, 'ChEMBL data-supply census', ha='center', va='top', fontsize=8, fontweight='bold')
+    ax.text(.50, .990, 'ChEMBL data-supply census', ha='center', va='top', fontsize=8, fontweight='bold')
     keys = ['n_pairs_n_both_ge_1', 'n_pairs_n_both_ge_10', 'n_directional_n10', 'n_strict_thick']
     names = ['≥1 ligand measured at both targets',
              '≥10 ligands measured at both targets',
              'Dual, A-only and B-only each ≥10 (θ=6.0)',
              'Strict bidirectional supply criterion (6.5/5.5)']
-    tops = [.855, .695, .535, .375]
-    h = .112
+    tops = [.875, .735, .595, .455]
+    h = .100
     for i, (k, txt, yc) in enumerate(zip(keys, names, tops)):
         ax.add_patch(FancyBboxPatch((.03, yc - h / 2), .94, h, boxstyle='round,pad=.006',
                                     fc='#F4F7FA', ec='#D5DDE4', lw=.7))
@@ -125,12 +125,15 @@ def draw_census_and_primary(ax, census):
         if i < 3:
             gap = (tops[i] - h / 2 + tops[i + 1] + h / 2) / 2
             ax.text(.50, gap, '↓', ha='center', va='center', fontsize=8, color='#888888')
-    ax.add_patch(FancyBboxPatch((.03, .035), .94, .215, boxstyle='round,pad=.008',
+    ax.plot([.12, .88], [.355, .355], color='#D0D0D0', lw=0.7, ls=(0, (3, 2)))
+    ax.text(.50, .325, 'Independent of the census', ha='center', va='center',
+            fontsize=6.4, color='#666666', style='italic')
+    ax.add_patch(FancyBboxPatch((.03, .040), .94, .230, boxstyle='round,pad=.008',
                                 fc='#FFF8F0', ec=C['a_only'], lw=1.05))
-    ax.text(.50, .175, 'Primary evaluation: 8 target pairs', ha='center', va='center',
+    ax.text(.50, .195, 'Primary evaluation: 8 target pairs', ha='center', va='center',
             fontsize=7.6, fontweight='bold')
-    ax.text(.50, .085, 'data availability  ·  structural eligibility  ·  pair-specific panel criteria',
-            ha='center', va='center', fontsize=6.3, color='#555555')
+    ax.text(.50, .105, 'Table 1 panel-construction and structural criteria',
+            ha='center', va='center', fontsize=6.4, color='#555555')
 
 
 def fig1(D):
@@ -596,49 +599,19 @@ def fig_s1_protocol(D):
 
 
 def cognate_rmsd_rows():
-    """Assemble 14 main-receptor RMSD markers from the accepted CSVs.
-
-    Original six receptors (EGFR, HER2, AChE, BChE, PIK3CA, mTOR) keep their
-    existing CalcRMS / production-QC tables. The eight added receptors use
-    chemically mapped CalcRMS (Table S2c), not the earlier Hungarian table.
-    """
-    rank = read('data/jcim_novelty_v0/tables/cognate_rank_rmsd_reaudit_v1.csv')
-    added = read('data/jcim_chembl_universe_v0/local_track_b_v0/tables/layer3_cognate_rmsd_calcrrms_v1.csv')
-    pm = read('data/pik3ca_mtor_panel48_v0/analysis/cognate_redock_v0/tables/pm48_01_rmsd_E16.csv')
+    """Assemble 14 main-receptor RMSD markers from the unified CalcRMS table."""
+    unified = read('data/jcim_novelty_v0/tables/all14_cognate_rmsd_calcrrms_v1.csv')
     by_pdb = {}
     n_by_pdb = {}
-    for r in rank:
-        pdb = r['pdb']
-        if pdb in by_pdb:
-            continue
-        by_pdb[pdb] = {
-            'protein': r['target'], 'pdb': pdb,
-            'top1': float(r['best_top1_A']),
-            'best': float(r['best_all_deposited_A']),
-            'source': 'cognate_rank_rmsd_reaudit_v1',
-        }
-        n_by_pdb[pdb] = int(r['n_modes_deposited'])
-    for r in added:
+    for r in unified:
         by_pdb[r['pdb']] = {
             'protein': r['protein'], 'pdb': r['pdb'],
             'top1': float(r['calcrrms_top1_A']),
             'best': float(r['calcrrms_best_A']),
-            'source': 'layer3_cognate_rmsd_calcrrms_v1',
+            'source': 'all14_cognate_rmsd_calcrrms_v1',
+            'pose_status': r['pose_status'],
         }
         n_by_pdb[r['pdb']] = int(r['n_modes'])
-    seed_row = {'4L23': None, '4JT6': None}
-    for r in pm:
-        if r['seed'] != '20260727':
-            continue
-        pdb = r['target']
-        seed_row[pdb] = {
-            'protein': 'PIK3CA' if pdb == '4L23' else 'mTOR', 'pdb': pdb,
-            'top1': float(r['rmsd_mode1']),
-            'best': float(r['rmsd_best_of_9']),
-            'source': 'pm48_01_rmsd_E16',
-        }
-        n_by_pdb[pdb] = 9
-    by_pdb.update({k: v for k, v in seed_row.items() if v})
     order = [
         ('EGFR', '3POZ'), ('HER2', '3RCD'), ('JAK1', '6N7A'), ('JAK2', '8BXH'),
         ('TYK2', '3LXP'), ('PIK3CA', '4L23'), ('mTOR', '4JT6'), ('AChE', '4EY7'),

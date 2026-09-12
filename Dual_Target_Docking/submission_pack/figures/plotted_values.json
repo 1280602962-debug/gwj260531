@@ -1,7 +1,7 @@
 {
   "commit": "abb61a20a04eb6a085ad526876624eadb518c4cc",
   "data_snapshot_commit": "abb61a20a04eb6a085ad526876624eadb518c4cc",
-  "artwork_git_head": "1c5a0b1f627de4360fb380edb057757ce7e9084b",
+  "artwork_git_head": "65010ce8b0a42b9bb5c0d1f576370b959729b692",
   "source": "https://github.com/1280602962-debug/gwj260531/pull/32",
   "inputs_sha256": {
     "data/jcim_j0j1_v0/tables/j0_strict_label_supply.csv": "c47c515baed799b954ae99cb8c93516030acc5bd508a6bc571a99694715df853",
@@ -37,12 +37,10 @@
     "data/jcim_novelty_v0/tables/detectable_effect_simulation_v1.csv": "b0c14e6c076da008e40ffefb34b8a6bc3772a2c0cc8a9f05f43b4dc48ecaf505",
     "data/jcim_novelty_v0/tables/mixed_library_enrichment_v1.csv": "0d7b3c228766500e9ab57d22215351e2efa767cd7df229c1b36c3308a33a7615",
     "data/jcim_novelty_v0/tables/and_filter_operating_point_v1.csv": "4ba98bf0b84056dd7c6b03faaa8a762bd98bd9639b39a705040b3b4b0c1e0e44",
-    "data/jcim_novelty_v0/tables/cognate_rank_rmsd_reaudit_v1.csv": "c773487aad7cc0db46d7fc0da014a34ab3e452994a84ac5729ae036dfc560912",
-    "data/jcim_chembl_universe_v0/local_track_b_v0/tables/layer3_cognate_rmsd_calcrrms_v1.csv": "7222bc4fe872c1a9cc8624b035a7c5e8ad4137116f4180e1d942db5e6094311b",
-    "data/pik3ca_mtor_panel48_v0/analysis/cognate_redock_v0/tables/pm48_01_rmsd_E16.csv": "e1d33c8534af5bc3857bccc5204027ffdb7026dd6fcf4546c990b5b21abf1b78",
-    "docs/MANUSCRIPT_JCIM_ZH.md": "811e2e8b827dbab3996177930a56f135208d7d86339e1b4e406fe346e9f10c08",
-    "docs/MANUSCRIPT_JCIM_EN.md": "4303a08959d66dbb9b73e12f13e6b17a5b462c23d84c24dc4df3deb4709d7fef",
-    "docs/SUPPORTING_INFORMATION_DRAFT_ZH_JCIM_V1.md": "61e9396c0588edb8cfba485d1f95014297956d472f3770ddd01dac96e06c6c9a"
+    "data/jcim_novelty_v0/tables/all14_cognate_rmsd_calcrrms_v1.csv": "c3971292441e30acbcbc07b6c225a572f4da5b0a03508f383cd7b59333985bec",
+    "docs/MANUSCRIPT_JCIM_ZH.md": "149e5974a4028a0bab1944cfda79f9db25285fd056ff08e5c6951a9da95e1d16",
+    "docs/MANUSCRIPT_JCIM_EN.md": "83859d53f895f30bf2ef6fd8b9195715d5a9bdfc195f14f5e240421097cdaf00",
+    "docs/SUPPORTING_INFORMATION_DRAFT_ZH_JCIM_V1.md": "a3ab3f40736ee6f21042b29b602402e2884ee3d71582050d8565d588e6409ae2"
   },
   "input_files": {
     "data/jcim_j0j1_v0/tables/j0_strict_label_supply.csv": "input_snapshot/8282b54957d0d216.csv",
@@ -78,9 +76,7 @@
     "data/jcim_novelty_v0/tables/detectable_effect_simulation_v1.csv": "input_snapshot/0eae1bed12ef317c.csv",
     "data/jcim_novelty_v0/tables/mixed_library_enrichment_v1.csv": "input_snapshot/139e5ebeaf8188d0.csv",
     "data/jcim_novelty_v0/tables/and_filter_operating_point_v1.csv": "input_snapshot/db934e608b749ec7.csv",
-    "data/jcim_novelty_v0/tables/cognate_rank_rmsd_reaudit_v1.csv": "input_snapshot/06456a21d49c31e8.csv",
-    "data/jcim_chembl_universe_v0/local_track_b_v0/tables/layer3_cognate_rmsd_calcrrms_v1.csv": "input_snapshot/1de85ccd411994eb.csv",
-    "data/pik3ca_mtor_panel48_v0/analysis/cognate_redock_v0/tables/pm48_01_rmsd_E16.csv": "input_snapshot/ebc37282bd5a0d3d.csv",
+    "data/jcim_novelty_v0/tables/all14_cognate_rmsd_calcrrms_v1.csv": "input_snapshot/894e6416e3c1de83.csv",
     "docs/MANUSCRIPT_JCIM_ZH.md": "input_snapshot/07de2023ea42fd0b.md",
     "docs/MANUSCRIPT_JCIM_EN.md": "input_snapshot/8b06d3df915be913.md",
     "docs/SUPPORTING_INFORMATION_DRAFT_ZH_JCIM_V1.md": "input_snapshot/21c8473e6bcb08d2.md"
@@ -1603,29 +1599,32 @@
       {
         "protein": "EGFR",
         "pdb": "3POZ",
-        "top1": 9.5054,
-        "best": 0.7599,
-        "source": "cognate_rank_rmsd_reaudit_v1",
+        "top1": 9.505,
+        "best": 0.76,
+        "source": "all14_cognate_rmsd_calcrrms_v1",
+        "pose_status": "reconstructed_qc",
         "n_modes": 9,
         "label": "EGFR 3POZ",
-        "best9": 0.7599
+        "best9": 0.76
       },
       {
         "protein": "HER2",
         "pdb": "3RCD",
-        "top1": 1.8546,
-        "best": 1.3944,
-        "source": "cognate_rank_rmsd_reaudit_v1",
+        "top1": 1.855,
+        "best": 1.394,
+        "source": "all14_cognate_rmsd_calcrrms_v1",
+        "pose_status": "original_production_qc",
         "n_modes": 9,
         "label": "HER2 3RCD",
-        "best9": 1.3944
+        "best9": 1.394
       },
       {
         "protein": "JAK1",
         "pdb": "6N7A",
         "top1": 0.459,
         "best": 0.459,
-        "source": "layer3_cognate_rmsd_calcrrms_v1",
+        "source": "all14_cognate_rmsd_calcrrms_v1",
+        "pose_status": "original_production_qc",
         "n_modes": 9,
         "label": "JAK1 6N7A",
         "best9": 0.459
@@ -1635,7 +1634,8 @@
         "pdb": "8BXH",
         "top1": 10.596,
         "best": 0.807,
-        "source": "layer3_cognate_rmsd_calcrrms_v1",
+        "source": "all14_cognate_rmsd_calcrrms_v1",
+        "pose_status": "original_production_qc",
         "n_modes": 9,
         "label": "JAK2 8BXH",
         "best9": 0.807
@@ -1645,7 +1645,8 @@
         "pdb": "3LXP",
         "top1": 0.196,
         "best": 0.196,
-        "source": "layer3_cognate_rmsd_calcrrms_v1",
+        "source": "all14_cognate_rmsd_calcrrms_v1",
+        "pose_status": "original_production_qc",
         "n_modes": 8,
         "label": "TYK2 3LXP",
         "best9": 0.196
@@ -1655,7 +1656,8 @@
         "pdb": "4L23",
         "top1": 0.624,
         "best": 0.624,
-        "source": "pm48_01_rmsd_E16",
+        "source": "all14_cognate_rmsd_calcrrms_v1",
+        "pose_status": "original_production_qc",
         "n_modes": 9,
         "label": "PIK3CA 4L23",
         "best9": 0.624
@@ -1665,7 +1667,8 @@
         "pdb": "4JT6",
         "top1": 7.118,
         "best": 0.445,
-        "source": "pm48_01_rmsd_E16",
+        "source": "all14_cognate_rmsd_calcrrms_v1",
+        "pose_status": "original_production_qc",
         "n_modes": 9,
         "label": "mTOR 4JT6",
         "best9": 0.445
@@ -1673,29 +1676,32 @@
       {
         "protein": "AChE",
         "pdb": "4EY7",
-        "top1": 0.3385,
-        "best": 0.3385,
-        "source": "cognate_rank_rmsd_reaudit_v1",
+        "top1": 0.339,
+        "best": 0.339,
+        "source": "all14_cognate_rmsd_calcrrms_v1",
+        "pose_status": "original_production_qc",
         "n_modes": 8,
         "label": "AChE 4EY7",
-        "best9": 0.3385
+        "best9": 0.339
       },
       {
         "protein": "BChE",
         "pdb": "4BDS",
-        "top1": 4.7941,
-        "best": 0.3856,
-        "source": "cognate_rank_rmsd_reaudit_v1",
+        "top1": 4.794,
+        "best": 0.386,
+        "source": "all14_cognate_rmsd_calcrrms_v1",
+        "pose_status": "original_production_qc",
         "n_modes": 9,
         "label": "BChE 4BDS",
-        "best9": 0.3856
+        "best9": 0.386
       },
       {
         "protein": "F2",
         "pdb": "4UDW",
         "top1": 0.382,
         "best": 0.382,
-        "source": "layer3_cognate_rmsd_calcrrms_v1",
+        "source": "all14_cognate_rmsd_calcrrms_v1",
+        "pose_status": "original_production_qc",
         "n_modes": 9,
         "label": "F2 4UDW",
         "best9": 0.382
@@ -1705,7 +1711,8 @@
         "pdb": "2JKH",
         "top1": 0.658,
         "best": 0.658,
-        "source": "layer3_cognate_rmsd_calcrrms_v1",
+        "source": "all14_cognate_rmsd_calcrrms_v1",
+        "pose_status": "original_production_qc",
         "n_modes": 9,
         "label": "F10 2JKH",
         "best9": 0.658
@@ -1715,7 +1722,8 @@
         "pdb": "9V8H",
         "top1": 7.085,
         "best": 1.636,
-        "source": "layer3_cognate_rmsd_calcrrms_v1",
+        "source": "all14_cognate_rmsd_calcrrms_v1",
+        "pose_status": "original_production_qc",
         "n_modes": 9,
         "label": "PPARG 9V8H",
         "best9": 1.636
@@ -1725,7 +1733,8 @@
         "pdb": "6LXA",
         "top1": 7.857,
         "best": 1.401,
-        "source": "layer3_cognate_rmsd_calcrrms_v1",
+        "source": "all14_cognate_rmsd_calcrrms_v1",
+        "pose_status": "original_production_qc",
         "n_modes": 9,
         "label": "PPARA 6LXA",
         "best9": 1.401
@@ -1735,7 +1744,8 @@
         "pdb": "5U3Q",
         "top1": 1.51,
         "best": 1.51,
-        "source": "layer3_cognate_rmsd_calcrrms_v1",
+        "source": "all14_cognate_rmsd_calcrrms_v1",
+        "pose_status": "original_production_qc",
         "n_modes": 9,
         "label": "PPARD 5U3Q",
         "best9": 1.51
@@ -1745,7 +1755,7 @@
       {
         "label": "EGFR 3POZ",
         "series": "top1",
-        "rmsd": 9.5054
+        "rmsd": 9.505
       },
       {
         "label": "JAK2 8BXH",
@@ -1760,7 +1770,7 @@
       {
         "label": "BChE 4BDS",
         "series": "top1",
-        "rmsd": 4.7941
+        "rmsd": 4.794
       },
       {
         "label": "PPARG 9V8H",

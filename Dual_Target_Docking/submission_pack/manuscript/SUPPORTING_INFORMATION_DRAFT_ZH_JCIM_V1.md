@@ -1,6 +1,6 @@
 # Supporting Information
 
-本文件对应正文 `MANUSCRIPT_JCIM_ZH.md`。Supporting Tables 按 Table S1–S13 排列；Supporting Figures 按正文首次引用顺序编号为 Figure S1–S5。与主图重复的 holdout、BindingDB 矩阵和簇重采样图保留在仓库 `figures/jcim_article/`，不在投稿 SI 重复排版。
+本文件对应正文 `MANUSCRIPT_JCIM_ZH.md`。Supporting Tables 按 Table S1–S14 排列；Supporting Figures 按正文首次引用顺序编号为 Figure S1–S5。与主图重复的 holdout、BindingDB 矩阵和簇重采样图保留在仓库 `figures/jcim_article/`，不在投稿 SI 重复排版。
 
 正文主表不在 SI 重复：Table 1 评价集组成与对接条件；Table 2 方向性主结果；Table 3 dual–neither 对照比较。
 
@@ -34,7 +34,7 @@
 
 ## Table S2. 主受体对接盒子与共晶重对接 RMSD
 
-八个靶对使用 14 个主受体结构（JAK1 的 6N7A 与 PPARA 的 6LXA 被两对共用）。PIK3CA/mTOR 因 4JT6 在 E = 8 时未过门槛而采用 E = 16。EGFR 3POZ 为后来重建的 QC，不是已找回的原始生产输出。9V8H 为 PPARγ LBD–BRL–PG08-NL 三元复合物，对接保留肽链。表中分辨率由主文 Table 1 移入。Figure S4 对新增八个受体采用 Table S2c，对原有六个受体沿用其已有复核表。Table S2b 仅作历史对照。AChE 4EY7 与 TYK2 3LXP 实际保存 8 个姿态，其最低 RMSD 不是统一的 best-of-9。
+八个靶对使用 14 个主受体结构（JAK1 的 6N7A 与 PPARA 的 6LXA 被两对共用）。PIK3CA/mTOR 因 4JT6 在 E = 8 时未过门槛而采用 E = 16。EGFR 3POZ 为后来重建的 QC，不是已找回的原始生产输出。9V8H 为 PPARγ LBD–BRL–PG08-NL 三元复合物，对接保留肽链。表中分辨率由主文 Table 1 移入。Figure S4 与近天然判定对 14 个受体统一使用化学对应 CalcRMS 表（Table S2c）。Table S2b 仅作历史对照。AChE 4EY7 与 TYK2 3LXP 实际保存 8 个姿态，其最低 RMSD 不是统一的 best-of-9。
 
 **S2a. 对接盒子（Å）与分辨率**
 
@@ -74,30 +74,36 @@
 | PPARA | 6LXA | 8 | 7.508 | — | 1.098 | 通过 |
 | PPARD | 5U3Q | 8 | 1.452 | 1.452 | 1.452 | 通过 |
 
-S2b 为原先坐标匈牙利匹配，仅作历史对照。PPARA 6LXA 在该表中未记录前三姿态 RMSD。AChE 4EY7 与 TYK2 3LXP 保存 8 个姿态，其最低 RMSD 不是统一的 best-of-9。Figure S4 对新增八个受体改用 Table S2c；原有六个受体沿用其已有 CalcRMS/生产 QC 表。化学对应复核后，新增八个受体的搜索覆盖门槛仍全部通过；JAK2、PPARG、PPARA 的第一姿态未回到 2 Å 以内。原有六个受体未纳入该新增复核。
+S2b 为原先坐标匈牙利匹配，仅作历史对照。PPARA 6LXA 在该表中未记录前三姿态 RMSD。AChE 4EY7 与 TYK2 3LXP 保存 8 个姿态，其最低 RMSD 不是统一的 best-of-9。
 
-**S2c. 新增八受体共晶 RMSD（化学对应，RDKit CalcRMS）**
+**S2c. 14 个主受体的化学对应共晶 RMSD（RDKit CalcRMS）**
 
-不重对接。`2JKH/BI7` 因 OpenBabel SDF 键级无效，改用 CCD SMILES。
+不重对接。原子对应使用同一流程：准备配体可映射到晶体时用 Meeko 拓扑或 SDF/CCD 图 CalcRMS；PIK3CA/mTOR 因准备配体不在晶体坐标系而使用图自同构 CalcRMS。`2JKH/BI7` 因 OpenBabel SDF 键级无效，改用 CCD SMILES。EGFR 3POZ 为重建 QC。
 
-| 蛋白 | PDB | top-1 (Å) | top-3 (Å) | 全部保存姿态最低 (Å) | 搜索覆盖 | 第一姿态 < 2 Å |
-|------|-----|----------:|----------:|---------------------:|:--------:|:--------------:|
-| F2 | 4UDW | 0.382 | 0.382 | 0.382 | 通过 | 是 |
-| F10 | 2JKH | 0.658 | 0.658 | 0.658 | 通过 | 是 |
-| JAK1 | 6N7A | 0.459 | 0.459 | 0.459 | 通过 | 是 |
-| TYK2 | 3LXP | 0.196 | 0.196 | 0.196 | 通过 | 是 |
-| JAK2 | 8BXH | 10.596 | 0.807 | 0.807 | 通过 | 否 |
-| PPARG | 9V8H | 7.085 | 1.636 | 1.636 | 通过 | 否 |
-| PPARA | 6LXA | 7.857 | 7.848 | 1.401 | 通过 | 否 |
-| PPARD | 5U3Q | 1.510 | 1.510 | 1.510 | 通过 | 是 |
+| 蛋白 | PDB | E | top-1 (Å) | top-3 (Å) | 全部保存姿态最低 (Å) | 搜索覆盖 | 第一姿态 < 2 Å |
+|------|-----|--:|----------:|----------:|---------------------:|:--------:|:--------------:|
+| EGFR | 3POZ | 8 | 9.505 | 6.227 | 0.760 | 通过 | 否 |
+| HER2 | 3RCD | 8 | 1.855 | 1.394 | 1.394 | 通过 | 是 |
+| JAK1 | 6N7A | 8 | 0.459 | 0.459 | 0.459 | 通过 | 是 |
+| JAK2 | 8BXH | 8 | 10.596 | 0.807 | 0.807 | 通过 | 否 |
+| TYK2 | 3LXP | 8 | 0.196 | 0.196 | 0.196 | 通过 | 是 |
+| PIK3CA | 4L23 | 16 | 0.624 | 0.624 | 0.624 | 通过 | 是 |
+| mTOR | 4JT6 | 16 | 7.118 | 0.445 | 0.445 | 通过 | 否 |
+| AChE | 4EY7 | 8 | 0.339 | 0.339 | 0.339 | 通过 | 是 |
+| BChE | 4BDS | 8 | 4.794 | 0.386 | 0.386 | 通过 | 否 |
+| F2 | 4UDW | 8 | 0.382 | 0.382 | 0.382 | 通过 | 是 |
+| F10 | 2JKH | 8 | 0.658 | 0.658 | 0.658 | 通过 | 是 |
+| PPARG | 9V8H | 8 | 7.085 | 1.636 | 1.636 | 通过 | 否 |
+| PPARA | 6LXA | 8 | 7.857 | 7.848 | 1.401 | 通过 | 否 |
+| PPARD | 5U3Q | 8 | 1.510 | 1.510 | 1.510 | 通过 | 是 |
 
-源：`layer3_cognate_rmsd_calcrrms_v1.csv`；逐姿态 `layer3_cognate_rmsd_calcrrms_modes_v1.csv`。S2b 中 JAK2 / PPARG / PPARA 的 top-1 分别为 4.064 / 6.493 / 7.508 Å，匈牙利匹配低估了错误姿态。
+源：`all14_cognate_rmsd_calcrrms_v1.csv`；逐姿态 `all14_cognate_rmsd_calcrrms_modes_v1.csv`。14 个受体搜索覆盖均通过。JAK2、PPARG、PPARA、BChE、mTOR 与 EGFR 的第一姿态未回到 2 Å 以内。S2b 中 JAK2 / PPARG / PPARA 的匈牙利 top-1 为 4.064 / 6.493 / 7.508 Å。
 
 ---
 
 ## Table S3. 活性阈值与 pChEMBL 聚合敏感性
 
-同一套冻结 Vina 分数上重标。主分析固定 θ = 6.0（Table 2）。从严格 6.5/5.5 候选池抽出的六对在多个阈值下主要类别组成相同，因而 AUROC 变化较小；EGFR/HER2 与 PIK3CA/mTOR 随阈值改变类别组成更明显。同日 API 快照上的 max/median 与高置信字段筛查覆盖 EGFR/HER2、AChE/BChE 与 PIK3CA/mTOR；新增五对另有基于 ChEMBL 37 转储的 max/median 分析，二者不是同一数据版本。当前 SI 汇总同时报告这两项已完成范围，不把转储结果并入 API 快照。
+同一套冻结 Vina 分数上重标。主分析固定 θ = 6.0（Table 2）。从严格 6.5/5.5 候选池抽出的六对在多个阈值下主要类别组成相同，因而 AUROC 变化较小；EGFR/HER2 与 PIK3CA/mTOR 随阈值改变类别组成更明显。同日 API 快照上的 max/median 与高置信字段筛查覆盖 EGFR/HER2、AChE/BChE 与 PIK3CA/mTOR；JAK1/JAK2、JAK1/TYK2、F2/F10、PPARG/PPARA 与 PPARA/PPARD 另有基于 ChEMBL 37 转储的 max/median 分析，二者不是同一数据版本。当前 SI 汇总同时报告这两项已完成范围，不把转储结果并入 API 快照。
 
 | 靶对 | 标签规则 | n (D / A / B) | summary_min | 95% CI |
 |------|----------|--------------:|------------:|--------|
@@ -125,7 +131,7 @@ S2b 为原先坐标匈牙利匹配，仅作历史对照。PPARA 6LXA 在该表�
 
 **高置信人源单蛋白视图（同日 API 快照；不替换 Table 2）：** 按数据库字段规则自动筛查，不是逐篇阅读原文。具有该快照的已打分配体中 253/253 与四状态类别一致，方向性 AUROC 不变。该视图覆盖 EGFR/HER2、AChE/BChE 与 PIK3CA/mTOR，不能写成“八对均已完成”。源：`high_confidence_summary_v1.csv`。
 
-**新增五对数据库转储 max/median（ChEMBL 37 dump；冻结 Vina 分数；不替换 Table 2）：** 与同日 API 快照不是同一数据版本。五对中仅 PPARA/PPARD 出现 1 个类别翻转（CHEMBL121，A-only 32→31），该对 dual–A-only 由 0.646 变为 0.636，`summary_min` 点估计仍为 0.446。其余四对类别组成与 `summary_min` 点估计均不变。该表 bootstrap 区间与 Table 2 锁定区间不是同一套重采样输出，正文不采用其区间。源：`five_pair_dump_gated_v1/max_vs_median_auroc_v1.csv`。
+**ChEMBL 37 转储 max/median（JAK1/JAK2、JAK1/TYK2、F2/F10、PPARG/PPARA、PPARA/PPARD；冻结 Vina 分数；不替换 Table 2）：** 与同日 API 快照不是同一数据版本。五对中仅 PPARA/PPARD 出现 1 个类别翻转（CHEMBL121，A-only 32→31），该对 dual–A-only 由 0.646 变为 0.636，`summary_min` 点估计仍为 0.446。其余四对类别组成与 `summary_min` 点估计均不变。该表 bootstrap 区间与 Table 2 锁定区间不是同一套重采样输出，正文不采用其区间。源：`five_pair_dump_gated_v1/max_vs_median_auroc_v1.csv`。
 
 ---
 
@@ -346,9 +352,9 @@ ECFP4及ECFP4+docking的AUROC来自相同骨架分组交叉验证下的折外预
 
 F2/F10、JAK1/TYK2、JAK1/JAK2、PPARG/PPARA 和 PPARA/PPARD 的五种子 \(\mathrm{summary}_{\min}\) 范围均未跨过 0.5。备选种子按完整病例计：AChE/BChE 生产种子 n_complete 为 95（27 / 25 / 28），其余四种子为 89–90（最低 25 / 22 / 27）。部分五对种子上 JAK1/TYK2 的 n_dual 为 32 而非 31，PPARG/PPARA 的 n_A 为 32 而非 31。上述 n 变化不构成第二套 Table 2。
 
-**S9e. 新增五对固定成员交集（五个种子均有双端分数）**
+**S9e. JAK1/JAK2、JAK1/TYK2、F2/F10、PPARG/PPARA 与 PPARA/PPARD 的固定成员交集（五个种子均有双端分数）**
 
-完整病例（S9c）估计的是该种子实际打分成功的成员；下表把成员固定为五种子均有双端有限分数的交集。`n_intersection` 含 neither；方向性 AUROC 只用 dual / A-only / B-only。成员 ID 见 `multiseed_fixed_membership_ids_v1.csv`。本表只覆盖新增五对，不外推为八对，也不替换 Table 2。较小的种子波动不能解释为对实验标签或数据来源稳健。交集脚本排除空评分字符串后取两端分数；未另检 NaN 或无穷值字面量。对本轮采用的五对结果，该限制未改变已报告成员数。缺失评分不作为低活性。
+完整病例（S9c）估计的是该种子实际打分成功的成员；下表把成员固定为五种子均有双端有限分数的交集。`n_intersection` 含 neither；方向性 AUROC 只用 dual / A-only / B-only。成员 ID 见 `multiseed_fixed_membership_ids_v1.csv`。本表只覆盖上述五对，不外推为八对，也不替换 Table 2。较小的种子波动不能解释为对实验标签或数据来源稳健。交集脚本排除空评分字符串后取两端分数；未另检 NaN 或无穷值字面量。对本轮采用的五对结果，该限制未改变已报告成员数。缺失评分不作为低活性。
 
 | 靶对 | n_intersection (D / A / B) | 生产种子 summary_min | 五种子范围 | 较弱方向是否切换 |
 |------|---------------------------:|---------------------:|------------|:----------------:|
@@ -468,6 +474,35 @@ S11a 是严格 6.5/5.5 的 **供给清点**（BindingDB 与 PubChem 的 `equal_o
 
 ---
 
+## Table S14. 最终靶对准入筛选的对级审计
+
+本表列出药物类小分子过滤后每个严格选择性类别仍各保留至少 50 个配体的 17 对、到达人源全配体供给门槛但未通过该过滤的两对（OPRM1/OPRK1 与 JAK3/TYK2），以及供给受限的 EGFR/HER2。此表是最终结构与流程兼容性门槛的审计，不是对接性能表。来源：`pair_eligibility_audit_s14_v1.csv`；`FEASIBLE_PAIR_LADDER_V1.md`；`TIER1_DOCKING_ROSTER_V1.md`；`pair_ligand_identity_qc_v1.csv`。
+
+| 靶对 | 最后到达门槛 | 纳入/排除 | 理由 | 所用证据 |
+|------|--------------|-----------|------|----------|
+| PIK3CA/mTOR | G5 流程兼容性 | 纳入 | 常规非共价激酶 ATP 口袋，可在统一刚性受体 Vina 流程下表示；保留于主评价。 | `TIER1_DOCKING_ROSTER_V1.md`；`FEASIBLE_PAIR_LADDER_V1.md`；Table 1 |
+| AChE/BChE | G5 流程兼容性 | 纳入 | 常规非共价水解酶峡谷口袋，可在统一刚性受体 Vina 流程下表示；保留于主评价。 | `TIER1_DOCKING_ROSTER_V1.md`；`FEASIBLE_PAIR_LADDER_V1.md`；Table 1 |
+| F2/F10 | G5 流程兼容性 | 纳入 | 常规非共价丝氨酸蛋白酶口袋，可在统一刚性受体 Vina 流程下表示；保留于主评价。 | `TIER1_DOCKING_ROSTER_V1.md`；`FEASIBLE_PAIR_LADDER_V1.md`；Table 1 |
+| JAK1/TYK2 | G5 流程兼容性 | 纳入 | 常规非共价激酶 ATP 口袋，可在统一刚性受体 Vina 流程下表示；保留于主评价。 | `TIER1_DOCKING_ROSTER_V1.md`；`FEASIBLE_PAIR_LADDER_V1.md`；Table 1 |
+| JAK1/JAK2 | G5 流程兼容性 | 纳入 | 常规非共价激酶 ATP 口袋，可在统一刚性受体 Vina 流程下表示；保留于主评价。 | `TIER1_DOCKING_ROSTER_V1.md`；`FEASIBLE_PAIR_LADDER_V1.md`；Table 1 |
+| PPARG/PPARA | G5 流程兼容性 | 纳入 | 常规非共价核受体 LBD 口袋，可在统一刚性受体 Vina 流程下表示；保留于主评价。 | `TIER1_DOCKING_ROSTER_V1.md`；`FEASIBLE_PAIR_LADDER_V1.md`；Table 1 |
+| PPARA/PPARD | G5 流程兼容性 | 纳入 | 常规非共价核受体 LBD 口袋，可在统一刚性受体 Vina 流程下表示；保留于主评价。 | `TIER1_DOCKING_ROSTER_V1.md`；`FEASIBLE_PAIR_LADDER_V1.md`；Table 1 |
+| EGFR/HER2 | 供给受限例外 | 纳入 | 未满足严格 6.5/5.5 选择性供给标准（最小选择性类别计数为 7），但具有合适的人源全配体结构、可由共晶定义的对接位点，并在 \(\theta=6.0\) 下有足够 dual、A-only 和 B-only 配体做方向性评价。 | `TIER1_DOCKING_ROSTER_V1.md`；Table 1 |
+| CTSK/CTSS | G4 配体身份 | 排除 | 两端共晶均为可逆共价半胱氨酸蛋白酶复合物，需超出统一非共价刚性受体 Vina 流程处理。 | `TIER1_DOCKING_ROSTER_V1.md`；`FEASIBLE_PAIR_LADDER_V1.md` |
+| CREBBP/BRD4 | G4 配体身份 | 排除 | CREBBP 同时具有 HAT 催化位点和溴结构域；拟对接结构域在统一流程下不能唯一确定。 | `TIER1_DOCKING_ROSTER_V1.md`；`FEASIBLE_PAIR_LADDER_V1.md` |
+| F2/PRSS1 | G4 配体身份 | 排除 | 胰蛋白酶（PRSS1）是药理学抗靶，而不是统一流程下的设计双靶伴侣。 | `TIER1_DOCKING_ROSTER_V1.md`；`FEASIBLE_PAIR_LADDER_V1.md` |
+| CNR1/CNR2 | G4 配体身份 | 排除 | 膜蛋白 GPCR 对，需要超出统一可溶刚性受体 Vina 流程的构建体与构象态处理。 | `TIER1_DOCKING_ROSTER_V1.md`；`FEASIBLE_PAIR_LADDER_V1.md` |
+| HCRTR1/HCRTR2 | G4 配体身份 | 排除 | 膜蛋白 GPCR 对，需要超出统一可溶刚性受体 Vina 流程的构建体与构象态处理。 | `TIER1_DOCKING_ROSTER_V1.md`；`FEASIBLE_PAIR_LADDER_V1.md` |
+| OPRM1/OPRD1 | G4 配体身份 | 排除 | 膜蛋白 GPCR 对，需要超出统一可溶刚性受体 Vina 流程的构建体与构象态处理。 | `TIER1_DOCKING_ROSTER_V1.md`；`FEASIBLE_PAIR_LADDER_V1.md` |
+| OPRD1/OPRK1 | G4 配体身份 | 排除 | 膜蛋白 GPCR 对，需要超出统一可溶刚性受体 Vina 流程的构建体与构象态处理。 | `TIER1_DOCKING_ROSTER_V1.md`；`FEASIBLE_PAIR_LADDER_V1.md` |
+| S1PR3/S1PR1 | G4 配体身份 | 排除 | 膜蛋白 GPCR 对，需要超出统一可溶刚性受体 Vina 流程的构建体与构象态处理。 | `TIER1_DOCKING_ROSTER_V1.md`；`FEASIBLE_PAIR_LADDER_V1.md` |
+| SLC6A4/SLC6A3 | G4 配体身份 | 排除 | 膜蛋白 SLC6 转运体对，需超出统一可溶刚性受体 Vina 流程处理。 | `TIER1_DOCKING_ROSTER_V1.md`；`FEASIBLE_PAIR_LADDER_V1.md` |
+| SLC6A2/SLC6A4 | G4 配体身份 | 排除 | 膜蛋白 SLC6 转运体对，需超出统一可溶刚性受体 Vina 流程处理。 | `TIER1_DOCKING_ROSTER_V1.md`；`FEASIBLE_PAIR_LADDER_V1.md` |
+| OPRM1/OPRK1 | G3 人源全配体供给 | 排除 | 药物类小分子过滤后最小严格选择性类别计数由 56 降至 46，因此未过 G4 配体身份门槛。 | `pair_ligand_identity_qc_v1.csv`；`FEASIBLE_PAIR_LADDER_V1.md` |
+| JAK3/TYK2 | G3 人源全配体供给 | 排除 | 药物类小分子过滤后最小严格选择性类别计数由 51 降至 48，因此未过 G4 配体身份门槛。 | `pair_ligand_identity_qc_v1.csv`；`FEASIBLE_PAIR_LADDER_V1.md` |
+
+---
+
 ## Supporting Figures
 
 补充图按正文首次引用顺序编号为 Figure S1–S5。原 Figure S5（holdout，与 Figure 4B 重复）、原 Figure S7（BindingDB，与 Figure 6C,D 重复）和原 Figure S8（簇重采样，与 Figure 6B 重复）保留在仓库，不在投稿 SI 排版。
@@ -494,7 +529,7 @@ S11a 是严格 6.5/5.5 的 **供给清点**（BindingDB 与 PubChem 的 `equal_o
 
 ![Figure S4](../figures/jcim_article/FigS4_cognate_rmsd.png)
 
-**Figure S4.** 各主受体共晶配体重对接的重原子 RMSD。圆点为 top-1，菱形为全部保存姿态中的最低重原子 RMSD。AChE 4EY7 与 TYK2 3LXP 保存 8 个姿态，其余主受体保存 9 个姿态。虚线为 2 Å。EGFR 3POZ 的 top-1 为 9.505 Å，在图中标为超轴。新增八个受体采用 Table S2c 的化学对应 CalcRMS；原有六个受体沿用其已有复核表。Table S2b 的坐标匹配结果仅作历史对照。
+**Figure S4.** 各主受体共晶配体重对接的重原子 RMSD，为搜索覆盖检查。圆点为 top-1，菱形为全部保存姿态中的最低重原子 RMSD。AChE 4EY7 与 TYK2 3LXP 保存 8 个姿态，其余主受体保存 9 个姿态。虚线为 2 Å。EGFR 3POZ 的 top-1 为 9.505 Å，在图中标为超轴。14 个受体统一使用化学对应 CalcRMS 表（Table S2c）。Table S2b 仅作历史对照。
 
 ### Figure S5. 可检测效应情景模拟
 

@@ -23,6 +23,9 @@ DOCS = [
     "HIGH_COMPARABILITY_FEASIBILITY_V1.md",
     "PRIMARY_RESULT_INDEX_V1.md",
     "MANUSCRIPT_CONSOLIDATION_REPORT_20260912.md",
+    "LANGUAGE_CHANGELOG.md",
+    "FACT_CHECK_TABLE.md",
+    "UNRESOLVED_ISSUES.md",
 ]
 
 TABLES = [
@@ -46,6 +49,8 @@ TABLES = [
     "data/jcim_chembl_universe_v0/local_track_b_v0/tables/five_pair_local_channels_v1/fiveseed_summary_min_aggregate_v1.csv",
     "data/jcim_holdout_v0/tables/holdout_pocket_matched_v1.csv",
     "data/jcim_novelty_v0/tables/cognate_rank_rmsd_reaudit_v1.csv",
+    "data/jcim_novelty_v0/tables/all14_cognate_rmsd_calcrrms_v1.csv",
+    "data/jcim_novelty_v0/tables/all14_cognate_rmsd_calcrrms_modes_v1.csv",
     "data/jcim_chembl_universe_v0/local_track_b_v0/tables/layer3_cognate_rmsd_calcrrms_v1.csv",
     "data/jcim_chembl_universe_v0/local_track_b_v0/tables/layer3_cognate_rmsd_calcrrms_modes_v1.csv",
     "data/jcim_chembl_universe_v0/local_track_b_v0/tables/pocket_unidirectional_delta_v1.csv",
@@ -58,6 +63,7 @@ TABLES = [
     "data/manuscript_lock/SI_TABLE_MERGE_MAP_v1.csv",
     "data/jcim_j0j1_v0/tables/j0_strict_label_supply.csv",
     "data/jcim_chembl_universe_v0/tables/track_b_panel_summary_v1.csv",
+    "data/jcim_chembl_universe_v0/tables/pair_eligibility_audit_s14_v1.csv",
 ]
 
 SCRIPTS = [
@@ -72,6 +78,7 @@ SCRIPTS = [
     "data/jcim_novelty_v0/scripts/ecfp4_docking_scaler_sensitivity_v1.py",
     "figures/jcim_article/scripts/update_figures_pr32.py",
     "figures/jcim_article/scripts/audit_figures_pr32.py",
+    "data/jcim_novelty_v0/scripts/reaudit_all14_cognate_rmsd_calcrrms_v1.py",
     "data/jcim_chembl_universe_v0/scripts/replay_track_b_vina_mode1_v1.py",
     "data/jcim_chembl_universe_v0/scripts/multiseed_fixed_membership_v1.py",
     "data/jcim_chembl_universe_v0/scripts/pocket_unidirectional_delta_v1.py",
@@ -148,7 +155,7 @@ It is not a second copy of the docking pose workspaces.
 |---|---|
 | `manuscript/MANUSCRIPT_JCIM_EN.md` | English manuscript (assemble from section drafts; do not hand-edit the assembled file as the source of truth) |
 | `manuscript/MANUSCRIPT_JCIM_ZH.md` | Chinese working manuscript |
-| `manuscript/SUPPORTING_INFORMATION_JCIM_EN_V1.md` | English SI Tables S1–S13 |
+| `manuscript/SUPPORTING_INFORMATION_JCIM_EN_V1.md` | English SI Tables S1–S14 |
 | `manuscript/SUPPORTING_INFORMATION_DRAFT_ZH_JCIM_V1.md` | Chinese SI |
 | `manuscript/STATISTICAL_LOCK_V1.md` | Table 2 / Table 3 estimand lock |
 | `manuscript/FIGURE_PANEL_LOCK_V3.md` | Figure-to-CSV map |

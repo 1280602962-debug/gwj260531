@@ -122,6 +122,15 @@ def main():
     near(one(failures, pair="AChE/BChE", contrast="D_vs_A_pocketB")["rank_extreme_lower_bound"], 0.5599)
 
     cognate = rows("cognate_rank_rmsd_reaudit_v1.csv")
+    all14 = rows("all14_cognate_rmsd_calcrrms_v1.csv")
+    assert len(all14) == 14
+    assert all(r["pass_best_lt2"] == "1" for r in all14)
+    near(one(all14, pdb="3POZ")["calcrrms_top1_A"], 9.505)
+    near(one(all14, pdb="3POZ")["calcrrms_best_A"], 0.760)
+    near(one(all14, pdb="4L23")["calcrrms_top1_A"], 0.624)
+    near(one(all14, pdb="4JT6")["calcrrms_best_A"], 0.445)
+    near(one(all14, pdb="8BXH")["calcrrms_top1_A"], 10.596)
+    assert one(all14, pdb="3POZ")["pose_status"] == "reconstructed_qc"
     near(one(cognate, pdb="4BDS", pose_rank="1")["best_top1_A"], 4.7941)
     near(one(cognate, pdb="4BDS", pose_rank="1")["best_top3_A"], 0.3856)
     near(one(cognate, pdb="3POZ", pose_rank="1")["best_top1_A"], 9.5054)
@@ -138,18 +147,28 @@ def main():
 
     manuscript = (ROOT / "docs" / "MANUSCRIPT_JCIM_EN.md").read_text(encoding="utf-8")
     required_phrases = (
-        "Docking-Based Dual-Target Recognition",
-        "Multi-Pair Evaluation Design and Sources of Discrimination",
+        "Evaluating Dual-Target Molecular Docking",
+        "Experimental-State Comparisons across Multiple Target Pairs and Sources of Discrimination",
         "not external validation",
         "Five fixed Vina random seeds",
         "The EGFR/HER2 task difference was positive on all five Vina seeds",
         "No pair met the independent external-evaluation eligibility criteria",
         "changed AUROC by at most 0.023",
-        "A matched-pocket advantage was not stably recovered",
-        "Table S54",
+        "matched-pocket advantages were not consistently reproduced",
+        "experimental measurements at both targets",
+        "Table S14",
     )
     for phrase in required_phrases:
         assert phrase in manuscript, phrase
+    for banned in (
+        "hard negative",
+        "new docking",
+        "thick-supply",
+        "both-end experimental labels",
+        "Other pairs that passed earlier gates",
+        "not wholly dependent on the primary Vina implementation",
+    ):
+        assert banned not in manuscript, banned
 
     blocked = rows("document_blocked_cv_summary_v1.csv")
     near(one(blocked, pair="EGFR/HER2", contrast="D_vs_B")["rank_auroc_full"], 0.4297)
@@ -277,6 +296,11 @@ def main():
     assert ("五个固定 Vina 随机种子" in zh or "五个预先规定的 Vina 种子" in zh)
     assert "EGFR/HER2 的设定差距在五个 Vina 种子上均为正" in zh
     assert "github.com/1280602962-debug/gwj260531" in zh
+    assert "Table S14" in zh
+    assert "硬负样本" not in zh
+    assert "将新对接" not in zh
+    assert "厚供给" not in zh
+    assert "两端均有实验测量" in zh
     abstract = manuscript.split("## 1.")[0]
     assert "0.373" not in abstract
     assert "0.7641" not in manuscript

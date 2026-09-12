@@ -1,9 +1,9 @@
 # PR32 figure numerical audit
 
 Pinned numerical-data snapshot: `abb61a20a04eb6a085ad526876624eadb518c4cc`
-Artwork generated from git HEAD: `1c5a0b1f627de4360fb380edb057757ce7e9084b`
+Artwork generated from git HEAD: `65010ce8b0a42b9bb5c0d1f576370b959729b692`
 
-141 PASS / 0 FAIL
+142 PASS / 0 FAIL
 
 | Status | Check |
 |---|---|
@@ -40,9 +40,7 @@ Artwork generated from git HEAD: `1c5a0b1f627de4360fb380edb057757ce7e9084b`
 | PASS | SHA256 data/jcim_novelty_v0/tables/detectable_effect_simulation_v1.csv |
 | PASS | SHA256 data/jcim_novelty_v0/tables/mixed_library_enrichment_v1.csv |
 | PASS | SHA256 data/jcim_novelty_v0/tables/and_filter_operating_point_v1.csv |
-| PASS | SHA256 data/jcim_novelty_v0/tables/cognate_rank_rmsd_reaudit_v1.csv |
-| PASS | SHA256 data/jcim_chembl_universe_v0/local_track_b_v0/tables/layer3_cognate_rmsd_calcrrms_v1.csv |
-| PASS | SHA256 data/pik3ca_mtor_panel48_v0/analysis/cognate_redock_v0/tables/pm48_01_rmsd_E16.csv |
+| PASS | SHA256 data/jcim_novelty_v0/tables/all14_cognate_rmsd_calcrrms_v1.csv |
 | PASS | SHA256 docs/MANUSCRIPT_JCIM_ZH.md |
 | PASS | SHA256 docs/MANUSCRIPT_JCIM_EN.md |
 | PASS | SHA256 docs/SUPPORTING_INFORMATION_DRAFT_ZH_JCIM_V1.md |
@@ -66,6 +64,9 @@ Artwork generated from git HEAD: `1c5a0b1f627de4360fb380edb057757ce7e9084b`
 | PASS | caption has no PowerPoint |
 | PASS | caption has no historical original-set |
 | PASS | caption has no Regenerate |
+| PASS | caption has no eight added |
+| PASS | caption has no original six |
+| PASS | caption has no after which the primary |
 | PASS | Fig1C caption separates census from the eight-pair evaluation |
 | PASS | Figure 4 caption is pocket correspondence |
 | PASS | Figure 5 caption is computational realization |

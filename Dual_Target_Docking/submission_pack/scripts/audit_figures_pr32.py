@@ -33,7 +33,7 @@ check(abs(fb-0.444)<0.001,'Figure 2A JAK1/TYK2 fixed-score Δ is 0.444')
 check(audit.get('data_snapshot_commit')=='abb61a20a04eb6a085ad526876624eadb518c4cc','data snapshot commit is pinned separately from artwork')
 check(bool(audit.get('artwork_git_head')),'artwork git HEAD recorded at generation')
 captions=(OUT/'MANUSCRIPT_FIGURE_CAPTIONS.md').read_text(encoding='utf-8')
-for phrase in ['initially evaluated','added after the census','original three','census five','later five','Horizontal gray rules','underpowered','flagship','data-collection sequence','were then selected','python3','PowerPoint','historical original-set','Regenerate']:
+for phrase in ['initially evaluated','added after the census','original three','census five','later five','Horizontal gray rules','underpowered','flagship','data-collection sequence','were then selected','python3','PowerPoint','historical original-set','Regenerate','eight added','original six','after which the primary']:
     check(phrase.lower() not in captions.lower(),'caption has no '+phrase)
 check('The census summarizes the availability' in captions,'Fig1C caption separates census from the eight-pair evaluation')
 check('## Figure 4. Matched- versus mismatched-pocket scoring controls.' in captions,'Figure 4 caption is pocket correspondence')
