@@ -31,7 +31,7 @@ Ligands need both-end scores for directional AUROC; n_scored may be below n_pane
 
 ## Table S2. Primary receptor boxes and cognate redocking RMSD
 
-The eight pairs use 14 primary receptor structures (JAK1 6N7A and PPARA 6LXA are shared). PIK3CA/mTOR used E = 16 because 4JT6 failed the gate at E = 8. EGFR 3POZ is reconstructed QC, not a recovered original production output. 9V8H is a PPARγ LBD–BRL–PG08-NL ternary complex; the peptide was retained. Figure S4 uses Table S2c for the eight added receptors and the existing reaudit or production-QC tables for the original six. Table S2b remains a historical coordinate-assignment comparison. AChE 4EY7 and TYK2 3LXP deposited 8 poses, so their lowest RMSD is not a uniform best-of-nine.
+The eight pairs use 14 primary receptor structures (JAK1 6N7A and PPARA 6LXA are shared). PIK3CA/mTOR used E = 16 because 4JT6 failed the gate at E = 8. EGFR 3POZ is reconstructed QC, not a recovered production output. 9V8H is a PPARγ LBD–BRL–PG08-NL ternary complex; the peptide was retained. Figure S4 is a qualitative search-coverage display, not a unified quantitative RMSD benchmark: chemically mapped CalcRMS values are in Table S2c, and the remaining receptors keep their recorded QC tables. Table S2b remains a historical coordinate-assignment comparison. AChE 4EY7 and TYK2 3LXP deposited 8 poses, so their lowest RMSD is not a uniform best-of-nine.
 
 **S2a. Docking boxes (Å)**
 
@@ -71,9 +71,9 @@ The eight pairs use 14 primary receptor structures (JAK1 6N7A and PPARA 6LXA are
 | PPARA | 6LXA | 8 | 7.508 | — | 1.098 | pass |
 | PPARD | 5U3Q | 8 | 1.452 | 1.452 | 1.452 | pass |
 
-S2b is the earlier coordinate Hungarian assignment and is a historical comparison only. PPARA 6LXA has no top-3 value in that table. AChE 4EY7 and TYK2 3LXP saved 8 poses. Figure S4 uses Table S2c for the eight added receptors.
+S2b is the earlier coordinate Hungarian assignment and is a historical comparison only. PPARA 6LXA has no top-3 value in that table. AChE 4EY7 and TYK2 3LXP saved 8 poses. Figure S4 uses Table S2c where chemically mapped CalcRMS is available.
 
-**S2c. Chemically mapped RMSD for the eight added receptors (RDKit CalcRMS)**
+**S2c. Chemically mapped RMSD (RDKit CalcRMS)**
 
 No redocking. `2JKH/BI7` used CCD SMILES because the OpenBabel SDF had invalid nitrogen valence.
 
@@ -94,7 +94,7 @@ Source: `layer3_cognate_rmsd_calcrrms_v1.csv`. Search-coverage still passed for 
 
 ## Table S3. Activity-threshold and pChEMBL-aggregation sensitivity
 
-Relabeling on frozen Vina scores. Primary analysis is θ = 6.0 (Table 2). Panels drawn from the strict 6.5/5.5 pool keep the same main class composition across several thresholds, so AUROC changes little. EGFR/HER2 and PIK3CA/mTOR change class composition more. Same-day API max/median and high-confidence field screens cover EGFR/HER2, AChE/BChE, and PIK3CA/mTOR. The five added pairs have a separate ChEMBL 37 dump-based max/median analysis; that dump is not the API snapshot. The present SI reports both completed scopes and does not merge dump results into the API snapshot.
+Relabeling on frozen Vina scores. Primary analysis is θ = 6.0 (Table 2). Panels drawn from the strict 6.5/5.5 pool keep the same main class composition across several thresholds, so AUROC changes little. EGFR/HER2 and PIK3CA/mTOR change class composition more. Same-day API max/median and high-confidence field screens cover EGFR/HER2, AChE/BChE, and PIK3CA/mTOR. JAK1/JAK2, JAK1/TYK2, F2/F10, PPARG/PPARA, and PPARA/PPARD have a separate ChEMBL 37 dump-based max/median analysis; that dump is not the API snapshot. The present SI reports both completed scopes and does not merge dump results into the API snapshot.
 
 | Pair | Label rule | n (D / A / B) | summary_min | 95% CI |
 |------|----------|--------------:|------------:|--------|
@@ -345,9 +345,9 @@ Independent GNINA searches new poses; it is not a Vina rescore. Scope is EGFR/HE
 
 No five-seed range on F2/F10, JAK1/TYK2, JAK1/JAK2, PPARG/PPARA, or PPARA/PPARD crossed 0.5. Alternate seeds are complete-case: AChE/BChE n_complete is 95 on the production seed (27 / 25 / 28) and 89–90 on the other four (as low as 25 / 22 / 27). On some five-pair seeds JAK1/TYK2 n_dual is 32 rather than 31, and PPARG/PPARA n_A is 32 rather than 31. Those n shifts are not a second Table 2.
 
-**S9e. Fixed-membership intersection on the five added pairs (both-end scores on all five seeds)**
+**S9e. Fixed-membership intersection on JAK1/JAK2, JAK1/TYK2, F2/F10, PPARG/PPARA, and PPARA/PPARD (both-end scores on all five seeds)**
 
-Complete-case estimates (S9c) use ligands that succeeded on that seed. The table below fixes membership to ligands with finite both-end scores on every seed. `n_intersection` includes neither; directional AUROCs use only dual / A-only / B-only. Member IDs are in `multiseed_fixed_membership_ids_v1.csv`. The table covers only the five added pairs and does not replace Table 2. Smaller seed-to-seed changes are not evidence of robustness to experimental labels or data sources. The intersection script drops empty score strings and then takes both-end scores; it does not separately test NaN or infinite literals. That limitation did not change the reported membership for the five pairs used here. Missing scores were not treated as low activity.
+Complete-case estimates (S9c) use ligands that succeeded on that seed. The table below fixes membership to ligands with finite both-end scores on every seed. `n_intersection` includes neither; directional AUROCs use only dual / A-only / B-only. Member IDs are in `multiseed_fixed_membership_ids_v1.csv`. The table covers only those five pairs and does not replace Table 2. Smaller seed-to-seed changes are not evidence of robustness to experimental labels or data sources. The intersection script drops empty score strings and then takes both-end scores; it does not separately test NaN or infinite literals. That limitation did not change the reported membership for the five pairs used here. Missing scores were not treated as low activity.
 
 | Pair | n_intersection (D / A / B) | Production summary_min | Five-seed range | Weaker arm switched |
 |------|---------------------------:|-----------------------:|-----------------|:-------------------:|

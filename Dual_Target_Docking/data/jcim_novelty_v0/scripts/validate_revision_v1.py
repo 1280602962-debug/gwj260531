@@ -138,15 +138,14 @@ def main():
 
     manuscript = (ROOT / "docs" / "MANUSCRIPT_JCIM_EN.md").read_text(encoding="utf-8")
     required_phrases = (
-        "Docking-Based Dual-Target Recognition",
-        "Multi-Pair Evaluation Design and Sources of Discrimination",
+        "Evaluating Dual-Target Molecular Docking",
+        "Experimental-State Comparisons across Multiple Target Pairs and Sources of Discrimination",
         "not external validation",
         "Five fixed Vina random seeds",
         "The EGFR/HER2 task difference was positive on all five Vina seeds",
         "No pair met the independent external-evaluation eligibility criteria",
         "changed AUROC by at most 0.023",
         "A matched-pocket advantage was not stably recovered",
-        "Table S54",
     )
     for phrase in required_phrases:
         assert phrase in manuscript, phrase

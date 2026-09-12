@@ -1,23 +1,23 @@
 # Inventory
 
 ## manuscript
-- `DATA_AND_SOFTWARE_AVAILABILITY_JCIM_EN.md` (2655 bytes)
-- `DATA_AND_SOFTWARE_AVAILABILITY_JCIM_ZH.md` (1016 bytes)
+- `DATA_AND_SOFTWARE_AVAILABILITY_JCIM_EN.md` (615 bytes)
+- `DATA_AND_SOFTWARE_AVAILABILITY_JCIM_ZH.md` (468 bytes)
 - `FACT_CHECK_TABLE.md` (3917 bytes)
 - `FIGURE_PANEL_LOCK_V3.md` (3764 bytes)
 - `HIGH_COMPARABILITY_FEASIBILITY_V1.md` (1420 bytes)
-- `LANGUAGE_CHANGELOG.md` (2267 bytes)
+- `LANGUAGE_CHANGELOG.md` (1867 bytes)
 - `MANUSCRIPT_CONSOLIDATION_REPORT_20260912.md` (6988 bytes)
-- `MANUSCRIPT_JCIM_EN.md` (60902 bytes)
-- `MANUSCRIPT_JCIM_ZH.md` (54785 bytes)
+- `MANUSCRIPT_JCIM_EN.md` (58231 bytes)
+- `MANUSCRIPT_JCIM_ZH.md` (53099 bytes)
 - `PRIMARY_RESULT_INDEX_V1.md` (7690 bytes)
 - `PRODUCTION_POSE_ARCHIVE_PREP_V1.md` (912 bytes)
 - `REFERENCES_JCIM.md` (5537 bytes)
 - `STATISTICAL_LOCK_V1.md` (5280 bytes)
 - `SUBMISSION_AUDIT_FIVE_ROUNDS_V1.md` (9896 bytes)
-- `SUPPORTING_INFORMATION_DRAFT_ZH_JCIM_V1.md` (37013 bytes)
-- `SUPPORTING_INFORMATION_JCIM_EN_V1.md` (35481 bytes)
-- `UNRESOLVED_ISSUES.md` (1056 bytes)
+- `SUPPORTING_INFORMATION_DRAFT_ZH_JCIM_V1.md` (37121 bytes)
+- `SUPPORTING_INFORMATION_JCIM_EN_V1.md` (35608 bytes)
+- `UNRESOLVED_ISSUES.md` (1296 bytes)
 
 ## tables
 - `DUALFOURCLASS_EVALUATION_CONTRACT_v1.json` (2269 bytes)
@@ -113,4 +113,4 @@
 - `pocket_unidirectional_delta_v1.py` (3485 bytes)
 - `replay_track_b_vina_mode1_v1.py` (5743 bytes)
 - `update_figures_pr32.py` (42478 bytes)
-- `validate_revision_v1.py` (13537 bytes)
+- `validate_revision_v1.py` (13550 bytes)

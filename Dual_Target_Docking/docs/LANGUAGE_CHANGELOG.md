@@ -1,45 +1,22 @@
-# 中英文润色修改摘要（2026-09-12）
+# 中英文润色修改摘要（2026-09-12，叙事回收轮）
 
-依据：JCIM 28 篇风格备忘；英文润色 prompt。数字未改，只改组织和措辞。组装后的正式稿为 `MANUSCRIPT_JCIM_ZH.md` 与 `MANUSCRIPT_JCIM_EN.md`。
+上一轮并行改中英文时，把项目时间线和内部审计语又写回了正文。本轮按数据源重写，并同时改中英文，不再把英文当作单独“再翻译”一遍。
 
-## 摘要
+## 必须改的六项
 
-- 中文：去掉独立 GNINA 与 EGFR 留出集等次要限制，保留负类更换、ECFP4 增量和对应口袋三项主观察。
-- 英文：同样收紧；末句改为 `support a narrower interpretation`，不再罗列全部诊断。
-- 保留可追溯数字：0.430 / 0.808 / 0.378 [0.205, 0.547]；0.444 [0.263, 0.620]；0.023。
+1. **删除 original / added / early candidate 时间线。** 聚合敏感性按 ChEMBL API 快照与 ChEMBL 37 转储分源描述，并点名靶对。主文 Methods 删除 PIK3CA/PIK3CB（2WXF）撤出史。
+2. **Figure 1 caption。** (C) 只写普查是供给可用性；八对按 Table 1 纳入。不再写 after which / 86→8。
+3. **matched/mismatched。** Methods 写明交换已计算评分通道、不重新对接；删掉 `isolated effect` / “单独影响”。
+4. **Redocking RMSD。** 本轮未统一重算 14 个受体。正文和 SI 改为定性搜索覆盖检查，不把 Figure S4 写成统一定量基准。
+5. **Data Availability。** 压成正式的两句：仓库位置、分数表可复现、不要求生产姿态档案。内部 checksum / Table S54 / DOI 未发 全部移出主文。
+6. **Discussion 4.3 / 4.5。** 4.3 只留对应口袋主结论；Figure S5 覆盖率细节压成一句并指向 SI。
 
-## 引言
+## 其他
 
-- 先用白话定义四类实验状态，再引入 dual / A-only / B-only / neither。
-- 末段改为三个明确研究问题，不用“首次 / 尚无研究”。
-- 中文第三问由“剩余判别”改为“表观判别”，避免校验禁用词，含义不变。
-- 未增补文献。
-
-## 方法
-
-- 2.1 写明主分析是两个方向性 AUROC 与 `summary_min`；其余为限定解释范围的补充分析。
-- 英文 2.2 补回类别的相对定义（A-only/B-only 不是全蛋白组选择性）。
-- 英文 2.4.1 补回 2WXF = 小鼠 PIK3CD、已从主表撤出。
-- 英文 2.5.3 补回“缺类重采样不入区间”，以及 dual–all-nonduals 使用分层 bootstrap。
-- 2.4.4 压缩共晶 QC 历史，仍区分最低 RMSD、top-1、8 姿态与重建 QC。
-- 未把事后分析写成预设。
-
-## 结果
-
-- 3.1 区分普查与对接菜单。
-- 3.2 / 3.4：区间穿过 0 或 0.5 改写为“估计不精确 / 未提供稳定优势”，不写成等价于随机。
-- 英文补回 Figure 1–6 图注，与中文图注对齐；未改图文件。
-- 共晶 QC 只保留覆盖结论与关键反例，细节仍在 Table S2。
-
-## 讨论
-
-- 4.1 压缩与引言重复的基准综述。
-- 英文 4.3 改为先写口袋对应、再写受体替换与独立 GNINA，与中文顺序一致。
-- 4.5 不再重列 max/median 全部数字，指向 Results 3.5 与 Table S3；英文末段压缩为数据需求，不写未做分析的路线图。
-- 未把未做的高可比性分析写成未来工作口号。
-
-## 结论
-
-- 中文由三条编号改为两段连贯陈述。
-- 英文合并为两段，保留 `A matched-pocket advantage was not stably recovered`。
-- 未新增实践承诺。
+- 标题改为 `Evaluating Dual-Target Molecular Docking: Experimental-State Comparisons across Multiple Target Pairs and Sources of Discrimination`。
+- 摘要：ECFP4 为 comparable or higher；0.023 限定在骨架分组逻辑回归设定下。
+- 引言第三问改为 observed docking discrimination，不再写 remaining discrimination。
+- 2.3 准入改为可核对条件：人源结构、非共价位点、共晶配体可定义对接盒、双向供给足够。
+- 4.2 补回 dual 配体连接/融合设计两句，并立即限定未作架构标注。
+- 参考文献 (16) 后补上 (17) DOCKSTRING，其后顺延至 (22)。
+- 数字未改。
