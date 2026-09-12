@@ -40,7 +40,7 @@ Vina ligand-level bootstrap 95% CIs and the best single-descriptor point estimat
 
 ## Figure S4. Cognate redocking RMSD for the 14 primary receptors.
 
-Heavy-atom RMSD of the cognate ligand after redocking into each primary receptor. Circles: top-1 pose. Diamonds: lowest heavy-atom RMSD among all saved poses. AChE 4EY7 deposited 8 poses; the other primary receptors deposited 9. The dashed line marks RMSD = 2 Å. Values above 3.5 Å are indicated off-scale; the EGFR 3POZ top-1 RMSD was 9.505 Å. PPARA 6LXA is included. Values are those locked in Table S2.
+Heavy-atom RMSD of the cognate ligand after redocking into each primary receptor. Circles: top-1 pose. Diamonds: lowest heavy-atom RMSD among all saved poses. AChE 4EY7 and TYK2 3LXP deposited 8 poses; the other primary receptors deposited 9. The dashed line marks RMSD = 2 Å. Values above 3.5 Å are indicated off-scale; the EGFR 3POZ top-1 RMSD was 9.505 Å. The eight added receptors use chemically mapped CalcRMS (Table S2c). The original six receptors keep their existing reaudit or production-QC tables. Table S2b remains a historical coordinate-assignment comparison.
 
 ## Figure S5. Detectable-effect simulation.
 

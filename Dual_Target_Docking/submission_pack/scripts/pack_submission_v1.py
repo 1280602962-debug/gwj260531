@@ -19,6 +19,8 @@ DOCS = [
     "DATA_AND_SOFTWARE_AVAILABILITY_JCIM_EN.md",
     "DATA_AND_SOFTWARE_AVAILABILITY_JCIM_ZH.md",
     "REFERENCES_JCIM.md",
+    "PRODUCTION_POSE_ARCHIVE_PREP_V1.md",
+    "HIGH_COMPARABILITY_FEASIBILITY_V1.md",
 ]
 
 TABLES = [
@@ -42,6 +44,13 @@ TABLES = [
     "data/jcim_chembl_universe_v0/local_track_b_v0/tables/five_pair_local_channels_v1/fiveseed_summary_min_aggregate_v1.csv",
     "data/jcim_holdout_v0/tables/holdout_pocket_matched_v1.csv",
     "data/jcim_novelty_v0/tables/cognate_rank_rmsd_reaudit_v1.csv",
+    "data/jcim_chembl_universe_v0/local_track_b_v0/tables/layer3_cognate_rmsd_calcrrms_v1.csv",
+    "data/jcim_chembl_universe_v0/local_track_b_v0/tables/layer3_cognate_rmsd_calcrrms_modes_v1.csv",
+    "data/jcim_chembl_universe_v0/local_track_b_v0/tables/pocket_unidirectional_delta_v1.csv",
+    "data/jcim_chembl_universe_v0/local_track_b_v0/tables/multiseed_fixed_membership_v1.csv",
+    "data/jcim_chembl_universe_v0/local_track_b_v0/tables/multiseed_fixed_membership_ids_v1.csv",
+    "data/jcim_chembl_universe_v0/local_track_b_v0/tables/production_pose_sha256_manifest_v1.csv",
+    "data/jcim_chembl_universe_v0/local_track_b_v0/tables/scores_vina_mode1_pose_replay_v1.csv",
     "data/jcim_novelty_v0/tables/DUALFOURCLASS_EVALUATION_CONTRACT_v1.json",
     "data/jcim_novelty_v0/tables/REVISION_CHECKSUM_MANIFEST_v1.csv",
     "data/manuscript_lock/SI_TABLE_MERGE_MAP_v1.csv",
@@ -59,9 +68,12 @@ SCRIPTS = [
     "data/jcim_novelty_v0/scripts/build_checksum_manifest_v1.py",
     "data/jcim_novelty_v0/scripts/build_master_results_table_v1.py",
     "data/jcim_novelty_v0/scripts/ecfp4_docking_scaler_sensitivity_v1.py",
-    "data/jcim_bench_v0/scripts/plot_jcim_article_figures_v3.py",
+    "figures/jcim_article/scripts/update_figures_pr32.py",
+    "figures/jcim_article/scripts/audit_figures_pr32.py",
+    "data/jcim_chembl_universe_v0/scripts/replay_track_b_vina_mode1_v1.py",
+    "data/jcim_chembl_universe_v0/scripts/multiseed_fixed_membership_v1.py",
+    "data/jcim_chembl_universe_v0/scripts/pocket_unidirectional_delta_v1.py",
     "data/jcim_bench_v0/scripts/jcim_figure_style.py",
-    "data/jcim_bench_v0/scripts/plot_jcim_si_composites_v1.py",
 ]
 
 
@@ -109,11 +121,9 @@ def main() -> None:
         "FigS2_pocket_matched_forest",
         "FigS3_protocol_sensitivity",
         "FigS4_cognate_rmsd",
-        "FigS5_unused_pool_holdout",
         "FigS6_detectable_effect",
-        "FigS7_bindingdb_native_slice",
-        "FigS8_cluster_uncertainty",
         "MANUSCRIPT_FIGURE_CAPTIONS",
+        "ARCHIVED_FIGURES",
         "plotted_values",
         "FIGURE_AUDIT_PR32",
         "FIGURE_SHA256",

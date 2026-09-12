@@ -34,7 +34,7 @@
 
 ## Table S2. 主受体对接盒子与共晶重对接 RMSD
 
-八个靶对使用 14 个 PDB 槽位（JAK1 的 6N7A 与 PPARA 的 6LXA 被两对共用）。PIK3CA/mTOR 因 4JT6 在 E = 8 时未过门槛而采用 E = 16。EGFR 3POZ 为重建 QC（原始九姿态生产文件未找回）。9V8H 为 PPARγ LBD–BRL–PG08-NL 三元复合物，对接保留肽链。表中分辨率由主文 Table 1 移入。Figure S4 按 Table S2b 的坐标匹配结果作图。新增八个受体的化学对应复核见 Table S2c；稿件中的近天然判断以 S2c 为准。AChE 4EY7 实际保存 8 个姿态。
+八个靶对使用 14 个 PDB 槽位（JAK1 的 6N7A 与 PPARA 的 6LXA 被两对共用）。PIK3CA/mTOR 因 4JT6 在 E = 8 时未过门槛而采用 E = 16。EGFR 3POZ 为重建 QC（原始九姿态生产文件未找回）。9V8H 为 PPARγ LBD–BRL–PG08-NL 三元复合物，对接保留肽链。表中分辨率由主文 Table 1 移入。Figure S4 对新增八个受体采用 Table S2c，对原有六个受体沿用其已有复核表。Table S2b 仅作历史对照。AChE 4EY7 与 TYK2 3LXP 实际保存 8 个姿态。
 
 **S2a. 对接盒子（Å）与分辨率**
 
@@ -74,7 +74,7 @@
 | PPARA | 6LXA | 8 | 7.508 | — | 1.098 | 通过 |
 | PPARD | 5U3Q | 8 | 1.452 | 1.452 | 1.452 | 通过 |
 
-S2b 为原先坐标匈牙利匹配，供与 Figure S4 对照。PPARA 6LXA 在该表中未记录前三姿态 RMSD。AChE 4EY7 保存 8 个姿态，其最低 RMSD 不是 best-of-9。化学对应复核后，新增八个受体的搜索覆盖门槛仍全部通过，因此主评价仍保留这八个靶对；JAK2、PPARG、PPARA 的第一姿态未回到 2 Å 以内。
+S2b 为原先坐标匈牙利匹配，仅作历史对照。PPARA 6LXA 在该表中未记录前三姿态 RMSD。AChE 4EY7 与 TYK2 3LXP 保存 8 个姿态，其最低 RMSD 不是统一的 best-of-9。Figure S4 对新增八个受体改用 Table S2c；原有六个受体沿用其已有 CalcRMS/生产 QC 表。化学对应复核后，新增八个受体的搜索覆盖门槛仍全部通过；JAK2、PPARG、PPARA 的第一姿态未回到 2 Å 以内。原有六个受体未纳入该新增复核。
 
 **S2c. 新增八受体共晶 RMSD（化学对应，RDKit CalcRMS）**
 
@@ -248,7 +248,7 @@ ECFP4及ECFP4+docking的AUROC来自相同骨架分组交叉验证下的折外预
 
 **S6b. 单方向差值与较弱方向切换（与 \(\Delta\mathrm{summary}_{\min}\) 并列）**
 
-正值表示对应口袋该方向更高。`weaker_switched = yes` 表示取最小值前后较弱方向不一致，此时 \(\Delta\mathrm{summary}_{\min}\) 不能单独代表两个方向。
+正值表示对应口袋该方向更高。单方向差值为点估计，没有单独计算的区间；表中置信区间只属于 \(\Delta\mathrm{summary}_{\min}\)。`weaker_switched = yes` 表示对应评分与交换评分的较弱方向不一致，此时 \(\Delta\mathrm{summary}_{\min}\) 不能单独代表两个方向。本表由已锁定口袋结果重排，不是新的独立实验。
 
 | 靶对 | 集合 | Δ D vs A | Δ D vs B | Δ summary_min [95% CI] | 较弱方向是否切换 |
 |------|------|---------:|---------:|------------------------|:----------------:|
@@ -274,7 +274,7 @@ ECFP4及ECFP4+docking的AUROC来自相同骨架分组交叉验证下的折外预
 
 ## Table S7. 未使用池留出集（unused-pool holdout）
 
-配体来自同一 ChEMBL 批次，排除主面板成员后按冻结配额抽样。EGFR/HER2 剩余候选不足，未构建同等 holdout，不能解释为已完成重复验证但失败。JAK1/JAK2 实抽 20 / 20 / 18。留出集为方向性样本（dual / A-only / B-only），不含 neither。holdout 区间包含 0 时，解释为尚未获得稳定优势的证据，而不把不显著等同于无优势。
+配体来自同一 ChEMBL 批次，排除主面板成员后按冻结配额抽样。EGFR/HER2 因剩余候选不足，未构建同等内部留出集。JAK1/JAK2 实抽 20 / 20 / 18。留出集为方向性样本（dual / A-only / B-only），不含 neither。holdout 区间包含 0 时，解释为尚未获得稳定优势的证据，而不把不显著等同于无优势。
 
 | 靶对 | 主评价 summary_min [95% CI] | holdout n (D / A / B) | holdout summary_min [95% CI] |
 |------|----------------------------:|----------------------:|------------------------------|
@@ -346,14 +346,14 @@ F2/F10、JAK1/TYK2、JAK1/JAK2、PPARG/PPARA 和 PPARA/PPARD 的五种子 \(\mat
 
 **S9e. 新增五对固定成员交集（五个种子均有双端分数）**
 
-完整病例（S9c）估计的是该种子实际打分成功的成员；下表把成员固定为五种子交集，只反映搜索随机性。本表不替换 Table 2。
+完整病例（S9c）估计的是该种子实际打分成功的成员；下表把成员固定为五种子均有双端有限分数的交集。`n_intersection` 含 neither；方向性 AUROC 只用 dual / A-only / B-only。成员 ID 见 `multiseed_fixed_membership_ids_v1.csv`。本表只覆盖新增五对，不外推为八对，也不替换 Table 2。较小的种子波动不能解释为对实验标签或数据来源稳健。
 
 | 靶对 | n_intersection (D / A / B) | 生产种子 summary_min | 五种子范围 | 较弱方向是否切换 |
 |------|---------------------------:|---------------------:|------------|:----------------:|
 | F2/F10 | 107（31 / 32 / 32） | 0.345 | 0.345–0.385 | 否 |
 | JAK1/TYK2 | 109（31 / 32 / 32） | 0.365 | 0.365–0.381 | 否 |
 | JAK1/JAK2 | 110（32 / 32 / 32） | 0.588 | 0.574–0.592 | 否 |
-| PPARG/PPARA | 109（32 / 31 / 32） | 0.649 | 0.649–0.691 | 是（20260811：较弱方向由 D vs A 换成 D vs B） |
+| PPARG/PPARA | 109（32 / 31 / 32；另含 neither 14） | 0.649 | 0.649–0.691 | 是（20260811、20260812、20260814：较弱方向由 D vs A 换成 D vs B） |
 | PPARA/PPARD | 110（32 / 32 / 32） | 0.446 | 0.446–0.469 | 否 |
 
 源：`multiseed_fixed_membership_v1.csv`。EGFR/HER2、AChE/BChE 与 PIK3CA/mTOR 未纳入本表，因其多种子完整病例变化已在 S9c 说明。
@@ -492,7 +492,7 @@ S11a 是严格 6.5/5.5 的 **供给清点**（BindingDB 与 PubChem 的 `equal_o
 
 ![Figure S4](../figures/jcim_article/FigS4_cognate_rmsd.png)
 
-**Figure S4.** 各主受体共晶配体重对接的重原子 RMSD。圆点为 top-1，菱形为全部保存姿态中的最低重原子 RMSD。AChE 4EY7 保存 8 个姿态，其余主受体保存 9 个姿态。虚线为 2 Å。EGFR 3POZ 的 top-1 为 9.505 Å，在图中标为超轴。PPARA 6LXA 包含在本图中。本图数值与 Table S2b 的坐标匹配结果一致；新增八受体的化学对应数字见 Table S2c，不在本图中改画。
+**Figure S4.** 各主受体共晶配体重对接的重原子 RMSD。圆点为 top-1，菱形为全部保存姿态中的最低重原子 RMSD。AChE 4EY7 与 TYK2 3LXP 保存 8 个姿态，其余主受体保存 9 个姿态。虚线为 2 Å。EGFR 3POZ 的 top-1 为 9.505 Å，在图中标为超轴。新增八个受体采用 Table S2c 的化学对应 CalcRMS；原有六个受体沿用其已有复核表。Table S2b 的坐标匹配结果仅作历史对照。
 
 ### Figure S5. 可检测效应情景模拟
 

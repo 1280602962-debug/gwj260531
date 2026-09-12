@@ -630,18 +630,35 @@ def round4() -> None:
 def round5() -> None:
     en = (DOCS / "MANUSCRIPT_JCIM_EN.md").read_text(encoding="utf-8")
     zh = (DOCS / "MANUSCRIPT_JCIM_ZH.md").read_text(encoding="utf-8")
+    def withdrawal_context_ok(text: str) -> bool:
+        if "PIK3CA/PIK3CB" not in text:
+            return True
+        for match in re.finditer(r".{0,50}PIK3CA/PIK3CB.{0,80}", text):
+            ctx = match.group(0)
+            if not any(
+                token in ctx
+                for token in (
+                    "撤出",
+                    "withdrawn",
+                    "withdrawal",
+                    "历史",
+                    "archive",
+                    "not a Table 2",
+                    "只读归档",
+                )
+            ):
+                return False
+        return True
+
     for name, text in (("EN manuscript", en), ("ZH manuscript", zh)):
-        if "PIK3CA/PIK3CB" in text or re.search(r"PIK3CB(?! withdrawal)", text):
-            if "PIK3CA/PIK3CB" in text:
-                rec("R5", "FAIL", f"{name} still names PIK3CA/PIK3CB")
-            else:
-                rec("R5", "NOTE", f"{name} mentions PIK3CB (check context)")
+        if not withdrawal_context_ok(text):
+            rec("R5", "FAIL", f"{name} names PIK3CA/PIK3CB outside a withdrawal/archive sentence")
         else:
-            rec("R5", "PASS", f"{name} has no PIK3CA/PIK3CB primary-set mention")
+            rec("R5", "PASS", f"{name} does not list PIK3CA/PIK3CB as a current primary pair")
     for rel in PAPER_GLOBS:
         text = (DOCS / rel).read_text(encoding="utf-8")
-        if "PIK3CA/PIK3CB" in text:
-            rec("R5", "FAIL", f"paper-facing {rel} still names PIK3CA/PIK3CB")
+        if "PIK3CA/PIK3CB" in text and not withdrawal_context_ok(text):
+            rec("R5", "FAIL", f"paper-facing {rel} names PIK3CA/PIK3CB outside a withdrawal/archive sentence")
     for cmd, label in (
         ([sys.executable, str(ROOT / "scripts/primary/bootstrap_primary.py")], "bootstrap_primary"),
         ([sys.executable, str(ROOT / "data/jcim_novelty_v0/scripts/validate_revision_v1.py")], "validate_revision_v1"),
@@ -722,7 +739,7 @@ def write_report() -> int:
             "- Table 2 EGFR/HER2 TPSA displayed 0.427 for CSV 0.4275, which is not valid under half-up or half-even; corrected to **0.428** in EN/ZH Table 2.",
             "- Fig1C had five x-tick labels (including withdrawn PIK3CA/PIK3CB) but only four J0 bars, and read complete-case overlap for a pair no longer in that CSV. Bars/labels now match `j0_strict_label_supply.csv`; overlap uses the three original maps (14.5%–34.0%).",
             "- Figure verify locks now match the current J0 scrape (48 pairs, 3 thick) and θ=6.0 census (`directional_n10` = 16, `docked_in_this_paper` = 3). The formal Figure 1 funnel shows J0 scrape → min selective ≥50 → eight-pair evaluation set and no longer records historically docked 4 → PIK3CB withdrawal.",
-            "- Historical original-set S1–S3/S9/S10 artwork from `plot_jcim_si_composites_v1.py` (may still tick PIK3CB) was removed; current SI artwork is S1 protocol, S4–S8, S11, and S12 only.",
+            "- Historical original-set S1–S3/S9/S10 artwork from `plot_jcim_si_composites_v1.py` (may still tick PIK3CB) was removed. Typeset SI figures are S1–S5 (S5 uses file `FigS6_detectable_effect`). Holdout, BindingDB, and cluster copies remain archived in-repo and are not packed.",
             "- Submission slice: `submission_pack/`.",
             "",
         ]

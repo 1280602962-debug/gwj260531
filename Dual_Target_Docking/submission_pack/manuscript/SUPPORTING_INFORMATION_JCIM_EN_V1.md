@@ -31,7 +31,7 @@ Ligands need both-end scores for directional AUROC; n_scored may be below n_pane
 
 ## Table S2. Primary receptor boxes and cognate redocking RMSD
 
-The eight pairs use 14 PDB slots (JAK1 6N7A and PPARA 6LXA are shared). PIK3CA/mTOR used E = 16 because 4JT6 failed the gate at E = 8. EGFR 3POZ is reconstructed QC (original nine-mode production files were not recovered). 9V8H is a PPARγ LBD–BRL–PG08-NL ternary complex; the peptide was retained. Figure S4 follows the coordinate-assignment values in Table S2b. Chemically mapped RMSDs for the eight added receptors are in Table S2c and are the values used in the text. AChE 4EY7 deposited 8 poses.
+The eight pairs use 14 PDB slots (JAK1 6N7A and PPARA 6LXA are shared). PIK3CA/mTOR used E = 16 because 4JT6 failed the gate at E = 8. EGFR 3POZ is reconstructed QC (original nine-mode production files were not recovered). 9V8H is a PPARγ LBD–BRL–PG08-NL ternary complex; the peptide was retained. Figure S4 uses Table S2c for the eight added receptors and the existing reaudit or production-QC tables for the original six. Table S2b remains a historical coordinate-assignment comparison. AChE 4EY7 and TYK2 3LXP deposited 8 poses.
 
 **S2a. Docking boxes (Å)**
 
@@ -71,7 +71,7 @@ The eight pairs use 14 PDB slots (JAK1 6N7A and PPARA 6LXA are shared). PIK3CA/m
 | PPARA | 6LXA | 8 | 7.508 | — | 1.098 | pass |
 | PPARD | 5U3Q | 8 | 1.452 | 1.452 | 1.452 | pass |
 
-S2b is the earlier coordinate Hungarian assignment and is the source of Figure S4. PPARA 6LXA has no top-3 value in that table. AChE 4EY7 saved 8 poses.
+S2b is the earlier coordinate Hungarian assignment and is a historical comparison only. PPARA 6LXA has no top-3 value in that table. AChE 4EY7 and TYK2 3LXP saved 8 poses. Figure S4 uses Table S2c for the eight added receptors.
 
 **S2c. Chemically mapped RMSD for the eight added receptors (RDKit CalcRMS)**
 
@@ -245,6 +245,30 @@ Source: `pocket_matched_vs_best_descriptor_delta_v1.csv`; `descriptor_paired_del
 
 Source: `wrong_pocket_paired_delta_bootstrap_v1.csv` (`set=main_panel` / `unused_pool_holdout`); `wrong_pocket_by_channel_v1.csv`.
 
+**S6b. Unidirectional deltas and weaker-arm switches (beside \(\Delta\mathrm{summary}_{\min}\))**
+
+Positive values mean the matched pocket is higher on that arm. Unidirectional deltas are point estimates and have no separately computed intervals; the confidence interval belongs only to \(\Delta\mathrm{summary}_{\min}\). `weaker_switched = yes` means the weaker arm differs between matched and mismatched scoring, so \(\Delta\mathrm{summary}_{\min}\) cannot represent both directions. This table rearranges locked pocket results; it is not a new independent experiment.
+
+| Pair | Set | Δ D vs A | Δ D vs B | Δ summary_min [95% CI] | Weaker arm switched |
+|------|------|---------:|---------:|------------------------|:-------------------:|
+| EGFR/HER2 | main | −0.032 | 0.170 | 0.170 [0.060, 0.280] | no |
+| AChE/BChE | main | 0.206 | 0.048 | 0.161 [0.037, 0.269] | yes |
+| PIK3CA/mTOR | main | 0.004 | 0.090 | 0.090 [−0.122, 0.263] | no |
+| F2/F10 | main | −0.037 | −0.031 | −0.031 [−0.117, 0.040] | no |
+| JAK1/TYK2 | main | 0.060 | −0.065 | −0.065 [−0.152, 0.038] | no |
+| JAK1/JAK2 | main | −0.019 | 0.004 | −0.019 [−0.097, 0.054] | no |
+| PPARG/PPARA | main | −0.002 | 0.087 | 0.030 [−0.081, 0.163] | yes |
+| PPARA/PPARD | main | 0.212 | −0.053 | 0.012 [−0.092, 0.145] | yes |
+| AChE/BChE | holdout | −0.008 | −0.035 | −0.025 [−0.112, 0.071] | yes |
+| PIK3CA/mTOR | holdout | 0.073 | −0.093 | −0.023 [−0.117, 0.079] | yes |
+| F2/F10 | holdout | −0.307 | 0.080 | −0.079 [−0.251, 0.075] | yes |
+| JAK1/TYK2 | holdout | −0.006 | 0.025 | 0.025 [−0.087, 0.133] | no |
+| JAK1/JAK2 | holdout | 0.024 | 0.008 | 0.008 [−0.072, 0.111] | no |
+| PPARG/PPARA | holdout | 0.174 | −0.169 | 0.006 [−0.168, 0.183] | yes |
+| PPARA/PPARD | holdout | 0.150 | 0.071 | 0.150 [−0.056, 0.294] | no |
+
+Source: `pocket_unidirectional_delta_v1.csv`. Rearranged from locked pocket score tables; no redocking.
+
 ---
 
 ## Table S7. Unused-pool holdout
@@ -318,6 +342,20 @@ Independent GNINA searches new poses; it is not a Vina rescore. Scope is EGFR/HE
 | PPARA/PPARD | 0.446 | 0.454 | 0.446–0.469 |
 
 No five-seed range on F2/F10, JAK1/TYK2, JAK1/JAK2, PPARG/PPARA, or PPARA/PPARD crossed 0.5. Alternate seeds are complete-case: AChE/BChE n_complete is 95 on the production seed (27 / 25 / 28) and 89–90 on the other four (as low as 25 / 22 / 27). On some five-pair seeds JAK1/TYK2 n_dual is 32 rather than 31, and PPARG/PPARA n_A is 32 rather than 31. Those n shifts are not a second Table 2.
+
+**S9e. Fixed-membership intersection on the five added pairs (both-end scores on all five seeds)**
+
+Complete-case estimates (S9c) use ligands that succeeded on that seed. The table below fixes membership to ligands with finite both-end scores on every seed. `n_intersection` includes neither; directional AUROCs use only dual / A-only / B-only. Member IDs are in `multiseed_fixed_membership_ids_v1.csv`. The table covers only the five added pairs and does not replace Table 2. Smaller seed-to-seed changes are not evidence of robustness to experimental labels or data sources.
+
+| Pair | n_intersection (D / A / B) | Production summary_min | Five-seed range | Weaker arm switched |
+|------|---------------------------:|-----------------------:|-----------------|:-------------------:|
+| F2/F10 | 107 (31 / 32 / 32) | 0.345 | 0.345–0.385 | no |
+| JAK1/TYK2 | 109 (31 / 32 / 32) | 0.365 | 0.365–0.381 | no |
+| JAK1/JAK2 | 110 (32 / 32 / 32) | 0.588 | 0.574–0.592 | no |
+| PPARG/PPARA | 109 (32 / 31 / 32; neither 14) | 0.649 | 0.649–0.691 | yes (20260811, 20260812, 20260814: weaker arm D vs A → D vs B) |
+| PPARA/PPARD | 110 (32 / 32 / 32) | 0.446 | 0.446–0.469 | no |
+
+Source: `multiseed_fixed_membership_v1.csv`. EGFR/HER2, AChE/BChE, and PIK3CA/mTOR are omitted because their complete-case seed changes are already in S9c.
 
 **S9d. EGFR/HER2 five-seed task difference (dual-versus-neither − `summary_min`; Figure 5C shows `summary_min` only)**
 

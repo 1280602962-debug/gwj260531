@@ -120,8 +120,8 @@ Summary: **114 PASS**, **0 FAIL**, **3 NOTE**.
 | R4 | PASS | fig1C complete-case range uses the three original maps only |
 | R4 | NOTE | plot_jcim_si_composites_v1.py still ticks withdrawn PIK3CB (S1–S3/S9/S10 archive figures; do not submit as eight-row primaries) |
 | R4 | NOTE | v1 figure script retained as archive; submission figures must come from v3 only |
-| R5 | PASS | EN manuscript has no PIK3CA/PIK3CB primary-set mention |
-| R5 | PASS | ZH manuscript has no PIK3CA/PIK3CB primary-set mention |
+| R5 | PASS | EN manuscript does not list PIK3CA/PIK3CB as a current primary pair |
+| R5 | PASS | ZH manuscript does not list PIK3CA/PIK3CB as a current primary pair |
 | R5 | PASS | bootstrap_primary OK |
 | R5 | PASS | validate_revision_v1 OK |
 | R5 | PASS | checksum --check OK |
@@ -151,6 +151,6 @@ Assembled EN/ZH manuscripts must not list PIK3CA/PIK3CB as a primary pair.
 - Table 2 EGFR/HER2 TPSA displayed 0.427 for CSV 0.4275, which is not valid under half-up or half-even; corrected to **0.428** in EN/ZH Table 2.
 - Fig1C had five x-tick labels (including withdrawn PIK3CA/PIK3CB) but only four J0 bars, and read complete-case overlap for a pair no longer in that CSV. Bars/labels now match `j0_strict_label_supply.csv`; overlap uses the three original maps (14.5%–34.0%).
 - Figure verify locks now match the current J0 scrape (48 pairs, 3 thick) and θ=6.0 census (`directional_n10` = 16, `docked_in_this_paper` = 3). The formal Figure 1 funnel shows J0 scrape → min selective ≥50 → eight-pair evaluation set and no longer records historically docked 4 → PIK3CB withdrawal.
-- Historical original-set S1–S3/S9/S10 artwork from `plot_jcim_si_composites_v1.py` (may still tick PIK3CB) was removed; current SI artwork is S1 protocol, S4–S8, S11, and S12 only.
+- Historical original-set S1–S3/S9/S10 artwork from `plot_jcim_si_composites_v1.py` (may still tick PIK3CB) was removed. Typeset SI figures are S1–S5 (S5 uses file `FigS6_detectable_effect`). Holdout, BindingDB, and cluster copies remain archived in-repo and are not packed.
 - Submission slice: `submission_pack/`.
 
