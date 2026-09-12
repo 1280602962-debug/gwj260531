@@ -31,7 +31,7 @@ Ligands need both-end scores for directional AUROC; n_scored may be below n_pane
 
 ## Table S2. Primary receptor boxes and cognate redocking RMSD
 
-The eight pairs use 14 PDB slots (JAK1 6N7A and PPARA 6LXA are shared). PIK3CA/mTOR used E = 16 because 4JT6 failed the gate at E = 8. EGFR 3POZ is reconstructed QC (original nine-mode production files were not recovered). 9V8H is a PPARγ LBD–BRL–PG08-NL ternary complex; the peptide was retained. Figure S4 uses Table S2c for the eight added receptors and the existing reaudit or production-QC tables for the original six. Table S2b remains a historical coordinate-assignment comparison. AChE 4EY7 and TYK2 3LXP deposited 8 poses.
+The eight pairs use 14 primary receptor structures (JAK1 6N7A and PPARA 6LXA are shared). PIK3CA/mTOR used E = 16 because 4JT6 failed the gate at E = 8. EGFR 3POZ is reconstructed QC, not a recovered original production output. 9V8H is a PPARγ LBD–BRL–PG08-NL ternary complex; the peptide was retained. Figure S4 uses Table S2c for the eight added receptors and the existing reaudit or production-QC tables for the original six. Table S2b remains a historical coordinate-assignment comparison. AChE 4EY7 and TYK2 3LXP deposited 8 poses, so their lowest RMSD is not a uniform best-of-nine.
 
 **S2a. Docking boxes (Å)**
 
@@ -94,7 +94,7 @@ Source: `layer3_cognate_rmsd_calcrrms_v1.csv`. Search-coverage still passed for 
 
 ## Table S3. Activity-threshold and pChEMBL-aggregation sensitivity
 
-Relabeling on frozen Vina scores. Primary analysis is θ = 6.0 (Table 2). Panels drawn from the strict 6.5/5.5 pool keep the same main class composition across several thresholds, so AUROC changes little. EGFR/HER2 and PIK3CA/mTOR change class composition more. Max/median and high-confidence rechecks cover only EGFR/HER2, AChE/BChE, and PIK3CA/mTOR.
+Relabeling on frozen Vina scores. Primary analysis is θ = 6.0 (Table 2). Panels drawn from the strict 6.5/5.5 pool keep the same main class composition across several thresholds, so AUROC changes little. EGFR/HER2 and PIK3CA/mTOR change class composition more. Same-day API max/median and high-confidence field screens cover EGFR/HER2, AChE/BChE, and PIK3CA/mTOR. The five added pairs have a separate ChEMBL 37 dump-based max/median analysis; that dump is not the API snapshot. The present SI reports both completed scopes and does not merge dump results into the API snapshot.
 
 | Pair | Label rule | n (D / A / B) | summary_min | 95% CI |
 |------|----------|--------------:|------------:|--------|
@@ -118,9 +118,11 @@ Relabeling on frozen Vina scores. Primary analysis is θ = 6.0 (Table 2). Panels
 | PPARA/PPARD | θ = 5.5 | 34 / 33 / 30 | 0.454 | [0.307, 0.594] |
 | PPARA/PPARD | θ = 6.0 / 6.5 / strict | 32 / 32 / 32 | 0.446 | [0.296, 0.584] |
 
-**pChEMBL max versus median (2026-08-26 API snapshot; does not replace Table 2):** EGFR/HER2 label agreement 93.6%, `summary_min` 0.430 frozen vs API-max 0.417 and median 0.424; AChE/BChE agreement 98.9%, median `summary_min` 0.629 (Δ = +0.023); PIK3CA/mTOR agreement 100%, `summary_min` unchanged. Source: `unified_threshold_sensitivity_v2.csv`; `threshold_grid_v1.csv`; `assay_max_vs_median_agreement_v1.csv`.
+**pChEMBL max versus median (2026-08-26 API snapshot; does not replace Table 2):** This snapshot is not the frozen production cache. EGFR/HER2 label agreement 93.6% (7/110 class flips), production `summary_min` 0.430, same-day API-max 0.417, median 0.424; the frozen-versus-API-max difference includes the EH120_060 cache/API mismatch and cannot all be attributed to aggregation. AChE/BChE agreement 98.9% (1/95 flip); frozen max equals API-max (0.606), and median is 0.629 (Δ = +0.023). PIK3CA/mTOR agreement 100%, `summary_min` unchanged. Source: `assay_max_vs_median_agreement_v1.csv`; `assay_max_vs_median_auroc_v1.csv`.
 
-**High-confidence human SINGLE PROTEIN view (same-day API snapshot; does not replace Table 2):** 253/253 scored ligands with that snapshot match the four-state labels and directional AUROCs are unchanged. The view covers EGFR/HER2, AChE/BChE, and PIK3CA/mTOR. Source: `high_confidence_summary_v1.csv`.
+**High-confidence human SINGLE PROTEIN view (same-day API snapshot; does not replace Table 2):** Automatic database-field screen, not paper-by-paper reading. 253/253 scored ligands with that snapshot match the four-state labels, and directional AUROCs are unchanged. The view covers EGFR/HER2, AChE/BChE, and PIK3CA/mTOR and does not cover all eight pairs. Source: `high_confidence_summary_v1.csv`.
+
+**Five-pair dump max/median (ChEMBL 37 dump; frozen Vina scores; does not replace Table 2):** Not the same-day API snapshot. Only PPARA/PPARD had one class flip (CHEMBL121; A-only 32→31). That pair’s dual-versus-A-only AUROC changed from 0.646 to 0.636; the `summary_min` point estimate remained 0.446. The other four pairs kept class composition and `summary_min` point estimates. Bootstrap intervals in that table are not the locked Table 2 intervals and are not used in the main text. Source: `five_pair_dump_gated_v1/max_vs_median_auroc_v1.csv`.
 
 ---
 
@@ -345,7 +347,7 @@ No five-seed range on F2/F10, JAK1/TYK2, JAK1/JAK2, PPARG/PPARA, or PPARA/PPARD 
 
 **S9e. Fixed-membership intersection on the five added pairs (both-end scores on all five seeds)**
 
-Complete-case estimates (S9c) use ligands that succeeded on that seed. The table below fixes membership to ligands with finite both-end scores on every seed. `n_intersection` includes neither; directional AUROCs use only dual / A-only / B-only. Member IDs are in `multiseed_fixed_membership_ids_v1.csv`. The table covers only the five added pairs and does not replace Table 2. Smaller seed-to-seed changes are not evidence of robustness to experimental labels or data sources.
+Complete-case estimates (S9c) use ligands that succeeded on that seed. The table below fixes membership to ligands with finite both-end scores on every seed. `n_intersection` includes neither; directional AUROCs use only dual / A-only / B-only. Member IDs are in `multiseed_fixed_membership_ids_v1.csv`. The table covers only the five added pairs and does not replace Table 2. Smaller seed-to-seed changes are not evidence of robustness to experimental labels or data sources. The intersection script drops empty score strings and then takes both-end scores; it does not separately test NaN or infinite literals. That limitation did not change the reported membership for the five pairs used here. Missing scores were not treated as low activity.
 
 | Pair | n_intersection (D / A / B) | Production summary_min | Five-seed range | Weaker arm switched |
 |------|---------------------------:|-----------------------:|-----------------|:-------------------:|

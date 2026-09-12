@@ -34,7 +34,7 @@
 
 ## Table S2. 主受体对接盒子与共晶重对接 RMSD
 
-八个靶对使用 14 个 PDB 槽位（JAK1 的 6N7A 与 PPARA 的 6LXA 被两对共用）。PIK3CA/mTOR 因 4JT6 在 E = 8 时未过门槛而采用 E = 16。EGFR 3POZ 为重建 QC（原始九姿态生产文件未找回）。9V8H 为 PPARγ LBD–BRL–PG08-NL 三元复合物，对接保留肽链。表中分辨率由主文 Table 1 移入。Figure S4 对新增八个受体采用 Table S2c，对原有六个受体沿用其已有复核表。Table S2b 仅作历史对照。AChE 4EY7 与 TYK2 3LXP 实际保存 8 个姿态。
+八个靶对使用 14 个主受体结构（JAK1 的 6N7A 与 PPARA 的 6LXA 被两对共用）。PIK3CA/mTOR 因 4JT6 在 E = 8 时未过门槛而采用 E = 16。EGFR 3POZ 为后来重建的 QC，不是已找回的原始生产输出。9V8H 为 PPARγ LBD–BRL–PG08-NL 三元复合物，对接保留肽链。表中分辨率由主文 Table 1 移入。Figure S4 对新增八个受体采用 Table S2c，对原有六个受体沿用其已有复核表。Table S2b 仅作历史对照。AChE 4EY7 与 TYK2 3LXP 实际保存 8 个姿态，其最低 RMSD 不是统一的 best-of-9。
 
 **S2a. 对接盒子（Å）与分辨率**
 
@@ -97,7 +97,7 @@ S2b 为原先坐标匈牙利匹配，仅作历史对照。PPARA 6LXA 在该表�
 
 ## Table S3. 活性阈值与 pChEMBL 聚合敏感性
 
-同一套冻结 Vina 分数上重标。主分析固定 θ = 6.0（Table 2）。从严格 6.5/5.5 候选池抽出的六对在多个阈值下主要类别组成相同，因而 AUROC 变化较小；EGFR/HER2 与 PIK3CA/mTOR 随阈值改变类别组成更明显。pChEMBL 最大/中位数及高置信复核仅覆盖 EGFR/HER2、AChE/BChE 与 PIK3CA/mTOR。
+同一套冻结 Vina 分数上重标。主分析固定 θ = 6.0（Table 2）。从严格 6.5/5.5 候选池抽出的六对在多个阈值下主要类别组成相同，因而 AUROC 变化较小；EGFR/HER2 与 PIK3CA/mTOR 随阈值改变类别组成更明显。同日 API 快照上的 max/median 与高置信字段筛查覆盖 EGFR/HER2、AChE/BChE 与 PIK3CA/mTOR；新增五对另有基于 ChEMBL 37 转储的 max/median 分析，二者不是同一数据版本。当前 SI 汇总同时报告这两项已完成范围，不把转储结果并入 API 快照。
 
 | 靶对 | 标签规则 | n (D / A / B) | summary_min | 95% CI |
 |------|----------|--------------:|------------:|--------|
@@ -121,9 +121,11 @@ S2b 为原先坐标匈牙利匹配，仅作历史对照。PPARA 6LXA 在该表�
 | PPARA/PPARD | θ = 5.5 | 34 / 33 / 30 | 0.454 | [0.307, 0.594] |
 | PPARA/PPARD | θ = 6.0 / 6.5 / 严格 | 32 / 32 / 32 | 0.446 | [0.296, 0.584] |
 
-**pChEMBL 最大对中位数（2026-08-26 API 快照；不替换 Table 2）：** EGFR/HER2 标签一致率 93.6%，`summary_min` 由冻结 0.430 变为 API-max 0.417、median 0.424；AChE/BChE 一致率 98.9%，median 使 `summary_min` 变为 0.629（Δ = +0.023）；PIK3CA/mTOR 一致率 100%，`summary_min` 不变。源：`unified_threshold_sensitivity_v2.csv`；`threshold_grid_v1.csv`；`assay_max_vs_median_agreement_v1.csv`。
+**pChEMBL 最大对中位数（2026-08-26 API 快照；不替换 Table 2）：** 该快照与生产标签所用冻结缓存不是同一数据版本。EGFR/HER2 标签一致率 93.6%（7/110 类别翻转），生产 `summary_min` 0.430，同日 API-max 0.417，median 0.424；冻结值与 API-max 的差异含 EH120_060 的缓存/API 不一致，不能全部归因于聚合方式。AChE/BChE 一致率 98.9%（1/95 翻转），该对冻结 max 与 API-max 均为 0.606，median 为 0.629（Δ = +0.023）。PIK3CA/mTOR 一致率 100%，`summary_min` 不变。源：`assay_max_vs_median_agreement_v1.csv`；`assay_max_vs_median_auroc_v1.csv`。
 
-**高置信人源单蛋白视图（同日 API 快照；不替换 Table 2）：** 按数据库字段规则自动筛查，不是逐篇阅读原文。具有该快照的已打分配体中 253/253 与四状态类别一致，方向性 AUROC 不变。该视图覆盖 EGFR/HER2、AChE/BChE 与 PIK3CA/mTOR。源：`high_confidence_summary_v1.csv`。
+**高置信人源单蛋白视图（同日 API 快照；不替换 Table 2）：** 按数据库字段规则自动筛查，不是逐篇阅读原文。具有该快照的已打分配体中 253/253 与四状态类别一致，方向性 AUROC 不变。该视图覆盖 EGFR/HER2、AChE/BChE 与 PIK3CA/mTOR，不能写成“八对均已完成”。源：`high_confidence_summary_v1.csv`。
+
+**新增五对数据库转储 max/median（ChEMBL 37 dump；冻结 Vina 分数；不替换 Table 2）：** 与同日 API 快照不是同一数据版本。五对中仅 PPARA/PPARD 出现 1 个类别翻转（CHEMBL121，A-only 32→31），该对 dual–A-only 由 0.646 变为 0.636，`summary_min` 点估计仍为 0.446。其余四对类别组成与 `summary_min` 点估计均不变。该表 bootstrap 区间与 Table 2 锁定区间不是同一套重采样输出，正文不采用其区间。源：`five_pair_dump_gated_v1/max_vs_median_auroc_v1.csv`。
 
 ---
 
@@ -346,7 +348,7 @@ F2/F10、JAK1/TYK2、JAK1/JAK2、PPARG/PPARA 和 PPARA/PPARD 的五种子 \(\mat
 
 **S9e. 新增五对固定成员交集（五个种子均有双端分数）**
 
-完整病例（S9c）估计的是该种子实际打分成功的成员；下表把成员固定为五种子均有双端有限分数的交集。`n_intersection` 含 neither；方向性 AUROC 只用 dual / A-only / B-only。成员 ID 见 `multiseed_fixed_membership_ids_v1.csv`。本表只覆盖新增五对，不外推为八对，也不替换 Table 2。较小的种子波动不能解释为对实验标签或数据来源稳健。
+完整病例（S9c）估计的是该种子实际打分成功的成员；下表把成员固定为五种子均有双端有限分数的交集。`n_intersection` 含 neither；方向性 AUROC 只用 dual / A-only / B-only。成员 ID 见 `multiseed_fixed_membership_ids_v1.csv`。本表只覆盖新增五对，不外推为八对，也不替换 Table 2。较小的种子波动不能解释为对实验标签或数据来源稳健。交集脚本排除空评分字符串后取两端分数；未另检 NaN 或无穷值字面量。对本轮采用的五对结果，该限制未改变已报告成员数。缺失评分不作为低活性。
 
 | 靶对 | n_intersection (D / A / B) | 生产种子 summary_min | 五种子范围 | 较弱方向是否切换 |
 |------|---------------------------:|---------------------:|------------|:----------------:|
