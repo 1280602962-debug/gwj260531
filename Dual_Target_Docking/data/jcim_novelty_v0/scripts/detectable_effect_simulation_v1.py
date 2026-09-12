@@ -227,6 +227,7 @@ def _verdict_md(rows: list[dict], meta: dict) -> str:
         "- Failure of an observed CI to exclude 0.5 does **not** establish equivalence to chance.",
         "- Dual versus neither uses a smaller negative set than the directional B-only/A-only arms on some pairs;",
         "  detectable-effect probabilities are therefore not interchangeable across formulations.",
+        "- This simulation is independent of the Table 2 pooled non-stratified bootstrap.",
         "",
     ]
     return "\n".join(lines) + "\n"

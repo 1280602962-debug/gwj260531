@@ -1,4 +1,8 @@
-# Assay-context human review SOP (local)
+# Assay-context review SOP (local)
+
+`local_agent_metadata_pass` 是自动字段筛查，不是人工读完全文。  
+数字一致性检查也不等于原始对接产物已经公开可核。  
+7 个不确定配体的原文抽查见 `ASSAY_CONTEXT_SOURCE_READING_V1.md`，不要把整张表写成“已完成人工原文审核”。
 
 Machine extraction is already in:
 

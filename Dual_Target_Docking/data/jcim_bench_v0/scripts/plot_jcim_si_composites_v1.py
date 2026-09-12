@@ -3,6 +3,10 @@
 SI: S1 protocol/panel sensitivities · S2 equal-relation supply · S3 extra paired Δ
 · S9 ligand controls (former Fig 7) · mismatched point estimates (former Fig 6 bars).
 Called from plot_jcim_article_figures_v2.py.
+
+Archive / original-set only. Tick labels still include withdrawn PIK3CA/PIK3CB.
+Do not use this script for the eight-row submission figures; use
+plot_jcim_article_figures_v3.py. Fig6 v3 imports only _pm48_e8 from here.
 """
 
 from __future__ import annotations

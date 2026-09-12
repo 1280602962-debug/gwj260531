@@ -346,7 +346,7 @@ def fig1_framework(D: dict) -> None:
         ax.add_patch(Circle((x - 0.28, 3.05), 0.36, facecolor=c1, edgecolor=C["ink"], lw=0.55, clip_on=False))
         ax.add_patch(Circle((x + 0.28, 3.05), 0.36, facecolor=c2, edgecolor=C["ink"], lw=0.55, clip_on=False))
         ax.text(x, 2.15, name, ha="center", fontsize=FS_ANNO)
-    ax.text(5.0, 0.85, "A-only / B-only = selectivity hard negatives", ha="center", fontsize=6.5, color="#555555")
+    ax.text(5.0, 0.85, "A-only / B-only = single-target-selective controls", ha="center", fontsize=6.5, color="#555555")
 
     ax = fig.add_subplot(gs[0, 1])
     ax.set_xlim(0, 10)
@@ -378,54 +378,54 @@ def fig1_framework(D: dict) -> None:
     n_thick = sum(1 for r in rows if fnum(r["min_strict_hardneg"]) >= 50)
     stages = [
         (n_pairs, "J0 scrape"),
-        (n_thick, "min hard-neg ≥50"),
-        (3, "after HDAC metal exclusion"),
-        (4, "historically docked"),
-        (3, "after PIK3CB withdrawal"),
-        (8, "primary rows after census"),
+        (n_thick, "min selective ≥50"),
+        (8, "eight-pair evaluation set"),
     ]
     y = np.arange(len(stages))
     vals = [s[0] for s in stages]
-    cols = [C["other"], C["thick"], C["metal"], C["egfr"], C["vina"], C["dual"]]
+    cols = [C["other"], C["thick"], C["dual"]]
     ax.barh(y, vals, color=cols, height=0.68, zorder=3)
     ax.set_yticks(y)
     ax.set_yticklabels([s[1] for s in stages], fontsize=6.2)
     ax.invert_yaxis()
     ax.set_xlabel("Pair count")
     ax.set_xlim(0, 56)
-    ax.set_title("J0 scrape to eight-row primary set", fontsize=FS_AXIS, pad=4)
+    ax.set_title("Supply screen to eight-pair evaluation set", fontsize=FS_AXIS, pad=4)
     for i, v in enumerate(vals):
         ax.text(v + 0.8, i, str(v), va="center", fontsize=6.4)
     ax.text(0.02, -0.18, "EGFR kept as supply-limited (B-only = 7), not a J0 thick pair.",
             transform=ax.transAxes, ha="left", fontsize=6.0, color="#555555")
 
     bx = fig.add_subplot(gs_c[0, 1])
+    # J0 scrape keys as stored in j0_strict_label_supply.csv. HDAC is the metal
+    # exclusion; EGFR is the supply-limited primary pair. Withdrawn PIK3CA/PIK3CB
+    # is not in that CSV and is not a bar.
     j0_keys = ["HDAC1/HDAC6", "PIK3CA/MTOR", "ACHE/BCHE", "EGFR/HER2"]
-    j0_lab = ["HDAC1/\nHDAC6", "PIK3CA/\nmTOR", "AChE/\nBChE", "PIK3CA/\nPIK3CB", "EGFR/\nHER2"]
+    j0_lab = ["HDAC1/\nHDAC6", "PIK3CA/\nmTOR", "AChE/\nBChE", "EGFR/\nHER2"]
     j0_map = {r["pair"]: fnum(r["min_strict_hardneg"]) for r in rows}
     j0_vals = [j0_map[k] for k in j0_keys]
-    j0_cols = [C["metal"], C["thick"], C["thick"], C["thick"], C["egfr"]]
+    j0_cols = [C["metal"], C["thick"], C["thick"], C["egfr"]]
     dump_vals = [fnum(D["five_xdb"][(p, "ChEMBL37_dump", "pChEMBL_STANDARD_OK")]["min_strict_hardneg"])
                  for p in CENSUS_FIVE]
     dump_lab = ["F2/\nF10", "JAK1/\nTYK2", "JAK1/\nJAK2", "PPARG/\nPPARA", "PPARA/\nPPARD"]
-    x1 = np.arange(5)
-    x2 = np.arange(5) + 6.2
+    x1 = np.arange(len(j0_keys))
+    x2 = np.arange(len(CENSUS_FIVE)) + len(j0_keys) + 1.2
     bx.bar(x1, j0_vals, color=j0_cols, width=0.78, zorder=3)
     bx.bar(x2, dump_vals, color=C["vina"], width=0.78, zorder=3)
     bx.axhline(50, color=C["ink"], ls="--", lw=0.8, zorder=2)
     bx.set_xticks(list(x1) + list(x2))
     bx.set_xticklabels(j0_lab + dump_lab, fontsize=6.0)
-    bx.set_ylabel("min strict hard-neg.")
+    bx.set_ylabel("min strict selectives")
     bx.set_ylim(0, 140)
-    bx.set_title("Hard-negative supply (two audits)", fontsize=FS_AXIS, pad=4)
-    bx.text(2.0, 128, "J0 scrape", ha="center", fontsize=6.0, color="#555555")
-    bx.text(8.2, 128, "later ChEMBL 37 dump", ha="center", fontsize=6.0, color="#555555")
+    bx.set_title("Selective-ligand supply (two extracts)", fontsize=FS_AXIS, pad=4)
+    bx.text(float(np.mean(x1)), 128, "J0 scrape", ha="center", fontsize=6.0, color="#555555")
+    bx.text(float(np.mean(x2)), 128, "later ChEMBL 37 dump", ha="center", fontsize=6.0, color="#555555")
     bx.text(0.98, 0.38, "gate ≥50", transform=bx.transAxes, ha="right", va="bottom",
             fontsize=6.0, color="#555555")
-    bx.axvline(5.6, color="#DDDDDD", lw=0.8, zorder=1)
+    bx.axvline(len(j0_keys) + 0.55, color="#DDDDDD", lw=0.8, zorder=1)
 
     fracs = [fnum(D["overlap"][p]["fraction_union_measured_both"]) for p in
-             ["EGFR/HER2", "AChE/BChE", "PIK3CA/PIK3CB", "PIK3CA/mTOR"]]
+             ["EGFR/HER2", "AChE/BChE", "PIK3CA/mTOR"]]
     PROVENANCE["plotted"]["fig1C"] = {
         "n_pairs": n_pairs,
         "n_thick": n_thick,
@@ -893,7 +893,7 @@ def fig_s4_forest(D: dict) -> None:
     ], loc="lower right", fontsize=6.4, frameon=False)
     PROVENANCE["plotted"]["figS4"] = plotted
     fig.subplots_adjust(left=0.16, right=0.86, top=0.94, bottom=0.12)
-    save_all(fig, "FigS_pocket_matched_forest")
+    save_all(fig, "FigS4_pocket_matched_forest")
     plt.close(fig)
 
 
@@ -922,7 +922,7 @@ def fig_s5_holdout(D: dict) -> None:
     ax.text(0.98, 0.03, "EGFR/HER2 has no holdout", transform=ax.transAxes, ha="right", fontsize=6.0, color="#666666")
     PROVENANCE["plotted"]["figS5"] = fig_s
     fig.subplots_adjust(left=0.10, right=0.98, top=0.92, bottom=0.16)
-    save_all(fig, "FigS_unused_pool_holdout")
+    save_all(fig, "FigS5_unused_pool_holdout")
     plt.close(fig)
 
 
@@ -1047,7 +1047,7 @@ def fig_s8_bindingdb(D: dict) -> None:
         "after_ecfp": [fnum(r["after_ecfp_lt_0.70"]) for r in eight],
     }
     fig.subplots_adjust(wspace=0.36, left=0.08, right=0.98, top=0.86, bottom=0.30)
-    save_all(fig, "FigS_bindingdb_native_slice_v1")
+    save_all(fig, "FigS8_bindingdb_native_slice")
     plt.close(fig)
 
 
@@ -1055,13 +1055,17 @@ def verify(D: dict) -> None:
     errors: list[str] = []
 
     p1 = PROVENANCE["plotted"]["fig1C"]
-    if p1["n_pairs"] != 49:
-        errors.append(f"fig1C n_pairs {p1['n_pairs']} != 49")
-    if p1["n_thick"] != 4:
-        errors.append(f"fig1C n_thick {p1['n_thick']} != 4")
-    if p1["stages"]["primary rows after census"] != 8:
+    if p1["n_pairs"] != 48:
+        errors.append(f"fig1C n_pairs {p1['n_pairs']} != 48")
+    if p1["n_thick"] != 3:
+        errors.append(f"fig1C n_thick {p1['n_thick']} != 3")
+    if p1["stages"]["eight-pair evaluation set"] != 8:
         errors.append("fig1C primary rows != 8")
-    for pair, val in {"PIK3CA/MTOR": 80, "ACHE/BCHE": 78, "PIK3CA/PIK3CB": 56, "EGFR/HER2": 7, "HDAC1/HDAC6": 93}.items():
+    if "historically docked" in p1["stages"] or "after PIK3CB withdrawal" in p1["stages"]:
+        errors.append("fig1C funnel must not retain historical PIK3CB-withdrawal stages")
+    if "PIK3CA/PIK3CB" in p1["j0_hardneg"]:
+        errors.append("fig1C J0 bars must not include withdrawn PIK3CA/PIK3CB")
+    for pair, val in {"PIK3CA/MTOR": 80, "ACHE/BCHE": 78, "EGFR/HER2": 7, "HDAC1/HDAC6": 93}.items():
         _eq(errors, p1["j0_hardneg"][pair], val, 1e-6, f"fig1C J0 {pair}")
     for pair, val in {"F2/F10": 117, "JAK1/TYK2": 94, "JAK1/JAK2": 53, "PPARG/PPARA": 85, "PPARA/PPARD": 84}.items():
         _eq(errors, p1["dump_hardneg"][pair], val, 1e-6, f"fig1C dump {pair}")
@@ -1177,7 +1181,7 @@ def verify(D: dict) -> None:
     if "PIK3CA/PIK3CB" in s5 or "EGFR/HER2" in s5:
         errors.append("S5 pair set")
     s7 = PROVENANCE["plotted"]["figS7"]
-    if s7["n_dir"] != 17 or s7["n_dock_j0"] != 4 or s7["n_primary_now"] != 8:
+    if s7["n_dir"] != 16 or s7["n_form"] != 16 or s7["n_dock_j0"] != 3 or s7["n_primary_now"] != 8:
         errors.append(f"figS7 census {s7}")
     _eq(errors, s7["neither"][0], 0.9214, 5e-4, "figS7 EGFR Dual vs neither")
     s8 = PROVENANCE["plotted"]["figS8"]
@@ -1216,7 +1220,7 @@ Rule: every plotted number is read from the CSV in this table. No hand-typed AUR
 |---|---|---|---|
 | 1 | A | Four ligand states (schematic) | none |
 | 1 | B | Pocket-matched directional tasks (schematic; no arrows) | none |
-| 1 | C | Candidate-pair supply scrape → thick hard-negative gate → HDAC exclusion → eight primary pairs with pair-specific construction; hard-negative bars | `j0_strict_label_supply.csv`; `five_pair_crossdb_v1/crossdb_strict_supply_v1.csv` ChEMBL37_dump; `complete_case_usable_pchembl_overlap_v1.csv` |
+| 1 | C | J0 scrape → min selective ≥50 → eight-pair evaluation set; J0 selective-supply bars (HDAC + PIK3CA/mTOR + AChE/BChE + EGFR); later ChEMBL 37 dump selectives for the five census pairs | `j0_strict_label_supply.csv`; `five_pair_crossdb_v1/crossdb_strict_supply_v1.csv` ChEMBL37_dump; `complete_case_usable_pchembl_overlap_v1.csv` (original three maps only) |
 | 2 | A | Directional D/A and D/B AUROC, eight primary pairs | original three: `unified_threshold_sensitivity_v2.csv` θ=6.0; five: `five_pair_stack_v1/table2_comparable_theta6_v1.csv` |
 | 2 | B | Dual-vs-neither (`vina_mean`) vs directional `summary_min` | original three: formulation CSV; five: same table2 file |
 | 2 | C | Fixed pocket-A score, negative-class ΔAUROC | original three: `formulation_equal_score_negative_v1.csv`; five: `equal_score_negative_s34_v1.csv` |
@@ -1251,7 +1255,7 @@ Regenerate: `python3 data/jcim_bench_v0/scripts/plot_jcim_article_figures_v3.py`
 
 ## Figure 1. Four-state dual-target evaluation and data supply.
 
-(A) Four experimentally labeled ligand states: dual, A-only, B-only, and neither. A-only and B-only are selectivity hard negatives. (B) Primary tasks are pocket-matched directional AUROCs: Dual versus A-only scored in pocket B, Dual versus B-only scored in pocket A. `summary_min` is a descriptive worst-arm summary. (C) Bidirectional selective supply is scarce under a strict 6.5/5.5 rule. HDAC1/HDAC6 is excluded as metal-dependent. EGFR/HER2 is retained as a supply-limited case (strict B-only = 7). The eight primary pairs use one harvest protocol with pair-specific candidate pools, quotas, and scaffold caps (Table 1). Right: min strict hard-negatives for the eight primary pairs (`j0_strict_label_supply.csv`; `crossdb_strict_supply_v1.csv`). Cross-database counts are Figure S2.
+(A) Four experimentally labeled ligand states: dual, A-only, B-only, and neither. A-only and B-only are single-target-selective controls. (B) Primary tasks are pocket-matched directional AUROCs: Dual versus A-only scored in pocket B, Dual versus B-only scored in pocket A. `summary_min` is a descriptive worst-arm summary. (C) Bidirectional selective supply is scarce under a strict 6.5/5.5 rule. HDAC1/HDAC6 is excluded as metal-dependent. EGFR/HER2 is retained as a supply-limited construction case (strict B-only = 7; primary θ = 6.0 n = 28/38/32). The eight primary pairs use one extract protocol with pair-specific candidate pools, quotas, and scaffold caps (Table 1). Right: J0 scrape selectives (HDAC + PIK3CA/mTOR + AChE/BChE + EGFR) and later ChEMBL 37 dump selectives for the five census pairs. Cross-database counts are Figure S2.
 
 ## Figure 2. Negative-class definition changes apparent dual-target evidence.
 

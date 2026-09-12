@@ -1,13 +1,13 @@
 # DualFourClass-Bench（Dual_Target_Docking）
 
-JCIM **evaluation / benchmark** 课题：双靶对接四类硬负评测。  
+JCIM **evaluation / benchmark** 课题：双靶对接的四状态实验比较评价。  
 **不是**通用决策臂 / 新打分函数论文。  
-贡献定位：八靶对 *formulation audit* + 可复现评价协议 **DualFourClass-Bench**。它不是通用、代表性或 LIT-PCBA 规模的 benchmark suite。
+贡献定位：八靶对上的评价设定审计 + 可复现评价协议 **DualFourClass-Bench**。它不是通用、代表性或 LIT-PCBA 规模的 benchmark suite。
 本 DualFourClass 树是一项独立科学课题，不导入、不依赖仓库根目录下的其他项目。
 
 ## 一句话主张
 
-双靶对接应建成 dual / A-only / B-only / neither 四状态任务。主指标是两条口袋匹配方向 AUROC 及其较弱方向摘要。在具有双端实验测量的化合物中，双端低活性对照可能掩盖对单靶活性化合物的识别不足。
+同一套对接分数在不同实验状态比较下回答不同的评价问题。主指标是两条口袋匹配方向 AUROC 及其较弱方向摘要。在具有双端实验测量的化合物中，双端低活性对照可能掩盖对单靶活性化合物的识别不足。配体化学与口袋对应对照是解释这些差异所必需的。
 
 ## 快速入口（投稿用）
 
@@ -15,6 +15,7 @@ JCIM **evaluation / benchmark** 课题：双靶对接四类硬负评测。
 |------|------|
 | **[`docs/MANUSCRIPT_JCIM_EN.md`](docs/MANUSCRIPT_JCIM_EN.md)** | ★ **组装后的英文主稿** |
 | **[`docs/MANUSCRIPT_JCIM_ZH.md`](docs/MANUSCRIPT_JCIM_ZH.md)** | ★ **组装后的中文工作稿**（`python3 docs/assemble_manuscript_zh.py`） |
+| **[`submission_pack/`](submission_pack/)** | ★ **投稿切片：文稿、SI、锁定表、图、核对报告** |
 | **[`docs/STATISTICAL_LOCK_V1.md`](docs/STATISTICAL_LOCK_V1.md)** | ★ **八靶对 Table 2/3 估计量与 canonical CSV** |
 | **[`docs/SUPPORTING_INFORMATION_JCIM_EN_V1.md`](docs/SUPPORTING_INFORMATION_JCIM_EN_V1.md)** | 英文 SI（Tables S1–S13） |
 | [`data/jcim_bench_v0/CLAIM_CEILING.md`](data/jcim_bench_v0/CLAIM_CEILING.md) | 可写 / 禁止写的 claim |

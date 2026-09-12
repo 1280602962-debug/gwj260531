@@ -4,8 +4,8 @@ Reviewer: `local_agent_metadata_pass` on 2026-08-26.
 ChEMBL assay free-text API returned HTTP 500; `protein_construct` and
 `wildtype_or_mutant` set to `unknown` for all reviewed rows.
 
-- Priority ligands: 186
-- include / uncertain / exclude: 179 / 7 / 0
+- Priority ligands: 162 (EGFR/HER2 105, PIK3CA/mTOR 39, AChE/BChE 18). The earlier 186-ligand count included 24 PIK3CA/PIK3CB compounds withdrawn from the primary set (186 − 24 = 162).
+- include / uncertain / exclude: 155 / 7 / 0
 - Ligands with exclude or class flip vs frozen: 0
 
 ## Label sensitivity

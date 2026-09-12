@@ -4,6 +4,7 @@ Zero docking. Binormal scores; ligand-level class-preserving bootstrap with fixe
 N_MC = 1000; N_BOOT = 2000; seed = 20260729.
 
 This is **not** observed power on the empirical AUROCs.
+It is **not** the Table 2 ligand-level non-stratified bootstrap and must not be used to interpret Table 2 CIs.
 
 ## Probability that the 95% CI excludes 0.5 (`summary_min`)
 
@@ -11,7 +12,6 @@ This is **not** observed power on the empirical AUROCs.
 |---|---:|---:|---:|---:|---:|---:|
 | EGFR/HER2 | 28/38/32 | 0.025 | 0.065 | 0.268 | 0.621 | 0.907 |
 | AChE/BChE | 27/25/28 | 0.020 | 0.049 | 0.225 | 0.504 | 0.828 |
-| PIK3CA/PIK3CB | 28/27/28 | 0.032 | 0.041 | 0.226 | 0.564 | 0.849 |
 | PIK3CA/mTOR | 18/14/12 | 0.037 | 0.025 | 0.072 | 0.219 | 0.452 |
 
 ## Interpretation freeze

@@ -1,6 +1,6 @@
 # Assay source reading list v1
 
-This is the minimum first-pass paper/source audit set for the 186 priority ligands. It includes every source tied for the maximum pChEMBL value in each ligand-target group; a rejected decisive source triggers review of the next-highest source and is therefore not the final upper bound.
+This is the minimum first-pass paper/source audit set for the 162 priority ligands remaining after PIK3CA/PIK3CB withdrawal (earlier 186-ligand inventory minus 24 PIK3CA/PIK3CB compounds). It includes every source tied for the maximum pChEMBL value in each ligand-target group; a rejected decisive source triggers review of the next-highest source and is therefore not the final upper bound.
 
 - Priority assay rows: 1163
 - Decisive max-tied rows: 395
