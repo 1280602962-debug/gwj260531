@@ -20,3 +20,12 @@
 - 4.2 补回 dual 配体连接/融合设计两句，并立即限定未作架构标注。
 - 参考文献 (16) 后补上 (17) DOCKSTRING，其后顺延至 (22)。
 - 数字未改。
+
+## 投稿面残留（2026-09-12 续）
+
+上一轮已改主文 15 项。本轮只清投稿还会看到的残留：
+
+- Figure 1C 图面：普查与八对评价之间加分隔线和 “Independent of the census”，去掉紧贴 86 的漏斗观感；图注写明八对不是从 86 对继续筛出。
+- Figure S4 图注：删除 “eight added / original six”。
+- Table S2c 脚注：不再写 “all eight”。
+- 作图脚本与 figure audit 同步禁止这些时间线措辞。

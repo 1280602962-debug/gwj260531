@@ -88,7 +88,7 @@ No redocking. `2JKH/BI7` used CCD SMILES because the OpenBabel SDF had invalid n
 | PPARA | 6LXA | 7.857 | 7.848 | 1.401 | pass | no |
 | PPARD | 5U3Q | 1.510 | 1.510 | 1.510 | pass | yes |
 
-Source: `layer3_cognate_rmsd_calcrrms_v1.csv`. Search-coverage still passed for all eight, so no pair was dropped. JAK2, PPARG, and PPARA fail the 2 Å top-1 cutoff.
+Source: `layer3_cognate_rmsd_calcrrms_v1.csv`. Search-coverage still passed for all receptors in Table S2c, so no pair was dropped. JAK2, PPARG, and PPARA fail the 2 Å top-1 cutoff.
 
 ---
 

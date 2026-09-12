@@ -106,17 +106,17 @@ def equal_src(D, pair):
 
 
 def draw_census_and_primary(ax, census):
-    """ChEMBL supply census with an independent 8-pair evaluation box (no 86→8 arrow)."""
+    """ChEMBL supply census; the eight-pair box is independent (no 86→8 arrow)."""
     ax.set(xlim=(0, 1), ylim=(0, 1))
     ax.axis('off')
-    ax.text(.50, .975, 'ChEMBL data-supply census', ha='center', va='top', fontsize=8, fontweight='bold')
+    ax.text(.50, .990, 'ChEMBL data-supply census', ha='center', va='top', fontsize=8, fontweight='bold')
     keys = ['n_pairs_n_both_ge_1', 'n_pairs_n_both_ge_10', 'n_directional_n10', 'n_strict_thick']
     names = ['≥1 ligand measured at both targets',
              '≥10 ligands measured at both targets',
              'Dual, A-only and B-only each ≥10 (θ=6.0)',
              'Strict bidirectional supply criterion (6.5/5.5)']
-    tops = [.855, .695, .535, .375]
-    h = .112
+    tops = [.875, .735, .595, .455]
+    h = .100
     for i, (k, txt, yc) in enumerate(zip(keys, names, tops)):
         ax.add_patch(FancyBboxPatch((.03, yc - h / 2), .94, h, boxstyle='round,pad=.006',
                                     fc='#F4F7FA', ec='#D5DDE4', lw=.7))
@@ -125,12 +125,15 @@ def draw_census_and_primary(ax, census):
         if i < 3:
             gap = (tops[i] - h / 2 + tops[i + 1] + h / 2) / 2
             ax.text(.50, gap, '↓', ha='center', va='center', fontsize=8, color='#888888')
-    ax.add_patch(FancyBboxPatch((.03, .035), .94, .215, boxstyle='round,pad=.008',
+    ax.plot([.12, .88], [.355, .355], color='#D0D0D0', lw=0.7, ls=(0, (3, 2)))
+    ax.text(.50, .325, 'Independent of the census', ha='center', va='center',
+            fontsize=6.4, color='#666666', style='italic')
+    ax.add_patch(FancyBboxPatch((.03, .040), .94, .230, boxstyle='round,pad=.008',
                                 fc='#FFF8F0', ec=C['a_only'], lw=1.05))
-    ax.text(.50, .175, 'Primary evaluation: 8 target pairs', ha='center', va='center',
+    ax.text(.50, .195, 'Primary evaluation: 8 target pairs', ha='center', va='center',
             fontsize=7.6, fontweight='bold')
-    ax.text(.50, .085, 'data availability  ·  structural eligibility  ·  pair-specific panel criteria',
-            ha='center', va='center', fontsize=6.3, color='#555555')
+    ax.text(.50, .105, 'Table 1 panel-construction and structural criteria',
+            ha='center', va='center', fontsize=6.4, color='#555555')
 
 
 def fig1(D):
@@ -596,11 +599,11 @@ def fig_s1_protocol(D):
 
 
 def cognate_rmsd_rows():
-    """Assemble 14 main-receptor RMSD markers from the accepted CSVs.
+    """Assemble 14 main-receptor RMSD markers from the recorded QC tables.
 
-    Original six receptors (EGFR, HER2, AChE, BChE, PIK3CA, mTOR) keep their
-    existing CalcRMS / production-QC tables. The eight added receptors use
-    chemically mapped CalcRMS (Table S2c), not the earlier Hungarian table.
+    Chemically mapped CalcRMS values (Table S2c) are used where available;
+    the remaining receptors keep their recorded reaudit or production-QC tables.
+    Values are a qualitative coverage check, not a unified quantitative benchmark.
     """
     rank = read('data/jcim_novelty_v0/tables/cognate_rank_rmsd_reaudit_v1.csv')
     added = read('data/jcim_chembl_universe_v0/local_track_b_v0/tables/layer3_cognate_rmsd_calcrrms_v1.csv')

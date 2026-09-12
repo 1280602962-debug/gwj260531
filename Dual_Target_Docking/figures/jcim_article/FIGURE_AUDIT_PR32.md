@@ -1,9 +1,9 @@
 # PR32 figure numerical audit
 
 Pinned numerical-data snapshot: `abb61a20a04eb6a085ad526876624eadb518c4cc`
-Artwork generated from git HEAD: `1c5a0b1f627de4360fb380edb057757ce7e9084b`
+Artwork generated from git HEAD: `03852525e70773ddd7d7b6bb7c3bee327ad74cdb`
 
-141 PASS / 0 FAIL
+144 PASS / 0 FAIL
 
 | Status | Check |
 |---|---|
@@ -66,6 +66,9 @@ Artwork generated from git HEAD: `1c5a0b1f627de4360fb380edb057757ce7e9084b`
 | PASS | caption has no PowerPoint |
 | PASS | caption has no historical original-set |
 | PASS | caption has no Regenerate |
+| PASS | caption has no eight added |
+| PASS | caption has no original six |
+| PASS | caption has no after which the primary |
 | PASS | Fig1C caption separates census from the eight-pair evaluation |
 | PASS | Figure 4 caption is pocket correspondence |
 | PASS | Figure 5 caption is computational realization |
