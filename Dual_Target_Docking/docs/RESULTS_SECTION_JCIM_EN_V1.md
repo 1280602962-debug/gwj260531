@@ -64,7 +64,7 @@ PPARG/PPARA was the only pair whose primary Vina \(\mathrm{summary}_{\min}\) int
 
 PIK3CA/mTOR panel-size and exhaustiveness checks are in Figure S3. PM48 is the primary panel (quota n = 48, exhaustiveness = 16); PM110 is a larger protocol-sensitivity panel on the same pair.
 
-Cognate redocking was used to test search coverage, not rank-1 placement. Under the finally accepted heavy-atom RMSDs, the lowest saved-pose RMSD remained < 2.0 Å for all 14 primary receptor slots. EGFR 3POZ had a top-1 RMSD of 9.505 Å and a lowest saved-pose RMSD of 0.760 Å. Among the eight added receptors, JAK2, PPARG, and PPARA also failed the 2 Å top-1 cutoff; PPARA 6LXA top-3 was 7.848 Å (Figure S4; Table S2c). The original six receptors were not part of that added chemically mapped recheck. Coordinate Hungarian values remain in Table S2b as a historical comparison.
+Cognate redocking was used to test search coverage, not rank-1 placement. All 14 primary receptors now use the same chemically mapped CalcRMS table; the accepted numbers match the previous per-set tables, and the lowest saved-pose RMSD remained < 2.0 Å for every slot. EGFR 3POZ had a top-1 RMSD of 9.505 Å and a lowest saved-pose RMSD of 0.760 Å. BChE, mTOR, JAK2, PPARG, and PPARA also failed the 2 Å top-1 cutoff; PPARA 6LXA top-3 was 7.848 Å (Figure S4; Table S2c). Coordinate Hungarian values remain in Table S2b as a historical comparison.
 
 ### 3.5 Label and sample-composition sensitivity
 

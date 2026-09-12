@@ -31,7 +31,7 @@ Ligands need both-end scores for directional AUROC; n_scored may be below n_pane
 
 ## Table S2. Primary receptor boxes and cognate redocking RMSD
 
-The eight pairs use 14 PDB slots (JAK1 6N7A and PPARA 6LXA are shared). PIK3CA/mTOR used E = 16 because 4JT6 failed the gate at E = 8. EGFR 3POZ is reconstructed QC (original nine-mode production files were not recovered). 9V8H is a PPARγ LBD–BRL–PG08-NL ternary complex; the peptide was retained. Figure S4 uses Table S2c for the eight added receptors and the existing reaudit or production-QC tables for the original six. Table S2b remains a historical coordinate-assignment comparison. AChE 4EY7 and TYK2 3LXP deposited 8 poses.
+The eight pairs use 14 PDB slots (JAK1 6N7A and PPARA 6LXA are shared). PIK3CA/mTOR used E = 16 because 4JT6 failed the gate at E = 8. EGFR 3POZ is reconstructed QC (original nine-mode production files were not recovered). 9V8H is a PPARγ LBD–BRL–PG08-NL ternary complex; the peptide was retained. Figure S4 and the near-native calls use the unified chemically mapped CalcRMS table (Table S2c) for all 14 slots. Table S2b remains a historical coordinate-assignment comparison. AChE 4EY7 and TYK2 3LXP deposited 8 poses.
 
 **S2a. Docking boxes (Å)**
 
@@ -71,24 +71,30 @@ The eight pairs use 14 PDB slots (JAK1 6N7A and PPARA 6LXA are shared). PIK3CA/m
 | PPARA | 6LXA | 8 | 7.508 | — | 1.098 | pass |
 | PPARD | 5U3Q | 8 | 1.452 | 1.452 | 1.452 | pass |
 
-S2b is the earlier coordinate Hungarian assignment and is a historical comparison only. PPARA 6LXA has no top-3 value in that table. AChE 4EY7 and TYK2 3LXP saved 8 poses. Figure S4 uses Table S2c for the eight added receptors.
+S2b is the earlier coordinate Hungarian assignment and is a historical comparison only. PPARA 6LXA has no top-3 value in that table. AChE 4EY7 and TYK2 3LXP saved 8 poses.
 
-**S2c. Chemically mapped RMSD for the eight added receptors (RDKit CalcRMS)**
+**S2c. Chemically mapped RMSD for all 14 primary receptors (RDKit CalcRMS)**
 
-No redocking. `2JKH/BI7` used CCD SMILES because the OpenBabel SDF had invalid nitrogen valence.
+No redocking. The atom-mapping priority is the same recipe used for the added eight: Meeko topology or SDF/CCD-graph CalcRMS when the prepared ligand maps safely onto the crystal; PIK3CA/mTOR used graph-automorphism CalcRMS to the crystal because the prepared ligand is not in the crystal frame. `2JKH/BI7` used CCD SMILES because the OpenBabel SDF had invalid nitrogen valence. EGFR 3POZ is reconstructed QC. Accepted numbers match the previous per-set tables.
 
-| Protein | PDB | top-1 (Å) | top-3 (Å) | lowest saved (Å) | Coverage | top-1 < 2 Å |
-|------|-----|----------:|----------:|-----------------:|:--------:|:-----------:|
-| F2 | 4UDW | 0.382 | 0.382 | 0.382 | pass | yes |
-| F10 | 2JKH | 0.658 | 0.658 | 0.658 | pass | yes |
-| JAK1 | 6N7A | 0.459 | 0.459 | 0.459 | pass | yes |
-| TYK2 | 3LXP | 0.196 | 0.196 | 0.196 | pass | yes |
-| JAK2 | 8BXH | 10.596 | 0.807 | 0.807 | pass | no |
-| PPARG | 9V8H | 7.085 | 1.636 | 1.636 | pass | no |
-| PPARA | 6LXA | 7.857 | 7.848 | 1.401 | pass | no |
-| PPARD | 5U3Q | 1.510 | 1.510 | 1.510 | pass | yes |
+| Protein | PDB | E | top-1 (Å) | top-3 (Å) | lowest saved (Å) | Coverage | top-1 < 2 Å |
+|------|-----|--:|----------:|----------:|-----------------:|:--------:|:-----------:|
+| EGFR | 3POZ | 8 | 9.505 | 6.227 | 0.760 | pass | no |
+| HER2 | 3RCD | 8 | 1.855 | 1.394 | 1.394 | pass | yes |
+| JAK1 | 6N7A | 8 | 0.459 | 0.459 | 0.459 | pass | yes |
+| JAK2 | 8BXH | 8 | 10.596 | 0.807 | 0.807 | pass | no |
+| TYK2 | 3LXP | 8 | 0.196 | 0.196 | 0.196 | pass | yes |
+| PIK3CA | 4L23 | 16 | 0.624 | 0.624 | 0.624 | pass | yes |
+| mTOR | 4JT6 | 16 | 7.118 | 0.445 | 0.445 | pass | no |
+| AChE | 4EY7 | 8 | 0.339 | 0.339 | 0.339 | pass | yes |
+| BChE | 4BDS | 8 | 4.794 | 0.386 | 0.386 | pass | no |
+| F2 | 4UDW | 8 | 0.382 | 0.382 | 0.382 | pass | yes |
+| F10 | 2JKH | 8 | 0.658 | 0.658 | 0.658 | pass | yes |
+| PPARG | 9V8H | 8 | 7.085 | 1.636 | 1.636 | pass | no |
+| PPARA | 6LXA | 8 | 7.857 | 7.848 | 1.401 | pass | no |
+| PPARD | 5U3Q | 8 | 1.510 | 1.510 | 1.510 | pass | yes |
 
-Source: `layer3_cognate_rmsd_calcrrms_v1.csv`. Search-coverage still passed for all eight, so no pair was dropped. JAK2, PPARG, and PPARA fail the 2 Å top-1 cutoff.
+Source: `all14_cognate_rmsd_calcrrms_v1.csv`; per-pose `all14_cognate_rmsd_calcrrms_modes_v1.csv`. Search-coverage still passed for all 14, so no pair was dropped. JAK2, PPARG, PPARA, BChE, mTOR, and EGFR fail the 2 Å top-1 cutoff. Table S2b Hungarian top-1 values for JAK2 / PPARG / PPARA were 4.064 / 6.493 / 7.508 Å and underestimated the wrong poses. The earlier eight-receptor and original-six tables remain as historical files.
 
 ---
 

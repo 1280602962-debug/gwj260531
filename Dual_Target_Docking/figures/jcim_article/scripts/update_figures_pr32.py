@@ -596,49 +596,19 @@ def fig_s1_protocol(D):
 
 
 def cognate_rmsd_rows():
-    """Assemble 14 main-receptor RMSD markers from the accepted CSVs.
-
-    Original six receptors (EGFR, HER2, AChE, BChE, PIK3CA, mTOR) keep their
-    existing CalcRMS / production-QC tables. The eight added receptors use
-    chemically mapped CalcRMS (Table S2c), not the earlier Hungarian table.
-    """
-    rank = read('data/jcim_novelty_v0/tables/cognate_rank_rmsd_reaudit_v1.csv')
-    added = read('data/jcim_chembl_universe_v0/local_track_b_v0/tables/layer3_cognate_rmsd_calcrrms_v1.csv')
-    pm = read('data/pik3ca_mtor_panel48_v0/analysis/cognate_redock_v0/tables/pm48_01_rmsd_E16.csv')
+    """Assemble 14 main-receptor RMSD markers from the unified CalcRMS table."""
+    unified = read('data/jcim_novelty_v0/tables/all14_cognate_rmsd_calcrrms_v1.csv')
     by_pdb = {}
     n_by_pdb = {}
-    for r in rank:
-        pdb = r['pdb']
-        if pdb in by_pdb:
-            continue
-        by_pdb[pdb] = {
-            'protein': r['target'], 'pdb': pdb,
-            'top1': float(r['best_top1_A']),
-            'best': float(r['best_all_deposited_A']),
-            'source': 'cognate_rank_rmsd_reaudit_v1',
-        }
-        n_by_pdb[pdb] = int(r['n_modes_deposited'])
-    for r in added:
+    for r in unified:
         by_pdb[r['pdb']] = {
             'protein': r['protein'], 'pdb': r['pdb'],
             'top1': float(r['calcrrms_top1_A']),
             'best': float(r['calcrrms_best_A']),
-            'source': 'layer3_cognate_rmsd_calcrrms_v1',
+            'source': 'all14_cognate_rmsd_calcrrms_v1',
+            'pose_status': r['pose_status'],
         }
         n_by_pdb[r['pdb']] = int(r['n_modes'])
-    seed_row = {'4L23': None, '4JT6': None}
-    for r in pm:
-        if r['seed'] != '20260727':
-            continue
-        pdb = r['target']
-        seed_row[pdb] = {
-            'protein': 'PIK3CA' if pdb == '4L23' else 'mTOR', 'pdb': pdb,
-            'top1': float(r['rmsd_mode1']),
-            'best': float(r['rmsd_best_of_9']),
-            'source': 'pm48_01_rmsd_E16',
-        }
-        n_by_pdb[pdb] = 9
-    by_pdb.update({k: v for k, v in seed_row.items() if v})
     order = [
         ('EGFR', '3POZ'), ('HER2', '3RCD'), ('JAK1', '6N7A'), ('JAK2', '8BXH'),
         ('TYK2', '3LXP'), ('PIK3CA', '4L23'), ('mTOR', '4JT6'), ('AChE', '4EY7'),

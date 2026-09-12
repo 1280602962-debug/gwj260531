@@ -122,6 +122,15 @@ def main():
     near(one(failures, pair="AChE/BChE", contrast="D_vs_A_pocketB")["rank_extreme_lower_bound"], 0.5599)
 
     cognate = rows("cognate_rank_rmsd_reaudit_v1.csv")
+    all14 = rows("all14_cognate_rmsd_calcrrms_v1.csv")
+    assert len(all14) == 14
+    assert all(r["pass_best_lt2"] == "1" for r in all14)
+    near(one(all14, pdb="3POZ")["calcrrms_top1_A"], 9.505)
+    near(one(all14, pdb="3POZ")["calcrrms_best_A"], 0.760)
+    near(one(all14, pdb="4L23")["calcrrms_top1_A"], 0.624)
+    near(one(all14, pdb="4JT6")["calcrrms_best_A"], 0.445)
+    near(one(all14, pdb="8BXH")["calcrrms_top1_A"], 10.596)
+    assert one(all14, pdb="3POZ")["pose_status"] == "reconstructed_qc"
     near(one(cognate, pdb="4BDS", pose_rank="1")["best_top1_A"], 4.7941)
     near(one(cognate, pdb="4BDS", pose_rank="1")["best_top3_A"], 0.3856)
     near(one(cognate, pdb="3POZ", pose_rank="1")["best_top1_A"], 9.5054)
