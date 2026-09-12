@@ -63,6 +63,7 @@ TABLES = [
     "data/manuscript_lock/SI_TABLE_MERGE_MAP_v1.csv",
     "data/jcim_j0j1_v0/tables/j0_strict_label_supply.csv",
     "data/jcim_chembl_universe_v0/tables/track_b_panel_summary_v1.csv",
+    "data/jcim_chembl_universe_v0/tables/pair_eligibility_audit_s14_v1.csv",
 ]
 
 SCRIPTS = [
@@ -154,7 +155,7 @@ It is not a second copy of the docking pose workspaces.
 |---|---|
 | `manuscript/MANUSCRIPT_JCIM_EN.md` | English manuscript (assemble from section drafts; do not hand-edit the assembled file as the source of truth) |
 | `manuscript/MANUSCRIPT_JCIM_ZH.md` | Chinese working manuscript |
-| `manuscript/SUPPORTING_INFORMATION_JCIM_EN_V1.md` | English SI Tables S1–S13 |
+| `manuscript/SUPPORTING_INFORMATION_JCIM_EN_V1.md` | English SI Tables S1–S14 |
 | `manuscript/SUPPORTING_INFORMATION_DRAFT_ZH_JCIM_V1.md` | Chinese SI |
 | `manuscript/STATISTICAL_LOCK_V1.md` | Table 2 / Table 3 estimand lock |
 | `manuscript/FIGURE_PANEL_LOCK_V3.md` | Figure-to-CSV map |

@@ -1,6 +1,6 @@
 # Supporting Information
 
-本文件对应正文 `MANUSCRIPT_JCIM_ZH.md`。Supporting Tables 按 Table S1–S13 排列；Supporting Figures 按正文首次引用顺序编号为 Figure S1–S5。与主图重复的 holdout、BindingDB 矩阵和簇重采样图保留在仓库 `figures/jcim_article/`，不在投稿 SI 重复排版。
+本文件对应正文 `MANUSCRIPT_JCIM_ZH.md`。Supporting Tables 按 Table S1–S14 排列；Supporting Figures 按正文首次引用顺序编号为 Figure S1–S5。与主图重复的 holdout、BindingDB 矩阵和簇重采样图保留在仓库 `figures/jcim_article/`，不在投稿 SI 重复排版。
 
 正文主表不在 SI 重复：Table 1 评价集组成与对接条件；Table 2 方向性主结果；Table 3 dual–neither 对照比较。
 
@@ -471,6 +471,35 @@ S11a 是严格 6.5/5.5 的 **供给清点**（BindingDB 与 PubChem 的 `equal_o
 | AND 过滤（dual 中位 vina_worst） | 14 | 9 | 24 | — | 0.298 | 0.702 |
 
 该表描述当前排序下假阳性主要来自单靶选择性配体，不是新的筛选方法。
+
+---
+
+## Table S14. 最终靶对准入筛选的对级审计
+
+本表列出药物类小分子过滤后每个严格选择性类别仍各保留至少 50 个配体的 17 对、到达人源全配体供给门槛但未通过该过滤的两对（OPRM1/OPRK1 与 JAK3/TYK2），以及供给受限的 EGFR/HER2。此表是最终结构与流程兼容性门槛的审计，不是对接性能表。来源：`pair_eligibility_audit_s14_v1.csv`；`FEASIBLE_PAIR_LADDER_V1.md`；`TIER1_DOCKING_ROSTER_V1.md`；`pair_ligand_identity_qc_v1.csv`。
+
+| 靶对 | 最后到达门槛 | 纳入/排除 | 理由 | 所用证据 |
+|------|--------------|-----------|------|----------|
+| PIK3CA/mTOR | G5 流程兼容性 | 纳入 | 常规非共价激酶 ATP 口袋，可在统一刚性受体 Vina 流程下表示；保留于主评价。 | `TIER1_DOCKING_ROSTER_V1.md`；`FEASIBLE_PAIR_LADDER_V1.md`；Table 1 |
+| AChE/BChE | G5 流程兼容性 | 纳入 | 常规非共价水解酶峡谷口袋，可在统一刚性受体 Vina 流程下表示；保留于主评价。 | `TIER1_DOCKING_ROSTER_V1.md`；`FEASIBLE_PAIR_LADDER_V1.md`；Table 1 |
+| F2/F10 | G5 流程兼容性 | 纳入 | 常规非共价丝氨酸蛋白酶口袋，可在统一刚性受体 Vina 流程下表示；保留于主评价。 | `TIER1_DOCKING_ROSTER_V1.md`；`FEASIBLE_PAIR_LADDER_V1.md`；Table 1 |
+| JAK1/TYK2 | G5 流程兼容性 | 纳入 | 常规非共价激酶 ATP 口袋，可在统一刚性受体 Vina 流程下表示；保留于主评价。 | `TIER1_DOCKING_ROSTER_V1.md`；`FEASIBLE_PAIR_LADDER_V1.md`；Table 1 |
+| JAK1/JAK2 | G5 流程兼容性 | 纳入 | 常规非共价激酶 ATP 口袋，可在统一刚性受体 Vina 流程下表示；保留于主评价。 | `TIER1_DOCKING_ROSTER_V1.md`；`FEASIBLE_PAIR_LADDER_V1.md`；Table 1 |
+| PPARG/PPARA | G5 流程兼容性 | 纳入 | 常规非共价核受体 LBD 口袋，可在统一刚性受体 Vina 流程下表示；保留于主评价。 | `TIER1_DOCKING_ROSTER_V1.md`；`FEASIBLE_PAIR_LADDER_V1.md`；Table 1 |
+| PPARA/PPARD | G5 流程兼容性 | 纳入 | 常规非共价核受体 LBD 口袋，可在统一刚性受体 Vina 流程下表示；保留于主评价。 | `TIER1_DOCKING_ROSTER_V1.md`；`FEASIBLE_PAIR_LADDER_V1.md`；Table 1 |
+| EGFR/HER2 | 供给受限例外 | 纳入 | 未满足严格 6.5/5.5 选择性供给标准（最小选择性类别计数为 7），但具有合适的人源全配体结构、可由共晶定义的对接位点，并在 \(\theta=6.0\) 下有足够 dual、A-only 和 B-only 配体做方向性评价。 | `TIER1_DOCKING_ROSTER_V1.md`；Table 1 |
+| CTSK/CTSS | G4 配体身份 | 排除 | 两端共晶均为可逆共价半胱氨酸蛋白酶复合物，需超出统一非共价刚性受体 Vina 流程处理。 | `TIER1_DOCKING_ROSTER_V1.md`；`FEASIBLE_PAIR_LADDER_V1.md` |
+| CREBBP/BRD4 | G4 配体身份 | 排除 | CREBBP 同时具有 HAT 催化位点和溴结构域；拟对接结构域在统一流程下不能唯一确定。 | `TIER1_DOCKING_ROSTER_V1.md`；`FEASIBLE_PAIR_LADDER_V1.md` |
+| F2/PRSS1 | G4 配体身份 | 排除 | 胰蛋白酶（PRSS1）是药理学抗靶，而不是统一流程下的设计双靶伴侣。 | `TIER1_DOCKING_ROSTER_V1.md`；`FEASIBLE_PAIR_LADDER_V1.md` |
+| CNR1/CNR2 | G4 配体身份 | 排除 | 膜蛋白 GPCR 对，需要超出统一可溶刚性受体 Vina 流程的构建体与构象态处理。 | `TIER1_DOCKING_ROSTER_V1.md`；`FEASIBLE_PAIR_LADDER_V1.md` |
+| HCRTR1/HCRTR2 | G4 配体身份 | 排除 | 膜蛋白 GPCR 对，需要超出统一可溶刚性受体 Vina 流程的构建体与构象态处理。 | `TIER1_DOCKING_ROSTER_V1.md`；`FEASIBLE_PAIR_LADDER_V1.md` |
+| OPRM1/OPRD1 | G4 配体身份 | 排除 | 膜蛋白 GPCR 对，需要超出统一可溶刚性受体 Vina 流程的构建体与构象态处理。 | `TIER1_DOCKING_ROSTER_V1.md`；`FEASIBLE_PAIR_LADDER_V1.md` |
+| OPRD1/OPRK1 | G4 配体身份 | 排除 | 膜蛋白 GPCR 对，需要超出统一可溶刚性受体 Vina 流程的构建体与构象态处理。 | `TIER1_DOCKING_ROSTER_V1.md`；`FEASIBLE_PAIR_LADDER_V1.md` |
+| S1PR3/S1PR1 | G4 配体身份 | 排除 | 膜蛋白 GPCR 对，需要超出统一可溶刚性受体 Vina 流程的构建体与构象态处理。 | `TIER1_DOCKING_ROSTER_V1.md`；`FEASIBLE_PAIR_LADDER_V1.md` |
+| SLC6A4/SLC6A3 | G4 配体身份 | 排除 | 膜蛋白 SLC6 转运体对，需超出统一可溶刚性受体 Vina 流程处理。 | `TIER1_DOCKING_ROSTER_V1.md`；`FEASIBLE_PAIR_LADDER_V1.md` |
+| SLC6A2/SLC6A4 | G4 配体身份 | 排除 | 膜蛋白 SLC6 转运体对，需超出统一可溶刚性受体 Vina 流程处理。 | `TIER1_DOCKING_ROSTER_V1.md`；`FEASIBLE_PAIR_LADDER_V1.md` |
+| OPRM1/OPRK1 | G3 人源全配体供给 | 排除 | 药物类小分子过滤后最小严格选择性类别计数由 56 降至 46，因此未过 G4 配体身份门槛。 | `pair_ligand_identity_qc_v1.csv`；`FEASIBLE_PAIR_LADDER_V1.md` |
+| JAK3/TYK2 | G3 人源全配体供给 | 排除 | 药物类小分子过滤后最小严格选择性类别计数由 51 降至 48，因此未过 G4 配体身份门槛。 | `pair_ligand_identity_qc_v1.csv`；`FEASIBLE_PAIR_LADDER_V1.md` |
 
 ---
 

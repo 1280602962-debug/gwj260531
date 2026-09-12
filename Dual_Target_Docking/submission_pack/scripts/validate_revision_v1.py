@@ -154,10 +154,21 @@ def main():
         "The EGFR/HER2 task difference was positive on all five Vina seeds",
         "No pair met the independent external-evaluation eligibility criteria",
         "changed AUROC by at most 0.023",
-        "was not consistently reproduced across the available holdouts",
+        "matched-pocket advantages were not consistently reproduced",
+        "experimental measurements at both targets",
+        "Table S14",
     )
     for phrase in required_phrases:
         assert phrase in manuscript, phrase
+    for banned in (
+        "hard negative",
+        "new docking",
+        "thick-supply",
+        "both-end experimental labels",
+        "Other pairs that passed earlier gates",
+        "not wholly dependent on the primary Vina implementation",
+    ):
+        assert banned not in manuscript, banned
 
     blocked = rows("document_blocked_cv_summary_v1.csv")
     near(one(blocked, pair="EGFR/HER2", contrast="D_vs_B")["rank_auroc_full"], 0.4297)
@@ -285,6 +296,11 @@ def main():
     assert ("五个固定 Vina 随机种子" in zh or "五个预先规定的 Vina 种子" in zh)
     assert "EGFR/HER2 的设定差距在五个 Vina 种子上均为正" in zh
     assert "github.com/1280602962-debug/gwj260531" in zh
+    assert "Table S14" in zh
+    assert "硬负样本" not in zh
+    assert "将新对接" not in zh
+    assert "厚供给" not in zh
+    assert "两端均有实验测量" in zh
     abstract = manuscript.split("## 1.")[0]
     assert "0.373" not in abstract
     assert "0.7641" not in manuscript

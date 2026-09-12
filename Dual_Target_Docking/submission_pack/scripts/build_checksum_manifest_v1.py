@@ -68,6 +68,7 @@ WATCH = [
     "data/jcim_multiseed_v0/tables/multiseed_auroc_by_seed_v2.csv",
     "data/jcim_multiseed_v0/tables/multiseed_auroc_aggregate_v2.csv",
     "data/jcim_multiseed_v0/tables/multiseed_consistency_v2.csv",
+    "data/jcim_chembl_universe_v0/tables/pair_eligibility_audit_s14_v1.csv",
     "data/jcim_novelty_v0/tables/leave_cognate_out_v1.csv",
     "data/jcim_structure_robust_v0/tables/receptor_realization_two_pair_v1.csv",
     "data/jcim_novelty_v0/analysis/LEAVE_COGNATE_OUT_V1.md",

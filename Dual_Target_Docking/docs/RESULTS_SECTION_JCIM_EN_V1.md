@@ -10,7 +10,7 @@ The census describes four-state supply, not the docking menu. After those gates,
 
 ![Figure 1](../figures/jcim_article/Fig1_four_state_and_supply.png)
 
-**Figure 1.** Four-state dual-target evaluation and data supply. (A) Four experimental states defined by threshold \(\theta\); (B) two directional tasks: dual versus A-only uses the target B score, and dual versus B-only uses the target A score; (C) the census summarizes the availability of paired experimental data under increasing supply requirements. The primary evaluation comprised eight target pairs retained according to the panel-construction and structural criteria in Table 1. The eight-pair evaluation is shown separately from the census.
+**Figure 1.** Four-state dual-target evaluation and data supply. (A) Four experimental states defined by threshold \(\theta\); (B) two directional tasks: dual versus A-only uses the target B score, and dual versus B-only uses the target A score; (C) the census summarizes the availability of paired experimental data under increasing supply requirements. The primary evaluation comprised eight target pairs retained according to the panel-construction and structural criteria in Table 1. The eight-pair evaluation is shown separately from the supply census.
 
 ### 3.2 Experimental-state definition and directional docking evaluation
 
@@ -94,7 +94,7 @@ Unused-pool holdouts built from remaining candidates, after excluding main-panel
 
 ### 3.6 Availability of external evaluation data
 
-BindingDB[16] and PubChem were counted for all eight pairs as a strict 6.5/5.5 supply census (Table S11a). Independent-source remainders used \(\theta=6.0\) labels and excluded shared literature, duplicate structures, and highly similar molecules against a development set that included main panels, expanded panels, and internal holdouts (Table S11b). No pair met the independent external-evaluation eligibility criteria of at least 20 compounds and at least 3 independent sources in each of the dual, A-only, and B-only classes, so no external docking was performed (Figure 6C,D; Table S11). In a 2018 publication-year subset on the already-built panels, JAK1/TYK2 and JAK1/JAK2 met the two-direction sample requirement; the other six pairs did not (Table S12). Unused-pool holdouts and publication-year subsets remain internal sensitivity analyses and are not external validation. Under the sources, filters, and gates used here, no pair formed an external evaluation set. This is not a claim that no external data exist.
+BindingDB[16] and PubChem were surveyed for all eight pairs under the strict 6.5/5.5 supply definition (Table S11a). After the separate \(\theta=6.0\) independence filter removed shared literature, duplicate structures, and molecules with ECFP4 Tanimoto similarity \(\geq 0.70\) to the development set, no pair retained at least 20 dual, A-only, and B-only ligands from at least three independent sources per class. No pair met the independent external-evaluation eligibility criteria; therefore, no external docking set was formed (Figure 6C,D; Table S11b). In the internal 2018 publication-year subset, only JAK1/TYK2 and JAK1/JAK2 met the two-direction reporting gate (Table S12). This publication-year analysis is an internal sensitivity analysis, not external validation.
 
 ![Figure 6](../figures/jcim_article/Fig6_evidence_boundary.png)
 

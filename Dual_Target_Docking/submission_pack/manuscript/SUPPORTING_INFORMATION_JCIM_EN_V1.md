@@ -1,8 +1,8 @@
 # Supporting Information (English, merged submission draft)
 
 **Article companion:** `MANUSCRIPT_JCIM_EN.md`  
-**Numeric rule:** cells below are read from frozen CSVs. Displayed values are three-decimal rounded from the CSV string (half-up or, where already typeset, half-even / banker's). A trailing digit of exactly 5 can therefore appear as either neighbor (for example 0.5045 as 0.504 or 0.505). The CSV is authoritative. EGFR/HER2 Table 2 TPSA is 0.4275 → 0.428. Per-ligand long tables, exploratory slices, and demoted pairs are archived with code and SHA-256 checksums (Note S14).  
-**Legacy map:** `data/manuscript_lock/SI_TABLE_MERGE_MAP_v1.csv` (former Tables S1–S54 → Tables S1–S13).
+**Numeric rule:** cells below are read from frozen CSVs. Displayed values are three-decimal rounded from the CSV string (half-up or, where already typeset, half-even / banker's). A trailing digit of exactly 5 can therefore appear as either neighbor (for example 0.5045 as 0.504 or 0.505). The CSV is authoritative. EGFR/HER2 Table 2 TPSA is 0.4275 → 0.428. Per-ligand long tables, exploratory slices, and demoted pairs are archived with code and SHA-256 checksums (Note S15).  
+**Legacy map:** `data/manuscript_lock/SI_TABLE_MERGE_MAP_v1.csv` (former Tables S1–S54 → Tables S1–S14).
 
 **Main-text tables (not repeated here):** Table 1 panel composition; Table 2 eight-pair directional AUROC; Table 3 Dual-versus-neither versus directional contrast. Physicochemical descriptors are in Table S5.
 
@@ -308,7 +308,7 @@ One pocket at a time: the other pocket keeps frozen main-panel scores. Only this
 | PIK3CA → 5DXT | A | 0.714 | 0.505 | 0.505 [0.292, 0.696] |
 | mTOR → 4JSX | B | 0.639 | 0.692 | 0.639 [0.418, 0.776] |
 
-Source: `pocket_matched_PM48_alt4JPS_v1.csv`, `..._alt5DXT_v1.csv`, `..._alt4JSX_v1.csv`. Rigid Cα superposition was exploratory and is archived with occupancy snapshots (Note S14).
+Source: `pocket_matched_PM48_alt4JPS_v1.csv`, `..._alt5DXT_v1.csv`, `..._alt4JSX_v1.csv`. Rigid Cα superposition was exploratory and is archived with occupancy snapshots (Note S15).
 
 ---
 
@@ -475,9 +475,38 @@ Source: `mixed_library_enrichment_v1.csv`; `and_filter_operating_point_v1.csv`. 
 
 ---
 
-## Note S14. Archived to repository / Zenodo (not typeset here)
+## Table S14. Pair-level audit of the final target-pair eligibility screen
 
-These files answer questions that do not need a separate typeset SI table. Full CSVs and scripts ship with the GitHub Release and a later Zenodo pack:
+The table lists the 17 pairs that retained at least 50 ligands in each strict selective class after the drug-like small-molecule filter, the two pairs that reached the human-holo supply gate but failed that filter (OPRM1/OPRK1 and JAK3/TYK2), and the supply-limited EGFR/HER2 exception. It is an audit of the final structure- and protocol-compatibility gates, not a docking-performance table. Source: `pair_eligibility_audit_s14_v1.csv`; `FEASIBLE_PAIR_LADDER_V1.md`; `TIER1_DOCKING_ROSTER_V1.md`; `pair_ligand_identity_qc_v1.csv`.
+
+| Pair | Last gate reached | Included/excluded | Reason | Evidence used |
+|------|-------------------|-------------------|--------|---------------|
+| PIK3CA/mTOR | G5 protocol compatibility | included | Conventional noncovalent kinase ATP pockets representable under the common rigid-receptor Vina protocol; retained in the primary evaluation. | `TIER1_DOCKING_ROSTER_V1.md`; `FEASIBLE_PAIR_LADDER_V1.md`; Table 1 |
+| AChE/BChE | G5 protocol compatibility | included | Conventional noncovalent hydrolase-gorge pockets representable under the common rigid-receptor Vina protocol; retained in the primary evaluation. | `TIER1_DOCKING_ROSTER_V1.md`; `FEASIBLE_PAIR_LADDER_V1.md`; Table 1 |
+| F2/F10 | G5 protocol compatibility | included | Conventional noncovalent serine-protease pockets representable under the common rigid-receptor Vina protocol; retained in the primary evaluation. | `TIER1_DOCKING_ROSTER_V1.md`; `FEASIBLE_PAIR_LADDER_V1.md`; Table 1 |
+| JAK1/TYK2 | G5 protocol compatibility | included | Conventional noncovalent kinase ATP pockets representable under the common rigid-receptor Vina protocol; retained in the primary evaluation. | `TIER1_DOCKING_ROSTER_V1.md`; `FEASIBLE_PAIR_LADDER_V1.md`; Table 1 |
+| JAK1/JAK2 | G5 protocol compatibility | included | Conventional noncovalent kinase ATP pockets representable under the common rigid-receptor Vina protocol; retained in the primary evaluation. | `TIER1_DOCKING_ROSTER_V1.md`; `FEASIBLE_PAIR_LADDER_V1.md`; Table 1 |
+| PPARG/PPARA | G5 protocol compatibility | included | Conventional noncovalent nuclear-receptor LBD pockets representable under the common rigid-receptor Vina protocol; retained in the primary evaluation. | `TIER1_DOCKING_ROSTER_V1.md`; `FEASIBLE_PAIR_LADDER_V1.md`; Table 1 |
+| PPARA/PPARD | G5 protocol compatibility | included | Conventional noncovalent nuclear-receptor LBD pockets representable under the common rigid-receptor Vina protocol; retained in the primary evaluation. | `TIER1_DOCKING_ROSTER_V1.md`; `FEASIBLE_PAIR_LADDER_V1.md`; Table 1 |
+| EGFR/HER2 | supply-limited exception | included | Did not meet the strict 6.5/5.5 selective-supply criterion (minimum selective-class count = 7) but had suitable human holo structures, a cognate-defined docking site, and sufficient dual, A-only, and B-only ligands at \(\theta=6.0\) for directional evaluation. | `TIER1_DOCKING_ROSTER_V1.md`; Table 1 |
+| CTSK/CTSS | G4 ligand identity | excluded | Both holos are reversible-covalent cysteine-protease complexes and therefore require treatment outside the common noncovalent rigid-receptor Vina protocol. | `TIER1_DOCKING_ROSTER_V1.md`; `FEASIBLE_PAIR_LADDER_V1.md` |
+| CREBBP/BRD4 | G4 ligand identity | excluded | CREBBP has both a HAT catalytic site and a bromodomain; the intended docking domain is not uniquely defined under the common protocol. | `TIER1_DOCKING_ROSTER_V1.md`; `FEASIBLE_PAIR_LADDER_V1.md` |
+| F2/PRSS1 | G4 ligand identity | excluded | Trypsin (PRSS1) is a pharmacological antitarget rather than a designed dual-target partner under the common protocol. | `TIER1_DOCKING_ROSTER_V1.md`; `FEASIBLE_PAIR_LADDER_V1.md` |
+| CNR1/CNR2 | G4 ligand identity | excluded | Membrane GPCR pair requiring construct and conformational-state treatment outside the common soluble rigid-receptor Vina protocol. | `TIER1_DOCKING_ROSTER_V1.md`; `FEASIBLE_PAIR_LADDER_V1.md` |
+| HCRTR1/HCRTR2 | G4 ligand identity | excluded | Membrane GPCR pair requiring construct and conformational-state treatment outside the common soluble rigid-receptor Vina protocol. | `TIER1_DOCKING_ROSTER_V1.md`; `FEASIBLE_PAIR_LADDER_V1.md` |
+| OPRM1/OPRD1 | G4 ligand identity | excluded | Membrane GPCR pair requiring construct and conformational-state treatment outside the common soluble rigid-receptor Vina protocol. | `TIER1_DOCKING_ROSTER_V1.md`; `FEASIBLE_PAIR_LADDER_V1.md` |
+| OPRD1/OPRK1 | G4 ligand identity | excluded | Membrane GPCR pair requiring construct and conformational-state treatment outside the common soluble rigid-receptor Vina protocol. | `TIER1_DOCKING_ROSTER_V1.md`; `FEASIBLE_PAIR_LADDER_V1.md` |
+| S1PR3/S1PR1 | G4 ligand identity | excluded | Membrane GPCR pair requiring construct and conformational-state treatment outside the common soluble rigid-receptor Vina protocol. | `TIER1_DOCKING_ROSTER_V1.md`; `FEASIBLE_PAIR_LADDER_V1.md` |
+| SLC6A4/SLC6A3 | G4 ligand identity | excluded | Membrane SLC6 transporter pair requiring treatment outside the common soluble rigid-receptor Vina protocol. | `TIER1_DOCKING_ROSTER_V1.md`; `FEASIBLE_PAIR_LADDER_V1.md` |
+| SLC6A2/SLC6A4 | G4 ligand identity | excluded | Membrane SLC6 transporter pair requiring treatment outside the common soluble rigid-receptor Vina protocol. | `TIER1_DOCKING_ROSTER_V1.md`; `FEASIBLE_PAIR_LADDER_V1.md` |
+| OPRM1/OPRK1 | G3 human holo supply | excluded | Drug-like small-molecule filter reduced the minimum strict selective-class count from 56 to 46; the pair therefore failed the G4 ligand-identity gate. | `pair_ligand_identity_qc_v1.csv`; `FEASIBLE_PAIR_LADDER_V1.md` |
+| JAK3/TYK2 | G3 human holo supply | excluded | Drug-like small-molecule filter reduced the minimum strict selective-class count from 51 to 48; the pair therefore failed the G4 ligand-identity gate. | `pair_ligand_identity_qc_v1.csv`; `FEASIBLE_PAIR_LADDER_V1.md` |
+
+---
+
+## Note S15. Archived to repository (not typeset here)
+
+These files answer questions that do not need a separate typeset SI table. Full CSVs and scripts are available in the public repository:
 
 - per-ligand docking scores, holdout membership, multi-seed long tables;
 - property-caliper 1:1 matching, chemotype-matched selectives, aggregation means (arithmetic / geometric / harmonic), scaffold versus random splits;

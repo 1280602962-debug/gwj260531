@@ -10,7 +10,7 @@ ChEMBL 中能够支持四状态评价的双端测量数据随样本要求提高�
 
 ![Figure 1](../figures/jcim_article/Fig1_four_state_and_supply.png)
 
-**Figure 1.** 四状态双靶评价与数据供给。(A) 按阈值 \(\theta\) 定义的四种实验状态；(B) 两个方向性评价任务：dual vs A-only 使用靶点 B 评分，dual vs B-only 使用靶点 A 评分；(C) 普查概括在逐步提高供给要求下成对实验数据的可用性。主要评价的八个靶对按 Table 1 的面板构建与结构条件纳入。八对评价与普查分开给出。
+**Figure 1.** 四状态双靶评价与数据供给。(A) 按阈值 \(\theta\) 定义的四种实验状态；(B) 两个方向性评价任务：dual vs A-only 使用靶点 B 评分，dual vs B-only 使用靶点 A 评分；(C) 普查概括在逐步提高供给要求下成对实验数据的可用性。主要评价的八个靶对按 Table 1 的面板构建与结构条件纳入。八对评价与供给普查分开给出。
 
 ### 3.2 实验状态定义与方向性对接评价
 
@@ -94,7 +94,7 @@ PIK3CA/mTOR 的面板规模和 exhaustiveness 敏感性结果见 Figure S3。PM4
 
 ### 3.6 外部评价数据的可用性
 
-BindingDB[16] 与 PubChem 按相同四状态规则清点八个靶对的数据供给（Table S11a）。随后对 BindingDB 按 \(\theta=6.0\) 标签及独立性过滤规则排除共享来源、重复结构和高相似分子，并按外部评价准入条件筛选（Table S11b）。经过独立性过滤后，没有靶对同时满足 dual、A-only 和 B-only 每类至少 20 个分子且至少来自 3 个独立来源的准入条件，因此未进行外部对接（Figure 6C,D；Table S11）。在已构建面板上以 2018 年为截止的发表年份子集中，JAK1/TYK2 和 JAK1/JAK2 满足两个方向的样本量要求，其余六个靶对未达到报告门槛（Table S12）。未使用池留出集与发表年份子集都只是内部敏感性，不作为外部验证。在所用数据来源、过滤规则和准入门槛下，未形成外部评价集。这不是声称不存在任何外部数据。
+对全部八个靶对，按严格 6.5/5.5 供给定义清点 BindingDB[16] 与 PubChem（Table S11a）。另按 \(\theta=6.0\) 独立性过滤剔除共享文献、重复结构以及与开发集 ECFP4 Tanimoto 相似度 \(\geq 0.70\) 的分子后，没有靶对在 dual、A-only 和 B-only 三类中同时保留至少 20 个配体且每类至少来自 3 个独立来源。因此未形成外部对接集（Figure 6C,D；Table S11b）。内部 2018 年发表年份子集中，仅 JAK1/TYK2 和 JAK1/JAK2 满足两个方向的报告门槛（Table S12）。该发表年份分析是内部敏感性分析，不作为外部验证。
 
 ![Figure 6](../figures/jcim_article/Fig6_evidence_boundary.png)
 
