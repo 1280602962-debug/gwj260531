@@ -11,6 +11,7 @@
 - 独立修订分支：`cursor/jcim-manuscript-consolidation-0b1a`（由该 SHA 检出，不覆盖原分支）
 - 同名 `codex/jcim-manuscript-consolidation` 未使用；本环境按既有 `cursor/…-0b1a` 命名。
 - 工作区在检出时干净。未推送、未强制推送、未合并、未更新 PR。
+- 本轮本地提交：`e57002b2c060692bc4b6cf810f52e48b5d5fe97c`（本文件随后如仅补记该 SHA，以分支最新提交为准）。
 
 事实来源仅限该提交中的有效文件，不以旧对话数字为准。
 
