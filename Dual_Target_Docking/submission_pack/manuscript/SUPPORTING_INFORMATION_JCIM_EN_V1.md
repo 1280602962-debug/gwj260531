@@ -31,7 +31,7 @@ Ligands need both-end scores for directional AUROC; n_scored may be below n_pane
 
 ## Table S2. Primary receptor boxes and cognate redocking RMSD
 
-The eight pairs use 14 PDB slots (JAK1 6N7A and PPARA 6LXA are shared). PIK3CA/mTOR used E = 16 because 4JT6 failed the gate at E = 8. EGFR 3POZ is reconstructed QC (original nine-mode production files were not recovered). 9V8H is a PPARγ LBD–BRL–PG08-NL ternary complex; the peptide was retained. Figure S4 uses Table S2c for the eight added receptors and the existing reaudit or production-QC tables for the original six. Table S2b remains a historical coordinate-assignment comparison. AChE 4EY7 and TYK2 3LXP deposited 8 poses.
+The eight pairs use 14 primary receptor structures (JAK1 6N7A and PPARA 6LXA are shared). PIK3CA/mTOR used E = 16 because 4JT6 failed the gate at E = 8. 9V8H is a PPARγ LBD–BRL–PG08-NL ternary complex; the peptide was retained. Table S2b reports chemically mapped heavy-atom RMSD (RDKit CalcRMS) for all 14 primary receptors. Pose provenance, mapping details, and the historical coordinate-assignment comparison are in S2c. Figure S4 uses Table S2b. AChE 4EY7 and TYK2 3LXP deposited 8 poses.
 
 **S2a. Docking boxes (Å)**
 
@@ -52,7 +52,9 @@ The eight pairs use 14 PDB slots (JAK1 6N7A and PPARA 6LXA are shared). PIK3CA/m
 | PPARA | 6LXA | EPA | 11.998, 5.742, −7.443 | 20.000, 20.200, 23.432 |
 | PPARD | 5U3Q | 7UJ | 40.599, 0.533, 135.353 | 20.223, 20.000, 21.346 |
 
-**S2b. Cognate redocking (production exhaustiveness)**
+**S2b. Cognate redocking (chemically mapped CalcRMS; production exhaustiveness)**
+
+All 14 primary receptors are reported with chemically mapped heavy-atom RMSD. No redocking. Near-native calls use this table.
 
 | Protein | PDB | E | top-1 RMSD (Å) | top-3 (Å) | lowest saved-pose RMSD (Å) | Gate |
 |------|-----|--:|---------------:|----------:|--------------:|------|
@@ -65,30 +67,42 @@ The eight pairs use 14 PDB slots (JAK1 6N7A and PPARA 6LXA are shared). PIK3CA/m
 | F2 | 4UDW | 8 | 0.382 | 0.382 | 0.382 | pass |
 | F10 | 2JKH | 8 | 0.658 | 0.658 | 0.658 | pass |
 | JAK1 | 6N7A | 8 | 0.459 | 0.459 | 0.459 | pass |
-| TYK2 | 3LXP | 8 | 0.197 | 0.197 | 0.197 | pass |
-| JAK2 | 8BXH | 8 | 4.064 | 0.807 | 0.807 | pass |
-| PPARG | 9V8H | 8 | 6.493 | 1.459 | 1.459 | pass |
-| PPARA | 6LXA | 8 | 7.508 | — | 1.098 | pass |
-| PPARD | 5U3Q | 8 | 1.452 | 1.452 | 1.452 | pass |
+| TYK2 | 3LXP | 8 | 0.196 | 0.196 | 0.196 | pass |
+| JAK2 | 8BXH | 8 | 10.596 | 0.807 | 0.807 | pass |
+| PPARG | 9V8H | 8 | 7.085 | 1.636 | 1.636 | pass |
+| PPARA | 6LXA | 8 | 7.857 | 7.848 | 1.401 | pass |
+| PPARD | 5U3Q | 8 | 1.510 | 1.510 | 1.510 | pass |
 
-S2b is the earlier coordinate Hungarian assignment and is a historical comparison only. PPARA 6LXA has no top-3 value in that table. AChE 4EY7 and TYK2 3LXP saved 8 poses. Figure S4 uses Table S2c for the eight added receptors.
+AChE 4EY7 and TYK2 3LXP saved 8 poses, so the lowest RMSD is not a uniform best-of-9. JAK2, PPARG, and PPARA fail the 2 Å top-1 cutoff. Source: `primary_cognate_rmsd_calcrrms_v1.csv`.
 
-**S2c. Chemically mapped RMSD for the eight added receptors (RDKit CalcRMS)**
+**S2c. Method, pose provenance, and historical comparison**
 
-No redocking. `2JKH/BI7` used CCD SMILES because the OpenBabel SDF had invalid nitrogen valence.
+The primary numbers are RDKit CalcRMS (symmetry-aware, no protein superposition). Batch differences are pose source and atom-mapping implementation, not two near-native standards.
 
-| Protein | PDB | top-1 (Å) | top-3 (Å) | lowest saved (Å) | Coverage | top-1 < 2 Å |
-|------|-----|----------:|----------:|-----------------:|:--------:|:-----------:|
-| F2 | 4UDW | 0.382 | 0.382 | 0.382 | pass | yes |
-| F10 | 2JKH | 0.658 | 0.658 | 0.658 | pass | yes |
-| JAK1 | 6N7A | 0.459 | 0.459 | 0.459 | pass | yes |
-| TYK2 | 3LXP | 0.196 | 0.196 | 0.196 | pass | yes |
-| JAK2 | 8BXH | 10.596 | 0.807 | 0.807 | pass | no |
-| PPARG | 9V8H | 7.085 | 1.636 | 1.636 | pass | no |
-| PPARA | 6LXA | 7.857 | 7.848 | 1.401 | pass | no |
-| PPARD | 5U3Q | 1.510 | 1.510 | 1.510 | pass | yes |
+| Protein | PDB | Primary source | Poses in git | Mapping |
+|------|-----|----------------|:------------:|---------|
+| PIK3CA | 4L23 | `pm48_01_rmsd_E16.csv` | no | Historical production QC: Meeko SMILES index + automorphism min CalcRMS |
+| mTOR | 4JT6 | `pm48_01_rmsd_E16.csv` | no | Same |
+| AChE | 4EY7 | `cognate_rank_rmsd_reaudit_v1.csv` | yes | Meeko topology reconstruction |
+| BChE | 4BDS | `cognate_rank_rmsd_reaudit_v1.csv` | yes | Element-constrained map to reference SDF |
+| EGFR | 3POZ | `cognate_rank_rmsd_reaudit_v1.csv` | yes | Element-constrained map; reconstructed QC, not a recovered production dump |
+| HER2 | 3RCD | `cognate_rank_rmsd_reaudit_v1.csv` | yes | Same |
+| F2–PPARD (eight) | see table | `layer3_cognate_rmsd_calcrrms_v1.csv` | yes | Meeko topology or CCD SMILES (2JKH/BI7), then CalcRMS |
 
-Source: `layer3_cognate_rmsd_calcrrms_v1.csv`. Search-coverage still passed for all eight, so no pair was dropped. JAK2, PPARG, and PPARA fail the 2 Å top-1 cutoff.
+The coordinate Hungarian values below are historical only and are not used for near-native calls. PPARA 6LXA has no top-3 in that historical table. Hungarian top-1 values for JAK2 / PPARG / PPARA are 4.064 / 6.493 / 7.508 Å, below the chemically mapped Table S2b values.
+
+| Protein | PDB | Hungarian top-1 (Å) | Hungarian lowest saved (Å) |
+|------|-----|--------------------:|---------------------------:|
+| F2 | 4UDW | 0.382 | 0.382 |
+| F10 | 2JKH | 0.658 | 0.658 |
+| JAK1 | 6N7A | 0.459 | 0.459 |
+| TYK2 | 3LXP | 0.197 | 0.197 |
+| JAK2 | 8BXH | 4.064 | 0.807 |
+| PPARG | 9V8H | 6.493 | 1.459 |
+| PPARA | 6LXA | 7.508 | 1.098 |
+| PPARD | 5U3Q | 1.452 | 1.452 |
+
+Source: `layer3_cognate_rmsd_v1.csv`.
 
 ---
 
@@ -343,9 +357,9 @@ Independent GNINA searches new poses; it is not a Vina rescore. Scope is EGFR/HE
 
 No five-seed range on F2/F10, JAK1/TYK2, JAK1/JAK2, PPARG/PPARA, or PPARA/PPARD crossed 0.5. Alternate seeds are complete-case: AChE/BChE n_complete is 95 on the production seed (27 / 25 / 28) and 89–90 on the other four (as low as 25 / 22 / 27). On some five-pair seeds JAK1/TYK2 n_dual is 32 rather than 31, and PPARG/PPARA n_A is 32 rather than 31. Those n shifts are not a second Table 2.
 
-**S9e. Fixed-membership intersection on the five added pairs (both-end scores on all five seeds)**
+**S9e. Fixed-membership intersection on the five added pairs (both-end finite scores on all five seeds)**
 
-Complete-case estimates (S9c) use ligands that succeeded on that seed. The table below fixes membership to ligands with finite both-end scores on every seed. `n_intersection` includes neither; directional AUROCs use only dual / A-only / B-only. Member IDs are in `multiseed_fixed_membership_ids_v1.csv`. The table covers only the five added pairs and does not replace Table 2. Smaller seed-to-seed changes are not evidence of robustness to experimental labels or data sources.
+Complete-case estimates (S9c) use ligands that succeeded on that seed. The table below fixes membership to ligands with finite both-end scores on every seed. Scores enter the intersection only after a `math.isfinite` check; empty, non-numeric, NaN, and infinite values are excluded and written to `multiseed_fixed_membership_exclusions_v1.csv`. The rerun excluded no additional rows; the 545 members and 25 result rows are unchanged. `n_intersection` includes neither; directional AUROCs use only dual / A-only / B-only. Member IDs are in `multiseed_fixed_membership_ids_v1.csv`. The table covers only the five added pairs and does not replace Table 2. Smaller seed-to-seed changes are not evidence of robustness to experimental labels or data sources.
 
 | Pair | n_intersection (D / A / B) | Production summary_min | Five-seed range | Weaker arm switched |
 |------|---------------------------:|-----------------------:|-----------------|:-------------------:|

@@ -74,13 +74,13 @@ EGFR/HER2 评价集共包含 110 个配体，其中 28 个为 dual。按双口�
 
 在 PIK3CA/mTOR 中，将 PIK3CA 受体由 4L23 替换为 4JPS 后，\(\mathrm{summary}_{\min}\) 从 0.692 [0.470, 0.813] 降至 0.486 [0.259, 0.692]；替换为 5DXT 后为 0.505 [0.292, 0.696]；将 mTOR 4JT6 替换为 4JSX 后为 0.639 [0.418, 0.776]（Figure 5B；Table S8）。
 
-五个固定 Vina 随机种子产生的数值波动相对有限。Figure 5C 展示各靶对 \(\mathrm{summary}_{\min}\) 的五种子范围。EGFR/HER2 的设定差距在五个 Vina 种子上均为正（Table S9）。新增五对在固定成员交集上的波动与完整病例接近。该交集分析只覆盖这五对，不外推为八对都已完成固定成员比较。PPARG/PPARA 在种子 20260811、20260812 和 20260814 上较弱方向由 dual–A-only 换成 dual–B-only，因此这些种子上的 \(\mathrm{summary}_{\min}\) 变化同时包含方向切换（Table S9e）。固定成员上的随机种子变化较小，不能据此推断对实验标签或数据来源稳健。
+五个固定 Vina 随机种子产生的数值波动相对有限。Figure 5C 展示各靶对 \(\mathrm{summary}_{\min}\) 的五种子范围。EGFR/HER2 的设定差距在五个 Vina 种子上均为正（Table S9）。固定成员交集上的波动与完整病例接近。PPARG/PPARA 在种子 20260811、20260812 和 20260814 上较弱方向由 dual–A-only 换成 dual–B-only，因此这些种子上的 \(\mathrm{summary}_{\min}\) 变化同时包含方向切换（Table S9e）。固定成员上的随机种子变化较小，不能据此推断对实验标签或数据来源稳健。
 
 PPARG/PPARA 在主要 Vina 评价中是唯一 \(\mathrm{summary}_{\min}\) 置信区间完全高于 0.5 的靶对（0.649 [0.504, 0.751]），但同姿态 RTMScore 重评分降至 0.369 [0.233, 0.475]，GNINA CNN 重评分降至 0.500，未使用池留出集降至 0.535 [0.350, 0.717]（Table S7；Table S9）。
 
 PIK3CA/mTOR 的面板规模和 exhaustiveness 敏感性结果见 Figure S3。PM48 为主评价集（配额 n = 48，exhaustiveness = 16）；PM110 为同一靶对的更大协议敏感性面板。
 
-共晶重对接用全部保存姿态中的最低重原子 RMSD 判断搜索能否回到近天然构象。在各自最终认可的重原子 RMSD 下，14 个主受体槽位的最低保存姿态仍低于 2.0 Å。这只说明搜索能够产生近天然姿态，不说明第一姿态已被正确排序。EGFR 3POZ 的第一姿态为 9.505 Å，最低保存姿态为 0.760 Å。新增八个受体中，JAK2、PPARG 和 PPARA 的第一姿态也未回到 2 Å 以内；PPARA 6LXA 前三姿态最低为 7.848 Å（Figure S4；Table S2c）。原有六个受体未纳入该新增化学对应复核。坐标匈牙利匹配保留在 Table S2b，作为历史对照。
+共晶重对接用全部保存姿态中的最低重原子 RMSD 判断搜索能否回到近天然构象。按各受体对应的重原子 RMSD 计算方法，14个主受体结构的最低保存姿态 RMSD 均低于2.0 Å。这只说明搜索能够产生近天然姿态，不说明第一姿态已被正确排序。EGFR 3POZ 的第一姿态为 9.505 Å，最低保存姿态为 0.760 Å。JAK2、PPARG 和 PPARA 的第一姿态也未回到 2 Å 以内；PPARA 6LXA 前三姿态最低为 7.848 Å（Figure S4；Table S2）。
 
 ![Figure 5](../figures/jcim_article/Fig5_computational_realization.png)
 

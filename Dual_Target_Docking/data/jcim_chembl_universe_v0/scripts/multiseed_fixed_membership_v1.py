@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import math
 from collections import defaultdict
 from pathlib import Path
 
@@ -44,16 +45,42 @@ def load_labels():
     return lab
 
 
+def parse_finite_energy(raw: str | None) -> tuple[float | None, str | None]:
+    """Return (-energy, None) only when the raw score is a finite number."""
+    if raw is None or str(raw).strip() == "":
+        return None, "empty"
+    text = str(raw).strip()
+    try:
+        energy = float(text)
+    except (TypeError, ValueError):
+        return None, "non_numeric"
+    if not math.isfinite(energy):
+        return None, "not_finite"
+    return -energy, None
+
+
 def load_seed(seed: int):
     path = MS / f"scores_vina_mode1_seed{seed}.csv"
     if not path.exists() and seed == 20260727:
         path = LOCAL / "tables" / "scores_vina_mode1_v1.csv"
     rows = defaultdict(dict)
+    exclusions = []
     for r in csv.DictReader(path.open(encoding="utf-8", newline="")):
-        if r.get("mode1_energy") in (None, ""):
+        score, reason = parse_finite_energy(r.get("mode1_energy"))
+        if reason is not None:
+            exclusions.append(
+                {
+                    "seed": seed,
+                    "pair": r.get("pair", ""),
+                    "ligand": r.get("ligand", ""),
+                    "target": r.get("target", ""),
+                    "raw_mode1_energy": r.get("mode1_energy", ""),
+                    "reason": reason,
+                }
+            )
             continue
-        rows[(r["pair"], r["ligand"])][r["target"]] = -float(r["mode1_energy"])
-    return rows
+        rows[(r["pair"], r["ligand"])][r["target"]] = score
+    return rows, exclusions
 
 
 def auroc(y, s):
@@ -74,7 +101,20 @@ def weaker(a: float, b: float) -> str:
     return "tie"
 
 
+def _check_finite_parser() -> None:
+    assert parse_finite_energy("") == (None, "empty")
+    assert parse_finite_energy(None) == (None, "empty")
+    assert parse_finite_energy("nan") == (None, "not_finite")
+    assert parse_finite_energy("NaN") == (None, "not_finite")
+    assert parse_finite_energy("inf") == (None, "not_finite")
+    assert parse_finite_energy("-inf") == (None, "not_finite")
+    assert parse_finite_energy("not-a-number") == (None, "non_numeric")
+    score, reason = parse_finite_energy("-8.2")
+    assert reason is None and score == 8.2
+
+
 def main() -> int:
+    _check_finite_parser()
     ap = argparse.ArgumentParser()
     ap.add_argument("--output", type=Path, default=LOCAL / "tables" / "multiseed_fixed_membership_v1.csv")
     ap.add_argument(
@@ -82,9 +122,19 @@ def main() -> int:
         type=Path,
         default=LOCAL / "tables" / "multiseed_fixed_membership_ids_v1.csv",
     )
+    ap.add_argument(
+        "--exclusion-output",
+        type=Path,
+        default=LOCAL / "tables" / "multiseed_fixed_membership_exclusions_v1.csv",
+    )
     args = ap.parse_args()
     labels = load_labels()
-    by_seed = {s: load_seed(s) for s in SEEDS}
+    by_seed = {}
+    exclusions = []
+    for seed in SEEDS:
+        tab, skipped = load_seed(seed)
+        by_seed[seed] = tab
+        exclusions.extend(skipped)
     out = []
     members = []
     for pair, (rec_a, rec_b) in PAIRS.items():
@@ -155,8 +205,14 @@ def main() -> int:
         w = csv.DictWriter(fh, fieldnames=list(members[0]))
         w.writeheader()
         w.writerows(members)
+    excl_fields = ["seed", "pair", "ligand", "target", "raw_mode1_energy", "reason"]
+    with args.exclusion_output.open("w", newline="", encoding="utf-8") as fh:
+        w = csv.DictWriter(fh, fieldnames=excl_fields, lineterminator="\n")
+        w.writeheader()
+        w.writerows(exclusions)
     print("wrote", args.output)
     print("wrote", args.membership_output)
+    print("wrote", args.exclusion_output, "n_excluded", len(exclusions))
     return 0
 
 

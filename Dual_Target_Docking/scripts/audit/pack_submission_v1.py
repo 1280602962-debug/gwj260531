@@ -44,6 +44,8 @@ TABLES = [
     "data/jcim_chembl_universe_v0/local_track_b_v0/tables/five_pair_local_channels_v1/fiveseed_summary_min_aggregate_v1.csv",
     "data/jcim_holdout_v0/tables/holdout_pocket_matched_v1.csv",
     "data/jcim_novelty_v0/tables/cognate_rank_rmsd_reaudit_v1.csv",
+    "data/jcim_novelty_v0/tables/primary_cognate_rmsd_calcrrms_v1.csv",
+    "data/jcim_chembl_universe_v0/local_track_b_v0/tables/multiseed_fixed_membership_exclusions_v1.csv",
     "data/jcim_chembl_universe_v0/local_track_b_v0/tables/layer3_cognate_rmsd_calcrrms_v1.csv",
     "data/jcim_chembl_universe_v0/local_track_b_v0/tables/layer3_cognate_rmsd_calcrrms_modes_v1.csv",
     "data/jcim_chembl_universe_v0/local_track_b_v0/tables/pocket_unidirectional_delta_v1.csv",
