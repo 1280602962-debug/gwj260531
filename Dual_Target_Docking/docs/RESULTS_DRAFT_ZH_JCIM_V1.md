@@ -74,13 +74,13 @@ EGFR/HER2 评价集共包含 110 个配体，其中 28 个为 dual。按双口�
 
 在 PIK3CA/mTOR 中，将 PIK3CA 受体由 4L23 替换为 4JPS 后，\(\mathrm{summary}_{\min}\) 从 0.692 [0.470, 0.813] 降至 0.486 [0.259, 0.692]；替换为 5DXT 后为 0.505 [0.292, 0.696]；将 mTOR 4JT6 替换为 4JSX 后为 0.639 [0.418, 0.776]（Figure 5B；Table S8）。
 
-五个固定 Vina 随机种子产生的数值波动相对有限。Figure 5C 展示各靶对 \(\mathrm{summary}_{\min}\) 的五种子范围。EGFR/HER2 的设定差距在五个 Vina 种子上均为正（Table S9）。
+五个固定 Vina 随机种子产生的数值波动相对有限。Figure 5C 展示各靶对 \(\mathrm{summary}_{\min}\) 的五种子范围。EGFR/HER2 的设定差距在五个 Vina 种子上均为正（Table S9）。新增五对在固定成员交集上的波动与完整病例接近；PPARG/PPARA 在种子 20260811 上较弱方向由 dual–A-only 换成 dual–B-only，因此 \(\mathrm{summary}_{\min}\) 的变化同时包含方向切换（Table S9e）。
 
 PPARG/PPARA 在主要 Vina 评价中是唯一 \(\mathrm{summary}_{\min}\) 置信区间完全高于 0.5 的靶对（0.649 [0.504, 0.751]），但同姿态 RTMScore 重评分降至 0.369 [0.233, 0.475]，GNINA CNN 重评分降至 0.500，未使用池留出集降至 0.535 [0.350, 0.717]（Table S7；Table S9）。
 
 PIK3CA/mTOR 的面板规模和 exhaustiveness 敏感性结果见 Figure S3。PM48 为主评价集（配额 n = 48，exhaustiveness = 16）；PM110 为同一靶对的更大协议敏感性面板。
 
-共晶重对接中，全部主受体均可在保存姿态中产生重原子 RMSD < 2.0 Å 的近天然姿态。该指标为全部保存姿态中的最低重原子 RMSD：AChE 4EY7 保存 8 个姿态，其余主受体保存 9 个姿态。EGFR 3POZ 的 top-1 RMSD 为 9.505 Å，而全部保存姿态最低 RMSD 为 0.760 Å，说明该体系能够生成近天然姿态，但未将其排在首位（Figure S4；Table S2）。
+共晶重对接用全部保存姿态中的最低重原子 RMSD 判断搜索能否回到近天然构象。按化学对应关系重算后，14 个主受体槽位的该项指标仍低于 2.0 Å。这只说明搜索能够产生近天然姿态，不说明第一姿态已被正确排序。EGFR 3POZ 的第一姿态为 9.505 Å，最低保存姿态为 0.760 Å。新增八个受体中，JAK2、PPARG 和 PPARA 的第一姿态也未回到 2 Å 以内；PPARA 6LXA 前三姿态最低为 7.848 Å（Figure S4 仍按原先坐标匹配作图；化学对应数字见 Table S2c）。
 
 ![Figure 5](../figures/jcim_article/Fig5_computational_realization.png)
 
@@ -88,7 +88,7 @@ PIK3CA/mTOR 的面板规模和 exhaustiveness 敏感性结果见 Figure S3。PM4
 
 ### 3.5 方向性评价的标签与样本组成敏感性
 
-从严格 6.5/5.5 候选池构建的评价集，在多个阈值下保留了相同的主要类别组成，因此相应 AUROC 变化较小。EGFR/HER2 和 PIK3CA/mTOR 的类别组成随阈值变化更明显，其方向性估计也发生变化（Figure 6A；Table S3）。将重复活性记录由最大值改为中位数、以及按高置信人源单蛋白记录复核，仅覆盖 EGFR/HER2、AChE/BChE 与 PIK3CA/mTOR 三个靶对；在该范围内，两项复核未改变相应方向性结果（Table S3）。
+从严格 6.5/5.5 候选池构建的评价集，在多个阈值下保留了相同的主要类别组成，因此相应 AUROC 变化较小。EGFR/HER2 和 PIK3CA/mTOR 的类别组成随阈值变化更明显，其方向性估计也发生变化（Figure 6A；Table S3）。将重复活性记录由最大值改为中位数、以及按人源单蛋白字段规则自动重标，仅覆盖 EGFR/HER2、AChE/BChE 与 PIK3CA/mTOR 三个靶对；在该范围内，两项检查未改变相应方向性结果（Table S3）。该项自动重标不是逐篇阅读原文。
 
 在排除主评价集分子后，基于剩余候选分子构建的未使用池留出集显示，结果存在一定的样本组成依赖：AChE/BChE、PIK3CA/mTOR 与 JAK1/JAK2 与主评价接近；JAK1/TYK2 有所上升；F2/F10 与 PPARA/PPARD 仍处于较低水平；PPARG/PPARA 则由 0.649 降至 0.535 [0.350, 0.717]（Figure 4B；Table S7）。EGFR/HER2 无同等留出集。固定评分通道差值的簇重采样中，EGFR/HER2 骨架簇区间为 [0.168, 0.562]、文献簇区间为 [0.083, 0.529]，均排除 0；JAK1/TYK2 骨架簇区间为 [0.234, 0.633]，排除 0，文献簇区间为 [−0.034, 0.682]，包含 0（Figure 6B；Table S10）。
 

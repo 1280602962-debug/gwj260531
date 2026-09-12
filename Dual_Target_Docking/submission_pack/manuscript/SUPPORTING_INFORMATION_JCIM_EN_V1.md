@@ -31,7 +31,7 @@ Ligands need both-end scores for directional AUROC; n_scored may be below n_pane
 
 ## Table S2. Primary receptor boxes and cognate redocking RMSD
 
-The eight pairs use 14 PDB slots (JAK1 6N7A and PPARA 6LXA are shared). PIK3CA/mTOR used E = 16 because 4JT6 failed the gate at E = 8. EGFR 3POZ is reconstructed QC (original nine-mode production files were not recovered). 9V8H is a PPARγ LBD–BRL–PG08-NL ternary complex; the peptide was retained. Figure S4 plots top-1 and lowest-saved-pose RMSD for these 14 receptors, including PPARA 6LXA. The top-3 column is min(mode 1–3) only where per-pose RMSDs are verifiable. A best saved pose outside the top three does not prevent computing a top-3 minimum. PPARA 6LXA has no verifiable top-3 RMSD, so that cell is blank rather than undefined. AChE 4EY7 deposited 8 poses.
+The eight pairs use 14 PDB slots (JAK1 6N7A and PPARA 6LXA are shared). PIK3CA/mTOR used E = 16 because 4JT6 failed the gate at E = 8. EGFR 3POZ is reconstructed QC (original nine-mode production files were not recovered). 9V8H is a PPARγ LBD–BRL–PG08-NL ternary complex; the peptide was retained. Figure S4 follows the coordinate-assignment values in Table S2b. Chemically mapped RMSDs for the eight added receptors are in Table S2c and are the values used in the text. AChE 4EY7 deposited 8 poses.
 
 **S2a. Docking boxes (Å)**
 
@@ -71,7 +71,24 @@ The eight pairs use 14 PDB slots (JAK1 6N7A and PPARA 6LXA are shared). PIK3CA/m
 | PPARA | 6LXA | 8 | 7.508 | — | 1.098 | pass |
 | PPARD | 5U3Q | 8 | 1.452 | 1.452 | 1.452 | pass |
 
-Source: panel `boxes/*.json`; `cognate_rank_rmsd_reaudit_v1.csv`; `layer3_cognate_rmsd_v1.csv`. PPARA 6LXA top-3 is omitted because a verifiable per-pose top-3 RMSD was not obtained (`layer3_cognate_rmsd_v1.csv` records best_mode = 5). PPARA is included in Figure S4. AChE 4EY7 saved 8 poses.
+S2b is the earlier coordinate Hungarian assignment and is the source of Figure S4. PPARA 6LXA has no top-3 value in that table. AChE 4EY7 saved 8 poses.
+
+**S2c. Chemically mapped RMSD for the eight added receptors (RDKit CalcRMS)**
+
+No redocking. `2JKH/BI7` used CCD SMILES because the OpenBabel SDF had invalid nitrogen valence.
+
+| Protein | PDB | top-1 (Å) | top-3 (Å) | lowest saved (Å) | Coverage | top-1 < 2 Å |
+|------|-----|----------:|----------:|-----------------:|:--------:|:-----------:|
+| F2 | 4UDW | 0.382 | 0.382 | 0.382 | pass | yes |
+| F10 | 2JKH | 0.658 | 0.658 | 0.658 | pass | yes |
+| JAK1 | 6N7A | 0.459 | 0.459 | 0.459 | pass | yes |
+| TYK2 | 3LXP | 0.196 | 0.196 | 0.196 | pass | yes |
+| JAK2 | 8BXH | 10.596 | 0.807 | 0.807 | pass | no |
+| PPARG | 9V8H | 7.085 | 1.636 | 1.636 | pass | no |
+| PPARA | 6LXA | 7.857 | 7.848 | 1.401 | pass | no |
+| PPARD | 5U3Q | 1.510 | 1.510 | 1.510 | pass | yes |
+
+Source: `layer3_cognate_rmsd_calcrrms_v1.csv`. Search-coverage still passed for all eight, so no pair was dropped. JAK2, PPARG, and PPARA fail the 2 Å top-1 cutoff.
 
 ---
 

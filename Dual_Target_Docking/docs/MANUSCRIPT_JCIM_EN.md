@@ -61,7 +61,7 @@ To examine activity-processing choices, the maximum pChEMBL was replaced by the 
 
 Human experimental structures (PDB IDs) for each target are listed in Table 1. Cognate ligands and docking boxes are in Table S2. Each cognate ligand defined the docking site of its receptor. JAK1 6N7A was used for both JAK1/TYK2 and JAK1/JAK2. PPARA 6LXA was used for both PPARG/PPARA and PPARA/PPARD. TYK2 3LXP used the JH1 ATP site. In PPARG 9V8H, the bound PG08-NL peptide was retained, and only the cognate small molecule and crystal waters were removed.
 
-Protein identity, species, binding site, and cognate-ligand position were checked before use. The initial docking box was the Cartesian range of cognate heavy atoms, expanded by 5 Å on each side along \(x\), \(y\), and \(z\). Any edge that remained shorter than 20 Å was extended to 20 Å. Crystal waters and the cognate ligand used to define the site were then removed. Meeko prepared each receptor as PDBQT. Alternate locations without an altLoc flag, or marked A, were retained. Box coordinates are in Table S2.
+Protein identity, species, binding site, and cognate-ligand position were checked for the receptors now in the primary set. An earlier candidate pair, PIK3CA/PIK3CB, used 2WXF, later identified as mouse PIK3CD rather than human PIK3CB; that pair was withdrawn and is kept as a read-only archive. The initial docking box was the Cartesian range of cognate heavy atoms, expanded by 5 Å on each side along \(x\), \(y\), and \(z\). Any edge that remained shorter than 20 Å was extended to 20 Å. Crystal waters and the cognate ligand used to define the site were then removed. Meeko prepared each receptor as PDBQT. Alternate locations without an altLoc flag, or marked A, were retained. Box coordinates are in Table S2.
 
 #### 2.4.2 Ligand preparation
 
@@ -73,7 +73,7 @@ Primary docking used AutoDock Vina 1.2.7 with the default Vina scoring function.
 
 #### 2.4.4 Cognate-ligand redocking
 
-Before panel docking, each main receptor was redocked with its cognate ligand to check whether the defined site and search settings could generate a near-native pose. At most nine poses were retained, and heavy-atom RMSD to the experimental cognate conformation was computed for each saved pose. Search coverage was assessed from the lowest heavy-atom RMSD among all saved poses. AChE 4EY7 deposited 8 poses; the other primary receptors deposited 9. A value below 2.0 Å was taken as evidence that the search could produce a near-native pose. Rank-1 RMSD was also reported, to separate pose generation from score ranking. Where per-pose RMSDs were verifiable, the lowest RMSD among the top three poses was reported; PPARA 6LXA has no verifiable top-3 RMSD. Boxes and redocking results are listed together in Table S2.[8]
+Before panel docking, each main receptor was redocked with its cognate ligand to check whether the defined site and search settings could generate a near-native pose. At most nine poses were retained, and heavy-atom RMSD to the experimental cognate conformation was computed for each saved pose. Search coverage was assessed from the lowest heavy-atom RMSD among all saved poses. AChE 4EY7 deposited 8 poses; the other primary receptors deposited 9. A value below 2.0 Å was taken as evidence that the search could produce a near-native pose. Rank-1 RMSD was also reported, to separate pose generation from score ranking. The eight added receptors were rechecked with chemically mapped RMSD (Table S2c); near-native calls in the text use those values. The earlier coordinate-assignment numbers remain in Table S2b for Figure S4. Boxes and redocking results are listed together in Table S2.[8]
 
 #### 2.4.5 Alternative scoring and independent docking
 
@@ -191,7 +191,7 @@ PPARG/PPARA was the only pair whose primary Vina \(\mathrm{summary}_{\min}\) int
 
 PIK3CA/mTOR panel-size and exhaustiveness checks are in Figure S3. PM48 is the primary panel (quota n = 48, exhaustiveness = 16); PM110 is a larger protocol-sensitivity panel on the same pair.
 
-Cognate redocking served as protocol quality control. All main receptors produced a saved pose with heavy-atom RMSD < 2.0 Å, using the lowest heavy-atom RMSD among all saved poses. AChE 4EY7 deposited 8 poses; the other primary receptors deposited 9. For EGFR 3POZ, the top-1 RMSD was 9.505 Å and the lowest saved-pose RMSD was 0.760 Å (Figure S4; Table S2).
+Cognate redocking was used to test search coverage, not rank-1 placement. After chemically mapped RMSD, the lowest saved-pose RMSD remained < 2.0 Å for all 14 primary receptor slots. EGFR 3POZ had a top-1 RMSD of 9.505 Å and a lowest saved-pose RMSD of 0.760 Å. Among the eight added receptors, JAK2, PPARG, and PPARA also failed the 2 Å top-1 cutoff; PPARA 6LXA top-3 was 7.848 Å (Figure S4 still follows Table S2b; chemically mapped values are in Table S2c).
 
 ### 3.5 Label and sample-composition sensitivity
 
@@ -259,7 +259,7 @@ Retrospective dual-target docking evaluation should report both directional sele
 
 ## Data and Software Availability
 
-Benchmark membership, experimental-state labels, receptor and docking-box definitions, per-ligand docking scores, analysis tables, and all scripts used to regenerate the reported statistics and figures are available in the `Dual_Target_Docking` directory of the public repository at https://github.com/1280602962-debug/gwj260531.
+Benchmark membership, experimental-state labels, receptor and docking-box definitions, per-ligand docking scores, analysis tables, and the scripts needed to rebuild the main statistics and figures are available in the `Dual_Target_Docking` directory of the public repository at https://github.com/1280602962-debug/gwj260531. Cognate redocking poses are in the repository. Production poses for the five added pairs are not in git; a local-disk replay is recorded in `scores_vina_mode1_pose_replay_v1.csv`. Public reproduction currently uses the score tables rather than a fresh docking run. Historical PIK3CA/PIK3CB files remain in `data/pik3ca_pik3cb_panel_v0/` and are not part of the current primary tables.
 
 Typeset Supporting Information contains **Tables S1–S13**. The tables cover software and seeds; docking boxes and cognate RMSD; threshold and pChEMBL-aggregation sensitivity; fixed-score control-class contrast; ECFP4 increment; matched versus mismatched pockets; unused-pool holdout; PIK3CA/mTOR crystal substitution; independent GNINA and five-seed Vina; document-cluster uncertainty and sample-size scenario; BindingDB external eligibility; 2018 year-split counts; and EGFR/HER2 operating points. The map from the former working Tables S1–S54, including the old multi-seed Table S54, is `Dual_Target_Docking/data/manuscript_lock/SI_TABLE_MERGE_MAP_v1.csv`.
 

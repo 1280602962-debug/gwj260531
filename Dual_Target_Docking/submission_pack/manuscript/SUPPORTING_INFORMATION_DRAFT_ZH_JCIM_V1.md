@@ -34,7 +34,7 @@
 
 ## Table S2. 主受体对接盒子与共晶重对接 RMSD
 
-八个靶对使用 14 个 PDB 槽位（JAK1 的 6N7A 与 PPARA 的 6LXA 被两对共用）。PIK3CA/mTOR 因 4JT6 在 E = 8 时未过门槛而采用 E = 16。EGFR 3POZ 为重建 QC（原始九姿态生产文件未找回）。9V8H 为 PPARγ LBD–BRL–PG08-NL 三元复合物，对接保留肽链。表中分辨率由主文 Table 1 移入。Figure S4 画这 14 个主受体的 top-1 与全部保存姿态最低重原子 RMSD，其中包括 PPARA 6LXA。表中 top-3 列为 mode 1–3 的最小值，仅在具有可核实逐姿态 RMSD 时填写。最佳保存姿态不在前三，并不妨碍计算前三姿态的最低 RMSD；PPARA 6LXA 未获得可核实的前三姿态 RMSD，故该格从缺，而不是“无法定义”。AChE 4EY7 实际保存 8 个姿态。
+八个靶对使用 14 个 PDB 槽位（JAK1 的 6N7A 与 PPARA 的 6LXA 被两对共用）。PIK3CA/mTOR 因 4JT6 在 E = 8 时未过门槛而采用 E = 16。EGFR 3POZ 为重建 QC（原始九姿态生产文件未找回）。9V8H 为 PPARγ LBD–BRL–PG08-NL 三元复合物，对接保留肽链。表中分辨率由主文 Table 1 移入。Figure S4 按 Table S2b 的坐标匹配结果作图。新增八个受体的化学对应复核见 Table S2c；稿件中的近天然判断以 S2c 为准。AChE 4EY7 实际保存 8 个姿态。
 
 **S2a. 对接盒子（Å）与分辨率**
 
@@ -74,7 +74,24 @@
 | PPARA | 6LXA | 8 | 7.508 | — | 1.098 | 通过 |
 | PPARD | 5U3Q | 8 | 1.452 | 1.452 | 1.452 | 通过 |
 
-PPARA 6LXA 的 top-3 从缺，因为未获得可核实的前三姿态 RMSD（`layer3_cognate_rmsd_v1.csv` 仅记录最佳姿态为 mode 5，最低保存姿态 RMSD = 1.098 Å）。该受体进入 Figure S4。AChE 4EY7 保存 8 个姿态，其最低 RMSD 不是 best-of-9。
+S2b 为原先坐标匈牙利匹配，供与 Figure S4 对照。PPARA 6LXA 在该表中未记录前三姿态 RMSD。AChE 4EY7 保存 8 个姿态，其最低 RMSD 不是 best-of-9。化学对应复核后，新增八个受体的搜索覆盖门槛仍全部通过，因此主评价仍保留这八个靶对；JAK2、PPARG、PPARA 的第一姿态未回到 2 Å 以内。
+
+**S2c. 新增八受体共晶 RMSD（化学对应，RDKit CalcRMS）**
+
+不重对接。`2JKH/BI7` 因 OpenBabel SDF 键级无效，改用 CCD SMILES。
+
+| 蛋白 | PDB | top-1 (Å) | top-3 (Å) | 全部保存姿态最低 (Å) | 搜索覆盖 | 第一姿态 < 2 Å |
+|------|-----|----------:|----------:|---------------------:|:--------:|:--------------:|
+| F2 | 4UDW | 0.382 | 0.382 | 0.382 | 通过 | 是 |
+| F10 | 2JKH | 0.658 | 0.658 | 0.658 | 通过 | 是 |
+| JAK1 | 6N7A | 0.459 | 0.459 | 0.459 | 通过 | 是 |
+| TYK2 | 3LXP | 0.196 | 0.196 | 0.196 | 通过 | 是 |
+| JAK2 | 8BXH | 10.596 | 0.807 | 0.807 | 通过 | 否 |
+| PPARG | 9V8H | 7.085 | 1.636 | 1.636 | 通过 | 否 |
+| PPARA | 6LXA | 7.857 | 7.848 | 1.401 | 通过 | 否 |
+| PPARD | 5U3Q | 1.510 | 1.510 | 1.510 | 通过 | 是 |
+
+源：`layer3_cognate_rmsd_calcrrms_v1.csv`；逐姿态 `layer3_cognate_rmsd_calcrrms_modes_v1.csv`。S2b 中 JAK2 / PPARG / PPARA 的 top-1 分别为 4.064 / 6.493 / 7.508 Å，匈牙利匹配低估了错误姿态。
 
 ---
 
@@ -106,7 +123,7 @@ PPARA 6LXA 的 top-3 从缺，因为未获得可核实的前三姿态 RMSD（`la
 
 **pChEMBL 最大对中位数（2026-08-26 API 快照；不替换 Table 2）：** EGFR/HER2 标签一致率 93.6%，`summary_min` 由冻结 0.430 变为 API-max 0.417、median 0.424；AChE/BChE 一致率 98.9%，median 使 `summary_min` 变为 0.629（Δ = +0.023）；PIK3CA/mTOR 一致率 100%，`summary_min` 不变。源：`unified_threshold_sensitivity_v2.csv`；`threshold_grid_v1.csv`；`assay_max_vs_median_agreement_v1.csv`。
 
-**高置信人源单蛋白视图（同日 API 快照；不替换 Table 2）：** 具有该快照的已打分配体中 253/253 与四状态类别一致，方向性 AUROC 不变。该视图覆盖 EGFR/HER2、AChE/BChE 与 PIK3CA/mTOR。源：`high_confidence_summary_v1.csv`。
+**高置信人源单蛋白视图（同日 API 快照；不替换 Table 2）：** 按数据库字段规则自动筛查，不是逐篇阅读原文。具有该快照的已打分配体中 253/253 与四状态类别一致，方向性 AUROC 不变。该视图覆盖 EGFR/HER2、AChE/BChE 与 PIK3CA/mTOR。源：`high_confidence_summary_v1.csv`。
 
 ---
 
@@ -229,6 +246,30 @@ ECFP4及ECFP4+docking的AUROC来自相同骨架分组交叉验证下的折外预
 
 源：`wrong_pocket_paired_delta_bootstrap_v1.csv`（`set=main_panel` / `unused_pool_holdout`）；`wrong_pocket_by_channel_v1.csv`。
 
+**S6b. 单方向差值与较弱方向切换（与 \(\Delta\mathrm{summary}_{\min}\) 并列）**
+
+正值表示对应口袋该方向更高。`weaker_switched = yes` 表示取最小值前后较弱方向不一致，此时 \(\Delta\mathrm{summary}_{\min}\) 不能单独代表两个方向。
+
+| 靶对 | 集合 | Δ D vs A | Δ D vs B | Δ summary_min [95% CI] | 较弱方向是否切换 |
+|------|------|---------:|---------:|------------------------|:----------------:|
+| EGFR/HER2 | 主评价 | −0.032 | 0.170 | 0.170 [0.060, 0.280] | 否 |
+| AChE/BChE | 主评价 | 0.206 | 0.048 | 0.161 [0.037, 0.269] | 是 |
+| PIK3CA/mTOR | 主评价 | 0.004 | 0.090 | 0.090 [−0.122, 0.263] | 否 |
+| F2/F10 | 主评价 | −0.037 | −0.031 | −0.031 [−0.117, 0.040] | 否 |
+| JAK1/TYK2 | 主评价 | 0.060 | −0.065 | −0.065 [−0.152, 0.038] | 否 |
+| JAK1/JAK2 | 主评价 | −0.019 | 0.004 | −0.019 [−0.097, 0.054] | 否 |
+| PPARG/PPARA | 主评价 | −0.002 | 0.087 | 0.030 [−0.081, 0.163] | 是 |
+| PPARA/PPARD | 主评价 | 0.212 | −0.053 | 0.012 [−0.092, 0.145] | 是 |
+| AChE/BChE | holdout | −0.008 | −0.035 | −0.025 [−0.112, 0.071] | 是 |
+| PIK3CA/mTOR | holdout | 0.073 | −0.093 | −0.023 [−0.117, 0.079] | 是 |
+| F2/F10 | holdout | −0.307 | 0.080 | −0.079 [−0.251, 0.075] | 是 |
+| JAK1/TYK2 | holdout | −0.006 | 0.025 | 0.025 [−0.087, 0.133] | 否 |
+| JAK1/JAK2 | holdout | 0.024 | 0.008 | 0.008 [−0.072, 0.111] | 否 |
+| PPARG/PPARA | holdout | 0.174 | −0.169 | 0.006 [−0.168, 0.183] | 是 |
+| PPARA/PPARD | holdout | 0.150 | 0.071 | 0.150 [−0.056, 0.294] | 否 |
+
+源：`pocket_unidirectional_delta_v1.csv`。由已锁定口袋分数表重排，不重对接。
+
 ---
 
 ## Table S7. 未使用池留出集（unused-pool holdout）
@@ -302,6 +343,20 @@ ECFP4及ECFP4+docking的AUROC来自相同骨架分组交叉验证下的折外预
 | PPARA/PPARD | 0.446 | 0.454 | 0.446–0.469 |
 
 F2/F10、JAK1/TYK2、JAK1/JAK2、PPARG/PPARA 和 PPARA/PPARD 的五种子 \(\mathrm{summary}_{\min}\) 范围均未跨过 0.5。备选种子按完整病例计：AChE/BChE 生产种子 n_complete 为 95（27 / 25 / 28），其余四种子为 89–90（最低 25 / 22 / 27）。部分五对种子上 JAK1/TYK2 的 n_dual 为 32 而非 31，PPARG/PPARA 的 n_A 为 32 而非 31。上述 n 变化不构成第二套 Table 2。
+
+**S9e. 新增五对固定成员交集（五个种子均有双端分数）**
+
+完整病例（S9c）估计的是该种子实际打分成功的成员；下表把成员固定为五种子交集，只反映搜索随机性。本表不替换 Table 2。
+
+| 靶对 | n_intersection (D / A / B) | 生产种子 summary_min | 五种子范围 | 较弱方向是否切换 |
+|------|---------------------------:|---------------------:|------------|:----------------:|
+| F2/F10 | 107（31 / 32 / 32） | 0.345 | 0.345–0.385 | 否 |
+| JAK1/TYK2 | 109（31 / 32 / 32） | 0.365 | 0.365–0.381 | 否 |
+| JAK1/JAK2 | 110（32 / 32 / 32） | 0.588 | 0.574–0.592 | 否 |
+| PPARG/PPARA | 109（32 / 31 / 32） | 0.649 | 0.649–0.691 | 是（20260811：较弱方向由 D vs A 换成 D vs B） |
+| PPARA/PPARD | 110（32 / 32 / 32） | 0.446 | 0.446–0.469 | 否 |
+
+源：`multiseed_fixed_membership_v1.csv`。EGFR/HER2、AChE/BChE 与 PIK3CA/mTOR 未纳入本表，因其多种子完整病例变化已在 S9c 说明。
 
 **S9d. EGFR/HER2 五种子设定差距（dual–neither − \(\mathrm{summary}_{\min}\)；Figure 5C 只画 \(\mathrm{summary}_{\min}\)）**
 
@@ -437,7 +492,7 @@ S11a 是严格 6.5/5.5 的 **供给清点**（BindingDB 与 PubChem 的 `equal_o
 
 ![Figure S4](../figures/jcim_article/FigS4_cognate_rmsd.png)
 
-**Figure S4.** 各主受体共晶配体重对接的重原子 RMSD。圆点为 top-1，菱形为全部保存姿态中的最低重原子 RMSD。AChE 4EY7 保存 8 个姿态，其余主受体保存 9 个姿态。虚线为 2 Å。EGFR 3POZ 的 top-1 为 9.505 Å，在图中标为超轴。PPARA 6LXA 包含在本图中。数值与 Table S2 一致。
+**Figure S4.** 各主受体共晶配体重对接的重原子 RMSD。圆点为 top-1，菱形为全部保存姿态中的最低重原子 RMSD。AChE 4EY7 保存 8 个姿态，其余主受体保存 9 个姿态。虚线为 2 Å。EGFR 3POZ 的 top-1 为 9.505 Å，在图中标为超轴。PPARA 6LXA 包含在本图中。本图数值与 Table S2b 的坐标匹配结果一致；新增八受体的化学对应数字见 Table S2c，不在本图中改画。
 
 ### Figure S5. 可检测效应情景模拟
 
