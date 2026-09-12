@@ -22,6 +22,8 @@ WATCH = [
     "data/jcim_novelty_v0/tables/complete_case_usable_pchembl_overlap_v1.csv",
     "data/jcim_novelty_v0/tables/source_document_concentration_v1.csv",
     "data/jcim_novelty_v0/tables/cognate_rank_rmsd_reaudit_v1.csv",
+    "data/jcim_novelty_v0/tables/all14_cognate_rmsd_calcrrms_v1.csv",
+    "data/jcim_novelty_v0/tables/all14_cognate_rmsd_calcrrms_modes_v1.csv",
     "data/jcim_chembl_universe_v0/local_track_b_v0/tables/layer3_cognate_rmsd_calcrrms_v1.csv",
     "data/jcim_chembl_universe_v0/local_track_b_v0/tables/layer3_cognate_rmsd_calcrrms_modes_v1.csv",
     "data/jcim_chembl_universe_v0/local_track_b_v0/tables/pocket_unidirectional_delta_v1.csv",

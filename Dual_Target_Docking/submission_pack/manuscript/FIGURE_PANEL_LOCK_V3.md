@@ -22,7 +22,7 @@ Article numbering follows the Chinese working manuscript. Disk filenames need no
 | Figure S1 | EGFR/HER2 Top-10 and AND filter | `FigS1_posthoc_diagnostics` | `fig_s7_posthoc()` | `mixed_library_enrichment_v1.csv`; `and_filter_operating_point_v1.csv` |
 | Figure S2 | Pocket-matched forest | `FigS2_pocket_matched_forest` | `fig_s4_forest()` | Table-2 sources; `descriptor_all_four_directional_v1.csv` |
 | Figure S3 | PIK3CA/mTOR protocol sensitivity | `FigS3_protocol_sensitivity` | `fig_s1_protocol()` | `pm110_vs_pm48_pocket_matched_v1.csv`; `scores_vina_E8_best.csv` |
-| Figure S4 | Cognate redocking RMSD | `FigS4_cognate_rmsd` | `fig_s12_cognate()` | Original six: `cognate_rank_rmsd_reaudit_v1.csv`, `pm48_01_rmsd_E16.csv`. Added eight: `layer3_cognate_rmsd_calcrrms_v1.csv`. Historical only: `layer3_cognate_rmsd_v1.csv` |
+| Figure S4 | Cognate redocking RMSD | `FigS4_cognate_rmsd` | `fig_s12_cognate()` | Unified 14-receptor CalcRMS: `all14_cognate_rmsd_calcrrms_v1.csv`. Historical only: `layer3_cognate_rmsd_v1.csv`, `layer3_cognate_rmsd_calcrrms_v1.csv`, `cognate_rank_rmsd_reaudit_v1.csv`, `pm48_01_rmsd_E16.csv` |
 | Figure S5 | Detectable-effect scenario | `FigS6_detectable_effect` | `fig_s6_sim()` | `detectable_effect_simulation_v1.csv` |
 | TOC | Four states → tasks → controls | `TOC_graphic` | `toc_graphic()` | schematic |
 
