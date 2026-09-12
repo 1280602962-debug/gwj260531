@@ -80,15 +80,15 @@ PPARG/PPARA 在主要 Vina 评价中是唯一 \(\mathrm{summary}_{\min}\) 置信
 
 PIK3CA/mTOR 的面板规模和 exhaustiveness 敏感性结果见 Figure S3。PM48 为主评价集（配额 n = 48，exhaustiveness = 16）；PM110 为同一靶对的更大协议敏感性面板。
 
-共晶重对接用全部保存姿态中的最低重原子 RMSD 判断搜索能否回到近天然构象。在各自最终认可的重原子 RMSD 下，14 个主受体槽位的最低保存姿态仍低于 2.0 Å。这只说明搜索能够产生近天然姿态，不说明第一姿态已被正确排序。EGFR 3POZ 的第一姿态为 9.505 Å，最低保存姿态为 0.760 Å。新增八个受体中，JAK2、PPARG 和 PPARA 的第一姿态也未回到 2 Å 以内；PPARA 6LXA 前三姿态最低为 7.848 Å（Figure S4；Table S2c）。原有六个受体未纳入该新增化学对应复核。坐标匈牙利匹配保留在 Table S2b，作为历史对照。
+共晶重对接用全部保存姿态中的最低重原子 RMSD 判断搜索能否覆盖近天然构象。按各受体对应的重原子 RMSD 计算方法，14 个主受体结构的最低保存姿态 RMSD 均低于 2.0 Å。这只说明搜索能够产生近天然姿态，不说明第一姿态已被正确排序，也不能说明选择性预测可靠。AChE 4EY7 与 TYK2 3LXP 实际保存 8 个姿态，其余主受体保存 9 个姿态。EGFR 3POZ 为后来重建的 QC，不是已找回的原始生产输出；其第一姿态为 9.505 Å，最低保存姿态为 0.760 Å。新增八个受体的化学对应复核中，JAK2、PPARG 和 PPARA 的第一姿态未回到 2 Å 以内；PPARA 6LXA 前三姿态最低为 7.848 Å（Figure S4；Table S2c）。原有六个受体未纳入该新增化学对应复核。坐标匈牙利匹配保留在 Table S2b，作为历史对照。
 
 ![Figure 5](../figures/jcim_article/Fig5_computational_realization.png)
 
-**Figure 5.** 计算实现敏感性。(A) 独立 GNINA 与 Vina：实心为 Vina，空心为 GNINA；蓝为方向性 \(\mathrm{summary}_{\min}\)，橙为 dual–neither；灰线连接同一引擎的两项任务，不是置信区间。图例置于绘图区外。(B) PIK3CA/mTOR 受体替换，误差棒为配体水平 bootstrap 95% 置信区间。(C) 八个靶对在五个 Vina 随机种子上的 \(\mathrm{summary}_{\min}\) 范围、中位数与生产种子；该面板不展示设定差距。
+**Figure 5.** 计算实现敏感性。(A) 独立 GNINA 与 Vina：实心为 Vina，空心为 GNINA；蓝为方向性 \(\mathrm{summary}_{\min}\)，橙为 dual–neither；灰线连接同一引擎的两项任务，不是置信区间。(B) PIK3CA/mTOR 受体替换，误差棒为配体水平 bootstrap 95% 置信区间。(C) 八个靶对在五个 Vina 随机种子上的 \(\mathrm{summary}_{\min}\) 范围、中位数与生产种子；该面板不展示设定差距。
 
 ### 3.5 方向性评价的标签与样本组成敏感性
 
-从严格 6.5/5.5 候选池构建的评价集，在多个阈值下保留了相同的主要类别组成，因此相应 AUROC 变化较小。EGFR/HER2 和 PIK3CA/mTOR 的类别组成随阈值变化更明显，其方向性估计也发生变化（Figure 6A；Table S3）。将重复活性记录由最大值改为中位数、以及按人源单蛋白字段规则自动重标，仅覆盖 EGFR/HER2、AChE/BChE 与 PIK3CA/mTOR 三个靶对；在该范围内，两项检查未改变相应方向性结果（Table S3）。该项自动重标不是逐篇阅读原文。
+从严格 6.5/5.5 候选池构建的评价集，在多个阈值下保留了相同的主要类别组成，因此相应 AUROC 变化较小。EGFR/HER2 和 PIK3CA/mTOR 的类别组成随阈值变化更明显，其方向性估计也发生变化（Figure 6A；Table S3）。最大值、中位数和高置信字段筛查不是同一项检查，生产版本与另一 API 快照之间的差异也不能全部归因于聚合方式。同日 API 快照仅覆盖 EGFR/HER2、AChE/BChE 与 PIK3CA/mTOR：EGFR/HER2 标签一致率 93.6%，生产 `summary_min` 为 0.430，同日 API-max 为 0.417，median 为 0.424；AChE/BChE 的 API-max 仍为 0.606，median 为 0.629；PIK3CA/mTOR 标签一致率 100%，`summary_min` 不变。高置信人源单蛋白字段筛查在这三对已打分配体上保持类别和方向性结果不变（253/253），该项筛查不是逐篇阅读原文。新增五对另有基于 ChEMBL 37 转储的 max/median 重标，不属于该 API 快照：仅 PPARA/PPARD 出现 1 个类别翻转，五对 `summary_min` 点估计在三位小数下不变（Table S3）。
 
 在排除主评价集分子后，基于剩余候选分子构建的未使用池留出集显示，结果存在一定的样本组成依赖：AChE/BChE、PIK3CA/mTOR 与 JAK1/JAK2 与主评价接近；JAK1/TYK2 有所上升；F2/F10 与 PPARA/PPARD 仍处于较低水平；PPARG/PPARA 则由 0.649 降至 0.535 [0.350, 0.717]（Figure 4B；Table S7）。EGFR/HER2 无同等留出集。固定评分通道差值的簇重采样中，EGFR/HER2 骨架簇区间为 [0.168, 0.562]、文献簇区间为 [0.083, 0.529]，均排除 0；JAK1/TYK2 骨架簇区间为 [0.234, 0.633]，排除 0，文献簇区间为 [−0.034, 0.682]，包含 0（Figure 6B；Table S10）。
 
