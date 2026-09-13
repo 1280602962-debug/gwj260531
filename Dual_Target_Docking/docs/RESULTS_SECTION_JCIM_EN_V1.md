@@ -37,7 +37,7 @@ As a descriptive two-pocket mean-score comparison, dual-versus-neither AUROCs we
 
 **Figure 2.** Docking performance depends on the experimental-state comparison. (A) \(\Delta\)AUROC after changing the control class at a fixed score channel; error bars are ligand-level bootstrap 95% confidence intervals; (B) the two directional AUROCs; (C) directional \(\mathrm{summary}_{\min}\) versus dual-versus-neither. The diamond marks the PIK3CA/mTOR neither sample (n = 4). Panel C is not a fixed-score-channel comparison.
 
-**Table 3.** Same Vina scores under directional versus dual-versus-neither settings (unified \(\theta=6.0\)). Dual-versus-neither uses the two-pocket mean score \(S_{\mathrm{mean}}\). The PIK3CA/mTOR neither sample is small (n = 4). Dual versus all non-duals is in Table S4.
+**Table 3.** Same Vina scores under directional versus dual-versus-neither settings (unified \(\theta=6.0\)). Dual-versus-neither uses the two-pocket mean score \(S_{\mathrm{mean}}\). The PIK3CA/mTOR neither sample is small (n = 4).
 
 | Pair | directional summary_min [95% CI] | Dual vs neither (vina_mean) | n_neither |
 |------|--------------------------------:|------------------------------:|----------:|
@@ -50,7 +50,7 @@ As a descriptive two-pocket mean-score comparison, dual-versus-neither AUROCs we
 | PPARG/PPARA | 0.649 [0.504, 0.751] | 0.685 [0.493, 0.848] | 14 |
 | PPARA/PPARD | 0.446 [0.296, 0.584] | 0.565 [0.368, 0.766] | 14 |
 
-Panel ranking was a retrospective operating-point diagnostic on this constructed set, not a commercial-library screen. When all 110 EGFR/HER2 ligands were ranked by the two-pocket mean score, the Top-10 contained 1 dual, 5 A-only, and 4 B-only ligands, and no neither ligand; the denominator is 110 (Figure S1A; Table S13). The higher dual-versus-neither AUROC therefore did not correspond to fewer highly ranked single-target selectives. A two-pocket filter at the median dual \(S_{\mathrm{worst}}\) was applied to Dual+A-only+B-only (n = 98), excluding neither, and retained 14 dual ligands together with 9 A-only and 24 B-only ligands (dual precision 0.298; Figure S1B; Table S13).
+Panel ranking was a retrospective operating-point diagnostic on this constructed set, not a commercial-library screen. When all 110 EGFR/HER2 ligands were ranked by the two-pocket mean score, the Top-10 contained 1 dual, 5 A-only, and 4 B-only ligands, and no neither ligand; the denominator is 110 (Figure S1A). The higher dual-versus-neither AUROC therefore did not correspond to fewer highly ranked single-target selectives. A two-pocket filter at the median dual \(S_{\mathrm{worst}}\) was applied to Dual+A-only+B-only (n = 98), excluding neither, and retained 14 dual ligands together with 9 A-only and 24 B-only ligands (dual precision 0.298; Figure S1B).
 
 ### 3.3 Ligand-chemistry baselines and directional discrimination
 
@@ -64,25 +64,25 @@ Under Bemis–Murcko scaffold-grouped cross-validation, receptor-free ECFP4 fing
 
 ### 3.4 Pocket correspondence and computational sensitivity
 
-Figure 4A and Tables S6 and S7 compare matched-pocket versus mismatched-pocket \(\mathrm{summary}_{\min}\). Only EGFR/HER2 (0.170 [0.060, 0.280]) and AChE/BChE (0.161 [0.037, 0.269]) had main-panel difference intervals that excluded 0; the other six pairs crossed 0. On the seven internal holdouts, the intervals all included 0 (differences from −0.079 to +0.150). A matched-pocket advantage was not consistently reproduced across the available holdouts (Figure 4A; Table S7). EGFR/HER2 had too few leftover candidates for an equivalent unused-pool holdout.
+Figure 4A and Table S6 compare matched-pocket versus mismatched-pocket \(\mathrm{summary}_{\min}\). Only EGFR/HER2 (0.170 [0.060, 0.280]) and AChE/BChE (0.161 [0.037, 0.269]) had main-panel difference intervals that excluded 0; the other six pairs crossed 0. On the seven internal holdouts, the intervals all included 0 (differences from −0.079 to +0.150). A matched-pocket advantage was not consistently reproduced across the available holdouts (Figure 4A; Table S6). EGFR/HER2 had too few leftover candidates for an equivalent unused-pool holdout.
 
 ![Figure 4](../figures/jcim_article/Fig4_mismatched_pocket.png)
 
 **Figure 4.** Matched-pocket versus mismatched-pocket scores. (A) Matched−mismatched \(\Delta\mathrm{summary}_{\min}\) on the main panels and holdouts; points and bars are estimates and ligand-level bootstrap 95% confidence intervals; (B) \(\mathrm{summary}_{\min}\) on the main panels and holdouts. \(\dagger\) marks the missing EGFR/HER2 unused-pool holdout. The bottom legend distinguishes main panels from holdouts.
 
-After independent GNINA 1.3.2 pose generation and scoring, the EGFR/HER2 dual-versus-neither AUROC was 0.783 [0.610, 0.922] with n_neither = 11. The weaker directional arm dual-versus-B-only was 0.220 [0.109, 0.343] (n_dual = 28, n_B = 32). That interval belongs to dual-versus-B-only scored in pocket A; the independent-GNINA `summary_min` row has no bootstrap interval (Figure 5A; Table S9). JAK1/TYK2 showed the same pattern, with dual-versus-neither 0.705 and directional \(\mathrm{summary}_{\min}\) 0.317 [0.183, 0.463]. Similar task differences persisted on EGFR/HER2 and JAK1/TYK2 under independent pose generation.
+After independent GNINA 1.3.2 pose generation and scoring, the EGFR/HER2 dual-versus-neither AUROC was 0.783 [0.610, 0.922] with n_neither = 11. The weaker directional arm dual-versus-B-only was 0.220 [0.109, 0.343] (n_dual = 28, n_B = 32). That interval belongs to dual-versus-B-only scored in pocket A; the independent-GNINA `summary_min` row has no bootstrap interval (Figure 5A; Table S7). JAK1/TYK2 showed the same pattern, with dual-versus-neither 0.705 and directional \(\mathrm{summary}_{\min}\) 0.317 [0.183, 0.463]. Similar task differences persisted on EGFR/HER2 and JAK1/TYK2 under independent pose generation.
 
-On PIK3CA/mTOR, replacing PIK3CA 4L23 with 4JPS lowered \(\mathrm{summary}_{\min}\) from 0.692 [0.470, 0.813] to 0.486 [0.259, 0.692]. Replacement with 5DXT gave 0.505 [0.292, 0.696]. Replacing mTOR 4JT6 with 4JSX gave 0.639 [0.418, 0.776] (Figure 5B; Table S8).
+On PIK3CA/mTOR, replacing PIK3CA 4L23 with 4JPS lowered \(\mathrm{summary}_{\min}\) from 0.692 [0.470, 0.813] to 0.486 [0.259, 0.692]. Replacement with 5DXT gave 0.505 [0.292, 0.696]. Replacing mTOR 4JT6 with 4JSX gave 0.639 [0.418, 0.776] (Figure 5B; Table S7).
 
-Five fixed Vina random seeds produced comparatively limited numerical fluctuation relative to the larger task and receptor effects (Figure 5C; Table S9). The EGFR/HER2 task difference was positive on all five Vina seeds. Complete-case counts, fixed-membership intersections, and weaker-arm switches are in Table S9e.
+Five fixed Vina random seeds produced comparatively limited numerical fluctuation relative to the larger task and receptor effects (Figure 5C). The EGFR/HER2 task difference was positive on all five Vina seeds. Complete-case counts and fixed-membership intersections are archived in the repository.
 
-The supplementary class-stratified bootstrap gave \(\mathrm{summary}_{\min}\) intervals in the same qualitative positions as the primary intervals for all eight pairs; it was retained as a sensitivity analysis and did not replace the pooled intervals (Table S10).
+The supplementary class-stratified bootstrap gave \(\mathrm{summary}_{\min}\) intervals in the same qualitative positions as the primary intervals for all eight pairs; it is archived with the score tables and did not replace the pooled intervals.
 
-PPARG/PPARA was the only pair whose primary Vina \(\mathrm{summary}_{\min}\) interval lay entirely above 0.5 (0.649 [0.504, 0.751]). Same-pose RTMScore rescoring lowered it to 0.369 [0.233, 0.475], and GNINA CNN rescoring lowered it to 0.500. The unused-pool holdout was 0.535 [0.350, 0.717] (Table S7; Table S9).
+PPARG/PPARA was the only pair whose primary Vina \(\mathrm{summary}_{\min}\) interval lay entirely above 0.5 (0.649 [0.504, 0.751]). Same-pose RTMScore rescoring lowered it to 0.369 [0.233, 0.475], and GNINA CNN rescoring lowered it to 0.500. The unused-pool holdout was 0.535 [0.350, 0.717] (Table S6; Table S7).
 
 PIK3CA/mTOR panel-size and exhaustiveness checks are in Figure S3. PM48 is the primary panel (quota n = 48, exhaustiveness = 16); PM110 is a larger protocol-sensitivity panel on the same pair.
 
-Each of the 14 primary receptors produced at least one saved pose below 2.0 Å under the unified chemically mapped CalcRMS table. That result is a search-coverage check. AChE 4EY7 and TYK2 3LXP saved 8 poses; the other primary receptors saved 9. EGFR 3POZ top-1 was 9.505 Å, with lowest saved-pose RMSD 0.760 Å. BChE, mTOR, JAK2, PPARG, and PPARA also failed the 2 Å top-1 cutoff; PPARA 6LXA top-3 was 7.848 Å (Figure S4; Table S2c).
+Each of the 14 primary receptors produced at least one saved pose below 2.0 Å under the unified chemically mapped CalcRMS table. That result is a search-coverage check. AChE 4EY7 and TYK2 3LXP saved 8 poses; the other primary receptors saved 9. EGFR 3POZ top-1 was 9.505 Å, with lowest saved-pose RMSD 0.760 Å. BChE, mTOR, JAK2, PPARG, and PPARA also failed the 2 Å top-1 cutoff; PPARA 6LXA top-3 was 7.848 Å (Figure S4; Table S2).
 
 ![Figure 5](../figures/jcim_article/Fig5_computational_realization.png)
 
@@ -92,11 +92,11 @@ Each of the 14 primary receptors produced at least one saved pose below 2.0 Å u
 
 Panels drawn from the strict 6.5/5.5 candidate pool kept the same main class composition under several thresholds, so the corresponding AUROCs changed little. Class composition on EGFR/HER2 and PIK3CA/mTOR shifted more with threshold, and their directional estimates also changed (Figure 6A; Table S3). The 2026-08-26 API snapshot on EGFR/HER2, AChE/BChE, and PIK3CA/mTOR, and the separate ChEMBL 37 dump check on the other five pairs, did not change the main directional judgments; agreement counts and max-versus-median values are in Table S3. Those two sources are not interchangeable.
 
-Unused-pool holdouts built from remaining candidates, after excluding main-panel molecules, showed some dependence on sample composition. AChE/BChE, PIK3CA/mTOR, and JAK1/JAK2 stayed close to the main evaluation. JAK1/TYK2 increased. F2/F10 and PPARA/PPARD remained low. PPARG/PPARA fell from 0.649 to 0.535 [0.350, 0.717] (Figure 4B; Table S7). EGFR/HER2 has no holdout. For the fixed-score difference on target A, EGFR/HER2 scaffold-cluster and document-cluster intervals were [0.168, 0.562] and [0.083, 0.529], both excluding 0. JAK1/TYK2 scaffold-cluster was [0.234, 0.633] (excludes 0) and document-cluster was [−0.034, 0.682] (includes 0) (Figure 6B; Table S10).
+Unused-pool holdouts built from remaining candidates, after excluding main-panel molecules, showed some dependence on sample composition. AChE/BChE, PIK3CA/mTOR, and JAK1/JAK2 stayed close to the main evaluation. JAK1/TYK2 increased. F2/F10 and PPARA/PPARD remained low. PPARG/PPARA fell from 0.649 to 0.535 [0.350, 0.717] (Figure 4B; Table S6). EGFR/HER2 has no holdout. For the fixed-score difference on target A, EGFR/HER2 scaffold-cluster and document-cluster intervals were [0.168, 0.562] and [0.083, 0.529], both excluding 0. JAK1/TYK2 scaffold-cluster was [0.234, 0.633] (excludes 0) and document-cluster was [−0.034, 0.682] (includes 0) (Figure 6B; Table S4).
 
 ### 3.6 Availability of external evaluation data
 
-BindingDB[16] and PubChem were surveyed for all eight pairs under the strict 6.5/5.5 supply definition (Table S11a). After the separate \(\theta=6.0\) independence filter removed shared literature, duplicate structures, and molecules with ECFP4 Tanimoto similarity \(\geq 0.70\) to the development set, the remainder was tested against the independent-source gate. No pair met the independent external-evaluation eligibility criteria of at least 20 dual, A-only, and B-only ligands from at least three independent sources per class. Therefore, no external docking set was formed (Figure 6C,D; Table S11b). In the internal 2018 publication-year subset, only JAK1/TYK2 and JAK1/JAK2 met the two-direction reporting gate (Table S12). This publication-year analysis is an internal sensitivity analysis, not external validation.
+BindingDB[16] and PubChem were searched for all eight pairs. After the \(\theta=6.0\) independence filter removed shared literature, duplicate structures, and molecules with ECFP4 Tanimoto similarity \(\geq 0.70\) to the development set, the remainder was tested against the independent-source gate. No pair met the independent external-evaluation eligibility criteria of at least 20 dual, A-only, and B-only ligands from at least three independent sources per class. Therefore, no external docking set was formed (Figure 6C,D; Table S8). That remainder is an eligibility screen, not external validation.
 
 ![Figure 6](../figures/jcim_article/Fig6_evidence_boundary.png)
 

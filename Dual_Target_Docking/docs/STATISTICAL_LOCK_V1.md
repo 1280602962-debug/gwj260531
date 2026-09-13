@@ -84,7 +84,7 @@ Five-pair Dual-versus-neither points: 0.5188 / 0.7696 / 0.7299 / 0.6853 / 0.5647
 
 `mean(\mathrm{AUC}_A, \mathrm{AUC}_B)` is **not** Table 3.
 
-## BindingDB remainder (Table S11b)
+## BindingDB remainder (Table S8)
 
 Canonical eight-pair source: `data/jcim_novelty_v0/tables/external_slice_summary_v1.csv`.  
 No pair was packaged as an external evaluation set.
@@ -96,7 +96,7 @@ Historical REST counts: `bindingdb_independence_summary_v1.csv`.
 ## Multi-seed
 
 Same estimands as Table 2 and Table 3. Report median / IQR / range across five frozen Vina seeds  
-(20260727 primary, reused, plus 20260811–20260814). Typeset SI cites this as Table S9; the former working number was Table S54.
+(20260727 primary, reused, plus 20260811–20260814). Five-seed tables remain repository QC and are not a typeset SI table; the former working number was Table S54.
 
 Canonical sources:
 
