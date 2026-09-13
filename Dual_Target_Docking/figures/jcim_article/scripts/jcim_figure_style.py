@@ -52,7 +52,7 @@ C = {
 # Historical four-pair order (v1/v2 SI). Do not use for the eight-row primary set.
 PAIR_ORDER = ["EGFR/HER2", "AChE/BChE", "PIK3CA/PIK3CB", "PIK3CA/mTOR"]
 # Display order is protein-system grouped (kinase, hydrolase, protease, NR).
-# ORIGINAL_THREE / CENSUS_FIVE remain CSV-routing keys only and must not appear on figures.
+# The next two lists only say which frozen CSV holds that pair's Table 2 row.
 PRIMARY_PAIRS = [
     "EGFR/HER2",
     "JAK1/JAK2",
@@ -63,8 +63,8 @@ PRIMARY_PAIRS = [
     "PPARG/PPARA",
     "PPARA/PPARD",
 ]
-ORIGINAL_THREE = ["EGFR/HER2", "AChE/BChE", "PIK3CA/mTOR"]
-CENSUS_FIVE = ["F2/F10", "JAK1/TYK2", "JAK1/JAK2", "PPARG/PPARA", "PPARA/PPARD"]
+UNIFIED_THRESHOLD_PAIRS = ["EGFR/HER2", "AChE/BChE", "PIK3CA/mTOR"]
+COMPARABLE_THETA6_PAIRS = ["F2/F10", "JAK1/TYK2", "JAK1/JAK2", "PPARG/PPARA", "PPARA/PPARD"]
 HOLDOUT_PAIRS = [p for p in PRIMARY_PAIRS if p != "EGFR/HER2"]
 PAIR_SHORT = {
     "EGFR/HER2": "EGFR/HER2",

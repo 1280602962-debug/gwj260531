@@ -2,8 +2,8 @@
 
 ## root
 
-- `README.md` (2253 bytes)
-- `SCRIPTS.md` (4737 bytes)
+- `README.md` (2243 bytes)
+- `SCRIPTS.md` (4960 bytes)
 
 ## manuscript
 - `DATA_AND_SOFTWARE_AVAILABILITY_JCIM_EN.md` (624 bytes)
@@ -19,7 +19,7 @@
 - `PRODUCTION_POSE_ARCHIVE_PREP_V1.md` (784 bytes)
 - `REFERENCES_JCIM.md` (5537 bytes)
 - `STATISTICAL_LOCK_V1.md` (6106 bytes)
-- `SUBMISSION_AUDIT_FIVE_ROUNDS_V1.md` (9987 bytes)
+- `SUBMISSION_AUDIT_FIVE_ROUNDS_V1.md` (10038 bytes)
 - `SUPPORTING_INFORMATION_DRAFT_ZH_JCIM_V1.md` (28025 bytes)
 - `SUPPORTING_INFORMATION_JCIM_EN_V1.md` (29047 bytes)
 - `UNRESOLVED_ISSUES.md` (1829 bytes)
@@ -110,9 +110,9 @@
 - `plotted_values.json` (61822 bytes)
 
 ## scripts
-- `analyze_five_pair_dump_gated_v1.py` (28873 bytes)
-- `analyze_five_pair_local_channels_v1.py` (38733 bytes)
-- `analyze_five_pair_stack_v1.py` (49818 bytes)
+- `analyze_five_pair_dump_gated_v1.py` (28905 bytes)
+- `analyze_five_pair_local_channels_v1.py` (38376 bytes)
+- `analyze_five_pair_stack_v1.py` (49480 bytes)
 - `analyze_holdout_v1.py` (15298 bytes)
 - `analyze_independent_dock_v1.py` (10452 bytes)
 - `analyze_multiseed_vina_v2.py` (13019 bytes)
@@ -126,10 +126,10 @@
 - `ecfp4_docking_scaler_sensitivity_v1.py` (11999 bytes)
 - `equal_score_cluster_bootstrap_v1.py` (9984 bytes)
 - `high_confidence_label_rebuild_v1.py` (10670 bytes)
-- `jcim_figure_style.py` (8179 bytes)
-- `multiseed_fixed_membership_v1.py` (6089 bytes)
-- `plot_jcim_article_figures_v3.py` (77438 bytes)
-- `reaudit_all14_cognate_rmsd_calcrrms_v1.py` (17726 bytes)
+- `jcim_figure_style.py` (8186 bytes)
+- `multiseed_fixed_membership_v1.py` (6068 bytes)
+- `plot_jcim_article_figures_v3.py` (63467 bytes)
+- `reaudit_all14_cognate_rmsd_calcrrms_v1.py` (17635 bytes)
 - `reaudit_layer3_cognate_rmsd_v1.py` (12887 bytes)
 - `replay_track_b_vina_mode1_v1.py` (5743 bytes)
-- `update_figures_pr32.py` (41424 bytes)
+- `update_figures_pr32.py` (41422 bytes)

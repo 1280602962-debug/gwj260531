@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Dump-gated analyses for the five post-census pairs.
+"""Dump-gated analyses for F2/F10, JAK1/JAK2, JAK1/TYK2, PPARG/PPARA, and PPARA/PPARD.
 
 Requires a local ChEMBL 37 sqlite. Cloud VMs without the dump cannot run this.
 Does not dock. Does not restock Table 2.

@@ -4,8 +4,8 @@ Figure contract (evaluation paper, six main figures):
   1 setup/supply → 2 experimental-state comparison (hero) → 3 ligand chemistry
   → 4 pocket correspondence → 5 computational realization → 6 evidence boundary.
 
-Display order is protein-system grouped. ORIGINAL_THREE / CENSUS_FIVE are CSV
-routing keys only and must not appear on figures or captions.
+Display order is protein-system grouped. Pair lists in the style module
+only route each pair to its frozen score table.
 
 First run: --source-root PATH_TO_PR32/Dual_Target_Docking
 Subsequent runs use the small input_snapshot stored alongside the figures.
@@ -102,7 +102,7 @@ def pair_yticks(ax, fontsize=7, egfr_note=False):
 
 
 def equal_src(D, pair):
-    return D['equal'] if pair in v.ORIGINAL_THREE else D['five_s34']
+    return D['equal'] if pair in v.UNIFIED_THRESHOLD_PAIRS else D['five_s34']
 
 
 def draw_census_and_primary(ax, census):
@@ -712,7 +712,7 @@ def supplements(D):
     ax.set_xticks(range(len(grid)), [f'{g:.2f}' for g in grid])
     ax.set_xlabel('True AUROC on both directional arms')
     fig.colorbar(im, ax=ax).set_label('P(95% CI excludes 0.5)')
-    ax.set_title('Detectable-effect simulation: available three-pair results', fontsize=8)
+    ax.set_title('Detectable-effect simulation: available class-size results', fontsize=8)
     fig.subplots_adjust(left=.18, right=.95, bottom=.23, top=.85)
     P['figS6'] = sim
     save(fig, 'FigS6_detectable_effect')
@@ -786,7 +786,7 @@ def main():
     v.save_all = save
     v._read = lambda path: read(str(path.relative_to(SOURCE)).replace('\\', '/'))
     D = v.load()
-    assert set(D['theta6']) == set(v.ORIGINAL_THREE)
+    assert set(D['theta6']) == set(v.UNIFIED_THRESHOLD_PAIRS)
     assert set(D['native'][i]['pair'] for i in range(len(D['native']))) == set(PAIRS)
     assert all(float(r['packaged_as_external_evaluation']) == 0 for r in D['native'])
     P['pair_order'] = list(PAIRS)

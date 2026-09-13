@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Apply the Track B chemically mapped CalcRMS recipe to all 14 primary receptors.
+"""Apply one chemically mapped CalcRMS recipe to all 14 primary receptors.
 
-Does not redock. Reuses the functions in reaudit_layer3_cognate_rmsd_v1.py so the
-added eight and the original six share one atom-mapping priority:
+Does not redock. Reuses the functions in reaudit_layer3_cognate_rmsd_v1.py so
+every receptor shares one atom-mapping priority:
 
 1. Meeko topology + RDKit CalcRMS on prepared input vs saved poses
 2. SDF graph + element-constrained map of the prepared input onto the crystal
@@ -35,7 +35,7 @@ SPECS = [
         "in_pdbqt": "data/ache_bche_panel_v0/cognate_qc/4EY7_E20.pdbqt",
         "out_pdbqt": "data/ache_bche_panel_v0/cognate_qc/4EY7_cognate_out.pdbqt",
         "pose_status": "original_production_qc",
-        "cohort": "original_six",
+        "cohort": "primary",
     },
     {
         "protein": "BChE",
@@ -47,7 +47,7 @@ SPECS = [
         "in_pdbqt": "data/ache_bche_panel_v0/cognate_qc/4BDS_THA_E8.pdbqt",
         "out_pdbqt": "data/ache_bche_panel_v0/cognate_qc/4BDS_cognate_out_E8.pdbqt",
         "pose_status": "original_production_qc",
-        "cohort": "original_six",
+        "cohort": "primary",
     },
     {
         "protein": "EGFR",
@@ -59,7 +59,7 @@ SPECS = [
         "in_pdbqt": "data/egfr_her2_panel40_v0/cognate_qc/3POZ_03P_E8.pdbqt",
         "out_pdbqt": "data/egfr_her2_panel40_v0/cognate_qc/3POZ_cognate_out_E8.pdbqt",
         "pose_status": "reconstructed_qc",
-        "cohort": "original_six",
+        "cohort": "primary",
     },
     {
         "protein": "HER2",
@@ -71,7 +71,7 @@ SPECS = [
         "in_pdbqt": "data/egfr_her2_panel40_v0/cognate_qc/3RCD_03P_E8.pdbqt",
         "out_pdbqt": "data/egfr_her2_panel40_v0/cognate_qc/3RCD_cognate_out_E8.pdbqt",
         "pose_status": "original_production_qc",
-        "cohort": "original_six",
+        "cohort": "primary",
     },
     {
         "protein": "PIK3CA",
@@ -84,7 +84,7 @@ SPECS = [
         "in_pdbqt": "data/pik3ca_mtor_panel48_v0/analysis/cognate_redock_v0/inputs/PM48_01.pdbqt",
         "out_pdbqt": "data/pik3ca_mtor_panel48_v0/analysis/cognate_redock_v0/poses_E16/4L23/PM48_01/PM48_01_all_modes.pdbqt",
         "pose_status": "original_production_qc",
-        "cohort": "original_six",
+        "cohort": "primary",
     },
     {
         "protein": "mTOR",
@@ -97,7 +97,7 @@ SPECS = [
         "in_pdbqt": "data/pik3ca_mtor_panel48_v0/analysis/cognate_redock_v0/inputs/PM48_01.pdbqt",
         "out_pdbqt": "data/pik3ca_mtor_panel48_v0/analysis/cognate_redock_v0/poses_E16/4JT6/PM48_01/PM48_01_all_modes.pdbqt",
         "pose_status": "original_production_qc",
-        "cohort": "original_six",
+        "cohort": "primary",
     },
     {
         "protein": "F2",
@@ -109,7 +109,7 @@ SPECS = [
         "in_pdbqt": "data/jcim_chembl_universe_v0/local_track_b_v0/cognates/4UDW_N6L.pdbqt",
         "out_pdbqt": "data/jcim_chembl_universe_v0/local_track_b_v0/cognate_qc/4UDW_N6L_out_E8.pdbqt",
         "pose_status": "original_production_qc",
-        "cohort": "added_eight",
+        "cohort": "primary",
     },
     {
         "protein": "F10",
@@ -121,7 +121,7 @@ SPECS = [
         "in_pdbqt": "data/jcim_chembl_universe_v0/local_track_b_v0/cognates/2JKH_BI7.pdbqt",
         "out_pdbqt": "data/jcim_chembl_universe_v0/local_track_b_v0/cognate_qc/2JKH_BI7_out_E8.pdbqt",
         "pose_status": "original_production_qc",
-        "cohort": "added_eight",
+        "cohort": "primary",
     },
     {
         "protein": "JAK1",
@@ -133,7 +133,7 @@ SPECS = [
         "in_pdbqt": "data/jcim_chembl_universe_v0/local_track_b_v0/cognates/6N7A_KEV.pdbqt",
         "out_pdbqt": "data/jcim_chembl_universe_v0/local_track_b_v0/cognate_qc/6N7A_KEV_out_E8.pdbqt",
         "pose_status": "original_production_qc",
-        "cohort": "added_eight",
+        "cohort": "primary",
     },
     {
         "protein": "TYK2",
@@ -145,7 +145,7 @@ SPECS = [
         "in_pdbqt": "data/jcim_chembl_universe_v0/local_track_b_v0/cognates/3LXP_IZA.pdbqt",
         "out_pdbqt": "data/jcim_chembl_universe_v0/local_track_b_v0/cognate_qc/3LXP_IZA_out_E8.pdbqt",
         "pose_status": "original_production_qc",
-        "cohort": "added_eight",
+        "cohort": "primary",
     },
     {
         "protein": "JAK2",
@@ -157,7 +157,7 @@ SPECS = [
         "in_pdbqt": "data/jcim_chembl_universe_v0/local_track_b_v0/cognates/8BXH_C87.pdbqt",
         "out_pdbqt": "data/jcim_chembl_universe_v0/local_track_b_v0/cognate_qc/8BXH_C87_out_E8.pdbqt",
         "pose_status": "original_production_qc",
-        "cohort": "added_eight",
+        "cohort": "primary",
     },
     {
         "protein": "PPARG",
@@ -169,7 +169,7 @@ SPECS = [
         "in_pdbqt": "data/jcim_chembl_universe_v0/local_track_b_v0/cognates/9V8H_BRL.pdbqt",
         "out_pdbqt": "data/jcim_chembl_universe_v0/local_track_b_v0/cognate_qc/9V8H_BRL_out_E8.pdbqt",
         "pose_status": "original_production_qc",
-        "cohort": "added_eight",
+        "cohort": "primary",
     },
     {
         "protein": "PPARA",
@@ -181,7 +181,7 @@ SPECS = [
         "in_pdbqt": "data/jcim_chembl_universe_v0/local_track_b_v0/cognates/6LXA_EPA.pdbqt",
         "out_pdbqt": "data/jcim_chembl_universe_v0/local_track_b_v0/cognate_qc/6LXA_EPA_out_E8.pdbqt",
         "pose_status": "original_production_qc",
-        "cohort": "added_eight",
+        "cohort": "primary",
     },
     {
         "protein": "PPARD",
@@ -193,7 +193,7 @@ SPECS = [
         "in_pdbqt": "data/jcim_chembl_universe_v0/local_track_b_v0/cognates/5U3Q_7UJ.pdbqt",
         "out_pdbqt": "data/jcim_chembl_universe_v0/local_track_b_v0/cognate_qc/5U3Q_7UJ_out_E8.pdbqt",
         "pose_status": "original_production_qc",
-        "cohort": "added_eight",
+        "cohort": "primary",
     },
 ]
 

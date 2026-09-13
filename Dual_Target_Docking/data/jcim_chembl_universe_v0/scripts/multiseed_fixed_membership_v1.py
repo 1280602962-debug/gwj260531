@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fixed-membership five-seed summary for Track B pairs only.
+"""Fixed-membership five-seed summary for F2/F10, JAK1/JAK2, JAK1/TYK2, PPARG/PPARA, and PPARA/PPARD.
 
 A ligand enters the intersection only if every seed has a finite mode-1
 score on both ends of that pair. n_intersection includes neither.
@@ -7,7 +7,6 @@ Directional AUROCs use only dual / A-only / B-only.
 
 This isolates search-seed variation from membership changes caused by
 timeouts. It is not a label-source or assay-heterogeneity check.
-EGFR/HER2, AChE/BChE, and PIK3CA/mTOR are not in this table.
 """
 from __future__ import annotations
 

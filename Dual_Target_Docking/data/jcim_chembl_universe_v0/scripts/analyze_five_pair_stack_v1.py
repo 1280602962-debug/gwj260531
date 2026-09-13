@@ -1,10 +1,7 @@
 #!/usr/bin/env python3
-"""Zero-dock analysis stack for the five post-census pairs.
+"""Zero-dock analysis stack for F2/F10, JAK1/JAK2, JAK1/TYK2, PPARG/PPARA, and PPARA/PPARD.
 
-Copies the all-pairs items already reported for every then-primary pair in
-Methods 2.4–2.6. Destination identity: PROJECT_IDENTITY_LOCK_V1.md
-(8-row main table after withdrawing PIK3CA/PIK3CB). Does not restock Table 2
-or retitle the article.
+Reads frozen production scores. Does not redock and does not replace Table 2.
 
 Table-2-comparable summary_min CIs resample the dual+A-only+B-only ligand
 pool without class stratification (same estimand as
@@ -1015,7 +1012,7 @@ def leftover_and_blocked():
         {
             "item": "bindingdb_pubchem_count_only",
             "status": "blocked_no_cache",
-            "why": "jcim_supply_crossdb_v0 caches only the original K=4 UniProts; five new pairs need a new count-only fetch (no Docker)",
+            "why": "jcim_supply_crossdb_v0 cache does not cover these UniProts; a count-only fetch is required (no Docker)",
         },
         {
             "item": "holdout_panel_ids",
@@ -1048,11 +1045,8 @@ def leftover_and_blocked():
 
 def write_verdict(t2, leftover, blocked, incr):
     lines = [
-        "# Five-pair zero-dock stack (same article, not Track B)\n\n",
-        "Destination: 8-row main table after withdrawing PIK3CA/PIK3CB ",
-        "(`PROJECT_IDENTITY_LOCK_V1.md`). These five pairs were added after the ",
-        "ChEMBL 37 census; they were not frozen on 2026-07-23. This run does ",
-        "**not** restock Table 2 or change the title.\n\n",
+        "# Score-table stack for F2/F10, JAK1/JAK2, JAK1/TYK2, PPARG/PPARA, and PPARA/PPARD\n\n",
+        "Frozen production Vina scores. This run does not replace Table 2.\n\n",
         "Bootstrap for `summary_min` is the Table 2 estimand: ligand-level ",
         "non-stratified resample of the dual+A-only+B-only pool, B=2000, seed ",
         "20260729 + SHA-256 pair offset. Existing `track_b_directional_auroc_v1.csv` ",

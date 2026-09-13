@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
-"""K=4-comparable stats on locally uploaded five-pair score channels.
+"""Comparable stats on locally uploaded score channels for F2/F10, JAK, and PPAR pairs.
 
-Does not dock or rescore. Reads existing CSVs. Destination identity:
-PROJECT_IDENTITY_LOCK_V1.md. Does not restock Table 2.
+Does not dock or rescore. Reads existing CSVs. Does not replace Table 2.
 
 Primary production numbers remain Vina seed 20260727.
 CNN is joined by ligand ID (not pair_hint). Primary CNN readout is
@@ -814,17 +813,15 @@ def main() -> int:
     lines += [
         "\n## Still true\n\n",
         "Internal four-state formulation audit. Not database-external. ",
-        "Does not restock Table 2 or change the title. ",
+        "Does not replace Table 2 or change the title. ",
         "Does not hard-dock BindingDB. JAK1/JAK2 holdout remains 20/20/18. ",
         "Do not promote `cnn_score`. Do not average channels into one master AUROC.\n",
     ]
     (AN / "FIVE_PAIR_LOCAL_CHANNELS_V1.md").write_text("".join(lines), encoding="utf-8")
 
     merged_md = [
-        "# Five-pair results merged (zero-dock + dump-gated + local channels)\n\n",
-        "Same article, 8-row destination after withdrawing PIK3CA/PIK3CB ",
-        "(`PROJECT_IDENTITY_LOCK_V1.md`). Five pairs added after the ChEMBL 37 ",
-        "census; not a 2026-07-23 freeze. **Does not restock Table 2 or retitle.**\n\n",
+        "# Channel results for F2/F10, JAK1/JAK2, JAK1/TYK2, PPARG/PPARA, and PPARA/PPARD\n\n",
+        "Merges already-run score-table, dump-gated, and local-channel layers. Does not redock or replace Table 2.\n\n",
         "This note merges three already-run layers. It does not re-dock.\n\n",
         "## 1. Primary numbers (production Vina, θ = 6.0)\n\n",
         "Source: `FIVE_PAIR_STACK_V1.md`. Estimand = ligand-level non-stratified ",
@@ -865,7 +862,7 @@ def main() -> int:
     merged_md += [b + "\n" for b in bullets]
     merged_md += [
         "\n## 6. Honest combined reading\n\n",
-        "- The five new pairs are **not** a second PPAR-success paper. ",
+        "- These pairs are **not** a second PPAR-success paper. ",
         "PPARG/PPARA is the only main-panel Vina min whose CI clears 0.5, and ",
         "that number is membership-sensitive (holdout) and formulation-sensitive (RTM).\n",
         "- JAK1/JAK2 is the most internally consistent Vina pair (main + holdout ",
@@ -877,12 +874,11 @@ def main() -> int:
         "- Independent GNINA on the gap pair does not close the EGFR-like gap.\n",
         "- Unused-pool holdout and 2018 year-split are **internal** confirmations. ",
         "The frozen BindingDB external contract still has 0 pairs. Do not relax it.\n",
-        "- Stack completeness is now a **precondition** for a later 8-row Table 2 ",
-        "draft. That retitle/restock is a later manuscript step, not this commit.\n\n",
+        "- This note does not replace Table 2.\n\n",
         "## 7. Still forbidden\n\n",
-        "Restock Table 2 today; retitle; average eight pairs; hard-dock BindingDB; ",
-        "promote `cnn_score`; re-draw holdout IDs; relax Murcko cap; run independent ",
-        "GNINA on the other four new pairs; LigPrep / seed 42; CTSK ordinary Vina; ",
+        "Average eight pairs; hard-dock BindingDB; ",
+        "promote `cnn_score`; re-draw holdout IDs; relax Murcko cap; ",
+        "LigPrep / seed 42; CTSK ordinary Vina; ",
         "PIK3CB 2Y3A swap.\n",
     ]
     (AN / "FIVE_PAIR_MERGED_V1.md").write_text("".join(merged_md), encoding="utf-8")
@@ -903,7 +899,7 @@ def main() -> int:
         "Table-2-comparable statistics are in `FIVE_PAIR_LOCAL_CHANNELS_V1.md` "
         "and the merged reading in `FIVE_PAIR_MERGED_V1.md`. "
         "Primary manuscript numbers remain production Vina 20260727. "
-        "Does not restock Table 2.\n"
+        "Does not replace Table 2.\n"
     )
     if old in stack_txt:
         stack_path.write_text(stack_txt.replace(old, new), encoding="utf-8")

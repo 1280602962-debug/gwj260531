@@ -77,23 +77,23 @@ TABLES = [
 SCRIPTS = [
     (
         "data/jcim_strengthen_t0t1_v0/scripts/build_t0_strengthen_v1.py",
-        "Original-three Table 2 / S3 θ grid, ligand-chemistry baselines, and descriptor columns from frozen Vina scores.",
+        "Table 2 / S3 θ grid and ligand-chemistry baselines for EGFR/HER2, AChE/BChE, and PIK3CA/mTOR from frozen Vina scores.",
     ),
     (
         "data/jcim_novelty_v0/scripts/benchmark_formulation_v1.py",
-        "Original-three Table 3, Table S4 fixed-channel Δ, and Table S5 incremental docking-versus-ECFP4 analyses.",
+        "Table 3, Table S4 fixed-channel Δ, and Table S5 incremental analyses for EGFR/HER2, AChE/BChE, and PIK3CA/mTOR.",
     ),
     (
         "data/jcim_chembl_universe_v0/scripts/analyze_five_pair_stack_v1.py",
-        "Five-pair Table 2 / Table 3 / Table S4 / Table S5 stack on frozen production scores. Does not redock.",
+        "Table 2 / Table 3 / Table S4 / Table S5 for F2/F10, JAK1/JAK2, JAK1/TYK2, PPARG/PPARA, and PPARA/PPARD from frozen scores. Does not redock.",
     ),
     (
         "data/jcim_strengthen_t0t1_v0/scripts/build_p0_missing_tables_v1.py",
-        "Original-three matched-versus-mismatched pocket bootstrap used by Table S6 and Figure 4.",
+        "Matched-versus-mismatched pocket bootstrap for EGFR/HER2, AChE/BChE, and PIK3CA/mTOR (Table S6 / Figure 4).",
     ),
     (
         "data/jcim_chembl_universe_v0/scripts/analyze_five_pair_local_channels_v1.py",
-        "Five-pair pocket channels, holdout join, independent GNINA JAK channel, and five-seed aggregate for Tables S6–S7 / Figure 5.",
+        "Pocket channels, holdout join, JAK independent GNINA, and five-seed aggregate for F2/F10, JAK, and PPAR pairs (Tables S6–S7 / Figure 5).",
     ),
     (
         "data/jcim_holdout_v0/scripts/analyze_holdout_v1.py",
@@ -105,11 +105,11 @@ SCRIPTS = [
     ),
     (
         "data/jcim_multiseed_v0/scripts/analyze_multiseed_vina_v2.py",
-        "Original-three five-seed AUROC aggregate used by Figure 5C.",
+        "Five-seed AUROC aggregate for EGFR/HER2, AChE/BChE, and PIK3CA/mTOR (Figure 5C).",
     ),
     (
         "data/jcim_chembl_universe_v0/scripts/multiseed_fixed_membership_v1.py",
-        "Five-pair fixed-membership five-seed summary used by Figure 5C. Does not redock.",
+        "Fixed-membership five-seed summary for F2/F10, JAK1/JAK2, JAK1/TYK2, PPARG/PPARA, and PPARA/PPARD (Figure 5C). Does not redock.",
     ),
     (
         "data/jcim_novelty_v0/scripts/equal_score_cluster_bootstrap_v1.py",
@@ -125,15 +125,15 @@ SCRIPTS = [
     ),
     (
         "data/jcim_novelty_v0/scripts/assay_aggregation_max_vs_median_v1.py",
-        "Original-three API max-versus-median label sensitivity in Table S3.",
+        "API max-versus-median label sensitivity for EGFR/HER2, AChE/BChE, and PIK3CA/mTOR (Table S3).",
     ),
     (
         "data/jcim_novelty_v0/scripts/high_confidence_label_rebuild_v1.py",
-        "Original-three high-confidence field screen in Table S3.",
+        "High-confidence field screen for EGFR/HER2, AChE/BChE, and PIK3CA/mTOR (Table S3).",
     ),
     (
         "data/jcim_chembl_universe_v0/scripts/analyze_five_pair_dump_gated_v1.py",
-        "Five-pair dump-gated max-versus-median footnote in Table S3.",
+        "Dump-gated max-versus-median footnote for F2/F10, JAK, and PPAR pairs (Table S3).",
     ),
     (
         "data/jcim_chembl_universe_v0/scripts/chembl_exhaustive_pair_census_v1.py",
@@ -153,7 +153,7 @@ SCRIPTS = [
     ),
     (
         "data/jcim_chembl_universe_v0/scripts/replay_track_b_vina_mode1_v1.py",
-        "Re-reads REMARK VINA RESULT from the committed five-pair pose tree. Does not redock.",
+        "Re-reads REMARK VINA RESULT from the committed production pose tree. Does not redock.",
     ),
     (
         "figures/jcim_article/scripts/update_figures_pr32.py",
@@ -269,7 +269,7 @@ It is not a second copy of the docking pose workspaces.
 - `plot_jcim_si_composites_v1.py` (historical original-set artwork; may still tick PIK3CA/PIK3CB)
 - `data/pik3ca_pik3cb_panel_v0/` (withdrawn pair archive)
 - `external_slice_summary_202608_contract_v1.csv` (legacy three-pair BindingDB snapshot)
-- Five-pair production poses (`local_track_b_v0/poses/`; in git, not copied into this pack slice)
+- Production poses (`local_track_b_v0/poses/`; in git, not copied into this pack slice)
 - A minted Zenodo DOI (not created)
 
 ## Rebuild / submission freeze

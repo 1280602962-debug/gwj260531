@@ -22,11 +22,11 @@ import numpy as np
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from jcim_figure_style import (  # noqa: E402
     C,
-    CENSUS_FIVE,
+    COMPARABLE_THETA6_PAIRS,
     FS_ANNO,
     FS_AXIS,
     HOLDOUT_PAIRS,
-    ORIGINAL_THREE,
+    UNIFIED_THRESHOLD_PAIRS,
     OUT,
     PAIR_COLOR,
     PAIR_SHORT,
@@ -129,7 +129,7 @@ def load() -> dict:
 
 def primary_row(D: dict, pair: str) -> dict:
     """Table-2-comparable Vina θ=6.0 row for one primary pair."""
-    if pair in ORIGINAL_THREE:
+    if pair in UNIFIED_THRESHOLD_PAIRS:
         t = D["theta6"][pair]
         n = D["form_by"][pair]["D_vs_neither_mean"]
         return {
@@ -158,7 +158,7 @@ def primary_row(D: dict, pair: str) -> dict:
 
 
 def s34_row(D: dict, pair: str) -> dict:
-    src = D["equal"] if pair in ORIGINAL_THREE else D["five_s34"]
+    src = D["equal"] if pair in UNIFIED_THRESHOLD_PAIRS else D["five_s34"]
     r = src[(pair, S34_CONTRAST)]
     return {
         "delta": fnum(r["delta_neither_minus_selective"]),
@@ -169,7 +169,7 @@ def s34_row(D: dict, pair: str) -> dict:
 
 
 def ecfp_row(D: dict, pair: str, contrast: str) -> dict:
-    if pair in ORIGINAL_THREE:
+    if pair in UNIFIED_THRESHOLD_PAIRS:
         m = D["ml"][(pair, contrast)]
         base = next(r for r in D["incr"] if r["pair"] == pair and r["contrast"] == contrast and r["model"] == "ECFP4")
         plus = next(r for r in D["incr"] if r["pair"] == pair and r["contrast"] == contrast and r["model"] == "ECFP4+docking")
@@ -190,7 +190,7 @@ def ecfp_row(D: dict, pair: str, contrast: str) -> dict:
 
 
 def best_desc(D: dict, pair: str) -> tuple[str, float]:
-    if pair in ORIGINAL_THREE:
+    if pair in UNIFIED_THRESHOLD_PAIRS:
         r = D["desc4"][pair]
         return r["best_single_descriptor"], fnum(r["best_single_descriptor_summary_min"])
     r = D["five_t2"][pair]
@@ -198,7 +198,7 @@ def best_desc(D: dict, pair: str) -> tuple[str, float]:
 
 
 def five_seed_range(D: dict, pair: str) -> dict:
-    if pair in ORIGINAL_THREE:
+    if pair in UNIFIED_THRESHOLD_PAIRS:
         vals = [fnum(r["summary_min"]) for r in D["seeds"] if r["pair"] == pair]
         prim = primary_row(D, pair)["smin"]
         return {
@@ -220,7 +220,7 @@ def five_seed_range(D: dict, pair: str) -> dict:
 
 
 def wp_main(D: dict, pair: str) -> dict:
-    if pair in ORIGINAL_THREE:
+    if pair in UNIFIED_THRESHOLD_PAIRS:
         r = D["delta"][(pair, "main_panel")]
         return {
             "delta": fnum(r["delta_matched_minus_wrong"]),
@@ -238,7 +238,7 @@ def wp_main(D: dict, pair: str) -> dict:
 
 
 def wp_hold(D: dict, pair: str) -> dict:
-    if pair in ORIGINAL_THREE:
+    if pair in UNIFIED_THRESHOLD_PAIRS:
         r = D["delta"][(pair, "unused_pool_holdout")]
         return {
             "delta": fnum(r["delta_matched_minus_wrong"]),
@@ -262,7 +262,7 @@ def wp_hold(D: dict, pair: str) -> dict:
 
 
 def holdout_smin(D: dict, pair: str) -> dict:
-    if pair in ORIGINAL_THREE:
+    if pair in UNIFIED_THRESHOLD_PAIRS:
         r = D["hold_pm"][(pair, "pocket_matched_vina")]
         return {
             "y": fnum(r["summary_min"]),
@@ -274,7 +274,7 @@ def holdout_smin(D: dict, pair: str) -> dict:
 
 
 def theta_grid_smin(D: dict, pair: str, rule: str) -> float:
-    if pair in ORIGINAL_THREE:
+    if pair in UNIFIED_THRESHOLD_PAIRS:
         r = next(row for row in D["theta_all"] if row["pair"] == pair and row["label_rule"] == rule)
         return fnum(r["pocket_matched_summary_min"])
     r = next(row for row in D["five_grid"] if row["pair"] == pair and row["label_rule"] == rule)
@@ -283,7 +283,7 @@ def theta_grid_smin(D: dict, pair: str, rule: str) -> float:
 
 def theta_grid_record(D: dict, pair: str, rule: str) -> dict:
     """Value and sample-size flag for the categorical label-rule grid."""
-    if pair in ORIGINAL_THREE:
+    if pair in UNIFIED_THRESHOLD_PAIRS:
         r = next(row for row in D["theta_all"] if row["pair"] == pair and row["label_rule"] == rule)
         value = fnum(r["pocket_matched_summary_min"])
         under = r.get("underpowered", "0") == "1"
@@ -429,7 +429,7 @@ def fig1_framework(D: dict) -> None:
     j0_vals = [j0_map[k] for k in j0_keys]
     j0_cols = [C["metal"], C["thick"], C["thick"], C["thick"], C["egfr"]]
     dump_vals = [fnum(D["five_xdb"][(p, "ChEMBL37_dump", "pChEMBL_STANDARD_OK")]["min_strict_hardneg"])
-                 for p in CENSUS_FIVE]
+                 for p in COMPARABLE_THETA6_PAIRS]
     dump_lab = ["F2/\nF10", "JAK1/\nTYK2", "JAK1/\nJAK2", "PPARG/\nPPARA", "PPARA/\nPPARD"]
     labels = [s.replace("\n", "/") for s in j0_lab + dump_lab]
     vals = j0_vals + dump_vals
@@ -454,7 +454,7 @@ def fig1_framework(D: dict) -> None:
         "n_thick": n_thick,
         "stages": {lab: v for v, lab in stages},
         "j0_hardneg": {k: j0_map[k] for k in j0_keys},
-        "dump_hardneg": {p: dump_vals[i] for i, p in enumerate(CENSUS_FIVE)},
+        "dump_hardneg": {p: dump_vals[i] for i, p in enumerate(COMPARABLE_THETA6_PAIRS)},
         "complete_case_min": min(fracs),
         "complete_case_max": max(fracs),
     }
@@ -1033,7 +1033,7 @@ def fig_s7_diagnostics(D: dict) -> None:
 
     ax = axes[1]
     panel_label(ax, "B", x=-0.18, y=1.06)
-    for pair in ORIGINAL_THREE:
+    for pair in UNIFIED_THRESHOLD_PAIRS:
         sub = [r for r in and_rows if r["pair"] == pair and r["score"] == "vina_worst"]
         rec = [fnum(r["recall_dual"]) for r in sub]
         prec = [fnum(r["precision_dual"]) for r in sub]
@@ -1048,12 +1048,12 @@ def fig_s7_diagnostics(D: dict) -> None:
     ax = axes[2]
     panel_label(ax, "C", x=-0.18, y=1.06)
     neither, directional = [], []
-    for pair in ORIGINAL_THREE:
+    for pair in UNIFIED_THRESHOLD_PAIRS:
         n = next(r for r in ligand_rows if r["pair"] == pair and r["contrast"] == "D_vs_neither")
         s = next(r for r in ligand_rows if r["pair"] == pair and r["contrast"] == "summary_min_ecfp4")
         neither.append(fnum(n["ecfp4_groupkfold_auroc"]))
         directional.append(fnum(s["ecfp4_groupkfold_auroc"]))
-    x = np.arange(len(ORIGINAL_THREE))
+    x = np.arange(len(UNIFIED_THRESHOLD_PAIRS))
     ax.bar(x - 0.18, neither, 0.36, color=C["vina"], label="Dual vs neither", zorder=3)
     ax.bar(x + 0.18, directional, 0.36, color=C["egfr"], label="ECFP4 summary_min", zorder=3)
     ax.set_xticks(x)
@@ -1061,7 +1061,7 @@ def fig_s7_diagnostics(D: dict) -> None:
     ax.axhline(0.5, color=C["chance"], ls="--", lw=0.85, zorder=1)
     ax.set_ylim(0.35, 1.05)
     ax.set_ylabel("GroupKFold AUROC")
-    ax.set_title("Ligand-only full maps (original three)", fontsize=FS_AXIS, pad=3)
+    ax.set_title("Ligand-only full maps (EGFR/HER2, AChE/BChE, PIK3CA/mTOR)", fontsize=FS_AXIS, pad=3)
     ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.28), ncol=1, fontsize=6.0, frameon=False)
 
     PROVENANCE["plotted"]["figS7"] = {
@@ -1279,114 +1279,8 @@ def verify(D: dict) -> None:
 
 
 def write_lock_and_captions() -> None:
-    lock = """# Eight-row panel lock (submission)
-
-Branch: `cursor/chembl-exhaustive-pair-census-0b1a`  
-Script: `data/jcim_bench_v0/scripts/plot_jcim_article_figures_v3.py`  
-Rule: every plotted number is read from the CSV in this table. No hand-typed AUROCs. No AI-drawn figures. No decorative arrows unrelated to the data. PIK3CA/PIK3CB is withdrawn and is not a primary-set row.
-
-| Figure | Panel | Content | Unique source |
-|---|---|---|---|
-| 1 | A | Four ligand states (schematic) | none |
-| 1 | B | Pocket-matched directional tasks (schematic; no arrows) | none |
-| 1 | C | J0 49-pair scrape → thick gate → HDAC exclusion → historically docked 4 → PIK3CB withdrawal → census +5 → 8 primary; J0 hard-neg bars; later ChEMBL 37 dump hard-neg for the five new pairs | `j0_strict_label_supply.csv`; `five_pair_crossdb_v1/crossdb_strict_supply_v1.csv` ChEMBL37_dump; `complete_case_usable_pchembl_overlap_v1.csv` (J0-docked pairs only) |
-| 2 | A | Directional D/A and D/B AUROC, eight primary pairs | original three: `unified_threshold_sensitivity_v2.csv` θ=6.0; five: `five_pair_stack_v1/table2_comparable_theta6_v1.csv` |
-| 2 | B | Dual-vs-neither (`vina_mean`) vs directional `summary_min` | original three: formulation CSV; five: same table2 file |
-| 2 | C | Fixed pocket-A score, negative-class ΔAUROC | original three: `formulation_equal_score_negative_v1.csv`; five: `equal_score_negative_s34_v1.csv` |
-| 3 | A | ECFP4 GroupKFold vs Vina rank AUROC, both arms, eight pairs | original three: `ligand_ml_baseline_scaffold_cv_v1.csv`; five: `ecfp4_incremental_s20s24_v1.csv` |
-| 3 | B | ECFP4 → ECFP4+docking ΔAUROC, 16 contrasts | original three: `incremental_information_v1.csv`; five: same ECFP4 file |
-| 3 | C | AChE/BChE TPSA jitter + median/IQR | `assembled_AChE_BChE.csv` |
-| 4 | A | Independent GNINA pose generation vs Vina: EGFR/HER2, PIK3CA/mTOR, JAK1/TYK2 only | `independent_dock_formulation_v1.csv`; `table2_comparable_by_channel_v1.csv` `gnina_independent_jak1_tyk2` |
-| 4 | B | PIK3CA 4L23/4JPS/5DXT and mTOR 4JSX on the receptor-verified PIK3CA/mTOR pair only | alt receptor CSVs + unified_threshold |
-| 4 | C | Five-seed `summary_min` range, eight pairs | original three: `multiseed_auroc_by_seed_v2.csv`; five: `fiveseed_summary_min_aggregate_v1.csv` |
-| 5 | A | Main matched−mismatched Δ + 95% CI, eight pairs | original three: `wrong_pocket_paired_delta_bootstrap_v1.csv` `set=main_panel`; five: `wrong_pocket_by_channel_v1.csv` `vina_20260727` |
-| 5 | B | Holdout matched−mismatched Δ + 95% CI (no EGFR; no withdrawn PIK3CB) | original two: same bootstrap CSV `unused_pool_holdout`; five: `wrong_pocket_by_channel_v1.csv` `holdout_vina_20260727` |
-| 5 | C | Holdout vs main `summary_min` | original two: `holdout_pocket_matched_v1.csv`; five: `table2_comparable_by_channel_v1.csv` `holdout_vina_20260727` |
-| 6 | A | θ-grid `summary_min`, eight pairs | original three: `unified_threshold_sensitivity_v2.csv`; five: `threshold_grid_v1.csv` |
-| 6 | B | PM48 vs PM110 Vina | `pm110_vs_pm48_pocket_matched_v1.csv` |
-| 6 | C | PM48 E=16 vs E=8 | E=16 from unified_threshold; E=8 from `scores_vina_E8_best.csv` |
-| 6 | D | BindingDB-native gate on the original four-pair contract (0 pass). Five census pairs were not re-opened as BindingDB external. | `external_slice_summary_v1.csv` |
-| S4 | — | Eight-row Vina forest + best single descriptor | same Table-2 sources + `descriptor_all_four_directional_v1.csv` |
-| S5 | — | Unused-pool holdout vs main, seven pairs | same holdout sources as Fig 5C |
-| S7 | — | J0 θ=6.0 census (docked=4 includes later-withdrawn PIK3CB) plus current primary n=8 | `theta6_pair_census_v1.csv` |
-| S8 | — | BindingDB-native cascade; original four-pair contract; 0 pass | `external_slice_summary_v1.csv` |
-| TOC | — | Four states and Dual-vs-neither ≠ Dual-vs-selective | schematic; no AUROCs; no arrows |
-
-S1–S3, S7, S9, and S10 remain data-derived SI diagnostics. S1–S3, S9, and S10 use the original-set records where that is what their source CSVs contain; they are not eight-row primary figures. S4, S5, S6, and S8 use the current canonical filenames.
-"""
-    (ROOT / "docs" / "FIGURE_PANEL_LOCK_V3.md").write_text(lock, encoding="utf-8", newline="\n")
-
-    text = r"""# Figure captions (manuscript; not printed on the image)
-
-JCIM: captions are self-contained; panel letters match `figures/jcim_article/`.
-All numbers are read from the frozen CSVs named in `docs/FIGURE_PANEL_LOCK_V3.md`.
-Regenerate: `python3 data/jcim_bench_v0/scripts/plot_jcim_article_figures_v3.py` (main figures and S4/S5/S7/S8); run `python3 data/jcim_bench_v0/scripts/plot_jcim_si_composites_v1.py` for S1–S3/S9/S10 and `python3 data/jcim_novelty_v0/scripts/plot_detectable_effect_and_workflow_v1.py` for S6.
-
-## Figure 1. Four-state dual-target evaluation and data supply.
-
-(A) Four activity states defined from experimental measurements at targets A and B. A-only and B-only serve as single-target selective controls. (B) Pocket-matched directional evaluation: Dual versus A-only is scored at target B, whereas Dual versus B-only is scored at target A. The lower of the two directional AUROCs is reported as the descriptive summary$_{\mathrm{min}}$. (C) Assembly of the eight primary target-pair rows. The initial ChEMBL audit contained 49 candidate pairs; four met the hard-negative supply gate, HDAC1/HDAC6 was excluded because metal-dependent docking was outside the protocol, and supply-limited EGFR/HER2 was retained. PIK3CA/PIK3CB was subsequently withdrawn after receptor-identity review, and five pairs from the later census were added. Bars show the smaller of the A-only and B-only pools under the strict activity rule. The dashed line marks the supply gate of 50 compounds; the upper and lower bar groups derive from the initial and later audits, respectively.
-
-## Figure 2. Negative-class definition changes apparent dual-target evidence.
-
-Results are shown for the eight primary target pairs at θ = 6.0. Horizontal gray rules separate the three initially evaluated pairs from the five pairs added after the census. (A) AUROC for Dual versus A-only scored at target B (circles) and Dual versus B-only scored at target A (squares). (B) Directional summary$_{\mathrm{min}}$ (circles) and Dual versus neither using the mean Vina score across the two targets (squares). Error bars are ligand-level bootstrap 95% confidence intervals. The diamond marks PIK3CA/mTOR Dual versus neither, for which the neither class contained four ligands. (C) Change in AUROC after replacing B-only with neither while holding the target-A score fixed. Error bars are 95% confidence intervals; diamonds indicate comparisons with an underpowered neither class. The dashed vertical line indicates no change.
-
-## Figure 3. Ligand chemistry as a competing explanation.
-
-(A) Pocket-matched Vina rank AUROC and ECFP4 logistic-regression AUROC under Bemis–Murcko scaffold-grouped cross-validation for both directional contrasts. (B) Change in scaffold-grouped cross-validated AUROC after adding the corresponding Vina score to ECFP4. Positive values favor ECFP4 plus Vina; circles and squares denote Dual versus A-only and Dual versus B-only, respectively. (C) Topological polar surface area (TPSA) of the AChE/BChE ligands by activity class. Points represent individual ligands; horizontal and vertical black lines show the median and interquartile range, respectively.
-
-## Figure 4. Computational realization.
-
-(A) Comparison of Vina and independent GNINA 1.3.2 pose generation for the three evaluated target pairs. Circles and squares denote Vina and GNINA, respectively; filled blue symbols show directional summary$_{\mathrm{min}}$, and open orange symbols show Dual versus neither. (B) PIK3CA/mTOR summary$_{\mathrm{min}}$ after substituting the PIK3CA structure (4JPS or 5DXT) or the mTOR structure (4JSX) for the primary structures (PIK3CA 4L23 and mTOR 4JT6). Error bars are ligand-level bootstrap 95% confidence intervals. (C) Directional summary$_{\mathrm{min}}$ across five Vina random seeds. Horizontal segments show the range, circles the median, and diamonds the primary seed; the dashed line marks AUROC = 0.5.
-
-## Figure 5. Matched- versus mismatched-pocket scoring controls.
-
-Matched-pocket scoring uses target B for Dual versus A-only and target A for Dual versus B-only; the mismatched control exchanges these score channels without redocking. (A) Difference in summary$_{\mathrm{min}}$ between matched and mismatched scoring in the primary panels. (B) The same paired difference in unused-pool holdouts. Points and horizontal lines show the estimate and ligand-level bootstrap 95% confidence interval; blue intervals exclude zero and gray intervals include zero. EGFR/HER2 had no holdout. (C) Primary-panel (circles) and holdout (squares) summary$_{\mathrm{min}}$ estimates with 95% confidence intervals. Dashed vertical lines indicate zero in panels A and B and AUROC = 0.5 in panel C.
-
-## Figure 6. Robustness checks and evidence boundary.
-
-(A) Directional summary$_{\mathrm{min}}$ under three single activity thresholds and a strict two-threshold rule. The strict rule is a separate categorical definition rather than a continuation of θ. Daggers mark settings with fewer than 10 ligands in at least one directional class. (B) PIK3CA/mTOR summary$_{\mathrm{min}}$ in the PM48 and PM110 panels. (C) PIK3CA/mTOR PM48 summary$_{\mathrm{min}}$ at Vina exhaustiveness 16 and 8. In panels B and C, connected symbols are descriptive point-estimate comparisons and the dashed line marks AUROC = 0.5. (D) Outcome of the preregistered BindingDB external-set gate for the four historical contract pairs. None provided sufficient Dual, A-only, and B-only compounds after source, structure-identity, and chemical-similarity filtering; no external docking evaluation was performed.
-
-## Figure S1. Protocol and panel sensitivities.
-
-Original-set protocol grid, GNINA CNN rescoring of Vina poses, PM48 versus PM110, and exhaustiveness. This SI record still includes the later-withdrawn PIK3CA/PIK3CB row where that is what the source CSVs contain. Independent GNINA pose generation is Figure 4A.
-
-## Figure S2. Equal-relation supply and holdout sampling shift.
-
-Unchanged original-scrape sources: `crossdb_strict_supply_v1.csv`; `holdout_vs_main_potency_size_v1.csv`. Five-pair ChEMBL 37 dump supply is Figure 1C (right group).
-
-## Figure S3. Additional paired bootstrap differences.
-
-Paired bootstrap comparisons on the original docked set: matched versus mismatched scoring in the primary and holdout panels, Vina versus the strongest single-descriptor baseline, and ECFP4 estimates under scaffold-grouped and random folds. The later-withdrawn PIK3CA/PIK3CB row is marked with a dagger.
-
-## Figure S4. Pocket-matched summary_min forest.
-
-Vina CIs and the best single-descriptor reference on the eight primary rows. PIK3CA/PIK3CB is omitted.
-
-## Figure S5. Unused-pool holdout versus the main panel.
-
-Pocket-matched `summary_min` on the seven pairs that have a holdout. EGFR/HER2 has no holdout. Mismatched-pocket Δ CIs are Figure 5B.
-
-## Figure S7. Post-hoc formulation and screening diagnostics.
-
-θ = 6.0 J0 pair census (`docked_in_this_paper` = 4 includes the later-withdrawn PIK3CA/PIK3CB row), current primary n = 8, AND-like dual filter on the original three, and ligand-only full-map ECFP4 on the original three. Not docking upgrades and not a replacement for Table 2.
-
-## Figure S8. BindingDB-native slice.
-
-Filter cascade and remaining four-state counts after literature, structure, and ECFP4 < 0.70 on the original four-pair contract (`external_slice_summary_v1.csv`). Zero of four pairs meet the pre-frozen external gate; nothing was docked. Five census pairs were not re-opened as BindingDB external.
-
-## Figure S9. Additional ligand-structure controls.
-
-Additional ligand-structure controls on the original docked set: ECFP4 versus Vina directional AUROCs, Vina and prespecified single-descriptor baselines, covariate-adjusted Dual versus B-only logistic models, and potency- or size-matched subsets. The Vina-only logistic AUROC in panel C is distinct from the rank-based AUROC in the primary analysis.
-
-## Figure S10. Matched versus mismatched point estimates.
-
-Matched and mismatched scoring point estimates for the original primary panels, unused-pool holdouts, potency- and size-matched holdout subsets, and contact-count controls. Paired confidence intervals for the primary and holdout differences are shown in Figure 5.
-
-## TOC graphic (For Table of Contents Only).
-
-Four experimental states, pocket-matched directional evaluation, and the qualitative statement that Dual-versus-neither is not Dual-versus-selective. No numerical AUROCs and no decorative arrows.
-"""
-    (OUT / "CAPTIONS.md").write_text(text, encoding="utf-8", newline="\n")
+    """Official lock and captions live in docs/; this plotter does not rewrite them."""
+    return
 
 
 def main() -> None:

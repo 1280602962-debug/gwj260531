@@ -28,7 +28,7 @@ It is not a second copy of the docking pose workspaces.
 - `plot_jcim_si_composites_v1.py` (historical original-set artwork; may still tick PIK3CA/PIK3CB)
 - `data/pik3ca_pik3cb_panel_v0/` (withdrawn pair archive)
 - `external_slice_summary_202608_contract_v1.csv` (legacy three-pair BindingDB snapshot)
-- Five-pair production poses (`local_track_b_v0/poses/`; in git, not copied into this pack slice)
+- Production poses (`local_track_b_v0/poses/`; in git, not copied into this pack slice)
 - A minted Zenodo DOI (not created)
 
 ## Rebuild / submission freeze
