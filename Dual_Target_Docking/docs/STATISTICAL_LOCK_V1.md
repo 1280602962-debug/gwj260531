@@ -1,8 +1,10 @@
 # Statistical lock (submission)
 
 Date: 2026-09-09  
-Branch: `cursor/jcim-results-revision-0b1a`  
-This page replaces the earlier K=4 lock. PIK3CA/PIK3CB is withdrawn and is not a Table 2 row.
+Estimand freeze branch: `cursor/jcim-results-revision-0b1a`  
+Current working branch: `cursor/jcim-language-polish-0b1a` (PR #37)  
+This page replaces the earlier K=4 lock. PIK3CA/PIK3CB is withdrawn and is not a Table 2 row.  
+Numeric locks below are unchanged. Only provenance and SI numbering follow the current branch.
 
 This page is the only manuscript-facing definition of primary estimands.  
 `PRIMARY_METRIC_V2.md` is a dated 2026-07-29 snapshot and is not Table 2.

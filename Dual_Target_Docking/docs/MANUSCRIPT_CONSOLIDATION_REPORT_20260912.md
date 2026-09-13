@@ -1,5 +1,7 @@
 # 稿件收尾修订与核查报告
 
+本文件是 2026-09-12 在 `cursor/jcim-manuscript-consolidation-0b1a` 上的过程快照，不是当前投稿冻结记录。当前工作分支：`cursor/jcim-language-polish-0b1a`（PR #37）。正式 SI：Tables S1–S9 / Figures S1–S4。
+
 日期：2026-09-12  
 仓库：`1280602962-debug/gwj260531`  
 项目：`Dual_Target_Docking`

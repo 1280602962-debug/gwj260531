@@ -7,6 +7,7 @@ Exit 0 only if every blocking check passes.
 from __future__ import annotations
 
 import csv
+import datetime
 import re
 import subprocess
 import sys
@@ -698,6 +699,18 @@ def round5() -> None:
         rec("R5", "NOTE", "J0 θ=6.0 census docked=4 is the historical J0-era count (includes later-withdrawn PIK3CB); current primary n=8")
 
 
+def git_branch() -> str:
+    try:
+        out = subprocess.check_output(
+            ["git", "rev-parse", "--abbrev-ref", "HEAD"],
+            cwd=ROOT,
+            text=True,
+        ).strip()
+        return out or "unknown"
+    except (OSError, subprocess.CalledProcessError):
+        return "unknown"
+
+
 def write_report() -> int:
     counts = defaultdict(int)
     for _, status, _ in FINDINGS:
@@ -705,8 +718,8 @@ def write_report() -> int:
     lines = [
         "# Five-round JCIM submission audit",
         "",
-        "Date: 2026-09-09",
-        "Branch: `cursor/jcim-submission-pack-0b1a`",
+        f"Date: {datetime.date.today().isoformat()}",
+        f"Branch: `{git_branch()}`",
         "Script: `scripts/audit/audit_submission_five_rounds_v1.py`",
         "",
         "This audit compares assembled manuscripts and SI tables to frozen CSVs.",

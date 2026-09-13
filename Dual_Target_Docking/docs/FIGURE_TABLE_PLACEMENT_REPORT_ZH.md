@@ -1,5 +1,7 @@
 # 图表位置核对报告
 
+> 历史放置快照。当前正式 SI 为 Tables S1–S9 / Figures S1–S4；`FigS6_detectable_effect` 仅留仓库。当前工作分支：`cursor/jcim-language-polish-0b1a`（PR #37）。
+
 核对对象：组装后的中文主稿 `docs/MANUSCRIPT_JCIM_ZH.md` 与 SI `docs/SUPPORTING_INFORMATION_DRAFT_ZH_JCIM_V1.md`。数据未改；仅调整编号、缩表与放置。
 
 ## 主文阅读顺序（物理位置）
