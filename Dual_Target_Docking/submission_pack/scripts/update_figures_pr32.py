@@ -358,7 +358,7 @@ def fig4(D):
         L(C['vina'], 's', 'GNINA', ms=4.8, mfc='white', mec=C['vina']),
         L(C['vina'], 'o', 'directional', ms=5.0),
         L(C['desc'], 'o', 'Dual vs neither', ms=5.0),
-    ], loc='upper center', bbox_to_anchor=(0.5, -0.30), ncol=2, fontsize=6.0, frameon=False,
+    ], loc='upper center', bbox_to_anchor=(0.5, -0.22), ncol=2, fontsize=6.0, frameon=False,
        columnspacing=.8, labelspacing=.28, handletextpad=.35)
     P['fig4A'] = {
         'pairs': list(v.GNINA_INDEP_PAIRS),
@@ -390,7 +390,7 @@ def fig4(D):
         L(C['vina'], 'o', 'Primary (4L23 / 4JT6)', ms=5.2),
         L(C['a_only'], 'o', 'PIK3CA substituted', ms=5.2),
         L(C['holdout'], 'o', 'mTOR substituted', ms=5.2),
-    ], loc='upper center', bbox_to_anchor=(0.5, -0.30), ncol=1, fontsize=6.0, frameon=False,
+    ], loc='upper center', bbox_to_anchor=(0.5, -0.22), ncol=1, fontsize=6.0, frameon=False,
        columnspacing=.8, labelspacing=.28, handletextpad=.35)
     P['fig4B'] = fig4b
 
