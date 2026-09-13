@@ -1,5 +1,10 @@
 # Inventory
 
+## root
+
+- `README.md` (2253 bytes)
+- `SCRIPTS.md` (4737 bytes)
+
 ## manuscript
 - `DATA_AND_SOFTWARE_AVAILABILITY_JCIM_EN.md` (624 bytes)
 - `DATA_AND_SOFTWARE_AVAILABILITY_JCIM_ZH.md` (476 bytes)
@@ -105,21 +110,26 @@
 - `plotted_values.json` (61822 bytes)
 
 ## scripts
-- `assemble_manuscript_en.py` (2259 bytes)
-- `assemble_manuscript_zh.py` (2402 bytes)
-- `audit_figures_pr32.py` (7943 bytes)
-- `audit_submission_five_rounds_v1.py` (35978 bytes)
-- `bootstrap_primary.py` (2979 bytes)
-- `build_checksum_manifest_v1.py` (7542 bytes)
-- `build_master_results_table_v1.py` (40380 bytes)
+- `analyze_five_pair_dump_gated_v1.py` (28873 bytes)
+- `analyze_five_pair_local_channels_v1.py` (38733 bytes)
+- `analyze_five_pair_stack_v1.py` (49818 bytes)
+- `analyze_holdout_v1.py` (15298 bytes)
+- `analyze_independent_dock_v1.py` (10452 bytes)
+- `analyze_multiseed_vina_v2.py` (13019 bytes)
+- `assay_aggregation_max_vs_median_v1.py` (12658 bytes)
+- `benchmark_formulation_v1.py` (23654 bytes)
+- `bindingdb_native_slice_eight_pairs_v1.py` (29415 bytes)
+- `build_p0_missing_tables_v1.py` (30478 bytes)
+- `build_t0_strengthen_v1.py` (29656 bytes)
+- `chembl_exhaustive_pair_census_v1.py` (23238 bytes)
+- `claim_hardening_v1.py` (12123 bytes)
 - `ecfp4_docking_scaler_sensitivity_v1.py` (11999 bytes)
-- `freeze_submission_v1.py` (1368 bytes)
-- `jcim_figure_style.py` (6478 bytes)
+- `equal_score_cluster_bootstrap_v1.py` (9984 bytes)
+- `high_confidence_label_rebuild_v1.py` (10670 bytes)
+- `jcim_figure_style.py` (8179 bytes)
 - `multiseed_fixed_membership_v1.py` (6089 bytes)
-- `pack_submission_v1.py` (9572 bytes)
-- `pocket_unidirectional_delta_v1.py` (3485 bytes)
+- `plot_jcim_article_figures_v3.py` (77438 bytes)
 - `reaudit_all14_cognate_rmsd_calcrrms_v1.py` (17726 bytes)
+- `reaudit_layer3_cognate_rmsd_v1.py` (12887 bytes)
 - `replay_track_b_vina_mode1_v1.py` (5743 bytes)
-- `review_statistics_sensitivity_v1.py` (11510 bytes)
 - `update_figures_pr32.py` (41424 bytes)
-- `validate_revision_v1.py` (14617 bytes)

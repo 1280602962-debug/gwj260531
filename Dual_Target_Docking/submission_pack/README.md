@@ -16,20 +16,24 @@ It is not a second copy of the docking pose workspaces.
 | `manuscript/SUBMISSION_AUDIT_FIVE_ROUNDS_V1.md` | Five-round numeric audit |
 | `tables/` | Frozen CSVs cited by Tables 1–3 and S1–S9 |
 | `figures/` | Regenerated main and SI figures from `figures/jcim_article/scripts/update_figures_pr32.py` |
-| `scripts/` | Assemble, validate, freeze, figure audit, pack |
+| `scripts/` | Experiment analysis and official figure generators only. See `SCRIPTS.md` |
+| `SCRIPTS.md` | Upload list: each script, repository path, and paper role |
 
 ## Do not submit as primary evidence
 
+- Assemble / audit / validate / checksum / freeze / pack helpers (`assemble_manuscript_*.py`, `audit_*.py`, `validate_revision_v1.py`, `build_checksum_manifest_v1.py`, `freeze_submission_v1.py`, `pack_submission_v1.py`, `bootstrap_primary.py`, `build_master_results_table_v1.py`, `review_statistics_sensitivity_v1.py`)
+- `pocket_unidirectional_delta_v1.py` (S6b removed from the typeset SI)
+- Docking campaign runners (the paper reproduces statistics from deposited score tables)
 - `plot_jcim_article_figures_v1.py` / `v2.py` (withdrawn-pair leftovers)
-- `plot_jcim_si_composites_v1.py` S1–S3 / S9 / S10 (historical original-set artwork; removed from this repository; may still tick PIK3CA/PIK3CB)
+- `plot_jcim_si_composites_v1.py` (historical original-set artwork; may still tick PIK3CA/PIK3CB)
 - `data/pik3ca_pik3cb_panel_v0/` (withdrawn pair archive)
 - `external_slice_summary_202608_contract_v1.csv` (legacy three-pair BindingDB snapshot)
-- Pose workspaces and multi-GB score dumps (indexed in the repository, not copied here)
+- Five-pair production poses (`local_track_b_v0/poses/`; in git, not copied into this pack slice)
 - A minted Zenodo DOI (not created)
 
 ## Rebuild / submission freeze
 
-Do not replot figures or recompute scientific tables. SI markdown is hand-edited; the freeze runner only reassembles the main manuscripts.
+Author-side only. Do not upload the freeze runner.
 
 ```bash
 python3 scripts/audit/freeze_submission_v1.py

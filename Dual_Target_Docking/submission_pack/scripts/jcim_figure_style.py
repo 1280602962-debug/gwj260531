@@ -11,14 +11,15 @@ from pathlib import Path
 
 import matplotlib as mpl
 import matplotlib.pyplot as plt
-from matplotlib.font_manager import FontProperties, findfont
+from matplotlib.font_manager import FontProperties, findfont, fontManager
 
 ROOT = Path(__file__).resolve().parents[3]
 OUT = ROOT / "figures" / "jcim_article"
 OUT.mkdir(parents=True, exist_ok=True)
 
 # ACS/JCIM: sans-serif, embed TrueType in PDF
-FONT = "Liberation Sans"
+FONT_CANDIDATES = ("Arial", "Liberation Sans", "DejaVu Sans")
+FONT = "DejaVu Sans"
 FS_PANEL = 10
 FS_AXIS = 8
 FS_TICK = 7
@@ -49,32 +50,26 @@ C = {
 }
 
 # Historical four-pair order (v1/v2 SI). Do not use for the eight-row primary set.
-PAIR_ORDER = ["EGFR/HER2", "AChE/BChE", "PIK3CA/mTOR"]
-# Eight-row primary set.
+PAIR_ORDER = ["EGFR/HER2", "AChE/BChE", "PIK3CA/PIK3CB", "PIK3CA/mTOR"]
+# Display order is protein-system grouped (kinase, hydrolase, protease, NR).
+# ORIGINAL_THREE / CENSUS_FIVE remain CSV-routing keys only and must not appear on figures.
 PRIMARY_PAIRS = [
     "EGFR/HER2",
-    "AChE/BChE",
-    "PIK3CA/mTOR",
-    "F2/F10",
-    "JAK1/TYK2",
     "JAK1/JAK2",
+    "JAK1/TYK2",
+    "PIK3CA/mTOR",
+    "AChE/BChE",
+    "F2/F10",
     "PPARG/PPARA",
     "PPARA/PPARD",
 ]
 ORIGINAL_THREE = ["EGFR/HER2", "AChE/BChE", "PIK3CA/mTOR"]
 CENSUS_FIVE = ["F2/F10", "JAK1/TYK2", "JAK1/JAK2", "PPARG/PPARA", "PPARA/PPARD"]
-HOLDOUT_PAIRS = [
-    "AChE/BChE",
-    "PIK3CA/mTOR",
-    "F2/F10",
-    "JAK1/TYK2",
-    "JAK1/JAK2",
-    "PPARG/PPARA",
-    "PPARA/PPARD",
-]
+HOLDOUT_PAIRS = [p for p in PRIMARY_PAIRS if p != "EGFR/HER2"]
 PAIR_SHORT = {
     "EGFR/HER2": "EGFR/HER2",
     "AChE/BChE": "AChE/BChE",
+    "PIK3CA/PIK3CB": "PIK3CA/PIK3CB",
     "PIK3CA/mTOR": "PIK3CA/mTOR",
     "F2/F10": "F2/F10",
     "JAK1/TYK2": "JAK1/TYK2",
@@ -92,6 +87,7 @@ PAIR_COLOR = {
     "JAK1/JAK2": "#CC79A7",
     "PPARG/PPARA": "#000000",
     "PPARA/PPARD": "#999999",
+    "PIK3CA/PIK3CB": "#882255",
 }
 DESC_LABEL = {
     "heavy": "heavy atoms",
@@ -102,12 +98,32 @@ DESC_LABEL = {
 
 
 def apply_style() -> None:
-    found = findfont(FontProperties(family=FONT))
-    if "LiberationSans" not in found.replace(" ", "") and "Liberation" not in found:
-        raise RuntimeError(f"Liberation Sans not available (got {found})")
+    global FONT
+    # Arial is the preferred ACS face on Windows.  Register it explicitly when
+    # available because headless Matplotlib installations do not always scan
+    # the Windows font directory.  Liberation Sans is the portable substitute.
+    win_arial = Path(r"C:\Windows\Fonts\arial.ttf")
+    if win_arial.exists():
+        try:
+            fontManager.addfont(str(win_arial))
+        except OSError:
+            pass
+    for candidate in FONT_CANDIDATES:
+        try:
+            found = findfont(FontProperties(family=candidate), fallback_to_default=False)
+        except ValueError:
+            continue
+        if Path(found).exists():
+            FONT = candidate
+            break
     mpl.rcParams.update(
         {
             "font.family": FONT,
+            "mathtext.fontset": "custom",
+            "mathtext.rm": FONT,
+            "mathtext.it": f"{FONT}:italic",
+            "mathtext.bf": f"{FONT}:bold",
+            "mathtext.default": "regular",
             "font.size": FS_TICK,
             "axes.labelsize": FS_AXIS,
             "axes.titlesize": FS_AXIS,
@@ -189,6 +205,18 @@ def _rgb_file(path: Path) -> None:
 
 def save_all(fig, stem: str, toc: bool = False):
     """Write PDF/PNG/TIF (main figures) or exact-size TOC TIF+PNG."""
+    from matplotlib.text import Text
+    # Presentation labels use the same mathematical typography throughout.
+    # Source keys and numeric provenance remain unchanged.
+    for item in fig.findobj(match=Text):
+        label = item.get_text()
+        for raw, display in {
+            "summary_min": r"summary$_{\mathrm{min}}$",
+            "vina_mean": r"Vina$_{\mathrm{mean}}$",
+            "vina_worst": r"Vina$_{\mathrm{worst}}$",
+        }.items():
+            label = label.replace(raw, display)
+        item.set_text(label)
     OUT.mkdir(parents=True, exist_ok=True)
     paths = []
     if toc:

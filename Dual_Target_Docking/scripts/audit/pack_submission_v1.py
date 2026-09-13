@@ -72,25 +72,101 @@ TABLES = [
     "data/jcim_novelty_v0/tables/review_statistics_provenance_v1.json",
 ]
 
+# Experiment scripts only. Run them from Dual_Target_Docking/, not this flattened folder.
+# Do not pack assemble / audit / validate / checksum / freeze / pack helpers.
 SCRIPTS = [
-    "docs/assemble_manuscript_en.py",
-    "docs/assemble_manuscript_zh.py",
-    "scripts/primary/bootstrap_primary.py",
-    "scripts/audit/audit_submission_five_rounds_v1.py",
-    "scripts/audit/freeze_submission_v1.py",
-    "scripts/audit/pack_submission_v1.py",
-    "data/jcim_novelty_v0/scripts/validate_revision_v1.py",
-    "data/jcim_novelty_v0/scripts/build_checksum_manifest_v1.py",
-    "data/jcim_novelty_v0/scripts/build_master_results_table_v1.py",
-    "data/jcim_novelty_v0/scripts/ecfp4_docking_scaler_sensitivity_v1.py",
-    "figures/jcim_article/scripts/update_figures_pr32.py",
-    "figures/jcim_article/scripts/audit_figures_pr32.py",
-    "data/jcim_novelty_v0/scripts/reaudit_all14_cognate_rmsd_calcrrms_v1.py",
-    "data/jcim_chembl_universe_v0/scripts/replay_track_b_vina_mode1_v1.py",
-    "data/jcim_chembl_universe_v0/scripts/multiseed_fixed_membership_v1.py",
-    "data/jcim_chembl_universe_v0/scripts/pocket_unidirectional_delta_v1.py",
-    "data/jcim_bench_v0/scripts/jcim_figure_style.py",
-    "data/jcim_novelty_v0/scripts/review_statistics_sensitivity_v1.py",
+    (
+        "data/jcim_strengthen_t0t1_v0/scripts/build_t0_strengthen_v1.py",
+        "Original-three Table 2 / S3 θ grid, ligand-chemistry baselines, and descriptor columns from frozen Vina scores.",
+    ),
+    (
+        "data/jcim_novelty_v0/scripts/benchmark_formulation_v1.py",
+        "Original-three Table 3, Table S4 fixed-channel Δ, and Table S5 incremental docking-versus-ECFP4 analyses.",
+    ),
+    (
+        "data/jcim_chembl_universe_v0/scripts/analyze_five_pair_stack_v1.py",
+        "Five-pair Table 2 / Table 3 / Table S4 / Table S5 stack on frozen production scores. Does not redock.",
+    ),
+    (
+        "data/jcim_strengthen_t0t1_v0/scripts/build_p0_missing_tables_v1.py",
+        "Original-three matched-versus-mismatched pocket bootstrap used by Table S6 and Figure 4.",
+    ),
+    (
+        "data/jcim_chembl_universe_v0/scripts/analyze_five_pair_local_channels_v1.py",
+        "Five-pair pocket channels, holdout join, independent GNINA JAK channel, and five-seed aggregate for Tables S6–S7 / Figure 5.",
+    ),
+    (
+        "data/jcim_holdout_v0/scripts/analyze_holdout_v1.py",
+        "Unused-pool holdout AUROCs in Table S6 / Figure 4. Not external validation.",
+    ),
+    (
+        "data/jcim_independent_dock_v0/scripts/analyze_independent_dock_v1.py",
+        "Independent GNINA formulation AUROCs for EGFR/HER2 and PIK3CA/mTOR in Table S7 / Figure 5.",
+    ),
+    (
+        "data/jcim_multiseed_v0/scripts/analyze_multiseed_vina_v2.py",
+        "Original-three five-seed AUROC aggregate used by Figure 5C.",
+    ),
+    (
+        "data/jcim_chembl_universe_v0/scripts/multiseed_fixed_membership_v1.py",
+        "Five-pair fixed-membership five-seed summary used by Figure 5C. Does not redock.",
+    ),
+    (
+        "data/jcim_novelty_v0/scripts/equal_score_cluster_bootstrap_v1.py",
+        "Document/scaffold cluster resampling of the two flagship fixed-channel Δ values (Table S4 / Figure 6).",
+    ),
+    (
+        "data/jcim_novelty_v0/scripts/claim_hardening_v1.py",
+        "Four-descriptor directional AUROCs for the Table 2 descriptor column and Figure S2.",
+    ),
+    (
+        "data/jcim_novelty_v0/scripts/bindingdb_native_slice_eight_pairs_v1.py",
+        "Independence-filtered BindingDB/PubChem eligibility counts for Table S8 / Figure 6. No external docking.",
+    ),
+    (
+        "data/jcim_novelty_v0/scripts/assay_aggregation_max_vs_median_v1.py",
+        "Original-three API max-versus-median label sensitivity in Table S3.",
+    ),
+    (
+        "data/jcim_novelty_v0/scripts/high_confidence_label_rebuild_v1.py",
+        "Original-three high-confidence field screen in Table S3.",
+    ),
+    (
+        "data/jcim_chembl_universe_v0/scripts/analyze_five_pair_dump_gated_v1.py",
+        "Five-pair dump-gated max-versus-median footnote in Table S3.",
+    ),
+    (
+        "data/jcim_chembl_universe_v0/scripts/chembl_exhaustive_pair_census_v1.py",
+        "ChEMBL pair-census summary plotted in Figure 1.",
+    ),
+    (
+        "data/jcim_novelty_v0/scripts/ecfp4_docking_scaler_sensitivity_v1.py",
+        "Table S5 StandardScaler sensitivity on the same GroupKFold splits.",
+    ),
+    (
+        "data/jcim_novelty_v0/scripts/reaudit_all14_cognate_rmsd_calcrrms_v1.py",
+        "Unified 14-receptor chemically mapped CalcRMS for Table S2 / Figure S4. Does not redock.",
+    ),
+    (
+        "data/jcim_chembl_universe_v0/scripts/reaudit_layer3_cognate_rmsd_v1.py",
+        "Atom-mapping / CalcRMS helper imported by the all-14 cognate RMSD script.",
+    ),
+    (
+        "data/jcim_chembl_universe_v0/scripts/replay_track_b_vina_mode1_v1.py",
+        "Re-reads REMARK VINA RESULT from the committed five-pair pose tree. Does not redock.",
+    ),
+    (
+        "figures/jcim_article/scripts/update_figures_pr32.py",
+        "Official generator for Figures 1–6, S1–S4, and the TOC graphic from pinned CSVs.",
+    ),
+    (
+        "figures/jcim_article/scripts/plot_jcim_article_figures_v3.py",
+        "Panel functions imported by the official figure generator.",
+    ),
+    (
+        "figures/jcim_article/scripts/jcim_figure_style.py",
+        "Shared figure style used by the official figure generator.",
+    ),
 ]
 
 
@@ -118,10 +194,22 @@ def main() -> None:
         dst = PACK / "tables" / Path(rel).name
         if src.exists():
             shutil.copy2(src, dst)
-    for rel in SCRIPTS:
+    script_lines = [
+        "# Experiment scripts packed for upload",
+        "",
+        "These scripts reproduce typeset tables and figures from deposited scores or saved poses.",
+        "Run them from the `Dual_Target_Docking/` tree. This folder is a flat copy for upload.",
+        "Do not upload assemble / audit / validate / checksum / freeze / pack helpers.",
+        "",
+        "| Script | Repository path | Paper role |",
+        "|---|---|---|",
+    ]
+    for rel, role in SCRIPTS:
         src = ROOT / rel
         if src.exists():
             shutil.copy2(src, PACK / "scripts" / Path(rel).name)
+            script_lines.append(f"| `{Path(rel).name}` | `{rel}` | {role} |")
+    (PACK / "SCRIPTS.md").write_text("\n".join(script_lines) + "\n", encoding="utf-8")
 
     fig_src = ROOT / "figures" / "jcim_article"
     allowed_suffix = {".png", ".pdf", ".tif", ".tiff", ".md", ".json"}
@@ -169,27 +257,35 @@ It is not a second copy of the docking pose workspaces.
 | `manuscript/SUBMISSION_AUDIT_FIVE_ROUNDS_V1.md` | Five-round numeric audit |
 | `tables/` | Frozen CSVs cited by Tables 1–3 and S1–S9 |
 | `figures/` | Regenerated main and SI figures from `figures/jcim_article/scripts/update_figures_pr32.py` |
-| `scripts/` | Assemble, validate, freeze, figure audit, pack |
+| `scripts/` | Experiment analysis and official figure generators only. See `SCRIPTS.md` |
+| `SCRIPTS.md` | Upload list: each script, repository path, and paper role |
 
 ## Do not submit as primary evidence
 
+- Assemble / audit / validate / checksum / freeze / pack helpers (`assemble_manuscript_*.py`, `audit_*.py`, `validate_revision_v1.py`, `build_checksum_manifest_v1.py`, `freeze_submission_v1.py`, `pack_submission_v1.py`, `bootstrap_primary.py`, `build_master_results_table_v1.py`, `review_statistics_sensitivity_v1.py`)
+- `pocket_unidirectional_delta_v1.py` (S6b removed from the typeset SI)
+- Docking campaign runners (the paper reproduces statistics from deposited score tables)
 - `plot_jcim_article_figures_v1.py` / `v2.py` (withdrawn-pair leftovers)
-- `plot_jcim_si_composites_v1.py` S1–S3 / S9 / S10 (historical original-set artwork; removed from this repository; may still tick PIK3CA/PIK3CB)
+- `plot_jcim_si_composites_v1.py` (historical original-set artwork; may still tick PIK3CA/PIK3CB)
 - `data/pik3ca_pik3cb_panel_v0/` (withdrawn pair archive)
 - `external_slice_summary_202608_contract_v1.csv` (legacy three-pair BindingDB snapshot)
-- Pose workspaces and multi-GB score dumps (indexed in the repository, not copied here)
+- Five-pair production poses (`local_track_b_v0/poses/`; in git, not copied into this pack slice)
 - A minted Zenodo DOI (not created)
 
 ## Rebuild / submission freeze
 
-Do not replot figures or recompute scientific tables. SI markdown is hand-edited; the freeze runner only reassembles the main manuscripts.
+Author-side only. Do not upload the freeze runner.
 
 ```bash
 python3 scripts/audit/freeze_submission_v1.py
 ```
 """
     (PACK / "README.md").write_text(readme, encoding="utf-8")
-    inventory = ["# Inventory", ""]
+    inventory = ["# Inventory", "", "## root", ""]
+    for path in sorted(PACK.iterdir()):
+        if path.is_file():
+            inventory.append(f"- `{path.name}` ({path.stat().st_size} bytes)")
+    inventory.append("")
     for folder in ("manuscript", "tables", "figures", "scripts"):
         inventory.append(f"## {folder}")
         for path in sorted((PACK / folder).iterdir()):
