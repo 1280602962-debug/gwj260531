@@ -1,4 +1,4 @@
-poses/
+# Production poses/ is tracked (1094 mode_01 + remaining saved modes).
 logs/
 multiseed/*/poses/
 multiseed/*/logs/
@@ -14,4 +14,7 @@ ligands_sdf/
 cognate_qc/
 work/
 *.pdbqt
+!poses/
+!poses/**/
+!poses/**/*.pdbqt
 !tables/**

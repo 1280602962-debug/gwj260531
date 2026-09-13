@@ -1,0 +1,74 @@
+MODEL 3
+REMARK VINA RESULT:    -7.954      3.687      4.964
+REMARK INTER + INTRA:         -14.205
+REMARK INTER:                 -13.597
+REMARK INTRA:                  -0.607
+REMARK UNBOUND:                -1.833
+REMARK SMILES CC[C@@H](Cc1cc(CNC(=O)c2ccc([C@]34C[C@H]5C[C@H](C[C@H](C5)C3)C4)cc2)c(OC)cc1F)C(=O)O
+REMARK SMILES IDX 5 1 6 2 7 3 28 4 31 5 32 6 33 7 4 8 3 9 2 10 1 11 34 12
+REMARK SMILES IDX 35 13 36 14 8 16 9 17 10 18 11 19 12 21 13 22 27 23 14 24
+REMARK SMILES IDX 26 25 15 26 16 27 24 28 25 29 17 30 22 31 20 32 18 33 23 34
+REMARK SMILES IDX 21 35 19 36 29 37 30 38
+REMARK H PARENT 36 15 9 20
+ROOT
+ATOM      1  C   UNL     1       3.949   8.265  -3.192  1.00  0.00    -0.011 A 
+ATOM      2  C   UNL     1       5.027   9.150  -3.310  1.00  0.00     0.016 A 
+ATOM      3  C   UNL     1       5.904   9.086  -4.409  1.00  0.00     0.014 A 
+ATOM      4  C   UNL     1       5.679   8.134  -5.422  1.00  0.00     0.126 A 
+ATOM      5  C   UNL     1       4.597   7.259  -5.313  1.00  0.00     0.086 A 
+ATOM      6  C   UNL     1       3.749   7.331  -4.209  1.00  0.00     0.130 A 
+ATOM      7  F   UNL     1       2.726   6.469  -4.134  1.00  0.00    -0.207 F 
+ENDROOT
+BRANCH   1   8
+ATOM      8  C   UNL     1       3.021   8.332  -2.006  1.00  0.00     0.054 C 
+BRANCH   8   9
+ATOM      9  C   UNL     1       3.407   7.416  -0.832  1.00  0.00     0.103 C 
+BRANCH   9  10
+ATOM     10  C   UNL     1       3.350   5.910  -1.144  1.00  0.00     0.012 C 
+ATOM     11  C   UNL     1       4.718   5.244  -1.209  1.00  0.00     0.005 C 
+ENDBRANCH   9  10
+BRANCH   9  12
+ATOM     12  C   UNL     1       2.476   7.731   0.319  1.00  0.00     0.306 C 
+ATOM     13  O   UNL     1       2.255   7.005   1.275  1.00  0.00    -0.252 OA
+BRANCH  12  14
+ATOM     14  O   UNL     1       1.895   8.942   0.232  1.00  0.00    -0.481 OA
+ATOM     15  H   UNL     1       0.975   8.788   0.537  1.00  0.00     0.296 HD
+ENDBRANCH  12  14
+ENDBRANCH   9  12
+ENDBRANCH   8   9
+ENDBRANCH   1   8
+BRANCH   3  16
+ATOM     16  C   UNL     1       7.047  10.070  -4.488  1.00  0.00     0.156 C 
+BRANCH  16  17
+ATOM     17  N   UNL     1       7.596  10.107  -5.823  1.00  0.00    -0.348 N 
+ATOM     18  C   UNL     1       8.899  10.489  -6.049  1.00  0.00     0.251 C 
+ATOM     19  O   UNL     1       9.638  10.917  -5.171  1.00  0.00    -0.269 OA
+ATOM     20  H   UNL     1       7.130   9.525  -6.504  1.00  0.00     0.164 HD
+BRANCH  18  21
+ATOM     21  C   UNL     1       9.402  10.335  -7.443  1.00  0.00     0.039 A 
+ATOM     22  C   UNL     1       9.347   9.070  -8.034  1.00  0.00     0.014 A 
+ATOM     23  C   UNL     1       9.947  11.399  -8.165  1.00  0.00     0.014 A 
+ATOM     24  C   UNL     1       9.808   8.876  -9.342  1.00  0.00     0.005 A 
+ATOM     25  C   UNL     1      10.406  11.198  -9.473  1.00  0.00     0.005 A 
+ATOM     26  C   UNL     1      10.343   9.934 -10.094  1.00  0.00    -0.042 A 
+BRANCH  26  27
+ATOM     27  C   UNL     1      10.856   9.755 -11.534  1.00  0.00    -0.004 C 
+ATOM     28  C   UNL     1      11.406   8.310 -11.725  1.00  0.00     0.015 C 
+ATOM     29  C   UNL     1      12.002  10.739 -11.921  1.00  0.00     0.015 C 
+ATOM     30  C   UNL     1       9.697   9.979 -12.550  1.00  0.00     0.015 C 
+ATOM     31  C   UNL     1      11.876   8.081 -13.173  1.00  0.00    -0.010 C 
+ATOM     32  C   UNL     1      12.479  10.512 -13.365  1.00  0.00    -0.010 C 
+ATOM     33  C   UNL     1      10.171   9.746 -13.995  1.00  0.00    -0.010 C 
+ATOM     34  C   UNL     1      10.695   8.306 -14.129  1.00  0.00     0.007 C 
+ATOM     35  C   UNL     1      12.997   9.074 -13.507  1.00  0.00     0.007 C 
+ATOM     36  C   UNL     1      11.302  10.730 -14.326  1.00  0.00     0.007 C 
+ENDBRANCH  26  27
+ENDBRANCH  18  21
+ENDBRANCH  16  17
+ENDBRANCH   3  16
+BRANCH   4  37
+ATOM     37  O   UNL     1       6.558   8.159  -6.474  1.00  0.00    -0.496 OA
+ATOM     38  C   UNL     1       7.184   6.932  -6.831  1.00  0.00     0.278 C 
+ENDBRANCH   4  37
+TORSDOF 10
+ENDMDL

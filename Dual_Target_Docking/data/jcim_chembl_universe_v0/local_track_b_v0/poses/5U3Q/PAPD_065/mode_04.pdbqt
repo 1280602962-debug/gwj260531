@@ -1,0 +1,64 @@
+MODEL 4
+REMARK VINA RESULT:    -9.187      6.328      8.716
+REMARK INTER + INTRA:         -14.926
+REMARK INTER:                 -13.967
+REMARK INTRA:                  -0.959
+REMARK UNBOUND:                -1.174
+REMARK SMILES C/C(=N\OCc1nc(-c2ccc(C)cc2)oc1C)c1ccc(OCC(=O)O)c(C)c1
+REMARK SMILES IDX 19 1 20 2 21 3 22 4 28 5 29 6 30 7 2 8 3 9 1 10 4 11 5 12
+REMARK SMILES IDX 6 13 7 14 17 15 8 16 16 17 18 18 9 19 10 20 15 21 11 22
+REMARK SMILES IDX 14 23 12 24 13 25 23 26 24 27 25 28 26 29 27 30
+REMARK H PARENT 27 31
+ROOT
+ATOM      1  C   UNL     1      38.017   4.054 135.150  1.00  0.00    -0.000 A 
+ATOM      2  C   UNL     1      38.167   4.901 136.249  1.00  0.00     0.014 A 
+ATOM      3  C   UNL     1      37.583   4.573 137.478  1.00  0.00     0.047 A 
+ATOM      4  C   UNL     1      36.850   3.391 137.623  1.00  0.00     0.123 A 
+ATOM      5  C   UNL     1      36.700   2.530 136.522  1.00  0.00    -0.008 A 
+ATOM      6  C   UNL     1      35.927   1.245 136.649  1.00  0.00     0.048 C 
+ATOM      7  C   UNL     1      37.293   2.865 135.294  1.00  0.00     0.017 A 
+ENDROOT
+BRANCH   1   8
+ATOM      8  C   UNL     1      38.635   4.375 133.830  1.00  0.00     0.084 C 
+ATOM      9  N   UNL     1      38.441   3.558 132.835  1.00  0.00    -0.091 NA
+ATOM     10  C   UNL     1      39.470   5.635 133.714  1.00  0.00     0.071 C 
+BRANCH   9  11
+ATOM     11  O   UNL     1      39.115   3.987 131.681  1.00  0.00    -0.389 OA
+BRANCH  11  12
+ATOM     12  C   UNL     1      39.417   2.847 130.865  1.00  0.00     0.323 C 
+BRANCH  12  13
+ATOM     13  C   UNL     1      40.728   2.250 131.235  1.00  0.00     0.123 A 
+ATOM     14  N   UNL     1      40.894   0.884 131.356  1.00  0.00    -0.210 NA
+ATOM     15  C   UNL     1      41.930   2.878 131.487  1.00  0.00     0.128 A 
+ATOM     16  C   UNL     1      42.164   0.736 131.686  1.00  0.00     0.226 A 
+ATOM     17  O   UNL     1      42.855   1.917 131.781  1.00  0.00    -0.441 OA
+ATOM     18  C   UNL     1      42.378   4.280 131.513  1.00  0.00     0.090 C 
+BRANCH  16  19
+ATOM     19  C   UNL     1      42.910  -0.490 131.957  1.00  0.00     0.037 A 
+ATOM     20  C   UNL     1      43.241  -1.399 130.942  1.00  0.00     0.014 A 
+ATOM     21  C   UNL     1      43.311  -0.782 133.268  1.00  0.00     0.014 A 
+ATOM     22  C   UNL     1      43.957  -2.566 131.231  1.00  0.00     0.004 A 
+ATOM     23  C   UNL     1      44.028  -1.947 133.558  1.00  0.00     0.004 A 
+ATOM     24  C   UNL     1      44.367  -2.842 132.539  1.00  0.00    -0.051 A 
+ATOM     25  C   UNL     1      45.111  -4.104 132.858  1.00  0.00     0.044 C 
+ENDBRANCH  16  19
+ENDBRANCH  12  13
+ENDBRANCH  11  12
+ENDBRANCH   9  11
+ENDBRANCH   1   8
+BRANCH   4  26
+ATOM     26  O   UNL     1      36.240   2.983 138.779  1.00  0.00    -0.482 OA
+BRANCH  26  27
+ATOM     27  C   UNL     1      36.985   3.077 139.986  1.00  0.00     0.351 C 
+BRANCH  27  28
+ATOM     28  C   UNL     1      36.280   3.952 141.006  1.00  0.00     0.341 C 
+ATOM     29  O   UNL     1      36.819   4.796 141.708  1.00  0.00    -0.248 OA
+BRANCH  28  30
+ATOM     30  O   UNL     1      34.966   3.689 141.154  1.00  0.00    -0.479 OA
+ATOM     31  H   UNL     1      34.930   2.991 141.841  1.00  0.00     0.296 HD
+ENDBRANCH  28  30
+ENDBRANCH  27  28
+ENDBRANCH  26  27
+ENDBRANCH   4  26
+TORSDOF 9
+ENDMDL

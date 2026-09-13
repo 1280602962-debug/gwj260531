@@ -1,0 +1,81 @@
+MODEL 9
+REMARK VINA RESULT:    -8.197      2.703     10.281
+REMARK INTER + INTRA:         -15.778
+REMARK INTER:                 -15.112
+REMARK INTRA:                  -0.665
+REMARK UNBOUND:                -1.111
+REMARK SMILES CCO[C@@H](Cc1ccc(OC/C=C/c2cc(OC3CCCC3)cc(OC3CCCC3)c2)cc1)C(=O)O
+REMARK SMILES IDX 6 1 7 2 8 3 9 4 32 5 33 6 5 7 4 8 3 9 2 10 1 11 34 12 35 13
+REMARK SMILES IDX 36 14 10 16 11 17 12 18 13 19 14 20 15 21 31 22 16 23 24 24
+REMARK SMILES IDX 23 25 17 26 18 27 19 28 22 29 20 30 21 31 25 32 26 33 27 34
+REMARK SMILES IDX 30 35 28 36 29 37
+REMARK H PARENT 36 15
+ROOT
+ATOM      1  C   UNL     1       4.437   6.927  -4.547  1.00  0.00    -0.045 A 
+ATOM      2  C   UNL     1       4.821   5.591  -4.389  1.00  0.00     0.007 A 
+ATOM      3  C   UNL     1       5.777   5.027  -5.236  1.00  0.00     0.047 A 
+ATOM      4  C   UNL     1       6.377   5.788  -6.242  1.00  0.00     0.119 A 
+ATOM      5  C   UNL     1       5.997   7.119  -6.404  1.00  0.00     0.047 A 
+ATOM      6  C   UNL     1       5.035   7.687  -5.561  1.00  0.00     0.007 A 
+ENDROOT
+BRANCH   1   7
+ATOM      7  C   UNL     1       3.409   7.547  -3.626  1.00  0.00     0.079 C 
+BRANCH   7   8
+ATOM      8  C   UNL     1       3.528   7.019  -2.187  1.00  0.00     0.231 C 
+BRANCH   8   9
+ATOM      9  O   UNL     1       2.258   6.471  -1.811  1.00  0.00    -0.366 OA
+BRANCH   9  10
+ATOM     10  C   UNL     1       2.278   5.050  -1.698  1.00  0.00     0.158 C 
+ATOM     11  C   UNL     1       3.640   4.633  -1.179  1.00  0.00     0.035 C 
+ENDBRANCH   9  10
+ENDBRANCH   8   9
+BRANCH   8  12
+ATOM     12  C   UNL     1       3.965   8.177  -1.283  1.00  0.00     0.333 C 
+ATOM     13  O   UNL     1       5.056   8.722  -1.244  1.00  0.00    -0.249 OA
+BRANCH  12  14
+ATOM     14  O   UNL     1       2.968   8.624  -0.487  1.00  0.00    -0.479 OA
+ATOM     15  H   UNL     1       2.852   7.899   0.165  1.00  0.00     0.296 HD
+ENDBRANCH  12  14
+ENDBRANCH   8  12
+ENDBRANCH   7   8
+ENDBRANCH   1   7
+BRANCH   4  16
+ATOM     16  O   UNL     1       7.284   5.109  -7.006  1.00  0.00    -0.490 OA
+BRANCH  16  17
+ATOM     17  C   UNL     1       8.658   5.495  -6.932  1.00  0.00     0.257 C 
+BRANCH  17  18
+ATOM     18  C   UNL     1       8.863   6.823  -7.600  1.00  0.00     0.014 C 
+ATOM     19  C   UNL     1       9.899   7.096  -8.410  1.00  0.00     0.007 C 
+BRANCH  19  20
+ATOM     20  C   UNL     1      10.160   8.385  -9.073  1.00  0.00    -0.018 A 
+ATOM     21  C   UNL     1      10.036   8.457 -10.467  1.00  0.00     0.054 A 
+ATOM     22  C   UNL     1      10.491   9.555  -8.382  1.00  0.00     0.054 A 
+ATOM     23  C   UNL     1      10.252   9.653 -11.159  1.00  0.00     0.124 A 
+ATOM     24  C   UNL     1      10.708  10.761  -9.058  1.00  0.00     0.124 A 
+ATOM     25  C   UNL     1      10.592  10.804 -10.449  1.00  0.00     0.092 A 
+BRANCH  23  26
+ATOM     26  O   UNL     1      10.101   9.550 -12.514  1.00  0.00    -0.490 OA
+BRANCH  26  27
+ATOM     27  C   UNL     1      10.967   8.689 -13.241  1.00  0.00     0.173 C 
+ATOM     28  C   UNL     1      10.729   7.249 -12.790  1.00  0.00     0.045 C 
+ATOM     29  C   UNL     1      12.435   8.884 -12.873  1.00  0.00     0.045 C 
+ATOM     30  C   UNL     1      11.988   6.511 -13.223  1.00  0.00     0.004 C 
+ATOM     31  C   UNL     1      13.100   7.560 -13.233  1.00  0.00     0.004 C 
+ENDBRANCH  26  27
+ENDBRANCH  23  26
+BRANCH  24  32
+ATOM     32  O   UNL     1      11.037  11.810  -8.243  1.00  0.00    -0.490 OA
+BRANCH  32  33
+ATOM     33  C   UNL     1      10.031  12.362  -7.390  1.00  0.00     0.173 C 
+ATOM     34  C   UNL     1      10.727  12.916  -6.146  1.00  0.00     0.045 C 
+ATOM     35  C   UNL     1       9.416  13.620  -7.997  1.00  0.00     0.045 C 
+ATOM     36  C   UNL     1      11.286  14.271  -6.575  1.00  0.00     0.004 C 
+ATOM     37  C   UNL     1      10.484  14.694  -7.804  1.00  0.00     0.004 C 
+ENDBRANCH  32  33
+ENDBRANCH  24  32
+ENDBRANCH  19  20
+ENDBRANCH  17  18
+ENDBRANCH  16  17
+ENDBRANCH   4  16
+TORSDOF 14
+ENDMDL
