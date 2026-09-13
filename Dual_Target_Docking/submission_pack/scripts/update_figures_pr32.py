@@ -390,8 +390,8 @@ def fig4(D):
         L(C['vina'], 'o', 'Primary (4L23 / 4JT6)', ms=5.2),
         L(C['a_only'], 'o', 'PIK3CA substituted', ms=5.2),
         L(C['holdout'], 'o', 'mTOR substituted', ms=5.2),
-    ], loc='lower left', fontsize=6.5, frameon=True, fancybox=False, edgecolor='none',
-       facecolor='white', framealpha=.92, labelspacing=.25)
+    ], loc='upper center', bbox_to_anchor=(0.5, -0.30), ncol=1, fontsize=6.0, frameon=False,
+       columnspacing=.8, labelspacing=.28, handletextpad=.35)
     P['fig4B'] = fig4b
 
     ax = fig.add_subplot(gs[1, :]); label(ax, 'C', x=-0.08, y=1.04)
