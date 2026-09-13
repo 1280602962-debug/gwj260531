@@ -1,7 +1,7 @@
 # Five-round JCIM submission audit
 
-Date: 2026-09-09
-Branch: `cursor/jcim-submission-pack-0b1a`
+Date: 2026-09-13
+Branch: `cursor/jcim-language-polish-0b1a`
 Script: `scripts/audit/audit_submission_five_rounds_v1.py`
 
 This audit compares assembled manuscripts and SI tables to frozen CSVs.

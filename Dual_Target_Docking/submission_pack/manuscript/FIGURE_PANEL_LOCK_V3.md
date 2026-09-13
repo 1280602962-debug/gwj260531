@@ -1,13 +1,14 @@
 # Figure lock and file mapping (submission)
 
-Branch: `cursor/jcim-pack-consistency-0b1a`  
+Panel lock origin: `cursor/jcim-pack-consistency-0b1a`  
+Current working branch: `cursor/jcim-language-polish-0b1a` (PR #37)  
 Artwork generator: `figures/jcim_article/scripts/update_figures_pr32.py`  
 Legacy lock script: `figures/jcim_article/scripts/plot_jcim_article_figures_v3.py` (do not use `data/jcim_bench_v0` or `submission_pack/scripts/plot_jcim_article_figures_v3.py` for current numbering)  
 Rule: every plotted number is read from the CSV in this table. No hand-typed AUROCs. No AI-drawn figures. The primary set is the eight pairs in Table 1, shown in protein-system order.
 
 Display order (Figures 2–6 and Tables 1–3): EGFR/HER2, JAK1/JAK2, JAK1/TYK2, PIK3CA/mTOR, AChE/BChE, F2/F10, PPARG/PPARA, PPARA/PPARD.
 
-Article numbering follows the Chinese working manuscript. Disk filenames need not match the final figure number. Figure S5 may cite `FigS6_detectable_effect`.
+Article numbering follows the Chinese working manuscript. Disk filenames need not match the final figure number. Formal SI figures are S1–S4. The detectable-effect file remains `FigS6_detectable_effect` in the repository archive and is not typeset.
 
 ## Final figure → title → file → plotter → source
 
@@ -23,7 +24,6 @@ Article numbering follows the Chinese working manuscript. Disk filenames need no
 | Figure S2 | Pocket-matched forest | `FigS2_pocket_matched_forest` | `fig_s4_forest()` | Table-2 sources; `descriptor_all_four_directional_v1.csv` |
 | Figure S3 | PIK3CA/mTOR protocol sensitivity | `FigS3_protocol_sensitivity` | `fig_s1_protocol()` | `pm110_vs_pm48_pocket_matched_v1.csv`; `scores_vina_E8_best.csv` |
 | Figure S4 | Cognate redocking RMSD | `FigS4_cognate_rmsd` | `fig_s12_cognate()` | Unified 14-receptor CalcRMS: `all14_cognate_rmsd_calcrrms_v1.csv`. Historical only: `layer3_cognate_rmsd_v1.csv`, `layer3_cognate_rmsd_calcrrms_v1.csv`, `cognate_rank_rmsd_reaudit_v1.csv`, `pm48_01_rmsd_E16.csv` |
-| Figure S5 | Detectable-effect scenario | `FigS6_detectable_effect` | `fig_s6_sim()` | `detectable_effect_simulation_v1.csv` |
 | TOC | Four states → tasks → controls | `TOC_graphic` | `toc_graphic()` | schematic |
 
 ## Archived artwork (kept in repo, not packed, not typeset)
@@ -33,7 +33,8 @@ These files duplicate a main-text panel. They stay in `figures/jcim_article/` wi
 | Stem | Why archived |
 |---|---|
 | `FigS5_unused_pool_holdout` | Same content as Figure 4B |
+| `FigS6_detectable_effect` | Detectable-effect simulation; historical Figure S5. Not typeset after the SI cut to S1–S4 |
 | `FigS7_bindingdb_native_slice` | Same content as Figure 6C,D |
 | `FigS8_cluster_uncertainty` | Same content as Figure 6B |
 
-S2, S3, S9, and S10 remain SI **table** records. Table numbers S1–S13 are unchanged.
+Formal SI tables are S1–S9. Former S10–S14 remain on GitHub and are not typeset. Formal SI figures are S1–S4.
