@@ -47,9 +47,9 @@ for lang in ['ZH','EN']:
     manuscript=content('docs/MANUSCRIPT_JCIM_'+lang+'.md')
     for pair,r in primary.items():
         lines=[line for line in manuscript.splitlines() if line.startswith('| '+pair+' |')]
-        t2=next(line for line in lines if len(line.split('|'))==7 and re.fullmatch(r'\s*\d+ / \d+ / \d+\s*',line.split('|')[2]) and '[' in line.split('|')[3])
+        t2=next(line for line in lines if len(line.split('|'))==7 and re.fullmatch(r'\s*\d+ / \d+ / \d+\s*',line.split('|')[2]) and (re.fullmatch(r'\s*0?\.\d+\s*',line.split('|')[3]) or '[' in line.split('|')[3]))
         cells=[x.strip() for x in t2.split('|')[1:-1]]
-        # Table 2 cells: n_scored, D/A [lo, hi], D/B [lo, hi], summary_min [lo, hi].
+        # Table 2 cells: n_scored, D/A, D/B, summary_min [lo, hi] (directional cells may also carry CIs).
         observed=[nums(cells[2])[0], nums(cells[3])[0]]+nums(cells[4])
         check(close(observed,[r['da'],r['db'],r['smin'],r['lo'],r['hi']]),lang+' Table 2 plotted AUROCs/CI '+pair)
         t3=next(line for line in lines if len(line.split('|'))==6 and '[' in line)

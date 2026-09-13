@@ -1,27 +1,25 @@
-# 中英文润色修改摘要（2026-09-12，nature-polishing 文字轮）
+# 中英文 SI 压缩摘要（2026-09-13）
 
-按仓库先前使用的 `Yuan1z0825/nature-skills`（`nature-polishing` + `nature-shared`）审英文稿。轴：`paper_type=research`，`section=whole manuscript`，`language=en`，`journal=generic`（JCIM）。未改冻结 AUROC，未改文章框架。
+正式投稿 SI 从 Tables S1–S14 / Figures S1–S5 压到 **Tables S1–S9 / Figures S1–S4**。从正式 SI 删除不等于从仓库删除。上一轮 PR37 的点估计方向性区间、类别分层 `summary_min` 敏感性 CSV、以及可执行分子身份规则均予保留；分层敏感性不再排成正式表。
 
-## 本轮文字修改
+## 判断
 
-1. **摘要破折号。** `pairs—dual...neither—` 改为括号，去掉 em dash。
-2. **术语账本。** 活性数据统一为 experimental measurements at both targets；both-end 仅保留给对接分数和 neither 类。
-3. **3.1 标题。** Both-end experimental supply → Paired experimental supply。
-4. **3.3。** 删除 matched or exceeded docking AUROC，与摘要/4.2 的 competing-explanation 对齐。
-5. **2.3。** Table S14 由三处压成一处；EGFR/HER2 长句拆开。
-6. **3.6。** 两句 “no pair” 合并为一句准入标准 + 一句未形成外部集。
-7. **4.1。** 一段拆成三段（机制、异质性、与 Zhou 的定位）；DUD-E- 连字符去掉。
-8. **4.3。** 删除 “particularly for homologous targets” 同义重复。
-9. **4.4/4.1。** the present study/analysis 统一为 this study。
-10. **4.5。** 去掉与 3.6 重复的 BindingDB/2018 复述；双 “main limitation” 开场合并。
+当前 SI 的主要问题不是“数字太多”，而是混入了历史对照、代码审计、post hoc 稳健性检查和重复证明。正式 SI 只保留四类问题：数据和 docking 怎么做；核心 fixed-channel 结果从哪里来；ligand chemistry / pocket correspondence 是否支持归因；主要结论对标签、样本和计算实现是否明显不稳定。
 
-中文稿做了对应修改。
+## 本轮结构
 
-## PR 37 language/data-alignment revision (2026-09-13)
+1. **S1** 计算设置与统计定义（压缩失败案例解释）。
+2. **S2** 受体、对接盒与统一 CalcRMS（删除历史 Hungarian S2b）。
+3. **S3** 标签/聚合敏感性（只展开组成变化的 EGFR/HER2、PIK3CA/mTOR）。
+4. **S4** 固定评分通道 + 两个最大 Δ 的骨架/文献簇重采样。
+5. **S5** 16 个 ECFP4 方向 + 每对最佳描述符（删除四描述符完整矩阵）。
+6. **S6** 对应/非对应口袋 + 未使用池留出（删除单向拆分表；增加 weaker-arm-switched）。
+7. **S7** 计算实现：受体替换 + 独立 GNINA + PPARG 重评分。
+8. **S8** 独立性过滤后的外部准入（删除原始供给清点）。
+9. **S9** 靶对审计（七个纳入对一句话概括；逐项列排除对和 EGFR/HER2 例外）。
 
-1. Table 2 now reports both directional AUROCs with pointwise bootstrap intervals; the descriptive summary_min interval remains the locked pooled estimate.
-2. Added the class-stratified summary_min sensitivity and its provenance table without replacing the primary bootstrap.
-3. Replaced vague “drug-like filter” wording with the executable molecular-identity, molecular-weight, heavy-atom, and metal-element rules, and separated manual scope decisions from executable filters.
-4. Defined cognate redocking top-1, top-3, and all-saved-pose RMSD; clarified that GNINA was a targeted sensitivity analysis.
-5. Added GroupKFold and logistic-regression settings, conditional best-descriptor wording, and operational external-gate wording.
-6. Reassembled both manuscripts and regenerated the checksum manifest and submission pack. Numeric audit: 114 PASS, 0 FAIL, 3 NOTE.
+## 从正式 SI 移出、留仓库
+
+S2b Hungarian RMSD；S4 dual-versus-all-nonduals 小表；S6b 单向拆分；S9c–S9e 五种子/固定成员表；S10 分层 bootstrap 与样本量情景；Figure S5 可检测效应模拟；S11a 原始供给清点；整个 S12 发表年份表；S13 操作点表。
+
+正文 Results 3.6 删除 2018 子集句，把 `not external validation` / `不作为外部验证` 留在 BindingDB 准入结论上。五种子结论改为一句正文 + 仓库 CSV。

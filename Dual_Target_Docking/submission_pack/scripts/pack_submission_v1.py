@@ -137,7 +137,6 @@ def main() -> None:
         "FigS2_pocket_matched_forest",
         "FigS3_protocol_sensitivity",
         "FigS4_cognate_rmsd",
-        "FigS6_detectable_effect",
         "MANUSCRIPT_FIGURE_CAPTIONS",
         "ARCHIVED_FIGURES",
         "plotted_values",
@@ -162,7 +161,7 @@ It is not a second copy of the docking pose workspaces.
 |---|---|
 | `manuscript/MANUSCRIPT_JCIM_EN.md` | English manuscript (assemble from section drafts; do not hand-edit the assembled file as the source of truth) |
 | `manuscript/MANUSCRIPT_JCIM_ZH.md` | Chinese working manuscript |
-| `manuscript/SUPPORTING_INFORMATION_JCIM_EN_V1.md` | English SI Tables S1–S14 |
+| `manuscript/SUPPORTING_INFORMATION_JCIM_EN_V1.md` | English SI Tables S1–S9 |
 | `manuscript/SUPPORTING_INFORMATION_DRAFT_ZH_JCIM_V1.md` | Chinese SI |
 | `manuscript/STATISTICAL_LOCK_V1.md` | Table 2 / Table 3 estimand lock |
 | `manuscript/FIGURE_PANEL_LOCK_V3.md` | Figure-to-CSV map |
