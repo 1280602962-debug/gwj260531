@@ -1,0 +1,77 @@
+{
+  "n_boot": 2000,
+  "base_seed": 20260729,
+  "environment": {
+    "python": "3.12.14",
+    "numpy": "2.5.3",
+    "rdkit": "2026.03.6"
+  },
+  "input_sha256": {
+    "data/ache_bche_panel_v0/tables/ablation_ligand_scores.csv": "27e52e4f9267eff00667da46961d4dbee6e6c73c5d925166901ffd4c0288cc91",
+    "data/egfr_her2_panel120_v0/tables/ablation_ligand_scores.csv": "7811958f89914f6201ce0a9c97aae4324fa88cc8c3b3414325670a153639fa3e",
+    "data/egfr_her2_panel120_v0/tables/panel_v0_120.csv": "49bf8a38af97bc74f0a53fd10f5287fea918ec6bddb2ead8800d4e912637202b",
+    "data/jcim_chembl_universe_v0/local_track_b_v0/tables/five_pair_local_channels_v1/table2_comparable_by_channel_v1.csv": "16c6965f3a9c133a1dc0dbde7665b1cd8ef58152fbe0a39c0e6324ab439ce65b",
+    "data/jcim_chembl_universe_v0/local_track_b_v0/tables/five_pair_stack_v1/table2_comparable_theta6_v1.csv": "16ce2448d52a26f01f9df5ae4d46aaa0269104393310363345d7e61afeb3fc63",
+    "data/jcim_chembl_universe_v0/local_track_b_v0/tables/scores_gnina_independent_jak1_tyk2_v1.csv": "bd428f3d198cefca7591c730e8f423d293e2dd28d92c87052cc8a2a13d3987a0",
+    "data/jcim_chembl_universe_v0/local_track_b_v0/tables/scores_vina_mode1_v1.csv": "1b2ab9a8722e53d5261bba0ba174da6022581d8d9ac7c1f2db89c2796a7bbf3a",
+    "data/jcim_chembl_universe_v0/scripts/analyze_five_pair_local_channels_v1.py": "69fc94177d1e86f18dde3a3f97e1c0f5da269ed1027f109d39d38100f6b72b9b",
+    "data/jcim_chembl_universe_v0/scripts/analyze_five_pair_stack_v1.py": "f1e37bf3b91d88df2449ac8f2f8e0427dacf57bd120ae86fe998a565c986ed4f",
+    "data/jcim_chembl_universe_v0/tables/track_b_panels/panel_F2_F10_v1.csv": "8ee5579998e0c0133d3a8b72285bc87cd07c74a5fd7d87408a2d617c6b8432f5",
+    "data/jcim_chembl_universe_v0/tables/track_b_panels/panel_JAK1_JAK2_v1.csv": "e9b795c7381995f09af2bbdd329e26bcef016f5aefab9f01ec67620047470fb1",
+    "data/jcim_chembl_universe_v0/tables/track_b_panels/panel_JAK1_TYK2_v1.csv": "f8803e4af63e934ca4447cec5a40c773004d65a53699ae2cd1221a771cdab42a",
+    "data/jcim_chembl_universe_v0/tables/track_b_panels/panel_PPARA_PPARD_v1.csv": "339048a5cc7c191bd7c30bc546bf2d361b929947ec3c3a1727b99e8b18611cac",
+    "data/jcim_chembl_universe_v0/tables/track_b_panels/panel_PPARG_PPARA_v1.csv": "c2bebfe3b1100999c33fd578bf4898055a10730110624cb01c411f889a112a1c",
+    "data/jcim_novelty_v0/scripts/review_statistics_sensitivity_v1.py": "d299685ed2a5d6a1cbe32445210afd551924b5f708bc9c33a674b26f7a4099e2",
+    "data/jcim_strengthen_t0t1_v0/scripts/build_t0_strengthen_v1.py": "2989680a0222eab8d961ac0b22373f4294c0937a581b50e0804769c102e563b8",
+    "data/jcim_strengthen_t0t1_v0/tables/unified_threshold_sensitivity_v2.csv": "8e0f3f49f63686b139dcaf4387ef5977c3a0ee90e5bffa86d9f784c3eee3aeef",
+    "data/pik3ca_mtor_panel48_rdkit_v0/tables/ablation_ligand_scores.csv": "d1e2b96c93001f72becb37dc44133d592a8e11958c3a04073cb7db98f4fbb128",
+    "data/pik3ca_mtor_panel48_rdkit_v0/tables/panel_v0_48.csv": "592c9cc5123bdbdfe7e4550956e14b8ddb237051eac1ac528af530e1732c7158"
+  },
+  "checks": [
+    {
+      "check": "canonical_point_count_and_summary_CI_replay",
+      "pair": "EGFR/HER2",
+      "status": "PASS"
+    },
+    {
+      "check": "canonical_point_count_and_summary_CI_replay",
+      "pair": "JAK1/JAK2",
+      "status": "PASS"
+    },
+    {
+      "check": "canonical_point_count_and_summary_CI_replay",
+      "pair": "JAK1/TYK2",
+      "status": "PASS"
+    },
+    {
+      "check": "canonical_point_count_and_summary_CI_replay",
+      "pair": "PIK3CA/mTOR",
+      "status": "PASS"
+    },
+    {
+      "check": "canonical_point_count_and_summary_CI_replay",
+      "pair": "AChE/BChE",
+      "status": "PASS"
+    },
+    {
+      "check": "canonical_point_count_and_summary_CI_replay",
+      "pair": "F2/F10",
+      "status": "PASS"
+    },
+    {
+      "check": "canonical_point_count_and_summary_CI_replay",
+      "pair": "PPARG/PPARA",
+      "status": "PASS"
+    },
+    {
+      "check": "canonical_point_count_and_summary_CI_replay",
+      "pair": "PPARA/PPARD",
+      "status": "PASS"
+    },
+    {
+      "check": "GNINA_JAK1_TYK2_summary_CI_is_joint_minimum",
+      "status": "PASS"
+    }
+  ],
+  "interpretation": "Pointwise percentile intervals; no multiplicity correction. Stratified bootstrap is a revision sensitivity analysis."
+}

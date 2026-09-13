@@ -64,6 +64,12 @@ TABLES = [
     "data/jcim_j0j1_v0/tables/j0_strict_label_supply.csv",
     "data/jcim_chembl_universe_v0/tables/track_b_panel_summary_v1.csv",
     "data/jcim_chembl_universe_v0/tables/pair_eligibility_audit_s14_v1.csv",
+    "data/jcim_novelty_v0/tables/primary_directional_intervals_review_v1.csv",
+    "data/jcim_novelty_v0/tables/summary_min_stratified_sensitivity_review_v1.csv",
+    "data/jcim_novelty_v0/tables/gnina_jak_interval_provenance_review_v1.csv",
+    "data/jcim_novelty_v0/tables/operating_point_examples_review_v1.csv",
+    "data/jcim_novelty_v0/tables/review_scored_membership_v1.csv",
+    "data/jcim_novelty_v0/tables/review_statistics_provenance_v1.json",
 ]
 
 SCRIPTS = [
@@ -83,6 +89,7 @@ SCRIPTS = [
     "data/jcim_chembl_universe_v0/scripts/multiseed_fixed_membership_v1.py",
     "data/jcim_chembl_universe_v0/scripts/pocket_unidirectional_delta_v1.py",
     "data/jcim_bench_v0/scripts/jcim_figure_style.py",
+    "data/jcim_novelty_v0/scripts/review_statistics_sensitivity_v1.py",
 ]
 
 

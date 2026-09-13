@@ -126,3 +126,7 @@ Canonical source: `data/jcim_novelty_v0/tables/leave_cognate_out_v1.csv`
 - Adding MCL1/Bcl-xL or PIK3CA/PIK3CB to Table 2
 - Switching Table 2 CIs to pocket_matched or PRIMARY_METRIC without a new statistical freeze
 - Treating the eight pairs as eight independent replicates
+
+## Revision addendum for PR 37
+
+The locked pooled, non-stratified bootstrap remains the source of the Table 2 summary_min intervals. For this revision, the same pooled replicates were also used to report pointwise 95% intervals for both directional AUROCs; these intervals are descriptive and are not multiplicity-adjusted. The class-stratified summary_min analysis in summary_min_stratified_sensitivity_review_v1.csv is a post hoc sensitivity check and does not replace the locked intervals. GNINA provenance and operating-point examples are recorded in the review tables under data/jcim_novelty_v0/tables/.

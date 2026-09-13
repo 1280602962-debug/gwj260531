@@ -75,6 +75,13 @@ WATCH = [
     "data/jcim_novelty_v0/scripts/leave_cognate_out_v1.py",
     "data/manuscript_lock/ARTICLE_ASSET_INDEX_v1.csv",
     "docs/MANUSCRIPT_LOCK_INVENTORY_V1.md",
+    "data/jcim_novelty_v0/scripts/review_statistics_sensitivity_v1.py",
+    "data/jcim_novelty_v0/tables/primary_directional_intervals_review_v1.csv",
+    "data/jcim_novelty_v0/tables/summary_min_stratified_sensitivity_review_v1.csv",
+    "data/jcim_novelty_v0/tables/gnina_jak_interval_provenance_review_v1.csv",
+    "data/jcim_novelty_v0/tables/operating_point_examples_review_v1.csv",
+    "data/jcim_novelty_v0/tables/review_scored_membership_v1.csv",
+    "data/jcim_novelty_v0/tables/review_statistics_provenance_v1.json",
 ]
 
 

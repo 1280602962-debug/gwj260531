@@ -20,8 +20,7 @@
 | Ligand prep | Desalt (largest organic) → AddHs → ETKDGv3 (seed 20260727) → MMFF ≤200 → Meeko PDBQT |
 | Panel / holdout seeds | 20260729 / 20260731 |
 | Vina production seed | 20260727; five-seed adds 20260811–20260814 |
-| Exhaustiveness | PIK3CA/mTOR = 16; all other primary panels and holdouts = 8 |
-| Bootstrap | B = 2000. Table 2 `summary_min` uses ligand-level non-stratified percentile intervals; dual-versus-neither and Dual vs all non-duals use class-stratified percentile intervals; matched-minus-mismatched uses paired bootstrap |
+| Bootstrap | B = 2000. Table 2 reports pointwise directional and replicate-wise summary_min intervals from the locked ligand-level non-stratified percentile bootstrap; a class-stratified summary_min sensitivity is reported in Table S10. Dual-versus-neither and Dual vs all non-duals use class-stratified percentile intervals; matched-minus-mismatched uses paired bootstrap |
 | Box | Cognate AABB + 5 Å; minimum edge 20 Å |
 | Cognate gate | lowest heavy-atom RMSD among all saved poses < 2.0 Å (search coverage, not top-1 ranking) |
 
@@ -314,7 +313,7 @@ Source: `pocket_matched_PM48_alt4JPS_v1.csv`, `..._alt5DXT_v1.csv`, `..._alt4JSX
 
 ## Table S9. Independent GNINA, alternative rescoring, and five-seed Vina
 
-Independent GNINA searches new poses; it is not a Vina rescore. Scope is EGFR/HER2, PIK3CA/mTOR, and JAK1/TYK2. RTMScore / GNINA CNN rescore all saved Vina poses. Five-seed results do not replace Table 2. Independent GNINA did not return both-end scores for every ligand (EGFR/HER2 EH120_109; PIK3CA/mTOR PM48_19; JAK1/TYK2 one dual and three B-only). EGFR/HER2 dual-versus-neither therefore uses n_neither = 11 versus 12 in the primary Vina Table 3. EGFR/HER2 and PIK3CA/mTOR independent-GNINA `summary_min` rows have empty CI columns in the source file; intervals below are labeled on the corresponding single arm and are not min-of-two bootstrap intervals.
+Independent GNINA searches new poses; it is not a Vina rescore. Scope is EGFR/HER2, PIK3CA/mTOR, and JAK1/TYK2. RTMScore / GNINA CNN rescore all saved Vina poses. Five-seed results do not replace Table 2. Independent GNINA did not return both-end scores for every ligand (EGFR/HER2 EH120_109; PIK3CA/mTOR PM48_19; JAK1/TYK2 one dual and three B-only). EGFR/HER2 dual-versus-neither therefore uses n_neither = 11 versus 12 in the primary Vina Table 3. EGFR/HER2 and PIK3CA/mTOR independent-GNINA `summary_min` rows have empty CI columns in the source file; intervals below are labeled on the corresponding single arm and are not min-of-two bootstrap intervals. For JAK1/TYK2, the weaker arm is dual-versus-B-only, so its single-arm interval happens to equal the reported summary_min interval.
 
 **S9a. Independent GNINA pose generation**
 
@@ -383,7 +382,22 @@ The EGFR/HER2 task difference was positive on all five Vina seeds. Source: `inde
 
 Document-cluster bootstrap is reported only on pairs with complete `document_id` coverage. It does not replace Table 2 ligand-level intervals. PIK3CA/mTOR Dual versus B-only is not stably estimable under document-blocked CV.
 
-Table 2 uses a pooled, non-stratified ligand-level bootstrap because \(\mathrm{summary}_{\min}\) is a joint function of both directional arms. Class counts can therefore change across replicates. Dual-versus-neither intervals remain class-stratified. A class-stratified alternative for \(\mathrm{summary}_{\min}\) was not recomputed for this revision; the pooled interval is kept as a descriptive weaker-arm interval, not as an ordinary independent AUROC interval.
+Table 2 uses a pooled, non-stratified ligand-level bootstrap. Class counts can therefore change across replicates. A supplementary class-stratified bootstrap preserved the observed class sizes and reused the same dual draw in both directional arms; it is reported below as a sensitivity analysis and does not replace the locked intervals. Dual-versus-neither intervals remain class-stratified.
+
+**Class-stratified \(\mathrm{summary}_{\min}\) sensitivity.** The point estimate is unchanged; each interval is calculated from 2000 class-preserving replicates with a shared dual resample.
+
+| Pair | summary_min | stratified 95% CI |
+|------|------------:|------------------:|
+| EGFR/HER2 | 0.430 | [0.285, 0.570] |
+| JAK1/JAK2 | 0.588 | [0.442, 0.721] |
+| JAK1/TYK2 | 0.365 | [0.231, 0.504] |
+| PIK3CA/mTOR | 0.692 | [0.472, 0.798] |
+| AChE/BChE | 0.606 | [0.442, 0.730] |
+| F2/F10 | 0.345 | [0.214, 0.474] |
+| PPARG/PPARA | 0.649 | [0.503, 0.754] |
+| PPARA/PPARD | 0.446 | [0.305, 0.585] |
+
+Source: summary_min_stratified_sensitivity_review_v1.csv. This post hoc sensitivity uses the same score inputs and class labels as Table 2.
 
 | Pair | Contrast | Ligand-level point | Document-cluster 95% CI | n_document groups |
 |------|------|------------:|---------------|---------:|

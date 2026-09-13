@@ -16,3 +16,12 @@
 10. **4.5。** 去掉与 3.6 重复的 BindingDB/2018 复述；双 “main limitation” 开场合并。
 
 中文稿做了对应修改。
+
+## PR 37 language/data-alignment revision (2026-09-13)
+
+1. Table 2 now reports both directional AUROCs with pointwise bootstrap intervals; the descriptive summary_min interval remains the locked pooled estimate.
+2. Added the class-stratified summary_min sensitivity and its provenance table without replacing the primary bootstrap.
+3. Replaced vague “drug-like filter” wording with the executable molecular-identity, molecular-weight, heavy-atom, and metal-element rules, and separated manual scope decisions from executable filters.
+4. Defined cognate redocking top-1, top-3, and all-saved-pose RMSD; clarified that GNINA was a targeted sensitivity analysis.
+5. Added GroupKFold and logistic-regression settings, conditional best-descriptor wording, and operational external-gate wording.
+6. Reassembled both manuscripts and regenerated the checksum manifest and submission pack. Numeric audit: 114 PASS, 0 FAIL, 3 NOTE.

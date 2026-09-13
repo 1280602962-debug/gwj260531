@@ -382,6 +382,8 @@ F2/F10、JAK1/TYK2、JAK1/JAK2、PPARG/PPARA 和 PPARA/PPARD 的五种子 \(\mat
 
 ## Table S10. 文献簇不确定度与样本量情景模拟
 
+**\(\mathrm{summary}_{\min}\) 的类别分层敏感性。** 补充分析保持 dual、A-only 和 B-only 的观察样本量，并在两个方向共用同一次 dual 抽样。八个靶对的区间为：EGFR/HER2 [0.285, 0.570]、JAK1/JAK2 [0.442, 0.721]、JAK1/TYK2 [0.231, 0.504]、PIK3CA/mTOR [0.472, 0.798]、AChE/BChE [0.442, 0.730]、F2/F10 [0.214, 0.474]、PPARG/PPARA [0.503, 0.754] 和 PPARA/PPARD [0.305, 0.585]。这些区间来自 2000 次重采样，仅作为敏感性分析，不替换 Table 2 的合并池区间。源：summary_min_stratified_sensitivity_review_v1.csv。
+
 文献簇 bootstrap 只在具有完整 `document_id` 的评价集上报告，不替代 Table 2 的配体层区间。PIK3CA/mTOR Dual versus B-only 在文献阻断交叉验证中不能稳定估计。
 
 | 靶对 | 对比 | 配体层点估计 | 文献簇 95% CI | 文献组数 |

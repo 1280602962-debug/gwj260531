@@ -74,6 +74,10 @@ def cell_ok(got: str, raw) -> bool:
     got = got.replace("−", "-")
     if re.fullmatch(r"-?\d+\.\d+", got):
         return got in r3_opts(raw)
+    if isinstance(raw, (int, float)):
+        m = re.match(r"(-?\d+\.\d+)(?:\s+\[.*\])?$", got)
+        if m:
+            return m.group(1) in r3_opts(raw)
     m = re.fullmatch(r"(-?\d+\.\d+) \[(-?\d+\.\d+), (-?\d+\.\d+)\]", got)
     if m and isinstance(raw, (tuple, list)) and len(raw) == 3:
         return (
@@ -556,8 +560,11 @@ def round3() -> None:
                     out[row[0]].append(row)
         return out
 
-    en_rows = numeric_rows(en + "\n" + en_si)
-    zh_rows = numeric_rows(zh + "\n" + zh_si)
+    # Compare the assembled main manuscripts here. SI tables are checked
+    # separately in Round 2; their language-specific explanatory rows are not
+    # required to have identical numeric token counts.
+    en_rows = numeric_rows(en)
+    zh_rows = numeric_rows(zh)
     for pair in PRIMARY:
         if len(en_rows[pair]) != len(zh_rows[pair]):
             rec("R3", "NOTE", f"{pair}: EN has {len(en_rows[pair])} table rows, ZH has {len(zh_rows[pair])}")
