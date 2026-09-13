@@ -19,4 +19,4 @@
 
 ## 投稿冻结
 
-2026-09-13 在本分支运行 `python3 scripts/audit/freeze_submission_v1.py`，随后打 annotated tag `dualfourclass-jcim-pr37-freeze-20260913`。冻结后默认不再改数据或正式稿数字。本提交只补原生产姿态文件，不改分数或主表数字。
+2026-09-13 数字冻结 tag：`dualfourclass-jcim-pr37-freeze-20260913`。其后补入原生产姿态。本轮只重跑 `python3 scripts/audit/freeze_submission_v1.py`，使 checksum、five-round 与 `submission_pack/` 与当前 docs 一致。不改分数或主表数字。

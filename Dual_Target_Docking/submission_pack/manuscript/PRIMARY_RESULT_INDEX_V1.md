@@ -30,6 +30,6 @@
 | BindingDB / PubChem | Results 3.6；Table S8 | Figure 6C,D | `external_slice_summary_v1.csv` | 独立性过滤脚本 | 所用过滤规则与准入门槛 | 未形成外部评价集。不能写成客观上不存在外部数据。原始供给清点留仓库。 |
 | 可检测效应模拟 | 仓库归档，不进入正式 SI | `FigS6_detectable_effect` | `detectable_effect_simulation_v1.csv` | 独立情景模拟脚本 | 原三对类别样本量 | 与 Table 2 非分层 bootstrap 不同。真实 AUROC=0.50 时存在覆盖问题。不能证明主结果只是 n 不足。 |
 | 共晶重对接 QC | Methods 2.4.4；Results 3.4；Table S2 | Figure S4 | `all14_cognate_rmsd_calcrrms_v1.csv` | `reaudit_all14_cognate_rmsd_calcrrms_v1.py`（不重对接） | 保存姿态；统一化学对应 CalcRMS | 14/14 最低保存姿态 < 2 Å。8 姿态体系不是 best-of-9。EGFR 3POZ 为重建 QC。匈牙利匹配不再作为正式 RMSD。 |
-| 数据可用性 | 数据与软件可用性 | — | 分数长表、回放表、checksum | `build_checksum_manifest_v1.py` | git 已提交文件 | 共晶姿态在仓库；五对生产姿态不在 git。checksum ≠ 原始文件。未签发 DOI。 |
+| 数据可用性 | 数据与软件可用性 | — | 分数长表、回放表、checksum、五对生产姿态 | `build_checksum_manifest_v1.py` | git 已提交文件 | 共晶姿态与五对生产姿态均在仓库（`local_track_b_v0/poses/`）。checksum 覆盖 `mode_01`。未签发 DOI。 |
 
 本轮未开展高可比性确认、新对接、新种子、新评分模型、新外部集或新模拟。
