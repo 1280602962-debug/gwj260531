@@ -136,6 +136,10 @@ SCRIPTS = [
         "Dump-gated max-versus-median footnote for F2/F10, JAK, and PPAR pairs (Table S3).",
     ),
     (
+        "data/jcim_chembl_universe_v0/scripts/analyze_eight_pair_dump_gated_v1.py",
+        "ChEMBL 37 dump join, max-versus-median, and leftover counts for all eight Table 2 pairs (Table S3).",
+    ),
+    (
         "data/jcim_chembl_universe_v0/scripts/chembl_exhaustive_pair_census_v1.py",
         "ChEMBL pair-census summary plotted in Figure 1.",
     ),
