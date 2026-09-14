@@ -21,6 +21,7 @@ Do not upload assemble / audit / validate / checksum / freeze / pack helpers.
 | `assay_aggregation_max_vs_median_v1.py` | `data/jcim_novelty_v0/scripts/assay_aggregation_max_vs_median_v1.py` | API max-versus-median label sensitivity for EGFR/HER2, AChE/BChE, and PIK3CA/mTOR (Table S3). |
 | `high_confidence_label_rebuild_v1.py` | `data/jcim_novelty_v0/scripts/high_confidence_label_rebuild_v1.py` | High-confidence field screen for EGFR/HER2, AChE/BChE, and PIK3CA/mTOR (Table S3). |
 | `analyze_five_pair_dump_gated_v1.py` | `data/jcim_chembl_universe_v0/scripts/analyze_five_pair_dump_gated_v1.py` | Dump-gated max-versus-median footnote for F2/F10, JAK, and PPAR pairs (Table S3). |
+| `analyze_eight_pair_dump_gated_v1.py` | `data/jcim_chembl_universe_v0/scripts/analyze_eight_pair_dump_gated_v1.py` | ChEMBL 37 dump join, max-versus-median, and leftover counts for all eight Table 2 pairs (Table S3). |
 | `chembl_exhaustive_pair_census_v1.py` | `data/jcim_chembl_universe_v0/scripts/chembl_exhaustive_pair_census_v1.py` | ChEMBL pair-census summary plotted in Figure 1. |
 | `ecfp4_docking_scaler_sensitivity_v1.py` | `data/jcim_novelty_v0/scripts/ecfp4_docking_scaler_sensitivity_v1.py` | Table S5 StandardScaler sensitivity on the same GroupKFold splits. |
 | `reaudit_all14_cognate_rmsd_calcrrms_v1.py` | `data/jcim_novelty_v0/scripts/reaudit_all14_cognate_rmsd_calcrrms_v1.py` | Unified 14-receptor chemically mapped CalcRMS for Table S2 / Figure S4. Does not redock. |

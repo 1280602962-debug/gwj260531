@@ -101,7 +101,7 @@
 
 **高置信人源 SINGLE PROTEIN 视图（同日 API 快照；不替代 Table 2）：** 自动数据库字段筛查，不是逐篇阅读原文。该快照上 253/253 个已评分配体与四状态标签一致，方向性 AUROC 不变。该视图覆盖 EGFR/HER2、AChE/BChE 与 PIK3CA/mTOR，未覆盖全部八对。源：`high_confidence_summary_v1.csv`。
 
-**五对转储最大值/中位数（ChEMBL 37 转储；冻结 Vina 分数；不替代 Table 2）：** 不是同日 API 快照。仅 PPARA/PPARD 有 1 个类别翻转（CHEMBL121；A-only 32→31）。该对 dual–A-only AUROC 由 0.646 变为 0.636；`summary_min` 点估计仍为 0.446。其余四对保持类别组成和 `summary_min` 点估计。源：`five_pair_dump_gated_v1/max_vs_median_auroc_v1.csv`。
+**八对转储最大值/中位数（ChEMBL 37 转储；冻结 Vina 分数；不替代 Table 2）：** 八个生产评价集使用同一 STANDARD_OK 收获和容差 0.015。转储最大 pChEMBL 与生产表在全部已评分配体上一致（缺失端 0；不一致 0）。转储最大值的 `summary_min` 点估计与 Table 2 三位小数一致。最大值到中位数的类别翻转：EGFR/HER2 6/110（`summary_min` 0.430 → 0.424）；AChE/BChE 1/95（CHEMBL659；0.606 → 0.629）；PPARA/PPARD 1/110（CHEMBL121；A-only 32→31；dual–A-only 0.646 → 0.636；`summary_min` 仍为 0.446）。PIK3CA/mTOR 与其余四对保持类别组成和 `summary_min` 点估计。该转储对接不是 2026-08-26 的 API 快照。源：`eight_pair_dump_gated_v1/max_vs_median_auroc_v1.csv`；`eight_pair_dump_gated_v1/parity_v1.csv`。
 
 ---
 

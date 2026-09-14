@@ -70,6 +70,9 @@ TABLES = [
     "data/jcim_novelty_v0/tables/operating_point_examples_review_v1.csv",
     "data/jcim_novelty_v0/tables/review_scored_membership_v1.csv",
     "data/jcim_novelty_v0/tables/review_statistics_provenance_v1.json",
+    "data/jcim_chembl_universe_v0/local_track_b_v0/tables/eight_pair_dump_gated_v1/max_vs_median_auroc_v1.csv",
+    "data/jcim_chembl_universe_v0/local_track_b_v0/tables/eight_pair_dump_gated_v1/parity_v1.csv",
+    "data/jcim_chembl_universe_v0/local_track_b_v0/tables/eight_pair_dump_gated_v1/run_checks_v1.json",
 ]
 
 # Experiment scripts only. Run them from Dual_Target_Docking/, not this flattened folder.
