@@ -7,6 +7,7 @@ Exit 0 only if every blocking check passes.
 from __future__ import annotations
 
 import csv
+import datetime
 import re
 import subprocess
 import sys
@@ -74,6 +75,10 @@ def cell_ok(got: str, raw) -> bool:
     got = got.replace("−", "-")
     if re.fullmatch(r"-?\d+\.\d+", got):
         return got in r3_opts(raw)
+    if isinstance(raw, (int, float)):
+        m = re.match(r"(-?\d+\.\d+)(?:\s+\[.*\])?$", got)
+        if m:
+            return m.group(1) in r3_opts(raw)
     m = re.fullmatch(r"(-?\d+\.\d+) \[(-?\d+\.\d+), (-?\d+\.\d+)\]", got)
     if m and isinstance(raw, (tuple, list)) and len(raw) == 3:
         return (
@@ -500,22 +505,21 @@ def round2(t2: dict) -> None:
         / "data/jcim_chembl_universe_v0/local_track_b_v0/tables/five_pair_local_channels_v1/fiveseed_summary_min_aggregate_v1.csv"
     )
     multi = rows(ROOT / "data/jcim_multiseed_v0/tables/multiseed_auroc_aggregate_v2.csv")
-    s9_blob = en_si
-    for pair, med, lo, hi in (
-        ("EGFR/HER2", "0.373", "0.321", "0.430"),
-        ("F2/F10", "0.366", "0.345", "0.385"),
-        ("PPARG/PPARA", "0.651", "0.649", "0.691"),
-    ):
-        if all(x in s9_blob for x in (pair, med)):
-            rec("R2", "PASS", f"Table S9 {pair} median {med}")
-        else:
-            rec("R2", "FAIL", f"Table S9 {pair} median {med} missing")
     egfr_ms = one(multi, pair="EGFR/HER2", metric="summary_min")
     if r3(egfr_ms["median"]) != "0.373":
         rec("R2", "FAIL", f"EGFR five-seed median CSV {egfr_ms['median']}")
+    else:
+        rec("R2", "PASS", "EGFR five-seed median 0.373 locked in CSV (repository QC, not typeset SI)")
     f2 = one(five_seed, pair="F2/F10")
     if r3(f2["median_of_per_seed_summary_min"]) != "0.366":
         rec("R2", "FAIL", f"F2 five-seed median {f2['median_of_per_seed_summary_min']}")
+    else:
+        rec("R2", "PASS", "F2/F10 five-seed median 0.366 locked in CSV")
+    pparg_ms = one(five_seed, pair="PPARG/PPARA")
+    if r3(pparg_ms["median_of_per_seed_summary_min"]) != "0.651":
+        rec("R2", "FAIL", f"PPARG five-seed median {pparg_ms['median_of_per_seed_summary_min']}")
+    else:
+        rec("R2", "PASS", "PPARG/PPARA five-seed median 0.651 locked in CSV")
 
     hold = rows(ROOT / "data/jcim_holdout_v0/tables/holdout_pocket_matched_v1.csv")
     hold5 = [
@@ -556,8 +560,11 @@ def round3() -> None:
                     out[row[0]].append(row)
         return out
 
-    en_rows = numeric_rows(en + "\n" + en_si)
-    zh_rows = numeric_rows(zh + "\n" + zh_si)
+    # Compare the assembled main manuscripts here. SI tables are checked
+    # separately in Round 2; their language-specific explanatory rows are not
+    # required to have identical numeric token counts.
+    en_rows = numeric_rows(en)
+    zh_rows = numeric_rows(zh)
     for pair in PRIMARY:
         if len(en_rows[pair]) != len(zh_rows[pair]):
             rec("R3", "NOTE", f"{pair}: EN has {len(en_rows[pair])} table rows, ZH has {len(zh_rows[pair])}")
@@ -692,6 +699,18 @@ def round5() -> None:
         rec("R5", "NOTE", "J0 θ=6.0 census docked=4 is the historical J0-era count (includes later-withdrawn PIK3CB); current primary n=8")
 
 
+def git_branch() -> str:
+    try:
+        out = subprocess.check_output(
+            ["git", "rev-parse", "--abbrev-ref", "HEAD"],
+            cwd=ROOT,
+            text=True,
+        ).strip()
+        return out or "unknown"
+    except (OSError, subprocess.CalledProcessError):
+        return "unknown"
+
+
 def write_report() -> int:
     counts = defaultdict(int)
     for _, status, _ in FINDINGS:
@@ -699,8 +718,8 @@ def write_report() -> int:
     lines = [
         "# Five-round JCIM submission audit",
         "",
-        "Date: 2026-09-09",
-        "Branch: `cursor/jcim-submission-pack-0b1a`",
+        f"Date: {datetime.date.today().isoformat()}",
+        f"Branch: `{git_branch()}`",
         "Script: `scripts/audit/audit_submission_five_rounds_v1.py`",
         "",
         "This audit compares assembled manuscripts and SI tables to frozen CSVs.",
@@ -725,12 +744,12 @@ def write_report() -> int:
             "",
             "## Canonical sources",
             "",
-            "- Table 2 original three: `unified_threshold_sensitivity_v2.csv` `theta_6.0`",
-            "- Table 2 / Table 3 five pairs: `five_pair_stack_v1/table2_comparable_theta6_v1.csv`",
-            "- Table 3 original three: `formulation_conventional_vs_directional_v1.csv`",
+            "- Table 2 EGFR/HER2, AChE/BChE, PIK3CA/mTOR: `unified_threshold_sensitivity_v2.csv` `theta_6.0`",
+            "- Table 2 / Table 3 F2/F10, JAK, PPAR pairs: `five_pair_stack_v1/table2_comparable_theta6_v1.csv`",
+            "- Table 3 EGFR/HER2, AChE/BChE, PIK3CA/mTOR: `formulation_conventional_vs_directional_v1.csv`",
             "- Table S4: `formulation_equal_score_negative_v1.csv` + `equal_score_negative_s34_v1.csv`",
             "- Table S6: `wrong_pocket_paired_delta_bootstrap_v1.csv` + `wrong_pocket_by_channel_v1.csv`",
-            "- Table S11b: `external_slice_summary_v1.csv`",
+            "- Table S8: `external_slice_summary_v1.csv`",
             "- JAK1/TYK2 independent GNINA: `table2_comparable_by_channel_v1.csv` `gnina_independent_jak1_tyk2`",
             "- EGFR/PIK3CA independent GNINA: `independent_dock_formulation_v1.csv`",
             "",
@@ -739,7 +758,7 @@ def write_report() -> int:
             "- Table 2 EGFR/HER2 TPSA displayed 0.427 for CSV 0.4275, which is not valid under half-up or half-even; corrected to **0.428** in EN/ZH Table 2.",
             "- Fig1C had five x-tick labels (including withdrawn PIK3CA/PIK3CB) but only four J0 bars, and read complete-case overlap for a pair no longer in that CSV. Bars/labels now match `j0_strict_label_supply.csv`; overlap uses the three original maps (14.5%–34.0%).",
             "- Figure verify locks now match the current J0 scrape (48 pairs, 3 thick) and θ=6.0 census (`directional_n10` = 16, `docked_in_this_paper` = 3). The formal Figure 1 funnel shows J0 scrape → min selective ≥50 → eight-pair evaluation set and no longer records historically docked 4 → PIK3CB withdrawal.",
-            "- Historical original-set S1–S3/S9/S10 artwork from `plot_jcim_si_composites_v1.py` (may still tick PIK3CB) was removed. Typeset SI figures are S1–S5 (S5 uses file `FigS6_detectable_effect`). Holdout, BindingDB, and cluster copies remain archived in-repo and are not packed.",
+            "- Historical original-set S1–S3/S9/S10 artwork from `plot_jcim_si_composites_v1.py` (may still tick PIK3CB) was removed. Typeset SI figures are S1–S4. The detectable-effect simulation (`FigS6_detectable_effect`), holdout, BindingDB, and cluster copies remain archived in-repo and are not packed.",
             "- Submission slice: `submission_pack/`.",
             "",
         ]

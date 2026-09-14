@@ -1,0 +1,15 @@
+protein,pdb,cognate,exhaustiveness,n_modes,cohort,pose_status,hungarian_top1_A,hungarian_best_A,calcrrms_top1_A,calcrrms_top3_A,calcrrms_best_A,calcrrms_best_mode,pass_best_lt2,pass_top1_lt2,pass_top3_lt2,mapping_method,mapping_max_distance_A
+AChE,4EY7,E20,8,8,original_six,original_production_qc,0.339,0.339,0.339,0.339,0.339,1,1,1,1,Meeko topology + RDKit CalcRMS; no superposition,0.0
+BChE,4BDS,THA,8,9,original_six,original_production_qc,0.474,0.386,4.794,0.386,0.386,3,1,0,1,SDF graph + element-constrained map + CalcRMS,0.0
+EGFR,3POZ,03P,8,9,original_six,reconstructed_qc,7.78,0.68,9.505,6.227,0.76,7,1,0,0,Meeko topology + RDKit CalcRMS; no superposition,0.0
+HER2,3RCD,03P,8,9,original_six,original_production_qc,1.729,1.113,1.855,1.394,1.394,3,1,1,1,Meeko topology + RDKit CalcRMS; no superposition,0.0
+PIK3CA,4L23,X6K,16,9,original_six,original_production_qc,0.624,0.624,0.624,0.624,0.624,1,1,1,1,Meeko pose vs CCD/SMILES + bond-aware crystal coords + graph automorphism CalcRMS,
+mTOR,4JT6,X6K,16,9,original_six,original_production_qc,1.648,0.445,7.118,0.445,0.445,3,1,0,1,Meeko pose vs CCD/SMILES + bond-aware crystal coords + graph automorphism CalcRMS,
+F2,4UDW,N6L,8,9,added_eight,original_production_qc,0.382,0.382,0.382,0.382,0.382,1,1,1,1,Meeko topology + RDKit CalcRMS; no superposition,0.0
+F10,2JKH,BI7,8,9,added_eight,original_production_qc,0.658,0.658,0.658,0.658,0.658,1,1,1,1,CCD SMILES + bond-aware crystal coords + CalcRMS,0.0
+JAK1,6N7A,KEV,8,9,added_eight,original_production_qc,0.459,0.459,0.459,0.459,0.459,1,1,1,1,Meeko topology + RDKit CalcRMS; no superposition,0.0
+TYK2,3LXP,IZA,8,8,added_eight,original_production_qc,0.196,0.196,0.196,0.196,0.196,1,1,1,1,Meeko topology + RDKit CalcRMS; no superposition,0.0
+JAK2,8BXH,C87,8,9,added_eight,original_production_qc,4.064,0.807,10.596,0.807,0.807,2,1,0,1,Meeko topology + RDKit CalcRMS; no superposition,0.0
+PPARG,9V8H,BRL,8,9,added_eight,original_production_qc,6.493,1.459,7.085,1.636,1.636,2,1,0,1,Meeko topology + RDKit CalcRMS; no superposition,0.0
+PPARA,6LXA,EPA,8,9,added_eight,original_production_qc,7.508,1.098,7.857,7.848,1.401,5,1,0,0,Meeko topology + RDKit CalcRMS; no superposition,0.0
+PPARD,5U3Q,7UJ,8,9,added_eight,original_production_qc,1.452,1.452,1.51,1.51,1.51,1,1,1,1,Meeko topology + RDKit CalcRMS; no superposition,0.0

@@ -1,7 +1,7 @@
 # Five-round JCIM submission audit
 
-Date: 2026-09-09
-Branch: `cursor/jcim-submission-pack-0b1a`
+Date: 2026-09-14
+Branch: `cursor/jcim-language-polish-0b1a`
 Script: `scripts/audit/audit_submission_five_rounds_v1.py`
 
 This audit compares assembled manuscripts and SI tables to frozen CSVs.
@@ -90,9 +90,9 @@ Summary: **114 PASS**, **0 FAIL**, **3 NOTE**.
 | R2 | PASS | EGFR GNINA Dual-vs-neither n_neither = 11 stated in SI |
 | R2 | PASS | JAK1/TYK2 independent GNINA 0.317 / 0.705 |
 | R2 | PASS | JAK1 GNINA CI [0.183, 0.463] |
-| R2 | PASS | Table S9 EGFR/HER2 median 0.373 |
-| R2 | PASS | Table S9 F2/F10 median 0.366 |
-| R2 | PASS | Table S9 PPARG/PPARA median 0.651 |
+| R2 | PASS | EGFR five-seed median 0.373 locked in CSV (repository QC, not typeset SI) |
+| R2 | PASS | F2/F10 five-seed median 0.366 locked in CSV |
+| R2 | PASS | PPARG/PPARA five-seed median 0.651 locked in CSV |
 | R2 | PASS | AChE holdout summary_min 0.618 |
 | R2 | PASS | PPARG holdout 0.535 [0.350, 0.717] from table2_comparable_by_channel |
 | R3 | PASS | EGFR/HER2 EN/ZH table-number sets match |
@@ -137,12 +137,12 @@ Assembled EN/ZH manuscripts must not list PIK3CA/PIK3CB as a primary pair.
 
 ## Canonical sources
 
-- Table 2 original three: `unified_threshold_sensitivity_v2.csv` `theta_6.0`
-- Table 2 / Table 3 five pairs: `five_pair_stack_v1/table2_comparable_theta6_v1.csv`
-- Table 3 original three: `formulation_conventional_vs_directional_v1.csv`
+- Table 2 EGFR/HER2, AChE/BChE, PIK3CA/mTOR: `unified_threshold_sensitivity_v2.csv` `theta_6.0`
+- Table 2 / Table 3 F2/F10, JAK, PPAR pairs: `five_pair_stack_v1/table2_comparable_theta6_v1.csv`
+- Table 3 EGFR/HER2, AChE/BChE, PIK3CA/mTOR: `formulation_conventional_vs_directional_v1.csv`
 - Table S4: `formulation_equal_score_negative_v1.csv` + `equal_score_negative_s34_v1.csv`
 - Table S6: `wrong_pocket_paired_delta_bootstrap_v1.csv` + `wrong_pocket_by_channel_v1.csv`
-- Table S11b: `external_slice_summary_v1.csv`
+- Table S8: `external_slice_summary_v1.csv`
 - JAK1/TYK2 independent GNINA: `table2_comparable_by_channel_v1.csv` `gnina_independent_jak1_tyk2`
 - EGFR/PIK3CA independent GNINA: `independent_dock_formulation_v1.csv`
 
@@ -151,6 +151,6 @@ Assembled EN/ZH manuscripts must not list PIK3CA/PIK3CB as a primary pair.
 - Table 2 EGFR/HER2 TPSA displayed 0.427 for CSV 0.4275, which is not valid under half-up or half-even; corrected to **0.428** in EN/ZH Table 2.
 - Fig1C had five x-tick labels (including withdrawn PIK3CA/PIK3CB) but only four J0 bars, and read complete-case overlap for a pair no longer in that CSV. Bars/labels now match `j0_strict_label_supply.csv`; overlap uses the three original maps (14.5%–34.0%).
 - Figure verify locks now match the current J0 scrape (48 pairs, 3 thick) and θ=6.0 census (`directional_n10` = 16, `docked_in_this_paper` = 3). The formal Figure 1 funnel shows J0 scrape → min selective ≥50 → eight-pair evaluation set and no longer records historically docked 4 → PIK3CB withdrawal.
-- Historical original-set S1–S3/S9/S10 artwork from `plot_jcim_si_composites_v1.py` (may still tick PIK3CB) was removed. Typeset SI figures are S1–S5 (S5 uses file `FigS6_detectable_effect`). Holdout, BindingDB, and cluster copies remain archived in-repo and are not packed.
+- Historical original-set S1–S3/S9/S10 artwork from `plot_jcim_si_composites_v1.py` (may still tick PIK3CB) was removed. Typeset SI figures are S1–S4. The detectable-effect simulation (`FigS6_detectable_effect`), holdout, BindingDB, and cluster copies remain archived in-repo and are not packed.
 - Submission slice: `submission_pack/`.
 

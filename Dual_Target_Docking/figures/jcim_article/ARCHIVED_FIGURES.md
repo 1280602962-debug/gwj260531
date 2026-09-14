@@ -4,7 +4,8 @@ These files remain in the repository as historical copies. They are **not** type
 
 | Stem | Current article role |
 |---|---|
-| `FigS5_unused_pool_holdout` | Duplicates Figure 4B; current Figure S5 is `FigS6_detectable_effect` |
+| `FigS5_unused_pool_holdout` | Duplicates Figure 4B |
+| `FigS6_detectable_effect` | Sample-size / detectable-effect simulation; removed from the typeset SI |
 | `FigS7_bindingdb_native_slice` | Duplicates Figure 6C,D |
 | `FigS8_cluster_uncertainty` | Duplicates Figure 6B |
 

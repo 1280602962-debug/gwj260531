@@ -1,6 +1,6 @@
 # Figure asset notes (repository, not manuscript captions)
 
-JCIM panel letters match `figures/jcim_article/`. Every plotted number is read from the frozen CSVs named in `docs/FIGURE_PANEL_LOCK_V3.md`.
+JCIM panel letters match `figures/jcim_article/`. Artwork uses ACS Arial (embedded TrueType). Every plotted number is read from the frozen CSVs named in `docs/FIGURE_PANEL_LOCK_V3.md`.
 
 ## Provenance
 

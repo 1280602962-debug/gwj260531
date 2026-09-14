@@ -1,8 +1,10 @@
 # Statistical lock (submission)
 
 Date: 2026-09-09  
-Branch: `cursor/jcim-results-revision-0b1a`  
-This page replaces the earlier K=4 lock. PIK3CA/PIK3CB is withdrawn and is not a Table 2 row.
+Estimand freeze branch: `cursor/jcim-results-revision-0b1a`  
+Current working branch: `cursor/jcim-language-polish-0b1a` (PR #37)  
+This page replaces the earlier K=4 lock. PIK3CA/PIK3CB is withdrawn and is not a Table 2 row.  
+Numeric locks below are unchanged. Only provenance and SI numbering follow the current branch.
 
 This page is the only manuscript-facing definition of primary estimands.  
 `PRIMARY_METRIC_V2.md` is a dated 2026-07-29 snapshot and is not Table 2.
@@ -84,7 +86,7 @@ Five-pair Dual-versus-neither points: 0.5188 / 0.7696 / 0.7299 / 0.6853 / 0.5647
 
 `mean(\mathrm{AUC}_A, \mathrm{AUC}_B)` is **not** Table 3.
 
-## BindingDB remainder (Table S11b)
+## BindingDB remainder (Table S8)
 
 Canonical eight-pair source: `data/jcim_novelty_v0/tables/external_slice_summary_v1.csv`.  
 No pair was packaged as an external evaluation set.
@@ -96,7 +98,7 @@ Historical REST counts: `bindingdb_independence_summary_v1.csv`.
 ## Multi-seed
 
 Same estimands as Table 2 and Table 3. Report median / IQR / range across five frozen Vina seeds  
-(20260727 primary, reused, plus 20260811–20260814). Typeset SI cites this as Table S9; the former working number was Table S54.
+(20260727 primary, reused, plus 20260811–20260814). Five-seed tables remain repository QC and are not a typeset SI table; the former working number was Table S54.
 
 Canonical sources:
 
@@ -126,3 +128,7 @@ Canonical source: `data/jcim_novelty_v0/tables/leave_cognate_out_v1.csv`
 - Adding MCL1/Bcl-xL or PIK3CA/PIK3CB to Table 2
 - Switching Table 2 CIs to pocket_matched or PRIMARY_METRIC without a new statistical freeze
 - Treating the eight pairs as eight independent replicates
+
+## Revision addendum for PR 37
+
+The locked pooled, non-stratified bootstrap remains the source of the Table 2 summary_min intervals. For this revision, the same pooled replicates were also used to report pointwise 95% intervals for both directional AUROCs; these intervals are descriptive and are not multiplicity-adjusted. The class-stratified summary_min analysis in summary_min_stratified_sensitivity_review_v1.csv is a post hoc sensitivity check and does not replace the locked intervals. GNINA provenance and operating-point examples are recorded in the review tables under data/jcim_novelty_v0/tables/.
