@@ -1,5 +1,9 @@
 # 中英文 SI 压缩摘要（2026-09-13）
 
+## 2026-09-14 Methods/Results docking–VS spine
+
+Methods 2 and Results 3 were rewritten so dual-target docking and virtual-screening evaluation are the connecting line: two-pocket ranking, directional hard-negative controls, conventional dual-versus-neither ranking, ligand-only ranking, pocket correspondence, docking implementation, and the absence of an external docking set. Publication-year subset language was removed from Methods 2.1. Independent GNINA now reports all three pairs. Table 3 is labeled as the conventional two-pocket ranking, distinct from Table S4.
+
 ## 2026-09-14 ChEMBL 37 统一
 
 正文、方法、讨论和正式 SI 不再区分 2026-07-23 REST 收获与 ChEMBL 37 转储。八对已评分配体的最大 pChEMBL 与本地 ChEMBL 37 一致（0 missing / 0 mismatch）。敏感性只保留同一套 ChEMBL 37 记录上的最大值/中位数重标（Table S3）。2026-08-26 API 快照和三对高置信字段筛查改为仓库归档，不排版。
