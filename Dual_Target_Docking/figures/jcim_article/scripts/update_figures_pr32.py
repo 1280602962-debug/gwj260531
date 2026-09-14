@@ -114,7 +114,7 @@ def draw_census_and_primary(ax, census):
     names = ['≥1 ligand measured at both targets',
              '≥10 ligands measured at both targets',
              'Dual, A-only and B-only each ≥10 (θ=6.0)',
-             'Strict bidirectional supply criterion (6.5/5.5)']
+             'strict 6.5/5.5 supply rule']
     tops = [.875, .735, .595, .455]
     h = .100
     for i, (k, txt, yc) in enumerate(zip(keys, names, tops)):
@@ -160,7 +160,7 @@ def fig1(D):
         ax.add_patch(FancyBboxPatch((.04, y - .10), .92, .20, boxstyle='round,pad=.02', fc='white', ec=col, lw=1))
         ax.text(.10, y, left, ha='left', va='center', fontsize=7.2, fontweight='bold')
         ax.text(.90, y, right, ha='right', va='center', fontsize=7.2, color=col)
-    ax.text(.5, .12, r'summary$_{\mathrm{min}}=\min(\mathrm{AUC}_{D/A},\mathrm{AUC}_{D/B})$',
+    ax.text(.5, .12, r'summary$_{\mathrm{min}}=\min(\mathrm{AUROC}_{D/A},\mathrm{AUROC}_{D/B})$',
             ha='center', fontsize=7.0)
     ax.set_title('Directional evaluation', fontsize=8)
 
@@ -182,7 +182,7 @@ def fig1_c_data(D):
 
 
 def fig2(D):
-    fig, axs = plt.subplots(3, 1, figsize=(7, 7.55), gridspec_kw={'height_ratios': [1.12, 1.00, 1.10]})
+    fig, axs = plt.subplots(3, 1, figsize=(7, 7.15), gridspec_kw={'height_ratios': [1.12, 1.00, 1.10]})
     for ax, letter in zip(axs, 'ABC'):
         label(ax, letter)
         pair_yticks(ax, fontsize=7)
@@ -205,10 +205,9 @@ def fig2(D):
                 axs[0].text(hi + 0.018, y, f'{dlt:.3f}', va='center', fontsize=6.4, color=col)
     axs[0].axvline(0, color=C['chance'], ls='--', lw=.8)
     axs[0].set(xlim=(-.58, .78), xlabel=r'$\Delta$AUROC (Dual–neither $-$ Dual–selective)')
-    axs[0].set_title('Fixed score channel; experimental-state comparison', fontsize=8, pad=4)
     axs[0].legend(handles=[
-        L(C['vina'], 'o', 'Target B score: A-only → neither', ms=4.4),
-        L(C['a_only'], 's', 'Target A score: B-only → neither', ms=4.2),
+        L(C['vina'], 'o', 'B score, A-only → neither', ms=4.4),
+        L(C['a_only'], 's', 'A score, B-only → neither', ms=4.2),
     ], loc='upper center', bbox_to_anchor=(.5, -.22), ncol=2, fontsize=6.2)
 
     # B — directional dumbbell (was panel A)
@@ -219,7 +218,6 @@ def fig2(D):
         axs[1].plot(r['db'], i, 's', color=C['a_only'], ms=4.1, zorder=4)
     axs[1].axvline(.5, color=C['chance'], ls='--', lw=.8)
     axs[1].set(xlim=(0.18, 1.02), xlabel='AUROC')
-    axs[1].set_title('Pocket-matched directional tasks', fontsize=8, pad=4)
     axs[1].legend(handles=[
         L(C['vina'], 'o', 'Dual vs A-only, target B', ms=4.4),
         L(C['a_only'], 's', 'Dual vs B-only, target A', ms=4.2),
@@ -233,10 +231,9 @@ def fig2(D):
         dotci(axs[2], r['nei'], r['nei_lo'], r['nei_hi'], i + .16, C['desc'], nei_m)
     axs[2].axvline(.5, color=C['chance'], ls='--', lw=.8)
     axs[2].set(xlim=(0.08, 1.05), xlabel='AUROC')
-    axs[2].set_title('Descriptive two-pocket comparison', fontsize=8, pad=4)
     axs[2].legend(handles=[
-        L(C['vina'], 'o', 'Directional ' + SMIN, ms=4.4),
-        L(C['desc'], 's', 'Dual vs neither, mean score', ms=4.2),
+        L(C['vina'], 'o', SMIN, ms=4.4),
+        L(C['desc'], 's', 'Dual vs neither, mean Vina', ms=4.2),
         L(C['desc'], 'D', 'neither n=4', ms=4.2),
     ], loc='upper center', bbox_to_anchor=(.5, -.22), ncol=3, fontsize=6.1)
 
@@ -247,13 +244,13 @@ def fig2(D):
             'fixed_B': equal_src(D, p)[(p, 'D_vs_A_or_neither_pocketB')],
         } for p in PAIRS
     }
-    fig.subplots_adjust(left=.19, right=.97, top=.955, bottom=.088, hspace=.78)
+    fig.subplots_adjust(left=.19, right=.97, top=.96, bottom=.088, hspace=.72)
     save(fig, 'Fig2_negative_class_formulation')
 
 
 def fig3(D):
-    fig = plt.figure(figsize=(7, 6.55))
-    gs = fig.add_gridspec(2, 2, height_ratios=[1.18, 1.00], hspace=.42, wspace=.32)
+    fig = plt.figure(figsize=(7, 6.20))
+    gs = fig.add_gridspec(2, 2, height_ratios=[1.18, 1.00], hspace=.38, wspace=.32)
     ax = fig.add_subplot(gs[0, :])
     label(ax, 'A', x=-0.08, y=1.08)
     # Color = method (Vina blue, ECFP4 orange); shape = direction (circle D/A, square D/B).
@@ -273,7 +270,6 @@ def fig3(D):
     ax.set_yticks(range(len(PAIRS)), PAIRS, fontsize=6.5)
     ax.set_ylim(7.55, -1.85)
     ax.set_xlabel('AUROC'); ax.set_xlim(.20, 1.05)
-    ax.set_title('Vina rank AUROC and ECFP4 scaffold GroupKFold', fontsize=8, pad=6)
     ax.legend(handles=[
         L(C['vina'], 'o', 'Vina D/A', ms=5.2),
         L(C['vina'], 's', 'Vina D/B', ms=4.8),
@@ -300,7 +296,6 @@ def fig3(D):
     ax.invert_yaxis()
     ax.set_xlabel(r'$\Delta$AUROC (ECFP4+Vina − ECFP4)')
     ax.set_xlim(-0.03, 0.03)
-    ax.set_title('ECFP4 + Vina versus ECFP4', fontsize=8, pad=3)
     ax.legend(handles=[
         L(ink, 'o', 'D/A', ms=4.4),
         L(ink, 's', 'D/B', ms=4.2),
@@ -325,15 +320,14 @@ def fig3(D):
         ax.plot([i, i], [q1, q3], color=C['ink'], lw=1.0, zorder=4)
     ax.set_xticks([1, 2, 3], [f'dual\nn={ns[0]}', f'A-only\nn={ns[1]}', f'B-only\nn={ns[2]}'], fontsize=6.2)
     ax.set_ylabel(r'TPSA ($\mathrm{\AA}^2$)')
-    ax.set_title('Illustrative TPSA separation in AChE/BChE', fontsize=8, pad=3)
     P['fig3C'] = {'n': ns, 'mean': [float(np.mean(d)) for d in data], 'median': [float(np.median(d)) for d in data]}
-    fig.subplots_adjust(left=.16, right=.98, top=.90, bottom=.09)
+    fig.subplots_adjust(left=.16, right=.98, top=.92, bottom=.09)
     save(fig, 'Fig3_ligand_chemistry')
 
 
 def fig4(D):
-    fig = plt.figure(figsize=(7, 6.55))
-    gs = fig.add_gridspec(2, 2, height_ratios=[1.22, 1.18], hspace=.58, wspace=.34)
+    fig = plt.figure(figsize=(7, 6.20))
+    gs = fig.add_gridspec(2, 2, height_ratios=[1.22, 1.18], hspace=.52, wspace=.34)
     ax = fig.add_subplot(gs[0, 0]); label(ax, 'A', x=-0.18, y=1.06)
     vina_smin, vina_nei, g_smin, g_nei = [], [], [], []
     yy = np.arange(len(v.GNINA_INDEP_PAIRS))
@@ -352,11 +346,10 @@ def fig4(D):
     ax.set_yticks(yy, v.GNINA_INDEP_PAIRS, fontsize=6.5)
     ax.invert_yaxis()
     ax.set_xlabel('AUROC'); ax.set_xlim(.12, .95)
-    ax.set_title('Independent pose generation', fontsize=8, pad=3)
     ax.legend(handles=[
         L(C['vina'], 'o', 'Vina', ms=5.0),
         L(C['vina'], 's', 'GNINA', ms=4.8, mfc='white', mec=C['vina']),
-        L(C['vina'], 'o', 'directional', ms=5.0),
+        L(C['vina'], 'o', SMIN, ms=5.0),
         L(C['desc'], 'o', 'Dual vs neither', ms=5.0),
     ], loc='upper center', bbox_to_anchor=(0.5, -0.22), ncol=2, fontsize=6.0, frameon=False,
        columnspacing=.8, labelspacing=.28, handletextpad=.35)
@@ -368,13 +361,13 @@ def fig4(D):
 
     ax = fig.add_subplot(gs[0, 1]); label(ax, 'B', x=-0.18, y=1.06)
     items = [
-        ('Primary\n4L23 / 4JT6', v.primary_row(D, 'PIK3CA/mTOR')['smin'],
+        ('4L23 / 4JT6', v.primary_row(D, 'PIK3CA/mTOR')['smin'],
          v.primary_row(D, 'PIK3CA/mTOR')['lo'], v.primary_row(D, 'PIK3CA/mTOR')['hi'], C['vina'], 'primary'),
-        ('PIK3CA\n4JPS', float(D['jps']['summary_min']), float(D['jps']['summary_min_ci_lo']),
+        ('4JPS', float(D['jps']['summary_min']), float(D['jps']['summary_min_ci_lo']),
          float(D['jps']['summary_min_ci_hi']), C['a_only'], 'PIK3CA swapped'),
-        ('PIK3CA\n5DXT', float(D['dxt']['summary_min']), float(D['dxt']['summary_min_ci_lo']),
+        ('5DXT', float(D['dxt']['summary_min']), float(D['dxt']['summary_min_ci_lo']),
          float(D['dxt']['summary_min_ci_hi']), C['a_only'], 'PIK3CA swapped'),
-        ('mTOR\n4JSX', float(D['jsx']['summary_min']), float(D['jsx']['summary_min_ci_lo']),
+        ('4JSX', float(D['jsx']['summary_min']), float(D['jsx']['summary_min_ci_lo']),
          float(D['jsx']['summary_min_ci_hi']), C['holdout'], 'mTOR swapped'),
     ]
     fig4b = []
@@ -385,9 +378,8 @@ def fig4(D):
     ax.axhline(.5, color=C['chance'], ls='--', lw=.85)
     ax.set_xticks(range(4), [n for n, *_ in items], fontsize=6.5)
     ax.set_ylabel(SMIN); ax.set_ylim(.12, 1.02); ax.set_xlim(-.55, 3.45)
-    ax.set_title('PIK3CA/mTOR receptor structures', fontsize=8, pad=3)
     ax.legend(handles=[
-        L(C['vina'], 'o', 'Primary (4L23 / 4JT6)', ms=5.2),
+        L(C['vina'], 'o', 'Primary', ms=5.2),
         L(C['a_only'], 'o', 'PIK3CA substituted', ms=5.2),
         L(C['holdout'], 'o', 'mTOR substituted', ms=5.2),
     ], loc='upper center', bbox_to_anchor=(0.5, -0.22), ncol=1, fontsize=6.0, frameon=False,
@@ -406,10 +398,9 @@ def fig4(D):
     pair_yticks(ax, fontsize=6.5)
     ax.set_xlabel(SMIN + ' across five Vina seeds')
     ax.set_xlim(.22, .82)
-    ax.set_title('Five Vina seeds (8 pairs × 5 seeds)', fontsize=8, pad=3)
     ax.legend(handles=[
-        Line2D([], [], color=C['vina'], ls='-', lw=1.4, marker='', label='five-seed range'),
-        L(C['vina'], 'o', 'median of five seeds', ms=5.0),
+        Line2D([], [], color=C['vina'], ls='-', lw=1.4, marker='', label='range'),
+        L(C['vina'], 'o', 'median', ms=5.0),
         L(C['desc'], 'D', 'primary seed', ms=4.6),
     ], loc='upper center', bbox_to_anchor=(.5, -.18), ncol=3, fontsize=6.2)
     P['fig4C'] = plotted_s
@@ -418,7 +409,7 @@ def fig4(D):
 
 
 def fig5(D):
-    fig, axs = plt.subplots(2, 1, figsize=(7, 7.20))
+    fig, axs = plt.subplots(2, 1, figsize=(7, 6.80))
     ax = axs[0]; label(ax, 'A'); pair_yticks(ax, fontsize=7, egfr_note=True)
     recs_a, recs_b = [], []
     for i, p in enumerate(PAIRS):
@@ -434,7 +425,6 @@ def fig5(D):
     ax.axvline(0, color=C['chance'], ls='--', lw=.85)
     ax.set_xlim(-.28, .40)
     ax.set_xlabel(r'$\Delta$' + SMIN + ' (matched − mismatched)')
-    ax.set_title('Pocket correspondence on main panels and holdouts', fontsize=8, pad=4)
     ax.legend(handles=[
         L(C['main'], 'o', 'main', ms=4.6),
         L(C['holdout'], 's', 'holdout', ms=4.4),
@@ -457,14 +447,13 @@ def fig5(D):
     ax.axvline(.5, color=C['chance'], ls='--', lw=.85)
     ax.set_xlim(.10, 1.02)
     ax.set_xlabel(SMIN)
-    ax.set_title('Main versus unused-pool holdout ' + SMIN, fontsize=8, pad=4)
     ax.legend(handles=[
         L(C['main'], 'o', 'main', ms=4.6),
         L(C['holdout'], 's', 'holdout', ms=4.4),
     ], loc='upper center', bbox_to_anchor=(.5, -.20), ncol=2, fontsize=6.3)
     P['fig5C'] = recs_c
     fig.text(.57, .018, r'$\dagger$ no unused-pool holdout available', ha='center', fontsize=6.4, color='#555555')
-    fig.subplots_adjust(left=.20, right=.97, top=.95, bottom=.14, hspace=.58)
+    fig.subplots_adjust(left=.20, right=.97, top=.96, bottom=.14, hspace=.50)
     save(fig, 'Fig4_mismatched_pocket')
 
 
@@ -500,7 +489,7 @@ def counts_heatmap(ax, rows, columns, title, gate):
 
 
 def fig6(D):
-    fig = plt.figure(figsize=(7, 7.45))
+    fig = plt.figure(figsize=(7, 7.10))
     gs = fig.add_gridspec(2, 2, hspace=.38, wspace=.36)
     ax = fig.add_subplot(gs[0, 0]); label(ax, 'A', x=-0.18, y=1.04)
     rules = ['theta_5.5', 'theta_6.0', 'theta_6.5', 'strict_6.5_5.5']
@@ -514,7 +503,6 @@ def fig6(D):
                     color='white' if mat[i, j] < .35 or mat[i, j] > .67 else C['ink'])
     ax.set_yticks(range(8), PAIRS, fontsize=6.5)
     ax.set_xticks(range(4), ['θ=5.5', 'θ=6.0', 'θ=6.5', 'strict\n6.5/5.5'], fontsize=6.1)
-    ax.set_title('Activity definitions', fontsize=8)
     cb = fig.colorbar(im, ax=ax, orientation='horizontal', fraction=.045, pad=.10)
     cb.set_label(SMIN, fontsize=7)
     P['fig6A'] = mat.tolist()
@@ -548,17 +536,16 @@ def fig6(D):
             tick.set_fontsize(7.0)
     ax.set_ylim(len(ylabels) - .4, -.6)
     ax.set(xlim=(-.12, .78), xlabel=r'$\Delta$AUROC, target A score')
-    ax.set_title('Cluster-resampling sensitivity\nof fixed-score differences', fontsize=7.4)
     P['fig6B'] = {f'{p}|{k}': rec for (p, k), rec in plotted.items()}
     P['figS11'] = clusters  # same table; SI figure still generated
 
     rows = [next(r for r in D['native'] if r['pair'] == p) for p in PAIRS]
     ax = fig.add_subplot(gs[1, 0]); label(ax, 'C', x=-0.18, y=1.04)
     P['fig6C'] = counts_heatmap(ax, rows, ['n_dual', 'n_A_only', 'n_B_only'],
-                                'BindingDB compounds (gate: n ≥ 20 / class)', 20)
+                                'BindingDB compounds\n(color saturates at 20)', 20)
     ax = fig.add_subplot(gs[1, 1]); label(ax, 'D', x=-0.18, y=1.04)
     P['fig6D'] = counts_heatmap(ax, rows, ['n_sources_dual', 'n_sources_A_only', 'n_sources_B_only'],
-                                'BindingDB sources (gate: ≥ 3 / class)', 3)
+                                'BindingDB sources\n(color saturates at 3)', 3)
     fig.text(.57, .02, '0/8 pairs met the full external-evaluation gate.',
              ha='center', fontsize=6.5)
     fig.subplots_adjust(left=.16, right=.98, top=.94, bottom=.08)
@@ -578,9 +565,6 @@ def fig_s1_protocol(D):
     ax.axhline(.5, color=C['chance'], ls='--', lw=.7)
     ax.set_xticks([0, 1], ['PM48\n(primary)', 'PM110'], fontsize=6.4)
     ax.set(xlim=(-.35, 1.35), ylim=(.45, .82), ylabel=SMIN)
-    ax.set_title('PIK3CA/mTOR panel size', fontsize=8)
-    ax.legend(handles=[L(C['vina'], 'o', 'PM48 (n=48)', ms=5.4), L(C['holdout'], 's', 'PM110 (n=110)', ms=5.2)],
-              loc='lower right', fontsize=5.8)
     ax = axs[1]; label(ax, 'B', x=-0.18, y=1.08)
     ax.plot([0, 1], [e16, e8], '-', color=C['vina'], lw=1.0)
     ax.plot(0, e16, 'o', color=C['vina'], ms=6)
@@ -588,13 +572,10 @@ def fig_s1_protocol(D):
     ax.axhline(.5, color=C['chance'], ls='--', lw=.7)
     ax.set_xticks([0, 1], ['E = 16', 'E = 8'], fontsize=7)
     ax.set(xlim=(-.35, 1.35), ylim=(.45, .82), ylabel=SMIN)
-    ax.set_title('Search exhaustiveness', fontsize=8)
-    ax.legend(handles=[L(C['vina'], 'o', 'E = 16', ms=5.4), L(C['gnina'], 's', 'E = 8', ms=5.2)],
-              loc='lower right', fontsize=6.0)
     P['figS1'] = {'PM48': y48, 'PM110': y110, 'E16': e16, 'E8': e8}
     # Former main-text keys retained for any downstream numeric lock.
     P['fig6B_protocol'] = {'PM48': y48, 'PM110': y110}
-    fig.subplots_adjust(left=.10, right=.98, wspace=.38, top=.82, bottom=.18)
+    fig.subplots_adjust(left=.10, right=.98, wspace=.38, top=.88, bottom=.18)
     save(fig, 'FigS3_protocol_sensitivity')
 
 
@@ -655,7 +636,6 @@ def fig_s12_cognate():
     ax.set_ylim(len(rows) - .35, -.65)
     ax.set_xlabel(r'Heavy-atom RMSD ($\mathrm{\AA}$)')
     ax.set_xlim(-0.12, 4.35)
-    ax.set_title('Cognate redocking of the 14 primary receptors', fontsize=8, pad=4)
     ax.legend(handles=[
         L(C['vina'], 'o', 'top-1', ms=4.8),
         L(C['a_only'], 'D', 'lowest saved-pose RMSD', ms=4.4),
@@ -670,30 +650,29 @@ def toc_graphic():
     fig = plt.figure(figsize=(3.25, 1.75), dpi=300)
     ax = fig.add_axes([0.02, 0.06, 0.96, 0.88])
     ax.set_xlim(0, 32); ax.set_ylim(0, 16); ax.axis('off')
-    ax.text(5.2, 14.7, 'Four states', ha='center', fontsize=6.4, fontweight='bold')
+    ax.text(5.2, 14.7, 'Four states', ha='center', fontsize=8.0, fontweight='bold')
     cells = [(1.15, 7.6, 'dual', C['dual']), (5.55, 7.6, 'A-only', C['a_only']),
              (1.15, 3.15, 'B-only', C['b_only']), (5.55, 3.15, 'neither', C['neither'])]
     for x, y, name, col in cells:
         ax.add_patch(Rectangle((x, y), 4.15, 3.7, fc=col, alpha=.22, ec=col, lw=.5))
-        ax.text(x + 2.07, y + 1.85, name, ha='center', va='center', fontsize=5.8)
-    ax.text(5.2, 1.35, r'B $\geq\theta$          B $<\theta$', ha='center', fontsize=5.2, color='#555555')
+        ax.text(x + 2.07, y + 1.85, name, ha='center', va='center', fontsize=7.0)
+    ax.text(5.2, 1.35, r'B $\geq\theta$          B $<\theta$', ha='center', fontsize=6.5, color='#555555')
     ax.text(11.0, 8.4, '→', ha='center', va='center', fontsize=11, color='#888888')
-    ax.text(17.4, 14.7, 'Same docking results', ha='center', fontsize=6.4, fontweight='bold')
+    ax.text(17.4, 14.7, 'Same docking', ha='center', fontsize=8.0, fontweight='bold')
     ax.add_patch(FancyBboxPatch((11.7, 8.55), 11.4, 4.55, boxstyle='round,pad=0.06,rounding_size=0.18',
                                 fc='#F7F7F7', ec=C['vina'], lw=.7))
-    ax.text(17.4, 11.85, 'dual — A-only  |  score B', ha='center', fontsize=5.8)
-    ax.text(17.4, 10.05, 'dual — B-only  |  score A', ha='center', fontsize=5.8)
+    ax.text(17.4, 11.85, 'dual — A-only  |  score B', ha='center', fontsize=6.5)
+    ax.text(17.4, 10.05, 'dual — B-only  |  score A', ha='center', fontsize=6.5)
     ax.add_patch(FancyBboxPatch((11.7, 3.15), 11.4, 4.55, boxstyle='round,pad=0.06,rounding_size=0.18',
                                 fc='#F7F7F7', ec=C['desc'], lw=.7))
-    ax.text(17.4, 5.45, 'dual — neither', ha='center', fontsize=5.8)
+    ax.text(17.4, 5.45, 'dual — neither', ha='center', fontsize=6.5)
     ax.text(23.2, 8.4, '→', ha='center', va='center', fontsize=11, color='#888888')
-    ax.text(27.7, 14.7, 'Interpretation', ha='center', fontsize=6.4, fontweight='bold')
+    ax.text(27.7, 14.7, 'Controls', ha='center', fontsize=8.0, fontweight='bold')
     ax.add_patch(FancyBboxPatch((23.7, 3.15), 7.9, 9.95, boxstyle='round,pad=0.06,rounding_size=0.18',
                                 fc='#F4F7FA', ec='#CCCCCC', lw=.7))
-    ax.text(27.65, 10.55, 'ligand-only', ha='center', fontsize=6.0, fontweight='bold')
-    ax.text(27.65, 8.55, 'control', ha='center', fontsize=6.0)
-    ax.text(27.65, 6.15, 'pocket', ha='center', fontsize=6.0, fontweight='bold')
-    ax.text(27.65, 4.25, 'correspondence', ha='center', fontsize=6.0)
+    ax.text(27.65, 10.15, 'ligand-only', ha='center', fontsize=6.5, fontweight='bold')
+    ax.text(27.65, 6.05, 'pocket', ha='center', fontsize=6.5, fontweight='bold')
+    ax.text(27.65, 4.55, 'correspondence', ha='center', fontsize=6.5)
     save(fig, 'TOC_graphic', toc=True)
 
 
@@ -712,7 +691,6 @@ def supplements(D):
     ax.set_xticks(range(len(grid)), [f'{g:.2f}' for g in grid])
     ax.set_xlabel('True AUROC on both directional arms')
     fig.colorbar(im, ax=ax).set_label('P(95% CI excludes 0.5)')
-    ax.set_title('Detectable-effect simulation: available class-size results', fontsize=8)
     fig.subplots_adjust(left=.18, right=.95, bottom=.23, top=.85)
     P['figS6'] = sim
     save(fig, 'FigS6_detectable_effect')
@@ -738,12 +716,7 @@ def supplements(D):
         ax.set(xlim=(-.12, .75), ylim=(2.5, -.5), xlabel=r'$\Delta$AUROC, target A score')
         ax.set_yticks(range(3), ['Ligand', 'Scaffold cluster', 'Document cluster'], fontsize=6.5)
         ax.set_title(p, fontsize=8)
-        ax.legend(handles=[
-            L(C['vina'], 'o', 'ligand', ms=4.4),
-            L(C['desc'], 's', 'scaffold', ms=4.2),
-            L(C['a_only'], 'D', 'document', ms=4.2),
-        ], loc='upper center', bbox_to_anchor=(.5, -.28), ncol=3, fontsize=5.6)
-    fig.subplots_adjust(left=.18, right=.97, wspace=.55, top=.83, bottom=.28)
+    fig.subplots_adjust(left=.18, right=.97, wspace=.55, top=.83, bottom=.18)
     P['figS11'] = clusters
     save(fig, 'FigS8_cluster_uncertainty')
     top = next(r for r in read('data/jcim_novelty_v0/tables/mixed_library_enrichment_v1.csv')
@@ -753,9 +726,9 @@ def supplements(D):
     fig, axs = plt.subplots(1, 2, figsize=(7, 2.9))
     for ax, vals, title, letter in [
         (axs[0], [int(top[k]) for k in ['n_dual_top', 'n_A_only_top', 'n_B_only_top', 'n_neither_top']],
-         'Top-10 by mean Vina score (library n=110)', 'A'),
+         'Top-10, mean Vina (n=110)', 'A'),
         (axs[1], [int(filt[k]) for k in ['n_dual_pass', 'n_A_only_pass', 'n_B_only_pass']],
-         'Dual-median AND filter (library n=98)', 'B'),
+         'AND filter (n=98)', 'B'),
     ]:
         label(ax, letter)
         names = ['Dual', 'A-only', 'B-only', 'Neither'][:len(vals)]
@@ -780,6 +753,7 @@ def main():
     SOURCE = args.source_root.resolve()
     style.OUT = OUT
     style.apply_style()
+    assert style.FONT == 'Arial' and style.ARIAL_PATH is not None
     v.ROOT = SOURCE
     v.DATA = SOURCE / 'data'
     v.OUT = OUT

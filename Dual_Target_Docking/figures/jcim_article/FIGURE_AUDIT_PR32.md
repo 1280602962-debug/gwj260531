@@ -1,7 +1,7 @@
 # PR32 figure numerical audit
 
 Pinned numerical-data snapshot: `abb61a20a04eb6a085ad526876624eadb518c4cc`
-Artwork generated from git HEAD: `43ab9c0186553540dffff52db1b5ec7206404f58`
+Artwork generated from git HEAD: `81c3235fa10368409c00647cd171b9aa1dd0b188`
 
 142 PASS / 0 FAIL
 

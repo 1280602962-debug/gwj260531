@@ -1,4 +1,4 @@
-"""Shared JCIM Article figure style (Liberation Sans ≈ Arial/Helvetica).
+"""Shared JCIM Article figure style (ACS Arial).
 
 ACS/JCIM artwork: double-column figures ≤ 7.00 in wide, ≤ 9.167 in deep;
 color 300 dpi; RGB TIFF/PNG; PDF with embedded TrueType (fonttype 42).
@@ -17,9 +17,16 @@ ROOT = Path(__file__).resolve().parents[3]
 OUT = ROOT / "figures" / "jcim_article"
 OUT.mkdir(parents=True, exist_ok=True)
 
-# ACS/JCIM: sans-serif, embed TrueType in PDF
-FONT_CANDIDATES = ("Arial", "Liberation Sans", "DejaVu Sans")
-FONT = "DejaVu Sans"
+# ACS/JCIM prefers Arial or Helvetica. Artwork is generated in Arial.
+FONT = "Arial"
+ARIAL_PATH: Path | None = None
+ARIAL_REGULAR_NAMES = ("Arial.ttf", "arial.ttf", "Arial.TTF")
+ARIAL_FAMILY_FILES = (
+    ("Arial.ttf", "arial.ttf", "Arial.TTF"),
+    ("Arial-Bold.ttf", "arialbd.ttf", "Arialbd.TTF", "Arialbd.ttf"),
+    ("Arial-Italic.ttf", "ariali.ttf", "Ariali.TTF", "Ariali.ttf"),
+    ("Arial-BoldItalic.ttf", "arialbi.ttf", "Arialbi.TTF", "Arialbi.ttf"),
+)
 FS_PANEL = 10
 FS_AXIS = 8
 FS_TICK = 7
@@ -97,32 +104,65 @@ DESC_LABEL = {
 }
 
 
-def apply_style() -> None:
-    global FONT
-    # Arial is the preferred ACS face on Windows.  Register it explicitly when
-    # available because headless Matplotlib installations do not always scan
-    # the Windows font directory.  Liberation Sans is the portable substitute.
-    win_arial = Path(r"C:\Windows\Fonts\arial.ttf")
-    if win_arial.exists():
-        try:
-            fontManager.addfont(str(win_arial))
-        except OSError:
-            pass
-    for candidate in FONT_CANDIDATES:
-        try:
-            found = findfont(FontProperties(family=candidate), fallback_to_default=False)
-        except ValueError:
+def _arial_search_dirs() -> list[Path]:
+    return [
+        Path(r"C:\Windows\Fonts"),
+        Path("/usr/share/fonts/truetype/msttcorefonts"),
+        Path("/usr/share/fonts/truetype/msttcore"),
+        Path.home() / ".local" / "share" / "fonts",
+        Path("/usr/local/share/fonts"),
+        Path(__file__).resolve().parents[1] / "fonts",
+    ]
+
+
+def _register_arial() -> Path:
+    """Register Arial TTFs so headless Matplotlib does not fall back to DejaVu."""
+    dirs = [d for d in _arial_search_dirs() if d.exists()]
+    registered = []
+    for names in ARIAL_FAMILY_FILES:
+        hit = next((d / name for d in dirs for name in names if (d / name).exists()), None)
+        if hit is None:
             continue
-        if Path(found).exists():
-            FONT = candidate
-            break
+        try:
+            fontManager.addfont(str(hit))
+        except OSError:
+            continue
+        registered.append(hit)
+    regular = next((p for p in registered if p.name.lower() in {n.lower() for n in ARIAL_REGULAR_NAMES}), None)
+    if regular is None:
+        try:
+            found = Path(findfont(FontProperties(family="Arial"), fallback_to_default=False))
+        except ValueError as exc:
+            raise FileNotFoundError(
+                "Arial is required for JCIM artwork. Install Arial "
+                "(Windows Fonts, msttcorefonts, or figures/jcim_article/fonts/)."
+            ) from exc
+        if "arial" not in found.name.lower():
+            raise FileNotFoundError(
+                f"Arial is required for JCIM artwork; Matplotlib resolved {found}."
+            )
+        return found
+    resolved = Path(findfont(FontProperties(family="Arial"), fallback_to_default=False))
+    if "arial" not in resolved.name.lower():
+        raise FileNotFoundError(
+            f"Arial registration failed; Matplotlib resolved {resolved}."
+        )
+    return resolved
+
+
+def apply_style() -> None:
+    global FONT, ARIAL_PATH
+    FONT = "Arial"
+    ARIAL_PATH = _register_arial()
     mpl.rcParams.update(
         {
-            "font.family": FONT,
+            "font.family": "sans-serif",
+            "font.sans-serif": ["Arial"],
             "mathtext.fontset": "custom",
             "mathtext.rm": FONT,
             "mathtext.it": f"{FONT}:italic",
             "mathtext.bf": f"{FONT}:bold",
+            "mathtext.cal": FONT,
             "mathtext.default": "regular",
             "font.size": FS_TICK,
             "axes.labelsize": FS_AXIS,
@@ -160,6 +200,7 @@ def apply_style() -> None:
             "legend.columnspacing": 1.0,
         }
     )
+    print(f"figure font: Arial ({ARIAL_PATH})")
 
 
 def panel_label(ax, letter: str, x: float = -0.12, y: float = 1.08) -> None:

@@ -23,6 +23,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from jcim_figure_style import (  # noqa: E402
     C,
     COMPARABLE_THETA6_PAIRS,
+    DESC_LABEL,
     FS_ANNO,
     FS_AXIS,
     HOLDOUT_PAIRS,
@@ -959,13 +960,13 @@ def fig_s4_forest(D: dict) -> None:
         ax.plot([r["lo"], r["hi"]], [i + 0.12, i + 0.12], color=C["vina"], lw=1.5, zorder=3)
         ax.plot(r["smin"], i + 0.12, "o", color=C["vina"], markersize=5.6, zorder=4)
         ax.plot(dval, i - 0.14, "s", color=C["desc"], markersize=4.8, zorder=4)
-        ax.text(0.98, i, name, transform=ax.get_yaxis_transform(), ha="right", va="center",
+        ax.text(0.98, i, DESC_LABEL.get(name, name), transform=ax.get_yaxis_transform(), ha="right", va="center",
                 fontsize=6.0, color=C["desc"])
     ax.axvline(0.5, color=C["chance"], ls="--", lw=0.85, zorder=1)
     ax.set_yticks(y)
     ax.set_yticklabels([PAIR_SHORT[p] for p in PRIMARY_PAIRS], fontsize=7.0)
     ax.invert_yaxis()
-    ax.set_xlabel(r"Pocket-matched summary$_{\mathrm{min}}$ AUROC (95% ligand bootstrap CI)")
+    ax.set_xlabel(r"summary$_{\mathrm{min}}$ AUROC")
     ax.set_xlim(0.12, 1.02)
     ax.legend(handles=[
         Line2D([0], [0], marker="o", color=C["vina"], ls="none", ms=6, label="Vina"),
