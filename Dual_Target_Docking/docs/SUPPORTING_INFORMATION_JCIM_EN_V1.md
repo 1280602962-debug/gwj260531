@@ -100,11 +100,7 @@ Relabeling on frozen Vina scores. Primary analysis is θ = 6.0 (Table 2). The ta
 | PPARG/PPARA | θ = 6.0 | 32 / 31 / 32 | 0.649 | [0.504, 0.751] |
 | PPARA/PPARD | θ = 6.0 | 32 / 32 / 32 | 0.446 | [0.296, 0.584] |
 
-**pChEMBL max versus median (2026-08-26 API snapshot; does not replace Table 2):** This snapshot is not the frozen production cache. EGFR/HER2 label agreement 93.6% (7/110 class flips), production `summary_min` 0.430, same-day API-max 0.417, median 0.424; the frozen-versus-API-max difference includes the EH120_060 cache/API mismatch and cannot all be attributed to aggregation. AChE/BChE agreement 98.9% (1/95 flip); frozen max equals API-max (0.606), and median is 0.629 (Δ = +0.023). PIK3CA/mTOR agreement 100%, `summary_min` unchanged. Source: `assay_max_vs_median_agreement_v1.csv`; `assay_max_vs_median_auroc_v1.csv`.
-
-**High-confidence human SINGLE PROTEIN view (same-day API snapshot; does not replace Table 2):** Automatic database-field screen, not paper-by-paper reading. 253/253 scored ligands with that snapshot match the four-state labels, and directional AUROCs are unchanged. The view covers EGFR/HER2, AChE/BChE, and PIK3CA/mTOR and does not cover all eight pairs. Source: `high_confidence_summary_v1.csv`.
-
-**Eight-pair dump max/median (ChEMBL 37 dump; frozen Vina scores; does not replace Table 2):** Same STANDARD_OK harvest and match tolerance 0.015 on all eight production panels. Dump maximum pChEMBL matched the production tables on every scored ligand (0 missing ends; 0 mismatches). Dump-max `summary_min` point estimates agree with Table 2 at three decimal places. Max-to-median class flips: EGFR/HER2 6/110 (`summary_min` 0.430 → 0.424); AChE/BChE 1/95 (CHEMBL659; 0.606 → 0.629); PPARA/PPARD 1/110 (CHEMBL121; A-only 32→31; dual-versus-A-only 0.646 → 0.636; `summary_min` remained 0.446). PIK3CA/mTOR and the other four pairs kept class composition and `summary_min` point estimates. This dump join is not the 2026-08-26 API snapshot. Source: `eight_pair_dump_gated_v1/max_vs_median_auroc_v1.csv`; `eight_pair_dump_gated_v1/parity_v1.csv`.
+**pChEMBL maximum versus median (ChEMBL 37; frozen Vina scores; does not replace Table 2):** The same ChEMBL 37 records used for Table 2 were re-aggregated by median at θ = 6.0. Maximum pChEMBL matched every scored ligand (0 missing ends; 0 mismatches). Max-to-median class flips: EGFR/HER2 6/110 (`summary_min` 0.430 → 0.424); AChE/BChE 1/95 (CHEMBL659; 0.606 → 0.629); PPARA/PPARD 1/110 (CHEMBL121; A-only 32→31; dual-versus-A-only 0.646 → 0.636; `summary_min` remained 0.446). PIK3CA/mTOR and the other four pairs kept class composition and `summary_min` point estimates. Source: `eight_pair_dump_gated_v1/max_vs_median_auroc_v1.csv`; `eight_pair_dump_gated_v1/parity_v1.csv`.
 
 ---
 
@@ -208,7 +204,7 @@ Source: `pocket_matched_vs_best_descriptor_delta_v1.csv`; `descriptor_paired_del
 | PPARG/PPARA | holdout | 0.006 | [−0.168, 0.183] | no | yes |
 | PPARA/PPARD | holdout | 0.150 | [−0.056, 0.294] | no | no |
 
-Holdout ligands come from the same ChEMBL harvest after excluding main-panel members, then frozen quotas. JAK1/JAK2 drew 20 / 20 / 18. Holdout panels are directional (dual / A-only / B-only) and do not include a neither class. This is an internal membership sensitivity, not external validation.
+Holdout ligands come from the same ChEMBL 37 source after excluding main-panel members, then frozen quotas. JAK1/JAK2 drew 20 / 20 / 18. Holdout panels are directional (dual / A-only / B-only) and do not include a neither class. This is an internal membership sensitivity, not external validation.
 
 | Pair | Main summary_min [95% CI] | holdout n (D / A / B) | holdout summary_min [95% CI] |
 |------|----------------------------:|----------------------:|------------------------------|
@@ -321,4 +317,4 @@ Seven pairs reached the G5 protocol-compatibility gate and were included because
 | S13 EGFR/HER2 operating points | — | Figure S1 and Results 3.2 |
 | S14 pair audit | S9 (excluded pairs + EGFR/HER2 exception) | repeated included-pair rows |
 
-Archived files that answer questions not typeset here include: per-ligand docking scores and multi-seed long tables; property-caliper matching; complete-case coverage; historical BindingDB REST counts; leave-cognate-out and occupancy snapshots; MCL1/Bcl-xL applicability stress test; SHA-256 manifest `REVISION_CHECKSUM_MANIFEST_v1.csv`; and evaluation contract `DUALFOURCLASS_EVALUATION_CONTRACT_v1.json`.
+Archived files that answer questions not typeset here include: per-ligand docking scores and multi-seed long tables; property-caliper matching; complete-case coverage; historical BindingDB supply counts; leave-cognate-out and occupancy snapshots; MCL1/Bcl-xL applicability stress test; SHA-256 manifest `REVISION_CHECKSUM_MANIFEST_v1.csv`; and evaluation contract `DUALFOURCLASS_EVALUATION_CONTRACT_v1.json`. A dated ChEMBL API snapshot and a three-pair high-confidence field screen remain in the repository and are not typeset.

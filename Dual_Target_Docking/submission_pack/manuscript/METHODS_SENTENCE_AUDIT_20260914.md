@@ -5,6 +5,14 @@ Branch checked: `cursor/jcim-language-polish-0b1a` at `dbe7ac1d`
 Text checked: the English Methods 2.1–2.7 supplied in this request, not the manuscript draft in the branch.  
 Evidence: locked CSVs, docking/prep scripts, `ENV_PIN.md`, `STATISTICAL_LOCK_V1.md`, `external_slice_contract.yaml`, and the current typeset SI headings (Tables S1–S9).
 
+## Revision (same day): no REST / dump split in the article
+
+`parity_v1.csv` shows 0 missing ends and 0 mismatches for all eight scored panels against local ChEMBL 37 (tolerance 0.015). Table 2 max pChEMBL therefore matches ChEMBL 37. The article now treats ChEMBL 37 as the sole activity source. The eight-pair max-versus-median relabeling on those same records is the only typeset aggregation sensitivity (Table S3). The 2026-08-26 API snapshot and the three-pair high-confidence field screen are archived and are not typeset.
+
+Do **not** restore “2026-07-23 ChEMBL REST harvest” versus “ChEMBL 37 dump” wording in Methods, Results, Discussion, or SI. Historical harvest paths remain in repository CSVs only.
+
+Superseded items below: §1 (split-source harvest) and §3 (three-pair high-confidence in Methods). The implemented 2.2 text is: activities from ChEMBL 37; max pChEMBL; IC50/Ki/Kd/EC50/Potency/IC50app/Ki app; max-versus-median on the same records for all eight pairs.
+
 Only sentences that need a factual or protocol change are listed. Unchanged sentences are accurate against the implementation.
 
 SI numbering used below is the current typeset set:
@@ -13,7 +21,7 @@ SI numbering used below is the current typeset set:
 |---|---|
 | S1 | software, seeds, Vina knobs, bootstrap, ligand-prep recipe |
 | S2 | receptors, boxes, CalcRMS cognate QC |
-| S3 | θ / max–median / high-confidence label sensitivity |
+| S3 | θ / max–median label sensitivity on ChEMBL 37 |
 | S4 | fixed-score dual-versus-neither (pocket held fixed) |
 | S5 | ligand-chemistry baselines |
 | S6 | matched vs mismatched pocket + unused-pool holdout |
@@ -25,7 +33,7 @@ SI numbering used below is the current typeset set:
 
 ## 2.2 Bioactivity data
 
-### 1. Table S3 is not the retrieval table
+### 1. Table S3 is not the retrieval table (superseded: article now uses ChEMBL 37 only)
 
 **Original**
 
@@ -57,7 +65,7 @@ The locked harvest also keeps `IC50app` and `Ki app`.
 
 **Evidence:** `run_checks_v1.json` `standard_ok`; `chembl_exhaustive_pair_census_v1.py` `STANDARD_OK`.
 
-### 3. High-confidence subset is not eight-pair
+### 3. High-confidence subset is not eight-pair (superseded: dropped from typeset Methods/SI)
 
 **Original**
 

@@ -97,11 +97,7 @@
 | PPARG/PPARA | θ = 6.0 | 32 / 31 / 32 | 0.649 | [0.504, 0.751] |
 | PPARA/PPARD | θ = 6.0 | 32 / 32 / 32 | 0.446 | [0.296, 0.584] |
 
-**pChEMBL 最大值对中位数（2026-08-26 API 快照；不替代 Table 2）：** 该快照不是冻结生产缓存。EGFR/HER2 标签一致率 93.6%（7/110 类别翻转），生产 `summary_min` 0.430，同日 API-max 0.417，中位数 0.424；冻结值与 API-max 的差异包含 EH120_060 缓存/API 不一致，不能全部归因于聚合。AChE/BChE 一致率 98.9%（1/95 翻转）；冻结最大值等于 API-max（0.606），中位数为 0.629（Δ = +0.023）。PIK3CA/mTOR 一致率 100%，`summary_min` 不变。源：`assay_max_vs_median_agreement_v1.csv`；`assay_max_vs_median_auroc_v1.csv`。
-
-**高置信人源 SINGLE PROTEIN 视图（同日 API 快照；不替代 Table 2）：** 自动数据库字段筛查，不是逐篇阅读原文。该快照上 253/253 个已评分配体与四状态标签一致，方向性 AUROC 不变。该视图覆盖 EGFR/HER2、AChE/BChE 与 PIK3CA/mTOR，未覆盖全部八对。源：`high_confidence_summary_v1.csv`。
-
-**八对转储最大值/中位数（ChEMBL 37 转储；冻结 Vina 分数；不替代 Table 2）：** 八个生产评价集使用同一 STANDARD_OK 收获和容差 0.015。转储最大 pChEMBL 与生产表在全部已评分配体上一致（缺失端 0；不一致 0）。转储最大值的 `summary_min` 点估计与 Table 2 三位小数一致。最大值到中位数的类别翻转：EGFR/HER2 6/110（`summary_min` 0.430 → 0.424）；AChE/BChE 1/95（CHEMBL659；0.606 → 0.629）；PPARA/PPARD 1/110（CHEMBL121；A-only 32→31；dual–A-only 0.646 → 0.636；`summary_min` 仍为 0.446）。PIK3CA/mTOR 与其余四对保持类别组成和 `summary_min` 点估计。该转储对接不是 2026-08-26 的 API 快照。源：`eight_pair_dump_gated_v1/max_vs_median_auroc_v1.csv`；`eight_pair_dump_gated_v1/parity_v1.csv`。
+**pChEMBL 最大值对中位数（ChEMBL 37；冻结 Vina 分数；不替代 Table 2）：** Table 2 所用的同一套 ChEMBL 37 记录在 θ = 6.0 下按中位数重新汇总。最大 pChEMBL 与全部已评分配体一致（缺失端 0；不一致 0）。最大值到中位数的类别翻转：EGFR/HER2 6/110（`summary_min` 0.430 → 0.424）；AChE/BChE 1/95（CHEMBL659；0.606 → 0.629）；PPARA/PPARD 1/110（CHEMBL121；A-only 32→31；dual–A-only 0.646 → 0.636；`summary_min` 仍为 0.446）。PIK3CA/mTOR 与其余四对保持类别组成和 `summary_min` 点估计。源：`eight_pair_dump_gated_v1/max_vs_median_auroc_v1.csv`；`eight_pair_dump_gated_v1/parity_v1.csv`。
 
 ---
 
@@ -205,7 +201,7 @@ ECFP4 与 ECFP4+对接评分 AUROC 为同一骨架分组交叉验证下的折外
 | PPARG/PPARA | 留出 | 0.006 | [−0.168, 0.183] | 否 | 是 |
 | PPARA/PPARD | 留出 | 0.150 | [−0.056, 0.294] | 否 | 否 |
 
-留出配体来自同一 ChEMBL 收获、排除主评价集成员后按冻结配额抽取。JAK1/JAK2 抽得 20 / 20 / 18。留出集为方向性面板（dual / A-only / B-only），不含 neither。该分析是内部成员敏感性，不作为外部验证。
+留出配体来自同一套 ChEMBL 37 记录、排除主评价集成员后按冻结配额抽取。JAK1/JAK2 抽得 20 / 20 / 18。留出集为方向性面板（dual / A-only / B-only），不含 neither。该分析是内部成员敏感性，不作为外部验证。
 
 | 靶对 | 主集 summary_min [95% CI] | 留出 n (D / A / B) | 留出 summary_min [95% CI] |
 |------|----------------------------:|----------------------:|------------------------------|
