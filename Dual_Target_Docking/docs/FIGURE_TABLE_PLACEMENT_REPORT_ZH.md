@@ -16,7 +16,8 @@
 | 6 | Table 2 | Results 3.2 第二段后 | Results 3.2 第二段；Methods 2.5.3 仅说明区间算法 |
 | 7 | Figure 2C | 第三段后整图 | Results 3.2 第三段 |
 | 8 | Table 3 | Figure 2 之后、Top-10 之前 | Results 3.2 第三段 |
-| 9 | Figure S1 | 仅 SI；正文引用 | Results 3.2 Top-10 / AND filter |
+| 9 | Figure 2D | 正文 | Results 3.2 JAK1/TYK2 Top-10 |
+| 10 | Figure S1 | 仅 SI；正文引用 | Results 3.2 JAK1/TYK2 AND filter |
 | 10 | Figure 3C, A, B | 3.3 第二段后整图 | 3.3 第一段 C；第二段 A 然后 B |
 | 11 | Figure 4 | 3.4 口袋段后 | Results 3.4（A）；3.5 holdout（B） |
 | 12 | Figure 5 | 3.4 计算敏感性段后 | 3.4：A GNINA → B 受体替换 → C 五种子 |
@@ -38,7 +39,7 @@ SI 图不插入正文。
 
 | 新编号 | 内容 | 文件名 | 正文首次引用 | 投稿 SI |
 |--------|------|--------|--------------|--------|
-| S1 | EGFR/HER2 Top-10 / AND | FigS1_posthoc_diagnostics | 3.2 末 | 是 |
+| S1 | JAK1/TYK2 AND filter | FigS1_posthoc_diagnostics | 3.2 末 | 是 |
 | S2 | Vina+描述符森林 | FigS2_pocket_matched_forest | 3.3 | 是 |
 | S3 | PIK3CA/mTOR 协议敏感性 | FigS3_protocol_sensitivity | 3.4 | 是 |
 | S4 | 14 受体 redocking RMSD | FigS4_cognate_rmsd | 3.4 末 | 是 |

@@ -258,7 +258,7 @@ ECFP4 与 ECFP4+对接评分 AUROC 为同一骨架分组交叉验证下的折外
 
 ## Table S8. 独立性过滤后的外部数据准入
 
-对全部八个靶对检索了 BindingDB 与 PubChem。正式表是按 \(\theta=6.0\) 标记的独立性过滤剩余，不是原始供给清点。外部对接还要求剔除共享文献来源、重复结构以及 ECFP4 Tanimoto ≥ 0.70 的分子，并要求 dual / A-only / B-only 各类 n ≥ 20 且每类至少 3 个来源。开发分子集合包括主评价集、扩大的 PIK3CA/mTOR PM110 面板和内部留出集。没有靶对满足独立外部评价准入标准，因此未进行外部对接。BindingDB/PubChem 原始供给清点和已建面板上的发表年份子集留在仓库；二者均不作为外部验证。
+对全部八个靶对检索了 BindingDB 与 PubChem。正式表和 Figure 6C,D 是 BindingDB 按 \(\theta=6.0\) 标记的独立性过滤剩余，不是原始供给清点。PubChem 作为额外的成对数据可用性检查，未并入这些计数。外部对接还要求剔除共享文献来源、重复结构以及 ECFP4 Tanimoto ≥ 0.70 的分子，并要求 dual / A-only / B-only 各类 n ≥ 20 且每类至少 3 个来源。开发分子集合包括主评价集、扩大的 PIK3CA/mTOR PM110 面板和内部留出集。没有靶对满足独立外部评价准入标准，因此未进行外部对接。BindingDB/PubChem 原始供给清点和已建面板上的发表年份子集留在仓库；二者均不作为外部验证。
 
 | 靶对 | 过滤后 dual / A-only / B-only | n_sources (D / A / B) | 门槛 |
 |------|------------------------------:|-------------------:|------|
@@ -307,11 +307,11 @@ ECFP4 与 ECFP4+对接评分 AUROC 为同一骨架分组交叉验证下的折外
 
 补充图按正文首次引用顺序编号为 Figure S1–S4。原 holdout、BindingDB 矩阵、簇重采样图以及可检测效应情景模拟保留在仓库 `figures/jcim_article/`，不在投稿 SI 排版。
 
-### Figure S1. EGFR/HER2 Top-10 与 AND 过滤类别组成
+### Figure S1. JAK1/TYK2 的 AND 型双口袋过滤
 
 ![Figure S1](../figures/jcim_article/FigS1_posthoc_diagnostics.png)
 
-**Figure S1.** EGFR/HER2 操作点。(A) 按平均 Vina 评分排序的 Top-10 类别组成，分母为全部 110 个评价集配体；(B) 通过 dual 中位最差靶点评分阈值的化合物类别组成，分母为 Dual+A-only+B-only（n = 98），排除 neither。两面板分母不同，属探索性分析；数字已在正文 Results 3.2 报告。
+**Figure S1.** JAK1/TYK2 操作点：通过 dual 中位最差靶点评分阈值的化合物类别组成，分母为 Dual+A-only+B-only（n = 95），排除 neither。对应 Top-10 排序见 Figure 2D。属探索性分析；数字已在正文 Results 3.2 报告。
 
 ### Figure S2. 口袋匹配 summary_min 森林图
 

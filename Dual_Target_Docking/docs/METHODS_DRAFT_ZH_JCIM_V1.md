@@ -75,15 +75,15 @@
 
 #### 2.5.1 主要方向性判别指标
 
-比较 dual 与 A-only 时，两类配体在靶点 A 上均达到实验活性阈值，因此使用靶点 B 的评分：\(\mathrm{AUC}_{D/A}(B)=\mathrm{AUROC}(\mathrm{dual},\;\mathrm{A\text{-}only};\;S_{B})\)。比较 dual 与 B-only 时，使用靶点 A 的评分：\(\mathrm{AUC}_{D/B}(A)=\mathrm{AUROC}(\mathrm{dual},\;\mathrm{B\text{-}only};\;S_{A})\)。所有方向性分析均以 dual 为正类。
+比较 dual 与 A-only 时，两类配体在靶点 A 上均达到实验活性阈值，因此使用靶点 B 的评分：\(\mathrm{AUROC}_{D/A}(B)=\mathrm{AUROC}(\mathrm{dual},\;\mathrm{A\text{-}only};\;S_{B})\)。比较 dual 与 B-only 时，使用靶点 A 的评分：\(\mathrm{AUROC}_{D/B}(A)=\mathrm{AUROC}(\mathrm{dual},\;\mathrm{B\text{-}only};\;S_{A})\)。所有方向性分析均以 dual 为正类。
 
-AutoDock Vina 输出的 affinity 越低表示预测结合越有利。为统一 AUROC 的评分方向，将 Vina affinity 转换为 \(S_{\mathrm{Vina}}=-E_{\mathrm{Vina}}\)，因此较高的 \(S_{\mathrm{Vina}}\) 表示更有利的预测结合。两个方向的 AUROC 是一级终点。两者中的较低值定义为 \(\mathrm{summary}_{\min}\)，仅用于描述较弱方向，不是总体性能指标，也不作为新的配体评分函数：\(\mathrm{summary}_{\min}=\min(\mathrm{AUC}_{D/A}(B),\;\mathrm{AUC}_{D/B}(A))\)。两个 AUROC 取最小具有选择性下偏，因此不把它当作普通独立终点。
+AutoDock Vina 输出的 affinity 越低表示预测结合越有利。为统一 AUROC 的评分方向，将 Vina affinity 转换为 \(S_{\mathrm{Vina}}=-E_{\mathrm{Vina}}\)，因此较高的 \(S_{\mathrm{Vina}}\) 表示更有利的预测结合。两个方向的 AUROC 是一级终点。两者中的较低值定义为 \(\mathrm{summary}_{\min}\)，仅用于描述较弱方向，不是总体性能指标，也不作为新的配体评分函数：\(\mathrm{summary}_{\min}=\min[\mathrm{AUROC}_{D/A}(B),\;\mathrm{AUROC}_{D/B}(A)]\)。两个 AUROC 取最小具有选择性下偏，因此不把它当作普通独立终点。
 
 #### 2.5.2 传统双口袋排序与对照类别比较
 
 双靶虚拟筛选通常合并两个口袋的评分来排序候选分子。对两端均有评分的配体，传统读数为平均分 \(S_{\mathrm{mean}}=(S_{A}+S_{B})/2\)，以 dual 为正类、neither 为对照（Table 3）。另将 A-only、B-only 和 neither 合并为非 dual 类的 AUROC 随分数表归档。
 
-为把虚筛对照类别的影响与评分聚合分开，保持同一口袋评分不变，比较不同实验状态对照下的 AUROC。靶点 A 评分用于 dual–B-only 及对应的 dual–neither 比较；靶点 B 评分用于 dual–A-only 及对应的 dual–neither 比较（Table S4）。更换对照类别也同时更换了具体化合物。另取两端评分中的较低值 \(S_{\mathrm{worst}}=\min(S_{A},S_{B})\) 作为 AND 型双口袋过滤。以 dual 的 \(S_{\mathrm{worst}}\) 中位数为阈值，统计 dual 保留数、dual recall、dual precision 以及保留的单靶选择性配体数（Figure S1）。
+为把虚筛对照类别的影响与评分聚合分开，保持同一口袋评分不变，比较不同实验状态对照下的 AUROC。靶点 A 评分用于 dual–B-only 及对应的 dual–neither 比较；靶点 B 评分用于 dual–A-only 及对应的 dual–neither 比较（Table S4）。更换对照类别也同时更换了具体化合物。另取两端评分中的较低值 \(S_{\mathrm{worst}}=\min(S_{A},S_{B})\) 作为 AND 型双口袋过滤。以 dual 的 \(S_{\mathrm{worst}}\) 中位数为阈值，统计 dual 保留数、dual recall、dual precision 以及保留的单靶活性配体数（Figure S1）。双口袋平均排序下的 Top-10 类别组成见 Figure 2D。
 
 #### 2.5.3 置信区间与重采样分析
 

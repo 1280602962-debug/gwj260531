@@ -48,7 +48,7 @@ Under the conventional two-pocket mean ranking used in dual-target virtual scree
 | PPARG/PPARA | 0.649 [0.504, 0.751] | 0.685 [0.493, 0.848] | 14 |
 | PPARA/PPARD | 0.446 [0.296, 0.584] | 0.565 [0.368, 0.766] | 14 |
 
-That conventional ranking was inspected at an operating point on the EGFR/HER2 panel. When all 110 ligands were ranked by the two-pocket mean score, the Top-10 contained 1 dual, 5 A-only, and 4 B-only ligands, and no neither ligand (Figure S1A). The higher dual-versus-neither AUROC therefore did not correspond to fewer highly ranked single-target selectives. A two-pocket filter at the median dual \(S_{\mathrm{worst}}\) was applied to Dual+A-only+B-only (\(n=98\)), excluding neither, and retained 14 dual ligands together with 9 A-only and 24 B-only ligands (dual precision 0.298; Figure S1B).
+That conventional ranking was inspected at an operating point on the JAK1/TYK2 panel. When all 109 ligands were ranked by the two-pocket mean score, the Top-10 contained 1 dual, 2 A-only, and 7 B-only ligands, and no neither ligand (Figure 2D). The higher dual-versus-neither AUROC therefore did not correspond to fewer highly ranked single-target-active ligands. A two-pocket filter at the median dual \(S_{\mathrm{worst}}\) was applied to Dual+A-only+B-only (\(n=95\)), excluding neither, and retained 16 dual ligands together with 12 A-only and 22 B-only ligands (dual precision 0.32; Figure S1).
 
 ### 3.3 Ligand-chemistry baselines and incremental docking discrimination
 

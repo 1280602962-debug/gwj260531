@@ -35,14 +35,14 @@ check(bool(audit.get('artwork_git_head')),'artwork git HEAD recorded at generati
 captions=(OUT/'MANUSCRIPT_FIGURE_CAPTIONS.md').read_text(encoding='utf-8')
 for phrase in ['initially evaluated','added after the census','original three','census five','later five','Horizontal gray rules','underpowered','flagship','data-collection sequence','were then selected','python3','PowerPoint','historical original-set','Regenerate','eight added','original six','after which the primary']:
     check(phrase.lower() not in captions.lower(),'caption has no '+phrase)
-check('The census summarizes the availability' in captions,'Fig1C caption separates census from the eight-pair evaluation')
+check('panel-construction and structural criteria' in captions,'Fig1C caption names panel-construction criteria rather than census independence')
 check('## Figure 4. Matched- versus mismatched-pocket scoring controls.' in captions,'Figure 4 caption is pocket correspondence')
 check('## Figure 5. Computational realization.' in captions,'Figure 5 caption is computational realization')
-check('## Figure S1. Post-hoc formulation and screening diagnostics.' in captions,'SI figures start at Top-10/AND diagnostics')
-check('Primary rank-based Vina AUROC' in captions,'Fig3A caption distinguishes Vina rank from ECFP4 GroupKFold')
+check('## Figure S1. JAK1/TYK2 AND-type two-pocket filter.' in captions,'SI Figure S1 is the JAK1/TYK2 AND filter')
+check('raw primary-score rankings' in captions,'Fig3A caption distinguishes raw Vina ranks from ECFP4 OOF predictions')
 check('FigS3_protocol_sensitivity' in audit['generated'] and 'FigS4_cognate_rmsd' in audit['generated'],'SI protocol and cognate RMSD figures generated')
 check('Fig4_mismatched_pocket' in audit['generated'] and 'Fig5_computational_realization' in audit['generated'],'main Figures 4/5 are pocket then computational')
-check('FigS1_posthoc_diagnostics' in audit['generated'] and 'FigS2_pocket_matched_forest' in audit['generated'],'SI figures start with Top-10 then descriptor forest')
+check('FigS1_posthoc_diagnostics' in audit['generated'] and 'FigS2_pocket_matched_forest' in audit['generated'],'SI figures start with AND filter then descriptor forest')
 for lang in ['ZH','EN']:
     manuscript=content('docs/MANUSCRIPT_JCIM_'+lang+'.md')
     for pair,r in primary.items():
@@ -71,9 +71,13 @@ check(all('top3' not in r for r in audit['plotted']['figS12']),'Figure S4 plots 
 cl=audit['plotted']['figS11']
 jdoc=next(r for r in cl if r['pair']=='JAK1/TYK2' and r['estimator']=='document_cluster')
 check(float(jdoc['delta_ci_lo'])<0<float(jdoc['delta_ci_hi']),'JAK1/TYK2 document-cluster interval crosses zero')
-top=audit['plotted']['figS7']['top10'];filt=audit['plotted']['figS7']['and_filter']
-check([int(top[k]) for k in ['n_dual_top','n_A_only_top','n_B_only_top','n_neither_top']]==[1,5,4,0],'Top-10 class counts: 1/5/4/0')
-check([int(filt[k]) for k in ['n_dual_pass','n_A_only_pass','n_B_only_pass']]==[14,9,24],'AND-filter class counts: 14/9/24')
+top=audit['plotted']['fig2D'];filt=audit['plotted']['figS7']['and_filter']
+check(top['pair']=='JAK1/TYK2','Figure 2D uses the JAK1/TYK2 operating point')
+check([int(top[k]) for k in ['top_dual','top_A_only','top_B_only','top_neither']]==[1,2,7,0],'JAK1/TYK2 Top-10 class counts: 1/2/7/0')
+check(int(top['n_ranked'])==109,'JAK1/TYK2 Top-10 denominator is 109')
+check(filt['pair']=='JAK1/TYK2','Figure S1 uses the JAK1/TYK2 AND filter')
+check([int(filt[k]) for k in ['retained_dual','retained_A_only','retained_B_only']]==[16,12,22],'AND-filter class counts: 16/12/22')
+check(int(filt['n_filter_input'])==95,'JAK1/TYK2 AND-filter denominator is 95')
 files={}
 for stem in audit['generated']:
     for ext in (['png','tif'] if stem=='TOC_graphic' else ['png','tif','pdf']):

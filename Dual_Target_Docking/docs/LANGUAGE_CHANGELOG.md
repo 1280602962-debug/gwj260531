@@ -1,5 +1,9 @@
 # 中英文 SI 压缩摘要（2026-09-13）
 
+## 2026-09-14 Figure 1–2 visual weight and JAK1/TYK2 operating point
+
+Figure 1C was compacted so panels A/B are the visual majority; the census is no longer a full-page funnel and no longer says “independent of the census”. JAK1/TYK2 Top-10 (1/2/7/0 of 109) moved into Figure 2D; Figure S1 is the corresponding AND filter (16/12/22 of 95). Figure 2A xlabel no longer uses “selective”. Methods `summary_min` and Figure 1B now share \(\min[\mathrm{AUROC}_{D/A}(B),\mathrm{AUROC}_{D/B}(A)]\). Figure 6C,D are labeled BindingDB-only.
+
 ## 2026-09-14 Methods/Results docking–VS spine
 
 Methods 2 and Results 3 were rewritten so dual-target docking and virtual-screening evaluation are the connecting line: two-pocket ranking, directional hard-negative controls, conventional dual-versus-neither ranking, ligand-only ranking, pocket correspondence, docking implementation, and the absence of an external docking set. Publication-year subset language was removed from Methods 2.1. Independent GNINA now reports all three pairs. Table 3 is labeled as the conventional two-pocket ranking, distinct from Table S4.

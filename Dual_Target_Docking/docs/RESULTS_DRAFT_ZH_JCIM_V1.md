@@ -48,7 +48,7 @@
 | PPARG/PPARA | 0.649 [0.504, 0.751] | 0.685 [0.493, 0.848] | 14 |
 | PPARA/PPARD | 0.446 [0.296, 0.584] | 0.565 [0.368, 0.766] | 14 |
 
-该传统排序在 EGFR/HER2 评价集上按操作点检查。按双口袋平均评分对全部 110 个配体排序时，Top-10 含 1 个 dual、5 个 A-only 和 4 个 B-only，没有 neither 配体（Figure S1A）。较高的 dual–neither AUROC 并未对应较少的高排名单靶选择性配体。按 dual 的中位 \(S_{\mathrm{worst}}\) 对 Dual+A-only+B-only（\(n=98\)）作联合过滤、排除 neither 后，保留 14 个 dual，同时保留 9 个 A-only 和 24 个 B-only，dual precision 为 0.298（Figure S1B）。
+该传统排序在 JAK1/TYK2 评价集上按操作点检查。按双口袋平均评分对全部 109 个配体排序时，Top-10 含 1 个 dual、2 个 A-only 和 7 个 B-only，没有 neither 配体（Figure 2D）。较高的 dual–neither AUROC 并未对应较少的高排名单靶活性配体。按 dual 的中位 \(S_{\mathrm{worst}}\) 对 Dual+A-only+B-only（\(n=95\)）作联合过滤、排除 neither 后，保留 16 个 dual，同时保留 12 个 A-only 和 22 个 B-only，dual precision 为 0.32（Figure S1）。
 
 ### 3.3 配体化学基线与对接增量判别
 

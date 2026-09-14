@@ -91,15 +91,15 @@ GNINA 1.3.2 was also used to generate poses independently on EGFR/HER2, PIK3CA/m
 
 #### 2.5.1 Primary directional discrimination metrics
 
-When dual was compared with A-only, both classes meet the activity threshold at target A, so pocket B scores were used: \(\mathrm{AUC}_{D/A}(B)=\mathrm{AUROC}(\mathrm{dual},\;\mathrm{A\text{-}only};\;S_{B})\). When dual was compared with B-only, pocket A scores were used: \(\mathrm{AUC}_{D/B}(A)=\mathrm{AUROC}(\mathrm{dual},\;\mathrm{B\text{-}only};\;S_{A})\). Dual was the positive class in all directional analyses.
+When dual was compared with A-only, both classes meet the activity threshold at target A, so pocket B scores were used: \(\mathrm{AUROC}_{D/A}(B)=\mathrm{AUROC}(\mathrm{dual},\;\mathrm{A\text{-}only};\;S_{B})\). When dual was compared with B-only, pocket A scores were used: \(\mathrm{AUROC}_{D/B}(A)=\mathrm{AUROC}(\mathrm{dual},\;\mathrm{B\text{-}only};\;S_{A})\). Dual was the positive class in all directional analyses.
 
-More negative AutoDock Vina affinity indicates more favorable predicted binding. For a common AUROC direction, Vina affinity was converted to \(S_{\mathrm{Vina}}=-E_{\mathrm{Vina}}\), so higher \(S_{\mathrm{Vina}}\) is more favorable. Both directional AUROCs were the primary endpoints. Their lower value was defined as \(\mathrm{summary}_{\min}\), a descriptive weaker-arm summary rather than an overall-performance metric or a new ligand scoring function: \(\mathrm{summary}_{\min}=\min(\mathrm{AUC}_{D/A}(B),\;\mathrm{AUC}_{D/B}(A))\). Because the minimum of two AUROCs is selectively downward-shifted, it is not treated as an ordinary independent endpoint.
+More negative AutoDock Vina affinity indicates more favorable predicted binding. For a common AUROC direction, Vina affinity was converted to \(S_{\mathrm{Vina}}=-E_{\mathrm{Vina}}\), so higher \(S_{\mathrm{Vina}}\) is more favorable. Both directional AUROCs were the primary endpoints. Their lower value was defined as \(\mathrm{summary}_{\min}\), a descriptive weaker-arm summary rather than an overall-performance metric or a new ligand scoring function: \(\mathrm{summary}_{\min}=\min[\mathrm{AUROC}_{D/A}(B),\;\mathrm{AUROC}_{D/B}(A)]\). Because the minimum of two AUROCs is selectively downward-shifted, it is not treated as an ordinary independent endpoint.
 
 #### 2.5.2 Conventional two-pocket ranking and control-class comparisons
 
 Dual-target virtual screening commonly ranks candidates by combining the two pocket scores. For ligands scored at both targets, the conventional readout was the mean score \(S_{\mathrm{mean}}=(S_{A}+S_{B})/2\), with dual as the positive class and neither as the control (Table 3). Merging A-only, B-only, and neither into one control set gave a dual-versus-all-nonduals AUROC that is archived with the score tables.
 
-To isolate the effect of the virtual-screening control class from score aggregation, the same pocket score was held fixed and AUROCs were compared under different experimental-state controls. Pocket A scores were used for dual-versus-B-only and that dual-versus-neither comparison; pocket B scores were used for dual-versus-A-only and the corresponding dual-versus-neither comparison (Table S4). Changing the control class also changes the specific compounds. The lower of the two pocket scores, \(S_{\mathrm{worst}}=\min(S_{A},S_{B})\), was used as an AND-type two-pocket filter. The median of dual \(S_{\mathrm{worst}}\) values defined the filter threshold. Dual counts, dual recall, dual precision, and retained single-target selectives at that threshold are shown in Figure S1.
+To isolate the effect of the virtual-screening control class from score aggregation, the same pocket score was held fixed and AUROCs were compared under different experimental-state controls. Pocket A scores were used for dual-versus-B-only and that dual-versus-neither comparison; pocket B scores were used for dual-versus-A-only and the corresponding dual-versus-neither comparison (Table S4). Changing the control class also changes the specific compounds. The lower of the two pocket scores, \(S_{\mathrm{worst}}=\min(S_{A},S_{B})\), was used as an AND-type two-pocket filter. The median of dual \(S_{\mathrm{worst}}\) values defined the filter threshold. Dual counts, dual recall, dual precision, and retained single-target-active ligands at that threshold are shown in Figure S1. The corresponding Top-10 class composition under two-pocket mean ranking is shown in Figure 2D.
 
 #### 2.5.3 Confidence intervals and resampling
 
@@ -149,7 +149,7 @@ After those supply, structure, and docking-compatibility checks, the primary eva
 
 ![Figure 1](../figures/jcim_article/Fig1_four_state_and_supply.png)
 
-**Figure 1.** Four-state dual-target evaluation and data supply. (A) Four experimental states defined by threshold \(\theta\); (B) two directional tasks: dual versus A-only uses the target B score, and dual versus B-only uses the target A score; (C) the census summarizes the availability of paired experimental data under increasing supply requirements. The primary evaluation comprised eight target pairs retained according to the panel-construction and structural criteria in Table 1. The eight-pair evaluation is shown separately from the supply census.
+**Figure 1.** Four-state dual-target evaluation and data supply. (A) Four experimental states defined by threshold \(\theta\); (B) two directional tasks: dual versus A-only uses the target B score, and dual versus B-only uses the target A score, with \(\mathrm{summary}_{\min}=\min[\mathrm{AUROC}_{D/A}(B),\;\mathrm{AUROC}_{D/B}(A)]\); (C) paired experimental coverage decreases under four-state requirements. The primary evaluation comprised eight target pairs selected using the panel-construction and structural criteria in Table 1. That eight-pair set is not a direct continuation of the census counts.
 
 ### 3.2 Directional docking performance across virtual-screening control classes
 
@@ -174,7 +174,7 @@ Under the conventional two-pocket mean ranking used in dual-target virtual scree
 
 ![Figure 2](../figures/jcim_article/Fig2_negative_class_formulation.png)
 
-**Figure 2.** Docking performance depends on the experimental-state comparison. (A) \(\Delta\)AUROC after changing the control class at a fixed score channel; error bars are ligand-level bootstrap 95% confidence intervals; (B) the two directional AUROCs; (C) directional \(\mathrm{summary}_{\min}\) versus dual-versus-neither. The diamond marks the PIK3CA/mTOR neither sample (n = 4). Panel C is not a fixed-score-channel comparison.
+**Figure 2.** Docking performance depends on the experimental-state comparison. (A) \(\Delta\)AUROC after changing the control class at a fixed score channel (dual–neither minus dual–single-target-active); error bars are ligand-level bootstrap 95% confidence intervals; (B) the two directional AUROCs; (C) directional \(\mathrm{summary}_{\min}\) versus dual-versus-neither. The diamond marks the PIK3CA/mTOR neither sample (n = 4). Panel C is not a fixed-score-channel comparison. (D) JAK1/TYK2 Top-10 class composition under two-pocket mean Vina ranking (n = 109).
 
 **Table 3.** Same Vina scores under directional versus dual-versus-neither settings (unified \(\theta=6.0\)). Dual-versus-neither uses the two-pocket mean score \(S_{\mathrm{mean}}\). The PIK3CA/mTOR neither sample is small (n = 4).
 
@@ -189,7 +189,7 @@ Under the conventional two-pocket mean ranking used in dual-target virtual scree
 | PPARG/PPARA | 0.649 [0.504, 0.751] | 0.685 [0.493, 0.848] | 14 |
 | PPARA/PPARD | 0.446 [0.296, 0.584] | 0.565 [0.368, 0.766] | 14 |
 
-That conventional ranking was inspected at an operating point on the EGFR/HER2 panel. When all 110 ligands were ranked by the two-pocket mean score, the Top-10 contained 1 dual, 5 A-only, and 4 B-only ligands, and no neither ligand (Figure S1A). The higher dual-versus-neither AUROC therefore did not correspond to fewer highly ranked single-target selectives. A two-pocket filter at the median dual \(S_{\mathrm{worst}}\) was applied to Dual+A-only+B-only (\(n=98\)), excluding neither, and retained 14 dual ligands together with 9 A-only and 24 B-only ligands (dual precision 0.298; Figure S1B).
+That conventional ranking was inspected at an operating point on the JAK1/TYK2 panel. When all 109 ligands were ranked by the two-pocket mean score, the Top-10 contained 1 dual, 2 A-only, and 7 B-only ligands, and no neither ligand (Figure 2D). The higher dual-versus-neither AUROC therefore did not correspond to fewer highly ranked single-target-active ligands. A two-pocket filter at the median dual \(S_{\mathrm{worst}}\) was applied to Dual+A-only+B-only (\(n=95\)), excluding neither, and retained 16 dual ligands together with 12 A-only and 22 B-only ligands (dual precision 0.32; Figure S1).
 
 ### 3.3 Ligand-chemistry baselines and incremental docking discrimination
 
@@ -199,7 +199,7 @@ Under Bemis–Murcko scaffold-grouped cross-validation, ligand-only ECFP4 models
 
 ![Figure 3](../figures/jcim_article/Fig3_ligand_chemistry.png)
 
-**Figure 3.** Ligand chemistry as a competing explanation, not a head-to-head predictive benchmark. (A) Rank AUROC from raw Vina scores versus out-of-fold ECFP4 AUROC under scaffold-grouped cross-validation; blue, Vina; orange, ECFP4; (B) AUROC change after adding the corresponding Vina score to ECFP4 on the same splits; lines join the two points for one direction and are not confidence intervals; (C) TPSA distributions on AChE/BChE.
+**Figure 3.** Ligand chemistry as a competing explanation, not a head-to-head predictive benchmark. (A) Vina points are raw primary-score rankings, whereas ECFP4 points are scaffold-grouped out-of-fold logistic predictions; blue, Vina; orange, ECFP4; (B) AUROC change after adding the corresponding Vina score to ECFP4 on the same splits; lines join the two points for one direction and are not confidence intervals; (C) TPSA distributions on AChE/BChE.
 
 ### 3.4 Pocket correspondence and docking-implementation sensitivity
 
@@ -213,7 +213,7 @@ Independent GNINA 1.3.2 pose generation used the same receptors, ligands, and do
 
 On PIK3CA/mTOR, replacing PIK3CA 4L23 with 4JPS lowered \(\mathrm{summary}_{\min}\) from 0.692 [0.470, 0.813] to 0.486 [0.259, 0.692]. Replacement with 5DXT gave 0.505 [0.292, 0.696]. Replacing mTOR 4JT6 with 4JSX gave 0.639 [0.418, 0.776] (Figure 5B; Table S7).
 
-Five fixed Vina random seeds produced comparatively limited numerical fluctuation relative to the larger task and receptor effects (Figure 5C). The EGFR/HER2 fixed-score task difference remained positive on all five seeds.
+The EGFR/HER2 fixed-score task difference remained positive across all five Vina seeds (Table S7). Figure 5C shows the corresponding seed-dependent \(\mathrm{summary}_{\min}\) ranges across the eight target pairs.
 
 PPARG/PPARA was the only pair whose primary Vina \(\mathrm{summary}_{\min}\) interval lay entirely above 0.5 (0.649 [0.504, 0.751]). Same-pose RTMScore rescoring of the Vina poses lowered it to 0.369 [0.233, 0.475], and GNINA CNN rescoring lowered it to 0.500 [0.356, 0.623] (Table S7).
 
@@ -233,11 +233,11 @@ Unused-pool holdouts built from remaining candidates, after excluding main-panel
 
 ### 3.6 Availability of an independent external docking set
 
-BindingDB[16] and PubChem were searched for paired experimental data across all eight target pairs. After the \(\theta=6.0\) independence filters removed shared literature sources, duplicate structures, and molecules with ECFP4 Tanimoto similarity \(\geq 0.70\) to the development set, no pair met the eligibility requirement of at least 20 dual, A-only, and B-only ligands from at least three independent sources per class. No external docking set was therefore formed (Figure 6C,D; Table S8).
+BindingDB[16] and PubChem were searched for paired experimental data across all eight target pairs. After the \(\theta=6.0\) independence filters removed shared literature sources, duplicate structures, and molecules with ECFP4 Tanimoto similarity \(\geq 0.70\) to the development set, no pair met the eligibility requirement of at least 20 dual, A-only, and B-only ligands from at least three independent sources per class. No external docking set was therefore formed. Figure 6C,D summarize the BindingDB eligibility counts; PubChem served as an additional paired-data availability check (Table S8).
 
 ![Figure 6](../figures/jcim_article/Fig6_evidence_boundary.png)
 
-**Figure 6.** Evidence boundaries. (A) Activity-threshold sensitivity; (B) ligand-, scaffold-cluster, and document-cluster resampling of the pocket A dual-versus-neither minus dual-versus-B-only difference; (C) BindingDB class counts after filtering, with color saturating at n = 20 per class; (D) independent-source counts after filtering, with color saturating at 3 sources per class. \(\dagger\) marks a class with n < 10.
+**Figure 6.** Evidence boundaries. (A) Activity-threshold sensitivity; (B) ligand-, scaffold-cluster, and document-cluster resampling of the pocket A dual-versus-neither minus dual-versus-B-only difference; (C) BindingDB class counts after filtering, with color saturating at n = 20 per class; (D) BindingDB independent-source counts after filtering, with color saturating at 3 sources per class. PubChem was an additional paired-data availability check and is not merged into (C) or (D). \(\dagger\) marks a class with n < 10.
 
 ## 4. Discussion
 
@@ -271,7 +271,7 @@ Cognate redocking showed that generating a near-native pose does not mean that p
 
 Under the retrospective conditions examined here, docking scores should be treated as ranking or screening signals. They are not, by themselves, evidence of true dual-target activity or selectivity. Favorable scores in both pockets mean only that the molecule received favorable predicted scores at both targets under the present computational settings. They do not confirm experimental dual activity or selectivity.
 
-Prospective studies have shown that multitarget docking and generative design can produce experimentally confirmed multitarget candidates.[18,19] Those studies evaluate the ability to find active molecules from a candidate library, whereas this study evaluates retrospective discrimination among already labeled experimental states. Retrospective AUROC therefore cannot replace prospective experimental hit rates, and it should not be used to dismiss docking for library compression. Likewise, a high retrospective AUROC cannot by itself show that a method will stably find dual-target molecules with a desired activity balance.
+Prospective studies have shown that multitarget docking and generative design can produce experimentally confirmed multitarget candidates.[18,19] Those studies evaluate the ability to find active molecules from a candidate library, whereas this study evaluates retrospective discrimination among already labeled experimental states. Retrospective AUROC therefore cannot replace prospective experimental hit rates, and it should not be used to dismiss docking for library compression. Likewise, a high retrospective AUROC cannot by itself show that a method will stably find dual-target molecules with a desired activity balance. The JAK1/TYK2 Top-10 class composition comes from a fixed retrospective evaluation panel in which 109 ligands included 31 dual ligands; it is not a prospective hit rate in a commercial library.
 
 For retrospective dual-target benchmarks of this type, we recommend reporting dual-versus-A-only and dual-versus-B-only separately. Ligand-only baselines, matched versus mismatched pocket comparisons, and receptor or scoring sensitivity analyses are then needed to judge whether an apparent AUROC has a stable structural explanation. Direct experimental measurement is still required for dual-target activity, activity balance, and mechanism.
 

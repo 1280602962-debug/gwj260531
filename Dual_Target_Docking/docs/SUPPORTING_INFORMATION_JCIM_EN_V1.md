@@ -261,7 +261,7 @@ Source: `independent_dock_formulation_v1.csv`; `table2_comparable_by_channel_v1.
 
 ## Table S8. External-data eligibility after independence filters
 
-BindingDB and PubChem were searched for all eight pairs. The typeset table is the independence-filtered evaluation remainder labeled at \(\theta=6.0\), not a raw supply census. External docking further required dropping shared literature sources, duplicate structures, and ECFP4 Tanimoto ≥ 0.70 molecules, plus dual / A-only / B-only each n ≥ 20 with at least three sources per class. The development-molecule set includes main panels, the expanded PIK3CA/mTOR PM110 panel, and internal holdouts. No pair met the independent external-evaluation eligibility criteria, so no external docking was performed. Raw BindingDB/PubChem supply counts and a publication-year subset on the already-built panels remain in the repository; neither is treated as external validation.
+BindingDB and PubChem were searched for all eight pairs. The typeset table and Figure 6C,D are the BindingDB independence-filtered remainder labeled at \(\theta=6.0\), not a raw supply census. PubChem served as an additional paired-data availability check and is not merged into these counts. External docking further required dropping shared literature sources, duplicate structures, and ECFP4 Tanimoto ≥ 0.70 molecules, plus dual / A-only / B-only each n ≥ 20 with at least three sources per class. The development-molecule set includes main panels, the expanded PIK3CA/mTOR PM110 panel, and internal holdouts. No pair met the independent external-evaluation eligibility criteria, so no external docking was performed. Raw BindingDB/PubChem supply counts and a publication-year subset on the already-built panels remain in the repository; neither is treated as external validation.
 
 | Pair | After filters dual / A-only / B-only | n_sources (D / A / B) | Gate |
 |------|------------------------------:|-------------------:|------|
@@ -314,7 +314,7 @@ Seven pairs reached the G5 protocol-compatibility gate and were included because
 | S10 cluster (flagship Δ only) | S4 | class-stratified bootstrap; sample-size scenario; Figure S5 simulation |
 | S11b independence remainder | S8 | S11a raw supply counts |
 | S12 literature-year split | — | year-split CSVs |
-| S13 EGFR/HER2 operating points | — | Figure S1 and Results 3.2 |
+| S13 EGFR/HER2 operating points | — | JAK1/TYK2 Top-10 in Figure 2D; AND filter in Figure S1; EGFR/HER2 operating-point CSV remains archived |
 | S14 pair audit | S9 (excluded pairs + EGFR/HER2 exception) | repeated included-pair rows |
 
 Archived files that answer questions not typeset here include: per-ligand docking scores and multi-seed long tables; property-caliper matching; complete-case coverage; historical BindingDB supply counts; leave-cognate-out and occupancy snapshots; MCL1/Bcl-xL applicability stress test; SHA-256 manifest `REVISION_CHECKSUM_MANIFEST_v1.csv`; and evaluation contract `DUALFOURCLASS_EVALUATION_CONTRACT_v1.json`. A dated ChEMBL API snapshot and a three-pair high-confidence field screen remain in the repository and are not typeset.
