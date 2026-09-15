@@ -2,7 +2,7 @@
 
 Corrected 3POZ/3RCD heavy-atom boxes and the no-ChEMBL-ID-prefix-cap AChE/BChE panel are the **canonical** protocol. Pre-fix boxes/scores/panels are in `data/_legacy_archive/` only.
 
-Manuscript, figures, and SI have **not** been overwritten yet. Production Vina, cognate redock, AChE panel metrics, eight-pair master metrics, Vina-pose RTMScore, and Vina-pose GNINA CNN are complete. Five-seed Vina and independent GNINA are still running.
+Manuscript, figures, and SI have **not** been overwritten yet. Production Vina, cognate redock, AChE panel metrics, eight-pair master metrics, five-seed Vina, Vina-pose RTMScore, and Vina-pose GNINA CNN are complete. Independent GNINA is still running.
 
 ## CORE CONCLUSION STATUS
 
@@ -85,9 +85,9 @@ EGFR/HER2 was one of the two primary pairs whose matched-pocket interval exclude
 
 ### 7. Independent GNINA / five-seed / RTM / CNN
 
-These box-dependent reruns live under `remediation_outputs/`. Manuscript overwrite waits for five-seed Vina and independent GNINA:
+These box-dependent reruns live under `remediation_outputs/`. Manuscript overwrite waits for independent GNINA:
 
-- five-seed Vina: `phase_fiveseed/` (880 jobs, seeds 20260811–14; 20260727 reuses corrected production scores) — **still running**
+- five-seed Vina: **done** 1100/1100 (880 new jobs + 220 production seed 20260727). Per-seed n=110 summary_min **0.324 / 0.330 / 0.348 / 0.325 / 0.350**. Weaker arm remains D vs B at pocket A and stays below 0.5 on every seed.
 - independent GNINA: `phase_gnina_independent/` (220 jobs, `--no_gpu`, canonical boxes, no old-pose reuse) — **still running**
 - Vina-pose RTMScore: **done** n=110 D/A=0.485 D/B=0.309 summary_min=0.309 D-vs-N=0.804
 - Vina-pose GNINA CNN: **done** 1977/1977. Primary `cnn_affinity` best-of-9 n=110 D/A=0.648 D/B=0.214 summary_min=0.214 D-vs-N=0.938. Sensitivity `cnn_score` is not promoted (D/A=0.401 D/B=0.300 summary_min=0.300).
