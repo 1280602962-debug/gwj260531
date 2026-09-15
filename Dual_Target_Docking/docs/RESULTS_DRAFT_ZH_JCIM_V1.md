@@ -33,7 +33,7 @@
 
 ![Figure 2](../figures/jcim_article/Fig2_negative_class_formulation.png)
 
-**Figure 2.** 对接表现取决于实验状态比较。(A) 固定评分通道后更换对照类别的 \(\Delta\)AUROC（dual–neither 减去 dual–单靶活性），误差棒为配体水平 bootstrap 95% 置信区间；(B) 两个方向性 AUROC；(C) 方向性 \(\mathrm{summary}_{\min}\) 与 dual–neither 比较。菱形标出 PIK3CA/mTOR 的 neither n = 4。面板 C 不是固定评分通道比较。(D) JAK1/TYK2 在双口袋平均 Vina 排序下的 Top-10 类别组成（n = 109）。
+**Figure 2.** 对接表现取决于实验状态比较。(A) 固定评分通道后更换对照类别的 \(\Delta\)AUROC（dual–neither 减去 dual–单靶活性），误差棒为配体水平 bootstrap 95% 置信区间；(B) 两个方向性 AUROC；(C) 方向性 \(\mathrm{summary}_{\min}\) 与 dual–neither 比较。菱形标出 PIK3CA/mTOR 的 neither n = 4。面板 C 不是固定评分通道比较。(D) JAK1/TYK2 在双口袋平均 Vina 排序下的 Top 10% 类别组成（\(k=11\)，n = 109）。
 
 **Table 3.** 同一套 Vina 对接分数在方向性与 dual–neither 比较设定下的 AUROC（统一 \(\theta=6.0\)）。dual–neither 比较采用双口袋平均评分 \(S_{\mathrm{mean}}\)。PIK3CA/mTOR 的 neither 样本量（n = 4）较少。
 
@@ -48,9 +48,9 @@
 | PPARG/PPARA | 0.649 [0.504, 0.751] | 0.685 [0.493, 0.848] | 14 |
 | PPARA/PPARD | 0.446 [0.296, 0.584] | 0.565 [0.368, 0.766] | 14 |
 
-该传统排序在 JAK1/TYK2 评价集上按操作点检查。按双口袋平均评分对全部 109 个配体排序时，Top-10 含 1 个 dual、2 个 A-only 和 7 个 B-only，没有 neither 配体（Figure 2D）。较高的 dual–neither AUROC 并未对应较少的高排名单靶活性配体。按 dual 的中位 \(S_{\mathrm{worst}}\) 对 Dual+A-only+B-only（\(n=95\)）作联合过滤、排除 neither 后，保留 16 个 dual，同时保留 12 个 A-only 和 22 个 B-only，dual precision 为 0.32（Figure S1）。
+该传统排序在 JAK1/TYK2 评价集上按固定比例操作点检查。按双口袋平均评分对全部 109 个配体排序时，Top 10%（\(k=\lceil 0.10\,n\rceil=11\)）含 1 个 dual、3 个 A-only 和 7 个 B-only，没有 neither 配体（Figure 2D）。较高的 dual–neither AUROC 并未对应较少的高排名单靶活性配体。按 dual 的中位 \(S_{\mathrm{worst}}\) 对 Dual+A-only+B-only（\(n=95\)）作联合过滤、排除 neither 后，保留 16 个 dual，同时保留 12 个 A-only 和 22 个 B-only，dual precision 为 0.32（Figure S1）。
 
-同一套双口袋平均排序和 AND 过滤应用于全部八个主评价集（Table S10）。Top-10 是固定条数，不是固定筛选比例：EGFR/HER2 为 10/110，PIK3CA/mTOR 为 10/48。Top-10 中 dual 计数从 1（EGFR/HER2、JAK1/TYK2）到 6（PIK3CA/mTOR、PPARG/PPARA）。四个靶对的 Top-10 不含 neither，另外四对各占 1 个位置。每个靶对的 Top-10 中都至少保留 1 个单靶活性配体。这些计数是回顾性评价面板上的描述性操作点，不是对接质量的八对排行。
+同一套双口袋平均排序按各面板 Top 10%、\(k=\lceil 0.10\,n\rceil\) 应用于全部八个主评价集，以便不同规模的靶对按同一筛选比例比较（Table S10）。Top 10% 中 dual 计数从 1/11（EGFR/HER2、JAK1/TYK2）到 4/5（PIK3CA/mTOR）和 7/11（PPARG/PPARA）。五个靶对的 Top 10% 不含 neither；AChE/BChE、PPARG/PPARA 和 PPARA/PPARD 各占 1 个位置。每个靶对的 Top 10% 中都至少保留 1 个单靶活性配体。这些计数是回顾性评价面板上的描述性操作点，不是对接质量的八对排行。Dual+A-only+B-only 上的 AND 过滤见同一表。
 
 ### 3.3 配体化学基线与对接增量判别
 

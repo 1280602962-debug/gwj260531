@@ -129,7 +129,7 @@ SCRIPTS = [
     ),
     (
         "data/jcim_novelty_v0/scripts/eight_pair_ranking_operating_point_v1.py",
-        "Eight-pair vina_mean Top-10 and AND-filter operating points for Table S10. Does not redock. Figure 2D still uses operating_point_examples_review_v1.csv.",
+        "Eight-pair vina_mean top-10% (k=ceil(0.10 n)) and AND-filter operating points for Table S10. Does not redock. Figure 2D reads this table; Figure S1 still uses operating_point_examples_review_v1.csv.",
     ),
     (
         "data/jcim_novelty_v0/scripts/assay_aggregation_max_vs_median_v1.py",

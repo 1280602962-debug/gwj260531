@@ -105,6 +105,11 @@ def equal_src(D, pair):
     return D['equal'] if pair in v.UNIFIED_THRESHOLD_PAIRS else D['five_s34']
 
 
+def ranking_row(pair):
+    return next(r for r in read('data/jcim_novelty_v0/tables/eight_pair_ranking_operating_point_v1.csv')
+                if r['pair'] == pair)
+
+
 def operating_point_row(pair):
     return next(r for r in read('data/jcim_novelty_v0/tables/operating_point_examples_review_v1.csv')
                 if r['pair'] == pair)
@@ -243,16 +248,16 @@ def fig2(D):
         L(C['desc'], 'D', 'neither n=4', ms=4.2),
     ], loc='upper center', bbox_to_anchor=(.5, -.22), ncol=3, fontsize=6.1)
 
-    op = operating_point_row('JAK1/TYK2')
+    op = ranking_row('JAK1/TYK2')
     vals = [int(op[k]) for k in ['top_dual', 'top_A_only', 'top_B_only', 'top_neither']]
     names = ['Dual', 'A-only', 'B-only', 'Neither']
     axs[3].bar(range(4), vals, color=[C['dual'], C['a_only'], C['b_only'], C['neither']], width=.62)
     for i, z in enumerate(vals):
         axs[3].text(i, z + .18, str(z), ha='center', fontsize=7)
     axs[3].set_xticks(range(4), names, fontsize=7)
-    axs[3].set_ylabel('Ligands in Top-10', fontsize=7)
+    axs[3].set_ylabel('Ligands in top 10%', fontsize=7)
     axs[3].set_ylim(0, max(vals) * 1.28 + 0.4)
-    axs[3].set_title(f"JAK1/TYK2 Top-10, mean Vina (n={int(op['n_ranked'])})", fontsize=7.5)
+    axs[3].set_title(f"JAK1/TYK2 top 10%, mean Vina (k={int(op['top_k'])} of {int(op['n_ranked'])})", fontsize=7.5)
 
     P['fig2'] = {
         p: {

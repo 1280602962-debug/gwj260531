@@ -1,5 +1,9 @@
 # 中英文 SI 压缩摘要（2026-09-13）
 
+## 2026-09-15 Main ranking readout is top 10%
+
+Table S10 and Figure 2D now use \(k=\lceil 0.10\,n\rceil\) on the full four-state panel so that eight pairs of different size are compared at the same screening fraction. Fixed Top-10 is no longer the primary ranking cutoff (it made PIK3CA/mTOR 10/48). AND-filter rows are unchanged. Figure S1 still reads `operating_point_examples_review_v1.csv`. The two-row examples file remains a Top-10 archive for EGFR/HER2 and JAK1/TYK2 AND-filter replay.
+
 ## 2026-09-15 Eight-pair ranking operating points (Table S10)
 
 The same `vina_mean` Top-10 and median-dual `vina_worst` AND filter used for the JAK1/TYK2 illustration were applied to all eight primary panels (`eight_pair_ranking_operating_point_v1.csv`). Typeset SI is now Tables S1–S10 / Figures S1–S4. Figure 2D remains the JAK1/TYK2 Top-10; Figure S1 remains that pair’s AND filter. The two-row `operating_point_examples_review_v1.csv` file is unchanged. Table S10 is a descriptive operating-point census, not an eight-pair ranking of docking quality.

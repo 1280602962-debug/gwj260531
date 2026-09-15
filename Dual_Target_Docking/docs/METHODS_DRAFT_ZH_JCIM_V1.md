@@ -83,7 +83,7 @@ AutoDock Vina 输出的 affinity 越低表示预测结合越有利。为统一 A
 
 双靶虚拟筛选通常合并两个口袋的评分来排序候选分子。对两端均有评分的配体，传统读数为平均分 \(S_{\mathrm{mean}}=(S_{A}+S_{B})/2\)，以 dual 为正类、neither 为对照（Table 3）。另将 A-only、B-only 和 neither 合并为非 dual 类的 AUROC 随分数表归档。
 
-为把虚筛对照类别的影响与评分聚合分开，保持同一口袋评分不变，比较不同实验状态对照下的 AUROC。靶点 A 评分用于 dual–B-only 及对应的 dual–neither 比较；靶点 B 评分用于 dual–A-only 及对应的 dual–neither 比较（Table S4）。更换对照类别也同时更换了具体化合物。另取两端评分中的较低值 \(S_{\mathrm{worst}}=\min(S_{A},S_{B})\) 作为 AND 型双口袋过滤。以 dual 的 \(S_{\mathrm{worst}}\) 中位数为阈值，统计 dual 保留数、dual recall、dual precision 以及保留的单靶活性配体数（Figure S1）。双口袋平均排序下的 Top-10 类别组成见 Figure 2D。八个主评价靶对的同一套排序与过滤规则见 Table S10。
+为把虚筛对照类别的影响与评分聚合分开，保持同一口袋评分不变，比较不同实验状态对照下的 AUROC。靶点 A 评分用于 dual–B-only 及对应的 dual–neither 比较；靶点 B 评分用于 dual–A-only 及对应的 dual–neither 比较（Table S4）。更换对照类别也同时更换了具体化合物。另取两端评分中的较低值 \(S_{\mathrm{worst}}=\min(S_{A},S_{B})\) 作为 AND 型双口袋过滤。以 dual 的 \(S_{\mathrm{worst}}\) 中位数为阈值，统计 dual 保留数、dual recall、dual precision 以及保留的单靶活性配体数（Figure S1）。双口袋平均排序下的 Top 10% 类别组成见 Figure 2D。截断为完整四状态面板上的 \(k=\lceil 0.10\,n\rceil\)，以便不同规模的靶对按同一筛选比例比较。八个主评价靶对的同一套排序与过滤规则见 Table S10。
 
 #### 2.5.3 置信区间与重采样分析
 

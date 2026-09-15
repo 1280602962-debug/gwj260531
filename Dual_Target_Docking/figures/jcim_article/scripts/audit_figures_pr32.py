@@ -73,8 +73,8 @@ jdoc=next(r for r in cl if r['pair']=='JAK1/TYK2' and r['estimator']=='document_
 check(float(jdoc['delta_ci_lo'])<0<float(jdoc['delta_ci_hi']),'JAK1/TYK2 document-cluster interval crosses zero')
 top=audit['plotted']['fig2D'];filt=audit['plotted']['figS7']['and_filter']
 check(top['pair']=='JAK1/TYK2','Figure 2D uses the JAK1/TYK2 operating point')
-check([int(top[k]) for k in ['top_dual','top_A_only','top_B_only','top_neither']]==[1,2,7,0],'JAK1/TYK2 Top-10 class counts: 1/2/7/0')
-check(int(top['n_ranked'])==109,'JAK1/TYK2 Top-10 denominator is 109')
+check([int(top[k]) for k in ['top_dual','top_A_only','top_B_only','top_neither']]==[1,3,7,0],'JAK1/TYK2 top-10% class counts: 1/3/7/0')
+check(int(top['n_ranked'])==109 and int(top['top_k'])==11,'JAK1/TYK2 top-10% is k=11 of 109')
 check(filt['pair']=='JAK1/TYK2','Figure S1 uses the JAK1/TYK2 AND filter')
 check([int(filt[k]) for k in ['retained_dual','retained_A_only','retained_B_only']]==[16,12,22],'AND-filter class counts: 16/12/22')
 check(int(filt['n_filter_input'])==95,'JAK1/TYK2 AND-filter denominator is 95')

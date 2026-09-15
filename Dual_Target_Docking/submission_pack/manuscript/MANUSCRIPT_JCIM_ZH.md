@@ -101,7 +101,7 @@ AutoDock Vina 输出的 affinity 越低表示预测结合越有利。为统一 A
 
 双靶虚拟筛选通常合并两个口袋的评分来排序候选分子。对两端均有评分的配体，传统读数为平均分 \(S_{\mathrm{mean}}=(S_{A}+S_{B})/2\)，以 dual 为正类、neither 为对照（Table 3）。另将 A-only、B-only 和 neither 合并为非 dual 类的 AUROC 随分数表归档。
 
-为把虚筛对照类别的影响与评分聚合分开，保持同一口袋评分不变，比较不同实验状态对照下的 AUROC。靶点 A 评分用于 dual–B-only 及对应的 dual–neither 比较；靶点 B 评分用于 dual–A-only 及对应的 dual–neither 比较（Table S4）。更换对照类别也同时更换了具体化合物。另取两端评分中的较低值 \(S_{\mathrm{worst}}=\min(S_{A},S_{B})\) 作为 AND 型双口袋过滤。以 dual 的 \(S_{\mathrm{worst}}\) 中位数为阈值，统计 dual 保留数、dual recall、dual precision 以及保留的单靶活性配体数（Figure S1）。双口袋平均排序下的 Top-10 类别组成见 Figure 2D。八个主评价靶对的同一套排序与过滤规则见 Table S10。
+为把虚筛对照类别的影响与评分聚合分开，保持同一口袋评分不变，比较不同实验状态对照下的 AUROC。靶点 A 评分用于 dual–B-only 及对应的 dual–neither 比较；靶点 B 评分用于 dual–A-only 及对应的 dual–neither 比较（Table S4）。更换对照类别也同时更换了具体化合物。另取两端评分中的较低值 \(S_{\mathrm{worst}}=\min(S_{A},S_{B})\) 作为 AND 型双口袋过滤。以 dual 的 \(S_{\mathrm{worst}}\) 中位数为阈值，统计 dual 保留数、dual recall、dual precision 以及保留的单靶活性配体数（Figure S1）。双口袋平均排序下的 Top 10% 类别组成见 Figure 2D。截断为完整四状态面板上的 \(k=\lceil 0.10\,n\rceil\)，以便不同规模的靶对按同一筛选比例比较。八个主评价靶对的同一套排序与过滤规则见 Table S10。
 
 #### 2.5.3 置信区间与重采样分析
 
@@ -174,7 +174,7 @@ BindingDB[16] 和 PubChem 对全部八个靶对检索独立外部对接集的候
 
 ![Figure 2](../figures/jcim_article/Fig2_negative_class_formulation.png)
 
-**Figure 2.** 对接表现取决于实验状态比较。(A) 固定评分通道后更换对照类别的 \(\Delta\)AUROC（dual–neither 减去 dual–单靶活性），误差棒为配体水平 bootstrap 95% 置信区间；(B) 两个方向性 AUROC；(C) 方向性 \(\mathrm{summary}_{\min}\) 与 dual–neither 比较。菱形标出 PIK3CA/mTOR 的 neither n = 4。面板 C 不是固定评分通道比较。(D) JAK1/TYK2 在双口袋平均 Vina 排序下的 Top-10 类别组成（n = 109）。
+**Figure 2.** 对接表现取决于实验状态比较。(A) 固定评分通道后更换对照类别的 \(\Delta\)AUROC（dual–neither 减去 dual–单靶活性），误差棒为配体水平 bootstrap 95% 置信区间；(B) 两个方向性 AUROC；(C) 方向性 \(\mathrm{summary}_{\min}\) 与 dual–neither 比较。菱形标出 PIK3CA/mTOR 的 neither n = 4。面板 C 不是固定评分通道比较。(D) JAK1/TYK2 在双口袋平均 Vina 排序下的 Top 10% 类别组成（\(k=11\)，n = 109）。
 
 **Table 3.** 同一套 Vina 对接分数在方向性与 dual–neither 比较设定下的 AUROC（统一 \(\theta=6.0\)）。dual–neither 比较采用双口袋平均评分 \(S_{\mathrm{mean}}\)。PIK3CA/mTOR 的 neither 样本量（n = 4）较少。
 
@@ -189,9 +189,9 @@ BindingDB[16] 和 PubChem 对全部八个靶对检索独立外部对接集的候
 | PPARG/PPARA | 0.649 [0.504, 0.751] | 0.685 [0.493, 0.848] | 14 |
 | PPARA/PPARD | 0.446 [0.296, 0.584] | 0.565 [0.368, 0.766] | 14 |
 
-该传统排序在 JAK1/TYK2 评价集上按操作点检查。按双口袋平均评分对全部 109 个配体排序时，Top-10 含 1 个 dual、2 个 A-only 和 7 个 B-only，没有 neither 配体（Figure 2D）。较高的 dual–neither AUROC 并未对应较少的高排名单靶活性配体。按 dual 的中位 \(S_{\mathrm{worst}}\) 对 Dual+A-only+B-only（\(n=95\)）作联合过滤、排除 neither 后，保留 16 个 dual，同时保留 12 个 A-only 和 22 个 B-only，dual precision 为 0.32（Figure S1）。
+该传统排序在 JAK1/TYK2 评价集上按固定比例操作点检查。按双口袋平均评分对全部 109 个配体排序时，Top 10%（\(k=\lceil 0.10\,n\rceil=11\)）含 1 个 dual、3 个 A-only 和 7 个 B-only，没有 neither 配体（Figure 2D）。较高的 dual–neither AUROC 并未对应较少的高排名单靶活性配体。按 dual 的中位 \(S_{\mathrm{worst}}\) 对 Dual+A-only+B-only（\(n=95\)）作联合过滤、排除 neither 后，保留 16 个 dual，同时保留 12 个 A-only 和 22 个 B-only，dual precision 为 0.32（Figure S1）。
 
-同一套双口袋平均排序和 AND 过滤应用于全部八个主评价集（Table S10）。Top-10 是固定条数，不是固定筛选比例：EGFR/HER2 为 10/110，PIK3CA/mTOR 为 10/48。Top-10 中 dual 计数从 1（EGFR/HER2、JAK1/TYK2）到 6（PIK3CA/mTOR、PPARG/PPARA）。四个靶对的 Top-10 不含 neither，另外四对各占 1 个位置。每个靶对的 Top-10 中都至少保留 1 个单靶活性配体。这些计数是回顾性评价面板上的描述性操作点，不是对接质量的八对排行。
+同一套双口袋平均排序按各面板 Top 10%、\(k=\lceil 0.10\,n\rceil\) 应用于全部八个主评价集，以便不同规模的靶对按同一筛选比例比较（Table S10）。Top 10% 中 dual 计数从 1/11（EGFR/HER2、JAK1/TYK2）到 4/5（PIK3CA/mTOR）和 7/11（PPARG/PPARA）。五个靶对的 Top 10% 不含 neither；AChE/BChE、PPARG/PPARA 和 PPARA/PPARD 各占 1 个位置。每个靶对的 Top 10% 中都至少保留 1 个单靶活性配体。这些计数是回顾性评价面板上的描述性操作点，不是对接质量的八对排行。Dual+A-only+B-only 上的 AND 过滤见同一表。
 
 ### 3.3 配体化学基线与对接增量判别
 
@@ -273,7 +273,7 @@ PIK3CA/mTOR 的面板规模和 exhaustiveness 敏感性结果见 Figure S3。PM4
 
 在本文考察的回顾性评价条件下，对接评分应视为候选排序或筛选信号，而不是真实双靶活性或选择性的直接证据。两个口袋中均获得有利对接评分，只表示该分子在当前计算条件下对两个靶点均获得了有利预测评分。
 
-已有前瞻性研究表明，多靶对接和生成式设计可以产生经实验验证的多靶候选物。[18,19] 这类研究评价的是从候选库中找到活性分子的能力；本文评价的是在两端均有实验测量的配体中，不同实验状态之间的回顾性判别能力。回顾性 AUROC 不能替代前瞻实验命中率；本文结果也不评价对接在候选库压缩中的总体价值。较高的回顾性 AUROC 也不能单独证明方法能稳定找到具有预期活性平衡的双靶分子。JAK1/TYK2 Top-10 的类别组成来自固定构建的回顾性评价面板，其中 109 个配体中包含 31 个 dual，不能直接解释为商业库或前瞻筛选中的命中率。
+已有前瞻性研究表明，多靶对接和生成式设计可以产生经实验验证的多靶候选物。[18,19] 这类研究评价的是从候选库中找到活性分子的能力；本文评价的是在两端均有实验测量的配体中，不同实验状态之间的回顾性判别能力。回顾性 AUROC 不能替代前瞻实验命中率；本文结果也不评价对接在候选库压缩中的总体价值。较高的回顾性 AUROC 也不能单独证明方法能稳定找到具有预期活性平衡的双靶分子。JAK1/TYK2 Top 10% 的类别组成来自固定构建的回顾性评价面板，其中 109 个配体中包含 31 个 dual，不能直接解释为商业库或前瞻筛选中的命中率。
 
 对于此类回顾性双靶基准，我们建议分别报告 dual–A-only 比较和 dual–B-only 比较两个方向，并结合仅配体基线、对应/非对应口袋比较以及必要的受体或评分敏感性分析，以判断表观 AUROC 是否具有稳定的结构解释。最终的双靶活性、活性平衡和作用机制仍需要直接实验测定。
 

@@ -15,7 +15,7 @@ Article numbering follows the Chinese working manuscript. Disk filenames need no
 | Final no. | Title | Physical stem | Plot function | Data source |
 |---|---|---|---|---|
 | Figure 1 | Four-state evaluation and compact ChEMBL supply check | `Fig1_four_state_and_supply` | `fig1()` | `universe_census_summary_v1.csv` |
-| Figure 2 | Docking depends on the experimental-state comparison | `Fig2_negative_class_formulation` | `fig2()` | `formulation_equal_score_negative_v1.csv`; `equal_score_negative_s34_v1.csv`; `unified_threshold_sensitivity_v2.csv`; `table2_comparable_theta6_v1.csv`; `operating_point_examples_review_v1.csv` (panel D) |
+| Figure 2 | Docking depends on the experimental-state comparison | `Fig2_negative_class_formulation` | `fig2()` | `formulation_equal_score_negative_v1.csv`; `equal_score_negative_s34_v1.csv`; `unified_threshold_sensitivity_v2.csv`; `table2_comparable_theta6_v1.csv`; `eight_pair_ranking_operating_point_v1.csv` (panel D) |
 | Figure 3 | Ligand chemistry as a competing explanation | `Fig3_ligand_chemistry` | `fig3_chemistry()` | `ligand_ml_baseline_scaffold_cv_v1.csv`; `ecfp4_incremental_s20s24_v1.csv`; `incremental_information_v1.csv`; `assembled_AChE_BChE.csv` |
 | Figure 4 | Matched versus mismatched pocket | `Fig4_mismatched_pocket` | `fig5_pocket()` | `wrong_pocket_paired_delta_bootstrap_v1.csv`; `wrong_pocket_by_channel_v1.csv`; `holdout_pocket_matched_v1.csv` |
 | Figure 5 | Computational realization | `Fig5_computational_realization` | `fig4_compute()` | `independent_dock_formulation_v1.csv`; alt-receptor CSVs; `multiseed_auroc_by_seed_v2.csv`; `fiveseed_summary_min_aggregate_v1.csv` |
@@ -37,4 +37,4 @@ These files duplicate a main-text panel. They stay in `figures/jcim_article/` wi
 | `FigS7_bindingdb_native_slice` | Same content as Figure 6C,D |
 | `FigS8_cluster_uncertainty` | Same content as Figure 6B |
 
-Formal SI tables are S1–S10. Table S10 is the eight-pair candidate-ranking operating point (`eight_pair_ranking_operating_point_v1.csv`). Figure 2D and Figure S1 still read the two-row JAK1/TYK2 illustration from `operating_point_examples_review_v1.csv`. Former typeset S10 cluster/bootstrap and S11–S14 remain on GitHub and are not typeset. Formal SI figures are S1–S4.
+Formal SI tables are S1–S10. Table S10 is the eight-pair top-10% ranking operating point (`eight_pair_ranking_operating_point_v1.csv`; \(k=\lceil 0.10\,n\rceil\)). Figure 2D reads that table for JAK1/TYK2. Figure S1 still reads the two-row AND-filter illustration from `operating_point_examples_review_v1.csv`. Former typeset S10 cluster/bootstrap and S11–S14 remain on GitHub and are not typeset. Formal SI figures are S1–S4.

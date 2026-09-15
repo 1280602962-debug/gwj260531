@@ -294,29 +294,32 @@ def main():
     egfr_rank = one(ranking, pair="EGFR/HER2")
     assert (
         egfr_rank["n_ranked"],
+        egfr_rank["top_k"],
         egfr_rank["top_dual"],
         egfr_rank["top_A_only"],
         egfr_rank["top_B_only"],
         egfr_rank["top_neither"],
-    ) == ("110", "1", "5", "4", "0")
+    ) == ("110", "11", "1", "5", "5", "0")
     jak_rank = one(ranking, pair="JAK1/TYK2")
     assert (
         jak_rank["n_ranked"],
+        jak_rank["top_k"],
         jak_rank["top_dual"],
         jak_rank["top_A_only"],
         jak_rank["top_B_only"],
         jak_rank["top_neither"],
-    ) == ("109", "1", "2", "7", "0")
+    ) == ("109", "11", "1", "3", "7", "0")
     pm_rank = one(ranking, pair="PIK3CA/mTOR")
     assert (
         pm_rank["n_ranked"],
+        pm_rank["top_k"],
         pm_rank["top_dual"],
         pm_rank["top_A_only"],
         pm_rank["top_B_only"],
         pm_rank["top_neither"],
-    ) == ("48", "6", "2", "1", "1")
+    ) == ("48", "5", "4", "1", "0", "0")
+    assert all(int(r["top_k"]) == (int(r["n_ranked"]) + 9) // 10 for r in ranking)
     assert all(int(r["top_A_only"]) + int(r["top_B_only"]) >= 1 for r in ranking)
-    assert all(int(r["top_neither"]) in {0, 1} for r in ranking)
 
     ligand = rows("ligand_only_fullmap_auroc_v1.csv")
     near(one(ligand, pair="EGFR/HER2", contrast="D_vs_neither")["ecfp4_groupkfold_auroc"], 0.9214)

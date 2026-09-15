@@ -1,9 +1,9 @@
 # PR32 figure numerical audit
 
 Pinned numerical-data snapshot: `abb61a20a04eb6a085ad526876624eadb518c4cc`
-Artwork generated from git HEAD: `55243034d6264c9035306f737a93216d166391a6`
+Artwork generated from git HEAD: `92708c16bdee2fe32dbe82372bd382f6ac7fd6b9`
 
-145 PASS / 0 FAIL
+146 PASS / 0 FAIL
 
 | Status | Check |
 |---|---|
@@ -34,11 +34,12 @@ Artwork generated from git HEAD: `55243034d6264c9035306f737a93216d166391a6`
 | PASS | SHA256 data/jcim_chembl_universe_v0/local_track_b_v0/tables/five_pair_local_channels_v1/wrong_pocket_by_channel_v1.csv |
 | PASS | SHA256 data/jcim_chembl_universe_v0/local_track_b_v0/tables/five_pair_crossdb_v1/crossdb_strict_supply_v1.csv |
 | PASS | SHA256 data/jcim_chembl_universe_v0/tables/universe_census_summary_v1.csv |
-| PASS | SHA256 data/jcim_novelty_v0/tables/operating_point_examples_review_v1.csv |
+| PASS | SHA256 data/jcim_novelty_v0/tables/eight_pair_ranking_operating_point_v1.csv |
 | PASS | SHA256 data/jcim_novelty_v0/tables/equal_score_cluster_bootstrap_v1.csv |
 | PASS | SHA256 data/pik3ca_mtor_panel48_rdkit_v0/tables/panel_v0_48.csv |
 | PASS | SHA256 data/pik3ca_mtor_panel48_rdkit_v0/tables/scores_vina_E8_best.csv |
 | PASS | SHA256 data/jcim_novelty_v0/tables/detectable_effect_simulation_v1.csv |
+| PASS | SHA256 data/jcim_novelty_v0/tables/operating_point_examples_review_v1.csv |
 | PASS | SHA256 data/jcim_novelty_v0/tables/all14_cognate_rmsd_calcrrms_v1.csv |
 | PASS | SHA256 docs/MANUSCRIPT_JCIM_ZH.md |
 | PASS | SHA256 docs/MANUSCRIPT_JCIM_EN.md |
@@ -115,8 +116,8 @@ Artwork generated from git HEAD: `55243034d6264c9035306f737a93216d166391a6`
 | PASS | Figure S4 plots only top-1 and lowest saved-pose RMSD |
 | PASS | JAK1/TYK2 document-cluster interval crosses zero |
 | PASS | Figure 2D uses the JAK1/TYK2 operating point |
-| PASS | JAK1/TYK2 Top-10 class counts: 1/2/7/0 |
-| PASS | JAK1/TYK2 Top-10 denominator is 109 |
+| PASS | JAK1/TYK2 top-10% class counts: 1/3/7/0 |
+| PASS | JAK1/TYK2 top-10% is k=11 of 109 |
 | PASS | Figure S1 uses the JAK1/TYK2 AND filter |
 | PASS | AND-filter class counts: 16/12/22 |
 | PASS | JAK1/TYK2 AND-filter denominator is 95 |

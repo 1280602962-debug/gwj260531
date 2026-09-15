@@ -23,7 +23,7 @@
 | Results 3.4 holdout Δ range | −0.079 to +0.150 | five-pair `wrong_pocket_by_channel_v1.csv` `holdout_vina_20260727` (F2 −0.079; PPARA/PPARD +0.150) plus original-pair holdouts | verified | none |
 | Results 3.4 PPARG rescore | RTM 0.369 [0.233, 0.475]; GNINA CNN 0.500 | `table2_comparable_by_channel_v1.csv` `rtm_best9` 0.3691 [0.233, 0.4753]; `gnina_cnn_affinity` 0.5 | verified | none |
 | Results 3.4 PPARA RMSD | top-3 7.848 Å; best 1.401 Å | `layer3_cognate_rmsd_calcrrms_v1.csv` 6LXA `calcrrms_top3_A` 7.848, `calcrrms_best_A` 1.401 | verified | none |
-| Results 3.2 JAK1/TYK2 operating point | Top-10 1/2/7/0, n=109; AND 16/12/22, n=95, precision 0.32 | `operating_point_examples_review_v1.csv` JAK1/TYK2 | verified | none |
-| Results 3.2 / Table S10 eight-pair ranking | EGFR 1/5/4/0 of 110; JAK1/TYK2 1/2/7/0 of 109; PIK3CA 6/2/1/1 of 48; dual Top-10 1–6; neither 0 or 1 | `eight_pair_ranking_operating_point_v1.csv` | verified | none |
+| Results 3.2 JAK1/TYK2 operating point | Top 10% 1/3/7/0, k=11 of 109; AND 16/12/22, n=95, precision 0.32 | `eight_pair_ranking_operating_point_v1.csv` JAK1/TYK2; AND from `operating_point_examples_review_v1.csv` | verified | none |
+| Results 3.2 / Table S10 eight-pair ranking | EGFR 1/5/5/0 of k=11; JAK1/TYK2 1/3/7/0 of k=11; PIK3CA 4/1/0/0 of k=5; dual/k 0.091–0.800 | `eight_pair_ranking_operating_point_v1.csv` | verified | none |
 
 未改任何科学数据文件。
