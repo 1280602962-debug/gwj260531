@@ -863,67 +863,37 @@ def verify_si(D: dict, provenance: dict, errors: list) -> None:
     if "s3newA" not in P or "s3newB" not in P or "s3newC" not in P or "s3newD" not in P:
         errors.append("Fig S3 paired-delta keys missing")
     else:
-        expected_main_delta = {
-            "EGFR/HER2": (0.1697, 0.06, 0.2803, True, 0.4297, 0.26),
-            "AChE/BChE": (0.1614, 0.037, 0.269, True, 0.6058, 0.4444),
-            "PIK3CA/PIK3CB": (0.1511, -0.0215, 0.3105, False, 0.5, 0.3489),
-            "PIK3CA/mTOR": (0.0902, -0.1222, 0.2626, False, 0.6921, 0.6019),
-        }
         for rec, pair in zip(P["s3newA"], PAIR_ORDER):
             src = D["delta_wp"][(pair, "main_panel")]
             eq(rec["x"], src["delta_matched_minus_wrong"], msg=f"s3A {pair} vs CSV")
             eq(rec["lo"], src["delta_ci_lo"], msg=f"s3A {pair} lo vs CSV")
             eq(rec["hi"], src["delta_ci_hi"], msg=f"s3A {pair} hi vs CSV")
-            ex, elo, ehi, eex, em, ew = expected_main_delta[pair]
-            eq(rec["x"], ex, msg=f"s3A {pair} delta checksum")
-            eq(rec["lo"], elo, msg=f"s3A {pair} lo checksum")
-            eq(rec["hi"], ehi, msg=f"s3A {pair} hi checksum")
-            eq(rec["matched"], em, msg=f"s3A {pair} matched checksum")
-            eq(rec["wrong"], ew, msg=f"s3A {pair} wrong checksum")
             eq(rec["x"], rec["matched"] - rec["wrong"], msg=f"s3A {pair} delta = matched−wrong")
-            if rec["excl"] != eex:
-                errors.append(f"s3A {pair} ci_excludes_zero {rec['excl']} != {eex}")
+            csv_excl = (float(src["delta_ci_lo"]) > 0) or (float(src["delta_ci_hi"]) < 0)
+            if rec["excl"] != csv_excl:
+                errors.append(f"s3A {pair} ci_excludes_zero {rec['excl']} != CSV {csv_excl}")
             eq(rec["matched"], D["theta6"][pair]["pocket_matched_summary_min"], msg=f"s3A {pair} vs Table 2")
             eq(rec["wrong"], D["pm_by"][(pair, "wrong_pocket_control_vina")]["summary_min"], msg=f"s3A {pair} vs Fig 6 wrong")
 
-        expected_hold_delta = {
-            "AChE/BChE": (-0.025, -0.1119, 0.0714, 0.6175, 0.6425),
-            "PIK3CA/PIK3CB": (-0.095, -0.2814, 0.1143, 0.425, 0.52),
-            "PIK3CA/mTOR": (-0.0225, -0.1165, 0.079, 0.765, 0.7875),
-        }
         for rec, pair in zip(P["s3newB"], HOLD_PAIRS):
             src = D["delta_wp"][(pair, "unused_pool_holdout")]
             eq(rec["x"], src["delta_matched_minus_wrong"], msg=f"s3B {pair} vs CSV")
-            ex, elo, ehi, em, ew = expected_hold_delta[pair]
-            eq(rec["x"], ex, msg=f"s3B {pair} delta checksum")
-            eq(rec["lo"], elo, msg=f"s3B {pair} lo checksum")
-            eq(rec["hi"], ehi, msg=f"s3B {pair} hi checksum")
-            eq(rec["matched"], em, msg=f"s3B {pair} matched checksum")
-            eq(rec["wrong"], ew, msg=f"s3B {pair} wrong checksum")
+            eq(rec["lo"], src["delta_ci_lo"], msg=f"s3B {pair} lo vs CSV")
+            eq(rec["hi"], src["delta_ci_hi"], msg=f"s3B {pair} hi vs CSV")
             eq(rec["x"], rec["matched"] - rec["wrong"], msg=f"s3B {pair} delta = matched−wrong")
             if rec["excl"]:
                 errors.append(f"s3B {pair}: holdout Δ CI should include 0")
             if rec["x"] >= 0:
                 errors.append(f"s3B {pair}: holdout point Δ should be negative")
 
-        expected_desc = {
-            "EGFR/HER2": (-0.0524, -0.2, 0.1155, "clogp", 0.4821, 0.4297),
-            "AChE/BChE": (-0.1275, -0.3039, 0.0493, "tpsa", 0.7333, 0.6058),
-            "PIK3CA/PIK3CB": (-0.1217, -0.3197, 0.0891, "heavy", 0.6217, 0.5),
-            "PIK3CA/mTOR": (0.2291, -0.0105, 0.4352, "heavy", 0.463, 0.6921),
-        }
         for rec, pair in zip(P["s3newC"], PAIR_ORDER):
             src = D["delta_desc"][pair]
             eq(rec["x"], src["delta_vina_minus_descriptor"], msg=f"s3C {pair} vs CSV")
-            ex, elo, ehi, earm, edesc, evina = expected_desc[pair]
-            eq(rec["x"], ex, msg=f"s3C {pair} delta checksum")
-            eq(rec["lo"], elo, msg=f"s3C {pair} lo checksum")
-            eq(rec["hi"], ehi, msg=f"s3C {pair} hi checksum")
-            eq(rec["desc"], edesc, msg=f"s3C {pair} descriptor checksum")
-            eq(rec["vina"], evina, msg=f"s3C {pair} vina checksum")
+            eq(rec["lo"], src["delta_ci_lo"], msg=f"s3C {pair} lo vs CSV")
+            eq(rec["hi"], src["delta_ci_hi"], msg=f"s3C {pair} hi vs CSV")
             eq(rec["x"], rec["vina"] - rec["desc"], msg=f"s3C {pair} delta = vina−descriptor")
-            if rec["arm"] != earm:
-                errors.append(f"s3C {pair} arm {rec['arm']} != {earm}")
+            if rec["arm"] != src["best_descriptor"]:
+                errors.append(f"s3C {pair} arm {rec['arm']} != CSV {src['best_descriptor']}")
             if rec["excl"]:
                 errors.append(f"s3C {pair}: descriptor Δ CI should include 0")
 

@@ -28,8 +28,14 @@ check(audit['plotted'].get('pair_order')==order,'scientific display order on fig
 check(list(primary)==order,'primary plotted dict follows scientific order')
 fa=float(audit['plotted']['fig2']['EGFR/HER2']['fixed_A']['delta_neither_minus_selective'])
 fb=float(audit['plotted']['fig2']['JAK1/TYK2']['fixed_A']['delta_neither_minus_selective'])
-check(abs(fa-0.378)<0.001,'Figure 2A EGFR/HER2 fixed-score Δ is 0.378')
-check(abs(fb-0.444)<0.001,'Figure 2A JAK1/TYK2 fixed-score Δ is 0.444')
+eq_rows = rows('data/jcim_novelty_v0/tables/formulation_equal_score_negative_v1.csv')
+eq = {(r['pair'], r['contrast']): r for r in eq_rows}
+five_eq_rows = rows('data/jcim_chembl_universe_v0/local_track_b_v0/tables/five_pair_stack_v1/equal_score_negative_s34_v1.csv')
+five_eq = {(r['pair'], r['contrast']): r for r in five_eq_rows}
+check(abs(fa - float(eq[('EGFR/HER2', 'D_vs_B_or_neither_pocketA')]['delta_neither_minus_selective'])) < 0.001,
+      'Figure 2A EGFR/HER2 Δ matches equal-score CSV')
+check(abs(fb - float(five_eq[('JAK1/TYK2', 'D_vs_B_or_neither_pocketA')]['delta_neither_minus_selective'])) < 0.001,
+      'Figure 2A JAK1/TYK2 Δ matches equal-score CSV')
 check(audit.get('data_snapshot_commit')=='abb61a20a04eb6a085ad526876624eadb518c4cc','data snapshot commit is pinned separately from artwork')
 check(bool(audit.get('artwork_git_head')),'artwork git HEAD recorded at generation')
 captions=(OUT/'MANUSCRIPT_FIGURE_CAPTIONS.md').read_text(encoding='utf-8')

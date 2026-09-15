@@ -245,7 +245,7 @@ def fig2(D):
     axs[2].legend(handles=[
         L(C['vina'], 'o', SMIN, ms=4.4),
         L(C['desc'], 's', 'Dual vs neither, mean Vina', ms=4.2),
-        L(C['desc'], 'D', 'neither n=4', ms=4.2),
+        L(C['desc'], 'D', 'neither n<10', ms=4.2),
     ], loc='upper center', bbox_to_anchor=(.5, -.22), ncol=3, fontsize=6.1)
 
     op = ranking_row('JAK1/TYK2')
