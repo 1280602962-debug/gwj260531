@@ -3,25 +3,25 @@
 ## root
 
 - `README.md` (2245 bytes)
-- `SCRIPTS.md` (5503 bytes)
+- `SCRIPTS.md` (5552 bytes)
 
 ## manuscript
 - `DATA_AND_SOFTWARE_AVAILABILITY_JCIM_EN.md` (625 bytes)
 - `DATA_AND_SOFTWARE_AVAILABILITY_JCIM_ZH.md` (477 bytes)
 - `FACT_CHECK_TABLE.md` (4132 bytes)
-- `FIGURE_PANEL_LOCK_V3.md` (4366 bytes)
+- `FIGURE_PANEL_LOCK_V3.md` (4444 bytes)
 - `HIGH_COMPARABILITY_FEASIBILITY_V1.md` (1420 bytes)
 - `LANGUAGE_CHANGELOG.md` (4665 bytes)
 - `MANUSCRIPT_CONSOLIDATION_REPORT_20260912.md` (7233 bytes)
-- `MANUSCRIPT_JCIM_EN.md` (63455 bytes)
-- `MANUSCRIPT_JCIM_ZH.md` (54982 bytes)
+- `MANUSCRIPT_JCIM_EN.md` (64065 bytes)
+- `MANUSCRIPT_JCIM_ZH.md` (55541 bytes)
 - `PRIMARY_RESULT_INDEX_V1.md` (8240 bytes)
 - `PRODUCTION_POSE_ARCHIVE_PREP_V1.md` (784 bytes)
 - `REFERENCES_JCIM.md` (5537 bytes)
 - `STATISTICAL_LOCK_V1.md` (6106 bytes)
 - `SUBMISSION_AUDIT_FIVE_ROUNDS_V1.md` (10040 bytes)
-- `SUPPORTING_INFORMATION_DRAFT_ZH_JCIM_V1.md` (29224 bytes)
-- `SUPPORTING_INFORMATION_JCIM_EN_V1.md` (30621 bytes)
+- `SUPPORTING_INFORMATION_DRAFT_ZH_JCIM_V1.md` (29617 bytes)
+- `SUPPORTING_INFORMATION_JCIM_EN_V1.md` (31066 bytes)
 - `UNRESOLVED_ISSUES.md` (1829 bytes)
 
 ## tables
@@ -35,7 +35,7 @@
 - `descriptor_all_four_directional_v1.csv` (1037 bytes)
 - `ecfp4_docking_scaler_sensitivity_v1.csv` (14306 bytes)
 - `ecfp4_incremental_s20s24_v1.csv` (3969 bytes)
-- `eight_pair_ranking_operating_point_v1.csv` (3184 bytes)
+- `eight_pair_ranking_operating_point_v1.csv` (3711 bytes)
 - `equal_score_cluster_bootstrap_v1.csv` (855 bytes)
 - `equal_score_negative_s34_v1.csv` (2323 bytes)
 - `external_slice_summary_v1.csv` (1840 bytes)
@@ -111,7 +111,7 @@
 - `MANUSCRIPT_FIGURE_CAPTIONS.md` (8500 bytes)
 - `TOC_graphic.png` (47411 bytes)
 - `TOC_graphic.tif` (70582 bytes)
-- `plotted_values.json` (62641 bytes)
+- `plotted_values.json` (62642 bytes)
 
 ## scripts
 - `analyze_eight_pair_dump_gated_v1.py` (27003 bytes)
@@ -129,7 +129,7 @@
 - `chembl_exhaustive_pair_census_v1.py` (23238 bytes)
 - `claim_hardening_v1.py` (12123 bytes)
 - `ecfp4_docking_scaler_sensitivity_v1.py` (11999 bytes)
-- `eight_pair_ranking_operating_point_v1.py` (5407 bytes)
+- `eight_pair_ranking_operating_point_v1.py` (6073 bytes)
 - `equal_score_cluster_bootstrap_v1.py` (9984 bytes)
 - `high_confidence_label_rebuild_v1.py` (10670 bytes)
 - `jcim_figure_style.py` (9858 bytes)

@@ -37,4 +37,4 @@ These files duplicate a main-text panel. They stay in `figures/jcim_article/` wi
 | `FigS7_bindingdb_native_slice` | Same content as Figure 6C,D |
 | `FigS8_cluster_uncertainty` | Same content as Figure 6B |
 
-Formal SI tables are S1–S10. Table S10 is the eight-pair top-10% ranking operating point (`eight_pair_ranking_operating_point_v1.csv`; \(k=\lceil 0.10\,n\rceil\)). Figure 2D reads that table for JAK1/TYK2. Figure S1 still reads the two-row AND-filter illustration from `operating_point_examples_review_v1.csv`. Former typeset S10 cluster/bootstrap and S11–S14 remain on GitHub and are not typeset. Formal SI figures are S1–S4.
+Formal SI tables are S1–S10. Table S10 is the eight-pair top-10% ranking operating point (`eight_pair_ranking_operating_point_v1.csv`; \(k=\lceil 0.10\,n\rceil\); \(\mathrm{EF}_{\mathrm{dual},10\%}=(\mathrm{dual}/k)/(n_{\mathrm{dual}}/n)\)). Figure 2D reads that table for JAK1/TYK2. Figure S1 still reads the two-row AND-filter illustration from `operating_point_examples_review_v1.csv`. Former typeset S10 cluster/bootstrap and S11–S14 remain on GitHub and are not typeset. Formal SI figures are S1–S4.

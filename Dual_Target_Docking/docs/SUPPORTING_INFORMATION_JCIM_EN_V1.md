@@ -302,18 +302,18 @@ Seven pairs reached the G5 protocol-compatibility gate and were included because
 
 ## Table S10. Eight-pair candidate-ranking operating points
 
-All eight primary panels were ranked by the two-pocket mean Vina score \(S_{\mathrm{mean}}=(S_{A}+S_{B})/2\), with ties broken by ascending ligand ID. The ranking readout is the top 10% of the full four-state panel, including neither, with \(k=\lceil 0.10\,n\rceil\). That fixed screening fraction, not a fixed count, is what makes the eight pairs comparable. The AND filter uses Dual+A-only+B-only, excludes neither, and retains ligands with \(S_{\mathrm{worst}}\geq\) the median dual \(S_{\mathrm{worst}}\). These rows are descriptive operating points; they are not an eight-pair ranking of docking quality. JAK1/TYK2 top 10% is Figure 2D; the JAK1/TYK2 AND filter is Figure S1. Source: `eight_pair_ranking_operating_point_v1.csv`; `review_scored_membership_v1.csv`.
+All eight primary panels were ranked by the two-pocket mean Vina score \(S_{\mathrm{mean}}=(S_{A}+S_{B})/2\), with ties broken by ascending ligand ID. The ranking readout is the top 10% of the full four-state panel, including neither, with \(k=\lceil 0.10\,n\rceil\). That fixed screening fraction, not a fixed count, is what makes the eight pairs comparable. The top-10% dual fraction is \(\mathrm{dual}/k\). Enrichment versus the panel dual base rate is \(\mathrm{EF}_{\mathrm{dual},10\%}=(\mathrm{dual}/k)/(n_{\mathrm{dual}}/n)\); values below 1 mean dual ligands were less common in the top 10% than in the full panel. The AND filter uses Dual+A-only+B-only, excludes neither, and retains ligands with \(S_{\mathrm{worst}}\geq\) the median dual \(S_{\mathrm{worst}}\). These rows are descriptive operating points; they are not an eight-pair ranking of docking quality. JAK1/TYK2 top 10% is Figure 2D; the JAK1/TYK2 AND filter is Figure S1. Source: `eight_pair_ranking_operating_point_v1.csv`; `review_scored_membership_v1.csv`.
 
-| Pair | n_ranked (D / A / B / N) | k | Top 10% D / A / B / N | dual / k | AND input → pass (D / A / B) | AND dual precision |
-|------|-------------------------:|--:|----------------------:|---------:|------------------------------:|-------------------:|
-| EGFR/HER2 | 110 (28 / 38 / 32 / 12) | 11 | 1 / 5 / 5 / 0 | 0.091 | 98 → 47 (14 / 9 / 24) | 0.298 |
-| JAK1/JAK2 | 110 (32 / 32 / 32 / 14) | 11 | 6 / 5 / 0 / 0 | 0.545 | 96 → 35 (16 / 13 / 6) | 0.457 |
-| JAK1/TYK2 | 109 (31 / 32 / 32 / 14) | 11 | 1 / 3 / 7 / 0 | 0.091 | 95 → 50 (16 / 12 / 22) | 0.320 |
-| PIK3CA/mTOR | 48 (18 / 14 / 12 / 4) | 5 | 4 / 1 / 0 / 0 | 0.800 | 44 → 17 (9 / 4 / 4) | 0.529 |
-| AChE/BChE | 95 (27 / 25 / 28 / 15) | 10 | 5 / 3 / 1 / 1 | 0.500 | 80 → 32 (14 / 7 / 11) | 0.438 |
-| F2/F10 | 107 (31 / 32 / 32 / 12) | 11 | 4 / 1 / 6 / 0 | 0.364 | 95 → 59 (16 / 20 / 23) | 0.271 |
-| PPARG/PPARA | 109 (32 / 31 / 32 / 14) | 11 | 7 / 3 / 0 / 1 | 0.636 | 95 → 31 (16 / 9 / 6) | 0.516 |
-| PPARA/PPARD | 110 (32 / 32 / 32 / 14) | 11 | 5 / 2 / 3 / 1 | 0.455 | 96 → 58 (16 / 22 / 20) | 0.276 |
+| Pair | n_ranked (D / A / B / N) | k | Top 10% D / A / B / N | dual / k | n_dual / n | EF_dual,10% | AND input → pass (D / A / B) | AND dual precision |
+|------|-------------------------:|--:|----------------------:|---------:|-----------:|------------:|------------------------------:|-------------------:|
+| EGFR/HER2 | 110 (28 / 38 / 32 / 12) | 11 | 1 / 5 / 5 / 0 | 0.091 | 0.255 | 0.357 | 98 → 47 (14 / 9 / 24) | 0.298 |
+| JAK1/JAK2 | 110 (32 / 32 / 32 / 14) | 11 | 6 / 5 / 0 / 0 | 0.545 | 0.291 | 1.875 | 96 → 35 (16 / 13 / 6) | 0.457 |
+| JAK1/TYK2 | 109 (31 / 32 / 32 / 14) | 11 | 1 / 3 / 7 / 0 | 0.091 | 0.284 | 0.320 | 95 → 50 (16 / 12 / 22) | 0.320 |
+| PIK3CA/mTOR | 48 (18 / 14 / 12 / 4) | 5 | 4 / 1 / 0 / 0 | 0.800 | 0.375 | 2.133 | 44 → 17 (9 / 4 / 4) | 0.529 |
+| AChE/BChE | 95 (27 / 25 / 28 / 15) | 10 | 5 / 3 / 1 / 1 | 0.500 | 0.284 | 1.759 | 80 → 32 (14 / 7 / 11) | 0.438 |
+| F2/F10 | 107 (31 / 32 / 32 / 12) | 11 | 4 / 1 / 6 / 0 | 0.364 | 0.290 | 1.255 | 95 → 59 (16 / 20 / 23) | 0.271 |
+| PPARG/PPARA | 109 (32 / 31 / 32 / 14) | 11 | 7 / 3 / 0 / 1 | 0.636 | 0.294 | 2.168 | 95 → 31 (16 / 9 / 6) | 0.516 |
+| PPARA/PPARD | 110 (32 / 32 / 32 / 14) | 11 | 5 / 2 / 3 / 1 | 0.455 | 0.291 | 1.562 | 96 → 58 (16 / 22 / 20) | 0.276 |
 
 ---
 

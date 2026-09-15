@@ -159,6 +159,7 @@ def main():
         "Table S9",
         "Table S10",
         "not an eight-pair ranking of docking quality",
+        r"\mathrm{EF}_{\mathrm{dual},10\%}",
     )
     for phrase in required_phrases:
         assert phrase in manuscript, phrase
@@ -320,6 +321,15 @@ def main():
     ) == ("48", "5", "4", "1", "0", "0")
     assert all(int(r["top_k"]) == (int(r["n_ranked"]) + 9) // 10 for r in ranking)
     assert all(int(r["top_A_only"]) + int(r["top_B_only"]) >= 1 for r in ranking)
+    for rec in ranking:
+        top_frac = int(rec["top_dual"]) / int(rec["top_k"])
+        panel_frac = int(rec["n_dual"]) / int(rec["n_ranked"])
+        near(rec["top_dual_fraction"], top_frac, tolerance=1e-12)
+        near(rec["panel_dual_fraction"], panel_frac, tolerance=1e-12)
+        near(rec["ef_dual_10pct"], top_frac / panel_frac, tolerance=1e-12)
+    near(egfr_rank["ef_dual_10pct"], 10 / 28)
+    near(jak_rank["ef_dual_10pct"], 109 / 341)
+    near(pm_rank["ef_dual_10pct"], 0.8 / 0.375)
 
     ligand = rows("ligand_only_fullmap_auroc_v1.csv")
     near(one(ligand, pair="EGFR/HER2", contrast="D_vs_neither")["ecfp4_groupkfold_auroc"], 0.9214)
@@ -344,6 +354,7 @@ def main():
     assert "Table S9" in zh
     assert "Table S10" in zh
     assert "不是对接质量的八对排行" in zh
+    assert r"\mathrm{EF}_{\mathrm{dual},10\%}" in zh
     assert "硬负样本" not in zh
     assert "将新对接" not in zh
     assert "厚供给" not in zh
