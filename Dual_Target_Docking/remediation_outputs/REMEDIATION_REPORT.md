@@ -2,7 +2,7 @@
 
 Corrected 3POZ/3RCD heavy-atom boxes and the no-ChEMBL-ID-prefix-cap AChE/BChE panel are the **canonical** protocol. Pre-fix boxes/scores/panels are in `data/_legacy_archive/` only.
 
-Manuscript, figures, and SI have **not** been overwritten yet. Production Vina, cognate redock, AChE panel metrics, eight-pair master metrics, five-seed Vina, Vina-pose RTMScore, and Vina-pose GNINA CNN are complete. Independent GNINA is still running.
+Manuscript, figures, and SI have **not** been overwritten yet. All requested box-dependent reruns are complete (production Vina, five-seed Vina, cognate redock, Vina-pose RTMScore, Vina-pose GNINA CNN, independent GNINA).
 
 ## CORE CONCLUSION STATUS
 
@@ -85,10 +85,10 @@ EGFR/HER2 was one of the two primary pairs whose matched-pocket interval exclude
 
 ### 7. Independent GNINA / five-seed / RTM / CNN
 
-These box-dependent reruns live under `remediation_outputs/`. Manuscript overwrite waits for independent GNINA:
+These box-dependent reruns live under `remediation_outputs/`.
 
 - five-seed Vina: **done** 1100/1100 (880 new jobs + 220 production seed 20260727). Per-seed n=110 summary_min **0.324 / 0.330 / 0.348 / 0.325 / 0.350**. Weaker arm remains D vs B at pocket A and stays below 0.5 on every seed.
-- independent GNINA: `phase_gnina_independent/` (220 jobs, `--no_gpu`, canonical boxes, no old-pose reuse) — **still running**
+- independent GNINA: **done** 218/220 ok. `EH120_109` (neither) failed both pockets on CG0/G0 Meeko dummy types — same ligand failed pre-fix; dropped, not imputed; complete-case n=109 (28/38/32/11). D/A=0.593 D/B=0.265 summary_min=0.265 D-vs-N=0.737 (pre-fix 0.660 / 0.220 / 0.220 / 0.783). Formulation gap remains; not Vina-specific.
 - Vina-pose RTMScore: **done** n=110 D/A=0.485 D/B=0.309 summary_min=0.309 D-vs-N=0.804
 - Vina-pose GNINA CNN: **done** 1977/1977. Primary `cnn_affinity` best-of-9 n=110 D/A=0.648 D/B=0.214 summary_min=0.214 D-vs-N=0.938. Sensitivity `cnn_score` is not promoted (D/A=0.401 D/B=0.300 summary_min=0.300).
 - cognate 03P redock **done** (official CalcRMS, no superposition): 3POZ top-1 **1.019 Å** (pre-fix 9.505 Å); 3RCD top-1 **1.947 Å** (pre-fix 1.855 Å). Both pass top-1 < 2 Å.
@@ -177,7 +177,7 @@ Trace: `figure_number_trace_post_fix.csv`.
 - `metric_diff_pre_vs_post.csv`
 - `phase1_vina/scores_vina_mode1_corrected_box.csv`
 
-They are the staging record. Official manuscript/figures will be overwritten only after five-seed, independent GNINA, RTM, and CNN complete.
+They are the staging record. All requested box-dependent reruns are now complete; official manuscript/figures have not yet been overwritten from those CSVs.
 
 ---
 
@@ -195,7 +195,7 @@ They are the staging record. Official manuscript/figures will be overwritten onl
 2. EGFR/HER2 primary Vina columns replaced from corrected-box mode-1 scores.
 3. AChE no-ID-prefix-cap panel and holdout adopted.
 4. Eight-pair `post_fix_master_metrics.csv` written (six unchanged pairs copied; EGFR/AChE recomputed).
-5. Remaining before manuscript overwrite: five-seed, independent GNINA, RTM, CNN, then table/figure/manuscript regen from those CSVs.
+5. Remaining: overwrite official tables/figures/manuscript from post-fix CSVs (do not keep pre-fix as official).
 
 ## Core conclusions a–f
 

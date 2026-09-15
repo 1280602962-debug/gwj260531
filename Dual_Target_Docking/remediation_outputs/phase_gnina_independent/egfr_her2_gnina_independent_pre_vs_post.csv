@@ -1,0 +1,5 @@
+metric,pre_fix,post_fix,n_complete,n_dual,n_A,n_B,n_neither,note
+AUROC_D_vs_A_pocketB,0.6598,0.5930,109,28,38,32,11,EH120_109 dropped both epochs (CG0)
+AUROC_D_vs_B_pocketA,0.2199,0.2645,109,28,38,32,11,weaker arm; CI vs 0.5 remains below
+summary_min,0.2199,0.2645,109,28,38,32,11,gap vs dual-vs-neither remains
+AUROC_mean_D_vs_neither,0.7825,0.7370,109,28,38,32,11,neither still much higher than summary_min
