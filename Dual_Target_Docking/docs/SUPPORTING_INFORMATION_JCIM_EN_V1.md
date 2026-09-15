@@ -33,7 +33,7 @@ Ligands need both-end scores for directional AUROC; n_scored may be below n_pane
 
 ## Table S2. Receptors, docking boxes, and unified cognate-redocking QC
 
-The eight pairs use 14 primary receptor structures (JAK1 6N7A and PPARA 6LXA are shared). PIK3CA/mTOR used E = 16 because 4JT6 failed the gate at E = 8. EGFR 3POZ is reconstructed QC, not a recovered production output. 9V8H is a PPARγ LBD–BRL–PG08-NL ternary complex; the peptide was retained. Figure S4 and the near-native calls use the unified chemically mapped CalcRMS table (S2b) for all 14 slots. AChE 4EY7 and TYK2 3LXP deposited 8 poses, so their lowest RMSD is not a uniform best-of-nine. An earlier coordinate Hungarian assignment is archived in the repository and is not a second official RMSD table.
+The eight pairs use 14 primary receptor structures (JAK1 6N7A and PPARA 6LXA are shared). PIK3CA/mTOR used E = 16 because 4JT6 failed the gate at E = 8. EGFR 3POZ and HER2 3RCD were redocked under the canonical cognate heavy-atom box. 9V8H is a PPARγ LBD–BRL–PG08-NL ternary complex; the peptide was retained. Figure S4 and the near-native calls use the unified chemically mapped CalcRMS table (S2b) for all 14 slots. AChE 4EY7 and TYK2 3LXP deposited 8 poses, so their lowest RMSD is not a uniform best-of-nine. An earlier coordinate Hungarian assignment is archived in the repository and is not a second official RMSD table.
 
 **S2a. Docking boxes (Å)**
 
@@ -60,7 +60,7 @@ No redocking. Atom mapping used one recipe: Meeko topology or SDF/CCD-graph Calc
 
 | Protein | PDB | E | top-1 (Å) | top-3 (Å) | lowest saved (Å) | Coverage | top-1 < 2 Å |
 |------|-----|--:|----------:|----------:|-----------------:|:--------:|:-----------:|
-| EGFR | 3POZ | 8 | 9.505 | 6.227 | 0.760 | pass | no |
+| EGFR | 3POZ | 8 | 1.019 | 1.019 | 1.019 | pass | yes |
 | HER2 | 3RCD | 8 | 1.855 | 1.394 | 1.394 | pass | yes |
 | JAK1 | 6N7A | 8 | 0.459 | 0.459 | 0.459 | pass | yes |
 | JAK2 | 8BXH | 8 | 10.596 | 0.807 | 0.807 | pass | no |
@@ -86,21 +86,21 @@ Relabeling on frozen Vina scores. Primary analysis is θ = 6.0 (Table 2). The ta
 | Pair | Label rule | n (D / A / B) | summary_min | 95% CI |
 |------|----------|--------------:|------------:|--------|
 | EGFR/HER2 | θ = 5.5 | 69 / 22 / 10 | 0.425 | [0.242, 0.626] |
-| EGFR/HER2 | θ = 6.0 | 28 / 38 / 32 | 0.430 | [0.282, 0.578] |
+| EGFR/HER2 | θ = 6.0 | 28 / 38 / 32 | 0.324 | [0.195, 0.471] |
 | EGFR/HER2 | θ = 6.5 | 26 / 29 / 29 | 0.460 | [0.304, 0.609] |
 | EGFR/HER2 | strict 6.5/5.5 | 26 / 17 / 7 | 0.324 | [0.138, 0.525] |
 | PIK3CA/mTOR | θ = 5.5 | 33 / 9 / 5 | 0.502 | [0.257, 0.625] |
 | PIK3CA/mTOR | θ = 6.0 | 18 / 14 / 12 | 0.692 | [0.470, 0.813] |
 | PIK3CA/mTOR | θ = 6.5 | 17 / 15 / 12 | 0.674 | [0.438, 0.797] |
 | PIK3CA/mTOR | strict 6.5/5.5 | 17 / 7 / 4 | 0.639 | [0.317, 0.792] |
-| AChE/BChE | θ = 6.0 | 27 / 25 / 28 | 0.606 | [0.437, 0.730] |
+| AChE/BChE | θ = 6.0 | 27 / 26 / 28 | 0.606 | [0.443, 0.735] |
 | F2/F10 | θ = 6.0 | 31 / 32 / 32 | 0.345 | [0.211, 0.477] |
 | JAK1/TYK2 | θ = 6.0 | 31 / 32 / 32 | 0.365 | [0.231, 0.503] |
 | JAK1/JAK2 | θ = 6.0 | 32 / 32 / 32 | 0.588 | [0.444, 0.725] |
 | PPARG/PPARA | θ = 6.0 | 32 / 31 / 32 | 0.649 | [0.504, 0.751] |
 | PPARA/PPARD | θ = 6.0 | 32 / 32 / 32 | 0.446 | [0.296, 0.584] |
 
-**pChEMBL maximum versus median (ChEMBL 37; frozen Vina scores; does not replace Table 2):** The same ChEMBL 37 records used for Table 2 were re-aggregated by median at θ = 6.0. Maximum pChEMBL matched every scored ligand (0 missing ends; 0 mismatches). Max-to-median class flips: EGFR/HER2 6/110 (`summary_min` 0.430 → 0.424); AChE/BChE 1/95 (CHEMBL659; 0.606 → 0.629); PPARA/PPARD 1/110 (CHEMBL121; A-only 32→31; dual-versus-A-only 0.646 → 0.636; `summary_min` remained 0.446). PIK3CA/mTOR and the other four pairs kept class composition and `summary_min` point estimates. Source: `eight_pair_dump_gated_v1/max_vs_median_auroc_v1.csv`; `eight_pair_dump_gated_v1/parity_v1.csv`.
+**pChEMBL maximum versus median (ChEMBL 37; frozen Vina scores; does not replace Table 2):** The same ChEMBL 37 records used for Table 2 were re-aggregated by median at θ = 6.0. Maximum pChEMBL matched every scored ligand (0 missing ends; 0 mismatches). Max-to-median class flips: EGFR/HER2 6/110 (primary `summary_min` 0.324); AChE/BChE 1/96 (CHEMBL659; 0.606 → 0.629); PPARA/PPARD 1/110 (CHEMBL121; A-only 32→31; dual-versus-A-only 0.646 → 0.636; `summary_min` remained 0.446). PIK3CA/mTOR and the other four pairs kept class composition and `summary_min` point estimates. Source: `eight_pair_dump_gated_v1/max_vs_median_auroc_v1.csv`; `eight_pair_dump_gated_v1/parity_v1.csv`.
 
 ---
 
@@ -110,7 +110,7 @@ The pocket score is held fixed. Dual ligands are resampled once; selective and n
 
 | Pair | Score channel | dual vs selective | dual vs neither | Δ | 95% CI | neither underpowered |
 |------|----------|---------------:|----------------:|--:|--------|:----------------:|
-| EGFR/HER2 | pocket A (vs B-only) | 0.430 | 0.808 | 0.378 | [0.205, 0.547] | no |
+| EGFR/HER2 | pocket A (vs B-only) | 0.324 | 0.786 | 0.462 | [0.262, 0.651] | no |
 | EGFR/HER2 | pocket B (vs A-only) | 0.666 | 0.720 | 0.054 | [−0.157, 0.246] | no |
 | AChE/BChE | pocket A | 0.606 | 0.590 | −0.016 | [−0.154, 0.120] | no |
 | AChE/BChE | pocket B | 0.650 | 0.709 | 0.058 | [−0.085, 0.196] | no |
@@ -147,7 +147,7 @@ ECFP4 and ECFP4+docking AUROCs are out-of-fold predictions under the same scaffo
 | Pair | Arm | ECFP4 | ECFP4+docking | Δ | Vina ranking AUROC (Table 2) |
 |------|------|------:|--------------:|--:|--------------------------:|
 | EGFR/HER2 | D vs A | 0.745 | 0.751 | +0.006 | 0.666 |
-| EGFR/HER2 | D vs B | 0.890 | 0.887 | −0.002 | 0.430 |
+| EGFR/HER2 | D vs B | 0.890 | 0.887 | −0.002 | 0.324 |
 | AChE/BChE | D vs A | 0.895 | 0.893 | −0.002 | 0.650 |
 | AChE/BChE | D vs B | 0.821 | 0.808 | −0.013 | 0.606 |
 | PIK3CA/mTOR | D vs A | 0.762 | 0.742 | −0.020 | 0.714 |
@@ -228,7 +228,7 @@ Independent GNINA searches new poses; it is not a Vina rescore. Scope is EGFR/HE
 
 | Pair | Engine | n_dual / n_A / n_B / n_neither | summary_min | Weaker-arm AUROC [95% CI] | Dual vs neither |
 |------|------|------|------------:|---------------------------|----------------:|
-| EGFR/HER2 | Vina primary | 28 / 38 / 32 / 12 | 0.430 [0.282, 0.578] | dual–B-only (pocket A) 0.430 [0.282, 0.578] | 0.756 [0.562, 0.920] |
+| EGFR/HER2 | Vina primary | 28 / 38 / 32 / 12 | 0.324 [0.195, 0.471] | dual–B-only (pocket A) 0.324 [0.188, 0.464] | 0.759 [0.557, 0.923] |
 | EGFR/HER2 | GNINA independent | 28 / 38 / 32 / 11 | 0.220 | dual–B-only (pocket A) 0.220 [0.109, 0.343] | 0.783 [0.610, 0.922] |
 | PIK3CA/mTOR | Vina primary | 18 / 14 / 12 / 4 | 0.692 [0.470, 0.813] | dual–B-only (pocket A) 0.692 [0.470, 0.813] | 0.514 [0.222, 0.806] |
 | PIK3CA/mTOR | GNINA independent | 18 / 13 / 12 / 4 | 0.633 | dual–A-only (pocket B) 0.633 [0.427, 0.825] | 0.569 [0.222, 0.889] |

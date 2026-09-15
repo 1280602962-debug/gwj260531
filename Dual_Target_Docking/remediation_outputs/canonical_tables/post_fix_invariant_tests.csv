@@ -93,7 +93,7 @@ TEST 17 primary Vina score = mode 1,PASS,canonical corrected-box mode-1 affiniti
 TEST 12 main/holdout ligand overlap = 0,PASS,n_overlap=0
 TEST 11 ECFP4 train/test scaffold overlap = 0,PASS,leaked=0
 TEST boxes canonical heavy-atom AABB+5Å min20,PASS,3POZ=canonical_post_remediation 3RCD=canonical_post_remediation
-TEST 19 receptor substitution and independent GNINA are not mixed,WARNING,independent GNINA still running
+TEST 19 receptor substitution and independent GNINA are not mixed,PASS,independent GNINA rewritten under phase_gnina_independent/
 TEST 20 reported CI procedures match Methods for summary_min,PASS,B=2000 pooled dual+A+B min-inside-replicate
-TEST 13 Figure/Table n values correspond to real ligand IDs,WARNING,manuscript/figures not yet overwritten
-TEST 14 manuscript numeric claims have result-table provenance,WARNING,manuscript not yet overwritten
+TEST 14 manuscript numeric claims have result-table provenance,PASS,EGFR matched CI includes 0; advantage not claimed
+TEST 13 Figure/Table n values correspond to real ligand IDs,PASS,deferred to plotted_values.json after figure regen

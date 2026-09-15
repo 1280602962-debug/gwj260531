@@ -22,7 +22,7 @@ Such class-wise chemical differences may reflect how public bioactivity data are
 
 ### 4.3 Structural attribution and pocket correspondence
 
-Score-channel exchange, without redocking, provides a more direct test of structural correspondence. On the main panels, only EGFR/HER2 and AChE/BChE had positive matched-minus-mismatched intervals that excluded 0. The seven internal holdouts did not consistently reproduce a matched-pocket advantage. On homologous targets, a mismatched pocket can still produce related scores, so the control is an imperfect specificity control. A high directional AUROC on one panel is therefore not enough to attribute that discrimination to the corresponding pocket.
+Score-channel exchange, without redocking, provides a more direct test of structural correspondence. On the main panels, only AChE/BChE had a positive matched-minus-mismatched interval that excluded 0; the EGFR/HER2 interval included 0. The seven internal holdouts did not consistently reproduce a matched-pocket advantage. On homologous targets, a mismatched pocket can still produce related scores, so the control is an imperfect specificity control. A high directional AUROC on one panel is therefore not enough to attribute that discrimination to the corresponding pocket.
 
 Kinase cross-docking studies have shown that receptor-conformer choice can affect pose recovery and virtual-screening performance.[14] On PIK3CA/mTOR, directional AUROC also changed after PIK3CA or mTOR receptors were replaced. Because this analysis systematically covered only one primary pair, the result shows receptor-structure sensitivity in that system rather than a general dual-target receptor dependence.
 

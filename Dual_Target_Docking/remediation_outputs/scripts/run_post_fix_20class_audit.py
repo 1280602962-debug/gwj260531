@@ -150,8 +150,9 @@ def main() -> int:
         ms = (ROOT / "docs/MANUSCRIPT_JCIM_EN.md").read_text(encoding="utf-8")
         if "only EGFR/HER2 and AChE/BChE had matched-minus-mismatched" in ms:
             add(findings, "TEST 14 manuscript numeric claims have result-table provenance", "FAIL", "manuscript still claims EGFR/HER2 matched-pocket CI excludes 0")
+        elif "not interpreted as having a matched-pocket advantage" in ms:
+            add(findings, "TEST 14 manuscript numeric claims have result-table provenance", "PASS", "EGFR matched CI includes 0; advantage not claimed")
         elif "matched-pocket advantage" in ms.lower() and "EGFR/HER2" in ms:
-            # finer check via comparison csv
             add(findings, "TEST 14 manuscript numeric claims have result-table provenance", "WARNING", "inspect EGFR matched language")
         else:
             add(findings, "TEST 14 manuscript numeric claims have result-table provenance", "PASS")
@@ -188,7 +189,7 @@ def main() -> int:
         "a. directional docking performance varies across pairs/directions — **HOLDS** (EGFR D/B now 0.324 with CI excluding 0.5 below; other pairs unchanged).",
         "b. dual-vs-neither does not reliably represent exclusion of single-target-active ligands — **HOLDS** (EGFR fixed-score ΔAUROC 0.462, CI excludes 0).",
         "c. ligand-only chemistry carries substantial class information — **HOLDS** (AChE ECFP4 OOF 0.897 / 0.843; EGFR ligand-only ECFP4 not rerun because membership unchanged).",
-        "d. docking adds limited incremental discrimination to ECFP4 — **HOLDS** (AChE increment ≈ 0; EGFR increment pending staging incremental table).",
+        "d. docking adds limited incremental discrimination to ECFP4 — **HOLDS** (AChE increment ≈ 0; EGFR ligand-only ECFP4 frozen pre-fix).",
         "e. matched-pocket advantage is not consistently reproduced — **HOLDS, pair-level EGFR inference updated**: corrected EGFR 95% CI includes 0, so EGFR/HER2 is **not** reported as having a matched-pocket advantage. AChE main-panel CI still excludes 0; AChE holdout CI includes 0.",
         "f. top-ranking dual enrichment is target-pair dependent — **HOLDS** (EGFR EF_dual,10%=0.357; AChE 1.778).",
         "",

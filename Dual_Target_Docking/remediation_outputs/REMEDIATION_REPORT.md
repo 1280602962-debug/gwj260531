@@ -2,7 +2,7 @@
 
 Corrected 3POZ/3RCD heavy-atom boxes and the no-ChEMBL-ID-prefix-cap AChE/BChE panel are the **canonical** protocol. Pre-fix boxes/scores/panels are in `data/_legacy_archive/` only.
 
-Manuscript, figures, and SI have **not** been overwritten yet. All requested box-dependent reruns are complete (production Vina, five-seed Vina, cognate redock, Vina-pose RTMScore, Vina-pose GNINA CNN, independent GNINA).
+Official Methods/Results/Discussion/Abstract/SI numbers now follow post-fix CSVs. EGFR/HER2 is not claimed to have a matched-pocket advantage. EGFR ligand-only ECFP4 remains the pre-fix 0.7453 / 0.8895. All requested box-dependent reruns are complete.
 
 ## CORE CONCLUSION STATUS
 

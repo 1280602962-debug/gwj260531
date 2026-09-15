@@ -83,7 +83,8 @@ def patch_text(text: str, egfr, ache, egfr_ci, gnina, cog) -> str:
     text = text.replace(old_t2, new_t2)
 
     old_ache_t2 = "| AChE/BChE | 27 / 25 / 28 | 0.650 [0.483, 0.801] | 0.606 [0.442, 0.751] | 0.606 [0.437, 0.730] |"
-    new_ache_t2 = f"| AChE/BChE | 27 / 26 / 28 | {f3(ache_da)} | {f3(ache_db)} | {f3(ache['summary_min'])} |"
+    ache_smin = float(ache["summary_min"])
+    new_ache_t2 = f"| AChE/BChE | 27 / 26 / 28 | {f3(ache_da)} | {f3(ache_db)} | {f3(ache_smin)} |"
     text = text.replace(old_ache_t2, new_ache_t2)
 
     text = text.replace(
@@ -136,6 +137,10 @@ def patch_text(text: str, egfr, ache, egfr_ci, gnina, cog) -> str:
         "On the main panels, only AChE/BChE had a positive matched-minus-mismatched interval that excluded 0; the EGFR/HER2 interval included 0.",
     )
     text = text.replace(
+        "On the main panels, only EGFR/HER2 and AChE/BChE had positive matched-minus-mismatched intervals that excluded 0. The seven internal holdouts did not consistently reproduce a matched-pocket advantage.",
+        "On the main panels, only AChE/BChE had a positive matched-minus-mismatched interval that excluded 0; the EGFR/HER2 interval included 0. The seven internal holdouts did not consistently reproduce a matched-pocket advantage.",
+    )
+    text = text.replace(
         "八个主评价集中仅两个 matched−mismatched 的 95% 区间排除 0",
         "八个主评价集中仅 AChE/BChE 的 matched−mismatched 95% 区间排除 0",
     )
@@ -147,14 +152,48 @@ def patch_text(text: str, egfr, ache, egfr_ci, gnina, cog) -> str:
 
     if cog:
         text = text.replace(
+            "EGFR 3POZ top-1 was 9.505 Å, with lowest saved-pose RMSD 0.760 Å. BChE, mTOR, JAK2, PPARG, and PPARA also failed the 2 Å top-1 cutoff",
+            f"EGFR 3POZ top-1 was {cog['3POZ_top1']:.3f} Å and HER2 3RCD top-1 was {cog['3RCD_top1']:.3f} Å, both below 2 Å. BChE, mTOR, JAK2, PPARG, and PPARA failed the 2 Å top-1 cutoff",
+        )
+        text = text.replace(
             "EGFR 3POZ top-1 was 9.505 Å, with lowest saved-pose RMSD 0.760 Å.",
             f"EGFR 3POZ top-1 was {cog['3POZ_top1']:.3f} Å, with lowest saved-pose RMSD {cog['3POZ_best']:.3f} Å.",
         )
+        text = text.replace(
+            "EGFR 3POZ 的 top-1 为 9.505 Å，最低保存姿态为 0.760 Å。BChE、mTOR、JAK2、PPARG 和 PPARA 的 top-1 也未回到 2 Å 以内",
+            f"EGFR 3POZ 的 top-1 为 {cog['3POZ_top1']:.3f} Å，HER2 3RCD 的 top-1 为 {cog['3RCD_top1']:.3f} Å，均低于 2 Å。BChE、mTOR、JAK2、PPARG 和 PPARA 的 top-1 未回到 2 Å 以内",
+        )
+        text = text.replace("| EGFR | 3POZ | 8 | 9.505 | 6.227 | 0.760 | pass | no |",
+                            f"| EGFR | 3POZ | 8 | {cog['3POZ_top1']:.3f} | {cog['3POZ_top1']:.3f} | {cog['3POZ_best']:.3f} | pass | yes |")
+        text = text.replace("| EGFR | 3POZ | 8 | 9.505 | 6.227 | 0.760 | 通过 | 否 |",
+                            f"| EGFR | 3POZ | 8 | {cog['3POZ_top1']:.3f} | {cog['3POZ_top1']:.3f} | {cog['3POZ_best']:.3f} | 通过 | 是 |")
+        text = text.replace("EGFR 3POZ is reconstructed QC, not a recovered production output.",
+                            "EGFR 3POZ and HER2 3RCD were redocked under the canonical cognate heavy-atom box.")
+    text = text.replace(
+        "| EGFR/HER2 | θ = 6.0 | 28 / 38 / 32 | 0.430 | [0.282, 0.578] |",
+        f"| EGFR/HER2 | θ = 6.0 | 28 / 38 / 32 | {f3(sm)} | {ci_br(sm_lo, sm_hi)} |",
+    )
+    text = text.replace(
+        "| EGFR/HER2 | pocket A (vs B-only) | 0.430 | 0.808 | 0.378 | [0.205, 0.547] | no |",
+        f"| EGFR/HER2 | pocket A (vs B-only) | {f3(db)} | {f3(nei_pA)} | {f3(dlt)} | {ci_br(dlt_lo, dlt_hi)} | no |",
+    )
+    text = text.replace(
+        "| EGFR/HER2 | 口袋 A（对 B-only） | 0.430 | 0.808 | 0.378 | [0.205, 0.547] | 否 |",
+        f"| EGFR/HER2 | 口袋 A（对 B-only） | {f3(db)} | {f3(nei_pA)} | {f3(dlt)} | {ci_br(dlt_lo, dlt_hi)} | 否 |",
+    )
+    text = text.replace(
+        "| EGFR/HER2 | Vina primary | 28 / 38 / 32 / 12 | 0.430 [0.282, 0.578] | dual–B-only (pocket A) 0.430 [0.282, 0.578] | 0.756 [0.562, 0.920] |",
+        f"| EGFR/HER2 | Vina primary | 28 / 38 / 32 / 12 | {fmt_auroc_ci(sm, sm_lo, sm_hi)} | dual–B-only (pocket A) {fmt_auroc_ci(db, db_lo, db_hi)} | {fmt_auroc_ci(nei_mean, nei_lo, nei_hi)} |",
+    )
+    text = text.replace(
+        "| EGFR/HER2 | Vina 主分析 | 28 / 38 / 32 / 12 | 0.430 [0.282, 0.578] | dual–B-only（口袋 A） 0.430 [0.282, 0.578] | 0.756 [0.562, 0.920] |",
+        f"| EGFR/HER2 | Vina 主分析 | 28 / 38 / 32 / 12 | {fmt_auroc_ci(sm, sm_lo, sm_hi)} | dual–B-only（口袋 A） {fmt_auroc_ci(db, db_lo, db_hi)} | {fmt_auroc_ci(nei_mean, nei_lo, nei_hi)} |",
+    )
+    text = text.replace("| EGFR/HER2 | 0.430 | [0.282, 0.578] |", f"| EGFR/HER2 | {f3(sm)} | {ci_br(sm_lo, sm_hi)} |")
     if gnina:
-        text = re.sub(
-            r"For EGFR/HER2, the dual-versus-neither AUROC was 0\.783 \[0\.610, 0\.922\] \(\\?n_\{\\mathrm\{neither\}\}=11\), whereas dual-versus-B-only was 0\.220 \[0\.109, 0\.343\]\.",
+        text = text.replace(
+            "For EGFR/HER2, the dual-versus-neither AUROC was 0.783 [0.610, 0.922] (\(n_{\\mathrm{neither}}=11\)), whereas dual-versus-B-only was 0.220 [0.109, 0.343].",
             f"For EGFR/HER2, the dual-versus-neither AUROC was {gnina['nei']} ({gnina['n_nei']}), whereas dual-versus-B-only was {gnina['db']}.",
-            text,
         )
     return text
 
@@ -190,9 +229,19 @@ def main() -> int:
     egfr_ci = load_egfr_ci()
     gnina = read_gnina()
     cog = read_cog()
-    for rel in ("docs/MANUSCRIPT_JCIM_EN.md", "docs/MANUSCRIPT_JCIM_ZH.md",
-                "docs/RESULTS_SECTION_JCIM_EN_V1.md", "docs/DISCUSSION_SECTION_JCIM_EN_V1.md",
-                "docs/TITLE_AND_ABSTRACT_JCIM_EN_V1.md", "docs/SUPPORTING_INFORMATION_JCIM_EN_V1.md"):
+    for rel in (
+        "docs/MANUSCRIPT_JCIM_EN.md",
+        "docs/MANUSCRIPT_JCIM_ZH.md",
+        "docs/RESULTS_SECTION_JCIM_EN_V1.md",
+        "docs/RESULTS_DRAFT_ZH_JCIM_V1.md",
+        "docs/DISCUSSION_SECTION_JCIM_EN_V1.md",
+        "docs/DISCUSSION_DRAFT_ZH_JCIM_V1.md",
+        "docs/TITLE_AND_ABSTRACT_JCIM_EN_V1.md",
+        "docs/TITLE_AND_ABSTRACT_JCIM_ZH_V1.md",
+        "docs/SUPPORTING_INFORMATION_JCIM_EN_V1.md",
+        "docs/SUPPORTING_INFORMATION_DRAFT_ZH_JCIM_V1.md",
+        "docs/STATISTICAL_LOCK_V1.md",
+    ):
         path = ROOT / rel
         if not path.exists():
             continue
