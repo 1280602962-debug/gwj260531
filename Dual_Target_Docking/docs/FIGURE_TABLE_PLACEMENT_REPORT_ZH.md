@@ -1,6 +1,6 @@
 # 图表位置核对报告
 
-> 历史放置快照。当前正式 SI 为 Tables S1–S9 / Figures S1–S4；`FigS6_detectable_effect` 仅留仓库。当前工作分支：`cursor/jcim-language-polish-0b1a`（PR #37）。
+> 历史放置快照。当前正式 SI 为 Tables S1–S10 / Figures S1–S4；`FigS6_detectable_effect` 仅留仓库。Table S10 为八对 `vina_mean` Top-10 / AND 过滤。当前工作分支：`cursor/methods-sentence-audit-c7cc`。
 
 核对对象：组装后的中文主稿 `docs/MANUSCRIPT_JCIM_ZH.md` 与 SI `docs/SUPPORTING_INFORMATION_DRAFT_ZH_JCIM_V1.md`。数据未改；仅调整编号、缩表与放置。
 
@@ -18,6 +18,7 @@
 | 8 | Table 3 | Figure 2 之后、Top-10 之前 | Results 3.2 第三段 |
 | 9 | Figure 2D | 正文 | Results 3.2 JAK1/TYK2 Top-10 |
 | 10 | Figure S1 | 仅 SI；正文引用 | Results 3.2 JAK1/TYK2 AND filter |
+| 10b | Table S10 | 仅 SI；正文引用 | Results 3.2 八对同一规则；非对接质量排行 |
 | 10 | Figure 3C, A, B | 3.3 第二段后整图 | 3.3 第一段 C；第二段 A 然后 B |
 | 11 | Figure 4 | 3.4 口袋段后 | Results 3.4（A）；3.5 holdout（B） |
 | 12 | Figure 5 | 3.4 计算敏感性段后 | 3.4：A GNINA → B 受体替换 → C 五种子 |

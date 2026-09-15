@@ -8,7 +8,7 @@ After those supply, structure, and docking-compatibility checks, the primary eva
 
 ![Figure 1](../figures/jcim_article/Fig1_four_state_and_supply.png)
 
-**Figure 1.** Four-state dual-target evaluation and data supply. (A) Four experimental states defined by threshold \(\theta\); (B) two directional tasks: dual versus A-only uses the target B score, and dual versus B-only uses the target A score; (C) the census summarizes the availability of paired experimental data under increasing supply requirements. The primary evaluation comprised eight target pairs retained according to the panel-construction and structural criteria in Table 1. The eight-pair evaluation is shown separately from the supply census.
+**Figure 1.** Four-state dual-target evaluation and data supply. (A) Four experimental states defined by threshold \(\theta\); (B) two directional tasks: dual versus A-only uses the target B score, and dual versus B-only uses the target A score, with \(\mathrm{summary}_{\min}=\min[\mathrm{AUROC}_{D/A}(B),\;\mathrm{AUROC}_{D/B}(A)]\); (C) paired experimental coverage decreases under four-state requirements. The primary evaluation comprised eight target pairs selected using the panel-construction and structural criteria in Table 1. That eight-pair set is not a direct continuation of the census counts.
 
 ### 3.2 Directional docking performance across virtual-screening control classes
 
@@ -33,7 +33,7 @@ Under the conventional two-pocket mean ranking used in dual-target virtual scree
 
 ![Figure 2](../figures/jcim_article/Fig2_negative_class_formulation.png)
 
-**Figure 2.** Docking performance depends on the experimental-state comparison. (A) \(\Delta\)AUROC after changing the control class at a fixed score channel; error bars are ligand-level bootstrap 95% confidence intervals; (B) the two directional AUROCs; (C) directional \(\mathrm{summary}_{\min}\) versus dual-versus-neither. The diamond marks the PIK3CA/mTOR neither sample (n = 4). Panel C is not a fixed-score-channel comparison.
+**Figure 2.** Docking performance depends on the experimental-state comparison. (A) \(\Delta\)AUROC after changing the control class at a fixed score channel (dual–neither minus dual–single-target-active); error bars are ligand-level bootstrap 95% confidence intervals; (B) the two directional AUROCs; (C) directional \(\mathrm{summary}_{\min}\) versus dual-versus-neither. The diamond marks the PIK3CA/mTOR neither sample (n = 4). Panel C is not a fixed-score-channel comparison. (D) JAK1/TYK2 Top-10 class composition under two-pocket mean Vina ranking (n = 109).
 
 **Table 3.** Same Vina scores under directional versus dual-versus-neither settings (unified \(\theta=6.0\)). Dual-versus-neither uses the two-pocket mean score \(S_{\mathrm{mean}}\). The PIK3CA/mTOR neither sample is small (n = 4).
 
@@ -49,6 +49,8 @@ Under the conventional two-pocket mean ranking used in dual-target virtual scree
 | PPARA/PPARD | 0.446 [0.296, 0.584] | 0.565 [0.368, 0.766] | 14 |
 
 That conventional ranking was inspected at an operating point on the JAK1/TYK2 panel. When all 109 ligands were ranked by the two-pocket mean score, the Top-10 contained 1 dual, 2 A-only, and 7 B-only ligands, and no neither ligand (Figure 2D). The higher dual-versus-neither AUROC therefore did not correspond to fewer highly ranked single-target-active ligands. A two-pocket filter at the median dual \(S_{\mathrm{worst}}\) was applied to Dual+A-only+B-only (\(n=95\)), excluding neither, and retained 16 dual ligands together with 12 A-only and 22 B-only ligands (dual precision 0.32; Figure S1).
+
+The same two-pocket mean ranking and AND filter were applied to all eight primary panels (Table S10). Top-10 is a fixed count, not a fixed screening fraction: it is 10/110 of EGFR/HER2 and 10/48 of PIK3CA/mTOR. Dual counts in the Top-10 ranged from 1 (EGFR/HER2 and JAK1/TYK2) to 6 (PIK3CA/mTOR and PPARG/PPARA). Neither ligands were absent from the Top-10 on four pairs and occupied one slot on the other four. At least one single-target-active ligand remained in the Top-10 on every pair. These counts are descriptive operating points on the retrospective panels; they are not an eight-pair ranking of docking quality.
 
 ### 3.3 Ligand-chemistry baselines and incremental docking discrimination
 
@@ -92,7 +94,7 @@ Unused-pool holdouts built from remaining candidates, after excluding main-panel
 
 ### 3.6 Availability of an independent external docking set
 
-BindingDB[16] and PubChem were searched for paired experimental data across all eight target pairs. After the \(\theta=6.0\) independence filters removed shared literature sources, duplicate structures, and molecules with ECFP4 Tanimoto similarity \(\geq 0.70\) to the development set, no pair met the eligibility requirement of at least 20 dual, A-only, and B-only ligands from at least three independent sources per class. No external docking set was therefore formed (Figure 6C,D; Table S8).
+BindingDB[16] and PubChem were searched for paired experimental data across all eight target pairs. The \(\theta=6.0\) independence filters removed shared literature sources, duplicate structures, and molecules with ECFP4 Tanimoto similarity \(\geq 0.70\) to the development set. No pair met the independent external-evaluation eligibility criteria of at least 20 dual, A-only, and B-only ligands from at least three independent sources per class. No external docking set was therefore formed; this search is not external validation (Figure 6C,D; Table S8).
 
 ![Figure 6](../figures/jcim_article/Fig6_evidence_boundary.png)
 

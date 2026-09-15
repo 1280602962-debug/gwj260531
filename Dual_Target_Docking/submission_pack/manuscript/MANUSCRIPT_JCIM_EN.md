@@ -99,7 +99,7 @@ More negative AutoDock Vina affinity indicates more favorable predicted binding.
 
 Dual-target virtual screening commonly ranks candidates by combining the two pocket scores. For ligands scored at both targets, the conventional readout was the mean score \(S_{\mathrm{mean}}=(S_{A}+S_{B})/2\), with dual as the positive class and neither as the control (Table 3). Merging A-only, B-only, and neither into one control set gave a dual-versus-all-nonduals AUROC that is archived with the score tables.
 
-To isolate the effect of the virtual-screening control class from score aggregation, the same pocket score was held fixed and AUROCs were compared under different experimental-state controls. Pocket A scores were used for dual-versus-B-only and that dual-versus-neither comparison; pocket B scores were used for dual-versus-A-only and the corresponding dual-versus-neither comparison (Table S4). Changing the control class also changes the specific compounds. The lower of the two pocket scores, \(S_{\mathrm{worst}}=\min(S_{A},S_{B})\), was used as an AND-type two-pocket filter. The median of dual \(S_{\mathrm{worst}}\) values defined the filter threshold. Dual counts, dual recall, dual precision, and retained single-target-active ligands at that threshold are shown in Figure S1. The corresponding Top-10 class composition under two-pocket mean ranking is shown in Figure 2D.
+To isolate the effect of the virtual-screening control class from score aggregation, the same pocket score was held fixed and AUROCs were compared under different experimental-state controls. Pocket A scores were used for dual-versus-B-only and that dual-versus-neither comparison; pocket B scores were used for dual-versus-A-only and the corresponding dual-versus-neither comparison (Table S4). Changing the control class also changes the specific compounds. The lower of the two pocket scores, \(S_{\mathrm{worst}}=\min(S_{A},S_{B})\), was used as an AND-type two-pocket filter. The median of dual \(S_{\mathrm{worst}}\) values defined the filter threshold. Dual counts, dual recall, dual precision, and retained single-target-active ligands at that threshold are shown in Figure S1. The corresponding Top-10 class composition under two-pocket mean ranking is shown in Figure 2D. The same ranking and filter rules on all eight primary pairs are in Table S10.
 
 #### 2.5.3 Confidence intervals and resampling
 
@@ -191,6 +191,8 @@ Under the conventional two-pocket mean ranking used in dual-target virtual scree
 
 That conventional ranking was inspected at an operating point on the JAK1/TYK2 panel. When all 109 ligands were ranked by the two-pocket mean score, the Top-10 contained 1 dual, 2 A-only, and 7 B-only ligands, and no neither ligand (Figure 2D). The higher dual-versus-neither AUROC therefore did not correspond to fewer highly ranked single-target-active ligands. A two-pocket filter at the median dual \(S_{\mathrm{worst}}\) was applied to Dual+A-only+B-only (\(n=95\)), excluding neither, and retained 16 dual ligands together with 12 A-only and 22 B-only ligands (dual precision 0.32; Figure S1).
 
+The same two-pocket mean ranking and AND filter were applied to all eight primary panels (Table S10). Top-10 is a fixed count, not a fixed screening fraction: it is 10/110 of EGFR/HER2 and 10/48 of PIK3CA/mTOR. Dual counts in the Top-10 ranged from 1 (EGFR/HER2 and JAK1/TYK2) to 6 (PIK3CA/mTOR and PPARG/PPARA). Neither ligands were absent from the Top-10 on four pairs and occupied one slot on the other four. At least one single-target-active ligand remained in the Top-10 on every pair. These counts are descriptive operating points on the retrospective panels; they are not an eight-pair ranking of docking quality.
+
 ### 3.3 Ligand-chemistry baselines and incremental docking discrimination
 
 If dual-target docking ranks experimental classes that already differ in ligand chemistry, a receptor-free baseline can separate the same screening states. On AChE/BChE, TPSA alone gave dual-versus-A-only and dual-versus-B-only AUROCs of 0.733 and 0.801 (Figure 3C; Table S5). On PIK3CA/mTOR, the best single descriptor, heavy-atom count, had \(\mathrm{summary}_{\min}\) 0.463 (Table S5). The difference between Vina and the best single descriptor varied by pair: six of eight 95% intervals included 0, whereas F2/F10 and JAK1/TYK2 excluded 0 (Table S5). Vina \(\mathrm{summary}_{\min}\) intervals and best-descriptor points are in Figure S2.
@@ -199,7 +201,7 @@ Under Bemis–Murcko scaffold-grouped cross-validation, ligand-only ECFP4 models
 
 ![Figure 3](../figures/jcim_article/Fig3_ligand_chemistry.png)
 
-**Figure 3.** Ligand chemistry as a competing explanation, not a head-to-head predictive benchmark. (A) Vina points are raw primary-score rankings, whereas ECFP4 points are scaffold-grouped out-of-fold logistic predictions; blue, Vina; orange, ECFP4; (B) AUROC change after adding the corresponding Vina score to ECFP4 on the same splits; lines join the two points for one direction and are not confidence intervals; (C) TPSA distributions on AChE/BChE.
+**Figure 3.** Ligand chemistry as a competing explanation, not a head-to-head predictive benchmark. (A) Rank AUROC from raw Vina scores versus out-of-fold ECFP4 AUROC under scaffold-grouped cross-validation; blue, Vina; orange, ECFP4; (B) AUROC change after adding the corresponding Vina score to ECFP4 on the same splits; lines join the two points for one direction and are not confidence intervals; (C) TPSA distributions on AChE/BChE.
 
 ### 3.4 Pocket correspondence and docking-implementation sensitivity
 
@@ -213,7 +215,7 @@ Independent GNINA 1.3.2 pose generation used the same receptors, ligands, and do
 
 On PIK3CA/mTOR, replacing PIK3CA 4L23 with 4JPS lowered \(\mathrm{summary}_{\min}\) from 0.692 [0.470, 0.813] to 0.486 [0.259, 0.692]. Replacement with 5DXT gave 0.505 [0.292, 0.696]. Replacing mTOR 4JT6 with 4JSX gave 0.639 [0.418, 0.776] (Figure 5B; Table S7).
 
-The EGFR/HER2 fixed-score task difference remained positive across all five Vina seeds (Table S7). Figure 5C shows the corresponding seed-dependent \(\mathrm{summary}_{\min}\) ranges across the eight target pairs.
+Five fixed Vina random seeds produced comparatively limited numerical fluctuation relative to the larger task and receptor effects (Figure 5C). The EGFR/HER2 fixed-score task difference remained positive on all five seeds.
 
 PPARG/PPARA was the only pair whose primary Vina \(\mathrm{summary}_{\min}\) interval lay entirely above 0.5 (0.649 [0.504, 0.751]). Same-pose RTMScore rescoring of the Vina poses lowered it to 0.369 [0.233, 0.475], and GNINA CNN rescoring lowered it to 0.500 [0.356, 0.623] (Table S7).
 
@@ -233,11 +235,11 @@ Unused-pool holdouts built from remaining candidates, after excluding main-panel
 
 ### 3.6 Availability of an independent external docking set
 
-BindingDB[16] and PubChem were searched for paired experimental data across all eight target pairs. After the \(\theta=6.0\) independence filters removed shared literature sources, duplicate structures, and molecules with ECFP4 Tanimoto similarity \(\geq 0.70\) to the development set, no pair met the eligibility requirement of at least 20 dual, A-only, and B-only ligands from at least three independent sources per class. No external docking set was therefore formed. Figure 6C,D summarize the BindingDB eligibility counts; PubChem served as an additional paired-data availability check (Table S8).
+BindingDB[16] and PubChem were searched for paired experimental data across all eight target pairs. The \(\theta=6.0\) independence filters removed shared literature sources, duplicate structures, and molecules with ECFP4 Tanimoto similarity \(\geq 0.70\) to the development set. No pair met the independent external-evaluation eligibility criteria of at least 20 dual, A-only, and B-only ligands from at least three independent sources per class. No external docking set was therefore formed; this search is not external validation (Figure 6C,D; Table S8).
 
 ![Figure 6](../figures/jcim_article/Fig6_evidence_boundary.png)
 
-**Figure 6.** Evidence boundaries. (A) Activity-threshold sensitivity; (B) ligand-, scaffold-cluster, and document-cluster resampling of the pocket A dual-versus-neither minus dual-versus-B-only difference; (C) BindingDB class counts after filtering, with color saturating at n = 20 per class; (D) BindingDB independent-source counts after filtering, with color saturating at 3 sources per class. PubChem was an additional paired-data availability check and is not merged into (C) or (D). \(\dagger\) marks a class with n < 10.
+**Figure 6.** Evidence boundaries. (A) Activity-threshold sensitivity; (B) ligand-, scaffold-cluster, and document-cluster resampling of the pocket A dual-versus-neither minus dual-versus-B-only difference; (C) BindingDB class counts after filtering, with color saturating at n = 20 per class; (D) independent-source counts after filtering, with color saturating at 3 sources per class. \(\dagger\) marks a class with n < 10.
 
 ## 4. Discussion
 
@@ -293,7 +295,7 @@ Some retrospective discrimination can be obtained from ligand chemistry that doe
 
 ## Data and Software Availability
 
-All panel definitions, experimental-state labels, receptor and docking-box specifications, per-ligand score tables, analysis scripts, and figure-generation code are available in the `Dual_Target_Docking` directory of the public repository at https://github.com/1280602962-debug/gwj260531. The reported statistical analyses can be reproduced from the deposited score and metadata tables without rerunning the full docking campaigns. Typeset Supporting Information contains Tables S1–S9. Additional quality-control tables remain in the public repository.
+All panel definitions, experimental-state labels, receptor and docking-box specifications, per-ligand score tables, analysis scripts, and figure-generation code are available in the `Dual_Target_Docking` directory of the public repository at https://github.com/1280602962-debug/gwj260531. The reported statistical analyses can be reproduced from the deposited score and metadata tables without rerunning the full docking campaigns. Typeset Supporting Information contains Tables S1–S10. Additional quality-control tables remain in the public repository.
 
 ## References
 

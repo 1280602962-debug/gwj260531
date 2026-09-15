@@ -19,10 +19,11 @@
 | Results 3.5 dump max/median | 1 flip CHEMBL121; summary_min unchanged to 3 d.p. | `five_pair_dump_gated_v1/max_vs_median_auroc_v1.csv` | verified | none |
 | Results 3.6 BindingDB | no pair packaged as external set | `external_slice_summary_v1.csv` | verified | none |
 | Results 3.6 year split | JAK1/TYK2 and JAK1/JAK2 reportable at 2018 | `five_pair_dump_gated_v1/time_split_v1.csv` | verified | none |
-| Figure S5 simulation | 0.109 / 0.119 / 0.128 at true AUROC 0.50 | `detectable_effect_simulation_v1.csv`; SI Table S10 | verified in prior round | none |
+| Figure S5 simulation | 0.109 / 0.119 / 0.128 at true AUROC 0.50 | `detectable_effect_simulation_v1.csv`; archived former SI Table S10 / `FigS6_detectable_effect` | verified in prior round | none |
 | Results 3.4 holdout Δ range | −0.079 to +0.150 | five-pair `wrong_pocket_by_channel_v1.csv` `holdout_vina_20260727` (F2 −0.079; PPARA/PPARD +0.150) plus original-pair holdouts | verified | none |
 | Results 3.4 PPARG rescore | RTM 0.369 [0.233, 0.475]; GNINA CNN 0.500 | `table2_comparable_by_channel_v1.csv` `rtm_best9` 0.3691 [0.233, 0.4753]; `gnina_cnn_affinity` 0.5 | verified | none |
 | Results 3.4 PPARA RMSD | top-3 7.848 Å; best 1.401 Å | `layer3_cognate_rmsd_calcrrms_v1.csv` 6LXA `calcrrms_top3_A` 7.848, `calcrrms_best_A` 1.401 | verified | none |
 | Results 3.2 JAK1/TYK2 operating point | Top-10 1/2/7/0, n=109; AND 16/12/22, n=95, precision 0.32 | `operating_point_examples_review_v1.csv` JAK1/TYK2 | verified | none |
+| Results 3.2 / Table S10 eight-pair ranking | EGFR 1/5/4/0 of 110; JAK1/TYK2 1/2/7/0 of 109; PIK3CA 6/2/1/1 of 48; dual Top-10 1–6; neither 0 or 1 | `eight_pair_ranking_operating_point_v1.csv` | verified | none |
 
 未改任何科学数据文件。

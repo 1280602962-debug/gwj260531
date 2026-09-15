@@ -1,5 +1,9 @@
 # 中英文 SI 压缩摘要（2026-09-13）
 
+## 2026-09-15 Eight-pair ranking operating points (Table S10)
+
+The same `vina_mean` Top-10 and median-dual `vina_worst` AND filter used for the JAK1/TYK2 illustration were applied to all eight primary panels (`eight_pair_ranking_operating_point_v1.csv`). Typeset SI is now Tables S1–S10 / Figures S1–S4. Figure 2D remains the JAK1/TYK2 Top-10; Figure S1 remains that pair’s AND filter. The two-row `operating_point_examples_review_v1.csv` file is unchanged. Table S10 is a descriptive operating-point census, not an eight-pair ranking of docking quality.
+
 ## 2026-09-14 Figure 1–2 visual weight and JAK1/TYK2 operating point
 
 Figure 1C was compacted so panels A/B are the visual majority; the census is no longer a full-page funnel and no longer says “independent of the census”. JAK1/TYK2 Top-10 (1/2/7/0 of 109) moved into Figure 2D; Figure S1 is the corresponding AND filter (16/12/22 of 95). Figure 2A xlabel no longer uses “selective”. Methods `summary_min` and Figure 1B now share \(\min[\mathrm{AUROC}_{D/A}(B),\mathrm{AUROC}_{D/B}(A)]\). Figure 6C,D are labeled BindingDB-only.

@@ -9,12 +9,12 @@ It is not a second copy of the docking pose workspaces.
 |---|---|
 | `manuscript/MANUSCRIPT_JCIM_EN.md` | English manuscript (assemble from section drafts; do not hand-edit the assembled file as the source of truth) |
 | `manuscript/MANUSCRIPT_JCIM_ZH.md` | Chinese working manuscript |
-| `manuscript/SUPPORTING_INFORMATION_JCIM_EN_V1.md` | English SI Tables S1–S9 |
+| `manuscript/SUPPORTING_INFORMATION_JCIM_EN_V1.md` | English SI Tables S1–S10 |
 | `manuscript/SUPPORTING_INFORMATION_DRAFT_ZH_JCIM_V1.md` | Chinese SI |
 | `manuscript/STATISTICAL_LOCK_V1.md` | Table 2 / Table 3 estimand lock |
 | `manuscript/FIGURE_PANEL_LOCK_V3.md` | Figure-to-CSV map |
 | `manuscript/SUBMISSION_AUDIT_FIVE_ROUNDS_V1.md` | Five-round numeric audit |
-| `tables/` | Frozen CSVs cited by Tables 1–3 and S1–S9 |
+| `tables/` | Frozen CSVs cited by Tables 1–3 and S1–S10 |
 | `figures/` | Regenerated main and SI figures from `figures/jcim_article/scripts/update_figures_pr32.py` |
 | `scripts/` | Experiment analysis and official figure generators only. See `SCRIPTS.md` |
 | `SCRIPTS.md` | Upload list: each script, repository path, and paper role |

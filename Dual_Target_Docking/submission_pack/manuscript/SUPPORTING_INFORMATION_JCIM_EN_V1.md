@@ -2,8 +2,8 @@
 
 **Article companion:** `MANUSCRIPT_JCIM_EN.md`  
 **Numeric rule:** cells below are read from frozen CSVs. Displayed values are three-decimal rounded from the CSV string (half-up or, where already typeset, half-even / banker's). A trailing digit of exactly 5 can therefore appear as either neighbor (for example 0.5045 as 0.504 or 0.505). The CSV is authoritative. EGFR/HER2 Table 2 TPSA is 0.4275 → 0.428.  
-**Scope:** typeset Tables S1–S9 answer four questions: how data and docking were done; where the core fixed-channel results come from; whether ligand chemistry and pocket correspondence support attribution; and whether the main conclusions are obviously unstable to labels, sample, or computational realization. Historical coordinate-assignment RMSD, five-seed long tables, fixed-membership intersections, class-stratified bootstrap alternatives, sample-size simulations, raw BindingDB/PubChem supply counts, literature-year splits, and per-ligand or exploratory slices remain in the public repository with SHA-256 checksums. They are not repeated as typeset tables.  
-**Legacy maps:** former 54-table numbering is `data/manuscript_lock/SI_TABLE_MERGE_MAP_v1.csv`. The immediately previous typeset set was Tables S1–S14; the remap is listed after Table S9.
+**Scope:** typeset Tables S1–S10 answer four questions: how data and docking were done; where the core fixed-channel results come from; whether ligand chemistry and pocket correspondence support attribution; and whether the main conclusions are obviously unstable to labels, sample, or computational realization. Table S10 reports the eight-pair candidate-ranking operating points that correspond to Figure 2D / Figure S1. Historical coordinate-assignment RMSD, five-seed long tables, fixed-membership intersections, class-stratified bootstrap alternatives, sample-size simulations, raw BindingDB/PubChem supply counts, literature-year splits, and per-ligand or exploratory slices remain in the public repository with SHA-256 checksums. They are not repeated as typeset tables.  
+**Legacy maps:** former 54-table numbering is `data/manuscript_lock/SI_TABLE_MERGE_MAP_v1.csv`. The immediately previous typeset set was Tables S1–S14; the remap is listed after Table S10.
 
 **Main-text tables (not repeated here):** Table 1 panel composition; Table 2 eight-pair directional AUROC; Table 3 Dual-versus-neither versus directional contrast.
 
@@ -300,6 +300,23 @@ Seven pairs reached the G5 protocol-compatibility gate and were included because
 
 ---
 
+## Table S10. Eight-pair candidate-ranking operating points
+
+All eight primary panels were ranked by the two-pocket mean Vina score \(S_{\mathrm{mean}}=(S_{A}+S_{B})/2\), with ties broken by ascending ligand ID. Top-10 class counts use the full four-state panel, including neither. The AND filter uses Dual+A-only+B-only, excludes neither, and retains ligands with \(S_{\mathrm{worst}}\geq\) the median dual \(S_{\mathrm{worst}}\). Top-10 is a fixed count \(k=10\), not a fixed screening fraction. PIK3CA/mTOR Top-10 is 10/48 of that panel. These rows are descriptive operating points; they are not an eight-pair ranking of docking quality. JAK1/TYK2 Top-10 is Figure 2D; the JAK1/TYK2 AND filter is Figure S1. Source: `eight_pair_ranking_operating_point_v1.csv`; `review_scored_membership_v1.csv`.
+
+| Pair | n_ranked (D / A / B / N) | Top-10 D / A / B / N | Top-10 / n | AND input → pass (D / A / B) | dual precision |
+|------|-------------------------:|---------------------:|-----------:|------------------------------:|---------------:|
+| EGFR/HER2 | 110 (28 / 38 / 32 / 12) | 1 / 5 / 4 / 0 | 0.091 | 98 → 47 (14 / 9 / 24) | 0.298 |
+| JAK1/JAK2 | 110 (32 / 32 / 32 / 14) | 5 / 5 / 0 / 0 | 0.091 | 96 → 35 (16 / 13 / 6) | 0.457 |
+| JAK1/TYK2 | 109 (31 / 32 / 32 / 14) | 1 / 2 / 7 / 0 | 0.092 | 95 → 50 (16 / 12 / 22) | 0.320 |
+| PIK3CA/mTOR | 48 (18 / 14 / 12 / 4) | 6 / 2 / 1 / 1 | 0.208 | 44 → 17 (9 / 4 / 4) | 0.529 |
+| AChE/BChE | 95 (27 / 25 / 28 / 15) | 5 / 3 / 1 / 1 | 0.105 | 80 → 32 (14 / 7 / 11) | 0.438 |
+| F2/F10 | 107 (31 / 32 / 32 / 12) | 4 / 1 / 5 / 0 | 0.093 | 95 → 59 (16 / 20 / 23) | 0.271 |
+| PPARG/PPARA | 109 (32 / 31 / 32 / 14) | 6 / 3 / 0 / 1 | 0.092 | 95 → 31 (16 / 9 / 6) | 0.516 |
+| PPARA/PPARD | 110 (32 / 32 / 32 / 14) | 4 / 2 / 3 / 1 | 0.091 | 96 → 58 (16 / 22 / 20) | 0.276 |
+
+---
+
 ## Remap from the previous typeset S1–S14 set
 
 | Previous | Typeset now | Repository only |
@@ -314,7 +331,7 @@ Seven pairs reached the G5 protocol-compatibility gate and were included because
 | S10 cluster (flagship Δ only) | S4 | class-stratified bootstrap; sample-size scenario; Figure S5 simulation |
 | S11b independence remainder | S8 | S11a raw supply counts |
 | S12 literature-year split | — | year-split CSVs |
-| S13 EGFR/HER2 operating points | — | JAK1/TYK2 Top-10 in Figure 2D; AND filter in Figure S1; EGFR/HER2 operating-point CSV remains archived |
+| S13 EGFR/HER2 operating points | Table S10 (eight pairs) | Figure 2D / Figure S1 illustrate JAK1/TYK2; former three-pair mixed-library CSV remains archived |
 | S14 pair audit | S9 (excluded pairs + EGFR/HER2 exception) | repeated included-pair rows |
 
 Archived files that answer questions not typeset here include: per-ligand docking scores and multi-seed long tables; property-caliper matching; complete-case coverage; historical BindingDB supply counts; leave-cognate-out and occupancy snapshots; MCL1/Bcl-xL applicability stress test; SHA-256 manifest `REVISION_CHECKSUM_MANIFEST_v1.csv`; and evaluation contract `DUALFOURCLASS_EVALUATION_CONTRACT_v1.json`. A dated ChEMBL API snapshot and a three-pair high-confidence field screen remain in the repository and are not typeset.

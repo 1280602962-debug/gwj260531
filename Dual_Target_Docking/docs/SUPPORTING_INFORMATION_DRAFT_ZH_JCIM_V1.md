@@ -1,6 +1,6 @@
 # Supporting Information
 
-本文件对应正文 `MANUSCRIPT_JCIM_ZH.md`。Supporting Tables 按 Table S1–S9 排列；Supporting Figures 按正文首次引用顺序编号为 Figure S1–S4。历史坐标匹配 RMSD、五种子长表、固定成员交集、分层 bootstrap 备选、样本量情景模拟、BindingDB/PubChem 原始供给清点、发表年份子集，以及逐配体或探索性切片保留在公开仓库，不在投稿 SI 重复排版。
+本文件对应正文 `MANUSCRIPT_JCIM_ZH.md`。Supporting Tables 按 Table S1–S10 排列；Supporting Figures 按正文首次引用顺序编号为 Figure S1–S4。历史坐标匹配 RMSD、五种子长表、固定成员交集、分层 bootstrap 备选、样本量情景模拟、BindingDB/PubChem 原始供给清点、发表年份子集，以及逐配体或探索性切片保留在公开仓库，不在投稿 SI 重复排版。
 
 正文主表不在 SI 重复：Table 1 评价集组成与对接条件；Table 2 方向性主结果；Table 3 dual–neither 对照比较。
 
@@ -297,9 +297,26 @@ ECFP4 与 ECFP4+对接评分 AUROC 为同一骨架分组交叉验证下的折外
 
 ---
 
+## Table S10. 八对候选排序操作点
+
+八个主评价集均按双口袋平均 Vina 评分 \(S_{\mathrm{mean}}=(S_{A}+S_{B})/2\) 排序，并列时按配体 ID 升序。Top-10 类别计数使用含 neither 的完整四状态面板。AND 过滤作用于 Dual+A-only+B-only、排除 neither，并保留 \(S_{\mathrm{worst}}\geq\) dual 中位 \(S_{\mathrm{worst}}\) 的配体。Top-10 是固定条数 \(k=10\)，不是固定筛选比例。PIK3CA/mTOR 的 Top-10 占该面板 10/48。这些行是描述性操作点，不是对接质量的八对排行。JAK1/TYK2 Top-10 见 Figure 2D，AND 过滤见 Figure S1。源：`eight_pair_ranking_operating_point_v1.csv`；`review_scored_membership_v1.csv`。
+
+| 靶对 | n_ranked (D / A / B / N) | Top-10 D / A / B / N | Top-10 / n | AND 输入 → 通过 (D / A / B) | dual precision |
+|------|-------------------------:|---------------------:|-----------:|------------------------------:|---------------:|
+| EGFR/HER2 | 110 (28 / 38 / 32 / 12) | 1 / 5 / 4 / 0 | 0.091 | 98 → 47 (14 / 9 / 24) | 0.298 |
+| JAK1/JAK2 | 110 (32 / 32 / 32 / 14) | 5 / 5 / 0 / 0 | 0.091 | 96 → 35 (16 / 13 / 6) | 0.457 |
+| JAK1/TYK2 | 109 (31 / 32 / 32 / 14) | 1 / 2 / 7 / 0 | 0.092 | 95 → 50 (16 / 12 / 22) | 0.320 |
+| PIK3CA/mTOR | 48 (18 / 14 / 12 / 4) | 6 / 2 / 1 / 1 | 0.208 | 44 → 17 (9 / 4 / 4) | 0.529 |
+| AChE/BChE | 95 (27 / 25 / 28 / 15) | 5 / 3 / 1 / 1 | 0.105 | 80 → 32 (14 / 7 / 11) | 0.438 |
+| F2/F10 | 107 (31 / 32 / 32 / 12) | 4 / 1 / 5 / 0 | 0.093 | 95 → 59 (16 / 20 / 23) | 0.271 |
+| PPARG/PPARA | 109 (32 / 31 / 32 / 14) | 6 / 3 / 0 / 1 | 0.092 | 95 → 31 (16 / 9 / 6) | 0.516 |
+| PPARA/PPARD | 110 (32 / 32 / 32 / 14) | 4 / 2 / 3 / 1 | 0.091 | 96 → 58 (16 / 22 / 20) | 0.276 |
+
+---
+
 ## 与上一版 S1–S14 的对应
 
-上一版正式 SI 的 S2b、S6b、S9c–S9e、S10 分层 bootstrap 与样本量情景、S11a、S12、S13 表格以及 Figure S5 均改为仓库归档。簇重采样的两个最大固定通道差值并入 Table S4；留出集并入 Table S6；受体替换、独立 GNINA 与 PPARG 重评分并入 Table S7；独立性过滤剩余为 Table S8；靶对审计压缩为 Table S9。
+上一版正式 SI 的 S2b、S6b、S9c–S9e、S10 分层 bootstrap 与样本量情景、S11a、S12 表格以及 Figure S5 均改为仓库归档。簇重采样的两个最大固定通道差值并入 Table S4；留出集并入 Table S6；受体替换、独立 GNINA 与 PPARG 重评分并入 Table S7；独立性过滤剩余为 Table S8；靶对审计压缩为 Table S9；八对候选排序操作点为 Table S10。
 
 ---
 
@@ -311,7 +328,7 @@ ECFP4 与 ECFP4+对接评分 AUROC 为同一骨架分组交叉验证下的折外
 
 ![Figure S1](../figures/jcim_article/FigS1_posthoc_diagnostics.png)
 
-**Figure S1.** JAK1/TYK2 操作点：通过 dual 中位最差靶点评分阈值的化合物类别组成，分母为 Dual+A-only+B-only（n = 95），排除 neither。对应 Top-10 排序见 Figure 2D。属探索性分析；数字已在正文 Results 3.2 报告。
+**Figure S1.** JAK1/TYK2 操作点：通过 dual 中位最差靶点评分阈值的化合物类别组成，分母为 Dual+A-only+B-only（n = 95），排除 neither。对应 Top-10 排序见 Figure 2D；八对同一规则见 Table S10。属探索性分析；数字已在正文 Results 3.2 报告。
 
 ### Figure S2. 口袋匹配 summary_min 森林图
 
