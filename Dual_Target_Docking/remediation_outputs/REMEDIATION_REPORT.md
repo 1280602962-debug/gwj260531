@@ -2,7 +2,7 @@
 
 Corrected 3POZ/3RCD heavy-atom boxes and the no-ChEMBL-ID-prefix-cap AChE/BChE panel are the **canonical** protocol. Pre-fix boxes/scores/panels are in `data/_legacy_archive/` only.
 
-Manuscript, figures, and SI have **not** been overwritten yet: box-dependent reruns (five-seed Vina, independent GNINA, Vina-pose RTM, Vina-pose GNINA CNN) are still running. Production Vina, cognate redock, AChE panel metrics, and eight-pair master metrics are complete.
+Manuscript, figures, and SI have **not** been overwritten yet. Production Vina, cognate redock, AChE panel metrics, eight-pair master metrics, Vina-pose RTMScore, and Vina-pose GNINA CNN are complete. Five-seed Vina and independent GNINA are still running.
 
 ## CORE CONCLUSION STATUS
 
@@ -85,12 +85,12 @@ EGFR/HER2 was one of the two primary pairs whose matched-pocket interval exclude
 
 ### 7. Independent GNINA / five-seed / RTM / CNN
 
-These box-dependent reruns are in progress under `remediation_outputs/` and must finish before official manuscript overwrite:
+These box-dependent reruns live under `remediation_outputs/`. Manuscript overwrite waits for five-seed Vina and independent GNINA:
 
-- five-seed Vina: `phase_fiveseed/` (880 jobs, seeds 20260811–14; 20260727 reuses corrected production scores)
-- independent GNINA: `phase_gnina_independent/` (220 jobs, `--no_gpu`, canonical boxes, no old-pose reuse)
-- Vina-pose RTMScore: `phase_rtm/` (corrected 9-mode poses)
-- Vina-pose GNINA CNN: queued after RTM (uses split poses)
+- five-seed Vina: `phase_fiveseed/` (880 jobs, seeds 20260811–14; 20260727 reuses corrected production scores) — **still running**
+- independent GNINA: `phase_gnina_independent/` (220 jobs, `--no_gpu`, canonical boxes, no old-pose reuse) — **still running**
+- Vina-pose RTMScore: **done** n=110 D/A=0.485 D/B=0.309 summary_min=0.309 D-vs-N=0.804
+- Vina-pose GNINA CNN: **done** 1977/1977. Primary `cnn_affinity` best-of-9 n=110 D/A=0.648 D/B=0.214 summary_min=0.214 D-vs-N=0.938. Sensitivity `cnn_score` is not promoted (D/A=0.401 D/B=0.300 summary_min=0.300).
 - cognate 03P redock **done** (official CalcRMS, no superposition): 3POZ top-1 **1.019 Å** (pre-fix 9.505 Å); 3RCD top-1 **1.947 Å** (pre-fix 1.855 Å). Both pass top-1 < 2 Å.
 
 ### 8. AChE/BChE panel reconstruction
