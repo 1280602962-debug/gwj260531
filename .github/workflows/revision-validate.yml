@@ -28,12 +28,6 @@ jobs:
           pip install -r requirements-analysis.txt || pip install numpy pandas matplotlib scipy scikit-learn
       - name: Analysis environment
         run: python3 scripts/check_analysis_env.py
-      - name: Post-fix smoke
-        run: python3 scripts/audit/smoke_postfix_v4.py
-      - name: Post-fix canonical validation
-        run: python3 scripts/audit/validate_postfix_v4.py
-      - name: Canonical checksums (raw SHA256)
-        run: python3 scripts/audit/check_canonical_checksums_v2.py
-      - name: Submission pack hash parity
-        run: python3 scripts/audit/check_submission_pack_v4.py
+      - name: Current scientific chain
+        run: python3 scripts/qa/check_current_chain.py
       # Any step above that exits non-zero fails the job (GitHub Actions default).
