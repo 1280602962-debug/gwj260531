@@ -21,7 +21,7 @@ Narrative order: directional ranking → candidate-ranking consequence → ligan
 | 1 | A | Four experimental states: dual / A-only / B-only / neither | schematic |
 | 1 | B | Directional evaluation: D vs A-only → score B; D vs B-only → score A | schematic |
 | 1 | C | Paired-data supply census 2,164,618 / 63,790 / 5,253 / 86; separate box for Primary evaluation: 8 target pairs. Not a direct 86→8 funnel | `universe_census_summary_v1.csv` |
-| 2 | A | Fixed-score ΔAUROC = AUROC(D vs neither) − AUROC(D vs matched single-target-active); 8 pairs × 2 directions; 95% CI. Post-fix EGFR pocket A = 0.462 | `formulation_equal_score_negative_v1.csv`; `equal_score_negative_s34_v1.csv` |
+| 2 | A | Fixed-score ΔAUROC = AUROC(D vs neither) − AUROC(D vs matched single-target-active); 8 pairs × 2 directions; 95% CI. EGFR pocket A Δ = 0.462 | `formulation_equal_score_negative_v1.csv`; `equal_score_negative_s34_v1.csv` |
 | 2 | B | Two directional AUROCs: D vs A-only using B; D vs B-only using A; 8 pairs | `unified_threshold_sensitivity_v2.csv`; `table2_comparable_theta6_v1.csv` |
 | 2 | C | Directional summary_min vs two-pocket mean D-vs-neither. Not a fixed-score comparison. PIK3CA/mTOR neither n=4 annotation | same Table 2/3 sources |
 | 2 | D | Eight-pair top-10% 100% stacked bars (dual / A-only / B-only / neither), vina_mean rank, k=ceil(0.10 n) at right. No EF on the figure | `eight_pair_ranking_operating_point_v1.csv` |
@@ -60,7 +60,7 @@ Figure 2C is jointly readable from Table 2 + Table 3. Mean-score D-vs-pooled(A+B
 | S2 | B | E=16 vs E=8 | E=8 from `scores_vina_E8_best.csv` |
 | S3 | — | Cognate redocking RMSD, 14 primary slots; top-1 and lowest saved pose; 2 Å line. Post-fix EGFR 3POZ top-1 = 1.019 Å; HER2 3RCD top-1 = 1.947 Å | `all14_cognate_rmsd_calcrrms_v1.csv` |
 | S4 | A | Theta threshold sensitivity | `unified_threshold_sensitivity_v2.csv` |
-| S4 | B | Cluster-resampling intervals, EGFR/HER2 ligand-level official + JAK1/TYK2 cluster. EGFR cluster was not recomputed after the box correction | `equal_score_cluster_bootstrap_v1.csv` (JAK1/TYK2); ligand-level EGFR from equal-score CSV |
+| S4 | B | Cluster-resampling intervals, EGFR/HER2 ligand-level official + JAK1/TYK2 cluster. EGFR cluster recomputed with corrected-box scores and frozen groupings | `equal_score_cluster_bootstrap_v1.csv` (JAK1/TYK2); ligand-level EGFR from equal-score CSV |
 | S5 | A | BindingDB independent-filter compound counts | `external_slice_summary_v1.csv` |
 | S5 | B | Independent-source counts; 0/8 passed full external docking gate. Eligibility screen, not external validation | same |
 
@@ -85,14 +85,14 @@ Do not create S11/S12 unless a genuinely new submission-required analysis appear
 
 ## Canonical post-fix flagship values
 
-EGFR/HER2: D vs A-only pocket B = 0.661; D vs B-only pocket A = 0.324; summary_min = 0.324.  
-Same pocket-A score: D vs B-only = 0.324; D vs neither = 0.786; fixed-score ΔAUROC = 0.462 [0.262, 0.651].  
-Two-pocket mean D-vs-neither = 0.759.  
-Matched-minus-mismatched = 0.056 [−0.044, 0.160]; CI includes zero; no matched-pocket advantage.  
-AChE/BChE: n_scored = 27 / 26 / 28; matched-minus-mismatched = 0.177; CI excludes 0 (only main-panel interval excluding zero).  
+EGFR/HER2: D vs A-only pocket B = 0.661; D vs B-only pocket A = 0.324; summary_min = 0.324 [0.192, 0.463].  
+Same pocket-A score: D vs B-only = 0.324; D vs neither = 0.786; fixed-score ΔAUROC = 0.462 [0.260, 0.641].  
+Two-pocket mean D-vs-neither = 0.759 [0.554, 0.926].  
+Matched-minus-mismatched = 0.056 [−0.029, 0.157]; CI includes zero; no matched-pocket advantage.  
+AChE/BChE: n_scored = 27 / 26 / 28; matched-minus-mismatched = 0.177 [0.053, 0.291]; CI excludes 0 (only main-panel interval excluding zero).  
 EGFR/HER2 Top 10% = 1 / 5 / 5 / 0; EFdual,10% = 0.357.  
-AChE/BChE Top 10% = 5 / 3 / 1 / 1; EFdual,10% ≈ 1.778.  
-GNINA EGFR: D-vs-B-only ≈ 0.265; D-vs-neither ≈ 0.737.  
+AChE/BChE Top 10% = 5 / 3 / 1 / 1; EFdual,10% = 1.778.  
+GNINA EGFR: D-vs-B-only = 0.265; D-vs-neither = 0.737.  
 3POZ box center = 18.816, 31.837, 11.725; size = 20.931, 20.000, 21.342 (from JSON).  
 3RCD box center = 12.552, 2.982, 28.152; size = 21.385, 22.378, 20.000 (from JSON).
 

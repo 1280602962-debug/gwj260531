@@ -42,7 +42,7 @@ Fourteen primary receptor slots; top-1 and lowest saved pose; 2 Å reference. Po
 
 ## Figure S4. Label and source robustness.
 
-(A) Theta threshold sensitivity. (B) Cluster-resampling intervals for EGFR/HER2 (ligand-level official; cluster not recomputed after box correction) and JAK1/TYK2. Does not repeat Figure 4 holdout.
+(A) Theta threshold sensitivity. (B) Cluster-resampling intervals for EGFR/HER2 and JAK1/TYK2 after substituting current scores into the frozen scaffold and document groupings. Cluster intervals are a sensitivity analysis and do not replace Table 2. Does not repeat Figure 4 holdout.
 
 ## Figure S5. External-data eligibility.
 
