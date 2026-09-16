@@ -1,7 +1,7 @@
 # Dual-target docking submission pack (post-fix V4)
 
 - canonical branch: `cursor/methods-sentence-audit-c7cc`
-- commit SHA: `34a511a537e8af3be98843b2276455435f27e4f1`
+- commit SHA: `027d772b5ca7467392f5fd3e536c767bbdc253ff`
 - generation date: 2026-09-16
 - canonical result sources:
   - `remediation_outputs/POST_FIX_AUDIT_REPORT.md` (98 PASS / 0 WARNING / 0 FAIL)

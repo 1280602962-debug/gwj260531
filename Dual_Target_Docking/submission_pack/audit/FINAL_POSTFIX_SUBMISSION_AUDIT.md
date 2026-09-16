@@ -1,6 +1,6 @@
 # FINAL POSTFIX SUBMISSION AUDIT
 
-Commit: `34a511a537e8af3be98843b2276455435f27e4f1`
+Commit: `027d772b5ca7467392f5fd3e536c767bbdc253ff`
 Branch: `cursor/methods-sentence-audit-c7cc`
 Canonical audit: `remediation_outputs/POST_FIX_AUDIT_REPORT.md` (98 PASS / 0 WARNING / 0 FAIL)
 Figure lock: `docs/FIGURE_TABLE_LOCK_POSTFIX_V4.md`
