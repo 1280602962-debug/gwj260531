@@ -693,7 +693,7 @@ def fig4_realization(D: dict) -> None:
     PROVENANCE["plotted"]["fig4C"] = plotted_s
 
     fig.subplots_adjust(wspace=0.42, left=0.08, right=0.98, top=0.88, bottom=0.30)
-    save_all(fig, "Fig4_computational_realization")
+    save_all(fig, "Fig5_computational_realization")
     plt.close(fig)
 
 
@@ -750,7 +750,7 @@ def fig5_mismatched(D: dict) -> None:
     PROVENANCE["plotted"]["fig5C"] = recs_c
 
     fig.subplots_adjust(wspace=0.55, left=0.16, right=0.98, top=0.90, bottom=0.10)
-    save_all(fig, "Fig5_mismatched_pocket")
+    save_all(fig, "Fig4_mismatched_pocket")
     plt.close(fig)
 
 
@@ -1147,9 +1147,9 @@ def verify(D: dict) -> None:
         errors.append("fig4C F2 five-seed range must not cross 0.5")
 
     a = {r["pair"]: r for r in PROVENANCE["plotted"]["fig5A"]}
-    _eq(errors, a["EGFR/HER2"]["y"], 0.1697, 5e-4, "fig5A EGFR delta")
+    _eq(errors, a["EGFR/HER2"]["y"], 0.0558, 5e-4, "fig5A EGFR delta")
     _eq(errors, a["F2/F10"]["y"], -0.0307, 5e-4, "fig5A F2 delta")
-    if not a["EGFR/HER2"]["excl"] or a["PIK3CA/mTOR"]["excl"]:
+    if a["EGFR/HER2"]["excl"] or not a["AChE/BChE"]["excl"] or a["PIK3CA/mTOR"]["excl"]:
         errors.append("fig5A CI exclude-zero pattern")
     if any(r["pair"] == "PIK3CA/PIK3CB" for r in PROVENANCE["plotted"]["fig5A"]):
         errors.append("fig5A must not include withdrawn PIK3CA/PIK3CB")
@@ -1177,7 +1177,7 @@ def verify(D: dict) -> None:
     if "PIK3CA/PIK3CB" in s4:
         errors.append("S4 must not include withdrawn PIK3CA/PIK3CB")
     s5 = {r["pair"]: r for r in PROVENANCE["plotted"]["figS5"]}
-    _eq(errors, s5["AChE/BChE"]["hold"], 0.6175, 5e-4, "S5 AChE holdout")
+    _eq(errors, s5["AChE/BChE"]["hold"], 0.615, 5e-4, "S5 AChE holdout")
     if "PIK3CA/PIK3CB" in s5 or "EGFR/HER2" in s5:
         errors.append("S5 pair set")
     s7 = PROVENANCE["plotted"]["figS7"]
@@ -1192,7 +1192,7 @@ def verify(D: dict) -> None:
     from PIL import Image
     for name, (w_in, h_in) in {
         "Fig2_negative_class_formulation.png": (7.0, None),
-        "Fig5_mismatched_pocket.png": (7.0, None),
+        "Fig4_mismatched_pocket.png": (7.0, None),
         "TOC_graphic.tif": (3.25, 1.75),
     }.items():
         im = Image.open(OUT / name)
@@ -1227,12 +1227,12 @@ Rule: every plotted number is read from the CSV in this table. No hand-typed AUR
 | 3 | A | ECFP4 GroupKFold vs Vina rank AUROC, both arms, eight pairs | original three: `ligand_ml_baseline_scaffold_cv_v1.csv`; five: `ecfp4_incremental_s20s24_v1.csv` |
 | 3 | B | ECFP4 → ECFP4+docking ΔAUROC, 16 contrasts | original three: `incremental_information_v1.csv`; five: same ECFP4 file |
 | 3 | C | AChE/BChE TPSA jitter + median/IQR | `assembled_AChE_BChE.csv` |
-| 4 | A | Independent GNINA pose generation vs Vina: EGFR/HER2, PIK3CA/mTOR, JAK1/TYK2 only | `independent_dock_formulation_v1.csv`; `table2_comparable_by_channel_v1.csv` `gnina_independent_jak1_tyk2` |
-| 4 | B | PIK3CA 4L23/4JPS/5DXT and mTOR 4JSX on the receptor-verified PIK3CA/mTOR pair only | alt receptor CSVs + unified_threshold |
-| 4 | C | Five-seed `summary_min` range, eight pairs | original three: `multiseed_auroc_by_seed_v2.csv`; five: `fiveseed_summary_min_aggregate_v1.csv` |
-| 5 | A | Main matched−mismatched Δ + 95% CI, eight pairs | original three: `wrong_pocket_paired_delta_bootstrap_v1.csv` `set=main_panel`; five: `wrong_pocket_by_channel_v1.csv` `vina_20260727` |
-| 5 | B | Holdout matched−mismatched Δ + 95% CI (no EGFR; no withdrawn PIK3CB) | original two: same bootstrap CSV `unused_pool_holdout`; five: `wrong_pocket_by_channel_v1.csv` `holdout_vina_20260727` |
-| 5 | C | Holdout vs main `summary_min` | original two: `holdout_pocket_matched_v1.csv`; five: `table2_comparable_by_channel_v1.csv` `holdout_vina_20260727` |
+| 4 | A | Main matched−mismatched Δ + 95% CI, eight pairs | original three: `wrong_pocket_paired_delta_bootstrap_v1.csv` `set=main_panel`; five: `wrong_pocket_by_channel_v1.csv` `vina_20260727` |
+| 4 | B | Holdout matched−mismatched Δ + 95% CI (no EGFR; no withdrawn PIK3CB) | original two: same bootstrap CSV `unused_pool_holdout`; five: `wrong_pocket_by_channel_v1.csv` `holdout_vina_20260727` |
+| 4 | C | Holdout vs main `summary_min` | original two: `holdout_pocket_matched_v1.csv`; five: `table2_comparable_by_channel_v1.csv` `holdout_vina_20260727` |
+| 5 | A | Independent GNINA pose generation vs Vina: EGFR/HER2, PIK3CA/mTOR, JAK1/TYK2 only | `independent_dock_formulation_v1.csv`; `table2_comparable_by_channel_v1.csv` `gnina_independent_jak1_tyk2` |
+| 5 | B | PIK3CA 4L23/4JPS/5DXT and mTOR 4JSX on the receptor-verified PIK3CA/mTOR pair only | alt receptor CSVs + unified_threshold |
+| 5 | C | Five-seed `summary_min` range, eight pairs | original three: `multiseed_auroc_by_seed_v2.csv`; five: `fiveseed_summary_min_aggregate_v1.csv` |
 | 6 | A | θ-grid `summary_min`, eight pairs | original three: `unified_threshold_sensitivity_v2.csv`; five: `threshold_grid_v1.csv` |
 | 6 | B | PM48 vs PM110 Vina | `pm110_vs_pm48_pocket_matched_v1.csv` |
 | 6 | C | PM48 E=16 vs E=8 | E=16 from unified_threshold; E=8 from `scores_vina_E8_best.csv` |
