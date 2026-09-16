@@ -32,7 +32,7 @@
 
 八个靶对使用 14 个主受体结构（JAK1 的 6N7A 与 PPARA 的 6LXA 被两对共用）。PIK3CA/mTOR 因 4JT6 在 E = 8 时未过门槛而采用 E = 16。EGFR 3POZ 与 HER2 3RCD 按规范重原子盒重对接。9V8H 为 PPARγ LBD–BRL–PG08-NL 三元复合物，对接保留肽链。Figure S3 与近天然判定对 14 个受体统一使用化学对应 CalcRMS 表（S2b）。AChE 4EY7 与 TYK2 3LXP 实际保存 8 个姿态，其最低 RMSD 不是统一的 best-of-9。早期坐标匈牙利匹配结果仅留在仓库，不再作为第二套正式 RMSD 表。
 
-**S2a. 对接盒子（Å）与分辨率** EGFR 3POZ / HER2 3RCD 坐标由 `remediation_outputs/phase1_boxes/*_box_corrected.json` 程序化读取（共晶重原子 AABB+5 Å / 最短边 20 Å）。
+**S2a. 对接盒子（Å）与分辨率** EGFR 3POZ / HER2 3RCD 坐标由 `data/egfr_her2_panel120_v0/boxes/*_box_corrected.json` 程序化读取（共晶重原子 AABB+5 Å / 最短边 20 Å）。
 
 | 蛋白 | PDB | 共晶配体 | 分辨率 (Å) | center (x, y, z) | size (x, y, z) |
 |------|-----|----------|-----------:|------------------|----------------|

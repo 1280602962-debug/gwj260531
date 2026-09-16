@@ -532,10 +532,6 @@ def gnina_rows(packs):
         "EGFR/HER2": (ROOT / "data/jcim_independent_dock_v0/tables/gnina_dock_scores_EGFR_HER2.csv", "3POZ", "3RCD"),
         "PIK3CA/mTOR": (ROOT / "data/jcim_independent_dock_v0/tables/gnina_dock_scores_PIK3CA_mTOR.csv", "4L23", "4JT6"),
     }
-    # post-fix EGFR independent may live in remediation
-    alt = ROOT / "remediation_outputs/phase_gnina_independent/gnina_dock_scores_EGFR_HER2.csv"
-    if alt.is_file():
-        files["EGFR/HER2"] = (alt, "3POZ", "3RCD")
     out = []
     from analysis.bootstrap_metrics import stratified_auroc_ci
 

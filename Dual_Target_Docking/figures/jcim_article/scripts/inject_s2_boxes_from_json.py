@@ -2,8 +2,8 @@
 """Rewrite SI Table S2a EGFR/HER2 box rows from canonical JSON.
 
 Do not hard-code coordinates. Read:
-  remediation_outputs/phase1_boxes/3POZ_box_corrected.json
-  remediation_outputs/phase1_boxes/3RCD_box_corrected.json
+  data/egfr_her2_panel120_v0/boxes/3POZ_box_corrected.json
+  data/egfr_her2_panel120_v0/boxes/3RCD_box_corrected.json
 """
 from __future__ import annotations
 
@@ -13,7 +13,7 @@ import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[3]
-BOX_DIR = ROOT / "remediation_outputs" / "phase1_boxes"
+BOX_DIR = ROOT / "data" / "egfr_her2_panel120_v0" / "boxes"
 SI_FILES = [
     ROOT / "docs" / "SUPPORTING_INFORMATION_JCIM_EN_V1.md",
     ROOT / "docs" / "SUPPORTING_INFORMATION_DRAFT_ZH_JCIM_V1.md",

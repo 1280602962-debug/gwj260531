@@ -6,7 +6,7 @@
 **Supersedes:** `docs/FIGURE_PANEL_LOCK_V3.md`, `docs/FIGURE_TABLE_PLACEMENT_REPORT_ZH.md`, historical caption planning in `figures/jcim_article/CAPTIONS.md` and `figures/jcim_article/MANUSCRIPT_FIGURE_CAPTIONS.md`.  
 **Plotter:** `figures/jcim_article/scripts/update_figures_pr32.py` (single official pipeline).  
 **Value lock:** `figures/jcim_article/plotted_values_postfix.json`.  
-**Canonical audit:** `remediation_outputs/POST_FIX_AUDIT_REPORT.md` (98 PASS / 0 WARNING / 0 FAIL).
+**Canonical results:** `results/canonical/`.
 
 All plotted AUROC, CI, n, EF, Top-10 counts, and RMSD values are read from canonical post-fix CSV/JSON. Hard-coded values are limited to axis limits, fonts, panel geometry, and reference lines at 0, 0.5, and 2 Å.
 

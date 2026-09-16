@@ -903,7 +903,7 @@ def emit_plotted_values_postfix(audit):
 def main():
     global SOURCE
     parser = argparse.ArgumentParser()
-    parser.add_argument('--source-root', type=Path, default=SNAP)
+    parser.add_argument('--source-root', type=Path, default=Path(__file__).resolve().parents[3])
     parser.add_argument('--dry-run', action='store_true', help='validate inputs without writing canonical figures')
     args = parser.parse_args()
     SOURCE = args.source_root.resolve()
@@ -942,25 +942,13 @@ def main():
     egfr_delta = float(equal_src(D, 'EGFR/HER2')[('EGFR/HER2', 'D_vs_B_or_neither_pocketA')]['delta_neither_minus_selective'])
     jak_delta = float(equal_src(D, 'JAK1/TYK2')[('JAK1/TYK2', 'D_vs_B_or_neither_pocketA')]['delta_neither_minus_selective'])
     P['flagship_fixed_delta'] = {'EGFR/HER2': egfr_delta, 'JAK1/TYK2': jak_delta}
-    for rel in READS:
-        dest = snapshot_path(rel)
-        dest.parent.mkdir(parents=True, exist_ok=True)
-        if SOURCE != SNAP.resolve():
-            shutil.copyfile(SOURCE / rel, dest)
-    for rel in ['docs/MANUSCRIPT_JCIM_ZH.md', 'docs/MANUSCRIPT_JCIM_EN.md', 'docs/SUPPORTING_INFORMATION_DRAFT_ZH_JCIM_V1.md']:
-        path = source_path(rel)
-        READS[rel] = hashlib.sha256(path.read_bytes()).hexdigest()
-        dest = snapshot_path(rel)
-        dest.parent.mkdir(parents=True, exist_ok=True)
-        if SOURCE != SNAP.resolve():
-            shutil.copyfile(path, dest)
     audit = {
         'commit': DATA_SNAPSHOT_COMMIT,
         'data_snapshot_commit': DATA_SNAPSHOT_COMMIT,
         'artwork_git_head': git_head(),
         'source': 'https://github.com/1280602962-debug/gwj260531/pull/32',
         'inputs_sha256': READS,
-        'input_files': {rel: str(snapshot_path(rel).relative_to(OUT)) for rel in READS},
+        'input_files': {rel: rel for rel in READS},
         'generated': GENERATED, 'plotted': P,
     }
     (OUT / 'plotted_values.json').write_text(json.dumps(audit, indent=2), encoding='utf-8')

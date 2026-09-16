@@ -35,7 +35,7 @@ Ligands need both-end scores for directional AUROC; n_scored may be below n_pane
 
 The eight pairs use 14 primary receptor structures (JAK1 6N7A and PPARA 6LXA are shared). PIK3CA/mTOR used E = 16 because 4JT6 failed the gate at E = 8. EGFR 3POZ and HER2 3RCD were redocked under the canonical cognate heavy-atom box. 9V8H is a PPARγ LBD–BRL–PG08-NL ternary complex; the peptide was retained. Figure S3 and the near-native calls use the unified chemically mapped CalcRMS table (S2b) for all 14 slots. AChE 4EY7 and TYK2 3LXP deposited 8 poses, so their lowest RMSD is not a uniform best-of-nine. An earlier coordinate Hungarian assignment is archived in the repository and is not a second official RMSD table.
 
-**S2a. Docking boxes (Å)** Coordinates for EGFR 3POZ / HER2 3RCD were read from `remediation_outputs/phase1_boxes/*_box_corrected.json` (cognate heavy-atom AABB+5 Å / min-edge 20 Å).
+**S2a. Docking boxes (Å)** Coordinates for EGFR 3POZ / HER2 3RCD were read from `data/egfr_her2_panel120_v0/boxes/*_box_corrected.json` (cognate heavy-atom AABB+5 Å / min-edge 20 Å).
 
 | Protein | PDB | Cognate | Resolution (Å) | center (x, y, z) | size (x, y, z) |
 |------|-----|----------|-----------:|------------------|----------------|

@@ -137,7 +137,7 @@ def load_holdout():
 def gnina_formulation(packs):
     files = {
         "EGFR/HER2": (
-            ROOT / "remediation_outputs/phase_gnina_independent/gnina_dock_scores_EGFR_HER2.csv",
+            ROOT / "data/jcim_independent_dock_v0/tables/gnina_dock_scores_EGFR_HER2.csv",
             "3POZ",
             "3RCD",
         ),
@@ -883,7 +883,9 @@ def export_core(packs, hold):
 def overlay_fiveseed():
     src = ROOT / "data/jcim_multiseed_v0/tables/multiseed_auroc_by_seed_v2.csv"
     rows = read_csv(src)
-    corr = ROOT / "remediation_outputs/phase_fiveseed/multiseed_auroc_by_seed_corrected.csv"
+    corr = ROOT / "data/jcim_multiseed_v0/tables/multiseed_auroc_by_seed_EGFR_corrected.csv"
+    if not corr.is_file():
+        corr = ROOT / "data/jcim_multiseed_v0/tables/multiseed_auroc_by_seed_corrected.csv"
     if corr.is_file():
         by = {(r["pair"], r["seed"]): r for r in read_csv(corr)}
         out = []
@@ -892,7 +894,7 @@ def overlay_fiveseed():
             out.append(by[k] if k in by else r)
         write_csv(src, out)
         rows = out
-    ache = ROOT / "remediation_outputs/phase_ache_fiveseed/multiseed_auroc_by_seed_ACHE_corrected.csv"
+    ache = ROOT / "data/jcim_multiseed_v0/tables/multiseed_auroc_by_seed_ACHE_corrected.csv"
     if ache.is_file():
         by = {(r["pair"], r["seed"]): r for r in read_csv(ache)}
         out = []
