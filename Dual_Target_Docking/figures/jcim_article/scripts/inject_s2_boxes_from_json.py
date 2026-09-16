@@ -7,6 +7,7 @@ Do not hard-code coordinates. Read:
 """
 from __future__ import annotations
 
+import argparse
 import json
 import re
 from pathlib import Path
@@ -31,7 +32,7 @@ def row(protein: str, pdb: str, cognate: str, resolution: str) -> str:
     return f"| {protein} | {pdb} | {cognate} | {resolution} | {center} | {size} |"
 
 
-def patch(path: Path) -> None:
+def patch(path: Path, dry_run: bool) -> None:
     text = path.read_text(encoding="utf-8")
     replacements = {
         r"\| EGFR \| 3POZ \| 03P \| 1\.50 \| [^|]+ \| [^|]+ \|": row("EGFR", "3POZ", "03P", "1.50"),
@@ -42,15 +43,23 @@ def patch(path: Path) -> None:
         if n != 1:
             raise SystemExit(f"{path.name}: failed to replace {pat!r} (n={n})")
         text = text2
-    path.write_text(text, encoding="utf-8")
+    if dry_run:
+        print("dry-run: would patch", path.relative_to(ROOT))
+        return
+    tmp = path.with_name(path.name + ".tmp")
+    tmp.write_text(text, encoding="utf-8")
+    tmp.replace(path)
     print("patched", path.relative_to(ROOT))
     print("  3POZ", load_box("3POZ"))
     print("  3RCD", load_box("3RCD"))
 
 
 def main() -> None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--dry-run", action="store_true")
+    args = parser.parse_args()
     for path in SI_FILES:
-        patch(path)
+        patch(path, args.dry_run)
 
 
 if __name__ == "__main__":

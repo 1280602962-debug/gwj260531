@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""Copy submission-facing manuscripts, tables, figures, and scripts into submission_pack/."""
+"""LEGACY / PRE-REMEDIATION — DO NOT USE FOR CURRENT SUBMISSION.
+
+This packer still copies FIGURE_PANEL_LOCK_V3 and the V1 five-round audit.
+Current pack build: scripts/build_submission_pack_postfix_v4.py.
+"""
 from __future__ import annotations
 
 import shutil
@@ -190,6 +194,9 @@ def copy_file(rel: str, dest_root: Path) -> None:
 
 
 def main() -> None:
+    print("LEGACY / PRE-REMEDIATION — DO NOT USE FOR CURRENT SUBMISSION.")
+    print("Use scripts/build_submission_pack_postfix_v4.py")
+    raise SystemExit(1)
     if PACK.exists():
         shutil.rmtree(PACK)
     (PACK / "manuscript").mkdir(parents=True)

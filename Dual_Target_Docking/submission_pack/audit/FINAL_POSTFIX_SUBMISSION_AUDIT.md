@@ -1,6 +1,6 @@
 # FINAL POSTFIX SUBMISSION AUDIT
 
-Commit: `027d772b5ca7467392f5fd3e536c767bbdc253ff`
+source_snapshot_commit: `0642f839727d409581e20e47446990e823a5da32`
 Branch: `cursor/methods-sentence-audit-c7cc`
 Canonical audit: `remediation_outputs/POST_FIX_AUDIT_REPORT.md` (98 PASS / 0 WARNING / 0 FAIL)
 Figure lock: `docs/FIGURE_TABLE_LOCK_POSTFIX_V4.md`
@@ -144,10 +144,10 @@ Figure lock: `docs/FIGURE_TABLE_LOCK_POSTFIX_V4.md`
 - `Figure 6` in `figures/jcim_article/CAPTIONS.md`: h V4. Historical pre-fix tokens (0.378, 9.505 Å, JAK1-only Figure 2D, main-text Figure 6) are not current results.  Regenerate: `python3 figures/jcim_article/sc
 - `9.505` in `figures/jcim_article/MANUSCRIPT_FIGURE_CAPTIONS.md`: atom RMSD. EGFR 3POZ top-1 = 1.019 Å; HER2 3RCD top-1 = 1.947 Å. The historical 9.505 Å value is not current.  ## Figure S4. Label and source robustness.  (A) A
 - `Figure 6` in `figures/jcim_article/MANUSCRIPT_FIGURE_CAPTIONS.md`: otein-system order throughout Figures 2–5 and Tables 1–3. There is no main-text Figure 6.  ## Figure 1. Four-state dual-target evaluation and data supply.  (A) 
-- `0.808` in `submission_pack_postfix/SI/SUPPORTING_INFORMATION_JCIM_EN_V1.md`: BChE | D vs A | 0.895 | 0.893 | −0.002 | 0.652 | | AChE/BChE | D vs B | 0.821 | 0.808 | −0.013 | 0.606 | | PIK3CA/mTOR | D vs A | 0.762 | 0.742 | −0.020 | 0.714
-- `0.170` in `submission_pack_postfix/SI/SUPPORTING_INFORMATION_JCIM_EN_V1.md`: 0.060, 0.295] | no | | JAK1/JAK2 | pocket A | 0.728 | 0.723 | −0.004 | [−0.177, 0.170] | no | | JAK1/JAK2 | pocket B | 0.588 | 0.730 | 0.142 | [−0.058, 0.334] |
-- `0.170` in `submission_pack_postfix/SI/SUPPORTING_INFORMATION_JCIM_EN_V1.md`: OR | heavy | 0.463 | 0.229 | [−0.011, 0.435] | no | | F2/F10 | cLogP | 0.515 | −0.170 | [−0.324, −0.012] | yes | | JAK1/TYK2 | cLogP | 0.580 | −0.215 | [−0.374,
-- `9.505` in `submission_pack_postfix/SI/SUPPORTING_INFORMATION_JCIM_EN_V1.md`: lots use the unified chemically mapped CalcRMS table (Table S2). The historical 9.505 Å value is not a current result.  ### Figure S4. Label and source robustne
+- `0.808` in `.submission_pack_postfix.staging/SI/SUPPORTING_INFORMATION_JCIM_EN_V1.md`: BChE | D vs A | 0.895 | 0.893 | −0.002 | 0.652 | | AChE/BChE | D vs B | 0.821 | 0.808 | −0.013 | 0.606 | | PIK3CA/mTOR | D vs A | 0.762 | 0.742 | −0.020 | 0.714
+- `0.170` in `.submission_pack_postfix.staging/SI/SUPPORTING_INFORMATION_JCIM_EN_V1.md`: 0.060, 0.295] | no | | JAK1/JAK2 | pocket A | 0.728 | 0.723 | −0.004 | [−0.177, 0.170] | no | | JAK1/JAK2 | pocket B | 0.588 | 0.730 | 0.142 | [−0.058, 0.334] |
+- `0.170` in `.submission_pack_postfix.staging/SI/SUPPORTING_INFORMATION_JCIM_EN_V1.md`: OR | heavy | 0.463 | 0.229 | [−0.011, 0.435] | no | | F2/F10 | cLogP | 0.515 | −0.170 | [−0.324, −0.012] | yes | | JAK1/TYK2 | cLogP | 0.580 | −0.215 | [−0.374,
+- `9.505` in `.submission_pack_postfix.staging/SI/SUPPORTING_INFORMATION_JCIM_EN_V1.md`: lots use the unified chemically mapped CalcRMS table (Table S2). The historical 9.505 Å value is not a current result.  ### Figure S4. Label and source robustne
 
 ## Verdict
 

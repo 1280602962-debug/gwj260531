@@ -22,10 +22,18 @@ jobs:
         with:
           python-version: "3.12"
       - name: Install analysis dependencies
-        run: python -m pip install --upgrade pip && pip install numpy pandas matplotlib scipy scikit-learn rdkit
-      - name: Environment check
-        run: python3 scripts/check_local_env.py
-      - name: Revision numeric checks
-        run: python3 data/jcim_novelty_v0/scripts/validate_revision_v1.py
-      - name: Checksum manifest
-        run: python3 data/jcim_novelty_v0/scripts/build_checksum_manifest_v1.py --check
+        run: |
+          set -euo pipefail
+          python -m pip install --upgrade pip
+          pip install -r requirements-analysis.txt || pip install numpy pandas matplotlib scipy scikit-learn
+      - name: Analysis environment
+        run: python3 scripts/check_analysis_env.py
+      - name: Post-fix smoke
+        run: python3 scripts/audit/smoke_postfix_v4.py
+      - name: Post-fix canonical validation
+        run: python3 scripts/audit/validate_postfix_v4.py
+      - name: Canonical checksums (raw SHA256)
+        run: python3 scripts/audit/check_canonical_checksums_v2.py
+      - name: Submission pack hash parity
+        run: python3 scripts/audit/check_submission_pack_v4.py
+      # Any step above that exits non-zero fails the job (GitHub Actions default).

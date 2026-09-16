@@ -2,7 +2,7 @@
 
 Date: 2026-09-16
 Branch: `cursor/methods-sentence-audit-c7cc`
-Commit: `027d772b5ca7467392f5fd3e536c767bbdc253ff`
+source_snapshot_commit: `0642f839727d409581e20e47446990e823a5da32`
 This audit verifies post-fix canonical values. It does not replace `docs/SUBMISSION_AUDIT_FIVE_ROUNDS_V1.md` (pre-remediation).
 
 Summary: **101 PASS**, **0 FAIL**.

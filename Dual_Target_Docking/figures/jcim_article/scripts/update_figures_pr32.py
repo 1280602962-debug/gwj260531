@@ -914,25 +914,40 @@ def main():
     global SOURCE
     parser = argparse.ArgumentParser()
     parser.add_argument('--source-root', type=Path, default=SNAP)
+    parser.add_argument('--dry-run', action='store_true', help='validate inputs without writing canonical figures')
     args = parser.parse_args()
     SOURCE = args.source_root.resolve()
     style.OUT = OUT
     style.apply_style()
-    assert style.FONT == 'Arial' and style.ARIAL_PATH is not None
+    if style.FONT != 'Arial' or style.ARIAL_PATH is None:
+        print('FAIL: Arial is required for canonical artwork', file=sys.stderr)
+        raise SystemExit(1)
     v.ROOT = SOURCE
     v.DATA = SOURCE / 'data'
     v.OUT = OUT
     v.save_all = save
     v._read = lambda path: read(str(path.relative_to(SOURCE)).replace('\\', '/'))
     D = v.load()
-    assert set(D['theta6']) == set(v.UNIFIED_THRESHOLD_PAIRS)
-    assert set(D['native'][i]['pair'] for i in range(len(D['native']))) == set(PAIRS)
-    assert all(float(r['packaged_as_external_evaluation']) == 0 for r in D['native'])
+    if set(D['theta6']) != set(v.UNIFIED_THRESHOLD_PAIRS):
+        print('FAIL: theta6 pair set mismatch', file=sys.stderr)
+        raise SystemExit(1)
+    native_pairs = set(D['native'][i]['pair'] for i in range(len(D['native'])))
+    if native_pairs != set(PAIRS):
+        print('FAIL: native pair set mismatch', file=sys.stderr)
+        raise SystemExit(1)
+    if not all(float(r['packaged_as_external_evaluation']) == 0 for r in D['native']):
+        print('FAIL: holdout packaged as external evaluation', file=sys.stderr)
+        raise SystemExit(1)
+    if args.dry_run:
+        print('dry-run: figure inputs validated; canonical artwork not written')
+        return
     P['pair_order'] = list(PAIRS)
     fig1(D); fig1_c_data(D); fig2(D); fig3(D); fig4(D); fig5(D); fig6(D); supplements(D); toc_graphic()
     P.update({k: val for k, val in v.PROVENANCE['plotted'].items() if k not in P})
     P['primary'] = {p: v.primary_row(D, p) for p in PAIRS}
-    assert abs(P['fig3B_max_abs'] - .023) < .001
+    if abs(P['fig3B_max_abs'] - .023) >= .001:
+        print('FAIL: fig3B_max_abs is not 0.023', file=sys.stderr)
+        raise SystemExit(1)
     # Flagship fixed-score Δ must come from the equal-score table, not a literal.
     egfr_delta = float(equal_src(D, 'EGFR/HER2')[('EGFR/HER2', 'D_vs_B_or_neither_pocketA')]['delta_neither_minus_selective'])
     jak_delta = float(equal_src(D, 'JAK1/TYK2')[('JAK1/TYK2', 'D_vs_B_or_neither_pocketA')]['delta_neither_minus_selective'])
@@ -963,9 +978,15 @@ def main():
     for stem in GENERATED:
         for ext in ['png', 'tif']:
             with Image.open(OUT / (stem + '.' + ext)) as im:
-                assert im.mode == 'RGB'
-                assert abs(im.info['dpi'][0] - 300) < 1
-                assert im.width <= 2101 and im.height <= 2751
+                if im.mode != 'RGB':
+                    print(f'FAIL: {stem}.{ext} mode {im.mode} != RGB', file=sys.stderr)
+                    raise SystemExit(1)
+                if abs(im.info['dpi'][0] - 300) >= 1:
+                    print(f'FAIL: {stem}.{ext} dpi {im.info["dpi"]}', file=sys.stderr)
+                    raise SystemExit(1)
+                if im.width > 2101 or im.height > 2751:
+                    print(f'FAIL: {stem}.{ext} size {im.width}x{im.height}', file=sys.stderr)
+                    raise SystemExit(1)
     print(f'PASS: {len(GENERATED)} figures; {len(READS)} pinned inputs; RGB / 300 dpi / size checks')
 
 

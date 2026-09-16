@@ -1,8 +1,9 @@
 # Dual-target docking submission pack (post-fix V4)
 
 - canonical branch: `cursor/methods-sentence-audit-c7cc`
-- commit SHA: `027d772b5ca7467392f5fd3e536c767bbdc253ff`
-- generation date: 2026-09-16
+- source_snapshot_commit: `0642f839727d409581e20e47446990e823a5da32`
+- source_snapshot_date: `2026-09-16`
+- The packaging git commit is not recorded here; lock it with a Git tag / release metadata.
 - canonical result sources:
   - `remediation_outputs/POST_FIX_AUDIT_REPORT.md` (98 PASS / 0 WARNING / 0 FAIL)
   - `remediation_outputs/canonical_tables/post_fix_master_metrics.csv`

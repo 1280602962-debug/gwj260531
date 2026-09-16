@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
-"""SHA-256 manifest for manuscript-facing DualFourClass tables.
+"""LEGACY / PRE-REMEDIATION — DO NOT USE FOR CURRENT SUBMISSION.
 
-Default: write the manifest. --check: verify committed hashes.
+WATCH still includes superseded V3 assets and LF-normalizes text hashes.
+Current canonical coverage: scripts/audit/check_canonical_checksums_v2.py
+(raw SHA256; normalized_sha256 stored separately).
 """
 from __future__ import annotations
 
@@ -154,6 +156,9 @@ def check_manifest() -> int:
 
 
 def main() -> int:
+    print("LEGACY / PRE-REMEDIATION — DO NOT USE FOR CURRENT SUBMISSION.", file=sys.stderr)
+    print("Use scripts/audit/check_canonical_checksums_v2.py", file=sys.stderr)
+    return 1
     parser = argparse.ArgumentParser()
     parser.add_argument("--check", action="store_true")
     args = parser.parse_args()

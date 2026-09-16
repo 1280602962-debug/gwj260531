@@ -1,11 +1,9 @@
 #!/usr/bin/env python3
-"""One-shot JCIM submission freeze.
+"""LEGACY / PRE-REMEDIATION — DO NOT USE FOR CURRENT SUBMISSION.
 
-Current HEAD working tree → assemble manuscripts → write checksum →
-figure audit → five-round audit → pack → checksum --check + validate.
-
-Does not replot figures, re-dock, re-bootstrap, or rewrite SI drafts.
-After exit 0, commit the generated artifacts, tag, and stop changing data.
+This freeze path still calls audit_submission_five_rounds_v1.py and
+pack_submission_v1.py. The current freeze entry is
+scripts/audit/freeze_submission_postfix_v4.py.
 """
 from __future__ import annotations
 
@@ -25,6 +23,9 @@ def run(rel: str, extra: list[str] | None = None) -> None:
 
 
 def main() -> int:
+    print("LEGACY / PRE-REMEDIATION — DO NOT USE FOR CURRENT SUBMISSION.", file=sys.stderr)
+    print("Use scripts/audit/freeze_submission_postfix_v4.py", file=sys.stderr)
+    return 1
     run("docs/assemble_manuscript_en.py")
     run("docs/assemble_manuscript_zh.py")
     run("data/jcim_novelty_v0/scripts/build_checksum_manifest_v1.py")

@@ -1,52 +1,44 @@
 #!/usr/bin/env python3
-"""Build submission_pack_postfix, run V4 publication-facing audits, promote if ready."""
+"""Build the V4 submission pack into a staging directory, validate, then atomically replace.
+
+Does not re-run Vina/GNINA/RTM. Destructive writes support --dry-run.
+Partial failure must not leave a half-written canonical pack.
+"""
 from __future__ import annotations
 
+import argparse
 import csv
 import hashlib
 import json
 import re
 import shutil
-import subprocess
-from datetime import datetime, timezone
+import sys
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[1]
-REPO = ROOT.parent
+sys.path.insert(0, str(Path(__file__).resolve().parent / "audit"))
+from canonical_paths_v4 import (  # noqa: E402
+    DT_ROOT,
+    FIGURE_STEMS,
+    PACK_SOURCE_TABLES,
+    REPO_ROOT,
+    atomic_replace_dir,
+    atomic_write_text,
+    fail,
+    git_commit_date,
+    git_rev,
+    is_legacy_path,
+    sha256_raw,
+)
+
+ROOT = DT_ROOT
+REPO = REPO_ROOT
 ART = ROOT / "figures" / "jcim_article"
 DOCS = ROOT / "docs"
 PACK = ROOT / "submission_pack_postfix"
 OLD = ROOT / "submission_pack"
 ARCHIVE = ROOT / "submission_pack_pre_v4_archive"
-
-STEMS = {
-    "Figure1": "Fig1_four_state_and_supply",
-    "Figure2": "Fig2_negative_class_formulation",
-    "Figure3": "Fig3_ligand_chemistry",
-    "Figure4": "Fig4_mismatched_pocket",
-    "Figure5": "Fig5_computational_realization",
-    "FigureS1": "FigS1_ligand_chemistry_detail",
-    "FigureS2": "FigS2_protocol_sensitivity",
-    "FigureS3": "FigS3_cognate_rmsd",
-    "FigureS4": "FigS4_label_source_robustness",
-    "FigureS5": "FigS5_external_eligibility",
-    "TOC": "TOC_graphic",
-}
-
-TABLES = [
-    "data/jcim_strengthen_t0t1_v0/tables/unified_threshold_sensitivity_v2.csv",
-    "data/jcim_novelty_v0/tables/formulation_equal_score_negative_v1.csv",
-    "data/jcim_novelty_v0/tables/formulation_conventional_vs_directional_v1.csv",
-    "data/jcim_novelty_v0/tables/eight_pair_ranking_operating_point_v1.csv",
-    "data/jcim_novelty_v0/tables/all14_cognate_rmsd_calcrrms_v1.csv",
-    "data/jcim_strengthen_t0t1_v0/tables/wrong_pocket_paired_delta_bootstrap_v1.csv",
-    "data/jcim_independent_dock_v0/tables/independent_dock_formulation_v1.csv",
-    "data/jcim_novelty_v0/tables/external_slice_summary_v1.csv",
-    "remediation_outputs/canonical_tables/post_fix_master_metrics.csv",
-    "remediation_outputs/phase1_boxes/3POZ_box_corrected.json",
-    "remediation_outputs/phase1_boxes/3RCD_box_corrected.json",
-    "figures/jcim_article/plotted_values_postfix.json",
-]
+STEMS = FIGURE_STEMS
+TABLES = list(PACK_SOURCE_TABLES)
 
 PUB = [
     DOCS / "MANUSCRIPT_JCIM_EN.md",
@@ -60,58 +52,93 @@ PUB = [
 
 
 def sha256(path: Path) -> str:
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+    return sha256_raw(path)
 
 
-def git_head() -> str:
-    return subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=str(REPO), text=True).strip()
-
-
-def copy_pack() -> None:
-    if PACK.exists():
-        shutil.rmtree(PACK)
-    (PACK / "manuscript").mkdir(parents=True)
-    (PACK / "SI").mkdir()
-    (PACK / "figures").mkdir()
-    (PACK / "tables" / "source").mkdir(parents=True)
-    (PACK / "audit").mkdir()
-    shutil.copy2(DOCS / "MANUSCRIPT_JCIM_EN.md", PACK / "manuscript" / "MANUSCRIPT_JCIM_EN.md")
-    shutil.copy2(DOCS / "MANUSCRIPT_JCIM_ZH.md", PACK / "manuscript" / "MANUSCRIPT_JCIM_ZH.md")
-    shutil.copy2(DOCS / "SUPPORTING_INFORMATION_JCIM_EN_V1.md", PACK / "SI" / "SUPPORTING_INFORMATION_JCIM_EN_V1.md")
-    shutil.copy2(DOCS / "SUPPORTING_INFORMATION_DRAFT_ZH_JCIM_V1.md", PACK / "SI" / "SUPPORTING_INFORMATION_DRAFT_ZH_JCIM_V1.md")
-    shutil.copy2(DOCS / "FIGURE_TABLE_LOCK_POSTFIX_V4.md", PACK / "manuscript" / "FIGURE_TABLE_LOCK_POSTFIX_V4.md")
+def copy_into(dest: Path) -> list[dict[str, str]]:
+    if dest.exists():
+        shutil.rmtree(dest)
+    (dest / "manuscript").mkdir(parents=True)
+    (dest / "SI").mkdir()
+    (dest / "figures").mkdir()
+    (dest / "tables" / "source").mkdir(parents=True)
+    (dest / "audit").mkdir()
+    copies = [
+        (DOCS / "MANUSCRIPT_JCIM_EN.md", dest / "manuscript" / "MANUSCRIPT_JCIM_EN.md", "docs/MANUSCRIPT_JCIM_EN.md", "manuscript"),
+        (DOCS / "MANUSCRIPT_JCIM_ZH.md", dest / "manuscript" / "MANUSCRIPT_JCIM_ZH.md", "docs/MANUSCRIPT_JCIM_ZH.md", "manuscript"),
+        (DOCS / "SUPPORTING_INFORMATION_JCIM_EN_V1.md", dest / "SI" / "SUPPORTING_INFORMATION_JCIM_EN_V1.md", "docs/SUPPORTING_INFORMATION_JCIM_EN_V1.md", "si"),
+        (DOCS / "SUPPORTING_INFORMATION_DRAFT_ZH_JCIM_V1.md", dest / "SI" / "SUPPORTING_INFORMATION_DRAFT_ZH_JCIM_V1.md", "docs/SUPPORTING_INFORMATION_DRAFT_ZH_JCIM_V1.md", "si"),
+        (DOCS / "FIGURE_TABLE_LOCK_POSTFIX_V4.md", dest / "manuscript" / "FIGURE_TABLE_LOCK_POSTFIX_V4.md", "docs/FIGURE_TABLE_LOCK_POSTFIX_V4.md", "lock"),
+        (ART / "plotted_values_postfix.json", dest / "figures" / "plotted_values_postfix.json", "figures/jcim_article/plotted_values_postfix.json", "plotted"),
+        (ART / "CAPTIONS.md", dest / "figures" / "CAPTIONS.md", "figures/jcim_article/CAPTIONS.md", "caption"),
+        (ROOT / "remediation_outputs" / "POST_FIX_AUDIT_REPORT.md", dest / "audit" / "POST_FIX_AUDIT_REPORT.md", "remediation_outputs/POST_FIX_AUDIT_REPORT.md", "audit"),
+    ]
+    manifest_rows: list[dict[str, str]] = []
+    for src, out, rel, role in copies:
+        if not src.is_file():
+            fail(f"missing source {rel}")
+        if is_legacy_path(src):
+            fail(f"refusing legacy source {rel}")
+        shutil.copy2(src, out)
+        if sha256(src) != sha256(out):
+            fail(f"copy hash mismatch {rel}")
+        manifest_rows.append(_row(out, dest, role, rel, sha256(src)))
     for name, stem in STEMS.items():
-        for ext in ("pdf", "png", "tif"):
+        exts = ("png", "tif") if name == "TOC" else ("pdf", "png", "tif")
+        for ext in exts:
             src = ART / f"{stem}.{ext}"
-            if not src.exists():
-                if name == "TOC" and ext == "pdf":
-                    continue
-                raise SystemExit(f"missing figure {src}")
-            shutil.copy2(src, PACK / "figures" / f"{name}.{ext}")
-    shutil.copy2(ART / "plotted_values_postfix.json", PACK / "figures" / "plotted_values_postfix.json")
-    shutil.copy2(ART / "CAPTIONS.md", PACK / "figures" / "CAPTIONS.md")
-    rows = []
+            if not src.is_file():
+                fail(f"missing figure {src}")
+            out = dest / "figures" / f"{name}.{ext}"
+            shutil.copy2(src, out)
+            if sha256(src) != sha256(out):
+                fail(f"figure copy hash mismatch {name}.{ext}")
+            manifest_rows.append(
+                _row(out, dest, "figure", f"figures/jcim_article/{stem}.{ext}", sha256(src))
+            )
+    table_rows = []
     for rel in TABLES:
         src = ROOT / rel
-        dest = PACK / "tables" / "source" / Path(rel).name
-        shutil.copy2(src, dest)
-        rows.append({"file": Path(rel).name, "source": rel, "sha256": sha256(src), "bytes": src.stat().st_size})
-    with (PACK / "tables" / "source" / "checksums.csv").open("w", newline="", encoding="utf-8") as f:
-        w = csv.DictWriter(f, fieldnames=["file", "source", "sha256", "bytes"])
-        w.writeheader()
-        w.writerows(rows)
-    shutil.copy2(ROOT / "remediation_outputs" / "POST_FIX_AUDIT_REPORT.md", PACK / "audit" / "POST_FIX_AUDIT_REPORT.md")
+        if not src.is_file():
+            fail(f"missing table {rel}")
+        if is_legacy_path(src):
+            fail(f"refusing legacy table {rel}")
+        out = dest / "tables" / "source" / Path(rel).name
+        shutil.copy2(src, out)
+        table_rows.append({"file": Path(rel).name, "source": rel, "sha256": sha256(src), "bytes": src.stat().st_size})
+        role = "box_json" if rel.endswith(".json") and "box" in rel else ("plotted" if "plotted_values" in rel else ("metrics" if "post_fix_master" in rel else "table"))
+        manifest_rows.append(_row(out, dest, role, rel, sha256(src)))
+    checksums = dest / "tables" / "source" / "checksums.csv"
+    with checksums.open("w", newline="", encoding="utf-8") as handle:
+        writer = csv.DictWriter(handle, fieldnames=["file", "source", "sha256", "bytes"])
+        writer.writeheader()
+        writer.writerows(table_rows)
+    return manifest_rows
 
 
-def write_readme(head: str) -> None:
-    (PACK / "README.md").write_text(
+def _row(out: Path, dest: Path, role: str, source_rel: str, source_sha: str) -> dict[str, str]:
+    rel = ("submission_pack/" + str(out.relative_to(dest)).replace("\\", "/"))
+    return {
+        "path": rel,
+        "role": role,
+        "bytes": str(out.stat().st_size),
+        "sha256_raw": sha256(out),
+        "source_path": source_rel,
+        "source_sha256_raw": source_sha,
+    }
+
+
+def write_readme(dest: Path, snapshot: str) -> None:
+    date = git_commit_date(snapshot) or "unknown"
+    dest.joinpath("README.md").write_text(
         "\n".join(
             [
                 "# Dual-target docking submission pack (post-fix V4)",
                 "",
-                f"- canonical branch: `cursor/methods-sentence-audit-c7cc`",
-                f"- commit SHA: `{head}`",
-                f"- generation date: {datetime.now(timezone.utc).strftime('%Y-%m-%d')}",
+                "- canonical branch: `cursor/methods-sentence-audit-c7cc`",
+                f"- source_snapshot_commit: `{snapshot}`",
+                f"- source_snapshot_date: `{date}`",
+                "- The packaging git commit is not recorded here; lock it with a Git tag / release metadata.",
                 "- canonical result sources:",
                 "  - `remediation_outputs/POST_FIX_AUDIT_REPORT.md` (98 PASS / 0 WARNING / 0 FAIL)",
                 "  - `remediation_outputs/canonical_tables/post_fix_master_metrics.csv`",
@@ -131,6 +158,41 @@ def write_readme(head: str) -> None:
         ),
         encoding="utf-8",
     )
+
+
+def write_release_manifest(dest: Path, rows: list[dict[str, str]], snapshot: str) -> None:
+    readme = dest / "README.md"
+    rows = list(rows) + [
+        {
+            "path": "submission_pack/README.md",
+            "role": "pack",
+            "bytes": str(readme.stat().st_size),
+            "sha256_raw": sha256(readme),
+            "source_path": "",
+            "source_sha256_raw": "",
+        }
+    ]
+    fieldnames = ["path", "role", "bytes", "sha256_raw", "source_path", "source_sha256_raw", "source_snapshot_commit"]
+    out = dest / "RELEASE_MANIFEST.csv"
+    with out.open("w", newline="", encoding="utf-8") as handle:
+        writer = csv.DictWriter(handle, fieldnames=fieldnames)
+        writer.writeheader()
+        for row in rows:
+            writer.writerow({**row, "source_snapshot_commit": snapshot})
+    # Manifest is generated; record it against itself.
+    self_row = {
+        "path": "submission_pack/RELEASE_MANIFEST.csv",
+        "role": "release_manifest",
+        "bytes": str(out.stat().st_size),
+        "sha256_raw": sha256(out),
+        "source_path": "",
+        "source_sha256_raw": "",
+        "source_snapshot_commit": snapshot,
+    }
+    # Rewrite once with the self row appended; hashes of the file then change.
+    # Keep the self row out of the hashed set: user asked pack copy == source
+    # for manuscript/SI/figures/source tables, not for the manifest itself.
+    _ = self_row
 
 
 def scan_stale(paths: list[Path]) -> list[dict]:
@@ -314,13 +376,13 @@ def audit() -> dict:
     return {"findings": findings, "n_fail": n_fail, "ready": ready, "stale_notes": notes, "blocking_stale": blocking_stale}
 
 
-def write_v2_and_final(result: dict, head: str) -> None:
+def write_v2_and_final(result: dict, snapshot: str, pack_root: Path, write_docs: bool) -> None:
     lines = [
         "# Five-round JCIM submission audit (V2 post-fix)",
         "",
         "Date: 2026-09-16",
         "Branch: `cursor/methods-sentence-audit-c7cc`",
-        f"Commit: `{head}`",
+        f"source_snapshot_commit: `{snapshot}`",
         "This audit verifies post-fix canonical values. It does not replace `docs/SUBMISSION_AUDIT_FIVE_ROUNDS_V1.md` (pre-remediation).",
         "",
         f"Summary: **{sum(1 for f in result['findings'] if f['status']=='PASS')} PASS**, **{result['n_fail']} FAIL**.",
@@ -345,15 +407,16 @@ def write_v2_and_final(result: dict, head: str) -> None:
         "Target: 0 FAIL.",
         "",
     ]
-    v2 = DOCS / "SUBMISSION_AUDIT_FIVE_ROUNDS_V2_POSTFIX.md"
-    v2.write_text("\n".join(lines) + "\n", encoding="utf-8")
-    shutil.copy2(v2, PACK / "audit" / "SUBMISSION_AUDIT_FIVE_ROUNDS_V2_POSTFIX.md")
+    v2_text = "\n".join(lines) + "\n"
+    (pack_root / "audit" / "SUBMISSION_AUDIT_FIVE_ROUNDS_V2_POSTFIX.md").write_text(v2_text, encoding="utf-8")
+    if write_docs:
+        atomic_write_text(DOCS / "SUBMISSION_AUDIT_FIVE_ROUNDS_V2_POSTFIX.md", v2_text)
 
     verdict = "READY FOR LANGUAGE/EDITORIAL POLISH" if result["ready"] else "NOT READY — BLOCKING ISSUES REMAIN"
     fin = [
         "# FINAL POSTFIX SUBMISSION AUDIT",
         "",
-        f"Commit: `{head}`",
+        f"source_snapshot_commit: `{snapshot}`",
         "Branch: `cursor/methods-sentence-audit-c7cc`",
         "Canonical audit: `remediation_outputs/POST_FIX_AUDIT_REPORT.md` (98 PASS / 0 WARNING / 0 FAIL)",
         "Figure lock: `docs/FIGURE_TABLE_LOCK_POSTFIX_V4.md`",
@@ -383,35 +446,87 @@ def write_v2_and_final(result: dict, head: str) -> None:
         fin += ["", "## Blocking stale tokens", ""]
         for h in result["blocking_stale"]:
             fin.append(f"- `{h['token']}` in `{h['file']}`: {h['context'][:200]}")
-    fin += ["", f"## Verdict", "", f"**{verdict}**", ""]
-    (DOCS / "FINAL_POSTFIX_SUBMISSION_AUDIT.md").write_text("\n".join(fin) + "\n", encoding="utf-8")
-    shutil.copy2(DOCS / "FINAL_POSTFIX_SUBMISSION_AUDIT.md", PACK / "audit" / "FINAL_POSTFIX_SUBMISSION_AUDIT.md")
+    fin += ["", "## Verdict", "", f"**{verdict}**", ""]
+    final_text = "\n".join(fin) + "\n"
+    (pack_root / "audit" / "FINAL_POSTFIX_SUBMISSION_AUDIT.md").write_text(final_text, encoding="utf-8")
+    if write_docs:
+        atomic_write_text(DOCS / "FINAL_POSTFIX_SUBMISSION_AUDIT.md", final_text)
     print(verdict)
     print("FAIL", result["n_fail"])
     for f in result["findings"]:
         if f["status"] == "FAIL":
             print(" ", f)
+    if not result["ready"]:
+        fail("publication-facing audit has FAIL items; canonical pack not replaced")
 
 
-def promote(ready: bool) -> None:
-    if not ready:
-        return
-    if OLD.exists() and not ARCHIVE.exists():
-        OLD.rename(ARCHIVE)
-    elif OLD.exists():
-        shutil.rmtree(OLD)
-    shutil.copytree(PACK, OLD)
+def copy_audit_docs_from_pack(pack_root: Path) -> None:
+    mapping = [
+        "SUBMISSION_AUDIT_FIVE_ROUNDS_V2_POSTFIX.md",
+        "FINAL_POSTFIX_SUBMISSION_AUDIT.md",
+    ]
+    for name in mapping:
+        src = pack_root / "audit" / name
+        if not src.is_file():
+            fail(f"pack audit missing {name}")
+        atomic_write_text(DOCS / name, src.read_text(encoding="utf-8"))
+
+
+def promote_from(postfix: Path) -> None:
+    staging = ROOT / ".submission_pack.staging"
+    if staging.exists():
+        shutil.rmtree(staging)
+    shutil.copytree(postfix, staging)
+    atomic_replace_dir(staging, OLD)
     print("promoted submission_pack_postfix -> submission_pack")
 
 
-def main() -> None:
-    head = git_head()
-    copy_pack()
-    write_readme(head)
-    result = audit()
-    write_v2_and_final(result, head)
-    promote(result["ready"])
+def main() -> int:
+    global PACK
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--dry-run", action="store_true")
+    parser.add_argument("--skip-promote", action="store_true")
+    parser.add_argument(
+        "--source-snapshot",
+        default="",
+        help="commit used to generate the pack; do not default to packaging HEAD",
+    )
+    args = parser.parse_args()
+    snapshot = args.source_snapshot.strip()
+    if not snapshot:
+        readme = OLD / "README.md"
+        if readme.is_file():
+            for line in readme.read_text(encoding="utf-8").splitlines():
+                if "source_snapshot_commit:" in line and "`" in line:
+                    snapshot = line.split("`")[1].strip()
+                    break
+    if not snapshot:
+        fail("source_snapshot_commit unresolved; pass --source-snapshot (do not stamp packaging HEAD)")
+    staging = ROOT / ".submission_pack_postfix.staging"
+    try:
+        rows = copy_into(staging)
+        write_readme(staging, snapshot)
+        PACK = staging
+        result = audit()
+        write_v2_and_final(result, snapshot, staging, write_docs=False)
+        write_release_manifest(staging, rows, snapshot)
+        if args.dry_run:
+            print(f"dry-run: staging pack OK at {staging}; canonical not replaced")
+            shutil.rmtree(staging)
+            return 0
+        if not result["ready"]:
+            fail("publication-facing audit has FAIL items; canonical pack not replaced")
+        atomic_replace_dir(staging, ROOT / "submission_pack_postfix")
+        PACK = ROOT / "submission_pack_postfix"
+        if not args.skip_promote:
+            copy_audit_docs_from_pack(PACK)
+            promote_from(PACK)
+    except BaseException:
+        if staging.exists() and staging.resolve() != (ROOT / "submission_pack_postfix").resolve() and staging.resolve() != OLD.resolve():
+            shutil.rmtree(staging, ignore_errors=True)
+        raise
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())
