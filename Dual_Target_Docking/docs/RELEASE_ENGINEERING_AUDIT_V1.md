@@ -8,7 +8,14 @@ source_snapshot_commit (commit used to generate the submission pack):
 
 `0642f839727d409581e20e47446990e823a5da32`
 
-The packaging git commit is **not** recorded in this file or in `submission_pack/README.md`. Lock it with a Git tag / release metadata after `revision-validate` is green. Do not confuse source_snapshot_commit with current HEAD after this release-engineering change lands.
+The packaging git commit is **not** self-stamped here or in `submission_pack/README.md`. Lock it with a Git tag / release metadata. Do not confuse `source_snapshot_commit` with later packaging HEADs.
+
+Observed green `revision-validate` (push + pull_request) on:
+
+`645152faf685d951a19d53e0b2c2654a6945b8aa`
+
+https://github.com/1280602962-debug/gwj260531/actions/runs/35071320601
+https://github.com/1280602962-debug/gwj260531/actions/runs/35071325236
 
 Scope: PR #38 (`cursor/methods-sentence-audit-c7cc`). No scientific-analysis definitions were changed. Vina / GNINA / RTM were not re-run.
 
@@ -29,10 +36,7 @@ Official pack entry: `scripts/build_submission_pack_postfix_v4.py`
 
 ## BLOCKING
 
-1. **GitHub Actions `revision-validate` has not yet been observed green on the packaging HEAD.**
-   Local equivalents of the five CI steps are green on this worktree (see PASS). The previous failing workflow called `data/jcim_novelty_v0/scripts/validate_revision_v1.py`, which hard-codes pre-fix EGFR `summary_min` 0.4297, fixed-score delta 0.3783, 3POZ top-1 RMSD 9.505, and old AChE counts. That script is now LEGACY and exits 1. Until the updated workflow runs on GitHub, this item remains blocking.
-
-`RELEASE PIPELINE READY` is **not** written.
+None.
 
 ---
 
@@ -138,17 +142,18 @@ Official pack entry: `scripts/build_submission_pack_postfix_v4.py`
 
 13. **No scientific-conclusion edits** in this audit. EGFR `summary_min` 0.3237, fixed delta 0.4621, AChE 27/26/28, 3POZ 1.019 Å remain the post-fix canonical values.
 
+14. **GitHub Actions `revision-validate` = PASS** on packaging commit `645152fa` (push run 35071320601, pull_request run 35071325236). The five CI steps each exited 0. The pre-fix workflow that called `validate_revision_v1.py` is no longer the PR #38 gate.
+
 ---
 
 ## Verdict
 
-**NOT RELEASE PIPELINE READY**
+**RELEASE PIPELINE READY**
 
-Remaining gate: observe GitHub Actions `revision-validate` = PASS on PR #38 packaging HEAD.
+All required gates are green:
 
-Local evidence already green:
-
-- smoke test green
+- GitHub Actions `revision-validate` green on `645152fa`
+- smoke test green (23 PASS, 0.01 s)
 - canonical checksum green (119 paths, raw SHA256)
 - post-fix scientific audit green (98/0/0 pointer + validator)
 - submission pack hash parity green
