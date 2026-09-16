@@ -1,3 +1,7 @@
+# PRE-REMEDIATION AUDIT — SUPERSEDED BY V2_POSTFIX
+
+This V1 audit locked pre-fix EGFR/HER2 numbers (0.430 / 0.808 / 0.378) and is retained for provenance only. The current publication-facing audit is `docs/SUBMISSION_AUDIT_FIVE_ROUNDS_V2_POSTFIX.md`.
+
 # Five-round JCIM submission audit
 
 Date: 2026-09-15

@@ -1,6 +1,6 @@
-# Six-figure panel lock (superseded)
+# SUPERSEDED by `docs/FIGURE_TABLE_LOCK_POSTFIX_V4.md` via V3.
 
-Superseded by `docs/FIGURE_PANEL_LOCK_V3.md` (eight-row primary set).  
+Superseded by `docs/FIGURE_PANEL_LOCK_V3.md` (eight-row primary set), which is itself superseded by V4.  
 Historical four-pair / K=4 lock. Do not regenerate submission figures from v2.
 
 Branch: `cursor/jcim-final-integration-0b1a`  

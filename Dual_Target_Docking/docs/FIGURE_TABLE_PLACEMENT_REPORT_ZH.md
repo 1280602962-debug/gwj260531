@@ -1,3 +1,7 @@
+# SUPERSEDED BY FIGURE_TABLE_LOCK_POSTFIX_V4.md
+
+This placement report is retained for provenance. Current publication-facing numbering is `docs/FIGURE_TABLE_LOCK_POSTFIX_V4.md` (5 main figures, no main Figure 6; SI Figures S1–S5).
+
 # 图表位置核对报告
 
 > 历史放置快照。当前正式 SI 为 Tables S1–S10 / Figures S1–S4；`FigS6_detectable_effect` 仅留仓库。Table S10 为八对 `vina_mean` Top 10%（\(k=\lceil 0.10 n\rceil\)）/ AND 过滤。当前工作分支：`cursor/methods-sentence-audit-c7cc`。

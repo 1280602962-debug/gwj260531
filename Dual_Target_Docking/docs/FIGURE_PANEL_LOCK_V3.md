@@ -1,3 +1,7 @@
+# SUPERSEDED BY FIGURE_TABLE_LOCK_POSTFIX_V4.md
+
+This V3 lock is retained for provenance. Publication-facing numbering, captions, and source paths are controlled only by `docs/FIGURE_TABLE_LOCK_POSTFIX_V4.md`.
+
 # Eight-row panel lock (submission)
 
 Branch: `cursor/chembl-exhaustive-pair-census-0b1a`  

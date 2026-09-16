@@ -1,3 +1,12 @@
+# SUPERSEDED.
+
+Canonical report:
+`remediation_outputs/POST_FIX_AUDIT_REPORT.md`
+
+That report is the unique current 20-class invariant audit: **98 PASS / 0 WARNING / 0 FAIL**.
+
+The 95 PASS / 3 WARNING summary below is a pre-final pointer snapshot and is not a second official current result.
+
 # POST_FIX_AUDIT_REPORT
 
 Summary: **95 PASS**, **3 WARNING**, **0 FAIL**.
