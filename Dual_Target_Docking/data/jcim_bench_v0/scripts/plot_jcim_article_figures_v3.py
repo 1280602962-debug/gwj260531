@@ -693,7 +693,7 @@ def fig4_realization(D: dict) -> None:
     PROVENANCE["plotted"]["fig4C"] = plotted_s
 
     fig.subplots_adjust(wspace=0.42, left=0.08, right=0.98, top=0.88, bottom=0.30)
-    save_all(fig, "Fig4_computational_realization")
+    save_all(fig, "Fig5_computational_realization")
     plt.close(fig)
 
 
@@ -750,7 +750,7 @@ def fig5_mismatched(D: dict) -> None:
     PROVENANCE["plotted"]["fig5C"] = recs_c
 
     fig.subplots_adjust(wspace=0.55, left=0.16, right=0.98, top=0.90, bottom=0.10)
-    save_all(fig, "Fig5_mismatched_pocket")
+    save_all(fig, "Fig4_mismatched_pocket")
     plt.close(fig)
 
 
@@ -1087,7 +1087,7 @@ def verify(D: dict) -> None:
             errors.append(f"fig2B n_neg {p}")
 
     expected_dir = {
-        "EGFR/HER2": (0.4297, 0.2818, 0.5775),
+        "EGFR/HER2": (0.3237, 0.1953, 0.4710),
         "AChE/BChE": (0.6058, 0.4370, 0.7303),
         "PIK3CA/mTOR": (0.6921, 0.4702, 0.8133),
         "F2/F10": (0.3448, 0.2109, 0.4773),
@@ -1097,7 +1097,7 @@ def verify(D: dict) -> None:
         "PPARA/PPARD": (0.4463, 0.2958, 0.5841),
     }
     expected_nei = {
-        "EGFR/HER2": (0.756, 12),
+        "EGFR/HER2": (0.7589, 12),
         "AChE/BChE": (0.6494, 15),
         "PIK3CA/mTOR": (0.5139, 4),
         "F2/F10": (0.5188, 12),
@@ -1120,17 +1120,17 @@ def verify(D: dict) -> None:
     src_e = s34_row(D, "EGFR/HER2")
     src_j = s34_row(D, "JAK1/TYK2")
     _eq(errors, egfr["delta"], src_e["delta"], 5e-4, "fig2C EGFR vs CSV")
-    _eq(errors, egfr["delta"], 0.3783, 5e-4, "fig2C EGFR 0.3783")
+    _eq(errors, egfr["delta"], src_e["delta"], 5e-4, "fig2C EGFR vs CSV (no hardcoded pre-fix)")
     _eq(errors, jak["delta"], src_j["delta"], 5e-4, "fig2C JAK1/TYK2 vs CSV")
     _eq(errors, jak["delta"], 0.4438, 5e-4, "fig2C JAK1/TYK2 0.4438")
 
     _eq(errors, PROVENANCE["plotted"]["fig3A"]["ecfp_db"][0], 0.8895, 5e-4, "fig3A EGFR ECFP D/B")
-    _eq(errors, PROVENANCE["plotted"]["fig3A"]["vina_db"][0], 0.4297, 5e-4, "fig3A EGFR Vina D/B")
-    if PROVENANCE["plotted"]["fig3C"]["n"] != [27, 25, 28]:
+    _eq(errors, PROVENANCE["plotted"]["fig3A"]["vina_db"][0], 0.3237, 5e-4, "fig3A EGFR Vina D/B")
+    if PROVENANCE["plotted"]["fig3C"]["n"] != [27, 26, 28]:
         errors.append(f"fig3C n {PROVENANCE['plotted']['fig3C']['n']}")
 
-    _eq(errors, PROVENANCE["plotted"]["fig4A"]["gnina_smin"][0], 0.2199, 5e-4, "fig4A EGFR GNINA smin")
-    _eq(errors, PROVENANCE["plotted"]["fig4A"]["gnina_neither"][0], 0.7825, 5e-4, "fig4A EGFR GNINA neither")
+    _eq(errors, PROVENANCE["plotted"]["fig4A"]["gnina_smin"][0], 0.2645, 5e-4, "fig4A EGFR GNINA smin")
+    _eq(errors, PROVENANCE["plotted"]["fig4A"]["gnina_neither"][0], 0.7370, 5e-4, "fig4A EGFR GNINA neither")
     _eq(errors, PROVENANCE["plotted"]["fig4A"]["gnina_smin"][2], 0.3172, 5e-4, "fig4A JAK1/TYK2 GNINA smin")
     _eq(errors, PROVENANCE["plotted"]["fig4A"]["gnina_neither"][2], 0.7048, 5e-4, "fig4A JAK1/TYK2 GNINA neither")
     if "PIK3CA/PIK3CB" in {r["pair"] for r in PROVENANCE["plotted"]["fig4B"]}:
@@ -1139,7 +1139,7 @@ def verify(D: dict) -> None:
     _eq(errors, b[("PIK3CA/mTOR", "4JPS")]["y"], 0.4861, 5e-4, "fig4B PM 4JPS")
     _eq(errors, b[("PIK3CA/mTOR", "5DXT")]["y"], 0.5046, 5e-4, "fig4B PM 5DXT")
     _eq(errors, b[("PIK3CA/mTOR", "4JSX")]["y"], 0.6389, 5e-4, "fig4B 4JSX")
-    _eq(errors, PROVENANCE["plotted"]["fig4C"]["EGFR/HER2"]["primary"], 0.4297, 5e-4, "fig4C EGFR primary")
+    _eq(errors, PROVENANCE["plotted"]["fig4C"]["EGFR/HER2"]["primary"], 0.3237, 5e-4, "fig4C EGFR primary")
     _eq(errors, PROVENANCE["plotted"]["fig4C"]["F2/F10"]["primary"], 0.3448, 5e-4, "fig4C F2 primary")
     if PROVENANCE["plotted"]["fig4C"]["JAK1/TYK2"]["n"] != 5:
         errors.append("fig4C JAK1/TYK2 n_seeds")
@@ -1147,9 +1147,9 @@ def verify(D: dict) -> None:
         errors.append("fig4C F2 five-seed range must not cross 0.5")
 
     a = {r["pair"]: r for r in PROVENANCE["plotted"]["fig5A"]}
-    _eq(errors, a["EGFR/HER2"]["y"], 0.1697, 5e-4, "fig5A EGFR delta")
+    _eq(errors, a["EGFR/HER2"]["y"], 0.0558, 5e-4, "fig5A EGFR delta")
     _eq(errors, a["F2/F10"]["y"], -0.0307, 5e-4, "fig5A F2 delta")
-    if not a["EGFR/HER2"]["excl"] or a["PIK3CA/mTOR"]["excl"]:
+    if a["EGFR/HER2"]["excl"] or not a["AChE/BChE"]["excl"] or a["PIK3CA/mTOR"]["excl"]:
         errors.append("fig5A CI exclude-zero pattern")
     if any(r["pair"] == "PIK3CA/PIK3CB" for r in PROVENANCE["plotted"]["fig5A"]):
         errors.append("fig5A must not include withdrawn PIK3CA/PIK3CB")
@@ -1172,12 +1172,12 @@ def verify(D: dict) -> None:
         errors.append("fig6D BindingDB gate")
 
     s4 = PROVENANCE["plotted"]["figS4"]
-    _eq(errors, s4["EGFR/HER2"]["vina"]["smin"], 0.4297, 5e-4, "S4 EGFR")
+    _eq(errors, s4["EGFR/HER2"]["vina"]["smin"], 0.3237, 5e-4, "S4 EGFR")
     _eq(errors, s4["PPARG/PPARA"]["vina"]["smin"], 0.6492, 5e-4, "S4 PPARG")
     if "PIK3CA/PIK3CB" in s4:
         errors.append("S4 must not include withdrawn PIK3CA/PIK3CB")
     s5 = {r["pair"]: r for r in PROVENANCE["plotted"]["figS5"]}
-    _eq(errors, s5["AChE/BChE"]["hold"], 0.6175, 5e-4, "S5 AChE holdout")
+    _eq(errors, s5["AChE/BChE"]["hold"], 0.615, 5e-4, "S5 AChE holdout")
     if "PIK3CA/PIK3CB" in s5 or "EGFR/HER2" in s5:
         errors.append("S5 pair set")
     s7 = PROVENANCE["plotted"]["figS7"]
@@ -1192,7 +1192,7 @@ def verify(D: dict) -> None:
     from PIL import Image
     for name, (w_in, h_in) in {
         "Fig2_negative_class_formulation.png": (7.0, None),
-        "Fig5_mismatched_pocket.png": (7.0, None),
+        "Fig4_mismatched_pocket.png": (7.0, None),
         "TOC_graphic.tif": (3.25, 1.75),
     }.items():
         im = Image.open(OUT / name)
@@ -1227,12 +1227,12 @@ Rule: every plotted number is read from the CSV in this table. No hand-typed AUR
 | 3 | A | ECFP4 GroupKFold vs Vina rank AUROC, both arms, eight pairs | original three: `ligand_ml_baseline_scaffold_cv_v1.csv`; five: `ecfp4_incremental_s20s24_v1.csv` |
 | 3 | B | ECFP4 → ECFP4+docking ΔAUROC, 16 contrasts | original three: `incremental_information_v1.csv`; five: same ECFP4 file |
 | 3 | C | AChE/BChE TPSA jitter + median/IQR | `assembled_AChE_BChE.csv` |
-| 4 | A | Independent GNINA pose generation vs Vina: EGFR/HER2, PIK3CA/mTOR, JAK1/TYK2 only | `independent_dock_formulation_v1.csv`; `table2_comparable_by_channel_v1.csv` `gnina_independent_jak1_tyk2` |
-| 4 | B | PIK3CA 4L23/4JPS/5DXT and mTOR 4JSX on the receptor-verified PIK3CA/mTOR pair only | alt receptor CSVs + unified_threshold |
-| 4 | C | Five-seed `summary_min` range, eight pairs | original three: `multiseed_auroc_by_seed_v2.csv`; five: `fiveseed_summary_min_aggregate_v1.csv` |
-| 5 | A | Main matched−mismatched Δ + 95% CI, eight pairs | original three: `wrong_pocket_paired_delta_bootstrap_v1.csv` `set=main_panel`; five: `wrong_pocket_by_channel_v1.csv` `vina_20260727` |
-| 5 | B | Holdout matched−mismatched Δ + 95% CI (no EGFR; no withdrawn PIK3CB) | original two: same bootstrap CSV `unused_pool_holdout`; five: `wrong_pocket_by_channel_v1.csv` `holdout_vina_20260727` |
-| 5 | C | Holdout vs main `summary_min` | original two: `holdout_pocket_matched_v1.csv`; five: `table2_comparable_by_channel_v1.csv` `holdout_vina_20260727` |
+| 4 | A | Main matched−mismatched Δ + 95% CI, eight pairs | original three: `wrong_pocket_paired_delta_bootstrap_v1.csv` `set=main_panel`; five: `wrong_pocket_by_channel_v1.csv` `vina_20260727` |
+| 4 | B | Holdout matched−mismatched Δ + 95% CI (no EGFR; no withdrawn PIK3CB) | original two: same bootstrap CSV `unused_pool_holdout`; five: `wrong_pocket_by_channel_v1.csv` `holdout_vina_20260727` |
+| 4 | C | Holdout vs main `summary_min` | original two: `holdout_pocket_matched_v1.csv`; five: `table2_comparable_by_channel_v1.csv` `holdout_vina_20260727` |
+| 5 | A | Independent GNINA pose generation vs Vina: EGFR/HER2, PIK3CA/mTOR, JAK1/TYK2 only | `independent_dock_formulation_v1.csv`; `table2_comparable_by_channel_v1.csv` `gnina_independent_jak1_tyk2` |
+| 5 | B | PIK3CA 4L23/4JPS/5DXT and mTOR 4JSX on the receptor-verified PIK3CA/mTOR pair only | alt receptor CSVs + unified_threshold |
+| 5 | C | Five-seed `summary_min` range, eight pairs | original three: `multiseed_auroc_by_seed_v2.csv`; five: `fiveseed_summary_min_aggregate_v1.csv` |
 | 6 | A | θ-grid `summary_min`, eight pairs | original three: `unified_threshold_sensitivity_v2.csv`; five: `threshold_grid_v1.csv` |
 | 6 | B | PM48 vs PM110 Vina | `pm110_vs_pm48_pocket_matched_v1.csv` |
 | 6 | C | PM48 E=16 vs E=8 | E=16 from unified_threshold; E=8 from `scores_vina_E8_best.csv` |
@@ -1259,11 +1259,11 @@ Regenerate: `python3 data/jcim_bench_v0/scripts/plot_jcim_article_figures_v3.py`
 
 ## Figure 2. Negative-class definition changes apparent dual-target evidence.
 
-Same frozen AutoDock Vina scores, unified θ = 6.0, eight primary rows. (A) Directional Dual versus A-only (pocket B) and Dual versus B-only (pocket A). (B) Descriptive comparison of directional `summary_min` with Dual versus neither using per-ligand `vina_mean`. These two columns differ in both negative class and score aggregation. PIK3CA/mTOR Dual versus neither is hatched (neither n = 4). (C) Pocket A score held fixed; only the negative class is replaced (B-only versus neither). EGFR/HER2 ΔAUROC = 0.378 [0.205, 0.547]; JAK1/TYK2 reproduces the gap (0.444 [0.263, 0.620]). Document-cluster and scaffold-cluster intervals for those two Δ values are in Table S4. Diamond, underpowered neither. Vertical dashed line, zero.
+Same frozen AutoDock Vina scores, unified θ = 6.0, eight primary rows. (A) Directional Dual versus A-only (pocket B) and Dual versus B-only (pocket A). (B) Descriptive comparison of directional `summary_min` with Dual versus neither using per-ligand `vina_mean`. These two columns differ in both negative class and score aggregation. PIK3CA/mTOR Dual versus neither is hatched (neither n = 4). (C) Pocket A score held fixed; only the negative class is replaced (B-only versus neither). EGFR/HER2 and JAK1/TYK2 ΔAUROC values are read from `formulation_equal_score_negative_v1.csv`. Document-cluster and scaffold-cluster intervals for those two Δ values are in Table S4. Diamond, underpowered neither. Vertical dashed line, zero.
 
 ## Figure 3. Ligand chemistry as a competing explanation.
 
-(A) Scaffold GroupKFold ECFP4 logistic AUROC versus pocket-matched Vina rank AUROC on both directional arms for the eight primary pairs. EGFR/HER2 Dual versus B-only: ECFP4 0.8895 versus Vina 0.4297. Five-pair ECFP4 from `ecfp4_incremental_s20s24_v1.csv`. (B) Change in GroupKFold AUROC when the pocket-matched Vina score is added to ECFP4 (16 contrasts). (C) AChE/BChE TPSA by class: individual ligands (jittered) with median and IQR (`assembled_AChE_BChE.csv`). n = 27/25/28.
+(A) Scaffold GroupKFold ECFP4 logistic AUROC versus pocket-matched Vina rank AUROC on both directional arms for the eight primary pairs. EGFR/HER2 Dual versus B-only: ECFP4 remains the pre-fix ligand-only value 0.8895; Vina rank AUROC is read from the post-fix formulation table. Five-pair ECFP4 from `ecfp4_incremental_s20s24_v1.csv`. (B) Change in GroupKFold AUROC when the pocket-matched Vina score is added to ECFP4 (16 contrasts). (C) AChE/BChE TPSA by class: individual ligands (jittered) with median and IQR (`assembled_AChE_BChE.csv`). n = 27/26/28.
 
 ## Figure 4. Computational realization.
 
@@ -1271,7 +1271,7 @@ Same frozen AutoDock Vina scores, unified θ = 6.0, eight primary rows. (A) Dire
 
 ## Figure 5. Matched- versus mismatched-pocket scoring controls.
 
-Δ = matched-pocket `summary_min` − mismatched-pocket `summary_min`, ligand bootstrap B = 2000. Matched uses Dual versus A-only in pocket B and Dual versus B-only in pocket A; mismatched swaps those score channels. This is a scoring-channel control, not redocking into a physically wrong site. Dark, CI excludes 0; gray, CI includes 0. (A) Main panels, eight primary pairs. EGFR/HER2 and AChE/BChE CIs exclude 0. (B) Unused-pool holdout Δ. All seven CIs include 0. EGFR/HER2 has no holdout. (C) Holdout versus main-panel `summary_min`. PPARG/PPARA holdout is 0.535 [0.350, 0.717]; JAK1/JAK2 stays same-direction (0.619 [0.420, 0.749]; drawn 20/20/18).
+Δ = matched-pocket `summary_min` − mismatched-pocket `summary_min`, ligand bootstrap B = 2000. Matched uses Dual versus A-only in pocket B and Dual versus B-only in pocket A; mismatched swaps those score channels. This is a scoring-channel control, not redocking into a physically wrong site. Dark, CI excludes 0; gray, CI includes 0. (A) Main panels, eight primary pairs. Only AChE/BChE excludes 0; the EGFR/HER2 interval includes 0. (B) Unused-pool holdout Δ. All seven CIs include 0. EGFR/HER2 has no holdout. (C) Holdout versus main-panel `summary_min`. PPARG/PPARA holdout is 0.535 [0.350, 0.717]; JAK1/JAK2 stays same-direction (0.619 [0.420, 0.749]; drawn 20/20/18).
 
 ## Figure 6. Robustness checks and evidence boundary.
 

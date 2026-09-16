@@ -53,7 +53,7 @@ Locked manuscript rounding:
 
 | Pair | summary_min | 95% CI |
 |---|---:|---|
-| EGFR/HER2 | 0.430 | [0.282, 0.578] |
+| EGFR/HER2 | 0.324 | [0.195, 0.471] |
 | AChE/BChE | 0.606 | [0.437, 0.730] |
 | PIK3CA/mTOR | 0.692 | [0.470, 0.813] |
 | F2/F10 | 0.345 | [0.211, 0.477] |

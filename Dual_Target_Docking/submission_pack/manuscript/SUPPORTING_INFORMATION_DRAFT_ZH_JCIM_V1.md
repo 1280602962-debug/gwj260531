@@ -1,6 +1,6 @@
 # Supporting Information
 
-本文件对应正文 `MANUSCRIPT_JCIM_ZH.md`。Supporting Tables 按 Table S1–S9 排列；Supporting Figures 按正文首次引用顺序编号为 Figure S1–S4。历史坐标匹配 RMSD、五种子长表、固定成员交集、分层 bootstrap 备选、样本量情景模拟、BindingDB/PubChem 原始供给清点、发表年份子集，以及逐配体或探索性切片保留在公开仓库，不在投稿 SI 重复排版。
+本文件对应正文 `MANUSCRIPT_JCIM_ZH.md`。Supporting Tables 按 Table S1–S10 排列；Supporting Figures 按正文首次引用顺序编号为 Figure S1–S4。历史坐标匹配 RMSD、五种子长表、固定成员交集、分层 bootstrap 备选、样本量情景模拟、BindingDB/PubChem 原始供给清点、发表年份子集，以及逐配体或探索性切片保留在公开仓库，不在投稿 SI 重复排版。
 
 正文主表不在 SI 重复：Table 1 评价集组成与对接条件；Table 2 方向性主结果；Table 3 dual–neither 对照比较。
 
@@ -97,11 +97,7 @@
 | PPARG/PPARA | θ = 6.0 | 32 / 31 / 32 | 0.649 | [0.504, 0.751] |
 | PPARA/PPARD | θ = 6.0 | 32 / 32 / 32 | 0.446 | [0.296, 0.584] |
 
-**pChEMBL 最大值对中位数（2026-08-26 API 快照；不替代 Table 2）：** 该快照不是冻结生产缓存。EGFR/HER2 标签一致率 93.6%（7/110 类别翻转），生产 `summary_min` 0.430，同日 API-max 0.417，中位数 0.424；冻结值与 API-max 的差异包含 EH120_060 缓存/API 不一致，不能全部归因于聚合。AChE/BChE 一致率 98.9%（1/95 翻转）；冻结最大值等于 API-max（0.606），中位数为 0.629（Δ = +0.023）。PIK3CA/mTOR 一致率 100%，`summary_min` 不变。源：`assay_max_vs_median_agreement_v1.csv`；`assay_max_vs_median_auroc_v1.csv`。
-
-**高置信人源 SINGLE PROTEIN 视图（同日 API 快照；不替代 Table 2）：** 自动数据库字段筛查，不是逐篇阅读原文。该快照上 253/253 个已评分配体与四状态标签一致，方向性 AUROC 不变。该视图覆盖 EGFR/HER2、AChE/BChE 与 PIK3CA/mTOR，未覆盖全部八对。源：`high_confidence_summary_v1.csv`。
-
-**八对转储最大值/中位数（ChEMBL 37 转储；冻结 Vina 分数；不替代 Table 2）：** 八个生产评价集使用同一 STANDARD_OK 收获和容差 0.015。转储最大 pChEMBL 与生产表在全部已评分配体上一致（缺失端 0；不一致 0）。转储最大值的 `summary_min` 点估计与 Table 2 三位小数一致。最大值到中位数的类别翻转：EGFR/HER2 6/110（`summary_min` 0.430 → 0.424）；AChE/BChE 1/95（CHEMBL659；0.606 → 0.629）；PPARA/PPARD 1/110（CHEMBL121；A-only 32→31；dual–A-only 0.646 → 0.636；`summary_min` 仍为 0.446）。PIK3CA/mTOR 与其余四对保持类别组成和 `summary_min` 点估计。该转储对接不是 2026-08-26 的 API 快照。源：`eight_pair_dump_gated_v1/max_vs_median_auroc_v1.csv`；`eight_pair_dump_gated_v1/parity_v1.csv`。
+**pChEMBL 最大值对中位数（ChEMBL 37；冻结 Vina 分数；不替代 Table 2）：** Table 2 所用的同一套 ChEMBL 37 记录在 θ = 6.0 下按中位数重新汇总。最大 pChEMBL 与全部已评分配体一致（缺失端 0；不一致 0）。最大值到中位数的类别翻转：EGFR/HER2 6/110（`summary_min` 0.430 → 0.424）；AChE/BChE 1/95（CHEMBL659；0.606 → 0.629）；PPARA/PPARD 1/110（CHEMBL121；A-only 32→31；dual–A-only 0.646 → 0.636；`summary_min` 仍为 0.446）。PIK3CA/mTOR 与其余四对保持类别组成和 `summary_min` 点估计。源：`eight_pair_dump_gated_v1/max_vs_median_auroc_v1.csv`；`eight_pair_dump_gated_v1/parity_v1.csv`。
 
 ---
 
@@ -205,7 +201,7 @@ ECFP4 与 ECFP4+对接评分 AUROC 为同一骨架分组交叉验证下的折外
 | PPARG/PPARA | 留出 | 0.006 | [−0.168, 0.183] | 否 | 是 |
 | PPARA/PPARD | 留出 | 0.150 | [−0.056, 0.294] | 否 | 否 |
 
-留出配体来自同一 ChEMBL 收获、排除主评价集成员后按冻结配额抽取。JAK1/JAK2 抽得 20 / 20 / 18。留出集为方向性面板（dual / A-only / B-only），不含 neither。该分析是内部成员敏感性，不作为外部验证。
+留出配体来自同一套 ChEMBL 37 记录、排除主评价集成员后按冻结配额抽取。JAK1/JAK2 抽得 20 / 20 / 18。留出集为方向性面板（dual / A-only / B-only），不含 neither。该分析是内部成员敏感性，不作为外部验证。
 
 | 靶对 | 主集 summary_min [95% CI] | 留出 n (D / A / B) | 留出 summary_min [95% CI] |
 |------|----------------------------:|----------------------:|------------------------------|
@@ -262,7 +258,7 @@ ECFP4 与 ECFP4+对接评分 AUROC 为同一骨架分组交叉验证下的折外
 
 ## Table S8. 独立性过滤后的外部数据准入
 
-对全部八个靶对检索了 BindingDB 与 PubChem。正式表是按 \(\theta=6.0\) 标记的独立性过滤剩余，不是原始供给清点。外部对接还要求剔除共享文献来源、重复结构以及 ECFP4 Tanimoto ≥ 0.70 的分子，并要求 dual / A-only / B-only 各类 n ≥ 20 且每类至少 3 个来源。开发分子集合包括主评价集、扩大的 PIK3CA/mTOR PM110 面板和内部留出集。没有靶对满足独立外部评价准入标准，因此未进行外部对接。BindingDB/PubChem 原始供给清点和已建面板上的发表年份子集留在仓库；二者均不作为外部验证。
+对全部八个靶对检索了 BindingDB 与 PubChem。正式表和 Figure 6C,D 是 BindingDB 按 \(\theta=6.0\) 标记的独立性过滤剩余，不是原始供给清点。PubChem 作为额外的成对数据可用性检查，未并入这些计数。外部对接还要求剔除共享文献来源、重复结构以及 ECFP4 Tanimoto ≥ 0.70 的分子，并要求 dual / A-only / B-only 各类 n ≥ 20 且每类至少 3 个来源。开发分子集合包括主评价集、扩大的 PIK3CA/mTOR PM110 面板和内部留出集。没有靶对满足独立外部评价准入标准，因此未进行外部对接。BindingDB/PubChem 原始供给清点和已建面板上的发表年份子集留在仓库；二者均不作为外部验证。
 
 | 靶对 | 过滤后 dual / A-only / B-only | n_sources (D / A / B) | 门槛 |
 |------|------------------------------:|-------------------:|------|
@@ -301,9 +297,26 @@ ECFP4 与 ECFP4+对接评分 AUROC 为同一骨架分组交叉验证下的折外
 
 ---
 
+## Table S10. 八对候选排序操作点
+
+八个主评价集均按双口袋平均 Vina 评分 \(S_{\mathrm{mean}}=(S_{A}+S_{B})/2\) 排序，并列时按配体 ID 升序。排序读数为完整四状态面板（含 neither）的 Top 10%，\(k=\lceil 0.10\,n\rceil\)。用固定筛选比例而不是固定条数，才能比较不同规模的靶对。Top 10% dual 比例为 \(\mathrm{dual}/k\)。相对全面板 dual 基线，\(\mathrm{EF}_{\mathrm{dual},10\%}=(\mathrm{dual}/k)/(n_{\mathrm{dual}}/n)\)；小于 1 表示 Top 10% 中 dual 比例低于全面板。AND 过滤作用于 Dual+A-only+B-only、排除 neither，并保留 \(S_{\mathrm{worst}}\geq\) dual 中位 \(S_{\mathrm{worst}}\) 的配体。这些行是描述性操作点，不是对接质量的八对排行。JAK1/TYK2 Top 10% 见 Figure 2D，AND 过滤见 Figure S1。源：`eight_pair_ranking_operating_point_v1.csv`；`review_scored_membership_v1.csv`。
+
+| 靶对 | n_ranked (D / A / B / N) | k | Top 10% D / A / B / N | dual / k | n_dual / n | EF_dual,10% | AND 输入 → 通过 (D / A / B) | AND dual precision |
+|------|-------------------------:|--:|----------------------:|---------:|-----------:|------------:|------------------------------:|-------------------:|
+| EGFR/HER2 | 110 (28 / 38 / 32 / 12) | 11 | 1 / 5 / 5 / 0 | 0.091 | 0.255 | 0.357 | 98 → 47 (14 / 9 / 24) | 0.298 |
+| JAK1/JAK2 | 110 (32 / 32 / 32 / 14) | 11 | 6 / 5 / 0 / 0 | 0.545 | 0.291 | 1.875 | 96 → 35 (16 / 13 / 6) | 0.457 |
+| JAK1/TYK2 | 109 (31 / 32 / 32 / 14) | 11 | 1 / 3 / 7 / 0 | 0.091 | 0.284 | 0.320 | 95 → 50 (16 / 12 / 22) | 0.320 |
+| PIK3CA/mTOR | 48 (18 / 14 / 12 / 4) | 5 | 4 / 1 / 0 / 0 | 0.800 | 0.375 | 2.133 | 44 → 17 (9 / 4 / 4) | 0.529 |
+| AChE/BChE | 95 (27 / 25 / 28 / 15) | 10 | 5 / 3 / 1 / 1 | 0.500 | 0.284 | 1.759 | 80 → 32 (14 / 7 / 11) | 0.438 |
+| F2/F10 | 107 (31 / 32 / 32 / 12) | 11 | 4 / 1 / 6 / 0 | 0.364 | 0.290 | 1.255 | 95 → 59 (16 / 20 / 23) | 0.271 |
+| PPARG/PPARA | 109 (32 / 31 / 32 / 14) | 11 | 7 / 3 / 0 / 1 | 0.636 | 0.294 | 2.168 | 95 → 31 (16 / 9 / 6) | 0.516 |
+| PPARA/PPARD | 110 (32 / 32 / 32 / 14) | 11 | 5 / 2 / 3 / 1 | 0.455 | 0.291 | 1.562 | 96 → 58 (16 / 22 / 20) | 0.276 |
+
+---
+
 ## 与上一版 S1–S14 的对应
 
-上一版正式 SI 的 S2b、S6b、S9c–S9e、S10 分层 bootstrap 与样本量情景、S11a、S12、S13 表格以及 Figure S5 均改为仓库归档。簇重采样的两个最大固定通道差值并入 Table S4；留出集并入 Table S6；受体替换、独立 GNINA 与 PPARG 重评分并入 Table S7；独立性过滤剩余为 Table S8；靶对审计压缩为 Table S9。
+上一版正式 SI 的 S2b、S6b、S9c–S9e、S10 分层 bootstrap 与样本量情景、S11a、S12 表格以及 Figure S5 均改为仓库归档。簇重采样的两个最大固定通道差值并入 Table S4；留出集并入 Table S6；受体替换、独立 GNINA 与 PPARG 重评分并入 Table S7；独立性过滤剩余为 Table S8；靶对审计压缩为 Table S9；八对候选排序操作点为 Table S10。
 
 ---
 
@@ -311,11 +324,11 @@ ECFP4 与 ECFP4+对接评分 AUROC 为同一骨架分组交叉验证下的折外
 
 补充图按正文首次引用顺序编号为 Figure S1–S4。原 holdout、BindingDB 矩阵、簇重采样图以及可检测效应情景模拟保留在仓库 `figures/jcim_article/`，不在投稿 SI 排版。
 
-### Figure S1. EGFR/HER2 Top-10 与 AND 过滤类别组成
+### Figure S1. JAK1/TYK2 的 AND 型双口袋过滤
 
 ![Figure S1](../figures/jcim_article/FigS1_posthoc_diagnostics.png)
 
-**Figure S1.** EGFR/HER2 操作点。(A) 按平均 Vina 评分排序的 Top-10 类别组成，分母为全部 110 个评价集配体；(B) 通过 dual 中位最差靶点评分阈值的化合物类别组成，分母为 Dual+A-only+B-only（n = 98），排除 neither。两面板分母不同，属探索性分析；数字已在正文 Results 3.2 报告。
+**Figure S1.** JAK1/TYK2 操作点：通过 dual 中位最差靶点评分阈值的化合物类别组成，分母为 Dual+A-only+B-only（n = 95），排除 neither。对应 Top 10% 排序见 Figure 2D；八对同一规则见 Table S10。属探索性分析；数字已在正文 Results 3.2 报告。
 
 ### Figure S2. 口袋匹配 summary_min 森林图
 

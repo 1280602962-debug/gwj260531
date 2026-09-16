@@ -68,6 +68,7 @@ TABLES = [
     "data/jcim_novelty_v0/tables/summary_min_stratified_sensitivity_review_v1.csv",
     "data/jcim_novelty_v0/tables/gnina_jak_interval_provenance_review_v1.csv",
     "data/jcim_novelty_v0/tables/operating_point_examples_review_v1.csv",
+    "data/jcim_novelty_v0/tables/eight_pair_ranking_operating_point_v1.csv",
     "data/jcim_novelty_v0/tables/review_scored_membership_v1.csv",
     "data/jcim_novelty_v0/tables/review_statistics_provenance_v1.json",
     "data/jcim_chembl_universe_v0/local_track_b_v0/tables/eight_pair_dump_gated_v1/max_vs_median_auroc_v1.csv",
@@ -125,6 +126,10 @@ SCRIPTS = [
     (
         "data/jcim_novelty_v0/scripts/bindingdb_native_slice_eight_pairs_v1.py",
         "Independence-filtered BindingDB/PubChem eligibility counts for Table S8 / Figure 6. No external docking.",
+    ),
+    (
+        "data/jcim_novelty_v0/scripts/eight_pair_ranking_operating_point_v1.py",
+        "Eight-pair vina_mean top-10% (k=ceil(0.10 n)), dual fraction, EF_dual,10%=(dual/k)/(n_dual/n), and AND-filter operating points for Table S10. Does not redock. Figure 2D reads this table; Figure S1 still uses operating_point_examples_review_v1.csv.",
     ),
     (
         "data/jcim_novelty_v0/scripts/assay_aggregation_max_vs_median_v1.py",
@@ -257,12 +262,12 @@ It is not a second copy of the docking pose workspaces.
 |---|---|
 | `manuscript/MANUSCRIPT_JCIM_EN.md` | English manuscript (assemble from section drafts; do not hand-edit the assembled file as the source of truth) |
 | `manuscript/MANUSCRIPT_JCIM_ZH.md` | Chinese working manuscript |
-| `manuscript/SUPPORTING_INFORMATION_JCIM_EN_V1.md` | English SI Tables S1–S9 |
+| `manuscript/SUPPORTING_INFORMATION_JCIM_EN_V1.md` | English SI Tables S1–S10 |
 | `manuscript/SUPPORTING_INFORMATION_DRAFT_ZH_JCIM_V1.md` | Chinese SI |
 | `manuscript/STATISTICAL_LOCK_V1.md` | Table 2 / Table 3 estimand lock |
 | `manuscript/FIGURE_PANEL_LOCK_V3.md` | Figure-to-CSV map |
 | `manuscript/SUBMISSION_AUDIT_FIVE_ROUNDS_V1.md` | Five-round numeric audit |
-| `tables/` | Frozen CSVs cited by Tables 1–3 and S1–S9 |
+| `tables/` | Frozen CSVs cited by Tables 1–3 and S1–S10 |
 | `figures/` | Regenerated main and SI figures from `figures/jcim_article/scripts/update_figures_pr32.py` |
 | `scripts/` | Experiment analysis and official figure generators only. See `SCRIPTS.md` |
 | `SCRIPTS.md` | Upload list: each script, repository path, and paper role |

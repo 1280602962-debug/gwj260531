@@ -1,5 +1,5 @@
 prefix,pair,variant,n_dual,n_A_only,n_B_only,auroc_D_vs_A,auroc_D_vs_B,summary_min,summary_min_ci_lo,summary_min_ci_hi,auroc_D_vs_A_ci_lo,auroc_D_vs_A_ci_hi,auroc_D_vs_B_ci_lo,auroc_D_vs_B_ci_hi,main_panel_pocket_matched_vina,delta_vs_main_panel,note,best_trivial_baseline,best_trivial_summary_min,delta_vs_best_trivial
-HOAB,AChE/BChE,pocket_matched_vina,20,20,20,0.635,0.6175,0.6175,0.4216,0.7593,0.4457,0.8067,0.4377,0.8007,0.6058,0.0117,primary: D/A via pocket B; D/B via pocket A,clogp_baseline,0.575,0.0425
+HOAB,AChE/BChE,pocket_matched_vina,20,20,20,0.615,0.6175,0.615,0.4216,0.7593,0.4457,0.8067,0.4377,0.8007,0.6058,0.0092,primary: D/A via pocket B; D/B via pocket A,clogp_baseline,0.575,0.0425
 HOAB,AChE/BChE,wrong_pocket_control_vina,20,20,20,0.6425,0.6525,0.6425,0.44,0.7749,0.4596,0.8027,0.4629,0.8179,,,control; ~0.5 if no molecule-level confound,,,
 HOAB,AChE/BChE,pooled_vina_mean,20,20,20,0.6425,0.615,0.615,0.421,0.7689,0.4568,0.8067,0.432,0.7921,,,pooled mean (legacy forest arm),,,
 HOAB,AChE/BChE,heavy_atoms_baseline,20,20,20,0.52,0.655,0.52,0.3406,0.7046,0.3408,0.7054,0.4669,0.8383,,,trivial size baseline,,,

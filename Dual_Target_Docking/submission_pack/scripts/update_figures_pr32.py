@@ -105,41 +105,49 @@ def equal_src(D, pair):
     return D['equal'] if pair in v.UNIFIED_THRESHOLD_PAIRS else D['five_s34']
 
 
+def ranking_row(pair):
+    return next(r for r in read('data/jcim_novelty_v0/tables/eight_pair_ranking_operating_point_v1.csv')
+                if r['pair'] == pair)
+
+
+def operating_point_row(pair):
+    return next(r for r in read('data/jcim_novelty_v0/tables/operating_point_examples_review_v1.csv')
+                if r['pair'] == pair)
+
+
 def draw_census_and_primary(ax, census):
-    """ChEMBL supply census; the eight-pair box is independent (no 86→8 arrow)."""
+    """Compact supply drop; eight-pair box is not drawn as 86→8."""
     ax.set(xlim=(0, 1), ylim=(0, 1))
     ax.axis('off')
-    ax.text(.50, .990, 'ChEMBL data-supply census', ha='center', va='top', fontsize=8, fontweight='bold')
+    ax.text(.50, .98, 'Paired data decrease under four-state requirements',
+            ha='center', va='top', fontsize=7.6, fontweight='bold')
     keys = ['n_pairs_n_both_ge_1', 'n_pairs_n_both_ge_10', 'n_directional_n10', 'n_strict_thick']
-    names = ['≥1 ligand measured at both targets',
-             '≥10 ligands measured at both targets',
-             'Dual, A-only and B-only each ≥10 (θ=6.0)',
-             'strict 6.5/5.5 supply rule']
-    tops = [.875, .735, .595, .455]
-    h = .100
-    for i, (k, txt, yc) in enumerate(zip(keys, names, tops)):
-        ax.add_patch(FancyBboxPatch((.03, yc - h / 2), .94, h, boxstyle='round,pad=.006',
+    names = ['≥1 both-end\nligand', '≥10 both-end\nligands', 'four-state\nn≥10 (θ=6.0)', 'strict\n6.5/5.5']
+    xs = [.125, .375, .625, .875]
+    w, h = .20, .36
+    y0 = .46
+    for i, (k, txt, xc) in enumerate(zip(keys, names, xs)):
+        ax.add_patch(FancyBboxPatch((xc - w / 2, y0), w, h, boxstyle='round,pad=.006',
                                     fc='#F4F7FA', ec='#D5DDE4', lw=.7))
-        ax.text(.07, yc, format(int(census[k]), ','), va='center', fontsize=8.6, fontweight='bold', color=C['vina'])
-        ax.text(.30, yc, txt, va='center', fontsize=7.1)
+        ax.text(xc, y0 + .24, format(int(census[k]), ','), ha='center', va='center',
+                fontsize=7.3, fontweight='bold', color=C['vina'])
+        ax.text(xc, y0 + .08, txt, ha='center', va='center', fontsize=6.0, color='#555555',
+                linespacing=1.05)
         if i < 3:
-            gap = (tops[i] - h / 2 + tops[i + 1] + h / 2) / 2
-            ax.text(.50, gap, '↓', ha='center', va='center', fontsize=8, color='#888888')
-    ax.plot([.12, .88], [.355, .355], color='#D0D0D0', lw=0.7, ls=(0, (3, 2)))
-    ax.text(.50, .325, 'Independent of the census', ha='center', va='center',
-            fontsize=6.4, color='#666666', style='italic')
-    ax.add_patch(FancyBboxPatch((.03, .040), .94, .230, boxstyle='round,pad=.008',
+            ax.text((xc + xs[i + 1]) / 2, y0 + h / 2, '→', ha='center', va='center',
+                    fontsize=9, color='#888888')
+    ax.add_patch(FancyBboxPatch((.03, .05), .94, .34, boxstyle='round,pad=.008',
                                 fc='#FFF8F0', ec=C['a_only'], lw=1.05))
-    ax.text(.50, .195, 'Primary evaluation: 8 target pairs', ha='center', va='center',
+    ax.text(.50, .27, 'Primary evaluation: 8 target pairs', ha='center', va='center',
             fontsize=7.6, fontweight='bold')
-    ax.text(.50, .105, 'Table 1 panel-construction and structural criteria',
-            ha='center', va='center', fontsize=6.4, color='#555555')
+    ax.text(.50, .14, 'selected using panel-construction and structural criteria',
+            ha='center', va='center', fontsize=6.3, color='#555555')
 
 
 def fig1(D):
     census = next(r for r in read('data/jcim_chembl_universe_v0/tables/universe_census_summary_v1.csv') if r['slice'] == 'all')
-    fig = plt.figure(figsize=(7, 5.20))
-    gs = fig.add_gridspec(2, 2, height_ratios=[1, 1.48], wspace=.34, hspace=.38)
+    fig = plt.figure(figsize=(7, 4.55))
+    gs = fig.add_gridspec(2, 2, height_ratios=[1.70, 0.90], wspace=.34, hspace=.30)
     ax = fig.add_subplot(gs[0, 0]); label(ax, 'A')
     ax.set(xlim=(0, 2), ylim=(0, 2)); ax.set_aspect('equal')
     for x, y, name, col in [(0, 1, 'dual', C['dual']), (1, 1, 'A-only', C['a_only']),
@@ -160,8 +168,8 @@ def fig1(D):
         ax.add_patch(FancyBboxPatch((.04, y - .10), .92, .20, boxstyle='round,pad=.02', fc='white', ec=col, lw=1))
         ax.text(.10, y, left, ha='left', va='center', fontsize=7.2, fontweight='bold')
         ax.text(.90, y, right, ha='right', va='center', fontsize=7.2, color=col)
-    ax.text(.5, .12, r'summary$_{\mathrm{min}}=\min(\mathrm{AUROC}_{D/A},\mathrm{AUROC}_{D/B})$',
-            ha='center', fontsize=7.0)
+    ax.text(.5, .14, r'$\mathrm{summary}_{\mathrm{min}}=\min[\mathrm{AUROC}_{D/A}(B),\,\mathrm{AUROC}_{D/B}(A)]$',
+            ha='center', fontsize=6.4)
     ax.set_title('Directional evaluation', fontsize=8)
 
     ax = fig.add_subplot(gs[1, :]); style.panel_label(ax, 'C', x=0, y=1.02)
@@ -173,19 +181,21 @@ def fig1(D):
 
 def fig1_c_data(D):
     census = next(r for r in read('data/jcim_chembl_universe_v0/tables/universe_census_summary_v1.csv') if r['slice'] == 'all')
-    fig, ax = plt.subplots(figsize=(7, 3.55))
-    style.panel_label(ax, 'C', x=0.0, y=1.06)
+    fig, ax = plt.subplots(figsize=(7, 2.15))
+    style.panel_label(ax, 'C', x=0.0, y=1.08)
     draw_census_and_primary(ax, census)
     P['fig1C_standalone'] = census
-    fig.subplots_adjust(left=.02, right=.98, top=.90, bottom=.04)
+    fig.subplots_adjust(left=.02, right=.98, top=.88, bottom=.04)
     save(fig, 'Fig1_C_chEMBL_supply')
 
 
 def fig2(D):
-    fig, axs = plt.subplots(3, 1, figsize=(7, 7.15), gridspec_kw={'height_ratios': [1.12, 1.00, 1.10]})
-    for ax, letter in zip(axs, 'ABC'):
+    fig, axs = plt.subplots(4, 1, figsize=(7, 8.50),
+                            gridspec_kw={'height_ratios': [1.12, 1.00, 1.10, 0.88]})
+    for ax, letter in zip(axs[:3], 'ABC'):
         label(ax, letter)
         pair_yticks(ax, fontsize=7)
+    label(axs[3], 'D')
 
     # A — fixed-score ΔAUROC forest. Encoding matches panel B:
     # blue circle = A-only comparison / target B score
@@ -204,7 +214,8 @@ def fig2(D):
             if p in FLAGSHIP and contrast.endswith('pocketA'):
                 axs[0].text(hi + 0.018, y, f'{dlt:.3f}', va='center', fontsize=6.4, color=col)
     axs[0].axvline(0, color=C['chance'], ls='--', lw=.8)
-    axs[0].set(xlim=(-.58, .78), xlabel=r'$\Delta$AUROC (Dual–neither $-$ Dual–selective)')
+    axs[0].set(xlim=(-.58, .78),
+               xlabel=r'$\Delta$AUROC (dual–neither $-$ dual–single-target-active)')
     axs[0].legend(handles=[
         L(C['vina'], 'o', 'B score, A-only → neither', ms=4.4),
         L(C['a_only'], 's', 'A score, B-only → neither', ms=4.2),
@@ -237,6 +248,17 @@ def fig2(D):
         L(C['desc'], 'D', 'neither n=4', ms=4.2),
     ], loc='upper center', bbox_to_anchor=(.5, -.22), ncol=3, fontsize=6.1)
 
+    op = ranking_row('JAK1/TYK2')
+    vals = [int(op[k]) for k in ['top_dual', 'top_A_only', 'top_B_only', 'top_neither']]
+    names = ['Dual', 'A-only', 'B-only', 'Neither']
+    axs[3].bar(range(4), vals, color=[C['dual'], C['a_only'], C['b_only'], C['neither']], width=.62)
+    for i, z in enumerate(vals):
+        axs[3].text(i, z + .18, str(z), ha='center', fontsize=7)
+    axs[3].set_xticks(range(4), names, fontsize=7)
+    axs[3].set_ylabel('Ligands in top 10%', fontsize=7)
+    axs[3].set_ylim(0, max(vals) * 1.28 + 0.4)
+    axs[3].set_title(f"JAK1/TYK2 top 10%, mean Vina (k={int(op['top_k'])} of {int(op['n_ranked'])})", fontsize=7.5)
+
     P['fig2'] = {
         p: {
             'primary': v.primary_row(D, p),
@@ -244,7 +266,8 @@ def fig2(D):
             'fixed_B': equal_src(D, p)[(p, 'D_vs_A_or_neither_pocketB')],
         } for p in PAIRS
     }
-    fig.subplots_adjust(left=.19, right=.97, top=.96, bottom=.088, hspace=.72)
+    P['fig2D'] = op
+    fig.subplots_adjust(left=.19, right=.97, top=.97, bottom=.055, hspace=.78)
     save(fig, 'Fig2_negative_class_formulation')
 
 
@@ -719,28 +742,19 @@ def supplements(D):
     fig.subplots_adjust(left=.18, right=.97, wspace=.55, top=.83, bottom=.18)
     P['figS11'] = clusters
     save(fig, 'FigS8_cluster_uncertainty')
-    top = next(r for r in read('data/jcim_novelty_v0/tables/mixed_library_enrichment_v1.csv')
-               if r['pair'] == 'EGFR/HER2' and r['score'] == 'vina_mean' and r['cutoff'] == 'Top10')
-    filt = next(r for r in read('data/jcim_novelty_v0/tables/and_filter_operating_point_v1.csv')
-                if r['pair'] == 'EGFR/HER2' and r['score'] == 'vina_worst' and r['dual_percentile'] == '50')
-    fig, axs = plt.subplots(1, 2, figsize=(7, 2.9))
-    for ax, vals, title, letter in [
-        (axs[0], [int(top[k]) for k in ['n_dual_top', 'n_A_only_top', 'n_B_only_top', 'n_neither_top']],
-         'Top-10, mean Vina (n=110)', 'A'),
-        (axs[1], [int(filt[k]) for k in ['n_dual_pass', 'n_A_only_pass', 'n_B_only_pass']],
-         'AND filter (n=98)', 'B'),
-    ]:
-        label(ax, letter)
-        names = ['Dual', 'A-only', 'B-only', 'Neither'][:len(vals)]
-        ax.bar(range(len(vals)), vals, color=[C['dual'], C['a_only'], C['b_only'], C['neither']][:len(vals)], width=.6)
-        for i, z in enumerate(vals):
-            ax.text(i, z + .35, str(z), ha='center', fontsize=7)
-        ax.set_xticks(range(len(vals)), names, fontsize=7)
-        ax.set_ylabel('Retained compounds')
-        ax.set_ylim(0, max(vals) * 1.22 + 1)
-        ax.set_title(title, fontsize=7.5)
-    fig.subplots_adjust(left=.10, right=.97, wspace=.35, top=.80, bottom=.20)
-    P['figS7'] = {'top10': top, 'and_filter': filt}
+    op = operating_point_row('JAK1/TYK2')
+    vals = [int(op[k]) for k in ['retained_dual', 'retained_A_only', 'retained_B_only']]
+    fig, ax = plt.subplots(figsize=(5.0, 2.70))
+    names = ['Dual', 'A-only', 'B-only']
+    ax.bar(range(3), vals, color=[C['dual'], C['a_only'], C['b_only']], width=.6)
+    for i, z in enumerate(vals):
+        ax.text(i, z + .35, str(z), ha='center', fontsize=7)
+    ax.set_xticks(range(3), names, fontsize=7)
+    ax.set_ylabel('Retained compounds')
+    ax.set_ylim(0, max(vals) * 1.22 + 1)
+    ax.set_title(f"JAK1/TYK2 AND filter (n={int(op['n_filter_input'])})", fontsize=7.5)
+    fig.subplots_adjust(left=.16, right=.97, top=.82, bottom=.18)
+    P['figS7'] = {'and_filter': op}
     save(fig, 'FigS1_posthoc_diagnostics')
     fig_s12_cognate()
 

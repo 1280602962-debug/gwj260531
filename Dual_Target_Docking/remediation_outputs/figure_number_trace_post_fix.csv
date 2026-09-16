@@ -1,0 +1,7 @@
+figure,panel,annotation,source_file,source_row,raw_value,display_value
+Figure 2B,neither n= annotation,n={n_neg},data/jcim_novelty_v0/tables/formulation_conventional_vs_directional_v1.csv (D_vs_neither_mean) or five_pair table2 n_neither,primary_row(pair)['n_neg'],CSV n_neither / n_neg,f-string from CSV; PIK3CA/mTOR historically n=4 is no longer a literal
+Figure 3,fixed-score ΔAUROC EGFR/HER2 and JAK1/TYK2,Δ from equal-score tables,data/jcim_novelty_v0/tables/formulation_equal_score_negative_v1.csv; five_pair_stack_v1/equal_score_negative_s34_v1.csv,contrast D_vs_B_or_neither_pocketA,CSV delta (historically 0.378 / 0.444),read from CSV; audit_figures_pr32.py asserts vs CSV
+Figure 2A,directional AUROC / summary_min,points and CIs,unified_threshold_sensitivity_v2.csv; five_pair table2_comparable_theta6_v1.csv,primary_row(pair),auroc_D_vs_A / auroc_D_vs_B / pocket_matched_summary_min,plotted from CSV
+Figure 4,ECFP4 vs incremental,AUROC bars,incremental_information_v1.csv; ecfp4_incremental_s20s24_v1.csv,"pair, contrast",CSV AUROC,plotted from CSV
+Figure 5,matched-minus-mismatched / holdout,delta and CI,wrong_pocket_paired_delta_bootstrap_v1.csv; holdout_pocket_matched_v1.csv; five_pair wrong_pocket_by_channel,"pair, set/variant",CSV delta / CI,plotted from CSV
+scripts,hard-coded experimental results,"REMOVED 0.378, 0.444, n=4",figures/jcim_article/scripts/plot_jcim_article_figures_v3.py; audit_figures_pr32.py,n/a,none remaining for official results,axis limits / 0 / 0.5 reference lines only

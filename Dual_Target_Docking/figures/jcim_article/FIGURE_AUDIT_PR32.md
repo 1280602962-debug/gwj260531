@@ -1,9 +1,9 @@
 # PR32 figure numerical audit
 
 Pinned numerical-data snapshot: `abb61a20a04eb6a085ad526876624eadb518c4cc`
-Artwork generated from git HEAD: `81c3235fa10368409c00647cd171b9aa1dd0b188`
+Artwork generated from git HEAD: `92708c16bdee2fe32dbe82372bd382f6ac7fd6b9`
 
-142 PASS / 0 FAIL
+146 PASS / 0 FAIL
 
 | Status | Check |
 |---|---|
@@ -34,12 +34,12 @@ Artwork generated from git HEAD: `81c3235fa10368409c00647cd171b9aa1dd0b188`
 | PASS | SHA256 data/jcim_chembl_universe_v0/local_track_b_v0/tables/five_pair_local_channels_v1/wrong_pocket_by_channel_v1.csv |
 | PASS | SHA256 data/jcim_chembl_universe_v0/local_track_b_v0/tables/five_pair_crossdb_v1/crossdb_strict_supply_v1.csv |
 | PASS | SHA256 data/jcim_chembl_universe_v0/tables/universe_census_summary_v1.csv |
+| PASS | SHA256 data/jcim_novelty_v0/tables/eight_pair_ranking_operating_point_v1.csv |
 | PASS | SHA256 data/jcim_novelty_v0/tables/equal_score_cluster_bootstrap_v1.csv |
 | PASS | SHA256 data/pik3ca_mtor_panel48_rdkit_v0/tables/panel_v0_48.csv |
 | PASS | SHA256 data/pik3ca_mtor_panel48_rdkit_v0/tables/scores_vina_E8_best.csv |
 | PASS | SHA256 data/jcim_novelty_v0/tables/detectable_effect_simulation_v1.csv |
-| PASS | SHA256 data/jcim_novelty_v0/tables/mixed_library_enrichment_v1.csv |
-| PASS | SHA256 data/jcim_novelty_v0/tables/and_filter_operating_point_v1.csv |
+| PASS | SHA256 data/jcim_novelty_v0/tables/operating_point_examples_review_v1.csv |
 | PASS | SHA256 data/jcim_novelty_v0/tables/all14_cognate_rmsd_calcrrms_v1.csv |
 | PASS | SHA256 docs/MANUSCRIPT_JCIM_ZH.md |
 | PASS | SHA256 docs/MANUSCRIPT_JCIM_EN.md |
@@ -67,14 +67,14 @@ Artwork generated from git HEAD: `81c3235fa10368409c00647cd171b9aa1dd0b188`
 | PASS | caption has no eight added |
 | PASS | caption has no original six |
 | PASS | caption has no after which the primary |
-| PASS | Fig1C caption separates census from the eight-pair evaluation |
+| PASS | Fig1C caption names panel-construction criteria rather than census independence |
 | PASS | Figure 4 caption is pocket correspondence |
 | PASS | Figure 5 caption is computational realization |
-| PASS | SI figures start at Top-10/AND diagnostics |
-| PASS | Fig3A caption distinguishes Vina rank from ECFP4 GroupKFold |
+| PASS | SI Figure S1 is the JAK1/TYK2 AND filter |
+| PASS | Fig3A caption distinguishes raw Vina ranks from ECFP4 OOF predictions |
 | PASS | SI protocol and cognate RMSD figures generated |
 | PASS | main Figures 4/5 are pocket then computational |
-| PASS | SI figures start with Top-10 then descriptor forest |
+| PASS | SI figures start with AND filter then descriptor forest |
 | PASS | ZH Table 2 plotted AUROCs/CI EGFR/HER2 |
 | PASS | ZH Table 3 plotted AUROCs/CI/n_neither EGFR/HER2 |
 | PASS | ZH Table 2 plotted AUROCs/CI JAK1/JAK2 |
@@ -115,8 +115,12 @@ Artwork generated from git HEAD: `81c3235fa10368409c00647cd171b9aa1dd0b188`
 | PASS | EGFR 3POZ top-1 is plotted off-scale |
 | PASS | Figure S4 plots only top-1 and lowest saved-pose RMSD |
 | PASS | JAK1/TYK2 document-cluster interval crosses zero |
-| PASS | Top-10 class counts: 1/5/4/0 |
-| PASS | AND-filter class counts: 14/9/24 |
+| PASS | Figure 2D uses the JAK1/TYK2 operating point |
+| PASS | JAK1/TYK2 top-10% class counts: 1/3/7/0 |
+| PASS | JAK1/TYK2 top-10% is k=11 of 109 |
+| PASS | Figure S1 uses the JAK1/TYK2 AND filter |
+| PASS | AND-filter class counts: 16/12/22 |
+| PASS | JAK1/TYK2 AND-filter denominator is 95 |
 | PASS | RGB/300dpi/size Fig1_four_state_and_supply.png |
 | PASS | RGB/300dpi/size Fig1_four_state_and_supply.tif |
 | PASS | RGB/300dpi/size Fig1_C_chEMBL_supply.png |

@@ -1,5 +1,29 @@
 # 中英文 SI 压缩摘要（2026-09-13）
 
+## 2026-09-15 Main ranking readout is top 10%
+
+Table S10 and Figure 2D now use \(k=\lceil 0.10\,n\rceil\) on the full four-state panel so that eight pairs of different size are compared at the same screening fraction. Fixed Top-10 is no longer the primary ranking cutoff (it made PIK3CA/mTOR 10/48). AND-filter rows are unchanged. Figure S1 still reads `operating_point_examples_review_v1.csv`. The two-row examples file remains a Top-10 archive for EGFR/HER2 and JAK1/TYK2 AND-filter replay.
+
+## 2026-09-15 Eight-pair ranking operating points (Table S10)
+
+The same `vina_mean` Top-10 and median-dual `vina_worst` AND filter used for the JAK1/TYK2 illustration were applied to all eight primary panels (`eight_pair_ranking_operating_point_v1.csv`). Typeset SI is now Tables S1–S10 / Figures S1–S4. Figure 2D remains the JAK1/TYK2 Top-10; Figure S1 remains that pair’s AND filter. The two-row `operating_point_examples_review_v1.csv` file is unchanged. Table S10 is a descriptive operating-point census, not an eight-pair ranking of docking quality.
+
+## 2026-09-14 Figure 1–2 visual weight and JAK1/TYK2 operating point
+
+Figure 1C was compacted so panels A/B are the visual majority; the census is no longer a full-page funnel and no longer says “independent of the census”. JAK1/TYK2 Top-10 (1/2/7/0 of 109) moved into Figure 2D; Figure S1 is the corresponding AND filter (16/12/22 of 95). Figure 2A xlabel no longer uses “selective”. Methods `summary_min` and Figure 1B now share \(\min[\mathrm{AUROC}_{D/A}(B),\mathrm{AUROC}_{D/B}(A)]\). Figure 6C,D are labeled BindingDB-only.
+
+## 2026-09-14 Methods/Results docking–VS spine
+
+Methods 2 and Results 3 were rewritten so dual-target docking and virtual-screening evaluation are the connecting line: two-pocket ranking, directional hard-negative controls, conventional dual-versus-neither ranking, ligand-only ranking, pocket correspondence, docking implementation, and the absence of an external docking set. Publication-year subset language was removed from Methods 2.1. Independent GNINA now reports all three pairs. Table 3 is labeled as the conventional two-pocket ranking, distinct from Table S4.
+
+## 2026-09-14 ChEMBL 37 统一
+
+正文、方法、讨论和正式 SI 不再区分 2026-07-23 REST 收获与 ChEMBL 37 转储。八对已评分配体的最大 pChEMBL 与本地 ChEMBL 37 一致（0 missing / 0 mismatch）。敏感性只保留同一套 ChEMBL 37 记录上的最大值/中位数重标（Table S3）。2026-08-26 API 快照和三对高置信字段筛查改为仓库归档，不排版。
+
+---
+
+# 中英文 SI 压缩摘要（2026-09-13）
+
 正式投稿 SI 从 Tables S1–S14 / Figures S1–S5 压到 **Tables S1–S9 / Figures S1–S4**。从正式 SI 删除不等于从仓库删除。上一轮 PR37 的点估计方向性区间、类别分层 `summary_min` 敏感性 CSV、以及可执行分子身份规则均予保留；分层敏感性不再排成正式表。
 
 ## 判断

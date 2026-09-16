@@ -151,12 +151,15 @@ def main():
         "Experimental-State Comparisons across Multiple Target Pairs and Sources of Discrimination",
         "not external validation",
         "Five fixed Vina random seeds",
-        "The EGFR/HER2 task difference was positive on all five Vina seeds",
+        "The EGFR/HER2 fixed-score task difference remained positive on all five seeds",
         "No pair met the independent external-evaluation eligibility criteria",
         "changed AUROC by at most 0.023",
         "matched-pocket advantages were not consistently reproduced",
         "experimental measurements at both targets",
         "Table S9",
+        "Table S10",
+        "not an eight-pair ranking of docking quality",
+        r"\mathrm{EF}_{\mathrm{dual},10\%}",
     )
     for phrase in required_phrases:
         assert phrase in manuscript, phrase
@@ -276,6 +279,58 @@ def main():
         0.8696,
     )
 
+    examples = rows("operating_point_examples_review_v1.csv")
+    assert {r["pair"] for r in examples} == {"EGFR/HER2", "JAK1/TYK2"}
+    ranking = rows("eight_pair_ranking_operating_point_v1.csv")
+    assert [r["pair"] for r in ranking] == [
+        "EGFR/HER2",
+        "JAK1/JAK2",
+        "JAK1/TYK2",
+        "PIK3CA/mTOR",
+        "AChE/BChE",
+        "F2/F10",
+        "PPARG/PPARA",
+        "PPARA/PPARD",
+    ]
+    egfr_rank = one(ranking, pair="EGFR/HER2")
+    assert (
+        egfr_rank["n_ranked"],
+        egfr_rank["top_k"],
+        egfr_rank["top_dual"],
+        egfr_rank["top_A_only"],
+        egfr_rank["top_B_only"],
+        egfr_rank["top_neither"],
+    ) == ("110", "11", "1", "5", "5", "0")
+    jak_rank = one(ranking, pair="JAK1/TYK2")
+    assert (
+        jak_rank["n_ranked"],
+        jak_rank["top_k"],
+        jak_rank["top_dual"],
+        jak_rank["top_A_only"],
+        jak_rank["top_B_only"],
+        jak_rank["top_neither"],
+    ) == ("109", "11", "1", "3", "7", "0")
+    pm_rank = one(ranking, pair="PIK3CA/mTOR")
+    assert (
+        pm_rank["n_ranked"],
+        pm_rank["top_k"],
+        pm_rank["top_dual"],
+        pm_rank["top_A_only"],
+        pm_rank["top_B_only"],
+        pm_rank["top_neither"],
+    ) == ("48", "5", "4", "1", "0", "0")
+    assert all(int(r["top_k"]) == (int(r["n_ranked"]) + 9) // 10 for r in ranking)
+    assert all(int(r["top_A_only"]) + int(r["top_B_only"]) >= 1 for r in ranking)
+    for rec in ranking:
+        top_frac = int(rec["top_dual"]) / int(rec["top_k"])
+        panel_frac = int(rec["n_dual"]) / int(rec["n_ranked"])
+        near(rec["top_dual_fraction"], top_frac, tolerance=1e-12)
+        near(rec["panel_dual_fraction"], panel_frac, tolerance=1e-12)
+        near(rec["ef_dual_10pct"], top_frac / panel_frac, tolerance=1e-12)
+    near(egfr_rank["ef_dual_10pct"], 10 / 28)
+    near(jak_rank["ef_dual_10pct"], 109 / 341)
+    near(pm_rank["ef_dual_10pct"], 0.8 / 0.375)
+
     ligand = rows("ligand_only_fullmap_auroc_v1.csv")
     near(one(ligand, pair="EGFR/HER2", contrast="D_vs_neither")["ecfp4_groupkfold_auroc"], 0.9214)
     near(one(ligand, pair="EGFR/HER2", contrast="D_vs_B")["ecfp4_groupkfold_auroc"], 0.8636)
@@ -294,9 +349,12 @@ def main():
     assert "剩余判别" not in zh
     assert "AutoDock Vina 默认参数" not in zh
     assert ("五个固定 Vina 随机种子" in zh or "五个预先规定的 Vina 种子" in zh)
-    assert "EGFR/HER2 的设定差距在五个 Vina 种子上均为正" in zh
+    assert "EGFR/HER2 的固定评分任务差在五个种子上均为正" in zh
     assert "github.com/1280602962-debug/gwj260531" in zh
     assert "Table S9" in zh
+    assert "Table S10" in zh
+    assert "不是对接质量的八对排行" in zh
+    assert r"\mathrm{EF}_{\mathrm{dual},10\%}" in zh
     assert "硬负样本" not in zh
     assert "将新对接" not in zh
     assert "厚供给" not in zh

@@ -85,6 +85,8 @@ WATCH = [
     "data/jcim_novelty_v0/tables/summary_min_stratified_sensitivity_review_v1.csv",
     "data/jcim_novelty_v0/tables/gnina_jak_interval_provenance_review_v1.csv",
     "data/jcim_novelty_v0/tables/operating_point_examples_review_v1.csv",
+    "data/jcim_novelty_v0/tables/eight_pair_ranking_operating_point_v1.csv",
+    "data/jcim_novelty_v0/scripts/eight_pair_ranking_operating_point_v1.py",
     "data/jcim_novelty_v0/tables/review_scored_membership_v1.csv",
     "data/jcim_novelty_v0/tables/review_statistics_provenance_v1.json",
 ]

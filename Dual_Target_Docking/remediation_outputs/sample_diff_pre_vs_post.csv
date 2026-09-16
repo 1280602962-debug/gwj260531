@@ -1,0 +1,7 @@
+pair,item,pre_fix,post_fix,delta,note
+EGFR/HER2,main_complete_case_n,110,110,0,same 110 ligands; scores from corrected boxes
+EGFR/HER2,class_counts_D_A_B_N,28/38/32/12,28/38/32/12,0,labels unchanged
+AChE/BChE,main_panel_membership,"CHEMBL173607 in, CHEMBL3960861 out","CHEMBL173607 out, CHEMBL3960861 in",1 A_only swap,removed ID-prefix cap
+AChE/BChE,main_complete_case_n,95,96,1,new A_only ligand produced both mode-1 scores; replaced ligand had none
+AChE/BChE,complete_class_D_A_B_N,27/25/28/15,27/26/28/15,+1 A_only,dual/B/neither complete-case unchanged
+AChE/BChE,holdout_membership,60,60,7 added / 7 removed (A_only),unused-pool rebuild seed 20260731; ID and SMILES overlap with new main = 0

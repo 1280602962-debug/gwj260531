@@ -1,4 +1,4 @@
-> **Historical writing map (pre-eight-pair).** Do not use for the current manuscript. Canonical claims: `docs/MANUSCRIPT_JCIM_ZH.md`, `docs/STATISTICAL_LOCK_V1.md`, `data/jcim_bench_v0/CLAIM_CEILING.md`. Current working branch: `cursor/jcim-language-polish-0b1a` (PR #37). Formal SI is now Tables S1–S9.
+> **Historical writing map (pre-eight-pair).** Do not use for the current manuscript. Canonical claims: `docs/MANUSCRIPT_JCIM_ZH.md`, `docs/STATISTICAL_LOCK_V1.md`, `data/jcim_bench_v0/CLAIM_CEILING.md`. Current working branch: `cursor/methods-sentence-audit-c7cc`. Formal SI is now Tables S1–S10.
 
 # 已有结果清单 ↔ Discussion 口径
 
