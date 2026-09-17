@@ -14,6 +14,7 @@ This directory is the current article, analysis, and reproduction tree for an ev
 |------|------|
 | Per-ligand scores and classes | `results/canonical/current_score_master.csv` (copy: `data/processed/current_score_master.csv`) |
 | Canonical result tables | `results/canonical/` |
+| Detectable-effect simulation | `results/canonical/detectable_effect_simulation.csv` |
 | English / Chinese manuscripts | `docs/MANUSCRIPT_JCIM_EN.md`, `docs/MANUSCRIPT_JCIM_ZH.md` |
 | SI | `docs/SUPPORTING_INFORMATION_JCIM_EN_V1.md`, `docs/SUPPORTING_INFORMATION_DRAFT_ZH_JCIM_V1.md` |
 | Figures 1–5 and S1–S5 | `figures/jcim_article/` |
@@ -28,6 +29,7 @@ Primary uncertainty is a **class-stratified nonparametric percentile bootstrap**
 cd Dual_Target_Docking
 python3 scripts/analysis/build_current_score_master.py
 python3 scripts/analysis/compute_canonical_results.py
+python3 scripts/analysis/compute_detectable_effect.py
 python3 scripts/analysis/fit_ecfp4_models.py
 python3 scripts/analysis/compute_descriptor_baselines.py
 python3 scripts/analysis/close_publication_from_canonical.py
@@ -56,5 +58,6 @@ GNINA is another pose-generation realization, not a claim that GNINA is better o
 - PPARG/PPARA same-pose RTMScore / GNINA CNN
 - Cognate redocking RMSD (search-coverage gate: lowest saved RMSD < 2 Å)
 - Non-stratified bootstrap and scaffold/document cluster bootstrap
+- Detectable-effect simulation (binormal; current eight-pair class sizes; same class-stratified shared-dual bootstrap as Table 2)
 
 JNK1_Selectivity_Project is a separate tree and is not part of this submission.

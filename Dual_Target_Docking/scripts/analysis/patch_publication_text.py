@@ -68,6 +68,8 @@ def load():
     gnina = {r["pair"]: r for r in read_csv(CANON / "computational_robustness.csv") if r["engine"] == "gnina_dock_mode1"}
     rec = {r["replacement"]: r for r in read_csv(CANON / "receptor_substitution.csv")}
     scaler = read_csv(CANON / "ecfp4_scaler_sensitivity.csv")
+    det_path = CANON / "detectable_effect_simulation.csv"
+    det = read_csv(det_path) if det_path.is_file() else []
     return locals()
 
 
@@ -109,9 +111,9 @@ def table3(d, zh=False):
     return "\n".join(rows)
 
 
-METHODS_EN = """Table 2 reports pointwise 95% confidence intervals for both directional AUROCs and their descriptive minimum. Primary intervals used a class-stratified nonparametric percentile bootstrap, with B = 2000 replicates and seed 20260729. For each directional AUROC, ligands were resampled with replacement within the two experimental-state classes, preserving the original class sizes. For \(\\mathrm{summary}_{\\min}\), dual ligands were resampled once per replicate and that same dual draw was applied to both pocket scores; A-only and B-only were resampled independently within class; the two directional AUROCs were recomputed and their minimum was taken inside the replicate. Fixed-score \(\\Delta\)AUROC used the same shared dual resample for dual-versus-selective and dual-versus-neither, with the two negative classes resampled independently. Matched-versus-mismatched pocket comparisons used paired ligand resampling so that a ligand's matched and mismatched scores were drawn together. Point estimates used the full analysis sample. A ligand-level non-stratified bootstrap was retained as a sensitivity analysis and did not replace the class-stratified intervals. Cluster bootstrap by Bemis–Murcko scaffold and literature-connected document groups was a source-dependence sensitivity for the two largest fixed-score differences (Table S4) and did not replace the ligand-level primary intervals. Intervals were not adjusted for multiple comparisons."""
+METHODS_EN = """Table 2 reports pointwise 95% confidence intervals for both directional AUROCs and their descriptive minimum. Primary intervals used a class-stratified nonparametric percentile bootstrap, with B = 2000 replicates and seed 20260729. For each directional AUROC, ligands were resampled with replacement within the two experimental-state classes, preserving the original class sizes. For \(\\mathrm{summary}_{\\min}\), dual ligands were resampled once per replicate and that same dual draw was applied to both pocket scores; A-only and B-only were resampled independently within class; the two directional AUROCs were recomputed and their minimum was taken inside the replicate. Fixed-score \(\\Delta\)AUROC used the same shared dual resample for dual-versus-selective and dual-versus-neither, with the two negative classes resampled independently. Matched-versus-mismatched pocket comparisons used paired ligand resampling so that a ligand's matched and mismatched scores were drawn together. Point estimates used the full analysis sample. A ligand-level non-stratified bootstrap was retained as a sensitivity analysis and did not replace the class-stratified intervals. Cluster bootstrap by Bemis–Murcko scaffold and literature-connected document groups was a source-dependence sensitivity for the two largest fixed-score differences (Table S4) and did not replace the ligand-level primary intervals. A binormal detectable-effect simulation reused the same class-stratified shared-dual bootstrap, the current eight-pair class sizes, B = 2000, and seed 20260729; it estimates the probability that a CI excludes 0.5 under a specified true AUROC and is not observed power. Intervals were not adjusted for multiple comparisons."""
 
-METHODS_ZH = """Table 2 同时报告两条方向性 AUROC 及其描述性最小值的逐项 95% 置信区间。主分析采用类别分层非参数百分位 bootstrap，B = 2000，种子 20260729。方向性 AUROC 在对应的两个实验状态类别内分别有放回抽样，并保持原类别样本量。对于 \(\\mathrm{summary}_{\\min}\)，每次重采样只抽取一次 dual 配体，并将同一次 dual 抽取同时用于两个口袋评分；A-only 与 B-only 在各自类别内独立重采样；在该次重采样内重新计算两个方向 AUROC 后再取较小值。固定评分 \(\\Delta\)AUROC 中，dual–selective 与 dual–neither 共用同一次 dual 抽取，两类阴性对照各自独立重采样。matched 与 mismatched 口袋比较采用配体水平配对重采样，使同一配体的两条口袋评分同时被抽中或同时不被抽中。点估计由完整分析样本直接计算。配体水平非分层 bootstrap 仅作为敏感性分析，不替换类别分层主区间。按 Bemis–Murcko 骨架簇和文献连通簇进行的簇 bootstrap 用于两个最大固定评分差的来源依赖性敏感性（Table S4），不替换配体水平主区间。区间未做多重比较校正。"""
+METHODS_ZH = """Table 2 同时报告两条方向性 AUROC 及其描述性最小值的逐项 95% 置信区间。主分析采用类别分层非参数百分位 bootstrap，B = 2000，种子 20260729。方向性 AUROC 在对应的两个实验状态类别内分别有放回抽样，并保持原类别样本量。对于 \(\\mathrm{summary}_{\\min}\)，每次重采样只抽取一次 dual 配体，并将同一次 dual 抽取同时用于两个口袋评分；A-only 与 B-only 在各自类别内独立重采样；在该次重采样内重新计算两个方向 AUROC 后再取较小值。固定评分 \(\\Delta\)AUROC 中，dual–selective 与 dual–neither 共用同一次 dual 抽取，两类阴性对照各自独立重采样。matched 与 mismatched 口袋比较采用配体水平配对重采样，使同一配体的两条口袋评分同时被抽中或同时不被抽中。点估计由完整分析样本直接计算。配体水平非分层 bootstrap 仅作为敏感性分析，不替换类别分层主区间。按 Bemis–Murcko 骨架簇和文献连通簇进行的簇 bootstrap 用于两个最大固定评分差的来源依赖性敏感性（Table S4），不替换配体水平主区间。二项正态 detectable-effect 仿真复用同一类别分层、共享 dual 的 bootstrap、当前八对类别样本量和 B = 2000、种子 20260729；它估计在指定真 AUROC 下 CI 排除 0.5 的概率，不是观测功效。区间未做多重比较校正。"""
 
 
 def replace_between(text, start, end, new, count=1):
@@ -277,10 +279,23 @@ def patch_en(text, d):
         "PPARG/PPARA fell from 0.649 to 0.535 [0.350, 0.717]",
         f"PPARG/PPARA fell from {r3(s_pparg['summary_min'])} to {r3(h_pg['summary_min'])} {ci(h_pg['ci_lo'], h_pg['ci_hi'])}",
     )
+    text = text.replace(
+        "Cluster bootstrap by Bemis–Murcko scaffold and literature-connected document groups was a source-dependence sensitivity for the two largest fixed-score differences (Table S4) and did not replace the ligand-level primary intervals. Intervals were not adjusted for multiple comparisons.",
+        "Cluster bootstrap by Bemis–Murcko scaffold and literature-connected document groups was a source-dependence sensitivity for the two largest fixed-score differences (Table S4) and did not replace the ligand-level primary intervals. A binormal detectable-effect simulation reused the same class-stratified shared-dual bootstrap, the current eight-pair class sizes, B = 2000, and seed 20260729; it estimates the probability that a CI excludes 0.5 under a specified true AUROC and is not observed power. Intervals were not adjusted for multiple comparisons.",
+    )
+    text = text.replace(
+        "Complete-case counts and fixed-membership intersections are archived in the repository.",
+        "Complete-case counts and fixed-membership intersections are archived in the repository. A binormal detectable-effect simulation used the current eight-pair class sizes and the same class-stratified shared-dual bootstrap as Table 2.",
+    )
     # Abstract
     text = text.replace(
         "On EGFR/HER2, the EGFR-pocket AUROC for dual-versus-B-only was 0.324 and rose to 0.786 against neither (difference 0.462 [0.262, 0.651]); JAK1/TYK2 showed a similar difference (0.444 [0.263, 0.620]).",
         f"On EGFR/HER2, the EGFR-pocket AUROC for dual-versus-B-only was {r3(egfr_fix['auroc_dual_vs_selective'])} and rose to {r3(egfr_fix['auroc_dual_vs_neither'])} against neither (difference {r3(egfr_fix['delta_neither_minus_selective'])} {ci(egfr_fix['delta_ci_lo'], egfr_fix['delta_ci_hi'])}); JAK1/TYK2 showed a similar difference ({r3(jak_fix['delta_neither_minus_selective'])} {ci(jak_fix['delta_ci_lo'], jak_fix['delta_ci_hi'])}).",
+    )
+    text = text.replace(
+        "These values are pair-specific and are not an eight-pair ranking.",
+        "These values are pair-specific and are not an eight-pair ranking. "
+        + _detectable_sentence(d, zh=False),
     )
     text = text.replace("adding the matched-pocket docking score changed AUROC by at most 0.023.", f"adding the matched-pocket docking score changed AUROC by at most {r3(inc_abs)}.")
     return text
@@ -377,6 +392,19 @@ def patch_zh(text, d):
         f"EGFR/HER2 中 EGFR 口袋评分对 dual–B-only 的 AUROC 为 {r3(egfr_fix['auroc_dual_vs_selective'])}，对 neither 升至 {r3(egfr_fix['auroc_dual_vs_neither'])}（差值 {r3(egfr_fix['delta_neither_minus_selective'])} {ci(egfr_fix['delta_ci_lo'], egfr_fix['delta_ci_hi'])}）；JAK1/TYK2 出现类似差值（{r3(jak_fix['delta_neither_minus_selective'])} {ci(jak_fix['delta_ci_lo'], jak_fix['delta_ci_hi'])}）。",
     )
     text = text.replace("AUROC 最多变化 0.023。", f"AUROC 最多变化 {r3(inc_abs)}。")
+    text = text.replace(
+        "按 Bemis–Murcko 骨架簇和文献连通簇进行的簇 bootstrap 用于两个最大固定评分差的来源依赖性敏感性（Table S4），不替换配体水平主区间。区间未做多重比较校正。",
+        "按 Bemis–Murcko 骨架簇和文献连通簇进行的簇 bootstrap 用于两个最大固定评分差的来源依赖性敏感性（Table S4），不替换配体水平主区间。二项正态 detectable-effect 仿真复用同一类别分层、共享 dual 的 bootstrap、当前八对类别样本量和 B = 2000、种子 20260729；它估计在指定真 AUROC 下 CI 排除 0.5 的概率，不是观测功效。区间未做多重比较校正。",
+    )
+    text = text.replace(
+        "完整病例计数和固定成员交集留在仓库。",
+        "完整病例计数和固定成员交集留在仓库。二项正态 detectable-effect 仿真使用当前八对类别样本量和与 Table 2 相同的类别分层、共享 dual bootstrap。",
+    )
+    text = text.replace(
+        "这些数值是靶对特异的，不是八对排行。",
+        "这些数值是靶对特异的，不是八对排行。" + _detectable_sentence(d, zh=True),
+        1,
+    )
     return text
 
 
@@ -429,6 +457,76 @@ def si_s4_fixed(d):
             f"{r3m(r['delta_neither_minus_selective'])} | {ci(r['delta_ci_lo'], r['delta_ci_hi'])} | {und} |"
         )
     return "\n".join(rows)
+
+
+def _detectable_sentence(d, zh=False) -> str:
+    rows = d.get("det") or []
+    if not rows:
+        return ""
+    vals_60 = []
+    vals_75 = []
+    pik_75 = None
+    for r in rows:
+        if r["contrast"] != "summary_min":
+            continue
+        p = float(r["p_ci_excludes_0p5"])
+        if r["true_auroc"] == "0.60":
+            vals_60.append(p)
+        elif r["true_auroc"] == "0.75":
+            if r["pair"] == "PIK3CA/mTOR":
+                pik_75 = p
+            else:
+                vals_75.append(p)
+    if not vals_60 or not vals_75 or pik_75 is None:
+        return ""
+    if zh:
+        return (
+            f"在复用当前类别样本量和 Table 2 同类 bootstrap 的二项正态仿真中，当真较弱臂 AUROC 为 0.60 时，"
+            f"`summary_min` CI 排除 0.5 的概率最高为 {r3(max(vals_60))}；为 0.75 时，除 PIK3CA/mTOR（{r3(pik_75)}）外均不低于 {r3(min(vals_75))}。"
+            "该仿真不是观测功效（Table S4）。"
+        )
+    return (
+        f"Under a binormal simulation that reused these class sizes and the Table 2 bootstrap, "
+        f"the probability that a `summary_min` CI excludes 0.5 was at most {r3(max(vals_60))} when the true weaker-arm AUROC was 0.60, "
+        f"and at least {r3(min(vals_75))} at 0.75 except for PIK3CA/mTOR ({r3(pik_75)}). "
+        "The simulation is not observed power (Table S4)."
+    )
+
+
+def si_detectable(d, zh=False):
+    rows = d.get("det") or []
+    if not rows:
+        return ""
+    by = {(r["pair"], r["contrast"], r["true_auroc"]): r for r in rows}
+    smin = d["smin"]
+    if zh:
+        lines = [
+            "**Detectable-effect 仿真（二项正态；不是观测功效）。** 类别样本量取自当前 `current_score_master.csv` 的 complete-case 主集。内部 95% CI 与 Table 2 相同：类别分层、共享 dual 的百分位 bootstrap（B = 2000，种子 20260729）。N_MC = 1000。表中为 `summary_min` 区间排除 0.5 的蒙特卡洛概率。该仿真不替代 Table 2。",
+            "",
+            "| 靶对 | n (D / A / B) | 0.55 | 0.60 | 0.65 | 0.70 | 0.75 |",
+            "|------|--------------:|-----:|-----:|-----:|-----:|-----:|",
+        ]
+        src = "源：`results/canonical/detectable_effect_simulation.csv`。"
+    else:
+        lines = [
+            "**Detectable-effect simulation (binormal; not observed power).** Class sizes are the current complete-case main-panel counts in `current_score_master.csv`. Inner 95% CIs use the same class-stratified shared-dual percentile bootstrap as Table 2 (B = 2000, seed 20260729). N_MC = 1000. Cells are the Monte Carlo probability that the `summary_min` CI excludes 0.5. This simulation does not replace Table 2.",
+            "",
+            "| Pair | n (D / A / B) | 0.55 | 0.60 | 0.65 | 0.70 | 0.75 |",
+            "|------|--------------:|-----:|-----:|-----:|-----:|-----:|",
+        ]
+        src = "Source: `results/canonical/detectable_effect_simulation.csv`."
+    for pair in PAIRS:
+        rec = smin[pair]
+        ns = f"{rec['n_dual']} / {rec['n_A_only']} / {rec['n_B_only']}"
+        cells = []
+        for auc in ("0.55", "0.60", "0.65", "0.70", "0.75"):
+            hit = by.get((pair, "summary_min", auc))
+            if hit is None:
+                return ""
+            cells.append(r3(hit["p_ci_excludes_0p5"]))
+        lines.append(f"| {pair} | {ns} | {' | '.join(cells)} |")
+    lines += ["", src]
+    return "\n".join(lines)
 
 
 def si_s4_cluster(d):
@@ -544,8 +642,8 @@ def si_s10(d):
 
 def patch_si(text, d):
     text = text.replace(
-        "Table 2 reports pointwise directional intervals and a replicate-wise `summary_min` interval from the locked ligand-level non-stratified percentile bootstrap. Dual-versus-neither uses class-stratified percentile intervals; matched-minus-mismatched uses paired bootstrap. A class-stratified `summary_min` sensitivity is archived (`summary_min_stratified_sensitivity_review_v1.csv`) and does not replace Table 2",
-        "Table 2 reports pointwise directional intervals and a replicate-wise `summary_min` interval from the class-stratified nonparametric percentile bootstrap (B = 2000, seed 20260729). Dual ligands are shared across the two directional AUROCs inside each replicate. Dual-versus-neither uses the same class-stratified protocol; matched-minus-mismatched uses paired ligand resampling. A non-stratified ligand bootstrap is archived as sensitivity (`non_stratified_bootstrap_sensitivity.csv`) and does not replace Table 2",
+        "class-stratified bootstrap alternatives, sample-size simulations, raw BindingDB/PubChem supply counts",
+        "non-stratified bootstrap sensitivity, the eight-pair detectable-effect simulation summarized after Table S4 (`results/canonical/detectable_effect_simulation.csv`), raw BindingDB/PubChem supply counts",
     )
     text = patch_table_block(text, "| Pair | Label rule | n (D / A / B) | summary_min | 95% CI |", si_s3(d))
     text = patch_table_block(
@@ -558,6 +656,21 @@ def patch_si(text, d):
         "EGFR/HER2 cluster bootstrap was recomputed with the corrected-box scores and the previously frozen scaffold and document groupings. Cluster intervals remain a sensitivity analysis and do not replace the ligand-level primary interval.",
     )
     text = patch_table_block(text, "| Pair | Resampling unit | Δ point | 95% CI | CI excludes 0 |", si_s4_cluster(d))
+    det_block = si_detectable(d, zh=False)
+    if det_block:
+        cluster_src = (
+            "Source: `results/canonical/fixed_score_negative_class_delta.csv`; "
+            "`results/canonical/cluster_bootstrap_sensitivity.csv`. Dual-versus-neither with two-pocket mean scores is main-text Table 3."
+        )
+        text = re.sub(
+            r"\*\*Detectable-effect simulation \(binormal; not observed power\)\.\*\*.*?results/canonical/detectable_effect_simulation\.csv`\.",
+            det_block,
+            text,
+            count=1,
+            flags=re.S,
+        )
+        if "Detectable-effect simulation (binormal; not observed power)." not in text:
+            text = text.replace(cluster_src, cluster_src + "\n\n" + det_block, 1)
     _, inc_abs = max_inc(d)
     text = text.replace("Across 16 arms the largest |Δ| is 0.023.", f"Across 16 arms the largest |Δ| is {r3(inc_abs)}.")
     text = patch_table_block(
@@ -829,6 +942,21 @@ def patch_si_zh(text, d):
         "EGFR/HER2 的簇 bootstrap 已用校正盒评分和原冻结的骨架/文献分组重算。簇区间仍为敏感性分析，不替换配体层主区间。",
     )
     text = patch_table_block(text, "| 靶对 | 重采样单位 | Δ 点估计 | 95% CI | CI 排除 0 |", si_s4_cluster_zh(d))
+    det_zh = si_detectable(d, zh=True)
+    if det_zh:
+        cluster_src_zh = (
+            "源：`results/canonical/fixed_score_negative_class_delta.csv`；"
+            "`results/canonical/cluster_bootstrap_sensitivity.csv`。双口袋平均分的 dual–neither 比较见正文 Table 3。"
+        )
+        text = re.sub(
+            r"\*\*Detectable-effect 仿真（二项正态；不是观测功效）。\*\*.*?results/canonical/detectable_effect_simulation\.csv`。",
+            det_zh,
+            text,
+            count=1,
+            flags=re.S,
+        )
+        if "Detectable-effect 仿真（二项正态；不是观测功效）。" not in text:
+            text = text.replace(cluster_src_zh, cluster_src_zh + "\n\n" + det_zh, 1)
     text = text.replace(
         "源：`formulation_equal_score_negative_v1.csv`；`equal_score_negative_s34_v1.csv`；`equal_score_cluster_bootstrap_v1.csv`（仅 JAK1/TYK2）。",
         "源：`results/canonical/fixed_score_negative_class_delta.csv`；`results/canonical/cluster_bootstrap_sensitivity.csv`。",

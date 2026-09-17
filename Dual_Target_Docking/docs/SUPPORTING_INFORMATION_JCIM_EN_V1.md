@@ -2,7 +2,7 @@
 
 **Article companion:** `MANUSCRIPT_JCIM_EN.md`  
 **Numeric rule:** cells below are read from frozen CSVs. Displayed values are three-decimal rounded from the CSV string (half-up or, where already typeset, half-even / banker's). A trailing digit of exactly 5 can therefore appear as either neighbor (for example 0.5045 as 0.504 or 0.505). The CSV is authoritative. EGFR/HER2 Table 2 TPSA is 0.4275 → 0.428.  
-**Scope:** typeset Tables S1–S10 answer four questions: how data and docking were done; where the core fixed-channel results come from; whether ligand chemistry and pocket correspondence support attribution; and whether the main conclusions are obviously unstable to labels, sample, or computational realization. Table S10 reports the eight-pair candidate-ranking operating points that correspond to Figure 2D. Historical coordinate-assignment RMSD, five-seed long tables, fixed-membership intersections, class-stratified bootstrap alternatives, sample-size simulations, raw BindingDB/PubChem supply counts, literature-year splits, and per-ligand or exploratory slices remain in the public repository with SHA-256 checksums. They are not repeated as typeset tables.  
+**Scope:** typeset Tables S1–S10 answer four questions: how data and docking were done; where the core fixed-channel results come from; whether ligand chemistry and pocket correspondence support attribution; and whether the main conclusions are obviously unstable to labels, sample, or computational realization. Table S10 reports the eight-pair candidate-ranking operating points that correspond to Figure 2D. Historical coordinate-assignment RMSD, five-seed long tables, fixed-membership intersections, non-stratified bootstrap sensitivity, the eight-pair detectable-effect simulation summarized after Table S4 (`results/canonical/detectable_effect_simulation.csv`), raw BindingDB/PubChem supply counts, literature-year splits, and per-ligand or exploratory slices remain in the public repository with SHA-256 checksums. They are not repeated as typeset tables.  
 **Legacy maps:** former 54-table numbering is `data/manuscript_lock/SI_TABLE_MERGE_MAP_v1.csv`. The immediately previous typeset set was Tables S1–S14; the remap is listed after Table S10.
 
 **Main-text tables (not repeated here):** Table 1 panel composition; Table 2 eight-pair directional AUROC; Table 3 candidate-ranking consequence (two-pocket mean D-versus-neither, Top 10%, \(\mathrm{EF}_{\mathrm{dual},10\%}\)).
@@ -139,6 +139,21 @@ The pocket score is held fixed. Dual ligands are resampled once; selective and n
 | JAK1/TYK2 | document cluster | 0.444 | [−0.034, 0.682] | no |
 
 Source: `results/canonical/fixed_score_negative_class_delta.csv`; `results/canonical/cluster_bootstrap_sensitivity.csv`. Dual-versus-neither with two-pocket mean scores is main-text Table 3.
+
+**Detectable-effect simulation (binormal; not observed power).** Class sizes are the current complete-case main-panel counts in `current_score_master.csv`. Inner 95% CIs use the same class-stratified shared-dual percentile bootstrap as Table 2 (B = 2000, seed 20260729). N_MC = 1000. Cells are the Monte Carlo probability that the `summary_min` CI excludes 0.5. This simulation does not replace Table 2.
+
+| Pair | n (D / A / B) | 0.55 | 0.60 | 0.65 | 0.70 | 0.75 |
+|------|--------------:|-----:|-----:|-----:|-----:|-----:|
+| EGFR/HER2 | 28 / 38 / 32 | 0.025 | 0.065 | 0.268 | 0.621 | 0.907 |
+| JAK1/JAK2 | 32 / 32 / 32 | 0.018 | 0.066 | 0.285 | 0.639 | 0.911 |
+| JAK1/TYK2 | 31 / 32 / 32 | 0.033 | 0.053 | 0.280 | 0.623 | 0.904 |
+| PIK3CA/mTOR | 18 / 14 / 12 | 0.037 | 0.027 | 0.081 | 0.233 | 0.453 |
+| AChE/BChE | 27 / 26 / 28 | 0.024 | 0.056 | 0.202 | 0.540 | 0.817 |
+| F2/F10 | 31 / 32 / 32 | 0.029 | 0.062 | 0.318 | 0.649 | 0.903 |
+| PPARG/PPARA | 32 / 31 / 32 | 0.025 | 0.068 | 0.261 | 0.654 | 0.911 |
+| PPARA/PPARD | 32 / 32 / 32 | 0.023 | 0.062 | 0.285 | 0.674 | 0.901 |
+
+Source: `results/canonical/detectable_effect_simulation.csv`.
 
 ---
 

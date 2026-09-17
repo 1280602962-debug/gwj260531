@@ -129,6 +129,22 @@ def main() -> int:
     if r3(smin["EGFR/HER2"]["summary_min"]) not in pack_en:
         fail("submission_pack EN manuscript missing EGFR summary_min")
 
+    det = read_csv(ROOT / "results/canonical/detectable_effect_simulation.csv")
+    det_pairs = {r["pair"] for r in det}
+    if det_pairs != set(PAIRS):
+        fail(f"detectable-effect pairs {sorted(det_pairs)}")
+    if any(r.get("n_mc") not in {"1000", 1000} for r in det):
+        fail("detectable-effect n_mc is not 1000")
+    ache = next(
+        r
+        for r in det
+        if r["pair"] == "AChE/BChE" and r["contrast"] == "summary_min" and r["true_auroc"] == "0.50"
+    )
+    if ache["n_neg"] != "26/28":
+        fail(f"AChE detectable-effect n_A/n_B={ache['n_neg']} (expected 26/28)")
+    if any(r.get("bootstrap") != "class_stratified_shared_dual" for r in det):
+        fail("detectable-effect bootstrap is not class_stratified_shared_dual")
+
     scan = list((ROOT / "scripts/analysis").glob("*.py"))
     scan += [
         ROOT / "docs/MANUSCRIPT_JCIM_EN.md",

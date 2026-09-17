@@ -1,6 +1,6 @@
 # Supporting Information
 
-本文件对应正文 `MANUSCRIPT_JCIM_ZH.md`。Supporting Tables 按 Table S1–S10 排列；Supporting Figures 按正文首次引用顺序编号为 Figure S1–S5。历史坐标匹配 RMSD、五种子长表、固定成员交集、分层 bootstrap 备选、样本量情景模拟、BindingDB/PubChem 原始供给清点、发表年份子集，以及逐配体或探索性切片保留在公开仓库，不在投稿 SI 重复排版。
+本文件对应正文 `MANUSCRIPT_JCIM_ZH.md`。Supporting Tables 按 Table S1–S10 排列；Supporting Figures 按正文首次引用顺序编号为 Figure S1–S5。八对 detectable-effect 仿真摘要见 Table S4 之后，完整网格为 `results/canonical/detectable_effect_simulation.csv`。历史坐标匹配 RMSD、五种子长表、固定成员交集、非分层 bootstrap 敏感性、BindingDB/PubChem 原始供给清点、发表年份子集，以及逐配体或探索性切片保留在公开仓库，不在投稿 SI 重复排版。
 
 正文主表不在 SI 重复：Table 1 评价集组成与对接条件；Table 2 方向性主结果；Table 3 候选排序后果（双口袋平均 D-versus-neither、Top 10%、\(\mathrm{EF}_{\mathrm{dual},10\%}\)）。
 
@@ -136,6 +136,21 @@ RMSD 使用 RDKit 对称感知 CalcRMS，不做叠合。原子对应使用同一
 | JAK1/TYK2 | 文献簇 | 0.444 | [−0.034, 0.682] | 否 |
 
 源：`results/canonical/fixed_score_negative_class_delta.csv`；`results/canonical/cluster_bootstrap_sensitivity.csv`。双口袋平均分的 dual–neither 比较见正文 Table 3。
+
+**Detectable-effect 仿真（二项正态；不是观测功效）。** 类别样本量取自当前 `current_score_master.csv` 的 complete-case 主集。内部 95% CI 与 Table 2 相同：类别分层、共享 dual 的百分位 bootstrap（B = 2000，种子 20260729）。N_MC = 1000。表中为 `summary_min` 区间排除 0.5 的蒙特卡洛概率。该仿真不替代 Table 2。
+
+| 靶对 | n (D / A / B) | 0.55 | 0.60 | 0.65 | 0.70 | 0.75 |
+|------|--------------:|-----:|-----:|-----:|-----:|-----:|
+| EGFR/HER2 | 28 / 38 / 32 | 0.025 | 0.065 | 0.268 | 0.621 | 0.907 |
+| JAK1/JAK2 | 32 / 32 / 32 | 0.018 | 0.066 | 0.285 | 0.639 | 0.911 |
+| JAK1/TYK2 | 31 / 32 / 32 | 0.033 | 0.053 | 0.280 | 0.623 | 0.904 |
+| PIK3CA/mTOR | 18 / 14 / 12 | 0.037 | 0.027 | 0.081 | 0.233 | 0.453 |
+| AChE/BChE | 27 / 26 / 28 | 0.024 | 0.056 | 0.202 | 0.540 | 0.817 |
+| F2/F10 | 31 / 32 / 32 | 0.029 | 0.062 | 0.318 | 0.649 | 0.903 |
+| PPARG/PPARA | 32 / 31 / 32 | 0.025 | 0.068 | 0.261 | 0.654 | 0.911 |
+| PPARA/PPARD | 32 / 32 / 32 | 0.023 | 0.062 | 0.285 | 0.674 | 0.901 |
+
+源：`results/canonical/detectable_effect_simulation.csv`。
 
 ---
 
