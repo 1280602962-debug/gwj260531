@@ -19,20 +19,31 @@ from jcim_figure_style import (  # noqa: E402
     FS_AXIS,
     FS_TICK,
     OUT,
-    PAIR_ORDER,
     apply_style,
     save_all,
 )
 
 TAB = ROOT / "data" / "jcim_novelty_v0" / "tables" / "detectable_effect_simulation_v1.csv"
 TRUE = ["0.55", "0.60", "0.65", "0.70", "0.75"]
+PAIR_ORDER_DETECT = [
+    "EGFR/HER2",
+    "JAK1/JAK2",
+    "JAK1/TYK2",
+    "PIK3CA/mTOR",
+    "AChE/BChE",
+    "F2/F10",
+    "PPARG/PPARA",
+    "PPARA/PPARD",
+]
 
 
 def load_summary_min() -> dict[str, dict[str, float]]:
-    out: dict[str, dict[str, float]] = {p: {} for p in PAIR_ORDER}
+    out: dict[str, dict[str, float]] = {p: {} for p in PAIR_ORDER_DETECT}
     with TAB.open() as fh:
         for r in csv.DictReader(fh):
             if r["contrast"] != "summary_min":
+                continue
+            if r["pair"] not in out:
                 continue
             out[r["pair"]][r["true_auroc"]] = float(r["p_ci_excludes_0p5"])
     return out
@@ -41,13 +52,13 @@ def load_summary_min() -> dict[str, dict[str, float]]:
 def fig_s_detectable() -> None:
     apply_style()
     data = load_summary_min()
-    mat = np.array([[data[p][a] for a in TRUE] for p in PAIR_ORDER], dtype=float)
-    fig, ax = plt.subplots(figsize=(7.00, 3.40))
+    mat = np.array([[data[p][a] for a in TRUE] for p in PAIR_ORDER_DETECT], dtype=float)
+    fig, ax = plt.subplots(figsize=(7.00, 5.20))
     im = ax.imshow(mat, cmap="YlGnBu", vmin=0.0, vmax=1.0, aspect="auto")
     ax.set_xticks(range(len(TRUE)))
     ax.set_xticklabels(TRUE)
-    ax.set_yticks(range(len(PAIR_ORDER)))
-    ax.set_yticklabels(PAIR_ORDER)
+    ax.set_yticks(range(len(PAIR_ORDER_DETECT)))
+    ax.set_yticklabels(PAIR_ORDER_DETECT)
     ax.set_xlabel("True AUROC on both directional arms")
     ax.set_ylabel("")
     for i in range(mat.shape[0]):

@@ -7,8 +7,8 @@ Not a Vina-pose rescore.
 
 | Formulation | Vina (frozen) | GNINA independent dock |
 |-------------|---------------|------------------------|
-| Dual vs neither (mean) | 0.756 | **0.783** |
-| Directional `summary_min` | 0.430 | **0.220** |
+| Dual vs neither (mean) | 0.759 | **0.737** |
+| Directional `summary_min` | 0.324 | **0.265** |
 
 **Verdict: gap remains** (neither ≫ directional).
 

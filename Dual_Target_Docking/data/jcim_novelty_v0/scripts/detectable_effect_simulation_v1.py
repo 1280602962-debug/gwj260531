@@ -1,17 +1,13 @@
 #!/usr/bin/env python3
 """Simulation-based detectable-effect analysis for DualFourClass-Bench.
 
-No new docking. Uses the observed n_scored class sizes from Table 2 / Table 3
-and the manuscript ligand-level bootstrap (B = 2000, percentile 95% CI).
+No new docking. Uses current eight-pair class sizes from
+`results/canonical/class_counts.csv`. This is not observed (post hoc) power.
 
-This is not observed (post hoc) power. For each frozen (n_dual, n_neg) and a
-grid of true AUROCs, it estimates the probability that the bootstrap CI
-excludes 0.5 under a binormal score model.
-
-summary_min uses class-preserving resampling of dual / A-only / B-only with
-independent pocket-A and pocket-B score channels. Fixed class sizes are part
-of the simulation design; this differs from the non-stratified empirical
-bootstrap used for the canonical Table 2 interval.
+For each frozen (n_dual, n_neg) and a grid of true AUROCs, it estimates the
+probability that the class-preserving bootstrap CI excludes 0.5 under a
+binormal score model. summary_min resamples dual / A-only / B-only with
+shared dual draws. Fixed class sizes are part of the simulation design.
 """
 from __future__ import annotations
 
@@ -34,12 +30,25 @@ N_MC = 1000
 SEED = 20260729
 TRUE_AUCS = (0.50, 0.55, 0.60, 0.65, 0.70, 0.75)
 
-# Table 2 n_scored (dual / A-only / B-only); Table 3 n_neither
-PAIRS = {
-    "EGFR/HER2": dict(n_dual=28, n_a=38, n_b=32, n_neither=12),
-    "AChE/BChE": dict(n_dual=27, n_a=25, n_b=28, n_neither=15),
-    "PIK3CA/mTOR": dict(n_dual=18, n_a=14, n_b=12, n_neither=4),
-}
+# Class sizes are read from results/canonical/class_counts.csv (current eight-pair master).
+# PIK3CA/PIK3CB is not a current pair and is not simulated.
+def load_current_sizes() -> dict:
+    path = ROOT / "results" / "canonical" / "class_counts.csv"
+    out = {}
+    with path.open(encoding="utf-8", newline="") as fh:
+        for row in csv.DictReader(fh):
+            out[row["pair"]] = dict(
+                n_dual=int(row["n_dual"]),
+                n_a=int(row["n_A_only"]),
+                n_b=int(row["n_B_only"]),
+                n_neither=int(row["n_neither"]),
+            )
+    if "PIK3CA/PIK3CB" in out:
+        del out["PIK3CA/PIK3CB"]
+    return out
+
+
+PAIRS = None  # filled in main() from current_score_master class counts
 
 
 def mu_from_auc(auc: float) -> float:
@@ -137,6 +146,8 @@ def run_summary_min(n_dual: int, n_a: int, n_b: int, true_auc: float, rng: np.ra
 
 
 def main() -> None:
+    global PAIRS
+    PAIRS = load_current_sizes()
     rng = np.random.default_rng(SEED)
     rows = []
     for pair, n in PAIRS.items():
@@ -181,7 +192,7 @@ def main() -> None:
         "n_boot": N_BOOT,
         "seed": SEED,
         "score_model": "binormal_equal_variance",
-        "bootstrap": "ligand-level class-preserving percentile 95% CI; fixed class sizes differ from the non-stratified empirical Table 2 bootstrap",
+        "bootstrap": "simulation uses class-preserving bootstrap with current eight-pair class sizes from results/canonical/class_counts.csv; not observed power",
         "not": "observed/post-hoc power",
         "pairs": PAIRS,
         "source_csv": out_csv.relative_to(ROOT).as_posix(),
@@ -227,7 +238,8 @@ def _verdict_md(rows: list[dict], meta: dict) -> str:
         "- Failure of an observed CI to exclude 0.5 does **not** establish equivalence to chance.",
         "- Dual versus neither uses a smaller negative set than the directional B-only/A-only arms on some pairs;",
         "  detectable-effect probabilities are therefore not interchangeable across formulations.",
-        "- This simulation is independent of the Table 2 pooled non-stratified bootstrap.",
+        "- Current eight-pair class sizes from `results/canonical/class_counts.csv`.",
+        "- This is a simulation-based detectable-effect analysis, not observed/post-hoc power.",
         "",
     ]
     return "\n".join(lines) + "\n"

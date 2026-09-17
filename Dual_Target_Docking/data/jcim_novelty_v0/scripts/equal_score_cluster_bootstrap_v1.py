@@ -211,7 +211,8 @@ def load_egfr() -> list[dict]:
     return recs
 
 
-def load_jak1() -> list[dict]:
+def load_jak1_scores() -> list[dict]:
+    """Current JAK1/TYK2 pocket-A scores and scaffolds. Document harvest is optional."""
     panel = read_csv(ROOT / "data/jcim_chembl_universe_v0/tables/track_b_panels/panel_JAK1_TYK2_v1.csv")
     vina_rows = read_csv(ROOT / "data/jcim_chembl_universe_v0/local_track_b_v0/tables/scores_vina_mode1_v1.csv")
     score = {}
@@ -219,12 +220,6 @@ def load_jak1() -> list[dict]:
         if r["pair"] != "JAK1/TYK2" or r["status"] != "success":
             continue
         score.setdefault(r["ligand"], {})[r["target"]] = float(r["score_S"])
-    if not SQLITE.exists():
-        raise SystemExit(f"missing {SQLITE}")
-    con = sqlite3.connect(SQLITE)
-    con.row_factory = sqlite3.Row
-    docs = harvest_docs(con, jak_tids(con), [r["molecule_chembl_id"] for r in panel])
-    con.close()
     recs = []
     for r in panel:
         lig = r["panel_id"]
@@ -245,10 +240,25 @@ def load_jak1() -> list[dict]:
                 "ligand": lig,
                 "cls": use,
                 "score": float(ends["6N7A"]),
-                "documents": sorted(docs.get(r["molecule_chembl_id"], set())),
+                "documents": [],
                 "scaffold": scaffold_key(r["canonical_smiles"]),
             }
         )
+    return recs
+
+
+def load_jak1() -> list[dict]:
+    recs = load_jak1_scores()
+    if not SQLITE.exists():
+        raise SystemExit(f"missing {SQLITE}")
+    panel = read_csv(ROOT / "data/jcim_chembl_universe_v0/tables/track_b_panels/panel_JAK1_TYK2_v1.csv")
+    con = sqlite3.connect(SQLITE)
+    con.row_factory = sqlite3.Row
+    docs = harvest_docs(con, jak_tids(con), [r["molecule_chembl_id"] for r in panel])
+    con.close()
+    mol = {r["panel_id"]: r["molecule_chembl_id"] for r in panel}
+    for rec in recs:
+        rec["documents"] = sorted(docs.get(mol.get(rec["ligand"], ""), set()))
     assign_doc_groups(recs)
     return recs
 
@@ -281,15 +291,32 @@ def main() -> int:
     rows = []
     packs = {
         ("EGFR/HER2", "D_vs_B_or_neither_pocketA"): load_egfr(),
-        ("JAK1/TYK2", "D_vs_B_or_neither_pocketA"): load_jak1(),
+        ("JAK1/TYK2", "D_vs_B_or_neither_pocketA"): load_jak1_scores(),
     }
+    prev = {(r["pair"], r["contrast"], r["estimator"]): r for r in read_csv(TAB / "equal_score_cluster_bootstrap_v1.csv")}
+    if SQLITE.exists():
+        packs[("JAK1/TYK2", "D_vs_B_or_neither_pocketA")] = load_jak1()
+    else:
+        print(f"missing {SQLITE}; JAK1/TYK2 document cluster kept from committed table; scaffold rebuilt", file=sys.stderr)
     for (pair, contrast), recs in packs.items():
         n = Counter(r["cls"] for r in recs)
         print(pair, dict(n), "n", len(recs), file=sys.stderr)
-        for estimator in ("document_cluster", "scaffold_cluster"):
+        estimators = ("document_cluster", "scaffold_cluster")
+        if pair == "JAK1/TYK2" and not SQLITE.exists():
+            estimators = ("scaffold_cluster",)
+        for estimator in estimators:
             row = cluster_delta(recs, estimator, pair, contrast)
             rows.append(row)
             print(row, file=sys.stderr)
+    if not SQLITE.exists():
+        for key, row in prev.items():
+            if key[0] == "JAK1/TYK2" and key[2] == "document_cluster":
+                row = dict(row)
+                row["note"] = (
+                    "committed document-cluster CI; grouping not rebuilt (no chembl_37 sqlite). "
+                    "Point delta uses current JAK1/TYK2 scores."
+                )
+                rows.append(row)
     out = TAB / "equal_score_cluster_bootstrap_v1.csv"
     write_csv(out, rows)
     print("wrote", out)

@@ -37,8 +37,9 @@ PANELS = {
     "EGFR/HER2": dict(
         scores="data/egfr_her2_panel120_v0/tables/ablation_ligand_scores.csv",
         panel="data/egfr_her2_panel120_v0/tables/panel_v0_120.csv",
-        vina_a="3POZ_affinity",
-        vina_b="3RCD_affinity",
+        vina_a="vina_3POZ_hb",
+        vina_b="vina_3RCD_hb",
+        negate=False,
         p_a="pchembl_EGFR",
         p_b="pchembl_HER2",
         id_from_panel=True,
@@ -46,8 +47,9 @@ PANELS = {
     "AChE/BChE": dict(
         scores="data/ache_bche_panel_v0/tables/ablation_ligand_scores.csv",
         panel=None,
-        vina_a="vina_ACHE",
-        vina_b="vina_BCHE",
+        vina_a="vina_ACHE_hb",
+        vina_b="vina_BCHE_hb",
+        negate=False,
         p_a="pchembl_ACHE",
         p_b="pchembl_BCHE",
         id_from_panel=False,
@@ -57,6 +59,7 @@ PANELS = {
         panel="data/pik3ca_mtor_panel48_rdkit_v0/tables/panel_v0_48.csv",
         vina_a="4L23_affinity",
         vina_b="4JT6_affinity",
+        negate=True,
         p_a="pchembl_PIK3CA",
         p_b="pchembl_MTOR",
         id_from_panel=True,
@@ -215,6 +218,8 @@ def assemble_jobs():
                 continue
             cached_a, cached_b = pmap.get(lig, (fnum(r.get(cfg["p_a"])), fnum(r.get(cfg["p_b"]))))
             cls = r.get("class") or classmap.get(lig)
+            if cfg.get("negate", True):
+                a, b = -a, -b
             rec = {
                 "pair": pair,
                 "ligand": lig,
@@ -222,8 +227,8 @@ def assemble_jobs():
                 "frozen_class": cls,
                 "cached_pA": cached_a,
                 "cached_pB": cached_b,
-                "vina_A": -a,
-                "vina_B": -b,
+                "vina_A": a,
+                "vina_B": b,
                 "target_A": ta,
                 "target_B": tb,
             }

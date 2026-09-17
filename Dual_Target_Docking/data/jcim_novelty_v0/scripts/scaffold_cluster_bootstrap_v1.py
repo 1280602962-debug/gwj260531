@@ -391,7 +391,7 @@ def write_verdict(rows, packs, document_ref, threshold_ref):
     )
     lines += [
         "",
-        "The weak EGFR/HER2 arm (D_vs_B = 0.4297) stays near chance under all three",
+        f"The weak EGFR/HER2 arm (D_vs_B = {scaf['auroc_point']}) stays near chance under all three",
         "resampling schemes; scaffold and document CIs are wider than ligand bootstrap",
         "because correlated chemotypes/documents are kept together.",
         "",

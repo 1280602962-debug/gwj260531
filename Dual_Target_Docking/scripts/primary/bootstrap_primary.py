@@ -30,16 +30,22 @@ FIVE = (
     / "table2_comparable_theta6_v1.csv"
 )
 
-LOCKED = {
-    "EGFR/HER2": (0.4297, 0.2818, 0.5775),
-    "AChE/BChE": (0.6058, 0.4370, 0.7303),
-    "PIK3CA/mTOR": (0.6921, 0.4702, 0.8133),
-    "F2/F10": (0.3448, 0.2109, 0.4773),
-    "JAK1/TYK2": (0.3649, 0.2306, 0.5030),
-    "JAK1/JAK2": (0.5884, 0.4444, 0.7246),
-    "PPARG/PPARA": (0.6492, 0.5045, 0.7508),
-    "PPARA/PPARD": (0.4463, 0.2958, 0.5841),
-}
+CANON = ROOT / "results" / "canonical" / "primary_summary_min.csv"
+
+
+def _locked_from_canonical() -> dict[str, tuple[float, float, float]]:
+    out = {}
+    with CANON.open(encoding="utf-8", newline="") as handle:
+        for row in csv.DictReader(handle):
+            out[row["pair"]] = (
+                float(row["summary_min"]),
+                float(row["ci_lo"]),
+                float(row["ci_hi"]),
+            )
+    return out
+
+
+LOCKED = None  # filled from results/canonical/primary_summary_min.csv in main()
 
 THREE_PAIRS = {"EGFR/HER2", "AChE/BChE", "PIK3CA/mTOR"}
 
@@ -77,6 +83,8 @@ def load_table2() -> dict[str, tuple[float, float, float]]:
 
 
 def main() -> int:
+    global LOCKED
+    LOCKED = _locked_from_canonical()
     got = load_table2()
     missing = [pair for pair in LOCKED if pair not in got]
     if missing:
@@ -87,13 +95,13 @@ def main() -> int:
     for pair, expected in LOCKED.items():
         point, lo, hi = got[pair]
         if any(abs(a - b) > 5e-4 for a, b in zip((point, lo, hi), expected)):
-            raise SystemExit(f"{pair}: {got[pair]} != locked {expected}")
+            raise SystemExit(f"{pair}: {got[pair]} != canonical {expected}")
         src = THREE if pair in THREE_PAIRS else FIVE
         print(
             f"{pair}: summary_min={point:.4f} [{lo:.4f}, {hi:.4f}]  "
-            f"(canonical {src.relative_to(ROOT)})"
+            f"(figure source {src.relative_to(ROOT)}; lock=results/canonical/primary_summary_min.csv)"
         )
-    print("Table 2 lock: PASS (read-only; no new bootstrap; eight pairs)")
+    print("Table 2 lock: PASS (figure-source CSVs match class-stratified canonical)")
     return 0
 
 
