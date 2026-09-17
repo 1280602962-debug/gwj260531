@@ -1,7 +1,0 @@
-# Conclusions (JCIM Articles draft, English)
-
-## 5. Conclusions
-
-This study examined how experimental-state definition affects retrospective dual-target docking evaluation across eight human target pairs with experimental measurements at both targets. Holding the same target score channel fixed, changing the control class and its compounds can change the performance judgment in a pair- and direction-dependent way. Discriminating dual-active from both-end low-activity ligands does not establish discrimination against single-target selectives.
-
-Some retrospective discrimination can be obtained from ligand chemistry that does not use receptor structure. Under the present ECFP4 model and scaffold-grouped splits, adding a docking score did not produce a consistent AUROC gain across directions. Across the seven internal holdouts, matched-pocket advantages were not consistently reproduced. A high retrospective AUROC alone therefore does not establish that the observed discrimination arises from three-dimensional information specific to the corresponding pocket. For retrospective dual-target benchmarks of this type, both directional selectivity tasks should be reported and interpreted with ligand-chemistry and pocket-correspondence controls. The resulting metrics describe discrimination among already labeled experimental states. They are not equivalent to prospective virtual-screening hit finding. Direct experiment remains required for dual-target activity and selectivity.

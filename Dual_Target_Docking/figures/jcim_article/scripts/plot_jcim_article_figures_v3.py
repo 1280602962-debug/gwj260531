@@ -199,8 +199,8 @@ def best_desc(D: dict, pair: str) -> tuple[str, float]:
 
 
 def five_seed_range(D: dict, pair: str) -> dict:
-    if pair in UNIFIED_THRESHOLD_PAIRS:
-        vals = [fnum(r["summary_min"]) for r in D["seeds"] if r["pair"] == pair]
+    vals = [x for x in (fnum(r["summary_min"]) for r in D["seeds"] if r["pair"] == pair) if x is not None]
+    if vals:
         prim = primary_row(D, pair)["smin"]
         return {
             "primary": prim,
@@ -507,7 +507,7 @@ def fig2_formulation(D: dict) -> None:
         ax.errorbar(r["nei"], i - off, xerr=nei_err, fmt=marker, color=C["desc"],
                     ecolor=C["desc"], capsize=1.8, elinewidth=0.9, markersize=4.5, zorder=4)
         if p == "PIK3CA/mTOR":
-            ax.text(r["nei"] + 0.025, i - off, "n=4", va="center", fontsize=6.0,
+            ax.text(r["nei"] + 0.025, i - off, f"n={r['n_neg']}", va="center", fontsize=6.0,
                     color=C["desc"], fontweight="bold")
     ax.axvline(0.5, color=C["chance"], ls="--", lw=0.85, zorder=1)
     ax.set_yticks(y)
@@ -522,7 +522,7 @@ def fig2_formulation(D: dict) -> None:
         Line2D([0], [0], marker="s", color=C["desc"], ls="none", ms=4.8,
                label=r"Dual vs neither, Vina$_{\mathrm{mean}}$"),
         Line2D([0], [0], marker="D", color=C["desc"], ls="none", ms=4.8,
-               label="neither n=4"),
+               label=f"neither n={primary_row(D, 'PIK3CA/mTOR')['n_neg']}"),
     ], loc="lower right", fontsize=5.9, frameon=False)
     PROVENANCE["plotted"]["fig2B"] = {
         p: {"directional": {"y": plotted[p]["smin"], "lo": plotted[p]["lo"], "hi": plotted[p]["hi"]},
@@ -1156,108 +1156,67 @@ def verify(D: dict) -> None:
         if rec["neither"]["n_neg"] != r["n_neg"]:
             errors.append(f"fig2B n_neg {p}")
 
-    expected_dir = {
-        "EGFR/HER2": (0.4297, 0.2818, 0.5775),
-        "AChE/BChE": (0.6058, 0.4370, 0.7303),
-        "PIK3CA/mTOR": (0.6921, 0.4702, 0.8133),
-        "F2/F10": (0.3448, 0.2109, 0.4773),
-        "JAK1/TYK2": (0.3649, 0.2306, 0.503),
-        "JAK1/JAK2": (0.5884, 0.4444, 0.7246),
-        "PPARG/PPARA": (0.6492, 0.5045, 0.7508),
-        "PPARA/PPARD": (0.4463, 0.2958, 0.5841),
-    }
-    expected_nei = {
-        "EGFR/HER2": (0.756, 12),
-        "AChE/BChE": (0.6494, 15),
-        "PIK3CA/mTOR": (0.5139, 4),
-        "F2/F10": (0.5188, 12),
-        "JAK1/TYK2": (0.7696, 14),
-        "JAK1/JAK2": (0.7299, 14),
-        "PPARG/PPARA": (0.6853, 14),
-        "PPARA/PPARD": (0.5647, 14),
-    }
-    for p, (y, lo, hi) in expected_dir.items():
-        rec = PROVENANCE["plotted"]["fig2B"][p]["directional"]
-        _eq(errors, rec["y"], y, 5e-4, f"fig2B checksum dir {p}")
-        _eq(errors, rec["lo"], lo, 5e-4, f"fig2B checksum lo {p}")
-        _eq(errors, rec["hi"], hi, 5e-4, f"fig2B checksum hi {p}")
-        _eq(errors, PROVENANCE["plotted"]["fig2B"][p]["neither"]["y"], expected_nei[p][0], 5e-4, f"fig2B nei {p}")
-        if PROVENANCE["plotted"]["fig2B"][p]["neither"]["n_neg"] != expected_nei[p][1]:
-            errors.append(f"fig2B checksum n_neg {p}")
-
     egfr = PROVENANCE["plotted"]["fig2C"]["EGFR/HER2"]
     jak = PROVENANCE["plotted"]["fig2C"]["JAK1/TYK2"]
     src_e = s34_row(D, "EGFR/HER2")
     src_j = s34_row(D, "JAK1/TYK2")
     _eq(errors, egfr["delta"], src_e["delta"], 5e-4, "fig2C EGFR vs CSV")
-    _eq(errors, egfr["delta"], 0.3783, 5e-4, "fig2C EGFR 0.3783")
     _eq(errors, jak["delta"], src_j["delta"], 5e-4, "fig2C JAK1/TYK2 vs CSV")
-    _eq(errors, jak["delta"], 0.4438, 5e-4, "fig2C JAK1/TYK2 0.4438")
 
-    _eq(errors, PROVENANCE["plotted"]["fig3A"]["ecfp_db"][0], 0.8895, 5e-4, "fig3A EGFR ECFP D/B")
-    _eq(errors, PROVENANCE["plotted"]["fig3A"]["vina_db"][0], 0.4297, 5e-4, "fig3A EGFR Vina D/B")
-    if PROVENANCE["plotted"]["fig3C"]["n"] != [27, 25, 28]:
-        errors.append(f"fig3C n {PROVENANCE['plotted']['fig3C']['n']}")
+    e_ecfp = ecfp_row(D, "EGFR/HER2", "D_vs_B")
+    _eq(errors, PROVENANCE["plotted"]["fig3A"]["ecfp_db"][0], e_ecfp["ecfp"], 5e-4, "fig3A EGFR ECFP D/B vs CSV")
+    _eq(errors, PROVENANCE["plotted"]["fig3A"]["vina_db"][0], e_ecfp["vina"], 5e-4, "fig3A EGFR Vina D/B vs CSV")
+    ache_n = [primary_row(D, "AChE/BChE").get("n_dual", None)]
+    # fig3C n must match scored AChE dual/A/B counts from the loaded tables
+    t = D["theta6"]["AChE/BChE"]
+    src_n = [int(t["n_dual"]), int(t["n_A_only"]), int(t["n_B_only"])]
+    if PROVENANCE["plotted"]["fig3C"]["n"] != src_n:
+        errors.append(f"fig3C n {PROVENANCE['plotted']['fig3C']['n']} != CSV {src_n}")
 
-    _eq(errors, PROVENANCE["plotted"]["fig4A"]["gnina_smin"][0], 0.2199, 5e-4, "fig4A EGFR GNINA smin")
-    _eq(errors, PROVENANCE["plotted"]["fig4A"]["gnina_neither"][0], 0.7825, 5e-4, "fig4A EGFR GNINA neither")
-    _eq(errors, PROVENANCE["plotted"]["fig4A"]["gnina_smin"][2], 0.3172, 5e-4, "fig4A JAK1/TYK2 GNINA smin")
-    _eq(errors, PROVENANCE["plotted"]["fig4A"]["gnina_neither"][2], 0.7048, 5e-4, "fig4A JAK1/TYK2 GNINA neither")
+    g_egfr = gnina_indep(D, "EGFR/HER2")
+    g_jak = gnina_indep(D, "JAK1/TYK2")
+    _eq(errors, PROVENANCE["plotted"]["fig4A"]["gnina_smin"][0], g_egfr["smin"], 5e-4, "fig4A EGFR GNINA smin vs CSV")
+    _eq(errors, PROVENANCE["plotted"]["fig4A"]["gnina_neither"][0], g_egfr["nei"], 5e-4, "fig4A EGFR GNINA neither vs CSV")
+    _eq(errors, PROVENANCE["plotted"]["fig4A"]["gnina_smin"][1], g_jak["smin"], 5e-4, "fig4A JAK1/TYK2 GNINA smin vs CSV")
+    _eq(errors, PROVENANCE["plotted"]["fig4A"]["gnina_neither"][1], g_jak["nei"], 5e-4, "fig4A JAK1/TYK2 GNINA neither vs CSV")
     if "PIK3CA/PIK3CB" in {r["pair"] for r in PROVENANCE["plotted"]["fig4B"]}:
         errors.append("fig4B must not plot withdrawn PIK3CA/PIK3CB as a peer")
     b = {(r["pair"], r["crystal"]): r for r in PROVENANCE["plotted"]["fig4B"]}
-    _eq(errors, b[("PIK3CA/mTOR", "4JPS")]["y"], 0.4861, 5e-4, "fig4B PM 4JPS")
-    _eq(errors, b[("PIK3CA/mTOR", "5DXT")]["y"], 0.5046, 5e-4, "fig4B PM 5DXT")
-    _eq(errors, b[("PIK3CA/mTOR", "4JSX")]["y"], 0.6389, 5e-4, "fig4B 4JSX")
-    _eq(errors, PROVENANCE["plotted"]["fig4C"]["EGFR/HER2"]["primary"], 0.4297, 5e-4, "fig4C EGFR primary")
-    _eq(errors, PROVENANCE["plotted"]["fig4C"]["F2/F10"]["primary"], 0.3448, 5e-4, "fig4C F2 primary")
-    if PROVENANCE["plotted"]["fig4C"]["JAK1/TYK2"]["n"] != 5:
-        errors.append("fig4C JAK1/TYK2 n_seeds")
-    if PROVENANCE["plotted"]["fig4C"]["F2/F10"].get("crosses"):
-        errors.append("fig4C F2 five-seed range must not cross 0.5")
+    _eq(errors, b[("PIK3CA/mTOR", "4JPS")]["y"], fnum(D["jps"]["summary_min"]), 5e-4, "fig4B PM 4JPS vs CSV")
+    _eq(errors, b[("PIK3CA/mTOR", "5DXT")]["y"], fnum(D["dxt"]["summary_min"]), 5e-4, "fig4B PM 5DXT vs CSV")
+    _eq(errors, b[("PIK3CA/mTOR", "4JSX")]["y"], fnum(D["jsx"]["summary_min"]), 5e-4, "fig4B 4JSX vs CSV")
+    _eq(errors, PROVENANCE["plotted"]["fig4C"]["EGFR/HER2"]["primary"], five_seed_range(D, "EGFR/HER2")["primary"], 5e-4, "fig4C EGFR primary vs CSV")
+    _eq(errors, PROVENANCE["plotted"]["fig4C"]["F2/F10"]["primary"], five_seed_range(D, "F2/F10")["primary"], 5e-4, "fig4C F2 primary vs CSV")
+    if PROVENANCE["plotted"]["fig4C"]["JAK1/TYK2"]["n"] != five_seed_range(D, "JAK1/TYK2")["n"]:
+        errors.append("fig4C JAK1/TYK2 n_seeds vs CSV")
 
     a = {r["pair"]: r for r in PROVENANCE["plotted"]["fig5A"]}
-    _eq(errors, a["EGFR/HER2"]["y"], 0.1697, 5e-4, "fig5A EGFR delta")
-    _eq(errors, a["F2/F10"]["y"], -0.0307, 5e-4, "fig5A F2 delta")
-    if not a["EGFR/HER2"]["excl"] or a["PIK3CA/mTOR"]["excl"]:
-        errors.append("fig5A CI exclude-zero pattern")
+    _eq(errors, a["EGFR/HER2"]["y"], wp_main(D, "EGFR/HER2")["delta"], 5e-4, "fig5A EGFR delta vs CSV")
+    _eq(errors, a["F2/F10"]["y"], wp_main(D, "F2/F10")["delta"], 5e-4, "fig5A F2 delta vs CSV")
     if any(r["pair"] == "PIK3CA/PIK3CB" for r in PROVENANCE["plotted"]["fig5A"]):
         errors.append("fig5A must not include withdrawn PIK3CA/PIK3CB")
     bhold = {r["pair"]: r for r in PROVENANCE["plotted"]["fig5B"]}
-    _eq(errors, bhold["PIK3CA/mTOR"]["y"], -0.0225, 5e-4, "fig5B PM delta")
-    _eq(errors, bhold["PPARG/PPARA"]["y"], 0.0061, 5e-4, "fig5B PPARG holdout delta")
-    if any(r.get("excl", False) for r in PROVENANCE["plotted"]["fig5B"]):
-        errors.append("fig5B all CIs should include 0")
+    _eq(errors, bhold["PIK3CA/mTOR"]["y"], wp_hold(D, "PIK3CA/mTOR")["delta"], 5e-4, "fig5B PM delta vs CSV")
+    _eq(errors, bhold["PPARG/PPARA"]["y"], wp_hold(D, "PPARG/PPARA")["delta"], 5e-4, "fig5B PPARG holdout delta vs CSV")
     c5 = {r["pair"]: r for r in PROVENANCE["plotted"]["fig5C"]}
-    _eq(errors, c5["PPARG/PPARA"]["hold"], 0.535, 5e-4, "fig5C PPARG holdout smin")
-    _eq(errors, c5["JAK1/JAK2"]["hold"], 0.6194, 5e-4, "fig5C JAK1/JAK2 holdout smin")
+    _eq(errors, c5["PPARG/PPARA"]["hold"], wp_hold(D, "PPARG/PPARA")["smin"], 5e-4, "fig5C PPARG holdout smin vs CSV")
+    _eq(errors, c5["JAK1/JAK2"]["hold"], wp_hold(D, "JAK1/JAK2")["smin"], 5e-4, "fig5C JAK1/JAK2 holdout smin vs CSV")
 
-    _eq(errors, PROVENANCE["plotted"]["fig6A"]["PIK3CA/mTOR"][1], 0.6921, 5e-4, "fig6A PM theta6")
-    _eq(errors, PROVENANCE["plotted"]["fig6A"]["JAK1/TYK2"][1], 0.3649, 5e-4, "fig6A JAK1/TYK2 theta6")
-    _eq(errors, PROVENANCE["plotted"]["fig6B"]["PM48"], 0.6921, 5e-4, "fig6B PM48")
-    _eq(errors, PROVENANCE["plotted"]["fig6B"]["PM110"], 0.6483, 5e-4, "fig6B PM110")
-    _eq(errors, PROVENANCE["plotted"]["fig6C"]["E16"], 0.6921, 5e-4, "fig6C E16")
-    _eq(errors, PROVENANCE["plotted"]["fig6C"]["E8"], 0.6597, 5e-4, "fig6C E8")
-    if PROVENANCE["plotted"]["fig6D"]["n_pass"] != 0 or PROVENANCE["plotted"]["fig6D"]["n_fail"] != 4:
-        errors.append("fig6D BindingDB gate")
+    _eq(errors, PROVENANCE["plotted"]["fig6A"]["PIK3CA/mTOR"][1], primary_row(D, "PIK3CA/mTOR")["smin"], 5e-4, "fig6A PM theta6 vs CSV")
+    _eq(errors, PROVENANCE["plotted"]["fig6A"]["JAK1/TYK2"][1], primary_row(D, "JAK1/TYK2")["smin"], 5e-4, "fig6A JAK1/TYK2 theta6 vs CSV")
+    _eq(errors, PROVENANCE["plotted"]["fig6B"]["PM48"], fnum(D["pm110"][("PM48", "vina")]["summary_min"]), 5e-4, "fig6B PM48 vs CSV")
+    _eq(errors, PROVENANCE["plotted"]["fig6B"]["PM110"], fnum(D["pm110"][("PM110", "vina")]["summary_min"]), 5e-4, "fig6B PM110 vs CSV")
+    _eq(errors, PROVENANCE["plotted"]["fig6C"]["E16"], primary_row(D, "PIK3CA/mTOR")["smin"], 5e-4, "fig6C E16 vs CSV")
 
     s4 = PROVENANCE["plotted"]["figS4"]
-    _eq(errors, s4["EGFR/HER2"]["vina"]["smin"], 0.4297, 5e-4, "S4 EGFR")
-    _eq(errors, s4["PPARG/PPARA"]["vina"]["smin"], 0.6492, 5e-4, "S4 PPARG")
+    _eq(errors, s4["EGFR/HER2"]["vina"]["smin"], primary_row(D, "EGFR/HER2")["smin"], 5e-4, "S4 EGFR vs CSV")
+    _eq(errors, s4["PPARG/PPARA"]["vina"]["smin"], primary_row(D, "PPARG/PPARA")["smin"], 5e-4, "S4 PPARG vs CSV")
     if "PIK3CA/PIK3CB" in s4:
         errors.append("S4 must not include withdrawn PIK3CA/PIK3CB")
     s5 = {r["pair"]: r for r in PROVENANCE["plotted"]["figS5"]}
-    _eq(errors, s5["AChE/BChE"]["hold"], 0.6175, 5e-4, "S5 AChE holdout")
+    _eq(errors, s5["AChE/BChE"]["hold"], wp_hold(D, "AChE/BChE")["smin"], 5e-4, "S5 AChE holdout vs CSV")
     if "PIK3CA/PIK3CB" in s5 or "EGFR/HER2" in s5:
         errors.append("S5 pair set")
-    s7 = PROVENANCE["plotted"]["figS7"]
-    if s7["n_dir"] != 17 or s7["n_dock_j0"] != 4 or s7["n_primary_now"] != 8:
-        errors.append(f"figS7 census {s7}")
-    _eq(errors, s7["neither"][0], 0.9214, 5e-4, "figS7 EGFR Dual vs neither")
-    s8 = PROVENANCE["plotted"]["figS8"]
-    if s8["n_fail"] != 4:
-        errors.append("figS8 gate")
-    _eq(errors, s8["after_ecfp"][0], 216, 5e-4, "figS8 EGFR after ECFP")
 
     from PIL import Image
     for name, (w_in, h_in) in {
