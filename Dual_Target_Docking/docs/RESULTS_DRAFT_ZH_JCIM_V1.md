@@ -14,13 +14,13 @@
 
 固定同一靶点对接评分后，更换实验状态对照所产生的 AUROC 差异因靶对和方向而异。EGFR/HER2 与 JAK1/TYK2 的固定评分差最大。EGFR/HER2 使用 EGFR 口袋评分时，dual–B-only 的 AUROC 为 0.324，将对照换成 neither 后升至 0.786，差值 0.462 [0.260, 0.641]。JAK1/TYK2 使用 JAK1 口袋评分时，对应差值为 0.444 [0.261, 0.630]。其余靶对的差异更小，或其置信区间包含 0（Figure 2A；Table S4）。簇重采样见 3.5 节。
 
-在统一 \(\theta=6.0\) 标签下，两个方向性 AUROC 介于 0.345 至 0.728，描述性较弱臂 \(\mathrm{summary}_{\min}\) 介于 0.345 至 0.692。PPARG/PPARA 的 \(\mathrm{summary}_{\min}\) 区间完全高于 0.5（0.649 [0.511, 0.746]），EGFR/HER2 与 F2/F10 完全低于 0.5（0.324 [0.192, 0.463] 和 0.345 [0.216, 0.482]），其余 5 对穿过 0.5（Figure 2B；Table 2）。这些数值是靶对特异的，不是八对排行。在复用当前类别样本量和 Table 2 同类 bootstrap 的二项正态仿真中，当真较弱臂 AUROC 为 0.60 时，`summary_min` CI 排除 0.5 的概率最高为 0.068；为 0.75 时，除 PIK3CA/mTOR（0.453）外均不低于 0.817。该仿真不是观测功效（Table S4）。
+在统一 \(\theta=6.0\) 标签下，两个方向性 AUROC 介于 0.345 至 0.728，描述性较弱臂 \(\mathrm{summary}_{\min}\) 介于 0.345 至 0.692。PPARG/PPARA 的 \(\mathrm{summary}_{\min}\) 区间完全高于 0.5（0.649 [0.511, 0.746]），EGFR/HER2 与 F2/F10 完全低于 0.5（0.324 [0.195, 0.474] 和 0.345 [0.216, 0.482]），其余 5 对穿过 0.5（Figure 2B；Table 2）。这些数值是靶对特异的，不是八对排行。在复用当前类别样本量和 Table 2 同类 bootstrap 的二项正态仿真中，当真较弱臂 AUROC 为 0.60 时，`summary_min` CI 排除 0.5 的概率最高为 0.068；为 0.75 时，除 PIK3CA/mTOR（0.453）外均不低于 0.817。该仿真不是观测功效（Table S4）。
 
 **Table 2.** 八个主评价靶对上的口袋匹配方向 AUROC（Vina，统一 \(\theta=6.0\)）。表中类别样本量为 n_scored（dual / A-only / B-only）。物化描述符基线见 Table S5。
 
 | 靶对 | n_scored (dual / A-only / B-only) | Dual vs A-only（口袋 B）[95% CI] | Dual vs B-only（口袋 A）[95% CI] | summary_min [95% CI] |
 |------|---------------------------:|-------------------------:|-------------------------:|----------------------|
-| EGFR/HER2 | 28 / 38 / 32 | 0.661 [0.524, 0.790] | 0.324 [0.192, 0.463] | 0.324 [0.192, 0.463] |
+| EGFR/HER2 | 28 / 37 / 32 | 0.656 [0.520, 0.791] | 0.324 [0.195, 0.474] | 0.324 [0.195, 0.474] |
 | JAK1/JAK2 | 32 / 32 / 32 | 0.588 [0.448, 0.723] | 0.728 [0.602, 0.842] | 0.588 [0.448, 0.716] |
 | JAK1/TYK2 | 31 / 32 / 32 | 0.575 [0.434, 0.717] | 0.365 [0.233, 0.508] | 0.365 [0.233, 0.505] |
 | PIK3CA/mTOR | 18 / 14 / 12 | 0.714 [0.528, 0.889] | 0.692 [0.491, 0.868] | 0.692 [0.480, 0.802] |
@@ -50,13 +50,13 @@
 
 该传统排序在 JAK1/TYK2 评价集上按固定比例操作点检查。按双口袋平均评分对全部 109 个配体排序时，Top 10%（\(k=\lceil 0.10\,n\rceil=11\)）含 1 个 dual、3 个 A-only 和 7 个 B-only，没有 neither 配体（Figure 2D）。该 Top 10% dual 比例（0.091）低于全面板 dual 基线（31/109 = 0.284），因此 \(\mathrm{EF}_{\mathrm{dual},10\%}=0.320\)。较高的 dual–neither AUROC 并未对应较少的高排名单靶活性配体。按 dual 的中位 \(S_{\mathrm{worst}}\) 对 Dual+A-only+B-only（\(n=95\)）作联合过滤、排除 neither 后，保留 16 个 dual，同时保留 12 个 A-only 和 22 个 B-only，dual precision 为 0.32（Figure S1）。
 
-同一套双口袋平均排序按各面板 Top 10%、\(k=\lceil 0.10\,n\rceil\) 应用于全部八个主评价集，以便不同规模的靶对按同一筛选比例比较（Table S10）。Top 10% 中 dual 计数从 1/11（EGFR/HER2、JAK1/TYK2；dual 比例 0.091）到 4/5（PIK3CA/mTOR；0.800）和 7/11（PPARG/PPARA；0.636）。相对各面板 dual 基线，\(\mathrm{EF}_{\mathrm{dual},10\%}\) 从 0.320（JAK1/TYK2）和 0.357（EGFR/HER2）到 2.133（PIK3CA/mTOR）和 2.168（PPARG/PPARA）。小于 1 表示 Top 10% 中 dual 比例低于全面板基线。五个靶对的 Top 10% 不含 neither；AChE/BChE、PPARG/PPARA 和 PPARA/PPARD 各占 1 个位置。每个靶对的 Top 10% 中都至少保留 1 个单靶活性配体。这些计数是回顾性评价面板上的描述性操作点，不是对接质量的八对排行。Dual+A-only+B-only 上的 AND 过滤见同一表。
+同一套双口袋平均排序按各面板 Top 10%、\(k=\lceil 0.10\,n\rceil\) 应用于全部八个主评价集，以便不同规模的靶对按同一筛选比例比较（Table S10）。Top 10% 中 dual 计数从 1/11（EGFR/HER2、JAK1/TYK2；dual 比例 0.091）到 4/5（PIK3CA/mTOR；0.800）和 7/11（PPARG/PPARA；0.636）。相对各面板 dual 基线，\(\mathrm{EF}_{\mathrm{dual},10\%}\) 从 0.320（JAK1/TYK2）和 0.354（EGFR/HER2）到 2.133（PIK3CA/mTOR）和 2.168（PPARG/PPARA）。小于 1 表示 Top 10% 中 dual 比例低于全面板基线。五个靶对的 Top 10% 不含 neither；AChE/BChE、PPARG/PPARA 和 PPARA/PPARD 各占 1 个位置。每个靶对的 Top 10% 中都至少保留 1 个单靶活性配体。这些计数是回顾性评价面板上的描述性操作点，不是对接质量的八对排行。Dual+A-only+B-only 上的 AND 过滤见同一表。
 
 ### 3.3 配体化学基线与对接增量判别
 
 若双靶对接所排序的实验类别本身已有化学差异，则不依赖受体的基线也能分开同一套筛选状态。AChE/BChE 仅用 TPSA 时，dual–A-only 和 dual–B-only 的 AUROC 分别为 0.742 和 0.801（Figure 3C；Table S5）。PIK3CA/mTOR 中最佳单一描述符（重原子数）的 \(\mathrm{summary}_{\min}\) 为 0.463（Table S5）。Vina 与最佳单一描述符的差值因靶对而异：八对中 5 对的 95% 区间包含 0，JAK1/TYK2、PIK3CA/mTOR、F2/F10 不包含 0（Table S5）。Vina \(\mathrm{summary}_{\min}\) 区间与最佳描述符点估计见 Figure S2。
 
-在 Bemis–Murcko 骨架分组交叉验证下，仅含配体的 ECFP4 模型已能分开若干方向性比较（Figure 3A）。将对应方向的对接评分加入后，16 个方向的 AUROC 最多变化 0.023，且没有一致的变化方向（Figure 3B；Table S5）。在该回顾性设定下，对接评分未在配体模型之上提供稳定的排序增量。
+在 Bemis–Murcko 骨架分组交叉验证下，仅含配体的 ECFP4 模型已能分开若干方向性比较（Figure 3A）。将对应方向的对接评分加入后，16 个方向的 AUROC 最多变化 0.011，且没有一致的变化方向（Figure 3B；Table S5）。在该回顾性设定下，对接评分未在配体模型之上提供稳定的排序增量。
 
 ![Figure 3](../figures/jcim_article/Fig3_ligand_chemistry.png)
 
@@ -64,7 +64,7 @@
 
 ### 3.4 口袋对应性与对接实现敏感性
 
-若方向性 AUROC 来自基于结构的对接，则在不重新对接的前提下交换两条已计算的口袋评分，较弱臂汇总应变差。主评价集中仅 AChE/BChE 的 matched−mismatched \(\mathrm{summary}_{\min}\) 95% 区间排除 0（0.177 [0.053, 0.291]）。EGFR/HER2 为 0.056 [−0.029, 0.157]，区间包含 0，因此不将该对解释为具有 matched-pocket 优势。其余六对主集区间包含 0。七个可用内部留出集的差值区间亦均包含 0（−0.079 至 +0.150）（Figure 4A；Table S6）。EGFR/HER2 无未使用池留出集。
+若方向性 AUROC 来自基于结构的对接，则在不重新对接的前提下交换两条已计算的口袋评分，较弱臂汇总应变差。主评价集中仅 AChE/BChE 的 matched−mismatched \(\mathrm{summary}_{\min}\) 95% 区间排除 0（0.177 [0.053, 0.291]）。EGFR/HER2 为 0.056 [−0.037, 0.155]，区间包含 0，因此不将该对解释为具有 matched-pocket 优势。其余六对主集区间包含 0。七个可用内部留出集的差值区间亦均包含 0（−0.079 至 +0.150）（Figure 4A；Table S6）。EGFR/HER2 无未使用池留出集。
 
 ![Figure 4](../figures/jcim_article/Fig4_mismatched_pocket.png)
 
@@ -88,9 +88,9 @@ PIK3CA/mTOR 的面板规模和 exhaustiveness 敏感性结果见 Figure S3。PM4
 
 ### 3.5 方向性评价的标签与样本组成敏感性
 
-从严格 6.5/5.5 候选池构建的评价集，在多个阈值下保留了相同的主要类别组成，因此相应 AUROC 变化较小。EGFR/HER2 和 PIK3CA/mTOR 的类别组成随阈值变化更明显，其方向性估计也发生变化（Figure 6A；Table S3）。在同一套 ChEMBL 37 记录上将最大 pChEMBL 改为中位数后，EGFR/HER2 有 6/110 个类别翻转（主分析 \(\mathrm{summary}_{\min}\) 0.324），AChE/BChE 有 1/96 个翻转（CHEMBL659；0.606 变为 0.629），PPARA/PPARD 有 1/110 个翻转（CHEMBL121；\(\mathrm{summary}_{\min}\) 仍为 0.446）。其余五对保持类别组成和 \(\mathrm{summary}_{\min}\) 点估计（Table S3）。
+从严格 6.5/5.5 候选池构建的评价集，在多个阈值下保留了相同的主要类别组成，因此相应 AUROC 变化较小。EGFR/HER2 和 PIK3CA/mTOR 的类别组成随阈值变化更明显，其方向性估计也发生变化（Figure 6A；Table S3）。最大与中位数聚合使用同一套合格原始记录、同一分子交集和当前对接分数，而不是把全部已评分配体与 dump 缺失记录混为一谈。EGFR/HER2 有 5/109 个类别翻转（主分析 \(\mathrm{summary}_{\min}\) 0.324）；AChE/BChE 有 1/94 个翻转（CHEMBL659；max 0.606 变为 0.629）；PPARA/PPARD 有 1/110 个翻转（CHEMBL121；\(\mathrm{summary}_{\min}\) 仍为 0.446）。其余靶对保持类别组成和 \(\mathrm{summary}_{\min}\) 点估计（Table S3）。
 
-在排除主评价集分子后，基于剩余候选分子构建的未使用池留出集显示，结果存在一定的样本组成依赖：AChE/BChE、PIK3CA/mTOR 与 JAK1/JAK2 与主评价接近；JAK1/TYK2 有所上升；F2/F10 与 PPARA/PPARD 仍处于较低水平；PPARG/PPARA 则由 0.649 降至 0.535 [0.360, 0.705]（Figure 4B；Table S6）。EGFR/HER2 无同等留出集。EGFR/HER2 口袋 A 的配体层固定评分差值为 0.462 [0.260, 0.641]。将校正盒评分代入原冻结的骨架簇与文献簇后，EGFR/HER2 簇区间为 [0.235, 0.665]（骨架）和 [0.125, 0.644]（文献），均排除 0。JAK1/TYK2 骨架簇区间为 [0.220, 0.631]，排除 0，文献簇区间为 [−0.034, 0.682]，包含 0（Table S4）。
+在排除主评价集分子后，基于剩余候选分子构建的未使用池留出集显示，结果存在一定的样本组成依赖：AChE/BChE、PIK3CA/mTOR 与 JAK1/JAK2 与主评价接近；JAK1/TYK2 有所上升；F2/F10 与 PPARA/PPARD 仍处于较低水平；PPARG/PPARA 则由 0.649 降至 0.535 [0.360, 0.705]（Figure 4B；Table S6）。EGFR/HER2 无同等留出集。EGFR/HER2 口袋 A 的配体层固定评分差值为 0.462 [0.260, 0.641]。将校正盒评分代入原冻结的骨架簇与文献簇后，EGFR/HER2 簇区间为 [0.235, 0.665]（骨架）和 [0.125, 0.644]（文献），均排除 0。JAK1/TYK2 骨架簇区间为 [0.220, 0.631]，排除 0；文献簇无法在本冻结中重算（配体–文献分组映射与 ChEMBL 37 sqlite 均不可用）；此前存档区间包含 0，不作为当前计算结果（Table S4）。
 
 ### 3.6 独立外部对接集的可用性
 

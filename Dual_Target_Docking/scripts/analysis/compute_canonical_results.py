@@ -84,6 +84,8 @@ def load_main() -> dict[str, list[dict]]:
     for r in rows:
         if r["analysis_set"] != "main" or r["complete_case"] not in ("1", 1, "True"):
             continue
+        if str(r.get("activity_eligible", "1")) not in ("1", "True"):
+            continue
         if r["pair"] not in by:
             continue
         rec = dict(r)
@@ -378,46 +380,88 @@ def compute_label_sensitivity(packs):
 
 
 def compute_max_median(packs):
-    path = ROOT / "data/jcim_chembl_universe_v0/local_track_b_v0/tables/eight_pair_dump_gated_v1/max_vs_median_ligand_v1.csv"
-    if not path.is_file():
-        return []
-    dump = read_csv(path)
-    by = {(r["pair"], r["ligand"]): r for r in dump}
+    dump_path = ROOT / "data/jcim_chembl_universe_v0/local_track_b_v0/tables/eight_pair_dump_gated_v1/max_vs_median_ligand_v1.csv"
+    adj_path = ROOT / "data/processed/activity_adjudication/ligand_activity_aggregate_v1.csv"
+    dump = {(r["pair"], r["ligand"]): r for r in read_csv(dump_path)} if dump_path.is_file() else {}
+    adj = {(r["pair"], r["ligand"]): r for r in read_csv(adj_path)} if adj_path.is_file() else {}
     rows = []
     for pair, recs in packs.items():
         for agg, cls_field in (("max", "class_max"), ("median", "class_median")):
             labeled = []
+            source = ""
             for r in recs:
-                d = by.get((pair, r["ligand_id"]))
-                if not d:
-                    continue
-                lab = d.get(cls_field, "")
-                if lab in ("dual", "A_only", "B_only"):
-                    labeled.append({**r, "cls": lab})
-            if len(labeled) < 8:
+                a = adj.get((pair, r["ligand_id"]))
+                if a is not None:
+                    if a.get("activity_status") != "both_arms_present":
+                        continue
+                    lab = a.get(cls_field, "")
+                    source = "adjudicated high-confidence max/median + current score master"
+                else:
+                    d = dump.get((pair, r["ligand_id"]))
+                    if not d:
+                        continue
+                    lab = d.get(cls_field, "")
+                    if not source:
+                        source = "ChEMBL37 dump-gated max/median + current score master"
+                if lab in ("dual", "A_only", "B_only", "neither"):
+                    labeled.append({**r, "cls": lab, "ligand_id": r["ligand_id"]})
+            n_ligands = len(labeled)
+            directional = [x for x in labeled if x["cls"] in ("dual", "A_only", "B_only")]
+            if len(directional) < 8:
                 continue
-            sa = np.array([r["score_A"] for r in labeled])
-            sb = np.array([r["score_B"] for r in labeled])
-            cls = np.array([r["cls"] for r in labeled])
+            sa = np.array([r["score_A"] for r in directional])
+            sb = np.array([r["score_B"] for r in directional])
+            cls = np.array([r["cls"] for r in directional])
             stats = summary_min_stratified(sa, sb, cls, n_boot=N_BOOT, seed=SEED)
             rows.append(
                 {
                     "pair": pair,
                     "aggregation": agg,
+                    "n_ligands": n_ligands,
                     "n_dual": stats["n_dual"],
                     "n_A_only": stats["n_A_only"],
                     "n_B_only": stats["n_B_only"],
+                    "n_neither": sum(1 for x in labeled if x["cls"] == "neither"),
                     "summary_min": r4(stats["summary_min"]),
                     "ci_lo": r4(stats["summary_min_ci_lo"]),
                     "ci_hi": r4(stats["summary_min_ci_hi"]),
                     "auroc_D_vs_A": r4(stats["auroc_D_vs_A_pocketB"]),
                     "auroc_D_vs_B": r4(stats["auroc_D_vs_B_pocketA"]),
-                    "source": "ChEMBL37 dump-gated max/median + current score master",
+                    "source": source,
                     "bootstrap": "class_stratified_shared_dual",
                     "B": N_BOOT,
                     "seed": SEED,
+                    "class_flips_vs_max": "",
                 }
             )
+    by_pair = {}
+    for r in rows:
+        by_pair.setdefault(r["pair"], {})[r["aggregation"]] = r
+    for pair, recs in packs.items():
+        mx = by_pair.get(pair, {}).get("max")
+        md = by_pair.get(pair, {}).get("median")
+        if not mx or not md:
+            continue
+        a_max = {}
+        a_med = {}
+        for r in recs:
+            a = adj.get((pair, r["ligand_id"]))
+            if a is not None:
+                if a.get("activity_status") != "both_arms_present":
+                    continue
+                a_max[r["ligand_id"]] = a.get("class_max", "")
+                a_med[r["ligand_id"]] = a.get("class_median", "")
+            else:
+                dmp = dump.get((pair, r["ligand_id"]))
+                if not dmp:
+                    continue
+                a_max[r["ligand_id"]] = dmp.get("class_max", "")
+                a_med[r["ligand_id"]] = dmp.get("class_median", "")
+        shared = [k for k in a_max if a_max[k] and a_med[k]]
+        flips = sum(1 for k in shared if a_max[k] != a_med[k])
+        for rec in (mx, md):
+            rec["n_ligands"] = len(shared)
+            rec["class_flips_vs_max"] = flips if rec["aggregation"] == "median" else 0
     return rows
 
 
@@ -463,6 +507,7 @@ def compute_cluster(packs):
                     "doc_group": groups.get((pair, r["ligand_id"]), r["ligand_id"]),
                 }
             )
+        has_doc_map = any(p == pair for p, _ in groups)
         for estimator, gkey in (("ligand_stratified", None), ("scaffold_cluster", "scaffold"), ("document_cluster", "doc_group")):
             if estimator == "ligand_stratified":
                 dual = [x["score"] for x in recs if x["cls"] == "dual"]
@@ -481,27 +526,40 @@ def compute_cluster(packs):
                         "delta_point": r4(delta),
                         "delta_ci_lo": r4(lo),
                         "delta_ci_hi": r4(hi),
+                        "n_attempted_boot": N_BOOT,
                         "n_valid_boot": N_BOOT,
                         "excludes_zero": int(not ci_crosses(lo, hi, 0.0)),
+                        "status": "ok",
                         "note": "primary ligand-level class-stratified bootstrap; B=2000 seed=20260729",
                         "seed": SEED,
                     }
                 )
+            elif estimator == "document_cluster" and not has_doc_map:
+                dual = [x["score"] for x in recs if x["cls"] == "dual"]
+                sel = [x["score"] for x in recs if x["cls"] == "selective"]
+                nei = [x["score"] for x in recs if x["cls"] == "neither"]
+                auc_s, auc_n, delta, lo, hi = fixed_score_delta_stratified(dual, sel, nei, N_BOOT, SEED)
+                rows.append(
+                    {
+                        "pair": pair,
+                        "contrast": contrast,
+                        "estimator": estimator,
+                        "n_groups": "",
+                        "n_dual": len(dual),
+                        "n_selective": len(sel),
+                        "n_neither": len(nei),
+                        "delta_point": r4(delta),
+                        "delta_ci_lo": "",
+                        "delta_ci_hi": "",
+                        "n_attempted_boot": N_BOOT,
+                        "n_valid_boot": 0,
+                        "excludes_zero": "",
+                        "status": "unresolved_mapping_unavailable",
+                        "note": "not recomputed: ligand-document grouping map not deposited and ChEMBL 37 sqlite unavailable; do not copy a previous CI",
+                        "seed": SEED,
+                    }
+                )
             else:
-                if pair == "JAK1/TYK2" and estimator == "document_cluster":
-                    # Frozen document groups were harvested from ChEMBL sqlite (not present here).
-                    # Keep deposited JAK1/TYK2 document-cluster CI after verifying scores match master.
-                    dep = ROOT / "data/jcim_novelty_v0/tables/equal_score_cluster_bootstrap_v1.csv"
-                    kept = False
-                    if dep.is_file():
-                        for d in read_csv(dep):
-                            if d["pair"] == pair and d["estimator"] == "document_cluster":
-                                d = dict(d)
-                                d["note"] = "retained deposited JAK1/TYK2 document-cluster grouping (ChEMBL sqlite unavailable); scores verified against current master"
-                                rows.append(d)
-                                kept = True
-                    if kept:
-                        continue
                 stats = cluster_delta(recs, gkey, N_BOOT, SEED)
                 rows.append(
                     {
@@ -515,9 +573,11 @@ def compute_cluster(packs):
                         "delta_point": r4(stats["delta_point"]),
                         "delta_ci_lo": r4(stats["delta_ci_lo"]),
                         "delta_ci_hi": r4(stats["delta_ci_hi"]),
+                        "n_attempted_boot": N_BOOT,
                         "n_valid_boot": stats["n_valid_boot"],
                         "excludes_zero": int(stats["excludes_zero"]),
-                        "note": "resamples connected groups, not ligands; shared dual within each resample; corrected scores",
+                        "status": "ok",
+                        "note": "resamples connected groups, not ligands; shared dual within each resample; current scores; B=2000 seed=20260729",
                         "seed": SEED,
                     }
                 )
@@ -718,6 +778,53 @@ def main() -> int:
     write_csv(CANON / "two_pocket_mean_ranking.csv", two_pocket)
     write_csv(CANON / "top10_operating_points.csv", ranking)
     write_csv(CANON / "matched_mismatched_pocket.csv", matched)
+    all_master = read_csv(MASTER)
+    cls_rows = []
+    for pair, recs in packs.items():
+        ct = Counter(r["cls"] for r in recs)
+        scored = [
+            r
+            for r in all_master
+            if r["pair"] == pair and r.get("analysis_set") == "main" and r.get("complete_case") in ("1", "True")
+        ]
+        ineligible = [r for r in scored if str(r.get("activity_eligible", "1")) not in ("1", "True")]
+        cls_rows.append(
+            {
+                "pair": pair,
+                "n_dual": ct["dual"],
+                "n_A_only": ct["A_only"],
+                "n_B_only": ct["B_only"],
+                "n_neither": ct["neither"],
+                "n_activity_eligible": len(recs),
+                "n_scored_complete_case": len(scored),
+                "n_activity_ineligible": len(ineligible),
+                "n_complete_case": len(recs),
+                "n_missing_score_A": 0,
+                "n_missing_score_B": 0,
+                "n_class_pchembl_mismatch": 0,
+            }
+        )
+    write_csv(CANON / "class_counts.csv", cls_rows)
+    write_csv(
+        CANON / "matched_minus_mismatched.csv",
+        [
+            {
+                "pair": r["pair"],
+                "delta": r["delta"],
+                "ci_lo": r["delta_ci_lo"],
+                "ci_hi": r["delta_ci_hi"],
+                "ci_excludes_zero": r["ci_excludes_zero"],
+                "weaker_arm_switched": r["weaker_arm_switched"],
+                "n_dual": r.get("n_dual", ""),
+                "n_A_only": r.get("n_A_only", ""),
+                "n_B_only": r.get("n_B_only", ""),
+                "bootstrap": r.get("bootstrap", ""),
+                "B": r.get("B", ""),
+                "seed": r.get("seed", ""),
+            }
+            for r in matched
+        ],
+    )
     write_csv(CANON / "label_aggregation_sensitivity.csv", labels)
     write_csv(CANON / "max_vs_median_sensitivity.csv", maxmed)
     write_csv(CANON / "cluster_bootstrap_sensitivity.csv", cluster)

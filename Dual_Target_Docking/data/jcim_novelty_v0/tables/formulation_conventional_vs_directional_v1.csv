@@ -1,9 +1,9 @@
 pair,formulation,contrast,score,n_pos,n_neg,auroc,ci_lo,ci_hi,underpowered,note
-EGFR/HER2,dualfourclass_directional,D_vs_A_pocketB,vina_B,28,38,0.6607,,,0,primary: dual vs A-only scored in pocket B; CI in primary_directional_auroc.csv
+EGFR/HER2,dualfourclass_directional,D_vs_A_pocketB,vina_B,28,37,0.6564,,,0,primary: dual vs A-only scored in pocket B; CI in primary_directional_auroc.csv
 EGFR/HER2,dualfourclass_directional,D_vs_B_pocketA,vina_A,28,32,0.3237,,,0,primary: dual vs B-only scored in pocket A; CI in primary_directional_auroc.csv
 EGFR/HER2,conventional_dual_vs_neither,D_vs_neither_mean,vina_mean,28,12,0.7589,0.5535,0.9256,0,two-pocket mean dual vs neither; scheme-B class-stratified
 EGFR/HER2,conventional_dual_vs_neither,D_vs_neither_worst,vina_worst,28,12,0.7411,0.5357,0.9107,0,AND-like dual vs neither using min(pocket scores)
-EGFR/HER2,dual_vs_all_nondual,D_vs_A+B+neither_mean,vina_mean,28,82,0.5348,0.4255,0.6459,0,selectives counted as negatives; still not directional
+EGFR/HER2,dual_vs_all_nondual,D_vs_A+B+neither_mean,vina_mean,28,81,0.5317,0.4136,0.6407,0,selectives counted as negatives; still not directional
 JAK1/JAK2,dualfourclass_directional,D_vs_A_pocketB,vina_B,32,32,0.5884,,,0,primary: dual vs A-only scored in pocket B; CI in primary_directional_auroc.csv
 JAK1/JAK2,dualfourclass_directional,D_vs_B_pocketA,vina_A,32,32,0.7275,,,0,primary: dual vs B-only scored in pocket A; CI in primary_directional_auroc.csv
 JAK1/JAK2,conventional_dual_vs_neither,D_vs_neither_mean,vina_mean,32,14,0.7299,0.5580,0.8818,0,two-pocket mean dual vs neither; scheme-B class-stratified
@@ -21,9 +21,9 @@ PIK3CA/mTOR,conventional_dual_vs_neither,D_vs_neither_worst,vina_worst,18,4,0.40
 PIK3CA/mTOR,dual_vs_all_nondual,D_vs_A+B+neither_mean,vina_mean,18,30,0.6741,0.5185,0.8185,0,selectives counted as negatives; still not directional
 AChE/BChE,dualfourclass_directional,D_vs_A_pocketB,vina_B,27,26,0.6524,,,0,primary: dual vs A-only scored in pocket B; CI in primary_directional_auroc.csv
 AChE/BChE,dualfourclass_directional,D_vs_B_pocketA,vina_A,27,28,0.6058,,,0,primary: dual vs B-only scored in pocket A; CI in primary_directional_auroc.csv
-AChE/BChE,conventional_dual_vs_neither,D_vs_neither_mean,vina_mean,27,15,0.6494,0.4840,0.8099,0,two-pocket mean dual vs neither; scheme-B class-stratified
-AChE/BChE,conventional_dual_vs_neither,D_vs_neither_worst,vina_worst,27,15,0.6765,0.5062,0.8420,0,AND-like dual vs neither using min(pocket scores)
-AChE/BChE,dual_vs_all_nondual,D_vs_A+B+neither_mean,vina_mean,27,69,0.5762,0.4404,0.7126,0,selectives counted as negatives; still not directional
+AChE/BChE,conventional_dual_vs_neither,D_vs_neither_mean,vina_mean,27,14,0.6587,0.4841,0.8202,0,two-pocket mean dual vs neither; scheme-B class-stratified
+AChE/BChE,conventional_dual_vs_neither,D_vs_neither_worst,vina_worst,27,14,0.6852,0.5026,0.8519,0,AND-like dual vs neither using min(pocket scores)
+AChE/BChE,dual_vs_all_nondual,D_vs_A+B+neither_mean,vina_mean,27,68,0.5771,0.4423,0.7042,0,selectives counted as negatives; still not directional
 F2/F10,dualfourclass_directional,D_vs_A_pocketB,vina_B,31,32,0.4133,,,0,primary: dual vs A-only scored in pocket B; CI in primary_directional_auroc.csv
 F2/F10,dualfourclass_directional,D_vs_B_pocketA,vina_A,31,32,0.3448,,,0,primary: dual vs B-only scored in pocket A; CI in primary_directional_auroc.csv
 F2/F10,conventional_dual_vs_neither,D_vs_neither_mean,vina_mean,31,12,0.5188,0.3413,0.6909,0,two-pocket mean dual vs neither; scheme-B class-stratified

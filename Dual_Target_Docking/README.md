@@ -27,15 +27,20 @@ Primary uncertainty is a **class-stratified nonparametric percentile bootstrap**
 
 ```bash
 cd Dual_Target_Docking
+python3 scripts/check_analysis_env.py
+python3 scripts/analysis/adjudicate_activity_records.py
 python3 scripts/analysis/build_current_score_master.py
 python3 scripts/analysis/compute_canonical_results.py
+python3 scripts/analysis/compute_leave_one_document.py
+python3 scripts/analysis/compute_class_chemistry.py
 python3 scripts/analysis/compute_detectable_effect.py
 python3 scripts/analysis/fit_ecfp4_models.py
 python3 scripts/analysis/compute_descriptor_baselines.py
 python3 scripts/analysis/close_publication_from_canonical.py
 python3 scripts/analysis/patch_publication_text.py
-python3 figures/jcim_article/scripts/update_figures_pr32.py --source-root Dual_Target_Docking
+python3 figures/jcim_article/scripts/update_figures_pr32.py --source-root .
 python3 scripts/analysis/rebuild_submission_pack.py
+python3 scripts/qa/check_current_chain.py
 ```
 
 `compute_canonical_results.py` rebuilds Table 2 / Table 3 / Figure 2 sources (`primary_directional_auroc.csv`, `primary_summary_min.csv`, `fixed_score_negative_class_delta.csv`, `two_pocket_mean_ranking.csv`, `top10_operating_points.csv`). Figure 3 uses `ecfp4_oof_predictions.csv` / `ecfp4_incremental_information.csv`. Figure 4 uses `matched_mismatched_pocket.csv`. Figure 5 uses `computational_robustness.csv`, receptor-substitution CSVs, and five-seed tables under `data/jcim_multiseed_v0/`.

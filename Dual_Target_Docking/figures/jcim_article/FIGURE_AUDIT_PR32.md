@@ -1,5 +1,7 @@
 # PR32 figure numerical audit
 
+**Not authoritative for this writing freeze.** Current artwork and numbers come from `results/canonical/` via `figures/jcim_article/scripts/update_figures_pr32.py --source-root .` See `docs/WRITING_FREEZE_REPORT.md`.
+
 Pinned numerical-data snapshot: `abb61a20a04eb6a085ad526876624eadb518c4cc`
 Artwork generated from git HEAD: `92708c16bdee2fe32dbe82372bd382f6ac7fd6b9`
 

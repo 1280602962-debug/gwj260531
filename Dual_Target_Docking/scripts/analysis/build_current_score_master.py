@@ -62,6 +62,12 @@ FIELDS = [
     "receptor_B",
     "score_source",
     "postfix_status",
+    "activity_eligible",
+    "activity_status",
+    "historical_pA",
+    "historical_pB",
+    "n_act_A",
+    "n_act_B",
 ]
 
 
@@ -101,6 +107,12 @@ def row_of(**kwargs) -> dict:
     rec["primary_class_theta6"] = assign_fourclass(pa, pb) or ""
     sa, sb = fnum(rec.get("score_A")), fnum(rec.get("score_B"))
     rec["complete_case"] = int(sa is not None and sb is not None)
+    rec["activity_eligible"] = rec.get("activity_eligible") if rec.get("activity_eligible") not in ("", None) else 1
+    rec["activity_status"] = rec.get("activity_status") or "panel_default"
+    rec["historical_pA"] = rec.get("historical_pA") if rec.get("historical_pA") not in ("", None) else rec["pA"]
+    rec["historical_pB"] = rec.get("historical_pB") if rec.get("historical_pB") not in ("", None) else rec["pB"]
+    rec["n_act_A"] = rec.get("n_act_A") if rec.get("n_act_A") not in ("", None) else ""
+    rec["n_act_B"] = rec.get("n_act_B") if rec.get("n_act_B") not in ("", None) else ""
     if sa is not None:
         rec["score_A"] = sa
         rec["affinity_A"] = rec.get("affinity_A") if rec.get("affinity_A") not in ("", None) else -sa
@@ -386,10 +398,46 @@ def compare_membership(master: list[dict]) -> str:
     main = [r for r in master if r["analysis_set"] == "main"]
     lines.append("## Master complete-case counts (main, theta=6 class)")
     for pair in PRIMARY_PAIRS:
-        recs = [r for r in main if r["pair"] == pair and r["complete_case"] in (1, "1")]
+        recs = [
+            r
+            for r in main
+            if r["pair"] == pair
+            and r["complete_case"] in (1, "1")
+            and str(r.get("activity_eligible", "1")) in ("1", "True")
+        ]
         c = Counter(r["primary_class_theta6"] for r in recs)
-        lines.append(f"- {pair}: n={len(recs)} D={c['dual']} A={c['A_only']} B={c['B_only']} N={c['neither']}")
+        n_score = sum(1 for r in main if r["pair"] == pair and r["complete_case"] in (1, "1"))
+        lines.append(
+            f"- {pair}: scored={n_score} activity-eligible={len(recs)} "
+            f"D={c['dual']} A={c['A_only']} B={c['B_only']} N={c['neither']}"
+        )
     return "\n".join(lines) + "\n"
+
+
+def apply_adjudication(rows: list[dict]) -> list[dict]:
+    path = ROOT / "data/processed/activity_adjudication/ligand_activity_aggregate_v1.csv"
+    if not path.is_file():
+        raise SystemExit("missing activity adjudication table; run scripts/analysis/adjudicate_activity_records.py first")
+    by = {(r["pair"], r["ligand"]): r for r in read_csv(path)}
+    out = []
+    for rec in rows:
+        adj = by.get((rec["pair"], rec["ligand_id"]))
+        if adj is None or rec.get("analysis_set") != "main":
+            out.append(rec)
+            continue
+        rec = dict(rec)
+        rec["historical_pA"] = adj.get("historical_pA", rec["pA"])
+        rec["historical_pB"] = adj.get("historical_pB", rec["pB"])
+        rec["n_act_A"] = adj.get("n_act_A", "")
+        rec["n_act_B"] = adj.get("n_act_B", "")
+        rec["activity_eligible"] = int(adj.get("activity_eligible") or 0)
+        rec["activity_status"] = adj.get("activity_status") or rec.get("activity_status") or ""
+        pa, pb = fnum(adj.get("max_A")), fnum(adj.get("max_B"))
+        rec["pA"] = "" if pa is None else pa
+        rec["pB"] = "" if pb is None else pb
+        rec["primary_class_theta6"] = assign_fourclass(pa, pb) or ""
+        out.append(rec)
+    return out
 
 
 def main() -> int:
@@ -400,6 +448,7 @@ def main() -> int:
     rows.extend(load_track_b())
     rows.extend(load_holdout_ab_pm())
     rows.extend(load_holdout_track_b())
+    rows = apply_adjudication(rows)
     # uniqueness
     seen = set()
     for r in rows:

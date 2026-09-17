@@ -116,6 +116,7 @@ DESC_LABEL = {
 def _arial_search_dirs() -> list[Path]:
     return [
         Path(r"C:\Windows\Fonts"),
+        Path("/mnt/c/Windows/Fonts"),
         Path("/usr/share/fonts/truetype/msttcorefonts"),
         Path("/usr/share/fonts/truetype/msttcore"),
         Path.home() / ".local" / "share" / "fonts",

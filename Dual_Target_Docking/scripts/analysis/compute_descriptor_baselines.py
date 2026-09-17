@@ -56,6 +56,8 @@ def load():
     for r in read_csv(MASTER):
         if r["analysis_set"] != "main" or r["complete_case"] not in ("1", 1, "True"):
             continue
+        if str(r.get("activity_eligible", "1")) not in ("1", "True"):
+            continue
         mol = Chem.MolFromSmiles(r.get("smiles") or "")
         if mol is None:
             continue

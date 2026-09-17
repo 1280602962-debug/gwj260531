@@ -39,6 +39,8 @@ def r3m(x) -> str:
 
 
 def ci(lo, hi) -> str:
+    if lo in ("", None) or hi in ("", None):
+        return "not recomputed"
     return f"[{r3m(lo)}, {r3m(hi)}]"
 
 
@@ -47,6 +49,133 @@ def signed(x) -> str:
     if abs(v) < 5e-4:
         return r3(0)
     return ("+" if v > 0 else "−") + r3(abs(v))
+
+
+def _maxmed_lookup(d):
+    by = {}
+    for r in d.get("maxmed") or []:
+        by.setdefault(r["pair"], {})[r["aggregation"]] = r
+    return by
+
+
+def _cluster_lookup(d, pair):
+    return {r["estimator"]: r for r in d.get("cluster") or [] if r["pair"] == pair}
+
+
+def apply_boundary_patches(text: str, d: dict, zh: bool) -> str:
+    """Scientific-boundary wording that must not be restored by number-only patches."""
+    s_egfr = d["smin"]["EGFR/HER2"]
+    mx = _maxmed_lookup(d)
+    egfr_md = mx.get("EGFR/HER2", {}).get("median", {})
+    ache_md = mx.get("AChE/BChE", {}).get("median", {})
+    ache_mx = mx.get("AChE/BChE", {}).get("max", {})
+    ppar_md = mx.get("PPARA/PPARD", {}).get("median", {})
+    cl_egfr = _cluster_lookup(d, "EGFR/HER2")
+    cl_jak = _cluster_lookup(d, "JAK1/TYK2")
+    egfr_flips = egfr_md.get("class_flips_vs_max", "")
+    egfr_n = egfr_md.get("n_ligands", "")
+    ache_flips = ache_md.get("class_flips_vs_max", "")
+    ache_n = ache_md.get("n_ligands", "")
+    ppar_flips = ppar_md.get("class_flips_vs_max", "")
+    ppar_n = ppar_md.get("n_ligands", "")
+    jak_doc = cl_jak.get("document_cluster") or {}
+    if jak_doc.get("delta_ci_lo") not in ("", None):
+        jak_doc_en = (
+            f"document-cluster was {ci(jak_doc['delta_ci_lo'], jak_doc['delta_ci_hi'])} "
+            "(includes 0; current recompute)"
+        )
+        jak_doc_zh = (
+            f"文献簇区间为 {ci(jak_doc['delta_ci_lo'], jak_doc['delta_ci_hi'])}（包含 0；当前重算）"
+        )
+    else:
+        jak_doc_en = (
+            "document-cluster could not be recomputed because the ligand–document map and ChEMBL 37 sqlite "
+            "are unavailable; a previously deposited interval included 0 and is not treated as a current calculation"
+        )
+        jak_doc_zh = (
+            "文献簇无法在本冻结中重算（配体–文献分组映射与 ChEMBL 37 sqlite 均不可用）；"
+            "此前存档区间包含 0，不作为当前计算结果"
+        )
+    if cl_egfr.get("document_cluster") and cl_egfr["document_cluster"].get("delta_ci_lo"):
+        egfr_doc = ci(cl_egfr["document_cluster"]["delta_ci_lo"], cl_egfr["document_cluster"]["delta_ci_hi"])
+        egfr_scaf = ci(cl_egfr["scaffold_cluster"]["delta_ci_lo"], cl_egfr["scaffold_cluster"]["delta_ci_hi"])
+        jak_scaf = ci(cl_jak["scaffold_cluster"]["delta_ci_lo"], cl_jak["scaffold_cluster"]["delta_ci_hi"])
+        if zh:
+            text = text.replace(
+                "EGFR/HER2 簇区间为 [0.235, 0.665]（骨架）和 [0.125, 0.644]（文献），均排除 0。"
+                "JAK1/TYK2 骨架簇区间为 [0.220, 0.631]，排除 0，文献簇区间为 [−0.034, 0.682]，包含 0",
+                f"EGFR/HER2 簇区间为 {egfr_scaf}（骨架）和 {egfr_doc}（文献），均排除 0。"
+                f"JAK1/TYK2 骨架簇区间为 {jak_scaf}，排除 0；{jak_doc_zh}",
+            )
+        else:
+            text = text.replace(
+                "the EGFR/HER2 cluster intervals were [0.235, 0.665] (scaffold) and [0.125, 0.644] (document); both exclude 0. "
+                "JAK1/TYK2 scaffold-cluster was [0.220, 0.631] (excludes 0) and document-cluster was [−0.034, 0.682] (includes 0)",
+                f"the EGFR/HER2 cluster intervals were {egfr_scaf} (scaffold) and {egfr_doc} (document); both exclude 0. "
+                f"JAK1/TYK2 scaffold-cluster was {jak_scaf} (excludes 0) and {jak_doc_en}",
+            )
+    if zh:
+        text = text.replace(
+            "在同一套 ChEMBL 37 记录上将最大 pChEMBL 改为中位数后，EGFR/HER2 有 6/110 个类别翻转（主分析 \(\mathrm{summary}_{\min}\) 0.324），AChE/BChE 有 1/96 个翻转（CHEMBL659；0.606 变为 0.629），PPARA/PPARD 有 1/110 个翻转（CHEMBL121；\(\mathrm{summary}_{\min}\) 仍为 0.446）。其余五对保持类别组成和 \(\mathrm{summary}_{\min}\) 点估计（Table S3）。",
+            f"最大与中位数聚合使用同一套合格原始记录、同一分子交集和当前对接分数，而不是把全部已评分配体与 dump 缺失记录混为一谈。"
+            f"EGFR/HER2 有 {egfr_flips}/{egfr_n} 个类别翻转（主分析 \(\mathrm{{summary}}_{{\min}}\) {r3(s_egfr['summary_min'])}）；"
+            f"AChE/BChE 有 {ache_flips}/{ache_n} 个翻转（CHEMBL659；max {r3(ache_mx.get('summary_min', 0.6058))} 变为 {r3(ache_md.get('summary_min', 0.6291))}）；"
+            f"PPARA/PPARD 有 {ppar_flips}/{ppar_n} 个翻转（CHEMBL121；\(\mathrm{{summary}}_{{\min}}\) 仍为 {r3(mx.get('PPARA/PPARD', {}).get('max', {}).get('summary_min', 0.4463))}）。"
+            "其余靶对保持类别组成和 \(\mathrm{summary}_{\min}\) 点估计（Table S3）。",
+        )
+        text = text.replace(
+            "最大–中位数聚合在全部八对上对同一套 ChEMBL 37 记录重复进行，从而只改变实验标签。",
+            "最大–中位数聚合按靶对使用同一套合格记录和当前分数；EGFR/HER2、PIK3CA/mTOR 与 AChE/BChE 使用裁决后的高置信记录，其余靶对使用 dump-gated 记录。缺少 dump 记录不等于从主分析删除该分子。",
+        )
+        text = text.replace(
+            "制备脚本将受体链、altloc 和残基模板选择记录在 Table S2。",
+            "Table S2 记录 PDB、共晶配体、分辨率和对接盒坐标。链、altLoc 和残基模板见已提交的受体 PDBQT 与制备记录，不在 Table S2。从提交 PDBQT 复现不同于从原始 PDB 重新制备。",
+        )
+        text = text.replace("| EGFR/HER2 | θ = 6.0 | 28 / 38 / 32 / 12 | 3POZ / 3RCD | 28 / 38 / 32 | 8 |",
+                            "| EGFR/HER2 | θ = 6.0 | 28 / 38 / 32 / 12 | 3POZ / 3RCD | 28 / 37 / 32 | 8 |")
+        text = text.replace("| EGFR/HER2 | \(\theta=6.0\) | 28 / 38 / 32 / 12 | 3POZ / 3RCD | 28 / 38 / 32 | 8 |",
+                            "| EGFR/HER2 | \(\theta=6.0\) | 28 / 38 / 32 / 12 | 3POZ / 3RCD | 28 / 37 / 32 | 8 |")
+        text = text.replace("| EGFR/HER2 | \\(\\theta=6.0\\) | 28 / 38 / 32 / 12 | 3POZ / 3RCD | 28 / 38 / 32 | 8 |",
+                            "| EGFR/HER2 | \\(\\theta=6.0\\) | 28 / 38 / 32 / 12 | 3POZ / 3RCD | 28 / 37 / 32 | 8 |")
+        if "实际对接的 mTOR 结构 4JT6 分辨率为 3.60 Å" not in text:
+            text = text.replace(
+                "两端各至少 5 个人源全配体结构（\\(\\leq 3.5\\) Å，至少一个非聚合物配体）后剩 19 对。",
+                "两端各至少 5 个人源全配体结构（\\(\\leq 3.5\\) Å，至少一个非聚合物配体）后剩 19 对。"
+                "该 3.5 Å 门槛是靶对供给筛选。实际对接的 mTOR 结构 4JT6 分辨率为 3.60 Å，不改写为 3.5 Å 结构。",
+            )
+    else:
+        text = text.replace(
+            "Relabeling the same ChEMBL 37 records by median rather than maximum pChEMBL flipped 6/110 EGFR/HER2 classes (primary \(\mathrm{summary}_{\min}\) 0.324), 1/96 AChE/BChE classes (CHEMBL659; 0.606 to 0.629), and 1/110 PPARA/PPARD classes (CHEMBL121; \(\mathrm{summary}_{\min}\) remained 0.446). The other five pairs kept class composition and \(\mathrm{summary}_{\min}\) point estimates (Table S3).",
+            f"Maximum and median aggregation used the same qualified source records, the same ligand intersection, and the current docking scores; dump-missing ligands were not mixed into that denominator. "
+            f"Class flips: EGFR/HER2 {egfr_flips}/{egfr_n} (primary \(\mathrm{{summary}}_{{\min}}\) {r3(s_egfr['summary_min'])}); "
+            f"AChE/BChE {ache_flips}/{ache_n} (CHEMBL659; max {r3(ache_mx.get('summary_min', 0.6058))} to {r3(ache_md.get('summary_min', 0.6291))}); "
+            f"PPARA/PPARD {ppar_flips}/{ppar_n} (CHEMBL121; \(\mathrm{{summary}}_{{\min}}\) remained {r3(mx.get('PPARA/PPARD', {}).get('max', {}).get('summary_min', 0.4463))}). "
+            "The other pairs kept class composition and \(\mathrm{summary}_{\min}\) point estimates (Table S3).",
+        )
+        text = text.replace(
+            "Maximum-versus-median aggregation was repeated on the same ChEMBL 37 records for all eight pairs, so that only the experimental labels changed. That check does not replace Table 2.",
+            "Maximum-versus-median aggregation used one qualified record set per pair and the current scores, so that only the experimental labels changed on that intersection. EGFR/HER2, PIK3CA/mTOR, and AChE/BChE used adjudicated high-confidence rows; the remaining pairs used dump-gated rows. A missing dump row is not automatic removal from the primary analysis. That check does not replace Table 2.",
+        )
+        text = text.replace(
+            "The preparation scripts record receptor-specific chain selection, alternate-location handling, and residue-template choices in Table S2. The deposited preparation records do not specify a common pH-dependent protonation or missing-loop reconstruction procedure.",
+            "Table S2 records PDB identifiers, cognate ligands, resolutions, and docking-box coordinates. Chain, altLoc, and residue-template choices are in the deposited receptor PDBQT files and receptor-prep records, not in Table S2. Reproducing scores from those PDBQT files is not the same as re-preparing receptors from the original PDBs. A common pH-dependent protonation or missing-loop reconstruction procedure was not uniformly recorded and is not reconstructed here.",
+        )
+        text = text.replace("| EGFR/HER2 | θ = 6.0 | 28 / 38 / 32 / 12 | 3POZ / 3RCD | 28 / 38 / 32 | 8 |",
+                            "| EGFR/HER2 | θ = 6.0 | 28 / 38 / 32 / 12 | 3POZ / 3RCD | 28 / 37 / 32 | 8 |")
+        if "The selected mTOR structure 4JT6 is 3.60 Å" not in text:
+            text = text.replace(
+                "Requiring at least five human holo structures per end (\(\leq 3.5\) Å, at least one non-polymer ligand) left 19 pairs.",
+                "Requiring at least five human holo structures per end (\(\leq 3.5\) Å, at least one non-polymer ligand) left 19 pairs. That 3.5 Å cutoff was a pair-supply screen. The selected mTOR structure 4JT6 is 3.60 Å and is the receptor actually docked; it is not rewritten as a 3.5 Å structure.",
+            )
+        text = text.replace(
+            "lines join the two points for one direction and are not confidence intervals.",
+            "horizontal segments connect each \(\Delta\)AUROC to 0 and are not confidence intervals.",
+        )
+    text = text.replace(
+        "all eight pairs used a fully identical complete record set",
+        "the eight pairs used one analysis protocol with pair-specific candidate pools and sampling rules",
+    )
+    return text
 
 
 def load():
@@ -255,6 +384,10 @@ def patch_en(text, d):
         f"only AChE/BChE had a matched-minus-mismatched \(\mathrm{{summary}}_{{\min}}\) 95% interval that excluded zero ({r3(mm_ache['delta'])} {ci(mm_ache['delta_ci_lo'], mm_ache['delta_ci_hi'])}). EGFR/HER2 was {r3(mm_egfr['delta'])} {ci(mm_egfr['delta_ci_lo'], mm_egfr['delta_ci_hi'])}",
     )
     text = text.replace(
+        "only AChE/BChE had a matched-minus-mismatched \(\mathrm{summary}_{\min}\) 95% interval that excluded zero (0.177 [0.053, 0.291]). EGFR/HER2 was 0.056 [−0.029, 0.157]",
+        f"only AChE/BChE had a matched-minus-mismatched \(\mathrm{{summary}}_{{\min}}\) 95% interval that excluded zero ({r3(mm_ache['delta'])} {ci(mm_ache['delta_ci_lo'], mm_ache['delta_ci_hi'])}). EGFR/HER2 was {r3(mm_egfr['delta'])} {ci(mm_egfr['delta_ci_lo'], mm_egfr['delta_ci_hi'])}",
+    )
+    text = text.replace(
         "the dual-versus-neither AUROC was 0.737 [0.536, 0.903] ($n_{\mathrm{neither}}=11$), whereas dual-versus-B-only was 0.265 [0.148, 0.394]. For JAK1/TYK2, dual-versus-neither was 0.705 [0.517, 0.876] and directional \(\mathrm{summary}_{\min}\) was 0.317 [0.183, 0.463]. For PIK3CA/mTOR, \(\mathrm{summary}_{\min}\) was 0.633, the weaker arm was dual-versus-A-only 0.633 [0.427, 0.825], and dual-versus-neither was 0.569 [0.222, 0.889]",
         f"the dual-versus-neither AUROC was {r3(g_egfr['auroc_D_vs_neither_mean'])} {ci(g_egfr['d_vs_neither_ci_lo'], g_egfr['d_vs_neither_ci_hi'])} ($n_{{\mathrm{{neither}}}}={g_egfr['n_neither']}$), whereas dual-versus-B-only was {r3(g_egfr['auroc_D_vs_B_pocketA'])} {ci(g_egfr['summary_min_ci_lo'], g_egfr['summary_min_ci_hi'])}. For JAK1/TYK2, dual-versus-neither was {r3(g_jak['auroc_D_vs_neither_mean'])} {ci(g_jak['d_vs_neither_ci_lo'], g_jak['d_vs_neither_ci_hi'])} and directional \(\mathrm{{summary}}_{{\min}}\) was {r3(g_jak['summary_min'])} {ci(g_jak['summary_min_ci_lo'], g_jak['summary_min_ci_hi'])}. For PIK3CA/mTOR, \(\mathrm{{summary}}_{{\min}}\) was {r3(g_pm['summary_min'])}, the weaker arm was dual-versus-A-only {r3(g_pm['auroc_D_vs_A_pocketB'])} {ci(g_pm['summary_min_ci_lo'], g_pm['summary_min_ci_hi'])}, and dual-versus-neither was {r3(g_pm['auroc_D_vs_neither_mean'])} {ci(g_pm['d_vs_neither_ci_lo'], g_pm['d_vs_neither_ci_hi'])}",
     )
@@ -270,9 +403,17 @@ def patch_en(text, d):
     )
     cl_egfr = {r["estimator"]: r for r in d["cluster"] if r["pair"] == "EGFR/HER2"}
     cl_jak = {r["estimator"]: r for r in d["cluster"] if r["pair"] == "JAK1/TYK2"}
+    jak_doc = cl_jak.get("document_cluster") or {}
+    if jak_doc.get("delta_ci_lo") not in ("", None):
+        jak_doc_txt = f"document-cluster was {ci(jak_doc['delta_ci_lo'], jak_doc['delta_ci_hi'])} (includes 0)"
+    else:
+        jak_doc_txt = (
+            "document-cluster could not be recomputed because the ligand–document map and ChEMBL 37 sqlite "
+            "are unavailable; a previously deposited interval included 0 and is not treated as a current calculation"
+        )
     text = text.replace(
         "The official ligand-level fixed-score difference on EGFR/HER2 pocket A is 0.462 [0.262, 0.651]. Cluster bootstrap was not recomputed after the canonical box correction. JAK1/TYK2 scaffold-cluster was [0.234, 0.633] (excludes 0) and document-cluster was [−0.034, 0.682] (includes 0)",
-        f"The ligand-level fixed-score difference on EGFR/HER2 pocket A is {r3(egfr_fix['delta_neither_minus_selective'])} {ci(egfr_fix['delta_ci_lo'], egfr_fix['delta_ci_hi'])}. After substituting the corrected-box scores into the frozen scaffold and document groupings, the EGFR/HER2 cluster intervals were {ci(cl_egfr['scaffold_cluster']['delta_ci_lo'], cl_egfr['scaffold_cluster']['delta_ci_hi'])} (scaffold) and {ci(cl_egfr['document_cluster']['delta_ci_lo'], cl_egfr['document_cluster']['delta_ci_hi'])} (document); both exclude 0. JAK1/TYK2 scaffold-cluster was {ci(cl_jak['scaffold_cluster']['delta_ci_lo'], cl_jak['scaffold_cluster']['delta_ci_hi'])} (excludes 0) and document-cluster was {ci(cl_jak['document_cluster']['delta_ci_lo'], cl_jak['document_cluster']['delta_ci_hi'])} (includes 0)",
+        f"The ligand-level fixed-score difference on EGFR/HER2 pocket A is {r3(egfr_fix['delta_neither_minus_selective'])} {ci(egfr_fix['delta_ci_lo'], egfr_fix['delta_ci_hi'])}. After substituting the corrected-box scores into the frozen scaffold and document groupings, the EGFR/HER2 cluster intervals were {ci(cl_egfr['scaffold_cluster']['delta_ci_lo'], cl_egfr['scaffold_cluster']['delta_ci_hi'])} (scaffold) and {ci(cl_egfr['document_cluster']['delta_ci_lo'], cl_egfr['document_cluster']['delta_ci_hi'])} (document); both exclude 0. JAK1/TYK2 scaffold-cluster was {ci(cl_jak['scaffold_cluster']['delta_ci_lo'], cl_jak['scaffold_cluster']['delta_ci_hi'])} (excludes 0) and {jak_doc_txt}",
     )
     h_pg = d["hold"]["PPARG/PPARA"]
     text = text.replace(
@@ -292,13 +433,25 @@ def patch_en(text, d):
         "On EGFR/HER2, the EGFR-pocket AUROC for dual-versus-B-only was 0.324 and rose to 0.786 against neither (difference 0.462 [0.262, 0.651]); JAK1/TYK2 showed a similar difference (0.444 [0.263, 0.620]).",
         f"On EGFR/HER2, the EGFR-pocket AUROC for dual-versus-B-only was {r3(egfr_fix['auroc_dual_vs_selective'])} and rose to {r3(egfr_fix['auroc_dual_vs_neither'])} against neither (difference {r3(egfr_fix['delta_neither_minus_selective'])} {ci(egfr_fix['delta_ci_lo'], egfr_fix['delta_ci_hi'])}); JAK1/TYK2 showed a similar difference ({r3(jak_fix['delta_neither_minus_selective'])} {ci(jak_fix['delta_ci_lo'], jak_fix['delta_ci_hi'])}).",
     )
-    text = text.replace(
-        "These values are pair-specific and are not an eight-pair ranking.",
-        "These values are pair-specific and are not an eight-pair ranking. "
-        + _detectable_sentence(d, zh=False),
-    )
+    det_en = _detectable_sentence(d, zh=False)
+    if det_en and "Under a binormal simulation that reused these class sizes" not in text:
+        text = text.replace(
+            "These values are pair-specific and are not an eight-pair ranking.",
+            "These values are pair-specific and are not an eight-pair ranking. " + det_en,
+        )
     text = text.replace("adding the matched-pocket docking score changed AUROC by at most 0.023.", f"adding the matched-pocket docking score changed AUROC by at most {r3(inc_abs)}.")
-    return text
+    rk_e = d["rank"]["EGFR/HER2"]
+    rk_a = d["rank"]["AChE/BChE"]
+    text = text.replace("and 0.357 (EGFR/HER2)", f"and {r3(rk_e['ef_dual_10pct'])} (EGFR/HER2)")
+    text = text.replace(
+        "\\(\\mathrm{EF}_{\\mathrm{dual},10\\%}=0.357\\)",
+        "\\(\\mathrm{EF}_{\\mathrm{dual},10\\%}=" + r3(rk_e["ef_dual_10pct"]) + "\\)",
+    )
+    text = text.replace(
+        "\\(\\mathrm{EF}_{\\mathrm{dual},10\\%}=1.778\\)",
+        "\\(\\mathrm{EF}_{\\mathrm{dual},10\\%}=" + r3(rk_a["ef_dual_10pct"]) + "\\)",
+    )
+    return apply_boundary_patches(text, d, zh=False)
 
 
 def patch_zh(text, d):
@@ -363,6 +516,10 @@ def patch_zh(text, d):
         f"仅 AChE/BChE 的 matched−mismatched \(\mathrm{{summary}}_{{\min}}\) 95% 区间排除 0（{r3(mm_ache['delta'])} {ci(mm_ache['delta_ci_lo'], mm_ache['delta_ci_hi'])}）。EGFR/HER2 为 {r3(mm_egfr['delta'])} {ci(mm_egfr['delta_ci_lo'], mm_egfr['delta_ci_hi'])}",
     )
     text = text.replace(
+        "仅 AChE/BChE 的 matched−mismatched \(\mathrm{summary}_{\min}\) 95% 区间排除 0（0.177 [0.053, 0.291]）。EGFR/HER2 为 0.056 [−0.029, 0.157]",
+        f"仅 AChE/BChE 的 matched−mismatched \(\mathrm{{summary}}_{{\min}}\) 95% 区间排除 0（{r3(mm_ache['delta'])} {ci(mm_ache['delta_ci_lo'], mm_ache['delta_ci_hi'])}）。EGFR/HER2 为 {r3(mm_egfr['delta'])} {ci(mm_egfr['delta_ci_lo'], mm_egfr['delta_ci_hi'])}",
+    )
+    text = text.replace(
         "EGFR/HER2 的 dual–neither AUROC 为 0.737 [0.536, 0.903]（\(n_{\mathrm{neither}}=11\)），dual–B-only 为 0.265 [0.148, 0.394]。JAK1/TYK2 的 dual–neither 为 0.705 [0.517, 0.876]，方向性 \(\mathrm{summary}_{\min}\) 为 0.317 [0.183, 0.463]。PIK3CA/mTOR 的 \(\mathrm{summary}_{\min}\) 为 0.633，较弱臂 dual–A-only 为 0.633 [0.427, 0.825]，dual–neither 为 0.569 [0.222, 0.889]",
         f"EGFR/HER2 的 dual–neither AUROC 为 {r3(g_egfr['auroc_D_vs_neither_mean'])} {ci(g_egfr['d_vs_neither_ci_lo'], g_egfr['d_vs_neither_ci_hi'])}（\(n_{{\mathrm{{neither}}}}={g_egfr['n_neither']}\)），dual–B-only 为 {r3(g_egfr['auroc_D_vs_B_pocketA'])} {ci(g_egfr['summary_min_ci_lo'], g_egfr['summary_min_ci_hi'])}。JAK1/TYK2 的 dual–neither 为 {r3(g_jak['auroc_D_vs_neither_mean'])} {ci(g_jak['d_vs_neither_ci_lo'], g_jak['d_vs_neither_ci_hi'])}，方向性 \(\mathrm{{summary}}_{{\min}}\) 为 {r3(g_jak['summary_min'])} {ci(g_jak['summary_min_ci_lo'], g_jak['summary_min_ci_hi'])}。PIK3CA/mTOR 的 \(\mathrm{{summary}}_{{\min}}\) 为 {r3(g_pm['summary_min'])}，较弱臂 dual–A-only 为 {r3(g_pm['auroc_D_vs_A_pocketB'])} {ci(g_pm['summary_min_ci_lo'], g_pm['summary_min_ci_hi'])}，dual–neither 为 {r3(g_pm['auroc_D_vs_neither_mean'])} {ci(g_pm['d_vs_neither_ci_lo'], g_pm['d_vs_neither_ci_hi'])}",
     )
@@ -378,9 +535,17 @@ def patch_zh(text, d):
     )
     cl_egfr = {r["estimator"]: r for r in d["cluster"] if r["pair"] == "EGFR/HER2"}
     cl_jak = {r["estimator"]: r for r in d["cluster"] if r["pair"] == "JAK1/TYK2"}
+    jak_doc = cl_jak.get("document_cluster") or {}
+    if jak_doc.get("delta_ci_lo") not in ("", None):
+        jak_doc_txt = f"文献簇区间为 {ci(jak_doc['delta_ci_lo'], jak_doc['delta_ci_hi'])}，包含 0"
+    else:
+        jak_doc_txt = (
+            "文献簇无法在本冻结中重算（配体–文献分组映射与 ChEMBL 37 sqlite 均不可用）；"
+            "此前存档区间包含 0，不作为当前计算结果"
+        )
     text = text.replace(
         "EGFR/HER2 口袋 A 的正式配体层固定评分差值为 0.462 [0.262, 0.651]。规范盒校正后未重算簇 bootstrap。JAK1/TYK2 骨架簇区间为 [0.234, 0.633]，排除 0，文献簇区间为 [−0.034, 0.682]，包含 0",
-        f"EGFR/HER2 口袋 A 的配体层固定评分差值为 {r3(egfr_fix['delta_neither_minus_selective'])} {ci(egfr_fix['delta_ci_lo'], egfr_fix['delta_ci_hi'])}。将校正盒评分代入原冻结的骨架簇与文献簇后，EGFR/HER2 簇区间为 {ci(cl_egfr['scaffold_cluster']['delta_ci_lo'], cl_egfr['scaffold_cluster']['delta_ci_hi'])}（骨架）和 {ci(cl_egfr['document_cluster']['delta_ci_lo'], cl_egfr['document_cluster']['delta_ci_hi'])}（文献），均排除 0。JAK1/TYK2 骨架簇区间为 {ci(cl_jak['scaffold_cluster']['delta_ci_lo'], cl_jak['scaffold_cluster']['delta_ci_hi'])}，排除 0，文献簇区间为 {ci(cl_jak['document_cluster']['delta_ci_lo'], cl_jak['document_cluster']['delta_ci_hi'])}，包含 0",
+        f"EGFR/HER2 口袋 A 的配体层固定评分差值为 {r3(egfr_fix['delta_neither_minus_selective'])} {ci(egfr_fix['delta_ci_lo'], egfr_fix['delta_ci_hi'])}。将校正盒评分代入原冻结的骨架簇与文献簇后，EGFR/HER2 簇区间为 {ci(cl_egfr['scaffold_cluster']['delta_ci_lo'], cl_egfr['scaffold_cluster']['delta_ci_hi'])}（骨架）和 {ci(cl_egfr['document_cluster']['delta_ci_lo'], cl_egfr['document_cluster']['delta_ci_hi'])}（文献），均排除 0。JAK1/TYK2 骨架簇区间为 {ci(cl_jak['scaffold_cluster']['delta_ci_lo'], cl_jak['scaffold_cluster']['delta_ci_hi'])}，排除 0，{jak_doc_txt}",
     )
     h_pg = d["hold"]["PPARG/PPARA"]
     text = text.replace(
@@ -392,6 +557,8 @@ def patch_zh(text, d):
         f"EGFR/HER2 中 EGFR 口袋评分对 dual–B-only 的 AUROC 为 {r3(egfr_fix['auroc_dual_vs_selective'])}，对 neither 升至 {r3(egfr_fix['auroc_dual_vs_neither'])}（差值 {r3(egfr_fix['delta_neither_minus_selective'])} {ci(egfr_fix['delta_ci_lo'], egfr_fix['delta_ci_hi'])}）；JAK1/TYK2 出现类似差值（{r3(jak_fix['delta_neither_minus_selective'])} {ci(jak_fix['delta_ci_lo'], jak_fix['delta_ci_hi'])}）。",
     )
     text = text.replace("AUROC 最多变化 0.023。", f"AUROC 最多变化 {r3(inc_abs)}。")
+    rk_e = d["rank"]["EGFR/HER2"]
+    rk_a = d["rank"]["AChE/BChE"]
     text = text.replace(
         "按 Bemis–Murcko 骨架簇和文献连通簇进行的簇 bootstrap 用于两个最大固定评分差的来源依赖性敏感性（Table S4），不替换配体水平主区间。区间未做多重比较校正。",
         "按 Bemis–Murcko 骨架簇和文献连通簇进行的簇 bootstrap 用于两个最大固定评分差的来源依赖性敏感性（Table S4），不替换配体水平主区间。二项正态 detectable-effect 仿真复用同一类别分层、共享 dual 的 bootstrap、当前八对类别样本量和 B = 2000、种子 20260729；它估计在指定真 AUROC 下 CI 排除 0.5 的概率，不是观测功效。区间未做多重比较校正。",
@@ -400,12 +567,25 @@ def patch_zh(text, d):
         "完整病例计数和固定成员交集留在仓库。",
         "完整病例计数和固定成员交集留在仓库。二项正态 detectable-effect 仿真使用当前八对类别样本量和与 Table 2 相同的类别分层、共享 dual bootstrap。",
     )
+    det_zh = _detectable_sentence(d, zh=True)
+    if det_zh and "在复用当前类别样本量和 Table 2 同类 bootstrap" not in text:
+        text = text.replace(
+            "这些数值是靶对特异的，不是八对排行。",
+            "这些数值是靶对特异的，不是八对排行。" + det_zh,
+            1,
+        )
+    rk_e = d["rank"]["EGFR/HER2"]
+    rk_a = d["rank"]["AChE/BChE"]
+    text = text.replace("和 0.357（EGFR/HER2）", f"和 {r3(rk_e['ef_dual_10pct'])}（EGFR/HER2）")
     text = text.replace(
-        "这些数值是靶对特异的，不是八对排行。",
-        "这些数值是靶对特异的，不是八对排行。" + _detectable_sentence(d, zh=True),
-        1,
+        "\\(\\mathrm{EF}_{\\mathrm{dual},10\\%}=0.357\\)",
+        "\\(\\mathrm{EF}_{\\mathrm{dual},10\\%}=" + r3(rk_e["ef_dual_10pct"]) + "\\)",
     )
-    return text
+    text = text.replace(
+        "\\(\\mathrm{EF}_{\\mathrm{dual},10\\%}=1.778\\)",
+        "\\(\\mathrm{EF}_{\\mathrm{dual},10\\%}=" + r3(rk_a["ef_dual_10pct"]) + "\\)",
+    )
+    return apply_boundary_patches(text, d, zh=True)
 
 
 def si_s3(d):
@@ -540,6 +720,12 @@ def si_s4_cluster(d):
         "document_cluster": "document cluster",
     }
     for r in d["cluster"]:
+        if r.get("status") == "unresolved_mapping_unavailable" or r.get("delta_ci_lo") in ("", None):
+            rows.append(
+                f"| {r['pair']} | {labels.get(r['estimator'], r['estimator'])} | {r3(r['delta_point'])} | "
+                f"not recomputed | — |"
+            )
+            continue
         rows.append(
             f"| {r['pair']} | {labels.get(r['estimator'], r['estimator'])} | {r3(r['delta_point'])} | "
             f"{ci(r['delta_ci_lo'], r['delta_ci_hi'])} | {'yes' if str(r['excludes_zero']) in {'1', 'True'} else 'no'} |"
@@ -714,7 +900,7 @@ def patch_si(text, d):
         "| Pair | Engine | n_dual / n_A / n_B / n_neither | summary_min | Weaker-arm AUROC [95% CI] | Dual vs neither |",
         "|------|------|------|------------:|---------------------------|----------------:|",
     ]
-    for p, n_g in (("EGFR/HER2", "28 / 38 / 32 / 11"), ("PIK3CA/mTOR", "18 / 13 / 12 / 4"), ("JAK1/TYK2", "30 / 32 / 29 / 14")):
+    for p, n_g in (("EGFR/HER2", "28 / 37 / 32 / 11"), ("PIK3CA/mTOR", "18 / 13 / 12 / 4"), ("JAK1/TYK2", "30 / 32 / 29 / 14")):
         sp = s[p]
         tp = two[p]
         gp = g[p]
@@ -777,7 +963,25 @@ def patch_si(text, d):
         f"| unused-pool holdout | {r3(hpg['summary_min'])} {ci(hpg['ci_lo'], hpg['ci_hi'])} | — |",
         text,
     )
-    return text
+    mx = _maxmed_lookup(d)
+    egfr_md = mx.get("EGFR/HER2", {}).get("median", {})
+    ache_md = mx.get("AChE/BChE", {}).get("median", {})
+    ache_mx = mx.get("AChE/BChE", {}).get("max", {})
+    ppar_md = mx.get("PPARA/PPARD", {}).get("median", {})
+    text = text.replace(
+        "Max-to-median class flips: EGFR/HER2 6/110 (primary `summary_min` 0.324); AChE/BChE 1/96 (CHEMBL659; 0.606 → 0.629); PPARA/PPARD 1/110 (CHEMBL121; A-only 32→31; dual-versus-A-only 0.646 → 0.636; `summary_min` remained 0.446).",
+        f"Max-to-median class flips on the qualified-record intersection: EGFR/HER2 {egfr_md.get('class_flips_vs_max','')}/{egfr_md.get('n_ligands','')} "
+        f"(primary `summary_min` {r3(d['smin']['EGFR/HER2']['summary_min'])}); "
+        f"AChE/BChE {ache_md.get('class_flips_vs_max','')}/{ache_md.get('n_ligands','')} "
+        f"(CHEMBL659; {r3(ache_mx.get('summary_min', 0.6058))} → {r3(ache_md.get('summary_min', 0.6291))}); "
+        f"PPARA/PPARD {ppar_md.get('class_flips_vs_max','')}/{ppar_md.get('n_ligands','')} "
+        f"(CHEMBL121; `summary_min` remained {r3(mx.get('PPARA/PPARD', {}).get('max', {}).get('summary_min', 0.4463))}).",
+    )
+    text = text.replace(
+        "Source: `eight_pair_dump_gated_v1/max_vs_median_auroc_v1.csv`; `eight_pair_dump_gated_v1/parity_v1.csv`.",
+        "Source: `results/canonical/max_vs_median_sensitivity.csv`.",
+    )
+    return apply_boundary_patches(text, d, zh=False)
 
 
 def yesno(flag, zh=False) -> str:
@@ -848,6 +1052,12 @@ def si_s4_cluster_zh(d):
         "document_cluster": "文献簇",
     }
     for r in d["cluster"]:
+        if r.get("status") == "unresolved_mapping_unavailable" or r.get("delta_ci_lo") in ("", None):
+            rows.append(
+                f"| {r['pair']} | {labels.get(r['estimator'], r['estimator'])} | {r3(r['delta_point'])} | "
+                f"未重算 | — |"
+            )
+            continue
         rows.append(
             f"| {r['pair']} | {labels.get(r['estimator'], r['estimator'])} | {r3(r['delta_point'])} | "
             f"{ci(r['delta_ci_lo'], r['delta_ci_hi'])} | {yesno(r['excludes_zero'], zh=True)} |"
@@ -1006,7 +1216,7 @@ def patch_si_zh(text, d):
         "| 靶对 | 引擎 | n_dual / n_A / n_B / n_neither | summary_min | 较弱臂 AUROC [95% CI] | Dual vs neither |",
         "|------|------|------|------------:|---------------------------|----------------:|",
     ]
-    for p, n_g in (("EGFR/HER2", "28 / 38 / 32 / 11"), ("PIK3CA/mTOR", "18 / 13 / 12 / 4"), ("JAK1/TYK2", "30 / 32 / 29 / 14")):
+    for p, n_g in (("EGFR/HER2", "28 / 37 / 32 / 11"), ("PIK3CA/mTOR", "18 / 13 / 12 / 4"), ("JAK1/TYK2", "30 / 32 / 29 / 14")):
         sp = s[p]
         tp = two[p]
         gp = g[p]
@@ -1070,7 +1280,22 @@ def patch_si_zh(text, d):
         "EGFR/HER2 簇 bootstrap 在规范盒校正后未重算；正式配体层差值为 0.462 [0.262, 0.651]。该图不重复 Figure 4 的留出集口袋对调。",
         "EGFR/HER2 簇 bootstrap 已用校正盒评分和冻结的骨架/文献分组重算。该图不重复 Figure 4 的留出集口袋对调。",
     )
-    return text
+    mx = _maxmed_lookup(d)
+    egfr_md = mx.get("EGFR/HER2", {}).get("median", {})
+    ache_md = mx.get("AChE/BChE", {}).get("median", {})
+    ache_mx = mx.get("AChE/BChE", {}).get("max", {})
+    ppar_md = mx.get("PPARA/PPARD", {}).get("median", {})
+    text = text.replace(
+        "最大值到中位数的类别翻转：EGFR/HER2 6/110（主分析 `summary_min` 0.324）；AChE/BChE 1/96（CHEMBL659；0.606 → 0.629）；PPARA/PPARD 1/110（CHEMBL121；A-only 32→31；dual–A-only 0.646 → 0.636；`summary_min` 仍为 0.446）。",
+        f"合格记录交集上最大值到中位数的类别翻转：EGFR/HER2 {egfr_md.get('class_flips_vs_max','')}/{egfr_md.get('n_ligands','')}（主分析 `summary_min` {r3(d['smin']['EGFR/HER2']['summary_min'])}）；"
+        f"AChE/BChE {ache_md.get('class_flips_vs_max','')}/{ache_md.get('n_ligands','')}（CHEMBL659；{r3(ache_mx.get('summary_min', 0.6058))} → {r3(ache_md.get('summary_min', 0.6291))}）；"
+        f"PPARA/PPARD {ppar_md.get('class_flips_vs_max','')}/{ppar_md.get('n_ligands','')}（CHEMBL121；`summary_min` 仍为 {r3(mx.get('PPARA/PPARD', {}).get('max', {}).get('summary_min', 0.4463))}）。",
+    )
+    text = text.replace(
+        "Table 2 所用的同一套 ChEMBL 37 记录在 θ = 6.0 下按中位数重新汇总。最大 pChEMBL 与全部已评分配体一致（缺失端 0；不一致 0）。",
+        "最大与中位数使用同一套合格记录、同一分子交集和当前分数。缺少 dump 记录不等于从主分析删除该分子。",
+    )
+    return apply_boundary_patches(text, d, zh=True)
 
 
 def patch_lock(text, d):
@@ -1125,22 +1350,24 @@ def main() -> int:
         t = patch_si_zh(t, d)
         sizh.write_text(t, encoding="utf-8")
     lock.write_text(patch_lock(lock.read_text(encoding="utf-8"), d), encoding="utf-8")
-    for extra in (
-        DOCS / "METHODS_SECTION_JCIM_EN_V1.md",
+    extra_zh = [
         DOCS / "METHODS_DRAFT_ZH_JCIM_V1.md",
-        DOCS / "RESULTS_SECTION_JCIM_EN_V1.md",
         DOCS / "RESULTS_DRAFT_ZH_JCIM_V1.md",
+        DOCS / "DISCUSSION_DRAFT_ZH_JCIM_V1.md",
+        DOCS / "TITLE_AND_ABSTRACT_JCIM_ZH_V1.md",
+    ]
+    extra_en = [
+        DOCS / "METHODS_SECTION_JCIM_EN_V1.md",
+        DOCS / "RESULTS_SECTION_JCIM_EN_V1.md",
         DOCS / "DISCUSSION_SECTION_JCIM_EN_V1.md",
         DOCS / "TITLE_AND_ABSTRACT_JCIM_EN_V1.md",
-        DOCS / "TITLE_AND_ABSTRACT_JCIM_ZH_V1.md",
-    ):
+    ]
+    for extra in extra_en:
         if extra.is_file():
-            t = extra.read_text(encoding="utf-8")
-            if extra.name.endswith("_ZH_V1.md") or "DRAFT_ZH" in extra.name or extra.name.endswith("ZH_JCIM_V1.md"):
-                t = patch_zh(t, d)
-            else:
-                t = patch_en(t, d)
-            extra.write_text(t, encoding="utf-8")
+            extra.write_text(patch_en(extra.read_text(encoding="utf-8"), d), encoding="utf-8")
+    for extra in extra_zh:
+        if extra.is_file():
+            extra.write_text(patch_zh(extra.read_text(encoding="utf-8"), d), encoding="utf-8")
     print("patched manuscripts and SI from canonical tables")
     print("EGFR summary_min", r3(d["smin"]["EGFR/HER2"]["summary_min"]), ci(d["smin"]["EGFR/HER2"]["ci_lo"], d["smin"]["EGFR/HER2"]["ci_hi"]))
     print("max |ECFP Δ|", r3(max_inc(d)[1]), max_inc(d)[0]["pair"], max_inc(d)[0]["contrast"])

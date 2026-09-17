@@ -1,5 +1,7 @@
 # SECOND PASS FREEZE REPORT
 
+**Not authoritative.** Superseded by `docs/WRITING_FREEZE_REPORT.md`. Do not copy residual 1/96 wording from this file as current.
+
 Branch: `cursor/methods-sentence-audit-c7cc`  
 Directory: `Dual_Target_Docking/`  
 Date: 2026-09-17  

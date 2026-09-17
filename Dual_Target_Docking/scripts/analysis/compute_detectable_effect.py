@@ -48,7 +48,7 @@ def load_class_sizes() -> dict[str, dict[str, int]]:
         recs = [
             r
             for r in rows
-            if r["pair"] == pair and r.get("analysis_set") == "main" and r.get("complete_case") == "1"
+            if r["pair"] == pair and r.get("analysis_set") == "main" and r.get("complete_case") == "1" and str(r.get("activity_eligible", "1")) in ("1", "True")
         ]
         counts = Counter(r.get("primary_class_theta6") or "" for r in recs)
         sizes[pair] = {

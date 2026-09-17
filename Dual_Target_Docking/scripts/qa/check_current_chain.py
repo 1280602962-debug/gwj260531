@@ -82,7 +82,10 @@ def main() -> int:
     ache = [
         r
         for r in master
-        if r["pair"] == "AChE/BChE" and r.get("analysis_set") == "main" and r.get("complete_case") == "1"
+        if r["pair"] == "AChE/BChE"
+        and r.get("analysis_set") == "main"
+        and r.get("complete_case") == "1"
+        and str(r.get("activity_eligible", "1")) in ("1", "True")
     ]
     n = Counter(r["primary_class_theta6"] for r in ache)
     if (n["dual"], n["A_only"], n["B_only"]) != (27, 26, 28):
@@ -93,6 +96,8 @@ def main() -> int:
     packs: dict[str, dict[str, list]] = {}
     for row in master:
         if row.get("analysis_set") != "main" or row.get("complete_case") != "1":
+            continue
+        if str(row.get("activity_eligible", "1")) not in ("1", "True"):
             continue
         cls = row.get("primary_class_theta6") or ""
         if cls not in {"dual", "A_only", "B_only"}:

@@ -1,5 +1,7 @@
 # FINAL FREEZE REPORT
 
+**Not authoritative.** Superseded by `docs/WRITING_FREEZE_REPORT.md` (2026-09-17 writing freeze). Do not copy EGFR D vs A = 0.6607, 28/38/32 as n_scored, or AChE 1/96 from this file.
+
 Branch: `cursor/methods-sentence-audit-c7cc`
 Directory: `Dual_Target_Docking/`
 Date: 2026-09-17

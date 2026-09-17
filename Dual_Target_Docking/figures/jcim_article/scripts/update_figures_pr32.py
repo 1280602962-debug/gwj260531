@@ -270,16 +270,20 @@ def fig2(D):
         for val, col in zip(vals, cols):
             axd.barh(i, val / k, left=left, color=col, height=0.62, linewidth=0)
             left += val / k
-        axd.text(1.015, i, f"k={int(op['top_k'])}", va='center', ha='left', fontsize=6.2)
-    axd.set_xlim(0, 1.28)
+    axd.set_xlim(0, 1.02)
     axd.set_xlabel('Fraction of top 10%')
-    pair_yticks(axd, fontsize=7)
+    axd.set_yticks(range(len(PAIRS)))
+    axd.set_yticklabels(
+        [f"{p}  k={int(ranking_row(p)['top_k'])}" for p in PAIRS],
+        fontsize=6.4,
+    )
+    axd.invert_yaxis()
     axd.legend(handles=[
         plt.Rectangle((0, 0), 1, 1, fc=C['dual'], label='dual'),
         plt.Rectangle((0, 0), 1, 1, fc=C['a_only'], label='A-only'),
         plt.Rectangle((0, 0), 1, 1, fc=C['b_only'], label='B-only'),
         plt.Rectangle((0, 0), 1, 1, fc=C['neither'], label='neither'),
-    ], loc='upper center', bbox_to_anchor=(.5, -.22), ncol=4, fontsize=6.1)
+    ], loc='upper center', bbox_to_anchor=(.5, -0.28), ncol=4, fontsize=6.1, frameon=False)
 
     P['fig2'] = {
         p: {
@@ -290,7 +294,7 @@ def fig2(D):
     }
     P['fig2D'] = {p: ranking_row(p) for p in PAIRS}
     P['fig2C_neither_n'] = n_neither
-    fig.subplots_adjust(left=.19, right=.97, top=.97, bottom=.055, hspace=.78)
+    fig.subplots_adjust(left=.22, right=.97, top=.97, bottom=.10, hspace=.86)
     save(fig, 'Fig2_negative_class_formulation')
 
 
@@ -535,6 +539,8 @@ def fig6(D):
     ax.set_xticks(range(4), ['θ=5.5', 'θ=6.0', 'θ=6.5', 'strict\n6.5/5.5'], fontsize=6.1)
     cb = fig.colorbar(im, ax=ax, orientation='horizontal', fraction=.045, pad=.10)
     cb.set_label(SMIN, fontsize=7)
+    ax.text(0.0, 8.55, r'$\dagger$ min($n_{\mathrm{dual}}$, $n_{\mathrm{A}}$ , $n_{\mathrm{B}}$) < 10',
+            fontsize=6.0, color='#555555', clip_on=False)
     P['fig6A'] = mat.tolist()
 
     ax = axs[1]; label(ax, 'B', x=-0.28, y=1.04)
@@ -550,7 +556,9 @@ def fig6(D):
         ylabels.append(pair)
         y += 1
         for key in ('ligand_stratified', 'scaffold_cluster', 'document_cluster'):
-            rr = next(z for z in clusters if z['pair'] == pair and z['estimator'] == key)
+            rr = next((z for z in clusters if z['pair'] == pair and z['estimator'] == key), None)
+            if rr is None or rr.get('delta_ci_lo') in ('', None):
+                continue
             col, m, lab = styles[key]
             ylabels.append(lab)
             dotci(ax, float(rr['delta_point']), float(rr['delta_ci_lo']), float(rr['delta_ci_hi']), y, col, m)

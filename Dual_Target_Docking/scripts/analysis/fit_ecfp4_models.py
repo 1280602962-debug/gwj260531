@@ -85,6 +85,8 @@ def load_main():
     for r in read_csv(MASTER):
         if r["analysis_set"] != "main" or r["complete_case"] not in ("1", "True", 1):
             continue
+        if str(r.get("activity_eligible", "1")) not in ("1", "True"):
+            continue
         mol, fp, scaf = morgan(r.get("smiles", ""))
         if fp is None:
             continue

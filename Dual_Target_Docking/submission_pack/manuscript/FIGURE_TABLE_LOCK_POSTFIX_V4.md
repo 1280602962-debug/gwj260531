@@ -85,13 +85,13 @@ Do not create S11/S12 unless a genuinely new submission-required analysis appear
 
 ## Canonical post-fix flagship values
 
-EGFR/HER2: D vs A-only pocket B = 0.661; D vs B-only pocket A = 0.324; summary_min = 0.324 [0.192, 0.463].  
+EGFR/HER2: D vs A-only pocket B = 0.656; D vs B-only pocket A = 0.324; summary_min = 0.324 [0.195, 0.474].  
 Same pocket-A score: D vs B-only = 0.324; D vs neither = 0.786; fixed-score ΔAUROC = 0.462 [0.260, 0.641].  
 Two-pocket mean D-vs-neither = 0.759 [0.554, 0.926].  
-Matched-minus-mismatched = 0.056 [−0.029, 0.157]; CI includes zero; no matched-pocket advantage.  
+Matched-minus-mismatched = 0.056 [−0.037, 0.155]; CI includes zero; no matched-pocket advantage.  
 AChE/BChE: n_scored = 27 / 26 / 28; matched-minus-mismatched = 0.177 [0.053, 0.291]; CI excludes 0 (only main-panel interval excluding zero).  
-EGFR/HER2 Top 10% = 1 / 5 / 5 / 0; EFdual,10% = 0.357.  
-AChE/BChE Top 10% = 5 / 3 / 1 / 1; EFdual,10% = 1.778.  
+EGFR/HER2 Top 10% = 1 / 5 / 5 / 0; EFdual,10% = 0.354.  
+AChE/BChE Top 10% = 5 / 3 / 1 / 1; EFdual,10% = 1.759.  
 GNINA EGFR: D-vs-B-only = 0.265; D-vs-neither = 0.737.  
 3POZ box center = 18.816, 31.837, 11.725; size = 20.931, 20.000, 21.342 (from JSON).  
 3RCD box center = 12.552, 2.982, 28.152; size = 21.385, 22.378, 20.000 (from JSON).

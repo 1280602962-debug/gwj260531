@@ -106,6 +106,8 @@ def load_main():
     for r in read_csv(CANON / "current_score_master.csv"):
         if r["analysis_set"] != "main" or r["complete_case"] not in {"1", "True", 1}:
             continue
+        if str(r.get("activity_eligible", "1")) not in {"1", "True"}:
+            continue
         pair = r["pair"]
         if pair not in packs:
             continue
@@ -838,6 +840,8 @@ def export_core(packs, hold):
     memb = []
     for r in master:
         if r["analysis_set"] != "main" or r["complete_case"] not in {"1", "True"}:
+            continue
+        if str(r.get("activity_eligible", "1")) not in {"1", "True"}:
             continue
         memb.append(
             {

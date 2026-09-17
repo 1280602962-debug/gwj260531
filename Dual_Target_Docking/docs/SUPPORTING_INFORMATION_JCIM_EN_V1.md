@@ -85,10 +85,10 @@ Relabeling on frozen Vina scores. Primary analysis is θ = 6.0 (Table 2). The ta
 
 | Pair | Label rule | n (D / A / B) | summary_min | 95% CI |
 |------|----------|--------------:|------------:|--------|
-| EGFR/HER2 | θ = 5.5 | 69 / 22 / 10 | 0.380 | [0.184, 0.588] |
-| EGFR/HER2 | θ = 6.0 | 28 / 38 / 32 | 0.324 | [0.192, 0.463] |
-| EGFR/HER2 | θ = 6.5 | 26 / 29 / 29 | 0.346 | [0.208, 0.499] |
-| EGFR/HER2 | strict 6.5/5.5 | 26 / 17 / 7 | 0.176 | [0.039, 0.346] |
+| EGFR/HER2 | θ = 5.5 | 69 / 21 / 10 | 0.380 | [0.193, 0.603] |
+| EGFR/HER2 | θ = 6.0 | 28 / 37 / 32 | 0.324 | [0.195, 0.474] |
+| EGFR/HER2 | θ = 6.5 | 26 / 28 / 29 | 0.346 | [0.200, 0.501] |
+| EGFR/HER2 | strict 6.5/5.5 | 26 / 16 / 7 | 0.176 | [0.033, 0.346] |
 | JAK1/JAK2 | θ = 6.0 | 32 / 32 / 32 | 0.588 | [0.448, 0.716] |
 | JAK1/TYK2 | θ = 6.0 | 31 / 32 / 32 | 0.365 | [0.233, 0.505] |
 | PIK3CA/mTOR | θ = 5.5 | 33 / 9 / 5 | 0.502 | [0.273, 0.620] |
@@ -100,7 +100,7 @@ Relabeling on frozen Vina scores. Primary analysis is θ = 6.0 (Table 2). The ta
 | PPARG/PPARA | θ = 6.0 | 32 / 31 / 32 | 0.649 | [0.511, 0.746] |
 | PPARA/PPARD | θ = 6.0 | 32 / 32 / 32 | 0.446 | [0.301, 0.590] |
 
-**pChEMBL maximum versus median (ChEMBL 37; frozen Vina scores; does not replace Table 2):** The same ChEMBL 37 records used for Table 2 were re-aggregated by median at θ = 6.0. Maximum pChEMBL matched every scored ligand (0 missing ends; 0 mismatches). Max-to-median class flips: EGFR/HER2 6/110 (primary `summary_min` 0.324); AChE/BChE 1/96 (CHEMBL659; 0.606 → 0.629); PPARA/PPARD 1/110 (CHEMBL121; A-only 32→31; dual-versus-A-only 0.646 → 0.636; `summary_min` remained 0.446). PIK3CA/mTOR and the other four pairs kept class composition and `summary_min` point estimates. Source: `eight_pair_dump_gated_v1/max_vs_median_auroc_v1.csv`; `eight_pair_dump_gated_v1/parity_v1.csv`.
+**pChEMBL maximum versus median (ChEMBL 37; frozen Vina scores; does not replace Table 2):** Maximum and median used the same qualified records, the same ligand intersection, and current scores. Dump-missing ligands were not mixed into that denominator; a missing dump row is not automatic removal from the primary analysis. Max-to-median class flips on the qualified-record intersection: EGFR/HER2 5/109 (primary `summary_min` 0.324); AChE/BChE 1/94 (CHEMBL659; 0.606 → 0.629); PPARA/PPARD 1/110 (CHEMBL121; `summary_min` remained 0.446). PIK3CA/mTOR and the other four pairs kept class composition and `summary_min` point estimates. Source: `results/canonical/max_vs_median_sensitivity.csv`.
 
 ---
 
@@ -111,9 +111,9 @@ The pocket score is held fixed. Dual ligands are resampled once; selective and n
 | Pair | Score channel | dual vs selective | dual vs neither | Δ | 95% CI | neither underpowered |
 |------|----------|---------------:|----------------:|--:|--------|:----------------:|
 | EGFR/HER2 | pocket A (vs B-only) | 0.324 | 0.786 | 0.462 | [0.260, 0.641] | no |
-| EGFR/HER2 | pocket B (vs A-only) | 0.661 | 0.738 | 0.077 | [−0.131, 0.269] | no |
-| AChE/BChE | pocket A | 0.606 | 0.590 | −0.016 | [−0.149, 0.115] | no |
-| AChE/BChE | pocket B | 0.652 | 0.709 | 0.056 | [−0.097, 0.193] | no |
+| EGFR/HER2 | pocket B (vs A-only) | 0.656 | 0.738 | 0.082 | [−0.117, 0.268] | no |
+| AChE/BChE | pocket A | 0.606 | 0.606 | 0.000 | [−0.130, 0.138] | no |
+| AChE/BChE | pocket B | 0.652 | 0.717 | 0.065 | [−0.091, 0.211] | no |
 | PIK3CA/mTOR | pocket A | 0.692 | 0.472 | −0.220 | [−0.505, 0.032] | yes |
 | PIK3CA/mTOR | pocket B | 0.714 | 0.583 | −0.131 | [−0.472, 0.175] | yes |
 | F2/F10 | pocket A | 0.345 | 0.508 | 0.163 | [−0.002, 0.336] | no |
@@ -136,7 +136,7 @@ The pocket score is held fixed. Dual ligands are resampled once; selective and n
 | EGFR/HER2 | document cluster | 0.462 | [0.125, 0.644] | yes |
 | JAK1/TYK2 | ligand-level (primary) | 0.444 | [0.261, 0.630] | yes |
 | JAK1/TYK2 | scaffold cluster | 0.444 | [0.220, 0.631] | yes |
-| JAK1/TYK2 | document cluster | 0.444 | [−0.034, 0.682] | no |
+| JAK1/TYK2 | document cluster | 0.444 | not recomputed | — |
 
 Source: `results/canonical/fixed_score_negative_class_delta.csv`; `results/canonical/cluster_bootstrap_sensitivity.csv`. Dual-versus-neither with two-pocket mean scores is main-text Table 3.
 
@@ -144,14 +144,14 @@ Source: `results/canonical/fixed_score_negative_class_delta.csv`; `results/canon
 
 | Pair | n (D / A / B) | 0.55 | 0.60 | 0.65 | 0.70 | 0.75 |
 |------|--------------:|-----:|-----:|-----:|-----:|-----:|
-| EGFR/HER2 | 28 / 38 / 32 | 0.025 | 0.065 | 0.268 | 0.621 | 0.907 |
-| JAK1/JAK2 | 32 / 32 / 32 | 0.018 | 0.066 | 0.285 | 0.639 | 0.911 |
-| JAK1/TYK2 | 31 / 32 / 32 | 0.033 | 0.053 | 0.280 | 0.623 | 0.904 |
-| PIK3CA/mTOR | 18 / 14 / 12 | 0.037 | 0.027 | 0.081 | 0.233 | 0.453 |
-| AChE/BChE | 27 / 26 / 28 | 0.024 | 0.056 | 0.202 | 0.540 | 0.817 |
-| F2/F10 | 31 / 32 / 32 | 0.029 | 0.062 | 0.318 | 0.649 | 0.903 |
-| PPARG/PPARA | 32 / 31 / 32 | 0.025 | 0.068 | 0.261 | 0.654 | 0.911 |
-| PPARA/PPARD | 32 / 32 / 32 | 0.023 | 0.062 | 0.285 | 0.674 | 0.901 |
+| EGFR/HER2 | 28 / 37 / 32 | 0.040 | 0.063 | 0.255 | 0.646 | 0.906 |
+| JAK1/JAK2 | 32 / 32 / 32 | 0.020 | 0.070 | 0.308 | 0.619 | 0.917 |
+| JAK1/TYK2 | 31 / 32 / 32 | 0.030 | 0.060 | 0.284 | 0.633 | 0.912 |
+| PIK3CA/mTOR | 18 / 14 / 12 | 0.042 | 0.033 | 0.088 | 0.240 | 0.460 |
+| AChE/BChE | 27 / 26 / 28 | 0.027 | 0.048 | 0.217 | 0.538 | 0.835 |
+| F2/F10 | 31 / 32 / 32 | 0.025 | 0.071 | 0.270 | 0.602 | 0.917 |
+| PPARG/PPARA | 32 / 31 / 32 | 0.024 | 0.050 | 0.271 | 0.630 | 0.900 |
+| PPARA/PPARD | 32 / 32 / 32 | 0.027 | 0.069 | 0.260 | 0.673 | 0.907 |
 
 Source: `results/canonical/detectable_effect_simulation.csv`.
 
@@ -159,34 +159,34 @@ Source: `results/canonical/detectable_effect_simulation.csv`.
 
 ## Table S5. Ligand-chemistry baselines and incremental docking information
 
-ECFP4 and ECFP4+docking AUROCs are out-of-fold predictions under the same scaffold-grouped cross-validation. The last column is the raw Vina ranking AUROC from Table 2, shown as a descriptive reference. Δ = (ECFP4+docking) − ECFP4. Across 16 arms the largest |Δ| is 0.023. These primary values use unscaled logistic regression.
+ECFP4 and ECFP4+docking AUROCs are out-of-fold predictions under the same scaffold-grouped cross-validation. The last column is the raw Vina ranking AUROC from Table 2, shown as a descriptive reference. Δ = (ECFP4+docking) − ECFP4. Across 16 arms the largest |Δ| is 0.011. These primary values use unscaled logistic regression.
 
 | Pair | Arm | ECFP4 | ECFP4+docking | Δ | Vina ranking AUROC (Table 2) |
 |------|------|------:|--------------:|--:|--------------------------:|
-| EGFR/HER2 | D vs A | 0.745 | 0.750 | +0.005 | 0.661 |
-| EGFR/HER2 | D vs B | 0.890 | 0.885 | −0.005 | 0.324 |
-| JAK1/JAK2 | D vs A | 0.915 | 0.916 | +0.002 | 0.588 |
-| JAK1/JAK2 | D vs B | 0.968 | 0.969 | +0.001 | 0.728 |
-| JAK1/TYK2 | D vs A | 0.846 | 0.840 | −0.006 | 0.575 |
-| JAK1/TYK2 | D vs B | 0.902 | 0.903 | +0.001 | 0.365 |
-| PIK3CA/mTOR | D vs A | 0.762 | 0.742 | −0.020 | 0.714 |
-| PIK3CA/mTOR | D vs B | 0.889 | 0.898 | +0.009 | 0.692 |
-| AChE/BChE | D vs A | 0.895 | 0.890 | −0.004 | 0.652 |
-| AChE/BChE | D vs B | 0.821 | 0.808 | −0.013 | 0.606 |
-| F2/F10 | D vs A | 0.943 | 0.937 | −0.006 | 0.413 |
-| F2/F10 | D vs B | 0.693 | 0.707 | +0.014 | 0.345 |
-| PPARG/PPARA | D vs A | 0.833 | 0.813 | −0.020 | 0.649 |
-| PPARG/PPARA | D vs B | 0.668 | 0.676 | +0.008 | 0.706 |
-| PPARA/PPARD | D vs A | 0.932 | 0.928 | −0.004 | 0.647 |
-| PPARA/PPARD | D vs B | 0.858 | 0.835 | −0.023 | 0.446 |
+| EGFR/HER2 | D vs A | 0.799 | 0.793 | −0.007 | 0.656 |
+| EGFR/HER2 | D vs B | 0.853 | 0.845 | −0.008 | 0.324 |
+| JAK1/JAK2 | D vs A | 0.890 | 0.879 | −0.011 | 0.588 |
+| JAK1/JAK2 | D vs B | 0.966 | 0.967 | +0.001 | 0.728 |
+| JAK1/TYK2 | D vs A | 0.853 | 0.843 | −0.010 | 0.575 |
+| JAK1/TYK2 | D vs B | 0.888 | 0.887 | −0.001 | 0.365 |
+| PIK3CA/mTOR | D vs A | 0.782 | 0.774 | −0.008 | 0.714 |
+| PIK3CA/mTOR | D vs B | 0.889 | 0.889 | 0.000 | 0.692 |
+| AChE/BChE | D vs A | 0.897 | 0.890 | −0.007 | 0.652 |
+| AChE/BChE | D vs B | 0.843 | 0.832 | −0.011 | 0.606 |
+| F2/F10 | D vs A | 0.947 | 0.950 | +0.003 | 0.413 |
+| F2/F10 | D vs B | 0.757 | 0.765 | +0.008 | 0.345 |
+| PPARG/PPARA | D vs A | 0.857 | 0.853 | −0.004 | 0.649 |
+| PPARG/PPARA | D vs B | 0.734 | 0.740 | +0.006 | 0.706 |
+| PPARA/PPARD | D vs A | 0.945 | 0.944 | −0.001 | 0.647 |
+| PPARA/PPARD | D vs B | 0.747 | 0.738 | −0.009 | 0.446 |
 
 **Paired Δ of Vina `summary_min` minus the best single descriptor.** The four single-descriptor matrices are archived; only the per-pair best descriptor is typeset. AChE/BChE TPSA directional AUROCs are 0.742 / 0.801. 5 of eight 95% CIs include 0; JAK1/TYK2, PIK3CA/mTOR, F2/F10 exclude 0. Figure S1 plots Vina CIs and descriptor points, not the difference CIs.
 
 | Pair | Best descriptor | Descriptor summary_min | Δ | 95% CI | CI excludes 0 |
 |------|-----------------|-----------------------:|--:|--------|:-------------:|
-| EGFR/HER2 | cLogP | 0.482 | −0.159 | [−0.304, 0.010] | no |
+| EGFR/HER2 | cLogP | 0.482 | −0.159 | [−0.304, 0.017] | no |
 | JAK1/JAK2 | heavy | 0.578 | 0.010 | [−0.081, 0.158] | no |
-| JAK1/TYK2 | cLogP | 0.580 | −0.215 | [−0.376, −0.009] | yes |
+| JAK1/TYK2 | cLogP | 0.581 | −0.216 | [−0.376, −0.010] | yes |
 | PIK3CA/mTOR | heavy | 0.463 | 0.229 | [0.009, 0.437] | yes |
 | AChE/BChE | TPSA | 0.742 | −0.136 | [−0.313, 0.039] | no |
 | F2/F10 | cLogP | 0.509 | −0.164 | [−0.318, −0.005] | yes |
@@ -195,7 +195,7 @@ ECFP4 and ECFP4+docking AUROCs are out-of-fold predictions under the same scaffo
 
 Source: `results/canonical/descriptor_baselines.csv`; `results/canonical/ecfp4_incremental_information.csv`.
 
-**Feature-scaling sensitivity.** The same GroupKFold splits were repeated with `StandardScaler` fitted on each training fold only. Across the 16 arms the largest |Δ| was 0.008 (PIK3CA/mTOR D vs A). Scaling does not replace the unscaled 0.023 primary result. Source: `ecfp4_docking_scaler_sensitivity_v1.csv`.
+**Feature-scaling sensitivity.** The same GroupKFold splits were repeated with `StandardScaler` fitted on each training fold only. Across the 16 arms the largest |Δ| was 0.008 (PIK3CA/mTOR D vs A). Scaling does not replace the unscaled 0.011 primary result. Source: `ecfp4_docking_scaler_sensitivity_v1.csv`.
 
 ---
 
@@ -205,7 +205,7 @@ Source: `results/canonical/descriptor_baselines.csv`; `results/canonical/ecfp4_i
 
 | Pair | Set | Δ | 95% CI | CI excludes 0 | Weaker arm switched |
 |------|------|--:|--------|:---------:|:-------------------:|
-| EGFR/HER2 | main | 0.056 | [−0.029, 0.157] | no | no |
+| EGFR/HER2 | main | 0.056 | [−0.037, 0.155] | no | no |
 | JAK1/JAK2 | main | −0.019 | [−0.090, 0.053] | no | no |
 | JAK1/TYK2 | main | −0.065 | [−0.156, 0.032] | no | no |
 | PIK3CA/mTOR | main | 0.090 | [−0.115, 0.264] | no | no |
@@ -245,8 +245,8 @@ Independent GNINA searches new poses; it is not a Vina rescore. Scope is EGFR/HE
 
 | Pair | Engine | n_dual / n_A / n_B / n_neither | summary_min | Weaker-arm AUROC [95% CI] | Dual vs neither |
 |------|------|------|------------:|---------------------------|----------------:|
-| EGFR/HER2 | Vina primary | 28 / 38 / 32 / 12 | 0.324 [0.192, 0.463] | dual–B-only (pocket A) 0.324 [0.192, 0.463] | 0.759 [0.554, 0.926] |
-| EGFR/HER2 | GNINA independent | 28 / 38 / 32 / 11 | 0.265 [0.144, 0.401] | dual–B-only (pocket A) 0.265 [0.144, 0.401] | 0.737 [0.529, 0.919] |
+| EGFR/HER2 | Vina primary | 28 / 37 / 32 / 12 | 0.324 [0.195, 0.474] | dual–B-only (pocket A) 0.324 [0.195, 0.474] | 0.759 [0.554, 0.926] |
+| EGFR/HER2 | GNINA independent | 28 / 37 / 32 / 11 | 0.265 [0.142, 0.402] | dual–B-only (pocket A) 0.265 [0.142, 0.402] | 0.737 [0.529, 0.919] |
 | PIK3CA/mTOR | Vina primary | 18 / 14 / 12 / 4 | 0.692 [0.480, 0.802] | dual–B-only (pocket A) 0.692 [0.491, 0.868] | 0.514 [0.222, 0.806] |
 | PIK3CA/mTOR | GNINA independent | 18 / 13 / 12 / 4 | 0.633 [0.410, 0.769] | dual–A-only (pocket B) 0.633 [0.410, 0.769] | 0.569 [0.236, 0.889] |
 | JAK1/TYK2 | Vina primary | 31 / 32 / 32 / 14 | 0.365 [0.233, 0.505] | dual–B-only (pocket A) 0.365 [0.233, 0.508] | 0.770 [0.613, 0.906] |
@@ -323,11 +323,11 @@ All eight primary panels were ranked by the two-pocket mean Vina score \(S_{\mat
 
 | Pair | n_ranked (D / A / B / N) | k | Top 10% D / A / B / N | dual / k | n_dual / n | EF_dual,10% | AND input → pass (D / A / B) | AND dual precision |
 |------|-------------------------:|--:|----------------------:|---------:|-----------:|------------:|------------------------------:|-------------------:|
-| EGFR/HER2 | 110 (28 / 38 / 32 / 12) | 11 | 1 / 5 / 5 / 0 | 0.091 | 0.255 | 0.357 | 98 → 47 (14 / 9 / 24) | 0.298 |
+| EGFR/HER2 | 109 (28 / 37 / 32 / 12) | 11 | 1 / 5 / 5 / 0 | 0.091 | 0.257 | 0.354 | 97 → 47 (14 / 9 / 24) | 0.298 |
 | JAK1/JAK2 | 110 (32 / 32 / 32 / 14) | 11 | 6 / 5 / 0 / 0 | 0.545 | 0.291 | 1.875 | 96 → 35 (16 / 13 / 6) | 0.457 |
 | JAK1/TYK2 | 109 (31 / 32 / 32 / 14) | 11 | 1 / 3 / 7 / 0 | 0.091 | 0.284 | 0.320 | 95 → 50 (16 / 12 / 22) | 0.320 |
 | PIK3CA/mTOR | 48 (18 / 14 / 12 / 4) | 5 | 4 / 1 / 0 / 0 | 0.800 | 0.375 | 2.133 | 44 → 17 (9 / 4 / 4) | 0.529 |
-| AChE/BChE | 96 (27 / 26 / 28 / 15) | 10 | 5 / 3 / 1 / 1 | 0.500 | 0.281 | 1.778 | 81 → 32 (14 / 7 / 11) | 0.438 |
+| AChE/BChE | 95 (27 / 26 / 28 / 14) | 10 | 5 / 3 / 1 / 1 | 0.500 | 0.284 | 1.759 | 81 → 32 (14 / 7 / 11) | 0.438 |
 | F2/F10 | 107 (31 / 32 / 32 / 12) | 11 | 4 / 1 / 6 / 0 | 0.364 | 0.290 | 1.255 | 95 → 59 (16 / 20 / 23) | 0.271 |
 | PPARG/PPARA | 109 (32 / 31 / 32 / 14) | 11 | 7 / 3 / 0 / 1 | 0.636 | 0.294 | 2.168 | 95 → 31 (16 / 9 / 6) | 0.516 |
 | PPARA/PPARD | 110 (32 / 32 / 32 / 14) | 11 | 5 / 2 / 3 / 1 | 0.455 | 0.291 | 1.563 | 96 → 58 (16 / 22 / 20) | 0.276 |
@@ -381,7 +381,7 @@ Typeset SI figures are Figure S1–S5. The JAK1/TYK2 AND-filter bar chart, dupli
 
 ![Figure S4](../figures/jcim_article/FigS4_label_source_robustness.png)
 
-**Figure S4.** (A) Activity-threshold sensitivity; (B) cluster-resampling intervals for EGFR/HER2 and JAK1/TYK2. EGFR/HER2 cluster bootstrap was recomputed with corrected-box scores and the frozen scaffold/document groupings. This figure does not repeat the Figure 4 holdout pocket-swap.
+**Figure S4.** (A) Activity-threshold sensitivity. \(\dagger\) marks a cell where \(\min(n_{\mathrm{dual}}, n_{\mathrm{A}}, n_{\mathrm{B}}) < 10\). (B) cluster-resampling intervals for EGFR/HER2 and JAK1/TYK2. EGFR/HER2 cluster bootstrap was recomputed with corrected-box scores and the frozen scaffold/document groupings. JAK1/TYK2 document-cluster is omitted because the ligand–document map and ChEMBL 37 sqlite are unavailable. This figure does not repeat the Figure 4 holdout pocket-swap.
 
 ### Figure S5. External-data eligibility
 
