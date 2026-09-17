@@ -182,16 +182,6 @@ def fig1(D):
     save(fig, 'Fig1_four_state_and_supply')
 
 
-def fig1_c_data(D):
-    census = next(r for r in read('data/jcim_chembl_universe_v0/tables/universe_census_summary_v1.csv') if r['slice'] == 'all')
-    fig, ax = plt.subplots(figsize=(7, 2.15))
-    style.panel_label(ax, 'C', x=0.0, y=1.08)
-    draw_census_and_primary(ax, census)
-    P['fig1C_standalone'] = census
-    fig.subplots_adjust(left=.02, right=.98, top=.88, bottom=.04)
-    save(fig, 'Fig1_C_chEMBL_supply')
-
-
 def fig2(D):
     fig, axs = plt.subplots(4, 1, figsize=(7, 8.50),
                             gridspec_kw={'height_ratios': [1.12, 1.00, 1.10, 0.88]})
@@ -940,7 +930,7 @@ def main():
         print('dry-run: figure inputs validated; canonical artwork not written')
         return
     P['pair_order'] = list(PAIRS)
-    fig1(D); fig1_c_data(D); fig2(D); fig3(D); fig4(D); fig5(D); fig6(D); supplements(D); toc_graphic()
+    fig1(D); fig2(D); fig3(D); fig4(D); fig5(D); fig6(D); supplements(D); toc_graphic()
     P.update({k: val for k, val in v.PROVENANCE['plotted'].items() if k not in P})
     P['primary'] = {p: v.primary_row(D, p) for p in PAIRS}
     if abs(P['fig3B_max_abs']) > 0.05:

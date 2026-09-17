@@ -1,7 +1,7 @@
 {
   "schema": "plotted_values_postfix.v4",
   "lock": "docs/FIGURE_TABLE_LOCK_POSTFIX_V4.md",
-  "artwork_git_head": "ab8a709ec254ee4ef5b07dec5ff23524b3633cee",
+  "artwork_git_head": "d824eb6b2b06fd56a9da327f8ab67a29b9eb1b78",
   "inputs_sha256": {
     "data/jcim_j0j1_v0/tables/j0_strict_label_supply.csv": "c47c515baed799b954ae99cb8c93516030acc5bd508a6bc571a99694715df853",
     "data/jcim_novelty_v0/tables/complete_case_usable_pchembl_overlap_v1.csv": "6ab56f87ad2684b92bec2a55eb58e375d863b8c6a386afaf35b7adf311f1f25e",
@@ -40,7 +40,6 @@
   },
   "generated": [
     "Fig1_four_state_and_supply",
-    "Fig1_C_chEMBL_supply",
     "Fig2_negative_class_formulation",
     "Fig3_ligand_chemistry",
     "Fig5_computational_realization",
@@ -1917,19 +1916,6 @@
       "PPARA/PPARD"
     ],
     "fig1C": {
-      "slice": "all",
-      "n_human_single_protein_targets": "5869",
-      "n_targets_with_map": "4672",
-      "n_unordered_pairs_possible": "10911456",
-      "n_pairs_n_both_ge_1": "2164618",
-      "n_pairs_n_both_ge_10": "63790",
-      "n_directional_n10": "5253",
-      "n_formulation_n10": "4564",
-      "n_strict_thick": "86",
-      "n_strict_thick_nonmetal": "78",
-      "n_thin_or_thick": "275"
-    },
-    "fig1C_standalone": {
       "slice": "all",
       "n_human_single_protein_targets": "5869",
       "n_targets_with_map": "4672",

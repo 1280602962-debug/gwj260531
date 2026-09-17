@@ -56,8 +56,8 @@ Only items that remain worth a language/packaging pass. None change Table 2 or t
 3. **Five-seed archive still uses complete-case EGFR 28/38/32 and D vs A 0.6607.**  
    File: `data/jcim_multiseed_v0/tables/multiseed_auroc_by_seed_v2.csv` production seed 20260727. Figure 5C plots `summary_min` (EGFR 0.3237, weaker arm unchanged). Do not quote that CSV’s D vs A 0.6607 as current Table 2.
 
-4. **Leftover artwork in `figures/jcim_article/` is not typeset.**  
-   `Fig8_diagnostic_workflow`, `FigS4_pocket_matched_forest`, `FigS7_posthoc_diagnostics`, `FigS8_bindingdb_native_slice`, `FigS_detectable_effect` remain on disk. `rebuild_submission_pack.py` copies only Fig1–5 and S1–S5. `ARCHIVED_FIGURES.md` still refers to historical “Figure 6” panel roles.
+4. **Leftover artwork was removed in the submission-only cleanup.**  
+   Historical `Fig8`, `FigS4_pocket_matched_forest`, `FigS7`, `FigS8`, `FigS_detectable_effect`, and `ARCHIVED_FIGURES.md` are no longer in the working tree. `rebuild_submission_pack.py` copies only Fig1–5, S1–S5, and the TOC graphic. See `docs/SUBMISSION_ONLY_CLEANUP_REPORT.md`.
 
 5. **Internal JSON keys in `plotted_values_postfix.json` retain pre-postfix function names.**  
    `fig4A` is manuscript Figure 5 (GNINA); `fig5A` is manuscript Figure 4 (matched–mismatched); `fig6A` is Figure S4. The written PNG/PDF stems are correct (`Fig4_mismatched_pocket`, `Fig5_computational_realization`, `FigS4_label_source_robustness`).

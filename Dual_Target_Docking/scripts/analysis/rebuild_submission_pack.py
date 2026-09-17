@@ -16,7 +16,6 @@ PACK = ROOT / "submission_pack"
 
 STEMS = (
     "Fig1_four_state_and_supply",
-    "Fig1_C_chEMBL_supply",
     "Fig2_negative_class_formulation",
     "Fig3_ligand_chemistry",
     "Fig4_mismatched_pocket",
