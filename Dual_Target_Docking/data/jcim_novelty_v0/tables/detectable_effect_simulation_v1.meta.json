@@ -3,57 +3,8 @@
   "n_boot": 2000,
   "seed": 20260729,
   "score_model": "binormal_equal_variance",
-  "bootstrap": "simulation uses class-preserving bootstrap with current eight-pair class sizes from results/canonical/class_counts.csv; not observed power",
+  "bootstrap": "class_stratified_shared_dual percentile 95% CI; same protocol as Table 2",
   "not": "observed/post-hoc power",
-  "pairs": {
-    "EGFR/HER2": {
-      "n_dual": 28,
-      "n_a": 38,
-      "n_b": 32,
-      "n_neither": 12
-    },
-    "JAK1/JAK2": {
-      "n_dual": 32,
-      "n_a": 32,
-      "n_b": 32,
-      "n_neither": 14
-    },
-    "JAK1/TYK2": {
-      "n_dual": 31,
-      "n_a": 32,
-      "n_b": 32,
-      "n_neither": 14
-    },
-    "PIK3CA/mTOR": {
-      "n_dual": 18,
-      "n_a": 14,
-      "n_b": 12,
-      "n_neither": 4
-    },
-    "AChE/BChE": {
-      "n_dual": 27,
-      "n_a": 26,
-      "n_b": 28,
-      "n_neither": 15
-    },
-    "F2/F10": {
-      "n_dual": 31,
-      "n_a": 32,
-      "n_b": 32,
-      "n_neither": 12
-    },
-    "PPARG/PPARA": {
-      "n_dual": 32,
-      "n_a": 31,
-      "n_b": 32,
-      "n_neither": 14
-    },
-    "PPARA/PPARD": {
-      "n_dual": 32,
-      "n_a": 32,
-      "n_b": 32,
-      "n_neither": 14
-    }
-  },
-  "source_csv": "data/jcim_novelty_v0/tables/detectable_effect_simulation_v1.csv"
+  "pairs": "current eight primary pairs from current_score_master",
+  "source_csv": "results/canonical/detectable_effect_simulation.csv"
 }

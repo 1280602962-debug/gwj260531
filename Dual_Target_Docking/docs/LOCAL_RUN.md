@@ -77,11 +77,10 @@ Supply audit:
 python3 data/jcim_j0j1_v0/scripts/run_j0_supply_audit.py
 ```
 
-Detectable-effect simulation (zero docking; ~10 min):
+Detectable-effect simulation (zero docking; current eight pairs; class-stratified shared-dual bootstrap):
 
 ```bash
-python3 data/jcim_novelty_v0/scripts/detectable_effect_simulation_v1.py
-python3 data/jcim_novelty_v0/scripts/plot_detectable_effect_and_workflow_v1.py
+python3 scripts/analysis/compute_detectable_effect.py
 ```
 
 Track B five-pair local Vina (F2/F10, JAK1/TYK2, JAK1/JAK2, PPARG/PPARA, PPARA/PPARD) is specified in `data/jcim_chembl_universe_v0/analysis/DOCKING_PLAN_V1.md` and `tables/track_b_local_run_v1.yaml`. Cloud has no Vina. Do not run F2/F10 protonation sensitivity or 2Y3A E=32 cognate retest in this pack.

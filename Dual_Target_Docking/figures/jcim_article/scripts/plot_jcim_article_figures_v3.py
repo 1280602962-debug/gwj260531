@@ -199,8 +199,8 @@ def best_desc(D: dict, pair: str) -> tuple[str, float]:
 
 
 def five_seed_range(D: dict, pair: str) -> dict:
-    if pair in UNIFIED_THRESHOLD_PAIRS:
-        vals = [fnum(r["summary_min"]) for r in D["seeds"] if r["pair"] == pair]
+    vals = [x for x in (fnum(r["summary_min"]) for r in D["seeds"] if r["pair"] == pair) if x is not None]
+    if vals:
         prim = primary_row(D, pair)["smin"]
         return {
             "primary": prim,

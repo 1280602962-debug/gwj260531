@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
-"""Regression checks for the reviewer-facing revision analyses."""
+"""LEGACY / PRE-REMEDIATION — DO NOT USE FOR CURRENT SUBMISSION.
+
+This script hard-codes pre-fix values (EGFR summary_min 0.4297,
+fixed-score delta 0.3783, 3POZ top-1 RMSD 9.505, old AChE counts).
+It is retained only as a historical artifact. Current canonical
+validation is scripts/audit/validate_postfix_v4.py.
+"""
 from __future__ import annotations
 
 import csv
@@ -30,6 +36,17 @@ def near(value, expected, tolerance=5e-4):
 
 
 def main():
+    print(
+        "LEGACY / PRE-REMEDIATION — DO NOT USE FOR CURRENT SUBMISSION.",
+        file=__import__("sys").stderr,
+    )
+    print(
+        "This validator hard-codes pre-fix EGFR summary_min 0.4297, "
+        "fixed-score delta 0.3783, 3POZ top-1 9.505, and old AChE counts.",
+        file=__import__("sys").stderr,
+    )
+    print("Current canonical validation: scripts/audit/validate_postfix_v4.py", file=__import__("sys").stderr)
+    raise SystemExit(1)
     high = rows("high_confidence_summary_v1.csv")
     assert sum(int(r["n_frozen_scored"]) for r in high) == 253
     assert sum(int(r["n_class_matches_frozen"]) for r in high) == 253
