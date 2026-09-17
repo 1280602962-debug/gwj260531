@@ -129,7 +129,7 @@ ECFP4、仅对接评分（docking-only）和 ECFP4+对接评分模型均采用�
 
 #### 2.6.3 稳健性与外部数据可用性分析
 
-通过改变活性阈值及重复活性记录的汇总方式重新确定实验状态，并在保持评价集成员和对接评分不变的条件下重复主要分析（Table S3）。对于具有足够剩余候选配体的靶对，在排除主评价集成员后构建未使用池留出集。留出配体使用固定抽样规则，并限制单一 Bemis–Murcko 骨架的过度重复。该分析使用不同配体重新计算主要方向性 AUROC，用于评价对接结果对评价集成员组成的敏感性。由于这些配体仍来自同一数据来源，该分析属于内部稳健性检验（Table S6）。另通过五个固定随机种子重复主要 Vina 对接，并在 PIK3CA/mTOR 中比较不同 exhaustiveness 设置。完整病例计数和固定成员交集留在仓库。二项正态 detectable-effect 仿真使用当前八对类别样本量和与 Table 2 相同的类别分层、共享 dual bootstrap。二项正态 detectable-effect 仿真使用当前八对类别样本量和与 Table 2 相同的类别分层、共享 dual bootstrap。二项正态 detectable-effect 仿真使用当前八对类别样本量和与 Table 2 相同的类别分层、共享 dual bootstrap。二项正态 detectable-effect 仿真使用当前八对类别样本量和与 Table 2 相同的类别分层、共享 dual bootstrap。二项正态 detectable-effect 仿真使用当前八对类别样本量和与 Table 2 相同的类别分层、共享 dual bootstrap。
+通过改变活性阈值及重复活性记录的汇总方式重新确定实验状态，并在保持评价集成员和对接评分不变的条件下重复主要分析（Table S3）。对于具有足够剩余候选配体的靶对，在排除主评价集成员后构建未使用池留出集。留出配体使用固定抽样规则，并限制单一 Bemis–Murcko 骨架的过度重复。该分析使用不同配体重新计算主要方向性 AUROC，用于评价对接结果对评价集成员组成的敏感性。由于这些配体仍来自同一数据来源，该分析属于内部稳健性检验（Table S6）。另通过五个固定随机种子重复主要 Vina 对接，并在 PIK3CA/mTOR 中比较不同 exhaustiveness 设置。完整病例计数和固定成员交集留在仓库。二项正态 detectable-effect 仿真使用当前八对类别样本量和与 Table 2 相同的类别分层、共享 dual bootstrap。
 
 BindingDB[16] 和 PubChem 对全部八个靶对检索独立外部对接集的候选数据。外部对接采用 \(\theta=6.0\) 独立性过滤（Table S8）。开发分子集合包括主评价集、扩大的 PIK3CA/mTOR PM110 面板和内部留出集。剔除共享文献来源、结构重复和 ECFP4 Tanimoto \(\geq 0.70\) 的分子后，要求 dual、A-only、B-only 各 \(n\geq 20\) 且每类至少 3 个来源。只有同时满足上述条件的靶对才进入外部对接评价。
 
@@ -155,7 +155,7 @@ BindingDB[16] 和 PubChem 对全部八个靶对检索独立外部对接集的候
 
 固定同一靶点对接评分后，更换实验状态对照所产生的 AUROC 差异因靶对和方向而异。EGFR/HER2 与 JAK1/TYK2 的固定评分差最大。EGFR/HER2 使用 EGFR 口袋评分时，dual–B-only 的 AUROC 为 0.324，将对照换成 neither 后升至 0.786，差值 0.462 [0.260, 0.641]。JAK1/TYK2 使用 JAK1 口袋评分时，对应差值为 0.444 [0.261, 0.630]。其余靶对的差异更小，或其置信区间包含 0（Figure 2A；Table S4）。簇重采样见 3.6 节。
 
-在统一 \(\theta=6.0\) 标签下，两个方向性 AUROC 介于 0.324 至 0.728，描述性较弱臂 \(\mathrm{summary}_{\min}\) 介于 0.324 至 0.692。PPARG/PPARA 的 \(\mathrm{summary}_{\min}\) 区间完全高于 0.5（0.649 [0.511, 0.746]），EGFR/HER2 与 F2/F10 完全低于 0.5（0.324 [0.195, 0.474] 和 0.345 [0.216, 0.482]），其余 5 对穿过 0.5（Figure 2B；Table 2）。这些数值是靶对特异的，不是八对排行。在复用当前类别样本量和 Table 2 同类 bootstrap 的二项正态仿真中，当真较弱臂 AUROC 为 0.60 时，`summary_min` CI 排除 0.5 的概率最高为 0.068；为 0.75 时，除 PIK3CA/mTOR（0.453）外均不低于 0.817。该仿真不是观测功效（Table S4）。
+在统一 \(\theta=6.0\) 标签下，两个方向性 AUROC 介于 0.324 至 0.728，描述性较弱臂 \(\mathrm{summary}_{\min}\) 介于 0.324 至 0.692。PPARG/PPARA 的 \(\mathrm{summary}_{\min}\) 区间完全高于 0.5（0.649 [0.511, 0.746]），EGFR/HER2 与 F2/F10 完全低于 0.5（0.324 [0.195, 0.474] 和 0.345 [0.216, 0.482]），其余 5 对穿过 0.5（Figure 2B；Table 2）。这些数值是靶对特异的，不是八对排行。在复用当前类别样本量和 Table 2 同类 bootstrap 的二项正态仿真中，当真较弱臂 AUROC 为 0.60 时，`summary_min` CI 排除 0.5 的概率最高为 0.071；为 0.75 时，除 PIK3CA/mTOR（0.460）外均不低于 0.835。该仿真不是观测功效（Table S4）。
 
 **Table 2.** 八个主评价靶对上的口袋匹配方向 AUROC（Vina，统一 \(\theta=6.0\)）。表中类别样本量为 n_scored（dual / A-only / B-only）。物化描述符基线见 Table S5。
 
@@ -211,7 +211,7 @@ BindingDB[16] 和 PubChem 对全部八个靶对检索独立外部对接集的候
 
 ### 3.5 计算实现稳健性
 
-独立 GNINA 1.3.2 姿态生成使用与主分析相同的受体、配体和对接盒，覆盖三对（Figure 5A；Table S7）。EGFR/HER2 的 dual–neither AUROC 为 0.737 [0.529, 0.919]（\(n_{\mathrm{neither}}=11\)），dual–B-only 为 0.265 [0.144, 0.401]。JAK1/TYK2 的 dual–neither 为 0.705 [0.524, 0.872]，方向性 \(\mathrm{summary}_{\min}\) 为 0.317 [0.187, 0.455]。PIK3CA/mTOR 的 \(\mathrm{summary}_{\min}\) 为 0.633，较弱臂 dual–A-only 为 0.633 [0.410, 0.769]，dual–neither 为 0.569 [0.236, 0.889]（\(n=18/13/12/4\)）。这些运行用于观察主要观察能否在另一套姿态生成流程下保留，不是 GNINA 与 Vina 的总体性能比较。
+独立 GNINA 1.3.2 姿态生成使用与主分析相同的受体、配体和对接盒，覆盖三对（Figure 5A；Table S7）。EGFR/HER2 的 dual–neither AUROC 为 0.737 [0.529, 0.919]（\(n_{\mathrm{neither}}=11\)），dual–B-only 为 0.265 [0.142, 0.402]。JAK1/TYK2 的 dual–neither 为 0.705 [0.524, 0.872]，方向性 \(\mathrm{summary}_{\min}\) 为 0.317 [0.187, 0.455]。PIK3CA/mTOR 的 \(\mathrm{summary}_{\min}\) 为 0.633，较弱臂 dual–A-only 为 0.633 [0.410, 0.769]，dual–neither 为 0.569 [0.236, 0.889]（\(n=18/13/12/4\)）。这些运行用于观察主要观察能否在另一套姿态生成流程下保留，不是 GNINA 与 Vina 的总体性能比较。
 
 在 PIK3CA/mTOR 中，将 PIK3CA 受体由 4L23 替换为 4JPS 后，\(\mathrm{summary}_{\min}\) 从 0.692 [0.480, 0.802] 降至 0.486 [0.264, 0.694]；替换为 5DXT 后为 0.505 [0.296, 0.713]；将 mTOR 4JT6 替换为 4JSX 后为 0.639 [0.435, 0.783]（Figure 5B；Table S7）。
 

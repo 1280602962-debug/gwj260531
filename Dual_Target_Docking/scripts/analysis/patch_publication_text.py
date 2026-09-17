@@ -44,6 +44,17 @@ def ci(lo, hi) -> str:
     return f"[{r3m(lo)}, {r3m(hi)}]"
 
 
+def _ensure_once(text: str, needle: str, addition: str) -> str:
+    """Keep exactly one copy of addition immediately after needle."""
+    if needle not in text:
+        return text
+    i = text.index(needle) + len(needle)
+    rest = text[i:]
+    while rest.startswith(addition):
+        rest = rest[len(addition):]
+    return text[:i] + addition + rest
+
+
 def signed(x) -> str:
     v = float(x)
     if abs(v) < 5e-4:
@@ -387,10 +398,14 @@ def patch_en(text, d):
         "only AChE/BChE had a matched-minus-mismatched \(\mathrm{summary}_{\min}\) 95% interval that excluded zero (0.177 [0.053, 0.291]). EGFR/HER2 was 0.056 [−0.029, 0.157]",
         f"only AChE/BChE had a matched-minus-mismatched \(\mathrm{{summary}}_{{\min}}\) 95% interval that excluded zero ({r3(mm_ache['delta'])} {ci(mm_ache['delta_ci_lo'], mm_ache['delta_ci_hi'])}). EGFR/HER2 was {r3(mm_egfr['delta'])} {ci(mm_egfr['delta_ci_lo'], mm_egfr['delta_ci_hi'])}",
     )
-    text = text.replace(
-        "the dual-versus-neither AUROC was 0.737 [0.536, 0.903] ($n_{\mathrm{neither}}=11$), whereas dual-versus-B-only was 0.265 [0.148, 0.394]. For JAK1/TYK2, dual-versus-neither was 0.705 [0.517, 0.876] and directional \(\mathrm{summary}_{\min}\) was 0.317 [0.183, 0.463]. For PIK3CA/mTOR, \(\mathrm{summary}_{\min}\) was 0.633, the weaker arm was dual-versus-A-only 0.633 [0.427, 0.825], and dual-versus-neither was 0.569 [0.222, 0.889]",
-        f"the dual-versus-neither AUROC was {r3(g_egfr['auroc_D_vs_neither_mean'])} {ci(g_egfr['d_vs_neither_ci_lo'], g_egfr['d_vs_neither_ci_hi'])} ($n_{{\mathrm{{neither}}}}={g_egfr['n_neither']}$), whereas dual-versus-B-only was {r3(g_egfr['auroc_D_vs_B_pocketA'])} {ci(g_egfr['summary_min_ci_lo'], g_egfr['summary_min_ci_hi'])}. For JAK1/TYK2, dual-versus-neither was {r3(g_jak['auroc_D_vs_neither_mean'])} {ci(g_jak['d_vs_neither_ci_lo'], g_jak['d_vs_neither_ci_hi'])} and directional \(\mathrm{{summary}}_{{\min}}\) was {r3(g_jak['summary_min'])} {ci(g_jak['summary_min_ci_lo'], g_jak['summary_min_ci_hi'])}. For PIK3CA/mTOR, \(\mathrm{{summary}}_{{\min}}\) was {r3(g_pm['summary_min'])}, the weaker arm was dual-versus-A-only {r3(g_pm['auroc_D_vs_A_pocketB'])} {ci(g_pm['summary_min_ci_lo'], g_pm['summary_min_ci_hi'])}, and dual-versus-neither was {r3(g_pm['auroc_D_vs_neither_mean'])} {ci(g_pm['d_vs_neither_ci_lo'], g_pm['d_vs_neither_ci_hi'])}",
+    gnina_en = (
+        f"the dual-versus-neither AUROC was {r3(g_egfr['auroc_D_vs_neither_mean'])} {ci(g_egfr['d_vs_neither_ci_lo'], g_egfr['d_vs_neither_ci_hi'])} ($n_{{\mathrm{{neither}}}}={g_egfr['n_neither']}$), whereas dual-versus-B-only was {r3(g_egfr['auroc_D_vs_B_pocketA'])} {ci(g_egfr['summary_min_ci_lo'], g_egfr['summary_min_ci_hi'])}. For JAK1/TYK2, dual-versus-neither was {r3(g_jak['auroc_D_vs_neither_mean'])} {ci(g_jak['d_vs_neither_ci_lo'], g_jak['d_vs_neither_ci_hi'])} and directional \(\mathrm{{summary}}_{{\min}}\) was {r3(g_jak['summary_min'])} {ci(g_jak['summary_min_ci_lo'], g_jak['summary_min_ci_hi'])}. For PIK3CA/mTOR, \(\mathrm{{summary}}_{{\min}}\) was {r3(g_pm['summary_min'])}, the weaker arm was dual-versus-A-only {r3(g_pm['auroc_D_vs_A_pocketB'])} {ci(g_pm['summary_min_ci_lo'], g_pm['summary_min_ci_hi'])}, and dual-versus-neither was {r3(g_pm['auroc_D_vs_neither_mean'])} {ci(g_pm['d_vs_neither_ci_lo'], g_pm['d_vs_neither_ci_hi'])}"
     )
+    for old in (
+        "the dual-versus-neither AUROC was 0.737 [0.536, 0.903] ($n_{\mathrm{neither}}=11$), whereas dual-versus-B-only was 0.265 [0.148, 0.394]. For JAK1/TYK2, dual-versus-neither was 0.705 [0.517, 0.876] and directional \(\mathrm{summary}_{\min}\) was 0.317 [0.183, 0.463]. For PIK3CA/mTOR, \(\mathrm{summary}_{\min}\) was 0.633, the weaker arm was dual-versus-A-only 0.633 [0.427, 0.825], and dual-versus-neither was 0.569 [0.222, 0.889]",
+        "the dual-versus-neither AUROC was 0.737 [0.529, 0.919] ($n_{\mathrm{neither}}=11$), whereas dual-versus-B-only was 0.265 [0.144, 0.401]. For JAK1/TYK2, dual-versus-neither was 0.705 [0.524, 0.872] and directional \(\mathrm{summary}_{\min}\) was 0.317 [0.187, 0.455]. For PIK3CA/mTOR, \(\mathrm{summary}_{\min}\) was 0.633, the weaker arm was dual-versus-A-only 0.633 [0.410, 0.769], and dual-versus-neither was 0.569 [0.236, 0.889]",
+    ):
+        text = text.replace(old, gnina_en)
     r4j, r5d, r4s = d["rec"]["4JPS"], d["rec"]["5DXT"], d["rec"]["4JSX"]
     s_pm = d["smin"]["PIK3CA/mTOR"]
     text = text.replace(
@@ -424,9 +439,10 @@ def patch_en(text, d):
         "Cluster bootstrap by Bemis–Murcko scaffold and literature-connected document groups was a source-dependence sensitivity for the two largest fixed-score differences (Table S4) and did not replace the ligand-level primary intervals. Intervals were not adjusted for multiple comparisons.",
         "Cluster bootstrap by Bemis–Murcko scaffold and literature-connected document groups was a source-dependence sensitivity for the two largest fixed-score differences (Table S4) and did not replace the ligand-level primary intervals. A binormal detectable-effect simulation reused the same class-stratified shared-dual bootstrap, the current eight-pair class sizes, B = 2000, and seed 20260729; it estimates the probability that a CI excludes 0.5 under a specified true AUROC and is not observed power. Intervals were not adjusted for multiple comparisons.",
     )
-    text = text.replace(
+    text = _ensure_once(
+        text,
         "Complete-case counts and fixed-membership intersections are archived in the repository.",
-        "Complete-case counts and fixed-membership intersections are archived in the repository. A binormal detectable-effect simulation used the current eight-pair class sizes and the same class-stratified shared-dual bootstrap as Table 2.",
+        " A binormal detectable-effect simulation used the current eight-pair class sizes and the same class-stratified shared-dual bootstrap as Table 2.",
     )
     # Abstract
     text = text.replace(
@@ -434,11 +450,20 @@ def patch_en(text, d):
         f"On EGFR/HER2, the EGFR-pocket AUROC for dual-versus-B-only was {r3(egfr_fix['auroc_dual_vs_selective'])} and rose to {r3(egfr_fix['auroc_dual_vs_neither'])} against neither (difference {r3(egfr_fix['delta_neither_minus_selective'])} {ci(egfr_fix['delta_ci_lo'], egfr_fix['delta_ci_hi'])}); JAK1/TYK2 showed a similar difference ({r3(jak_fix['delta_neither_minus_selective'])} {ci(jak_fix['delta_ci_lo'], jak_fix['delta_ci_hi'])}).",
     )
     det_en = _detectable_sentence(d, zh=False)
-    if det_en and "Under a binormal simulation that reused these class sizes" not in text:
-        text = text.replace(
-            "These values are pair-specific and are not an eight-pair ranking.",
-            "These values are pair-specific and are not an eight-pair ranking. " + det_en,
+    if det_en:
+        text = re.sub(
+            r"Under a binormal simulation that reused these class sizes and the Table 2 bootstrap, "
+            r"the probability that a `summary_min` CI excludes 0\.5 was at most 0\.\d+ when the true weaker-arm AUROC was 0\.60, "
+            r"and at least 0\.\d+ at 0\.75 except for PIK3CA/mTOR \(0\.\d+\)\. "
+            r"The simulation is not observed power \(Table S4\)\.",
+            det_en.rstrip(),
+            text,
         )
+        if "Under a binormal simulation that reused these class sizes" not in text:
+            text = text.replace(
+                "These values are pair-specific and are not an eight-pair ranking.",
+                "These values are pair-specific and are not an eight-pair ranking. " + det_en,
+            )
     text = text.replace("adding the matched-pocket docking score changed AUROC by at most 0.023.", f"adding the matched-pocket docking score changed AUROC by at most {r3(inc_abs)}.")
     rk_e = d["rank"]["EGFR/HER2"]
     rk_a = d["rank"]["AChE/BChE"]
@@ -519,10 +544,14 @@ def patch_zh(text, d):
         "仅 AChE/BChE 的 matched−mismatched \(\mathrm{summary}_{\min}\) 95% 区间排除 0（0.177 [0.053, 0.291]）。EGFR/HER2 为 0.056 [−0.029, 0.157]",
         f"仅 AChE/BChE 的 matched−mismatched \(\mathrm{{summary}}_{{\min}}\) 95% 区间排除 0（{r3(mm_ache['delta'])} {ci(mm_ache['delta_ci_lo'], mm_ache['delta_ci_hi'])}）。EGFR/HER2 为 {r3(mm_egfr['delta'])} {ci(mm_egfr['delta_ci_lo'], mm_egfr['delta_ci_hi'])}",
     )
-    text = text.replace(
-        "EGFR/HER2 的 dual–neither AUROC 为 0.737 [0.536, 0.903]（\(n_{\mathrm{neither}}=11\)），dual–B-only 为 0.265 [0.148, 0.394]。JAK1/TYK2 的 dual–neither 为 0.705 [0.517, 0.876]，方向性 \(\mathrm{summary}_{\min}\) 为 0.317 [0.183, 0.463]。PIK3CA/mTOR 的 \(\mathrm{summary}_{\min}\) 为 0.633，较弱臂 dual–A-only 为 0.633 [0.427, 0.825]，dual–neither 为 0.569 [0.222, 0.889]",
-        f"EGFR/HER2 的 dual–neither AUROC 为 {r3(g_egfr['auroc_D_vs_neither_mean'])} {ci(g_egfr['d_vs_neither_ci_lo'], g_egfr['d_vs_neither_ci_hi'])}（\(n_{{\mathrm{{neither}}}}={g_egfr['n_neither']}\)），dual–B-only 为 {r3(g_egfr['auroc_D_vs_B_pocketA'])} {ci(g_egfr['summary_min_ci_lo'], g_egfr['summary_min_ci_hi'])}。JAK1/TYK2 的 dual–neither 为 {r3(g_jak['auroc_D_vs_neither_mean'])} {ci(g_jak['d_vs_neither_ci_lo'], g_jak['d_vs_neither_ci_hi'])}，方向性 \(\mathrm{{summary}}_{{\min}}\) 为 {r3(g_jak['summary_min'])} {ci(g_jak['summary_min_ci_lo'], g_jak['summary_min_ci_hi'])}。PIK3CA/mTOR 的 \(\mathrm{{summary}}_{{\min}}\) 为 {r3(g_pm['summary_min'])}，较弱臂 dual–A-only 为 {r3(g_pm['auroc_D_vs_A_pocketB'])} {ci(g_pm['summary_min_ci_lo'], g_pm['summary_min_ci_hi'])}，dual–neither 为 {r3(g_pm['auroc_D_vs_neither_mean'])} {ci(g_pm['d_vs_neither_ci_lo'], g_pm['d_vs_neither_ci_hi'])}",
+    gnina_zh = (
+        f"EGFR/HER2 的 dual–neither AUROC 为 {r3(g_egfr['auroc_D_vs_neither_mean'])} {ci(g_egfr['d_vs_neither_ci_lo'], g_egfr['d_vs_neither_ci_hi'])}（\(n_{{\mathrm{{neither}}}}={g_egfr['n_neither']}\)），dual–B-only 为 {r3(g_egfr['auroc_D_vs_B_pocketA'])} {ci(g_egfr['summary_min_ci_lo'], g_egfr['summary_min_ci_hi'])}。JAK1/TYK2 的 dual–neither 为 {r3(g_jak['auroc_D_vs_neither_mean'])} {ci(g_jak['d_vs_neither_ci_lo'], g_jak['d_vs_neither_ci_hi'])}，方向性 \(\mathrm{{summary}}_{{\min}}\) 为 {r3(g_jak['summary_min'])} {ci(g_jak['summary_min_ci_lo'], g_jak['summary_min_ci_hi'])}。PIK3CA/mTOR 的 \(\mathrm{{summary}}_{{\min}}\) 为 {r3(g_pm['summary_min'])}，较弱臂 dual–A-only 为 {r3(g_pm['auroc_D_vs_A_pocketB'])} {ci(g_pm['summary_min_ci_lo'], g_pm['summary_min_ci_hi'])}，dual–neither 为 {r3(g_pm['auroc_D_vs_neither_mean'])} {ci(g_pm['d_vs_neither_ci_lo'], g_pm['d_vs_neither_ci_hi'])}"
     )
+    for old in (
+        "EGFR/HER2 的 dual–neither AUROC 为 0.737 [0.536, 0.903]（\(n_{\mathrm{neither}}=11\)），dual–B-only 为 0.265 [0.148, 0.394]。JAK1/TYK2 的 dual–neither 为 0.705 [0.517, 0.876]，方向性 \(\mathrm{summary}_{\min}\) 为 0.317 [0.183, 0.463]。PIK3CA/mTOR 的 \(\mathrm{summary}_{\min}\) 为 0.633，较弱臂 dual–A-only 为 0.633 [0.427, 0.825]，dual–neither 为 0.569 [0.222, 0.889]",
+        "EGFR/HER2 的 dual–neither AUROC 为 0.737 [0.529, 0.919]（\(n_{\mathrm{neither}}=11\)），dual–B-only 为 0.265 [0.144, 0.401]。JAK1/TYK2 的 dual–neither 为 0.705 [0.524, 0.872]，方向性 \(\mathrm{summary}_{\min}\) 为 0.317 [0.187, 0.455]。PIK3CA/mTOR 的 \(\mathrm{summary}_{\min}\) 为 0.633，较弱臂 dual–A-only 为 0.633 [0.410, 0.769]，dual–neither 为 0.569 [0.236, 0.889]",
+    ):
+        text = text.replace(old, gnina_zh)
     r4j, r5d, r4s = d["rec"]["4JPS"], d["rec"]["5DXT"], d["rec"]["4JSX"]
     s_pm = d["smin"]["PIK3CA/mTOR"]
     text = text.replace(
@@ -563,11 +592,20 @@ def patch_zh(text, d):
         "按 Bemis–Murcko 骨架簇和文献连通簇进行的簇 bootstrap 用于两个最大固定评分差的来源依赖性敏感性（Table S4），不替换配体水平主区间。区间未做多重比较校正。",
         "按 Bemis–Murcko 骨架簇和文献连通簇进行的簇 bootstrap 用于两个最大固定评分差的来源依赖性敏感性（Table S4），不替换配体水平主区间。二项正态 detectable-effect 仿真复用同一类别分层、共享 dual 的 bootstrap、当前八对类别样本量和 B = 2000、种子 20260729；它估计在指定真 AUROC 下 CI 排除 0.5 的概率，不是观测功效。区间未做多重比较校正。",
     )
-    text = text.replace(
+    text = _ensure_once(
+        text,
         "完整病例计数和固定成员交集留在仓库。",
-        "完整病例计数和固定成员交集留在仓库。二项正态 detectable-effect 仿真使用当前八对类别样本量和与 Table 2 相同的类别分层、共享 dual bootstrap。",
+        "二项正态 detectable-effect 仿真使用当前八对类别样本量和与 Table 2 相同的类别分层、共享 dual bootstrap。",
     )
     det_zh = _detectable_sentence(d, zh=True)
+    if det_zh:
+        text = re.sub(
+            r"在复用当前类别样本量和 Table 2 同类 bootstrap 的二项正态仿真中，当真较弱臂 AUROC 为 0\.60 时，"
+            r"`summary_min` CI 排除 0\.5 的概率最高为 0\.\d+；为 0\.75 时，除 PIK3CA/mTOR（0\.\d+）外均不低于 0\.\d+。"
+            r"该仿真不是观测功效（Table S4）。",
+            det_zh.rstrip(),
+            text,
+        )
     if det_zh and "在复用当前类别样本量和 Table 2 同类 bootstrap" not in text:
         text = text.replace(
             "这些数值是靶对特异的，不是八对排行。",
