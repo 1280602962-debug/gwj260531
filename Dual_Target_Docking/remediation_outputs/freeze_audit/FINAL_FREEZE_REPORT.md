@@ -3,7 +3,12 @@
 Branch: `cursor/methods-sentence-audit-c7cc`
 Directory: `Dual_Target_Docking/`
 Date: 2026-09-17
-Verdict: **READY_TO_FREEZE**
+Verdict: **superseded for residual AChE conflicts — see `SECOND_PASS_FREEZE_REPORT.md`**
+
+Second-pass corrections that this file previously got wrong:
+- AChE max-vs-median membership is **27/25/28**, D_vs_A = **0.6504**. AB_056 is excluded (no dump-gated assay max/median provenance). Primary complete-case remains 27/26/28, D_vs_A = 0.6524.
+- AChE primary analysis labels are `primary_class_theta6` (θ=6.0). Panel construction is strict 6.5/5.5. On the current 96 complete-case ligands the two assignments agree (0 disagreements).
+- AChE θ grid in `results/canonical/label_aggregation_sensitivity.csv` is a real pA/pB relabel, not a copied production row. Composition is identical at 5.5 / 6.0 / 6.5 / strict because this panel contains no gray-zone ligands.
 
 Scientific numbers below come only from current scripts, current inputs, independent recomputation, and re-checked `results/canonical` tables. Manuscript/README prose was not used as a source of results.
 
@@ -53,7 +58,7 @@ Confirmed from `current_score_master` (not hard-coded). Production classes:
 | PPARG/PPARA | 32 | 31 | 32 | 14 | 109 |
 | PPARA/PPARD | 32 | 32 | 32 | 14 | 110 |
 
-AChE production labels: strict 6.5/5.5. All other primary pairs: θ=6.0. `class` vs `class_from_pchembl`: 0 mismatches (AChE gray not counted as mismatch). Duplicate `(pair, ligand_id)`: 0. Missing scores: 0. Holdout is not in this master (`analysis_set=main`).
+AChE panel construction: strict 6.5/5.5 (`construction_class` / `panel_v0_strict.csv`). AChE primary analysis labels: `primary_class_theta6` at θ=6.0, same field as the other seven pairs. On current complete-case they agree 27/26/28/15 (0 ligand-level disagreements). Duplicate `(pair, ligand_id)`: 0. Missing scores: 0.
 
 Withdrawn PIK3CA/PIK3CB is not a current pair.
 
@@ -85,8 +90,8 @@ Table 2 figure-source CSVs match these class-stratified CIs (`scripts/primary/bo
 | analysis | verdict | evidence |
 |---|---|---|
 | Label θ grid (EGFR, PIK3CA/mTOR, five-pair) | PASS | Existing grid retained; θ=6.0 rows patched to current scores/CIs |
-| Label θ grid (AChE) | PASS with limitation | All AChE unified rows are production 27/26/28. Not a real θ reassignment. SI must not call this AChE θ-sensitivity |
-| max vs median | PASS | See § known issue 1. AChE max membership now 27/26/28 |
+| Label θ grid (AChE) | PASS | Real pA/pB relabel on current master. All four rules remain 27/26/28/15 because the strict-constructed panel has 0 gray-zone ligands. See SECOND_PASS |
+| max vs median | PASS | Dump-gated join excludes AB_056. AChE max membership **27/25/28**, D_vs_A **0.6504**. See SECOND_PASS |
 | Scaffold cluster | PASS | Rebuilt on current scores. EGFR D/B point 0.3237; AChE D/A 0.6524 after AB_056 |
 | Document cluster (EGFR, AChE, PM) | PASS with provenance note | Grouping rebuilt from committed `high_confidence_activity_audit_v1.csv`, not live ChEMBL 37 sqlite. Scores overlaid from master. AB_056 is a singleton group (no harvested documents) |
 | Equal-score cluster EGFR | PASS | Δ=0.4621, document and scaffold CIs exclude 0 |
@@ -113,7 +118,7 @@ Obsolete / superseded (do not delete in this freeze; do not cite as current):
 
 - PIK3CA/PIK3CB panel scripts and any leftover PIK3CB figure ticks (`figures/jcim_article/scripts/plot_jcim_si_composites_v1.py`)
 - Pre-correction EGFR scores 10.605/9.745 (legacy ablation / old `canonical_ligand_level` before overlay)
-- Old AChE complete-case 27/25/28 and docking census listing AB_056 as a failure
+- Pre-AB_056-score AChE primary complete-case 27/25/28 (primary is now 27/26/28). Dump-gated max-vs-median remains 27/25/28 by design. Census no longer lists AB_056 as a failure.
 - Old three-pair detectable-effect + meta text claiming non-stratified Table 2
 - `plot_jcim_article_figures_v1.py` / `v2.py`
 - `build_checksum_manifest_v1.py` and other release-engineering wrappers (not part of the scientific chain)
@@ -131,7 +136,7 @@ Obsolete / superseded (do not delete in this freeze; do not cite as current):
 | Article figures | `data/jcim_bench_v0/scripts/plot_jcim_article_figures_v3.py` | v1/v2 SUPERSEDED |
 | Detectable-effect | `detectable_effect_simulation_v1.py` | Reads `class_counts.csv`; 8 pairs |
 | Cluster | `scaffold_cluster_bootstrap_v1.py`, `document_blocked_cv_v1.py`, `equal_score_cluster_bootstrap_v1.py` | KEEP_CURRENT; JAK document = KEEP with provenance limitation |
-| max vs median | `assay_aggregation_max_vs_median_v1.py` | KEEP_CURRENT (hb columns); freeze overlay repaired AB_056 without API |
+| max vs median | `scripts/analysis/compute_canonical_results.py` `compute_max_median()` joined to `eight_pair_dump_gated_v1/max_vs_median_ligand_v1.csv` | Authoritative. AB_056 has no dump-gated n_act; not copied from panel pChEMBL |
 | Time-split | `time_split_validation_v1.py` | KEEP as SI feasibility, not current eight-pair supporting |
 | Checksum/pack scripts | SUPERSEDED / UNUSED for freeze | Do not expand |
 
@@ -142,7 +147,7 @@ Obsolete / superseded (do not delete in this freeze; do not cite as current):
 Resolved this freeze:
 
 - Ligand-level EGFR scores: membership, `canonical_ligand_level_v1.csv`, `high_confidence_labels_v1.csv` now match current 3POZ/3RCD hb (EH40_01 = 10.438/9.917).
-- AChE AB_056 in master, membership, max-vs-median, cluster labels, class counts 27/26/28.
+- AChE AB_056 in master, membership, cluster labels, class counts 27/26/28. Not in dump-gated max-vs-median (95 ligands; max 27/25/28).
 - Table 2 CIs unified to class-stratified shared-dual.
 - Detectable-effect class sizes = current eight-pair counts; PIK3CB removed.
 - MASTER GNINA EGFR rows synced to `independent_dock_formulation_v1.csv` (0.2645, not 0.2199).
@@ -150,7 +155,7 @@ Resolved this freeze:
 
 Still present, not publication-authoritative:
 
-- `data/jcim_novelty_v0/tables/docking_failure_census_v1.csv` still lists AB_056 as fail.
+- `data/jcim_novelty_v0/tables/docking_failure_census_v1.csv` **fixed in second pass**: AB_056 is a both-end success; remaining fails AB_001, AB_053, AB_054, AB_097 (`n_success_both_ends=96`).
 - `submission_pack/` not regenerated.
 - `jcim_figure_style.PAIR_ORDER` still the old three names; detectable SI plot now uses `PAIR_ORDER_DETECT` (eight pairs).
 
@@ -162,11 +167,11 @@ Not BLOCKER. Concrete:
 
 1. JAK1/TYK2 **document-cluster** grouping cannot be rebuilt here: `/tmp/chembl/chembl_37/.../chembl_37.db` is absent. WHAT CAN BE VERIFIED: point Δ=0.4438 from current Track B Vina scores; scaffold-cluster CI rebuilt. WHAT CANNOT: live sqlite harvest of JAK document connected components. WHETHER IT BLOCKS: no; ligand-level Δ is the official equal-score interval; document CI must be labeled as committed grouping.
 
-2. AChE `unified_threshold_sensitivity_v2.csv` θ=5.5/6.0/6.5/strict rows are the production 27/26/28 panel, not re-labelled. Do not write AChE θ-sensitivity from this file.
+2. Figure-source `unified_threshold_sensitivity_v2.csv` AChE rows numerically match a real pA/pB relabel (identical 27/26/28). Authoritative θ grid is now `results/canonical/label_aggregation_sensitivity.csv`.
 
-3. ChEMBL activity API was not re-fetched for max-vs-median. AB_056 uses panel pChEMBL as max/median (single-value). Other ligands use the committed ligand-level API table joined to current scores.
+3. Canonical max-vs-median does **not** copy AB_056 panel pChEMBL. Dump-gated ligand table has 95 AChE ligands; AB_056 is excluded. Novelty `assay_max_vs_median_*.csv` still contains the first-pass copied panel values and is not authoritative.
 
-4. `submission_pack/` and `docking_failure_census_v1.csv` remain stale relative to AB_056 success.
+4. `submission_pack/` was not regenerated. `docking_failure_census_v1.csv` was updated in the second pass.
 
 5. Cognate RMSD, holdout docking, GNINA independent search, receptor-swap docking, exhaustiveness, and multiseed were not re-executed (zero-dock freeze). Provenance is the existing pose/score tables.
 
@@ -176,17 +181,15 @@ Not BLOCKER. Concrete:
 
 ## I. MANUSCRIPT READINESS
 
-**READY_TO_FREEZE**
-
-No unresolved BLOCKER against the 18 freeze conditions.
+**Superseded — current verdict is in `SECOND_PASS_FREEZE_REPORT.md`.**
 
 Suggested placement (not manuscript text):
 
-- PRIMARY (Methods): eight pairs; θ=6.0 except AChE strict 6.5/5.5; complete-case; directional AUROC and `summary_min`; class-stratified bootstrap B=2000 seed=20260729; Vina 1.2.7 current receptors; holdout unused for selection.
+- PRIMARY (Methods): eight pairs; primary labels θ=6.0 for all eight (`primary_class_theta6`); AChE and five other pairs were *sampled* from the strict 6.5/5.5 pool; complete-case; directional AUROC and `summary_min`; class-stratified bootstrap B=2000 seed=20260729; Vina 1.2.7 current receptors; holdout unused for selection.
 - SUPPORTING (one sentence + SI): fixed-score Δ; matched vs mismatched (EGFR CI includes 0); Top-10%; max vs median; cluster bootstrap; ECFP4 increment; receptor swap; independent GNINA vs rescoring distinction; detectable-effect simulation.
 - SI-ONLY: θ grid; exhaustiveness; multiseed; cognate RMSD; scaler sensitivity; document-blocked CV.
 - REPOSITORY-ONLY / do not call validation: time-split 2018 (0 evaluable pairs); BindingDB feasibility (0 eligible pairs).
-- OBSOLETE: PIK3CA/PIK3CB; pre-correction EGFR 0.4297; old AChE 27/25/28.
+- OBSOLETE: PIK3CA/PIK3CB; pre-correction EGFR 0.4297. Do not confuse primary AChE 27/26/28 with dump-gated max-vs-median 27/25/28.
 
 ---
 
@@ -241,7 +244,7 @@ Inventory: `remediation_outputs/freeze_audit/phase1_analysis_inventory.csv`
 | problem | cause | files | numerical result changed? | interpretation changed? |
 |---|---|---|---|---|
 | No current_score_master; EGFR ligand scores still pre-fix 0.4297 | version desync | `scripts/freeze/recompute_current_primary.py`; canonical tables; membership; unified; formulation; MASTER; ligand-level | EGFR D/B 0.4297→0.3237; CIs now class-stratified | EGFR weak arm still chance; matched-pocket CI still includes 0 |
-| AChE 26 vs 25 A-only in max-vs-median | AB_056 (CHEMBL3960861) missing from stale n=95 table | ligand table + auroc overlay; hb columns in aggregation script | AChE max membership 27/25/28→27/26/28; D/A 0.6504→0.6524 | Aggregation biology did not cause the missing A-only |
+| AChE 26 vs 25 A-only in max-vs-median | AB_056 missing from dump-gated n=95 table and has no assay n_act | first-pass overlay copied panel pChEMBL (now withdrawn) | **second pass restores 27/25/28, D/A 0.6504**; AB_056 excluded | Missing A-only is dump-join coverage, not aggregation biology |
 | Detectable-effect old 3 pairs + PIK3CB + 27/25/28 | hardcoded stale sizes | `detectable_effect_simulation_v1.py` + regenerated csv/meta | full 8-pair grid recomputed | Still simulation, not observed power |
 | Cluster EGFR D/B 0.4297 | high_confidence vina columns stale | overlay + rebuild | EGFR cluster point 0.3237 | Weak arm remains near chance under cluster resample |
 | Table 2 lock 0.4297 | hardcoded LOCKED | `bootstrap_primary.py` | n/a (now reads canonical) | n/a |
@@ -257,7 +260,7 @@ Inventory: `remediation_outputs/freeze_audit/phase1_analysis_inventory.csv`
 3. Primary AUROC/delta/ranking recompute — PASS (independent MWU)  
 4. Bootstrap definition unified for publication Table 2 — PASS (class-stratified, shared dual, B=2000, seed=20260729)  
 5. Corrected EGFR and AChE throughout current analyses — PASS  
-6. max-vs-median population mismatch explained and repaired — PASS  
+6. max-vs-median population mismatch explained; AB_056 excluded from dump-gated max/median — PASS (second pass)  
 7. detectable-effect synced to current eight-pair sizes — PASS  
 8. time-split classified SI feasibility, not external validation — PASS  
 9. ECFP4/descriptor no GroupKFold leakage — PASS  

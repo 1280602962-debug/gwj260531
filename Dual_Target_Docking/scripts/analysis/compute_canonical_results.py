@@ -300,14 +300,53 @@ def compute_label_sensitivity(packs):
         for name, cut, is_strict in rules:
             labeled = []
             flips = 0
+            n_neither = 0
+            n_gray = 0
+            n_missing_pchembl = 0
             for r in recs:
                 pa, pb = fnum(r.get("pA")), fnum(r.get("pB"))
                 lab = assign_strict(pa, pb) if is_strict else assign_fourclass(pa, pb, cut)
+                if lab is None:
+                    n_missing_pchembl += 1
+                    continue
+                if lab == "gray":
+                    n_gray += 1
+                    continue
+                if lab == "neither":
+                    n_neither += 1
+                    continue
                 if lab in ("dual", "A_only", "B_only"):
                     labeled.append({**r, "cls": lab})
                     if lab != r["primary_class_theta6"] and r["primary_class_theta6"] in ("dual", "A_only", "B_only"):
                         flips += 1
-            if len(labeled) < 8:
+            n_dual = sum(r["cls"] == "dual" for r in labeled)
+            n_a = sum(r["cls"] == "A_only" for r in labeled)
+            n_b = sum(r["cls"] == "B_only" for r in labeled)
+            # Relabel is evaluable iff every complete-case ligand has pA/pB.
+            evaluable = n_missing_pchembl == 0 and (n_dual + n_a + n_b) >= 8
+            if not evaluable:
+                rows.append(
+                    {
+                        "pair": pair,
+                        "label_rule": name,
+                        "n_dual": n_dual,
+                        "n_A_only": n_a,
+                        "n_B_only": n_b,
+                        "n_neither": n_neither,
+                        "n_gray": n_gray,
+                        "n_missing_pchembl": n_missing_pchembl,
+                        "class_flips_vs_theta6": flips,
+                        "auroc_D_vs_A": "",
+                        "auroc_D_vs_B": "",
+                        "summary_min": "",
+                        "ci_lo": "",
+                        "ci_hi": "",
+                        "bootstrap": "class_stratified_shared_dual",
+                        "B": N_BOOT,
+                        "seed": SEED,
+                        "status": "NOT_EVALUABLE",
+                    }
+                )
                 continue
             sa = np.array([r["score_A"] for r in labeled])
             sb = np.array([r["score_B"] for r in labeled])
@@ -320,6 +359,9 @@ def compute_label_sensitivity(packs):
                     "n_dual": stats["n_dual"],
                     "n_A_only": stats["n_A_only"],
                     "n_B_only": stats["n_B_only"],
+                    "n_neither": n_neither,
+                    "n_gray": n_gray,
+                    "n_missing_pchembl": n_missing_pchembl,
                     "class_flips_vs_theta6": flips,
                     "auroc_D_vs_A": r4(stats["auroc_D_vs_A_pocketB"]),
                     "auroc_D_vs_B": r4(stats["auroc_D_vs_B_pocketA"]),
@@ -329,6 +371,7 @@ def compute_label_sensitivity(packs):
                     "bootstrap": "class_stratified_shared_dual",
                     "B": N_BOOT,
                     "seed": SEED,
+                    "status": "OK",
                 }
             )
     return rows

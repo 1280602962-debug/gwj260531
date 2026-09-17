@@ -1,0 +1,76 @@
+{
+  "AB_056_master": {
+    "pair": "AChE/BChE",
+    "ligand_id": "AB_056",
+    "molecule_chembl_id": "CHEMBL3960861",
+    "smiles": "COc1cc2c(cc1OC)C(=O)C(CC1CCN(Cc3cccc(Cl)c3)CC1)C2",
+    "construction_class": "A_only",
+    "primary_class_theta6": "A_only",
+    "pA": "6.94",
+    "pB": "4.3",
+    "score_A": "12.777",
+    "score_B": "9.05",
+    "affinity_A": "-12.777",
+    "affinity_B": "-9.05",
+    "complete_case": "1",
+    "analysis_set": "main",
+    "receptor_A": "4EY7",
+    "receptor_B": "4BDS",
+    "score_source": "data/ache_bche_panel_v0/tables/ablation_ligand_scores.csv",
+    "postfix_status": "corrected_panel"
+  },
+  "in_dump_gated_ligand_table": false,
+  "dump_ache_n": 95,
+  "current_complete_case_n": 96,
+  "missing_from_dump": [
+    "AB_056"
+  ],
+  "in_high_confidence_activity_audit": 0,
+  "in_mols_ACHE_json": true,
+  "in_mols_BCHE_json": true,
+  "decision": "EXCLUDE_FROM_MAX_MEDIAN",
+  "decision_reason": "No ChEMBL37 dump-gated assay rows (n_act_A/n_act_B) for AB_056/CHEMBL3960861. Panel pChEMBL 6.94/4.3 is construction provenance only and is not copied into max/median aggregation.",
+  "class_counts": {
+    "construction_class": {
+      "dual": 27,
+      "A_only": 26,
+      "B_only": 28,
+      "neither": 15
+    },
+    "primary_class_theta6": {
+      "dual": 27,
+      "A_only": 26,
+      "B_only": 28,
+      "neither": 15
+    },
+    "theta6_from_pA_pB": {
+      "dual": 27,
+      "A_only": 26,
+      "B_only": 28,
+      "neither": 15
+    },
+    "strict_from_pA_pB": {
+      "dual": 27,
+      "A_only": 26,
+      "B_only": 28,
+      "neither": 15
+    },
+    "theta_5.5": {
+      "dual": 27,
+      "A_only": 26,
+      "B_only": 28,
+      "neither": 15
+    },
+    "theta_6.5": {
+      "dual": 27,
+      "A_only": 26,
+      "B_only": 28,
+      "neither": 15
+    }
+  },
+  "n_disagreement_ligands": 0,
+  "disagreements": [],
+  "construction_vs_theta6": 0,
+  "primary_vs_recomputed_theta6": 0,
+  "theta6_vs_strict": 0
+}
