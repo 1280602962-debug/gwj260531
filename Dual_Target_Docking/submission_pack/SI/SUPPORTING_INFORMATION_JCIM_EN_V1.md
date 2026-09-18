@@ -257,8 +257,8 @@ Independent GNINA searches new poses; it is not a Vina rescore. Scope is EGFR/HE
 | Channel | summary_min [95% CI] | Dual vs neither |
 |------|----------------------|----------------:|
 | Vina primary | 0.649 [0.511, 0.746] | 0.685 [0.498, 0.859] |
-| RTMScore (all saved poses) | 0.369 [0.233, 0.475] | 0.817 |
-| GNINA CNN affinity | 0.500 [0.356, 0.623] | 0.884 |
+| RTMScore (all saved poses) | 0.369 [0.237, 0.478] | 0.817 |
+| GNINA CNN affinity | 0.500 [0.347, 0.632] | 0.884 |
 | unused-pool holdout | 0.535 [0.360, 0.705] | — |
 
 **S7c. PIK3CA/mTOR crystal substitution**

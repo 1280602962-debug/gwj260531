@@ -101,7 +101,52 @@ ACHE_SCORE_SOURCE = "data/ache_bche_panel_v0/tables/ablation_ligand_scores.csv"
 PIK3CA_SCORE_SOURCE = "data/pik3ca_mtor_panel48_rdkit_v0/tables/ablation_ligand_scores.csv"
 TRACK_B_SCORE_SOURCE = "data/jcim_chembl_universe_v0/local_track_b_v0/tables/scores_vina_mode1_v1.csv"
 
-FORBIDDEN_CURRENT_TOKENS = ("0.430", "0.808", "0.378")
+FIVE_SEEDS = (20260727, 20260811, 20260812, 20260813, 20260814)
+FIVE_SEED_LONG_SCORES = ROOT / "data/jcim_multiseed_v0/tables/multiseed_scores_long_v1.csv"
+FIVE_SEED_TRACKB_TEMPLATE = (
+    ROOT / "data/jcim_chembl_universe_v0/local_track_b_v0/tables/multiseed/scores_vina_mode1_seed{seed}.csv"
+)
+FIVE_SEED_EGFR_FROZEN_AUROC = ROOT / "data/jcim_multiseed_v0/tables/multiseed_auroc_by_seed_EGFR_corrected.csv"
+PM110_SCORE_SOURCE = ROOT / "data/pik3ca_mtor_panel110_rdkit_v0/tables/ablation_ligand_scores.csv"
+E8_SCORE_SOURCE = ROOT / "data/pik3ca_mtor_panel48_rdkit_v0/tables/scores_vina_E8_best.csv"
+EXTERNAL_ELIGIBILITY_SOURCE = ROOT / "data/jcim_novelty_v0/tables/external_slice_summary_v1.csv"
+UNIVERSE_CENSUS_SOURCE = ROOT / "data/jcim_chembl_universe_v0/tables/universe_census_summary_v1.csv"
+PAIR_ELIGIBILITY_SOURCE = ROOT / "data/jcim_chembl_universe_v0/tables/pair_eligibility_audit_s14_v1.csv"
+RTM_BEST9_SOURCE = ROOT / "data/jcim_chembl_universe_v0/local_track_b_v0/tables/scores_rtm_best9_v1.csv"
+CNN_BEST9_SOURCE = ROOT / "data/jcim_chembl_universe_v0/local_track_b_v0/tables/scores_gnina_cnn_best9_v1.csv"
+
+# Scientific CSVs written by the full zero-dock freeze chain (filename set after promotion).
+CANONICAL_CSV_NAMES = (
+    "current_score_master.csv",
+    "primary_directional_auroc.csv",
+    "primary_summary_min.csv",
+    "fixed_score_negative_class_delta.csv",
+    "two_pocket_mean_ranking.csv",
+    "top10_operating_points.csv",
+    "and_filter_operating_points.csv",
+    "matched_mismatched_pocket.csv",
+    "matched_minus_mismatched.csv",
+    "holdout_metrics.csv",
+    "class_counts.csv",
+    "label_aggregation_sensitivity.csv",
+    "max_vs_median_sensitivity.csv",
+    "cluster_bootstrap_sensitivity.csv",
+    "non_stratified_bootstrap_sensitivity.csv",
+    "computational_robustness.csv",
+    "receptor_substitution.csv",
+    "cognate_rmsd.csv",
+    "five_seed_summary_min.csv",
+    "protocol_sensitivity.csv",
+    "external_eligibility.csv",
+    "descriptor_baselines.csv",
+    "ecfp4_incremental_information.csv",
+    "ecfp4_oof_predictions.csv",
+    "ecfp4_scaler_sensitivity.csv",
+    "model_fold_assignments.csv",
+    "class_chemistry_summary.csv",
+    "leave_one_document_delta.csv",
+    "detectable_effect_simulation.csv",
+)
 
 
 def parse_finite(raw) -> float | None:

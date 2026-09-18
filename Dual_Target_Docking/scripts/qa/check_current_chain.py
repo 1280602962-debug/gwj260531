@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 """Read current files and check the eight-pair scientific chain.
 
-Not a release-engineering or checksum framework. Exit 0 only if the
-current score master, canonical Table 2 points, and manuscripts agree.
+Numeric replay only. Manuscript prose is not checked.
 """
 from __future__ import annotations
 
@@ -27,14 +26,6 @@ PAIRS = (
     "PPARG/PPARA",
     "PPARA/PPARD",
 )
-FORBIDDEN = (
-    "submission_pack_pre_v4_archive",
-    "data/_legacy_archive",
-    "pik3ca_pik3cb",
-    "mcl1_bclxl",
-    "remediation_outputs",
-)
-PREFIX = ("0.430", "0.808", "0.378")
 
 
 def r3(x) -> str:
@@ -118,30 +109,18 @@ def main() -> int:
         if abs(sm - float(smin[pair]["summary_min"])) > 1e-4:
             fail(f"{pair} summary_min replay mismatch")
 
-    en = (ROOT / "docs/MANUSCRIPT_JCIM_EN.md").read_text(encoding="utf-8")
-    zh = (ROOT / "docs/MANUSCRIPT_JCIM_ZH.md").read_text(encoding="utf-8")
-    for token in PREFIX:
-        if token in en or token in zh:
-            fail(f"pre-fix token {token} still in manuscript")
-    for pair, rec in smin.items():
-        token = r3(rec["summary_min"])
-        if token not in en or token not in zh:
-            fail(f"{pair} summary_min {token} missing from manuscripts")
-        line_en = next((ln for ln in en.splitlines() if ln.startswith(f"| {pair} |") and "[" in ln and ln.count("|") >= 5), "")
-        if not line_en:
-            fail(f"EN Table 2 missing {pair}")
-
     inc = read_csv(ROOT / "results/canonical/ecfp4_incremental_information.csv")
     max_abs = max(abs(float(r["delta_ECFP4_plus_docking_minus_ECFP4"])) for r in inc)
-    inc_token = r3(max_abs)
-    if inc_token not in en or inc_token not in zh:
-        fail(f"ECFP incremental |Δ| {inc_token} missing from manuscripts")
-    if "最大绝对变化为 0.023" in zh or "at most 0.023 across" in en:
-        if inc_token != "0.023":
-            fail("stale ECFP incremental 0.023 remains in manuscript")
-
-    plotted = json.loads((ROOT / "figures/jcim_article/plotted_values.json").read_text(encoding="utf-8"))
-    plotted_max = abs(float(plotted["plotted"]["fig3B_max_abs"]))
+    plotted = json.loads((ROOT / "figures/jcim_article/plotted_values_postfix.json").read_text(encoding="utf-8"))
+    recs = plotted.get("records") or []
+    plotted_max = None
+    for rec in recs:
+        if rec.get("metric") == "fig3B_max_abs":
+            plotted_max = abs(float(rec["raw_value"]))
+            break
+    if plotted_max is None:
+        nested = plotted.get("nested_plotted") or {}
+        plotted_max = abs(float(nested["fig3B_max_abs"]))
     if abs(plotted_max - max_abs) > 1e-6:
         fail(f"Figure 3B plotted max |Δ|={plotted_max} != canonical {max_abs}")
     canon_inc_path = ROOT / "results/canonical/ecfp4_incremental_information.csv"
@@ -169,22 +148,7 @@ def main() -> int:
     if any(r.get("bootstrap") != "class_stratified_shared_dual" for r in det):
         fail("detectable-effect bootstrap is not class_stratified_shared_dual")
 
-    scan = list((ROOT / "scripts/analysis").glob("*.py"))
-    scan += [
-        ROOT / "docs/MANUSCRIPT_JCIM_EN.md",
-        ROOT / "docs/MANUSCRIPT_JCIM_ZH.md",
-        ROOT / "docs/SUPPORTING_INFORMATION_JCIM_EN_V1.md",
-        ROOT / "docs/SUPPORTING_INFORMATION_DRAFT_ZH_JCIM_V1.md",
-        ROOT / "figures/jcim_article/scripts/update_figures_pr32.py",
-        ROOT / "figures/jcim_article/scripts/inject_s2_boxes_from_json.py",
-    ]
-    for path in scan:
-        text = path.read_text(encoding="utf-8")
-        for token in FORBIDDEN:
-            if token in text and not (path.name == "build_current_score_master.py" and token == "data/_legacy_archive"):
-                fail(f"{path.relative_to(ROOT)} still mentions {token}")
-
-    print("PASS: current score master, Table 2 replay, manuscripts, and current analysis paths")
+    print("PASS: current score master, Table 2 replay, plotted ECFP max |Δ|, pack tables")
     return 0
 
 

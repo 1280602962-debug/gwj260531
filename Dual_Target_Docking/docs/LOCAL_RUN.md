@@ -19,11 +19,10 @@ python3 scripts/analysis/compute_class_chemistry.py
 python3 scripts/analysis/compute_detectable_effect.py
 python3 scripts/analysis/fit_ecfp4_models.py
 python3 scripts/analysis/compute_descriptor_baselines.py
-python3 scripts/analysis/close_publication_from_canonical.py
-python3 scripts/analysis/patch_publication_text.py
 python3 figures/jcim_article/scripts/update_figures_pr32.py --source-root .
 python3 scripts/analysis/rebuild_submission_pack.py
 python3 scripts/qa/check_current_chain.py
+python3 scripts/qa/verify_freeze_rebuild.py --outdir results/canonical
 ```
 
 Python packages: `requirements-analysis.txt`.

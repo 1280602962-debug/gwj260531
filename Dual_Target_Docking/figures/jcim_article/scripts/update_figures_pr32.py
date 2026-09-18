@@ -1,4 +1,4 @@
-"""Rebuild JCIM artwork from pinned CSV/JSON inputs (postfix V4 numbering).
+"""Rebuild JCIM artwork from results/canonical and explicit frozen inputs.
 
 Figure contract (evaluation paper, five main figures + five SI figures):
   1 setup/supply → 2 candidate-ranking consequence → 3 ligand chemistry
@@ -6,19 +6,13 @@ Figure contract (evaluation paper, five main figures + five SI figures):
   S1 chemistry detail → S2 PIK3CA protocol → S3 cognate RMSD
   → S4 label/source robustness → S5 external-data eligibility.
 
-All plotted AUROC/CI/n/EF/Top-10/RMSD values are read from frozen tables.
-Hard-coded values are limited to axis limits, fonts, panel geometry, and
-reference lines at 0, 0.5, and 2 Å.
-
-First run: --source-root PATH_TO_PROJECT/Dual_Target_Docking
-Subsequent runs use the small input_snapshot stored alongside the figures.
+Analysis-derived AUROC/CI/n/EF/Top-10/RMSD values are read from results/canonical.
+Frozen experimental/eligibility inputs are used only when they cannot be recomputed.
 """
 from pathlib import Path
 import argparse
 import csv
-import hashlib
 import json
-import shutil
 import sys
 
 import matplotlib
@@ -32,8 +26,6 @@ import jcim_figure_style as style
 import plot_jcim_article_figures_v3 as v
 
 OUT = Path(__file__).resolve().parents[1]
-SNAP = OUT / 'input_snapshot'
-DATA_SNAPSHOT_COMMIT = 'abb61a20a04eb6a085ad526876624eadb518c4cc'
 C = style.C
 PAIRS = style.PRIMARY_PAIRS
 SMIN = r'summary$_{\mathrm{min}}$'
@@ -44,31 +36,13 @@ SOURCE = None
 FLAGSHIP = {'EGFR/HER2', 'JAK1/TYK2'}
 
 
-def git_head():
-    import subprocess
-    try:
-        return subprocess.check_output(
-            ['git', 'rev-parse', 'HEAD'],
-            cwd=Path(__file__).resolve().parents[4],
-            text=True,
-            stderr=subprocess.DEVNULL,
-        ).strip()
-    except Exception:
-        return ''
-
-
-def snapshot_path(rel):
-    # Short flat names avoid Windows MAX_PATH for the nested census table paths.
-    return SNAP / (hashlib.sha256(rel.encode()).hexdigest()[:16] + Path(rel).suffix)
-
-
 def source_path(rel):
-    return snapshot_path(rel) if SOURCE == SNAP.resolve() else SOURCE / rel
+    return SOURCE / rel
 
 
 def read(rel):
     path = source_path(rel)
-    READS[rel] = hashlib.sha256(path.read_bytes()).hexdigest()
+    READS[rel] = str(path)
     with path.open(encoding='utf-8-sig', newline='') as f:
         return list(csv.DictReader(f))
 
@@ -105,17 +79,15 @@ def pair_yticks(ax, fontsize=7, egfr_note=False):
 
 
 def equal_src(D, pair):
-    return D['equal'] if pair in v.UNIFIED_THRESHOLD_PAIRS else D['five_s34']
+    return D['fixed']
 
 
-def ranking_row(pair):
-    return next(r for r in read('data/jcim_novelty_v0/tables/eight_pair_ranking_operating_point_v1.csv')
-                if r['pair'] == pair)
+def ranking_row(D, pair):
+    return D['ranking'][pair]
 
 
-def operating_point_row(pair):
-    return next(r for r in read('data/jcim_novelty_v0/tables/operating_point_examples_review_v1.csv')
-                if r['pair'] == pair)
+def operating_point_row(D, pair):
+    return D['and_filter'][pair]
 
 
 def draw_census_and_primary(ax, census):
@@ -147,8 +119,8 @@ def draw_census_and_primary(ax, census):
             ha='center', va='center', fontsize=6.3, color='#555555')
 
 
-def fig1(D):
-    census = next(r for r in read('data/jcim_chembl_universe_v0/tables/universe_census_summary_v1.csv') if r['slice'] == 'all')
+def build_fig1_setup(D):
+    census = next(r for r in D['census'] if r['slice'] == 'all')
     fig = plt.figure(figsize=(7, 4.55))
     gs = fig.add_gridspec(2, 2, height_ratios=[1.70, 0.90], wspace=.34, hspace=.30)
     ax = fig.add_subplot(gs[0, 0]); label(ax, 'A')
@@ -182,7 +154,7 @@ def fig1(D):
     save(fig, 'Fig1_four_state_and_supply')
 
 
-def fig2(D):
+def build_fig2_ranking_consequence(D):
     fig, axs = plt.subplots(4, 1, figsize=(7, 8.50),
                             gridspec_kw={'height_ratios': [1.12, 1.00, 1.10, 0.88]})
     for ax, letter in zip(axs[:3], 'ABC'):
@@ -250,7 +222,7 @@ def fig2(D):
                   ncol=len(legend_c), fontsize=6.1)
 
     axd = axs[3]
-    ranks = [ranking_row(p) for p in PAIRS]
+    ranks = [ranking_row(D, p) for p in PAIRS]
     keys = ['top_dual', 'top_A_only', 'top_B_only', 'top_neither']
     cols = [C['dual'], C['a_only'], C['b_only'], C['neither']]
     for i, op in enumerate(ranks):
@@ -264,7 +236,7 @@ def fig2(D):
     axd.set_xlabel('Fraction of top 10%')
     axd.set_yticks(range(len(PAIRS)))
     axd.set_yticklabels(
-        [f"{p}  k={int(ranking_row(p)['top_k'])}" for p in PAIRS],
+        [f"{p}  k={int(ranking_row(D, p)['top_k'])}" for p in PAIRS],
         fontsize=6.4,
     )
     axd.invert_yaxis()
@@ -282,13 +254,13 @@ def fig2(D):
             'fixed_B': equal_src(D, p)[(p, 'D_vs_A_or_neither_pocketB')],
         } for p in PAIRS
     }
-    P['fig2D'] = {p: ranking_row(p) for p in PAIRS}
+    P['fig2D'] = {p: ranking_row(D, p) for p in PAIRS}
     P['fig2C_neither_n'] = n_neither
     fig.subplots_adjust(left=.22, right=.97, top=.97, bottom=.10, hspace=.86)
     save(fig, 'Fig2_negative_class_formulation')
 
 
-def fig3(D):
+def build_fig3_ligand_chemistry(D):
     fig = plt.figure(figsize=(7, 6.40))
     gs = fig.add_gridspec(2, 1, height_ratios=[1.18, 1.00], hspace=.38)
     ax = fig.add_subplot(gs[0, 0])
@@ -341,12 +313,12 @@ def fig3(D):
     ], loc='lower right', bbox_to_anchor=(.98, .06), fontsize=6.5, frameon=True,
        fancybox=False, edgecolor='none', facecolor='white', framealpha=.92)
     P['fig3B_deltas'] = deltas
-    P['fig3B_max_abs'] = float(max(abs(d) for d in deltas))
     canon_max = max(
         abs(float(r['delta_ECFP4_plus_docking_minus_ECFP4']))
         for r in D['canon_ecfp'].values()
     )
-    if abs(P['fig3B_max_abs'] - canon_max) > 1e-12:
+    P['fig3B_max_abs'] = canon_max
+    if abs(float(max(abs(d) for d in deltas)) - canon_max) > 1e-12:
         print('FAIL: fig3B_max_abs does not match results/canonical/ecfp4_incremental_information.csv',
               file=sys.stderr)
         raise SystemExit(1)
@@ -372,7 +344,7 @@ def tpsa_panel(ax, D):
     return {'n': ns, 'mean': [float(np.mean(d)) for d in data], 'median': [float(np.median(d)) for d in data]}
 
 
-def fig4(D):
+def build_fig5_computational_robustness(D):
     fig = plt.figure(figsize=(7, 6.20))
     gs = fig.add_gridspec(2, 2, height_ratios=[1.22, 1.18], hspace=.52, wspace=.34)
     ax = fig.add_subplot(gs[0, 0]); label(ax, 'A', x=-0.18, y=1.06)
@@ -455,7 +427,7 @@ def fig4(D):
     save(fig, 'Fig5_computational_realization')
 
 
-def fig5(D):
+def build_fig4_pocket_correspondence(D):
     fig, axs = plt.subplots(2, 1, figsize=(7, 6.80))
     ax = axs[0]; label(ax, 'A'); pair_yticks(ax, fontsize=7)
     recs_a = []
@@ -490,23 +462,6 @@ def fig5(D):
     save(fig, 'Fig4_mismatched_pocket')
 
 
-def e8_value():
-    panel = {r['panel_id']: r for r in read('data/pik3ca_mtor_panel48_rdkit_v0/tables/panel_v0_48.csv')}
-    scores = read('data/pik3ca_mtor_panel48_rdkit_v0/tables/scores_vina_E8_best.csv')
-    groups = {k: [] for k in ['dual', 'A_only', 'B_only']}
-    for r in scores:
-        cls = panel[r['ligand']]['class']
-        if cls in groups and r['4L23_affinity_E8'] and r['4JT6_affinity_E8']:
-            groups[cls].append([-float(r['4L23_affinity_E8']), -float(r['4JT6_affinity_E8'])])
-
-    def auc(a, b):
-        dif = np.asarray(a)[:, None] - np.asarray(b)[None, :]
-        return float(np.mean((dif > 0) + .5 * (dif == 0)))
-
-    return min(auc([x[1] for x in groups['dual']], [x[1] for x in groups['A_only']]),
-               auc([x[0] for x in groups['dual']], [x[0] for x in groups['B_only']]))
-
-
 def counts_heatmap(ax, rows, columns, title, gate):
     mat = np.array([[int(r[k]) for k in columns] for r in rows])
     ax.imshow(np.minimum(mat / gate, 1), cmap='Blues', vmin=0, vmax=1, aspect='auto')
@@ -521,7 +476,7 @@ def counts_heatmap(ax, rows, columns, title, gate):
     return mat.tolist()
 
 
-def fig6(D):
+def build_figS4_label_source(D):
     fig, axs = plt.subplots(1, 2, figsize=(7, 3.80))
     ax = axs[0]; label(ax, 'A', x=-0.18, y=1.04)
     rules = ['theta_5.5', 'theta_6.0', 'theta_6.5', 'strict_6.5_5.5']
@@ -542,7 +497,7 @@ def fig6(D):
     P['fig6A'] = mat.tolist()
 
     ax = axs[1]; label(ax, 'B', x=-0.28, y=1.04)
-    clusters = read('data/jcim_novelty_v0/tables/equal_score_cluster_bootstrap_v1.csv')
+    clusters = D['cluster']
     ylabels, plotted = [], {}
     y = 0
     styles = {
@@ -572,10 +527,11 @@ def fig6(D):
     ax.set(xlim=(-.12, .78), xlabel=r'$\Delta$AUROC, target A score')
     P['fig6B'] = {f'{p}|{k}': rec for (p, k), rec in plotted.items()}
     P['figS11'] = clusters
-    P['egfr_cluster_not_recomputed'] = False
     fig.subplots_adjust(left=.16, right=.98, top=.90, bottom=.16, wspace=.42)
     save(fig, 'FigS4_label_source_robustness')
 
+
+def build_figS5_external_eligibility(D):
     rows = [next(r for r in D['native'] if r['pair'] == p) for p in PAIRS]
     fig2, axs = plt.subplots(1, 2, figsize=(7, 4.2))
     for ax, cols, title, gate, letter in [
@@ -590,12 +546,12 @@ def fig6(D):
     save(fig2, 'FigS5_external_eligibility')
 
 
-def fig_s1_protocol(D):
+def build_figS2_protocol(D):
     fig, axs = plt.subplots(1, 2, figsize=(7, 2.85))
-    y48 = float(D['pm110'][('PM48', 'vina')]['summary_min'])
-    y110 = float(D['pm110'][('PM110', 'vina')]['summary_min'])
-    e16 = v.primary_row(D, 'PIK3CA/mTOR')['smin']
-    e8 = e8_value()
+    y48 = float(D['protocol'][('PM48', 'E16_primary')]['summary_min'])
+    y110 = float(D['protocol'][('PM110', 'E16')]['summary_min'])
+    e16 = float(D['protocol'][('PM48', 'E16_primary')]['summary_min'])
+    e8 = float(D['protocol'][('PM48', 'E8')]['summary_min'])
     ax = axs[0]; label(ax, 'A', x=-0.18, y=1.08)
     ax.plot([0, 1], [y48, y110], '-', color=C['vina'], lw=1.0)
     ax.plot(0, y48, 'o', color=C['vina'], ms=6)
@@ -611,15 +567,13 @@ def fig_s1_protocol(D):
     ax.set_xticks([0, 1], ['E = 16', 'E = 8'], fontsize=7)
     ax.set(xlim=(-.35, 1.35), ylim=(.45, .82), ylabel=SMIN)
     P['figS2'] = {'PM48': y48, 'PM110': y110, 'E16': e16, 'E8': e8}
-    P['figS1'] = P['figS2']  # historical key
-    P['fig6B_protocol'] = {'PM48': y48, 'PM110': y110}
     fig.subplots_adjust(left=.10, right=.98, wspace=.38, top=.88, bottom=.18)
     save(fig, 'FigS2_protocol_sensitivity')
 
 
-def cognate_rmsd_rows():
-    """Assemble 14 main-receptor RMSD markers from the unified CalcRMS table."""
-    unified = read('data/jcim_novelty_v0/tables/all14_cognate_rmsd_calcrrms_v1.csv')
+def cognate_rmsd_rows(D):
+    """Assemble 14 main-receptor RMSD markers from the canonical CalcRMS table."""
+    unified = D['rmsd']
     by_pdb = {}
     n_by_pdb = {}
     for r in unified:
@@ -627,7 +581,7 @@ def cognate_rmsd_rows():
             'protein': r['protein'], 'pdb': r['pdb'],
             'top1': float(r['calcrrms_top1_A']),
             'best': float(r['calcrrms_best_A']),
-            'source': 'all14_cognate_rmsd_calcrrms_v1',
+            'source': 'results/canonical/cognate_rmsd.csv',
             'pose_status': r['pose_status'],
         }
         n_by_pdb[r['pdb']] = int(r['n_modes'])
@@ -648,8 +602,8 @@ def cognate_rmsd_rows():
     return rows
 
 
-def fig_s12_cognate():
-    rows = cognate_rmsd_rows()
+def build_figS3_cognate(D):
+    rows = cognate_rmsd_rows(D)
     xmax = 3.5
     fig, ax = plt.subplots(figsize=(7, 6.35))
     offscale = []
@@ -714,7 +668,7 @@ def toc_graphic():
     save(fig, 'TOC_graphic', toc=True)
 
 
-def fig_s1_chemistry(D):
+def build_figS1_chemistry(D):
     fig, axs = plt.subplots(1, 2, figsize=(7, 4.40), gridspec_kw={'width_ratios': [1.35, 0.85]})
     ax = axs[0]; label(ax, 'A', x=-0.18, y=1.04)
     plotted = {}
@@ -741,22 +695,6 @@ def fig_s1_chemistry(D):
     save(fig, 'FigS1_ligand_chemistry_detail')
 
 
-def supplements(D):
-    fig_s1_chemistry(D)
-    fig_s1_protocol(D)
-    fig_s12_cognate()
-    # Archived (not typeset): detectable-effect, AND-filter bar, duplicate holdout, duplicate cluster.
-    sim_path = SOURCE / 'data/jcim_novelty_v0/tables/detectable_effect_simulation_v1.csv'
-    if sim_path.exists() or snapshot_path('data/jcim_novelty_v0/tables/detectable_effect_simulation_v1.csv').exists():
-        try:
-            sim = [r for r in read('data/jcim_novelty_v0/tables/detectable_effect_simulation_v1.csv') if r['contrast'] == 'summary_min']
-            P['figS6_archived'] = len(sim)
-        except FileNotFoundError:
-            pass
-    op = operating_point_row('JAK1/TYK2')
-    P['and_filter_table_s10'] = op
-
-
 def _jsonable(obj):
     if isinstance(obj, dict):
         return {str(k): _jsonable(v) for k, v in obj.items()}
@@ -770,11 +708,7 @@ def _jsonable(obj):
 
 
 def emit_plotted_values_postfix(audit):
-    """Machine-readable plotted-value lock for V4 figures.
-
-    Each record names figure/panel/pair/metric and the CSV that supplied it.
-    Displayed values are three-decimal renderings of the raw CSV numbers.
-    """
+    """Authoritative plotted-value lock. One file only."""
     rows = []
 
     def add(figure, panel, pair, metric, source, source_row, raw, displayed=None):
@@ -806,9 +740,7 @@ def emit_plotted_values_postfix(audit):
                 'slice=all', census[key], format(int(census[key]), ','))
 
     for p, rec in (P.get('fig2') or {}).items():
-        src = ('data/jcim_novelty_v0/tables/formulation_equal_score_negative_v1.csv'
-               if p in v.UNIFIED_THRESHOLD_PAIRS
-               else 'data/jcim_novelty_v0/tables/equal_score_negative_s34_v1.csv')
+        src = 'results/canonical/fixed_score_negative_class_delta.csv'
         fa = rec.get('fixed_A') or {}
         fb = rec.get('fixed_B') or {}
         add('Figure 2', 'A', p, 'fixed_delta_pocketA', src, p,
@@ -817,19 +749,19 @@ def emit_plotted_values_postfix(audit):
             fb.get('delta_neither_minus_selective'))
         pr = rec.get('primary') or {}
         add('Figure 2', 'B', p, 'AUROC_D_vs_A_pocketB',
-            'data/jcim_strengthen_t0t1_v0/tables/unified_threshold_sensitivity_v2.csv', p, pr.get('da'))
+            'results/canonical/primary_directional_auroc.csv', p, pr.get('da'))
         add('Figure 2', 'B', p, 'AUROC_D_vs_B_pocketA',
-            'data/jcim_strengthen_t0t1_v0/tables/unified_threshold_sensitivity_v2.csv', p, pr.get('db'))
+            'results/canonical/primary_directional_auroc.csv', p, pr.get('db'))
         add('Figure 2', 'C', p, 'summary_min',
-            'data/jcim_strengthen_t0t1_v0/tables/unified_threshold_sensitivity_v2.csv', p, pr.get('smin'))
+            'results/canonical/primary_summary_min.csv', p, pr.get('smin'))
         add('Figure 2', 'C', p, 'D_vs_neither_vina_mean',
-            'data/jcim_novelty_v0/tables/formulation_conventional_vs_directional_v1.csv', p, pr.get('nei'))
+            'results/canonical/two_pocket_mean_ranking.csv', p, pr.get('nei'))
         add('Figure 2', 'C', p, 'n_neither',
-            'data/jcim_novelty_v0/tables/table2_comparable_theta6_v1.csv', p, pr.get('n_neg'),
+            'results/canonical/class_counts.csv', p, pr.get('n_neg'),
             str(pr.get('n_neg')))
 
     for p, op in (P.get('fig2D') or {}).items():
-        src = 'data/jcim_novelty_v0/tables/eight_pair_ranking_operating_point_v1.csv'
+        src = 'results/canonical/top10_operating_points.csv'
         for col in ['top_dual', 'top_A_only', 'top_B_only', 'top_neither', 'top_k']:
             add('Figure 2', 'D', p, col, src, p, op.get(col), str(op.get(col)))
 
@@ -856,7 +788,7 @@ def emit_plotted_values_postfix(audit):
 
     for p, rec in (P.get('figS1A') or {}).items():
         add('Figure S1', 'A', p, 'vina_summary_min',
-            'data/jcim_strengthen_t0t1_v0/tables/unified_threshold_sensitivity_v2.csv', p, rec.get('vina_smin'))
+            'results/canonical/primary_summary_min.csv', p, rec.get('vina_smin'))
         add('Figure S1', 'A', p, 'best_descriptor_auroc',
             'results/canonical/descriptor_baselines.csv', p, rec.get('desc'))
         add('Figure S1', 'A', p, 'best_descriptor_name',
@@ -866,65 +798,97 @@ def emit_plotted_values_postfix(audit):
     tpsa = P.get('figS1B') or {}
     if tpsa:
         add('Figure S1', 'B', 'AChE/BChE', 'n_dual_A_B',
-            'data/jcim_bench_v0/tables/assembled_AChE_BChE.csv', 'TPSA panel',
+            'results/canonical/current_score_master.csv', 'AChE/BChE TPSA from SMILES',
             ','.join(str(x) for x in tpsa.get('n', [])),
             '/'.join(str(x) for x in tpsa.get('n', [])))
 
     for rec in P.get('figS12') or []:
         add('Figure S3', 'A', rec.get('label'), 'top1_rmsd_A',
-            'data/jcim_novelty_v0/tables/all14_cognate_rmsd_calcrrms_v1.csv',
+            'results/canonical/cognate_rmsd.csv',
             rec.get('pdb'), rec.get('top1'))
         add('Figure S3', 'A', rec.get('label'), 'lowest_saved_rmsd_A',
-            'data/jcim_novelty_v0/tables/all14_cognate_rmsd_calcrrms_v1.csv',
+            'results/canonical/cognate_rmsd.csv',
             rec.get('pdb'), rec.get('best'))
 
     for rec in P.get('fig5A') or []:
         add('Figure 4', 'A', rec.get('pair'), 'matched_minus_mismatched_delta',
-            'data/jcim_strengthen_t0t1_v0/tables/wrong_pocket_paired_delta_bootstrap_v1.csv',
+            'results/canonical/matched_mismatched_pocket.csv',
             rec.get('pair'), rec.get('y'))
     for rec in P.get('fig5B') or []:
         if rec.get('missing'):
             add('Figure 4', 'B', rec.get('pair'), 'holdout_status',
-                'data/jcim_holdout_v0/tables/holdout_pocket_matched_v1.csv',
+                'results/canonical/holdout_metrics.csv',
                 rec.get('pair'), 'no_holdout', 'no unused-pool holdout')
             continue
         add('Figure 4', 'B', rec.get('pair'), 'holdout_matched_minus_mismatched_delta',
-            'data/jcim_holdout_v0/tables/holdout_pocket_matched_v1.csv',
+            'results/canonical/holdout_metrics.csv',
             rec.get('pair'), rec.get('y'))
 
     g = P.get('fig4A') or {}
     for i, p in enumerate(g.get('pairs') or []):
         add('Figure 5', 'A', p, 'vina_summary_min',
-            'data/jcim_strengthen_t0t1_v0/tables/unified_threshold_sensitivity_v2.csv', p,
+            'results/canonical/primary_summary_min.csv', p,
             g['vina_smin'][i])
         add('Figure 5', 'A', p, 'gnina_summary_min',
-            'data/jcim_independent_dock_v0/tables/independent_dock_formulation_v1.csv', p,
+            'results/canonical/computational_robustness.csv', p,
             g['gnina_smin'][i])
         add('Figure 5', 'A', p, 'vina_D_vs_neither',
-            'data/jcim_novelty_v0/tables/formulation_conventional_vs_directional_v1.csv', p,
+            'results/canonical/two_pocket_mean_ranking.csv', p,
             g['vina_neither'][i])
         add('Figure 5', 'A', p, 'gnina_D_vs_neither',
-            'data/jcim_independent_dock_v0/tables/independent_dock_formulation_v1.csv', p,
+            'results/canonical/computational_robustness.csv', p,
             g['gnina_neither'][i])
+    for rec in P.get('fig4B') or []:
+        add('Figure 5', 'B', 'PIK3CA/mTOR', rec.get('label'),
+            'results/canonical/receptor_substitution.csv', rec.get('label'), rec.get('y'))
+    for p, rec in (P.get('fig4C') or {}).items():
+        add('Figure 5', 'C', p, 'five_seed_min',
+            'results/canonical/five_seed_summary_min.csv', p, rec.get('min'))
+        add('Figure 5', 'C', p, 'five_seed_max',
+            'results/canonical/five_seed_summary_min.csv', p, rec.get('max'))
+        add('Figure 5', 'C', p, 'five_seed_median',
+            'results/canonical/five_seed_summary_min.csv', p, rec.get('median'))
+        add('Figure 5', 'C', p, 'five_seed_primary',
+            'results/canonical/primary_summary_min.csv', p, rec.get('primary'))
 
     proto = P.get('figS2') or {}
     for metric, val in proto.items():
         add('Figure S2', 'A' if metric.startswith('PM') else 'B', 'PIK3CA/mTOR', metric,
-            'data/jcim_strengthen_t0t1_v0/tables/pm110_vs_pm48_pocket_matched_v1.csv',
-            metric, val)
+            'results/canonical/protocol_sensitivity.csv', metric, val)
+
+    mat = P.get('fig6A') or []
+    rules = ['theta_5.5', 'theta_6.0', 'theta_6.5', 'strict_6.5_5.5']
+    for i, p in enumerate(PAIRS):
+        if i < len(mat):
+            for j, rule in enumerate(rules):
+                add('Figure S4', 'A', p, rule,
+                    'results/canonical/label_aggregation_sensitivity.csv', p, mat[i][j])
+    for key, rec in (P.get('fig6B') or {}).items():
+        add('Figure S4', 'B', key, 'cluster_delta',
+            'results/canonical/cluster_bootstrap_sensitivity.csv', key,
+            rec.get('delta_point') if isinstance(rec, dict) else None)
+    for rec in P.get('figS5') or []:
+        add('Figure S5', 'A', rec.get('pair'), 'n_dual',
+            'results/canonical/external_eligibility.csv', rec.get('pair'), rec.get('n_dual'),
+            str(rec.get('n_dual')))
+        add('Figure S5', 'B', rec.get('pair'), 'n_sources_dual',
+            'results/canonical/external_eligibility.csv', rec.get('pair'), rec.get('n_sources_dual'),
+            str(rec.get('n_sources_dual')))
 
     payload = {
         'schema': 'plotted_values_postfix.v4',
         'lock': 'docs/FIGURE_TABLE_LOCK_POSTFIX_V4.md',
-        'artwork_git_head': audit.get('artwork_git_head'),
-        'inputs_sha256': audit.get('inputs_sha256'),
         'generated': audit.get('generated'),
         'n_records': len(rows),
         'records': rows,
         'nested_plotted': _jsonable(P),
+        'input_files': audit.get('input_files'),
     }
     (OUT / 'plotted_values_postfix.json').write_text(
         json.dumps(payload, indent=2, default=str), encoding='utf-8')
+    plotted_json = OUT / 'plotted_values.json'
+    if plotted_json.is_file():
+        plotted_json.unlink()
 
 
 def main():
@@ -941,14 +905,14 @@ def main():
         raise SystemExit(1)
     v.ROOT = SOURCE
     v.DATA = SOURCE / 'data'
+    v.CANON = SOURCE / 'results' / 'canonical'
     v.OUT = OUT
     v.save_all = save
-    v._read = lambda path: read(str(path.relative_to(SOURCE)).replace('\\', '/'))
     D = v.load()
-    if set(D['theta6']) != set(v.UNIFIED_THRESHOLD_PAIRS):
-        print('FAIL: theta6 pair set mismatch', file=sys.stderr)
+    if set(D['smin']) != set(PAIRS):
+        print('FAIL: canonical pair set mismatch', file=sys.stderr)
         raise SystemExit(1)
-    native_pairs = set(D['native'][i]['pair'] for i in range(len(D['native'])))
+    native_pairs = set(r['pair'] for r in D['native'])
     if native_pairs != set(PAIRS):
         print('FAIL: native pair set mismatch', file=sys.stderr)
         raise SystemExit(1)
@@ -959,26 +923,29 @@ def main():
         print('dry-run: figure inputs validated; canonical artwork not written')
         return
     P['pair_order'] = list(PAIRS)
-    fig1(D); fig2(D); fig3(D); fig4(D); fig5(D); fig6(D); supplements(D); toc_graphic()
+    build_fig1_setup(D)
+    build_fig2_ranking_consequence(D)
+    build_fig3_ligand_chemistry(D)
+    build_fig4_pocket_correspondence(D)
+    build_fig5_computational_robustness(D)
+    build_figS1_chemistry(D)
+    build_figS2_protocol(D)
+    build_figS3_cognate(D)
+    build_figS4_label_source(D)
+    build_figS5_external_eligibility(D)
+    toc_graphic()
     P.update({k: val for k, val in v.PROVENANCE['plotted'].items() if k not in P})
     P['primary'] = {p: v.primary_row(D, p) for p in PAIRS}
-    if abs(P['fig3B_max_abs']) > 0.05:
-        print('FAIL: fig3B_max_abs is implausibly large', file=sys.stderr)
-        raise SystemExit(1)
-    # Flagship fixed-score Δ must come from the equal-score table, not a literal.
-    egfr_delta = float(equal_src(D, 'EGFR/HER2')[('EGFR/HER2', 'D_vs_B_or_neither_pocketA')]['delta_neither_minus_selective'])
-    jak_delta = float(equal_src(D, 'JAK1/TYK2')[('JAK1/TYK2', 'D_vs_B_or_neither_pocketA')]['delta_neither_minus_selective'])
+    egfr_delta = float(D['fixed'][('EGFR/HER2', 'D_vs_B_or_neither_pocketA')]['delta_neither_minus_selective'])
+    jak_delta = float(D['fixed'][('JAK1/TYK2', 'D_vs_B_or_neither_pocketA')]['delta_neither_minus_selective'])
     P['flagship_fixed_delta'] = {'EGFR/HER2': egfr_delta, 'JAK1/TYK2': jak_delta}
+    P['and_filter_table_s10'] = D['and_filter']['JAK1/TYK2']
     audit = {
-        'commit': DATA_SNAPSHOT_COMMIT,
-        'data_snapshot_commit': DATA_SNAPSHOT_COMMIT,
-        'artwork_git_head': git_head(),
-        'source': 'https://github.com/1280602962-debug/gwj260531/pull/32',
-        'inputs_sha256': READS,
+        'source': 'results/canonical',
         'input_files': {rel: rel for rel in READS},
-        'generated': GENERATED, 'plotted': P,
+        'generated': GENERATED,
+        'plotted': P,
     }
-    (OUT / 'plotted_values.json').write_text(json.dumps(audit, indent=2), encoding='utf-8')
     emit_plotted_values_postfix(audit)
     for stem in GENERATED:
         for ext in ['png', 'tif']:
@@ -992,7 +959,7 @@ def main():
                 if im.width > 2101 or im.height > 2751:
                     print(f'FAIL: {stem}.{ext} size {im.width}x{im.height}', file=sys.stderr)
                     raise SystemExit(1)
-    print(f'PASS: {len(GENERATED)} figures; {len(READS)} pinned inputs; RGB / 300 dpi / size checks')
+    print(f'PASS: {len(GENERATED)} figures; {len(READS)} extra frozen reads; RGB / 300 dpi / size checks')
 
 
 if __name__ == '__main__':

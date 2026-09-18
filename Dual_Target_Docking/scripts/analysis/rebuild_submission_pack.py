@@ -68,14 +68,11 @@ def main() -> int:
         "FigS5_external_eligibility": "FigureS5",
         "TOC_graphic": "TOC",
     }
-    for stem in STEMS:
+    for stem, alias in aliases.items():
         for ext in (".pdf", ".tif", ".png"):
             src = ART / f"{stem}{ext}"
             if src.is_file():
-                copyfile(src, PACK / "figures" / src.name)
-                alias = aliases.get(stem)
-                if alias:
-                    copyfile(src, PACK / "figures" / f"{alias}{ext}")
+                copyfile(src, PACK / "figures" / f"{alias}{ext}")
 
     for csv in sorted(CANON.glob("*.csv")):
         copyfile(csv, PACK / "tables" / "canonical" / csv.name)
@@ -91,12 +88,8 @@ def main() -> int:
         "# JCIM submission pack\n\n"
         "Current English/Chinese manuscripts, SI, figures, and canonical result tables.\n"
         "Authoritative per-ligand scores: `tables/canonical/current_score_master.csv`.\n"
-        "Figure 3 / Table S5 ECFP incremental numbers come from "
-        "`tables/canonical/ecfp4_incremental_information.csv` "
-        "(freeze max |Δ|=0.0234 at PPARA/PPARD D vs B; three-decimal claim 0.023).\n"
-        "Regenerate from Dual_Target_Docking with "
-        "`python3 scripts/analysis/compute_canonical_results.py` then "
-        "`python3 figures/jcim_article/scripts/update_figures_pr32.py --source-root Dual_Target_Docking`.\n",
+        "Rebuild the full zero-dock chain from Dual_Target_Docking using `docs/LOCAL_RUN.md`.\n"
+        "Do not use a shortened compute_canonical → figures path; Figure 3 requires `fit_ecfp4_models.py`.\n",
         encoding="utf-8",
     )
     n = sum(1 for p in PACK.rglob("*") if p.is_file())

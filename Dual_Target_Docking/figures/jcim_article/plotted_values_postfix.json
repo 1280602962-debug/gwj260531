@@ -1,55 +1,20 @@
 {
   "schema": "plotted_values_postfix.v4",
   "lock": "docs/FIGURE_TABLE_LOCK_POSTFIX_V4.md",
-  "artwork_git_head": "eafaf8f676bee637bb52257747a29dc2bfd4b6e0",
-  "inputs_sha256": {
-    "data/jcim_j0j1_v0/tables/j0_strict_label_supply.csv": "c47c515baed799b954ae99cb8c93516030acc5bd508a6bc571a99694715df853",
-    "data/jcim_novelty_v0/tables/complete_case_usable_pchembl_overlap_v1.csv": "6ab56f87ad2684b92bec2a55eb58e375d863b8c6a386afaf35b7adf311f1f25e",
-    "data/jcim_strengthen_t0t1_v0/tables/unified_threshold_sensitivity_v2.csv": "447e10da42de3d780a4219fc94951b1d5717b1277c23eb05dd1c65e40b08a156",
-    "data/jcim_novelty_v0/tables/formulation_conventional_vs_directional_v1.csv": "70bfe6a4bed3fec44abd204e236a2031eb455249d75e67a0fc8cb004f629f22f",
-    "data/jcim_novelty_v0/tables/formulation_equal_score_negative_v1.csv": "0deb39ad07ac574eb01e28469fd811d9d49b18d02250f86588eefda2144c6a7d",
-    "data/jcim_bench_v0/tables/assembled_AChE_BChE.csv": "fe42eac407a2b6ffab836a8944e338f77b894a436088d5be27cb5f28d3b03073",
-    "data/jcim_independent_dock_v0/tables/independent_dock_formulation_v1.csv": "5d7e9e57e03e49fc52fe56a8349e17c35b09e1d5bb3dbdf5c3982e4a49c13a8f",
-    "data/jcim_structure_robust_v0/tables/pocket_matched_PM48_alt4JPS_v1.csv": "fff43681ecdd25da8356e66955b254d8e689904fa12fa82be37589e5eae7acf3",
-    "data/jcim_structure_robust_v0/tables/pocket_matched_PM48_alt5DXT_v1.csv": "848d9944f87683b19cc28da92993827b98b8f590d9d6c03718051f5f7236c7ba",
-    "data/jcim_structure_robust_v0/tables/pocket_matched_PM48_alt4JSX_v1.csv": "6add2902e132fc9ff295b0dac8b3a6f631414ec08e597fed735b0bf26a10415a",
-    "data/jcim_multiseed_v0/tables/multiseed_auroc_by_seed_v2.csv": "0f4902127501e4d26df19e5b0a87bf8477ca728055b2907041a00fb18fbb0524",
-    "data/jcim_strengthen_t0t1_v0/tables/wrong_pocket_paired_delta_bootstrap_v1.csv": "48e3fa7e1d9c3fb48bbbb36fcfcfee1d4b0c1fa2683955923802a85a36fa09be",
-    "data/jcim_holdout_v0/tables/holdout_pocket_matched_v1.csv": "8d58ea680bd1a443f065f04b09d7321412452ef057253997b31a425864409073",
-    "data/jcim_strengthen_t0t1_v0/tables/pm110_vs_pm48_pocket_matched_v1.csv": "41e63552207c7495b3233b005ae10bbfe1d0500f7aa15cb74423e672ecb14dcb",
-    "data/jcim_novelty_v0/tables/external_slice_summary_v1.csv": "9a8fd13ed4c75085049f9da85ac9f89a183826aeecffc7c6002945c4604578dc",
-    "results/canonical/ecfp4_incremental_information.csv": "0dda6ce702484ae476ac18f2d86d301804b31872ca5c1cc695fb9e8e589624d6",
-    "results/canonical/descriptor_baselines.csv": "8dec565ec6983af64e59b17b4af2fa53db14fb41f4decf0b514f87e3d749f638",
-    "data/jcim_chembl_universe_v0/local_track_b_v0/tables/five_pair_stack_v1/table2_comparable_theta6_v1.csv": "a12f2ef2c8d669812f9bdad58a1fd72c399582f67e3122f18b5f01ad7aa33344",
-    "data/jcim_chembl_universe_v0/local_track_b_v0/tables/five_pair_stack_v1/equal_score_negative_s34_v1.csv": "f749f9d5d6ea048e6b8c09295379ebf72e096dad8685343f671454592d7e0206",
-    "data/jcim_chembl_universe_v0/local_track_b_v0/tables/five_pair_stack_v1/threshold_grid_v1.csv": "019766d1e1d95d2968cd8282712fba57f87bdaa3061bbc47a1286252449ad454",
-    "data/jcim_chembl_universe_v0/local_track_b_v0/tables/five_pair_local_channels_v1/table2_comparable_by_channel_v1.csv": "59329da56143bf591b39accf98dcc8077fb8f73e7e749205150b671e1d0d3506",
-    "data/jcim_chembl_universe_v0/local_track_b_v0/tables/five_pair_local_channels_v1/fiveseed_summary_min_aggregate_v1.csv": "ea915c58276a4239992fc4edd3068f295e663271733e6cf61947a92c381c3fcc",
-    "data/jcim_chembl_universe_v0/local_track_b_v0/tables/five_pair_local_channels_v1/wrong_pocket_by_channel_v1.csv": "200d966ec9aec325de2f49ce4d854a940610a4f982054bfc18cdad830b37b26f",
-    "data/jcim_chembl_universe_v0/local_track_b_v0/tables/five_pair_crossdb_v1/crossdb_strict_supply_v1.csv": "e9e8e7a8da84e7acc2d162a8f8bd86ffb8f0164f8d3b85ad01859bc31dd2249d",
-    "data/jcim_chembl_universe_v0/tables/universe_census_summary_v1.csv": "11e18268e8e4ef5e4e7a85cd929d1fe26154b6a55ffb507e7471bcbfe28f5ceb",
-    "data/jcim_novelty_v0/tables/eight_pair_ranking_operating_point_v1.csv": "ae04c33572268d6fbdefdda38d1d74377a646a5103eb637491b60e0a9804cce9",
-    "data/jcim_novelty_v0/tables/equal_score_cluster_bootstrap_v1.csv": "698ab4da3036c5fa589da162a5ba12e5cce56616364aa1ddc95b5c4414830df8",
-    "data/pik3ca_mtor_panel48_rdkit_v0/tables/panel_v0_48.csv": "592c9cc5123bdbdfe7e4550956e14b8ddb237051eac1ac528af530e1732c7158",
-    "data/pik3ca_mtor_panel48_rdkit_v0/tables/scores_vina_E8_best.csv": "4af4e22119d25718d9bdade329f469aec4475b8982daa10796275c36564b3fbf",
-    "data/jcim_novelty_v0/tables/all14_cognate_rmsd_calcrrms_v1.csv": "6d09b755b7f68583d784977e19eb7d3febc23b6034b1d0c5ec50bd9fe9fb3c9f",
-    "data/jcim_novelty_v0/tables/detectable_effect_simulation_v1.csv": "0917842d613dfb08c9a09e0eae36332db87d5a6a7c90ded9764fe283cf7aefc0",
-    "data/jcim_novelty_v0/tables/operating_point_examples_review_v1.csv": "d6b1acb89eed4a8147405705dc68726d96d44e72e4495e4c7b291e89365fa9ad"
-  },
   "generated": [
     "Fig1_four_state_and_supply",
     "Fig2_negative_class_formulation",
     "Fig3_ligand_chemistry",
-    "Fig5_computational_realization",
     "Fig4_mismatched_pocket",
-    "FigS4_label_source_robustness",
-    "FigS5_external_eligibility",
+    "Fig5_computational_realization",
     "FigS1_ligand_chemistry_detail",
     "FigS2_protocol_sensitivity",
     "FigS3_cognate_rmsd",
+    "FigS4_label_source_robustness",
+    "FigS5_external_eligibility",
     "TOC_graphic"
   ],
-  "n_records": 234,
+  "n_records": 323,
   "records": [
     {
       "figure": "Figure 1",
@@ -96,7 +61,7 @@
       "panel": "A",
       "pair": "EGFR/HER2",
       "metric": "fixed_delta_pocketA",
-      "source_file": "data/jcim_novelty_v0/tables/formulation_equal_score_negative_v1.csv",
+      "source_file": "results/canonical/fixed_score_negative_class_delta.csv",
       "source_row": "EGFR/HER2",
       "raw_value": 0.4621,
       "displayed_value": "0.462"
@@ -106,7 +71,7 @@
       "panel": "A",
       "pair": "EGFR/HER2",
       "metric": "fixed_delta_pocketB",
-      "source_file": "data/jcim_novelty_v0/tables/formulation_equal_score_negative_v1.csv",
+      "source_file": "results/canonical/fixed_score_negative_class_delta.csv",
       "source_row": "EGFR/HER2",
       "raw_value": 0.0817,
       "displayed_value": "0.082"
@@ -116,7 +81,7 @@
       "panel": "B",
       "pair": "EGFR/HER2",
       "metric": "AUROC_D_vs_A_pocketB",
-      "source_file": "data/jcim_strengthen_t0t1_v0/tables/unified_threshold_sensitivity_v2.csv",
+      "source_file": "results/canonical/primary_directional_auroc.csv",
       "source_row": "EGFR/HER2",
       "raw_value": 0.6564,
       "displayed_value": "0.656"
@@ -126,7 +91,7 @@
       "panel": "B",
       "pair": "EGFR/HER2",
       "metric": "AUROC_D_vs_B_pocketA",
-      "source_file": "data/jcim_strengthen_t0t1_v0/tables/unified_threshold_sensitivity_v2.csv",
+      "source_file": "results/canonical/primary_directional_auroc.csv",
       "source_row": "EGFR/HER2",
       "raw_value": 0.3237,
       "displayed_value": "0.324"
@@ -136,7 +101,7 @@
       "panel": "C",
       "pair": "EGFR/HER2",
       "metric": "summary_min",
-      "source_file": "data/jcim_strengthen_t0t1_v0/tables/unified_threshold_sensitivity_v2.csv",
+      "source_file": "results/canonical/primary_summary_min.csv",
       "source_row": "EGFR/HER2",
       "raw_value": 0.3237,
       "displayed_value": "0.324"
@@ -146,7 +111,7 @@
       "panel": "C",
       "pair": "EGFR/HER2",
       "metric": "D_vs_neither_vina_mean",
-      "source_file": "data/jcim_novelty_v0/tables/formulation_conventional_vs_directional_v1.csv",
+      "source_file": "results/canonical/two_pocket_mean_ranking.csv",
       "source_row": "EGFR/HER2",
       "raw_value": 0.7589,
       "displayed_value": "0.759"
@@ -156,7 +121,7 @@
       "panel": "C",
       "pair": "EGFR/HER2",
       "metric": "n_neither",
-      "source_file": "data/jcim_novelty_v0/tables/table2_comparable_theta6_v1.csv",
+      "source_file": "results/canonical/class_counts.csv",
       "source_row": "EGFR/HER2",
       "raw_value": 12.0,
       "displayed_value": "12"
@@ -166,7 +131,7 @@
       "panel": "A",
       "pair": "JAK1/JAK2",
       "metric": "fixed_delta_pocketA",
-      "source_file": "data/jcim_novelty_v0/tables/formulation_equal_score_negative_v1.csv",
+      "source_file": "results/canonical/fixed_score_negative_class_delta.csv",
       "source_row": "JAK1/JAK2",
       "raw_value": -0.0043,
       "displayed_value": "-0.004"
@@ -176,7 +141,7 @@
       "panel": "A",
       "pair": "JAK1/JAK2",
       "metric": "fixed_delta_pocketB",
-      "source_file": "data/jcim_novelty_v0/tables/formulation_equal_score_negative_v1.csv",
+      "source_file": "results/canonical/fixed_score_negative_class_delta.csv",
       "source_row": "JAK1/JAK2",
       "raw_value": 0.1415,
       "displayed_value": "0.141"
@@ -186,7 +151,7 @@
       "panel": "B",
       "pair": "JAK1/JAK2",
       "metric": "AUROC_D_vs_A_pocketB",
-      "source_file": "data/jcim_strengthen_t0t1_v0/tables/unified_threshold_sensitivity_v2.csv",
+      "source_file": "results/canonical/primary_directional_auroc.csv",
       "source_row": "JAK1/JAK2",
       "raw_value": 0.5884,
       "displayed_value": "0.588"
@@ -196,7 +161,7 @@
       "panel": "B",
       "pair": "JAK1/JAK2",
       "metric": "AUROC_D_vs_B_pocketA",
-      "source_file": "data/jcim_strengthen_t0t1_v0/tables/unified_threshold_sensitivity_v2.csv",
+      "source_file": "results/canonical/primary_directional_auroc.csv",
       "source_row": "JAK1/JAK2",
       "raw_value": 0.7275,
       "displayed_value": "0.728"
@@ -206,7 +171,7 @@
       "panel": "C",
       "pair": "JAK1/JAK2",
       "metric": "summary_min",
-      "source_file": "data/jcim_strengthen_t0t1_v0/tables/unified_threshold_sensitivity_v2.csv",
+      "source_file": "results/canonical/primary_summary_min.csv",
       "source_row": "JAK1/JAK2",
       "raw_value": 0.5884,
       "displayed_value": "0.588"
@@ -216,7 +181,7 @@
       "panel": "C",
       "pair": "JAK1/JAK2",
       "metric": "D_vs_neither_vina_mean",
-      "source_file": "data/jcim_novelty_v0/tables/formulation_conventional_vs_directional_v1.csv",
+      "source_file": "results/canonical/two_pocket_mean_ranking.csv",
       "source_row": "JAK1/JAK2",
       "raw_value": 0.7299,
       "displayed_value": "0.730"
@@ -226,7 +191,7 @@
       "panel": "C",
       "pair": "JAK1/JAK2",
       "metric": "n_neither",
-      "source_file": "data/jcim_novelty_v0/tables/table2_comparable_theta6_v1.csv",
+      "source_file": "results/canonical/class_counts.csv",
       "source_row": "JAK1/JAK2",
       "raw_value": 14.0,
       "displayed_value": "14"
@@ -236,7 +201,7 @@
       "panel": "A",
       "pair": "JAK1/TYK2",
       "metric": "fixed_delta_pocketA",
-      "source_file": "data/jcim_novelty_v0/tables/formulation_equal_score_negative_v1.csv",
+      "source_file": "results/canonical/fixed_score_negative_class_delta.csv",
       "source_row": "JAK1/TYK2",
       "raw_value": 0.4438,
       "displayed_value": "0.444"
@@ -246,7 +211,7 @@
       "panel": "A",
       "pair": "JAK1/TYK2",
       "metric": "fixed_delta_pocketB",
-      "source_file": "data/jcim_novelty_v0/tables/formulation_equal_score_negative_v1.csv",
+      "source_file": "results/canonical/fixed_score_negative_class_delta.csv",
       "source_row": "JAK1/TYK2",
       "raw_value": 0.13,
       "displayed_value": "0.130"
@@ -256,7 +221,7 @@
       "panel": "B",
       "pair": "JAK1/TYK2",
       "metric": "AUROC_D_vs_A_pocketB",
-      "source_file": "data/jcim_strengthen_t0t1_v0/tables/unified_threshold_sensitivity_v2.csv",
+      "source_file": "results/canonical/primary_directional_auroc.csv",
       "source_row": "JAK1/TYK2",
       "raw_value": 0.5751,
       "displayed_value": "0.575"
@@ -266,7 +231,7 @@
       "panel": "B",
       "pair": "JAK1/TYK2",
       "metric": "AUROC_D_vs_B_pocketA",
-      "source_file": "data/jcim_strengthen_t0t1_v0/tables/unified_threshold_sensitivity_v2.csv",
+      "source_file": "results/canonical/primary_directional_auroc.csv",
       "source_row": "JAK1/TYK2",
       "raw_value": 0.3649,
       "displayed_value": "0.365"
@@ -276,7 +241,7 @@
       "panel": "C",
       "pair": "JAK1/TYK2",
       "metric": "summary_min",
-      "source_file": "data/jcim_strengthen_t0t1_v0/tables/unified_threshold_sensitivity_v2.csv",
+      "source_file": "results/canonical/primary_summary_min.csv",
       "source_row": "JAK1/TYK2",
       "raw_value": 0.3649,
       "displayed_value": "0.365"
@@ -286,7 +251,7 @@
       "panel": "C",
       "pair": "JAK1/TYK2",
       "metric": "D_vs_neither_vina_mean",
-      "source_file": "data/jcim_novelty_v0/tables/formulation_conventional_vs_directional_v1.csv",
+      "source_file": "results/canonical/two_pocket_mean_ranking.csv",
       "source_row": "JAK1/TYK2",
       "raw_value": 0.7696,
       "displayed_value": "0.770"
@@ -296,7 +261,7 @@
       "panel": "C",
       "pair": "JAK1/TYK2",
       "metric": "n_neither",
-      "source_file": "data/jcim_novelty_v0/tables/table2_comparable_theta6_v1.csv",
+      "source_file": "results/canonical/class_counts.csv",
       "source_row": "JAK1/TYK2",
       "raw_value": 14.0,
       "displayed_value": "14"
@@ -306,7 +271,7 @@
       "panel": "A",
       "pair": "PIK3CA/mTOR",
       "metric": "fixed_delta_pocketA",
-      "source_file": "data/jcim_novelty_v0/tables/formulation_equal_score_negative_v1.csv",
+      "source_file": "results/canonical/fixed_score_negative_class_delta.csv",
       "source_row": "PIK3CA/mTOR",
       "raw_value": -0.2199,
       "displayed_value": "-0.220"
@@ -316,7 +281,7 @@
       "panel": "A",
       "pair": "PIK3CA/mTOR",
       "metric": "fixed_delta_pocketB",
-      "source_file": "data/jcim_novelty_v0/tables/formulation_equal_score_negative_v1.csv",
+      "source_file": "results/canonical/fixed_score_negative_class_delta.csv",
       "source_row": "PIK3CA/mTOR",
       "raw_value": -0.131,
       "displayed_value": "-0.131"
@@ -326,7 +291,7 @@
       "panel": "B",
       "pair": "PIK3CA/mTOR",
       "metric": "AUROC_D_vs_A_pocketB",
-      "source_file": "data/jcim_strengthen_t0t1_v0/tables/unified_threshold_sensitivity_v2.csv",
+      "source_file": "results/canonical/primary_directional_auroc.csv",
       "source_row": "PIK3CA/mTOR",
       "raw_value": 0.7143,
       "displayed_value": "0.714"
@@ -336,7 +301,7 @@
       "panel": "B",
       "pair": "PIK3CA/mTOR",
       "metric": "AUROC_D_vs_B_pocketA",
-      "source_file": "data/jcim_strengthen_t0t1_v0/tables/unified_threshold_sensitivity_v2.csv",
+      "source_file": "results/canonical/primary_directional_auroc.csv",
       "source_row": "PIK3CA/mTOR",
       "raw_value": 0.6921,
       "displayed_value": "0.692"
@@ -346,7 +311,7 @@
       "panel": "C",
       "pair": "PIK3CA/mTOR",
       "metric": "summary_min",
-      "source_file": "data/jcim_strengthen_t0t1_v0/tables/unified_threshold_sensitivity_v2.csv",
+      "source_file": "results/canonical/primary_summary_min.csv",
       "source_row": "PIK3CA/mTOR",
       "raw_value": 0.6921,
       "displayed_value": "0.692"
@@ -356,7 +321,7 @@
       "panel": "C",
       "pair": "PIK3CA/mTOR",
       "metric": "D_vs_neither_vina_mean",
-      "source_file": "data/jcim_novelty_v0/tables/formulation_conventional_vs_directional_v1.csv",
+      "source_file": "results/canonical/two_pocket_mean_ranking.csv",
       "source_row": "PIK3CA/mTOR",
       "raw_value": 0.5139,
       "displayed_value": "0.514"
@@ -366,7 +331,7 @@
       "panel": "C",
       "pair": "PIK3CA/mTOR",
       "metric": "n_neither",
-      "source_file": "data/jcim_novelty_v0/tables/table2_comparable_theta6_v1.csv",
+      "source_file": "results/canonical/class_counts.csv",
       "source_row": "PIK3CA/mTOR",
       "raw_value": 4.0,
       "displayed_value": "4"
@@ -376,7 +341,7 @@
       "panel": "A",
       "pair": "AChE/BChE",
       "metric": "fixed_delta_pocketA",
-      "source_file": "data/jcim_novelty_v0/tables/formulation_equal_score_negative_v1.csv",
+      "source_file": "results/canonical/fixed_score_negative_class_delta.csv",
       "source_row": "AChE/BChE",
       "raw_value": 0.0,
       "displayed_value": "0.000"
@@ -386,7 +351,7 @@
       "panel": "A",
       "pair": "AChE/BChE",
       "metric": "fixed_delta_pocketB",
-      "source_file": "data/jcim_novelty_v0/tables/formulation_equal_score_negative_v1.csv",
+      "source_file": "results/canonical/fixed_score_negative_class_delta.csv",
       "source_row": "AChE/BChE",
       "raw_value": 0.0645,
       "displayed_value": "0.065"
@@ -396,7 +361,7 @@
       "panel": "B",
       "pair": "AChE/BChE",
       "metric": "AUROC_D_vs_A_pocketB",
-      "source_file": "data/jcim_strengthen_t0t1_v0/tables/unified_threshold_sensitivity_v2.csv",
+      "source_file": "results/canonical/primary_directional_auroc.csv",
       "source_row": "AChE/BChE",
       "raw_value": 0.6524,
       "displayed_value": "0.652"
@@ -406,7 +371,7 @@
       "panel": "B",
       "pair": "AChE/BChE",
       "metric": "AUROC_D_vs_B_pocketA",
-      "source_file": "data/jcim_strengthen_t0t1_v0/tables/unified_threshold_sensitivity_v2.csv",
+      "source_file": "results/canonical/primary_directional_auroc.csv",
       "source_row": "AChE/BChE",
       "raw_value": 0.6058,
       "displayed_value": "0.606"
@@ -416,7 +381,7 @@
       "panel": "C",
       "pair": "AChE/BChE",
       "metric": "summary_min",
-      "source_file": "data/jcim_strengthen_t0t1_v0/tables/unified_threshold_sensitivity_v2.csv",
+      "source_file": "results/canonical/primary_summary_min.csv",
       "source_row": "AChE/BChE",
       "raw_value": 0.6058,
       "displayed_value": "0.606"
@@ -426,7 +391,7 @@
       "panel": "C",
       "pair": "AChE/BChE",
       "metric": "D_vs_neither_vina_mean",
-      "source_file": "data/jcim_novelty_v0/tables/formulation_conventional_vs_directional_v1.csv",
+      "source_file": "results/canonical/two_pocket_mean_ranking.csv",
       "source_row": "AChE/BChE",
       "raw_value": 0.6587,
       "displayed_value": "0.659"
@@ -436,7 +401,7 @@
       "panel": "C",
       "pair": "AChE/BChE",
       "metric": "n_neither",
-      "source_file": "data/jcim_novelty_v0/tables/table2_comparable_theta6_v1.csv",
+      "source_file": "results/canonical/class_counts.csv",
       "source_row": "AChE/BChE",
       "raw_value": 14.0,
       "displayed_value": "14"
@@ -446,7 +411,7 @@
       "panel": "A",
       "pair": "F2/F10",
       "metric": "fixed_delta_pocketA",
-      "source_file": "data/jcim_novelty_v0/tables/formulation_equal_score_negative_v1.csv",
+      "source_file": "results/canonical/fixed_score_negative_class_delta.csv",
       "source_row": "F2/F10",
       "raw_value": 0.1633,
       "displayed_value": "0.163"
@@ -456,7 +421,7 @@
       "panel": "A",
       "pair": "F2/F10",
       "metric": "fixed_delta_pocketB",
-      "source_file": "data/jcim_novelty_v0/tables/formulation_equal_score_negative_v1.csv",
+      "source_file": "results/canonical/fixed_score_negative_class_delta.csv",
       "source_row": "F2/F10",
       "raw_value": 0.1149,
       "displayed_value": "0.115"
@@ -466,7 +431,7 @@
       "panel": "B",
       "pair": "F2/F10",
       "metric": "AUROC_D_vs_A_pocketB",
-      "source_file": "data/jcim_strengthen_t0t1_v0/tables/unified_threshold_sensitivity_v2.csv",
+      "source_file": "results/canonical/primary_directional_auroc.csv",
       "source_row": "F2/F10",
       "raw_value": 0.4133,
       "displayed_value": "0.413"
@@ -476,7 +441,7 @@
       "panel": "B",
       "pair": "F2/F10",
       "metric": "AUROC_D_vs_B_pocketA",
-      "source_file": "data/jcim_strengthen_t0t1_v0/tables/unified_threshold_sensitivity_v2.csv",
+      "source_file": "results/canonical/primary_directional_auroc.csv",
       "source_row": "F2/F10",
       "raw_value": 0.3448,
       "displayed_value": "0.345"
@@ -486,7 +451,7 @@
       "panel": "C",
       "pair": "F2/F10",
       "metric": "summary_min",
-      "source_file": "data/jcim_strengthen_t0t1_v0/tables/unified_threshold_sensitivity_v2.csv",
+      "source_file": "results/canonical/primary_summary_min.csv",
       "source_row": "F2/F10",
       "raw_value": 0.3448,
       "displayed_value": "0.345"
@@ -496,7 +461,7 @@
       "panel": "C",
       "pair": "F2/F10",
       "metric": "D_vs_neither_vina_mean",
-      "source_file": "data/jcim_novelty_v0/tables/formulation_conventional_vs_directional_v1.csv",
+      "source_file": "results/canonical/two_pocket_mean_ranking.csv",
       "source_row": "F2/F10",
       "raw_value": 0.5188,
       "displayed_value": "0.519"
@@ -506,7 +471,7 @@
       "panel": "C",
       "pair": "F2/F10",
       "metric": "n_neither",
-      "source_file": "data/jcim_novelty_v0/tables/table2_comparable_theta6_v1.csv",
+      "source_file": "results/canonical/class_counts.csv",
       "source_row": "F2/F10",
       "raw_value": 12.0,
       "displayed_value": "12"
@@ -516,7 +481,7 @@
       "panel": "A",
       "pair": "PPARG/PPARA",
       "metric": "fixed_delta_pocketA",
-      "source_file": "data/jcim_novelty_v0/tables/formulation_equal_score_negative_v1.csv",
+      "source_file": "results/canonical/fixed_score_negative_class_delta.csv",
       "source_row": "PPARG/PPARA",
       "raw_value": 0.0529,
       "displayed_value": "0.053"
@@ -526,7 +491,7 @@
       "panel": "A",
       "pair": "PPARG/PPARA",
       "metric": "fixed_delta_pocketB",
-      "source_file": "data/jcim_novelty_v0/tables/formulation_equal_score_negative_v1.csv",
+      "source_file": "results/canonical/fixed_score_negative_class_delta.csv",
       "source_row": "PPARG/PPARA",
       "raw_value": -0.0052,
       "displayed_value": "-0.005"
@@ -536,7 +501,7 @@
       "panel": "B",
       "pair": "PPARG/PPARA",
       "metric": "AUROC_D_vs_A_pocketB",
-      "source_file": "data/jcim_strengthen_t0t1_v0/tables/unified_threshold_sensitivity_v2.csv",
+      "source_file": "results/canonical/primary_directional_auroc.csv",
       "source_row": "PPARG/PPARA",
       "raw_value": 0.6492,
       "displayed_value": "0.649"
@@ -546,7 +511,7 @@
       "panel": "B",
       "pair": "PPARG/PPARA",
       "metric": "AUROC_D_vs_B_pocketA",
-      "source_file": "data/jcim_strengthen_t0t1_v0/tables/unified_threshold_sensitivity_v2.csv",
+      "source_file": "results/canonical/primary_directional_auroc.csv",
       "source_row": "PPARG/PPARA",
       "raw_value": 0.7061,
       "displayed_value": "0.706"
@@ -556,7 +521,7 @@
       "panel": "C",
       "pair": "PPARG/PPARA",
       "metric": "summary_min",
-      "source_file": "data/jcim_strengthen_t0t1_v0/tables/unified_threshold_sensitivity_v2.csv",
+      "source_file": "results/canonical/primary_summary_min.csv",
       "source_row": "PPARG/PPARA",
       "raw_value": 0.6492,
       "displayed_value": "0.649"
@@ -566,7 +531,7 @@
       "panel": "C",
       "pair": "PPARG/PPARA",
       "metric": "D_vs_neither_vina_mean",
-      "source_file": "data/jcim_novelty_v0/tables/formulation_conventional_vs_directional_v1.csv",
+      "source_file": "results/canonical/two_pocket_mean_ranking.csv",
       "source_row": "PPARG/PPARA",
       "raw_value": 0.6853,
       "displayed_value": "0.685"
@@ -576,7 +541,7 @@
       "panel": "C",
       "pair": "PPARG/PPARA",
       "metric": "n_neither",
-      "source_file": "data/jcim_novelty_v0/tables/table2_comparable_theta6_v1.csv",
+      "source_file": "results/canonical/class_counts.csv",
       "source_row": "PPARG/PPARA",
       "raw_value": 14.0,
       "displayed_value": "14"
@@ -586,7 +551,7 @@
       "panel": "A",
       "pair": "PPARA/PPARD",
       "metric": "fixed_delta_pocketA",
-      "source_file": "data/jcim_novelty_v0/tables/formulation_equal_score_negative_v1.csv",
+      "source_file": "results/canonical/fixed_score_negative_class_delta.csv",
       "source_row": "PPARA/PPARD",
       "raw_value": 0.0381,
       "displayed_value": "0.038"
@@ -596,7 +561,7 @@
       "panel": "A",
       "pair": "PPARA/PPARD",
       "metric": "fixed_delta_pocketB",
-      "source_file": "data/jcim_novelty_v0/tables/formulation_equal_score_negative_v1.csv",
+      "source_file": "results/canonical/fixed_score_negative_class_delta.csv",
       "source_row": "PPARA/PPARD",
       "raw_value": 0.0187,
       "displayed_value": "0.019"
@@ -606,7 +571,7 @@
       "panel": "B",
       "pair": "PPARA/PPARD",
       "metric": "AUROC_D_vs_A_pocketB",
-      "source_file": "data/jcim_strengthen_t0t1_v0/tables/unified_threshold_sensitivity_v2.csv",
+      "source_file": "results/canonical/primary_directional_auroc.csv",
       "source_row": "PPARA/PPARD",
       "raw_value": 0.6465,
       "displayed_value": "0.646"
@@ -616,7 +581,7 @@
       "panel": "B",
       "pair": "PPARA/PPARD",
       "metric": "AUROC_D_vs_B_pocketA",
-      "source_file": "data/jcim_strengthen_t0t1_v0/tables/unified_threshold_sensitivity_v2.csv",
+      "source_file": "results/canonical/primary_directional_auroc.csv",
       "source_row": "PPARA/PPARD",
       "raw_value": 0.4463,
       "displayed_value": "0.446"
@@ -626,7 +591,7 @@
       "panel": "C",
       "pair": "PPARA/PPARD",
       "metric": "summary_min",
-      "source_file": "data/jcim_strengthen_t0t1_v0/tables/unified_threshold_sensitivity_v2.csv",
+      "source_file": "results/canonical/primary_summary_min.csv",
       "source_row": "PPARA/PPARD",
       "raw_value": 0.4463,
       "displayed_value": "0.446"
@@ -636,7 +601,7 @@
       "panel": "C",
       "pair": "PPARA/PPARD",
       "metric": "D_vs_neither_vina_mean",
-      "source_file": "data/jcim_novelty_v0/tables/formulation_conventional_vs_directional_v1.csv",
+      "source_file": "results/canonical/two_pocket_mean_ranking.csv",
       "source_row": "PPARA/PPARD",
       "raw_value": 0.5647,
       "displayed_value": "0.565"
@@ -646,7 +611,7 @@
       "panel": "C",
       "pair": "PPARA/PPARD",
       "metric": "n_neither",
-      "source_file": "data/jcim_novelty_v0/tables/table2_comparable_theta6_v1.csv",
+      "source_file": "results/canonical/class_counts.csv",
       "source_row": "PPARA/PPARD",
       "raw_value": 14.0,
       "displayed_value": "14"
@@ -656,7 +621,7 @@
       "panel": "D",
       "pair": "EGFR/HER2",
       "metric": "top_dual",
-      "source_file": "data/jcim_novelty_v0/tables/eight_pair_ranking_operating_point_v1.csv",
+      "source_file": "results/canonical/top10_operating_points.csv",
       "source_row": "EGFR/HER2",
       "raw_value": 1.0,
       "displayed_value": "1"
@@ -666,7 +631,7 @@
       "panel": "D",
       "pair": "EGFR/HER2",
       "metric": "top_A_only",
-      "source_file": "data/jcim_novelty_v0/tables/eight_pair_ranking_operating_point_v1.csv",
+      "source_file": "results/canonical/top10_operating_points.csv",
       "source_row": "EGFR/HER2",
       "raw_value": 5.0,
       "displayed_value": "5"
@@ -676,7 +641,7 @@
       "panel": "D",
       "pair": "EGFR/HER2",
       "metric": "top_B_only",
-      "source_file": "data/jcim_novelty_v0/tables/eight_pair_ranking_operating_point_v1.csv",
+      "source_file": "results/canonical/top10_operating_points.csv",
       "source_row": "EGFR/HER2",
       "raw_value": 5.0,
       "displayed_value": "5"
@@ -686,7 +651,7 @@
       "panel": "D",
       "pair": "EGFR/HER2",
       "metric": "top_neither",
-      "source_file": "data/jcim_novelty_v0/tables/eight_pair_ranking_operating_point_v1.csv",
+      "source_file": "results/canonical/top10_operating_points.csv",
       "source_row": "EGFR/HER2",
       "raw_value": 0.0,
       "displayed_value": "0"
@@ -696,7 +661,7 @@
       "panel": "D",
       "pair": "EGFR/HER2",
       "metric": "top_k",
-      "source_file": "data/jcim_novelty_v0/tables/eight_pair_ranking_operating_point_v1.csv",
+      "source_file": "results/canonical/top10_operating_points.csv",
       "source_row": "EGFR/HER2",
       "raw_value": 11.0,
       "displayed_value": "11"
@@ -706,7 +671,7 @@
       "panel": "D",
       "pair": "JAK1/JAK2",
       "metric": "top_dual",
-      "source_file": "data/jcim_novelty_v0/tables/eight_pair_ranking_operating_point_v1.csv",
+      "source_file": "results/canonical/top10_operating_points.csv",
       "source_row": "JAK1/JAK2",
       "raw_value": 6.0,
       "displayed_value": "6"
@@ -716,7 +681,7 @@
       "panel": "D",
       "pair": "JAK1/JAK2",
       "metric": "top_A_only",
-      "source_file": "data/jcim_novelty_v0/tables/eight_pair_ranking_operating_point_v1.csv",
+      "source_file": "results/canonical/top10_operating_points.csv",
       "source_row": "JAK1/JAK2",
       "raw_value": 5.0,
       "displayed_value": "5"
@@ -726,7 +691,7 @@
       "panel": "D",
       "pair": "JAK1/JAK2",
       "metric": "top_B_only",
-      "source_file": "data/jcim_novelty_v0/tables/eight_pair_ranking_operating_point_v1.csv",
+      "source_file": "results/canonical/top10_operating_points.csv",
       "source_row": "JAK1/JAK2",
       "raw_value": 0.0,
       "displayed_value": "0"
@@ -736,7 +701,7 @@
       "panel": "D",
       "pair": "JAK1/JAK2",
       "metric": "top_neither",
-      "source_file": "data/jcim_novelty_v0/tables/eight_pair_ranking_operating_point_v1.csv",
+      "source_file": "results/canonical/top10_operating_points.csv",
       "source_row": "JAK1/JAK2",
       "raw_value": 0.0,
       "displayed_value": "0"
@@ -746,7 +711,7 @@
       "panel": "D",
       "pair": "JAK1/JAK2",
       "metric": "top_k",
-      "source_file": "data/jcim_novelty_v0/tables/eight_pair_ranking_operating_point_v1.csv",
+      "source_file": "results/canonical/top10_operating_points.csv",
       "source_row": "JAK1/JAK2",
       "raw_value": 11.0,
       "displayed_value": "11"
@@ -756,7 +721,7 @@
       "panel": "D",
       "pair": "JAK1/TYK2",
       "metric": "top_dual",
-      "source_file": "data/jcim_novelty_v0/tables/eight_pair_ranking_operating_point_v1.csv",
+      "source_file": "results/canonical/top10_operating_points.csv",
       "source_row": "JAK1/TYK2",
       "raw_value": 1.0,
       "displayed_value": "1"
@@ -766,7 +731,7 @@
       "panel": "D",
       "pair": "JAK1/TYK2",
       "metric": "top_A_only",
-      "source_file": "data/jcim_novelty_v0/tables/eight_pair_ranking_operating_point_v1.csv",
+      "source_file": "results/canonical/top10_operating_points.csv",
       "source_row": "JAK1/TYK2",
       "raw_value": 3.0,
       "displayed_value": "3"
@@ -776,7 +741,7 @@
       "panel": "D",
       "pair": "JAK1/TYK2",
       "metric": "top_B_only",
-      "source_file": "data/jcim_novelty_v0/tables/eight_pair_ranking_operating_point_v1.csv",
+      "source_file": "results/canonical/top10_operating_points.csv",
       "source_row": "JAK1/TYK2",
       "raw_value": 7.0,
       "displayed_value": "7"
@@ -786,7 +751,7 @@
       "panel": "D",
       "pair": "JAK1/TYK2",
       "metric": "top_neither",
-      "source_file": "data/jcim_novelty_v0/tables/eight_pair_ranking_operating_point_v1.csv",
+      "source_file": "results/canonical/top10_operating_points.csv",
       "source_row": "JAK1/TYK2",
       "raw_value": 0.0,
       "displayed_value": "0"
@@ -796,7 +761,7 @@
       "panel": "D",
       "pair": "JAK1/TYK2",
       "metric": "top_k",
-      "source_file": "data/jcim_novelty_v0/tables/eight_pair_ranking_operating_point_v1.csv",
+      "source_file": "results/canonical/top10_operating_points.csv",
       "source_row": "JAK1/TYK2",
       "raw_value": 11.0,
       "displayed_value": "11"
@@ -806,7 +771,7 @@
       "panel": "D",
       "pair": "PIK3CA/mTOR",
       "metric": "top_dual",
-      "source_file": "data/jcim_novelty_v0/tables/eight_pair_ranking_operating_point_v1.csv",
+      "source_file": "results/canonical/top10_operating_points.csv",
       "source_row": "PIK3CA/mTOR",
       "raw_value": 4.0,
       "displayed_value": "4"
@@ -816,7 +781,7 @@
       "panel": "D",
       "pair": "PIK3CA/mTOR",
       "metric": "top_A_only",
-      "source_file": "data/jcim_novelty_v0/tables/eight_pair_ranking_operating_point_v1.csv",
+      "source_file": "results/canonical/top10_operating_points.csv",
       "source_row": "PIK3CA/mTOR",
       "raw_value": 1.0,
       "displayed_value": "1"
@@ -826,7 +791,7 @@
       "panel": "D",
       "pair": "PIK3CA/mTOR",
       "metric": "top_B_only",
-      "source_file": "data/jcim_novelty_v0/tables/eight_pair_ranking_operating_point_v1.csv",
+      "source_file": "results/canonical/top10_operating_points.csv",
       "source_row": "PIK3CA/mTOR",
       "raw_value": 0.0,
       "displayed_value": "0"
@@ -836,7 +801,7 @@
       "panel": "D",
       "pair": "PIK3CA/mTOR",
       "metric": "top_neither",
-      "source_file": "data/jcim_novelty_v0/tables/eight_pair_ranking_operating_point_v1.csv",
+      "source_file": "results/canonical/top10_operating_points.csv",
       "source_row": "PIK3CA/mTOR",
       "raw_value": 0.0,
       "displayed_value": "0"
@@ -846,7 +811,7 @@
       "panel": "D",
       "pair": "PIK3CA/mTOR",
       "metric": "top_k",
-      "source_file": "data/jcim_novelty_v0/tables/eight_pair_ranking_operating_point_v1.csv",
+      "source_file": "results/canonical/top10_operating_points.csv",
       "source_row": "PIK3CA/mTOR",
       "raw_value": 5.0,
       "displayed_value": "5"
@@ -856,7 +821,7 @@
       "panel": "D",
       "pair": "AChE/BChE",
       "metric": "top_dual",
-      "source_file": "data/jcim_novelty_v0/tables/eight_pair_ranking_operating_point_v1.csv",
+      "source_file": "results/canonical/top10_operating_points.csv",
       "source_row": "AChE/BChE",
       "raw_value": 5.0,
       "displayed_value": "5"
@@ -866,7 +831,7 @@
       "panel": "D",
       "pair": "AChE/BChE",
       "metric": "top_A_only",
-      "source_file": "data/jcim_novelty_v0/tables/eight_pair_ranking_operating_point_v1.csv",
+      "source_file": "results/canonical/top10_operating_points.csv",
       "source_row": "AChE/BChE",
       "raw_value": 3.0,
       "displayed_value": "3"
@@ -876,7 +841,7 @@
       "panel": "D",
       "pair": "AChE/BChE",
       "metric": "top_B_only",
-      "source_file": "data/jcim_novelty_v0/tables/eight_pair_ranking_operating_point_v1.csv",
+      "source_file": "results/canonical/top10_operating_points.csv",
       "source_row": "AChE/BChE",
       "raw_value": 1.0,
       "displayed_value": "1"
@@ -886,7 +851,7 @@
       "panel": "D",
       "pair": "AChE/BChE",
       "metric": "top_neither",
-      "source_file": "data/jcim_novelty_v0/tables/eight_pair_ranking_operating_point_v1.csv",
+      "source_file": "results/canonical/top10_operating_points.csv",
       "source_row": "AChE/BChE",
       "raw_value": 1.0,
       "displayed_value": "1"
@@ -896,7 +861,7 @@
       "panel": "D",
       "pair": "AChE/BChE",
       "metric": "top_k",
-      "source_file": "data/jcim_novelty_v0/tables/eight_pair_ranking_operating_point_v1.csv",
+      "source_file": "results/canonical/top10_operating_points.csv",
       "source_row": "AChE/BChE",
       "raw_value": 10.0,
       "displayed_value": "10"
@@ -906,7 +871,7 @@
       "panel": "D",
       "pair": "F2/F10",
       "metric": "top_dual",
-      "source_file": "data/jcim_novelty_v0/tables/eight_pair_ranking_operating_point_v1.csv",
+      "source_file": "results/canonical/top10_operating_points.csv",
       "source_row": "F2/F10",
       "raw_value": 4.0,
       "displayed_value": "4"
@@ -916,7 +881,7 @@
       "panel": "D",
       "pair": "F2/F10",
       "metric": "top_A_only",
-      "source_file": "data/jcim_novelty_v0/tables/eight_pair_ranking_operating_point_v1.csv",
+      "source_file": "results/canonical/top10_operating_points.csv",
       "source_row": "F2/F10",
       "raw_value": 1.0,
       "displayed_value": "1"
@@ -926,7 +891,7 @@
       "panel": "D",
       "pair": "F2/F10",
       "metric": "top_B_only",
-      "source_file": "data/jcim_novelty_v0/tables/eight_pair_ranking_operating_point_v1.csv",
+      "source_file": "results/canonical/top10_operating_points.csv",
       "source_row": "F2/F10",
       "raw_value": 6.0,
       "displayed_value": "6"
@@ -936,7 +901,7 @@
       "panel": "D",
       "pair": "F2/F10",
       "metric": "top_neither",
-      "source_file": "data/jcim_novelty_v0/tables/eight_pair_ranking_operating_point_v1.csv",
+      "source_file": "results/canonical/top10_operating_points.csv",
       "source_row": "F2/F10",
       "raw_value": 0.0,
       "displayed_value": "0"
@@ -946,7 +911,7 @@
       "panel": "D",
       "pair": "F2/F10",
       "metric": "top_k",
-      "source_file": "data/jcim_novelty_v0/tables/eight_pair_ranking_operating_point_v1.csv",
+      "source_file": "results/canonical/top10_operating_points.csv",
       "source_row": "F2/F10",
       "raw_value": 11.0,
       "displayed_value": "11"
@@ -956,7 +921,7 @@
       "panel": "D",
       "pair": "PPARG/PPARA",
       "metric": "top_dual",
-      "source_file": "data/jcim_novelty_v0/tables/eight_pair_ranking_operating_point_v1.csv",
+      "source_file": "results/canonical/top10_operating_points.csv",
       "source_row": "PPARG/PPARA",
       "raw_value": 7.0,
       "displayed_value": "7"
@@ -966,7 +931,7 @@
       "panel": "D",
       "pair": "PPARG/PPARA",
       "metric": "top_A_only",
-      "source_file": "data/jcim_novelty_v0/tables/eight_pair_ranking_operating_point_v1.csv",
+      "source_file": "results/canonical/top10_operating_points.csv",
       "source_row": "PPARG/PPARA",
       "raw_value": 3.0,
       "displayed_value": "3"
@@ -976,7 +941,7 @@
       "panel": "D",
       "pair": "PPARG/PPARA",
       "metric": "top_B_only",
-      "source_file": "data/jcim_novelty_v0/tables/eight_pair_ranking_operating_point_v1.csv",
+      "source_file": "results/canonical/top10_operating_points.csv",
       "source_row": "PPARG/PPARA",
       "raw_value": 0.0,
       "displayed_value": "0"
@@ -986,7 +951,7 @@
       "panel": "D",
       "pair": "PPARG/PPARA",
       "metric": "top_neither",
-      "source_file": "data/jcim_novelty_v0/tables/eight_pair_ranking_operating_point_v1.csv",
+      "source_file": "results/canonical/top10_operating_points.csv",
       "source_row": "PPARG/PPARA",
       "raw_value": 1.0,
       "displayed_value": "1"
@@ -996,7 +961,7 @@
       "panel": "D",
       "pair": "PPARG/PPARA",
       "metric": "top_k",
-      "source_file": "data/jcim_novelty_v0/tables/eight_pair_ranking_operating_point_v1.csv",
+      "source_file": "results/canonical/top10_operating_points.csv",
       "source_row": "PPARG/PPARA",
       "raw_value": 11.0,
       "displayed_value": "11"
@@ -1006,7 +971,7 @@
       "panel": "D",
       "pair": "PPARA/PPARD",
       "metric": "top_dual",
-      "source_file": "data/jcim_novelty_v0/tables/eight_pair_ranking_operating_point_v1.csv",
+      "source_file": "results/canonical/top10_operating_points.csv",
       "source_row": "PPARA/PPARD",
       "raw_value": 5.0,
       "displayed_value": "5"
@@ -1016,7 +981,7 @@
       "panel": "D",
       "pair": "PPARA/PPARD",
       "metric": "top_A_only",
-      "source_file": "data/jcim_novelty_v0/tables/eight_pair_ranking_operating_point_v1.csv",
+      "source_file": "results/canonical/top10_operating_points.csv",
       "source_row": "PPARA/PPARD",
       "raw_value": 2.0,
       "displayed_value": "2"
@@ -1026,7 +991,7 @@
       "panel": "D",
       "pair": "PPARA/PPARD",
       "metric": "top_B_only",
-      "source_file": "data/jcim_novelty_v0/tables/eight_pair_ranking_operating_point_v1.csv",
+      "source_file": "results/canonical/top10_operating_points.csv",
       "source_row": "PPARA/PPARD",
       "raw_value": 3.0,
       "displayed_value": "3"
@@ -1036,7 +1001,7 @@
       "panel": "D",
       "pair": "PPARA/PPARD",
       "metric": "top_neither",
-      "source_file": "data/jcim_novelty_v0/tables/eight_pair_ranking_operating_point_v1.csv",
+      "source_file": "results/canonical/top10_operating_points.csv",
       "source_row": "PPARA/PPARD",
       "raw_value": 1.0,
       "displayed_value": "1"
@@ -1046,7 +1011,7 @@
       "panel": "D",
       "pair": "PPARA/PPARD",
       "metric": "top_k",
-      "source_file": "data/jcim_novelty_v0/tables/eight_pair_ranking_operating_point_v1.csv",
+      "source_file": "results/canonical/top10_operating_points.csv",
       "source_row": "PPARA/PPARD",
       "raw_value": 11.0,
       "displayed_value": "11"
@@ -1538,7 +1503,7 @@
       "metric": "fig3B_max_abs",
       "source_file": "results/canonical/ecfp4_incremental_information.csv",
       "source_row": "max_|delta|",
-      "raw_value": 0.023400000000000087,
+      "raw_value": 0.0234,
       "displayed_value": "0.023"
     },
     {
@@ -1546,7 +1511,7 @@
       "panel": "A",
       "pair": "EGFR/HER2",
       "metric": "vina_summary_min",
-      "source_file": "data/jcim_strengthen_t0t1_v0/tables/unified_threshold_sensitivity_v2.csv",
+      "source_file": "results/canonical/primary_summary_min.csv",
       "source_row": "EGFR/HER2",
       "raw_value": 0.3237,
       "displayed_value": "0.324"
@@ -1576,7 +1541,7 @@
       "panel": "A",
       "pair": "JAK1/JAK2",
       "metric": "vina_summary_min",
-      "source_file": "data/jcim_strengthen_t0t1_v0/tables/unified_threshold_sensitivity_v2.csv",
+      "source_file": "results/canonical/primary_summary_min.csv",
       "source_row": "JAK1/JAK2",
       "raw_value": 0.5884,
       "displayed_value": "0.588"
@@ -1606,7 +1571,7 @@
       "panel": "A",
       "pair": "JAK1/TYK2",
       "metric": "vina_summary_min",
-      "source_file": "data/jcim_strengthen_t0t1_v0/tables/unified_threshold_sensitivity_v2.csv",
+      "source_file": "results/canonical/primary_summary_min.csv",
       "source_row": "JAK1/TYK2",
       "raw_value": 0.3649,
       "displayed_value": "0.365"
@@ -1636,7 +1601,7 @@
       "panel": "A",
       "pair": "PIK3CA/mTOR",
       "metric": "vina_summary_min",
-      "source_file": "data/jcim_strengthen_t0t1_v0/tables/unified_threshold_sensitivity_v2.csv",
+      "source_file": "results/canonical/primary_summary_min.csv",
       "source_row": "PIK3CA/mTOR",
       "raw_value": 0.6921,
       "displayed_value": "0.692"
@@ -1666,7 +1631,7 @@
       "panel": "A",
       "pair": "AChE/BChE",
       "metric": "vina_summary_min",
-      "source_file": "data/jcim_strengthen_t0t1_v0/tables/unified_threshold_sensitivity_v2.csv",
+      "source_file": "results/canonical/primary_summary_min.csv",
       "source_row": "AChE/BChE",
       "raw_value": 0.6058,
       "displayed_value": "0.606"
@@ -1696,7 +1661,7 @@
       "panel": "A",
       "pair": "F2/F10",
       "metric": "vina_summary_min",
-      "source_file": "data/jcim_strengthen_t0t1_v0/tables/unified_threshold_sensitivity_v2.csv",
+      "source_file": "results/canonical/primary_summary_min.csv",
       "source_row": "F2/F10",
       "raw_value": 0.3448,
       "displayed_value": "0.345"
@@ -1726,7 +1691,7 @@
       "panel": "A",
       "pair": "PPARG/PPARA",
       "metric": "vina_summary_min",
-      "source_file": "data/jcim_strengthen_t0t1_v0/tables/unified_threshold_sensitivity_v2.csv",
+      "source_file": "results/canonical/primary_summary_min.csv",
       "source_row": "PPARG/PPARA",
       "raw_value": 0.6492,
       "displayed_value": "0.649"
@@ -1756,7 +1721,7 @@
       "panel": "A",
       "pair": "PPARA/PPARD",
       "metric": "vina_summary_min",
-      "source_file": "data/jcim_strengthen_t0t1_v0/tables/unified_threshold_sensitivity_v2.csv",
+      "source_file": "results/canonical/primary_summary_min.csv",
       "source_row": "PPARA/PPARD",
       "raw_value": 0.4463,
       "displayed_value": "0.446"
@@ -1786,8 +1751,8 @@
       "panel": "B",
       "pair": "AChE/BChE",
       "metric": "n_dual_A_B",
-      "source_file": "data/jcim_bench_v0/tables/assembled_AChE_BChE.csv",
-      "source_row": "TPSA panel",
+      "source_file": "results/canonical/current_score_master.csv",
+      "source_row": "AChE/BChE TPSA from SMILES",
       "raw_value": "27,26,28",
       "displayed_value": "27/26/28"
     },
@@ -1796,7 +1761,7 @@
       "panel": "A",
       "pair": "EGFR 3POZ",
       "metric": "top1_rmsd_A",
-      "source_file": "data/jcim_novelty_v0/tables/all14_cognate_rmsd_calcrrms_v1.csv",
+      "source_file": "results/canonical/cognate_rmsd.csv",
       "source_row": "3POZ",
       "raw_value": 1.019,
       "displayed_value": "1.019"
@@ -1806,7 +1771,7 @@
       "panel": "A",
       "pair": "EGFR 3POZ",
       "metric": "lowest_saved_rmsd_A",
-      "source_file": "data/jcim_novelty_v0/tables/all14_cognate_rmsd_calcrrms_v1.csv",
+      "source_file": "results/canonical/cognate_rmsd.csv",
       "source_row": "3POZ",
       "raw_value": 1.019,
       "displayed_value": "1.019"
@@ -1816,7 +1781,7 @@
       "panel": "A",
       "pair": "HER2 3RCD",
       "metric": "top1_rmsd_A",
-      "source_file": "data/jcim_novelty_v0/tables/all14_cognate_rmsd_calcrrms_v1.csv",
+      "source_file": "results/canonical/cognate_rmsd.csv",
       "source_row": "3RCD",
       "raw_value": 1.947,
       "displayed_value": "1.947"
@@ -1826,7 +1791,7 @@
       "panel": "A",
       "pair": "HER2 3RCD",
       "metric": "lowest_saved_rmsd_A",
-      "source_file": "data/jcim_novelty_v0/tables/all14_cognate_rmsd_calcrrms_v1.csv",
+      "source_file": "results/canonical/cognate_rmsd.csv",
       "source_row": "3RCD",
       "raw_value": 1.947,
       "displayed_value": "1.947"
@@ -1836,7 +1801,7 @@
       "panel": "A",
       "pair": "JAK1 6N7A",
       "metric": "top1_rmsd_A",
-      "source_file": "data/jcim_novelty_v0/tables/all14_cognate_rmsd_calcrrms_v1.csv",
+      "source_file": "results/canonical/cognate_rmsd.csv",
       "source_row": "6N7A",
       "raw_value": 0.459,
       "displayed_value": "0.459"
@@ -1846,7 +1811,7 @@
       "panel": "A",
       "pair": "JAK1 6N7A",
       "metric": "lowest_saved_rmsd_A",
-      "source_file": "data/jcim_novelty_v0/tables/all14_cognate_rmsd_calcrrms_v1.csv",
+      "source_file": "results/canonical/cognate_rmsd.csv",
       "source_row": "6N7A",
       "raw_value": 0.459,
       "displayed_value": "0.459"
@@ -1856,7 +1821,7 @@
       "panel": "A",
       "pair": "JAK2 8BXH",
       "metric": "top1_rmsd_A",
-      "source_file": "data/jcim_novelty_v0/tables/all14_cognate_rmsd_calcrrms_v1.csv",
+      "source_file": "results/canonical/cognate_rmsd.csv",
       "source_row": "8BXH",
       "raw_value": 10.596,
       "displayed_value": "10.596"
@@ -1866,7 +1831,7 @@
       "panel": "A",
       "pair": "JAK2 8BXH",
       "metric": "lowest_saved_rmsd_A",
-      "source_file": "data/jcim_novelty_v0/tables/all14_cognate_rmsd_calcrrms_v1.csv",
+      "source_file": "results/canonical/cognate_rmsd.csv",
       "source_row": "8BXH",
       "raw_value": 0.807,
       "displayed_value": "0.807"
@@ -1876,7 +1841,7 @@
       "panel": "A",
       "pair": "TYK2 3LXP",
       "metric": "top1_rmsd_A",
-      "source_file": "data/jcim_novelty_v0/tables/all14_cognate_rmsd_calcrrms_v1.csv",
+      "source_file": "results/canonical/cognate_rmsd.csv",
       "source_row": "3LXP",
       "raw_value": 0.196,
       "displayed_value": "0.196"
@@ -1886,7 +1851,7 @@
       "panel": "A",
       "pair": "TYK2 3LXP",
       "metric": "lowest_saved_rmsd_A",
-      "source_file": "data/jcim_novelty_v0/tables/all14_cognate_rmsd_calcrrms_v1.csv",
+      "source_file": "results/canonical/cognate_rmsd.csv",
       "source_row": "3LXP",
       "raw_value": 0.196,
       "displayed_value": "0.196"
@@ -1896,7 +1861,7 @@
       "panel": "A",
       "pair": "PIK3CA 4L23",
       "metric": "top1_rmsd_A",
-      "source_file": "data/jcim_novelty_v0/tables/all14_cognate_rmsd_calcrrms_v1.csv",
+      "source_file": "results/canonical/cognate_rmsd.csv",
       "source_row": "4L23",
       "raw_value": 0.624,
       "displayed_value": "0.624"
@@ -1906,7 +1871,7 @@
       "panel": "A",
       "pair": "PIK3CA 4L23",
       "metric": "lowest_saved_rmsd_A",
-      "source_file": "data/jcim_novelty_v0/tables/all14_cognate_rmsd_calcrrms_v1.csv",
+      "source_file": "results/canonical/cognate_rmsd.csv",
       "source_row": "4L23",
       "raw_value": 0.624,
       "displayed_value": "0.624"
@@ -1916,7 +1881,7 @@
       "panel": "A",
       "pair": "mTOR 4JT6",
       "metric": "top1_rmsd_A",
-      "source_file": "data/jcim_novelty_v0/tables/all14_cognate_rmsd_calcrrms_v1.csv",
+      "source_file": "results/canonical/cognate_rmsd.csv",
       "source_row": "4JT6",
       "raw_value": 7.118,
       "displayed_value": "7.118"
@@ -1926,7 +1891,7 @@
       "panel": "A",
       "pair": "mTOR 4JT6",
       "metric": "lowest_saved_rmsd_A",
-      "source_file": "data/jcim_novelty_v0/tables/all14_cognate_rmsd_calcrrms_v1.csv",
+      "source_file": "results/canonical/cognate_rmsd.csv",
       "source_row": "4JT6",
       "raw_value": 0.445,
       "displayed_value": "0.445"
@@ -1936,7 +1901,7 @@
       "panel": "A",
       "pair": "AChE 4EY7",
       "metric": "top1_rmsd_A",
-      "source_file": "data/jcim_novelty_v0/tables/all14_cognate_rmsd_calcrrms_v1.csv",
+      "source_file": "results/canonical/cognate_rmsd.csv",
       "source_row": "4EY7",
       "raw_value": 0.339,
       "displayed_value": "0.339"
@@ -1946,7 +1911,7 @@
       "panel": "A",
       "pair": "AChE 4EY7",
       "metric": "lowest_saved_rmsd_A",
-      "source_file": "data/jcim_novelty_v0/tables/all14_cognate_rmsd_calcrrms_v1.csv",
+      "source_file": "results/canonical/cognate_rmsd.csv",
       "source_row": "4EY7",
       "raw_value": 0.339,
       "displayed_value": "0.339"
@@ -1956,7 +1921,7 @@
       "panel": "A",
       "pair": "BChE 4BDS",
       "metric": "top1_rmsd_A",
-      "source_file": "data/jcim_novelty_v0/tables/all14_cognate_rmsd_calcrrms_v1.csv",
+      "source_file": "results/canonical/cognate_rmsd.csv",
       "source_row": "4BDS",
       "raw_value": 4.794,
       "displayed_value": "4.794"
@@ -1966,7 +1931,7 @@
       "panel": "A",
       "pair": "BChE 4BDS",
       "metric": "lowest_saved_rmsd_A",
-      "source_file": "data/jcim_novelty_v0/tables/all14_cognate_rmsd_calcrrms_v1.csv",
+      "source_file": "results/canonical/cognate_rmsd.csv",
       "source_row": "4BDS",
       "raw_value": 0.386,
       "displayed_value": "0.386"
@@ -1976,7 +1941,7 @@
       "panel": "A",
       "pair": "F2 4UDW",
       "metric": "top1_rmsd_A",
-      "source_file": "data/jcim_novelty_v0/tables/all14_cognate_rmsd_calcrrms_v1.csv",
+      "source_file": "results/canonical/cognate_rmsd.csv",
       "source_row": "4UDW",
       "raw_value": 0.382,
       "displayed_value": "0.382"
@@ -1986,7 +1951,7 @@
       "panel": "A",
       "pair": "F2 4UDW",
       "metric": "lowest_saved_rmsd_A",
-      "source_file": "data/jcim_novelty_v0/tables/all14_cognate_rmsd_calcrrms_v1.csv",
+      "source_file": "results/canonical/cognate_rmsd.csv",
       "source_row": "4UDW",
       "raw_value": 0.382,
       "displayed_value": "0.382"
@@ -1996,7 +1961,7 @@
       "panel": "A",
       "pair": "F10 2JKH",
       "metric": "top1_rmsd_A",
-      "source_file": "data/jcim_novelty_v0/tables/all14_cognate_rmsd_calcrrms_v1.csv",
+      "source_file": "results/canonical/cognate_rmsd.csv",
       "source_row": "2JKH",
       "raw_value": 0.658,
       "displayed_value": "0.658"
@@ -2006,7 +1971,7 @@
       "panel": "A",
       "pair": "F10 2JKH",
       "metric": "lowest_saved_rmsd_A",
-      "source_file": "data/jcim_novelty_v0/tables/all14_cognate_rmsd_calcrrms_v1.csv",
+      "source_file": "results/canonical/cognate_rmsd.csv",
       "source_row": "2JKH",
       "raw_value": 0.658,
       "displayed_value": "0.658"
@@ -2016,7 +1981,7 @@
       "panel": "A",
       "pair": "PPARG 9V8H",
       "metric": "top1_rmsd_A",
-      "source_file": "data/jcim_novelty_v0/tables/all14_cognate_rmsd_calcrrms_v1.csv",
+      "source_file": "results/canonical/cognate_rmsd.csv",
       "source_row": "9V8H",
       "raw_value": 7.085,
       "displayed_value": "7.085"
@@ -2026,7 +1991,7 @@
       "panel": "A",
       "pair": "PPARG 9V8H",
       "metric": "lowest_saved_rmsd_A",
-      "source_file": "data/jcim_novelty_v0/tables/all14_cognate_rmsd_calcrrms_v1.csv",
+      "source_file": "results/canonical/cognate_rmsd.csv",
       "source_row": "9V8H",
       "raw_value": 1.636,
       "displayed_value": "1.636"
@@ -2036,7 +2001,7 @@
       "panel": "A",
       "pair": "PPARA 6LXA",
       "metric": "top1_rmsd_A",
-      "source_file": "data/jcim_novelty_v0/tables/all14_cognate_rmsd_calcrrms_v1.csv",
+      "source_file": "results/canonical/cognate_rmsd.csv",
       "source_row": "6LXA",
       "raw_value": 7.857,
       "displayed_value": "7.857"
@@ -2046,7 +2011,7 @@
       "panel": "A",
       "pair": "PPARA 6LXA",
       "metric": "lowest_saved_rmsd_A",
-      "source_file": "data/jcim_novelty_v0/tables/all14_cognate_rmsd_calcrrms_v1.csv",
+      "source_file": "results/canonical/cognate_rmsd.csv",
       "source_row": "6LXA",
       "raw_value": 1.401,
       "displayed_value": "1.401"
@@ -2056,7 +2021,7 @@
       "panel": "A",
       "pair": "PPARD 5U3Q",
       "metric": "top1_rmsd_A",
-      "source_file": "data/jcim_novelty_v0/tables/all14_cognate_rmsd_calcrrms_v1.csv",
+      "source_file": "results/canonical/cognate_rmsd.csv",
       "source_row": "5U3Q",
       "raw_value": 1.51,
       "displayed_value": "1.510"
@@ -2066,7 +2031,7 @@
       "panel": "A",
       "pair": "PPARD 5U3Q",
       "metric": "lowest_saved_rmsd_A",
-      "source_file": "data/jcim_novelty_v0/tables/all14_cognate_rmsd_calcrrms_v1.csv",
+      "source_file": "results/canonical/cognate_rmsd.csv",
       "source_row": "5U3Q",
       "raw_value": 1.51,
       "displayed_value": "1.510"
@@ -2076,7 +2041,7 @@
       "panel": "A",
       "pair": "EGFR/HER2",
       "metric": "matched_minus_mismatched_delta",
-      "source_file": "data/jcim_strengthen_t0t1_v0/tables/wrong_pocket_paired_delta_bootstrap_v1.csv",
+      "source_file": "results/canonical/matched_mismatched_pocket.csv",
       "source_row": "EGFR/HER2",
       "raw_value": 0.0558,
       "displayed_value": "0.056"
@@ -2086,7 +2051,7 @@
       "panel": "A",
       "pair": "JAK1/JAK2",
       "metric": "matched_minus_mismatched_delta",
-      "source_file": "data/jcim_strengthen_t0t1_v0/tables/wrong_pocket_paired_delta_bootstrap_v1.csv",
+      "source_file": "results/canonical/matched_mismatched_pocket.csv",
       "source_row": "JAK1/JAK2",
       "raw_value": -0.019,
       "displayed_value": "-0.019"
@@ -2096,7 +2061,7 @@
       "panel": "A",
       "pair": "JAK1/TYK2",
       "metric": "matched_minus_mismatched_delta",
-      "source_file": "data/jcim_strengthen_t0t1_v0/tables/wrong_pocket_paired_delta_bootstrap_v1.csv",
+      "source_file": "results/canonical/matched_mismatched_pocket.csv",
       "source_row": "JAK1/TYK2",
       "raw_value": -0.0645,
       "displayed_value": "-0.065"
@@ -2106,7 +2071,7 @@
       "panel": "A",
       "pair": "PIK3CA/mTOR",
       "metric": "matched_minus_mismatched_delta",
-      "source_file": "data/jcim_strengthen_t0t1_v0/tables/wrong_pocket_paired_delta_bootstrap_v1.csv",
+      "source_file": "results/canonical/matched_mismatched_pocket.csv",
       "source_row": "PIK3CA/mTOR",
       "raw_value": 0.0903,
       "displayed_value": "0.090"
@@ -2116,7 +2081,7 @@
       "panel": "A",
       "pair": "AChE/BChE",
       "metric": "matched_minus_mismatched_delta",
-      "source_file": "data/jcim_strengthen_t0t1_v0/tables/wrong_pocket_paired_delta_bootstrap_v1.csv",
+      "source_file": "results/canonical/matched_mismatched_pocket.csv",
       "source_row": "AChE/BChE",
       "raw_value": 0.177,
       "displayed_value": "0.177"
@@ -2126,7 +2091,7 @@
       "panel": "A",
       "pair": "F2/F10",
       "metric": "matched_minus_mismatched_delta",
-      "source_file": "data/jcim_strengthen_t0t1_v0/tables/wrong_pocket_paired_delta_bootstrap_v1.csv",
+      "source_file": "results/canonical/matched_mismatched_pocket.csv",
       "source_row": "F2/F10",
       "raw_value": -0.0307,
       "displayed_value": "-0.031"
@@ -2136,7 +2101,7 @@
       "panel": "A",
       "pair": "PPARG/PPARA",
       "metric": "matched_minus_mismatched_delta",
-      "source_file": "data/jcim_strengthen_t0t1_v0/tables/wrong_pocket_paired_delta_bootstrap_v1.csv",
+      "source_file": "results/canonical/matched_mismatched_pocket.csv",
       "source_row": "PPARG/PPARA",
       "raw_value": 0.0296,
       "displayed_value": "0.030"
@@ -2146,7 +2111,7 @@
       "panel": "A",
       "pair": "PPARA/PPARD",
       "metric": "matched_minus_mismatched_delta",
-      "source_file": "data/jcim_strengthen_t0t1_v0/tables/wrong_pocket_paired_delta_bootstrap_v1.csv",
+      "source_file": "results/canonical/matched_mismatched_pocket.csv",
       "source_row": "PPARA/PPARD",
       "raw_value": 0.0117,
       "displayed_value": "0.012"
@@ -2156,7 +2121,7 @@
       "panel": "B",
       "pair": "EGFR/HER2",
       "metric": "holdout_status",
-      "source_file": "data/jcim_holdout_v0/tables/holdout_pocket_matched_v1.csv",
+      "source_file": "results/canonical/holdout_metrics.csv",
       "source_row": "EGFR/HER2",
       "raw_value": "no_holdout",
       "displayed_value": "no unused-pool holdout"
@@ -2166,7 +2131,7 @@
       "panel": "B",
       "pair": "JAK1/JAK2",
       "metric": "holdout_matched_minus_mismatched_delta",
-      "source_file": "data/jcim_holdout_v0/tables/holdout_pocket_matched_v1.csv",
+      "source_file": "results/canonical/holdout_metrics.csv",
       "source_row": "JAK1/JAK2",
       "raw_value": 0.0083,
       "displayed_value": "0.008"
@@ -2176,7 +2141,7 @@
       "panel": "B",
       "pair": "JAK1/TYK2",
       "metric": "holdout_matched_minus_mismatched_delta",
-      "source_file": "data/jcim_holdout_v0/tables/holdout_pocket_matched_v1.csv",
+      "source_file": "results/canonical/holdout_metrics.csv",
       "source_row": "JAK1/TYK2",
       "raw_value": 0.025,
       "displayed_value": "0.025"
@@ -2186,7 +2151,7 @@
       "panel": "B",
       "pair": "PIK3CA/mTOR",
       "metric": "holdout_matched_minus_mismatched_delta",
-      "source_file": "data/jcim_holdout_v0/tables/holdout_pocket_matched_v1.csv",
+      "source_file": "results/canonical/holdout_metrics.csv",
       "source_row": "PIK3CA/mTOR",
       "raw_value": -0.0225,
       "displayed_value": "-0.022"
@@ -2196,7 +2161,7 @@
       "panel": "B",
       "pair": "AChE/BChE",
       "metric": "holdout_matched_minus_mismatched_delta",
-      "source_file": "data/jcim_holdout_v0/tables/holdout_pocket_matched_v1.csv",
+      "source_file": "results/canonical/holdout_metrics.csv",
       "source_row": "AChE/BChE",
       "raw_value": 0.025,
       "displayed_value": "0.025"
@@ -2206,7 +2171,7 @@
       "panel": "B",
       "pair": "F2/F10",
       "metric": "holdout_matched_minus_mismatched_delta",
-      "source_file": "data/jcim_holdout_v0/tables/holdout_pocket_matched_v1.csv",
+      "source_file": "results/canonical/holdout_metrics.csv",
       "source_row": "F2/F10",
       "raw_value": -0.0789,
       "displayed_value": "-0.079"
@@ -2216,7 +2181,7 @@
       "panel": "B",
       "pair": "PPARG/PPARA",
       "metric": "holdout_matched_minus_mismatched_delta",
-      "source_file": "data/jcim_holdout_v0/tables/holdout_pocket_matched_v1.csv",
+      "source_file": "results/canonical/holdout_metrics.csv",
       "source_row": "PPARG/PPARA",
       "raw_value": 0.0061,
       "displayed_value": "0.006"
@@ -2226,7 +2191,7 @@
       "panel": "B",
       "pair": "PPARA/PPARD",
       "metric": "holdout_matched_minus_mismatched_delta",
-      "source_file": "data/jcim_holdout_v0/tables/holdout_pocket_matched_v1.csv",
+      "source_file": "results/canonical/holdout_metrics.csv",
       "source_row": "PPARA/PPARD",
       "raw_value": 0.15,
       "displayed_value": "0.150"
@@ -2236,7 +2201,7 @@
       "panel": "A",
       "pair": "EGFR/HER2",
       "metric": "vina_summary_min",
-      "source_file": "data/jcim_strengthen_t0t1_v0/tables/unified_threshold_sensitivity_v2.csv",
+      "source_file": "results/canonical/primary_summary_min.csv",
       "source_row": "EGFR/HER2",
       "raw_value": 0.3237,
       "displayed_value": "0.324"
@@ -2246,7 +2211,7 @@
       "panel": "A",
       "pair": "EGFR/HER2",
       "metric": "gnina_summary_min",
-      "source_file": "data/jcim_independent_dock_v0/tables/independent_dock_formulation_v1.csv",
+      "source_file": "results/canonical/computational_robustness.csv",
       "source_row": "EGFR/HER2",
       "raw_value": 0.2645,
       "displayed_value": "0.265"
@@ -2256,7 +2221,7 @@
       "panel": "A",
       "pair": "EGFR/HER2",
       "metric": "vina_D_vs_neither",
-      "source_file": "data/jcim_novelty_v0/tables/formulation_conventional_vs_directional_v1.csv",
+      "source_file": "results/canonical/two_pocket_mean_ranking.csv",
       "source_row": "EGFR/HER2",
       "raw_value": 0.7589,
       "displayed_value": "0.759"
@@ -2266,7 +2231,7 @@
       "panel": "A",
       "pair": "EGFR/HER2",
       "metric": "gnina_D_vs_neither",
-      "source_file": "data/jcim_independent_dock_v0/tables/independent_dock_formulation_v1.csv",
+      "source_file": "results/canonical/computational_robustness.csv",
       "source_row": "EGFR/HER2",
       "raw_value": 0.737,
       "displayed_value": "0.737"
@@ -2276,7 +2241,7 @@
       "panel": "A",
       "pair": "JAK1/TYK2",
       "metric": "vina_summary_min",
-      "source_file": "data/jcim_strengthen_t0t1_v0/tables/unified_threshold_sensitivity_v2.csv",
+      "source_file": "results/canonical/primary_summary_min.csv",
       "source_row": "JAK1/TYK2",
       "raw_value": 0.3649,
       "displayed_value": "0.365"
@@ -2286,7 +2251,7 @@
       "panel": "A",
       "pair": "JAK1/TYK2",
       "metric": "gnina_summary_min",
-      "source_file": "data/jcim_independent_dock_v0/tables/independent_dock_formulation_v1.csv",
+      "source_file": "results/canonical/computational_robustness.csv",
       "source_row": "JAK1/TYK2",
       "raw_value": 0.3172,
       "displayed_value": "0.317"
@@ -2296,7 +2261,7 @@
       "panel": "A",
       "pair": "JAK1/TYK2",
       "metric": "vina_D_vs_neither",
-      "source_file": "data/jcim_novelty_v0/tables/formulation_conventional_vs_directional_v1.csv",
+      "source_file": "results/canonical/two_pocket_mean_ranking.csv",
       "source_row": "JAK1/TYK2",
       "raw_value": 0.7696,
       "displayed_value": "0.770"
@@ -2306,7 +2271,7 @@
       "panel": "A",
       "pair": "JAK1/TYK2",
       "metric": "gnina_D_vs_neither",
-      "source_file": "data/jcim_independent_dock_v0/tables/independent_dock_formulation_v1.csv",
+      "source_file": "results/canonical/computational_robustness.csv",
       "source_row": "JAK1/TYK2",
       "raw_value": 0.7048,
       "displayed_value": "0.705"
@@ -2316,7 +2281,7 @@
       "panel": "A",
       "pair": "PIK3CA/mTOR",
       "metric": "vina_summary_min",
-      "source_file": "data/jcim_strengthen_t0t1_v0/tables/unified_threshold_sensitivity_v2.csv",
+      "source_file": "results/canonical/primary_summary_min.csv",
       "source_row": "PIK3CA/mTOR",
       "raw_value": 0.6921,
       "displayed_value": "0.692"
@@ -2326,7 +2291,7 @@
       "panel": "A",
       "pair": "PIK3CA/mTOR",
       "metric": "gnina_summary_min",
-      "source_file": "data/jcim_independent_dock_v0/tables/independent_dock_formulation_v1.csv",
+      "source_file": "results/canonical/computational_robustness.csv",
       "source_row": "PIK3CA/mTOR",
       "raw_value": 0.6325,
       "displayed_value": "0.632"
@@ -2336,7 +2301,7 @@
       "panel": "A",
       "pair": "PIK3CA/mTOR",
       "metric": "vina_D_vs_neither",
-      "source_file": "data/jcim_novelty_v0/tables/formulation_conventional_vs_directional_v1.csv",
+      "source_file": "results/canonical/two_pocket_mean_ranking.csv",
       "source_row": "PIK3CA/mTOR",
       "raw_value": 0.5139,
       "displayed_value": "0.514"
@@ -2346,17 +2311,377 @@
       "panel": "A",
       "pair": "PIK3CA/mTOR",
       "metric": "gnina_D_vs_neither",
-      "source_file": "data/jcim_independent_dock_v0/tables/independent_dock_formulation_v1.csv",
+      "source_file": "results/canonical/computational_robustness.csv",
       "source_row": "PIK3CA/mTOR",
       "raw_value": 0.5694,
       "displayed_value": "0.569"
+    },
+    {
+      "figure": "Figure 5",
+      "panel": "B",
+      "pair": "PIK3CA/mTOR",
+      "metric": "4L23 / 4JT6",
+      "source_file": "results/canonical/receptor_substitution.csv",
+      "source_row": "4L23 / 4JT6",
+      "raw_value": 0.6921,
+      "displayed_value": "0.692"
+    },
+    {
+      "figure": "Figure 5",
+      "panel": "B",
+      "pair": "PIK3CA/mTOR",
+      "metric": "4JPS",
+      "source_file": "results/canonical/receptor_substitution.csv",
+      "source_row": "4JPS",
+      "raw_value": 0.4861,
+      "displayed_value": "0.486"
+    },
+    {
+      "figure": "Figure 5",
+      "panel": "B",
+      "pair": "PIK3CA/mTOR",
+      "metric": "5DXT",
+      "source_file": "results/canonical/receptor_substitution.csv",
+      "source_row": "5DXT",
+      "raw_value": 0.5046,
+      "displayed_value": "0.505"
+    },
+    {
+      "figure": "Figure 5",
+      "panel": "B",
+      "pair": "PIK3CA/mTOR",
+      "metric": "4JSX",
+      "source_file": "results/canonical/receptor_substitution.csv",
+      "source_row": "4JSX",
+      "raw_value": 0.6389,
+      "displayed_value": "0.639"
+    },
+    {
+      "figure": "Figure 5",
+      "panel": "C",
+      "pair": "EGFR/HER2",
+      "metric": "five_seed_min",
+      "source_file": "results/canonical/five_seed_summary_min.csv",
+      "source_row": "EGFR/HER2",
+      "raw_value": 0.3237,
+      "displayed_value": "0.324"
+    },
+    {
+      "figure": "Figure 5",
+      "panel": "C",
+      "pair": "EGFR/HER2",
+      "metric": "five_seed_max",
+      "source_file": "results/canonical/five_seed_summary_min.csv",
+      "source_row": "EGFR/HER2",
+      "raw_value": 0.3504,
+      "displayed_value": "0.350"
+    },
+    {
+      "figure": "Figure 5",
+      "panel": "C",
+      "pair": "EGFR/HER2",
+      "metric": "five_seed_median",
+      "source_file": "results/canonical/five_seed_summary_min.csv",
+      "source_row": "EGFR/HER2",
+      "raw_value": 0.3304,
+      "displayed_value": "0.330"
+    },
+    {
+      "figure": "Figure 5",
+      "panel": "C",
+      "pair": "EGFR/HER2",
+      "metric": "five_seed_primary",
+      "source_file": "results/canonical/primary_summary_min.csv",
+      "source_row": "EGFR/HER2",
+      "raw_value": 0.3237,
+      "displayed_value": "0.324"
+    },
+    {
+      "figure": "Figure 5",
+      "panel": "C",
+      "pair": "JAK1/JAK2",
+      "metric": "five_seed_min",
+      "source_file": "results/canonical/five_seed_summary_min.csv",
+      "source_row": "JAK1/JAK2",
+      "raw_value": 0.5742,
+      "displayed_value": "0.574"
+    },
+    {
+      "figure": "Figure 5",
+      "panel": "C",
+      "pair": "JAK1/JAK2",
+      "metric": "five_seed_max",
+      "source_file": "results/canonical/five_seed_summary_min.csv",
+      "source_row": "JAK1/JAK2",
+      "raw_value": 0.5918,
+      "displayed_value": "0.592"
+    },
+    {
+      "figure": "Figure 5",
+      "panel": "C",
+      "pair": "JAK1/JAK2",
+      "metric": "five_seed_median",
+      "source_file": "results/canonical/five_seed_summary_min.csv",
+      "source_row": "JAK1/JAK2",
+      "raw_value": 0.5879,
+      "displayed_value": "0.588"
+    },
+    {
+      "figure": "Figure 5",
+      "panel": "C",
+      "pair": "JAK1/JAK2",
+      "metric": "five_seed_primary",
+      "source_file": "results/canonical/primary_summary_min.csv",
+      "source_row": "JAK1/JAK2",
+      "raw_value": 0.5884,
+      "displayed_value": "0.588"
+    },
+    {
+      "figure": "Figure 5",
+      "panel": "C",
+      "pair": "JAK1/TYK2",
+      "metric": "five_seed_min",
+      "source_file": "results/canonical/five_seed_summary_min.csv",
+      "source_row": "JAK1/TYK2",
+      "raw_value": 0.3649,
+      "displayed_value": "0.365"
+    },
+    {
+      "figure": "Figure 5",
+      "panel": "C",
+      "pair": "JAK1/TYK2",
+      "metric": "five_seed_max",
+      "source_file": "results/canonical/five_seed_summary_min.csv",
+      "source_row": "JAK1/TYK2",
+      "raw_value": 0.381,
+      "displayed_value": "0.381"
+    },
+    {
+      "figure": "Figure 5",
+      "panel": "C",
+      "pair": "JAK1/TYK2",
+      "metric": "five_seed_median",
+      "source_file": "results/canonical/five_seed_summary_min.csv",
+      "source_row": "JAK1/TYK2",
+      "raw_value": 0.377,
+      "displayed_value": "0.377"
+    },
+    {
+      "figure": "Figure 5",
+      "panel": "C",
+      "pair": "JAK1/TYK2",
+      "metric": "five_seed_primary",
+      "source_file": "results/canonical/primary_summary_min.csv",
+      "source_row": "JAK1/TYK2",
+      "raw_value": 0.3649,
+      "displayed_value": "0.365"
+    },
+    {
+      "figure": "Figure 5",
+      "panel": "C",
+      "pair": "PIK3CA/mTOR",
+      "metric": "five_seed_min",
+      "source_file": "results/canonical/five_seed_summary_min.csv",
+      "source_row": "PIK3CA/mTOR",
+      "raw_value": 0.6759,
+      "displayed_value": "0.676"
+    },
+    {
+      "figure": "Figure 5",
+      "panel": "C",
+      "pair": "PIK3CA/mTOR",
+      "metric": "five_seed_max",
+      "source_file": "results/canonical/five_seed_summary_min.csv",
+      "source_row": "PIK3CA/mTOR",
+      "raw_value": 0.7262,
+      "displayed_value": "0.726"
+    },
+    {
+      "figure": "Figure 5",
+      "panel": "C",
+      "pair": "PIK3CA/mTOR",
+      "metric": "five_seed_median",
+      "source_file": "results/canonical/five_seed_summary_min.csv",
+      "source_row": "PIK3CA/mTOR",
+      "raw_value": 0.7037,
+      "displayed_value": "0.704"
+    },
+    {
+      "figure": "Figure 5",
+      "panel": "C",
+      "pair": "PIK3CA/mTOR",
+      "metric": "five_seed_primary",
+      "source_file": "results/canonical/primary_summary_min.csv",
+      "source_row": "PIK3CA/mTOR",
+      "raw_value": 0.6921,
+      "displayed_value": "0.692"
+    },
+    {
+      "figure": "Figure 5",
+      "panel": "C",
+      "pair": "AChE/BChE",
+      "metric": "five_seed_min",
+      "source_file": "results/canonical/five_seed_summary_min.csv",
+      "source_row": "AChE/BChE",
+      "raw_value": 0.5527,
+      "displayed_value": "0.553"
+    },
+    {
+      "figure": "Figure 5",
+      "panel": "C",
+      "pair": "AChE/BChE",
+      "metric": "five_seed_max",
+      "source_file": "results/canonical/five_seed_summary_min.csv",
+      "source_row": "AChE/BChE",
+      "raw_value": 0.6058,
+      "displayed_value": "0.606"
+    },
+    {
+      "figure": "Figure 5",
+      "panel": "C",
+      "pair": "AChE/BChE",
+      "metric": "five_seed_median",
+      "source_file": "results/canonical/five_seed_summary_min.csv",
+      "source_row": "AChE/BChE",
+      "raw_value": 0.5988,
+      "displayed_value": "0.599"
+    },
+    {
+      "figure": "Figure 5",
+      "panel": "C",
+      "pair": "AChE/BChE",
+      "metric": "five_seed_primary",
+      "source_file": "results/canonical/primary_summary_min.csv",
+      "source_row": "AChE/BChE",
+      "raw_value": 0.6058,
+      "displayed_value": "0.606"
+    },
+    {
+      "figure": "Figure 5",
+      "panel": "C",
+      "pair": "F2/F10",
+      "metric": "five_seed_min",
+      "source_file": "results/canonical/five_seed_summary_min.csv",
+      "source_row": "F2/F10",
+      "raw_value": 0.3448,
+      "displayed_value": "0.345"
+    },
+    {
+      "figure": "Figure 5",
+      "panel": "C",
+      "pair": "F2/F10",
+      "metric": "five_seed_max",
+      "source_file": "results/canonical/five_seed_summary_min.csv",
+      "source_row": "F2/F10",
+      "raw_value": 0.3851,
+      "displayed_value": "0.385"
+    },
+    {
+      "figure": "Figure 5",
+      "panel": "C",
+      "pair": "F2/F10",
+      "metric": "five_seed_median",
+      "source_file": "results/canonical/five_seed_summary_min.csv",
+      "source_row": "F2/F10",
+      "raw_value": 0.3659,
+      "displayed_value": "0.366"
+    },
+    {
+      "figure": "Figure 5",
+      "panel": "C",
+      "pair": "F2/F10",
+      "metric": "five_seed_primary",
+      "source_file": "results/canonical/primary_summary_min.csv",
+      "source_row": "F2/F10",
+      "raw_value": 0.3448,
+      "displayed_value": "0.345"
+    },
+    {
+      "figure": "Figure 5",
+      "panel": "C",
+      "pair": "PPARG/PPARA",
+      "metric": "five_seed_min",
+      "source_file": "results/canonical/five_seed_summary_min.csv",
+      "source_row": "PPARG/PPARA",
+      "raw_value": 0.6489,
+      "displayed_value": "0.649"
+    },
+    {
+      "figure": "Figure 5",
+      "panel": "C",
+      "pair": "PPARG/PPARA",
+      "metric": "five_seed_max",
+      "source_file": "results/canonical/five_seed_summary_min.csv",
+      "source_row": "PPARG/PPARA",
+      "raw_value": 0.691,
+      "displayed_value": "0.691"
+    },
+    {
+      "figure": "Figure 5",
+      "panel": "C",
+      "pair": "PPARG/PPARA",
+      "metric": "five_seed_median",
+      "source_file": "results/canonical/five_seed_summary_min.csv",
+      "source_row": "PPARG/PPARA",
+      "raw_value": 0.6514,
+      "displayed_value": "0.651"
+    },
+    {
+      "figure": "Figure 5",
+      "panel": "C",
+      "pair": "PPARG/PPARA",
+      "metric": "five_seed_primary",
+      "source_file": "results/canonical/primary_summary_min.csv",
+      "source_row": "PPARG/PPARA",
+      "raw_value": 0.6492,
+      "displayed_value": "0.649"
+    },
+    {
+      "figure": "Figure 5",
+      "panel": "C",
+      "pair": "PPARA/PPARD",
+      "metric": "five_seed_min",
+      "source_file": "results/canonical/five_seed_summary_min.csv",
+      "source_row": "PPARA/PPARD",
+      "raw_value": 0.4463,
+      "displayed_value": "0.446"
+    },
+    {
+      "figure": "Figure 5",
+      "panel": "C",
+      "pair": "PPARA/PPARD",
+      "metric": "five_seed_max",
+      "source_file": "results/canonical/five_seed_summary_min.csv",
+      "source_row": "PPARA/PPARD",
+      "raw_value": 0.4688,
+      "displayed_value": "0.469"
+    },
+    {
+      "figure": "Figure 5",
+      "panel": "C",
+      "pair": "PPARA/PPARD",
+      "metric": "five_seed_median",
+      "source_file": "results/canonical/five_seed_summary_min.csv",
+      "source_row": "PPARA/PPARD",
+      "raw_value": 0.4536,
+      "displayed_value": "0.454"
+    },
+    {
+      "figure": "Figure 5",
+      "panel": "C",
+      "pair": "PPARA/PPARD",
+      "metric": "five_seed_primary",
+      "source_file": "results/canonical/primary_summary_min.csv",
+      "source_row": "PPARA/PPARD",
+      "raw_value": 0.4463,
+      "displayed_value": "0.446"
     },
     {
       "figure": "Figure S2",
       "panel": "A",
       "pair": "PIK3CA/mTOR",
       "metric": "PM48",
-      "source_file": "data/jcim_strengthen_t0t1_v0/tables/pm110_vs_pm48_pocket_matched_v1.csv",
+      "source_file": "results/canonical/protocol_sensitivity.csv",
       "source_row": "PM48",
       "raw_value": 0.6921,
       "displayed_value": "0.692"
@@ -2366,7 +2691,7 @@
       "panel": "A",
       "pair": "PIK3CA/mTOR",
       "metric": "PM110",
-      "source_file": "data/jcim_strengthen_t0t1_v0/tables/pm110_vs_pm48_pocket_matched_v1.csv",
+      "source_file": "results/canonical/protocol_sensitivity.csv",
       "source_row": "PM110",
       "raw_value": 0.6483,
       "displayed_value": "0.648"
@@ -2376,7 +2701,7 @@
       "panel": "B",
       "pair": "PIK3CA/mTOR",
       "metric": "E16",
-      "source_file": "data/jcim_strengthen_t0t1_v0/tables/pm110_vs_pm48_pocket_matched_v1.csv",
+      "source_file": "results/canonical/protocol_sensitivity.csv",
       "source_row": "E16",
       "raw_value": 0.6921,
       "displayed_value": "0.692"
@@ -2386,10 +2711,540 @@
       "panel": "B",
       "pair": "PIK3CA/mTOR",
       "metric": "E8",
-      "source_file": "data/jcim_strengthen_t0t1_v0/tables/pm110_vs_pm48_pocket_matched_v1.csv",
+      "source_file": "results/canonical/protocol_sensitivity.csv",
       "source_row": "E8",
-      "raw_value": 0.6597222222222222,
+      "raw_value": 0.6597,
       "displayed_value": "0.660"
+    },
+    {
+      "figure": "Figure S4",
+      "panel": "A",
+      "pair": "EGFR/HER2",
+      "metric": "theta_5.5",
+      "source_file": "results/canonical/label_aggregation_sensitivity.csv",
+      "source_row": "EGFR/HER2",
+      "raw_value": 0.3797,
+      "displayed_value": "0.380"
+    },
+    {
+      "figure": "Figure S4",
+      "panel": "A",
+      "pair": "EGFR/HER2",
+      "metric": "theta_6.0",
+      "source_file": "results/canonical/label_aggregation_sensitivity.csv",
+      "source_row": "EGFR/HER2",
+      "raw_value": 0.3237,
+      "displayed_value": "0.324"
+    },
+    {
+      "figure": "Figure S4",
+      "panel": "A",
+      "pair": "EGFR/HER2",
+      "metric": "theta_6.5",
+      "source_file": "results/canonical/label_aggregation_sensitivity.csv",
+      "source_row": "EGFR/HER2",
+      "raw_value": 0.3462,
+      "displayed_value": "0.346"
+    },
+    {
+      "figure": "Figure S4",
+      "panel": "A",
+      "pair": "EGFR/HER2",
+      "metric": "strict_6.5_5.5",
+      "source_file": "results/canonical/label_aggregation_sensitivity.csv",
+      "source_row": "EGFR/HER2",
+      "raw_value": 0.1758,
+      "displayed_value": "0.176"
+    },
+    {
+      "figure": "Figure S4",
+      "panel": "A",
+      "pair": "JAK1/JAK2",
+      "metric": "theta_5.5",
+      "source_file": "results/canonical/label_aggregation_sensitivity.csv",
+      "source_row": "JAK1/JAK2",
+      "raw_value": 0.5716,
+      "displayed_value": "0.572"
+    },
+    {
+      "figure": "Figure S4",
+      "panel": "A",
+      "pair": "JAK1/JAK2",
+      "metric": "theta_6.0",
+      "source_file": "results/canonical/label_aggregation_sensitivity.csv",
+      "source_row": "JAK1/JAK2",
+      "raw_value": 0.5884,
+      "displayed_value": "0.588"
+    },
+    {
+      "figure": "Figure S4",
+      "panel": "A",
+      "pair": "JAK1/JAK2",
+      "metric": "theta_6.5",
+      "source_file": "results/canonical/label_aggregation_sensitivity.csv",
+      "source_row": "JAK1/JAK2",
+      "raw_value": 0.5884,
+      "displayed_value": "0.588"
+    },
+    {
+      "figure": "Figure S4",
+      "panel": "A",
+      "pair": "JAK1/JAK2",
+      "metric": "strict_6.5_5.5",
+      "source_file": "results/canonical/label_aggregation_sensitivity.csv",
+      "source_row": "JAK1/JAK2",
+      "raw_value": 0.5884,
+      "displayed_value": "0.588"
+    },
+    {
+      "figure": "Figure S4",
+      "panel": "A",
+      "pair": "JAK1/TYK2",
+      "metric": "theta_5.5",
+      "source_file": "results/canonical/label_aggregation_sensitivity.csv",
+      "source_row": "JAK1/TYK2",
+      "raw_value": 0.3845,
+      "displayed_value": "0.385"
+    },
+    {
+      "figure": "Figure S4",
+      "panel": "A",
+      "pair": "JAK1/TYK2",
+      "metric": "theta_6.0",
+      "source_file": "results/canonical/label_aggregation_sensitivity.csv",
+      "source_row": "JAK1/TYK2",
+      "raw_value": 0.3649,
+      "displayed_value": "0.365"
+    },
+    {
+      "figure": "Figure S4",
+      "panel": "A",
+      "pair": "JAK1/TYK2",
+      "metric": "theta_6.5",
+      "source_file": "results/canonical/label_aggregation_sensitivity.csv",
+      "source_row": "JAK1/TYK2",
+      "raw_value": 0.3649,
+      "displayed_value": "0.365"
+    },
+    {
+      "figure": "Figure S4",
+      "panel": "A",
+      "pair": "JAK1/TYK2",
+      "metric": "strict_6.5_5.5",
+      "source_file": "results/canonical/label_aggregation_sensitivity.csv",
+      "source_row": "JAK1/TYK2",
+      "raw_value": 0.3649,
+      "displayed_value": "0.365"
+    },
+    {
+      "figure": "Figure S4",
+      "panel": "A",
+      "pair": "PIK3CA/mTOR",
+      "metric": "theta_5.5",
+      "source_file": "results/canonical/label_aggregation_sensitivity.csv",
+      "source_row": "PIK3CA/mTOR",
+      "raw_value": 0.5017,
+      "displayed_value": "0.502"
+    },
+    {
+      "figure": "Figure S4",
+      "panel": "A",
+      "pair": "PIK3CA/mTOR",
+      "metric": "theta_6.0",
+      "source_file": "results/canonical/label_aggregation_sensitivity.csv",
+      "source_row": "PIK3CA/mTOR",
+      "raw_value": 0.6921,
+      "displayed_value": "0.692"
+    },
+    {
+      "figure": "Figure S4",
+      "panel": "A",
+      "pair": "PIK3CA/mTOR",
+      "metric": "theta_6.5",
+      "source_file": "results/canonical/label_aggregation_sensitivity.csv",
+      "source_row": "PIK3CA/mTOR",
+      "raw_value": 0.674,
+      "displayed_value": "0.674"
+    },
+    {
+      "figure": "Figure S4",
+      "panel": "A",
+      "pair": "PIK3CA/mTOR",
+      "metric": "strict_6.5_5.5",
+      "source_file": "results/canonical/label_aggregation_sensitivity.csv",
+      "source_row": "PIK3CA/mTOR",
+      "raw_value": 0.6387,
+      "displayed_value": "0.639"
+    },
+    {
+      "figure": "Figure S4",
+      "panel": "A",
+      "pair": "AChE/BChE",
+      "metric": "theta_5.5",
+      "source_file": "results/canonical/label_aggregation_sensitivity.csv",
+      "source_row": "AChE/BChE",
+      "raw_value": 0.6058,
+      "displayed_value": "0.606"
+    },
+    {
+      "figure": "Figure S4",
+      "panel": "A",
+      "pair": "AChE/BChE",
+      "metric": "theta_6.0",
+      "source_file": "results/canonical/label_aggregation_sensitivity.csv",
+      "source_row": "AChE/BChE",
+      "raw_value": 0.6058,
+      "displayed_value": "0.606"
+    },
+    {
+      "figure": "Figure S4",
+      "panel": "A",
+      "pair": "AChE/BChE",
+      "metric": "theta_6.5",
+      "source_file": "results/canonical/label_aggregation_sensitivity.csv",
+      "source_row": "AChE/BChE",
+      "raw_value": 0.6058,
+      "displayed_value": "0.606"
+    },
+    {
+      "figure": "Figure S4",
+      "panel": "A",
+      "pair": "AChE/BChE",
+      "metric": "strict_6.5_5.5",
+      "source_file": "results/canonical/label_aggregation_sensitivity.csv",
+      "source_row": "AChE/BChE",
+      "raw_value": 0.6058,
+      "displayed_value": "0.606"
+    },
+    {
+      "figure": "Figure S4",
+      "panel": "A",
+      "pair": "F2/F10",
+      "metric": "theta_5.5",
+      "source_file": "results/canonical/label_aggregation_sensitivity.csv",
+      "source_row": "F2/F10",
+      "raw_value": 0.3529,
+      "displayed_value": "0.353"
+    },
+    {
+      "figure": "Figure S4",
+      "panel": "A",
+      "pair": "F2/F10",
+      "metric": "theta_6.0",
+      "source_file": "results/canonical/label_aggregation_sensitivity.csv",
+      "source_row": "F2/F10",
+      "raw_value": 0.3448,
+      "displayed_value": "0.345"
+    },
+    {
+      "figure": "Figure S4",
+      "panel": "A",
+      "pair": "F2/F10",
+      "metric": "theta_6.5",
+      "source_file": "results/canonical/label_aggregation_sensitivity.csv",
+      "source_row": "F2/F10",
+      "raw_value": 0.3448,
+      "displayed_value": "0.345"
+    },
+    {
+      "figure": "Figure S4",
+      "panel": "A",
+      "pair": "F2/F10",
+      "metric": "strict_6.5_5.5",
+      "source_file": "results/canonical/label_aggregation_sensitivity.csv",
+      "source_row": "F2/F10",
+      "raw_value": 0.3448,
+      "displayed_value": "0.345"
+    },
+    {
+      "figure": "Figure S4",
+      "panel": "A",
+      "pair": "PPARG/PPARA",
+      "metric": "theta_5.5",
+      "source_file": "results/canonical/label_aggregation_sensitivity.csv",
+      "source_row": "PPARG/PPARA",
+      "raw_value": 0.6444,
+      "displayed_value": "0.644"
+    },
+    {
+      "figure": "Figure S4",
+      "panel": "A",
+      "pair": "PPARG/PPARA",
+      "metric": "theta_6.0",
+      "source_file": "results/canonical/label_aggregation_sensitivity.csv",
+      "source_row": "PPARG/PPARA",
+      "raw_value": 0.6492,
+      "displayed_value": "0.649"
+    },
+    {
+      "figure": "Figure S4",
+      "panel": "A",
+      "pair": "PPARG/PPARA",
+      "metric": "theta_6.5",
+      "source_file": "results/canonical/label_aggregation_sensitivity.csv",
+      "source_row": "PPARG/PPARA",
+      "raw_value": 0.6492,
+      "displayed_value": "0.649"
+    },
+    {
+      "figure": "Figure S4",
+      "panel": "A",
+      "pair": "PPARG/PPARA",
+      "metric": "strict_6.5_5.5",
+      "source_file": "results/canonical/label_aggregation_sensitivity.csv",
+      "source_row": "PPARG/PPARA",
+      "raw_value": 0.6492,
+      "displayed_value": "0.649"
+    },
+    {
+      "figure": "Figure S4",
+      "panel": "A",
+      "pair": "PPARA/PPARD",
+      "metric": "theta_5.5",
+      "source_file": "results/canonical/label_aggregation_sensitivity.csv",
+      "source_row": "PPARA/PPARD",
+      "raw_value": 0.4539,
+      "displayed_value": "0.454"
+    },
+    {
+      "figure": "Figure S4",
+      "panel": "A",
+      "pair": "PPARA/PPARD",
+      "metric": "theta_6.0",
+      "source_file": "results/canonical/label_aggregation_sensitivity.csv",
+      "source_row": "PPARA/PPARD",
+      "raw_value": 0.4463,
+      "displayed_value": "0.446"
+    },
+    {
+      "figure": "Figure S4",
+      "panel": "A",
+      "pair": "PPARA/PPARD",
+      "metric": "theta_6.5",
+      "source_file": "results/canonical/label_aggregation_sensitivity.csv",
+      "source_row": "PPARA/PPARD",
+      "raw_value": 0.4463,
+      "displayed_value": "0.446"
+    },
+    {
+      "figure": "Figure S4",
+      "panel": "A",
+      "pair": "PPARA/PPARD",
+      "metric": "strict_6.5_5.5",
+      "source_file": "results/canonical/label_aggregation_sensitivity.csv",
+      "source_row": "PPARA/PPARD",
+      "raw_value": 0.4463,
+      "displayed_value": "0.446"
+    },
+    {
+      "figure": "Figure S4",
+      "panel": "B",
+      "pair": "EGFR/HER2|ligand_stratified",
+      "metric": "cluster_delta",
+      "source_file": "results/canonical/cluster_bootstrap_sensitivity.csv",
+      "source_row": "EGFR/HER2|ligand_stratified",
+      "raw_value": 0.4621,
+      "displayed_value": "0.462"
+    },
+    {
+      "figure": "Figure S4",
+      "panel": "B",
+      "pair": "EGFR/HER2|scaffold_cluster",
+      "metric": "cluster_delta",
+      "source_file": "results/canonical/cluster_bootstrap_sensitivity.csv",
+      "source_row": "EGFR/HER2|scaffold_cluster",
+      "raw_value": 0.4621,
+      "displayed_value": "0.462"
+    },
+    {
+      "figure": "Figure S4",
+      "panel": "B",
+      "pair": "EGFR/HER2|document_cluster",
+      "metric": "cluster_delta",
+      "source_file": "results/canonical/cluster_bootstrap_sensitivity.csv",
+      "source_row": "EGFR/HER2|document_cluster",
+      "raw_value": 0.4621,
+      "displayed_value": "0.462"
+    },
+    {
+      "figure": "Figure S4",
+      "panel": "B",
+      "pair": "JAK1/TYK2|ligand_stratified",
+      "metric": "cluster_delta",
+      "source_file": "results/canonical/cluster_bootstrap_sensitivity.csv",
+      "source_row": "JAK1/TYK2|ligand_stratified",
+      "raw_value": 0.4438,
+      "displayed_value": "0.444"
+    },
+    {
+      "figure": "Figure S4",
+      "panel": "B",
+      "pair": "JAK1/TYK2|scaffold_cluster",
+      "metric": "cluster_delta",
+      "source_file": "results/canonical/cluster_bootstrap_sensitivity.csv",
+      "source_row": "JAK1/TYK2|scaffold_cluster",
+      "raw_value": 0.4438,
+      "displayed_value": "0.444"
+    },
+    {
+      "figure": "Figure S5",
+      "panel": "A",
+      "pair": "EGFR/HER2",
+      "metric": "n_dual",
+      "source_file": "results/canonical/external_eligibility.csv",
+      "source_row": "EGFR/HER2",
+      "raw_value": 180.0,
+      "displayed_value": "180"
+    },
+    {
+      "figure": "Figure S5",
+      "panel": "B",
+      "pair": "EGFR/HER2",
+      "metric": "n_sources_dual",
+      "source_file": "results/canonical/external_eligibility.csv",
+      "source_row": "EGFR/HER2",
+      "raw_value": 16.0,
+      "displayed_value": "16"
+    },
+    {
+      "figure": "Figure S5",
+      "panel": "A",
+      "pair": "JAK1/JAK2",
+      "metric": "n_dual",
+      "source_file": "results/canonical/external_eligibility.csv",
+      "source_row": "JAK1/JAK2",
+      "raw_value": 928.0,
+      "displayed_value": "928"
+    },
+    {
+      "figure": "Figure S5",
+      "panel": "B",
+      "pair": "JAK1/JAK2",
+      "metric": "n_sources_dual",
+      "source_file": "results/canonical/external_eligibility.csv",
+      "source_row": "JAK1/JAK2",
+      "raw_value": 28.0,
+      "displayed_value": "28"
+    },
+    {
+      "figure": "Figure S5",
+      "panel": "A",
+      "pair": "JAK1/TYK2",
+      "metric": "n_dual",
+      "source_file": "results/canonical/external_eligibility.csv",
+      "source_row": "JAK1/TYK2",
+      "raw_value": 323.0,
+      "displayed_value": "323"
+    },
+    {
+      "figure": "Figure S5",
+      "panel": "B",
+      "pair": "JAK1/TYK2",
+      "metric": "n_sources_dual",
+      "source_file": "results/canonical/external_eligibility.csv",
+      "source_row": "JAK1/TYK2",
+      "raw_value": 20.0,
+      "displayed_value": "20"
+    },
+    {
+      "figure": "Figure S5",
+      "panel": "A",
+      "pair": "PIK3CA/mTOR",
+      "metric": "n_dual",
+      "source_file": "results/canonical/external_eligibility.csv",
+      "source_row": "PIK3CA/mTOR",
+      "raw_value": 91.0,
+      "displayed_value": "91"
+    },
+    {
+      "figure": "Figure S5",
+      "panel": "B",
+      "pair": "PIK3CA/mTOR",
+      "metric": "n_sources_dual",
+      "source_file": "results/canonical/external_eligibility.csv",
+      "source_row": "PIK3CA/mTOR",
+      "raw_value": 9.0,
+      "displayed_value": "9"
+    },
+    {
+      "figure": "Figure S5",
+      "panel": "A",
+      "pair": "AChE/BChE",
+      "metric": "n_dual",
+      "source_file": "results/canonical/external_eligibility.csv",
+      "source_row": "AChE/BChE",
+      "raw_value": 4.0,
+      "displayed_value": "4"
+    },
+    {
+      "figure": "Figure S5",
+      "panel": "B",
+      "pair": "AChE/BChE",
+      "metric": "n_sources_dual",
+      "source_file": "results/canonical/external_eligibility.csv",
+      "source_row": "AChE/BChE",
+      "raw_value": 2.0,
+      "displayed_value": "2"
+    },
+    {
+      "figure": "Figure S5",
+      "panel": "A",
+      "pair": "F2/F10",
+      "metric": "n_dual",
+      "source_file": "results/canonical/external_eligibility.csv",
+      "source_row": "F2/F10",
+      "raw_value": 46.0,
+      "displayed_value": "46"
+    },
+    {
+      "figure": "Figure S5",
+      "panel": "B",
+      "pair": "F2/F10",
+      "metric": "n_sources_dual",
+      "source_file": "results/canonical/external_eligibility.csv",
+      "source_row": "F2/F10",
+      "raw_value": 4.0,
+      "displayed_value": "4"
+    },
+    {
+      "figure": "Figure S5",
+      "panel": "A",
+      "pair": "PPARG/PPARA",
+      "metric": "n_dual",
+      "source_file": "results/canonical/external_eligibility.csv",
+      "source_row": "PPARG/PPARA",
+      "raw_value": 0.0,
+      "displayed_value": "0"
+    },
+    {
+      "figure": "Figure S5",
+      "panel": "B",
+      "pair": "PPARG/PPARA",
+      "metric": "n_sources_dual",
+      "source_file": "results/canonical/external_eligibility.csv",
+      "source_row": "PPARG/PPARA",
+      "raw_value": 0.0,
+      "displayed_value": "0"
+    },
+    {
+      "figure": "Figure S5",
+      "panel": "A",
+      "pair": "PPARA/PPARD",
+      "metric": "n_dual",
+      "source_file": "results/canonical/external_eligibility.csv",
+      "source_row": "PPARA/PPARD",
+      "raw_value": 0.0,
+      "displayed_value": "0"
+    },
+    {
+      "figure": "Figure S5",
+      "panel": "B",
+      "pair": "PPARA/PPARD",
+      "metric": "n_sources_dual",
+      "source_file": "results/canonical/external_eligibility.csv",
+      "source_row": "PPARA/PPARD",
+      "raw_value": 0.0,
+      "displayed_value": "0"
     }
   ],
   "nested_plotted": {
@@ -2444,9 +3299,7 @@
           "bootstrap": "class_stratified_shared_dual",
           "B": "2000",
           "seed": "20260729",
-          "ci_excludes_zero": "1",
-          "underpowered_neither": "0",
-          "note": "scheme-B class-stratified shared dual; results/canonical"
+          "ci_excludes_zero": "1"
         },
         "fixed_B": {
           "pair": "EGFR/HER2",
@@ -2463,9 +3316,7 @@
           "bootstrap": "class_stratified_shared_dual",
           "B": "2000",
           "seed": "20260729",
-          "ci_excludes_zero": "0",
-          "underpowered_neither": "0",
-          "note": "scheme-B class-stratified shared dual; results/canonical"
+          "ci_excludes_zero": "0"
         }
       },
       "JAK1/JAK2": {
@@ -2495,9 +3346,7 @@
           "bootstrap": "class_stratified_shared_dual",
           "B": "2000",
           "seed": "20260729",
-          "ci_excludes_zero": "0",
-          "underpowered_neither": "0",
-          "note": "scheme-B class-stratified shared dual; results/canonical"
+          "ci_excludes_zero": "0"
         },
         "fixed_B": {
           "pair": "JAK1/JAK2",
@@ -2514,9 +3363,7 @@
           "bootstrap": "class_stratified_shared_dual",
           "B": "2000",
           "seed": "20260729",
-          "ci_excludes_zero": "0",
-          "underpowered_neither": "0",
-          "note": "scheme-B class-stratified shared dual; results/canonical"
+          "ci_excludes_zero": "0"
         }
       },
       "JAK1/TYK2": {
@@ -2546,9 +3393,7 @@
           "bootstrap": "class_stratified_shared_dual",
           "B": "2000",
           "seed": "20260729",
-          "ci_excludes_zero": "1",
-          "underpowered_neither": "0",
-          "note": "scheme-B class-stratified shared dual; results/canonical"
+          "ci_excludes_zero": "1"
         },
         "fixed_B": {
           "pair": "JAK1/TYK2",
@@ -2565,9 +3410,7 @@
           "bootstrap": "class_stratified_shared_dual",
           "B": "2000",
           "seed": "20260729",
-          "ci_excludes_zero": "0",
-          "underpowered_neither": "0",
-          "note": "scheme-B class-stratified shared dual; results/canonical"
+          "ci_excludes_zero": "0"
         }
       },
       "PIK3CA/mTOR": {
@@ -2597,9 +3440,7 @@
           "bootstrap": "class_stratified_shared_dual",
           "B": "2000",
           "seed": "20260729",
-          "ci_excludes_zero": "0",
-          "underpowered_neither": "1",
-          "note": "scheme-B class-stratified shared dual; results/canonical"
+          "ci_excludes_zero": "0"
         },
         "fixed_B": {
           "pair": "PIK3CA/mTOR",
@@ -2616,9 +3457,7 @@
           "bootstrap": "class_stratified_shared_dual",
           "B": "2000",
           "seed": "20260729",
-          "ci_excludes_zero": "0",
-          "underpowered_neither": "1",
-          "note": "scheme-B class-stratified shared dual; results/canonical"
+          "ci_excludes_zero": "0"
         }
       },
       "AChE/BChE": {
@@ -2648,9 +3487,7 @@
           "bootstrap": "class_stratified_shared_dual",
           "B": "2000",
           "seed": "20260729",
-          "ci_excludes_zero": "0",
-          "underpowered_neither": "0",
-          "note": "scheme-B class-stratified shared dual; results/canonical"
+          "ci_excludes_zero": "0"
         },
         "fixed_B": {
           "pair": "AChE/BChE",
@@ -2667,9 +3504,7 @@
           "bootstrap": "class_stratified_shared_dual",
           "B": "2000",
           "seed": "20260729",
-          "ci_excludes_zero": "0",
-          "underpowered_neither": "0",
-          "note": "scheme-B class-stratified shared dual; results/canonical"
+          "ci_excludes_zero": "0"
         }
       },
       "F2/F10": {
@@ -2699,9 +3534,7 @@
           "bootstrap": "class_stratified_shared_dual",
           "B": "2000",
           "seed": "20260729",
-          "ci_excludes_zero": "0",
-          "underpowered_neither": "0",
-          "note": "scheme-B class-stratified shared dual; results/canonical"
+          "ci_excludes_zero": "0"
         },
         "fixed_B": {
           "pair": "F2/F10",
@@ -2718,9 +3551,7 @@
           "bootstrap": "class_stratified_shared_dual",
           "B": "2000",
           "seed": "20260729",
-          "ci_excludes_zero": "0",
-          "underpowered_neither": "0",
-          "note": "scheme-B class-stratified shared dual; results/canonical"
+          "ci_excludes_zero": "0"
         }
       },
       "PPARG/PPARA": {
@@ -2750,9 +3581,7 @@
           "bootstrap": "class_stratified_shared_dual",
           "B": "2000",
           "seed": "20260729",
-          "ci_excludes_zero": "0",
-          "underpowered_neither": "0",
-          "note": "scheme-B class-stratified shared dual; results/canonical"
+          "ci_excludes_zero": "0"
         },
         "fixed_B": {
           "pair": "PPARG/PPARA",
@@ -2769,9 +3598,7 @@
           "bootstrap": "class_stratified_shared_dual",
           "B": "2000",
           "seed": "20260729",
-          "ci_excludes_zero": "0",
-          "underpowered_neither": "0",
-          "note": "scheme-B class-stratified shared dual; results/canonical"
+          "ci_excludes_zero": "0"
         }
       },
       "PPARA/PPARD": {
@@ -2801,9 +3628,7 @@
           "bootstrap": "class_stratified_shared_dual",
           "B": "2000",
           "seed": "20260729",
-          "ci_excludes_zero": "0",
-          "underpowered_neither": "0",
-          "note": "scheme-B class-stratified shared dual; results/canonical"
+          "ci_excludes_zero": "0"
         },
         "fixed_B": {
           "pair": "PPARA/PPARD",
@@ -2820,9 +3645,7 @@
           "bootstrap": "class_stratified_shared_dual",
           "B": "2000",
           "seed": "20260729",
-          "ci_excludes_zero": "0",
-          "underpowered_neither": "0",
-          "note": "scheme-B class-stratified shared dual; results/canonical"
+          "ci_excludes_zero": "0"
         }
       }
     },
@@ -2845,16 +3668,7 @@
         "ef_dual_10pct": "0.3539",
         "top_ligand_ids": "EH40_18;EH40_04;EH120_088;EH40_28;EH120_085;EH120_062;EH120_072;EH40_23;EH120_083;EH40_33;EH120_061",
         "ranking_rule": "k=ceil(0.10 n); S_mean=(score_A+score_B)/2; EF=(top_dual/k)/(n_dual/n)",
-        "tie_rule": "descending score_mean then ascending ligand ID",
-        "and_threshold": "9.7070",
-        "and_n_input": "97",
-        "and_n_pass": "47",
-        "and_dual": "14",
-        "and_A_only": "9",
-        "and_B_only": "24",
-        "and_dual_recall": "0.5000",
-        "and_dual_precision": "0.2979",
-        "filter_rule": "score_worst >= median_dual_score_worst; neither excluded"
+        "tie_rule": "descending score_mean then ascending ligand ID"
       },
       "JAK1/JAK2": {
         "pair": "JAK1/JAK2",
@@ -2874,16 +3688,7 @@
         "ef_dual_10pct": "1.8750",
         "top_ligand_ids": "J1J2_074;J1J2_081;J1J2_072;J1J2_031;J1J2_075;J1J2_096;J1J2_029;J1J2_026;J1J2_013;J1J2_027;J1J2_088",
         "ranking_rule": "k=ceil(0.10 n); S_mean=(score_A+score_B)/2; EF=(top_dual/k)/(n_dual/n)",
-        "tie_rule": "descending score_mean then ascending ligand ID",
-        "and_threshold": "9.1935",
-        "and_n_input": "96",
-        "and_n_pass": "35",
-        "and_dual": "16",
-        "and_A_only": "13",
-        "and_B_only": "6",
-        "and_dual_recall": "0.5000",
-        "and_dual_precision": "0.4571",
-        "filter_rule": "score_worst >= median_dual_score_worst; neither excluded"
+        "tie_rule": "descending score_mean then ascending ligand ID"
       },
       "JAK1/TYK2": {
         "pair": "JAK1/TYK2",
@@ -2903,16 +3708,7 @@
         "ef_dual_10pct": "0.3196",
         "top_ligand_ids": "J1TYK2_006;J1TYK2_064;J1TYK2_042;J1TYK2_056;J1TYK2_058;J1TYK2_046;J1TYK2_069;J1TYK2_060;J1TYK2_023;J1TYK2_063;J1TYK2_009",
         "ranking_rule": "k=ceil(0.10 n); S_mean=(score_A+score_B)/2; EF=(top_dual/k)/(n_dual/n)",
-        "tie_rule": "descending score_mean then ascending ligand ID",
-        "and_threshold": "8.8290",
-        "and_n_input": "95",
-        "and_n_pass": "50",
-        "and_dual": "16",
-        "and_A_only": "12",
-        "and_B_only": "22",
-        "and_dual_recall": "0.5161",
-        "and_dual_precision": "0.3200",
-        "filter_rule": "score_worst >= median_dual_score_worst; neither excluded"
+        "tie_rule": "descending score_mean then ascending ligand ID"
       },
       "PIK3CA/mTOR": {
         "pair": "PIK3CA/mTOR",
@@ -2932,16 +3728,7 @@
         "ef_dual_10pct": "2.1333",
         "top_ligand_ids": "PM48_04;PM48_02;PM48_31;PM48_07;PM48_10",
         "ranking_rule": "k=ceil(0.10 n); S_mean=(score_A+score_B)/2; EF=(top_dual/k)/(n_dual/n)",
-        "tie_rule": "descending score_mean then ascending ligand ID",
-        "and_threshold": "8.2400",
-        "and_n_input": "44",
-        "and_n_pass": "17",
-        "and_dual": "9",
-        "and_A_only": "4",
-        "and_B_only": "4",
-        "and_dual_recall": "0.5000",
-        "and_dual_precision": "0.5294",
-        "filter_rule": "score_worst >= median_dual_score_worst; neither excluded"
+        "tie_rule": "descending score_mean then ascending ligand ID"
       },
       "AChE/BChE": {
         "pair": "AChE/BChE",
@@ -2961,16 +3748,7 @@
         "ef_dual_10pct": "1.7593",
         "top_ligand_ids": "AB_004;AB_057;AB_030;AB_005;AB_017;AB_026;AB_098;AB_027;AB_048;AB_037",
         "ranking_rule": "k=ceil(0.10 n); S_mean=(score_A+score_B)/2; EF=(top_dual/k)/(n_dual/n)",
-        "tie_rule": "descending score_mean then ascending ligand ID",
-        "and_threshold": "9.7640",
-        "and_n_input": "81",
-        "and_n_pass": "32",
-        "and_dual": "14",
-        "and_A_only": "7",
-        "and_B_only": "11",
-        "and_dual_recall": "0.5185",
-        "and_dual_precision": "0.4375",
-        "filter_rule": "score_worst >= median_dual_score_worst; neither excluded"
+        "tie_rule": "descending score_mean then ascending ligand ID"
       },
       "F2/F10": {
         "pair": "F2/F10",
@@ -2990,16 +3768,7 @@
         "ef_dual_10pct": "1.2551",
         "top_ligand_ids": "F2F10_061;F2F10_096;F2F10_086;F2F10_058;F2F10_046;F2F10_068;F2F10_021;F2F10_053;F2F10_081;F2F10_054;F2F10_055",
         "ranking_rule": "k=ceil(0.10 n); S_mean=(score_A+score_B)/2; EF=(top_dual/k)/(n_dual/n)",
-        "tie_rule": "descending score_mean then ascending ligand ID",
-        "and_threshold": "8.7580",
-        "and_n_input": "95",
-        "and_n_pass": "59",
-        "and_dual": "16",
-        "and_A_only": "20",
-        "and_B_only": "23",
-        "and_dual_recall": "0.5161",
-        "and_dual_precision": "0.2712",
-        "filter_rule": "score_worst >= median_dual_score_worst; neither excluded"
+        "tie_rule": "descending score_mean then ascending ligand ID"
       },
       "PPARG/PPARA": {
         "pair": "PPARG/PPARA",
@@ -3019,16 +3788,7 @@
         "ef_dual_10pct": "2.1676",
         "top_ligand_ids": "PGPA_074;PGPA_069;PGPA_102;PGPA_001;PGPA_096;PGPA_011;PGPA_068;PGPA_009;PGPA_087;PGPA_067;PGPA_083",
         "ranking_rule": "k=ceil(0.10 n); S_mean=(score_A+score_B)/2; EF=(top_dual/k)/(n_dual/n)",
-        "tie_rule": "descending score_mean then ascending ligand ID",
-        "and_threshold": "8.8815",
-        "and_n_input": "95",
-        "and_n_pass": "31",
-        "and_dual": "16",
-        "and_A_only": "9",
-        "and_B_only": "6",
-        "and_dual_recall": "0.5000",
-        "and_dual_precision": "0.5161",
-        "filter_rule": "score_worst >= median_dual_score_worst; neither excluded"
+        "tie_rule": "descending score_mean then ascending ligand ID"
       },
       "PPARA/PPARD": {
         "pair": "PPARA/PPARD",
@@ -3048,16 +3808,7 @@
         "ef_dual_10pct": "1.5625",
         "top_ligand_ids": "PAPD_104;PAPD_085;PAPD_018;PAPD_033;PAPD_017;PAPD_064;PAPD_082;PAPD_055;PAPD_070;PAPD_075;PAPD_076",
         "ranking_rule": "k=ceil(0.10 n); S_mean=(score_A+score_B)/2; EF=(top_dual/k)/(n_dual/n)",
-        "tie_rule": "descending score_mean then ascending ligand ID",
-        "and_threshold": "8.7145",
-        "and_n_input": "96",
-        "and_n_pass": "58",
-        "and_dual": "16",
-        "and_A_only": "22",
-        "and_B_only": "20",
-        "and_dual_recall": "0.5000",
-        "and_dual_precision": "0.2759",
-        "filter_rule": "score_worst >= median_dual_score_worst; neither excluded"
+        "tie_rule": "descending score_mean then ascending ligand ID"
       }
     },
     "fig2C_neither_n": {
@@ -3130,127 +3881,7 @@
       -0.0039000000000000146,
       -0.023400000000000087
     ],
-    "fig3B_max_abs": 0.023400000000000087,
-    "fig4A": {
-      "pairs": [
-        "EGFR/HER2",
-        "JAK1/TYK2",
-        "PIK3CA/mTOR"
-      ],
-      "vina_smin": [
-        0.3237,
-        0.3649,
-        0.6921
-      ],
-      "gnina_smin": [
-        0.2645,
-        0.3172,
-        0.6325
-      ],
-      "vina_neither": [
-        0.7589,
-        0.7696,
-        0.5139
-      ],
-      "gnina_neither": [
-        0.737,
-        0.7048,
-        0.5694
-      ]
-    },
-    "fig4B": [
-      {
-        "label": "4L23 / 4JT6",
-        "y": 0.6921,
-        "lo": 0.4801,
-        "hi": 0.8016,
-        "group": "primary"
-      },
-      {
-        "label": "4JPS",
-        "y": 0.4861,
-        "lo": 0.2639,
-        "hi": 0.6944,
-        "group": "PIK3CA swapped"
-      },
-      {
-        "label": "5DXT",
-        "y": 0.5046,
-        "lo": 0.2963,
-        "hi": 0.713,
-        "group": "PIK3CA swapped"
-      },
-      {
-        "label": "4JSX",
-        "y": 0.6389,
-        "lo": 0.4352,
-        "hi": 0.7825,
-        "group": "mTOR swapped"
-      }
-    ],
-    "fig4C": {
-      "EGFR/HER2": {
-        "primary": 0.3237,
-        "median": 0.3304,
-        "min": 0.3237,
-        "max": 0.3504,
-        "n": 5
-      },
-      "JAK1/JAK2": {
-        "primary": 0.5884,
-        "median": 0.5879,
-        "min": 0.5742,
-        "max": 0.5918,
-        "n": 5,
-        "crosses": false
-      },
-      "JAK1/TYK2": {
-        "primary": 0.3649,
-        "median": 0.3955,
-        "min": 0.3649,
-        "max": 0.3994,
-        "n": 5,
-        "crosses": false
-      },
-      "PIK3CA/mTOR": {
-        "primary": 0.6921,
-        "median": 0.7037,
-        "min": 0.6759,
-        "max": 0.7262,
-        "n": 5
-      },
-      "AChE/BChE": {
-        "primary": 0.6058,
-        "median": 0.6045,
-        "min": 0.5583,
-        "max": 0.6067,
-        "n": 5
-      },
-      "F2/F10": {
-        "primary": 0.3448,
-        "median": 0.3659,
-        "min": 0.3448,
-        "max": 0.3851,
-        "n": 5,
-        "crosses": false
-      },
-      "PPARG/PPARA": {
-        "primary": 0.6492,
-        "median": 0.6514,
-        "min": 0.6489,
-        "max": 0.691,
-        "n": 5,
-        "crosses": false
-      },
-      "PPARA/PPARD": {
-        "primary": 0.4463,
-        "median": 0.4536,
-        "min": 0.4463,
-        "max": 0.4688,
-        "n": 5,
-        "crosses": false
-      }
-    },
+    "fig3B_max_abs": 0.0234,
     "fig5A": [
       {
         "pair": "EGFR/HER2",
@@ -3362,6 +3993,369 @@
         "lo": -0.0475,
         "hi": 0.305,
         "excl": false
+      }
+    ],
+    "fig4A": {
+      "pairs": [
+        "EGFR/HER2",
+        "JAK1/TYK2",
+        "PIK3CA/mTOR"
+      ],
+      "vina_smin": [
+        0.3237,
+        0.3649,
+        0.6921
+      ],
+      "gnina_smin": [
+        0.2645,
+        0.3172,
+        0.6325
+      ],
+      "vina_neither": [
+        0.7589,
+        0.7696,
+        0.5139
+      ],
+      "gnina_neither": [
+        0.737,
+        0.7048,
+        0.5694
+      ]
+    },
+    "fig4B": [
+      {
+        "label": "4L23 / 4JT6",
+        "y": 0.6921,
+        "lo": 0.4801,
+        "hi": 0.8016,
+        "group": "primary"
+      },
+      {
+        "label": "4JPS",
+        "y": 0.4861,
+        "lo": 0.2639,
+        "hi": 0.6944,
+        "group": "PIK3CA swapped"
+      },
+      {
+        "label": "5DXT",
+        "y": 0.5046,
+        "lo": 0.2963,
+        "hi": 0.713,
+        "group": "PIK3CA swapped"
+      },
+      {
+        "label": "4JSX",
+        "y": 0.6389,
+        "lo": 0.4352,
+        "hi": 0.7825,
+        "group": "mTOR swapped"
+      }
+    ],
+    "fig4C": {
+      "EGFR/HER2": {
+        "primary": 0.3237,
+        "median": 0.3304,
+        "min": 0.3237,
+        "max": 0.3504,
+        "n": 5
+      },
+      "JAK1/JAK2": {
+        "primary": 0.5884,
+        "median": 0.5879,
+        "min": 0.5742,
+        "max": 0.5918,
+        "n": 5
+      },
+      "JAK1/TYK2": {
+        "primary": 0.3649,
+        "median": 0.377,
+        "min": 0.3649,
+        "max": 0.381,
+        "n": 5
+      },
+      "PIK3CA/mTOR": {
+        "primary": 0.6921,
+        "median": 0.7037,
+        "min": 0.6759,
+        "max": 0.7262,
+        "n": 5
+      },
+      "AChE/BChE": {
+        "primary": 0.6058,
+        "median": 0.5988,
+        "min": 0.5527,
+        "max": 0.6058,
+        "n": 5
+      },
+      "F2/F10": {
+        "primary": 0.3448,
+        "median": 0.3659,
+        "min": 0.3448,
+        "max": 0.3851,
+        "n": 5
+      },
+      "PPARG/PPARA": {
+        "primary": 0.6492,
+        "median": 0.6514,
+        "min": 0.6489,
+        "max": 0.691,
+        "n": 5
+      },
+      "PPARA/PPARD": {
+        "primary": 0.4463,
+        "median": 0.4536,
+        "min": 0.4463,
+        "max": 0.4688,
+        "n": 5
+      }
+    },
+    "figS1A": {
+      "EGFR/HER2": {
+        "vina_smin": 0.3237,
+        "desc_name": "clogp",
+        "desc": 0.4821
+      },
+      "JAK1/JAK2": {
+        "vina_smin": 0.5884,
+        "desc_name": "heavy",
+        "desc": 0.5781
+      },
+      "JAK1/TYK2": {
+        "vina_smin": 0.3649,
+        "desc_name": "clogp",
+        "desc": 0.5796
+      },
+      "PIK3CA/mTOR": {
+        "vina_smin": 0.6921,
+        "desc_name": "heavy",
+        "desc": 0.463
+      },
+      "AChE/BChE": {
+        "vina_smin": 0.6058,
+        "desc_name": "tpsa",
+        "desc": 0.7422
+      },
+      "F2/F10": {
+        "vina_smin": 0.3448,
+        "desc_name": "clogp",
+        "desc": 0.5091
+      },
+      "PPARG/PPARA": {
+        "vina_smin": 0.6492,
+        "desc_name": "tpsa",
+        "desc": 0.6274
+      },
+      "PPARA/PPARD": {
+        "vina_smin": 0.4463,
+        "desc_name": "clogp",
+        "desc": 0.5635
+      }
+    },
+    "figS1B": {
+      "n": [
+        27,
+        26,
+        28
+      ],
+      "mean": [
+        75.25592592592592,
+        53.20192307692308,
+        47.87964285714286
+      ],
+      "median": [
+        76.02000000000001,
+        38.77,
+        48.13
+      ]
+    },
+    "figS2": {
+      "PM48": 0.6921,
+      "PM110": 0.6483,
+      "E16": 0.6921,
+      "E8": 0.6597
+    },
+    "figS12": [
+      {
+        "protein": "EGFR",
+        "pdb": "3POZ",
+        "top1": 1.019,
+        "best": 1.019,
+        "source": "results/canonical/cognate_rmsd.csv",
+        "pose_status": "canonical_heavy_atom_redock",
+        "n_modes": 9,
+        "label": "EGFR 3POZ",
+        "best9": 1.019
+      },
+      {
+        "protein": "HER2",
+        "pdb": "3RCD",
+        "top1": 1.947,
+        "best": 1.947,
+        "source": "results/canonical/cognate_rmsd.csv",
+        "pose_status": "canonical_heavy_atom_redock",
+        "n_modes": 9,
+        "label": "HER2 3RCD",
+        "best9": 1.947
+      },
+      {
+        "protein": "JAK1",
+        "pdb": "6N7A",
+        "top1": 0.459,
+        "best": 0.459,
+        "source": "results/canonical/cognate_rmsd.csv",
+        "pose_status": "original_production_qc",
+        "n_modes": 9,
+        "label": "JAK1 6N7A",
+        "best9": 0.459
+      },
+      {
+        "protein": "JAK2",
+        "pdb": "8BXH",
+        "top1": 10.596,
+        "best": 0.807,
+        "source": "results/canonical/cognate_rmsd.csv",
+        "pose_status": "original_production_qc",
+        "n_modes": 9,
+        "label": "JAK2 8BXH",
+        "best9": 0.807
+      },
+      {
+        "protein": "TYK2",
+        "pdb": "3LXP",
+        "top1": 0.196,
+        "best": 0.196,
+        "source": "results/canonical/cognate_rmsd.csv",
+        "pose_status": "original_production_qc",
+        "n_modes": 8,
+        "label": "TYK2 3LXP",
+        "best9": 0.196
+      },
+      {
+        "protein": "PIK3CA",
+        "pdb": "4L23",
+        "top1": 0.624,
+        "best": 0.624,
+        "source": "results/canonical/cognate_rmsd.csv",
+        "pose_status": "original_production_qc",
+        "n_modes": 9,
+        "label": "PIK3CA 4L23",
+        "best9": 0.624
+      },
+      {
+        "protein": "mTOR",
+        "pdb": "4JT6",
+        "top1": 7.118,
+        "best": 0.445,
+        "source": "results/canonical/cognate_rmsd.csv",
+        "pose_status": "original_production_qc",
+        "n_modes": 9,
+        "label": "mTOR 4JT6",
+        "best9": 0.445
+      },
+      {
+        "protein": "AChE",
+        "pdb": "4EY7",
+        "top1": 0.339,
+        "best": 0.339,
+        "source": "results/canonical/cognate_rmsd.csv",
+        "pose_status": "original_production_qc",
+        "n_modes": 8,
+        "label": "AChE 4EY7",
+        "best9": 0.339
+      },
+      {
+        "protein": "BChE",
+        "pdb": "4BDS",
+        "top1": 4.794,
+        "best": 0.386,
+        "source": "results/canonical/cognate_rmsd.csv",
+        "pose_status": "original_production_qc",
+        "n_modes": 9,
+        "label": "BChE 4BDS",
+        "best9": 0.386
+      },
+      {
+        "protein": "F2",
+        "pdb": "4UDW",
+        "top1": 0.382,
+        "best": 0.382,
+        "source": "results/canonical/cognate_rmsd.csv",
+        "pose_status": "original_production_qc",
+        "n_modes": 9,
+        "label": "F2 4UDW",
+        "best9": 0.382
+      },
+      {
+        "protein": "F10",
+        "pdb": "2JKH",
+        "top1": 0.658,
+        "best": 0.658,
+        "source": "results/canonical/cognate_rmsd.csv",
+        "pose_status": "original_production_qc",
+        "n_modes": 9,
+        "label": "F10 2JKH",
+        "best9": 0.658
+      },
+      {
+        "protein": "PPARG",
+        "pdb": "9V8H",
+        "top1": 7.085,
+        "best": 1.636,
+        "source": "results/canonical/cognate_rmsd.csv",
+        "pose_status": "original_production_qc",
+        "n_modes": 9,
+        "label": "PPARG 9V8H",
+        "best9": 1.636
+      },
+      {
+        "protein": "PPARA",
+        "pdb": "6LXA",
+        "top1": 7.857,
+        "best": 1.401,
+        "source": "results/canonical/cognate_rmsd.csv",
+        "pose_status": "original_production_qc",
+        "n_modes": 9,
+        "label": "PPARA 6LXA",
+        "best9": 1.401
+      },
+      {
+        "protein": "PPARD",
+        "pdb": "5U3Q",
+        "top1": 1.51,
+        "best": 1.51,
+        "source": "results/canonical/cognate_rmsd.csv",
+        "pose_status": "original_production_qc",
+        "n_modes": 9,
+        "label": "PPARD 5U3Q",
+        "best9": 1.51
+      }
+    ],
+    "figS12_offscale": [
+      {
+        "label": "JAK2 8BXH",
+        "series": "top1",
+        "rmsd": 10.596
+      },
+      {
+        "label": "mTOR 4JT6",
+        "series": "top1",
+        "rmsd": 7.118
+      },
+      {
+        "label": "BChE 4BDS",
+        "series": "top1",
+        "rmsd": 4.794
+      },
+      {
+        "label": "PPARG 9V8H",
+        "series": "top1",
+        "rmsd": 7.085
+      },
+      {
+        "label": "PPARA 6LXA",
+        "series": "top1",
+        "rmsd": 7.857
       }
     ],
     "fig6A": [
@@ -3616,7 +4610,6 @@
         "seed": "20260729"
       }
     ],
-    "egfr_cluster_not_recomputed": false,
     "figS5": [
       {
         "pair": "EGFR/HER2",
@@ -3640,7 +4633,9 @@
         "top_doc_frac_B_only": "0.45",
         "gate": "insufficient",
         "packaged_as_external_evaluation": "0",
-        "note": "does not meet primary or thin gate; no docking in this session"
+        "note": "eligibility screen, not external docking validation",
+        "source": "data/jcim_novelty_v0/tables/external_slice_summary_v1.csv",
+        "source_kind": "frozen_eligibility_input"
       },
       {
         "pair": "JAK1/JAK2",
@@ -3664,7 +4659,9 @@
         "top_doc_frac_B_only": "0.5",
         "gate": "insufficient",
         "packaged_as_external_evaluation": "0",
-        "note": "does not meet primary or thin gate; no docking in this session"
+        "note": "eligibility screen, not external docking validation",
+        "source": "data/jcim_novelty_v0/tables/external_slice_summary_v1.csv",
+        "source_kind": "frozen_eligibility_input"
       },
       {
         "pair": "JAK1/TYK2",
@@ -3688,7 +4685,9 @@
         "top_doc_frac_B_only": "0.7961",
         "gate": "insufficient",
         "packaged_as_external_evaluation": "0",
-        "note": "does not meet primary or thin gate; no docking in this session"
+        "note": "eligibility screen, not external docking validation",
+        "source": "data/jcim_novelty_v0/tables/external_slice_summary_v1.csv",
+        "source_kind": "frozen_eligibility_input"
       },
       {
         "pair": "PIK3CA/mTOR",
@@ -3712,7 +4711,9 @@
         "top_doc_frac_B_only": "1.0",
         "gate": "insufficient",
         "packaged_as_external_evaluation": "0",
-        "note": "does not meet primary or thin gate; no docking in this session"
+        "note": "eligibility screen, not external docking validation",
+        "source": "data/jcim_novelty_v0/tables/external_slice_summary_v1.csv",
+        "source_kind": "frozen_eligibility_input"
       },
       {
         "pair": "AChE/BChE",
@@ -3736,7 +4737,9 @@
         "top_doc_frac_B_only": "0.8571",
         "gate": "insufficient",
         "packaged_as_external_evaluation": "0",
-        "note": "does not meet primary or thin gate; no docking in this session"
+        "note": "eligibility screen, not external docking validation",
+        "source": "data/jcim_novelty_v0/tables/external_slice_summary_v1.csv",
+        "source_kind": "frozen_eligibility_input"
       },
       {
         "pair": "F2/F10",
@@ -3760,7 +4763,9 @@
         "top_doc_frac_B_only": "0.625",
         "gate": "below_primary",
         "packaged_as_external_evaluation": "0",
-        "note": "directional n 15-19 but not a designated thin pair; no docking in this session"
+        "note": "eligibility screen, not external docking validation",
+        "source": "data/jcim_novelty_v0/tables/external_slice_summary_v1.csv",
+        "source_kind": "frozen_eligibility_input"
       },
       {
         "pair": "PPARG/PPARA",
@@ -3784,7 +4789,9 @@
         "top_doc_frac_B_only": "1.0",
         "gate": "insufficient",
         "packaged_as_external_evaluation": "0",
-        "note": "does not meet primary or thin gate; no docking in this session"
+        "note": "eligibility screen, not external docking validation",
+        "source": "data/jcim_novelty_v0/tables/external_slice_summary_v1.csv",
+        "source_kind": "frozen_eligibility_input"
       },
       {
         "pair": "PPARA/PPARD",
@@ -3808,287 +4815,11 @@
         "top_doc_frac_B_only": "0.0",
         "gate": "insufficient",
         "packaged_as_external_evaluation": "0",
-        "note": "does not meet primary or thin gate; no docking in this session"
+        "note": "eligibility screen, not external docking validation",
+        "source": "data/jcim_novelty_v0/tables/external_slice_summary_v1.csv",
+        "source_kind": "frozen_eligibility_input"
       }
     ],
-    "figS1A": {
-      "EGFR/HER2": {
-        "vina_smin": 0.3237,
-        "desc_name": "clogp",
-        "desc": 0.4821
-      },
-      "JAK1/JAK2": {
-        "vina_smin": 0.5884,
-        "desc_name": "heavy",
-        "desc": 0.5781
-      },
-      "JAK1/TYK2": {
-        "vina_smin": 0.3649,
-        "desc_name": "clogp",
-        "desc": 0.5796
-      },
-      "PIK3CA/mTOR": {
-        "vina_smin": 0.6921,
-        "desc_name": "heavy",
-        "desc": 0.463
-      },
-      "AChE/BChE": {
-        "vina_smin": 0.6058,
-        "desc_name": "tpsa",
-        "desc": 0.7422
-      },
-      "F2/F10": {
-        "vina_smin": 0.3448,
-        "desc_name": "clogp",
-        "desc": 0.5091
-      },
-      "PPARG/PPARA": {
-        "vina_smin": 0.6492,
-        "desc_name": "tpsa",
-        "desc": 0.6274
-      },
-      "PPARA/PPARD": {
-        "vina_smin": 0.4463,
-        "desc_name": "clogp",
-        "desc": 0.5635
-      }
-    },
-    "figS1B": {
-      "n": [
-        27,
-        26,
-        28
-      ],
-      "mean": [
-        75.25592592592592,
-        53.20192307692308,
-        47.87964285714286
-      ],
-      "median": [
-        76.02000000000001,
-        38.77,
-        48.13
-      ]
-    },
-    "figS2": {
-      "PM48": 0.6921,
-      "PM110": 0.6483,
-      "E16": 0.6921,
-      "E8": 0.6597222222222222
-    },
-    "figS1": {
-      "PM48": 0.6921,
-      "PM110": 0.6483,
-      "E16": 0.6921,
-      "E8": 0.6597222222222222
-    },
-    "fig6B_protocol": {
-      "PM48": 0.6921,
-      "PM110": 0.6483
-    },
-    "figS12": [
-      {
-        "protein": "EGFR",
-        "pdb": "3POZ",
-        "top1": 1.019,
-        "best": 1.019,
-        "source": "all14_cognate_rmsd_calcrrms_v1",
-        "pose_status": "canonical_heavy_atom_redock",
-        "n_modes": 9,
-        "label": "EGFR 3POZ",
-        "best9": 1.019
-      },
-      {
-        "protein": "HER2",
-        "pdb": "3RCD",
-        "top1": 1.947,
-        "best": 1.947,
-        "source": "all14_cognate_rmsd_calcrrms_v1",
-        "pose_status": "canonical_heavy_atom_redock",
-        "n_modes": 9,
-        "label": "HER2 3RCD",
-        "best9": 1.947
-      },
-      {
-        "protein": "JAK1",
-        "pdb": "6N7A",
-        "top1": 0.459,
-        "best": 0.459,
-        "source": "all14_cognate_rmsd_calcrrms_v1",
-        "pose_status": "original_production_qc",
-        "n_modes": 9,
-        "label": "JAK1 6N7A",
-        "best9": 0.459
-      },
-      {
-        "protein": "JAK2",
-        "pdb": "8BXH",
-        "top1": 10.596,
-        "best": 0.807,
-        "source": "all14_cognate_rmsd_calcrrms_v1",
-        "pose_status": "original_production_qc",
-        "n_modes": 9,
-        "label": "JAK2 8BXH",
-        "best9": 0.807
-      },
-      {
-        "protein": "TYK2",
-        "pdb": "3LXP",
-        "top1": 0.196,
-        "best": 0.196,
-        "source": "all14_cognate_rmsd_calcrrms_v1",
-        "pose_status": "original_production_qc",
-        "n_modes": 8,
-        "label": "TYK2 3LXP",
-        "best9": 0.196
-      },
-      {
-        "protein": "PIK3CA",
-        "pdb": "4L23",
-        "top1": 0.624,
-        "best": 0.624,
-        "source": "all14_cognate_rmsd_calcrrms_v1",
-        "pose_status": "original_production_qc",
-        "n_modes": 9,
-        "label": "PIK3CA 4L23",
-        "best9": 0.624
-      },
-      {
-        "protein": "mTOR",
-        "pdb": "4JT6",
-        "top1": 7.118,
-        "best": 0.445,
-        "source": "all14_cognate_rmsd_calcrrms_v1",
-        "pose_status": "original_production_qc",
-        "n_modes": 9,
-        "label": "mTOR 4JT6",
-        "best9": 0.445
-      },
-      {
-        "protein": "AChE",
-        "pdb": "4EY7",
-        "top1": 0.339,
-        "best": 0.339,
-        "source": "all14_cognate_rmsd_calcrrms_v1",
-        "pose_status": "original_production_qc",
-        "n_modes": 8,
-        "label": "AChE 4EY7",
-        "best9": 0.339
-      },
-      {
-        "protein": "BChE",
-        "pdb": "4BDS",
-        "top1": 4.794,
-        "best": 0.386,
-        "source": "all14_cognate_rmsd_calcrrms_v1",
-        "pose_status": "original_production_qc",
-        "n_modes": 9,
-        "label": "BChE 4BDS",
-        "best9": 0.386
-      },
-      {
-        "protein": "F2",
-        "pdb": "4UDW",
-        "top1": 0.382,
-        "best": 0.382,
-        "source": "all14_cognate_rmsd_calcrrms_v1",
-        "pose_status": "original_production_qc",
-        "n_modes": 9,
-        "label": "F2 4UDW",
-        "best9": 0.382
-      },
-      {
-        "protein": "F10",
-        "pdb": "2JKH",
-        "top1": 0.658,
-        "best": 0.658,
-        "source": "all14_cognate_rmsd_calcrrms_v1",
-        "pose_status": "original_production_qc",
-        "n_modes": 9,
-        "label": "F10 2JKH",
-        "best9": 0.658
-      },
-      {
-        "protein": "PPARG",
-        "pdb": "9V8H",
-        "top1": 7.085,
-        "best": 1.636,
-        "source": "all14_cognate_rmsd_calcrrms_v1",
-        "pose_status": "original_production_qc",
-        "n_modes": 9,
-        "label": "PPARG 9V8H",
-        "best9": 1.636
-      },
-      {
-        "protein": "PPARA",
-        "pdb": "6LXA",
-        "top1": 7.857,
-        "best": 1.401,
-        "source": "all14_cognate_rmsd_calcrrms_v1",
-        "pose_status": "original_production_qc",
-        "n_modes": 9,
-        "label": "PPARA 6LXA",
-        "best9": 1.401
-      },
-      {
-        "protein": "PPARD",
-        "pdb": "5U3Q",
-        "top1": 1.51,
-        "best": 1.51,
-        "source": "all14_cognate_rmsd_calcrrms_v1",
-        "pose_status": "original_production_qc",
-        "n_modes": 9,
-        "label": "PPARD 5U3Q",
-        "best9": 1.51
-      }
-    ],
-    "figS12_offscale": [
-      {
-        "label": "JAK2 8BXH",
-        "series": "top1",
-        "rmsd": 10.596
-      },
-      {
-        "label": "mTOR 4JT6",
-        "series": "top1",
-        "rmsd": 7.118
-      },
-      {
-        "label": "BChE 4BDS",
-        "series": "top1",
-        "rmsd": 4.794
-      },
-      {
-        "label": "PPARG 9V8H",
-        "series": "top1",
-        "rmsd": 7.085
-      },
-      {
-        "label": "PPARA 6LXA",
-        "series": "top1",
-        "rmsd": 7.857
-      }
-    ],
-    "figS6_archived": 48,
-    "and_filter_table_s10": {
-      "pair": "JAK1/TYK2",
-      "n_ranked": "109",
-      "top_k": "11",
-      "top_dual": "1",
-      "top_A_only": "3",
-      "top_B_only": "7",
-      "top_neither": "0",
-      "top_ligand_ids": "J1TYK2_006;J1TYK2_064;J1TYK2_042;J1TYK2_056;J1TYK2_058;J1TYK2_046;J1TYK2_069;J1TYK2_060;J1TYK2_023;J1TYK2_063;J1TYK2_009",
-      "threshold": "8.8290",
-      "n_filter_input": "95",
-      "retained_dual": "16",
-      "retained_A_only": "12",
-      "retained_B_only": "22",
-      "dual_recall": "0.5161",
-      "dual_precision": "0.3200",
-      "filter_rule": "score_worst >= median_dual_score_worst; neither excluded",
-      "tie_rule": "descending score_mean then ascending ligand ID"
-    },
     "primary": {
       "EGFR/HER2": {
         "da": 0.6564,
@@ -4182,6 +4913,36 @@
     "flagship_fixed_delta": {
       "EGFR/HER2": 0.4621,
       "JAK1/TYK2": 0.4438
+    },
+    "and_filter_table_s10": {
+      "pair": "JAK1/TYK2",
+      "n_ranked": "109",
+      "n_dual": "31",
+      "n_A_only": "32",
+      "n_B_only": "32",
+      "n_neither": "14",
+      "top_fraction": "0.1",
+      "top_k": "11",
+      "top_dual": "1",
+      "top_A_only": "3",
+      "top_B_only": "7",
+      "top_neither": "0",
+      "top_dual_fraction": "0.0909",
+      "panel_dual_fraction": "0.2844",
+      "ef_dual_10pct": "0.3196",
+      "top_ligand_ids": "J1TYK2_006;J1TYK2_064;J1TYK2_042;J1TYK2_056;J1TYK2_058;J1TYK2_046;J1TYK2_069;J1TYK2_060;J1TYK2_023;J1TYK2_063;J1TYK2_009",
+      "ranking_rule": "k=ceil(0.10 n); S_mean=(score_A+score_B)/2; EF=(top_dual/k)/(n_dual/n)",
+      "tie_rule": "descending score_mean then ascending ligand ID",
+      "and_threshold": "8.8290",
+      "and_n_input": "95",
+      "and_n_pass": "50",
+      "and_dual": "16",
+      "and_A_only": "12",
+      "and_B_only": "22",
+      "and_dual_recall": "0.5161",
+      "and_dual_precision": "0.3200",
+      "filter_rule": "score_worst >= median_dual_score_worst; neither excluded"
     }
-  }
+  },
+  "input_files": {}
 }

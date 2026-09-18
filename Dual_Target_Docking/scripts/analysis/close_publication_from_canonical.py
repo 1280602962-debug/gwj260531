@@ -3,10 +3,10 @@
 
 Zero-dock. No new pairs. Scheme B: class-stratified B=2000 seed=20260729.
 
-Do not overwrite the historical leftover ECFP/descriptor copies listed in
-`docs/HISTORICAL_LEFTOVER_FILES.md`. Current Figure 3 / Table S5 numbers come
-from `results/canonical/ecfp4_incremental_information.csv` and
-`results/canonical/descriptor_baselines.csv`.
+Retired. Current Figure 3 / Table S5 numbers come from
+`results/canonical/ecfp4_incremental_information.csv` and
+`results/canonical/descriptor_baselines.csv`. Historical publication CSVs
+are not rewritten.
 """
 from __future__ import annotations
 
@@ -585,10 +585,6 @@ def descriptors(packs, desc):
                 "note": "best_single_descriptor from current score master; scheme-B Vina comparison in descriptor_baselines.csv",
             }
         )
-    print(
-        "skip historical leftover (not current): "
-        "data/jcim_novelty_v0/tables/descriptor_all_four_directional_v1.csv"
-    )
     return out
 
 
@@ -837,15 +833,6 @@ def export_core(packs, hold):
                 "note": "primary_no_scaffold_overlap_across_folds; from results/canonical",
             }
         )
-    print("skip historical leftover (not current): data/jcim_novelty_v0/tables/incremental_information_v1.csv")
-    print(
-        "skip historical leftover (not current): "
-        "data/jcim_chembl_universe_v0/local_track_b_v0/tables/five_pair_stack_v1/ecfp4_incremental_s20s24_v1.csv"
-    )
-    print(
-        "skip historical leftover (not current): "
-        "data/jcim_strengthen_t0t1_v0/tables/ligand_ml_baseline_scaffold_cv_v1.csv"
-    )
 
     master = read_csv(CANON / "current_score_master.csv")
     memb = []
@@ -920,36 +907,8 @@ def overlay_fiveseed():
 
 
 def main() -> int:
-    print("loading packs")
-    packs = load_main()
-    hold = load_holdout()
-    print("export core + two-pocket CI")
-    export_core(packs, hold)
-    print("GNINA")
-    gnina, robust = gnina_formulation(packs)
-    write_csv(ROOT / "data/jcim_independent_dock_v0/tables/independent_dock_formulation_v1.csv", gnina)
-    print("receptor substitution")
-    rec_sub = receptor_sub(packs)
-    overlay_fiveseed()
-    extra = []
-    for r in rec_sub:
-        extra.append(
-            {
-                "pair": "PIK3CA/mTOR",
-                "engine": f"vina_alt_{r['replacement']}",
-                "n": r["n"],
-                "summary_min": r["summary_min"],
-                "summary_min_ci_lo": r["summary_min_ci_lo"],
-                "summary_min_ci_hi": r["summary_min_ci_hi"],
-                "auroc_D_vs_A_pocketB": r["auroc_D_vs_A"],
-                "auroc_D_vs_B_pocketA": r["auroc_D_vs_B"],
-                "auroc_D_vs_neither_mean": "",
-                "source": f"data/jcim_structure_robust_v0/tables/scores_vina_mode1_PM48_alt{r['replacement']}.csv",
-                "note": r["note"],
-            }
-        )
-    write_csv(CANON / "computational_robustness.csv", robust + extra)
-    print("wrote figure-facing CSVs from canonical")
+    print("close_publication_from_canonical.py is retired.")
+    print("Figures and tables read results/canonical. Historical publication CSVs are not rewritten.")
     return 0
 
 

@@ -1,9 +1,0 @@
-pair,n_ranked,two_pocket_mean_D_vs_neither,ci_lo,ci_hi,ef_dual_10pct,top_k,top_dual,ranking_rule,tie_rule
-EGFR/HER2,109,0.7589,0.5535,0.9256,0.3539,11,1,k=ceil(0.10 n); S_mean=(score_A+score_B)/2; EF=(top_dual/k)/(n_dual/n),descending score_mean then ascending ligand ID
-JAK1/JAK2,110,0.7299,0.5580,0.8818,1.8750,11,6,k=ceil(0.10 n); S_mean=(score_A+score_B)/2; EF=(top_dual/k)/(n_dual/n),descending score_mean then ascending ligand ID
-JAK1/TYK2,109,0.7696,0.6128,0.9055,0.3196,11,1,k=ceil(0.10 n); S_mean=(score_A+score_B)/2; EF=(top_dual/k)/(n_dual/n),descending score_mean then ascending ligand ID
-PIK3CA/mTOR,48,0.5139,0.2222,0.8056,2.1333,5,4,k=ceil(0.10 n); S_mean=(score_A+score_B)/2; EF=(top_dual/k)/(n_dual/n),descending score_mean then ascending ligand ID
-AChE/BChE,95,0.6587,0.4841,0.8202,1.7593,10,5,k=ceil(0.10 n); S_mean=(score_A+score_B)/2; EF=(top_dual/k)/(n_dual/n),descending score_mean then ascending ligand ID
-F2/F10,107,0.5188,0.3413,0.6909,1.2551,11,4,k=ceil(0.10 n); S_mean=(score_A+score_B)/2; EF=(top_dual/k)/(n_dual/n),descending score_mean then ascending ligand ID
-PPARG/PPARA,109,0.6853,0.4978,0.8594,2.1676,11,7,k=ceil(0.10 n); S_mean=(score_A+score_B)/2; EF=(top_dual/k)/(n_dual/n),descending score_mean then ascending ligand ID
-PPARA/PPARD,110,0.5647,0.3727,0.7478,1.5625,11,5,k=ceil(0.10 n); S_mean=(score_A+score_B)/2; EF=(top_dual/k)/(n_dual/n),descending score_mean then ascending ligand ID

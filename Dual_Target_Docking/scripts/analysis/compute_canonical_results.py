@@ -16,11 +16,21 @@ import numpy as np
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "scripts"))
 from analysis.analysis_config import (  # noqa: E402
+    CNN_BEST9_SOURCE,
     COGNATE_RMSD_SOURCE,
+    E8_SCORE_SOURCE,
+    EXTERNAL_ELIGIBILITY_SOURCE,
+    FIVE_SEED_EGFR_FROZEN_AUROC,
+    FIVE_SEED_LONG_SCORES,
+    FIVE_SEED_TRACKB_TEMPLATE,
+    FIVE_SEEDS,
     GNINA_SOURCES,
     N_BOOT,
+    PM110_SCORE_SOURCE,
     PRIMARY_PAIRS,
     RECEPTOR_SUB_SPECS,
+    RECEPTORS,
+    RTM_BEST9_SOURCE,
     SEED,
     TOP_FRACTION,
     add_io_args,
@@ -84,6 +94,7 @@ def load_main() -> dict[str, list[dict]]:
         rec["score_B"] = float(r["score_B"])
         rec["cls"] = r["primary_class_theta6"]
         rec["score_mean"] = (rec["score_A"] + rec["score_B"]) / 2
+        rec["score_worst"] = min(rec["score_A"], rec["score_B"])
         by[r["pair"]].append(rec)
     return by
 
@@ -262,6 +273,33 @@ def compute_ranking(packs):
                 "top_ligand_ids": ";".join(r["ligand_id"] for r in top),
                 "ranking_rule": f"k=ceil({TOP_FRACTION:.2f} n); S_mean=(score_A+score_B)/2; EF=(top_dual/k)/(n_dual/n)",
                 "tie_rule": "descending score_mean then ascending ligand ID",
+            }
+        )
+    return rows
+
+
+def compute_and_filter(packs, ranking):
+    rows = []
+    for pair, recs in packs.items():
+        dual_w = [r["score_worst"] for r in recs if r["cls"] == "dual"]
+        thresh = float(np.median(np.asarray(dual_w, dtype=float))) if dual_w else float("nan")
+        usable = [r for r in recs if r["cls"] in {"dual", "A_only", "B_only"}]
+        kept = [r for r in usable if r["score_worst"] >= thresh]
+        ct = Counter(r["cls"] for r in kept)
+        n_dual = sum(1 for r in recs if r["cls"] == "dual")
+        rk = next(r for r in ranking if r["pair"] == pair)
+        rows.append(
+            {
+                **rk,
+                "and_threshold": r4(thresh),
+                "and_n_input": len(usable),
+                "and_n_pass": len(kept),
+                "and_dual": ct["dual"],
+                "and_A_only": ct["A_only"],
+                "and_B_only": ct["B_only"],
+                "and_dual_recall": r4(ct["dual"] / n_dual) if n_dual else "",
+                "and_dual_precision": r4(ct["dual"] / len(kept)) if kept else "",
+                "filter_rule": "score_worst >= median_dual_score_worst; neither excluded",
             }
         )
     return rows
@@ -619,6 +657,203 @@ def copy_rmsd():
     return read_csv(COGNATE_RMSD_SOURCE) if COGNATE_RMSD_SOURCE.is_file() else []
 
 
+def _smin_point(recs):
+    dual = [r for r in recs if r["cls"] == "dual"]
+    a_only = [r for r in recs if r["cls"] == "A_only"]
+    b_only = [r for r in recs if r["cls"] == "B_only"]
+    da = auroc([r["score_B"] for r in dual], [r["score_B"] for r in a_only])
+    db = auroc([r["score_A"] for r in dual], [r["score_A"] for r in b_only])
+    return da, db, min(da, db), len(dual), len(a_only), len(b_only), len(recs)
+
+
+def _load_five_seed_scores():
+    wide = {}
+    if FIVE_SEED_LONG_SCORES.is_file():
+        for r in read_csv(FIVE_SEED_LONG_SCORES):
+            energy = parse_finite(r.get("vina_mode1"))
+            if energy is None:
+                continue
+            seed = int(r["seed"])
+            wide.setdefault((r["pair"], seed, r["ligand"]), {})[r["pocket"]] = -energy
+    for seed in FIVE_SEEDS:
+        path = Path(str(FIVE_SEED_TRACKB_TEMPLATE).format(seed=seed))
+        if not path.is_file():
+            continue
+        for r in read_csv(path):
+            if r.get("status") not in ("success", "ok", "", None):
+                continue
+            pair = r["pair"]
+            if pair not in RECEPTORS:
+                continue
+            pdb_a, pdb_b = RECEPTORS[pair]
+            pocket = "A" if r.get("target") == pdb_a else ("B" if r.get("target") == pdb_b else None)
+            if pocket is None:
+                continue
+            score_s = parse_finite(r.get("score_S"))
+            energy = parse_finite(r.get("mode1_energy"))
+            if score_s is not None:
+                sc = score_s
+            elif energy is not None:
+                sc = -energy
+            else:
+                continue
+            wide.setdefault((pair, int(r.get("seed") or seed), r["ligand"]), {})[pocket] = sc
+    return wide
+
+
+def compute_five_seed(packs, smin_rows):
+    """Per-seed summary_min from deposited seed scores + current labels.
+
+    EGFR/HER2 deposited long scores are a different box realization than the
+    current master, so that pair is copied from the frozen experimental AUROC
+    table and is not mixed with current scores.
+    """
+    primary = {r["pair"]: float(r["summary_min"]) for r in smin_rows}
+    wide = _load_five_seed_scores()
+    out = []
+    frozen_egfr = {}
+    if FIVE_SEED_EGFR_FROZEN_AUROC.is_file():
+        for r in read_csv(FIVE_SEED_EGFR_FROZEN_AUROC):
+            frozen_egfr[int(r["seed"])] = r
+    for pair in PRIMARY_PAIRS:
+        if pair == "EGFR/HER2":
+            for seed in FIVE_SEEDS:
+                r = frozen_egfr.get(seed)
+                if r is None:
+                    continue
+                out.append(
+                    {
+                        "pair": pair,
+                        "seed": seed,
+                        "n": r["n_complete"],
+                        "n_dual": r["n_dual"],
+                        "n_A_only": r["n_A_only"],
+                        "n_B_only": r["n_B_only"],
+                        "n_neither": r.get("n_neither", ""),
+                        "auroc_D_vs_A_pocketB": r["auroc_dual_vs_A_only"],
+                        "auroc_D_vs_B_pocketA": r["auroc_dual_vs_B_only"],
+                        "summary_min": r["summary_min"],
+                        "primary_summary_min": r4(primary[pair]),
+                        "source": str(FIVE_SEED_EGFR_FROZEN_AUROC.relative_to(ROOT)),
+                        "source_kind": "frozen_experimental_auroc",
+                        "note": "deposited seed scores are not the current corrected-box master; do not mix",
+                    }
+                )
+            continue
+        for seed in FIVE_SEEDS:
+            recs = []
+            for r in packs[pair]:
+                sc = wide.get((pair, seed, r["ligand_id"]))
+                if not sc or "A" not in sc or "B" not in sc:
+                    continue
+                recs.append({"cls": r["cls"], "score_A": sc["A"], "score_B": sc["B"]})
+            da, db, sm, nd, na, nb, n = _smin_point(recs)
+            out.append(
+                {
+                    "pair": pair,
+                    "seed": seed,
+                    "n": n,
+                    "n_dual": nd,
+                    "n_A_only": na,
+                    "n_B_only": nb,
+                    "n_neither": sum(1 for r in recs if r["cls"] == "neither"),
+                    "auroc_D_vs_A_pocketB": r4(da),
+                    "auroc_D_vs_B_pocketA": r4(db),
+                    "summary_min": r4(sm),
+                    "primary_summary_min": r4(primary[pair]),
+                    "source": "deposited per-seed Vina scores + current primary labels",
+                    "source_kind": "recomputed_from_frozen_scores",
+                    "note": "complete-case on the current eligible panel for this seed",
+                }
+            )
+    return out
+
+
+def compute_protocol_sensitivity(packs, smin_rows):
+    primary = next(r for r in smin_rows if r["pair"] == "PIK3CA/mTOR")
+    rows = [
+        {
+            "pair": "PIK3CA/mTOR",
+            "panel": "PM48",
+            "setting": "E16_primary",
+            "summary_min": primary["summary_min"],
+            "n_dual": primary["n_dual"],
+            "n_A_only": primary["n_A_only"],
+            "n_B_only": primary["n_B_only"],
+            "source": "results/canonical/primary_summary_min.csv",
+            "source_kind": "recomputed",
+            "note": "primary panel; exhaustiveness 16",
+        }
+    ]
+    if PM110_SCORE_SOURCE.is_file():
+        recs = []
+        for r in read_csv(PM110_SCORE_SOURCE):
+            cls = r.get("class")
+            ea = parse_finite(r.get("4L23_affinity"))
+            eb = parse_finite(r.get("4JT6_affinity"))
+            if cls not in {"dual", "A_only", "B_only", "neither"} or ea is None or eb is None:
+                continue
+            recs.append({"cls": cls, "score_A": -ea, "score_B": -eb})
+        da, db, sm, nd, na, nb, n = _smin_point(recs)
+        rows.append(
+            {
+                "pair": "PIK3CA/mTOR",
+                "panel": "PM110",
+                "setting": "E16",
+                "summary_min": r4(sm),
+                "n_dual": nd,
+                "n_A_only": na,
+                "n_B_only": nb,
+                "source": str(PM110_SCORE_SOURCE.relative_to(ROOT)),
+                "source_kind": "recomputed_from_frozen_scores",
+                "note": f"larger protocol-sensitivity panel; n_scored={n}",
+            }
+        )
+    if E8_SCORE_SOURCE.is_file():
+        e8 = {}
+        for r in read_csv(E8_SCORE_SOURCE):
+            ea = parse_finite(r.get("4L23_affinity_E8"))
+            eb = parse_finite(r.get("4JT6_affinity_E8"))
+            if ea is None or eb is None:
+                continue
+            e8[r["ligand"]] = (-ea, -eb)
+        recs = []
+        for r in packs["PIK3CA/mTOR"]:
+            if r["ligand_id"] not in e8:
+                continue
+            sa, sb = e8[r["ligand_id"]]
+            recs.append({"cls": r["cls"], "score_A": sa, "score_B": sb})
+        da, db, sm, nd, na, nb, n = _smin_point(recs)
+        rows.append(
+            {
+                "pair": "PIK3CA/mTOR",
+                "panel": "PM48",
+                "setting": "E8",
+                "summary_min": r4(sm),
+                "n_dual": nd,
+                "n_A_only": na,
+                "n_B_only": nb,
+                "source": str(E8_SCORE_SOURCE.relative_to(ROOT)),
+                "source_kind": "recomputed_from_frozen_scores",
+                "note": f"same PM48 ligands; exhaustiveness 8; n_scored={n}",
+            }
+        )
+    return rows
+
+
+def copy_external_eligibility():
+    if not EXTERNAL_ELIGIBILITY_SOURCE.is_file():
+        return []
+    rows = []
+    for r in read_csv(EXTERNAL_ELIGIBILITY_SOURCE):
+        rec = dict(r)
+        rec["source"] = str(EXTERNAL_ELIGIBILITY_SOURCE.relative_to(ROOT))
+        rec["source_kind"] = "frozen_eligibility_input"
+        rec["note"] = "eligibility screen, not external docking validation"
+        rows.append(rec)
+    return rows
+
+
 def gnina_rows(packs):
     """Recompute directional AUROC from deposited GNINA poses + eligible master classes."""
     out = []
@@ -673,6 +908,80 @@ def gnina_rows(packs):
                 "n_neither": sum(1 for r in recs if r["cls"] == "neither"),
                 "source": str(path.relative_to(ROOT)),
                 "note": "another pose-generation realization; not a Vina vs GNINA ranking",
+            }
+        )
+    return out
+
+
+def same_pose_rescoring(packs):
+    """PPARG/PPARA same-pose RTMScore / GNINA CNN rescoring of Vina poses.
+
+    Not independent pose generation. Uses current eligible labels.
+    """
+    pair = "PPARG/PPARA"
+    pdb_a, pdb_b = RECEPTORS[pair]
+    cls = {r["ligand_id"]: r["cls"] for r in packs[pair]}
+    specs = (
+        (
+            "rtm_best9",
+            RTM_BEST9_SOURCE,
+            "rtm_best",
+            "same-pose RTMScore of Vina poses; not independent pose generation",
+        ),
+        (
+            "gnina_cnn_affinity",
+            CNN_BEST9_SOURCE,
+            "cnn_affinity",
+            "same-pose GNINA CNN affinity of Vina poses; not independent pose generation",
+        ),
+    )
+    out = []
+    for engine, path, score_col, note in specs:
+        if not path.is_file():
+            continue
+        wide = {}
+        for r in read_csv(path):
+            lig = r.get("ligand") or r.get("ligand_id")
+            if lig not in cls:
+                continue
+            sc = parse_finite(r.get(score_col))
+            if sc is None:
+                continue
+            tgt = r.get("target")
+            wide.setdefault(lig, {})
+            if tgt == pdb_a:
+                wide[lig]["A"] = sc
+            elif tgt == pdb_b:
+                wide[lig]["B"] = sc
+        recs = []
+        for lig, sc in wide.items():
+            if "A" in sc and "B" in sc:
+                recs.append({"cls": cls[lig], "score_A": sc["A"], "score_B": sc["B"]})
+        if len(recs) < 16:
+            continue
+        sa = np.array([r["score_A"] for r in recs])
+        sb = np.array([r["score_B"] for r in recs])
+        lab = np.array([r["cls"] for r in recs])
+        stats = summary_min_stratified(sa, sb, lab, N_BOOT, SEED)
+        dual_m = [(r["score_A"] + r["score_B"]) / 2 for r in recs if r["cls"] == "dual"]
+        nei_m = [(r["score_A"] + r["score_B"]) / 2 for r in recs if r["cls"] == "neither"]
+        dn, dn_lo, dn_hi = stratified_auroc_ci(dual_m, nei_m, N_BOOT, SEED)
+        out.append(
+            {
+                "pair": pair,
+                "engine": engine,
+                "n": len(recs),
+                "summary_min": r4(stats["summary_min"]),
+                "summary_min_ci_lo": r4(stats["summary_min_ci_lo"]),
+                "summary_min_ci_hi": r4(stats["summary_min_ci_hi"]),
+                "auroc_D_vs_A_pocketB": r4(stats["auroc_D_vs_A_pocketB"]),
+                "auroc_D_vs_B_pocketA": r4(stats["auroc_D_vs_B_pocketA"]),
+                "auroc_D_vs_neither_mean": r4(dn),
+                "d_vs_neither_ci_lo": r4(dn_lo),
+                "d_vs_neither_ci_hi": r4(dn_hi),
+                "n_neither": sum(1 for r in recs if r["cls"] == "neither"),
+                "source": str(path.relative_to(ROOT)),
+                "note": note,
             }
         )
     return out
@@ -823,6 +1132,8 @@ def main() -> int:
     print("fixed-score done")
     ranking = compute_ranking(packs)
     print("ranking done")
+    and_filter = compute_and_filter(packs, ranking)
+    print("AND-filter done")
     matched = compute_matched(packs)
     print("matched/mismatched done")
     labels = compute_label_sensitivity(packs)
@@ -837,6 +1148,8 @@ def main() -> int:
     print("gnina done", len(gnina))
     rec_sub, rec_extra = receptor_sub(packs, smin)
     print("receptor substitution done")
+    rescore = same_pose_rescoring(packs)
+    print("same-pose rescoring done", len(rescore))
     rmsd = copy_rmsd()
     two_pocket = write_two_pocket_ranking(ranking, fixed)
     sens = nonstrat_sensitivity(smin, matched, fixed_sens)
@@ -846,6 +1159,7 @@ def main() -> int:
     write_csv(CANON / "fixed_score_negative_class_delta.csv", [r for r in fixed if r["contrast"] != "D_vs_neither_two_pocket_mean"])
     write_csv(CANON / "two_pocket_mean_ranking.csv", two_pocket)
     write_csv(CANON / "top10_operating_points.csv", ranking)
+    write_csv(CANON / "and_filter_operating_points.csv", and_filter)
     write_csv(CANON / "matched_mismatched_pocket.csv", matched)
     all_master = read_csv(MASTER)
     cls_rows = []
@@ -898,10 +1212,19 @@ def main() -> int:
     write_csv(CANON / "max_vs_median_sensitivity.csv", maxmed)
     write_csv(CANON / "cluster_bootstrap_sensitivity.csv", cluster)
     write_csv(CANON / "holdout_metrics.csv", holdout)
-    write_csv(CANON / "computational_robustness.csv", gnina + rec_extra)
+    write_csv(CANON / "computational_robustness.csv", gnina + rec_extra + rescore)
     write_csv(CANON / "receptor_substitution.csv", rec_sub)
     write_csv(CANON / "cognate_rmsd.csv", rmsd)
     write_csv(CANON / "non_stratified_bootstrap_sensitivity.csv", sens)
+    five_seed = compute_five_seed(packs, smin)
+    write_csv(CANON / "five_seed_summary_min.csv", five_seed)
+    print("five-seed done", len(five_seed))
+    protocol = compute_protocol_sensitivity(packs, smin)
+    write_csv(CANON / "protocol_sensitivity.csv", protocol)
+    print("protocol sensitivity done")
+    external = copy_external_eligibility()
+    write_csv(CANON / "external_eligibility.csv", external)
+    print("external eligibility copied", len(external))
 
     print("\nTable 2 (summary_min, scheme B)")
     for r in smin:

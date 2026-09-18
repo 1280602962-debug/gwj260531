@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""JCIM eight-row submission figures from frozen CSVs only.
+"""JCIM eight-row submission figures from current canonical CSVs.
 
-Official plotter is update_figures_pr32.py. Figure 3 and Figure S1A read
-results/canonical/ecfp4_incremental_information.csv and descriptor_baselines.csv.
-Leftover 0.0112 incremental CSVs are not current; see docs/HISTORICAL_LEFTOVER_FILES.md.
+Official plotter is update_figures_pr32.py. Analysis-derived values are read
+from results/canonical. Frozen experimental/eligibility inputs are used only
+when they cannot be recomputed upward.
 """
 from __future__ import annotations
 
@@ -19,6 +19,10 @@ import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
 from matplotlib.patches import Circle, FancyBboxPatch
 import numpy as np
+from rdkit import Chem, RDLogger
+from rdkit.Chem import Descriptors
+
+RDLogger.DisableLog("rdApp.*")
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from jcim_figure_style import (  # noqa: E402
@@ -40,6 +44,7 @@ from jcim_figure_style import (  # noqa: E402
 )
 
 DATA = ROOT / "data"
+CANON = ROOT / "results" / "canonical"
 PROVENANCE: dict = {"source_files": {}, "plotted": {}}
 
 S34_CONTRAST = "D_vs_B_or_neither_pocketA"
@@ -48,7 +53,11 @@ GNINA_INDEP_PAIRS = ["EGFR/HER2", "JAK1/TYK2", "PIK3CA/mTOR"]
 
 def _read(path: Path) -> list[dict]:
     rows = list(csv.DictReader(path.open(encoding="utf-8", newline="")))
-    PROVENANCE["source_files"].setdefault(str(path.relative_to(ROOT)).replace("\\", "/"), len(rows))
+    try:
+        rel = str(path.relative_to(ROOT)).replace("\\", "/")
+    except ValueError:
+        rel = str(path)
+    PROVENANCE["source_files"].setdefault(rel, len(rows))
     return rows
 
 
@@ -62,107 +71,105 @@ def _eq(errors: list[str], a, b, tol: float, msg: str) -> None:
 
 
 def load() -> dict:
-    j0 = _read(DATA / "jcim_j0j1_v0/tables/j0_strict_label_supply.csv")
-    overlap = _read(DATA / "jcim_novelty_v0/tables/complete_case_usable_pchembl_overlap_v1.csv")
-    theta = _read(DATA / "jcim_strengthen_t0t1_v0/tables/unified_threshold_sensitivity_v2.csv")
-    form = _read(DATA / "jcim_novelty_v0/tables/formulation_conventional_vs_directional_v1.csv")
-    equal = _read(DATA / "jcim_novelty_v0/tables/formulation_equal_score_negative_v1.csv")
-    ache = _read(DATA / "jcim_bench_v0/tables/assembled_AChE_BChE.csv")
-    gnina_ind = _read(DATA / "jcim_independent_dock_v0/tables/independent_dock_formulation_v1.csv")
-    jps = _read(DATA / "jcim_structure_robust_v0/tables/pocket_matched_PM48_alt4JPS_v1.csv")[0]
-    dxt = _read(DATA / "jcim_structure_robust_v0/tables/pocket_matched_PM48_alt5DXT_v1.csv")[0]
-    jsx = _read(DATA / "jcim_structure_robust_v0/tables/pocket_matched_PM48_alt4JSX_v1.csv")[0]
-    seeds = _read(DATA / "jcim_multiseed_v0/tables/multiseed_auroc_by_seed_v2.csv")
-    delta = _read(DATA / "jcim_strengthen_t0t1_v0/tables/wrong_pocket_paired_delta_bootstrap_v1.csv")
-    hold_pm = _read(DATA / "jcim_holdout_v0/tables/holdout_pocket_matched_v1.csv")
-    pm110 = _read(DATA / "jcim_strengthen_t0t1_v0/tables/pm110_vs_pm48_pocket_matched_v1.csv")
-    native = _read(DATA / "jcim_novelty_v0/tables/external_slice_summary_v1.csv")
-    canon_ecfp_rows = _read(ROOT / "results/canonical/ecfp4_incremental_information.csv")
-    canon_desc_rows = _read(ROOT / "results/canonical/descriptor_baselines.csv")
-
-    five_t2 = _read(DATA / "jcim_chembl_universe_v0/local_track_b_v0/tables/five_pair_stack_v1/table2_comparable_theta6_v1.csv")
-    five_s34 = _read(DATA / "jcim_chembl_universe_v0/local_track_b_v0/tables/five_pair_stack_v1/equal_score_negative_s34_v1.csv")
-    five_grid = _read(DATA / "jcim_chembl_universe_v0/local_track_b_v0/tables/five_pair_stack_v1/threshold_grid_v1.csv")
-    five_ch = _read(DATA / "jcim_chembl_universe_v0/local_track_b_v0/tables/five_pair_local_channels_v1/table2_comparable_by_channel_v1.csv")
-    five_seed_agg = _read(DATA / "jcim_chembl_universe_v0/local_track_b_v0/tables/five_pair_local_channels_v1/fiveseed_summary_min_aggregate_v1.csv")
-    five_wp = _read(DATA / "jcim_chembl_universe_v0/local_track_b_v0/tables/five_pair_local_channels_v1/wrong_pocket_by_channel_v1.csv")
-    five_xdb = _read(DATA / "jcim_chembl_universe_v0/local_track_b_v0/tables/five_pair_crossdb_v1/crossdb_strict_supply_v1.csv")
-
-    theta6 = {r["pair"]: r for r in theta if r["label_rule"] == "theta_6.0"}
-    form_by: dict = {}
-    for r in form:
-        form_by.setdefault(r["pair"], {})[r["contrast"]] = r
+    canon = ROOT / "results" / "canonical"
+    smin = {r["pair"]: r for r in _read(canon / "primary_summary_min.csv")}
+    direc = {(r["pair"], r["estimand"]): r for r in _read(canon / "primary_directional_auroc.csv")}
+    two = {r["pair"]: r for r in _read(canon / "two_pocket_mean_ranking.csv")}
+    counts = {r["pair"]: r for r in _read(canon / "class_counts.csv")}
+    fixed = {(r["pair"], r["contrast"]): r for r in _read(canon / "fixed_score_negative_class_delta.csv")}
+    ranking = {r["pair"]: r for r in _read(canon / "top10_operating_points.csv")}
+    and_filter = {r["pair"]: r for r in _read(canon / "and_filter_operating_points.csv")}
+    matched = {r["pair"]: r for r in _read(canon / "matched_mismatched_pocket.csv")}
+    hold = {r["pair"]: r for r in _read(canon / "holdout_metrics.csv")}
+    canon_ecfp = {(r["pair"], r["contrast"]): r for r in _read(canon / "ecfp4_incremental_information.csv")}
+    canon_desc = {r["pair"]: r for r in _read(canon / "descriptor_baselines.csv")}
+    robust = {(r["pair"], r["engine"]): r for r in _read(canon / "computational_robustness.csv")}
+    rec_sub = {r["replacement"]: r for r in _read(canon / "receptor_substitution.csv")}
+    labels = {(r["pair"], r["label_rule"]): r for r in _read(canon / "label_aggregation_sensitivity.csv")}
+    cluster = [r for r in _read(canon / "cluster_bootstrap_sensitivity.csv")]
+    rmsd = _read(canon / "cognate_rmsd.csv")
+    seeds = _read(canon / "five_seed_summary_min.csv")
+    protocol = {(r["panel"], r["setting"]): r for r in _read(canon / "protocol_sensitivity.csv")}
+    native = _read(canon / "external_eligibility.csv")
+    census = _read(ROOT / "data/jcim_chembl_universe_v0/tables/universe_census_summary_v1.csv")
+    master = _read(canon / "current_score_master.csv")
     tpsa = defaultdict(list)
-    for r in ache:
-        if r["cls"] in ("dual", "A_only", "B_only"):
-            tpsa[r["cls"]].append(fnum(r["tpsa"]))
+    for r in master:
+        if r.get("pair") != "AChE/BChE":
+            continue
+        if r.get("analysis_set") != "main" or r.get("complete_case") not in ("1", "True"):
+            continue
+        if str(r.get("activity_eligible", "1")) not in ("1", "True"):
+            continue
+        cls = r.get("primary_class_theta6")
+        if cls not in ("dual", "A_only", "B_only"):
+            continue
+        mol = Chem.MolFromSmiles(r.get("smiles") or "")
+        if mol is None:
+            continue
+        tpsa[cls].append(float(Descriptors.TPSA(mol)))
     return {
-        "j0": j0,
-        "overlap": {r["pair"]: r for r in overlap},
-        "theta6": theta6,
-        "theta_all": theta,
-        "form_by": form_by,
-        "equal": {(r["pair"], r["contrast"]): r for r in equal},
-        "canon_ecfp": {(r["pair"], r["contrast"]): r for r in canon_ecfp_rows},
-        "canon_desc": {r["pair"]: r for r in canon_desc_rows},
-        "tpsa": tpsa,
-        "gnina_ind": {(r["pair"], r["contrast"]): r for r in gnina_ind},
-        "jps": jps,
-        "dxt": dxt,
-        "jsx": jsx,
+        "smin": smin,
+        "direc": direc,
+        "two": two,
+        "counts": counts,
+        "fixed": fixed,
+        "ranking": ranking,
+        "and_filter": and_filter,
+        "matched": matched,
+        "hold": hold,
+        "canon_ecfp": canon_ecfp,
+        "canon_desc": canon_desc,
+        "robust": robust,
+        "rec_sub": rec_sub,
+        "labels": labels,
+        "cluster": cluster,
+        "rmsd": rmsd,
         "seeds": seeds,
-        "delta": {(r["pair"], r["set"]): r for r in delta},
-        "hold_pm": {(r["pair"], r["variant"]): r for r in hold_pm},
-        "pm110": {(r["panel"], r["arm"]): r for r in pm110},
+        "protocol": protocol,
         "native": native,
-        "five_t2": {r["pair"]: r for r in five_t2},
-        "five_s34": {(r["pair"], r["contrast"]): r for r in five_s34},
-        "five_grid": five_grid,
-        "five_ch": {(r["channel"], r["pair"]): r for r in five_ch},
-        "five_seed_agg": {r["pair"]: r for r in five_seed_agg},
-        "five_wp": {(r["channel"], r["pair"]): r for r in five_wp},
-        "five_xdb": {(r["pair"], r["source"], r["rule"]): r for r in five_xdb},
+        "census": census,
+        "tpsa": tpsa,
+        "jps": rec_sub["4JPS"],
+        "dxt": rec_sub["5DXT"],
+        "jsx": rec_sub["4JSX"],
+        "equal": fixed,
+        "theta6": smin,
+        "theta_all": [
+            {"pair": pair, "label_rule": rule, **labels[(pair, rule)]}
+            for pair in PRIMARY_PAIRS
+            for rule in ("theta_5.5", "theta_6.0", "theta_6.5", "strict_6.5_5.5")
+            if (pair, rule) in labels
+        ],
     }
 
 
 def primary_row(D: dict, pair: str) -> dict:
-    """Table-2-comparable Vina θ=6.0 row for one primary pair."""
-    if pair in UNIFIED_THRESHOLD_PAIRS:
-        t = D["theta6"][pair]
-        n = D["form_by"][pair]["D_vs_neither_mean"]
-        return {
-            "da": fnum(t["auroc_D_vs_A"]),
-            "db": fnum(t["auroc_D_vs_B"]),
-            "smin": fnum(t["pocket_matched_summary_min"]),
-            "lo": fnum(t["ci_lo"]),
-            "hi": fnum(t["ci_hi"]),
-            "nei": fnum(n["auroc"]),
-            "nei_lo": fnum(n["ci_lo"]),
-            "nei_hi": fnum(n["ci_hi"]),
-            "n_neg": int(n["n_neg"]),
-        }
-    r = D["five_t2"][pair]
+    s = D["smin"][pair]
+    da = D["direc"][(pair, "AUROC_D_vs_A_pocketB")]
+    db = D["direc"][(pair, "AUROC_D_vs_B_pocketA")]
+    two = D["two"][pair]
+    n = D["counts"][pair]
     return {
-        "da": fnum(r["auroc_D_vs_A_pocketB"]),
-        "db": fnum(r["auroc_D_vs_B_pocketA"]),
-        "smin": fnum(r["summary_min"]),
-        "lo": fnum(r["ci_lo"]),
-        "hi": fnum(r["ci_hi"]),
-        "nei": fnum(r["D_vs_neither_vina_mean"]),
-        "nei_lo": fnum(r["D_vs_neither_ci_lo"]),
-        "nei_hi": fnum(r["D_vs_neither_ci_hi"]),
-        "n_neg": int(r["n_neither"]),
+        "da": fnum(da["point"]),
+        "db": fnum(db["point"]),
+        "smin": fnum(s["summary_min"]),
+        "lo": fnum(s["ci_lo"]),
+        "hi": fnum(s["ci_hi"]),
+        "nei": fnum(two["two_pocket_mean_D_vs_neither"]),
+        "nei_lo": fnum(two["ci_lo"]),
+        "nei_hi": fnum(two["ci_hi"]),
+        "n_neg": int(n["n_neither"]),
     }
 
 
 def s34_row(D: dict, pair: str) -> dict:
-    src = D["equal"] if pair in UNIFIED_THRESHOLD_PAIRS else D["five_s34"]
-    r = src[(pair, S34_CONTRAST)]
+    r = D["fixed"][(pair, S34_CONTRAST)]
     return {
         "delta": fnum(r["delta_neither_minus_selective"]),
         "lo": fnum(r["delta_ci_lo"]),
         "hi": fnum(r["delta_ci_hi"]),
-        "under": r["underpowered_neither"] == "1",
+        "under": str(r.get("ci_excludes_zero", "0")) in {"0", "False"},
     }
 
 
@@ -182,118 +189,67 @@ def best_desc(D: dict, pair: str) -> tuple[str, float]:
 
 
 def five_seed_range(D: dict, pair: str) -> dict:
-    vals = [x for x in (fnum(r["summary_min"]) for r in D["seeds"] if r["pair"] == pair) if x is not None]
-    if vals:
-        prim = primary_row(D, pair)["smin"]
-        return {
-            "primary": prim,
-            "median": float(np.median(vals)),
-            "min": float(np.min(vals)),
-            "max": float(np.max(vals)),
-            "n": len(vals),
-        }
-    r = D["five_seed_agg"][pair]
+    vals = [fnum(r["summary_min"]) for r in D["seeds"] if r["pair"] == pair]
+    prim = primary_row(D, pair)["smin"]
     return {
-        "primary": fnum(r["primary_20260727"]),
-        "median": fnum(r["median_of_per_seed_summary_min"]),
-        "min": fnum(r["min_five_seed"]),
-        "max": fnum(r["max_five_seed"]),
-        "n": int(r["n_seeds"]),
-        "crosses": r["crosses_0.5"] == "1",
+        "primary": prim,
+        "median": float(np.median(vals)),
+        "min": float(np.min(vals)),
+        "max": float(np.max(vals)),
+        "n": len(vals),
     }
 
 
 def wp_main(D: dict, pair: str) -> dict:
-    if pair in UNIFIED_THRESHOLD_PAIRS:
-        r = D["delta"][(pair, "main_panel")]
-        return {
-            "delta": fnum(r["delta_matched_minus_wrong"]),
-            "lo": fnum(r["delta_ci_lo"]),
-            "hi": fnum(r["delta_ci_hi"]),
-            "excl": r["ci_excludes_zero"] == "True",
-        }
-    r = D["five_wp"][("vina_20260727", pair)]
+    r = D["matched"][pair]
+    lo, hi = fnum(r["delta_ci_lo"]), fnum(r["delta_ci_hi"])
     return {
-        "delta": fnum(r["delta_matched_minus_wrong"]),
-        "lo": fnum(r["delta_ci_lo"]),
-        "hi": fnum(r["delta_ci_hi"]),
-        "excl": r["ci_excludes_zero"] == "True",
+        "delta": fnum(r["delta"]),
+        "lo": lo,
+        "hi": hi,
+        "excl": not (lo <= 0 <= hi),
     }
 
 
 def wp_hold(D: dict, pair: str) -> dict:
-    if pair in UNIFIED_THRESHOLD_PAIRS:
-        r = D["delta"][(pair, "unused_pool_holdout")]
-        return {
-            "delta": fnum(r["delta_matched_minus_wrong"]),
-            "lo": fnum(r["delta_ci_lo"]),
-            "hi": fnum(r["delta_ci_hi"]),
-            "excl": r["ci_excludes_zero"] == "True",
-            "smin": fnum(r["matched_summary_min"]),
-            "smin_lo": fnum(r["matched_ci_lo"]),
-            "smin_hi": fnum(r["matched_ci_hi"]),
-        }
-    r = D["five_wp"][("holdout_vina_20260727", pair)]
+    r = D["hold"][pair]
+    lo, hi = fnum(r["mm_ci_lo"]), fnum(r["mm_ci_hi"])
     return {
-        "delta": fnum(r["delta_matched_minus_wrong"]),
-        "lo": fnum(r["delta_ci_lo"]),
-        "hi": fnum(r["delta_ci_hi"]),
-        "excl": r["ci_excludes_zero"] == "True",
-        "smin": fnum(r["matched_summary_min"]),
-        "smin_lo": fnum(r["matched_ci_lo"]),
-        "smin_hi": fnum(r["matched_ci_hi"]),
+        "delta": fnum(r["matched_minus_mismatched"]),
+        "lo": lo,
+        "hi": hi,
+        "excl": not (lo <= 0 <= hi),
+        "smin": fnum(r["summary_min"]),
+        "smin_lo": fnum(r["ci_lo"]),
+        "smin_hi": fnum(r["ci_hi"]),
     }
 
 
 def holdout_smin(D: dict, pair: str) -> dict:
-    if pair in UNIFIED_THRESHOLD_PAIRS:
-        r = D["hold_pm"][(pair, "pocket_matched_vina")]
-        return {
-            "y": fnum(r["summary_min"]),
-            "lo": fnum(r["summary_min_ci_lo"]),
-            "hi": fnum(r["summary_min_ci_hi"]),
-        }
-    r = D["five_ch"][("holdout_vina_20260727", pair)]
+    r = D["hold"][pair]
     return {"y": fnum(r["summary_min"]), "lo": fnum(r["ci_lo"]), "hi": fnum(r["ci_hi"])}
 
 
 def theta_grid_smin(D: dict, pair: str, rule: str) -> float:
-    if pair in UNIFIED_THRESHOLD_PAIRS:
-        r = next(row for row in D["theta_all"] if row["pair"] == pair and row["label_rule"] == rule)
-        return fnum(r["pocket_matched_summary_min"])
-    r = next(row for row in D["five_grid"] if row["pair"] == pair and row["label_rule"] == rule)
-    return fnum(r["summary_min"])
+    return fnum(D["labels"][(pair, rule)]["summary_min"])
 
 
 def theta_grid_record(D: dict, pair: str, rule: str) -> dict:
-    """Value and sample-size flag for the categorical label-rule grid."""
-    if pair in UNIFIED_THRESHOLD_PAIRS:
-        r = next(row for row in D["theta_all"] if row["pair"] == pair and row["label_rule"] == rule)
-        value = fnum(r["pocket_matched_summary_min"])
-        under = r.get("underpowered", "0") == "1"
-    else:
-        r = next(row for row in D["five_grid"] if row["pair"] == pair and row["label_rule"] == rule)
-        value = fnum(r["summary_min"])
-        under = min(int(r["n_dual"]), int(r["n_A_only"]), int(r["n_B_only"])) < 10
+    r = D["labels"][(pair, rule)]
+    value = fnum(r["summary_min"])
+    under = min(int(r["n_dual"]), int(r["n_A_only"]), int(r["n_B_only"])) < 10
     return {"value": value, "under": under}
 
 
 def gnina_indep(D: dict, pair: str) -> dict:
-    if pair == "JAK1/TYK2":
-        r = D["five_ch"][("gnina_independent_jak1_tyk2", pair)]
-        return {
-            "smin": fnum(r["summary_min"]),
-            "smin_lo": fnum(r["ci_lo"]),
-            "smin_hi": fnum(r["ci_hi"]),
-            "nei": fnum(r["D_vs_neither_mean"]),
-            "nei_lo": fnum(r["D_vs_neither_ci_lo"]),
-            "nei_hi": fnum(r["D_vs_neither_ci_hi"]),
-        }
+    r = D["robust"][(pair, "gnina_dock_mode1")]
     return {
-        "smin": fnum(D["gnina_ind"][(pair, "summary_min")]["auroc"]),
-        "nei": fnum(D["gnina_ind"][(pair, "D_vs_neither_mean")]["auroc"]),
-        "nei_lo": fnum(D["gnina_ind"][(pair, "D_vs_neither_mean")]["ci_lo"]),
-        "nei_hi": fnum(D["gnina_ind"][(pair, "D_vs_neither_mean")]["ci_hi"]),
+        "smin": fnum(r["summary_min"]),
+        "smin_lo": fnum(r["summary_min_ci_lo"]),
+        "smin_hi": fnum(r["summary_min_ci_hi"]),
+        "nei": fnum(r["auroc_D_vs_neither_mean"]),
+        "nei_lo": fnum(r.get("d_vs_neither_ci_lo") or 0),
+        "nei_hi": fnum(r.get("d_vs_neither_ci_hi") or 0),
     }
 
 
@@ -1227,27 +1183,9 @@ def write_lock_and_captions() -> None:
 
 
 def main() -> None:
-    apply_style()
-    D = load()
-    fig1_framework(D)
-    fig2_formulation(D)
-    fig3_chemistry(D)
-    fig4_realization(D)
-    fig5_mismatched(D)
-    fig6_boundary(D)
-    toc_graphic()
-    fig_s4_forest(D)
-    fig_s5_holdout(D)
-    fig_s7_diagnostics(D)
-    fig_s8_bindingdb(D)
-    write_lock_and_captions()
-    (OUT / "plotted_values.json").write_text(
-        json.dumps(PROVENANCE, indent=2, default=str), encoding="utf-8"
-    )
-    verify(D)
-    print("wrote", OUT)
-    for p in sorted(OUT.glob("Fig*.png")) + sorted(OUT.glob("TOC*")):
-        print(" ", p.name, p.stat().st_size)
+    print("Official artwork writer is figures/jcim_article/scripts/update_figures_pr32.py")
+    print("This module is a helper library (load/helpers). It does not write plotted_values.json.")
+    raise SystemExit(0)
 
 
 if __name__ == "__main__":

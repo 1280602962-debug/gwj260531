@@ -4,9 +4,13 @@
 Does not patch manuscripts, copy old CSVs, or rebuild the submission pack.
 Failure of any step leaves the freeze directory incomplete; do not fill gaps
 from results/canonical.
+
+Default output is /tmp/dual_target_freeze_rebuild. Pass --outdir to override.
+Adjudication is part of the chain (not a hidden intermediate).
 """
 from __future__ import annotations
 
+import argparse
 import os
 import shutil
 import subprocess
@@ -16,30 +20,38 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 SCRIPTS = ROOT / "scripts"
-FREEZE = ROOT / "results" / "freeze_rebuild"
 PYTHON = sys.executable
+DEFAULT_FREEZE = Path("/tmp/dual_target_freeze_rebuild")
 
 STEPS = (
-    ("01_build_master", ["analysis/build_current_score_master.py"]),
-    ("02_canonical_stats", ["analysis/compute_canonical_results.py"]),
-    ("03_descriptors", ["analysis/compute_descriptor_baselines.py"]),
-    ("04_ecfp4", ["analysis/fit_ecfp4_models.py"]),
-    ("05_class_chemistry", ["analysis/compute_class_chemistry.py"]),
-    ("06_leave_one_document", ["analysis/compute_leave_one_document.py"]),
-    ("07_detectable_effect", ["analysis/compute_detectable_effect.py"]),
+    ("00_adjudicate", ["analysis/adjudicate_activity_records.py"], False),
+    ("01_build_master", ["analysis/build_current_score_master.py"], True),
+    ("02_canonical_stats", ["analysis/compute_canonical_results.py"], True),
+    ("03_descriptors", ["analysis/compute_descriptor_baselines.py"], True),
+    ("04_ecfp4", ["analysis/fit_ecfp4_models.py"], True),
+    ("05_class_chemistry", ["analysis/compute_class_chemistry.py"], True),
+    ("06_leave_one_document", ["analysis/compute_leave_one_document.py"], True),
+    ("07_detectable_effect", ["analysis/compute_detectable_effect.py"], True),
 )
 
 REQUIRED_AFTER = {
+    "00_adjudicate": (),
     "01_build_master": ("current_score_master.csv",),
     "02_canonical_stats": (
         "primary_summary_min.csv",
         "primary_directional_auroc.csv",
         "two_pocket_mean_ranking.csv",
+        "top10_operating_points.csv",
+        "and_filter_operating_points.csv",
+        "fixed_score_negative_class_delta.csv",
         "computational_robustness.csv",
         "receptor_substitution.csv",
         "max_vs_median_sensitivity.csv",
         "holdout_metrics.csv",
         "cognate_rmsd.csv",
+        "five_seed_summary_min.csv",
+        "protocol_sensitivity.csv",
+        "external_eligibility.csv",
     ),
     "03_descriptors": ("descriptor_baselines.csv",),
     "04_ecfp4": ("ecfp4_incremental_information.csv", "ecfp4_oof_predictions.csv", "model_fold_assignments.csv"),
@@ -48,9 +60,17 @@ REQUIRED_AFTER = {
     "07_detectable_effect": ("detectable_effect_simulation.csv",),
 }
 
+ADJUDICATION_OUTPUTS = (
+    ROOT / "data/processed/activity_adjudication/ligand_activity_aggregate_v1.csv",
+    ROOT / "data/processed/activity_adjudication/excluded_activity_rows_applied_v1.csv",
+    ROOT / "data/processed/activity_adjudication/ligand_status_v1.csv",
+)
 
-def run(name: str, rel: list[str], log) -> None:
-    cmd = [PYTHON, str(SCRIPTS / rel[0]), "--outdir", str(FREEZE), "--master", str(FREEZE / "current_score_master.csv")]
+
+def run(name: str, rel: list[str], uses_io: bool, freeze: Path, log) -> None:
+    cmd = [PYTHON, str(SCRIPTS / rel[0])]
+    if uses_io:
+        cmd.extend(["--outdir", str(freeze), "--master", str(freeze / "current_score_master.csv")])
     env = dict(os.environ)
     env["PYTHONPATH"] = str(SCRIPTS) + os.pathsep + env.get("PYTHONPATH", "")
     print("RUN", name, " ".join(cmd), flush=True)
@@ -63,13 +83,18 @@ def run(name: str, rel: list[str], log) -> None:
     log.flush()
     if proc.returncode != 0:
         raise SystemExit(f"{name} failed with exit {proc.returncode}")
+    if name == "00_adjudicate":
+        missing = [str(p) for p in ADJUDICATION_OUTPUTS if not p.is_file() or p.stat().st_size == 0]
+        if missing:
+            raise SystemExit(f"adjudicate did not write {missing}")
+        return
     for fname in REQUIRED_AFTER[name]:
-        path = FREEZE / fname
+        path = freeze / fname
         if not path.is_file() or path.stat().st_size == 0:
             raise SystemExit(f"{name} did not write {fname}; not filling from canonical")
 
 
-def write_env(path: Path) -> None:
+def write_env(path: Path, freeze: Path) -> None:
     import platform
 
     lines = [
@@ -78,8 +103,9 @@ def write_env(path: Path) -> None:
         f"executable={sys.executable}",
         f"platform={platform.platform()}",
         f"cwd={ROOT}",
-        f"freeze_dir={FREEZE}",
-        f"baseline_sha_expected=17435413410290960da3437de640509705f00b51",
+        f"freeze_dir={freeze}",
+        "baseline_commit_logged=17435413410290960da3437de640509705f00b51",
+        "note=git_head is a log field only; it does not accept or reject scientific results",
     ]
     try:
         sha = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=str(ROOT.parent), text=True).strip()
@@ -101,11 +127,17 @@ def write_env(path: Path) -> None:
 
 
 def main() -> int:
-    if FREEZE.exists():
-        shutil.rmtree(FREEZE)
-    FREEZE.mkdir(parents=True)
-    write_env(FREEZE / "ENV.txt")
-    log_path = FREEZE / "REBUILD_LOG.txt"
+    parser = argparse.ArgumentParser(description="Rebuild the zero-dock freeze directory.")
+    parser.add_argument("--outdir", default=str(DEFAULT_FREEZE), help="Rebuild directory (default: /tmp/dual_target_freeze_rebuild).")
+    args = parser.parse_args()
+    freeze = Path(args.outdir)
+    if not freeze.is_absolute():
+        freeze = (ROOT / freeze).resolve()
+    if freeze.exists():
+        shutil.rmtree(freeze)
+    freeze.mkdir(parents=True)
+    write_env(freeze / "ENV.txt", freeze)
+    log_path = freeze / "REBUILD_LOG.txt"
     with log_path.open("w", encoding="utf-8") as log:
         log.write("# freeze rebuild log\n")
         log.write("No canonical CSV was copied into this directory.\n")
@@ -115,9 +147,9 @@ def main() -> int:
         log.write(env.stderr)
         if env.returncode != 0:
             raise SystemExit("analysis environment check failed")
-        for name, rel in STEPS:
-            run(name, rel, log)
-    print("freeze rebuild complete", FREEZE)
+        for name, rel, uses_io in STEPS:
+            run(name, rel, uses_io, freeze, log)
+    print("freeze rebuild complete", freeze)
     return 0
 
 

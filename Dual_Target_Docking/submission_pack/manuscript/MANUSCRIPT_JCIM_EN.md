@@ -215,7 +215,7 @@ Independent GNINA 1.3.2 pose generation used the same receptors, ligands, and do
 
 On PIK3CA/mTOR, replacing PIK3CA 4L23 with 4JPS lowered \(\mathrm{summary}_{\min}\) from 0.692 [0.480, 0.802] to 0.486 [0.264, 0.694]. Replacement with 5DXT gave 0.505 [0.296, 0.713]. Replacing mTOR 4JT6 with 4JSX gave 0.639 [0.435, 0.783] (Figure 5B; Table S7).
 
-Five fixed Vina random seeds produced comparatively limited numerical fluctuation relative to the larger task and receptor effects (Figure 5C). The EGFR/HER2 fixed-score task difference remained positive on all five seeds. Same-pose RTMScore and GNINA CNN rescoring of PPARG/PPARA are in Table S7. PPARG/PPARA was the only pair whose primary Vina \(\mathrm{summary}_{\min}\) interval lay entirely above 0.5 (0.649 [0.511, 0.746]); RTMScore lowered it to 0.369 [0.233, 0.475], and GNINA CNN rescoring lowered it to 0.500 [0.356, 0.623].
+Five fixed Vina random seeds produced comparatively limited numerical fluctuation relative to the larger task and receptor effects (Figure 5C). The EGFR/HER2 fixed-score task difference remained positive on all five seeds. Same-pose RTMScore and GNINA CNN rescoring of PPARG/PPARA are in Table S7. PPARG/PPARA was the only pair whose primary Vina \(\mathrm{summary}_{\min}\) interval lay entirely above 0.5 (0.649 [0.511, 0.746]); RTMScore lowered it to 0.369 [0.237, 0.478], and GNINA CNN rescoring lowered it to 0.500 [0.347, 0.632].
 
 ![Figure 5](../figures/jcim_article/Fig5_computational_realization.png)
 
