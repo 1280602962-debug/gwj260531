@@ -43,11 +43,19 @@ FIELDS = [
     "postfix_status",
     "activity_eligible",
     "activity_status",
+    "activity_source_kind",
+    "activity_source_file",
     "historical_pA",
     "historical_pB",
     "n_act_A",
     "n_act_B",
 ]
+ADJUDICATION_FILE = "data/processed/activity_adjudication/ligand_activity_aggregate_v1.csv"
+ADJUDICATED_PANEL_FILES = {
+    "EGFR/HER2": "data/egfr_her2_panel120_v0/tables/panel_v0_120.csv",
+    "AChE/BChE": "data/ache_bche_panel_v0/tables/panel_v0_strict.csv",
+    "PIK3CA/mTOR": "data/pik3ca_mtor_panel48_rdkit_v0/tables/panel_v0_48.csv",
+}
 
 
 def fnum(v):
@@ -80,6 +88,8 @@ def row_of(**kwargs) -> dict:
     rec["complete_case"] = int(sa is not None and sb is not None)
     rec["activity_eligible"] = rec.get("activity_eligible") if rec.get("activity_eligible") not in ("", None) else 1
     rec["activity_status"] = rec.get("activity_status") or "panel_default"
+    rec["activity_source_kind"] = rec.get("activity_source_kind") or ""
+    rec["activity_source_file"] = rec.get("activity_source_file") or ""
     rec["historical_pA"] = rec.get("historical_pA") if rec.get("historical_pA") not in ("", None) else rec["pA"]
     rec["historical_pB"] = rec.get("historical_pB") if rec.get("historical_pB") not in ("", None) else rec["pB"]
     rec["n_act_A"] = rec.get("n_act_A") if rec.get("n_act_A") not in ("", None) else ""
@@ -385,29 +395,48 @@ def compare_membership(master: list[dict]) -> str:
     return "\n".join(lines) + "\n"
 
 
+def _tag_activity_provenance(rec: dict, adj: dict | None) -> dict:
+    """Label source of activity values. Does not change pChEMBL or class."""
+    pair = rec["pair"]
+    if adj is not None and rec.get("analysis_set") == "main":
+        if adj.get("activity_status") == "panel_pchembl_no_audit_rows":
+            rec["activity_source_kind"] = "panel_pchembl_no_audit_rows"
+            rec["activity_source_file"] = ADJUDICATED_PANEL_FILES.get(pair, "")
+        else:
+            rec["activity_source_kind"] = "chembl_assay_adjudicated"
+            rec["activity_source_file"] = ADJUDICATION_FILE
+        return rec
+    if pair in TRACK_B_PANELS:
+        rec["activity_source_kind"] = "chembl37_dump_panel"
+        if rec.get("analysis_set") == "holdout":
+            rec["activity_source_file"] = TRACK_B_HOLDOUT.get(pair, "")
+        else:
+            rec["activity_source_file"] = TRACK_B_PANELS[pair]
+        return rec
+    return rec
+
+
 def apply_adjudication(rows: list[dict]) -> list[dict]:
-    path = ROOT / "data/processed/activity_adjudication/ligand_activity_aggregate_v1.csv"
+    path = ROOT / ADJUDICATION_FILE
     if not path.is_file():
         raise SystemExit("missing activity adjudication table; run scripts/analysis/adjudicate_activity_records.py first")
     by = {(r["pair"], r["ligand"]): r for r in read_csv(path)}
     out = []
     for rec in rows:
-        adj = by.get((rec["pair"], rec["ligand_id"]))
-        if adj is None or rec.get("analysis_set") != "main":
-            out.append(rec)
-            continue
         rec = dict(rec)
-        rec["historical_pA"] = adj.get("historical_pA", rec["pA"])
-        rec["historical_pB"] = adj.get("historical_pB", rec["pB"])
-        rec["n_act_A"] = adj.get("n_act_A", "")
-        rec["n_act_B"] = adj.get("n_act_B", "")
-        rec["activity_eligible"] = int(adj.get("activity_eligible") or 0)
-        rec["activity_status"] = adj.get("activity_status") or rec.get("activity_status") or ""
-        pa, pb = fnum(adj.get("max_A")), fnum(adj.get("max_B"))
-        rec["pA"] = "" if pa is None else pa
-        rec["pB"] = "" if pb is None else pb
-        rec["primary_class_theta6"] = assign_fourclass(pa, pb) or ""
-        out.append(rec)
+        adj = by.get((rec["pair"], rec["ligand_id"]))
+        if adj is not None and rec.get("analysis_set") == "main":
+            rec["historical_pA"] = adj.get("historical_pA", rec["pA"])
+            rec["historical_pB"] = adj.get("historical_pB", rec["pB"])
+            rec["n_act_A"] = adj.get("n_act_A", "")
+            rec["n_act_B"] = adj.get("n_act_B", "")
+            rec["activity_eligible"] = int(adj.get("activity_eligible") or 0)
+            rec["activity_status"] = adj.get("activity_status") or rec.get("activity_status") or ""
+            pa, pb = fnum(adj.get("max_A")), fnum(adj.get("max_B"))
+            rec["pA"] = "" if pa is None else pa
+            rec["pB"] = "" if pb is None else pb
+            rec["primary_class_theta6"] = assign_fourclass(pa, pb) or ""
+        out.append(_tag_activity_provenance(rec, adj))
     return out
 
 

@@ -409,9 +409,14 @@ def build_fig5_computational_robustness(D):
     plotted_s = {}
     for i, p in enumerate(PAIRS):
         r = v.five_seed_range(D, p)
-        ax.plot([r['min'], r['max']], [i, i], color=C['vina'], lw=1.4, zorder=3)
-        ax.plot(r['median'], i, 'o', color=C['vina'], ms=5.2, zorder=4)
-        ax.plot(r['primary'], i, 'D', color=C['desc'], ms=4.4, zorder=5)
+        if r.get('min') is not None and r.get('max') is not None:
+            ax.plot([r['min'], r['max']], [i, i], color=C['vina'], lw=1.4, zorder=3)
+        if r.get('median') is not None:
+            ax.plot(r['median'], i, 'o', color=C['vina'], ms=5.2, zorder=4)
+        if r.get('comparable_to_current_primary', 1) and r.get('primary') is not None:
+            ax.plot(r['primary'], i, 'D', color=C['desc'], ms=4.4, zorder=5)
+        else:
+            ax.text(0.225, i, 'n.c.', fontsize=5.4, va='center', ha='left', color='0.45', zorder=6)
         plotted_s[p] = r
     ax.axvline(.5, color=C['chance'], ls='--', lw=.85)
     pair_yticks(ax, fontsize=6.5)
@@ -421,7 +426,8 @@ def build_fig5_computational_robustness(D):
         Line2D([], [], color=C['vina'], ls='-', lw=1.4, marker='', label='range'),
         L(C['vina'], 'o', 'median', ms=5.0),
         L(C['desc'], 'D', 'primary seed', ms=4.6),
-    ], loc='upper center', bbox_to_anchor=(.5, -.18), ncol=3, fontsize=6.2)
+        Line2D([], [], color='0.45', ls='none', marker='', label='n.c. = not comparable'),
+    ], loc='upper center', bbox_to_anchor=(.5, -.18), ncol=4, fontsize=5.8)
     P['fig4C'] = plotted_s
     fig.subplots_adjust(left=.16, right=.98, top=.93, bottom=.13)
     save(fig, 'Fig5_computational_realization')
@@ -848,8 +854,19 @@ def emit_plotted_values_postfix(audit):
             'results/canonical/five_seed_summary_min.csv', p, rec.get('max'))
         add('Figure 5', 'C', p, 'five_seed_median',
             'results/canonical/five_seed_summary_min.csv', p, rec.get('median'))
-        add('Figure 5', 'C', p, 'five_seed_primary',
-            'results/canonical/primary_summary_min.csv', p, rec.get('primary'))
+        if rec.get('comparable_to_current_primary', 1) and rec.get('primary') is not None:
+            add('Figure 5', 'C', p, 'five_seed_primary',
+                'results/canonical/primary_summary_min.csv', p, rec.get('primary'))
+        else:
+            add('Figure 5', 'C', p, 'five_seed_primary',
+                'results/canonical/five_seed_summary_min.csv', p, 'NA', 'NA')
+        add('Figure 5', 'C', p, 'five_seed_comparable',
+            'results/canonical/five_seed_summary_min.csv', p,
+            rec.get('comparable_to_current_primary'),
+            str(rec.get('comparable_to_current_primary')))
+        add('Figure 5', 'C', p, 'five_seed_realization',
+            'results/canonical/five_seed_summary_min.csv', p,
+            rec.get('realization_status'), rec.get('realization_status'))
 
     proto = P.get('figS2') or {}
     for metric, val in proto.items():

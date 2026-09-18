@@ -104,14 +104,8 @@ def write_env(path: Path, freeze: Path) -> None:
         f"platform={platform.platform()}",
         f"cwd={ROOT}",
         f"freeze_dir={freeze}",
-        "baseline_commit_logged=17435413410290960da3437de640509705f00b51",
-        "note=git_head is a log field only; it does not accept or reject scientific results",
+        "note=package versions below are the analysis environment; this file is not a PASS/FAIL gate",
     ]
-    try:
-        sha = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=str(ROOT.parent), text=True).strip()
-        lines.append(f"git_head={sha}")
-    except Exception as exc:
-        lines.append(f"git_head_error={exc}")
     for mod in ("numpy", "pandas", "sklearn", "rdkit", "scipy"):
         try:
             m = __import__(mod if mod != "sklearn" else "sklearn")

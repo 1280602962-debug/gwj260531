@@ -1,6 +1,6 @@
 # DualFourClass writing index (freeze)
 
-Source of numbers: `results/canonical/` after promotion from `results/freeze_rebuild/`.  
+Source of numbers: `results/canonical/` after promotion from a verified `/tmp` freeze rebuild (not a repository `results/freeze_rebuild/` tree).  
 Config: `scripts/analysis/analysis_config.py`.  
 Do not quote `results/canonical` siblings that predate the freeze ENV.
 

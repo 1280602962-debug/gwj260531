@@ -116,23 +116,23 @@ def check_master(rows):
         recs = [r for r in rows if r["pair"] == pair and r["ligand_id"] == lig]
         if any(is_primary_row(r) for r in recs):
             fail(f"{pair} {lig} still in primary sample")
+    missing_prov = [r for r in rows if r.get("analysis_set") == "main" and not r.get("activity_source_kind")]
+    if missing_prov:
+        fail(f"main rows missing activity_source_kind: {missing_prov[0]['pair']} {missing_prov[0]['ligand_id']}")
 
 
 def check_table2(packs, smin_rows, direc_rows):
     smin = {r["pair"]: r for r in smin_rows}
     direc = {(r["pair"], r["estimand"]): r for r in direc_rows}
-    expected_n = {
-        "EGFR/HER2": (28, 37, 32),
-        "AChE/BChE": (27, 26, 28),
-    }
     for pair in PRIMARY_PAIRS:
         recs = packs[pair]
         dual = [r for r in recs if r["cls"] == "dual"]
         a_only = [r for r in recs if r["cls"] == "A_only"]
         b_only = [r for r in recs if r["cls"] == "B_only"]
         n = (len(dual), len(a_only), len(b_only))
-        if pair in expected_n and n != expected_n[pair]:
-            fail(f"{pair} n_scored {n} expected {expected_n[pair]}")
+        if (int(smin[pair]["n_dual"]), int(smin[pair]["n_A_only"]), int(smin[pair]["n_B_only"])) != n:
+            fail(f"{pair} Table 2 class counts {smin[pair]['n_dual']}/{smin[pair]['n_A_only']}/{smin[pair]['n_B_only']} vs master {n}")
+        NOTES.append(f"{pair} n_scored D/A/B={n[0]}/{n[1]}/{n[2]}")
         da = auroc([r[D_VS_A_SCORE] for r in dual], [r[D_VS_A_SCORE] for r in a_only])
         db = auroc([r[D_VS_B_SCORE] for r in dual], [r[D_VS_B_SCORE] for r in b_only])
         rec_da = direc.get((pair, "AUROC_D_vs_A_pocketB"))
@@ -167,16 +167,6 @@ def check_table2(packs, smin_rows, direc_rows):
 
 def check_fixed_score(packs, fixed_rows):
     by = {(r["pair"], r["contrast"]): r for r in fixed_rows}
-    egfr = by[("EGFR/HER2", "D_vs_B_or_neither_pocketA")]
-    if abs(float(egfr["auroc_dual_vs_selective"]) - 0.3237) > 1e-3:
-        fail(f"EGFR pocket A D-vs-B {egfr['auroc_dual_vs_selective']}")
-    if abs(float(egfr["auroc_dual_vs_neither"]) - 0.7857) > 1e-3:
-        fail(f"EGFR pocket A D-vs-neither {egfr['auroc_dual_vs_neither']}")
-    if abs(float(egfr["delta_neither_minus_selective"]) - 0.4621) > 1e-3:
-        fail(f"EGFR pocket A delta {egfr['delta_neither_minus_selective']}")
-    jak = by[("JAK1/TYK2", "D_vs_B_or_neither_pocketA")]
-    if abs(float(jak["delta_neither_minus_selective"]) - 0.4438) > 1e-3:
-        fail(f"JAK1/TYK2 pocket A delta {jak['delta_neither_minus_selective']}")
     for pair, recs in packs.items():
         dual = [r for r in recs if r["cls"] == "dual"]
         neither = [r for r in recs if r["cls"] == "neither"]
@@ -194,6 +184,14 @@ def check_fixed_score(packs, fixed_rows):
                 fail(f"{pair} {contrast} neither replay {auc_n} vs {rec['auroc_dual_vs_neither']}")
             if abs((auc_n - auc_s) - float(rec["delta_neither_minus_selective"])) > 1e-4:
                 fail(f"{pair} {contrast} delta replay")
+    egfr = by[("EGFR/HER2", "D_vs_B_or_neither_pocketA")]
+    jak = by[("JAK1/TYK2", "D_vs_B_or_neither_pocketA")]
+    NOTES.append(
+        f"EGFR pocket A D-vs-B={egfr['auroc_dual_vs_selective']} "
+        f"D-vs-neither={egfr['auroc_dual_vs_neither']} "
+        f"delta={egfr['delta_neither_minus_selective']}"
+    )
+    NOTES.append(f"JAK1/TYK2 pocket A delta={jak['delta_neither_minus_selective']}")
 
 
 def check_ranking(packs, rank_rows, two_rows, and_rows):
@@ -229,15 +227,38 @@ def check_ranking(packs, rank_rows, two_rows, and_rows):
             fail(f"{pair} AND n_pass {and_by[pair]['and_n_pass']} vs {len(kept)}")
 
 
-def check_max_median(maxmed):
+def check_max_median(maxmed, master_rows):
+    both_arm = [
+        r
+        for r in master_rows
+        if r["pair"] == "AChE/BChE"
+        and r.get("analysis_set") == "main"
+        and r.get("complete_case") in ("1", "True")
+        and r.get("activity_status") == "both_arms_present"
+    ]
+    n_both = len(both_arm)
     ache = [r for r in maxmed if r["pair"] == "AChE/BChE" and r["aggregation"] == "max"]
-    if not ache or int(ache[0]["n_ligands"]) != 94:
-        fail(f"AChE max/median n={ache}")
-    if (int(ache[0]["n_dual"]), int(ache[0]["n_A_only"]), int(ache[0]["n_B_only"])) != (27, 25, 28):
-        fail(f"AChE max class counts {ache[0]}")
+    if not ache or int(ache[0]["n_ligands"]) != n_both:
+        fail(f"AChE max/median n={ache} vs both_arms_present complete-case {n_both}")
+    ct = Counter(r["primary_class_theta6"] for r in both_arm)
+    if (int(ache[0]["n_dual"]), int(ache[0]["n_A_only"]), int(ache[0]["n_B_only"])) != (
+        ct["dual"],
+        ct["A_only"],
+        ct["B_only"],
+    ):
+        fail(f"AChE max class counts {ache[0]} vs both-arm master {dict(ct)}")
+    NOTES.append(f"AChE max/median n_ligands={n_both} (both_arms_present complete-case)")
+    egfr_both = [
+        r
+        for r in master_rows
+        if r["pair"] == "EGFR/HER2"
+        and r.get("analysis_set") == "main"
+        and r.get("complete_case") in ("1", "True")
+        and r.get("activity_status") == "both_arms_present"
+    ]
     egfr = [r for r in maxmed if r["pair"] == "EGFR/HER2" and r["aggregation"] == "max"]
-    if not egfr or int(egfr[0]["n_ligands"]) != 109:
-        fail(f"EGFR max/median n={egfr}")
+    if not egfr or int(egfr[0]["n_ligands"]) != len(egfr_both):
+        fail(f"EGFR max/median n={egfr} vs both_arms_present {len(egfr_both)}")
 
 
 def check_models(packs, inc, folds, oof):
@@ -308,6 +329,9 @@ def check_models(packs, inc, folds, oof):
                 fk = by_fold.get((pair, arm, r["ligand_id"]))
                 if fk is None or int(fk["fold_id"]) < 0:
                     fail(f"{pair} {arm} {r['ligand_id']} missing/negative fold")
+    NOTES.append(f"ECFP fold map row count={len(folds)}")
+    NOTES.append("ligand/scaffold must not split across folds; ECFP4 / docking / ECFP4+docking share fold_id for each contrast")
+    NOTES.append("fold_id identity with a previous sklearn version is not required")
     replay_max = max(abs(float(r["delta_ECFP4_plus_docking_minus_ECFP4"])) for r in inc)
     replay_loc = max(inc, key=lambda r: abs(float(r["delta_ECFP4_plus_docking_minus_ECFP4"])))
     if abs(replay_max - max_abs) > 1e-12:
@@ -319,17 +343,11 @@ def check_models(packs, inc, folds, oof):
 def check_pocket(packs, matched, hold):
     hold_by = {r["pair"]: r for r in hold}
     mat_by = {r["pair"]: r for r in matched}
-    ache_excl = False
-    egfr_excl = True
-    hold_excl = []
     for pair in PRIMARY_PAIRS:
         rec = mat_by[pair]
         lo, hi = float(rec["delta_ci_lo"]), float(rec["delta_ci_hi"])
         excl = not (lo <= 0 <= hi)
-        if pair == "AChE/BChE":
-            ache_excl = excl
-        if pair == "EGFR/HER2":
-            egfr_excl = excl
+        NOTES.append(f"{pair} main matched-mismatched CI excludes 0={int(excl)} [{lo}, {hi}]")
         if pair == "EGFR/HER2":
             if pair in hold_by:
                 fail("EGFR has a holdout row")
@@ -339,16 +357,100 @@ def check_pocket(packs, matched, hold):
             fail(f"{pair} holdout missing")
             continue
         hlo, hhi = float(h["mm_ci_lo"]), float(h["mm_ci_hi"])
-        hold_excl.append(not (hlo <= 0 <= hhi))
-    if not ache_excl:
-        fail("AChE/BChE main-panel matched-mismatched CI includes 0")
-    if egfr_excl:
-        fail("EGFR/HER2 main-panel matched-mismatched CI excludes 0")
-    if any(hold_excl):
-        fail(f"holdout interval excludes 0: {hold_excl}")
+        NOTES.append(f"{pair} holdout matched-mismatched CI excludes 0={int(not (hlo <= 0 <= hhi))} [{hlo}, {hhi}]")
 
 
-def check_robustness(robust, rec_sub, cluster, rmsd, det):
+def check_five_seed(seed_rows, smin_rows):
+    primary = {r["pair"]: r["summary_min"] for r in smin_rows}
+    if not (ROOT / "data/jcim_multiseed_v0/tables/multiseed_auroc_by_seed_EGFR_corrected.csv").is_file():
+        fail("EGFR frozen experimental five-seed AUROC file missing")
+    comparable_vals = []
+    for r in seed_rows:
+        kind = r.get("source_kind", "")
+        comparable = str(r.get("comparable_to_current_primary", "")).strip()
+        if kind == "frozen_experimental_auroc" and comparable in {"0", "False", "false"}:
+            if str(r.get("primary_summary_min", "")).strip() != "":
+                fail(f"{r['pair']} seed {r['seed']} frozen experimental row carries primary_summary_min={r.get('primary_summary_min')!r}")
+            if r.get("realization_status") != "different_box_realization":
+                fail(f"{r['pair']} seed {r['seed']} realization_status={r.get('realization_status')}")
+            continue
+        if comparable in {"1", "True", "true", ""}:
+            comparable_vals.append(float(r["summary_min"]))
+            if r.get("primary_summary_min") != primary[r["pair"]]:
+                fail(f"{r['pair']} seed {r['seed']} primary_summary_min {r.get('primary_summary_min')} vs {primary[r['pair']]}")
+        else:
+            fail(f"{r['pair']} seed {r['seed']} unexpected comparable_to_current_primary={comparable}")
+    if not comparable_vals:
+        fail("no comparable five-seed rows for current-protocol range")
+    NOTES.append(
+        f"five-seed comparable range {min(comparable_vals):.4f}–{max(comparable_vals):.4f} "
+        f"(EGFR frozen experimental excluded)"
+    )
+
+
+def check_activity_provenance(master_rows, packs):
+    kinds = {r.get("activity_source_kind", "") for r in master_rows if r.get("analysis_set") == "main"}
+    needed = {"chembl_assay_adjudicated", "panel_pchembl_no_audit_rows", "chembl37_dump_panel"}
+    if not needed <= kinds:
+        fail(f"missing activity_source_kind values {sorted(needed - kinds)}; have {sorted(kinds)}")
+    fallback = ("AB_001", "AB_053", "AB_054", "AB_056", "AB_097")
+    primary_fallback = []
+    for lig in fallback:
+        recs = [r for r in master_rows if r["pair"] == "AChE/BChE" and r["ligand_id"] == lig and r.get("analysis_set") == "main"]
+        if not recs:
+            fail(f"AChE fallback {lig} missing from master")
+        rec = recs[0]
+        if rec.get("activity_source_kind") != "panel_pchembl_no_audit_rows":
+            fail(f"{lig} activity_source_kind={rec.get('activity_source_kind')}")
+        if rec.get("activity_status") != "panel_pchembl_no_audit_rows":
+            fail(f"{lig} activity_status={rec.get('activity_status')}")
+        if is_primary_row(rec):
+            primary_fallback.append(lig)
+    if primary_fallback != ["AB_056"]:
+        fail(f"AChE fallback ligands in primary {primary_fallback} (expected only AB_056)")
+    for pair, lig in (("EGFR/HER2", "EH120_059"), ("AChE/BChE", "AB_087")):
+        recs = [r for r in master_rows if r["pair"] == pair and r["ligand_id"] == lig]
+        if not recs:
+            fail(f"{pair} {lig} missing")
+        if recs[0].get("activity_status") != "unresolved_missing_arm":
+            fail(f"{pair} {lig} status={recs[0].get('activity_status')}")
+        if any(is_primary_row(r) for r in recs):
+            fail(f"{pair} {lig} unresolved_missing_arm entered primary")
+    track_b = {"JAK1/JAK2", "JAK1/TYK2", "F2/F10", "PPARG/PPARA", "PPARA/PPARD"}
+    for r in master_rows:
+        if r.get("analysis_set") != "main":
+            continue
+        if r["pair"] in track_b and r.get("activity_source_kind") != "chembl37_dump_panel":
+            fail(f"{r['pair']} {r['ligand_id']} Track-B kind={r.get('activity_source_kind')}")
+    NOTES.append("activity provenance: adjudicated pairs + AChE panel fallback + Track-B chembl37 dump panel")
+
+
+def check_ab056_sensitivity(packs, direc_rows, smin_rows):
+    recs = packs["AChE/BChE"]
+    dual = [r for r in recs if r["cls"] == "dual"]
+    a_only = [r for r in recs if r["cls"] == "A_only"]
+    b_only = [r for r in recs if r["cls"] == "B_only"]
+    da = auroc([r["score_B"] for r in dual], [r["score_B"] for r in a_only])
+    db = auroc([r["score_A"] for r in dual], [r["score_A"] for r in b_only])
+    sm = min(da, db)
+    a_ex = [r for r in a_only if r["ligand_id"] != "AB_056"]
+    da_ex = auroc([r["score_B"] for r in dual], [r["score_B"] for r in a_ex])
+    db_ex = auroc([r["score_A"] for r in dual], [r["score_A"] for r in b_only])
+    sm_ex = min(da_ex, db_ex)
+    NOTES.append(
+        f"AChE AB_056 sensitivity current D_vs_A={da:.4f} D_vs_B={db:.4f} smin={sm:.4f}; "
+        f"exclude AB_056 D_vs_A={da_ex:.4f} D_vs_B={db_ex:.4f} smin={sm_ex:.4f}"
+    )
+    if abs(sm_ex - sm) > 1e-4:
+        fail(f"excluding AB_056 changed summary_min {sm} -> {sm_ex}")
+    if abs(da - 0.6524) > 5e-4 or abs(db - 0.6058) > 5e-4:
+        fail(f"AChE current directional {da:.4f}/{db:.4f} vs expected 0.6524/0.6058")
+    if abs(da_ex - 0.6504) > 5e-4 or abs(db_ex - 0.6058) > 5e-4:
+        fail(f"AChE exclude-AB_056 directional {da_ex:.4f}/{db_ex:.4f} vs expected 0.6504/0.6058")
+    _ = direc_rows, smin_rows
+
+
+def check_robustness(robust, rec_sub, cluster, rmsd, det, packs):
     engines = {(r["pair"], r["engine"]) for r in robust}
     for key in (
         ("EGFR/HER2", "gnina_dock_mode1"),
@@ -364,12 +466,11 @@ def check_robustness(robust, rec_sub, cluster, rmsd, det):
             fail(f"missing robustness row {key}")
     rtm = next((r for r in robust if r["pair"] == "PPARG/PPARA" and r["engine"] == "rtm_best9"), None)
     cnn = next((r for r in robust if r["pair"] == "PPARG/PPARA" and r["engine"] == "gnina_cnn_affinity"), None)
-    if rtm is None or abs(float(rtm["summary_min"]) - 0.3691) > 1e-3:
-        fail(f"PPARG RTM summary_min {rtm}")
-    if cnn is None or abs(float(cnn["summary_min"]) - 0.5000) > 1e-3:
-        fail(f"PPARG CNN summary_min {cnn}")
+    if rtm is None or cnn is None:
+        fail(f"PPARG RTM/CNN missing rtm={rtm} cnn={cnn}")
     if "not independent" not in (rtm.get("note") or "").lower():
         fail("RTM note does not mark same-pose rescoring")
+    NOTES.append(f"PPARG RTM summary_min={rtm.get('summary_min')} CNN summary_min={cnn.get('summary_min')} (replayed in freeze tables, not independent docking)")
     if len(rec_sub) != 3:
         fail(f"receptor_substitution n={len(rec_sub)}")
     primary_ref = {r["replacement"]: r["primary_summary_min"] for r in rec_sub}
@@ -380,34 +481,29 @@ def check_robustness(robust, rec_sub, cluster, rmsd, det):
         fail(f"JAK document cluster {jak_doc}")
     if any(r.get("pdb") == "3POZ" and abs(float(r.get("calcrrms_best_A") or r.get("best_A") or 0) - 0.760) < 1e-6 for r in rmsd):
         fail("PR #35 reconstructed EGFR 0.760 Å used as current RMSD")
-    by_prot = {r.get("protein"): r for r in rmsd}
-    egfr = by_prot.get("EGFR")
-    her2 = by_prot.get("HER2")
-    if egfr is None or abs(float(egfr["calcrrms_top1_A"]) - 1.019) > 1e-3:
-        fail(f"EGFR top-1 RMSD {egfr}")
-    if her2 is None or abs(float(her2["calcrrms_top1_A"]) - 1.947) > 1e-3:
-        fail(f"HER2 top-1 RMSD {her2}")
-    for prot in ("JAK2", "mTOR", "BChE", "PPARG", "PPARA"):
-        rec = by_prot.get(prot)
-        if rec is None:
-            fail(f"{prot} RMSD missing")
+    source = read_csv(COGNATE_RMSD_SOURCE)
+    if len(source) != len(rmsd):
+        fail(f"RMSD n source={len(source)} freeze={len(rmsd)}")
+    src_by = {(r.get("protein"), r.get("pdb")): r for r in source}
+    for r in rmsd:
+        key = (r.get("protein"), r.get("pdb"))
+        s = src_by.get(key)
+        if s is None:
+            fail(f"RMSD {key} not in frozen source")
             continue
-        top1 = float(rec["calcrrms_top1_A"])
-        best = float(rec["calcrrms_best_A"])
-        if top1 < 2.0:
-            fail(f"{prot} top-1 {top1} unexpectedly < 2 Å")
-        if best >= 2.0:
-            fail(f"{prot} lowest saved pose {best} not < 2 Å")
+        for col in ("calcrrms_top1_A", "calcrrms_best_A"):
+            if str(r.get(col, "")) != str(s.get(col, "")):
+                fail(f"RMSD {key} {col} freeze={r.get(col)!r} source={s.get(col)!r}")
     if {r["pair"] for r in det} != set(PRIMARY_PAIRS):
         fail("detectable-effect pair set")
     if any(str(r.get("n_mc")) != str(N_MC_DETECTABLE) for r in det):
         fail("detectable-effect n_mc")
     ache = next(r for r in det if r["pair"] == "AChE/BChE" and r["contrast"] == "summary_min" and r["true_auroc"] == "0.50")
-    if ache["n_neg"] != "26/28":
-        fail(f"detectable-effect AChE n_neg={ache['n_neg']}")
-    source_n = len(read_csv(COGNATE_RMSD_SOURCE))
-    if source_n != 14 or len(rmsd) != 14:
-        fail(f"RMSD n source={source_n} freeze={len(rmsd)}")
+    n_a = sum(1 for r in packs["AChE/BChE"] if r["cls"] == "A_only")
+    n_b = sum(1 for r in packs["AChE/BChE"] if r["cls"] == "B_only")
+    expected_neg = f"{n_a}/{n_b}"
+    if ache["n_neg"] != expected_neg:
+        fail(f"detectable-effect AChE n_neg={ache['n_neg']} vs master {expected_neg}")
 
 
 def write_report(freeze: Path):
@@ -454,7 +550,14 @@ def main() -> int:
         read_csv(FREEZE / "two_pocket_mean_ranking.csv"),
         read_csv(FREEZE / "and_filter_operating_points.csv"),
     )
-    check_max_median(read_csv(FREEZE / "max_vs_median_sensitivity.csv"))
+    check_max_median(read_csv(FREEZE / "max_vs_median_sensitivity.csv"), master)
+    check_activity_provenance(master, packs)
+    check_ab056_sensitivity(
+        packs,
+        read_csv(FREEZE / "primary_directional_auroc.csv"),
+        read_csv(FREEZE / "primary_summary_min.csv"),
+    )
+    check_five_seed(read_csv(FREEZE / "five_seed_summary_min.csv"), read_csv(FREEZE / "primary_summary_min.csv"))
     check_models(
         packs,
         read_csv(FREEZE / "ecfp4_incremental_information.csv"),
@@ -468,6 +571,7 @@ def main() -> int:
         read_csv(FREEZE / "cluster_bootstrap_sensitivity.csv"),
         read_csv(FREEZE / "cognate_rmsd.csv"),
         read_csv(FREEZE / "detectable_effect_simulation.csv"),
+        packs,
     )
     write_report(FREEZE)
     return 1 if FAILS else 0

@@ -704,9 +704,10 @@ def _load_five_seed_scores():
 def compute_five_seed(packs, smin_rows):
     """Per-seed summary_min from deposited seed scores + current labels.
 
-    EGFR/HER2 deposited long scores are a different box realization than the
-    current master, so that pair is copied from the frozen experimental AUROC
-    table and is not mixed with current scores.
+    EGFR/HER2 frozen experimental AUROCs use a different box realization than
+    the current corrected-box master. Those rows are retained as historical
+    experimental input, marked not comparable, and must not carry the current
+    primary_summary_min.
     """
     primary = {r["pair"]: float(r["summary_min"]) for r in smin_rows}
     wide = _load_five_seed_scores()
@@ -733,10 +734,12 @@ def compute_five_seed(packs, smin_rows):
                         "auroc_D_vs_A_pocketB": r["auroc_dual_vs_A_only"],
                         "auroc_D_vs_B_pocketA": r["auroc_dual_vs_B_only"],
                         "summary_min": r["summary_min"],
-                        "primary_summary_min": r4(primary[pair]),
+                        "primary_summary_min": "",
+                        "comparable_to_current_primary": 0,
+                        "realization_status": "different_box_realization",
                         "source": str(FIVE_SEED_EGFR_FROZEN_AUROC.relative_to(ROOT)),
                         "source_kind": "frozen_experimental_auroc",
-                        "note": "deposited seed scores are not the current corrected-box master; do not mix",
+                        "note": "historical frozen experimental AUROC; different box than current corrected-box master; not a protocol robustness comparison",
                     }
                 )
             continue
@@ -761,6 +764,8 @@ def compute_five_seed(packs, smin_rows):
                     "auroc_D_vs_B_pocketA": r4(db),
                     "summary_min": r4(sm),
                     "primary_summary_min": r4(primary[pair]),
+                    "comparable_to_current_primary": 1,
+                    "realization_status": "current_or_compatible",
                     "source": "deposited per-seed Vina scores + current primary labels",
                     "source_kind": "recomputed_from_frozen_scores",
                     "note": "complete-case on the current eligible panel for this seed",

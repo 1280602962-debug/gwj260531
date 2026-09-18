@@ -1,3 +1,15 @@
+# SUPERSEDED — not current scientific truth
+
+This report recorded an earlier freeze environment (numpy 2.4.4, sklearn 1.9.1,
+rdkit 2026.03.6) and `results/freeze_rebuild`. It is archived so it cannot be
+read as the current pin.
+
+Current scientific audit: `docs/PR39_SCIENTIFIC_DATA_AUDIT.md`  
+Current freeze-check: `docs/PR39_FINAL_SCIENTIFIC_FREEZE_CHECK.md`  
+Pinned environment: numpy 2.5.2, pandas 3.0.5, scipy 1.18.1, scikit-learn 1.9.0, rdkit 2026.3.5
+
+---
+
 # DualFourClass freeze report
 
 Baseline SHA (re-fetched): `17435413410290960da3437de640509705f00b51`  
