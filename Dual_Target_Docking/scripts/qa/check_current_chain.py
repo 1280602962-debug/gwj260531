@@ -136,7 +136,8 @@ def main() -> int:
     if inc_token not in en or inc_token not in zh:
         fail(f"ECFP incremental |Δ| {inc_token} missing from manuscripts")
     if "最大绝对变化为 0.023" in zh or "at most 0.023 across" in en:
-        fail("stale ECFP incremental 0.023 remains in manuscript")
+        if inc_token != "0.023":
+            fail("stale ECFP incremental 0.023 remains in manuscript")
 
     pack_en = (ROOT / "submission_pack/manuscript/MANUSCRIPT_JCIM_EN.md").read_text(encoding="utf-8")
     if r3(smin["EGFR/HER2"]["summary_min"]) not in pack_en:

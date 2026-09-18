@@ -1,0 +1,186 @@
+# freeze rebuild log
+No canonical CSV was copied into this directory.
+
+## check_analysis_env.py
+== DualFourClass-Bench analysis environment ==
+python: 3.12.3 (/usr/bin/python3)
+pins:   /workspace/Dual_Target_Docking/requirements-analysis.txt
+
+## Required
+- COMPATIBLE   numpy          have=2.4.4 pin=2.5.2
+- PIN_MATCH    pandas         have=3.0.5 pin=3.0.5
+
+## Optional / extended analysis
+- COMPATIBLE   matplotlib     have=3.11.2 pin=3.11.1
+- PIN_MATCH    scipy          have=1.18.1 pin=1.18.1
+- COMPATIBLE   scikit-learn   have=1.9.1 pin=1.9.0
+- COMPATIBLE   rdkit          have=2026.03.6 pin=2026.3.5
+- MISSING      meeko          have=- pin=0.7.1
+- MISSING      gemmi          have=- pin=0.7.5
+
+python compatibility: OK (need >= 3.10; CI uses 3.12)
+Result: COMPATIBLE
+Docking binaries are not required for revision-validate; use scripts/check_docking_env.py.
+
+## 01_build_master
+`/usr/bin/python3 /workspace/Dual_Target_Docking/scripts/analysis/build_current_score_master.py --outdir /workspace/Dual_Target_Docking/results/freeze_rebuild --master /workspace/Dual_Target_Docking/results/freeze_rebuild/current_score_master.csv`
+wrote /workspace/Dual_Target_Docking/results/freeze_rebuild/current_score_master.csv 1226
+# Score master migration diff
+
+One-time report. Authoritative file: `results/canonical/current_score_master.csv`.
+
+## review_scored_membership_v1.csv vs master
+- ligands in review: 797
+- missing from master main: 0
+- score mismatches (abs > 1e-6): 0
+
+
+## Files that can be regenerated from the master
+- eight-pair ranking / EF tables
+- directional AUROC / summary_min / scheme-B CIs
+- fixed-score ΔAUROC
+- matched-minus-mismatched
+- descriptor and ECFP4 models (SMILES come with the master)
+
+## Files that still contain old EGFR scores (do not use as current analysis input)
+- `data/jcim_novelty_v0/tables/review_scored_membership_v1.csv` (EGFR pre-fix scores)
+- `data/_legacy_archive/egfr_her2_scores_pre_fix/ablation_ligand_scores.csv`
+- `data/egfr_her2_panel120_v0/tables/scores_vina.csv` (stale sibling; production is ablation_ligand_scores.csv)
+
+## Master complete-case counts (main, theta=6 class)
+- EGFR/HER2: scored=110 activity-eligible=109 D=28 A=37 B=32 N=12
+- JAK1/JAK2: scored=110 activity-eligible=110 D=32 A=32 B=32 N=14
+- JAK1/TYK2: scored=109 activity-eligible=109 D=31 A=32 B=32 N=14
+- PIK3CA/mTOR: scored=48 activity-eligible=48 D=18 A=14 B=12 N=4
+- AChE/BChE: scored=96 activity-eligible=95 D=27 A=26 B=28 N=14
+- F2/F10: scored=107 activity-eligible=107 D=31 A=32 B=32 N=12
+- PPARG/PPARA: scored=109 activity-eligible=109 D=32 A=31 B=32 N=14
+- PPARA/PPARD: scored=110 activity-eligible=110 D=32 A=32 B=32 N=14
+
+
+## 02_canonical_stats
+`/usr/bin/python3 /workspace/Dual_Target_Docking/scripts/analysis/compute_canonical_results.py --outdir /workspace/Dual_Target_Docking/results/freeze_rebuild --master /workspace/Dual_Target_Docking/results/freeze_rebuild/current_score_master.csv`
+loading master /workspace/Dual_Target_Docking/results/freeze_rebuild/current_score_master.csv
+  EGFR/HER2: 109
+  JAK1/JAK2: 110
+  JAK1/TYK2: 109
+  PIK3CA/mTOR: 48
+  AChE/BChE: 95
+  F2/F10: 107
+  PPARG/PPARA: 109
+  PPARA/PPARD: 110
+directional done
+fixed-score done
+ranking done
+matched/mismatched done
+label sensitivity done
+max/median done
+cluster done
+holdout done
+gnina done 3
+receptor substitution done
+
+Table 2 (summary_min, scheme B)
+  EGFR/HER2      0.3237 [0.1953, 0.4744] weaker=D_vs_B_pocketA
+  JAK1/JAK2      0.5884 [0.4482, 0.7158] weaker=D_vs_A_pocketB
+  JAK1/TYK2      0.3649 [0.2329, 0.5051] weaker=D_vs_B_pocketA
+  PIK3CA/mTOR    0.6921 [0.4801, 0.8016] weaker=D_vs_B_pocketA
+  AChE/BChE      0.6058 [0.4392, 0.7354] weaker=D_vs_B_pocketA
+  F2/F10         0.3448 [0.2157, 0.4819] weaker=D_vs_B_pocketA
+  PPARG/PPARA    0.6492 [0.5111, 0.7460] weaker=D_vs_A_pocketB
+  PPARA/PPARD    0.4463 [0.3008, 0.5898] weaker=D_vs_B_pocketA
+
+EGFR matched-mismatched
+  delta=0.0558 [-0.0368, 0.1551] excludes0=0 switch=0
+wrote /workspace/Dual_Target_Docking/results/freeze_rebuild
+
+## 03_descriptors
+`/usr/bin/python3 /workspace/Dual_Target_Docking/scripts/analysis/compute_descriptor_baselines.py --outdir /workspace/Dual_Target_Docking/results/freeze_rebuild --master /workspace/Dual_Target_Docking/results/freeze_rebuild/current_score_master.csv`
+EGFR/HER2      vina=0.3237 best=clogp 0.4821 Δ=-0.1585 [-0.3036,0.0167]
+JAK1/JAK2      vina=0.5884 best=heavy 0.5781 Δ=0.0103 [-0.0811,0.1582]
+JAK1/TYK2      vina=0.3649 best=clogp 0.5796 Δ=-0.2147 [-0.3760,-0.0091]
+PIK3CA/mTOR    vina=0.6921 best=heavy 0.4630 Δ=0.2292 [0.0086,0.4372]
+AChE/BChE      vina=0.6058 best=tpsa 0.7422 Δ=-0.1363 [-0.3125,0.0385]
+F2/F10         vina=0.3448 best=clogp 0.5091 Δ=-0.1643 [-0.3175,-0.0050]
+PPARG/PPARA    vina=0.6492 best=tpsa 0.6274 Δ=0.0218 [-0.1667,0.1805]
+PPARA/PPARD    vina=0.4463 best=clogp 0.5635 Δ=-0.1172 [-0.3262,0.0987]
+
+## 04_ecfp4
+`/usr/bin/python3 /workspace/Dual_Target_Docking/scripts/analysis/fit_ecfp4_models.py --outdir /workspace/Dual_Target_Docking/results/freeze_rebuild --master /workspace/Dual_Target_Docking/results/freeze_rebuild/current_score_master.csv`
+max |ΔAUROC_incremental| = 0.0234 at PPARA/PPARD D_vs_B
+  EGFR/HER2      D_vs_A ECFP=0.8224 +dock=0.8069 Δ=-0.0154
+  EGFR/HER2      D_vs_B ECFP=0.8895 +dock=0.8850 Δ=-0.0045
+  JAK1/JAK2      D_vs_A ECFP=0.9146 +dock=0.9160 Δ=0.0015
+  JAK1/JAK2      D_vs_B ECFP=0.9678 +dock=0.9688 Δ=0.0010
+  JAK1/TYK2      D_vs_A ECFP=0.8458 +dock=0.8397 Δ=-0.0060
+  JAK1/TYK2      D_vs_B ECFP=0.9022 +dock=0.9032 Δ=0.0010
+  PIK3CA/mTOR    D_vs_A ECFP=0.7619 +dock=0.7421 Δ=-0.0198
+  PIK3CA/mTOR    D_vs_B ECFP=0.8889 +dock=0.8981 Δ=0.0093
+  AChE/BChE      D_vs_A ECFP=0.8946 +dock=0.8903 Δ=-0.0043
+  AChE/BChE      D_vs_B ECFP=0.8214 +dock=0.8082 Δ=-0.0132
+  F2/F10         D_vs_A ECFP=0.9425 +dock=0.9365 Δ=-0.0060
+  F2/F10         D_vs_B ECFP=0.6925 +dock=0.7067 Δ=0.0141
+  PPARG/PPARA    D_vs_A ECFP=0.8327 +dock=0.8125 Δ=-0.0202
+  PPARG/PPARA    D_vs_B ECFP=0.6680 +dock=0.6758 Δ=0.0078
+  PPARA/PPARD    D_vs_A ECFP=0.9316 +dock=0.9277 Δ=-0.0039
+  PPARA/PPARD    D_vs_B ECFP=0.8584 +dock=0.8350 Δ=-0.0234
+
+## 05_class_chemistry
+`/usr/bin/python3 /workspace/Dual_Target_Docking/scripts/analysis/compute_class_chemistry.py --outdir /workspace/Dual_Target_Docking/results/freeze_rebuild --master /workspace/Dual_Target_Docking/results/freeze_rebuild/current_score_master.csv`
+wrote /workspace/Dual_Target_Docking/results/freeze_rebuild/class_chemistry_summary.csv n= 32
+
+## 06_leave_one_document
+`/usr/bin/python3 /workspace/Dual_Target_Docking/scripts/analysis/compute_leave_one_document.py --outdir /workspace/Dual_Target_Docking/results/freeze_rebuild --master /workspace/Dual_Target_Docking/results/freeze_rebuild/current_score_master.csv`
+wrote /workspace/Dual_Target_Docking/results/freeze_rebuild/leave_one_document_delta.csv n= 39
+
+## 07_detectable_effect
+`/usr/bin/python3 /workspace/Dual_Target_Docking/scripts/analysis/compute_detectable_effect.py --outdir /workspace/Dual_Target_Docking/results/freeze_rebuild --master /workspace/Dual_Target_Docking/results/freeze_rebuild/current_score_master.csv`
+EGFR/HER2 true=0.50 n=28/37/32/12
+EGFR/HER2 true=0.55 n=28/37/32/12
+EGFR/HER2 true=0.60 n=28/37/32/12
+EGFR/HER2 true=0.65 n=28/37/32/12
+EGFR/HER2 true=0.70 n=28/37/32/12
+EGFR/HER2 true=0.75 n=28/37/32/12
+JAK1/JAK2 true=0.50 n=32/32/32/14
+JAK1/JAK2 true=0.55 n=32/32/32/14
+JAK1/JAK2 true=0.60 n=32/32/32/14
+JAK1/JAK2 true=0.65 n=32/32/32/14
+JAK1/JAK2 true=0.70 n=32/32/32/14
+JAK1/JAK2 true=0.75 n=32/32/32/14
+JAK1/TYK2 true=0.50 n=31/32/32/14
+JAK1/TYK2 true=0.55 n=31/32/32/14
+JAK1/TYK2 true=0.60 n=31/32/32/14
+JAK1/TYK2 true=0.65 n=31/32/32/14
+JAK1/TYK2 true=0.70 n=31/32/32/14
+JAK1/TYK2 true=0.75 n=31/32/32/14
+PIK3CA/mTOR true=0.50 n=18/14/12/4
+PIK3CA/mTOR true=0.55 n=18/14/12/4
+PIK3CA/mTOR true=0.60 n=18/14/12/4
+PIK3CA/mTOR true=0.65 n=18/14/12/4
+PIK3CA/mTOR true=0.70 n=18/14/12/4
+PIK3CA/mTOR true=0.75 n=18/14/12/4
+AChE/BChE true=0.50 n=27/26/28/14
+AChE/BChE true=0.55 n=27/26/28/14
+AChE/BChE true=0.60 n=27/26/28/14
+AChE/BChE true=0.65 n=27/26/28/14
+AChE/BChE true=0.70 n=27/26/28/14
+AChE/BChE true=0.75 n=27/26/28/14
+F2/F10 true=0.50 n=31/32/32/12
+F2/F10 true=0.55 n=31/32/32/12
+F2/F10 true=0.60 n=31/32/32/12
+F2/F10 true=0.65 n=31/32/32/12
+F2/F10 true=0.70 n=31/32/32/12
+F2/F10 true=0.75 n=31/32/32/12
+PPARG/PPARA true=0.50 n=32/31/32/14
+PPARG/PPARA true=0.55 n=32/31/32/14
+PPARG/PPARA true=0.60 n=32/31/32/14
+PPARG/PPARA true=0.65 n=32/31/32/14
+PPARG/PPARA true=0.70 n=32/31/32/14
+PPARG/PPARA true=0.75 n=32/31/32/14
+PPARA/PPARD true=0.50 n=32/32/32/14
+PPARA/PPARD true=0.55 n=32/32/32/14
+PPARA/PPARD true=0.60 n=32/32/32/14
+PPARA/PPARD true=0.65 n=32/32/32/14
+PPARA/PPARD true=0.70 n=32/32/32/14
+PPARA/PPARD true=0.75 n=32/32/32/14
+wrote /workspace/Dual_Target_Docking/results/freeze_rebuild/detectable_effect_simulation.csv

@@ -387,7 +387,15 @@ def patch_en(text, d):
         f"changed AUROC by at most {r3(inc_abs)} across the 16 directional comparisons",
     )
     text = text.replace(
+        "changed AUROC by at most 0.011 across the 16 directional comparisons",
+        f"changed AUROC by at most {r3(inc_abs)} across the 16 directional comparisons",
+    )
+    text = text.replace(
         "changed AUROC by at most 0.023 across 16 directions",
+        f"changed AUROC by at most {r3(inc_abs)} across 16 directions",
+    )
+    text = text.replace(
+        "changed AUROC by at most 0.011 across 16 directions",
         f"changed AUROC by at most {r3(inc_abs)} across 16 directions",
     )
     text = text.replace(
@@ -535,8 +543,10 @@ def patch_zh(text, d):
         f"八对中 {len(incl)} 对的 95% 区间包含 0，{ '、'.join(excl) } 不包含 0",
     )
     text = text.replace("16 个方向的 AUROC 最多变化 0.023", f"16 个方向的 AUROC 最多变化 {r3(inc_abs)}")
+    text = text.replace("16 个方向的 AUROC 最多变化 0.011", f"16 个方向的 AUROC 最多变化 {r3(inc_abs)}")
     text = text.replace("AUROC 最大绝对变化仅为 0.023", f"AUROC 最大绝对变化为 {r3(inc_abs)}")
     text = text.replace("AUROC 最大绝对变化为 0.023", f"AUROC 最大绝对变化为 {r3(inc_abs)}")
+    text = text.replace("AUROC 最大绝对变化为 0.011", f"AUROC 最大绝对变化为 {r3(inc_abs)}")
     text = text.replace(
         "仅 AChE/BChE 的 matched−mismatched \(\mathrm{summary}_{\min}\) 95% 区间排除 0（0.177 [0.050, 0.297]）。EGFR/HER2 为 0.056 [−0.044, 0.160]",
         f"仅 AChE/BChE 的 matched−mismatched \(\mathrm{{summary}}_{{\min}}\) 95% 区间排除 0（{r3(mm_ache['delta'])} {ci(mm_ache['delta_ci_lo'], mm_ache['delta_ci_hi'])}）。EGFR/HER2 为 {r3(mm_egfr['delta'])} {ci(mm_egfr['delta_ci_lo'], mm_egfr['delta_ci_hi'])}",

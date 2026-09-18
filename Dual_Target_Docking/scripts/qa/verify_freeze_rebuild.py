@@ -216,7 +216,8 @@ def check_manuscript(max_abs: float):
     if f"at most {token}" not in en:
         fail(f"EN missing incremental {token}")
     if "最大绝对变化为 0.023" in zh or "at most 0.023 across" in en:
-        fail("stale ECFP incremental 0.023 remains")
+        if token != "0.023":
+            fail("stale ECFP incremental 0.023 remains")
     for token_bad in FORBIDDEN_CURRENT_TOKENS:
         if token_bad in zh or token_bad in en:
             fail(f"pre-fix token {token_bad} in manuscript")

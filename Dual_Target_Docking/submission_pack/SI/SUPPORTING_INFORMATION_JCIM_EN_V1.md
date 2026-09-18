@@ -159,26 +159,26 @@ Source: `results/canonical/detectable_effect_simulation.csv`.
 
 ## Table S5. Ligand-chemistry baselines and incremental docking information
 
-ECFP4 and ECFP4+docking AUROCs are out-of-fold predictions under the same scaffold-grouped cross-validation. The last column is the raw Vina ranking AUROC from Table 2, shown as a descriptive reference. Δ = (ECFP4+docking) − ECFP4. Across 16 arms the largest |Δ| is 0.011. These primary values use unscaled logistic regression.
+ECFP4 and ECFP4+docking AUROCs are out-of-fold predictions under the same scaffold-grouped cross-validation. The last column is the raw Vina ranking AUROC from Table 2, shown as a descriptive reference. Δ = (ECFP4+docking) − ECFP4. Across 16 arms the largest |Δ| is 0.023. These primary values use unscaled logistic regression.
 
 | Pair | Arm | ECFP4 | ECFP4+docking | Δ | Vina ranking AUROC (Table 2) |
 |------|------|------:|--------------:|--:|--------------------------:|
-| EGFR/HER2 | D vs A | 0.799 | 0.793 | −0.007 | 0.656 |
-| EGFR/HER2 | D vs B | 0.853 | 0.845 | −0.008 | 0.324 |
-| JAK1/JAK2 | D vs A | 0.890 | 0.879 | −0.011 | 0.588 |
-| JAK1/JAK2 | D vs B | 0.966 | 0.967 | +0.001 | 0.728 |
-| JAK1/TYK2 | D vs A | 0.853 | 0.843 | −0.010 | 0.575 |
-| JAK1/TYK2 | D vs B | 0.888 | 0.887 | −0.001 | 0.365 |
-| PIK3CA/mTOR | D vs A | 0.782 | 0.774 | −0.008 | 0.714 |
-| PIK3CA/mTOR | D vs B | 0.889 | 0.889 | 0.000 | 0.692 |
-| AChE/BChE | D vs A | 0.897 | 0.890 | −0.007 | 0.652 |
-| AChE/BChE | D vs B | 0.843 | 0.832 | −0.011 | 0.606 |
-| F2/F10 | D vs A | 0.947 | 0.950 | +0.003 | 0.413 |
-| F2/F10 | D vs B | 0.757 | 0.765 | +0.008 | 0.345 |
-| PPARG/PPARA | D vs A | 0.857 | 0.853 | −0.004 | 0.649 |
-| PPARG/PPARA | D vs B | 0.734 | 0.740 | +0.006 | 0.706 |
-| PPARA/PPARD | D vs A | 0.945 | 0.944 | −0.001 | 0.647 |
-| PPARA/PPARD | D vs B | 0.747 | 0.738 | −0.009 | 0.446 |
+| EGFR/HER2 | D vs A | 0.822 | 0.807 | −0.015 | 0.656 |
+| EGFR/HER2 | D vs B | 0.890 | 0.885 | −0.005 | 0.324 |
+| JAK1/JAK2 | D vs A | 0.915 | 0.916 | +0.002 | 0.588 |
+| JAK1/JAK2 | D vs B | 0.968 | 0.969 | +0.001 | 0.728 |
+| JAK1/TYK2 | D vs A | 0.846 | 0.840 | −0.006 | 0.575 |
+| JAK1/TYK2 | D vs B | 0.902 | 0.903 | +0.001 | 0.365 |
+| PIK3CA/mTOR | D vs A | 0.762 | 0.742 | −0.020 | 0.714 |
+| PIK3CA/mTOR | D vs B | 0.889 | 0.898 | +0.009 | 0.692 |
+| AChE/BChE | D vs A | 0.895 | 0.890 | −0.004 | 0.652 |
+| AChE/BChE | D vs B | 0.821 | 0.808 | −0.013 | 0.606 |
+| F2/F10 | D vs A | 0.943 | 0.937 | −0.006 | 0.413 |
+| F2/F10 | D vs B | 0.693 | 0.707 | +0.014 | 0.345 |
+| PPARG/PPARA | D vs A | 0.833 | 0.813 | −0.020 | 0.649 |
+| PPARG/PPARA | D vs B | 0.668 | 0.676 | +0.008 | 0.706 |
+| PPARA/PPARD | D vs A | 0.932 | 0.928 | −0.004 | 0.647 |
+| PPARA/PPARD | D vs B | 0.858 | 0.835 | −0.023 | 0.446 |
 
 **Paired Δ of Vina `summary_min` minus the best single descriptor.** The four single-descriptor matrices are archived; only the per-pair best descriptor is typeset. AChE/BChE TPSA directional AUROCs are 0.742 / 0.801. 5 of eight 95% CIs include 0; JAK1/TYK2, PIK3CA/mTOR, F2/F10 exclude 0. Figure S1 plots Vina CIs and descriptor points, not the difference CIs.
 
@@ -186,7 +186,7 @@ ECFP4 and ECFP4+docking AUROCs are out-of-fold predictions under the same scaffo
 |------|-----------------|-----------------------:|--:|--------|:-------------:|
 | EGFR/HER2 | cLogP | 0.482 | −0.159 | [−0.304, 0.017] | no |
 | JAK1/JAK2 | heavy | 0.578 | 0.010 | [−0.081, 0.158] | no |
-| JAK1/TYK2 | cLogP | 0.581 | −0.216 | [−0.376, −0.010] | yes |
+| JAK1/TYK2 | cLogP | 0.580 | −0.215 | [−0.376, −0.009] | yes |
 | PIK3CA/mTOR | heavy | 0.463 | 0.229 | [0.009, 0.437] | yes |
 | AChE/BChE | TPSA | 0.742 | −0.136 | [−0.313, 0.039] | no |
 | F2/F10 | cLogP | 0.509 | −0.164 | [−0.318, −0.005] | yes |
@@ -195,7 +195,7 @@ ECFP4 and ECFP4+docking AUROCs are out-of-fold predictions under the same scaffo
 
 Source: `results/canonical/descriptor_baselines.csv`; `results/canonical/ecfp4_incremental_information.csv`.
 
-**Feature-scaling sensitivity.** The same GroupKFold splits were repeated with `StandardScaler` fitted on each training fold only. Across the 16 arms the largest |Δ| was 0.008 (PIK3CA/mTOR D vs A). Scaling does not replace the unscaled 0.011 primary result. Source: `ecfp4_docking_scaler_sensitivity_v1.csv`.
+**Feature-scaling sensitivity.** The same GroupKFold splits were repeated with `StandardScaler` fitted on each training fold only. Across the 16 arms the largest |Δ| was 0.008 (PIK3CA/mTOR D vs A). Scaling does not replace the unscaled 0.023 primary result. Source: `ecfp4_docking_scaler_sensitivity_v1.csv`.
 
 ---
 
