@@ -12,7 +12,7 @@ Do not quote `results/canonical` siblings that predate the freeze ENV.
 4. **EGFR/HER2 directional.** D vs A (pocket B) 0.656 [0.520, 0.791]; D vs B (pocket A) = `summary_min` 0.324 [0.195, 0.474]. Fixed-score Δ on the EGFR pocket: 0.462 [0.260, 0.641].
 5. **Control-class dependence is pair-specific.** JAK1/TYK2 Δ 0.444 [0.261, 0.630]. Other pairs smaller or intervals include 0.
 6. **Matched−mismatched.** Only AChE/BChE main-panel 95% CI excludes 0. EGFR includes 0. Seven holdouts include 0. Not multiplicity-adjusted.
-Figure 3B JSON (`figures/jcim_article/plotted_values_postfix.json` `fig3B_max_abs`) still stores the previous 0.0112 until a later figure pass. Write from `ecfp4_incremental_information.csv`, not from that JSON.
+7. **ECFP incremental.** Freeze max |Δ| = 0.0234 at PPARA/PPARD D vs B (three-decimal claim 0.023). Figure 3A/B and `plotted_values.json` `fig3B_max_abs` are redrawn from `results/canonical/ecfp4_incremental_information.csv`. Files that still store 0.0112 are historical leftovers (`docs/HISTORICAL_LEFTOVER_FILES.md`).
 8. **Max vs median** is a sensitivity on the qualified-record intersection, not Table 2. AChE 1/94 (CHEMBL659); EGFR 5/109. AB_056 stays in Table 2.
 9. **GNINA** is another pose-generation realization on deposited poses, not a Vina replacement. EGFR `summary_min` 0.265 [0.142, 0.402], n=108.
 10. **Cognate RMSD** from `all14_cognate_rmsd_calcrrms_v1.csv`. EGFR 3POZ CalcRMS top-1 = best = 1.019 Å. Historical 9.505 Å is not current.

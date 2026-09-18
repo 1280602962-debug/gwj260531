@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """JCIM eight-row submission figures from frozen CSVs only.
 
-No hand-typed AUROCs. No decorative data-unrelated arrows. No invented pairs.
-Run: python3 data/jcim_bench_v0/scripts/plot_jcim_article_figures_v3.py
+Official plotter is update_figures_pr32.py. Figure 3 and Figure S1A read
+results/canonical/ecfp4_incremental_information.csv and descriptor_baselines.csv.
+Leftover 0.0112 incremental CSVs are not current; see docs/HISTORICAL_LEFTOVER_FILES.md.
 """
 from __future__ import annotations
 
@@ -66,8 +67,6 @@ def load() -> dict:
     theta = _read(DATA / "jcim_strengthen_t0t1_v0/tables/unified_threshold_sensitivity_v2.csv")
     form = _read(DATA / "jcim_novelty_v0/tables/formulation_conventional_vs_directional_v1.csv")
     equal = _read(DATA / "jcim_novelty_v0/tables/formulation_equal_score_negative_v1.csv")
-    ml = _read(DATA / "jcim_strengthen_t0t1_v0/tables/ligand_ml_baseline_scaffold_cv_v1.csv")
-    incr = _read(DATA / "jcim_novelty_v0/tables/incremental_information_v1.csv")
     ache = _read(DATA / "jcim_bench_v0/tables/assembled_AChE_BChE.csv")
     gnina_ind = _read(DATA / "jcim_independent_dock_v0/tables/independent_dock_formulation_v1.csv")
     jps = _read(DATA / "jcim_structure_robust_v0/tables/pocket_matched_PM48_alt4JPS_v1.csv")[0]
@@ -78,11 +77,11 @@ def load() -> dict:
     hold_pm = _read(DATA / "jcim_holdout_v0/tables/holdout_pocket_matched_v1.csv")
     pm110 = _read(DATA / "jcim_strengthen_t0t1_v0/tables/pm110_vs_pm48_pocket_matched_v1.csv")
     native = _read(DATA / "jcim_novelty_v0/tables/external_slice_summary_v1.csv")
-    desc4 = _read(DATA / "jcim_novelty_v0/tables/descriptor_all_four_directional_v1.csv")
+    canon_ecfp_rows = _read(ROOT / "results/canonical/ecfp4_incremental_information.csv")
+    canon_desc_rows = _read(ROOT / "results/canonical/descriptor_baselines.csv")
 
     five_t2 = _read(DATA / "jcim_chembl_universe_v0/local_track_b_v0/tables/five_pair_stack_v1/table2_comparable_theta6_v1.csv")
     five_s34 = _read(DATA / "jcim_chembl_universe_v0/local_track_b_v0/tables/five_pair_stack_v1/equal_score_negative_s34_v1.csv")
-    five_ecfp = _read(DATA / "jcim_chembl_universe_v0/local_track_b_v0/tables/five_pair_stack_v1/ecfp4_incremental_s20s24_v1.csv")
     five_grid = _read(DATA / "jcim_chembl_universe_v0/local_track_b_v0/tables/five_pair_stack_v1/threshold_grid_v1.csv")
     five_ch = _read(DATA / "jcim_chembl_universe_v0/local_track_b_v0/tables/five_pair_local_channels_v1/table2_comparable_by_channel_v1.csv")
     five_seed_agg = _read(DATA / "jcim_chembl_universe_v0/local_track_b_v0/tables/five_pair_local_channels_v1/fiveseed_summary_min_aggregate_v1.csv")
@@ -104,8 +103,8 @@ def load() -> dict:
         "theta_all": theta,
         "form_by": form_by,
         "equal": {(r["pair"], r["contrast"]): r for r in equal},
-        "ml": {(r["pair"], r["contrast"]): r for r in ml},
-        "incr": incr,
+        "canon_ecfp": {(r["pair"], r["contrast"]): r for r in canon_ecfp_rows},
+        "canon_desc": {r["pair"]: r for r in canon_desc_rows},
         "tpsa": tpsa,
         "gnina_ind": {(r["pair"], r["contrast"]): r for r in gnina_ind},
         "jps": jps,
@@ -116,10 +115,8 @@ def load() -> dict:
         "hold_pm": {(r["pair"], r["variant"]): r for r in hold_pm},
         "pm110": {(r["panel"], r["arm"]): r for r in pm110},
         "native": native,
-        "desc4": {r["pair"]: r for r in desc4},
         "five_t2": {r["pair"]: r for r in five_t2},
         "five_s34": {(r["pair"], r["contrast"]): r for r in five_s34},
-        "five_ecfp": five_ecfp,
         "five_grid": five_grid,
         "five_ch": {(r["channel"], r["pair"]): r for r in five_ch},
         "five_seed_agg": {r["pair"]: r for r in five_seed_agg},
@@ -170,32 +167,18 @@ def s34_row(D: dict, pair: str) -> dict:
 
 
 def ecfp_row(D: dict, pair: str, contrast: str) -> dict:
-    if pair in UNIFIED_THRESHOLD_PAIRS:
-        m = D["ml"][(pair, contrast)]
-        base = next(r for r in D["incr"] if r["pair"] == pair and r["contrast"] == contrast and r["model"] == "ECFP4")
-        plus = next(r for r in D["incr"] if r["pair"] == pair and r["contrast"] == contrast and r["model"] == "ECFP4+docking")
-        return {
-            "vina": fnum(m["auroc_dock_pocket_matched"]),
-            "ecfp": fnum(m["auroc_ml"]),
-            "ecfp_plus": fnum(plus["cv_auroc"]),
-            "ecfp_base": fnum(base["cv_auroc"]),
-        }
-    base = next(r for r in D["five_ecfp"] if r["pair"] == pair and r["contrast"] == contrast and r["model"] == "ECFP4")
-    plus = next(r for r in D["five_ecfp"] if r["pair"] == pair and r["contrast"] == contrast and r["model"] == "ECFP4+docking")
+    r = D["canon_ecfp"][(pair, contrast)]
     return {
-        "vina": fnum(base["rank_auroc_docking"]),
-        "ecfp": fnum(base["cv_auroc"]),
-        "ecfp_plus": fnum(plus["cv_auroc"]),
-        "ecfp_base": fnum(base["cv_auroc"]),
+        "vina": fnum(r["rank_auroc_docking"]),
+        "ecfp": fnum(r["cv_auroc_ECFP4"]),
+        "ecfp_plus": fnum(r["cv_auroc_ECFP4_docking"]),
+        "ecfp_base": fnum(r["cv_auroc_ECFP4"]),
     }
 
 
 def best_desc(D: dict, pair: str) -> tuple[str, float]:
-    if pair in UNIFIED_THRESHOLD_PAIRS:
-        r = D["desc4"][pair]
-        return r["best_single_descriptor"], fnum(r["best_single_descriptor_summary_min"])
-    r = D["five_t2"][pair]
-    return r["best_single_descriptor"], fnum(r["best_single_descriptor_summary_min"])
+    r = D["canon_desc"][pair]
+    return r["best_descriptor"], fnum(r["best_descriptor_summary_min"])
 
 
 def five_seed_range(D: dict, pair: str) -> dict:

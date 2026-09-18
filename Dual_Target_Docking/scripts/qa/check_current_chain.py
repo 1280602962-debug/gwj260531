@@ -7,6 +7,7 @@ current score master, canonical Table 2 points, and manuscripts agree.
 from __future__ import annotations
 
 import csv
+import json
 import sys
 from collections import Counter
 from decimal import Decimal, ROUND_HALF_UP
@@ -138,6 +139,15 @@ def main() -> int:
     if "最大绝对变化为 0.023" in zh or "at most 0.023 across" in en:
         if inc_token != "0.023":
             fail("stale ECFP incremental 0.023 remains in manuscript")
+
+    plotted = json.loads((ROOT / "figures/jcim_article/plotted_values.json").read_text(encoding="utf-8"))
+    plotted_max = abs(float(plotted["plotted"]["fig3B_max_abs"]))
+    if abs(plotted_max - max_abs) > 1e-6:
+        fail(f"Figure 3B plotted max |Δ|={plotted_max} != canonical {max_abs}")
+    canon_inc_path = ROOT / "results/canonical/ecfp4_incremental_information.csv"
+    pack_inc_path = ROOT / "submission_pack/tables/canonical/ecfp4_incremental_information.csv"
+    if pack_inc_path.read_bytes() != canon_inc_path.read_bytes():
+        fail("submission_pack ECFP incremental CSV does not match results/canonical")
 
     pack_en = (ROOT / "submission_pack/manuscript/MANUSCRIPT_JCIM_EN.md").read_text(encoding="utf-8")
     if r3(smin["EGFR/HER2"]["summary_min"]) not in pack_en:

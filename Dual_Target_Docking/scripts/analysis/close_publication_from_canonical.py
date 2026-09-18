@@ -2,6 +2,11 @@
 """Derive figure/manuscript CSVs from results/canonical and finish remaining estimands.
 
 Zero-dock. No new pairs. Scheme B: class-stratified B=2000 seed=20260729.
+
+Do not overwrite the historical leftover ECFP/descriptor copies listed in
+`docs/HISTORICAL_LEFTOVER_FILES.md`. Current Figure 3 / Table S5 numbers come
+from `results/canonical/ecfp4_incremental_information.csv` and
+`results/canonical/descriptor_baselines.csv`.
 """
 from __future__ import annotations
 
@@ -580,7 +585,10 @@ def descriptors(packs, desc):
                 "note": "best_single_descriptor from current score master; scheme-B Vina comparison in descriptor_baselines.csv",
             }
         )
-    write_csv(ROOT / "data/jcim_novelty_v0/tables/descriptor_all_four_directional_v1.csv", out)
+    print(
+        "skip historical leftover (not current): "
+        "data/jcim_novelty_v0/tables/descriptor_all_four_directional_v1.csv"
+    )
     return out
 
 
@@ -829,12 +837,15 @@ def export_core(packs, hold):
                 "note": "primary_no_scaffold_overlap_across_folds; from results/canonical",
             }
         )
-    write_csv(ROOT / "data/jcim_novelty_v0/tables/incremental_information_v1.csv", inc_out)
-    write_csv(
-        ROOT / "data/jcim_chembl_universe_v0/local_track_b_v0/tables/five_pair_stack_v1/ecfp4_incremental_s20s24_v1.csv",
-        five_ecfp,
+    print("skip historical leftover (not current): data/jcim_novelty_v0/tables/incremental_information_v1.csv")
+    print(
+        "skip historical leftover (not current): "
+        "data/jcim_chembl_universe_v0/local_track_b_v0/tables/five_pair_stack_v1/ecfp4_incremental_s20s24_v1.csv"
     )
-    write_csv(ROOT / "data/jcim_strengthen_t0t1_v0/tables/ligand_ml_baseline_scaffold_cv_v1.csv", ml)
+    print(
+        "skip historical leftover (not current): "
+        "data/jcim_strengthen_t0t1_v0/tables/ligand_ml_baseline_scaffold_cv_v1.csv"
+    )
 
     master = read_csv(CANON / "current_score_master.csv")
     memb = []

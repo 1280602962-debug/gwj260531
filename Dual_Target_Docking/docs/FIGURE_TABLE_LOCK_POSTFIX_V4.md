@@ -25,8 +25,8 @@ Narrative order: directional ranking → candidate-ranking consequence → ligan
 | 2 | B | Two directional AUROCs: D vs A-only using B; D vs B-only using A; 8 pairs | `unified_threshold_sensitivity_v2.csv`; `table2_comparable_theta6_v1.csv` |
 | 2 | C | Directional summary_min vs two-pocket mean D-vs-neither. Not a fixed-score comparison. PIK3CA/mTOR neither n=4 annotation | same Table 2/3 sources |
 | 2 | D | Eight-pair top-10% 100% stacked bars (dual / A-only / B-only / neither), vina_mean rank, k=ceil(0.10 n) at right. No EF on the figure | `eight_pair_ranking_operating_point_v1.csv` |
-| 3 | A | Vina directional rank AUROC vs ECFP4 scaffold-GroupKFold OOF AUROC; 8 pairs / 16 directions. Not an algorithm leaderboard | `ligand_ml_baseline_scaffold_cv_v1.csv`; `ecfp4_incremental_s20s24_v1.csv` |
-| 3 | B | ΔAUROC = ECFP4+docking − ECFP4; same folds, same ligands | `incremental_information_v1.csv` |
+| 3 | A | Vina directional rank AUROC vs ECFP4 scaffold-GroupKFold OOF AUROC; 8 pairs / 16 directions. Not an algorithm leaderboard | `results/canonical/ecfp4_incremental_information.csv` |
+| 3 | B | ΔAUROC = ECFP4+docking − ECFP4; same folds, same ligands. Freeze max \|Δ\| = 0.0234 (PPARA/PPARD D vs B), written as 0.023 | `results/canonical/ecfp4_incremental_information.csv` |
 | 4 | A | Main-panel matched-minus-mismatched Δsummary_min; 8 pairs; 95% CI. Color = main, not significance | `wrong_pocket_paired_delta_bootstrap_v1.csv` `set=main_panel` |
 | 4 | B | Unused-pool internal holdout matched-minus-mismatched Δsummary_min; 7 pairs; 95% CI. EGFR/HER2 has no holdout. Color = holdout | same CSV `unused_pool_holdout`; `holdout_pocket_matched_v1.csv` |
 | 5 | A | Independent GNINA pose generation: EGFR/HER2, PIK3CA/mTOR, JAK1/TYK2; summary_min and D-vs-neither. Corrected EGFR box: D-vs-B-only ≈ 0.265; D-vs-neither ≈ 0.737 | `independent_dock_formulation_v1.csv` |
@@ -54,7 +54,7 @@ Figure 2C is jointly readable from Table 2 + Table 3. Mean-score D-vs-pooled(A+B
 
 | Figure | Panel | Content | Source |
 |---|---|---|---|
-| S1 | A | Best single descriptor vs Vina summary_min forest | `descriptor_all_four_directional_v1.csv` + Table 2 |
+| S1 | A | Best single descriptor vs Vina summary_min forest | `results/canonical/descriptor_baselines.csv` + Table 2 |
 | S1 | B | AChE/BChE TPSA distribution | `assembled_AChE_BChE.csv` |
 | S2 | A | PM48 vs PM110 | `pm110_vs_pm48_pocket_matched_v1.csv` |
 | S2 | B | E=16 vs E=8 | E=8 from `scores_vina_E8_best.csv` |
@@ -96,7 +96,8 @@ GNINA EGFR: D-vs-B-only = 0.265; D-vs-neither = 0.737.
 3POZ box center = 18.816, 31.837, 11.725; size = 20.931, 20.000, 21.342 (from JSON).  
 3RCD box center = 12.552, 2.982, 28.152; size = 21.385, 22.378, 20.000 (from JSON).
 
-Pre-fix tokens 0.430 / 0.808 / 0.378 / 0.170 / 0.161 / 9.505 and old EGFR box coordinates are not current publication results.
+Pre-fix tokens 0.430 / 0.808 / 0.378 / 0.170 / 0.161 / 9.505 and old EGFR box coordinates are not current publication results.  
+Deposited ECFP incremental max \|Δ\| 0.0112 (JAK1/JAK2 D vs A) is a historical leftover; current freeze max \|Δ\| is 0.0234 (PPARA/PPARD D vs B). See `docs/HISTORICAL_LEFTOVER_FILES.md`.
 
 ## Results mapping
 

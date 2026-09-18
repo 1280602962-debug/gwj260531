@@ -1,15 +1,13 @@
 {
   "schema": "plotted_values_postfix.v4",
   "lock": "docs/FIGURE_TABLE_LOCK_POSTFIX_V4.md",
-  "artwork_git_head": "d824eb6b2b06fd56a9da327f8ab67a29b9eb1b78",
+  "artwork_git_head": "eafaf8f676bee637bb52257747a29dc2bfd4b6e0",
   "inputs_sha256": {
     "data/jcim_j0j1_v0/tables/j0_strict_label_supply.csv": "c47c515baed799b954ae99cb8c93516030acc5bd508a6bc571a99694715df853",
     "data/jcim_novelty_v0/tables/complete_case_usable_pchembl_overlap_v1.csv": "6ab56f87ad2684b92bec2a55eb58e375d863b8c6a386afaf35b7adf311f1f25e",
     "data/jcim_strengthen_t0t1_v0/tables/unified_threshold_sensitivity_v2.csv": "447e10da42de3d780a4219fc94951b1d5717b1277c23eb05dd1c65e40b08a156",
     "data/jcim_novelty_v0/tables/formulation_conventional_vs_directional_v1.csv": "70bfe6a4bed3fec44abd204e236a2031eb455249d75e67a0fc8cb004f629f22f",
     "data/jcim_novelty_v0/tables/formulation_equal_score_negative_v1.csv": "0deb39ad07ac574eb01e28469fd811d9d49b18d02250f86588eefda2144c6a7d",
-    "data/jcim_strengthen_t0t1_v0/tables/ligand_ml_baseline_scaffold_cv_v1.csv": "8363b04919e1352af8c3994b53a73b629a9c37bd7f9a1d4cc265bd32ec134fbf",
-    "data/jcim_novelty_v0/tables/incremental_information_v1.csv": "e6458242bbd1f91c21fc1ef39ebe2cfd948f789da0193dded7e41b47fa137303",
     "data/jcim_bench_v0/tables/assembled_AChE_BChE.csv": "fe42eac407a2b6ffab836a8944e338f77b894a436088d5be27cb5f28d3b03073",
     "data/jcim_independent_dock_v0/tables/independent_dock_formulation_v1.csv": "5d7e9e57e03e49fc52fe56a8349e17c35b09e1d5bb3dbdf5c3982e4a49c13a8f",
     "data/jcim_structure_robust_v0/tables/pocket_matched_PM48_alt4JPS_v1.csv": "fff43681ecdd25da8356e66955b254d8e689904fa12fa82be37589e5eae7acf3",
@@ -20,10 +18,10 @@
     "data/jcim_holdout_v0/tables/holdout_pocket_matched_v1.csv": "8d58ea680bd1a443f065f04b09d7321412452ef057253997b31a425864409073",
     "data/jcim_strengthen_t0t1_v0/tables/pm110_vs_pm48_pocket_matched_v1.csv": "41e63552207c7495b3233b005ae10bbfe1d0500f7aa15cb74423e672ecb14dcb",
     "data/jcim_novelty_v0/tables/external_slice_summary_v1.csv": "9a8fd13ed4c75085049f9da85ac9f89a183826aeecffc7c6002945c4604578dc",
-    "data/jcim_novelty_v0/tables/descriptor_all_four_directional_v1.csv": "412a851f07f9e54dcd09eea269a988f1535aba7c8b15dd3611b1a13ccc5664ba",
+    "results/canonical/ecfp4_incremental_information.csv": "0dda6ce702484ae476ac18f2d86d301804b31872ca5c1cc695fb9e8e589624d6",
+    "results/canonical/descriptor_baselines.csv": "8dec565ec6983af64e59b17b4af2fa53db14fb41f4decf0b514f87e3d749f638",
     "data/jcim_chembl_universe_v0/local_track_b_v0/tables/five_pair_stack_v1/table2_comparable_theta6_v1.csv": "a12f2ef2c8d669812f9bdad58a1fd72c399582f67e3122f18b5f01ad7aa33344",
     "data/jcim_chembl_universe_v0/local_track_b_v0/tables/five_pair_stack_v1/equal_score_negative_s34_v1.csv": "f749f9d5d6ea048e6b8c09295379ebf72e096dad8685343f671454592d7e0206",
-    "data/jcim_chembl_universe_v0/local_track_b_v0/tables/five_pair_stack_v1/ecfp4_incremental_s20s24_v1.csv": "e6458242bbd1f91c21fc1ef39ebe2cfd948f789da0193dded7e41b47fa137303",
     "data/jcim_chembl_universe_v0/local_track_b_v0/tables/five_pair_stack_v1/threshold_grid_v1.csv": "019766d1e1d95d2968cd8282712fba57f87bdaa3061bbc47a1286252449ad454",
     "data/jcim_chembl_universe_v0/local_track_b_v0/tables/five_pair_local_channels_v1/table2_comparable_by_channel_v1.csv": "59329da56143bf591b39accf98dcc8077fb8f73e7e749205150b671e1d0d3506",
     "data/jcim_chembl_universe_v0/local_track_b_v0/tables/five_pair_local_channels_v1/fiveseed_summary_min_aggregate_v1.csv": "ea915c58276a4239992fc4edd3068f295e663271733e6cf61947a92c381c3fcc",
@@ -51,7 +49,7 @@
     "FigS3_cognate_rmsd",
     "TOC_graphic"
   ],
-  "n_records": 185,
+  "n_records": 234,
   "records": [
     {
       "figure": "Figure 1",
@@ -1054,6 +1052,496 @@
       "displayed_value": "11"
     },
     {
+      "figure": "Figure 3",
+      "panel": "A",
+      "pair": "EGFR/HER2",
+      "metric": "vina_D_vs_A",
+      "source_file": "results/canonical/ecfp4_incremental_information.csv",
+      "source_row": "EGFR/HER2",
+      "raw_value": 0.6564,
+      "displayed_value": "0.656"
+    },
+    {
+      "figure": "Figure 3",
+      "panel": "A",
+      "pair": "EGFR/HER2",
+      "metric": "vina_D_vs_B",
+      "source_file": "results/canonical/ecfp4_incremental_information.csv",
+      "source_row": "EGFR/HER2",
+      "raw_value": 0.3237,
+      "displayed_value": "0.324"
+    },
+    {
+      "figure": "Figure 3",
+      "panel": "A",
+      "pair": "EGFR/HER2",
+      "metric": "ECFP4_D_vs_A",
+      "source_file": "results/canonical/ecfp4_incremental_information.csv",
+      "source_row": "EGFR/HER2",
+      "raw_value": 0.8224,
+      "displayed_value": "0.822"
+    },
+    {
+      "figure": "Figure 3",
+      "panel": "A",
+      "pair": "EGFR/HER2",
+      "metric": "ECFP4_D_vs_B",
+      "source_file": "results/canonical/ecfp4_incremental_information.csv",
+      "source_row": "EGFR/HER2",
+      "raw_value": 0.8895,
+      "displayed_value": "0.889"
+    },
+    {
+      "figure": "Figure 3",
+      "panel": "A",
+      "pair": "JAK1/JAK2",
+      "metric": "vina_D_vs_A",
+      "source_file": "results/canonical/ecfp4_incremental_information.csv",
+      "source_row": "JAK1/JAK2",
+      "raw_value": 0.5884,
+      "displayed_value": "0.588"
+    },
+    {
+      "figure": "Figure 3",
+      "panel": "A",
+      "pair": "JAK1/JAK2",
+      "metric": "vina_D_vs_B",
+      "source_file": "results/canonical/ecfp4_incremental_information.csv",
+      "source_row": "JAK1/JAK2",
+      "raw_value": 0.7275,
+      "displayed_value": "0.728"
+    },
+    {
+      "figure": "Figure 3",
+      "panel": "A",
+      "pair": "JAK1/JAK2",
+      "metric": "ECFP4_D_vs_A",
+      "source_file": "results/canonical/ecfp4_incremental_information.csv",
+      "source_row": "JAK1/JAK2",
+      "raw_value": 0.9146,
+      "displayed_value": "0.915"
+    },
+    {
+      "figure": "Figure 3",
+      "panel": "A",
+      "pair": "JAK1/JAK2",
+      "metric": "ECFP4_D_vs_B",
+      "source_file": "results/canonical/ecfp4_incremental_information.csv",
+      "source_row": "JAK1/JAK2",
+      "raw_value": 0.9678,
+      "displayed_value": "0.968"
+    },
+    {
+      "figure": "Figure 3",
+      "panel": "A",
+      "pair": "JAK1/TYK2",
+      "metric": "vina_D_vs_A",
+      "source_file": "results/canonical/ecfp4_incremental_information.csv",
+      "source_row": "JAK1/TYK2",
+      "raw_value": 0.5751,
+      "displayed_value": "0.575"
+    },
+    {
+      "figure": "Figure 3",
+      "panel": "A",
+      "pair": "JAK1/TYK2",
+      "metric": "vina_D_vs_B",
+      "source_file": "results/canonical/ecfp4_incremental_information.csv",
+      "source_row": "JAK1/TYK2",
+      "raw_value": 0.3649,
+      "displayed_value": "0.365"
+    },
+    {
+      "figure": "Figure 3",
+      "panel": "A",
+      "pair": "JAK1/TYK2",
+      "metric": "ECFP4_D_vs_A",
+      "source_file": "results/canonical/ecfp4_incremental_information.csv",
+      "source_row": "JAK1/TYK2",
+      "raw_value": 0.8458,
+      "displayed_value": "0.846"
+    },
+    {
+      "figure": "Figure 3",
+      "panel": "A",
+      "pair": "JAK1/TYK2",
+      "metric": "ECFP4_D_vs_B",
+      "source_file": "results/canonical/ecfp4_incremental_information.csv",
+      "source_row": "JAK1/TYK2",
+      "raw_value": 0.9022,
+      "displayed_value": "0.902"
+    },
+    {
+      "figure": "Figure 3",
+      "panel": "A",
+      "pair": "PIK3CA/mTOR",
+      "metric": "vina_D_vs_A",
+      "source_file": "results/canonical/ecfp4_incremental_information.csv",
+      "source_row": "PIK3CA/mTOR",
+      "raw_value": 0.7143,
+      "displayed_value": "0.714"
+    },
+    {
+      "figure": "Figure 3",
+      "panel": "A",
+      "pair": "PIK3CA/mTOR",
+      "metric": "vina_D_vs_B",
+      "source_file": "results/canonical/ecfp4_incremental_information.csv",
+      "source_row": "PIK3CA/mTOR",
+      "raw_value": 0.6921,
+      "displayed_value": "0.692"
+    },
+    {
+      "figure": "Figure 3",
+      "panel": "A",
+      "pair": "PIK3CA/mTOR",
+      "metric": "ECFP4_D_vs_A",
+      "source_file": "results/canonical/ecfp4_incremental_information.csv",
+      "source_row": "PIK3CA/mTOR",
+      "raw_value": 0.7619,
+      "displayed_value": "0.762"
+    },
+    {
+      "figure": "Figure 3",
+      "panel": "A",
+      "pair": "PIK3CA/mTOR",
+      "metric": "ECFP4_D_vs_B",
+      "source_file": "results/canonical/ecfp4_incremental_information.csv",
+      "source_row": "PIK3CA/mTOR",
+      "raw_value": 0.8889,
+      "displayed_value": "0.889"
+    },
+    {
+      "figure": "Figure 3",
+      "panel": "A",
+      "pair": "AChE/BChE",
+      "metric": "vina_D_vs_A",
+      "source_file": "results/canonical/ecfp4_incremental_information.csv",
+      "source_row": "AChE/BChE",
+      "raw_value": 0.6524,
+      "displayed_value": "0.652"
+    },
+    {
+      "figure": "Figure 3",
+      "panel": "A",
+      "pair": "AChE/BChE",
+      "metric": "vina_D_vs_B",
+      "source_file": "results/canonical/ecfp4_incremental_information.csv",
+      "source_row": "AChE/BChE",
+      "raw_value": 0.6058,
+      "displayed_value": "0.606"
+    },
+    {
+      "figure": "Figure 3",
+      "panel": "A",
+      "pair": "AChE/BChE",
+      "metric": "ECFP4_D_vs_A",
+      "source_file": "results/canonical/ecfp4_incremental_information.csv",
+      "source_row": "AChE/BChE",
+      "raw_value": 0.8946,
+      "displayed_value": "0.895"
+    },
+    {
+      "figure": "Figure 3",
+      "panel": "A",
+      "pair": "AChE/BChE",
+      "metric": "ECFP4_D_vs_B",
+      "source_file": "results/canonical/ecfp4_incremental_information.csv",
+      "source_row": "AChE/BChE",
+      "raw_value": 0.8214,
+      "displayed_value": "0.821"
+    },
+    {
+      "figure": "Figure 3",
+      "panel": "A",
+      "pair": "F2/F10",
+      "metric": "vina_D_vs_A",
+      "source_file": "results/canonical/ecfp4_incremental_information.csv",
+      "source_row": "F2/F10",
+      "raw_value": 0.4133,
+      "displayed_value": "0.413"
+    },
+    {
+      "figure": "Figure 3",
+      "panel": "A",
+      "pair": "F2/F10",
+      "metric": "vina_D_vs_B",
+      "source_file": "results/canonical/ecfp4_incremental_information.csv",
+      "source_row": "F2/F10",
+      "raw_value": 0.3448,
+      "displayed_value": "0.345"
+    },
+    {
+      "figure": "Figure 3",
+      "panel": "A",
+      "pair": "F2/F10",
+      "metric": "ECFP4_D_vs_A",
+      "source_file": "results/canonical/ecfp4_incremental_information.csv",
+      "source_row": "F2/F10",
+      "raw_value": 0.9425,
+      "displayed_value": "0.943"
+    },
+    {
+      "figure": "Figure 3",
+      "panel": "A",
+      "pair": "F2/F10",
+      "metric": "ECFP4_D_vs_B",
+      "source_file": "results/canonical/ecfp4_incremental_information.csv",
+      "source_row": "F2/F10",
+      "raw_value": 0.6925,
+      "displayed_value": "0.693"
+    },
+    {
+      "figure": "Figure 3",
+      "panel": "A",
+      "pair": "PPARG/PPARA",
+      "metric": "vina_D_vs_A",
+      "source_file": "results/canonical/ecfp4_incremental_information.csv",
+      "source_row": "PPARG/PPARA",
+      "raw_value": 0.6492,
+      "displayed_value": "0.649"
+    },
+    {
+      "figure": "Figure 3",
+      "panel": "A",
+      "pair": "PPARG/PPARA",
+      "metric": "vina_D_vs_B",
+      "source_file": "results/canonical/ecfp4_incremental_information.csv",
+      "source_row": "PPARG/PPARA",
+      "raw_value": 0.7061,
+      "displayed_value": "0.706"
+    },
+    {
+      "figure": "Figure 3",
+      "panel": "A",
+      "pair": "PPARG/PPARA",
+      "metric": "ECFP4_D_vs_A",
+      "source_file": "results/canonical/ecfp4_incremental_information.csv",
+      "source_row": "PPARG/PPARA",
+      "raw_value": 0.8327,
+      "displayed_value": "0.833"
+    },
+    {
+      "figure": "Figure 3",
+      "panel": "A",
+      "pair": "PPARG/PPARA",
+      "metric": "ECFP4_D_vs_B",
+      "source_file": "results/canonical/ecfp4_incremental_information.csv",
+      "source_row": "PPARG/PPARA",
+      "raw_value": 0.668,
+      "displayed_value": "0.668"
+    },
+    {
+      "figure": "Figure 3",
+      "panel": "A",
+      "pair": "PPARA/PPARD",
+      "metric": "vina_D_vs_A",
+      "source_file": "results/canonical/ecfp4_incremental_information.csv",
+      "source_row": "PPARA/PPARD",
+      "raw_value": 0.6465,
+      "displayed_value": "0.646"
+    },
+    {
+      "figure": "Figure 3",
+      "panel": "A",
+      "pair": "PPARA/PPARD",
+      "metric": "vina_D_vs_B",
+      "source_file": "results/canonical/ecfp4_incremental_information.csv",
+      "source_row": "PPARA/PPARD",
+      "raw_value": 0.4463,
+      "displayed_value": "0.446"
+    },
+    {
+      "figure": "Figure 3",
+      "panel": "A",
+      "pair": "PPARA/PPARD",
+      "metric": "ECFP4_D_vs_A",
+      "source_file": "results/canonical/ecfp4_incremental_information.csv",
+      "source_row": "PPARA/PPARD",
+      "raw_value": 0.9316,
+      "displayed_value": "0.932"
+    },
+    {
+      "figure": "Figure 3",
+      "panel": "A",
+      "pair": "PPARA/PPARD",
+      "metric": "ECFP4_D_vs_B",
+      "source_file": "results/canonical/ecfp4_incremental_information.csv",
+      "source_row": "PPARA/PPARD",
+      "raw_value": 0.8584,
+      "displayed_value": "0.858"
+    },
+    {
+      "figure": "Figure 3",
+      "panel": "B",
+      "pair": "EGFR/HER2",
+      "metric": "delta_D_vs_A",
+      "source_file": "results/canonical/ecfp4_incremental_information.csv",
+      "source_row": "EGFR/HER2",
+      "raw_value": -0.01550000000000007,
+      "displayed_value": "-0.016"
+    },
+    {
+      "figure": "Figure 3",
+      "panel": "B",
+      "pair": "EGFR/HER2",
+      "metric": "delta_D_vs_B",
+      "source_file": "results/canonical/ecfp4_incremental_information.csv",
+      "source_row": "EGFR/HER2",
+      "raw_value": -0.0044999999999999485,
+      "displayed_value": "-0.004"
+    },
+    {
+      "figure": "Figure 3",
+      "panel": "B",
+      "pair": "JAK1/JAK2",
+      "metric": "delta_D_vs_A",
+      "source_file": "results/canonical/ecfp4_incremental_information.csv",
+      "source_row": "JAK1/JAK2",
+      "raw_value": 0.0014000000000000679,
+      "displayed_value": "0.001"
+    },
+    {
+      "figure": "Figure 3",
+      "panel": "B",
+      "pair": "JAK1/JAK2",
+      "metric": "delta_D_vs_B",
+      "source_file": "results/canonical/ecfp4_incremental_information.csv",
+      "source_row": "JAK1/JAK2",
+      "raw_value": 0.0010000000000000009,
+      "displayed_value": "0.001"
+    },
+    {
+      "figure": "Figure 3",
+      "panel": "B",
+      "pair": "JAK1/TYK2",
+      "metric": "delta_D_vs_A",
+      "source_file": "results/canonical/ecfp4_incremental_information.csv",
+      "source_row": "JAK1/TYK2",
+      "raw_value": -0.006099999999999994,
+      "displayed_value": "-0.006"
+    },
+    {
+      "figure": "Figure 3",
+      "panel": "B",
+      "pair": "JAK1/TYK2",
+      "metric": "delta_D_vs_B",
+      "source_file": "results/canonical/ecfp4_incremental_information.csv",
+      "source_row": "JAK1/TYK2",
+      "raw_value": 0.0010000000000000009,
+      "displayed_value": "0.001"
+    },
+    {
+      "figure": "Figure 3",
+      "panel": "B",
+      "pair": "PIK3CA/mTOR",
+      "metric": "delta_D_vs_A",
+      "source_file": "results/canonical/ecfp4_incremental_information.csv",
+      "source_row": "PIK3CA/mTOR",
+      "raw_value": -0.01980000000000004,
+      "displayed_value": "-0.020"
+    },
+    {
+      "figure": "Figure 3",
+      "panel": "B",
+      "pair": "PIK3CA/mTOR",
+      "metric": "delta_D_vs_B",
+      "source_file": "results/canonical/ecfp4_incremental_information.csv",
+      "source_row": "PIK3CA/mTOR",
+      "raw_value": 0.009199999999999986,
+      "displayed_value": "0.009"
+    },
+    {
+      "figure": "Figure 3",
+      "panel": "B",
+      "pair": "AChE/BChE",
+      "metric": "delta_D_vs_A",
+      "source_file": "results/canonical/ecfp4_incremental_information.csv",
+      "source_row": "AChE/BChE",
+      "raw_value": -0.0042999999999999705,
+      "displayed_value": "-0.004"
+    },
+    {
+      "figure": "Figure 3",
+      "panel": "B",
+      "pair": "AChE/BChE",
+      "metric": "delta_D_vs_B",
+      "source_file": "results/canonical/ecfp4_incremental_information.csv",
+      "source_row": "AChE/BChE",
+      "raw_value": -0.01319999999999999,
+      "displayed_value": "-0.013"
+    },
+    {
+      "figure": "Figure 3",
+      "panel": "B",
+      "pair": "F2/F10",
+      "metric": "delta_D_vs_A",
+      "source_file": "results/canonical/ecfp4_incremental_information.csv",
+      "source_row": "F2/F10",
+      "raw_value": -0.006000000000000005,
+      "displayed_value": "-0.006"
+    },
+    {
+      "figure": "Figure 3",
+      "panel": "B",
+      "pair": "F2/F10",
+      "metric": "delta_D_vs_B",
+      "source_file": "results/canonical/ecfp4_incremental_information.csv",
+      "source_row": "F2/F10",
+      "raw_value": 0.01419999999999999,
+      "displayed_value": "0.014"
+    },
+    {
+      "figure": "Figure 3",
+      "panel": "B",
+      "pair": "PPARG/PPARA",
+      "metric": "delta_D_vs_A",
+      "source_file": "results/canonical/ecfp4_incremental_information.csv",
+      "source_row": "PPARG/PPARA",
+      "raw_value": -0.020199999999999996,
+      "displayed_value": "-0.020"
+    },
+    {
+      "figure": "Figure 3",
+      "panel": "B",
+      "pair": "PPARG/PPARA",
+      "metric": "delta_D_vs_B",
+      "source_file": "results/canonical/ecfp4_incremental_information.csv",
+      "source_row": "PPARG/PPARA",
+      "raw_value": 0.007799999999999918,
+      "displayed_value": "0.008"
+    },
+    {
+      "figure": "Figure 3",
+      "panel": "B",
+      "pair": "PPARA/PPARD",
+      "metric": "delta_D_vs_A",
+      "source_file": "results/canonical/ecfp4_incremental_information.csv",
+      "source_row": "PPARA/PPARD",
+      "raw_value": -0.0039000000000000146,
+      "displayed_value": "-0.004"
+    },
+    {
+      "figure": "Figure 3",
+      "panel": "B",
+      "pair": "PPARA/PPARD",
+      "metric": "delta_D_vs_B",
+      "source_file": "results/canonical/ecfp4_incremental_information.csv",
+      "source_row": "PPARA/PPARD",
+      "raw_value": -0.023400000000000087,
+      "displayed_value": "-0.023"
+    },
+    {
+      "figure": "Figure 3",
+      "panel": "B",
+      "pair": "all",
+      "metric": "fig3B_max_abs",
+      "source_file": "results/canonical/ecfp4_incremental_information.csv",
+      "source_row": "max_|delta|",
+      "raw_value": 0.023400000000000087,
+      "displayed_value": "0.023"
+    },
+    {
       "figure": "Figure S1",
       "panel": "A",
       "pair": "EGFR/HER2",
@@ -1068,7 +1556,7 @@
       "panel": "A",
       "pair": "EGFR/HER2",
       "metric": "best_descriptor_auroc",
-      "source_file": "data/jcim_novelty_v0/tables/descriptor_all_four_directional_v1.csv",
+      "source_file": "results/canonical/descriptor_baselines.csv",
       "source_row": "EGFR/HER2",
       "raw_value": 0.4821,
       "displayed_value": "0.482"
@@ -1078,7 +1566,7 @@
       "panel": "A",
       "pair": "EGFR/HER2",
       "metric": "best_descriptor_name",
-      "source_file": "data/jcim_novelty_v0/tables/descriptor_all_four_directional_v1.csv",
+      "source_file": "results/canonical/descriptor_baselines.csv",
       "source_row": "EGFR/HER2",
       "raw_value": "clogp",
       "displayed_value": "clogp"
@@ -1098,7 +1586,7 @@
       "panel": "A",
       "pair": "JAK1/JAK2",
       "metric": "best_descriptor_auroc",
-      "source_file": "data/jcim_novelty_v0/tables/descriptor_all_four_directional_v1.csv",
+      "source_file": "results/canonical/descriptor_baselines.csv",
       "source_row": "JAK1/JAK2",
       "raw_value": 0.5781,
       "displayed_value": "0.578"
@@ -1108,7 +1596,7 @@
       "panel": "A",
       "pair": "JAK1/JAK2",
       "metric": "best_descriptor_name",
-      "source_file": "data/jcim_novelty_v0/tables/descriptor_all_four_directional_v1.csv",
+      "source_file": "results/canonical/descriptor_baselines.csv",
       "source_row": "JAK1/JAK2",
       "raw_value": "heavy",
       "displayed_value": "heavy"
@@ -1128,17 +1616,17 @@
       "panel": "A",
       "pair": "JAK1/TYK2",
       "metric": "best_descriptor_auroc",
-      "source_file": "data/jcim_novelty_v0/tables/descriptor_all_four_directional_v1.csv",
+      "source_file": "results/canonical/descriptor_baselines.csv",
       "source_row": "JAK1/TYK2",
-      "raw_value": 0.5806,
-      "displayed_value": "0.581"
+      "raw_value": 0.5796,
+      "displayed_value": "0.580"
     },
     {
       "figure": "Figure S1",
       "panel": "A",
       "pair": "JAK1/TYK2",
       "metric": "best_descriptor_name",
-      "source_file": "data/jcim_novelty_v0/tables/descriptor_all_four_directional_v1.csv",
+      "source_file": "results/canonical/descriptor_baselines.csv",
       "source_row": "JAK1/TYK2",
       "raw_value": "clogp",
       "displayed_value": "clogp"
@@ -1158,7 +1646,7 @@
       "panel": "A",
       "pair": "PIK3CA/mTOR",
       "metric": "best_descriptor_auroc",
-      "source_file": "data/jcim_novelty_v0/tables/descriptor_all_four_directional_v1.csv",
+      "source_file": "results/canonical/descriptor_baselines.csv",
       "source_row": "PIK3CA/mTOR",
       "raw_value": 0.463,
       "displayed_value": "0.463"
@@ -1168,7 +1656,7 @@
       "panel": "A",
       "pair": "PIK3CA/mTOR",
       "metric": "best_descriptor_name",
-      "source_file": "data/jcim_novelty_v0/tables/descriptor_all_four_directional_v1.csv",
+      "source_file": "results/canonical/descriptor_baselines.csv",
       "source_row": "PIK3CA/mTOR",
       "raw_value": "heavy",
       "displayed_value": "heavy"
@@ -1188,7 +1676,7 @@
       "panel": "A",
       "pair": "AChE/BChE",
       "metric": "best_descriptor_auroc",
-      "source_file": "data/jcim_novelty_v0/tables/descriptor_all_four_directional_v1.csv",
+      "source_file": "results/canonical/descriptor_baselines.csv",
       "source_row": "AChE/BChE",
       "raw_value": 0.7422,
       "displayed_value": "0.742"
@@ -1198,7 +1686,7 @@
       "panel": "A",
       "pair": "AChE/BChE",
       "metric": "best_descriptor_name",
-      "source_file": "data/jcim_novelty_v0/tables/descriptor_all_four_directional_v1.csv",
+      "source_file": "results/canonical/descriptor_baselines.csv",
       "source_row": "AChE/BChE",
       "raw_value": "tpsa",
       "displayed_value": "tpsa"
@@ -1218,7 +1706,7 @@
       "panel": "A",
       "pair": "F2/F10",
       "metric": "best_descriptor_auroc",
-      "source_file": "data/jcim_novelty_v0/tables/descriptor_all_four_directional_v1.csv",
+      "source_file": "results/canonical/descriptor_baselines.csv",
       "source_row": "F2/F10",
       "raw_value": 0.5091,
       "displayed_value": "0.509"
@@ -1228,7 +1716,7 @@
       "panel": "A",
       "pair": "F2/F10",
       "metric": "best_descriptor_name",
-      "source_file": "data/jcim_novelty_v0/tables/descriptor_all_four_directional_v1.csv",
+      "source_file": "results/canonical/descriptor_baselines.csv",
       "source_row": "F2/F10",
       "raw_value": "clogp",
       "displayed_value": "clogp"
@@ -1248,7 +1736,7 @@
       "panel": "A",
       "pair": "PPARG/PPARA",
       "metric": "best_descriptor_auroc",
-      "source_file": "data/jcim_novelty_v0/tables/descriptor_all_four_directional_v1.csv",
+      "source_file": "results/canonical/descriptor_baselines.csv",
       "source_row": "PPARG/PPARA",
       "raw_value": 0.6274,
       "displayed_value": "0.627"
@@ -1258,7 +1746,7 @@
       "panel": "A",
       "pair": "PPARG/PPARA",
       "metric": "best_descriptor_name",
-      "source_file": "data/jcim_novelty_v0/tables/descriptor_all_four_directional_v1.csv",
+      "source_file": "results/canonical/descriptor_baselines.csv",
       "source_row": "PPARG/PPARA",
       "raw_value": "tpsa",
       "displayed_value": "tpsa"
@@ -1278,7 +1766,7 @@
       "panel": "A",
       "pair": "PPARA/PPARD",
       "metric": "best_descriptor_auroc",
-      "source_file": "data/jcim_novelty_v0/tables/descriptor_all_four_directional_v1.csv",
+      "source_file": "results/canonical/descriptor_baselines.csv",
       "source_row": "PPARA/PPARD",
       "raw_value": 0.5635,
       "displayed_value": "0.564"
@@ -1288,7 +1776,7 @@
       "panel": "A",
       "pair": "PPARA/PPARD",
       "metric": "best_descriptor_name",
-      "source_file": "data/jcim_novelty_v0/tables/descriptor_all_four_directional_v1.csv",
+      "source_file": "results/canonical/descriptor_baselines.csv",
       "source_row": "PPARA/PPARD",
       "raw_value": "clogp",
       "displayed_value": "clogp"
@@ -2604,45 +3092,45 @@
         0.4463
       ],
       "ecfp_da": [
-        0.7992,
-        0.8901,
-        0.8528,
-        0.7817,
-        0.8974,
-        0.9466,
-        0.8569,
-        0.9453
+        0.8224,
+        0.9146,
+        0.8458,
+        0.7619,
+        0.8946,
+        0.9425,
+        0.8327,
+        0.9316
       ],
       "ecfp_db": [
-        0.8527,
-        0.9658,
-        0.8881,
+        0.8895,
+        0.9678,
+        0.9022,
         0.8889,
-        0.8426,
-        0.7571,
-        0.7344,
-        0.7471
+        0.8214,
+        0.6925,
+        0.668,
+        0.8584
       ]
     },
     "fig3B_deltas": [
-      -0.006700000000000039,
-      -0.007800000000000029,
-      -0.011199999999999988,
+      -0.01550000000000007,
+      -0.0044999999999999485,
+      0.0014000000000000679,
       0.0010000000000000009,
-      -0.010099999999999998,
-      -0.0010000000000000009,
-      -0.007899999999999907,
-      0.0,
-      -0.007099999999999995,
-      -0.010600000000000054,
-      0.0030000000000000027,
-      0.008000000000000007,
-      -0.0040999999999999925,
-      0.005799999999999916,
-      -0.0010000000000000009,
-      -0.00880000000000003
+      -0.006099999999999994,
+      0.0010000000000000009,
+      -0.01980000000000004,
+      0.009199999999999986,
+      -0.0042999999999999705,
+      -0.01319999999999999,
+      -0.006000000000000005,
+      0.01419999999999999,
+      -0.020199999999999996,
+      0.007799999999999918,
+      -0.0039000000000000146,
+      -0.023400000000000087
     ],
-    "fig3B_max_abs": 0.011199999999999988,
+    "fig3B_max_abs": 0.023400000000000087,
     "fig4A": {
       "pairs": [
         "EGFR/HER2",
@@ -3337,7 +3825,7 @@
       "JAK1/TYK2": {
         "vina_smin": 0.3649,
         "desc_name": "clogp",
-        "desc": 0.5806
+        "desc": 0.5796
       },
       "PIK3CA/mTOR": {
         "vina_smin": 0.6921,

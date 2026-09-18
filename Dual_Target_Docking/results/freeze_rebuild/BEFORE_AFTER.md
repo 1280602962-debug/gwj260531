@@ -17,4 +17,4 @@ Independent verification is PASS on the freeze directory. This file is not an ac
 | two-pocket CI / JAK GNINA / receptor-sub | present in canonical only after pack closer | emitted by `compute_canonical_results.py` | C2 |
 
 Manuscript incremental claim is now 0.023 to match the freeze environment.
-Figure 3B JSON still has 0.0112 until a later figure pass.
+Figure 3A/B and the submission-pack ECFP table were redrawn/copied from the freeze CSVs. Leftover 0.0112 files remain on disk and are marked in `docs/HISTORICAL_LEFTOVER_FILES.md`.

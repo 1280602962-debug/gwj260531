@@ -1,5 +1,7 @@
 # Final pre-submission consistency audit
 
+**HISTORICAL — not current.** This audit is dated 2026-09-17 and predates the freeze rebuild. Section 7/8 still treat ECFP4 max |Δ| = 0.0112 as PASS. That number is a leftover. Current freeze max |Δ| = 0.0234 (PPARA/PPARD D vs B); write from `results/canonical/ecfp4_incremental_information.csv`. See `docs/HISTORICAL_LEFTOVER_FILES.md`.
+
 Branch: `cursor/methods-sentence-audit-c7cc`  
 Directory: `Dual_Target_Docking/`  
 Date: 2026-09-17  

@@ -342,6 +342,14 @@ def fig3(D):
        fancybox=False, edgecolor='none', facecolor='white', framealpha=.92)
     P['fig3B_deltas'] = deltas
     P['fig3B_max_abs'] = float(max(abs(d) for d in deltas))
+    canon_max = max(
+        abs(float(r['delta_ECFP4_plus_docking_minus_ECFP4']))
+        for r in D['canon_ecfp'].values()
+    )
+    if abs(P['fig3B_max_abs'] - canon_max) > 1e-12:
+        print('FAIL: fig3B_max_abs does not match results/canonical/ecfp4_incremental_information.csv',
+              file=sys.stderr)
+        raise SystemExit(1)
     fig.subplots_adjust(left=.16, right=.98, top=.92, bottom=.09)
     save(fig, 'Fig3_ligand_chemistry')
 
@@ -825,13 +833,34 @@ def emit_plotted_values_postfix(audit):
         for col in ['top_dual', 'top_A_only', 'top_B_only', 'top_neither', 'top_k']:
             add('Figure 2', 'D', p, col, src, p, op.get(col), str(op.get(col)))
 
+    fig3_src = 'results/canonical/ecfp4_incremental_information.csv'
+    fig3a = P.get('fig3A') or {}
+    for i, p in enumerate(PAIRS):
+        add('Figure 3', 'A', p, 'vina_D_vs_A', fig3_src, p,
+            (fig3a.get('vina_da') or [None] * len(PAIRS))[i])
+        add('Figure 3', 'A', p, 'vina_D_vs_B', fig3_src, p,
+            (fig3a.get('vina_db') or [None] * len(PAIRS))[i])
+        add('Figure 3', 'A', p, 'ECFP4_D_vs_A', fig3_src, p,
+            (fig3a.get('ecfp_da') or [None] * len(PAIRS))[i])
+        add('Figure 3', 'A', p, 'ECFP4_D_vs_B', fig3_src, p,
+            (fig3a.get('ecfp_db') or [None] * len(PAIRS))[i])
+    deltas = P.get('fig3B_deltas') or []
+    k = 0
+    for p in PAIRS:
+        for contrast in ('D_vs_A', 'D_vs_B'):
+            if k < len(deltas):
+                add('Figure 3', 'B', p, f'delta_{contrast}', fig3_src, p, deltas[k])
+                k += 1
+    add('Figure 3', 'B', 'all', 'fig3B_max_abs', fig3_src, 'max_|delta|',
+        P.get('fig3B_max_abs'))
+
     for p, rec in (P.get('figS1A') or {}).items():
         add('Figure S1', 'A', p, 'vina_summary_min',
             'data/jcim_strengthen_t0t1_v0/tables/unified_threshold_sensitivity_v2.csv', p, rec.get('vina_smin'))
         add('Figure S1', 'A', p, 'best_descriptor_auroc',
-            'data/jcim_novelty_v0/tables/descriptor_all_four_directional_v1.csv', p, rec.get('desc'))
+            'results/canonical/descriptor_baselines.csv', p, rec.get('desc'))
         add('Figure S1', 'A', p, 'best_descriptor_name',
-            'data/jcim_novelty_v0/tables/descriptor_all_four_directional_v1.csv', p, rec.get('desc_name'),
+            'results/canonical/descriptor_baselines.csv', p, rec.get('desc_name'),
             rec.get('desc_name'))
 
     tpsa = P.get('figS1B') or {}

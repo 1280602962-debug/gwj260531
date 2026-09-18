@@ -33,7 +33,7 @@ Allowed because evidenced. Table 2 / ranking / GNINA / detectable-effect **did n
 - ECFP incremental max |Δ|: 0.0112 → **0.0234** (rdkit 2026.03.6, sklearn 1.9.1; 492/930 fold IDs differ). Claim: docking still adds no stable increment; the three-decimal cap is 0.023.
 - JAK1/TYK2 cLogP `summary_min`: 0.5806 → 0.5796 (RDKit). SI three-decimal 0.581 → 0.580.
 
-Figure 3B JSON still has 0.0112. Write from `ecfp4_incremental_information.csv` until figures are redrawn.
+Figure 3A/B and SI Table S5 now use the freeze CSVs. Leftover 0.0112 files are listed in `docs/HISTORICAL_LEFTOVER_FILES.md` and are not current sources.
 
 ## Rebuild
 
