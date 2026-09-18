@@ -31,7 +31,7 @@ Narrative order: directional ranking → candidate-ranking consequence → ligan
 | 4 | B | Unused-pool internal holdout matched-minus-mismatched Δsummary_min; 7 pairs; 95% CI. EGFR/HER2 has no holdout. Color = holdout | same CSV `unused_pool_holdout`; `holdout_pocket_matched_v1.csv` |
 | 5 | A | Independent GNINA pose generation: EGFR/HER2, PIK3CA/mTOR, JAK1/TYK2; summary_min and D-vs-neither. Corrected EGFR box: D-vs-B-only ≈ 0.265; D-vs-neither ≈ 0.737 | `independent_dock_formulation_v1.csv` |
 | 5 | B | PIK3CA/mTOR receptor substitution: primary 4L23 / 4JT6, 4JPS, 5DXT, 4JSX | alt-receptor CSVs + Table 2 |
-| 5 | C | Five-seed summary_min range; 8 pairs | `multiseed_auroc_by_seed_v2.csv`; `fiveseed_summary_min_aggregate_v1.csv` |
+| 5 | C | Five-seed summary_min range; 8 pairs; EGFR/HER2 uses corrected-box scores | `results/canonical/five_seed_summary_min.csv` |
 
 AChE/BChE TPSA jitter is **Figure S1B**, not a main Figure 3 panel.  
 Main-versus-holdout summary_min is **Table S6**, not a third Figure 4 panel.  

@@ -21,7 +21,7 @@ Do not quote `results/canonical` siblings that predate the freeze ENV.
 
 - Pre-fix EGFR AUROCs 0.430 / 0.808 / 0.378 as current results.
 - PR #35 reconstructed EGFR 0.760 / 9.505 Å as current SI Table S2.
-- Five-seed archive D vs A 0.6607 (complete-case 28/38/32) as Table 2.
+- Five-seed complete-case D vs A 0.6607 (historical 28/38/32) as Table 2. Current five-seed production D vs A is 0.6564 on n = 28/37/32.
 - JAK1/TYK2 document-cluster CI (status `unresolved_mapping_unavailable`).
 - Detectable-effect probabilities as observed power.
 - PIK3CA/PIK3CB as a current primary pair.

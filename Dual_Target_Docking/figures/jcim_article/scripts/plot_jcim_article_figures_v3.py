@@ -191,8 +191,8 @@ def best_desc(D: dict, pair: str) -> tuple[str, float]:
 def five_seed_range(D: dict, pair: str) -> dict:
     """Range of deposited five-seed summary_min values.
 
-    Pairs with comparable_to_current_primary=0 (EGFR/HER2 frozen experimental
-    AUROC, different box realization) must not overlay current primary.
+    Pairs with comparable_to_current_primary=0 must not overlay current primary.
+    EGFR/HER2 corrected-box five-seed rows are comparable.
     """
     rows = [r for r in D["seeds"] if r["pair"] == pair]
     comparable = True

@@ -72,28 +72,7 @@ Official writer: `figures/jcim_article/scripts/update_figures_pr32.py`
 Helper only: `figures/jcim_article/scripts/plot_jcim_article_figures_v3.py` (legacy fig1–fig8 builders archived under `figures/jcim_article/scripts/archive/`)  
 Plotted-value file: `figures/jcim_article/plotted_values_postfix.json` only
 
-Figure 5C reads `results/canonical/five_seed_summary_min.csv`. EGFR/HER2 current primary is **not** overlaid (`five_seed_primary` displayed NA; `comparable_to_current_primary=0`). Other pairs still overlay current primary from the same compatible realization.
-
----
-
-## EGFR five-seed different-box issue isolated
-
-Frozen experimental input kept:
-
-`data/jcim_multiseed_v0/tables/multiseed_auroc_by_seed_EGFR_corrected.csv`
-
-EGFR/HER2 rows in `five_seed_summary_min.csv`:
-
-| Field | Value |
-|-------|--------|
-| `source_kind` | `frozen_experimental_auroc` |
-| `comparable_to_current_primary` | 0 |
-| `realization_status` | `different_box_realization` |
-| `primary_summary_min` | empty |
-
-QA rejects a frozen experimental row that carries current `primary_summary_min`, and excludes those rows from the current five-seed numerical range. Comparable pairs (`comparable_to_current_primary=1`) range **0.3448–0.7262**.
-
-No redocking was performed.
+Figure 5C reads `results/canonical/five_seed_summary_min.csv`. EGFR/HER2 uses corrected-box five-seed Vina scores and current activity-eligible labels (`comparable_to_current_primary=1`). Production seed 20260727 matches Table 2 `summary_min` 0.3237 (n = 28/37/32/12). The five-seed range is 0.3237–0.3504. Figure 5C overlays the current primary seed for all eight pairs.
 
 ---
 
@@ -143,7 +122,7 @@ Hits are explanatory comments only (`Does not use checksums`, `Does not use SHA/
 
 ## Remaining scientific limitations
 
-- EGFR/HER2 five-seed AUROCs are a **different box realization** than the current corrected-box master. They are historical frozen experimental input, not a same-protocol robustness comparison, unless those ligands are redocked (out of scope here).
+- EGFR/HER2 five-seed Vina uses the corrected cognate-heavy-atom boxes and current activity-eligible labels (n = 28/37/32/12). Production seed `summary_min` 0.3237 matches Table 2. Per-ligand scores: `data/jcim_multiseed_v0/tables/scores_vina_mode1_EGFR_corrected_box_fiveseed.csv` (restored from commit `40edc431`; no new docking in this round).
 - Track-B five pairs inherit ChEMBL37 dump panel pChEMBL without assay-row adjudication.
 - AChE `AB_056` remains in Table 2 via panel pChEMBL with no audit rows; excluding it does not move `summary_min`.
 - JAK1/TYK2 document-cluster bootstrap remains `unresolved_mapping_unavailable`.

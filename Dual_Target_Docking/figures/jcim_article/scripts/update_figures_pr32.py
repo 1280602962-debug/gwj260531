@@ -415,8 +415,6 @@ def build_fig5_computational_robustness(D):
             ax.plot(r['median'], i, 'o', color=C['vina'], ms=5.2, zorder=4)
         if r.get('comparable_to_current_primary', 1) and r.get('primary') is not None:
             ax.plot(r['primary'], i, 'D', color=C['desc'], ms=4.4, zorder=5)
-        else:
-            ax.text(0.225, i, 'n.c.', fontsize=5.4, va='center', ha='left', color='0.45', zorder=6)
         plotted_s[p] = r
     ax.axvline(.5, color=C['chance'], ls='--', lw=.85)
     pair_yticks(ax, fontsize=6.5)
@@ -426,8 +424,7 @@ def build_fig5_computational_robustness(D):
         Line2D([], [], color=C['vina'], ls='-', lw=1.4, marker='', label='range'),
         L(C['vina'], 'o', 'median', ms=5.0),
         L(C['desc'], 'D', 'primary seed', ms=4.6),
-        Line2D([], [], color='0.45', ls='none', marker='', label='n.c. = not comparable'),
-    ], loc='upper center', bbox_to_anchor=(.5, -.18), ncol=4, fontsize=5.8)
+    ], loc='upper center', bbox_to_anchor=(.5, -.18), ncol=3, fontsize=5.8)
     P['fig4C'] = plotted_s
     fig.subplots_adjust(left=.16, right=.98, top=.93, bottom=.13)
     save(fig, 'Fig5_computational_realization')

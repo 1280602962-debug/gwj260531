@@ -236,7 +236,7 @@ ECFP4 与 ECFP4+对接评分 AUROC 为同一骨架分组交叉验证下的折外
 
 ## Table S7. 计算实现敏感性：受体替换、独立 GNINA 与 PPARG 重评分
 
-独立 GNINA 生成新姿态，不是对 Vina 姿态重评分。范围是 EGFR/HER2、PIK3CA/mTOR 与 JAK1/TYK2。独立 GNINA 并未对每个配体都返回双端评分（EGFR/HER2 缺 EH120_109；PIK3CA/mTOR 缺 PM48_19；JAK1/TYK2 缺 1 个 dual 和 3 个 B-only）。因此 EGFR/HER2 的 dual–neither 使用 n_neither = 11，而主要 Vina Table 3 为 12。独立 GNINA 的 `summary_min` 区间使用与 Table 2 相同的类别分层、共享 dual 协议。五种子 Vina 范围、固定成员交集和完整病例种子表留在仓库。这些种子上数值有波动，但主要任务和靶对模式未变。EGFR/HER2 的设定差距在五个 Vina 种子上均为正。
+独立 GNINA 生成新姿态，不是对 Vina 姿态重评分。范围是 EGFR/HER2、PIK3CA/mTOR 与 JAK1/TYK2。独立 GNINA 并未对每个配体都返回双端评分（EGFR/HER2 缺 EH120_109；PIK3CA/mTOR 缺 PM48_19；JAK1/TYK2 缺 1 个 dual 和 3 个 B-only）。因此 EGFR/HER2 的 dual–neither 使用 n_neither = 11，而主要 Vina Table 3 为 12。独立 GNINA 的 `summary_min` 区间使用与 Table 2 相同的类别分层、共享 dual 协议。五种子 Vina 使用与主分析相同的盒子，包括校正后的 EGFR/HER2 cognate 重原子盒子。生产种子 20260727 与 Table 2 一致；其余四个种子为重对接。EGFR/HER2 在五个种子上的活性合格计数均为 28 / 37 / 32 / 12。EGFR/HER2 的固定评分任务差（口袋 A 上 dual–neither 减去 dual–B-only）在五个种子上均为正。
 
 **S7a. 独立 GNINA 姿态生成**
 
@@ -270,6 +270,21 @@ ECFP4 与 ECFP4+对接评分 AUROC 为同一骨架分组交叉验证下的折外
 | mTOR → 4JSX | B | 0.639 | 0.692 | 0.639 [0.435, 0.783] |
 
 源：`independent_dock_formulation_v1.csv`；`table2_comparable_by_channel_v1.csv`；`pocket_matched_PM48_alt4JPS_v1.csv`，`..._alt5DXT_v1.csv`，`..._alt4JSX_v1.csv`。刚性 Cα 叠合为探索性分析，已归档于仓库。
+
+**S7d. 五种子 Vina `summary_min`（活性合格标签；盒子与 Table 2 相同）**
+
+| 靶对 | 生产种子 | 五种子最小 | 五种子最大 | 中位数 |
+|------|----------------:|-------------:|-------------:|-------:|
+| EGFR/HER2 | 0.324 | 0.324 | 0.350 | 0.330 |
+| JAK1/JAK2 | 0.588 | 0.574 | 0.592 | 0.588 |
+| JAK1/TYK2 | 0.365 | 0.365 | 0.381 | 0.377 |
+| PIK3CA/mTOR | 0.692 | 0.676 | 0.726 | 0.704 |
+| AChE/BChE | 0.606 | 0.553 | 0.606 | 0.599 |
+| F2/F10 | 0.345 | 0.345 | 0.385 | 0.366 |
+| PPARG/PPARA | 0.649 | 0.649 | 0.691 | 0.651 |
+| PPARA/PPARD | 0.446 | 0.446 | 0.469 | 0.454 |
+
+源：`results/canonical/five_seed_summary_min.csv`。EGFR/HER2 逐种子分数：`data/jcim_multiseed_v0/tables/scores_vina_mode1_EGFR_corrected_box_fiveseed.csv`。
 
 ---
 

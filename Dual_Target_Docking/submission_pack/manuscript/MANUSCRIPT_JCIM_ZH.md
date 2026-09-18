@@ -129,7 +129,7 @@ ECFP4、仅对接评分（docking-only）和 ECFP4+对接评分模型均采用�
 
 #### 2.6.3 稳健性与外部数据可用性分析
 
-通过改变活性阈值及重复活性记录的汇总方式重新确定实验状态，并在保持评价集成员和对接评分不变的条件下重复主要分析（Table S3）。对于具有足够剩余候选配体的靶对，在排除主评价集成员后构建未使用池留出集。留出配体使用固定抽样规则，并限制单一 Bemis–Murcko 骨架的过度重复。该分析使用不同配体重新计算主要方向性 AUROC，用于评价对接结果对评价集成员组成的敏感性。由于这些配体仍来自同一数据来源，该分析属于内部稳健性检验（Table S6）。另通过五个固定随机种子重复主要 Vina 对接，并在 PIK3CA/mTOR 中比较不同 exhaustiveness 设置。完整病例计数和固定成员交集留在仓库。二项正态 detectable-effect 仿真使用当前八对类别样本量和与 Table 2 相同的类别分层、共享 dual bootstrap。
+通过改变活性阈值及重复活性记录的汇总方式重新确定实验状态，并在保持评价集成员和对接评分不变的条件下重复主要分析（Table S3）。对于具有足够剩余候选配体的靶对，在排除主评价集成员后构建未使用池留出集。留出配体使用固定抽样规则，并限制单一 Bemis–Murcko 骨架的过度重复。该分析使用不同配体重新计算主要方向性 AUROC，用于评价对接结果对评价集成员组成的敏感性。由于这些配体仍来自同一数据来源，该分析属于内部稳健性检验（Table S6）。另通过五个固定随机种子重复主要 Vina 对接，所用对接盒与主分析相同（EGFR/HER2 使用校正后的 cognate 重原子盒子），并在 PIK3CA/mTOR 中比较不同 exhaustiveness 设置。完整病例计数和固定成员交集留在仓库。二项正态 detectable-effect 仿真使用当前八对类别样本量和与 Table 2 相同的类别分层、共享 dual bootstrap。
 
 BindingDB[16] 和 PubChem 对全部八个靶对检索独立外部对接集的候选数据。外部对接采用 \(\theta=6.0\) 独立性过滤（Table S8）。开发分子集合包括主评价集、扩大的 PIK3CA/mTOR PM110 面板和内部留出集。剔除共享文献来源、结构重复和 ECFP4 Tanimoto \(\geq 0.70\) 的分子后，要求 dual、A-only、B-only 各 \(n\geq 20\) 且每类至少 3 个来源。只有同时满足上述条件的靶对才进入外部对接评价。
 
@@ -215,7 +215,7 @@ BindingDB[16] 和 PubChem 对全部八个靶对检索独立外部对接集的候
 
 在 PIK3CA/mTOR 中，将 PIK3CA 受体由 4L23 替换为 4JPS 后，\(\mathrm{summary}_{\min}\) 从 0.692 [0.480, 0.802] 降至 0.486 [0.264, 0.694]；替换为 5DXT 后为 0.505 [0.296, 0.713]；将 mTOR 4JT6 替换为 4JSX 后为 0.639 [0.435, 0.783]（Figure 5B；Table S7）。
 
-五个固定 Vina 随机种子产生的数值波动相对任务和受体效应更为有限（Figure 5C）。EGFR/HER2 的固定评分任务差在五个种子上均为正。PPARG/PPARA 的同姿态 RTMScore 与 GNINA CNN 重评分见 Table S7。PPARG/PPARA 是唯一主分析 Vina \(\mathrm{summary}_{\min}\) 区间完全高于 0.5 的靶对（0.649 [0.511, 0.746]）；RTMScore 重评分后降至 0.369 [0.237, 0.478]，GNINA CNN 重评分降至 0.500 [0.347, 0.632]。
+五个固定 Vina 随机种子产生的数值波动相对任务和受体效应更为有限（Figure 5C；Table S7）。EGFR/HER2 使用与 Table 2 相同的校正 cognate 重原子盒子；生产种子与主分析 \(\mathrm{summary}_{\min}\) 0.324 一致，五种子范围为 0.324–0.350。EGFR/HER2 的固定评分任务差在五个种子上均为正。PPARG/PPARA 的同姿态 RTMScore 与 GNINA CNN 重评分见 Table S7。PPARG/PPARA 是唯一主分析 Vina \(\mathrm{summary}_{\min}\) 区间完全高于 0.5 的靶对（0.649 [0.511, 0.746]）；RTMScore 重评分后降至 0.369 [0.237, 0.478]，GNINA CNN 重评分降至 0.500 [0.347, 0.632]。
 
 ![Figure 5](../figures/jcim_article/Fig5_computational_realization.png)
 

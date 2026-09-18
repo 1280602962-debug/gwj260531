@@ -26,7 +26,7 @@ Regenerate: `python3 figures/jcim_article/scripts/update_figures_pr32.py --sourc
 
 ## Figure 5. Computational robustness.
 
-(A) Independent GNINA versus Vina on EGFR/HER2, PIK3CA/mTOR, and JAK1/TYK2: directional summary_min and dual-versus-neither. Corrected EGFR box: D-versus-B-only ≈ 0.265; D-versus-neither ≈ 0.737. (B) PIK3CA/mTOR receptor substitution of primary 4L23 / 4JT6 by 4JPS, 5DXT, or 4JSX. (C) Five-seed summary_min range, eight pairs. The figure asks whether results depend on a single docking realization. RTMScore / CNN rescoring is Table S7.
+(A) Independent GNINA versus Vina on EGFR/HER2, PIK3CA/mTOR, and JAK1/TYK2: directional summary_min and dual-versus-neither. Corrected EGFR box: D-versus-B-only ≈ 0.265; D-versus-neither ≈ 0.737. (B) PIK3CA/mTOR receptor substitution of primary 4L23 / 4JT6 by 4JPS, 5DXT, or 4JSX. (C) Five-seed summary_min range, eight pairs, same boxes as Table 2 (EGFR/HER2 corrected-box). The figure asks whether results depend on a single docking realization. RTMScore / CNN rescoring is Table S7.
 
 ## Figure S1. Ligand-chemistry detail.
 

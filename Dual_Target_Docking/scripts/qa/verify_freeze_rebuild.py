@@ -362,29 +362,24 @@ def check_pocket(packs, matched, hold):
 
 def check_five_seed(seed_rows, smin_rows):
     primary = {r["pair"]: r["summary_min"] for r in smin_rows}
-    if not (ROOT / "data/jcim_multiseed_v0/tables/multiseed_auroc_by_seed_EGFR_corrected.csv").is_file():
-        fail("EGFR frozen experimental five-seed AUROC file missing")
+    if not (ROOT / "data/jcim_multiseed_v0/tables/scores_vina_mode1_EGFR_corrected_box_fiveseed.csv").is_file():
+        fail("EGFR corrected-box five-seed score file missing")
     comparable_vals = []
     for r in seed_rows:
-        kind = r.get("source_kind", "")
         comparable = str(r.get("comparable_to_current_primary", "")).strip()
-        if kind == "frozen_experimental_auroc" and comparable in {"0", "False", "false"}:
-            if str(r.get("primary_summary_min", "")).strip() != "":
-                fail(f"{r['pair']} seed {r['seed']} frozen experimental row carries primary_summary_min={r.get('primary_summary_min')!r}")
-            if r.get("realization_status") != "different_box_realization":
-                fail(f"{r['pair']} seed {r['seed']} realization_status={r.get('realization_status')}")
-            continue
-        if comparable in {"1", "True", "true", ""}:
-            comparable_vals.append(float(r["summary_min"]))
-            if r.get("primary_summary_min") != primary[r["pair"]]:
-                fail(f"{r['pair']} seed {r['seed']} primary_summary_min {r.get('primary_summary_min')} vs {primary[r['pair']]}")
-        else:
+        if comparable not in {"1", "True", "true"}:
             fail(f"{r['pair']} seed {r['seed']} unexpected comparable_to_current_primary={comparable}")
+        comparable_vals.append(float(r["summary_min"]))
+        if r.get("primary_summary_min") != primary[r["pair"]]:
+            fail(f"{r['pair']} seed {r['seed']} primary_summary_min {r.get('primary_summary_min')} vs {primary[r['pair']]}")
+        if r["pair"] == "EGFR/HER2" and str(r["seed"]) == "20260727":
+            if abs(float(r["summary_min"]) - float(primary["EGFR/HER2"])) > 1e-4:
+                fail(f"EGFR production five-seed {r['summary_min']} vs Table 2 {primary['EGFR/HER2']}")
     if not comparable_vals:
-        fail("no comparable five-seed rows for current-protocol range")
+        fail("no comparable five-seed rows")
     NOTES.append(
         f"five-seed comparable range {min(comparable_vals):.4f}–{max(comparable_vals):.4f} "
-        f"(EGFR frozen experimental excluded)"
+        f"(EGFR corrected-box included)"
     )
 
 

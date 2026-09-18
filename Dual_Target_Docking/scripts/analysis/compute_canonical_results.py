@@ -20,7 +20,7 @@ from analysis.analysis_config import (  # noqa: E402
     COGNATE_RMSD_SOURCE,
     E8_SCORE_SOURCE,
     EXTERNAL_ELIGIBILITY_SOURCE,
-    FIVE_SEED_EGFR_FROZEN_AUROC,
+    FIVE_SEED_EGFR_CORRECTED_BOX_SCORES,
     FIVE_SEED_LONG_SCORES,
     FIVE_SEED_TRACKB_TEMPLATE,
     FIVE_SEEDS,
@@ -698,51 +698,28 @@ def _load_five_seed_scores():
             else:
                 continue
             wide.setdefault((pair, int(r.get("seed") or seed), r["ligand"]), {})[pocket] = sc
+    if FIVE_SEED_EGFR_CORRECTED_BOX_SCORES.is_file():
+        pocket_of = {"3POZ": "A", "3RCD": "B"}
+        for r in read_csv(FIVE_SEED_EGFR_CORRECTED_BOX_SCORES):
+            energy = parse_finite(r.get("vina_mode1"))
+            pocket = pocket_of.get(r.get("pdb"))
+            if energy is None or pocket is None:
+                continue
+            wide.setdefault(("EGFR/HER2", int(r["seed"]), r["ligand"]), {})[pocket] = -energy
     return wide
 
 
 def compute_five_seed(packs, smin_rows):
     """Per-seed summary_min from deposited seed scores + current labels.
 
-    EGFR/HER2 frozen experimental AUROCs use a different box realization than
-    the current corrected-box master. Those rows are retained as historical
-    experimental input, marked not comparable, and must not carry the current
-    primary_summary_min.
+    EGFR/HER2 uses corrected-box five-seed Vina scores (production seed 20260727
+    reused from the current ablation table; 20260811–14 redocked in the same
+    boxes). All eight pairs are complete-case on the current eligible panel.
     """
     primary = {r["pair"]: float(r["summary_min"]) for r in smin_rows}
     wide = _load_five_seed_scores()
     out = []
-    frozen_egfr = {}
-    if FIVE_SEED_EGFR_FROZEN_AUROC.is_file():
-        for r in read_csv(FIVE_SEED_EGFR_FROZEN_AUROC):
-            frozen_egfr[int(r["seed"])] = r
     for pair in PRIMARY_PAIRS:
-        if pair == "EGFR/HER2":
-            for seed in FIVE_SEEDS:
-                r = frozen_egfr.get(seed)
-                if r is None:
-                    continue
-                out.append(
-                    {
-                        "pair": pair,
-                        "seed": seed,
-                        "n": r["n_complete"],
-                        "n_dual": r["n_dual"],
-                        "n_A_only": r["n_A_only"],
-                        "n_B_only": r["n_B_only"],
-                        "n_neither": r.get("n_neither", ""),
-                        "auroc_D_vs_A_pocketB": r["auroc_dual_vs_A_only"],
-                        "auroc_D_vs_B_pocketA": r["auroc_dual_vs_B_only"],
-                        "summary_min": r["summary_min"],
-                        "primary_summary_min": "",
-                        "comparable_to_current_primary": 0,
-                        "realization_status": "different_box_realization",
-                        "source": str(FIVE_SEED_EGFR_FROZEN_AUROC.relative_to(ROOT)),
-                        "source_kind": "frozen_experimental_auroc",
-                        "note": "historical frozen experimental AUROC; different box than current corrected-box master; not a protocol robustness comparison",
-                    }
-                )
-            continue
         for seed in FIVE_SEEDS:
             recs = []
             for r in packs[pair]:

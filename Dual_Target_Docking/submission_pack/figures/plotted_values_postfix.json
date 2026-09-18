@@ -2391,10 +2391,10 @@
       "panel": "C",
       "pair": "EGFR/HER2",
       "metric": "five_seed_primary",
-      "source_file": "results/canonical/five_seed_summary_min.csv",
+      "source_file": "results/canonical/primary_summary_min.csv",
       "source_row": "EGFR/HER2",
-      "raw_value": "NA",
-      "displayed_value": "NA"
+      "raw_value": 0.3237,
+      "displayed_value": "0.324"
     },
     {
       "figure": "Figure 5",
@@ -2403,8 +2403,8 @@
       "metric": "five_seed_comparable",
       "source_file": "results/canonical/five_seed_summary_min.csv",
       "source_row": "EGFR/HER2",
-      "raw_value": 0.0,
-      "displayed_value": "0"
+      "raw_value": 1.0,
+      "displayed_value": "1"
     },
     {
       "figure": "Figure 5",
@@ -2413,8 +2413,8 @@
       "metric": "five_seed_realization",
       "source_file": "results/canonical/five_seed_summary_min.csv",
       "source_row": "EGFR/HER2",
-      "raw_value": "different_box_realization",
-      "displayed_value": "different_box_realization"
+      "raw_value": "current_or_compatible",
+      "displayed_value": "current_or_compatible"
     },
     {
       "figure": "Figure 5",
@@ -4214,13 +4214,13 @@
     ],
     "fig4C": {
       "EGFR/HER2": {
-        "primary": null,
+        "primary": 0.3237,
         "median": 0.3304,
         "min": 0.3237,
         "max": 0.3504,
         "n": 5,
-        "comparable_to_current_primary": 0,
-        "realization_status": "different_box_realization"
+        "comparable_to_current_primary": 1,
+        "realization_status": "current_or_compatible"
       },
       "JAK1/JAK2": {
         "primary": 0.5884,

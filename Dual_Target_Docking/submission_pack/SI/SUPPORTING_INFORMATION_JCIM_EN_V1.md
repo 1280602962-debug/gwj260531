@@ -239,7 +239,7 @@ Source: `results/canonical/matched_mismatched_pocket.csv`; `results/canonical/ho
 
 ## Table S7. Computational realization: receptor substitution, independent GNINA, and PPARG rescoring
 
-Independent GNINA searches new poses; it is not a Vina rescore. Scope is EGFR/HER2, PIK3CA/mTOR, and JAK1/TYK2. Independent GNINA did not return both-end scores for every ligand (EGFR/HER2 EH120_109; PIK3CA/mTOR PM48_19; JAK1/TYK2 one dual and three B-only). EGFR/HER2 dual-versus-neither therefore uses n_neither = 11 versus 12 in the primary Vina Table 3. Independent-GNINA `summary_min` intervals below use the same class-stratified shared-dual protocol as Table 2. Five-seed Vina ranges, fixed-membership intersections, and complete-case seed tables are archived in the repository. Across those seeds the numerical values fluctuated, but the main task and pair-level patterns did not change. The EGFR/HER2 task difference was positive on all five Vina seeds.
+Independent GNINA searches new poses; it is not a Vina rescore. Scope is EGFR/HER2, PIK3CA/mTOR, and JAK1/TYK2. Independent GNINA did not return both-end scores for every ligand (EGFR/HER2 EH120_109; PIK3CA/mTOR PM48_19; JAK1/TYK2 one dual and three B-only). EGFR/HER2 dual-versus-neither therefore uses n_neither = 11 versus 12 in the primary Vina Table 3. Independent-GNINA `summary_min` intervals below use the same class-stratified shared-dual protocol as Table 2. Five-seed Vina used the same boxes as the primary analysis, including the corrected EGFR/HER2 cognate-heavy-atom boxes. Production seed 20260727 matches Table 2; the other four seeds were redocked. EGFR/HER2 activity-eligible counts are 28 / 37 / 32 / 12 on all five seeds. The EGFR/HER2 fixed-score task difference (dual-versus-neither minus dual-versus-B-only on pocket A) was positive on all five seeds.
 
 **S7a. Independent GNINA pose generation**
 
@@ -273,6 +273,21 @@ One pocket at a time: the other pocket keeps frozen main-panel scores. Only this
 | mTOR → 4JSX | B | 0.639 | 0.692 | 0.639 [0.435, 0.783] |
 
 Source: `independent_dock_formulation_v1.csv`; `table2_comparable_by_channel_v1.csv`; `pocket_matched_PM48_alt4JPS_v1.csv`, `..._alt5DXT_v1.csv`, `..._alt4JSX_v1.csv`. Rigid Cα superposition was exploratory and is archived in the repository.
+
+**S7d. Five-seed Vina `summary_min` (activity-eligible labels; same boxes as Table 2)**
+
+| Pair | Production seed | Five-seed min | Five-seed max | Median |
+|------|----------------:|-------------:|-------------:|-------:|
+| EGFR/HER2 | 0.324 | 0.324 | 0.350 | 0.330 |
+| JAK1/JAK2 | 0.588 | 0.574 | 0.592 | 0.588 |
+| JAK1/TYK2 | 0.365 | 0.365 | 0.381 | 0.377 |
+| PIK3CA/mTOR | 0.692 | 0.676 | 0.726 | 0.704 |
+| AChE/BChE | 0.606 | 0.553 | 0.606 | 0.599 |
+| F2/F10 | 0.345 | 0.345 | 0.385 | 0.366 |
+| PPARG/PPARA | 0.649 | 0.649 | 0.691 | 0.651 |
+| PPARA/PPARD | 0.446 | 0.446 | 0.469 | 0.454 |
+
+Source: `results/canonical/five_seed_summary_min.csv`. EGFR/HER2 per-seed scores: `data/jcim_multiseed_v0/tables/scores_vina_mode1_EGFR_corrected_box_fiveseed.csv`.
 
 ---
 

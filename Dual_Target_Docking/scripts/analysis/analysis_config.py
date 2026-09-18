@@ -106,7 +106,9 @@ FIVE_SEED_LONG_SCORES = ROOT / "data/jcim_multiseed_v0/tables/multiseed_scores_l
 FIVE_SEED_TRACKB_TEMPLATE = (
     ROOT / "data/jcim_chembl_universe_v0/local_track_b_v0/tables/multiseed/scores_vina_mode1_seed{seed}.csv"
 )
-FIVE_SEED_EGFR_FROZEN_AUROC = ROOT / "data/jcim_multiseed_v0/tables/multiseed_auroc_by_seed_EGFR_corrected.csv"
+FIVE_SEED_EGFR_CORRECTED_BOX_SCORES = (
+    ROOT / "data/jcim_multiseed_v0/tables/scores_vina_mode1_EGFR_corrected_box_fiveseed.csv"
+)
 PM110_SCORE_SOURCE = ROOT / "data/pik3ca_mtor_panel110_rdkit_v0/tables/ablation_ligand_scores.csv"
 E8_SCORE_SOURCE = ROOT / "data/pik3ca_mtor_panel48_rdkit_v0/tables/scores_vina_E8_best.csv"
 EXTERNAL_ELIGIBILITY_SOURCE = ROOT / "data/jcim_novelty_v0/tables/external_slice_summary_v1.csv"

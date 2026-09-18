@@ -100,40 +100,40 @@ def provenance_summary(master: list[dict]) -> list[dict]:
     return rows
 
 
-def check_five_seed_isolation() -> None:
+def check_five_seed_comparable() -> None:
     seeds = read_csv(ROOT / "results/canonical/five_seed_summary_min.csv")
+    smin = {r["pair"]: r for r in read_csv(ROOT / "results/canonical/primary_summary_min.csv")}
     comparable_vals = []
+    egfr_primary = None
     for r in seeds:
-        kind = r.get("source_kind", "")
         comparable = str(r.get("comparable_to_current_primary", "")).strip()
-        if kind == "frozen_experimental_auroc" and comparable == "0":
-            if str(r.get("primary_summary_min", "")).strip() != "":
-                fail(f"frozen five-seed {r['pair']} seed {r['seed']} has primary_summary_min")
-            continue
-        if comparable == "1":
-            comparable_vals.append(float(r["summary_min"]))
-        else:
-            fail(f"unexpected five-seed comparable flag {r['pair']} {r['seed']} {comparable}")
+        if comparable != "1":
+            fail(f"five-seed {r['pair']} seed {r['seed']} not comparable ({comparable})")
+        if r.get("realization_status") != "current_or_compatible":
+            fail(f"five-seed {r['pair']} seed {r['seed']} status={r.get('realization_status')}")
+        comparable_vals.append(float(r["summary_min"]))
+        if r["pair"] == "EGFR/HER2" and str(r["seed"]) == "20260727":
+            egfr_primary = r
+            if abs(float(r["summary_min"]) - float(smin["EGFR/HER2"]["summary_min"])) > 1e-4:
+                fail(f"EGFR five-seed production summary_min {r['summary_min']} vs Table 2 {smin['EGFR/HER2']['summary_min']}")
+            if (int(r["n_dual"]), int(r["n_A_only"]), int(r["n_B_only"])) != (
+                int(smin["EGFR/HER2"]["n_dual"]),
+                int(smin["EGFR/HER2"]["n_A_only"]),
+                int(smin["EGFR/HER2"]["n_B_only"]),
+            ):
+                fail(f"EGFR five-seed production class counts {r['n_dual']}/{r['n_A_only']}/{r['n_B_only']}")
+    if egfr_primary is None:
+        fail("EGFR five-seed production seed 20260727 missing")
     plotted = json.loads((ROOT / "figures/jcim_article/plotted_values_postfix.json").read_text(encoding="utf-8"))
     nested = plotted.get("nested_plotted") or {}
     fig4c = nested.get("fig4C") or {}
     egfr = fig4c.get("EGFR/HER2") or {}
-    if egfr.get("comparable_to_current_primary") not in (0, "0", False):
-        fail(f"Figure 5C EGFR still marked comparable {egfr}")
-    if egfr.get("primary") not in (None, "", "NA"):
-        fail(f"Figure 5C overlays current primary on EGFR five-seed {egfr.get('primary')}")
-    recs = plotted.get("records") or []
-    for rec in recs:
-        if rec.get("figure") == "Figure 5" and rec.get("panel") == "C" and rec.get("pair") == "EGFR/HER2":
-            if rec.get("metric") == "five_seed_primary" and rec.get("displayed_value") not in {"NA", "n.c.", ""}:
-                try:
-                    float(rec.get("raw_value"))
-                except (TypeError, ValueError):
-                    continue
-                else:
-                    fail("Figure 5C plotted EGFR five_seed_primary numeric overlay")
+    if int(egfr.get("comparable_to_current_primary", 0)) != 1:
+        fail(f"Figure 5C EGFR not marked comparable {egfr}")
+    if egfr.get("primary") in (None, "", "NA"):
+        fail("Figure 5C missing EGFR five-seed primary overlay")
     print(
-        f"PASS: EGFR five-seed isolated; comparable range "
+        f"PASS: EGFR five-seed corrected-box comparable; range "
         f"{min(comparable_vals):.4f}–{max(comparable_vals):.4f}"
     )
 
@@ -281,7 +281,7 @@ def main() -> int:
         fail(f"Figure 3B plotted max |Δ|={plotted_max} != canonical {max_abs}")
 
     check_folds()
-    check_five_seed_isolation()
+    check_five_seed_comparable()
     check_pack_tables()
     check_leftovers()
 
@@ -307,11 +307,11 @@ def main() -> int:
     if any(r.get("bootstrap") != "class_stratified_shared_dual" for r in det):
         fail("detectable-effect bootstrap is not class_stratified_shared_dual")
 
-    frozen = ROOT / "data/jcim_multiseed_v0/tables/multiseed_auroc_by_seed_EGFR_corrected.csv"
-    if not frozen.is_file():
-        fail("EGFR frozen experimental five-seed file deleted")
+    scores = ROOT / "data/jcim_multiseed_v0/tables/scores_vina_mode1_EGFR_corrected_box_fiveseed.csv"
+    if not scores.is_file():
+        fail("EGFR corrected-box five-seed score file missing")
 
-    print("PASS: current score master, Table 2 replay, provenance, five-seed isolation, plotted ECFP, pack tables")
+    print("PASS: current score master, Table 2 replay, provenance, five-seed corrected-box, plotted ECFP, pack tables")
     return 0
 
 

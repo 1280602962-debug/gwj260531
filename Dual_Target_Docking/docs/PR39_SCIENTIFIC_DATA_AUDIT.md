@@ -79,7 +79,7 @@ Independent replay from `current_score_master`: directional AUROC, shared-dual c
 | Matched vs mismatched | Only AChE/BChE main-panel interval excludes 0. EGFR includes 0. Seven holdouts include 0. EGFR has no holdout |
 | Independent GNINA | EGFR/HER2, PIK3CA/mTOR, JAK1/TYK2 from deposited pose scores + current labels. Distinct from CNN rescoring of Vina poses |
 | Receptor substitution | 4JPS / 5DXT / 4JSX. `primary_summary_min` copied from rebuilt Table 2 (0.6921), not hard-coded |
-| Five-seed Vina | Canonical `five_seed_summary_min.csv`. EGFR copied from frozen experimental AUROC (deposited long scores are a different box realization; n_A = 38 in that frozen table). Other pairs recomputed from deposited per-seed scores + current labels |
+| Five-seed Vina | Canonical `five_seed_summary_min.csv`. EGFR/HER2 from corrected-box per-seed scores + current activity-eligible labels (n = 28/37/32/12). Production seed matches Table 2 (0.3237). Other pairs unchanged: deposited per-seed scores + current labels |
 | Same-pose RTM / CNN | Recomputed from `scores_rtm_best9_v1.csv` and `scores_gnina_cnn_best9_v1.csv` into `computational_robustness.csv`. PPARG/PPARA RTM 0.3691 [0.2369, 0.4776]; CNN 0.5000 [0.3467, 0.6321]. Notes mark “not independent pose generation” |
 | RMSD | 14 primary slots from unified CalcRMS. EGFR 3POZ top-1 1.019 Å; HER2 3RCD top-1 1.947 Å. 0.760 Å / 9.505 Å absent. JAK2, mTOR, BChE, PPARG, PPARA: top-1 ≥ 2 Å and lowest saved pose < 2 Å (search coverage, not top-1 ranking) |
 
@@ -199,7 +199,7 @@ These are genuine unresolved boundaries, not open calculation bugs:
 3. The eight pair observations are not eight independent biological replicates: JAK1 and PPARA are reused.
 4. Pointwise CIs are not multiplicity-adjusted. No eight-pair global inference was added.
 5. PIK3CA/PIK3CB is not in the primary eight-pair panel.
-6. EGFR five-seed AUROCs are a frozen experimental table from a different box realization than the current corrected-box master and must not be mixed with current scores.
+6. EGFR/HER2 five-seed scores are the corrected-box realization restored from commit `40edc431` and recomputed with current activity-eligible labels. They are comparable to Table 2.
 7. Table S1 still typesets a Python 3.12.13 patch that is not an analysis pin; the freeze used 3.12.3. Scientific package pins match.
 8. Some SI “Source:” filename strings still name deleted historical CSVs. Typeset numbers come from `results/canonical`. Prose was not rewritten.
 
