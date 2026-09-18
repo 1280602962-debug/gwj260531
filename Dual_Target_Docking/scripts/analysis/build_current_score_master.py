@@ -14,35 +14,14 @@ Writes:
 from __future__ import annotations
 
 import csv
-import math
 import sys
 from collections import Counter, defaultdict
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "scripts"))
+from analysis.analysis_config import PRIMARY_PAIRS, RECEPTORS, add_io_args, io_paths, parse_finite  # noqa: E402
 from analysis.bootstrap_metrics import assign_fourclass  # noqa: E402
-
-PRIMARY_PAIRS = (
-    "EGFR/HER2",
-    "JAK1/JAK2",
-    "JAK1/TYK2",
-    "PIK3CA/mTOR",
-    "AChE/BChE",
-    "F2/F10",
-    "PPARG/PPARA",
-    "PPARA/PPARD",
-)
-RECEPTORS = {
-    "EGFR/HER2": ("3POZ", "3RCD"),
-    "JAK1/JAK2": ("6N7A", "8BXH"),
-    "JAK1/TYK2": ("6N7A", "3LXP"),
-    "PIK3CA/mTOR": ("4L23", "4JT6"),
-    "AChE/BChE": ("4EY7", "4BDS"),
-    "F2/F10": ("4UDW", "2JKH"),
-    "PPARG/PPARA": ("9V8H", "6LXA"),
-    "PPARA/PPARD": ("6LXA", "5U3Q"),
-}
 FIELDS = [
     "pair",
     "ligand_id",
@@ -72,15 +51,7 @@ FIELDS = [
 
 
 def fnum(v):
-    if v is None or v == "":
-        return None
-    try:
-        x = float(v)
-    except (TypeError, ValueError):
-        return None
-    if not math.isfinite(x):
-        return None
-    return x
+    return parse_finite(v)
 
 
 def read_csv(path: Path) -> list[dict]:
@@ -441,6 +412,18 @@ def apply_adjudication(rows: list[dict]) -> list[dict]:
 
 
 def main() -> int:
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Build the unique current per-ligand score master (zero-dock).")
+    add_io_args(parser)
+    parser.add_argument(
+        "--also-canonical",
+        action="store_true",
+        help="Also write data/processed and results/canonical (default freeze rebuild writes only --outdir).",
+    )
+    args = parser.parse_args()
+    outdir, _master = io_paths(args.outdir, args.master)
+
     rows = []
     rows.extend(load_egfr())
     rows.extend(load_ache())
@@ -449,7 +432,6 @@ def main() -> int:
     rows.extend(load_holdout_ab_pm())
     rows.extend(load_holdout_track_b())
     rows = apply_adjudication(rows)
-    # uniqueness
     seen = set()
     for r in rows:
         key = (r["pair"], r["ligand_id"], r["analysis_set"])
@@ -457,15 +439,22 @@ def main() -> int:
             raise SystemExit(f"duplicate master key {key}")
         seen.add(key)
     rows.sort(key=lambda r: (PRIMARY_PAIRS.index(r["pair"]) if r["pair"] in PRIMARY_PAIRS else 99, r["analysis_set"], r["ligand_id"]))
-    dests = [
-        ROOT / "data/processed/current_score_master.csv",
-        ROOT / "results/canonical/current_score_master.csv",
-    ]
+    dests = [outdir / "current_score_master.csv"]
+    if args.also_canonical or args.outdir is None:
+        dests.extend(
+            [
+                ROOT / "data/processed/current_score_master.csv",
+                ROOT / "results/canonical/current_score_master.csv",
+            ]
+        )
+    written = []
     for dest in dests:
+        dest.parent.mkdir(parents=True, exist_ok=True)
         write_csv(dest, rows)
-        print("wrote", dest.relative_to(ROOT), len(rows))
+        written.append(str(dest))
+        print("wrote", dest, len(rows))
     report = compare_membership(rows)
-    rep = ROOT / "results/canonical/score_master_migration_diff.md"
+    rep = outdir / "score_master_migration_diff.md"
     rep.parent.mkdir(parents=True, exist_ok=True)
     rep.write_text(report, encoding="utf-8")
     print(report)

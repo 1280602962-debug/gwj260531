@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import csv
-import math
 import sys
 from pathlib import Path
 
@@ -15,6 +14,7 @@ RDLogger.DisableLog("rdApp.*")
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "scripts"))
+from analysis.analysis_config import DESCRIPTOR_NAMES, PRIMARY_PAIRS, add_io_args, io_paths, is_primary_row  # noqa: E402
 from analysis.bootstrap_metrics import (  # noqa: E402
     N_BOOT,
     SEED,
@@ -25,17 +25,6 @@ from analysis.bootstrap_metrics import (  # noqa: E402
 
 CANON = ROOT / "results" / "canonical"
 MASTER = CANON / "current_score_master.csv"
-PRIMARY_PAIRS = (
-    "EGFR/HER2",
-    "JAK1/JAK2",
-    "JAK1/TYK2",
-    "PIK3CA/mTOR",
-    "AChE/BChE",
-    "F2/F10",
-    "PPARG/PPARA",
-    "PPARA/PPARD",
-)
-DESCS = ("tpsa", "clogp", "heavy")
 
 
 def read_csv(path: Path) -> list[dict]:
@@ -54,9 +43,7 @@ def write_csv(path: Path, rows: list[dict]) -> None:
 def load():
     by = {p: [] for p in PRIMARY_PAIRS}
     for r in read_csv(MASTER):
-        if r["analysis_set"] != "main" or r["complete_case"] not in ("1", 1, "True"):
-            continue
-        if str(r.get("activity_eligible", "1")) not in ("1", "True"):
+        if not is_primary_row(r):
             continue
         mol = Chem.MolFromSmiles(r.get("smiles") or "")
         if mol is None:
@@ -82,6 +69,15 @@ def paired_delta(vina_smin, desc_smin, n_boot=N_BOOT, seed=SEED):
 
 
 def main() -> int:
+    import argparse
+
+    global CANON, MASTER
+    parser = argparse.ArgumentParser(description="Single-descriptor baselines from current score master.")
+    add_io_args(parser)
+    args = parser.parse_args()
+    CANON, MASTER = io_paths(args.outdir, args.master)
+    CANON.mkdir(parents=True, exist_ok=True)
+
     packs = load()
     rows = []
     rng_seed = SEED
@@ -93,7 +89,7 @@ def main() -> int:
         vina = summary_min_stratified(sa, sb, cls, n_boot=1, seed=rng_seed)
         desc_smin = {}
         desc_arms = {}
-        for name in DESCS:
+        for name in DESCRIPTOR_NAMES:
             val = np.array([r[name] for r in recs], dtype=float)
             st = summary_min_stratified(val, val, cls, n_boot=1, seed=rng_seed)
             # directional: D vs A uses descriptor as "pocket B" analogue — both arms same feature
@@ -138,7 +134,7 @@ def main() -> int:
             "B": N_BOOT,
             "seed": SEED,
         }
-        for name in DESCS:
+        for name in DESCRIPTOR_NAMES:
             rec[f"{name}_D_vs_A"] = f"{desc_arms[name][0]:.4f}"
             rec[f"{name}_D_vs_B"] = f"{desc_arms[name][1]:.4f}"
             rec[f"{name}_summary_min"] = f"{desc_smin[name]:.4f}"

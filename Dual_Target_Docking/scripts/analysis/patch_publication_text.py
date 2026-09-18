@@ -536,6 +536,7 @@ def patch_zh(text, d):
     )
     text = text.replace("16 个方向的 AUROC 最多变化 0.023", f"16 个方向的 AUROC 最多变化 {r3(inc_abs)}")
     text = text.replace("AUROC 最大绝对变化仅为 0.023", f"AUROC 最大绝对变化为 {r3(inc_abs)}")
+    text = text.replace("AUROC 最大绝对变化为 0.023", f"AUROC 最大绝对变化为 {r3(inc_abs)}")
     text = text.replace(
         "仅 AChE/BChE 的 matched−mismatched \(\mathrm{summary}_{\min}\) 95% 区间排除 0（0.177 [0.050, 0.297]）。EGFR/HER2 为 0.056 [−0.044, 0.160]",
         f"仅 AChE/BChE 的 matched−mismatched \(\mathrm{{summary}}_{{\min}}\) 95% 区间排除 0（{r3(mm_ache['delta'])} {ci(mm_ache['delta_ci_lo'], mm_ache['delta_ci_hi'])}）。EGFR/HER2 为 {r3(mm_egfr['delta'])} {ci(mm_egfr['delta_ci_lo'], mm_egfr['delta_ci_hi'])}",

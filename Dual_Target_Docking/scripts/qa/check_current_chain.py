@@ -130,6 +130,14 @@ def main() -> int:
         if not line_en:
             fail(f"EN Table 2 missing {pair}")
 
+    inc = read_csv(ROOT / "results/canonical/ecfp4_incremental_information.csv")
+    max_abs = max(abs(float(r["delta_ECFP4_plus_docking_minus_ECFP4"])) for r in inc)
+    inc_token = r3(max_abs)
+    if inc_token not in en or inc_token not in zh:
+        fail(f"ECFP incremental |Δ| {inc_token} missing from manuscripts")
+    if "最大绝对变化为 0.023" in zh or "at most 0.023 across" in en:
+        fail("stale ECFP incremental 0.023 remains in manuscript")
+
     pack_en = (ROOT / "submission_pack/manuscript/MANUSCRIPT_JCIM_EN.md").read_text(encoding="utf-8")
     if r3(smin["EGFR/HER2"]["summary_min"]) not in pack_en:
         fail("submission_pack EN manuscript missing EGFR summary_min")

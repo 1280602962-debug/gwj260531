@@ -15,9 +15,20 @@ import numpy as np
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "scripts"))
-from analysis.bootstrap_metrics import (  # noqa: E402
+from analysis.analysis_config import (  # noqa: E402
+    COGNATE_RMSD_SOURCE,
+    GNINA_SOURCES,
     N_BOOT,
+    PRIMARY_PAIRS,
+    RECEPTOR_SUB_SPECS,
     SEED,
+    TOP_FRACTION,
+    add_io_args,
+    io_paths,
+    is_primary_row,
+    parse_finite,
+)
+from analysis.bootstrap_metrics import (  # noqa: E402
     auroc,
     assign_fourclass,
     assign_strict,
@@ -26,33 +37,17 @@ from analysis.bootstrap_metrics import (  # noqa: E402
     fixed_score_delta_stratified,
     fixed_score_delta_unstratified,
     matched_mismatched_paired,
+    stratified_auroc_ci,
     summary_min_stratified,
     summary_min_unstratified,
-    stratified_auroc_ci,
 )
 
-PRIMARY_PAIRS = (
-    "EGFR/HER2",
-    "JAK1/JAK2",
-    "JAK1/TYK2",
-    "PIK3CA/mTOR",
-    "AChE/BChE",
-    "F2/F10",
-    "PPARG/PPARA",
-    "PPARA/PPARD",
-)
 CANON = ROOT / "results" / "canonical"
 MASTER = CANON / "current_score_master.csv"
 
 
 def fnum(v):
-    if v is None or v == "":
-        return None
-    try:
-        x = float(v)
-        return x if math.isfinite(x) else None
-    except (TypeError, ValueError):
-        return None
+    return parse_finite(v)
 
 
 def read_csv(path: Path) -> list[dict]:
@@ -82,11 +77,7 @@ def load_main() -> dict[str, list[dict]]:
     rows = read_csv(MASTER)
     by = {p: [] for p in PRIMARY_PAIRS}
     for r in rows:
-        if r["analysis_set"] != "main" or r["complete_case"] not in ("1", 1, "True"):
-            continue
-        if str(r.get("activity_eligible", "1")) not in ("1", "True"):
-            continue
-        if r["pair"] not in by:
+        if not is_primary_row(r):
             continue
         rec = dict(r)
         rec["score_A"] = float(r["score_A"])
@@ -244,7 +235,7 @@ def compute_ranking(packs):
     rows = []
     for pair, recs in packs.items():
         n = len(recs)
-        k = max(1, math.ceil(0.10 * n))
+        k = max(1, math.ceil(TOP_FRACTION * n))
         ranked = sorted(recs, key=lambda r: (-r["score_mean"], r["ligand_id"]))
         top = ranked[:k]
         ct = Counter(r["cls"] for r in recs)
@@ -259,7 +250,7 @@ def compute_ranking(packs):
                 "n_A_only": ct["A_only"],
                 "n_B_only": ct["B_only"],
                 "n_neither": ct["neither"],
-                "top_fraction": 0.10,
+                "top_fraction": TOP_FRACTION,
                 "top_k": k,
                 "top_dual": topc["dual"],
                 "top_A_only": topc["A_only"],
@@ -269,7 +260,7 @@ def compute_ranking(packs):
                 "panel_dual_fraction": r4(n_dual / n),
                 "ef_dual_10pct": r4(ef) if ef == ef else "",
                 "top_ligand_ids": ";".join(r["ligand_id"] for r in top),
-                "ranking_rule": "k=ceil(0.10 n); S_mean=(score_A+score_B)/2; EF=(top_dual/k)/(n_dual/n)",
+                "ranking_rule": f"k=ceil({TOP_FRACTION:.2f} n); S_mean=(score_A+score_B)/2; EF=(top_dual/k)/(n_dual/n)",
                 "tie_rule": "descending score_mean then ascending ligand ID",
             }
         )
@@ -588,7 +579,7 @@ def compute_holdout():
     rows = read_csv(MASTER)
     by = {}
     for r in rows:
-        if r["analysis_set"] != "holdout" or r["complete_case"] not in ("1", 1, "True"):
+        if not is_primary_row(r, analysis_set="holdout"):
             continue
         rec = dict(r)
         rec["score_A"] = float(r["score_A"])
@@ -625,33 +616,32 @@ def compute_holdout():
 
 
 def copy_rmsd():
-    src = ROOT / "data/jcim_novelty_v0/tables/all14_cognate_rmsd_calcrrms_v1.csv"
-    return read_csv(src) if src.is_file() else []
+    return read_csv(COGNATE_RMSD_SOURCE) if COGNATE_RMSD_SOURCE.is_file() else []
 
 
 def gnina_rows(packs):
-    """Recompute EGFR/PIK3CA GNINA directional AUROC from deposited poses + master classes."""
-    files = {
-        "EGFR/HER2": (ROOT / "data/jcim_independent_dock_v0/tables/gnina_dock_scores_EGFR_HER2.csv", "3POZ", "3RCD"),
-        "PIK3CA/mTOR": (ROOT / "data/jcim_independent_dock_v0/tables/gnina_dock_scores_PIK3CA_mTOR.csv", "4L23", "4JT6"),
-    }
+    """Recompute directional AUROC from deposited GNINA poses + eligible master classes."""
     out = []
-    from analysis.bootstrap_metrics import stratified_auroc_ci
-
-    for pair, (path, pdb_a, pdb_b) in files.items():
+    for pair, (path, pdb_a, pdb_b) in GNINA_SOURCES.items():
         if not path.is_file() or pair not in packs:
             continue
         cls = {r["ligand_id"]: r["cls"] for r in packs[pair]}
         wide = {}
         for r in read_csv(path):
-            lig = r["ligand"]
-            sc = -float(r["gnina_mode1"]) if fnum(r.get("gnina_mode1")) is not None else None
-            if sc is None:
+            lig = r.get("ligand") or r.get("ligand_id")
+            score_s = parse_finite(r.get("score_S"))
+            energy = parse_finite(r.get("gnina_mode1"))
+            if score_s is not None:
+                sc = score_s
+            elif energy is not None:
+                sc = -energy
+            else:
                 continue
             wide.setdefault(lig, {})
-            if r["target"] == pdb_a:
+            tgt = r.get("target")
+            if tgt == pdb_a:
                 wide[lig]["A"] = sc
-            elif r["target"] == pdb_b:
+            elif tgt == pdb_b:
                 wide[lig]["B"] = sc
         recs = []
         for lig, sc in wide.items():
@@ -664,8 +654,6 @@ def gnina_rows(packs):
         sb = np.array([r["score_B"] for r in recs])
         lab = np.array([r["cls"] for r in recs])
         stats = summary_min_stratified(sa, sb, lab, N_BOOT, SEED)
-        dual = [r["score_mean"] if "score_mean" in r else (r["score_A"] + r["score_B"]) / 2 for r in recs if r["cls"] == "dual"]
-        # mean dual vs neither
         dual_m = [(r["score_A"] + r["score_B"]) / 2 for r in recs if r["cls"] == "dual"]
         nei_m = [(r["score_A"] + r["score_B"]) / 2 for r in recs if r["cls"] == "neither"]
         dn, dn_lo, dn_hi = stratified_auroc_ci(dual_m, nei_m, N_BOOT, SEED)
@@ -680,12 +668,80 @@ def gnina_rows(packs):
                 "auroc_D_vs_A_pocketB": r4(stats["auroc_D_vs_A_pocketB"]),
                 "auroc_D_vs_B_pocketA": r4(stats["auroc_D_vs_B_pocketA"]),
                 "auroc_D_vs_neither_mean": r4(dn),
+                "d_vs_neither_ci_lo": r4(dn_lo),
+                "d_vs_neither_ci_hi": r4(dn_hi),
+                "n_neither": sum(1 for r in recs if r["cls"] == "neither"),
                 "source": str(path.relative_to(ROOT)),
                 "note": "another pose-generation realization; not a Vina vs GNINA ranking",
             }
         )
-        _ = (dn_lo, dn_hi, dual)
     return out
+
+
+def receptor_sub(packs, smin_rows):
+    recs = packs["PIK3CA/mTOR"]
+    by_id = {r["ligand_id"]: r for r in recs}
+    primary = next(r["summary_min"] for r in smin_rows if r["pair"] == "PIK3CA/mTOR")
+    out_rows = []
+    extra = []
+    for pdb, path, pocket in RECEPTOR_SUB_SPECS:
+        if not path.is_file():
+            continue
+        alt = {}
+        for r in read_csv(path):
+            if r.get("status") != "success":
+                continue
+            energy = parse_finite(r.get("vina_mode1"))
+            if energy is None:
+                continue
+            alt[r["ligand"]] = -energy
+        labeled = []
+        for lig, base in by_id.items():
+            if lig not in alt:
+                continue
+            sa = alt[lig] if pocket == "A" else base["score_A"]
+            sb = alt[lig] if pocket == "B" else base["score_B"]
+            labeled.append({"cls": base["cls"], "score_A": sa, "score_B": sb})
+        sa = np.array([r["score_A"] for r in labeled])
+        sb = np.array([r["score_B"] for r in labeled])
+        lab = np.array([r["cls"] for r in labeled])
+        stats = summary_min_stratified(sa, sb, lab, N_BOOT, SEED)
+        ct = Counter(lab)
+        row = {
+            "replacement": pdb,
+            "pocket_replaced": pocket,
+            "n": len(labeled),
+            "n_dual": ct["dual"],
+            "n_A_only": ct["A_only"],
+            "n_B_only": ct["B_only"],
+            "auroc_D_vs_A": r4(stats["auroc_D_vs_A_pocketB"]),
+            "auroc_D_vs_B": r4(stats["auroc_D_vs_B_pocketA"]),
+            "summary_min": r4(stats["summary_min"]),
+            "summary_min_ci_lo": r4(stats["summary_min_ci_lo"]),
+            "summary_min_ci_hi": r4(stats["summary_min_ci_hi"]),
+            "primary_summary_min": primary,
+            "note": f"pocket {pocket} replaced by alt receptor; other pocket from current score master; scheme B",
+        }
+        out_rows.append(row)
+        extra.append(
+            {
+                "pair": "PIK3CA/mTOR",
+                "engine": f"vina_alt_{pdb}",
+                "n": row["n"],
+                "summary_min": row["summary_min"],
+                "summary_min_ci_lo": row["summary_min_ci_lo"],
+                "summary_min_ci_hi": row["summary_min_ci_hi"],
+                "auroc_D_vs_A_pocketB": row["auroc_D_vs_A"],
+                "auroc_D_vs_B_pocketA": row["auroc_D_vs_B"],
+                "auroc_D_vs_neither_mean": "",
+                "d_vs_neither_ci_lo": "",
+                "d_vs_neither_ci_hi": "",
+                "n_neither": "",
+                "source": str(path.relative_to(ROOT)),
+                "note": row["note"],
+            }
+        )
+    return out_rows, extra
 
 
 def write_two_pocket_ranking(rank_rows, fixed_rows):
@@ -698,6 +754,8 @@ def write_two_pocket_ranking(rank_rows, fixed_rows):
                 "pair": r["pair"],
                 "n_ranked": r["n_ranked"],
                 "two_pocket_mean_D_vs_neither": m.get("auroc_dual_vs_neither", ""),
+                "ci_lo": m.get("delta_ci_lo", ""),
+                "ci_hi": m.get("delta_ci_hi", ""),
                 "ef_dual_10pct": r["ef_dual_10pct"],
                 "top_k": r["top_k"],
                 "top_dual": r["top_dual"],
@@ -746,7 +804,16 @@ def nonstrat_sensitivity(smin_rows, matched_rows, fixed_sens):
 
 
 def main() -> int:
-    print("loading master")
+    import argparse
+
+    global CANON, MASTER
+    parser = argparse.ArgumentParser(description="Recompute eight-pair primary statistics from the score master.")
+    add_io_args(parser)
+    args = parser.parse_args()
+    CANON, MASTER = io_paths(args.outdir, args.master)
+    CANON.mkdir(parents=True, exist_ok=True)
+
+    print("loading master", MASTER)
     packs = load_main()
     for pair, recs in packs.items():
         print(f"  {pair}: {len(recs)}")
@@ -767,7 +834,9 @@ def main() -> int:
     holdout = compute_holdout()
     print("holdout done")
     gnina = gnina_rows(packs)
-    print("gnina done")
+    print("gnina done", len(gnina))
+    rec_sub, rec_extra = receptor_sub(packs, smin)
+    print("receptor substitution done")
     rmsd = copy_rmsd()
     two_pocket = write_two_pocket_ranking(ranking, fixed)
     sens = nonstrat_sensitivity(smin, matched, fixed_sens)
@@ -829,7 +898,8 @@ def main() -> int:
     write_csv(CANON / "max_vs_median_sensitivity.csv", maxmed)
     write_csv(CANON / "cluster_bootstrap_sensitivity.csv", cluster)
     write_csv(CANON / "holdout_metrics.csv", holdout)
-    write_csv(CANON / "computational_robustness.csv", gnina)
+    write_csv(CANON / "computational_robustness.csv", gnina + rec_extra)
+    write_csv(CANON / "receptor_substitution.csv", rec_sub)
     write_csv(CANON / "cognate_rmsd.csv", rmsd)
     write_csv(CANON / "non_stratified_bootstrap_sensitivity.csv", sens)
 
