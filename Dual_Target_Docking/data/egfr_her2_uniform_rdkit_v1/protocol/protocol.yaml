@@ -1,0 +1,35 @@
+pair: EGFR/HER2
+structures: [3POZ, 3RCD]
+vina: AutoDock Vina 1.2.7
+exhaustiveness: 8
+n_modes: 9
+energy_range: 3
+cpu: 1
+timeout_s: 600
+timeout_policy: skip_record_timeout_skipped
+seeds: [20260727, 20260811, 20260812, 20260813, 20260814]
+production_seed: 20260727
+boxes:
+  3POZ: data/egfr_her2_panel120_v0/boxes/3POZ_box_corrected.json
+  3RCD: data/egfr_her2_panel120_v0/boxes/3RCD_box_corrected.json
+receptors:
+  3POZ: data/egfr_her2_uniform_rdkit_v1/receptors/3POZ_receptor.pdbqt
+  3RCD: data/egfr_her2_uniform_rdkit_v1/receptors/3RCD_receptor.pdbqt
+receptor_source_commit: c213c485
+ligand_prep:
+  method: rdkit_etkdgv3_mmff_meeko
+  all_panel_members: true
+  panel: data/egfr_her2_panel120_v0/tables/panel_v0_120.csv
+  fragment_rule: track_b_largest_heavy_atom
+  rdkit_embed_seed: 20260727
+  mmff_max_iters: 200
+  meeko_version: 0.7.1
+  no_ligprep: true
+  no_openbabel: true
+  no_protonation_enum: true
+note: >
+  Uniform rebuild of all 110 EGFR/HER2 ligands after ligand-prep provenance
+  audit could not recover the PDBQT actually used in prior production docking.
+  Historical LigPrep job logs exist locally but the maegz output and the
+  docked ligand PDBQT files are not recoverable. Do not treat mixed
+  LigPrep/RDKit as current evidence.

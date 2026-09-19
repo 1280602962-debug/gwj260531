@@ -15,9 +15,32 @@ import numpy as np
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "scripts"))
-from analysis.bootstrap_metrics import (  # noqa: E402
+from analysis.analysis_config import (  # noqa: E402
+    CNN_BEST9_SOURCE,
+    COGNATE_RMSD_SOURCE,
+    E8_SCORE_SOURCE,
+    EXTERNAL_ELIGIBILITY_SOURCE,
+    EGFR_UNIFORM_VINA_CSV,
+    FIVE_SEED_EGFR_CORRECTED_BOX_SCORES,
+    FIVE_SEED_LONG_SCORES,
+    FIVE_SEED_TRACKB_TEMPLATE,
+    FIVE_SEEDS,
+    current_gnina_sources,
+    egfr_uniform_ready,
     N_BOOT,
+    PM110_SCORE_SOURCE,
+    PRIMARY_PAIRS,
+    RECEPTOR_SUB_SPECS,
+    RECEPTORS,
+    RTM_BEST9_SOURCE,
     SEED,
+    TOP_FRACTION,
+    add_io_args,
+    io_paths,
+    is_primary_row,
+    parse_finite,
+)
+from analysis.bootstrap_metrics import (  # noqa: E402
     auroc,
     assign_fourclass,
     assign_strict,
@@ -26,33 +49,17 @@ from analysis.bootstrap_metrics import (  # noqa: E402
     fixed_score_delta_stratified,
     fixed_score_delta_unstratified,
     matched_mismatched_paired,
+    stratified_auroc_ci,
     summary_min_stratified,
     summary_min_unstratified,
-    stratified_auroc_ci,
 )
 
-PRIMARY_PAIRS = (
-    "EGFR/HER2",
-    "JAK1/JAK2",
-    "JAK1/TYK2",
-    "PIK3CA/mTOR",
-    "AChE/BChE",
-    "F2/F10",
-    "PPARG/PPARA",
-    "PPARA/PPARD",
-)
 CANON = ROOT / "results" / "canonical"
 MASTER = CANON / "current_score_master.csv"
 
 
 def fnum(v):
-    if v is None or v == "":
-        return None
-    try:
-        x = float(v)
-        return x if math.isfinite(x) else None
-    except (TypeError, ValueError):
-        return None
+    return parse_finite(v)
 
 
 def read_csv(path: Path) -> list[dict]:
@@ -82,17 +89,14 @@ def load_main() -> dict[str, list[dict]]:
     rows = read_csv(MASTER)
     by = {p: [] for p in PRIMARY_PAIRS}
     for r in rows:
-        if r["analysis_set"] != "main" or r["complete_case"] not in ("1", 1, "True"):
-            continue
-        if str(r.get("activity_eligible", "1")) not in ("1", "True"):
-            continue
-        if r["pair"] not in by:
+        if not is_primary_row(r):
             continue
         rec = dict(r)
         rec["score_A"] = float(r["score_A"])
         rec["score_B"] = float(r["score_B"])
         rec["cls"] = r["primary_class_theta6"]
         rec["score_mean"] = (rec["score_A"] + rec["score_B"]) / 2
+        rec["score_worst"] = min(rec["score_A"], rec["score_B"])
         by[r["pair"]].append(rec)
     return by
 
@@ -244,7 +248,7 @@ def compute_ranking(packs):
     rows = []
     for pair, recs in packs.items():
         n = len(recs)
-        k = max(1, math.ceil(0.10 * n))
+        k = max(1, math.ceil(TOP_FRACTION * n))
         ranked = sorted(recs, key=lambda r: (-r["score_mean"], r["ligand_id"]))
         top = ranked[:k]
         ct = Counter(r["cls"] for r in recs)
@@ -259,7 +263,7 @@ def compute_ranking(packs):
                 "n_A_only": ct["A_only"],
                 "n_B_only": ct["B_only"],
                 "n_neither": ct["neither"],
-                "top_fraction": 0.10,
+                "top_fraction": TOP_FRACTION,
                 "top_k": k,
                 "top_dual": topc["dual"],
                 "top_A_only": topc["A_only"],
@@ -269,8 +273,35 @@ def compute_ranking(packs):
                 "panel_dual_fraction": r4(n_dual / n),
                 "ef_dual_10pct": r4(ef) if ef == ef else "",
                 "top_ligand_ids": ";".join(r["ligand_id"] for r in top),
-                "ranking_rule": "k=ceil(0.10 n); S_mean=(score_A+score_B)/2; EF=(top_dual/k)/(n_dual/n)",
+                "ranking_rule": f"k=ceil({TOP_FRACTION:.2f} n); S_mean=(score_A+score_B)/2; EF=(top_dual/k)/(n_dual/n)",
                 "tie_rule": "descending score_mean then ascending ligand ID",
+            }
+        )
+    return rows
+
+
+def compute_and_filter(packs, ranking):
+    rows = []
+    for pair, recs in packs.items():
+        dual_w = [r["score_worst"] for r in recs if r["cls"] == "dual"]
+        thresh = float(np.median(np.asarray(dual_w, dtype=float))) if dual_w else float("nan")
+        usable = [r for r in recs if r["cls"] in {"dual", "A_only", "B_only"}]
+        kept = [r for r in usable if r["score_worst"] >= thresh]
+        ct = Counter(r["cls"] for r in kept)
+        n_dual = sum(1 for r in recs if r["cls"] == "dual")
+        rk = next(r for r in ranking if r["pair"] == pair)
+        rows.append(
+            {
+                **rk,
+                "and_threshold": r4(thresh),
+                "and_n_input": len(usable),
+                "and_n_pass": len(kept),
+                "and_dual": ct["dual"],
+                "and_A_only": ct["A_only"],
+                "and_B_only": ct["B_only"],
+                "and_dual_recall": r4(ct["dual"] / n_dual) if n_dual else "",
+                "and_dual_precision": r4(ct["dual"] / len(kept)) if kept else "",
+                "filter_rule": "score_worst >= median_dual_score_worst; neither excluded",
             }
         )
     return rows
@@ -588,7 +619,7 @@ def compute_holdout():
     rows = read_csv(MASTER)
     by = {}
     for r in rows:
-        if r["analysis_set"] != "holdout" or r["complete_case"] not in ("1", 1, "True"):
+        if not is_primary_row(r, analysis_set="holdout"):
             continue
         rec = dict(r)
         rec["score_A"] = float(r["score_A"])
@@ -625,33 +656,284 @@ def compute_holdout():
 
 
 def copy_rmsd():
-    src = ROOT / "data/jcim_novelty_v0/tables/all14_cognate_rmsd_calcrrms_v1.csv"
-    return read_csv(src) if src.is_file() else []
+    return read_csv(COGNATE_RMSD_SOURCE) if COGNATE_RMSD_SOURCE.is_file() else []
+
+
+def _smin_point(recs):
+    dual = [r for r in recs if r["cls"] == "dual"]
+    a_only = [r for r in recs if r["cls"] == "A_only"]
+    b_only = [r for r in recs if r["cls"] == "B_only"]
+    da = auroc([r["score_B"] for r in dual], [r["score_B"] for r in a_only])
+    db = auroc([r["score_A"] for r in dual], [r["score_A"] for r in b_only])
+    return da, db, min(da, db), len(dual), len(a_only), len(b_only), len(recs)
+
+
+def _load_five_seed_scores():
+    wide = {}
+    skip_egfr_legacy = egfr_uniform_ready()
+    if FIVE_SEED_LONG_SCORES.is_file():
+        for r in read_csv(FIVE_SEED_LONG_SCORES):
+            if skip_egfr_legacy and r.get("pair") == "EGFR/HER2":
+                continue
+            energy = parse_finite(r.get("vina_mode1"))
+            if energy is None:
+                continue
+            seed = int(r["seed"])
+            wide.setdefault((r["pair"], seed, r["ligand"]), {})[r["pocket"]] = -energy
+    for seed in FIVE_SEEDS:
+        path = Path(str(FIVE_SEED_TRACKB_TEMPLATE).format(seed=seed))
+        if not path.is_file():
+            continue
+        for r in read_csv(path):
+            if r.get("status") not in ("success", "ok", "", None):
+                continue
+            pair = r["pair"]
+            if pair not in RECEPTORS:
+                continue
+            pdb_a, pdb_b = RECEPTORS[pair]
+            pocket = "A" if r.get("target") == pdb_a else ("B" if r.get("target") == pdb_b else None)
+            if pocket is None:
+                continue
+            score_s = parse_finite(r.get("score_S"))
+            energy = parse_finite(r.get("mode1_energy"))
+            if score_s is not None:
+                sc = score_s
+            elif energy is not None:
+                sc = -energy
+            else:
+                continue
+            wide.setdefault((pair, int(r.get("seed") or seed), r["ligand"]), {})[pocket] = sc
+    egfr_path = EGFR_UNIFORM_VINA_CSV if skip_egfr_legacy else FIVE_SEED_EGFR_CORRECTED_BOX_SCORES
+    if egfr_path.is_file():
+        pocket_of = {"3POZ": "A", "3RCD": "B"}
+        for r in read_csv(egfr_path):
+            if r.get("status") not in ("ok", "success", "", None):
+                continue
+            energy = parse_finite(r.get("vina_mode1"))
+            pocket = pocket_of.get(r.get("pdb"))
+            if energy is None or pocket is None:
+                continue
+            wide.setdefault(("EGFR/HER2", int(r["seed"]), r["ligand"]), {})[pocket] = -energy
+    return wide
+
+
+def compute_five_seed(packs, smin_rows):
+    """Per-seed available-case summary_min from deposited seed scores + current labels.
+
+    same_protocol_as_primary=1 means the same receptors, boxes, exhaustiveness,
+    and Vina settings as Table 2. same_membership_as_primary=1 only when every
+    seed scores the same ligands as the current primary complete-case set.
+    AChE/BChE keeps protocol but not membership (available-case n changes).
+    comparable_to_current_primary is a deprecated synonym of
+    same_protocol_as_primary and must not be used as a membership identity claim.
+    """
+    primary = {r["pair"]: float(r["summary_min"]) for r in smin_rows}
+    n_primary = {pair: len(recs) for pair, recs in packs.items()}
+    wide = _load_five_seed_scores()
+    staged = {pair: [] for pair in PRIMARY_PAIRS}
+    for pair in PRIMARY_PAIRS:
+        for seed in FIVE_SEEDS:
+            recs = []
+            for r in packs[pair]:
+                sc = wide.get((pair, seed, r["ligand_id"]))
+                if not sc or "A" not in sc or "B" not in sc:
+                    continue
+                recs.append({"cls": r["cls"], "score_A": sc["A"], "score_B": sc["B"], "ligand_id": r["ligand_id"]})
+            da, db, sm, nd, na, nb, n = _smin_point(recs)
+            staged[pair].append(
+                {
+                    "pair": pair,
+                    "seed": seed,
+                    "n": n,
+                    "n_dual": nd,
+                    "n_A_only": na,
+                    "n_B_only": nb,
+                    "n_neither": sum(1 for r in recs if r["cls"] == "neither"),
+                    "auroc_D_vs_A_pocketB": r4(da),
+                    "auroc_D_vs_B_pocketA": r4(db),
+                    "summary_min": r4(sm),
+                    "primary_summary_min": r4(primary[pair]),
+                    "same_protocol_as_primary": 1,
+                    "same_membership_as_primary": int(n == n_primary[pair]),
+                    "comparable_to_current_primary": 1,
+                    "realization_status": "current_or_compatible",
+                    "source": "deposited per-seed Vina scores + current primary labels",
+                    "source_kind": "recomputed_from_frozen_scores",
+                    "note": "available-case: ligands with both pocket scores on this seed",
+                }
+            )
+        if any(int(r["same_membership_as_primary"]) == 0 for r in staged[pair]):
+            for r in staged[pair]:
+                r["same_membership_as_primary"] = 0
+                r["note"] = (
+                    "available-case membership changes across seeds; "
+                    "same_protocol_as_primary=1; use five_seed_fixed_membership_sensitivity.csv"
+                )
+    return [r for pair in PRIMARY_PAIRS for r in staged[pair]]
+
+
+def compute_five_seed_fixed_membership(packs, five_seed_rows):
+    """Intersection of ligands scored on all five seeds. No redock."""
+    wide = _load_five_seed_scores()
+    by_seed = {(r["pair"], str(r["seed"])): r for r in five_seed_rows}
+    out = []
+    for pair in PRIMARY_PAIRS:
+        lig_ok = []
+        for rec in packs[pair]:
+            lig = rec["ligand_id"]
+            if all(
+                "A" in wide.get((pair, seed, lig), {}) and "B" in wide.get((pair, seed, lig), {})
+                for seed in FIVE_SEEDS
+            ):
+                lig_ok.append(rec)
+        counts = Counter(r["cls"] for r in lig_ok)
+        n_inter = len(lig_ok)
+        n_primary = len(packs[pair])
+        for seed in FIVE_SEEDS:
+            recs = []
+            for rec in lig_ok:
+                sc = wide[(pair, seed, rec["ligand_id"])]
+                recs.append({"cls": rec["cls"], "score_A": sc["A"], "score_B": sc["B"]})
+            da, db, sm, nd, na, nb, n = _smin_point(recs)
+            avail = by_seed[(pair, str(seed))]
+            avail_sm = float(avail["summary_min"]) if avail.get("summary_min") not in ("", None) else float("nan")
+            delta = sm - avail_sm if recs else float("nan")
+            same_side = (sm - 0.5) * (avail_sm - 0.5) > 0 if recs else False
+            out.append(
+                {
+                    "pair": pair,
+                    "seed": seed,
+                    "n_intersection": n_inter,
+                    "n_dual": counts["dual"],
+                    "n_A_only": counts["A_only"],
+                    "n_B_only": counts["B_only"],
+                    "n_neither": counts["neither"],
+                    "n_primary": n_primary,
+                    "n_dropped_vs_primary": n_primary - n_inter,
+                    "summary_min": r4(sm),
+                    "auroc_D_vs_A_pocketB": r4(da),
+                    "auroc_D_vs_B_pocketA": r4(db),
+                    "available_case_summary_min": r4(avail_sm),
+                    "available_case_n": avail["n"],
+                    "delta": r4(delta),
+                    "qualitative_change": "no" if same_side else "yes",
+                    "same_protocol_as_primary": 1,
+                    "same_membership_as_primary": 0 if n_inter != n_primary else 1,
+                    "source_kind": "fixed_membership_sensitivity",
+                    "note": "intersection of ligands with both pocket scores on all five seeds; no redock",
+                }
+            )
+    return out
+
+
+def compute_protocol_sensitivity(packs, smin_rows):
+    primary = next(r for r in smin_rows if r["pair"] == "PIK3CA/mTOR")
+    rows = [
+        {
+            "pair": "PIK3CA/mTOR",
+            "panel": "PM48",
+            "setting": "E16_primary",
+            "summary_min": primary["summary_min"],
+            "n_dual": primary["n_dual"],
+            "n_A_only": primary["n_A_only"],
+            "n_B_only": primary["n_B_only"],
+            "source": "results/canonical/primary_summary_min.csv",
+            "source_kind": "recomputed",
+            "note": "primary panel; exhaustiveness 16",
+        }
+    ]
+    if PM110_SCORE_SOURCE.is_file():
+        recs = []
+        for r in read_csv(PM110_SCORE_SOURCE):
+            cls = r.get("class")
+            ea = parse_finite(r.get("4L23_affinity"))
+            eb = parse_finite(r.get("4JT6_affinity"))
+            if cls not in {"dual", "A_only", "B_only", "neither"} or ea is None or eb is None:
+                continue
+            recs.append({"cls": cls, "score_A": -ea, "score_B": -eb})
+        da, db, sm, nd, na, nb, n = _smin_point(recs)
+        rows.append(
+            {
+                "pair": "PIK3CA/mTOR",
+                "panel": "PM110",
+                "setting": "E16",
+                "summary_min": r4(sm),
+                "n_dual": nd,
+                "n_A_only": na,
+                "n_B_only": nb,
+                "source": str(PM110_SCORE_SOURCE.relative_to(ROOT)),
+                "source_kind": "recomputed_from_frozen_scores",
+                "note": f"larger protocol-sensitivity panel; n_scored={n}",
+            }
+        )
+    if E8_SCORE_SOURCE.is_file():
+        e8 = {}
+        for r in read_csv(E8_SCORE_SOURCE):
+            ea = parse_finite(r.get("4L23_affinity_E8"))
+            eb = parse_finite(r.get("4JT6_affinity_E8"))
+            if ea is None or eb is None:
+                continue
+            e8[r["ligand"]] = (-ea, -eb)
+        recs = []
+        for r in packs["PIK3CA/mTOR"]:
+            if r["ligand_id"] not in e8:
+                continue
+            sa, sb = e8[r["ligand_id"]]
+            recs.append({"cls": r["cls"], "score_A": sa, "score_B": sb})
+        da, db, sm, nd, na, nb, n = _smin_point(recs)
+        rows.append(
+            {
+                "pair": "PIK3CA/mTOR",
+                "panel": "PM48",
+                "setting": "E8",
+                "summary_min": r4(sm),
+                "n_dual": nd,
+                "n_A_only": na,
+                "n_B_only": nb,
+                "source": str(E8_SCORE_SOURCE.relative_to(ROOT)),
+                "source_kind": "recomputed_from_frozen_scores",
+                "note": f"same PM48 ligands; exhaustiveness 8; n_scored={n}",
+            }
+        )
+    return rows
+
+
+def copy_external_eligibility():
+    if not EXTERNAL_ELIGIBILITY_SOURCE.is_file():
+        return []
+    rows = []
+    for r in read_csv(EXTERNAL_ELIGIBILITY_SOURCE):
+        rec = dict(r)
+        rec["source"] = str(EXTERNAL_ELIGIBILITY_SOURCE.relative_to(ROOT))
+        rec["source_kind"] = "frozen_eligibility_input"
+        rec["note"] = "eligibility screen, not external docking validation"
+        rows.append(rec)
+    return rows
 
 
 def gnina_rows(packs):
-    """Recompute EGFR/PIK3CA GNINA directional AUROC from deposited poses + master classes."""
-    files = {
-        "EGFR/HER2": (ROOT / "data/jcim_independent_dock_v0/tables/gnina_dock_scores_EGFR_HER2.csv", "3POZ", "3RCD"),
-        "PIK3CA/mTOR": (ROOT / "data/jcim_independent_dock_v0/tables/gnina_dock_scores_PIK3CA_mTOR.csv", "4L23", "4JT6"),
-    }
+    """Recompute directional AUROC from deposited GNINA poses + eligible master classes."""
     out = []
-    from analysis.bootstrap_metrics import stratified_auroc_ci
-
-    for pair, (path, pdb_a, pdb_b) in files.items():
+    for pair, (path, pdb_a, pdb_b) in current_gnina_sources().items():
         if not path.is_file() or pair not in packs:
             continue
         cls = {r["ligand_id"]: r["cls"] for r in packs[pair]}
         wide = {}
         for r in read_csv(path):
-            lig = r["ligand"]
-            sc = -float(r["gnina_mode1"]) if fnum(r.get("gnina_mode1")) is not None else None
-            if sc is None:
+            lig = r.get("ligand") or r.get("ligand_id")
+            score_s = parse_finite(r.get("score_S"))
+            energy = parse_finite(r.get("gnina_mode1"))
+            if score_s is not None:
+                sc = score_s
+            elif energy is not None:
+                sc = -energy
+            else:
                 continue
             wide.setdefault(lig, {})
-            if r["target"] == pdb_a:
+            tgt = r.get("target")
+            if tgt == pdb_a:
                 wide[lig]["A"] = sc
-            elif r["target"] == pdb_b:
+            elif tgt == pdb_b:
                 wide[lig]["B"] = sc
         recs = []
         for lig, sc in wide.items():
@@ -664,8 +946,6 @@ def gnina_rows(packs):
         sb = np.array([r["score_B"] for r in recs])
         lab = np.array([r["cls"] for r in recs])
         stats = summary_min_stratified(sa, sb, lab, N_BOOT, SEED)
-        dual = [r["score_mean"] if "score_mean" in r else (r["score_A"] + r["score_B"]) / 2 for r in recs if r["cls"] == "dual"]
-        # mean dual vs neither
         dual_m = [(r["score_A"] + r["score_B"]) / 2 for r in recs if r["cls"] == "dual"]
         nei_m = [(r["score_A"] + r["score_B"]) / 2 for r in recs if r["cls"] == "neither"]
         dn, dn_lo, dn_hi = stratified_auroc_ci(dual_m, nei_m, N_BOOT, SEED)
@@ -680,12 +960,154 @@ def gnina_rows(packs):
                 "auroc_D_vs_A_pocketB": r4(stats["auroc_D_vs_A_pocketB"]),
                 "auroc_D_vs_B_pocketA": r4(stats["auroc_D_vs_B_pocketA"]),
                 "auroc_D_vs_neither_mean": r4(dn),
+                "d_vs_neither_ci_lo": r4(dn_lo),
+                "d_vs_neither_ci_hi": r4(dn_hi),
+                "n_neither": sum(1 for r in recs if r["cls"] == "neither"),
                 "source": str(path.relative_to(ROOT)),
                 "note": "another pose-generation realization; not a Vina vs GNINA ranking",
             }
         )
-        _ = (dn_lo, dn_hi, dual)
     return out
+
+
+def same_pose_rescoring(packs):
+    """PPARG/PPARA same-pose RTMScore / GNINA CNN rescoring of Vina poses.
+
+    Not independent pose generation. Uses current eligible labels.
+    """
+    pair = "PPARG/PPARA"
+    pdb_a, pdb_b = RECEPTORS[pair]
+    cls = {r["ligand_id"]: r["cls"] for r in packs[pair]}
+    specs = (
+        (
+            "rtm_best9",
+            RTM_BEST9_SOURCE,
+            "rtm_best",
+            "same-pose RTMScore of Vina poses; not independent pose generation",
+        ),
+        (
+            "gnina_cnn_affinity",
+            CNN_BEST9_SOURCE,
+            "cnn_affinity",
+            "same-pose GNINA CNN affinity of Vina poses; not independent pose generation",
+        ),
+    )
+    out = []
+    for engine, path, score_col, note in specs:
+        if not path.is_file():
+            continue
+        wide = {}
+        for r in read_csv(path):
+            lig = r.get("ligand") or r.get("ligand_id")
+            if lig not in cls:
+                continue
+            sc = parse_finite(r.get(score_col))
+            if sc is None:
+                continue
+            tgt = r.get("target")
+            wide.setdefault(lig, {})
+            if tgt == pdb_a:
+                wide[lig]["A"] = sc
+            elif tgt == pdb_b:
+                wide[lig]["B"] = sc
+        recs = []
+        for lig, sc in wide.items():
+            if "A" in sc and "B" in sc:
+                recs.append({"cls": cls[lig], "score_A": sc["A"], "score_B": sc["B"]})
+        if len(recs) < 16:
+            continue
+        sa = np.array([r["score_A"] for r in recs])
+        sb = np.array([r["score_B"] for r in recs])
+        lab = np.array([r["cls"] for r in recs])
+        stats = summary_min_stratified(sa, sb, lab, N_BOOT, SEED)
+        dual_m = [(r["score_A"] + r["score_B"]) / 2 for r in recs if r["cls"] == "dual"]
+        nei_m = [(r["score_A"] + r["score_B"]) / 2 for r in recs if r["cls"] == "neither"]
+        dn, dn_lo, dn_hi = stratified_auroc_ci(dual_m, nei_m, N_BOOT, SEED)
+        out.append(
+            {
+                "pair": pair,
+                "engine": engine,
+                "n": len(recs),
+                "summary_min": r4(stats["summary_min"]),
+                "summary_min_ci_lo": r4(stats["summary_min_ci_lo"]),
+                "summary_min_ci_hi": r4(stats["summary_min_ci_hi"]),
+                "auroc_D_vs_A_pocketB": r4(stats["auroc_D_vs_A_pocketB"]),
+                "auroc_D_vs_B_pocketA": r4(stats["auroc_D_vs_B_pocketA"]),
+                "auroc_D_vs_neither_mean": r4(dn),
+                "d_vs_neither_ci_lo": r4(dn_lo),
+                "d_vs_neither_ci_hi": r4(dn_hi),
+                "n_neither": sum(1 for r in recs if r["cls"] == "neither"),
+                "source": str(path.relative_to(ROOT)),
+                "note": note,
+            }
+        )
+    return out
+
+
+def receptor_sub(packs, smin_rows):
+    recs = packs["PIK3CA/mTOR"]
+    by_id = {r["ligand_id"]: r for r in recs}
+    primary = next(r["summary_min"] for r in smin_rows if r["pair"] == "PIK3CA/mTOR")
+    out_rows = []
+    extra = []
+    for pdb, path, pocket in RECEPTOR_SUB_SPECS:
+        if not path.is_file():
+            continue
+        alt = {}
+        for r in read_csv(path):
+            if r.get("status") != "success":
+                continue
+            energy = parse_finite(r.get("vina_mode1"))
+            if energy is None:
+                continue
+            alt[r["ligand"]] = -energy
+        labeled = []
+        for lig, base in by_id.items():
+            if lig not in alt:
+                continue
+            sa = alt[lig] if pocket == "A" else base["score_A"]
+            sb = alt[lig] if pocket == "B" else base["score_B"]
+            labeled.append({"cls": base["cls"], "score_A": sa, "score_B": sb})
+        sa = np.array([r["score_A"] for r in labeled])
+        sb = np.array([r["score_B"] for r in labeled])
+        lab = np.array([r["cls"] for r in labeled])
+        stats = summary_min_stratified(sa, sb, lab, N_BOOT, SEED)
+        ct = Counter(lab)
+        row = {
+            "replacement": pdb,
+            "pocket_replaced": pocket,
+            "n": len(labeled),
+            "n_dual": ct["dual"],
+            "n_A_only": ct["A_only"],
+            "n_B_only": ct["B_only"],
+            "auroc_D_vs_A": r4(stats["auroc_D_vs_A_pocketB"]),
+            "auroc_D_vs_B": r4(stats["auroc_D_vs_B_pocketA"]),
+            "summary_min": r4(stats["summary_min"]),
+            "summary_min_ci_lo": r4(stats["summary_min_ci_lo"]),
+            "summary_min_ci_hi": r4(stats["summary_min_ci_hi"]),
+            "primary_summary_min": primary,
+            "note": f"pocket {pocket} replaced by alt receptor; other pocket from current score master; scheme B",
+        }
+        out_rows.append(row)
+        extra.append(
+            {
+                "pair": "PIK3CA/mTOR",
+                "engine": f"vina_alt_{pdb}",
+                "n": row["n"],
+                "summary_min": row["summary_min"],
+                "summary_min_ci_lo": row["summary_min_ci_lo"],
+                "summary_min_ci_hi": row["summary_min_ci_hi"],
+                "auroc_D_vs_A_pocketB": row["auroc_D_vs_A"],
+                "auroc_D_vs_B_pocketA": row["auroc_D_vs_B"],
+                "auroc_D_vs_neither_mean": "",
+                "d_vs_neither_ci_lo": "",
+                "d_vs_neither_ci_hi": "",
+                "n_neither": "",
+                "source": str(path.relative_to(ROOT)),
+                "note": row["note"],
+            }
+        )
+    return out_rows, extra
 
 
 def write_two_pocket_ranking(rank_rows, fixed_rows):
@@ -698,6 +1120,8 @@ def write_two_pocket_ranking(rank_rows, fixed_rows):
                 "pair": r["pair"],
                 "n_ranked": r["n_ranked"],
                 "two_pocket_mean_D_vs_neither": m.get("auroc_dual_vs_neither", ""),
+                "ci_lo": m.get("delta_ci_lo", ""),
+                "ci_hi": m.get("delta_ci_hi", ""),
                 "ef_dual_10pct": r["ef_dual_10pct"],
                 "top_k": r["top_k"],
                 "top_dual": r["top_dual"],
@@ -746,7 +1170,16 @@ def nonstrat_sensitivity(smin_rows, matched_rows, fixed_sens):
 
 
 def main() -> int:
-    print("loading master")
+    import argparse
+
+    global CANON, MASTER
+    parser = argparse.ArgumentParser(description="Recompute eight-pair primary statistics from the score master.")
+    add_io_args(parser)
+    args = parser.parse_args()
+    CANON, MASTER = io_paths(args.outdir, args.master)
+    CANON.mkdir(parents=True, exist_ok=True)
+
+    print("loading master", MASTER)
     packs = load_main()
     for pair, recs in packs.items():
         print(f"  {pair}: {len(recs)}")
@@ -756,6 +1189,8 @@ def main() -> int:
     print("fixed-score done")
     ranking = compute_ranking(packs)
     print("ranking done")
+    and_filter = compute_and_filter(packs, ranking)
+    print("AND-filter done")
     matched = compute_matched(packs)
     print("matched/mismatched done")
     labels = compute_label_sensitivity(packs)
@@ -767,7 +1202,11 @@ def main() -> int:
     holdout = compute_holdout()
     print("holdout done")
     gnina = gnina_rows(packs)
-    print("gnina done")
+    print("gnina done", len(gnina))
+    rec_sub, rec_extra = receptor_sub(packs, smin)
+    print("receptor substitution done")
+    rescore = same_pose_rescoring(packs)
+    print("same-pose rescoring done", len(rescore))
     rmsd = copy_rmsd()
     two_pocket = write_two_pocket_ranking(ranking, fixed)
     sens = nonstrat_sensitivity(smin, matched, fixed_sens)
@@ -777,6 +1216,7 @@ def main() -> int:
     write_csv(CANON / "fixed_score_negative_class_delta.csv", [r for r in fixed if r["contrast"] != "D_vs_neither_two_pocket_mean"])
     write_csv(CANON / "two_pocket_mean_ranking.csv", two_pocket)
     write_csv(CANON / "top10_operating_points.csv", ranking)
+    write_csv(CANON / "and_filter_operating_points.csv", and_filter)
     write_csv(CANON / "matched_mismatched_pocket.csv", matched)
     all_master = read_csv(MASTER)
     cls_rows = []
@@ -829,9 +1269,22 @@ def main() -> int:
     write_csv(CANON / "max_vs_median_sensitivity.csv", maxmed)
     write_csv(CANON / "cluster_bootstrap_sensitivity.csv", cluster)
     write_csv(CANON / "holdout_metrics.csv", holdout)
-    write_csv(CANON / "computational_robustness.csv", gnina)
+    write_csv(CANON / "computational_robustness.csv", gnina + rec_extra + rescore)
+    write_csv(CANON / "receptor_substitution.csv", rec_sub)
     write_csv(CANON / "cognate_rmsd.csv", rmsd)
     write_csv(CANON / "non_stratified_bootstrap_sensitivity.csv", sens)
+    five_seed = compute_five_seed(packs, smin)
+    write_csv(CANON / "five_seed_summary_min.csv", five_seed)
+    print("five-seed done", len(five_seed))
+    five_fixed = compute_five_seed_fixed_membership(packs, five_seed)
+    write_csv(CANON / "five_seed_fixed_membership_sensitivity.csv", five_fixed)
+    print("five-seed fixed membership done", len(five_fixed))
+    protocol = compute_protocol_sensitivity(packs, smin)
+    write_csv(CANON / "protocol_sensitivity.csv", protocol)
+    print("protocol sensitivity done")
+    external = copy_external_eligibility()
+    write_csv(CANON / "external_eligibility.csv", external)
+    print("external eligibility copied", len(external))
 
     print("\nTable 2 (summary_min, scheme B)")
     for r in smin:

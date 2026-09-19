@@ -18,18 +18,12 @@ from rdkit.Chem.Scaffolds import MurckoScaffold
 RDLogger.DisableLog("rdApp.*")
 
 ROOT = Path(__file__).resolve().parents[2]
-MASTER = ROOT / "results/canonical/current_score_master.csv"
-OUT = ROOT / "results/canonical/class_chemistry_summary.csv"
-PRIMARY_PAIRS = (
-    "EGFR/HER2",
-    "JAK1/JAK2",
-    "JAK1/TYK2",
-    "PIK3CA/mTOR",
-    "AChE/BChE",
-    "F2/F10",
-    "PPARG/PPARA",
-    "PPARA/PPARD",
-)
+sys.path.insert(0, str(ROOT / "scripts"))
+from analysis.analysis_config import ECFP_NBITS, ECFP_RADIUS, PRIMARY_PAIRS, add_io_args, io_paths, is_primary_row  # noqa: E402
+
+CANON = ROOT / "results/canonical"
+MASTER = CANON / "current_score_master.csv"
+OUT = CANON / "class_chemistry_summary.csv"
 CLASSES = ("dual", "A_only", "B_only", "neither")
 
 
@@ -45,16 +39,22 @@ def qsummary(values):
 
 
 def main() -> int:
+    import argparse
+
+    global MASTER, OUT
+    parser = argparse.ArgumentParser(description="Class-wise chemistry audit on the eligible score master.")
+    add_io_args(parser)
+    args = parser.parse_args()
+    outdir, MASTER = io_paths(args.outdir, args.master)
+    outdir.mkdir(parents=True, exist_ok=True)
+    OUT = outdir / "class_chemistry_summary.csv"
+
     rows = list(csv.DictReader(MASTER.open(encoding="utf-8-sig", newline="")))
     out = []
     for pair in PRIMARY_PAIRS:
         recs = []
         for r in rows:
-            if r["pair"] != pair or r.get("analysis_set") != "main":
-                continue
-            if r.get("complete_case") not in ("1", "True"):
-                continue
-            if str(r.get("activity_eligible", "1")) not in ("1", "True"):
+            if r.get("pair") != pair or not is_primary_row(r):
                 continue
             mol = Chem.MolFromSmiles(r.get("smiles") or "")
             if mol is None:
@@ -62,7 +62,7 @@ def main() -> int:
             fp = Chem.RDKFingerprint(mol) if False else None
             from rdkit.Chem import AllChem
 
-            fp = AllChem.GetMorganFingerprintAsBitVect(mol, 2, nBits=2048)
+            fp = AllChem.GetMorganFingerprintAsBitVect(mol, ECFP_RADIUS, nBits=ECFP_NBITS)
             recs.append(
                 {
                     "ligand": r["ligand_id"],
@@ -135,7 +135,7 @@ def main() -> int:
         w = csv.DictWriter(handle, fieldnames=list(out[0].keys()), lineterminator="\n")
         w.writeheader()
         w.writerows(out)
-    print("wrote", OUT.relative_to(ROOT), "n=", len(out))
+    print("wrote", OUT, "n=", len(out))
     return 0
 
 
