@@ -15,7 +15,7 @@ No new analysis, no redocking, no change to canonical statistics or manuscript n
 | Historical freeze/audit docs | `WRITING_FREEZE_REPORT.md`, `ISSUE_REGISTER_WRITING_FREEZE.md`, `TIME_SPLIT_PROTOCOL_FREEZE.md`, `PIK3CA_MTOR_STRUCTURE_FREEZE.md`, SOPs, `PUBLIC_TARGET_PAIR_SELECTION_REPORT.md` |
 | Superseded scripts | `scripts/freeze/*`, `export_publication_tables.py`, panel-builder scripts that would re-download ChEMBL |
 | Abandoned target-pair trees | `egfr_her2_panel40_v0`, `egfr_her2_panel40_reprep_rdkit_v0`, `pik3ca_mtor_panel48_v0`, `stage_m_v0`, `census/`, `protocols/` |
-| Historical analysis drivers | `data/*/scripts/`, `data/*/analysis/*.md`, `jcim_novelty_v0/analysis/`, `MASTER_RESULTS_TABLE.csv` |
+| Historical analysis drivers | `data/*/scripts/`, `data/*/analysis/*.md` (historical / unavailable), `jcim_novelty_v0/analysis/`, `MASTER_RESULTS_TABLE.csv` |
 | Non-current bench/J0 files | `jcim_bench_v0` except `assembled_AChE_BChE.csv`; `jcim_j0j1_v0` except `j0_strict_label_supply.csv` |
 | Old lock index | `manuscript_lock/` except `SI_TABLE_MERGE_MAP_v1.csv` |
 | Old freeze outputs | tracked `remediation_outputs/freeze_audit/`; untracked docking dumps not committed |
@@ -116,7 +116,7 @@ Remaining text mentions are not typeset figures:
 
 - `docs/FIGURE_TABLE_LOCK_POSTFIX_V4.md`: “There is no main-text Figure 6”
 - captions: historical tokens “are not current results”
-- `docs/FINAL_PRE_SUBMISSION_AUDIT.md` and this report (cleanup notes)
+- `docs/FINAL_PRE_SUBMISSION_AUDIT.md` (historical / unavailable) and this report (cleanup notes)
 - internal JSON keys `fig6A` inside `plotted_values_postfix.json` (function names; stems are `FigS4_*`)
 
 ---

@@ -69,7 +69,7 @@ ECFP_NBITS = 2048
 LOGREG_C = 1.0
 LOGREG_MAX_ITER = 4000
 GROUPKFOLD_MAX_SPLITS = 5
-DESCRIPTOR_NAMES = ("tpsa", "clogp", "heavy")
+DESCRIPTOR_NAMES = ("tpsa", "clogp", "heavy", "mw")
 
 # Deposited robustness inputs (zero-dock; scores already on disk)
 GNINA_SOURCES = {
@@ -97,6 +97,11 @@ RECEPTOR_SUB_SPECS = (
 COGNATE_RMSD_SOURCE = ROOT / "data/jcim_novelty_v0/tables/all14_cognate_rmsd_calcrrms_v1.csv"
 
 EGFR_SCORE_SOURCE = "data/egfr_her2_panel120_v0/tables/ablation_ligand_scores.csv"
+EGFR_UNIFORM_VINA_REL = "data/egfr_her2_uniform_rdkit_v1/tables/scores_vina_mode1_fiveseed.csv"
+EGFR_UNIFORM_GNINA_REL = "data/egfr_her2_uniform_rdkit_v1/tables/gnina_dock_scores_EGFR_HER2.csv"
+EGFR_UNIFORM_VINA_CSV = ROOT / EGFR_UNIFORM_VINA_REL
+EGFR_UNIFORM_GNINA_CSV = ROOT / EGFR_UNIFORM_GNINA_REL
+EGFR_PRODUCTION_SEED = 20260727
 ACHE_SCORE_SOURCE = "data/ache_bche_panel_v0/tables/ablation_ligand_scores.csv"
 PIK3CA_SCORE_SOURCE = "data/pik3ca_mtor_panel48_rdkit_v0/tables/ablation_ligand_scores.csv"
 TRACK_B_SCORE_SOURCE = "data/jcim_chembl_universe_v0/local_track_b_v0/tables/scores_vina_mode1_v1.csv"
@@ -138,9 +143,11 @@ CANONICAL_CSV_NAMES = (
     "receptor_substitution.csv",
     "cognate_rmsd.csv",
     "five_seed_summary_min.csv",
+    "five_seed_fixed_membership_sensitivity.csv",
     "protocol_sensitivity.csv",
     "external_eligibility.csv",
     "descriptor_baselines.csv",
+    "descriptor_nested_scaffold_cv.csv",
     "ecfp4_incremental_information.csv",
     "ecfp4_oof_predictions.csv",
     "ecfp4_scaler_sensitivity.csv",
@@ -195,6 +202,30 @@ def io_paths(outdir=None, master=None) -> tuple[Path, Path]:
     else:
         m = out / DEFAULT_MASTER_NAME
     return out, m
+
+
+def egfr_uniform_ready() -> bool:
+    """True when the CASE 2 uniform Vina table exists. That table is then current truth."""
+    return EGFR_UNIFORM_VINA_CSV.is_file() and EGFR_UNIFORM_VINA_CSV.stat().st_size > 0
+
+
+def current_egfr_score_source() -> str:
+    if egfr_uniform_ready():
+        return EGFR_UNIFORM_VINA_REL
+    return EGFR_SCORE_SOURCE
+
+
+def current_egfr_five_seed_path() -> Path:
+    if egfr_uniform_ready():
+        return EGFR_UNIFORM_VINA_CSV
+    return FIVE_SEED_EGFR_CORRECTED_BOX_SCORES
+
+
+def current_gnina_sources() -> dict:
+    src = dict(GNINA_SOURCES)
+    if EGFR_UNIFORM_GNINA_CSV.is_file() and EGFR_UNIFORM_GNINA_CSV.stat().st_size > 0:
+        src["EGFR/HER2"] = (EGFR_UNIFORM_GNINA_CSV, "3POZ", "3RCD")
+    return src
 
 
 def add_io_args(parser: argparse.ArgumentParser) -> argparse.ArgumentParser:

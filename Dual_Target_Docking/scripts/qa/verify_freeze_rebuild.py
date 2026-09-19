@@ -24,11 +24,15 @@ from analysis.analysis_config import (  # noqa: E402
     COGNATE_RMSD_SOURCE,
     D_VS_A_SCORE,
     D_VS_B_SCORE,
+    EGFR_PRODUCTION_SEED,
+    EGFR_UNIFORM_VINA_CSV,
     N_BOOT,
     N_MC_DETECTABLE,
     PRIMARY_PAIRS,
     SEED,
     TOP_FRACTION,
+    current_egfr_score_source,
+    egfr_uniform_ready,
     is_primary_row,
     parse_finite,
 )
@@ -96,16 +100,42 @@ def check_master(rows):
     egfr = [r for r in rows if r["pair"] == "EGFR/HER2" and r["analysis_set"] == "main"]
     if len(egfr) != 110:
         fail(f"EGFR main n={len(egfr)}")
-    ablation = {r["ligand"]: r for r in read_csv(ROOT / "data/egfr_her2_panel120_v0/tables/ablation_ligand_scores.csv")}
-    for row in egfr:
-        old = ablation.get(row["ligand_id"])
-        if old is None:
-            fail(f"EGFR {row['ligand_id']} missing ablation")
-            continue
-        sa = -float(old["3POZ_affinity"])
-        sb = -float(old["3RCD_affinity"])
-        if abs(float(row["score_A"]) - sa) > 1e-6 or abs(float(row["score_B"]) - sb) > 1e-6:
-            fail(f"EGFR {row['ligand_id']} not corrected-box ablation")
+    if egfr_uniform_ready():
+        want = {}
+        for r in read_csv(EGFR_UNIFORM_VINA_CSV):
+            if str(r.get("seed")) != str(EGFR_PRODUCTION_SEED):
+                continue
+            if r.get("status") not in {"ok", "success"}:
+                continue
+            energy = parse_finite(r.get("vina_mode1"))
+            if energy is None:
+                continue
+            rec = want.setdefault(r["ligand"], {})
+            if r.get("pdb") == "3POZ":
+                rec["A"] = -energy
+            elif r.get("pdb") == "3RCD":
+                rec["B"] = -energy
+        src_name = current_egfr_score_source()
+        for row in egfr:
+            if row.get("score_source") != src_name:
+                fail(f"EGFR {row['ligand_id']} score_source={row.get('score_source')}")
+            sc = want.get(row["ligand_id"], {})
+            if "A" in sc and "B" in sc:
+                if abs(float(row["score_A"]) - sc["A"]) > 1e-6 or abs(float(row["score_B"]) - sc["B"]) > 1e-6:
+                    fail(f"EGFR {row['ligand_id']} not uniform Vina seed {EGFR_PRODUCTION_SEED}")
+            elif row.get("complete_case") in ("1", "True", 1):
+                fail(f"EGFR {row['ligand_id']} complete_case without both uniform scores")
+    else:
+        ablation = {r["ligand"]: r for r in read_csv(ROOT / "data/egfr_her2_panel120_v0/tables/ablation_ligand_scores.csv")}
+        for row in egfr:
+            old = ablation.get(row["ligand_id"])
+            if old is None:
+                fail(f"EGFR {row['ligand_id']} missing ablation")
+                continue
+            sa = -float(old["3POZ_affinity"])
+            sb = -float(old["3RCD_affinity"])
+            if abs(float(row["score_A"]) - sa) > 1e-6 or abs(float(row["score_B"]) - sb) > 1e-6:
+                fail(f"EGFR {row['ligand_id']} not corrected-box ablation")
     inelig = [r for r in rows if r["analysis_set"] == "main" and r.get("activity_eligible") not in ("1", "True")]
     names = {(r["pair"], r["ligand_id"]) for r in inelig}
     if ("EGFR/HER2", "EH120_059") not in names:
@@ -362,13 +392,23 @@ def check_pocket(packs, matched, hold):
 
 def check_five_seed(seed_rows, smin_rows):
     primary = {r["pair"]: r["summary_min"] for r in smin_rows}
-    if not (ROOT / "data/jcim_multiseed_v0/tables/scores_vina_mode1_EGFR_corrected_box_fiveseed.csv").is_file():
-        fail("EGFR corrected-box five-seed score file missing")
+    from analysis.analysis_config import current_egfr_five_seed_path
+
+    if not current_egfr_five_seed_path().is_file():
+        fail(f"EGFR five-seed score file missing: {current_egfr_five_seed_path()}")
     comparable_vals = []
     for r in seed_rows:
         comparable = str(r.get("comparable_to_current_primary", "")).strip()
         if comparable not in {"1", "True", "true"}:
             fail(f"{r['pair']} seed {r['seed']} unexpected comparable_to_current_primary={comparable}")
+        if str(r.get("same_protocol_as_primary", "")).strip() != "1":
+            fail(f"{r['pair']} seed {r['seed']} same_protocol_as_primary={r.get('same_protocol_as_primary')}")
+        membership = str(r.get("same_membership_as_primary", "")).strip()
+        if r["pair"] == "AChE/BChE":
+            if membership != "0":
+                fail(f"AChE seed {r['seed']} same_membership_as_primary={membership}")
+        elif membership != "1":
+            fail(f"{r['pair']} seed {r['seed']} same_membership_as_primary={membership}")
         comparable_vals.append(float(r["summary_min"]))
         if r.get("primary_summary_min") != primary[r["pair"]]:
             fail(f"{r['pair']} seed {r['seed']} primary_summary_min {r.get('primary_summary_min')} vs {primary[r['pair']]}")
@@ -379,8 +419,24 @@ def check_five_seed(seed_rows, smin_rows):
         fail("no comparable five-seed rows")
     NOTES.append(
         f"five-seed comparable range {min(comparable_vals):.4f}–{max(comparable_vals):.4f} "
-        f"(EGFR corrected-box included)"
+        f"(EGFR included; AChE same_membership_as_primary=0)"
     )
+
+
+def check_five_seed_fixed(freeze: Path):
+    path = freeze / "five_seed_fixed_membership_sensitivity.csv"
+    if not path.is_file():
+        fail("five_seed_fixed_membership_sensitivity.csv missing")
+    rows = read_csv(path)
+    ache = [r for r in rows if r["pair"] == "AChE/BChE"]
+    if not ache:
+        fail("AChE fixed-membership rows missing")
+    n_inter = {int(r["n_intersection"]) for r in ache}
+    if n_inter != {88}:
+        fail(f"AChE fixed-membership n_intersection={n_inter}, expected {{88}}")
+    if any(r.get("qualitative_change") != "no" for r in ache):
+        fail("AChE fixed-membership qualitative_change is not no")
+    NOTES.append("AChE five-seed fixed-membership n=88; qualitative conclusion unchanged")
 
 
 def check_activity_provenance(master_rows, packs):
@@ -553,6 +609,7 @@ def main() -> int:
         read_csv(FREEZE / "primary_summary_min.csv"),
     )
     check_five_seed(read_csv(FREEZE / "five_seed_summary_min.csv"), read_csv(FREEZE / "primary_summary_min.csv"))
+    check_five_seed_fixed(FREEZE)
     check_models(
         packs,
         read_csv(FREEZE / "ecfp4_incremental_information.csv"),

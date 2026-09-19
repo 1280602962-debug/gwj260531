@@ -133,7 +133,7 @@ Displayed values use three-decimal half-up rounding unless the cell is an intege
 | 1 | class counts + construction quotas / PDB / exhaustiveness from the panel design record | PASS. n_scored ≠ quota (EGFR 28/37/32 vs 28/38/32/12) |
 | 2 | `primary_directional_auroc.csv`, `primary_summary_min.csv`, `class_counts.csv` | PASS |
 | 3 | `two_pocket_mean_ranking.csv`, `top10_operating_points.csv`, `class_counts.csv` | PASS |
-| S1 | `requirements-analysis.txt` + docking protocol constants | PASS for scientific pins. Python patch 3.12.13 in the typeset row is not an analysis pin (local freeze is 3.12.3) |
+| S1 | `requirements-analysis.txt` + docking protocol constants | PASS. Analysis freeze is Python 3.12.3; SI Table S1 now splits analysis vs docking environments. |
 | S2 | frozen box JSON + `cognate_rmsd.csv` | PASS. Coverage vs top-1 not mixed |
 | S3 | `label_aggregation_sensitivity.csv`; max/median `max_vs_median_sensitivity.csv` (AChE n = 94) | PASS |
 | S4 | `fixed_score_negative_class_delta.csv`; cluster `cluster_bootstrap_sensitivity.csv`; detectable-effect `detectable_effect_simulation.csv` | PASS. JAK document cluster remains `unresolved_mapping_unavailable` |
@@ -161,21 +161,21 @@ No typeset numeric cell in Table 1–3 / S2–S10 is a hand entry without a curr
 
 ## Historical cleanup
 
-Deleted from the current tree (git history retains them):
+Deleted from the current tree (git history retains them; historical / unavailable; not current sources):
 
-- `data/jcim_novelty_v0/tables/incremental_information_v1.csv` (+ sidecar)
-- `data/jcim_chembl_universe_v0/local_track_b_v0/tables/five_pair_stack_v1/ecfp4_incremental_s20s24_v1.csv` (+ sidecar)
-- `data/jcim_strengthen_t0t1_v0/tables/ligand_ml_baseline_scaffold_cv_v1.csv` (+ sidecar)
-- `data/jcim_novelty_v0/tables/descriptor_all_four_directional_v1.csv` (+ sidecar)
-- `data/jcim_independent_dock_v0/tables/independent_dock_formulation_v1.csv`
-- `data/jcim_chembl_universe_v0/local_track_b_v0/tables/five_pair_local_channels_v1/table2_comparable_by_channel_v1.csv`
-- `data/jcim_strengthen_t0t1_v0/tables/pocket_matched_vs_best_descriptor_delta_v1.csv`
-- `data/jcim_chembl_universe_v0/local_track_b_v0/tables/five_pair_stack_v1/descriptor_paired_delta_s19_v1.csv`
-- `data/jcim_novelty_v0/tables/ecfp4_docking_scaler_sensitivity_v1.csv`
-- `docs/HISTORICAL_LEFTOVER_FILES.md`
-- `docs/FINAL_PRE_SUBMISSION_AUDIT.md`
-- `results/freeze_rebuild/` (duplicate authoritative CSV tree)
-- `figures/jcim_article/plotted_values.json`
+- `data/jcim_novelty_v0/tables/incremental_information_v1.csv` (historical / unavailable)
+- `data/jcim_chembl_universe_v0/local_track_b_v0/tables/five_pair_stack_v1/ecfp4_incremental_s20s24_v1.csv` (historical / unavailable)
+- `data/jcim_strengthen_t0t1_v0/tables/ligand_ml_baseline_scaffold_cv_v1.csv` (historical / unavailable)
+- `data/jcim_novelty_v0/tables/descriptor_all_four_directional_v1.csv` (historical / unavailable)
+- `data/jcim_independent_dock_v0/tables/independent_dock_formulation_v1.csv` (historical / unavailable)
+- `data/jcim_chembl_universe_v0/local_track_b_v0/tables/five_pair_local_channels_v1/table2_comparable_by_channel_v1.csv` (historical / unavailable)
+- `data/jcim_strengthen_t0t1_v0/tables/pocket_matched_vs_best_descriptor_delta_v1.csv` (historical / unavailable)
+- `data/jcim_chembl_universe_v0/local_track_b_v0/tables/five_pair_stack_v1/descriptor_paired_delta_s19_v1.csv` (historical / unavailable)
+- `data/jcim_novelty_v0/tables/ecfp4_docking_scaler_sensitivity_v1.csv` (historical / unavailable)
+- `docs/HISTORICAL_LEFTOVER_FILES.md` (historical / unavailable)
+- `docs/FINAL_PRE_SUBMISSION_AUDIT.md` (historical / unavailable)
+- `results/freeze_rebuild/` (historical / unavailable; duplicate authoritative CSV tree)
+- `figures/jcim_article/plotted_values.json` (historical / unavailable; must be absent)
 
 Frozen experimental inputs that remain: ablation / GNINA pose scores, receptor-substitution scores, five-seed score tables, RTM/CNN pose scores, cognate RMSD, universe census, pair eligibility, external eligibility.
 
@@ -200,7 +200,7 @@ These are genuine unresolved boundaries, not open calculation bugs:
 4. Pointwise CIs are not multiplicity-adjusted. No eight-pair global inference was added.
 5. PIK3CA/PIK3CB is not in the primary eight-pair panel.
 6. EGFR/HER2 five-seed scores are the corrected-box realization restored from commit `40edc431` and recomputed with current activity-eligible labels. They are comparable to Table 2.
-7. Table S1 still typesets a Python 3.12.13 patch that is not an analysis pin; the freeze used 3.12.3. Scientific package pins match.
+7. Table S1 analysis freeze is Python 3.12.3. Docking versions are written only with direct evidence.
 8. Some SI “Source:” filename strings still name deleted historical CSVs. Typeset numbers come from `results/canonical`. Prose was not rewritten.
 
 No new docking, model, pair, descriptor, threshold, or bootstrap scheme is required to close the current manuscript’s scientific numbers.

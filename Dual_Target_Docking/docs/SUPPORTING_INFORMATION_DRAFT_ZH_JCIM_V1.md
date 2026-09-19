@@ -8,23 +8,26 @@
 
 ## Table S1. 计算设置与统计定义
 
+分析冻结环境与对接/制备环境分开写。分析版本是 writing-freeze pin。对接版本只写有 yaml / ENV_PIN / 脚本直接证据的条目。不得把分析 RDKit 版本自动当成历史配体 PDBQT 的制备版本。
+
 | 项目 | 取值 |
 |------|------|
-| 生产对接 Python / RDKit / Meeko | 本机冻结环境；RDKit 2026.3.1；Meeko 0.7.1 |
-| 零对接复分析 | Python 3.12.13；RDKit 2026.3.5；NumPy 2.5.2；pandas 3.0.5；SciPy 1.18.1；scikit-learn 1.9.0（`requirements-analysis.txt`） |
+| 分析冻结 | Python 3.12.3；NumPy 2.5.2；pandas 3.0.5；SciPy 1.18.1；scikit-learn 1.9.0；RDKit 2026.03.5（`requirements-analysis.txt`） |
+| 对接 / 制备（仅直接证据） | AutoDock Vina 1.2.7；Meeko 0.7.1（Track-B yaml）。本机对接快照 2026-07-29（`data/jcim_strengthen_t0t1_v0/ENV_PIN.md`）记录 RDKit 2026.3.1，不能证明每份已沉积配体 PDBQT 都由该 pin 生成 |
 | AutoDock Vina | 1.2.7；默认 `vina` 打分；n_modes = 9；energy_range = 3 kcal mol⁻¹ |
 | GNINA | 1.3.2；CPU `--no_gpu` |
 | RTMScore | `rtmscore_model1` |
-| 配体准备 | 去盐（最大有机片段）→ AddHs → ETKDGv3（seed 20260727）→ MMFF 最多 200 步 → Meeko PDBQT |
+| 配体准备（Track-B、PIK3CA、AChE 已恢复脚本） | 去盐（最大有机片段）→ AddHs → ETKDGv3（seed 20260727）→ MMFF 最多 200 步 → Meeko PDBQT。这些包的精确生产配体 PDBQT 未入库。EGFR 原始配体 PDBQT 不可恢复；uniform RDKit/Meeko 重建另见 provenance |
+| 受体准备 | 冻结已沉积 PDBQT；14 槽登记表 `data/provenance/receptor_input_registry.csv`。不是统一的 Meeko 或 Protein Preparation Wizard 流程 |
 | 面板抽样 / holdout 种子 | 20260729 / 20260731 |
 | Vina 生产种子 | 20260727；五种子归档另加 20260811–20260814 |
-| exhaustiveness | PIK3CA/mTOR = 16；其余主面板与 holdout = 8 |
+| exhaustiveness | PRIMARY：PIK3CA/mTOR = 16；其余主面板与 holdout = 8。SENSITIVITY：PIK3CA E=8、PM110、4JPS/5DXT/4JSX |
 | Bootstrap | B = 2000。Table 2 报告类别分层非参数百分位 bootstrap（B = 2000，种子 20260729）下两条方向性区间及逐次 `summary_min` 区间。每次重采样内 dual 配体只抽一次并同时用于两个方向。dual–neither 使用同一类别分层协议；对应/非对应口袋差值为配体水平配对 bootstrap。非分层配体 bootstrap 仅作敏感性（`non_stratified_bootstrap_sensitivity.csv`），不替换 Table 2 |
 | GroupKFold / 逻辑回归 | 折数 = min(5, 骨架数, 两类样本量)；C = 1.0；最多 4000 次迭代；默认不打乱 GroupKFold |
 | 对接盒子 | 共晶配体 AABB 外扩 5 Å，边长下限 20 Å |
 | 共晶 QC 门槛 | 全部保存姿态中的最低重原子 RMSD < 2.0 Å（证明搜索覆盖，不证明 top-1 排序） |
 
-两端均有有效分数的配体进入方向性 AUROC；n_scored 可低于 n_panel（Table 1）。源：`ENV_PIN.md`；`docking_failure_census_v1.csv`。
+两端均有有效分数的配体进入方向性 AUROC；n_scored 可低于 n_panel（Table 1）。源：`data/jcim_strengthen_t0t1_v0/ENV_PIN.md`；`docs/PROTOCOL_LEVELS.md`；`requirements-analysis.txt`。校验和清单是归档完整性记录，不是科学 PASS/FAIL 依据。
 
 ---
 
@@ -82,10 +85,10 @@ RMSD 使用 RDKit 对称感知 CalcRMS，不做叠合。原子对应使用同一
 
 | 靶对 | 标签规则 | n (D / A / B) | summary_min | 95% CI |
 |------|----------|--------------:|------------:|--------|
-| EGFR/HER2 | θ = 5.5 | 69 / 21 / 10 | 0.380 | [0.193, 0.603] |
-| EGFR/HER2 | θ = 6.0 | 28 / 37 / 32 | 0.324 | [0.195, 0.474] |
-| EGFR/HER2 | θ = 6.5 | 26 / 28 / 29 | 0.346 | [0.200, 0.501] |
-| EGFR/HER2 | 严格 6.5/5.5 | 26 / 16 / 7 | 0.176 | [0.033, 0.346] |
+| EGFR/HER2 | θ = 5.5 | 68 / 21 / 10 | 0.379 | [0.185, 0.591] |
+| EGFR/HER2 | θ = 6.0 | 28 / 37 / 31 | 0.334 | [0.197, 0.471] |
+| EGFR/HER2 | θ = 6.5 | 26 / 28 / 28 | 0.363 | [0.213, 0.522] |
+| EGFR/HER2 | 严格 6.5/5.5 | 26 / 16 / 7 | 0.203 | [0.055, 0.363] |
 | JAK1/JAK2 | θ = 6.0 | 32 / 32 / 32 | 0.588 | [0.448, 0.716] |
 | JAK1/TYK2 | θ = 6.0 | 31 / 32 / 32 | 0.365 | [0.233, 0.505] |
 | PIK3CA/mTOR | θ = 5.5 | 33 / 9 / 5 | 0.502 | [0.273, 0.620] |
@@ -107,8 +110,8 @@ RMSD 使用 RDKit 对称感知 CalcRMS，不做叠合。原子对应使用同一
 
 | 靶对 | 评分通道 | dual vs 选择性 | dual vs neither | Δ | 95% CI | neither 效能不足 |
 |------|----------|---------------:|----------------:|--:|--------|:----------------:|
-| EGFR/HER2 | 口袋 A（对 B-only） | 0.324 | 0.786 | 0.462 | [0.260, 0.641] | 否 |
-| EGFR/HER2 | 口袋 B（对 A-only） | 0.656 | 0.738 | 0.082 | [−0.117, 0.268] | 否 |
+| EGFR/HER2 | 口袋 A（对 B-only） | 0.334 | 0.780 | 0.446 | [0.259, 0.632] | 否 |
+| EGFR/HER2 | 口袋 B（对 A-only） | 0.663 | 0.750 | 0.087 | [−0.112, 0.270] | 否 |
 | AChE/BChE | 口袋 A | 0.606 | 0.606 | 0.000 | [−0.130, 0.138] | 否 |
 | AChE/BChE | 口袋 B | 0.652 | 0.717 | 0.065 | [−0.091, 0.211] | 否 |
 | PIK3CA/mTOR | 口袋 A | 0.692 | 0.472 | −0.220 | [−0.505, 0.032] | 是 |
@@ -128,9 +131,9 @@ RMSD 使用 RDKit 对称感知 CalcRMS，不做叠合。原子对应使用同一
 
 | 靶对 | 重采样单位 | Δ 点估计 | 95% CI | CI 排除 0 |
 |------|-----------------|--------:|--------|:-------------:|
-| EGFR/HER2 | 配体层（正式） | 0.462 | [0.260, 0.641] | 是 |
-| EGFR/HER2 | 骨架簇 | 0.462 | [0.235, 0.665] | 是 |
-| EGFR/HER2 | 文献簇 | 0.462 | [0.125, 0.644] | 是 |
+| EGFR/HER2 | 配体层（正式） | 0.446 | [0.259, 0.632] | 是 |
+| EGFR/HER2 | 骨架簇 | 0.446 | [0.232, 0.637] | 是 |
+| EGFR/HER2 | 文献簇 | 0.446 | [0.117, 0.636] | 是 |
 | JAK1/TYK2 | 配体层（正式） | 0.444 | [0.261, 0.630] | 是 |
 | JAK1/TYK2 | 骨架簇 | 0.444 | [0.220, 0.631] | 是 |
 | JAK1/TYK2 | 文献簇 | 0.444 | 未重算 | — |
@@ -141,14 +144,14 @@ RMSD 使用 RDKit 对称感知 CalcRMS，不做叠合。原子对应使用同一
 
 | 靶对 | n (D / A / B) | 0.55 | 0.60 | 0.65 | 0.70 | 0.75 |
 |------|--------------:|-----:|-----:|-----:|-----:|-----:|
-| EGFR/HER2 | 28 / 37 / 32 | 0.040 | 0.063 | 0.255 | 0.646 | 0.906 |
-| JAK1/JAK2 | 32 / 32 / 32 | 0.020 | 0.070 | 0.308 | 0.619 | 0.917 |
-| JAK1/TYK2 | 31 / 32 / 32 | 0.030 | 0.060 | 0.284 | 0.633 | 0.912 |
-| PIK3CA/mTOR | 18 / 14 / 12 | 0.042 | 0.033 | 0.088 | 0.240 | 0.460 |
-| AChE/BChE | 27 / 26 / 28 | 0.027 | 0.048 | 0.217 | 0.538 | 0.835 |
-| F2/F10 | 31 / 32 / 32 | 0.025 | 0.071 | 0.270 | 0.602 | 0.917 |
-| PPARG/PPARA | 32 / 31 / 32 | 0.024 | 0.050 | 0.271 | 0.630 | 0.900 |
-| PPARA/PPARD | 32 / 32 / 32 | 0.027 | 0.069 | 0.260 | 0.673 | 0.907 |
+| EGFR/HER2 | 28 / 37 / 31 | 0.026 | 0.071 | 0.259 | 0.624 | 0.877 |
+| JAK1/JAK2 | 32 / 32 / 32 | 0.023 | 0.057 | 0.262 | 0.647 | 0.893 |
+| JAK1/TYK2 | 31 / 32 / 32 | 0.029 | 0.059 | 0.282 | 0.620 | 0.886 |
+| PIK3CA/mTOR | 18 / 14 / 12 | 0.032 | 0.022 | 0.075 | 0.204 | 0.466 |
+| AChE/BChE | 27 / 26 / 28 | 0.019 | 0.060 | 0.203 | 0.521 | 0.813 |
+| F2/F10 | 31 / 32 / 32 | 0.021 | 0.062 | 0.260 | 0.646 | 0.913 |
+| PPARG/PPARA | 32 / 31 / 32 | 0.026 | 0.070 | 0.285 | 0.635 | 0.904 |
+| PPARA/PPARD | 32 / 32 / 32 | 0.028 | 0.059 | 0.260 | 0.675 | 0.924 |
 
 源：`results/canonical/detectable_effect_simulation.csv`。
 
@@ -160,8 +163,8 @@ ECFP4 与 ECFP4+对接评分 AUROC 为同一骨架分组交叉验证下的折外
 
 | 靶对 | 方向 | ECFP4 | ECFP4+对接 | Δ | Vina 排序 AUROC（Table 2） |
 |------|------|------:|--------------:|--:|--------------------------:|
-| EGFR/HER2 | D vs A | 0.822 | 0.807 | −0.015 | 0.656 |
-| EGFR/HER2 | D vs B | 0.890 | 0.885 | −0.005 | 0.324 |
+| EGFR/HER2 | D vs A | 0.822 | 0.807 | −0.015 | 0.663 |
+| EGFR/HER2 | D vs B | 0.879 | 0.870 | −0.009 | 0.334 |
 | JAK1/JAK2 | D vs A | 0.915 | 0.916 | +0.002 | 0.588 |
 | JAK1/JAK2 | D vs B | 0.968 | 0.969 | +0.001 | 0.728 |
 | JAK1/TYK2 | D vs A | 0.846 | 0.840 | −0.006 | 0.575 |
@@ -177,11 +180,11 @@ ECFP4 与 ECFP4+对接评分 AUROC 为同一骨架分组交叉验证下的折外
 | PPARA/PPARD | D vs A | 0.932 | 0.928 | −0.004 | 0.647 |
 | PPARA/PPARD | D vs B | 0.858 | 0.835 | −0.023 | 0.446 |
 
-**Vina `summary_min` 相对最佳单一描述符的配对 Δ。** 四个单描述符完整矩阵留在仓库，正式 SI 只排每对最佳描述符。AChE/BChE 的 TPSA 方向性 AUROC 为 0.742 / 0.801。八对中 5 对 95% CI 包含 0；JAK1/TYK2、PIK3CA/mTOR、F2/F10 不包含 0。Figure S1 绘制 Vina 区间和描述符点估计，不绘制差值区间。
+**Vina `summary_min` 相对最佳单一描述符的配对 Δ。** 四个单描述符（TPSA、cLogP、重原子数、MW）完整矩阵在 `results/canonical/descriptor_baselines.csv`。每对“最佳”描述符是全面板描述性单变量筛选，不是经过选择校正的预测估计。化学对照的预测读数是嵌套骨架 GroupKFold、仅训练集选择描述符后的 OOF AUROC（`nested_scaffold_cv_oof_summary_min`）。ECFP4 流程未改。AChE/BChE 的 TPSA 方向性 AUROC 为 0.742 / 0.801。八对中 5 对 95% CI 包含 0；JAK1/TYK2、PIK3CA/mTOR、F2/F10 不包含 0。Figure S1 绘制 Vina 区间和描述符点估计，不绘制差值区间。
 
 | 靶对 | 最佳描述符 | 描述符 summary_min | Δ | 95% CI | CI 排除 0 |
 |------|-----------------|-----------------------:|--:|--------|:-------------:|
-| EGFR/HER2 | cLogP | 0.482 | −0.159 | [−0.304, 0.017] | 否 |
+| EGFR/HER2 | cLogP | 0.474 | −0.139 | [−0.287, 0.029] | 否 |
 | JAK1/JAK2 | 重原子数 | 0.578 | 0.010 | [−0.081, 0.158] | 否 |
 | JAK1/TYK2 | cLogP | 0.580 | −0.215 | [−0.376, −0.009] | 是 |
 | PIK3CA/mTOR | 重原子数 | 0.463 | 0.229 | [0.009, 0.437] | 是 |
@@ -190,9 +193,9 @@ ECFP4 与 ECFP4+对接评分 AUROC 为同一骨架分组交叉验证下的折外
 | PPARG/PPARA | TPSA | 0.627 | 0.022 | [−0.167, 0.181] | 否 |
 | PPARA/PPARD | cLogP | 0.564 | −0.117 | [−0.326, 0.099] | 否 |
 
-源：`results/canonical/descriptor_baselines.csv`；`results/canonical/ecfp4_incremental_information.csv`。
+源：`results/canonical/descriptor_baselines.csv`；`results/canonical/descriptor_nested_scaffold_cv.csv`；`results/canonical/ecfp4_incremental_information.csv`。
 
-**特征缩放敏感性。** 同一 GroupKFold 划分在各训练折上拟合 `StandardScaler`。16 个方向上最大 |Δ| 为 0.008（PIK3CA/mTOR D vs A）。缩放不替代未缩放的 0.023 主结果。源：`ecfp4_docking_scaler_sensitivity_v1.csv`。
+**特征缩放敏感性。** 同一 GroupKFold 划分在各训练折上拟合 `StandardScaler`。16 个方向上最大 |Δ| 为 0.008（PIK3CA/mTOR D vs A）。缩放不替代未缩放的 0.023 主结果。源：`results/canonical/ecfp4_scaler_sensitivity.csv`。
 
 ---
 
@@ -202,7 +205,7 @@ ECFP4 与 ECFP4+对接评分 AUROC 为同一骨架分组交叉验证下的折外
 
 | 靶对 | 集合 | Δ | 95% CI | CI 排除 0 | 较弱方向切换 |
 |------|------|--:|--------|:---------:|:-------------------:|
-| EGFR/HER2 | 主集 | 0.056 | [−0.037, 0.155] | 否 | 否 |
+| EGFR/HER2 | 主集 | 0.107 | [0.006, 0.220] | 是 | 否 |
 | JAK1/JAK2 | 主集 | −0.019 | [−0.090, 0.053] | 否 | 否 |
 | JAK1/TYK2 | 主集 | −0.065 | [−0.156, 0.032] | 否 | 否 |
 | PIK3CA/mTOR | 主集 | 0.090 | [−0.115, 0.264] | 否 | 否 |
@@ -242,8 +245,8 @@ ECFP4 与 ECFP4+对接评分 AUROC 为同一骨架分组交叉验证下的折外
 
 | 靶对 | 引擎 | n_dual / n_A / n_B / n_neither | summary_min | 较弱臂 AUROC [95% CI] | Dual vs neither |
 |------|------|------|------------:|---------------------------|----------------:|
-| EGFR/HER2 | Vina 主分析 | 28 / 37 / 32 / 12 | 0.324 [0.195, 0.474] | dual–B-only（口袋 A） 0.324 [0.195, 0.474] | 0.759 [0.554, 0.926] |
-| EGFR/HER2 | GNINA 独立 | 28 / 37 / 32 / 11 | 0.265 [0.142, 0.402] | dual–B-only（口袋 A） 0.265 [0.142, 0.402] | 0.737 [0.529, 0.919] |
+| EGFR/HER2 | Vina 主分析 | 28 / 37 / 31 / 12 | 0.334 [0.197, 0.471] | dual–B-only（口袋 A） 0.334 [0.197, 0.471] | 0.759 [0.551, 0.926] |
+| EGFR/HER2 | GNINA 独立 | 20 / 33 / 26 / 10 | 0.227 [0.104, 0.373] | dual–B-only（口袋 A） 0.227 [0.104, 0.373] | 0.705 [0.465, 0.910] |
 | PIK3CA/mTOR | Vina 主分析 | 18 / 14 / 12 / 4 | 0.692 [0.480, 0.802] | dual–B-only（口袋 A） 0.692 [0.491, 0.868] | 0.514 [0.222, 0.806] |
 | PIK3CA/mTOR | GNINA 独立 | 18 / 13 / 12 / 4 | 0.633 [0.410, 0.769] | dual–A-only（口袋 B） 0.633 [0.410, 0.769] | 0.569 [0.236, 0.889] |
 | JAK1/TYK2 | Vina 主分析 | 31 / 32 / 32 / 14 | 0.365 [0.233, 0.505] | dual–B-only（口袋 A） 0.365 [0.233, 0.508] | 0.770 [0.613, 0.906] |
@@ -269,7 +272,7 @@ ECFP4 与 ECFP4+对接评分 AUROC 为同一骨架分组交叉验证下的折外
 | PIK3CA → 5DXT | A | 0.714 | 0.505 | 0.505 [0.296, 0.713] |
 | mTOR → 4JSX | B | 0.639 | 0.692 | 0.639 [0.435, 0.783] |
 
-源：`independent_dock_formulation_v1.csv`；`table2_comparable_by_channel_v1.csv`；`pocket_matched_PM48_alt4JPS_v1.csv`，`..._alt5DXT_v1.csv`，`..._alt4JSX_v1.csv`。刚性 Cα 叠合为探索性分析，已归档于仓库。
+源：`results/canonical/computational_robustness.csv`；`results/canonical/receptor_substitution.csv`。历史文件 `independent_dock_formulation_v1.csv` 与 `table2_comparable_by_channel_v1.csv` 仅 git history。刚性 Cα 叠合为探索性分析，已归档于仓库。
 
 **S7d. 五种子 Vina `summary_min`（活性合格标签；盒子与 Table 2 相同）**
 
@@ -284,7 +287,7 @@ ECFP4 与 ECFP4+对接评分 AUROC 为同一骨架分组交叉验证下的折外
 | PPARG/PPARA | 0.649 | 0.649 | 0.691 | 0.651 |
 | PPARA/PPARD | 0.446 | 0.446 | 0.469 | 0.454 |
 
-源：`results/canonical/five_seed_summary_min.csv`。EGFR/HER2 逐种子分数：`data/jcim_multiseed_v0/tables/scores_vina_mode1_EGFR_corrected_box_fiveseed.csv`。
+源：`results/canonical/five_seed_summary_min.csv`。EGFR/HER2 逐种子分数：`data/egfr_her2_uniform_rdkit_v1/tables/scores_vina_mode1_fiveseed.csv`。
 
 ---
 
@@ -309,23 +312,23 @@ ECFP4 与 ECFP4+对接评分 AUROC 为同一骨架分组交叉验证下的折外
 
 ## Table S9. 最终靶对准入审计
 
-七对达到 G5 流程兼容性门槛，并因具有可在统一刚性受体 Vina 流程下表示的常规非共价口袋而纳入：PIK3CA/mTOR、AChE/BChE、F2/F10、JAK1/TYK2、JAK1/JAK2、PPARG/PPARA 和 PPARA/PPARD。本表列出供给受限的 EGFR/HER2 例外，以及未过最终结构或流程兼容性门槛的靶对。这是靶对选择审计，不是对接性能表。源：`pair_eligibility_audit_s14_v1.csv`；`FEASIBLE_PAIR_LADDER_V1.md`；`TIER1_DOCKING_ROSTER_V1.md`；`pair_ligand_identity_qc_v1.csv`。
+七对达到 G5 流程兼容性门槛，并因具有可在统一刚性受体 Vina 流程下表示的常规非共价口袋而纳入：PIK3CA/mTOR、AChE/BChE、F2/F10、JAK1/TYK2、JAK1/JAK2、PPARG/PPARA 和 PPARA/PPARD。本表列出供给受限的 EGFR/HER2 例外，以及未过最终结构或流程兼容性门槛的靶对。这是靶对选择审计，不是对接性能表。源：`data/jcim_chembl_universe_v0/tables/pair_eligibility_audit_s14_v1.csv`；`data/jcim_chembl_universe_v0/tables/pair_ligand_identity_qc_v1.csv`；`docs/TARGET_SELECTION_NO_OUTCOME_LEAKAGE_CHECK.md`。历史文件 `TIER1_DOCKING_ROSTER_V1.md` 与 `FEASIBLE_PAIR_LADDER_V1.md` 仅存在于 git history，不是当前指令。
 
 | 靶对 | 最后到达门槛 | 纳入/排除 | 理由 | 所用证据 |
 |------|-------------------|-------------------|--------|---------------|
-| EGFR/HER2 | 供给受限例外 | 纳入 | 未满足严格 6.5/5.5 选择性供给标准（最小选择性类别计数为 7），但具有合适的人源全配体结构、可由共晶定义的对接位点，并在 \(\theta=6.0\) 下有足够 dual、A-only 和 B-only 配体做方向性评价。 | `TIER1_DOCKING_ROSTER_V1.md`；Table 1 |
-| CTSK/CTSS | G4 配体身份 | 排除 | 两端共晶均为可逆共价半胱氨酸蛋白酶复合物，需超出统一非共价刚性受体 Vina 流程处理。 | `TIER1_DOCKING_ROSTER_V1.md`；`FEASIBLE_PAIR_LADDER_V1.md` |
-| CREBBP/BRD4 | G4 配体身份 | 排除 | CREBBP 同时具有 HAT 催化位点和溴结构域，拟对接结构域在统一流程下不能唯一确定。 | `TIER1_DOCKING_ROSTER_V1.md`；`FEASIBLE_PAIR_LADDER_V1.md` |
-| F2/PRSS1 | G4 配体身份 | 排除 | 胰蛋白酶（PRSS1）是药理学抗靶，而不是统一流程下的设计双靶伙伴。 | `TIER1_DOCKING_ROSTER_V1.md`；`FEASIBLE_PAIR_LADDER_V1.md` |
-| CNR1/CNR2 | G4 配体身份 | 排除 | 膜蛋白 GPCR 对，需超出统一可溶刚性受体 Vina 流程处理构建体与构象状态。 | `TIER1_DOCKING_ROSTER_V1.md`；`FEASIBLE_PAIR_LADDER_V1.md` |
-| HCRTR1/HCRTR2 | G4 配体身份 | 排除 | 膜蛋白 GPCR 对，需超出统一可溶刚性受体 Vina 流程处理构建体与构象状态。 | `TIER1_DOCKING_ROSTER_V1.md`；`FEASIBLE_PAIR_LADDER_V1.md` |
-| OPRM1/OPRD1 | G4 配体身份 | 排除 | 膜蛋白 GPCR 对，需超出统一可溶刚性受体 Vina 流程处理构建体与构象状态。 | `TIER1_DOCKING_ROSTER_V1.md`；`FEASIBLE_PAIR_LADDER_V1.md` |
-| OPRD1/OPRK1 | G4 配体身份 | 排除 | 膜蛋白 GPCR 对，需超出统一可溶刚性受体 Vina 流程处理构建体与构象状态。 | `TIER1_DOCKING_ROSTER_V1.md`；`FEASIBLE_PAIR_LADDER_V1.md` |
-| S1PR3/S1PR1 | G4 配体身份 | 排除 | 膜蛋白 GPCR 对，需超出统一可溶刚性受体 Vina 流程处理构建体与构象状态。 | `TIER1_DOCKING_ROSTER_V1.md`；`FEASIBLE_PAIR_LADDER_V1.md` |
-| SLC6A4/SLC6A3 | G4 配体身份 | 排除 | 膜蛋白 SLC6 转运体对，需超出统一可溶刚性受体 Vina 流程处理。 | `TIER1_DOCKING_ROSTER_V1.md`；`FEASIBLE_PAIR_LADDER_V1.md` |
-| SLC6A2/SLC6A4 | G4 配体身份 | 排除 | 膜蛋白 SLC6 转运体对，需超出统一可溶刚性受体 Vina 流程处理。 | `TIER1_DOCKING_ROSTER_V1.md`；`FEASIBLE_PAIR_LADDER_V1.md` |
-| OPRM1/OPRK1 | G3 人源全配体供给 | 排除 | 药物类小分子过滤后最小严格选择性类别计数由 56 降至 46，因此未过 G4 配体身份门槛。 | `pair_ligand_identity_qc_v1.csv`；`FEASIBLE_PAIR_LADDER_V1.md` |
-| JAK3/TYK2 | G3 人源全配体供给 | 排除 | 药物类小分子过滤后最小严格选择性类别计数由 51 降至 48，因此未过 G4 配体身份门槛。 | `pair_ligand_identity_qc_v1.csv`；`FEASIBLE_PAIR_LADDER_V1.md` |
+| EGFR/HER2 | 供给受限例外 | 纳入 | 未满足严格 6.5/5.5 选择性供给标准（最小选择性类别计数为 7），但具有合适的人源全配体结构、可由共晶定义的对接位点，并在 \(\theta=6.0\) 下有足够 dual、A-only 和 B-only 配体做方向性评价。 | `pair_eligibility_audit_s14_v1.csv`；Table 1 |
+| CTSK/CTSS | G4 配体身份 | 排除 | 两端共晶均为可逆共价半胱氨酸蛋白酶复合物，需超出统一非共价刚性受体 Vina 流程处理。 | `pair_eligibility_audit_s14_v1.csv`（历史 TIER1/FEASIBLE markdown 仅 git history） |
+| CREBBP/BRD4 | G4 配体身份 | 排除 | CREBBP 同时具有 HAT 催化位点和溴结构域，拟对接结构域在统一流程下不能唯一确定。 | `pair_eligibility_audit_s14_v1.csv`（历史 TIER1/FEASIBLE markdown 仅 git history） |
+| F2/PRSS1 | G4 配体身份 | 排除 | 胰蛋白酶（PRSS1）是药理学抗靶，而不是统一流程下的设计双靶伙伴。 | `pair_eligibility_audit_s14_v1.csv`（历史 TIER1/FEASIBLE markdown 仅 git history） |
+| CNR1/CNR2 | G4 配体身份 | 排除 | 膜蛋白 GPCR 对，需超出统一可溶刚性受体 Vina 流程处理构建体与构象状态。 | `pair_eligibility_audit_s14_v1.csv`（历史 TIER1/FEASIBLE markdown 仅 git history） |
+| HCRTR1/HCRTR2 | G4 配体身份 | 排除 | 膜蛋白 GPCR 对，需超出统一可溶刚性受体 Vina 流程处理构建体与构象状态。 | `pair_eligibility_audit_s14_v1.csv`（历史 TIER1/FEASIBLE markdown 仅 git history） |
+| OPRM1/OPRD1 | G4 配体身份 | 排除 | 膜蛋白 GPCR 对，需超出统一可溶刚性受体 Vina 流程处理构建体与构象状态。 | `pair_eligibility_audit_s14_v1.csv`（历史 TIER1/FEASIBLE markdown 仅 git history） |
+| OPRD1/OPRK1 | G4 配体身份 | 排除 | 膜蛋白 GPCR 对，需超出统一可溶刚性受体 Vina 流程处理构建体与构象状态。 | `pair_eligibility_audit_s14_v1.csv`（历史 TIER1/FEASIBLE markdown 仅 git history） |
+| S1PR3/S1PR1 | G4 配体身份 | 排除 | 膜蛋白 GPCR 对，需超出统一可溶刚性受体 Vina 流程处理构建体与构象状态。 | `pair_eligibility_audit_s14_v1.csv`（历史 TIER1/FEASIBLE markdown 仅 git history） |
+| SLC6A4/SLC6A3 | G4 配体身份 | 排除 | 膜蛋白 SLC6 转运体对，需超出统一可溶刚性受体 Vina 流程处理。 | `pair_eligibility_audit_s14_v1.csv`（历史 TIER1/FEASIBLE markdown 仅 git history） |
+| SLC6A2/SLC6A4 | G4 配体身份 | 排除 | 膜蛋白 SLC6 转运体对，需超出统一可溶刚性受体 Vina 流程处理。 | `pair_eligibility_audit_s14_v1.csv`（历史 TIER1/FEASIBLE markdown 仅 git history） |
+| OPRM1/OPRK1 | G3 人源全配体供给 | 排除 | 药物类小分子过滤后最小严格选择性类别计数由 56 降至 46，因此未过 G4 配体身份门槛。 | `pair_ligand_identity_qc_v1.csv` |
+| JAK3/TYK2 | G3 人源全配体供给 | 排除 | 药物类小分子过滤后最小严格选择性类别计数由 51 降至 48，因此未过 G4 配体身份门槛。 | `pair_ligand_identity_qc_v1.csv` |
 
 ---
 
@@ -335,7 +338,7 @@ ECFP4 与 ECFP4+对接评分 AUROC 为同一骨架分组交叉验证下的折外
 
 | 靶对 | n_ranked (D / A / B / N) | k | Top 10% D / A / B / N | dual / k | n_dual / n | EF_dual,10% | AND 输入 → 通过 (D / A / B) | AND dual precision |
 |------|-------------------------:|--:|----------------------:|---------:|-----------:|------------:|------------------------------:|-------------------:|
-| EGFR/HER2 | 109 (28 / 37 / 32 / 12) | 11 | 1 / 5 / 5 / 0 | 0.091 | 0.257 | 0.354 | 97 → 47 (14 / 9 / 24) | 0.298 |
+| EGFR/HER2 | 108 (28 / 37 / 31 / 12) | 11 | 1 / 4 / 6 / 0 | 0.091 | 0.259 | 0.351 | 97 → 47 (14 / 9 / 24) | 0.298 |
 | JAK1/JAK2 | 110 (32 / 32 / 32 / 14) | 11 | 6 / 5 / 0 / 0 | 0.545 | 0.291 | 1.875 | 96 → 35 (16 / 13 / 6) | 0.457 |
 | JAK1/TYK2 | 109 (31 / 32 / 32 / 14) | 11 | 1 / 3 / 7 / 0 | 0.091 | 0.284 | 0.320 | 95 → 50 (16 / 12 / 22) | 0.320 |
 | PIK3CA/mTOR | 48 (18 / 14 / 12 / 4) | 5 | 4 / 1 / 0 / 0 | 0.800 | 0.375 | 2.133 | 44 → 17 (9 / 4 / 4) | 0.529 |

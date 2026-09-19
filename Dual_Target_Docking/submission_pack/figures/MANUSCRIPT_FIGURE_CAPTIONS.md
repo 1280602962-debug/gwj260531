@@ -22,7 +22,7 @@ Matched-pocket scoring uses target B for Dual versus A-only and target A for Dua
 
 ## Figure 5. Computational robustness.
 
-(A) Independent GNINA 1.3.2 pose generation versus Vina on EGFR/HER2, PIK3CA/mTOR, and JAK1/TYK2. Corrected EGFR box: dual-versus-B-only ≈ 0.265; dual-versus-neither ≈ 0.737. (B) PIK3CA/mTOR receptor substitution of primary 4L23 / 4JT6 by 4JPS, 5DXT, or 4JSX. (C) Five-seed summary_min range for all eight pairs, using the same boxes as Table 2 (EGFR/HER2 corrected-box). RTMScore / CNN rescoring is Table S7.
+(A) Independent GNINA 1.3.2 pose generation versus Vina on EGFR/HER2, PIK3CA/mTOR, and JAK1/TYK2. Uniform EGFR GNINA: dual-versus-B-only ≈ 0.227; dual-versus-neither ≈ 0.705. (B) PIK3CA/mTOR receptor substitution of primary 4L23 / 4JT6 by 4JPS, 5DXT, or 4JSX. (C) Five-seed summary_min range for all eight pairs, using the same boxes as Table 2 (EGFR/HER2 uniform RDKit/Meeko, corrected boxes). AChE/BChE seed realizations have changing available-case membership; fixed-membership sensitivity (`results/canonical/five_seed_fixed_membership_sensitivity.csv`, n=88) gives the same qualitative conclusion. RTMScore / CNN rescoring is Table S7.
 
 ## Figure S1. Ligand-chemistry detail.
 

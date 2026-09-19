@@ -1,7 +1,7 @@
 pair,contrast,estimator,n_groups,n_dual,n_selective,n_neither,delta_point,delta_ci_lo,delta_ci_hi,n_attempted_boot,n_valid_boot,excludes_zero,status,note,seed
-EGFR/HER2,D_vs_B_or_neither_pocketA,ligand_stratified,,28,32,12,0.4621,0.2596,0.6406,2000,2000,1,ok,primary ligand-level class-stratified bootstrap; B=2000 seed=20260729,20260729
-EGFR/HER2,D_vs_B_or_neither_pocketA,scaffold_cluster,61,28,32,12,0.4621,0.2351,0.6650,2000,2000,1,ok,"resamples connected groups, not ligands; shared dual within each resample; current scores; B=2000 seed=20260729",20260729
-EGFR/HER2,D_vs_B_or_neither_pocketA,document_cluster,28,28,32,12,0.4621,0.1246,0.6441,2000,1994,1,ok,"resamples connected groups, not ligands; shared dual within each resample; current scores; B=2000 seed=20260729",20260729
+EGFR/HER2,D_vs_B_or_neither_pocketA,ligand_stratified,,28,31,12,0.4457,0.2594,0.6319,2000,2000,1,ok,primary ligand-level class-stratified bootstrap; B=2000 seed=20260729,20260729
+EGFR/HER2,D_vs_B_or_neither_pocketA,scaffold_cluster,60,28,31,12,0.4457,0.2316,0.6374,2000,1999,1,ok,"resamples connected groups, not ligands; shared dual within each resample; current scores; B=2000 seed=20260729",20260729
+EGFR/HER2,D_vs_B_or_neither_pocketA,document_cluster,27,28,31,12,0.4457,0.1172,0.6356,2000,1999,1,ok,"resamples connected groups, not ligands; shared dual within each resample; current scores; B=2000 seed=20260729",20260729
 JAK1/TYK2,D_vs_B_or_neither_pocketA,ligand_stratified,,31,32,14,0.4438,0.2605,0.6299,2000,2000,1,ok,primary ligand-level class-stratified bootstrap; B=2000 seed=20260729,20260729
 JAK1/TYK2,D_vs_B_or_neither_pocketA,scaffold_cluster,68,31,32,14,0.4438,0.2203,0.6306,2000,2000,1,ok,"resamples connected groups, not ligands; shared dual within each resample; current scores; B=2000 seed=20260729",20260729
 JAK1/TYK2,D_vs_B_or_neither_pocketA,document_cluster,,31,32,14,0.4438,,,2000,0,,unresolved_mapping_unavailable,not recomputed: ligand-document grouping map not deposited and ChEMBL 37 sqlite unavailable; do not copy a previous CI,20260729

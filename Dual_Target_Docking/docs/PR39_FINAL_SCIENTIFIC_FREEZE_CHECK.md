@@ -56,9 +56,9 @@ python3 scripts/qa/compare_rebuild_to_canonical.py \
 
 ## Table pack 29/29 PASS
 
-Every `results/canonical/*.csv` matches `submission_pack/tables/canonical/<same name>` by `cmp` (29/29).
+Every `results/canonical/*.csv` matches `submission_pack/tables/canonical/` by `cmp` after pack rebuild.
 
-Absent, as required:
+Absent, as required (historical / unavailable; must be absent):
 
 - `results/freeze_rebuild/`
 - `figures/jcim_article/plotted_values.json`

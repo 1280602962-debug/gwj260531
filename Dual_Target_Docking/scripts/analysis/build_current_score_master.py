@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Build the unique current per-ligand score master (zero-dock).
 
-EGFR/HER2: corrected-box ablation scores (not review_scored_membership).
+EGFR/HER2: uniform RDKit/Meeko Vina (seed 20260727) when that table exists;
+otherwise historical corrected-box ablation scores.
 AChE/BChE: corrected panel + scores.
 PIK3CA/mTOR: PM48 rdkit production scores.
 Track B five pairs: scores_vina_mode1_v1.csv.
@@ -20,7 +21,17 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "scripts"))
-from analysis.analysis_config import PRIMARY_PAIRS, RECEPTORS, add_io_args, io_paths, parse_finite  # noqa: E402
+from analysis.analysis_config import (  # noqa: E402
+    EGFR_PRODUCTION_SEED,
+    EGFR_UNIFORM_VINA_CSV,
+    PRIMARY_PAIRS,
+    RECEPTORS,
+    add_io_args,
+    current_egfr_score_source,
+    egfr_uniform_ready,
+    io_paths,
+    parse_finite,
+)
 from analysis.bootstrap_metrics import assign_fourclass  # noqa: E402
 FIELDS = [
     "pair",
@@ -104,13 +115,44 @@ def row_of(**kwargs) -> dict:
 
 
 def load_egfr() -> list[dict]:
-    scores = {r["ligand"]: r for r in read_csv(ROOT / "data/egfr_her2_panel120_v0/tables/ablation_ligand_scores.csv")}
     panel = {r["panel_id"]: r for r in read_csv(ROOT / "data/egfr_her2_panel120_v0/tables/panel_v0_120.csv")}
+    source = current_egfr_score_source()
+    scores: dict[str, dict] = {}
+    if egfr_uniform_ready():
+        postfix = "uniform_rdkit_meeko"
+        for r in read_csv(EGFR_UNIFORM_VINA_CSV):
+            if str(r.get("seed")) != str(EGFR_PRODUCTION_SEED):
+                continue
+            if r.get("status") not in {"ok", "success"}:
+                continue
+            energy = fnum(r.get("vina_mode1"))
+            if energy is None:
+                continue
+            lig = r["ligand"]
+            rec = scores.setdefault(lig, {})
+            if r.get("pdb") == "3POZ":
+                rec["affinity_A"] = energy
+                rec["score_A"] = -energy
+            elif r.get("pdb") == "3RCD":
+                rec["affinity_B"] = energy
+                rec["score_B"] = -energy
+        ligands = list(panel.keys())
+    else:
+        postfix = "corrected_box"
+        for r in read_csv(ROOT / "data/egfr_her2_panel120_v0/tables/ablation_ligand_scores.csv"):
+            scores[r["ligand"]] = {
+                "score_A": fnum(r.get("vina_3POZ_hb")),
+                "score_B": fnum(r.get("vina_3RCD_hb")),
+                "affinity_A": fnum(r.get("3POZ_affinity")),
+                "affinity_B": fnum(r.get("3RCD_affinity")),
+                "molecule_chembl_id": r.get("molecule_chembl_id"),
+                "class": r.get("class"),
+            }
+        ligands = list(scores.keys())
     out = []
-    for lig, s in scores.items():
+    for lig in ligands:
         p = panel.get(lig, {})
-        sa = fnum(s.get("vina_3POZ_hb"))
-        sb = fnum(s.get("vina_3RCD_hb"))
+        s = scores.get(lig, {})
         out.append(
             row_of(
                 pair="EGFR/HER2",
@@ -120,13 +162,13 @@ def load_egfr() -> list[dict]:
                 construction_class=s.get("class") or p.get("class", ""),
                 pA=p.get("pchembl_EGFR"),
                 pB=p.get("pchembl_HER2"),
-                score_A=sa,
-                score_B=sb,
-                affinity_A=fnum(s.get("3POZ_affinity")),
-                affinity_B=fnum(s.get("3RCD_affinity")),
+                score_A=s.get("score_A"),
+                score_B=s.get("score_B"),
+                affinity_A=s.get("affinity_A"),
+                affinity_B=s.get("affinity_B"),
                 analysis_set="main",
-                score_source="data/egfr_her2_panel120_v0/tables/ablation_ligand_scores.csv",
-                postfix_status="corrected_box",
+                score_source=source,
+                postfix_status=postfix,
             )
         )
     return out

@@ -15,7 +15,16 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "scripts"))
-from analysis.analysis_config import CANONICAL_CSV_NAMES, is_primary_row  # noqa: E402
+from analysis.analysis_config import (  # noqa: E402
+    CANONICAL_CSV_NAMES,
+    EGFR_PRODUCTION_SEED,
+    EGFR_UNIFORM_VINA_CSV,
+    FIVE_SEED_EGFR_CORRECTED_BOX_SCORES,
+    current_egfr_score_source,
+    egfr_uniform_ready,
+    is_primary_row,
+    parse_finite,
+)
 from analysis.bootstrap_metrics import auroc  # noqa: E402
 
 PAIRS = (
@@ -75,6 +84,34 @@ def check_leftovers() -> None:
         fail(f"leftover 0.0112 current-source candidate {leftover_0112}")
 
 
+def check_writing_index_paths() -> None:
+    """Existence only. Not a SHA/hash gate."""
+    required = [
+        ROOT / "figures/jcim_article/plotted_values_postfix.json",
+        ROOT / "docs/PR39_SCIENTIFIC_DATA_AUDIT.md",
+        ROOT / "docs/WRITING_INDEX_FREEZE.md",
+        ROOT / "docs/FIGURE_TABLE_LOCK_POSTFIX_V4.md",
+        ROOT / "data/jcim_chembl_universe_v0/tables/track_b_local_run_v1.yaml",
+        ROOT / "results/canonical/ecfp4_incremental_information.csv",
+        ROOT / "results/canonical/computational_robustness.csv",
+        ROOT / "results/canonical/primary_summary_min.csv",
+        ROOT / "results/canonical/primary_directional_auroc.csv",
+        ROOT / "results/canonical/five_seed_summary_min.csv",
+        ROOT / "results/canonical/five_seed_fixed_membership_sensitivity.csv",
+        ROOT / "results/canonical/current_score_master.csv",
+        ROOT / "data/provenance/receptor_input_registry.csv",
+    ]
+    missing = [str(p.relative_to(ROOT)) for p in required if not p.is_file()]
+    if missing:
+        fail(f"writing-index/lock path missing: {missing}")
+    index = (ROOT / "docs/WRITING_INDEX_FREEZE.md").read_text(encoding="utf-8")
+    lock = (ROOT / "docs/FIGURE_TABLE_LOCK_POSTFIX_V4.md").read_text(encoding="utf-8")
+    if "HISTORICAL_LEFTOVER_FILES.md" in index or "HISTORICAL_LEFTOVER_FILES.md" in lock:
+        fail("HISTORICAL_LEFTOVER_FILES.md is still cited")
+    if "plotted_values.json" in index and "plotted_values_postfix.json" not in index:
+        fail("WRITING_INDEX_FREEZE still treats plotted_values.json as authority")
+
+
 def provenance_summary(master: list[dict]) -> list[dict]:
     rows = []
     for pair in PAIRS:
@@ -103,12 +140,21 @@ def provenance_summary(master: list[dict]) -> list[dict]:
 def check_five_seed_comparable() -> None:
     seeds = read_csv(ROOT / "results/canonical/five_seed_summary_min.csv")
     smin = {r["pair"]: r for r in read_csv(ROOT / "results/canonical/primary_summary_min.csv")}
+    fixed = read_csv(ROOT / "results/canonical/five_seed_fixed_membership_sensitivity.csv")
     comparable_vals = []
     egfr_primary = None
     for r in seeds:
         comparable = str(r.get("comparable_to_current_primary", "")).strip()
         if comparable != "1":
             fail(f"five-seed {r['pair']} seed {r['seed']} not comparable ({comparable})")
+        if str(r.get("same_protocol_as_primary", "")).strip() != "1":
+            fail(f"five-seed {r['pair']} seed {r['seed']} same_protocol_as_primary={r.get('same_protocol_as_primary')}")
+        membership = str(r.get("same_membership_as_primary", "")).strip()
+        if r["pair"] == "AChE/BChE":
+            if membership != "0":
+                fail(f"AChE five-seed must have same_membership_as_primary=0, got {membership}")
+        elif membership != "1":
+            fail(f"{r['pair']} seed {r['seed']} same_membership_as_primary={membership}")
         if r.get("realization_status") != "current_or_compatible":
             fail(f"five-seed {r['pair']} seed {r['seed']} status={r.get('realization_status')}")
         comparable_vals.append(float(r["summary_min"]))
@@ -124,6 +170,14 @@ def check_five_seed_comparable() -> None:
                 fail(f"EGFR five-seed production class counts {r['n_dual']}/{r['n_A_only']}/{r['n_B_only']}")
     if egfr_primary is None:
         fail("EGFR five-seed production seed 20260727 missing")
+    ache_fixed = [r for r in fixed if r["pair"] == "AChE/BChE"]
+    if not ache_fixed:
+        fail("AChE fixed-membership sensitivity missing")
+    n_inter = {int(r["n_intersection"]) for r in ache_fixed}
+    if n_inter != {88}:
+        fail(f"AChE five-seed intersection expected n=88, got {n_inter}")
+    if any(r.get("qualitative_change") != "no" for r in ache_fixed):
+        fail("AChE fixed-membership qualitative_change is not no")
     plotted = json.loads((ROOT / "figures/jcim_article/plotted_values_postfix.json").read_text(encoding="utf-8"))
     nested = plotted.get("nested_plotted") or {}
     fig4c = nested.get("fig4C") or {}
@@ -133,7 +187,7 @@ def check_five_seed_comparable() -> None:
     if egfr.get("primary") in (None, "", "NA"):
         fail("Figure 5C missing EGFR five-seed primary overlay")
     print(
-        f"PASS: EGFR five-seed corrected-box comparable; range "
+        f"PASS: EGFR five-seed corrected-box comparable; AChE membership documented n=88; range "
         f"{min(comparable_vals):.4f}–{max(comparable_vals):.4f}"
     )
 
@@ -195,21 +249,52 @@ def main() -> int:
     if dups:
         fail(f"duplicate pair/ligand keys {dups[:5]}")
 
-    ab = {
-        r["ligand"]: r
-        for r in read_csv(ROOT / "data/egfr_her2_panel120_v0/tables/ablation_ligand_scores.csv")
+    panel = {
+        r["panel_id"]: r
+        for r in read_csv(ROOT / "data/egfr_her2_panel120_v0/tables/panel_v0_120.csv")
     }
     egfr = [r for r in master if r["pair"] == "EGFR/HER2" and r.get("analysis_set") == "main"]
-    if len(egfr) != len(ab):
-        fail(f"EGFR n={len(egfr)} ablation={len(ab)}")
-    for row in egfr:
-        old = ab.get(row["ligand_id"])
-        if old is None:
-            fail(f"EGFR {row['ligand_id']} missing from ablation scores")
-        sa = -float(old["3POZ_affinity"])
-        sb = -float(old["3RCD_affinity"])
-        if abs(float(row["score_A"]) - sa) > 1e-6 or abs(float(row["score_B"]) - sb) > 1e-6:
-            fail(f"EGFR {row['ligand_id']} score mismatch")
+    if {r["ligand_id"] for r in egfr} != set(panel):
+        fail(f"EGFR master ligands != panel_v0_120 ({len(egfr)} vs {len(panel)})")
+    if egfr_uniform_ready():
+        want = {}
+        for r in read_csv(EGFR_UNIFORM_VINA_CSV):
+            if str(r.get("seed")) != str(EGFR_PRODUCTION_SEED):
+                continue
+            if r.get("status") not in {"ok", "success"}:
+                continue
+            energy = parse_finite(r.get("vina_mode1"))
+            if energy is None:
+                continue
+            rec = want.setdefault(r["ligand"], {})
+            if r.get("pdb") == "3POZ":
+                rec["A"] = -energy
+            elif r.get("pdb") == "3RCD":
+                rec["B"] = -energy
+        for row in egfr:
+            src = want.get(row["ligand_id"], {})
+            if "A" in src and "B" in src:
+                if abs(float(row["score_A"]) - src["A"]) > 1e-6 or abs(float(row["score_B"]) - src["B"]) > 1e-6:
+                    fail(f"EGFR {row['ligand_id']} score mismatch vs uniform Vina")
+            elif row.get("complete_case") in ("1", "True", 1):
+                fail(f"EGFR {row['ligand_id']} complete_case without both uniform scores")
+            if row.get("score_source") != current_egfr_score_source():
+                fail(f"EGFR {row['ligand_id']} score_source={row.get('score_source')}")
+    else:
+        ab = {
+            r["ligand"]: r
+            for r in read_csv(ROOT / "data/egfr_her2_panel120_v0/tables/ablation_ligand_scores.csv")
+        }
+        if len(egfr) != len(ab):
+            fail(f"EGFR n={len(egfr)} ablation={len(ab)}")
+        for row in egfr:
+            old = ab.get(row["ligand_id"])
+            if old is None:
+                fail(f"EGFR {row['ligand_id']} missing from ablation scores")
+            sa = -float(old["3POZ_affinity"])
+            sb = -float(old["3RCD_affinity"])
+            if abs(float(row["score_A"]) - sa) > 1e-6 or abs(float(row["score_B"]) - sb) > 1e-6:
+                fail(f"EGFR {row['ligand_id']} score mismatch")
 
     for pair, lig in (("EGFR/HER2", "EH120_059"), ("AChE/BChE", "AB_087")):
         recs = [r for r in master if r["pair"] == pair and r["ligand_id"] == lig]
@@ -284,6 +369,7 @@ def main() -> int:
     check_five_seed_comparable()
     check_pack_tables()
     check_leftovers()
+    check_writing_index_paths()
 
     pack_en = (ROOT / "submission_pack/manuscript/MANUSCRIPT_JCIM_EN.md").read_text(encoding="utf-8")
     if r3(smin["EGFR/HER2"]["summary_min"]) not in pack_en:
@@ -307,11 +393,11 @@ def main() -> int:
     if any(r.get("bootstrap") != "class_stratified_shared_dual" for r in det):
         fail("detectable-effect bootstrap is not class_stratified_shared_dual")
 
-    scores = ROOT / "data/jcim_multiseed_v0/tables/scores_vina_mode1_EGFR_corrected_box_fiveseed.csv"
+    scores = EGFR_UNIFORM_VINA_CSV if egfr_uniform_ready() else FIVE_SEED_EGFR_CORRECTED_BOX_SCORES
     if not scores.is_file():
-        fail("EGFR corrected-box five-seed score file missing")
+        fail(f"EGFR five-seed score file missing: {scores}")
 
-    print("PASS: current score master, Table 2 replay, provenance, five-seed corrected-box, plotted ECFP, pack tables")
+    print("PASS: current score master, Table 2 replay, provenance, five-seed, plotted ECFP, pack tables")
     return 0
 
 

@@ -20,11 +20,13 @@ from analysis.analysis_config import (  # noqa: E402
     COGNATE_RMSD_SOURCE,
     E8_SCORE_SOURCE,
     EXTERNAL_ELIGIBILITY_SOURCE,
+    EGFR_UNIFORM_VINA_CSV,
     FIVE_SEED_EGFR_CORRECTED_BOX_SCORES,
     FIVE_SEED_LONG_SCORES,
     FIVE_SEED_TRACKB_TEMPLATE,
     FIVE_SEEDS,
-    GNINA_SOURCES,
+    current_gnina_sources,
+    egfr_uniform_ready,
     N_BOOT,
     PM110_SCORE_SOURCE,
     PRIMARY_PAIRS,
@@ -668,8 +670,11 @@ def _smin_point(recs):
 
 def _load_five_seed_scores():
     wide = {}
+    skip_egfr_legacy = egfr_uniform_ready()
     if FIVE_SEED_LONG_SCORES.is_file():
         for r in read_csv(FIVE_SEED_LONG_SCORES):
+            if skip_egfr_legacy and r.get("pair") == "EGFR/HER2":
+                continue
             energy = parse_finite(r.get("vina_mode1"))
             if energy is None:
                 continue
@@ -698,9 +703,12 @@ def _load_five_seed_scores():
             else:
                 continue
             wide.setdefault((pair, int(r.get("seed") or seed), r["ligand"]), {})[pocket] = sc
-    if FIVE_SEED_EGFR_CORRECTED_BOX_SCORES.is_file():
+    egfr_path = EGFR_UNIFORM_VINA_CSV if skip_egfr_legacy else FIVE_SEED_EGFR_CORRECTED_BOX_SCORES
+    if egfr_path.is_file():
         pocket_of = {"3POZ": "A", "3RCD": "B"}
-        for r in read_csv(FIVE_SEED_EGFR_CORRECTED_BOX_SCORES):
+        for r in read_csv(egfr_path):
+            if r.get("status") not in ("ok", "success", "", None):
+                continue
             energy = parse_finite(r.get("vina_mode1"))
             pocket = pocket_of.get(r.get("pdb"))
             if energy is None or pocket is None:
@@ -710,15 +718,19 @@ def _load_five_seed_scores():
 
 
 def compute_five_seed(packs, smin_rows):
-    """Per-seed summary_min from deposited seed scores + current labels.
+    """Per-seed available-case summary_min from deposited seed scores + current labels.
 
-    EGFR/HER2 uses corrected-box five-seed Vina scores (production seed 20260727
-    reused from the current ablation table; 20260811–14 redocked in the same
-    boxes). All eight pairs are complete-case on the current eligible panel.
+    same_protocol_as_primary=1 means the same receptors, boxes, exhaustiveness,
+    and Vina settings as Table 2. same_membership_as_primary=1 only when every
+    seed scores the same ligands as the current primary complete-case set.
+    AChE/BChE keeps protocol but not membership (available-case n changes).
+    comparable_to_current_primary remains 1 when protocol matches; it is not a
+    membership identity claim.
     """
     primary = {r["pair"]: float(r["summary_min"]) for r in smin_rows}
+    n_primary = {pair: len(recs) for pair, recs in packs.items()}
     wide = _load_five_seed_scores()
-    out = []
+    staged = {pair: [] for pair in PRIMARY_PAIRS}
     for pair in PRIMARY_PAIRS:
         for seed in FIVE_SEEDS:
             recs = []
@@ -726,9 +738,9 @@ def compute_five_seed(packs, smin_rows):
                 sc = wide.get((pair, seed, r["ligand_id"]))
                 if not sc or "A" not in sc or "B" not in sc:
                     continue
-                recs.append({"cls": r["cls"], "score_A": sc["A"], "score_B": sc["B"]})
+                recs.append({"cls": r["cls"], "score_A": sc["A"], "score_B": sc["B"], "ligand_id": r["ligand_id"]})
             da, db, sm, nd, na, nb, n = _smin_point(recs)
-            out.append(
+            staged[pair].append(
                 {
                     "pair": pair,
                     "seed": seed,
@@ -741,11 +753,74 @@ def compute_five_seed(packs, smin_rows):
                     "auroc_D_vs_B_pocketA": r4(db),
                     "summary_min": r4(sm),
                     "primary_summary_min": r4(primary[pair]),
+                    "same_protocol_as_primary": 1,
+                    "same_membership_as_primary": int(n == n_primary[pair]),
                     "comparable_to_current_primary": 1,
                     "realization_status": "current_or_compatible",
                     "source": "deposited per-seed Vina scores + current primary labels",
                     "source_kind": "recomputed_from_frozen_scores",
-                    "note": "complete-case on the current eligible panel for this seed",
+                    "note": "available-case: ligands with both pocket scores on this seed",
+                }
+            )
+        if any(int(r["same_membership_as_primary"]) == 0 for r in staged[pair]):
+            for r in staged[pair]:
+                r["same_membership_as_primary"] = 0
+                r["note"] = (
+                    "available-case membership changes across seeds; "
+                    "same_protocol_as_primary=1; use five_seed_fixed_membership_sensitivity.csv"
+                )
+    return [r for pair in PRIMARY_PAIRS for r in staged[pair]]
+
+
+def compute_five_seed_fixed_membership(packs, five_seed_rows):
+    """Intersection of ligands scored on all five seeds. No redock."""
+    wide = _load_five_seed_scores()
+    by_seed = {(r["pair"], str(r["seed"])): r for r in five_seed_rows}
+    out = []
+    for pair in PRIMARY_PAIRS:
+        lig_ok = []
+        for rec in packs[pair]:
+            lig = rec["ligand_id"]
+            if all(
+                "A" in wide.get((pair, seed, lig), {}) and "B" in wide.get((pair, seed, lig), {})
+                for seed in FIVE_SEEDS
+            ):
+                lig_ok.append(rec)
+        counts = Counter(r["cls"] for r in lig_ok)
+        n_inter = len(lig_ok)
+        n_primary = len(packs[pair])
+        for seed in FIVE_SEEDS:
+            recs = []
+            for rec in lig_ok:
+                sc = wide[(pair, seed, rec["ligand_id"])]
+                recs.append({"cls": rec["cls"], "score_A": sc["A"], "score_B": sc["B"]})
+            da, db, sm, nd, na, nb, n = _smin_point(recs)
+            avail = by_seed[(pair, str(seed))]
+            avail_sm = float(avail["summary_min"]) if avail.get("summary_min") not in ("", None) else float("nan")
+            delta = sm - avail_sm if recs else float("nan")
+            same_side = (sm - 0.5) * (avail_sm - 0.5) > 0 if recs else False
+            out.append(
+                {
+                    "pair": pair,
+                    "seed": seed,
+                    "n_intersection": n_inter,
+                    "n_dual": counts["dual"],
+                    "n_A_only": counts["A_only"],
+                    "n_B_only": counts["B_only"],
+                    "n_neither": counts["neither"],
+                    "n_primary": n_primary,
+                    "n_dropped_vs_primary": n_primary - n_inter,
+                    "summary_min": r4(sm),
+                    "auroc_D_vs_A_pocketB": r4(da),
+                    "auroc_D_vs_B_pocketA": r4(db),
+                    "available_case_summary_min": r4(avail_sm),
+                    "available_case_n": avail["n"],
+                    "delta": r4(delta),
+                    "qualitative_change": "no" if same_side else "yes",
+                    "same_protocol_as_primary": 1,
+                    "same_membership_as_primary": 0 if n_inter != n_primary else 1,
+                    "source_kind": "fixed_membership_sensitivity",
+                    "note": "intersection of ligands with both pocket scores on all five seeds; no redock",
                 }
             )
     return out
@@ -839,7 +914,7 @@ def copy_external_eligibility():
 def gnina_rows(packs):
     """Recompute directional AUROC from deposited GNINA poses + eligible master classes."""
     out = []
-    for pair, (path, pdb_a, pdb_b) in GNINA_SOURCES.items():
+    for pair, (path, pdb_a, pdb_b) in current_gnina_sources().items():
         if not path.is_file() or pair not in packs:
             continue
         cls = {r["ligand_id"]: r["cls"] for r in packs[pair]}
@@ -1201,6 +1276,9 @@ def main() -> int:
     five_seed = compute_five_seed(packs, smin)
     write_csv(CANON / "five_seed_summary_min.csv", five_seed)
     print("five-seed done", len(five_seed))
+    five_fixed = compute_five_seed_fixed_membership(packs, five_seed)
+    write_csv(CANON / "five_seed_fixed_membership_sensitivity.csv", five_fixed)
+    print("five-seed fixed membership done", len(five_fixed))
     protocol = compute_protocol_sensitivity(packs, smin)
     write_csv(CANON / "protocol_sensitivity.csv", protocol)
     print("protocol sensitivity done")

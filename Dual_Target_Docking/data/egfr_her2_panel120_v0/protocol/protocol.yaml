@@ -6,9 +6,18 @@ n_modes: 9
 rtm: best-of-9
 vina: AutoDock Vina 1.2.7
 ligand_prep:
-  panel40_reused: LigPrep (as-run)
-  new_ligands: RDKit ETKDG + meeko
+  deposited_production_scores: tables/ablation_ligand_scores.csv
+  deposited_ligand_pdbqt: not_recoverable
+  method_for_deposited_scores: not_recoverable
+  rebuild_uniform_rdkit: data/egfr_her2_uniform_rdkit_v1
+  current_production_scores: data/egfr_her2_uniform_rdkit_v1/tables/scores_vina_mode1_fiveseed.csv
+  historical_note: >
+    Prior yaml claimed mixed LigPrep/RDKit. That text is not evidence for the
+    deposited ablation scores. CASE 2 uniform RDKit/Meeko is now the only
+    current EGFR production truth. Ablation scores are historical / unavailable
+    as Table 2.
 panel_n: 110
 classes: {dual: 28, A_only: 38, B_only: 32, neither: 12}
 theta_pKi: 6
 murcko_cap_per_class: 5
+role: historical deposited pack; current EGFR scores are data/egfr_her2_uniform_rdkit_v1
