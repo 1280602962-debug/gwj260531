@@ -152,7 +152,7 @@ def main() -> int:
     lines = [
         "# Current-path audit",
         "",
-        "Date: 2026-09-18",
+        "Date: 2026-09-19",
         "Scanner: `scripts/qa/audit_current_paths.py`",
         "Rule: every current-facing source/protocol/script path must exist, or be marked historical / archived / unavailable.",
         "Checksum manifests are integrity records, not scientific PASS/FAIL authority.",

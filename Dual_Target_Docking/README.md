@@ -12,7 +12,7 @@ This directory is the current article, analysis, and reproduction tree for an ev
 
 | What | Path |
 |------|------|
-| Per-ligand scores and classes | `results/canonical/current_score_master.csv` (copy: `data/processed/current_score_master.csv`) |
+| Per-ligand scores and classes | `results/canonical/current_score_master.csv` (pointer: `data/processed/CURRENT_SCORE_MASTER.md`) |
 | Canonical result tables | `results/canonical/` |
 | Detectable-effect simulation | `results/canonical/detectable_effect_simulation.csv` |
 | English / Chinese manuscripts | `docs/MANUSCRIPT_JCIM_EN.md`, `docs/MANUSCRIPT_JCIM_ZH.md` |

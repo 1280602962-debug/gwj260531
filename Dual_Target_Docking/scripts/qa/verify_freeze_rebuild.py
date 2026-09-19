@@ -398,9 +398,6 @@ def check_five_seed(seed_rows, smin_rows):
         fail(f"EGFR five-seed score file missing: {current_egfr_five_seed_path()}")
     comparable_vals = []
     for r in seed_rows:
-        comparable = str(r.get("comparable_to_current_primary", "")).strip()
-        if comparable not in {"1", "True", "true"}:
-            fail(f"{r['pair']} seed {r['seed']} unexpected comparable_to_current_primary={comparable}")
         if str(r.get("same_protocol_as_primary", "")).strip() != "1":
             fail(f"{r['pair']} seed {r['seed']} same_protocol_as_primary={r.get('same_protocol_as_primary')}")
         membership = str(r.get("same_membership_as_primary", "")).strip()

@@ -88,7 +88,7 @@ def check_writing_index_paths() -> None:
     """Existence only. Not a SHA/hash gate."""
     required = [
         ROOT / "figures/jcim_article/plotted_values_postfix.json",
-        ROOT / "docs/PR39_SCIENTIFIC_DATA_AUDIT.md",
+        ROOT / "docs/audit/FINAL_FULL_PROJECT_AUDIT.md",
         ROOT / "docs/WRITING_INDEX_FREEZE.md",
         ROOT / "docs/FIGURE_TABLE_LOCK_POSTFIX_V4.md",
         ROOT / "data/jcim_chembl_universe_v0/tables/track_b_local_run_v1.yaml",
@@ -141,12 +141,9 @@ def check_five_seed_comparable() -> None:
     seeds = read_csv(ROOT / "results/canonical/five_seed_summary_min.csv")
     smin = {r["pair"]: r for r in read_csv(ROOT / "results/canonical/primary_summary_min.csv")}
     fixed = read_csv(ROOT / "results/canonical/five_seed_fixed_membership_sensitivity.csv")
-    comparable_vals = []
+    seed_vals = []
     egfr_primary = None
     for r in seeds:
-        comparable = str(r.get("comparable_to_current_primary", "")).strip()
-        if comparable != "1":
-            fail(f"five-seed {r['pair']} seed {r['seed']} not comparable ({comparable})")
         if str(r.get("same_protocol_as_primary", "")).strip() != "1":
             fail(f"five-seed {r['pair']} seed {r['seed']} same_protocol_as_primary={r.get('same_protocol_as_primary')}")
         membership = str(r.get("same_membership_as_primary", "")).strip()
@@ -157,7 +154,7 @@ def check_five_seed_comparable() -> None:
             fail(f"{r['pair']} seed {r['seed']} same_membership_as_primary={membership}")
         if r.get("realization_status") != "current_or_compatible":
             fail(f"five-seed {r['pair']} seed {r['seed']} status={r.get('realization_status')}")
-        comparable_vals.append(float(r["summary_min"]))
+        seed_vals.append(float(r["summary_min"]))
         if r["pair"] == "EGFR/HER2" and str(r["seed"]) == "20260727":
             egfr_primary = r
             if abs(float(r["summary_min"]) - float(smin["EGFR/HER2"]["summary_min"])) > 1e-4:
@@ -182,13 +179,20 @@ def check_five_seed_comparable() -> None:
     nested = plotted.get("nested_plotted") or {}
     fig4c = nested.get("fig4C") or {}
     egfr = fig4c.get("EGFR/HER2") or {}
-    if int(egfr.get("comparable_to_current_primary", 0)) != 1:
-        fail(f"Figure 5C EGFR not marked comparable {egfr}")
+    if int(egfr.get("same_protocol_as_primary", 0)) != 1:
+        fail(f"Figure 5C EGFR same_protocol_as_primary != 1 {egfr}")
+    ache = fig4c.get("AChE/BChE") or {}
+    if int(ache.get("same_protocol_as_primary", 0)) != 1:
+        fail(f"Figure 5C AChE same_protocol_as_primary != 1 {ache}")
+    if int(ache.get("same_membership_as_primary", 1)) != 0:
+        fail(f"Figure 5C AChE same_membership_as_primary must be 0 {ache}")
+    if "five_seed_comparable" in json.dumps(fig4c):
+        fail("Figure 5C still stores five_seed_comparable")
     if egfr.get("primary") in (None, "", "NA"):
         fail("Figure 5C missing EGFR five-seed primary overlay")
     print(
-        f"PASS: EGFR five-seed corrected-box comparable; AChE membership documented n=88; range "
-        f"{min(comparable_vals):.4f}–{max(comparable_vals):.4f}"
+        f"PASS: Figure 5C same_protocol/same_membership flags; AChE membership documented n=88; range "
+        f"{min(seed_vals):.4f}–{max(seed_vals):.4f}"
     )
 
 

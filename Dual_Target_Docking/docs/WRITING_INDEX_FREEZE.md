@@ -12,7 +12,7 @@ Do not quote `results/canonical` siblings that predate the freeze ENV.
 4. **EGFR/HER2 directional.** D vs A (pocket B) 0.663 [0.521, 0.792]; D vs B (pocket A) = `summary_min` 0.334 [0.197, 0.471]. Fixed-score Δ on the EGFR pocket: 0.446 [0.259, 0.632].
 5. **Control-class dependence is pair-specific.** JAK1/TYK2 Δ 0.444 [0.261, 0.630]. Other pairs smaller or intervals include 0.
 6. **Matched−mismatched.** AChE/BChE and EGFR/HER2 main-panel 95% CIs exclude 0. Seven holdouts include 0. Not multiplicity-adjusted.
-7. **ECFP incremental.** Freeze max |Δ| = 0.0234 at PPARA/PPARD D vs B (three-decimal claim 0.023). Figure 3A/B is redrawn from `results/canonical/ecfp4_incremental_information.csv`. Sole plotted-value authority: `figures/jcim_article/plotted_values_postfix.json`. The old 0.0112 value is a superseded historical-environment result; background is `docs/PR39_SCIENTIFIC_DATA_AUDIT.md`.
+7. **ECFP incremental.** Freeze max |Δ| = 0.0234 at PPARA/PPARD D vs B (three-decimal claim 0.023). Figure 3A/B is redrawn from `results/canonical/ecfp4_incremental_information.csv`. Sole plotted-value authority: `figures/jcim_article/plotted_values_postfix.json`. The old 0.0112 value is a superseded historical-environment result; background is the superseded snapshot `docs/archive/PR39_SCIENTIFIC_DATA_AUDIT.md` (not current truth). Current authority: `results/canonical/ecfp4_incremental_information.csv` and `docs/audit/FINAL_FULL_PROJECT_AUDIT.md`.
 8. **Max vs median** is a sensitivity on the qualified-record intersection, not Table 2. AChE 1/94 (CHEMBL659); EGFR 5/109. AB_056 stays in Table 2.
 9. **GNINA** is another pose-generation realization on deposited poses, not a Vina replacement. EGFR `summary_min` 0.227 [0.104, 0.373], n=89.
 10. **Cognate RMSD** from `all14_cognate_rmsd_calcrrms_v1.csv`. EGFR 3POZ CalcRMS top-1 = best = 1.019 Å. Historical 9.505 Å is not current.
@@ -52,6 +52,8 @@ Do not quote `results/canonical` siblings that predate the freeze ENV.
 | Protocol levels | `docs/PROTOCOL_LEVELS.md`; `docs/TRACK_B_FINAL_EXECUTION_STATUS.md` |
 | Labels | `docs/LABEL_PROVENANCE.md` |
 | Path audit | `docs/CURRENT_PATH_AUDIT.md` |
+| Current forensic audit | `docs/audit/FINAL_POST_REMEDIATION_AUDIT.md` (prior scan: `docs/audit/FINAL_FULL_PROJECT_AUDIT.md`) |
+| Historical freeze memos (superseded; not current truth) | `docs/archive/PR39_SCIENTIFIC_DATA_AUDIT.md`, `docs/archive/PR39_FINAL_SCIENTIFIC_FREEZE_CHECK.md`, `docs/archive/SUBMISSION_ONLY_CLEANUP_REPORT.md` |
 | GNINA / receptor swap | `results/canonical/computational_robustness.csv`, `results/canonical/receptor_substitution.csv` |
 | RMSD | `results/canonical/cognate_rmsd.csv` |
 | Detectable-effect | `results/canonical/detectable_effect_simulation.csv` |

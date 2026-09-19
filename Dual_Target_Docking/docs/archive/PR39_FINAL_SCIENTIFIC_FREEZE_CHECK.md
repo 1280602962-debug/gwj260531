@@ -1,3 +1,21 @@
+<!--
+============================================================
+SUPERSEDED — HISTORICAL SNAPSHOT
+============================================================
+This file is not current scientific truth.
+
+Current EGFR/HER2 (uniform RDKit/ETKDGv3/MMFF/Meeko, seed 20260727):
+  primary n = 28/37/31
+  summary_min = 0.3341
+  95% CI = [0.1970, 0.4713]
+
+The historical EGFR value 0.3237 in this snapshot must not be cited as a current result.
+
+Current authority:
+  results/canonical/*.csv
+  docs/audit/FINAL_FULL_PROJECT_AUDIT.md
+============================================================
+-->
 # PR #39 final scientific freeze check
 
 Scope: scientific/data/code provenance only. No manuscript-language edit. No new pairs, docking, GNINA, RTMScore, MD, or receptor calculations. θ = 6.0, bootstrap B = 2000, seed = 20260729, and primary Table 2 AUROCs were not changed. ECFP incremental max |Δ AUROC| remains **0.0234** (PPARA/PPARD D vs B).

@@ -51,7 +51,7 @@ A first audit-only matched/mismatched CI used two independent draws and produced
 
 5. **`GNINA_SOURCES` default remains the historical EGFR GNINA path.** Runtime override exists.
 
-6. **Root `docs/` freeze memos still treat 0.3237 as current Table 2** (`PR39_FINAL_SCIENTIFIC_FREEZE_CHECK.md`, `PR39_SCIENTIFIC_DATA_AUDIT.md`, `SUBMISSION_ONLY_CLEANUP_REPORT.md`).
+6. **Root `docs/` freeze memos still treat 0.3237 as current Table 2** (superseded historical snapshots now under `docs/archive/`: `PR39_FINAL_SCIENTIFIC_FREEZE_CHECK.md`, `PR39_SCIENTIFIC_DATA_AUDIT.md`, `SUBMISSION_ONLY_CLEANUP_REPORT.md`).
 
 7. **Receptor preparation method is NOT_RECOVERABLE** for 14 slots. Manuscript currently states this; any leftover “Meeko/PPW prepared all receptors” would be P1. None found in the current EN Methods paragraph.
 
@@ -65,7 +65,7 @@ A first audit-only matched/mismatched CI used two independent draws and produced
 
 ## 4. P2 issues
 
-- Duplicate identical `data/processed/current_score_master.csv`.
+- Duplicate identical `data/processed/current_score_master.csv` (superseded; now pointer-only).
 - Nested descriptor fold AUROCs of 0 or 1 on tiny test folds (expected; do not over-interpret fold table).
 - Figure 3B displayed 0.023 vs raw 0.0234 (rounding).
 - Scaffold `except Exception` fallbacks to `"unparsed"` / `"acyclic"`.

@@ -30,14 +30,14 @@ These items were not treated as pre-known just because earlier freeze memos exis
    Runtime override exists. A direct import of the dict would load the wrong file.
 
 6. **Root freeze-check docs still state 0.3237 as current Table 2 (P1 hygiene)**  
-   `docs/PR39_FINAL_SCIENTIFIC_FREEZE_CHECK.md`, `docs/PR39_SCIENTIFIC_DATA_AUDIT.md`, `docs/SUBMISSION_ONLY_CLEANUP_REPORT.md`.  
+   superseded historical snapshots now under `docs/archive/`: `PR39_FINAL_SCIENTIFIC_FREEZE_CHECK.md`, `PR39_SCIENTIFIC_DATA_AUDIT.md`, `SUBMISSION_ONLY_CLEANUP_REPORT.md`.  
    Not manuscript body, but they sit in `docs/` without an archive/ prefix and can be mistaken for current instructions.
 
 7. **Legacy EGFR box JSON files remain (P2 / P1 confusion risk)**  
-   `3POZ_box.json` / `3RCD_box.json` still present. Coordinates currently match `*_box_corrected.json`. Current scripts use corrected names.
+   `3POZ_box.json` / `3RCD_box.json` were current-facing at audit time; they are now superseded historical snapshots in `data/egfr_her2_panel120_v0/boxes/archive/`. Current scripts use `*_box_corrected.json`.
 
 8. **Duplicate identical score master (P2)**  
-   `data/processed/current_score_master.csv` == `results/canonical/current_score_master.csv`. Two paths, one byte content.
+   `data/processed/current_score_master.csv` was an identical duplicate of `results/canonical/current_score_master.csv` at audit time (superseded). Current pointer: `data/processed/CURRENT_SCORE_MASTER.md`.
 
 ## Scans that did **not** find a new scientific defect
 

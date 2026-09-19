@@ -724,8 +724,8 @@ def compute_five_seed(packs, smin_rows):
     and Vina settings as Table 2. same_membership_as_primary=1 only when every
     seed scores the same ligands as the current primary complete-case set.
     AChE/BChE keeps protocol but not membership (available-case n changes).
-    comparable_to_current_primary remains 1 when protocol matches; it is not a
-    membership identity claim.
+    comparable_to_current_primary is a deprecated synonym of
+    same_protocol_as_primary and must not be used as a membership identity claim.
     """
     primary = {r["pair"]: float(r["summary_min"]) for r in smin_rows}
     n_primary = {pair: len(recs) for pair, recs in packs.items()}

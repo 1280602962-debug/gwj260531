@@ -1,7 +1,7 @@
 # Supporting Information (English, merged submission draft)
 
 **Article companion:** `MANUSCRIPT_JCIM_EN.md`  
-**Numeric rule:** cells below are read from frozen CSVs. Displayed values are three-decimal rounded from the CSV string (half-up or, where already typeset, half-even / banker's). A trailing digit of exactly 5 can therefore appear as either neighbor (for example 0.5045 as 0.504 or 0.505). The CSV is authoritative. EGFR/HER2 Table 2 TPSA is 0.4275 → 0.428.  
+**Numeric rule:** cells below are read from frozen CSVs. Displayed values are three-decimal rounded from the CSV string (half-up or, where already typeset, half-even / banker's). A trailing digit of exactly 5 can therefore appear as either neighbor (for example 0.5045 as 0.504 or 0.505). The CSV is authoritative. EGFR/HER2 full-panel TPSA `summary_min` is 0.4389 → 0.439 (a descriptor AUROC, not a Table 2 docking AUROC).  
 **Scope:** typeset Tables S1–S10 answer four questions: how data and docking were done; where the core fixed-channel results come from; whether ligand chemistry and pocket correspondence support attribution; and whether the main conclusions are obviously unstable to labels, sample, or computational realization. Table S10 reports the eight-pair candidate-ranking operating points that correspond to Figure 2D. Historical coordinate-assignment RMSD, five-seed long tables, fixed-membership intersections, non-stratified bootstrap sensitivity, the eight-pair detectable-effect simulation summarized after Table S4 (`results/canonical/detectable_effect_simulation.csv`), raw BindingDB/PubChem supply counts, literature-year splits, and per-ligand or exploratory slices remain in the public repository. Archive checksum manifests are integrity records, not scientific PASS/FAIL authority. They are not repeated as typeset tables.  
 **Legacy maps:** former 54-table numbering is `data/manuscript_lock/SI_TABLE_MERGE_MAP_v1.csv`. The immediately previous typeset set was Tables S1–S14; the remap is listed after Table S10.
 
@@ -204,7 +204,7 @@ Source: `results/canonical/descriptor_baselines.csv`; `results/canonical/descrip
 
 ## Table S6. Matched versus mismatched pocket and unused-pool holdout
 
-Δ = matched `summary_min` − mismatched `summary_min`. Positive Δ means the weaker matched arm is higher. On the main panels only AChE/BChE has a 95% CI excluding 0; EGFR/HER2 includes 0 and is not interpreted as having a matched-pocket advantage. All seven scored holdouts include 0. An interval that includes 0 does not prove that no advantage exists. EGFR/HER2 has no holdout. `weaker arm switched = yes` means the weaker directional arm differs between matched and mismatched scoring, so Δ`summary_min` cannot represent both directions.
+Δ = matched `summary_min` − mismatched `summary_min`. Positive Δ means the weaker matched arm is higher. On the main panels, AChE/BChE (0.177 [0.053, 0.291]) and EGFR/HER2 (0.107 [0.006, 0.220]) have 95% intervals that exclude 0. The other six main-panel intervals include 0 and are not generalized as a matched-pocket advantage. All seven scored holdouts include 0. An interval that includes 0 does not prove that no advantage exists. EGFR/HER2 has no holdout. `weaker arm switched = yes` means the weaker directional arm differs between matched and mismatched scoring, so Δ`summary_min` cannot represent both directions.
 
 | Pair | Set | Δ | 95% CI | CI excludes 0 | Weaker arm switched |
 |------|------|--:|--------|:---------:|:-------------------:|

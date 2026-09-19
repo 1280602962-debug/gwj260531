@@ -88,17 +88,17 @@ Do not create S11/S12 unless a genuinely new submission-required analysis appear
 
 EGFR/HER2: D vs A-only pocket B = 0.663; D vs B-only pocket A = 0.334; summary_min = 0.334 [0.197, 0.471].  
 Same pocket-A score: D vs B-only = 0.334; D vs neither = 0.780; fixed-score ΔAUROC = 0.446 [0.259, 0.632].  
-Two-pocket mean D-vs-neither = 0.759 [0.554, 0.926].  
+Two-pocket mean D-vs-neither = 0.759 [0.551, 0.926].  
 Matched-minus-mismatched = 0.107 [0.006, 0.220]; CI excludes zero.  
-AChE/BChE: n_scored = 27 / 26 / 28; matched-minus-mismatched = 0.177 [0.053, 0.291]; CI excludes 0 (only main-panel interval excluding zero).  
-EGFR/HER2 Top 10% = 1 / 5 / 5 / 0; EFdual,10% = 0.354.  
+AChE/BChE: n_scored = 27 / 26 / 28; matched-minus-mismatched = 0.177 [0.053, 0.291]; CI excludes 0. EGFR/HER2 and AChE/BChE are the two main-panel intervals that exclude zero.  
+EGFR/HER2 Top 10% = 1 / 4 / 6 / 0; EFdual,10% = 0.351.  
 AChE/BChE Top 10% = 5 / 3 / 1 / 1; EFdual,10% = 1.759.  
-GNINA EGFR: D-vs-B-only = 0.265; D-vs-neither = 0.737.  
+GNINA EGFR: D-vs-B-only = 0.227 [0.104, 0.373]; D-vs-neither = 0.705; n=89.  
 3POZ box center = 18.816, 31.837, 11.725; size = 20.931, 20.000, 21.342 (from JSON).  
 3RCD box center = 12.552, 2.982, 28.152; size = 21.385, 22.378, 20.000 (from JSON).
 
 Pre-fix tokens 0.430 / 0.808 / 0.378 / 0.170 / 0.161 / 9.505 and old EGFR box coordinates are not current publication results.  
-Current canonical ECFP max \|Δ\| is taken from `results/canonical/ecfp4_incremental_information.csv` (0.0234 at PPARA/PPARD D vs B). The old 0.0112 value is a superseded historical-environment result; background is `docs/PR39_SCIENTIFIC_DATA_AUDIT.md`.
+Current canonical ECFP max \|Δ\| is taken from `results/canonical/ecfp4_incremental_information.csv` (0.0234 at PPARA/PPARD D vs B). The old 0.0112 value is a superseded historical-environment result; background is the superseded snapshot `docs/archive/PR39_SCIENTIFIC_DATA_AUDIT.md` (not current truth). Current authority: `results/canonical/ecfp4_incremental_information.csv`.
 
 ## Results mapping
 

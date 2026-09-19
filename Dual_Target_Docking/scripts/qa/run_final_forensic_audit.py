@@ -699,8 +699,8 @@ def main():
         "5U3Q": ROOT / "data/jcim_chembl_universe_v0/local_track_b_v0/boxes/5U3Q_box.json",
     }
     old_egfr = {
-        "3POZ_legacy": ROOT / "data/egfr_her2_panel120_v0/boxes/3POZ_box.json",
-        "3RCD_legacy": ROOT / "data/egfr_her2_panel120_v0/boxes/3RCD_box.json",
+        "3POZ_legacy": ROOT / "data/egfr_her2_panel120_v0/boxes/archive/3POZ_box.json",
+        "3RCD_legacy": ROOT / "data/egfr_her2_panel120_v0/boxes/archive/3RCD_box.json",
     }
     box_rows = []
     for pdb, path in {**box_map, **old_egfr}.items():
@@ -714,7 +714,7 @@ def main():
         if "heavy" in str(construction).lower():
             H_risk = "declared_heavy_atom"
         min_ok = all(s is not None and s + 1e-9 >= 20.0 for s in sizes) if all(s is not None for s in sizes) else False
-        role = "LEGACY_FILE_PRESENT" if "legacy" in pdb else "CURRENT_PRIMARY"
+        role = "SUPERSEDED_ARCHIVED" if "legacy" in pdb else "CURRENT_PRIMARY"
         box_rows.append(
             {
                 "pdb": pdb.replace("_legacy", ""),
@@ -1139,9 +1139,12 @@ def main():
             elif hits:
                 status = "SOURCE_EXISTS"
         if rec.get("figure") == "Figure 5" and rec.get("panel") == "C" and metric == "five_seed_comparable":
-            if pair == "AChE/BChE" and float(raw) == 1.0:
-                status = "FUZZY_COMPARABLE_FLAG"
-                findings.append("P1 Figure5C AChE five_seed_comparable=1 while same_membership_as_primary=0")
+            status = "STALE_FIG5C_COMPARABLE_FLAG"
+            findings.append("P1 Figure5C still uses five_seed_comparable")
+        if rec.get("figure") == "Figure 5" and rec.get("panel") == "C" and metric == "five_seed_same_membership":
+            if pair == "AChE/BChE" and str(raw) not in {"0", "0.0"}:
+                status = "WRONG_MEMBERSHIP_FLAG"
+                findings.append("P1 Figure5C AChE same_membership_as_primary must be 0")
         fig_rows.append(
             {
                 "figure": rec.get("figure"),
@@ -1215,6 +1218,11 @@ def main():
         (r"\[0\.117,\s*0\.636\]", "EGFR document cluster CI", "MATCH"),
         (r"0\.4275", "stale EGFR TPSA footnote", "STALE"),
         (r"only AChE", "outdated MM wording", "STALE_IF_EXCLUDES_EGFR"),
+        (r"\[0\.554,\s*0\.926\]", "stale EGFR D-vs-neither CI", "STALE"),
+        (r"\[0\.551,\s*0\.926\]", "EGFR D-vs-neither CI", "MATCH"),
+        (r"0\.354", "stale EGFR EF token", "STALE"),
+        (r"1\s*/\s*5\s*/\s*5\s*/\s*0", "stale EGFR Top-10 composition", "STALE"),
+        (r"1\s*/\s*4\s*/\s*6\s*/\s*0", "EGFR Top-10 composition", "MATCH"),
     ]
     for path in text_files:
         if not path.is_file():
@@ -1319,43 +1327,72 @@ def main():
     max_d = max(abs(float(r["delta_ECFP4_plus_docking_minus_ECFP4"])) for r in ecfp)
     if abs(max_d - 0.0234) > 1e-4:
         new_issues.append(f"ECFP_MAX_ABS_DELTA {max_d}")
-    # stale current-facing freeze docs
+    # stale current-facing freeze docs (must be archived, not current-facing)
     for rel in (
         "docs/PR39_FINAL_SCIENTIFIC_FREEZE_CHECK.md",
         "docs/PR39_SCIENTIFIC_DATA_AUDIT.md",
         "docs/SUBMISSION_ONLY_CLEANUP_REPORT.md",
     ):
         p = ROOT / rel
-        if p.is_file() and "0.3237" in p.read_text(encoding="utf-8"):
-            new_issues.append(f"STALE_CURRENT_FACING_DOC {rel} still states 0.3237 as if current")
+        if p.is_file():
+            new_issues.append(f"STALE_CURRENT_FACING_DOC {rel} still in docs/ root")
     # GNINA_SOURCES historical default
     cfg = (ROOT / "scripts/analysis/analysis_config.py").read_text(encoding="utf-8")
-    if "data/jcim_independent_dock_v0/tables/gnina_dock_scores_EGFR_HER2.csv" in cfg:
+    gnina_block = cfg.split("GNINA_SOURCES")[1].split(")", 1)[0] if "GNINA_SOURCES" in cfg else cfg
+    if "data/jcim_independent_dock_v0/tables/gnina_dock_scores_EGFR_HER2.csv" in gnina_block:
         new_issues.append("GNINA_SOURCES_DEFAULT_STILL_HISTORICAL_EGFR_PATH")
-    # comparable flag still written as 1 for AChE
-    fs = [r for r in read_csv(CANON / "five_seed_summary_min.csv") if r["pair"] == "AChE/BChE"]
-    if fs and all(str(r.get("comparable_to_current_primary")) == "1" for r in fs) and any(
-        str(r.get("same_membership_as_primary")) == "0" for r in fs
-    ):
-        new_issues.append("FIVE_SEED_COMPARABLE_FLAG_STILL_1_WHEN_MEMBERSHIP_DIFFERS")
+    if "data/egfr_her2_uniform_rdkit_v1/tables/gnina_dock_scores_EGFR_HER2.csv" not in gnina_block:
+        new_issues.append("GNINA_SOURCES_DEFAULT_MISSING_UNIFORM_EGFR_PATH")
+    # Figure 5C must use protocol/membership flags, not fuzzy comparable
+    plotted = json.loads((ROOT / "figures/jcim_article/plotted_values_postfix.json").read_text(encoding="utf-8"))
+    fig4c = (plotted.get("nested_plotted") or {}).get("fig4C") or {}
+    if any("five_seed_comparable" in json.dumps(v) for v in (fig4c, plotted.get("records", []))):
+        new_issues.append("FIG5C_STILL_USES_FIVE_SEED_COMPARABLE")
+    plotted_txt = (ROOT / "figures/jcim_article/plotted_values_postfix.json").read_text(encoding="utf-8")
+    if '"five_seed_comparable"' in plotted_txt:
+        new_issues.append("FIG5C_STILL_USES_FIVE_SEED_COMPARABLE")
+    ache_fig = fig4c.get("AChE/BChE") or {}
+    if ache_fig and int(ache_fig.get("same_membership_as_primary", 1)) != 0:
+        new_issues.append("FIG5C_ACHE_SAME_MEMBERSHIP_NOT_0")
+    if ache_fig and int(ache_fig.get("same_protocol_as_primary", 0)) != 1:
+        new_issues.append("FIG5C_ACHE_SAME_PROTOCOL_NOT_1")
     # manuscript cluster CI
     men = (ROOT / "docs/MANUSCRIPT_JCIM_EN.md").read_text(encoding="utf-8")
-    if "[0.235, 0.665]" in men or "[0.125, 0.644]" in men:
+    mzh = (ROOT / "docs/MANUSCRIPT_JCIM_ZH.md").read_text(encoding="utf-8")
+    if "[0.235, 0.665]" in men or "[0.125, 0.644]" in men or "[0.235, 0.665]" in mzh or "[0.125, 0.644]" in mzh:
         new_issues.append("MANUSCRIPT_STALE_EGFR_CLUSTER_CI")
-    if "0.4275" in (ROOT / "docs/SUPPORTING_INFORMATION_JCIM_EN_V1.md").read_text(encoding="utf-8"):
+    if "[0.232, 0.637]" not in men or "[0.117, 0.636]" not in men:
+        new_issues.append("MANUSCRIPT_MISSING_CANONICAL_EGFR_CLUSTER_CI")
+    si_en = (ROOT / "docs/SUPPORTING_INFORMATION_JCIM_EN_V1.md").read_text(encoding="utf-8")
+    if "0.4275" in si_en:
         new_issues.append("SI_STALE_EGFR_TPSA_FOOTNOTE_0.4275")
-    # old box files exist
+    if "only AChE/BChE has a 95% CI excluding 0" in si_en:
+        new_issues.append("SI_S6_STALE_ONLY_ACHE_NARRATIVE")
+    if "0.107" not in si_en or "0.177" not in si_en:
+        new_issues.append("SI_S6_MISSING_CURRENT_MM_DELTAS")
+    for label, text in (("EN", men), ("ZH", mzh)):
+        if "[0.554, 0.926]" in text:
+            new_issues.append(f"MANUSCRIPT_{label}_STALE_EGFR_D_VS_NEITHER_CI")
+        if re.search(r"1\s*/\s*5\s*/\s*5\s*/\s*0", text):
+            new_issues.append(f"MANUSCRIPT_{label}_STALE_EGFR_TOP10_COMPOSITION")
+        if re.search(r"EF.*0\.354|0\.354.*EGFR|EGFR.*0\.354", text):
+            new_issues.append(f"MANUSCRIPT_{label}_STALE_EGFR_EF_0.354")
+        if "[0.551, 0.926]" not in text:
+            new_issues.append(f"MANUSCRIPT_{label}_MISSING_CANONICAL_EGFR_D_VS_NEITHER_CI")
+        if not re.search(r"1\s*/\s*4\s*/\s*6\s*/\s*0", text):
+            new_issues.append(f"MANUSCRIPT_{label}_MISSING_CANONICAL_EGFR_TOP10")
+    # old box files exist in the current boxes directory
     if (ROOT / "data/egfr_her2_panel120_v0/boxes/3POZ_box.json").is_file():
+        new_issues.append("LEGACY_EGFR_BOX_JSON_STILL_PRESENT")
+    if (ROOT / "data/egfr_her2_panel120_v0/boxes/3RCD_box.json").is_file():
         new_issues.append("LEGACY_EGFR_BOX_JSON_STILL_PRESENT")
     # processed vs canonical master
     proc = ROOT / "data/processed/current_score_master.csv"
+    pointer = ROOT / "data/processed/CURRENT_SCORE_MASTER.md"
     if proc.is_file():
-        h1 = hashlib.md5((CANON / "current_score_master.csv").read_bytes()).hexdigest()
-        h2 = hashlib.md5(proc.read_bytes()).hexdigest()
-        if h1 != h2:
-            new_issues.append("PROCESSED_MASTER_DIFFERS_FROM_CANONICAL")
-        else:
-            new_issues.append("DUPLICATE_MASTER_COPY_data/processed_IDENTICAL")
+        new_issues.append("PROCESSED_MASTER_CSV_STILL_PRESENT_USE_POINTER")
+    if not pointer.is_file():
+        new_issues.append("PROCESSED_MASTER_POINTER_MISSING")
 
     (QA / "newly_discovered_issues_raw.txt").write_text("\n".join(new_issues) + "\n", encoding="utf-8")
     (QA / "audit_findings_raw.txt").write_text("\n".join(findings) + "\n", encoding="utf-8")

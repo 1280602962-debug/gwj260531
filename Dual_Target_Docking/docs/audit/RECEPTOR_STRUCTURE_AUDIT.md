@@ -54,7 +54,7 @@ Current manuscript/SI already avoid that claim. If any leftover sentence appears
 All 14 current primary box JSONs exist. Min edge ≥ 20 Å on all three axes.
 
 EGFR corrected boxes declare `cognate_heavy_atom_AABB_plus_5A_min20`.  
-Legacy `3POZ_box.json` / `3RCD_box.json` still exist; in this tree their coordinates match the corrected files. Current EGFR scripts use `*_box_corrected.json`.
+Legacy `3POZ_box.json` / `3RCD_box.json` are superseded historical snapshots in `boxes/archive/`; coordinates matched the corrected files. Current EGFR scripts use `*_box_corrected.json`.
 
 PIK3CA `4L23_box.json` has `n_ligand_atoms=42` and `n_heavy_atoms=26` and no construction field. Hydrogen-inclusive AABB cannot be ruled out from the JSON alone; sizes are all 20 Å (min-edge). Status: **METADATA_ONLY**.
 

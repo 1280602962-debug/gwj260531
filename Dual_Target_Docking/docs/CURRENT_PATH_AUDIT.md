@@ -5,10 +5,10 @@ Scanner: `scripts/qa/audit_current_paths.py`
 Rule: every current-facing source/protocol/script path must exist, or be marked historical / archived / unavailable.
 Checksum manifests are integrity records, not scientific PASS/FAIL authority.
 
-- files scanned: 33
-- path citations: 349
+- files scanned: 39
+- path citations: 336
 - exists: 325
-- historical_or_unavailable: 24
+- historical_or_unavailable: 11
 - unresolved broken current paths: **0**
 
 No unresolved broken current-facing paths.

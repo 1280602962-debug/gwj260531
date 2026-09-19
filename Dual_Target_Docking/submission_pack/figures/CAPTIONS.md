@@ -22,11 +22,11 @@ Regenerate: `python3 figures/jcim_article/scripts/update_figures_pr32.py --sourc
 
 ## Figure 4. Pocket correspondence.
 
-(A) Main-panel matched-minus-mismatched Δsummary_min, eight pairs, 95% CI. (B) Unused-pool internal holdout matched-minus-mismatched Δsummary_min, seven pairs, 95% CI. EGFR/HER2 has no holdout. Color distinguishes main versus holdout, not significance. Only the AChE/BChE main-panel interval excludes zero; EGFR/HER2 includes zero; all seven holdout intervals include zero.
+(A) Main-panel matched-minus-mismatched Δsummary_min, eight pairs, 95% CI. (B) Unused-pool internal holdout matched-minus-mismatched Δsummary_min, seven pairs, 95% CI. EGFR/HER2 has no holdout. Color distinguishes main versus holdout, not significance. The AChE/BChE and EGFR/HER2 main-panel intervals exclude zero; the other six main-panel intervals include zero; all seven holdout intervals include zero.
 
 ## Figure 5. Computational robustness.
 
-(A) Independent GNINA versus Vina on EGFR/HER2, PIK3CA/mTOR, and JAK1/TYK2: directional summary_min and dual-versus-neither. Uniform EGFR GNINA: D-versus-B-only ≈ 0.227; D-versus-neither ≈ 0.705. (B) PIK3CA/mTOR receptor substitution of primary 4L23 / 4JT6 by 4JPS, 5DXT, or 4JSX. (C) Five-seed summary_min range, eight pairs, same boxes as Table 2 (EGFR/HER2 uniform RDKit/Meeko, corrected boxes). AChE/BChE seed realizations have changing available-case membership; fixed-membership sensitivity gives the same qualitative conclusion. The figure asks whether results depend on a single docking realization. RTMScore / CNN rescoring is Table S7.
+(A) Independent GNINA versus Vina on EGFR/HER2, PIK3CA/mTOR, and JAK1/TYK2: directional summary_min and dual-versus-neither. Uniform EGFR GNINA: D-versus-B-only ≈ 0.227; D-versus-neither ≈ 0.705. (B) PIK3CA/mTOR receptor substitution of primary 4L23 / 4JT6 by 4JPS, 5DXT, or 4JSX. (C) Five-seed summary_min range, eight pairs, same protocol as Table 2 (EGFR/HER2 uniform RDKit/Meeko, corrected boxes). `same_protocol_as_primary=1` for all eight pairs. AChE/BChE `same_membership_as_primary=0` (primary n=95; available-case n=94; five-seed intersection n=88). Fixed-membership sensitivity (`results/qa/five_seed_fixed_membership_sensitivity.csv`) does not change the qualitative conclusion. The figure asks whether results depend on a single docking realization. RTMScore / CNN rescoring is Table S7.
 
 ## Figure S1. Ligand-chemistry detail.
 

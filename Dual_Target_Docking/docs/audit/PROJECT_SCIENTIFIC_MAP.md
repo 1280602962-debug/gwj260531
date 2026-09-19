@@ -59,7 +59,7 @@ Shared files: JAK1 6N7A; PPARA 6LXA.
 
 **Docking box**  
 Current rule: cognate heavy-atom AABB + 5 Å, min edge 20 Å.  
-EGFR uses `*_box_corrected.json`. Legacy `3POZ_box.json` / `3RCD_box.json` still exist (same coordinates as corrected in this tree).  
+EGFR uses `*_box_corrected.json`. Legacy `3POZ_box.json` / `3RCD_box.json` are superseded historical snapshots in `boxes/archive/`.  
 PIK3CA boxes lack a construction field (`METADATA_ONLY`).
 
 ↓
@@ -107,7 +107,7 @@ Independent audit-only replay: 192/192 MATCH (tolerance 1e-4).
 
 **Canonical tables**  
 `results/canonical/*.csv` written by `compute_canonical_results.py` from `current_score_master.csv`.  
-`data/processed/current_score_master.csv` is an identical duplicate copy.
+`data/processed/current_score_master.csv` was a superseded identical duplicate; current pointer is `data/processed/CURRENT_SCORE_MASTER.md`.
 
 ↓
 

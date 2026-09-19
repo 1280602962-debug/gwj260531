@@ -413,7 +413,7 @@ def build_fig5_computational_robustness(D):
             ax.plot([r['min'], r['max']], [i, i], color=C['vina'], lw=1.4, zorder=3)
         if r.get('median') is not None:
             ax.plot(r['median'], i, 'o', color=C['vina'], ms=5.2, zorder=4)
-        if r.get('comparable_to_current_primary', 1) and r.get('primary') is not None:
+        if r.get('same_protocol_as_primary', 1) and r.get('primary') is not None:
             ax.plot(r['primary'], i, 'D', color=C['desc'], ms=4.4, zorder=5)
         plotted_s[p] = r
     ax.axvline(.5, color=C['chance'], ls='--', lw=.85)
@@ -851,16 +851,20 @@ def emit_plotted_values_postfix(audit):
             'results/canonical/five_seed_summary_min.csv', p, rec.get('max'))
         add('Figure 5', 'C', p, 'five_seed_median',
             'results/canonical/five_seed_summary_min.csv', p, rec.get('median'))
-        if rec.get('comparable_to_current_primary', 1) and rec.get('primary') is not None:
+        if rec.get('same_protocol_as_primary', 1) and rec.get('primary') is not None:
             add('Figure 5', 'C', p, 'five_seed_primary',
                 'results/canonical/primary_summary_min.csv', p, rec.get('primary'))
         else:
             add('Figure 5', 'C', p, 'five_seed_primary',
                 'results/canonical/five_seed_summary_min.csv', p, 'NA', 'NA')
-        add('Figure 5', 'C', p, 'five_seed_comparable',
+        add('Figure 5', 'C', p, 'five_seed_same_protocol',
             'results/canonical/five_seed_summary_min.csv', p,
-            rec.get('comparable_to_current_primary'),
-            str(rec.get('comparable_to_current_primary')))
+            rec.get('same_protocol_as_primary'),
+            str(rec.get('same_protocol_as_primary')))
+        add('Figure 5', 'C', p, 'five_seed_same_membership',
+            'results/canonical/five_seed_summary_min.csv', p,
+            rec.get('same_membership_as_primary'),
+            str(rec.get('same_membership_as_primary')))
         add('Figure 5', 'C', p, 'five_seed_realization',
             'results/canonical/five_seed_summary_min.csv', p,
             rec.get('realization_status'), rec.get('realization_status'))

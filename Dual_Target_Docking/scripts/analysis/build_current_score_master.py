@@ -8,8 +8,8 @@ PIK3CA/mTOR: PM48 rdkit production scores.
 Track B five pairs: scores_vina_mode1_v1.csv.
 
 Writes:
-  data/processed/current_score_master.csv
-  results/canonical/current_score_master.csv
+  results/canonical/current_score_master.csv  (current authority)
+  data/processed/CURRENT_SCORE_MASTER.md     (pointer only)
   results/canonical/score_master_migration_diff.md
 """
 from __future__ import annotations
@@ -512,18 +512,21 @@ def main() -> int:
     rows.sort(key=lambda r: (PRIMARY_PAIRS.index(r["pair"]) if r["pair"] in PRIMARY_PAIRS else 99, r["analysis_set"], r["ligand_id"]))
     dests = [outdir / "current_score_master.csv"]
     if args.also_canonical or args.outdir is None:
-        dests.extend(
-            [
-                ROOT / "data/processed/current_score_master.csv",
-                ROOT / "results/canonical/current_score_master.csv",
-            ]
-        )
+        dests.append(ROOT / "results/canonical/current_score_master.csv")
     written = []
     for dest in dests:
         dest.parent.mkdir(parents=True, exist_ok=True)
         write_csv(dest, rows)
         written.append(str(dest))
         print("wrote", dest, len(rows))
+    pointer = ROOT / "data/processed/CURRENT_SCORE_MASTER.md"
+    pointer.parent.mkdir(parents=True, exist_ok=True)
+    pointer.write_text(
+        "# Current score master (pointer)\n\n"
+        "Authority: `results/canonical/current_score_master.csv`.\n"
+        "This directory does not hold a second authoritative copy.\n",
+        encoding="utf-8",
+    )
     report = compare_membership(rows)
     rep = outdir / "score_master_migration_diff.md"
     rep.parent.mkdir(parents=True, exist_ok=True)

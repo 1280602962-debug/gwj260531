@@ -853,9 +853,17 @@ def export_core(packs, hold):
             }
         )
     write_csv(ROOT / "data/jcim_novelty_v0/tables/review_scored_membership_v1.csv", memb)
-    dest = ROOT / "data/processed/current_score_master.csv"
-    dest.parent.mkdir(parents=True, exist_ok=True)
-    shutil.copy2(CANON / "current_score_master.csv", dest)
+    pointer = ROOT / "data/processed/CURRENT_SCORE_MASTER.md"
+    pointer.parent.mkdir(parents=True, exist_ok=True)
+    pointer.write_text(
+        "# Current score master (pointer)\n\n"
+        "Authority: `results/canonical/current_score_master.csv`.\n"
+        "This directory does not hold a second authoritative copy.\n",
+        encoding="utf-8",
+    )
+    stale_copy = ROOT / "data/processed/current_score_master.csv"
+    if stale_copy.is_file():
+        stale_copy.unlink()
 
     hold_out = []
     hold_metrics = {r["pair"]: r for r in read_csv(CANON / "holdout_metrics.csv")}

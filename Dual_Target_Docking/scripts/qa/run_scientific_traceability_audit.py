@@ -140,8 +140,8 @@ def path_audit() -> list[dict]:
     docs = [
         "docs/WRITING_INDEX_FREEZE.md",
         "docs/FIGURE_TABLE_LOCK_POSTFIX_V4.md",
-        "docs/PR39_FINAL_SCIENTIFIC_FREEZE_CHECK.md",
-        "docs/PR39_SCIENTIFIC_DATA_AUDIT.md",
+        "docs/audit/FINAL_FULL_PROJECT_AUDIT.md",
+        "docs/archive/PR39_SCIENTIFIC_DATA_AUDIT.md",
         "data/jcim_chembl_universe_v0/local_track_b_v0/README.md",
     ]
     candidates = [

@@ -1,3 +1,21 @@
+<!--
+============================================================
+SUPERSEDED — HISTORICAL SNAPSHOT
+============================================================
+This file is not current scientific truth.
+
+Current EGFR/HER2 (uniform RDKit/ETKDGv3/MMFF/Meeko, seed 20260727):
+  primary n = 28/37/31
+  summary_min = 0.3341
+  95% CI = [0.1970, 0.4713]
+
+The historical EGFR value 0.3237 in this snapshot must not be cited as a current result.
+
+Current authority:
+  results/canonical/*.csv
+  docs/audit/FINAL_FULL_PROJECT_AUDIT.md
+============================================================
+-->
 # Submission-only repository cleanup
 
 Branch: `cursor/methods-sentence-audit-c7cc`  

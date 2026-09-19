@@ -74,7 +74,7 @@ DESCRIPTOR_NAMES = ("tpsa", "clogp", "heavy", "mw")
 # Deposited robustness inputs (zero-dock; scores already on disk)
 GNINA_SOURCES = {
     "EGFR/HER2": (
-        ROOT / "data/jcim_independent_dock_v0/tables/gnina_dock_scores_EGFR_HER2.csv",
+        ROOT / "data/egfr_her2_uniform_rdkit_v1/tables/gnina_dock_scores_EGFR_HER2.csv",
         "3POZ",
         "3RCD",
     ),
@@ -222,10 +222,8 @@ def current_egfr_five_seed_path() -> Path:
 
 
 def current_gnina_sources() -> dict:
-    src = dict(GNINA_SOURCES)
-    if EGFR_UNIFORM_GNINA_CSV.is_file() and EGFR_UNIFORM_GNINA_CSV.stat().st_size > 0:
-        src["EGFR/HER2"] = (EGFR_UNIFORM_GNINA_CSV, "3POZ", "3RCD")
-    return src
+    """Current independent-GNINA table paths. EGFR default is the uniform campaign."""
+    return dict(GNINA_SOURCES)
 
 
 def add_io_args(parser: argparse.ArgumentParser) -> argparse.ArgumentParser:

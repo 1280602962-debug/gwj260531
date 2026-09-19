@@ -191,26 +191,26 @@ def best_desc(D: dict, pair: str) -> tuple[str, float]:
 def five_seed_range(D: dict, pair: str) -> dict:
     """Range of deposited five-seed summary_min values.
 
-    Pairs with comparable_to_current_primary=0 must not overlay current primary.
-    EGFR/HER2 corrected-box five-seed rows are comparable.
+    Overlay the Table 2 primary seed when same_protocol_as_primary=1.
+    same_membership_as_primary is recorded separately; AChE is 0.
     """
     rows = [r for r in D["seeds"] if r["pair"] == pair]
-    comparable = True
+    same_protocol = True
+    same_membership = True
     status = "current_or_compatible"
     vals = []
     for r in rows:
         sm = fnum(r.get("summary_min"))
         if sm is not None:
             vals.append(sm)
-        flag = str(r.get("comparable_to_current_primary", "")).strip()
-        kind = r.get("source_kind", "")
-        if flag in {"0", "False", "false"} or (flag == "" and kind == "frozen_experimental_auroc"):
-            comparable = False
-            status = r.get("realization_status") or "different_box_realization"
-        elif r.get("realization_status"):
+        if str(r.get("same_protocol_as_primary", "1")).strip() in {"0", "False", "false"}:
+            same_protocol = False
+        if str(r.get("same_membership_as_primary", "1")).strip() in {"0", "False", "false"}:
+            same_membership = False
+        if r.get("realization_status"):
             status = r["realization_status"]
     primary = None
-    if comparable:
+    if same_protocol:
         if rows:
             primary = fnum(rows[0].get("primary_summary_min"))
         if primary is None:
@@ -221,7 +221,8 @@ def five_seed_range(D: dict, pair: str) -> dict:
         "min": float(np.min(vals)) if vals else None,
         "max": float(np.max(vals)) if vals else None,
         "n": len(vals),
-        "comparable_to_current_primary": int(comparable),
+        "same_protocol_as_primary": int(same_protocol),
+        "same_membership_as_primary": int(same_membership),
         "realization_status": status,
     }
 
