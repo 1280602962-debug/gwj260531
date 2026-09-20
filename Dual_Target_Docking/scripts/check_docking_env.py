@@ -86,7 +86,7 @@ def main() -> int:
         return 1
     if missing_required:
         print("Result: OPTIONAL docking tools missing; analysis/CI may still proceed.")
-        print("Heavy Vina/GNINA/RTM outputs remain locked by SHA256 manifests; do not redock.")
+        print("Heavy deposited Vina/GNINA/RTM outputs are treated as frozen inputs; zero-dock validation does not rerun them.")
         return 0
     print("Result: docking environment is ready.")
     return 0

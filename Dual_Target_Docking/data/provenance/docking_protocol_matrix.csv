@@ -1,0 +1,19 @@
+pair,channel,level,vina_version,scoring_function,seed,exhaustiveness,num_modes,energy_range,cpu,receptor,box,ligand_input,score_extraction
+EGFR/HER2,production_vina,PRIMARY,1.2.7,vina,20260727,8,9,3,NOT_RECOVERABLE,3POZ+3RCD,corrected_heavy,CONFIRMED_pdbqt,score_S=-vina_mode1
+JAK1/JAK2,production_vina,PRIMARY,1.2.7,vina,20260727,8,9,3,NOT_RECOVERABLE,6N7A+8BXH,deposited_box_json,scores_deposited_pdbqt_NOT_RECOVERABLE,score_S=-vina_mode1
+JAK1/TYK2,production_vina,PRIMARY,1.2.7,vina,20260727,8,9,3,NOT_RECOVERABLE,6N7A+3LXP,deposited_box_json,scores_deposited_pdbqt_NOT_RECOVERABLE,score_S=-vina_mode1
+PIK3CA/mTOR,production_vina,PRIMARY,1.2.7,vina,20260727,16,9,3,NOT_RECOVERABLE,4L23+4JT6,deposited_box_json,scores_deposited_pdbqt_NOT_RECOVERABLE,score_S=-vina_mode1
+AChE/BChE,production_vina,PRIMARY,1.2.7,vina,20260727,8,9,3,NOT_RECOVERABLE,4EY7+4BDS,deposited_box_json,scores_deposited_pdbqt_NOT_RECOVERABLE,score_S=-vina_mode1
+F2/F10,production_vina,PRIMARY,1.2.7,vina,20260727,8,9,3,NOT_RECOVERABLE,4UDW+2JKH,deposited_box_json,scores_deposited_pdbqt_NOT_RECOVERABLE,score_S=-vina_mode1
+PPARG/PPARA,production_vina,PRIMARY,1.2.7,vina,20260727,8,9,3,NOT_RECOVERABLE,9V8H+6LXA,deposited_box_json,scores_deposited_pdbqt_NOT_RECOVERABLE,score_S=-vina_mode1
+PPARA/PPARD,production_vina,PRIMARY,1.2.7,vina,20260727,8,9,3,NOT_RECOVERABLE,6LXA+5U3Q,deposited_box_json,scores_deposited_pdbqt_NOT_RECOVERABLE,score_S=-vina_mode1
+PIK3CA/mTOR,PIK3CA_E8,SENSITIVITY,1.2.7,vina,20260727,8,9,3,NOT_RECOVERABLE,4L23+4JT6,sensitivity,deposited_scores,score_S=-vina_mode1
+PIK3CA/mTOR,PM110,SENSITIVITY,1.2.7,vina,20260727,16,9,3,NOT_RECOVERABLE,4L23+4JT6,sensitivity,deposited_scores,score_S=-vina_mode1
+PIK3CA/mTOR,4JPS,SENSITIVITY,1.2.7,vina,20260727,16,9,3,NOT_RECOVERABLE,4JPS+4JT6,sensitivity,deposited_scores,score_S=-vina_mode1
+PIK3CA/mTOR,5DXT,SENSITIVITY,1.2.7,vina,20260727,16,9,3,NOT_RECOVERABLE,5DXT+4JT6,sensitivity,deposited_scores,score_S=-vina_mode1
+PIK3CA/mTOR,4JSX,SENSITIVITY,1.2.7,vina,20260727,16,9,3,NOT_RECOVERABLE,4L23+4JSX,sensitivity,deposited_scores,score_S=-vina_mode1
+EGFR/HER2,gnina_independent,INDEPENDENT_DOCKING,GNINA_1.3.2,gnina_default,campaign,GNINA_default,GNINA,,no_gpu,3POZ+3RCD,same_as_primary_boxes,uniform_pdbqt,gnina_mode1_energy; score_S=-energy
+PIK3CA/mTOR,gnina_independent,INDEPENDENT_DOCKING,GNINA_1.3.2,gnina_default,campaign,GNINA_default,GNINA,,no_gpu,4L23+4JT6,same_as_primary_boxes,deposited_or_not_in_tree,gnina_mode1_energy; score_S=-energy
+JAK1/TYK2,gnina_independent,INDEPENDENT_DOCKING,GNINA_1.3.2,gnina_default,campaign,GNINA_default,GNINA,,no_gpu,6N7A+3LXP,same_as_primary_boxes,deposited_or_not_in_tree,gnina_mode1_energy; score_S=-energy
+Track-B,rtm_best9,SAME_POSE_RESCORING,n/a,RTMScore_best_of_saved,n/a,n/a,best_of_saved_poses,,,Track-B Vina poses,n/a,Vina poses,best-of-saved RTM
+Track-B,gnina_cnn_best9,SAME_POSE_RESCORING,n/a,GNINA_CNN_affinity,n/a,n/a,best_of_saved_poses,,,Track-B Vina poses,n/a,Vina poses,best-of-saved CNN

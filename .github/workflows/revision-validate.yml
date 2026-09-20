@@ -28,6 +28,19 @@ jobs:
           pip install -r requirements-analysis.txt || pip install numpy pandas matplotlib scipy scikit-learn
       - name: Analysis environment
         run: python3 scripts/check_analysis_env.py
+      - name: Fresh zero-dock rebuild
+        run: |
+          set -euo pipefail
+          python3 scripts/analysis/rebuild_freeze.py \
+            --outdir /tmp/dual_target_ci_rebuild
+          python3 scripts/qa/verify_freeze_rebuild.py \
+            --outdir /tmp/dual_target_ci_rebuild
+          python3 scripts/qa/compare_rebuild_to_canonical.py \
+            --rebuilt /tmp/dual_target_ci_rebuild \
+            --canonical results/canonical
       - name: Current scientific chain
         run: python3 scripts/qa/check_current_chain.py
+      - name: Adjudication tables unchanged
+        working-directory: .
+        run: git diff --exit-code -- Dual_Target_Docking/data/processed/activity_adjudication
       # Any step above that exits non-zero fails the job (GitHub Actions default).

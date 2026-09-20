@@ -18,11 +18,11 @@ Target pairs are presented in a protein-system order throughout Figures 2–5 an
 
 ## Figure 4. Pocket correspondence.
 
-Matched-pocket scoring uses target B for Dual versus A-only and target A for Dual versus B-only; the mismatched control exchanges these score channels without redocking. (A) Main-panel matched-minus-mismatched Δsummary_min, eight pairs. (B) Unused-pool internal holdout, seven pairs. Color encodes the ligand set, not whether the interval excludes zero. Only AChE/BChE main-panel interval excludes zero; EGFR/HER2 includes zero; all seven holdout intervals include zero.
+Matched-pocket scoring uses target B for Dual versus A-only and target A for Dual versus B-only; the mismatched control exchanges these score channels without redocking. (A) Main-panel matched-minus-mismatched Δsummary_min, eight pairs. (B) Unused-pool internal holdout, seven pairs. Color encodes the ligand set, not whether the interval excludes zero. The AChE/BChE and EGFR/HER2 main-panel intervals exclude zero; the other six main-panel intervals include zero; all seven holdout intervals include zero.
 
 ## Figure 5. Computational robustness.
 
-(A) Independent GNINA 1.3.2 pose generation versus Vina on EGFR/HER2, PIK3CA/mTOR, and JAK1/TYK2. Corrected EGFR box: dual-versus-B-only ≈ 0.265; dual-versus-neither ≈ 0.737. (B) PIK3CA/mTOR receptor substitution of primary 4L23 / 4JT6 by 4JPS, 5DXT, or 4JSX. (C) Five-seed summary_min range for all eight pairs. RTMScore / CNN rescoring is Table S7.
+(A) Independent GNINA 1.3.2 pose generation versus Vina on EGFR/HER2, PIK3CA/mTOR, and JAK1/TYK2. Uniform EGFR GNINA: dual-versus-B-only ≈ 0.227; dual-versus-neither ≈ 0.705. (B) PIK3CA/mTOR receptor substitution of primary 4L23 / 4JT6 by 4JPS, 5DXT, or 4JSX. (C) Five-seed summary_min range for all eight pairs, same protocol as Table 2 (EGFR/HER2 uniform RDKit/Meeko, corrected boxes). AChE/BChE seed realizations do not use the primary membership (`same_protocol_as_primary=1`, `same_membership_as_primary=0`; primary n=95, available-case n=94, intersection n=88). Fixed-membership sensitivity (`results/qa/five_seed_fixed_membership_sensitivity.csv`) does not change the qualitative conclusion. RTMScore / CNN rescoring is Table S7.
 
 ## Figure S1. Ligand-chemistry detail.
 

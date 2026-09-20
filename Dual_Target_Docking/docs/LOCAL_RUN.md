@@ -19,11 +19,10 @@ python3 scripts/analysis/compute_class_chemistry.py
 python3 scripts/analysis/compute_detectable_effect.py
 python3 scripts/analysis/fit_ecfp4_models.py
 python3 scripts/analysis/compute_descriptor_baselines.py
-python3 scripts/analysis/close_publication_from_canonical.py
-python3 scripts/analysis/patch_publication_text.py
 python3 figures/jcim_article/scripts/update_figures_pr32.py --source-root .
 python3 scripts/analysis/rebuild_submission_pack.py
 python3 scripts/qa/check_current_chain.py
+python3 scripts/qa/verify_freeze_rebuild.py --outdir results/canonical
 ```
 
 Python packages: `requirements-analysis.txt`.
@@ -38,3 +37,7 @@ Authoritative SI: `docs/SUPPORTING_INFORMATION_JCIM_EN_V1.md`.
 It does not call AutoDock Vina, GNINA, RTMScore, or Open Babel, and it does not download ChEMBL.
 
 Docking binaries (optional): `scripts/check_docking_env.py`.
+
+## CI CSV compare (not Methods)
+
+GitHub-hosted runners may differ from the freeze machine at ~`1e-6` in logistic-regression OOF probabilities. CI compares identifiers, memberships, labels, counts, and canonical summary tables exactly, and allows `<=1e-5` only on `ecfp4_oof_predictions.csv:oof_prob` and `descriptor_nested_oof_predictions.csv:oof_probability`. Independent AUROC/ΔAUROC replay remains required. Details: `docs/CI_REBUILD_COMPARE.md`.

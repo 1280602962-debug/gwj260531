@@ -26,20 +26,22 @@ RDLogger.DisableLog("rdApp.*")
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "scripts"))
+from analysis.analysis_config import (  # noqa: E402
+    ECFP_NBITS,
+    ECFP_RADIUS,
+    GROUPKFOLD_MAX_SPLITS,
+    LOGREG_C,
+    LOGREG_MAX_ITER,
+    PRIMARY_PAIRS,
+    add_io_args,
+    io_paths,
+    is_primary_row,
+    parse_finite,
+)
 from analysis.bootstrap_metrics import SEED, auroc  # noqa: E402
 
 CANON = ROOT / "results" / "canonical"
 MASTER = CANON / "current_score_master.csv"
-PRIMARY_PAIRS = (
-    "EGFR/HER2",
-    "JAK1/JAK2",
-    "JAK1/TYK2",
-    "PIK3CA/mTOR",
-    "AChE/BChE",
-    "F2/F10",
-    "PPARG/PPARA",
-    "PPARA/PPARD",
-)
 ARMS = (
     ("D_vs_A", "dual", "A_only", "score_B"),
     ("D_vs_B", "dual", "B_only", "score_A"),
@@ -47,11 +49,7 @@ ARMS = (
 
 
 def fnum(v):
-    try:
-        x = float(v)
-        return x if math.isfinite(x) else None
-    except (TypeError, ValueError):
-        return None
+    return parse_finite(v)
 
 
 def read_csv(path: Path) -> list[dict]:
@@ -72,7 +70,7 @@ def morgan(smi: str):
     mol = Chem.MolFromSmiles(smi or "")
     if mol is None:
         return None, None, None
-    fp = AllChem.GetMorganFingerprintAsBitVect(mol, 2, nBits=2048)
+    fp = AllChem.GetMorganFingerprintAsBitVect(mol, ECFP_RADIUS, nBits=ECFP_NBITS)
     try:
         scaf = MurckoScaffold.MurckoScaffoldSmiles(mol=mol) or "acyclic"
     except Exception:
@@ -83,9 +81,7 @@ def morgan(smi: str):
 def load_main():
     by = {p: [] for p in PRIMARY_PAIRS}
     for r in read_csv(MASTER):
-        if r["analysis_set"] != "main" or r["complete_case"] not in ("1", "True", 1):
-            continue
-        if str(r.get("activity_eligible", "1")) not in ("1", "True"):
+        if not is_primary_row(r):
             continue
         mol, fp, scaf = morgan(r.get("smiles", ""))
         if fp is None:
@@ -107,7 +103,7 @@ def load_main():
 def oof_predict(X, y, groups, scaled: bool):
     n_pos, n_neg = int(y.sum()), int((1 - y).sum())
     n_scaf = len(set(groups.tolist()))
-    n_splits = min(5, n_scaf, n_pos, n_neg)
+    n_splits = min(GROUPKFOLD_MAX_SPLITS, n_scaf, n_pos, n_neg)
     if n_splits < 2 or n_pos < 6 or n_neg < 6:
         return None, 0, np.full(len(y), np.nan), np.full(len(y), -1)
     cv = GroupKFold(n_splits=n_splits)
@@ -119,11 +115,11 @@ def oof_predict(X, y, groups, scaled: bool):
             model = Pipeline(
                 [
                     ("scaler", StandardScaler()),
-                    ("lr", LogisticRegression(max_iter=4000, C=1.0, random_state=SEED)),
+                    ("lr", LogisticRegression(max_iter=LOGREG_MAX_ITER, C=LOGREG_C, random_state=SEED)),
                 ]
             )
         else:
-            model = LogisticRegression(max_iter=4000, C=1.0, random_state=SEED)
+            model = LogisticRegression(max_iter=LOGREG_MAX_ITER, C=LOGREG_C, random_state=SEED)
         model.fit(X[tr], y[tr])
         oof[te] = model.predict_proba(X[te])[:, 1]
     if np.isnan(oof).any():
@@ -132,6 +128,15 @@ def oof_predict(X, y, groups, scaled: bool):
 
 
 def main() -> int:
+    import argparse
+
+    global CANON, MASTER
+    parser = argparse.ArgumentParser(description="Refit eight-pair ECFP4 / docking logistic models.")
+    add_io_args(parser)
+    args = parser.parse_args()
+    CANON, MASTER = io_paths(args.outdir, args.master)
+    CANON.mkdir(parents=True, exist_ok=True)
+
     packs = load_main()
     fold_rows = []
     oof_rows = []
