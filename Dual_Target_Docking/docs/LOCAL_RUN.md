@@ -37,3 +37,7 @@ Authoritative SI: `docs/SUPPORTING_INFORMATION_JCIM_EN_V1.md`.
 It does not call AutoDock Vina, GNINA, RTMScore, or Open Babel, and it does not download ChEMBL.
 
 Docking binaries (optional): `scripts/check_docking_env.py`.
+
+## CI CSV compare (not Methods)
+
+GitHub-hosted runners may differ from the freeze machine at ~`1e-6` in logistic-regression OOF probabilities. CI compares identifiers, memberships, labels, counts, and canonical summary tables exactly, and allows `<=1e-5` only on `ecfp4_oof_predictions.csv:oof_prob`. Independent AUROC/ΔAUROC replay remains required. Details: `docs/CI_REBUILD_COMPARE.md`.
