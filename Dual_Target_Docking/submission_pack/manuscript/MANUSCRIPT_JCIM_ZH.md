@@ -115,7 +115,7 @@ Table 2 同时报告两条方向性 AUROC 及其描述性最小值的逐项 95% 
 
 每个方向性模型的 GroupKFold 折数取 5、Bemis–Murcko 骨架数及两类样本量中的最小值。逻辑回归采用 C = 1.0、最多 4000 次迭代，GroupKFold 使用默认的不打乱划分；完整设置见 Table S1。
 
-为检验不经对接的配体排序能否分开同一套实验类别，计算 ECFP4 指纹（radius = 2，2048 bits）以及分子量、重原子数、cLogP 和 TPSA。对四个单一物化描述符分别计算两个方向的 AUROC 及其 \(\mathrm{summary}_{\min}\)。全面板上 \(\mathrm{summary}_{\min}\) 最高的单一描述符只作为描述性单变量筛选，不是经过选择校正的预测估计。化学对照的预测读数来自嵌套骨架 GroupKFold、仅在训练折上选择描述符后的折外 AUROC（Table S5）。ECFP4 骨架 GroupKFold 流程未改。
+为检验不经对接的配体排序能否分开同一套实验类别，计算 ECFP4 指纹（radius = 2，2048 bits）以及分子量、重原子数、cLogP 和 TPSA。对四个单一物化描述符分别计算两个方向的 AUROC 及其 \(\mathrm{summary}_{\min}\)。全面板上 \(\mathrm{summary}_{\min}\) 最高的单一描述符只作为描述性单变量筛选，不是经过选择校正的预测估计。化学对照的预测读数是嵌套骨架 GroupKFold 基线：每个靶对 × 方向独立划分；描述符仅在外层训练折上通过内层骨架 CV 选择；在外层训练集上拟合 StandardScaler 与单变量逻辑回归，输出折外 \(P(\mathrm{dual})\)；合并 AUROC 使用该概率而非原始描述符值（Table S5）。相应 \(\mathrm{summary}_{\min}\) 区间是固定折外概率上的配体层共享 dual bootstrap，不是重新执行描述符选择。ECFP4 骨架 GroupKFold 流程未改。
 
 ECFP4、仅对接评分（docking-only）和 ECFP4+对接评分模型均采用未做特征缩放的逻辑回归。以 Bemis–Murcko 骨架为分组变量，在相同的 GroupKFold 划分下获得折外（out-of-fold）预测，并据此计算 AUROC。仅对接评分模型仅以相应方向的对接评分作为输入。该 AUROC 由折外预测值计算，而主要分析直接按原始对接评分排序，两者计算方式不同，数值并不完全一致。ECFP4 与 ECFP4+对接评分模型的 AUROC 差值，用于衡量对接评分对配体模型的增量。Figure 3A 比较结构对接排序与配体排序，不是公平的预测竞赛。敏感性分析在相同划分的各训练折上拟合 StandardScaler（Table S5）。
 
@@ -193,7 +193,7 @@ BindingDB[16] 和 PubChem 对全部八个靶对检索独立外部对接集的候
 
 ### 3.3 配体化学基线与对接增量判别
 
-若双靶对接所排序的实验类别本身已有化学差异，则不依赖受体的基线也能分开同一套筛选状态。AChE/BChE 仅用 TPSA 时，dual–A-only 和 dual–B-only 的 AUROC 分别为 0.742 和 0.801（Figure S1；Table S5）。PIK3CA/mTOR 中最佳单一描述符（重原子数）的 \(\mathrm{summary}_{\min}\) 为 0.463（Table S5）。Vina 与最佳单一描述符的差值因靶对而异：八对中 5 对的 95% 区间包含 0，JAK1/TYK2、PIK3CA/mTOR、F2/F10 不包含 0（Figure S1；Table S5）。
+若双靶对接所排序的实验类别本身已有化学差异，则不依赖受体的基线也能分开同一套筛选状态。AChE/BChE 仅用 TPSA 时，dual–A-only 和 dual–B-only 的 AUROC 分别为 0.742 和 0.801（Figure S1；Table S5）。PIK3CA/mTOR 中最佳单一描述符（重原子数）的 \(\mathrm{summary}_{\min}\) 为 0.463（Table S5）。Vina 与最佳单一描述符的差值因靶对而异：八对中 5 对的 95% 区间包含 0，JAK1/TYK2、PIK3CA/mTOR、F2/F10 不包含 0（Figure S1；Table S5）。上述全面板数值只是描述性筛选。经过选择校正的化学对照是嵌套概率尺度折外 \(\mathrm{summary}_{\min}\)：若干靶对低于全面板筛选，例如 JAK1/JAK2 为 0.438 [0.294, 0.591]，AChE/BChE 为 0.650 [0.497, 0.796]，不能据此声称简单物化性质解释了大部分表观对接判别（Table S5）。
 
 在 Bemis–Murcko 骨架分组交叉验证下，仅含配体的 ECFP4 模型已能分开若干方向性比较（Figure 3A）。将对应方向的对接评分加入后，16 个方向的 AUROC 最多变化 0.023，且没有一致的变化方向（Figure 3B；Table S5）。这些面板比较的是同一套实验类别上的仅配体排序与结构基础排序，不是正式算法排行。在该回顾性设定下，对接评分未在配体模型之上提供稳定的排序增量。
 
@@ -211,7 +211,7 @@ BindingDB[16] 和 PubChem 对全部八个靶对检索独立外部对接集的候
 
 ### 3.5 计算实现稳健性
 
-独立 GNINA 1.3.2 姿态生成使用与主分析相同的受体、配体和对接盒，覆盖三对（Figure 5A；Table S7）。EGFR/HER2 的 dual–neither AUROC 为 0.705 [0.465, 0.910]（\(n_{\mathrm{neither}}=10\)），dual–B-only 为 0.227 [0.104, 0.373]。JAK1/TYK2 的 dual–neither 为 0.705 [0.524, 0.872]，方向性 \(\mathrm{summary}_{\min}\) 为 0.317 [0.187, 0.455]。PIK3CA/mTOR 的 \(\mathrm{summary}_{\min}\) 为 0.633，较弱臂 dual–A-only 为 0.633 [0.410, 0.769]，dual–neither 为 0.569 [0.236, 0.889]（\(n=18/13/12/4\)）。这些运行用于观察主要观察能否在另一套姿态生成流程下保留，不是 GNINA 与 Vina 的总体性能比较。
+独立 GNINA 1.3.2 姿态生成使用与主分析相同的受体、配体和对接盒，覆盖三对（Figure 5A；Table S7）。EGFR/HER2 的 dual–neither AUROC 为 0.705 [0.465, 0.910]（\(n_{\mathrm{neither}}=10\)），dual–B-only 为 0.227 [0.104, 0.373]。JAK1/TYK2 的 dual–neither 为 0.705 [0.524, 0.872]，方向性 \(\mathrm{summary}_{\min}\) 为 0.317 [0.187, 0.455]。PIK3CA/mTOR 的 \(\mathrm{summary}_{\min}\) 为 0.633 [0.410, 0.769]，较弱臂 dual–A-only 为 0.633 [0.419, 0.825]，dual–neither 为 0.569 [0.236, 0.889]（\(n=18/13/12/4\)）。这些运行用于观察主要观察能否在另一套姿态生成流程下保留，不是 GNINA 与 Vina 的总体性能比较。
 
 在 PIK3CA/mTOR 中，将 PIK3CA 受体由 4L23 替换为 4JPS 后，\(\mathrm{summary}_{\min}\) 从 0.692 [0.480, 0.802] 降至 0.486 [0.264, 0.694]；替换为 5DXT 后为 0.505 [0.296, 0.713]；将 mTOR 4JT6 替换为 4JSX 后为 0.639 [0.435, 0.783]（Figure 5B；Table S7）。
 

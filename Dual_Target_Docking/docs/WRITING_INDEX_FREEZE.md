@@ -44,7 +44,7 @@ Do not quote `results/canonical` siblings that predate the freeze ENV.
 | ECFP incremental | `results/canonical/ecfp4_incremental_information.csv` |
 | Matched−mismatched | `results/canonical/matched_minus_mismatched.csv`, `results/canonical/holdout_metrics.csv` |
 | Descriptors | `results/canonical/descriptor_baselines.csv` (full-panel best = descriptive; nested OOF = predictive) |
-| Nested descriptor CV | `results/canonical/descriptor_nested_scaffold_cv.csv` |
+| Nested descriptor CV | `results/canonical/descriptor_nested_scaffold_cv.csv`; `results/canonical/descriptor_nested_oof_predictions.csv` |
 | Five-seed available-case | `results/canonical/five_seed_summary_min.csv` |
 | Five-seed fixed membership | `results/canonical/five_seed_fixed_membership_sensitivity.csv` |
 | Receptor registry | `data/provenance/receptor_input_registry.csv`; `docs/RECEPTOR_PREP_PROVENANCE.md` |

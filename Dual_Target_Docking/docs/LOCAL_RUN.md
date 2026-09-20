@@ -40,4 +40,4 @@ Docking binaries (optional): `scripts/check_docking_env.py`.
 
 ## CI CSV compare (not Methods)
 
-GitHub-hosted runners may differ from the freeze machine at ~`1e-6` in logistic-regression OOF probabilities. CI compares identifiers, memberships, labels, counts, and canonical summary tables exactly, and allows `<=1e-5` only on `ecfp4_oof_predictions.csv:oof_prob`. Independent AUROC/ΔAUROC replay remains required. Details: `docs/CI_REBUILD_COMPARE.md`.
+GitHub-hosted runners may differ from the freeze machine at ~`1e-6` in logistic-regression OOF probabilities. CI compares identifiers, memberships, labels, counts, and canonical summary tables exactly, and allows `<=1e-5` only on `ecfp4_oof_predictions.csv:oof_prob` and `descriptor_nested_oof_predictions.csv:oof_probability`. Independent AUROC/ΔAUROC replay remains required. Details: `docs/CI_REBUILD_COMPARE.md`.

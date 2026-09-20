@@ -148,6 +148,7 @@ CANONICAL_CSV_NAMES = (
     "external_eligibility.csv",
     "descriptor_baselines.csv",
     "descriptor_nested_scaffold_cv.csv",
+    "descriptor_nested_oof_predictions.csv",
     "ecfp4_incremental_information.csv",
     "ecfp4_oof_predictions.csv",
     "ecfp4_scaler_sensitivity.csv",

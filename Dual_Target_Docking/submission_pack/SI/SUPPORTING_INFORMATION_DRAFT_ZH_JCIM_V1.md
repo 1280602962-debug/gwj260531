@@ -193,7 +193,20 @@ ECFP4 与 ECFP4+对接评分 AUROC 为同一骨架分组交叉验证下的折外
 | PPARG/PPARA | TPSA | 0.627 | 0.022 | [−0.167, 0.181] | 否 |
 | PPARA/PPARD | cLogP | 0.564 | −0.117 | [−0.326, 0.099] | 否 |
 
-源：`results/canonical/descriptor_baselines.csv`；`results/canonical/descriptor_nested_scaffold_cv.csv`；`results/canonical/ecfp4_incremental_information.csv`。
+**嵌套骨架 GroupKFold 单描述符基线。** 每个靶对 × 方向独立做外层骨架 GroupKFold。描述符仅在外层训练折上通过内层骨架 CV 选择，再在外层训练集上拟合 StandardScaler + 单变量逻辑回归，输出折外 P(dual)。合并 AUROC 使用该概率，不再拼接原始 TPSA/cLogP/MW/重原子数。`summary_min` CI 是在固定折外概率上的配体层共享 dual bootstrap，不是重新执行模型选择的不确定度。
+
+| 靶对 | D vs A OOF AUROC [95% CI] | D vs B OOF AUROC [95% CI] | summary_min [95% CI] | 各折所选描述符 (A / B) |
+|------|---------------------------:|---------------------------:|----------------------|------------------------|
+| EGFR/HER2 | 0.642 [0.501, 0.774] | 0.633 [0.486, 0.769] | 0.633 [0.467, 0.693] | heavy / heavy |
+| JAK1/JAK2 | 0.438 [0.294, 0.592] | 0.720 [0.591, 0.837] | 0.438 [0.294, 0.591] | heavy / TPSA |
+| JAK1/TYK2 | 0.459 [0.309, 0.607] | 0.482 [0.342, 0.632] | 0.459 [0.302, 0.539] | cLogP / heavy |
+| PIK3CA/mTOR | 0.708 [0.504, 0.893] | 0.389 [0.194, 0.602] | 0.389 [0.194, 0.593] | TPSA / cLogP |
+| AChE/BChE | 0.650 [0.497, 0.803] | 0.771 [0.644, 0.886] | 0.650 [0.497, 0.796] | TPSA / TPSA |
+| F2/F10 | 0.354 [0.228, 0.493] | 0.587 [0.443, 0.729] | 0.354 [0.228, 0.493] | heavy / TPSA |
+| PPARG/PPARA | 0.693 [0.561, 0.828] | 0.358 [0.227, 0.499] | 0.358 [0.227, 0.499] | TPSA / TPSA |
+| PPARA/PPARD | 0.444 [0.303, 0.583] | 0.516 [0.371, 0.660] | 0.444 [0.301, 0.541] | cLogP / TPSA |
+
+源：`results/canonical/descriptor_baselines.csv`；`results/canonical/descriptor_nested_scaffold_cv.csv`；`results/canonical/descriptor_nested_oof_predictions.csv`；`results/canonical/ecfp4_incremental_information.csv`。
 
 **特征缩放敏感性。** 同一 GroupKFold 划分在各训练折上拟合 `StandardScaler`。16 个方向上最大 |Δ| 为 0.008（PIK3CA/mTOR D vs A）。缩放不替代未缩放的 0.023 主结果。源：`results/canonical/ecfp4_scaler_sensitivity.csv`。
 
@@ -248,7 +261,7 @@ ECFP4 与 ECFP4+对接评分 AUROC 为同一骨架分组交叉验证下的折外
 | EGFR/HER2 | Vina 主分析 | 28 / 37 / 31 / 12 | 0.334 [0.197, 0.471] | dual–B-only（口袋 A） 0.334 [0.197, 0.471] | 0.759 [0.551, 0.926] |
 | EGFR/HER2 | GNINA 独立 | 20 / 33 / 26 / 10 | 0.227 [0.104, 0.373] | dual–B-only（口袋 A） 0.227 [0.104, 0.373] | 0.705 [0.465, 0.910] |
 | PIK3CA/mTOR | Vina 主分析 | 18 / 14 / 12 / 4 | 0.692 [0.480, 0.802] | dual–B-only（口袋 A） 0.692 [0.491, 0.868] | 0.514 [0.222, 0.806] |
-| PIK3CA/mTOR | GNINA 独立 | 18 / 13 / 12 / 4 | 0.633 [0.410, 0.769] | dual–A-only（口袋 B） 0.633 [0.410, 0.769] | 0.569 [0.236, 0.889] |
+| PIK3CA/mTOR | GNINA 独立 | 18 / 13 / 12 / 4 | 0.633 [0.410, 0.769] | dual–A-only（口袋 B） 0.633 [0.419, 0.825] | 0.569 [0.236, 0.889] |
 | JAK1/TYK2 | Vina 主分析 | 31 / 32 / 32 / 14 | 0.365 [0.233, 0.505] | dual–B-only（口袋 A） 0.365 [0.233, 0.508] | 0.770 [0.613, 0.906] |
 | JAK1/TYK2 | GNINA 独立 | 30 / 32 / 29 / 14 | 0.317 [0.187, 0.455] | dual–B-only（口袋 A） 0.317 [0.187, 0.455] | 0.705 [0.524, 0.872] |
 

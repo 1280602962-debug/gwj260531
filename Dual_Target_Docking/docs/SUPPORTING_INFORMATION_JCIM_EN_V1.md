@@ -183,7 +183,7 @@ ECFP4 and ECFP4+docking AUROCs are out-of-fold predictions under the same scaffo
 | PPARA/PPARD | D vs A | 0.932 | 0.928 | −0.004 | 0.647 |
 | PPARA/PPARD | D vs B | 0.858 | 0.835 | −0.023 | 0.446 |
 
-**Paired Δ of Vina `summary_min` minus the best single descriptor.** The four single-descriptor matrices (TPSA, cLogP, heavy-atom count, MW) are reported in `results/canonical/descriptor_baselines.csv`. The per-pair “best” descriptor is a **full-panel descriptive univariate screen**, not a selection-adjusted predictive estimate. The chemistry-control predictive number is nested scaffold-GroupKFold train-only descriptor selection OOF AUROC in the same CSV (`nested_scaffold_cv_oof_summary_min`; fold table `descriptor_nested_scaffold_cv.csv`). ECFP4 GroupKFold is unchanged. AChE/BChE TPSA directional AUROCs are 0.742 / 0.801 on the full panel. 5 of eight 95% CIs for Vina minus full-panel-best include 0; JAK1/TYK2, PIK3CA/mTOR, F2/F10 exclude 0. Figure S1 plots Vina CIs and descriptor points, not the difference CIs.
+**Paired Δ of Vina `summary_min` minus the best single descriptor.** The four single-descriptor matrices (TPSA, cLogP, heavy-atom count, MW) are reported in `results/canonical/descriptor_baselines.csv`. The per-pair “best” descriptor is a **full-panel descriptive univariate screen**, not a selection-adjusted predictive estimate. The chemistry-control predictive number is nested scaffold-GroupKFold inner-CV descriptor selection followed by train-only StandardScaler + univariate logistic regression; pooled AUROC uses held-out P(dual) (`nested_scaffold_cv_oof_summary_min`; OOF table `descriptor_nested_oof_predictions.csv`). The `summary_min` interval is a ligand-level shared-dual bootstrap of those fixed OOF probabilities. ECFP4 GroupKFold is unchanged. AChE/BChE TPSA directional AUROCs are 0.742 / 0.801 on the full panel. 5 of eight 95% CIs for Vina minus full-panel-best include 0; JAK1/TYK2, PIK3CA/mTOR, F2/F10 exclude 0. Figure S1 plots Vina CIs and descriptor points, not the difference CIs.
 
 | Pair | Best descriptor | Descriptor summary_min | Δ | 95% CI | CI excludes 0 |
 |------|-----------------|-----------------------:|--:|--------|:-------------:|
@@ -196,7 +196,20 @@ ECFP4 and ECFP4+docking AUROCs are out-of-fold predictions under the same scaffo
 | PPARG/PPARA | TPSA | 0.627 | 0.022 | [−0.167, 0.181] | no |
 | PPARA/PPARD | cLogP | 0.564 | −0.117 | [−0.326, 0.099] | no |
 
-Source: `results/canonical/descriptor_baselines.csv`; `results/canonical/descriptor_nested_scaffold_cv.csv`; `results/canonical/ecfp4_incremental_information.csv`.
+**Nested scaffold-GroupKFold single-descriptor baseline.** Each pair × arm uses independent outer scaffold GroupKFold. The descriptor is selected by inner scaffold CV on outer-training data only, then a train-only StandardScaler + univariate logistic regression emits held-out P(dual). Pooled AUROC uses those probabilities, not raw TPSA/cLogP/MW/heavy values. `summary_min` CI is a ligand-level shared-dual bootstrap of the min of the two directional OOF AUROCs on fixed OOF probabilities; it is not a re-run of model selection.
+
+| Pair | D vs A OOF AUROC [95% CI] | D vs B OOF AUROC [95% CI] | summary_min [95% CI] | Descriptors by fold (A / B) |
+|------|---------------------------:|---------------------------:|----------------------|-----------------------------|
+| EGFR/HER2 | 0.642 [0.501, 0.774] | 0.633 [0.486, 0.769] | 0.633 [0.467, 0.693] | heavy / heavy |
+| JAK1/JAK2 | 0.438 [0.294, 0.592] | 0.720 [0.591, 0.837] | 0.438 [0.294, 0.591] | heavy / TPSA |
+| JAK1/TYK2 | 0.459 [0.309, 0.607] | 0.482 [0.342, 0.632] | 0.459 [0.302, 0.539] | cLogP / heavy |
+| PIK3CA/mTOR | 0.708 [0.504, 0.893] | 0.389 [0.194, 0.602] | 0.389 [0.194, 0.593] | TPSA / cLogP |
+| AChE/BChE | 0.650 [0.497, 0.803] | 0.771 [0.644, 0.886] | 0.650 [0.497, 0.796] | TPSA / TPSA |
+| F2/F10 | 0.354 [0.228, 0.493] | 0.587 [0.443, 0.729] | 0.354 [0.228, 0.493] | heavy / TPSA |
+| PPARG/PPARA | 0.693 [0.561, 0.828] | 0.358 [0.227, 0.499] | 0.358 [0.227, 0.499] | TPSA / TPSA |
+| PPARA/PPARD | 0.444 [0.303, 0.583] | 0.516 [0.371, 0.660] | 0.444 [0.301, 0.541] | cLogP / TPSA |
+
+Source: `results/canonical/descriptor_baselines.csv`; `results/canonical/descriptor_nested_scaffold_cv.csv`; `results/canonical/descriptor_nested_oof_predictions.csv`; `results/canonical/ecfp4_incremental_information.csv`.
 
 **Feature-scaling sensitivity.** The same GroupKFold splits were repeated with `StandardScaler` fitted on each training fold only. Across the 16 arms the largest |Δ| was 0.008 (PIK3CA/mTOR D vs A). Scaling does not replace the unscaled 0.023 primary result. Source: `results/canonical/ecfp4_scaler_sensitivity.csv`.
 
@@ -251,7 +264,7 @@ Independent GNINA searches new poses; it is not a Vina rescore. Scope is EGFR/HE
 | EGFR/HER2 | Vina primary | 28 / 37 / 31 / 12 | 0.334 [0.197, 0.471] | dual–B-only (pocket A) 0.334 [0.197, 0.471] | 0.759 [0.551, 0.926] |
 | EGFR/HER2 | GNINA independent | 20 / 33 / 26 / 10 | 0.227 [0.104, 0.373] | dual–B-only (pocket A) 0.227 [0.104, 0.373] | 0.705 [0.465, 0.910] |
 | PIK3CA/mTOR | Vina primary | 18 / 14 / 12 / 4 | 0.692 [0.480, 0.802] | dual–B-only (pocket A) 0.692 [0.491, 0.868] | 0.514 [0.222, 0.806] |
-| PIK3CA/mTOR | GNINA independent | 18 / 13 / 12 / 4 | 0.633 [0.410, 0.769] | dual–A-only (pocket B) 0.633 [0.410, 0.769] | 0.569 [0.236, 0.889] |
+| PIK3CA/mTOR | GNINA independent | 18 / 13 / 12 / 4 | 0.633 [0.410, 0.769] | dual–A-only (pocket B) 0.633 [0.419, 0.825] | 0.569 [0.236, 0.889] |
 | JAK1/TYK2 | Vina primary | 31 / 32 / 32 / 14 | 0.365 [0.233, 0.505] | dual–B-only (pocket A) 0.365 [0.233, 0.508] | 0.770 [0.613, 0.906] |
 | JAK1/TYK2 | GNINA independent | 30 / 32 / 29 / 14 | 0.317 [0.187, 0.455] | dual–B-only (pocket A) 0.317 [0.187, 0.455] | 0.705 [0.524, 0.872] |
 

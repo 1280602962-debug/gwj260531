@@ -7,7 +7,7 @@ GitHub-hosted `revision-validate` runners may produce machine-level floating-poi
 `scripts/qa/compare_rebuild_to_canonical.py` therefore uses:
 
 - exact comparison for identifiers, memberships, labels, counts, fold assignments, and all canonical summary outputs (Table 2 / Table 3 / AUROC / CI / class counts / ECFP ΔAUROC);
-- tolerance `abs(rebuilt − canonical) <= 1e-5` **only** for `ecfp4_oof_predictions.csv:oof_prob`;
+- tolerance `abs(rebuilt − canonical) <= 1e-5` **only** for `ecfp4_oof_predictions.csv:oof_prob` and `descriptor_nested_oof_predictions.csv:oof_probability`;
 - a printed `TOLERATED:` line for every in-tolerance cell; differences larger than `1e-5` still FAIL.
 
 Independent AUROC / ΔAUROC replay in `scripts/qa/verify_freeze_rebuild.py` remains mandatory and is not relaxed.

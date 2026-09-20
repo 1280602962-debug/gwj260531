@@ -554,6 +554,40 @@ def check_robustness(robust, rec_sub, cluster, rmsd, det, packs):
         fail(f"detectable-effect AChE n_neg={ache['n_neg']} vs master {expected_neg}")
 
 
+def check_descriptor_nested(oof, folds, baselines):
+    if len(folds) != 80:
+        fail(f"descriptor fold units {len(folds)} != 80")
+    for r in folds:
+        if r.get("selection_source_arm") != r.get("arm"):
+            fail(f"descriptor cross-arm {r['pair']} {r['arm']} fold={r['outer_fold']}")
+        if r.get("selected_descriptor") != r.get("test_descriptor_used"):
+            fail(f"descriptor test/selection mismatch {r}")
+    for r in oof:
+        p = parse_finite(r.get("oof_probability"))
+        if p is None or p < 0 or p > 1:
+            fail(f"descriptor OOF not in [0,1]: {r.get('pair')} {r.get('ligand_id')}")
+        if r.get("selection_source_arm") != r.get("arm"):
+            fail(f"descriptor OOF cross-arm {r.get('pair')} {r.get('ligand_id')}")
+    by = defaultdict(lambda: {"pos": [], "neg": []})
+    for r in oof:
+        p = float(r["oof_probability"])
+        if r["y"] in ("1", 1):
+            by[(r["pair"], r["arm"])]["pos"].append(p)
+        else:
+            by[(r["pair"], r["arm"])]["neg"].append(p)
+    base = {r["pair"]: r for r in baselines}
+    for pair, rec in base.items():
+        da = auroc(by[(pair, "D_vs_A")]["pos"], by[(pair, "D_vs_A")]["neg"])
+        db = auroc(by[(pair, "D_vs_B")]["pos"], by[(pair, "D_vs_B")]["neg"])
+        if abs(da - float(rec["nested_scaffold_cv_oof_D_vs_A"])) > 1e-4:
+            fail(f"{pair} nested D_vs_A replay {da} vs {rec['nested_scaffold_cv_oof_D_vs_A']}")
+        if abs(db - float(rec["nested_scaffold_cv_oof_D_vs_B"])) > 1e-4:
+            fail(f"{pair} nested D_vs_B replay {db} vs {rec['nested_scaffold_cv_oof_D_vs_B']}")
+        sm = min(da, db)
+        if abs(sm - float(rec["nested_scaffold_cv_oof_summary_min"])) > 1e-4:
+            fail(f"{pair} nested summary_min replay {sm} vs {rec['nested_scaffold_cv_oof_summary_min']}")
+
+
 def write_report(freeze: Path):
     if freeze.resolve() == (ROOT / "results" / "canonical").resolve():
         report = Path("/tmp/canonical_verification_report.md")
@@ -621,6 +655,11 @@ def main() -> int:
         read_csv(FREEZE / "cognate_rmsd.csv"),
         read_csv(FREEZE / "detectable_effect_simulation.csv"),
         packs,
+    )
+    check_descriptor_nested(
+        read_csv(FREEZE / "descriptor_nested_oof_predictions.csv"),
+        read_csv(FREEZE / "descriptor_nested_scaffold_cv.csv"),
+        read_csv(FREEZE / "descriptor_baselines.csv"),
     )
     write_report(FREEZE)
     return 1 if FAILS else 0

@@ -200,6 +200,8 @@ def main() -> int:
                     break
                 ctx = text[max(0, i - 70) : i + len(token) + 70].replace("\n", " ")
                 status = classify_token(ctx)
+                if token == "0.354" and any(m in ctx.lower() for m in ("f2/f10", "nested", "oof auroc", "描述符", "折外")):
+                    status = "CURRENT_NESTED_DESCRIPTOR"
                 if status == "STALE_ERROR":
                     stale_err += 1
                 token_rows.append(

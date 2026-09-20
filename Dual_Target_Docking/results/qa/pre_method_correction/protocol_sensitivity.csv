@@ -1,0 +1,4 @@
+pair,panel,setting,summary_min,n_dual,n_A_only,n_B_only,source,source_kind,note
+PIK3CA/mTOR,PM48,E16_primary,0.6921,18,14,12,results/canonical/primary_summary_min.csv,recomputed,primary panel; exhaustiveness 16
+PIK3CA/mTOR,PM110,E16,0.6483,30,30,30,data/pik3ca_mtor_panel110_rdkit_v0/tables/ablation_ligand_scores.csv,recomputed_from_frozen_scores,larger protocol-sensitivity panel; n_scored=115
+PIK3CA/mTOR,PM48,E8,0.6597,18,14,12,data/pik3ca_mtor_panel48_rdkit_v0/tables/scores_vina_E8_best.csv,recomputed_from_frozen_scores,same PM48 ligands; exhaustiveness 8; n_scored=47

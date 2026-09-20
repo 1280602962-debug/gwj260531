@@ -2,8 +2,9 @@
 """Compare a freeze rebuild directory to committed results/canonical CSVs.
 
 Hash-free. Identifiers, memberships, labels, counts, and canonical summary
-tables are exact text. The only numeric tolerance is
-`ecfp4_oof_predictions.csv:oof_prob` at abs <= 1e-5, for machine-level
+tables are exact text. The only numeric tolerance is abs <= 1e-5 for
+`ecfp4_oof_predictions.csv:oof_prob` and
+`descriptor_nested_oof_predictions.csv:oof_probability`, for machine-level
 LogisticRegression floating-point variation. score_master_migration_diff.md
 is not a CSV equality gate. ENV.txt / REBUILD_LOG.txt / VERIFICATION_REPORT.md
 are ignored.
@@ -39,10 +40,13 @@ KEY_COLUMNS = (
     "label_rule",
     "scaled",
     "fold_id",
+    "outer_fold",
 )
-OOF_PROB_FILE = "ecfp4_oof_predictions.csv"
-OOF_PROB_COL = "oof_prob"
 OOF_PROB_TOL = 1e-5
+OOF_PROB_COLS = {
+    "ecfp4_oof_predictions.csv": "oof_prob",
+    "descriptor_nested_oof_predictions.csv": "oof_probability",
+}
 
 
 def fail(msg: str) -> None:
@@ -106,7 +110,7 @@ def compare_file(
             if rv == cv:
                 exact += 1
                 continue
-            if name == OOF_PROB_FILE and col == OOF_PROB_COL:
+            if name in OOF_PROB_COLS and col == OOF_PROB_COLS[name]:
                 rf, cf = parse_finite(rv), parse_finite(cv)
                 if rf is not None and cf is not None:
                     abs_diff = abs(rf - cf)

@@ -407,11 +407,12 @@ def patch_en(text, d):
         f"only AChE/BChE had a matched-minus-mismatched \(\mathrm{{summary}}_{{\min}}\) 95% interval that excluded zero ({r3(mm_ache['delta'])} {ci(mm_ache['delta_ci_lo'], mm_ache['delta_ci_hi'])}). EGFR/HER2 was {r3(mm_egfr['delta'])} {ci(mm_egfr['delta_ci_lo'], mm_egfr['delta_ci_hi'])}",
     )
     gnina_en = (
-        f"the dual-versus-neither AUROC was {r3(g_egfr['auroc_D_vs_neither_mean'])} {ci(g_egfr['d_vs_neither_ci_lo'], g_egfr['d_vs_neither_ci_hi'])} ($n_{{\mathrm{{neither}}}}={g_egfr['n_neither']}$), whereas dual-versus-B-only was {r3(g_egfr['auroc_D_vs_B_pocketA'])} {ci(g_egfr['summary_min_ci_lo'], g_egfr['summary_min_ci_hi'])}. For JAK1/TYK2, dual-versus-neither was {r3(g_jak['auroc_D_vs_neither_mean'])} {ci(g_jak['d_vs_neither_ci_lo'], g_jak['d_vs_neither_ci_hi'])} and directional \(\mathrm{{summary}}_{{\min}}\) was {r3(g_jak['summary_min'])} {ci(g_jak['summary_min_ci_lo'], g_jak['summary_min_ci_hi'])}. For PIK3CA/mTOR, \(\mathrm{{summary}}_{{\min}}\) was {r3(g_pm['summary_min'])}, the weaker arm was dual-versus-A-only {r3(g_pm['auroc_D_vs_A_pocketB'])} {ci(g_pm['summary_min_ci_lo'], g_pm['summary_min_ci_hi'])}, and dual-versus-neither was {r3(g_pm['auroc_D_vs_neither_mean'])} {ci(g_pm['d_vs_neither_ci_lo'], g_pm['d_vs_neither_ci_hi'])}"
+        f"the dual-versus-neither AUROC was {r3(g_egfr['auroc_D_vs_neither_mean'])} {ci(g_egfr['d_vs_neither_ci_lo'], g_egfr['d_vs_neither_ci_hi'])} ($n_{{\mathrm{{neither}}}}={g_egfr['n_neither']}$), whereas dual-versus-B-only was {r3(g_egfr['auroc_D_vs_B_pocketA'])} {ci(g_egfr['auroc_D_vs_B_ci_lo'], g_egfr['auroc_D_vs_B_ci_hi'])}. For JAK1/TYK2, dual-versus-neither was {r3(g_jak['auroc_D_vs_neither_mean'])} {ci(g_jak['d_vs_neither_ci_lo'], g_jak['d_vs_neither_ci_hi'])} and directional \(\mathrm{{summary}}_{{\min}}\) was {r3(g_jak['summary_min'])} {ci(g_jak['summary_min_ci_lo'], g_jak['summary_min_ci_hi'])}. For PIK3CA/mTOR, \(\mathrm{{summary}}_{{\min}}\) was {r3(g_pm['summary_min'])} {ci(g_pm['summary_min_ci_lo'], g_pm['summary_min_ci_hi'])}, the weaker arm was dual-versus-A-only {r3(g_pm['auroc_D_vs_A_pocketB'])} {ci(g_pm['auroc_D_vs_A_ci_lo'], g_pm['auroc_D_vs_A_ci_hi'])}, and dual-versus-neither was {r3(g_pm['auroc_D_vs_neither_mean'])} {ci(g_pm['d_vs_neither_ci_lo'], g_pm['d_vs_neither_ci_hi'])}"
     )
     for old in (
         "the dual-versus-neither AUROC was 0.737 [0.536, 0.903] ($n_{\mathrm{neither}}=11$), whereas dual-versus-B-only was 0.265 [0.148, 0.394]. For JAK1/TYK2, dual-versus-neither was 0.705 [0.517, 0.876] and directional \(\mathrm{summary}_{\min}\) was 0.317 [0.183, 0.463]. For PIK3CA/mTOR, \(\mathrm{summary}_{\min}\) was 0.633, the weaker arm was dual-versus-A-only 0.633 [0.427, 0.825], and dual-versus-neither was 0.569 [0.222, 0.889]",
         "the dual-versus-neither AUROC was 0.737 [0.529, 0.919] ($n_{\mathrm{neither}}=11$), whereas dual-versus-B-only was 0.265 [0.144, 0.401]. For JAK1/TYK2, dual-versus-neither was 0.705 [0.524, 0.872] and directional \(\mathrm{summary}_{\min}\) was 0.317 [0.187, 0.455]. For PIK3CA/mTOR, \(\mathrm{summary}_{\min}\) was 0.633, the weaker arm was dual-versus-A-only 0.633 [0.410, 0.769], and dual-versus-neither was 0.569 [0.236, 0.889]",
+        "the dual-versus-neither AUROC was 0.705 [0.465, 0.910] ($n_{\mathrm{neither}}=10$), whereas dual-versus-B-only was 0.227 [0.104, 0.373]. For JAK1/TYK2, dual-versus-neither was 0.705 [0.524, 0.872] and directional \(\mathrm{summary}_{\min}\) was 0.317 [0.187, 0.455]. For PIK3CA/mTOR, \(\mathrm{summary}_{\min}\) was 0.633, the weaker arm was dual-versus-A-only 0.633 [0.410, 0.769], and dual-versus-neither was 0.569 [0.236, 0.889]",
     ):
         text = text.replace(old, gnina_en)
     r4j, r5d, r4s = d["rec"]["4JPS"], d["rec"]["5DXT"], d["rec"]["4JSX"]
@@ -556,11 +557,12 @@ def patch_zh(text, d):
         f"仅 AChE/BChE 的 matched−mismatched \(\mathrm{{summary}}_{{\min}}\) 95% 区间排除 0（{r3(mm_ache['delta'])} {ci(mm_ache['delta_ci_lo'], mm_ache['delta_ci_hi'])}）。EGFR/HER2 为 {r3(mm_egfr['delta'])} {ci(mm_egfr['delta_ci_lo'], mm_egfr['delta_ci_hi'])}",
     )
     gnina_zh = (
-        f"EGFR/HER2 的 dual–neither AUROC 为 {r3(g_egfr['auroc_D_vs_neither_mean'])} {ci(g_egfr['d_vs_neither_ci_lo'], g_egfr['d_vs_neither_ci_hi'])}（\(n_{{\mathrm{{neither}}}}={g_egfr['n_neither']}\)），dual–B-only 为 {r3(g_egfr['auroc_D_vs_B_pocketA'])} {ci(g_egfr['summary_min_ci_lo'], g_egfr['summary_min_ci_hi'])}。JAK1/TYK2 的 dual–neither 为 {r3(g_jak['auroc_D_vs_neither_mean'])} {ci(g_jak['d_vs_neither_ci_lo'], g_jak['d_vs_neither_ci_hi'])}，方向性 \(\mathrm{{summary}}_{{\min}}\) 为 {r3(g_jak['summary_min'])} {ci(g_jak['summary_min_ci_lo'], g_jak['summary_min_ci_hi'])}。PIK3CA/mTOR 的 \(\mathrm{{summary}}_{{\min}}\) 为 {r3(g_pm['summary_min'])}，较弱臂 dual–A-only 为 {r3(g_pm['auroc_D_vs_A_pocketB'])} {ci(g_pm['summary_min_ci_lo'], g_pm['summary_min_ci_hi'])}，dual–neither 为 {r3(g_pm['auroc_D_vs_neither_mean'])} {ci(g_pm['d_vs_neither_ci_lo'], g_pm['d_vs_neither_ci_hi'])}"
+        f"EGFR/HER2 的 dual–neither AUROC 为 {r3(g_egfr['auroc_D_vs_neither_mean'])} {ci(g_egfr['d_vs_neither_ci_lo'], g_egfr['d_vs_neither_ci_hi'])}（\(n_{{\mathrm{{neither}}}}={g_egfr['n_neither']}\)），dual–B-only 为 {r3(g_egfr['auroc_D_vs_B_pocketA'])} {ci(g_egfr['auroc_D_vs_B_ci_lo'], g_egfr['auroc_D_vs_B_ci_hi'])}。JAK1/TYK2 的 dual–neither 为 {r3(g_jak['auroc_D_vs_neither_mean'])} {ci(g_jak['d_vs_neither_ci_lo'], g_jak['d_vs_neither_ci_hi'])}，方向性 \(\mathrm{{summary}}_{{\min}}\) 为 {r3(g_jak['summary_min'])} {ci(g_jak['summary_min_ci_lo'], g_jak['summary_min_ci_hi'])}。PIK3CA/mTOR 的 \(\mathrm{{summary}}_{{\min}}\) 为 {r3(g_pm['summary_min'])} {ci(g_pm['summary_min_ci_lo'], g_pm['summary_min_ci_hi'])}，较弱臂 dual–A-only 为 {r3(g_pm['auroc_D_vs_A_pocketB'])} {ci(g_pm['auroc_D_vs_A_ci_lo'], g_pm['auroc_D_vs_A_ci_hi'])}，dual–neither 为 {r3(g_pm['auroc_D_vs_neither_mean'])} {ci(g_pm['d_vs_neither_ci_lo'], g_pm['d_vs_neither_ci_hi'])}"
     )
     for old in (
         "EGFR/HER2 的 dual–neither AUROC 为 0.737 [0.536, 0.903]（\(n_{\mathrm{neither}}=11\)），dual–B-only 为 0.265 [0.148, 0.394]。JAK1/TYK2 的 dual–neither 为 0.705 [0.517, 0.876]，方向性 \(\mathrm{summary}_{\min}\) 为 0.317 [0.183, 0.463]。PIK3CA/mTOR 的 \(\mathrm{summary}_{\min}\) 为 0.633，较弱臂 dual–A-only 为 0.633 [0.427, 0.825]，dual–neither 为 0.569 [0.222, 0.889]",
         "EGFR/HER2 的 dual–neither AUROC 为 0.737 [0.529, 0.919]（\(n_{\mathrm{neither}}=11\)），dual–B-only 为 0.265 [0.144, 0.401]。JAK1/TYK2 的 dual–neither 为 0.705 [0.524, 0.872]，方向性 \(\mathrm{summary}_{\min}\) 为 0.317 [0.187, 0.455]。PIK3CA/mTOR 的 \(\mathrm{summary}_{\min}\) 为 0.633，较弱臂 dual–A-only 为 0.633 [0.410, 0.769]，dual–neither 为 0.569 [0.236, 0.889]",
+        "EGFR/HER2 的 dual–neither AUROC 为 0.705 [0.465, 0.910]（\(n_{\mathrm{neither}}=10\)），dual–B-only 为 0.227 [0.104, 0.373]。JAK1/TYK2 的 dual–neither 为 0.705 [0.524, 0.872]，方向性 \(\mathrm{summary}_{\min}\) 为 0.317 [0.187, 0.455]。PIK3CA/mTOR 的 \(\mathrm{summary}_{\min}\) 为 0.633，较弱臂 dual–A-only 为 0.633 [0.410, 0.769]，dual–neither 为 0.569 [0.236, 0.889]",
     ):
         text = text.replace(old, gnina_zh)
     r4j, r5d, r4s = d["rec"]["4JPS"], d["rec"]["5DXT"], d["rec"]["4JSX"]
@@ -813,6 +815,45 @@ def si_s5_desc(d):
     return "\n".join(rows)
 
 
+def si_s5_nested(d, zh=False):
+    if zh:
+        rows = [
+            "| 靶对 | D vs A OOF AUROC [95% CI] | D vs B OOF AUROC [95% CI] | summary_min [95% CI] | 各折所选描述符 (A / B) |",
+            "|------|---------------------------:|---------------------------:|----------------------|------------------------|",
+        ]
+    else:
+        rows = [
+            "| Pair | D vs A OOF AUROC [95% CI] | D vs B OOF AUROC [95% CI] | summary_min [95% CI] | Descriptors by fold (A / B) |",
+            "|------|---------------------------:|---------------------------:|----------------------|-----------------------------|",
+        ]
+    names = {"clogp": "cLogP", "tpsa": "TPSA", "heavy": "heavy", "mw": "MW"}
+    for p in PAIRS:
+        r = d["desc"][p]
+        a_mode = names.get(r.get("nested_selected_D_vs_A_mode", ""), r.get("nested_selected_D_vs_A_mode", ""))
+        b_mode = names.get(r.get("nested_selected_D_vs_B_mode", ""), r.get("nested_selected_D_vs_B_mode", ""))
+        rows.append(
+            f"| {p} | {r3(r['nested_scaffold_cv_oof_D_vs_A'])} {ci(r['nested_scaffold_cv_oof_D_vs_A_ci_lo'], r['nested_scaffold_cv_oof_D_vs_A_ci_hi'])} | "
+            f"{r3(r['nested_scaffold_cv_oof_D_vs_B'])} {ci(r['nested_scaffold_cv_oof_D_vs_B_ci_lo'], r['nested_scaffold_cv_oof_D_vs_B_ci_hi'])} | "
+            f"{r3(r['nested_scaffold_cv_oof_summary_min'])} {ci(r['nested_scaffold_cv_oof_summary_min_ci_lo'], r['nested_scaffold_cv_oof_summary_min_ci_hi'])} | "
+            f"{a_mode} / {b_mode} |"
+        )
+    return "\n".join(rows)
+
+
+def _gnina_counts(gp) -> str:
+    return f"{gp['n_dual']} / {gp['n_A_only']} / {gp['n_B_only']} / {gp['n_neither']}"
+
+
+def _gnina_weaker(gp, zh=False):
+    da = float(gp["auroc_D_vs_A_pocketB"])
+    db = float(gp["auroc_D_vs_B_pocketA"])
+    if db <= da:
+        lab = "dual–B-only（口袋 A）" if zh else "dual–B-only (pocket A)"
+        return lab, gp["auroc_D_vs_B_pocketA"], gp["auroc_D_vs_B_ci_lo"], gp["auroc_D_vs_B_ci_hi"]
+    lab = "dual–A-only（口袋 B）" if zh else "dual–A-only (pocket B)"
+    return lab, gp["auroc_D_vs_A_pocketB"], gp["auroc_D_vs_A_ci_lo"], gp["auroc_D_vs_A_ci_hi"]
+
+
 def si_s6(d):
     rows = [
         "| Pair | Set | Δ | 95% CI | CI excludes 0 | Weaker arm switched |",
@@ -917,13 +958,35 @@ def patch_si(text, d):
     excl, incl = desc_excl(d)
     text = text.replace(
         f"AChE/BChE TPSA directional AUROCs are 0.733 / 0.801. Six of eight 95% CIs include 0; F2/F10 and JAK1/TYK2 exclude 0.",
-        f"AChE/BChE TPSA directional AUROCs are {r3(ache['tpsa_D_vs_A'])} / {r3(ache['tpsa_D_vs_B'])}. {len(incl)} of eight 95% CIs include 0; {', '.join(excl)} exclude 0.",
+        f"AChE/BChE TPSA directional AUROCs are {r3(ache['tpsa_D_vs_A'])} / {r3(ache['tpsa_D_vs_B'])} on the full panel. {len(incl)} of eight 95% CIs for Vina minus full-panel-best include 0; {', '.join(excl)} exclude 0.",
+    )
+    text = text.replace(
+        "The chemistry-control predictive number is nested scaffold-GroupKFold train-only descriptor selection OOF AUROC in the same CSV (`nested_scaffold_cv_oof_summary_min`; fold table `descriptor_nested_scaffold_cv.csv`).",
+        "The chemistry-control predictive number is nested scaffold-GroupKFold inner-CV descriptor selection followed by train-only StandardScaler + univariate logistic regression; pooled AUROC uses held-out P(dual) (`nested_scaffold_cv_oof_summary_min`; OOF table `descriptor_nested_oof_predictions.csv`). The `summary_min` interval is a ligand-level shared-dual bootstrap of those fixed OOF probabilities.",
     )
     text = patch_table_block(
         text,
         "| Pair | Best descriptor | Descriptor summary_min | Δ | 95% CI | CI excludes 0 |",
         si_s5_desc(d),
     )
+    nested_en = (
+        "**Nested scaffold-GroupKFold single-descriptor baseline.** "
+        "Each pair × arm uses independent outer scaffold GroupKFold. "
+        "The descriptor is selected by inner scaffold CV on outer-training data only, "
+        "then a train-only StandardScaler + univariate logistic regression emits held-out P(dual). "
+        "Pooled AUROC uses those probabilities, not raw TPSA/cLogP/MW/heavy values. "
+        "`summary_min` CI is a ligand-level shared-dual bootstrap of the min of the two directional OOF AUROCs "
+        "on fixed OOF probabilities; it is not a re-run of model selection."
+    )
+    if "| Pair | D vs A OOF AUROC [95% CI] |" in text:
+        text = patch_table_block(text, "| Pair | D vs A OOF AUROC [95% CI] |", si_s5_nested(d, zh=False))
+    else:
+        text = text.replace(
+            "Source: `results/canonical/descriptor_baselines.csv`; `results/canonical/descriptor_nested_scaffold_cv.csv`; `results/canonical/ecfp4_incremental_information.csv`.",
+            nested_en + "\n\n" + si_s5_nested(d, zh=False) + "\n\n"
+            "Source: `results/canonical/descriptor_baselines.csv`; `results/canonical/descriptor_nested_scaffold_cv.csv`; "
+            "`results/canonical/descriptor_nested_oof_predictions.csv`; `results/canonical/ecfp4_incremental_information.csv`.",
+        )
     text = text.replace("does not replace the unscaled 0.023 primary result.", f"does not replace the unscaled {r3(inc_abs)} primary result.")
     text = patch_table_block(
         text,
@@ -949,17 +1012,12 @@ def patch_si(text, d):
         "| Pair | Engine | n_dual / n_A / n_B / n_neither | summary_min | Weaker-arm AUROC [95% CI] | Dual vs neither |",
         "|------|------|------|------------:|---------------------------|----------------:|",
     ]
-    for p, n_g in (("EGFR/HER2", "28 / 37 / 32 / 11"), ("PIK3CA/mTOR", "18 / 13 / 12 / 4"), ("JAK1/TYK2", "30 / 32 / 29 / 14")):
+    for p in ("EGFR/HER2", "PIK3CA/mTOR", "JAK1/TYK2"):
         sp = s[p]
         tp = two[p]
         gp = g[p]
         weak = "dual–B-only (pocket A)" if float(sp["auroc_D_vs_B_pocketA"]) <= float(sp["auroc_D_vs_A_pocketB"]) else "dual–A-only (pocket B)"
-        if p == "PIK3CA/mTOR":
-            gweak = "dual–A-only (pocket B)"
-            garm = gp["auroc_D_vs_A_pocketB"]
-        else:
-            gweak = "dual–B-only (pocket A)"
-            garm = gp["auroc_D_vs_B_pocketA"]
+        gweak, garm, glo, ghi = _gnina_weaker(gp, zh=False)
         s7a.append(
             f"| {p} | Vina primary | {sp['n_dual']} / {sp['n_A_only']} / {sp['n_B_only']} / {d['rank'][p]['n_neither']} | "
             f"{r3(sp['summary_min'])} {ci(sp['ci_lo'], sp['ci_hi'])} | {weak} {r3(sp['auroc_D_vs_B_pocketA'] if 'B-only' in weak else sp['auroc_D_vs_A_pocketB'])} "
@@ -967,8 +1025,8 @@ def patch_si(text, d):
             f"{r3(tp['two_pocket_mean_D_vs_neither'])} {ci(tp['ci_lo'], tp['ci_hi'])} |"
         )
         s7a.append(
-            f"| {p} | GNINA independent | {n_g} | {r3(gp['summary_min'])} {ci(gp['summary_min_ci_lo'], gp['summary_min_ci_hi'])} | "
-            f"{gweak} {r3(garm)} {ci(gp['summary_min_ci_lo'], gp['summary_min_ci_hi'])} | "
+            f"| {p} | GNINA independent | {_gnina_counts(gp)} | {r3(gp['summary_min'])} {ci(gp['summary_min_ci_lo'], gp['summary_min_ci_hi'])} | "
+            f"{gweak} {r3(garm)} {ci(glo, ghi)} | "
             f"{r3(gp['auroc_D_vs_neither_mean'])} {ci(gp['d_vs_neither_ci_lo'], gp['d_vs_neither_ci_hi'])} |"
         )
     text = patch_table_block(text, "| Pair | Engine | n_dual / n_A / n_B / n_neither | summary_min | Weaker-arm AUROC [95% CI] | Dual vs neither |", "\n".join(s7a))
@@ -1250,6 +1308,22 @@ def patch_si_zh(text, d):
         "| 靶对 | 最佳描述符 | 描述符 summary_min | Δ | 95% CI | CI 排除 0 |",
         si_s5_desc_zh(d),
     )
+    nested_zh = (
+        "**嵌套骨架 GroupKFold 单描述符基线。** "
+        "每个靶对 × 方向独立做外层骨架 GroupKFold。"
+        "描述符仅在外层训练折上通过内层骨架 CV 选择，再在外层训练集上拟合 StandardScaler + 单变量逻辑回归，输出折外 P(dual)。"
+        "合并 AUROC 使用该概率，不再拼接原始 TPSA/cLogP/MW/重原子数。"
+        "`summary_min` CI 是在固定折外概率上的配体层共享 dual bootstrap，不是重新执行模型选择的不确定度。"
+    )
+    if "| 靶对 | D vs A OOF AUROC [95% CI] |" in text:
+        text = patch_table_block(text, "| 靶对 | D vs A OOF AUROC [95% CI] |", si_s5_nested(d, zh=True))
+    else:
+        text = text.replace(
+            "源：`results/canonical/descriptor_baselines.csv`；`results/canonical/descriptor_nested_scaffold_cv.csv`；`results/canonical/ecfp4_incremental_information.csv`。",
+            nested_zh + "\n\n" + si_s5_nested(d, zh=True) + "\n\n"
+            "源：`results/canonical/descriptor_baselines.csv`；`results/canonical/descriptor_nested_scaffold_cv.csv`；"
+            "`results/canonical/descriptor_nested_oof_predictions.csv`；`results/canonical/ecfp4_incremental_information.csv`。",
+        )
     text = text.replace("缩放不替代未缩放的 0.023 主结果。", f"缩放不替代未缩放的 {r3(inc_abs)} 主结果。")
     text = patch_table_block(text, "| 靶对 | 集合 | Δ | 95% CI | CI 排除 0 | 较弱方向切换 |", si_s6_zh(d))
     text = patch_table_block(
@@ -1265,17 +1339,12 @@ def patch_si_zh(text, d):
         "| 靶对 | 引擎 | n_dual / n_A / n_B / n_neither | summary_min | 较弱臂 AUROC [95% CI] | Dual vs neither |",
         "|------|------|------|------------:|---------------------------|----------------:|",
     ]
-    for p, n_g in (("EGFR/HER2", "28 / 37 / 32 / 11"), ("PIK3CA/mTOR", "18 / 13 / 12 / 4"), ("JAK1/TYK2", "30 / 32 / 29 / 14")):
+    for p in ("EGFR/HER2", "PIK3CA/mTOR", "JAK1/TYK2"):
         sp = s[p]
         tp = two[p]
         gp = g[p]
         weak = "dual–B-only（口袋 A）" if float(sp["auroc_D_vs_B_pocketA"]) <= float(sp["auroc_D_vs_A_pocketB"]) else "dual–A-only（口袋 B）"
-        if p == "PIK3CA/mTOR":
-            gweak = "dual–A-only（口袋 B）"
-            garm = gp["auroc_D_vs_A_pocketB"]
-        else:
-            gweak = "dual–B-only（口袋 A）"
-            garm = gp["auroc_D_vs_B_pocketA"]
+        gweak, garm, glo, ghi = _gnina_weaker(gp, zh=True)
         s7a.append(
             f"| {p} | Vina 主分析 | {sp['n_dual']} / {sp['n_A_only']} / {sp['n_B_only']} / {d['rank'][p]['n_neither']} | "
             f"{r3(sp['summary_min'])} {ci(sp['ci_lo'], sp['ci_hi'])} | {weak} {r3(sp['auroc_D_vs_B_pocketA'] if 'B-only' in weak else sp['auroc_D_vs_A_pocketB'])} "
@@ -1283,8 +1352,8 @@ def patch_si_zh(text, d):
             f"{r3(tp['two_pocket_mean_D_vs_neither'])} {ci(tp['ci_lo'], tp['ci_hi'])} |"
         )
         s7a.append(
-            f"| {p} | GNINA 独立 | {n_g} | {r3(gp['summary_min'])} {ci(gp['summary_min_ci_lo'], gp['summary_min_ci_hi'])} | "
-            f"{gweak} {r3(garm)} {ci(gp['summary_min_ci_lo'], gp['summary_min_ci_hi'])} | "
+            f"| {p} | GNINA 独立 | {_gnina_counts(gp)} | {r3(gp['summary_min'])} {ci(gp['summary_min_ci_lo'], gp['summary_min_ci_hi'])} | "
+            f"{gweak} {r3(garm)} {ci(glo, ghi)} | "
             f"{r3(gp['auroc_D_vs_neither_mean'])} {ci(gp['d_vs_neither_ci_lo'], gp['d_vs_neither_ci_hi'])} |"
         )
     text = patch_table_block(

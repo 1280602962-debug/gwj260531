@@ -155,7 +155,7 @@ def build_fig1_setup(D):
 
 
 def build_fig2_ranking_consequence(D):
-    fig, axs = plt.subplots(4, 1, figsize=(7, 8.50),
+    fig, axs = plt.subplots(4, 1, figsize=(7, 9.00),
                             gridspec_kw={'height_ratios': [1.12, 1.00, 1.10, 0.88]})
     for ax, letter in zip(axs[:3], 'ABC'):
         label(ax, letter)
@@ -206,10 +206,10 @@ def build_fig2_ranking_consequence(D):
         nei_m = 'D' if r['n_neg'] < 10 else 's'
         dotci(axs[2], r['nei'], r['nei_lo'], r['nei_hi'], i + .16, C['desc'], nei_m)
         if r['n_neg'] < 10:
-            axs[2].text(r['nei'] + 0.025, i + .16, f"n={r['n_neg']}",
+            axs[2].text(r['nei_hi'] + 0.028, i + .16, f"n={r['n_neg']}",
                         va='center', fontsize=6.0, color=C['desc'])
     axs[2].axvline(.5, color=C['chance'], ls='--', lw=.8)
-    axs[2].set(xlim=(0.08, 1.05), xlabel='AUROC')
+    axs[2].set(xlim=(0.08, 1.12), xlabel='AUROC')
     n_neither = {p: int(v.primary_row(D, p)['n_neg']) for p in PAIRS}
     small_n = sorted({n for n in n_neither.values() if n < 10})
     legend_c = [
@@ -256,7 +256,7 @@ def build_fig2_ranking_consequence(D):
     }
     P['fig2D'] = {p: ranking_row(D, p) for p in PAIRS}
     P['fig2C_neither_n'] = n_neither
-    fig.subplots_adjust(left=.22, right=.97, top=.97, bottom=.10, hspace=.86)
+    fig.subplots_adjust(left=.22, right=.96, top=.98, bottom=.09, hspace=.98)
     save(fig, 'Fig2_negative_class_formulation')
 
 
@@ -480,8 +480,8 @@ def counts_heatmap(ax, rows, columns, title, gate):
 
 
 def build_figS4_label_source(D):
-    fig, axs = plt.subplots(1, 2, figsize=(7, 3.80))
-    ax = axs[0]; label(ax, 'A', x=-0.18, y=1.04)
+    fig, axs = plt.subplots(1, 2, figsize=(7, 4.35))
+    ax = axs[0]; label(ax, 'A', x=-0.22, y=1.06)
     rules = ['theta_5.5', 'theta_6.0', 'theta_6.5', 'strict_6.5_5.5']
     recs = [[v.theta_grid_record(D, p, r) for r in rules] for p in PAIRS]
     mat = np.array([[r['value'] for r in row] for row in recs])
@@ -493,13 +493,23 @@ def build_figS4_label_source(D):
                     color='white' if mat[i, j] < .35 or mat[i, j] > .67 else C['ink'])
     ax.set_yticks(range(8), PAIRS, fontsize=6.5)
     ax.set_xticks(range(4), ['θ=5.5', 'θ=6.0', 'θ=6.5', 'strict\n6.5/5.5'], fontsize=6.1)
-    cb = fig.colorbar(im, ax=ax, orientation='horizontal', fraction=.045, pad=.10)
+    cb = fig.colorbar(im, ax=ax, orientation='horizontal', fraction=.040, pad=.18)
     cb.set_label(SMIN, fontsize=7)
-    ax.text(0.0, 8.55, r'$\dagger$ min($n_{\mathrm{dual}}$, $n_{\mathrm{A}}$ , $n_{\mathrm{B}}$) < 10',
-            fontsize=6.0, color='#555555', clip_on=False)
+    ax.annotate(
+        r'$\dagger$ min($n_{\mathrm{dual}}$, $n_{\mathrm{A}}$, $n_{\mathrm{B}}$) < 10',
+        xy=(0.0, 0.0),
+        xycoords=cb.ax.transAxes,
+        xytext=(0.0, -1.85),
+        textcoords='offset fontsize',
+        fontsize=6.0,
+        color='#555555',
+        ha='left',
+        va='top',
+        clip_on=False,
+    )
     P['fig6A'] = mat.tolist()
 
-    ax = axs[1]; label(ax, 'B', x=-0.28, y=1.04)
+    ax = axs[1]; label(ax, 'B', x=-0.32, y=1.06)
     clusters = D['cluster']
     ylabels, plotted = [], {}
     y = 0
@@ -530,7 +540,7 @@ def build_figS4_label_source(D):
     ax.set(xlim=(-.12, .78), xlabel=r'$\Delta$AUROC, target A score')
     P['fig6B'] = {f'{p}|{k}': rec for (p, k), rec in plotted.items()}
     P['figS11'] = clusters
-    fig.subplots_adjust(left=.16, right=.98, top=.90, bottom=.16, wspace=.42)
+    fig.subplots_adjust(left=.18, right=.98, top=.88, bottom=.22, wspace=.48)
     save(fig, 'FigS4_label_source_robustness')
 
 
