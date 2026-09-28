@@ -1,0 +1,40 @@
+{
+  "schema": "hypothesis-generation/assets/search_boundary_template analog",
+  "search_date": "2026-09-28",
+  "cutoff": "2026-09-28",
+  "databases_or_interfaces": ["WebSearch", "publisher HTML via WebFetch", "PMC"],
+  "not_a_systematic_review": true,
+  "queries_used": [
+    "dual-target URAT1 NLRP3 inhibitor gout 2020..2026",
+    "HNW005 tranilast URAT1 NLRP3 European Journal of Medicinal Chemistry 2025",
+    "Zhang Eurycoma longifolia Nature Communications 2025 compound 32",
+    "Pyridoimidazolyl Sulfonamide Compound 2 URAT1 Journal of Medicinal Chemistry 2026 Shi",
+    "arhalofenate URAT1 NLRP3 gout dual",
+    "FDA approved drug library virtual screening NLRP3 7ALV Agarwal",
+    "9DKB URAT1 docking virtual screening",
+    "7ALV NLRP3 docking virtual screening",
+    "JCIM virtual screening without experimental validation editorial",
+    "European Journal of Medicinal Chemistry in silico only policy",
+    "PF-03882845 URAT1 NLRP3 gout",
+    "dotinurad benzbromarone probenecid NLRP3 inflammasome",
+    "lesinurad inflammasome dual inhibitor patent"
+  ],
+  "included_source_types": ["peer-reviewed articles", "journal aims/editorials", "patent records as prior-art context"],
+  "known_limits": [
+    "Not PRISMA; no dual screening of all hits",
+    "Patent full-text not independently docketed beyond secondary reports",
+    "HNW005 vendor SMILES not treated as SI-verified structure",
+    "Absence inside this boundary is not universal absence"
+  ],
+  "located_prior_art_blocking_target_combination_novelty": [
+    "10.1038/s41467-025-62645-6",
+    "10.1016/j.ejmech.2025.117644",
+    "10.1021/acs.jmedchem.6c00058",
+    "arhalofenate clinical dual-node literature",
+    "Agarwal 2024 JBSD FDA-library 7ALV screen"
+  ],
+  "not_located_in_this_boundary": [
+    "Published clinical-library dual virtual screen into experimental URAT1 cryo-EM 9DKB plus 7ALV with a ranked dual shortlist",
+    "PF-03882845 as a demonstrated URAT1 or NLRP3 ligand"
+  ]
+}
