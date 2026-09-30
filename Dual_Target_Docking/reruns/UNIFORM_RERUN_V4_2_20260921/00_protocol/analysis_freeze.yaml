@@ -1,0 +1,225 @@
+protocol:
+  run_id: UNIFORM_RERUN_V4_2_20260921
+  protocol_version: "4.2"
+  written_at_utc: 2026-09-20T18:31:00Z
+  isolated_root: reruns/UNIFORM_RERUN_V4_2_20260921
+  predecessor: UNIFORM_RERUN_V4_1_20260921
+  v4_1_reduce2_branch: ABANDONED
+  ligand_assets: reused_from_V4_1_785_PASS
+  receptor_prep: PDBFixer_heavy_then_Meeko_0.7.1_no_Reduce2
+
+authoritative_sources:
+  score_master_builder: scripts/analysis/build_current_score_master.py
+  activity_aggregate: data/processed/activity_adjudication/ligand_activity_aggregate_v1.csv
+  activity_adjudication: data/processed/activity_adjudication/ligand_activity_aggregate_v1.csv
+  panel_membership_decisions: data/processed/ligand_panel_membership_decisions_v1.csv
+  pair_panels:
+    EGFR/HER2: data/egfr_her2_panel120_v0/tables/panel_v0_120.csv
+    HER2_note: same file as EGFR/HER2
+    AChE/BChE: data/ache_bche_panel_v0/tables/panel_v0_strict.csv
+    PIK3CA/mTOR: data/pik3ca_mtor_panel48_rdkit_v0/tables/panel_v0_48.csv
+    JAK1/JAK2: data/jcim_chembl_universe_v0/tables/track_b_panels/panel_JAK1_JAK2_v1.csv
+    JAK1/TYK2: data/jcim_chembl_universe_v0/tables/track_b_panels/panel_JAK1_TYK2_v1.csv
+    F2/F10: data/jcim_chembl_universe_v0/tables/track_b_panels/panel_F2_F10_v1.csv
+    PPARG/PPARA: data/jcim_chembl_universe_v0/tables/track_b_panels/panel_PPARG_PPARA_v1.csv
+    PPARA/PPARD: data/jcim_chembl_universe_v0/tables/track_b_panels/panel_PPARA_PPARD_v1.csv
+  fold_assignments: results/canonical/model_fold_assignments.csv
+  fold_copies_byte_identical: true
+  receptor_registry: 00_protocol/receptor_registry.csv
+  ligand_registry: 00_protocol/global_ligand_registry.csv
+  holdout_manifest: 00_protocol/holdout_membership_freeze.csv
+  alternative_receptors: 00_protocol/alternative_receptor_manifest.csv
+  frozen_parent_registry: qa/final_input_audit/frozen_docking_parent_registry.csv
+  current_score_master_legacy_scores_only: results/canonical/current_score_master.csv
+
+input_source_ambiguity: NONE
+review_scored_membership_v1_as_v4_score_source: FORBIDDEN
+
+panel:
+  historical_records: 808
+  independent_pair_level_parent_units: 807
+  global_unique_ligand_entities: 785
+  allow_resampling: false
+  allow_new_ligands: false
+
+activity:
+  primary_theta: 6.0
+  allow_refresh_from_chembl: false
+  missing_activity_is_inactive: false
+
+approved_parent_aliases:
+  AB_040:
+    canonical_id: AB_046
+    reason: duplicate_parent
+    global_ligand_entity_id: ZKOHODJSCICEFD-UHFFFAOYSA-N
+    prepare_independent: false
+    dock_independent: false
+    canonical_fold_id: 1
+    canonical_fold_id_source: results/canonical/model_fold_assignments.csv
+    fold_resplit: false
+    protocol_text_previously_claimed: 2
+    fold_id_status: RESOLVED_FROM_UNIQUE_AUTHORITATIVE_FILE
+
+holdout:
+  HOAB_026:
+    activity_eligible: true
+    holdout_eligible: false
+    exclusion_reason: parent_overlap_with_main_panel
+    overlap_with: AB_043
+    factual_pchembl_source: data/jcim_holdout_v0/tables/holdout_panel_HOAB.csv
+    factual_pA: 7.52
+    factual_pB: 5.44
+
+global_ligand_identity:
+  key: desalted_parent_inchikey
+  prepare_once: true
+
+primary_complete_case:
+  rule: both_target_scores_required
+  table2_uses_both_end_complete_cases: true
+
+direction_specific_complete_case_sensitivity:
+  enabled: true
+  dual_vs_A_only_requires: target_B_score
+  dual_vs_B_only_requires: target_A_score
+
+directional_estimands:
+  dual_vs_A_only: target_B
+  dual_vs_B_only: target_A
+  positive_class: dual
+
+summary_min:
+  population: primary_both_end_complete_case
+  definition: min(AUROC_DvsA_using_B, AUROC_DvsB_using_A)
+
+vina:
+  version_required: "1.2.7"
+  scoring: vina
+  exhaustiveness: 16
+  num_modes: 9
+  energy_range: 6
+  cpu_per_job: 1
+  seeds: [17, 29, 42, 71, 101]
+  primary_seed: 42
+  primary_mode: 1
+  best_of_five_allowed: false
+
+ligand_embedding:
+  method: ETKDGv3
+  num_confs: 20
+  random_seed: 42
+  num_threads: 1
+  prune_rms_thresh: -1.0
+  primary_force_field: MMFF94s
+  fallback_force_field: UFF
+
+bootstrap:
+  primary_method: class_stratified_percentile
+  B: 10000
+  seed: 271828
+  sha_derived_seeds: false
+  legacy_B: 2000
+  legacy_seed: 20260729
+
+legacy_comparison:
+  use_same_cleaned_ligand_population: true
+  use_same_complete_case_rule: true
+  use_same_bootstrap_method_as_v4_1: true
+  use_same_bootstrap_B_as_v4_1: true
+  use_same_bootstrap_seed_as_v4_1: true
+
+simulation:
+  seed: 314159
+
+gnina:
+  role: vina_pose_rescoring
+  independent_docking_in_v4_1: false
+  primary_metric: mode1_CNNscore
+  secondary_metric: max_saved_pose_CNNscore
+
+rtmscore:
+  role: vina_pose_rescoring
+  primary_metric: mode1_RTMScore
+  secondary_metric: max_saved_pose_RTMScore
+
+external_evaluation:
+  eligible_packaged_set: false
+  allow_new_search: false
+
+alternative_receptors:
+  allowed_pdb: [4JPS, 5DXT, 4JSX]
+  allow_new_pdb_search: false
+  4JPS_target: PIK3CA
+  5DXT_target: PIK3CA
+  4JSX_target: mTOR
+
+receptors:
+  5U3Q_primary_copy: B
+  5U3Q_legacy_copy: A
+  4EY7_context: AB
+  4EY7_box_defining: E20_A604
+  4EY7_equivalent_nonprimary: E20_B605
+  4JT6_auth: A
+  4JT6_label: C
+  4JT6_box_defining: X6K_A2601
+  ptr_input_policy: PRESERVE
+  pdbfixer_replace_nonstandard: forbidden
+  pdbfixer_add_missing_hydrogens: forbidden
+  pdbfixer_missing_residues: empty_after_record
+  reduce2: forbidden_in_v4_2
+  meeko_version: "0.7.1"
+  meeko_forgive_extra_bonds: forbidden
+  meeko_delete_bad_res: forbidden
+  meeko_template_override_source: original_structure_chemical_fact_only
+  pdbfixer_added_atom_keep_rule: keep_unless_new_meeko_covalent_contact_or_valence_failure
+  fixer_invented_unphysical_atoms: drop_and_template_crystal_observed_heavy_atoms
+  observed_fragment_templates: 00_protocol/observed_fragment_templates.json
+  meeko_allow_bad_res: forbidden
+  meeko_delete_residues: forbidden
+  atom_coordinates_moved: forbidden
+  retain_components_deleted: forbidden
+  new_pdb_search: forbidden
+
+track_b_source_concentration: NOT_ASSESSABLE_FROM_FROZEN_INPUT
+
+scientific_limitations:
+  class: NON_BLOCKING_SCIENTIFIC_LIMITATION
+  triggers_panel_resampling: false
+  items:
+    - EGFR/HER2 MW/heavy-atom class imbalance
+    - JAK1/JAK2 HBD imbalance
+    - AChE/BChE HBD imbalance
+    - EGFR/HER2 A_only many near theta=6
+    - PIK3CA/mTOR B_only many near theta=6
+    - PIK3CA/mTOR neither n=4
+
+runtime:
+  timeout_calibration_required: false
+  timeout_formula: "clamp(3 * P95_runtime, 15min, 30min)"
+  timeout_frozen: true
+  max_technical_retries: 1
+  failure_stops_global_queue: false
+  logical_cpus: 8
+  reserved_logical_threads: 2
+  suggested_max_concurrent_jobs: 6
+  JOB_TIMEOUT_s: 1586
+  calibration_p95_s: 528.829
+
+engineering:
+  use_sha_gate: false
+  use_checksum_scientific_gate: false
+  use_hash_derived_random_seeds: false
+
+ptr:
+  status: DOCUMENTED_UNIFORM_PTR_TO_TYR_FALLBACK
+  receptors: [6N7A, 8BXH, 3LXP]
+  decision_basis: identical_compatibility_test_PTR_loss_all_three
+  docking_score_used: false
+  rmsd_used: false
+  auroc_used: false
+  apply_identically: true
+  replaceNonstandardResidues_called: false
+
+holds:
+  fold_id_AB_040_AB_046: RESOLVED
+  fold_id_note: "AB_046 fold_id=1 from results/canonical/model_fold_assignments.csv; AB_040 alias inherits same parent; no resplit."

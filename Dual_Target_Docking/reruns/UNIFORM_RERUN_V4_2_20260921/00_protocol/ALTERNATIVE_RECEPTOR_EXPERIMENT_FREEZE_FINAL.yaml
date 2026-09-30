@@ -1,0 +1,185 @@
+run_id: UNIFORM_RERUN_V4_2_20260921
+document: ALTERNATIVE_RECEPTOR_EXPERIMENT_FREEZE_FINAL
+status: EXECUTION_RELEASED
+authoritative: true
+v1_v2_role: provenance_only_do_not_redecide_receptors
+execution_authorized: true
+
+purpose: >
+  Unique authoritative freeze for the formal receptor-sensitivity subpanel.
+  V1/V2 files are provenance. Receptor identities are not re-opened.
+
+formal_subpanel:
+  - PIK3CA/mTOR
+  - AChE/BChE
+  - F2/F10
+  - PPARA/PPARD
+
+not_in_formal_subpanel:
+  - EGFR/HER2
+  - JAK1/JAK2
+  - JAK1/TYK2
+  - PPARG/PPARA
+
+primary_unchanged:
+  PIK3CA: {pdb: 4L23, auth: A, ccd: X6K, p85: REMOVE}
+  mTOR: {pdb: 4JT6, auth: A, label: C, ccd: X6K, extra_mTOR_mLST8: REMOVE}
+  AChE: {pdb: 4EY7, auth: AB, ccd: E20, box_defining: A604}
+  BChE: {pdb: 4BDS, auth: A, ccd: THA}
+  F2: {pdb: 4UDW, auth: HIL, ccd: N6L, hirudin: RETAIN}
+  F10: {pdb: 2JKH, auth: AL, ccd: BI7, light: RETAIN}
+  PPARA: {pdb: 6LXA, auth: A, ccd: EPA}
+  PPARD: {pdb: 5U3Q, auth: B, ccd: 7UJ, copy_A: LEGACY_ONLY}
+
+one_receptor_at_a_time_substitutions:
+  - {id: ALT_4L2Y, pair: PIK3CA/mTOR, side: A, design: A2/B1, alt_pdb: 4L2Y, kept_primary: 4JT6, cognate_ccd: XXK, protein_auth: A, p85: REMOVE}
+  - id: ALT_4JT5
+    pair: PIK3CA/mTOR
+    side: B
+    design: A1/B2
+    alt_pdb: 4JT5
+    kept_primary: 4L23
+    protein_auth: A
+    protein_label: C
+    cognate_ccd: P2X
+    cognate_auth: A
+    cognate_label: F
+    cognate_res: 2601
+    box_defining_instance: A:2601
+    equivalent_nonprimary_instance: B:2601
+    component_policy_same_as_4JT6:
+      - {component: mTOR_auth_A_label_C, auth: A, policy: RETAIN}
+      - {component: second_mTOR_copy, auth: B, policy: REMOVE}
+      - {component: mLST8, auth: C, policy: REMOVE}
+      - {component: mLST8, auth: D, policy: REMOVE}
+    note: all_mLST8_deleted_by_primary_policy
+  - id: ALT_4EY6
+    pair: AChE/BChE
+    side: A
+    design: A2/B1
+    alt_pdb: 4EY6
+    kept_primary: 4BDS
+    protein_auth: AB
+    cognate_ccd: GNT
+    cognate_auth: A
+    cognate_label: E
+    cognate_res: 604
+    box_defining_instance: A:604
+    equivalent_nonprimary_instance: B:605
+    component_policy_same_as_4EY7:
+      - {component: AChE_dimer_AB, auth: AB, policy: RETAIN}
+      - {component: GNT_A604, auth: A, policy: BOX_DEFINING}
+      - {component: GNT_B605, auth: B, policy: NON_PRIMARY}
+  - {id: ALT_1P0M, pair: AChE/BChE, side: B, design: A1/B2, alt_pdb: 1P0M, kept_primary: 4EY7, cognate_ccd: CHT, protein_auth: A}
+  - {id: ALT_3SHC, pair: F2/F10, side: A, design: A2/B1, alt_pdb: 3SHC, kept_primary: 2JKH, cognate_ccd: B01, protein_auth: HIL, hirudin: RETAIN}
+  - {id: ALT_2Y5F, pair: F2/F10, side: B, design: A1/B2, alt_pdb: 2Y5F, kept_primary: 4UDW, cognate_ccd: XWG, protein_auth: AL, light: RETAIN}
+  - {id: ALT_6KAX, pair: PPARA/PPARD, side: A, design: A2/B1, alt_pdb: 6KAX, kept_primary: 5U3Q, cognate_ccd: PLM, protein_auth: A}
+  - {id: ALT_5U46, pair: PPARA/PPARD, side: B, design: A1/B2, alt_pdb: 5U46, kept_primary: 6LXA, cognate_ccd: 7T1, protein_auth: A, note: not_B7G_not_5U3Q_copy_A}
+
+deferred:
+  A2_B2: not_in_this_release
+  EGFR_HER2_FAR_arm: not_in_this_release
+  JAK1_JAK2: not_in_this_release
+
+forbidden:
+  - replace_alternative_into_new_primary
+  - start_new_pdb_search_from_results
+  - parameter_tuning_from_results
+  - redock_or_change_unreplaced_primary_receptors
+  - reprepare_ligands
+  - use_best_seed_or_best_pose_as_primary
+  - adjust_box_or_receptor_or_params_from_rmsd
+  - rescue_timeout_by_changing_params
+  - compute_AUROC_before_completeness_audit
+  - independent_bootstrap_then_CI_overlap_test
+
+ligand_reuse:
+  source: V4.2_02_ligands_symlink_to_V4_1_785
+  reprepare: false
+  pair_independent_prepare3d:
+    PIK3CA/mTOR: 48
+    AChE/BChE: 99
+    F2/F10: 110
+    PPARA/PPARD: 110
+  ache_alias: AB_040_is_AB_046_do_not_dock_independently
+
+prep_rules_identical_to_v4_2:
+  pdbfixer: heavy_only_missingResidues_empty
+  meeko: "0.7.1"
+  reduce2: forbidden
+  forbidden_meeko_flags: [--forgive_extra_bonds, --allow_bad_res, --delete_bad_res]
+  template_override_source: original_structure_chemical_fact_only
+  box: cognate_AABB_plus_BOX_PAD_A_5.0_min_edge_20
+  do_not_change_his_ptr_from_docking
+
+vina:
+  version: "1.2.7"
+  scoring: vina
+  exhaustiveness: 16
+  num_modes: 9
+  energy_range: 6
+  cpu: 1
+  production_seed: 42
+  redock_qc_seeds: [17, 29, 42, 71, 101]
+  primary_score: negative_mode1_affinity
+  JOB_TIMEOUT_s: 1586
+  max_concurrent: 6
+  timeout_treatment: missing
+  same_parameter_retry: 1
+  rescue_param_change: forbidden
+
+execution_order_if_released:
+  0: write_this_file_only_until_human_release
+  1: analysis_code_identity_test
+  2: per_alternative_identity_and_component_audit
+  3: save_cognate_crystal_ligand
+  4: receptor_preparation_v4_2_rules
+  5: cognate_AABB_box
+  6: five_seed_cognate_redocking_technical_QC
+  7: technical_integrity_gate
+  8: seed42_production_docking_alternatives_only
+  9: production_completeness_audit
+  10: independent_alternative_score_master
+  11: paired_common_population_statistics
+
+identity_test:
+  purpose: exclude_codepath_false_receptor_effect
+  input: A1_B1_primary_seed42_score_master
+  prerequisite: official_primary_score_master_does_not_yet_exist_must_be_built_from_phase7_seed42_first
+  must_match:
+    - sample_membership
+    - scores
+    - directional_mapping
+    - AUROC_inputs
+    - TopK_sort_inputs
+    - bootstrap_indices
+  produces_new_science: false
+
+statistics_if_later_run:
+  population: ligands_with_valid_primary_and_alternative_scores
+  labels: identical_to_primary
+  directional_definition: identical_to_primary
+  bootstrap: paired_identical_indices
+  primary_bootstrap_B: 10000
+  primary_bootstrap_seed: 271828
+  theta: 6.0
+  complete_case: both_target_scores_required
+  TIMEOUT: missing
+  primary_estimands:
+    A_side: [delta_AUROC_affected_direction, delta_summary_min]
+    B_side: [delta_AUROC_affected_direction, delta_summary_min]
+    unreplaced_direction: internal_negative_control
+  secondary:
+    - Top-10%
+    - EF
+    - Top-K_overlap
+    - ligand_rank_correlation
+  delta_AUC_A_receptor: AUC(A2/B1) - AUC(A1/B1)
+  delta_AUC_B_receptor: AUC(A1/B2) - AUC(A1/B1)
+
+human_release_required_before:
+  - identity_test_execution
+  - receptor_preparation
+  - redocking
+  - production_docking
+  - AUROC

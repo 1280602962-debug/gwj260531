@@ -1,0 +1,16 @@
+{
+  "ambiguous": {},
+  "padders": {},
+  "residue_templates": {
+    "OBS_BB_CB": {
+      "smiles": "C(=O)C([H])(N[H])C([H])([H])[H]",
+      "atom_name": ["C", "O", "CA", "HA", "N", "H", "CB", "HB1", "HB2", "HB3"],
+      "link_labels": {"0": "C-term", "4": "N-term"}
+    },
+    "OBS_BB_CB_CG": {
+      "smiles": "C(=O)C([H])(N[H])C([H])([H])C([H])([H])[H]",
+      "atom_name": ["C", "O", "CA", "HA", "N", "H", "CB", "HB2", "HB3", "CG", "HG1", "HG2", "HG3"],
+      "link_labels": {"0": "C-term", "4": "N-term"}
+    }
+  }
+}

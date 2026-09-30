@@ -1,0 +1,39 @@
+{
+  "freeze_final_exists": true,
+  "analysis_freeze_exists": true,
+  "analysis_freeze_old_fields_status": "STALE_PROVENANCE_ONLY",
+  "old_fields": [
+    "gnina.independent_docking_in_v4_1: false",
+    "alternative_receptors.allowed_pdb: [4JPS, 5DXT, 4JSX]"
+  ],
+  "scripts_mentioning_analysis_freeze": [
+    {
+      "script": "scripts/rerun_v4_2/phase6_calibrate_runtime.py",
+      "reads_analysis_freeze_path": true,
+      "mentions_old_independent_flag": false,
+      "mentions_allowed_pdb": false
+    },
+    {
+      "script": "scripts/rerun_v4_2/pre_auroc_v2_phase0_4.py",
+      "reads_analysis_freeze_path": true,
+      "mentions_old_independent_flag": true,
+      "mentions_allowed_pdb": true
+    },
+    {
+      "script": "scripts/rerun_v4_2/write_alt_receptor_v2_tables.py",
+      "reads_analysis_freeze_path": true,
+      "mentions_old_independent_flag": false,
+      "mentions_allowed_pdb": true
+    }
+  ],
+  "current_m0_m3_runners_reading_old_fields": [],
+  "authority_status": "STALE_PROVENANCE_ONLY",
+  "meeko": {
+    "mk_prepare_ligand": "/home/gwj/miniconda3/bin/mk_prepare_ligand.py",
+    "meeko_version": "0.7.1",
+    "has_rigid_macrocycles": true,
+    "help_excerpt": "                            [-c CONFIG_FILE] [--rigid_macrocycles]\n                            [--macrocycle_allow_A] [--keep_chorded_rings]\n  --rigid_macrocycles   keep macrocycles rigid in input conformation\n  --macrocycle_allow_A  allow bond break with atom type A, retyped as C"
+  },
+  "STOP": false,
+  "STOP_reason": ""
+}

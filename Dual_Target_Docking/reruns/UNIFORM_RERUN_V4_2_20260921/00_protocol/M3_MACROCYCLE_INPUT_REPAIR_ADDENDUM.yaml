@@ -1,0 +1,341 @@
+protocol:
+  name: M3_MACROCYCLE_INPUT_REPAIR_ADDENDUM
+  run_id: UNIFORM_RERUN_V4_2_20260921
+  written_before_redocking: true
+  auroc_used: false
+  score_used_for_selection: false
+  cherry_pick_forbidden: true
+
+source_of_affected_set: 13_qa/GNINA_LIGAND_REPRESENTATION_AUDIT.csv + 13_qa/M3_MACROCYCLE_TOPOLOGY_DECISION.csv
+selection_basis: input_topology_audit_only
+
+cgn_vs_gn:
+  CGn: real_atom_never_discard
+  Gn: glue_pseudoatom_only
+  historical_conversion: CG0_to_C_drop_G0
+  historical_conversion_is_lossless: false
+  ring_closure_proof: frozen_SDF_connectivity_plus_SMILES_IDX_plus_torsion_tree
+  cartesian_distance_is_not_proof: true
+
+decision_rule:
+  M3_INPUT_TOPOLOGY_PASS: retain_original_M3
+  M3_INPUT_TOPOLOGY_FAIL: original_jobs_INVALID_INPUT_REPRESENTATION_not_TIMEOUT
+
+unaffected:
+  use: 10_gnina_independent_docking/GNINA_SEED42_PRODUCTION_MASTER_REPARSED.csv
+  original_TIMEOUT_ligand: NPHIQFCGKIKGSA-YQOHNZFASA-N
+  original_TIMEOUT_jobs: [4EY7__NPHIQFCGKIKGSA-YQOHNZFASA-N__seed42, 4BDS__NPHIQFCGKIKGSA-YQOHNZFASA-N__seed42]
+  TIMEOUT_topology: M3_INPUT_TOPOLOGY_PASS_not_special_type
+  TIMEOUT_action: keep_missing_no_rescue
+
+repair:
+  chemistry_source: 02_ligands/sdf/{eid}.sdf
+  keep: [protonation, tautomer, formal_charge, stereo, frozen_3D_starting_conformation]
+  meeko: 0.7.1
+  meeko_flags: [--rigid_macrocycles, --add_index_map]
+  forbidden: [ETKDG, MMFF, UFF, reprotonate, reconformer]
+  gnina: v1.3.2 master:f23dd2b
+  seed: 42
+  exhaustiveness: 16
+  num_modes: 9
+  cpu: 1
+  flags: [--no_gpu, --scoring, vina, --cnn_scoring, rescore, --pose_sort_order, CNNscore]
+  timeout_s: 2400
+  concurrency: 2
+  retry: one_identical_parameter_retry
+  old_invalid_outputs: retain_for_provenance_do_not_enter_official_M3
+  no_score_choice_between_old_and_new: true
+
+n_affected_ligands: 29
+n_affected_physical_jobs: 61
+affected_ligands:
+  - global_ligand_entity_id: ASUTZQLVASHGKV-JDFRZJQESA-N
+    special_atom_types: CG0;G0
+    n_CGn: 2
+    n_Gn: 2
+    decision: M3_INPUT_TOPOLOGY_FAIL
+    reason: historical_CG0_to_C_drop_G0_did_not_restore_frozen_SDF_ring_closure_in_torsion_tree
+    frozen_sdf_has_closure_bonds: 1
+    m3_tree_has_closure_edges: 0
+    cartesian_distance_A_note_only: 1.5331
+    physical_job_ids: [4BDS__ASUTZQLVASHGKV-JDFRZJQESA-N__seed42, 4EY7__ASUTZQLVASHGKV-JDFRZJQESA-N__seed42]
+  - global_ligand_entity_id: BEUQXVWXFDOSAQ-UHFFFAOYSA-N
+    special_atom_types: CG0;G0
+    n_CGn: 2
+    n_Gn: 2
+    decision: M3_INPUT_TOPOLOGY_FAIL
+    reason: historical_CG0_to_C_drop_G0_did_not_restore_frozen_SDF_ring_closure_in_torsion_tree
+    frozen_sdf_has_closure_bonds: 1
+    m3_tree_has_closure_edges: 0
+    cartesian_distance_A_note_only: 1.5123
+    physical_job_ids: [4JT6__BEUQXVWXFDOSAQ-UHFFFAOYSA-N__seed42, 4L23__BEUQXVWXFDOSAQ-UHFFFAOYSA-N__seed42]
+  - global_ligand_entity_id: CLQIXXQBNKZNQN-VGSWGCGISA-N
+    special_atom_types: CG0;G0
+    n_CGn: 2
+    n_Gn: 2
+    decision: M3_INPUT_TOPOLOGY_FAIL
+    reason: historical_CG0_to_C_drop_G0_did_not_restore_frozen_SDF_ring_closure_in_torsion_tree
+    frozen_sdf_has_closure_bonds: 1
+    m3_tree_has_closure_edges: 0
+    cartesian_distance_A_note_only: 1.5227
+    physical_job_ids: [6N7A__CLQIXXQBNKZNQN-VGSWGCGISA-N__seed42, 8BXH__CLQIXXQBNKZNQN-VGSWGCGISA-N__seed42]
+  - global_ligand_entity_id: CZGNRKPPNUUZNJ-UHFFFAOYSA-N
+    special_atom_types: CG0;G0
+    n_CGn: 2
+    n_Gn: 2
+    decision: M3_INPUT_TOPOLOGY_FAIL
+    reason: historical_CG0_to_C_drop_G0_did_not_restore_frozen_SDF_ring_closure_in_torsion_tree
+    frozen_sdf_has_closure_bonds: 1
+    m3_tree_has_closure_edges: 0
+    cartesian_distance_A_note_only: 1.5267
+    physical_job_ids: [3POZ__CZGNRKPPNUUZNJ-UHFFFAOYSA-N__seed42, 3RCD__CZGNRKPPNUUZNJ-UHFFFAOYSA-N__seed42]
+  - global_ligand_entity_id: DWNHMQOMYAIZCG-HHHXNRCGSA-N
+    special_atom_types: CG0;G0
+    n_CGn: 2
+    n_Gn: 2
+    decision: M3_INPUT_TOPOLOGY_FAIL
+    reason: historical_CG0_to_C_drop_G0_did_not_restore_frozen_SDF_ring_closure_in_torsion_tree
+    frozen_sdf_has_closure_bonds: 1
+    m3_tree_has_closure_edges: 0
+    cartesian_distance_A_note_only: 1.5148
+    physical_job_ids: [2JKH__DWNHMQOMYAIZCG-HHHXNRCGSA-N__seed42, 4UDW__DWNHMQOMYAIZCG-HHHXNRCGSA-N__seed42]
+  - global_ligand_entity_id: FNERQDASDNXFMT-IRXDYDNUSA-N
+    special_atom_types: CG0;G0
+    n_CGn: 2
+    n_Gn: 2
+    decision: M3_INPUT_TOPOLOGY_FAIL
+    reason: historical_CG0_to_C_drop_G0_did_not_restore_frozen_SDF_ring_closure_in_torsion_tree
+    frozen_sdf_has_closure_bonds: 1
+    m3_tree_has_closure_edges: 0
+    cartesian_distance_A_note_only: 1.5251
+    physical_job_ids: [2JKH__FNERQDASDNXFMT-IRXDYDNUSA-N__seed42, 4UDW__FNERQDASDNXFMT-IRXDYDNUSA-N__seed42]
+  - global_ligand_entity_id: GAIKGEKRGGHCMZ-UHFFFAOYSA-N
+    special_atom_types: CG0;G0
+    n_CGn: 2
+    n_Gn: 2
+    decision: M3_INPUT_TOPOLOGY_FAIL
+    reason: historical_CG0_to_C_drop_G0_did_not_restore_frozen_SDF_ring_closure_in_torsion_tree
+    frozen_sdf_has_closure_bonds: 1
+    m3_tree_has_closure_edges: 0
+    cartesian_distance_A_note_only: 1.5247
+    physical_job_ids: [4BDS__GAIKGEKRGGHCMZ-UHFFFAOYSA-N__seed42, 4EY7__GAIKGEKRGGHCMZ-UHFFFAOYSA-N__seed42]
+  - global_ligand_entity_id: GHBIFDBGDNHWRO-OWOJBTEDSA-N
+    special_atom_types: CG0;G0
+    n_CGn: 2
+    n_Gn: 2
+    decision: M3_INPUT_TOPOLOGY_FAIL
+    reason: historical_CG0_to_C_drop_G0_did_not_restore_frozen_SDF_ring_closure_in_torsion_tree
+    frozen_sdf_has_closure_bonds: 1
+    m3_tree_has_closure_edges: 0
+    cartesian_distance_A_note_only: 1.4987
+    physical_job_ids: [3LXP__GHBIFDBGDNHWRO-OWOJBTEDSA-N__seed42, 6N7A__GHBIFDBGDNHWRO-OWOJBTEDSA-N__seed42, 8BXH__GHBIFDBGDNHWRO-OWOJBTEDSA-N__seed42]
+  - global_ligand_entity_id: HHCYMSNTCQTAOH-UHFFFAOYSA-N
+    special_atom_types: CG0;G0
+    n_CGn: 2
+    n_Gn: 2
+    decision: M3_INPUT_TOPOLOGY_FAIL
+    reason: historical_CG0_to_C_drop_G0_did_not_restore_frozen_SDF_ring_closure_in_torsion_tree
+    frozen_sdf_has_closure_bonds: 1
+    m3_tree_has_closure_edges: 0
+    cartesian_distance_A_note_only: 1.5255
+    physical_job_ids: [4BDS__HHCYMSNTCQTAOH-UHFFFAOYSA-N__seed42, 4EY7__HHCYMSNTCQTAOH-UHFFFAOYSA-N__seed42]
+  - global_ligand_entity_id: HHOQFQNZGOWBHS-UHFFFAOYSA-N
+    special_atom_types: CG0;G0
+    n_CGn: 2
+    n_Gn: 2
+    decision: M3_INPUT_TOPOLOGY_FAIL
+    reason: historical_CG0_to_C_drop_G0_did_not_restore_frozen_SDF_ring_closure_in_torsion_tree
+    frozen_sdf_has_closure_bonds: 1
+    m3_tree_has_closure_edges: 0
+    cartesian_distance_A_note_only: 1.524
+    physical_job_ids: [4BDS__HHOQFQNZGOWBHS-UHFFFAOYSA-N__seed42, 4EY7__HHOQFQNZGOWBHS-UHFFFAOYSA-N__seed42]
+  - global_ligand_entity_id: JXHRRVFVLWWLCI-NRGCRIOASA-N
+    special_atom_types: CG0;G0
+    n_CGn: 2
+    n_Gn: 2
+    decision: M3_INPUT_TOPOLOGY_FAIL
+    reason: historical_CG0_to_C_drop_G0_did_not_restore_frozen_SDF_ring_closure_in_torsion_tree
+    frozen_sdf_has_closure_bonds: 1
+    m3_tree_has_closure_edges: 0
+    cartesian_distance_A_note_only: 1.5364
+    physical_job_ids: [2JKH__JXHRRVFVLWWLCI-NRGCRIOASA-N__seed42, 4UDW__JXHRRVFVLWWLCI-NRGCRIOASA-N__seed42]
+  - global_ligand_entity_id: KZJDGNASJMWFCF-QGZVFWFLSA-N
+    special_atom_types: CG0;G0
+    n_CGn: 2
+    n_Gn: 2
+    decision: M3_INPUT_TOPOLOGY_FAIL
+    reason: historical_CG0_to_C_drop_G0_did_not_restore_frozen_SDF_ring_closure_in_torsion_tree
+    frozen_sdf_has_closure_bonds: 1
+    m3_tree_has_closure_edges: 0
+    cartesian_distance_A_note_only: 1.5274
+    physical_job_ids: [6N7A__KZJDGNASJMWFCF-QGZVFWFLSA-N__seed42, 8BXH__KZJDGNASJMWFCF-QGZVFWFLSA-N__seed42]
+  - global_ligand_entity_id: MCHYSTQTMONBPK-SNAWJCMRSA-N
+    special_atom_types: CG0;G0
+    n_CGn: 2
+    n_Gn: 2
+    decision: M3_INPUT_TOPOLOGY_FAIL
+    reason: historical_CG0_to_C_drop_G0_did_not_restore_frozen_SDF_ring_closure_in_torsion_tree
+    frozen_sdf_has_closure_bonds: 1
+    m3_tree_has_closure_edges: 0
+    cartesian_distance_A_note_only: 1.5023
+    physical_job_ids: [3LXP__MCHYSTQTMONBPK-SNAWJCMRSA-N__seed42, 6N7A__MCHYSTQTMONBPK-SNAWJCMRSA-N__seed42, 8BXH__MCHYSTQTMONBPK-SNAWJCMRSA-N__seed42]
+  - global_ligand_entity_id: MCHYSTQTMONBPK-UHFFFAOYSA-N
+    special_atom_types: CG0;G0
+    n_CGn: 2
+    n_Gn: 2
+    decision: M3_INPUT_TOPOLOGY_FAIL
+    reason: historical_CG0_to_C_drop_G0_did_not_restore_frozen_SDF_ring_closure_in_torsion_tree
+    frozen_sdf_has_closure_bonds: 1
+    m3_tree_has_closure_edges: 0
+    cartesian_distance_A_note_only: 1.4958
+    physical_job_ids: [6N7A__MCHYSTQTMONBPK-UHFFFAOYSA-N__seed42, 8BXH__MCHYSTQTMONBPK-UHFFFAOYSA-N__seed42]
+  - global_ligand_entity_id: MLIJDZYVRSRDJT-UHFFFAOYSA-N
+    special_atom_types: CG0;G0
+    n_CGn: 2
+    n_Gn: 2
+    decision: M3_INPUT_TOPOLOGY_FAIL
+    reason: historical_CG0_to_C_drop_G0_did_not_restore_frozen_SDF_ring_closure_in_torsion_tree
+    frozen_sdf_has_closure_bonds: 1
+    m3_tree_has_closure_edges: 0
+    cartesian_distance_A_note_only: 1.4987
+    physical_job_ids: [6N7A__MLIJDZYVRSRDJT-UHFFFAOYSA-N__seed42, 8BXH__MLIJDZYVRSRDJT-UHFFFAOYSA-N__seed42]
+  - global_ligand_entity_id: PUUJLIQLJNLBPS-HSZRJFAPSA-N
+    special_atom_types: CG0;G0
+    n_CGn: 2
+    n_Gn: 2
+    decision: M3_INPUT_TOPOLOGY_FAIL
+    reason: historical_CG0_to_C_drop_G0_did_not_restore_frozen_SDF_ring_closure_in_torsion_tree
+    frozen_sdf_has_closure_bonds: 1
+    m3_tree_has_closure_edges: 0
+    cartesian_distance_A_note_only: 1.5302
+    physical_job_ids: [6N7A__PUUJLIQLJNLBPS-HSZRJFAPSA-N__seed42, 8BXH__PUUJLIQLJNLBPS-HSZRJFAPSA-N__seed42]
+  - global_ligand_entity_id: RADMAAOUVWABJD-OWOJBTEDSA-N
+    special_atom_types: CG0;G0
+    n_CGn: 2
+    n_Gn: 2
+    decision: M3_INPUT_TOPOLOGY_FAIL
+    reason: historical_CG0_to_C_drop_G0_did_not_restore_frozen_SDF_ring_closure_in_torsion_tree
+    frozen_sdf_has_closure_bonds: 1
+    m3_tree_has_closure_edges: 0
+    cartesian_distance_A_note_only: 1.4967
+    physical_job_ids: [6N7A__RADMAAOUVWABJD-OWOJBTEDSA-N__seed42, 8BXH__RADMAAOUVWABJD-OWOJBTEDSA-N__seed42]
+  - global_ligand_entity_id: RYFYERZCXQBRAD-UHFFFAOYSA-N
+    special_atom_types: CG0;G0
+    n_CGn: 2
+    n_Gn: 2
+    decision: M3_INPUT_TOPOLOGY_FAIL
+    reason: historical_CG0_to_C_drop_G0_did_not_restore_frozen_SDF_ring_closure_in_torsion_tree
+    frozen_sdf_has_closure_bonds: 1
+    m3_tree_has_closure_edges: 0
+    cartesian_distance_A_note_only: 1.5247
+    physical_job_ids: [4BDS__RYFYERZCXQBRAD-UHFFFAOYSA-N__seed42, 4EY7__RYFYERZCXQBRAD-UHFFFAOYSA-N__seed42]
+  - global_ligand_entity_id: SCZBXBBBMCBNSK-SIBCGJTDSA-N
+    special_atom_types: CG0;G0
+    n_CGn: 2
+    n_Gn: 2
+    decision: M3_INPUT_TOPOLOGY_FAIL
+    reason: historical_CG0_to_C_drop_G0_did_not_restore_frozen_SDF_ring_closure_in_torsion_tree
+    frozen_sdf_has_closure_bonds: 1
+    m3_tree_has_closure_edges: 0
+    cartesian_distance_A_note_only: 1.5321
+    physical_job_ids: [2JKH__SCZBXBBBMCBNSK-SIBCGJTDSA-N__seed42, 4UDW__SCZBXBBBMCBNSK-SIBCGJTDSA-N__seed42]
+  - global_ligand_entity_id: SCZBXBBBMCBNSK-TVGQLCNQSA-N
+    special_atom_types: CG0;G0
+    n_CGn: 2
+    n_Gn: 2
+    decision: M3_INPUT_TOPOLOGY_FAIL
+    reason: historical_CG0_to_C_drop_G0_did_not_restore_frozen_SDF_ring_closure_in_torsion_tree
+    frozen_sdf_has_closure_bonds: 1
+    m3_tree_has_closure_edges: 0
+    cartesian_distance_A_note_only: 1.5313
+    physical_job_ids: [2JKH__SCZBXBBBMCBNSK-TVGQLCNQSA-N__seed42, 4UDW__SCZBXBBBMCBNSK-TVGQLCNQSA-N__seed42]
+  - global_ligand_entity_id: SDHJEPJJARZDKU-UHFFFAOYSA-N
+    special_atom_types: CG0;G0
+    n_CGn: 2
+    n_Gn: 2
+    decision: M3_INPUT_TOPOLOGY_FAIL
+    reason: historical_CG0_to_C_drop_G0_did_not_restore_frozen_SDF_ring_closure_in_torsion_tree
+    frozen_sdf_has_closure_bonds: 1
+    m3_tree_has_closure_edges: 0
+    cartesian_distance_A_note_only: 1.5248
+    physical_job_ids: [4BDS__SDHJEPJJARZDKU-UHFFFAOYSA-N__seed42, 4EY7__SDHJEPJJARZDKU-UHFFFAOYSA-N__seed42]
+  - global_ligand_entity_id: SWWXXPBMWZJWOL-SNAWJCMRSA-N
+    special_atom_types: CG0;G0
+    n_CGn: 2
+    n_Gn: 2
+    decision: M3_INPUT_TOPOLOGY_FAIL
+    reason: historical_CG0_to_C_drop_G0_did_not_restore_frozen_SDF_ring_closure_in_torsion_tree
+    frozen_sdf_has_closure_bonds: 1
+    m3_tree_has_closure_edges: 0
+    cartesian_distance_A_note_only: 1.4963
+    physical_job_ids: [3LXP__SWWXXPBMWZJWOL-SNAWJCMRSA-N__seed42, 6N7A__SWWXXPBMWZJWOL-SNAWJCMRSA-N__seed42]
+  - global_ligand_entity_id: TUWNULBHLRPYLF-NQIIRXRSSA-N
+    special_atom_types: CG0;G0
+    n_CGn: 2
+    n_Gn: 2
+    decision: M3_INPUT_TOPOLOGY_FAIL
+    reason: historical_CG0_to_C_drop_G0_did_not_restore_frozen_SDF_ring_closure_in_torsion_tree
+    frozen_sdf_has_closure_bonds: 1
+    m3_tree_has_closure_edges: 0
+    cartesian_distance_A_note_only: 1.5392
+    physical_job_ids: [6N7A__TUWNULBHLRPYLF-NQIIRXRSSA-N__seed42, 8BXH__TUWNULBHLRPYLF-NQIIRXRSSA-N__seed42]
+  - global_ligand_entity_id: VWXMOLWJXUSYOA-UHFFFAOYSA-N
+    special_atom_types: CG0;G0
+    n_CGn: 2
+    n_Gn: 2
+    decision: M3_INPUT_TOPOLOGY_FAIL
+    reason: historical_CG0_to_C_drop_G0_did_not_restore_frozen_SDF_ring_closure_in_torsion_tree
+    frozen_sdf_has_closure_bonds: 1
+    m3_tree_has_closure_edges: 0
+    cartesian_distance_A_note_only: 1.5027
+    physical_job_ids: [3LXP__VWXMOLWJXUSYOA-UHFFFAOYSA-N__seed42, 6N7A__VWXMOLWJXUSYOA-UHFFFAOYSA-N__seed42, 8BXH__VWXMOLWJXUSYOA-UHFFFAOYSA-N__seed42]
+  - global_ligand_entity_id: WBABMFHWOJEJNP-UHFFFAOYSA-N
+    special_atom_types: CG0;G0
+    n_CGn: 2
+    n_Gn: 2
+    decision: M3_INPUT_TOPOLOGY_FAIL
+    reason: historical_CG0_to_C_drop_G0_did_not_restore_frozen_SDF_ring_closure_in_torsion_tree
+    frozen_sdf_has_closure_bonds: 1
+    m3_tree_has_closure_edges: 0
+    cartesian_distance_A_note_only: 1.5227
+    physical_job_ids: [2JKH__WBABMFHWOJEJNP-UHFFFAOYSA-N__seed42, 4UDW__WBABMFHWOJEJNP-UHFFFAOYSA-N__seed42]
+  - global_ligand_entity_id: WVSIOWNEXQMNSF-UHFFFAOYSA-N
+    special_atom_types: CG0;G0
+    n_CGn: 2
+    n_Gn: 2
+    decision: M3_INPUT_TOPOLOGY_FAIL
+    reason: historical_CG0_to_C_drop_G0_did_not_restore_frozen_SDF_ring_closure_in_torsion_tree
+    frozen_sdf_has_closure_bonds: 1
+    m3_tree_has_closure_edges: 0
+    cartesian_distance_A_note_only: 1.4941
+    physical_job_ids: [6N7A__WVSIOWNEXQMNSF-UHFFFAOYSA-N__seed42, 8BXH__WVSIOWNEXQMNSF-UHFFFAOYSA-N__seed42]
+  - global_ligand_entity_id: XWJGZMVWOIPRDB-CLIZBVFSSA-N
+    special_atom_types: CG0;G0
+    n_CGn: 2
+    n_Gn: 2
+    decision: M3_INPUT_TOPOLOGY_FAIL
+    reason: historical_CG0_to_C_drop_G0_did_not_restore_frozen_SDF_ring_closure_in_torsion_tree
+    frozen_sdf_has_closure_bonds: 1
+    m3_tree_has_closure_edges: 0
+    cartesian_distance_A_note_only: 1.4996
+    physical_job_ids: [2JKH__XWJGZMVWOIPRDB-CLIZBVFSSA-N__seed42, 4UDW__XWJGZMVWOIPRDB-CLIZBVFSSA-N__seed42]
+  - global_ligand_entity_id: YGIVJNKHBGEKKY-XLIONFOSSA-N
+    special_atom_types: CG0;G0
+    n_CGn: 2
+    n_Gn: 2
+    decision: M3_INPUT_TOPOLOGY_FAIL
+    reason: historical_CG0_to_C_drop_G0_did_not_restore_frozen_SDF_ring_closure_in_torsion_tree
+    frozen_sdf_has_closure_bonds: 1
+    m3_tree_has_closure_edges: 0
+    cartesian_distance_A_note_only: 1.5226
+    physical_job_ids: [6N7A__YGIVJNKHBGEKKY-XLIONFOSSA-N__seed42, 8BXH__YGIVJNKHBGEKKY-XLIONFOSSA-N__seed42]
+  - global_ligand_entity_id: YXSHAUMNJBEKLS-ROUUACIJSA-N
+    special_atom_types: CG0;G0
+    n_CGn: 2
+    n_Gn: 2
+    decision: M3_INPUT_TOPOLOGY_FAIL
+    reason: historical_CG0_to_C_drop_G0_did_not_restore_frozen_SDF_ring_closure_in_torsion_tree
+    frozen_sdf_has_closure_bonds: 1
+    m3_tree_has_closure_edges: 0
+    cartesian_distance_A_note_only: 1.5299
+    physical_job_ids: [2JKH__YXSHAUMNJBEKLS-ROUUACIJSA-N__seed42, 4UDW__YXSHAUMNJBEKLS-ROUUACIJSA-N__seed42]

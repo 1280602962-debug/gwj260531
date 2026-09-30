@@ -1,0 +1,67 @@
+{
+  "timestamp": "2026-09-21T02:37:46.399244",
+  "os": {
+    "system": "Linux",
+    "release": "6.6.87.2-microsoft-standard-WSL2",
+    "version": "#1 SMP PREEMPT_DYNAMIC Thu Jun  5 18:30:46 UTC 2025",
+    "machine": "x86_64",
+    "python_version": "3.13.2"
+  },
+  "cpu": {
+    "physical_cores": 8,
+    "logical_cores": 8,
+    "max_frequency_mhz": 0.0,
+    "architecture": "x86_64",
+    "processor": "x86_64",
+    "current_frequency_mhz": 3110.409
+  },
+  "memory": {
+    "total_gb": 15.36,
+    "available_gb": 13.21,
+    "used_gb": 1.91,
+    "percent_used": 14.0,
+    "swap_total_gb": 4.0,
+    "swap_available_gb": 4.0
+  },
+  "disk": {
+    "path": "/tmp/pr39_fiveseed/Dual_Target_Docking",
+    "total_gb": 1006.85,
+    "available_gb": 893.48,
+    "used_gb": 62.16,
+    "percent_used": 6.5
+  },
+  "gpu": {
+    "nvidia_gpus": [],
+    "amd_gpus": [],
+    "apple_silicon": null,
+    "total_gpus": 0,
+    "available_backends": []
+  },
+  "recommendations": {
+    "parallel_processing": {
+      "strategy": "high_parallelism",
+      "suggested_workers": 6,
+      "libraries": [
+        "joblib",
+        "multiprocessing",
+        "dask"
+      ]
+    },
+    "memory_strategy": {
+      "strategy": "moderate_memory",
+      "libraries": [
+        "dask",
+        "zarr"
+      ],
+      "note": "Consider chunking for datasets > 2GB"
+    },
+    "gpu_acceleration": {
+      "available": false,
+      "note": "No GPU detected, use CPU-based libraries"
+    },
+    "large_data_handling": {
+      "strategy": "disk_abundant",
+      "note": "Sufficient space for large intermediate files"
+    }
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "v2": {
+    "v2_processes_running": false,
+    "process_lines": [],
+    "new_m1_master_exists": true,
+    "new_m3_master_exists": true,
+    "new_m1_status_json_count_in_progress_dir": 1592,
+    "new_m3_status_json_count_in_progress_dir": 61,
+    "treat_new_as_final": true,
+    "reason": "V2_task_final_files_present_processes_stopped"
+  },
+  "new_m1": {
+    "layer": "NEW_M1",
+    "audited": true,
+    "n": 1592,
+    "status": {
+      "SUCCESS": 1569,
+      "ATOM_MAPPING_FAILURE": 17,
+      "MISSING_NO_VINA_POSE": 6
+    },
+    "long_rows": 14097,
+    "success_n_poses": 14097,
+    "mapping_fail_n_poses": 153,
+    "missing_no_vina_pose": 6,
+    "pose_accounted": 14250,
+    "expected_poses": 14250,
+    "M1b_lt_M1": 0,
+    "mode1_mismatch": 0,
+    "raw_log_mode1_mismatches": 0,
+    "non_success_has_score": 0,
+    "CGn_or_Gn_in_success_mode1_pdbqt": 0,
+    "coord_rms_gt_0.001": 0,
+    "old_master_preserved": true
+  },
+  "new_m3": {
+    "layer": "NEW_M3",
+    "audited": true,
+    "n": 1592,
+    "status": {
+      "SUCCESS": 1586,
+      "TIMEOUT": 6
+    },
+    "score_source": {
+      "original_reparsed_model1": 1529,
+      "topology_repaired_rigid_macrocycles": 61,
+      "original_timeout_kept_no_rescue": 2
+    },
+    "repaired_jobs": 61,
+    "expected_repaired_jobs": 61,
+    "parse_disagreements": 0,
+    "special_types_remain": 0,
+    "repaired_eid_not_in_frozen_set": 0,
+    "frozen_fail_not_repaired": 0,
+    "ab001_timeout_kept_rows": 2,
+    "old_master_preserved": true,
+    "non_success_has_score": 0
+  },
+  "gate": "PASS"
+}

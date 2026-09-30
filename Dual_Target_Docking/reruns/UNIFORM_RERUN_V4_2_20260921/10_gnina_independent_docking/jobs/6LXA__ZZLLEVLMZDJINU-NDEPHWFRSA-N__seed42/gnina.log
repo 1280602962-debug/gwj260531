@@ -1,0 +1,34 @@
+              _             
+             (_)            
+   __ _ _ __  _ _ __   __ _ 
+  / _` | '_ \| | '_ \ / _` |
+ | (_| | | | | | | | | (_| |
+  \__, |_| |_|_|_| |_|\__,_|
+   __/ |                    
+  |___/                     
+
+gnina v1.3.2 master:f23dd2b   Built Jul  8 2025.
+gnina is based on smina and AutoDock Vina.
+Please cite appropriately.
+
+Commandline: /mnt/d/CADD paper exercise/gnina/bin/gnina --receptor /tmp/pr39_fiveseed/Dual_Target_Docking/reruns/UNIFORM_RERUN_V4_2_20260921/01_receptors/6LXA_receptor.pdbqt --ligand /tmp/pr39_fiveseed/Dual_Target_Docking/reruns/UNIFORM_RERUN_V4_2_20260921/10_gnina_independent_docking/ligands_gnina_ad4_types/ZZLLEVLMZDJINU-NDEPHWFRSA-N.pdbqt --center_x 11.9975 --center_y 5.742 --center_z -7.4430000000000005 --size_x 20.0 --size_y 20.200000000000003 --size_z 23.432000000000002 --no_gpu --scoring vina --cnn_scoring rescore --pose_sort_order CNNscore --seed 42 --exhaustiveness 16 --num_modes 9 --cpu 1 --out /tmp/pr39_fiveseed/Dual_Target_Docking/reruns/UNIFORM_RERUN_V4_2_20260921/10_gnina_independent_docking/jobs/6LXA__ZZLLEVLMZDJINU-NDEPHWFRSA-N__seed42/out.pdbqt
+Using random seed: 42
+
+0%   10   20   30   40   50   60   70   80   90   100%
+|----|----|----|----|----|----|----|----|----|----|
+***************************************************
+ | pose 0 | initial pose not within box
+
+mode |  affinity  |  intramol  |    CNN     |   CNN
+     | (kcal/mol) | (kcal/mol) | pose score | affinity
+-----+------------+------------+------------+----------
+    1       -8.22       -0.46       0.6720      7.651
+    2       -8.28        2.24       0.5857      7.363
+    3       -7.51       -0.27       0.3864      6.793
+    4       -7.76       -1.50       0.3026      6.904
+    5       -7.59        0.63       0.2993      7.030
+    6       -7.59       -0.30       0.2931      6.238
+    7       -8.70       -0.25       0.2503      6.951
+    8       -9.02       -0.99       0.2339      6.752
+    9       -8.97       -0.85       0.2243      6.632
+

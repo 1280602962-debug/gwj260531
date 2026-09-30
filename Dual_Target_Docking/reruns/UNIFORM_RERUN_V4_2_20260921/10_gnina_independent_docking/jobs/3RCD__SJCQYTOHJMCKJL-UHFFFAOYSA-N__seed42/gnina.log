@@ -1,0 +1,34 @@
+              _             
+             (_)            
+   __ _ _ __  _ _ __   __ _ 
+  / _` | '_ \| | '_ \ / _` |
+ | (_| | | | | | | | | (_| |
+  \__, |_| |_|_|_| |_|\__,_|
+   __/ |                    
+  |___/                     
+
+gnina v1.3.2 master:f23dd2b   Built Jul  8 2025.
+gnina is based on smina and AutoDock Vina.
+Please cite appropriately.
+
+Commandline: /mnt/d/CADD paper exercise/gnina/bin/gnina --receptor /tmp/pr39_fiveseed/Dual_Target_Docking/reruns/UNIFORM_RERUN_V4_2_20260921/01_receptors/3RCD_receptor.pdbqt --ligand /tmp/pr39_fiveseed/Dual_Target_Docking/reruns/UNIFORM_RERUN_V4_2_20260921/10_gnina_independent_docking/ligands_gnina_ad4_types/SJCQYTOHJMCKJL-UHFFFAOYSA-N.pdbqt --center_x 12.48 --center_y 2.9635 --center_z 28.015 --size_x 21.162 --size_y 22.163 --size_z 20.0 --no_gpu --scoring vina --cnn_scoring rescore --pose_sort_order CNNscore --seed 42 --exhaustiveness 16 --num_modes 9 --cpu 1 --out /tmp/pr39_fiveseed/Dual_Target_Docking/reruns/UNIFORM_RERUN_V4_2_20260921/10_gnina_independent_docking/jobs/3RCD__SJCQYTOHJMCKJL-UHFFFAOYSA-N__seed42/out.pdbqt
+Using random seed: 42
+
+0%   10   20   30   40   50   60   70   80   90   100%
+|----|----|----|----|----|----|----|----|----|----|
+***************************************************
+ | pose 0 | initial pose not within box
+
+mode |  affinity  |  intramol  |    CNN     |   CNN
+     | (kcal/mol) | (kcal/mol) | pose score | affinity
+-----+------------+------------+------------+----------
+    1       -9.60        0.02       0.9498      8.458
+    2       -9.15       -0.88       0.9287      8.266
+    3       -9.49       -1.00       0.9240      8.394
+    4       -9.66       -1.17       0.9238      8.433
+    5       -9.09       -1.21       0.9046      8.158
+    6       -9.50       -1.02       0.8979      8.296
+    7       -9.50       -0.96       0.8888      8.136
+    8       -9.45       -1.21       0.8867      8.231
+    9       -8.97       -0.39       0.8816      8.047
+

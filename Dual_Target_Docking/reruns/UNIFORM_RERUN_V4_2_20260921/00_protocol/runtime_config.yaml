@@ -1,0 +1,17 @@
+logical_cpus: 8
+reserved_logical_threads: 2
+max_concurrent_jobs_suggested: 6
+vina_cpu_per_job: 1
+ligand_prep_workers: 6
+timeout_frozen: true
+timeout_note: "JOB_TIMEOUT frozen only after Phase 6 calibration"
+vina_version_required: "1.2.7"
+vina_version_actual_ok: true
+pdbfixer_installed: true
+reduce2_installed: false
+production_vina_started: true
+
+JOB_TIMEOUT_s: 1586
+JOB_TIMEOUT_min: 26.43
+calibration_p95_s: 528.829
+max_concurrent_jobs: 6

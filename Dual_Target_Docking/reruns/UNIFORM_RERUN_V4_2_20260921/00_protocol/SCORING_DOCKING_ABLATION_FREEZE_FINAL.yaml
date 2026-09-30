@@ -1,0 +1,136 @@
+protocol:
+  name: SCORING_AND_DOCKING_METHOD_ABLATION_V2
+  run_id: UNIFORM_RERUN_V4_2_20260921
+  status: EXECUTION_RELEASED
+  authoritative: true
+  execution_authorized: true
+  vina_remains_fulltext_primary: true
+  role: robustness_ablation_not_method_selection
+  auroc_blind_until_phase: 14
+  alternative_receptors_forbidden: true
+
+pairs:
+  - EGFR/HER2
+  - JAK1/JAK2
+  - JAK1/TYK2
+  - PIK3CA/mTOR
+  - AChE/BChE
+  - F2/F10
+  - PPARG/PPARA
+  - PPARA/PPARD
+
+receptors:
+  EGFR/HER2: [3POZ, 3RCD]
+  JAK1/JAK2: [6N7A, 8BXH]
+  JAK1/TYK2: [6N7A, 3LXP]
+  PIK3CA/mTOR: [4L23, 4JT6]
+  AChE/BChE: [4EY7, 4BDS]
+  F2/F10: [4UDW, 2JKH]
+  PPARG/PPARA: [9V8H, 6LXA]
+  PPARA/PPARD: [6LXA, 5U3Q]
+unique_14: [3POZ, 3RCD, 6N7A, 8BXH, 3LXP, 4L23, 4JT6, 4EY7, 4BDS, 4UDW, 2JKH, 9V8H, 6LXA, 5U3Q]
+5U3Q_copy: B
+forbidden_alternative_pdbs: [4L2Y, 4JT5, 4EY6, 1P0M, 3SHC, 2Y5F, 6KAX, 5U46]
+
+methods:
+  M0: {search: vina, pose: vina_seed42_mode1, score: "-vina_affinity"}
+  M1: {search: vina, pose: vina_seed42_mode1, score: gnina_CNNscore}
+  M1b: {search: vina, pose: max_CNNscore_among_vina_saved, score: gnina_CNNscore, role: secondary_rerank_only}
+  M2: {search: vina, pose: vina_seed42_mode1, score: RTMScore_model1}
+  M3: {search: gnina_independent, pose: gnina_seed42_mode1_CNNscore_sort, score: gnina_CNNscore}
+  M3_empirical_higher_better: "-GNINA_empirical_affinity_of_same_mode1"
+  score_direction: higher_better
+
+deltas:
+  primary:
+    - {id: DELTA_GNINA_score, def: M1-M0}
+    - {id: DELTA_RTM_score, def: M2-M0}
+    - {id: DELTA_GNINA_full, def: M3-M0}
+  secondary:
+    - {id: DELTA_GNINA_rerank, def: M1b-M1}
+    - {id: DELTA_GNINA_pose_generation, def: M3-M1b, name: pose_generation_or_docking_workflow_contribution_not_pure_search}
+    - {id: DELTA_GNINA_docking_protocol, def: M3-M1, name: overall_GNINA_docking_protocol_vs_fixed_vina_mode1}
+
+software:
+  gnina:
+    bin: "/mnt/d/CADD paper exercise/gnina/bin/gnina"
+    activate: "/mnt/d/CADD paper exercise/gnina/activate.sh"
+    lib: "/mnt/d/CADD paper exercise/gnina/conda_env/lib"
+    version_required: "v1.3.2 master:f23dd2b"
+    device: cpu
+    flags_required: [--no_gpu, --scoring, vina, --cnn_scoring, rescore, --pose_sort_order, CNNscore]
+    forbidden: [--minimize, --cnn_scoring all]
+    cnn_model: built_in_default_ensemble_do_not_enumerate
+    must_source_activate: true
+  rtmscore:
+    python: /home/gwj/miniconda3/envs/rtmscore/bin/python
+    python_version: "3.10.20"
+    torch: "2.6.0"
+    code_root: /home/gwj/software/RTMScore/
+    script: /home/gwj/software/RTMScore/example/rtmscore.py
+    checkpoint: /home/gwj/software/RTMScore/trained_models/rtmscore_model1.pth
+    forbidden_checkpoints: [rtmscore_model2.pth, rtmscore_model3.pth]
+    pocket_cutoff_A: 10.0
+    ensemble: false
+  obabel:
+    bin: "/mnt/d/CADD paper exercise/gnina/conda_env/bin/obabel"
+    version: "3.1.0"
+    role: auxiliary_format_only
+    may_infer_official_rtm_ligand_graph: false
+
+scale:
+  pair_independent_parents: 807
+  pair_expanded_rows: 1614
+  unique_physical_jobs: 1592
+  vina_seed42_success_physical: 1586
+  vina_seed42_timeout_physical: 6
+  ab_040: alias_of_AB_046_not_independent
+
+gnina_independent:
+  seed: 42
+  exhaustiveness: 16
+  num_modes: 9
+  cpu: 1
+  other_seeds_forbidden: [17, 29, 71, 101]
+  timeout_formula: "ceil_to_5min(3 * P95_calibration)"
+  timeout_not_inherited_from_vina: true
+  concurrency_not_default_6: true
+  timeout_and_concurrency_frozen_after_phase10: true
+  ligand_format: copy_02_ligands_pdbqt_map_CG0_to_C_drop_G0_dummy_no_reprepare
+
+analysis:
+  theta: 6.0
+  D_vs_A_uses: score_B
+  D_vs_B_uses: score_A
+  summary_min: min_inside_each_bootstrap_iteration
+  bootstrap_B: 10000
+  bootstrap_seed: 271828
+  bootstrap: class_stratified_paired_identical_indices
+  independent_ci_overlap_test: forbidden
+  top_fraction: 0.10
+  k: ceil(0.10 * n)
+  tiebreak: [score_desc, global_ligand_entity_id_lex]
+  complete_case: both_pockets_finite
+  pairwise_common_population: required
+  all_method_intersection: secondary_only
+  activity_eligible_0_in_fourclass: forbidden
+  missing_activity_is_inactive: false
+  timeout_imputation: forbidden
+
+failure:
+  same_parameter_retries: 1
+  missing_codes: [TIMEOUT, PERMANENT_FAIL, MISSING_NO_VINA_POSE, ATOM_MAPPING_FAILURE, TECHNICAL_FAIL]
+  rescue_param_changes: forbidden
+  fill_0_99_median: forbidden
+
+rtm_ligand_identity:
+  chemistry_source: 02_ligands/sdf/{eid}.sdf
+  coordinates_source: vina_seed42_saved_pose
+  mapping: meeko_REMARK_SMILES_IDX_via_input_pdbqt_serial
+  openbabel_graph_inference: forbidden
+  nearest_neighbor_guess: forbidden
+
+operational:
+  rescoring_may_overlap_alt_vina_at_low_concurrency: 2
+  gnina_calibration_and_production_wait_until_alt_production_accounted: true
+  do_not_overwrite: [results/canonical, 06_vina_fiveseed, 07_alt_cognate_redocking, 08_alt_vina_seed42, LEGACY_gnina_rtm_tables]

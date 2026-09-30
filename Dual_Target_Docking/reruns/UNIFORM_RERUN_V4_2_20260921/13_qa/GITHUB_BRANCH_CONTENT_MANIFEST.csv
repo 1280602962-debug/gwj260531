@@ -1,0 +1,24 @@
+relative_path,category,size_bytes,git_status,ignored,required,include,reason
+Dual_Target_Docking/reruns/UNIFORM_RERUN_V4_2_20260921/00_protocol,run_root,,copied_into_orphan,NO,YES,INCLUDE_REQUIRED,formal protocol/freeze/authority
+Dual_Target_Docking/reruns/UNIFORM_RERUN_V4_2_20260921/01_receptors,run_root,,copied_into_orphan,NO,YES,INCLUDE_REQUIRED,formal V4.2 prepared receptors
+Dual_Target_Docking/reruns/UNIFORM_RERUN_V4_2_20260921/02_ligands,run_root,,copied_into_orphan,NO,YES,INCLUDE_REQUIRED,formal 785 ligands; materialize in release from V4.1 bytes
+Dual_Target_Docking/reruns/UNIFORM_RERUN_V4_2_20260921/03_boxes,run_root,,copied_into_orphan,NO,YES,INCLUDE_REQUIRED,formal boxes
+Dual_Target_Docking/reruns/UNIFORM_RERUN_V4_2_20260921/04_cognate_redocking,run_root,,copied_into_orphan,NO,YES,INCLUDE_REQUIRED,Phase 5 70-job redocking
+Dual_Target_Docking/reruns/UNIFORM_RERUN_V4_2_20260921/05_vina,run_root,,copied_into_orphan,NO,YES,INCLUDE_REQUIRED,Phase 6 runtime calibration
+Dual_Target_Docking/reruns/UNIFORM_RERUN_V4_2_20260921/06_vina_fiveseed,run_root,,copied_into_orphan,NO,YES,INCLUDE_REQUIRED,Phase 7 five-seed production
+Dual_Target_Docking/reruns/UNIFORM_RERUN_V4_2_20260921/07_alt_cognate_redocking,run_root,,copied_into_orphan,NO,YES,INCLUDE_REQUIRED,formal alternative receptor redocking
+Dual_Target_Docking/reruns/UNIFORM_RERUN_V4_2_20260921/08_alt_vina_seed42,run_root,,copied_into_orphan,NO,YES,INCLUDE_REQUIRED,formal alternative receptor production
+Dual_Target_Docking/reruns/UNIFORM_RERUN_V4_2_20260921/09_secondary_scoring,run_root,,copied_into_orphan,NO,YES,INCLUDE_REQUIRED,M1/M1b/M2 formal plus HISTORICAL old M1 tables
+Dual_Target_Docking/reruns/UNIFORM_RERUN_V4_2_20260921/10_gnina_independent_docking,run_root,,copied_into_orphan,NO,YES,INCLUDE_REQUIRED,M3 formal plus HISTORICAL old M3 tables
+Dual_Target_Docking/reruns/UNIFORM_RERUN_V4_2_20260921/13_qa,run_root,,copied_into_orphan,NO,YES,INCLUDE_REQUIRED,QA/gates; temporary files excluded inside
+Dual_Target_Docking/reruns/UNIFORM_RERUN_V4_2_20260921/14_logs,run_root,,copied_into_orphan,NO,YES,INCLUDE_REQUIRED,run logs
+Dual_Target_Docking/results/formal_metrics/PRIMARY_DIRECTIONAL_METRICS.csv,outside_run_required,21740,copied_into_orphan,NO,YES,INCLUDE_REQUIRED,formal metrics or fold authority
+Dual_Target_Docking/results/formal_metrics/PRIMARY_METHOD_DELTA_METRICS.csv,outside_run_required,6904,copied_into_orphan,NO,YES,INCLUDE_REQUIRED,formal metrics or fold authority
+Dual_Target_Docking/results/canonical/model_fold_assignments.csv,outside_run_required,73349,copied_into_orphan,NO,YES,INCLUDE_REQUIRED,formal metrics or fold authority
+Dual_Target_Docking/scripts/rerun_v4_2,formal_scripts,,copied_into_orphan,NO,YES,INCLUDE_REQUIRED,formal V4.2 runners and metrics implementation
+Dual_Target_Docking/reruns/UNIFORM_RERUN_V4_2_20260921/13_qa/_comp_v2_tmp.csv,run_root_internal,,not_copied,NO,NO,EXCLUDE_TEMPORARY,scratch
+Dual_Target_Docking/reruns/UNIFORM_RERUN_V4_2_20260921/13_qa/_facts_v2_tmp.csv,run_root_internal,,not_copied,NO,NO,EXCLUDE_TEMPORARY,scratch
+Dual_Target_Docking/reruns/UNIFORM_RERUN_V4_2_20260921/13_qa/rtmscore_example_smoke,run_root_internal,,not_copied,NO,NO,EXCLUDE_TEMPORARY,example scratch
+Dual_Target_Docking/reruns/UNIFORM_RERUN_V4_2_20260921/09_secondary_scoring/GNINA_VINA_POSE_RESCORE_MASTER.csv,historical_non_formal,,copied_with_parent_dir,NO,NO,INCLUDE_PROVENANCE,HISTORICAL_NON_FORMAL old M1
+Dual_Target_Docking/reruns/UNIFORM_RERUN_V4_2_20260921/09_secondary_scoring/GNINA_VINA_POSE_RESCORE_POSE_LONG.csv,historical_non_formal,,copied_with_parent_dir,NO,NO,INCLUDE_PROVENANCE,HISTORICAL_NON_FORMAL old M1 long
+Dual_Target_Docking/reruns/UNIFORM_RERUN_V4_2_20260921/10_gnina_independent_docking/GNINA_SEED42_PRODUCTION_MASTER.csv,historical_non_formal,,copied_with_parent_dir,NO,NO,INCLUDE_PROVENANCE,HISTORICAL_NON_FORMAL old M3

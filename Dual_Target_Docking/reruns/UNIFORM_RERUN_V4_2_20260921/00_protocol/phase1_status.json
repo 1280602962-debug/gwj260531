@@ -1,0 +1,90 @@
+{
+  "recs": [
+    {
+      "software": "python",
+      "path": "/home/gwj/miniconda3/bin/python3",
+      "version": "Python 3.13.2",
+      "note": ""
+    },
+    {
+      "software": "rdkit",
+      "path": "/home/gwj/miniconda3/lib/python3.13/site-packages/rdkit/__init__.py",
+      "version": "2025.09.6",
+      "note": ""
+    },
+    {
+      "software": "meeko",
+      "path": "/home/gwj/miniconda3/lib/python3.13/site-packages/meeko/__init__.py",
+      "version": "0.7.1",
+      "note": ""
+    },
+    {
+      "software": "pdbfixer",
+      "path": "/home/gwj/miniconda3/lib/python3.13/site-packages/pdbfixer/__init__.py",
+      "version": "imported",
+      "note": ""
+    },
+    {
+      "software": "openmm",
+      "path": "/home/gwj/miniconda3/lib/python3.13/site-packages/openmm/__init__.py",
+      "version": "8.6.1",
+      "note": ""
+    },
+    {
+      "software": "mk_prepare_receptor.py",
+      "path": "/home/gwj/miniconda3/bin/mk_prepare_receptor.py",
+      "version": "usage: mk_prepare_receptor.py [-h] [--read_pdb PDB_FILENAME]",
+      "note": "CLI read from --help"
+    },
+    {
+      "software": "mk_prepare_ligand.py",
+      "path": "/home/gwj/miniconda3/bin/mk_prepare_ligand.py",
+      "version": "present",
+      "note": ""
+    },
+    {
+      "software": "Reduce2",
+      "path": "NOT_FOUND",
+      "version": "NOT_FOUND",
+      "note": "classic reduce is not accepted as Reduce2"
+    },
+    {
+      "software": "reduce_classic_not_used_as_reduce2",
+      "path": "NOT_FOUND",
+      "version": "NOT_FOUND",
+      "note": ""
+    },
+    {
+      "software": "AutoDock_Vina",
+      "path": "/home/gwj/miniconda3/bin/vina",
+      "version": "AutoDock Vina v1.2.7",
+      "note": ""
+    },
+    {
+      "software": "GNINA",
+      "path": "NOT_FOUND",
+      "version": "NOT_FOUND",
+      "note": "GNINA_SECONDARY_UNAVAILABLE if missing; does not block Vina"
+    },
+    {
+      "software": "RTMScore",
+      "path": "NOT_FOUND",
+      "version": "NOT_FOUND",
+      "note": "RTMSCORE_SECONDARY_UNAVAILABLE if missing; does not block Vina"
+    }
+  ],
+  "runtime": {
+    "logical_cpus": 8,
+    "reserved_logical_threads": 2,
+    "max_concurrent_jobs_suggested": 6,
+    "vina_cpu_per_job": 1,
+    "ligand_prep_workers": 6,
+    "timeout_frozen": false,
+    "timeout_note": "JOB_TIMEOUT frozen only after Phase 6 calibration",
+    "vina_version_required": "1.2.7",
+    "vina_version_actual_ok": true,
+    "pdbfixer_installed": true,
+    "reduce2_installed": false,
+    "production_vina_started": false
+  }
+}

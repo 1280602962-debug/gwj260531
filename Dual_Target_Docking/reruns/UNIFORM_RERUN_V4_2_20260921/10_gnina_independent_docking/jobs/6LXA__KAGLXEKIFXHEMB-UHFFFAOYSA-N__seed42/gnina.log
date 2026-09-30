@@ -1,0 +1,45 @@
+              _             
+             (_)            
+   __ _ _ __  _ _ __   __ _ 
+  / _` | '_ \| | '_ \ / _` |
+ | (_| | | | | | | | | (_| |
+  \__, |_| |_|_|_| |_|\__,_|
+   __/ |                    
+  |___/                     
+
+gnina v1.3.2 master:f23dd2b   Built Jul  8 2025.
+gnina is based on smina and AutoDock Vina.
+Please cite appropriately.
+
+Commandline: /mnt/d/CADD paper exercise/gnina/bin/gnina --receptor /tmp/pr39_fiveseed/Dual_Target_Docking/reruns/UNIFORM_RERUN_V4_2_20260921/01_receptors/6LXA_receptor.pdbqt --ligand /tmp/pr39_fiveseed/Dual_Target_Docking/reruns/UNIFORM_RERUN_V4_2_20260921/10_gnina_independent_docking/ligands_gnina_ad4_types/KAGLXEKIFXHEMB-UHFFFAOYSA-N.pdbqt --center_x 11.9975 --center_y 5.742 --center_z -7.4430000000000005 --size_x 20.0 --size_y 20.200000000000003 --size_z 23.432000000000002 --no_gpu --scoring vina --cnn_scoring rescore --pose_sort_order CNNscore --seed 42 --exhaustiveness 16 --num_modes 9 --cpu 1 --out /tmp/pr39_fiveseed/Dual_Target_Docking/reruns/UNIFORM_RERUN_V4_2_20260921/10_gnina_independent_docking/jobs/6LXA__KAGLXEKIFXHEMB-UHFFFAOYSA-N__seed42/out.pdbqt
+Using random seed: 42
+
+0%   10   20   30   40   50   60   70   80   90   100%
+|----|----|----|----|----|----|----|----|----|----|
+***************************************************
+ | pose 0 | initial pose not within box
+ | pose 0 | ligand outside box
+ | pose 0 | ligand outside box
+ | pose 0 | ligand outside box
+ | pose 0 | ligand outside box
+ | pose 0 | ligand outside box
+ | pose 0 | initial pose not within box
+ | pose 0 | ligand outside box
+ | pose 0 | ligand outside box
+ | pose 0 | ligand outside box
+ | pose 0 | ligand outside box
+ | pose 0 | ligand outside box
+
+mode |  affinity  |  intramol  |    CNN     |   CNN
+     | (kcal/mol) | (kcal/mol) | pose score | affinity
+-----+------------+------------+------------+----------
+    1       -2.68       -0.94       0.7808      8.173
+    2       -6.95       -0.73       0.7428      7.818
+    3       -6.57       -0.85       0.6242      7.741
+    4       -8.43       -0.84       0.5009      7.830
+    5       -3.62       -0.82       0.4939      7.739
+    6       -4.05       -0.39       0.4692      7.384
+    7       -6.89       -1.05       0.4687      7.831
+    8       -5.24        2.68       0.3851      7.724
+    9       -9.25        0.14       0.3800      7.598
+

@@ -1,0 +1,10 @@
+PRE_COMMIT_LOCAL_RELEASE_GATE = PASS
+UNREVIEWED_run_root=0
+ligand_cmp=785+785
+missing_required=0
+unstaged_required=0
+ge100MB=0
+secrets=not_rescanned_this_step
+release_02_ligands_symlink=NO
+source_02_ligands_still_symlink=YES
+metrics_rows=120/32

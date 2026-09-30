@@ -1,0 +1,238 @@
+run_id: UNIFORM_RERUN_V4_2_20260921
+document: ALTERNATIVE_RECEPTOR_EXPERIMENT_FREEZE_V2
+supersedes: ALTERNATIVE_RECEPTOR_EXPERIMENT_FREEZE.yaml
+overwrites_v1: false
+status: DESIGN_FROZEN_AWAITING_HUMAN_CONFIRMATION
+docking_authorized: false
+receptor_prep_authorized: false
+redocking_authorized: false
+auroc_authorized: false
+primary_receptors_may_be_modified: false
+predicted_structures_allowed: false
+performance_used_for_selection: false
+phase5_rmsd_used_for_selection: false
+legacy_or_v42_scores_opened: false
+new_pdb_search_after_v2: forbidden
+
+purpose: >
+  Re-verify planned alternative receptors from RCSB/mmCIF/validation/papers,
+  split COMPARABILITY_TIER from POCKET_PERTURBATION, freeze one-receptor-at-a-time
+  ablation designs, and pre-register the later docking and paired-delta analysis
+  protocol. This is not a search for a receptor that improves AUROC.
+
+sources_used:
+  - 00_protocol/receptor_registry.csv
+  - 00_protocol/receptor_component_policy.csv
+  - 00_protocol/analysis_freeze.yaml (identity / component / alternative ID list only)
+  - 00_protocol/alternative_receptor_manifest.csv (ID list only; score files not opened)
+  - 13_qa/ALTERNATIVE_RECEPTOR_SELECTION.md (V1; fact-checked, not trusted)
+  - RCSB mmCIF under 13_qa/alt_cif
+  - wwPDB validation XML
+  - primary structure papers via DOI/PMID in FACT_VERIFICATION_V2
+
+sources_forbidden_and_not_opened:
+  - any AUROC / summary_min / Top-K / EF table
+  - Phase 5 redocking RMSD as a selector
+  - Phase 7 affinities as selection input
+  - LEGACY current_score_master scores
+  - deposited alternative score CSVs named in the prior manifest
+  - GNINA / RTMScore tables
+
+pocket_definition:
+  status: CANDIDATES_NOT_SILENTLY_CHOSEN
+  protocol_frozen_box_pad_A: 5.0
+  protocol_frozen_pocket_cutoff_A: null
+  rule: primary_cognate_any_heavy_atom_distance
+  candidate_cutoffs_A: [4.0, 4.5, 5.0]
+  same_residue_set_for_all_alts_of_a_target: true
+  do_not_pick_cutoff_after_seeing_rmsd: true
+  predeclared_pocket_bins:
+    NEAR: "bb_CA_RMSD < 1.5"
+    INTERMEDIATE: "bb_CA_RMSD <= 3.0"
+    FAR: "bb_CA_RMSD > 3.0"
+    NOT_ASSESSABLE: cannot_quantify_stably
+
+comparability_tier:
+  CLEAN: same_target_domain_site_construct_partner_no_key_pocket_mutation
+  MODERATE: site_correct_but_distal_mutation_or_small_construct_or_noncritical_partner_diff
+  CONFOUNDED: construct_partner_activation_PTM_site_mutation_or_domain_state_prevents_conformation_only_claim
+
+uniprot:
+  EGFR: P00533
+  HER2: P04626
+  JAK1: P23458
+  JAK2: O60674
+  TYK2: P29597
+  PIK3CA: P42336
+  mTOR: P42345
+  AChE: P22303
+  BChE: P06276
+  F2: P00734
+  F10: P00742
+  PPARG: P37231
+  PPARA: Q07869
+  PPARD: Q03181
+
+primary_unchanged:
+  EGFR: {pdb: 3POZ, chain: A, ccd: 03P}
+  HER2: {pdb: 3RCD, chain: A, ccd: 03P}
+  JAK1: {pdb: 6N7A, chain: AB, ccd: KEV, ptr: [1034, 1035]}
+  JAK2: {pdb: 8BXH, chain: A, ccd: C87, ptr: [1007, 1008]}
+  TYK2: {pdb: 3LXP, chain: A, ccd: IZA, mutations: [C936A, Q969A, E971A, K972A, C1142A], ptr: [1054]}
+  PIK3CA: {pdb: 4L23, chain: A, ccd: X6K, p85_policy: REMOVE}
+  mTOR: {pdb: 4JT6, auth: A, label: C, ccd: X6K, extra_mTOR_mLST8_policy: REMOVE}
+  AChE: {pdb: 4EY7, chain: AB, ccd: E20, box_defining: A604}
+  BChE: {pdb: 4BDS, chain: A, ccd: THA, mutations: [N17Q, N455Q, N481Q, N486Q]}
+  F2: {pdb: 4UDW, chain: HIL, ccd: N6L, hirudin_policy: RETAIN}
+  F10: {pdb: 2JKH, chain: AL, ccd: BI7, mutation: R372E, light_policy: RETAIN}
+  PPARG: {pdb: 9V8H, chain: AB, ccd: BRL, peptide_PG08NL_policy: RETAIN}
+  PPARA: {pdb: 6LXA, chain: A, ccd: EPA}
+  PPARD: {pdb: 5U3Q, chain: B, ccd: 7UJ, copy_A: LEGACY_ONLY}
+
+verified_alternatives:
+  EGFR_1XKK: {tier: CLEAN, pocket: NEAR, ccd: FMM, chain: A}
+  HER2_3PP0: {tier: MODERATE, pocket: FAR, ccd: 03Q, chain: B, mutations: [M706A, Q711L, M712L]}
+  JAK1_4EI4: {tier: CLEAN, pocket: NEAR, ccd: 0Q2, ptr: [1034, 1035]}
+  JAK2_8BM2: {tier: CLEAN, pocket: CUTOFF_SENSITIVE_NEAR_at_4.5_INTERMEDIATE_at_5.0, ccd: QQC, ptr: [1007, 1008]}
+  PIK3CA_4L2Y: {tier: CLEAN, pocket: NEAR, ccd: XXK, historically_exposed: NO}
+  PIK3CA_4JPS: {tier: MODERATE, pocket: NEAR, ccd: 1LT, mutations: [M232K, L233K], historically_exposed: YES}
+  PIK3CA_5XGH: {tier: MODERATE, pocket: NEAR, ccd: 84U}
+  PIK3CA_5DXT: {tier: CONFOUNDED, pocket: FAR, ccd: 5H5, p85: absent, historically_exposed: YES}
+  mTOR_4JT5: {tier: CLEAN, pocket: NEAR, ccd: P2X}
+  mTOR_4JSX: {tier: CLEAN, pocket: NEAR, ccd: 17G, historically_exposed: YES, not_excluded_for_history: true}
+  mTOR_4JSV: {tier: CLEAN, pocket: NEAR, ccd: ADP, ligand_class: nucleotide}
+  AChE_4EY6: {tier: CLEAN, pocket: NEAR, ccd: GNT}
+  BChE_1P0M: {tier: CLEAN, pocket: NEAR, ccd: CHT, mutations: [N17Q, N455Q, N481Q, N486Q]}
+  F2_3SHC: {tier: MODERATE, pocket: NEAR, ccd: B01, hirudin: retained_longer_fragment}
+  F10_2Y5F: {tier: CLEAN, pocket: NEAR, ccd: XWG, mutation: R372E_same_as_2JKH}
+  PPARG_7AWC: {tier: CONFOUNDED, pocket: FAR, ccd: BRL, peptide: absent}
+  PPARA_6KAX: {tier: CLEAN, pocket: NEAR, ccd: PLM}
+  PPARD_5U46: {tier: CLEAN, pocket: NEAR, ccd: 7T1, chain: A, note: not_B7G}
+
+family_representative:
+  family_1_kinase_ATP:
+    status: TIE
+    option_K1_PIK3CA_mTOR:
+      A1_B1: {A: 4L23, B: 4JT6}
+      A2_B1: {A: 4L2Y, B: 4JT6}
+      A1_B2: {A: 4L23, B: 4JT5}
+      A1_B2_tie: {A: 4L23, B: 4JSX}
+      A2_B2: optional_after_single_swaps
+    option_K2_JAK1_JAK2:
+      A1_B1: {A: 6N7A, B: 8BXH}
+      A2_B1: {A: 4EI4, B: 8BXH}
+      A1_B2: {A: 6N7A, B: 8BM2}
+      A2_B2: optional_after_single_swaps
+      freeze_before_prep: [4EI4_copy_A_or_AB, uniform_PTR_fallback]
+    not_representative: EGFR/HER2
+    incomplete: JAK1/TYK2
+  family_2_cholinesterase:
+    pair: AChE/BChE
+    A1_B1: {A: 4EY7, B: 4BDS}
+    A2_B1: {A: 4EY6, B: 4BDS}
+    A1_B2: {A: 4EY7, B: 1P0M}
+    A2_B2: optional_after_single_swaps
+  family_3_S1_protease:
+    pair: F2/F10
+    A1_B1: {A: 4UDW, B: 2JKH}
+    A2_B1: {A: 3SHC, B: 2JKH}
+    A1_B2: {A: 4UDW, B: 2Y5F}
+    A2_B2: optional_after_single_swaps
+  family_4_PPAR_LBD:
+    pair: PPARA/PPARD
+    A1_B1: {A: 6LXA, B: 5U3Q}
+    A2_B1: {A: 6KAX, B: 5U3Q}
+    A1_B2: {A: 6LXA, B: 5U46}
+    A2_B2: optional_after_single_swaps
+    PPARG_PPARA: not_selected_no_CLEAN_PPARG_alt
+
+ablation_rules:
+  replace_one_receptor_per_design: true
+  forbid_direct_A1B1_vs_A2B2_as_the_only_contrast: true
+  A2B2_only_after_A2B1_and_A1B2_accounted: true
+  perturbation_ladder_only_if_both_NEAR_and_FAR_CLEAN_alts_frozen_before_any_result: true
+  no_CLEAN_FAR_ladder_currently_available_except_optional_EGFR_HER2_FAR_arm: true
+  do_not_search_A3_after_seeing_A2: true
+
+future_docking_protocol_if_later_authorized:
+  ligand_population: identical_to_primary
+  ligand_assets: reuse_v4_2
+  activity_labels: identical
+  analysis_population_definition: unchanged
+  vina: "1.2.7"
+  scoring: vina
+  exhaustiveness: 16
+  num_modes: 9
+  energy_range: 6
+  primary_seed: 42
+  seeds_if_five_seed_used: [17, 29, 42, 71, 101]
+  primary_score: negative_mode1_affinity
+  forbid_best_seed: true
+  forbid_best_pose_as_primary: true
+  forbid_box_adjust_from_redock_rmsd: true
+  forbid_protonation_his_ptr_adjust_from_results: true
+  forbid_changing_primary_receptor_from_alternative_performance: true
+  box_from_alternative_cognate_only: true
+  box_pad_rule: frozen_v4_2_BOX_PAD_A_5.0
+  prep: PDBFixer_heavy_then_Meeko_0.7.1_no_Reduce2
+  forbidden_meeko_flags_remain_forbidden: true
+  required_qc_before_production_per_alternative:
+    - identity_audit
+    - component_policy_audit
+    - box_audit
+    - cognate_redocking_technical_QC
+  redocking_is_not_an_AUROC_filter: true
+
+future_estimands_if_later_authorized:
+  A_side_replacement: recompute_only_metrics_that_depend_on_score_A_or_A_B_combo
+  B_side_replacement: recompute_only_metrics_that_depend_on_score_B_or_A_B_combo
+  keep_unreplaced_directional_arm: true
+  examples_A_side:
+    - dual_vs_B_only_using_score_A
+    - summary_min
+    - score_mean_ranking
+    - TopK
+    - AND_filter
+  receptor_effect:
+    delta_AUC_A_receptor: AUC(A2/B1) - AUC(A1/B1)
+    delta_AUC_B_receptor: AUC(A1/B2) - AUC(A1/B1)
+    delta_summary_min_A: summary_min(A2/B1) - summary_min(A1/B1)
+    delta_summary_min_B: summary_min(A1/B2) - summary_min(A1/B1)
+  comparison_design: paired_on_identical_ligand_population_and_identical_bootstrap_indices
+  forbid_independent_bootstrap_then_CI_overlap_test: true
+
+analysis_code_identity_test:
+  status: SPECIFIED_NOT_EXECUTED
+  purpose: prove_pipeline_does_not_create_a_false_receptor_effect
+  input: existing_A1_B1_primary_score_master
+  action: rerun_only_the_receptor_sensitivity_analysis_codepath
+  must_match_primary_pipeline:
+    - sample_membership
+    - scores
+    - directional_mapping
+    - AUROC_inputs
+    - TopK_sort_inputs
+    - bootstrap_indices
+  produces_new_scientific_result: false
+  authorized_now: false
+
+historically_exposed_rule:
+  field: HISTORICALLY_EXPOSED_CANDIDATE
+  values: [YES, NO]
+  participates_in_selection: false
+  meaning: named_in_old_manifest_or_prior_structural_discussion
+  do_not_exclude_4JPS_or_4JSX_for_history: true
+
+human_must_decide:
+  - family_1_option_K1_or_K2
+  - mTOR_B2_4JT5_or_4JSX_if_K1
+  - JAK1_4EI4_copy_if_K2
+  - whether_to_keep_optional_EGFR_HER2_FAR_arm
+  - pocket_cutoff_A_among_4.0_4.5_5.0
+
+human_confirmation_required_before:
+  - alternative_receptor_preparation
+  - alternative_docking
+  - AUROC
+  - adding_any_PDB_to_production_primary_set
+  - analysis_code_identity_test_execution

@@ -1,0 +1,47 @@
+{
+  "level": {
+    "pair_expanded": {
+      "rows": 1614,
+      "SUCCESS": 1608,
+      "TIMEOUT": 6,
+      "other": {}
+    },
+    "physical": {
+      "jobs": 1592,
+      "with_vina_pose": 1586,
+      "MISSING_NO_VINA_POSE": 6,
+      "n_jobs_9_poses": 1562,
+      "n_jobs_8_poses": 24,
+      "other_pose_counts": {},
+      "expected_physical_long_rows": 14250,
+      "formula": "1562\u00d79 + 24\u00d78"
+    }
+  },
+  "pair_expanded_timeouts": [
+    [
+      "AB_001",
+      "4EY7"
+    ],
+    [
+      "AB_001",
+      "4BDS"
+    ],
+    [
+      "AB_053",
+      "4EY7"
+    ],
+    [
+      "AB_053",
+      "4BDS"
+    ],
+    [
+      "AB_054",
+      "4EY7"
+    ],
+    [
+      "AB_054",
+      "4BDS"
+    ]
+  ],
+  "forbidden_expectation_1584x9_plus_24x8": "DO_NOT_USE_that_is_pair_expanded_layer"
+}

@@ -1,0 +1,13 @@
+{
+  "n_ok_runtimes": 28,
+  "p50_s": 239.334,
+  "p95_s": 528.829,
+  "three_p95_s": 1586.488,
+  "JOB_TIMEOUT_s": 1586,
+  "JOB_TIMEOUT_min": 26.43,
+  "formula": "clamp(3*P95, 15min, 30min)",
+  "max_concurrent": 6,
+  "concurrency_reduced_for_memory": false,
+  "timeout_frozen": true,
+  "auroc_used": false
+}

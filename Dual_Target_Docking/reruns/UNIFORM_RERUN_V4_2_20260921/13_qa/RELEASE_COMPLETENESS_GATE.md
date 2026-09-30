@@ -1,0 +1,10 @@
+RELEASE_COMPLETENESS_GATE = PASS
+unresolved=0
+missing_required=0
+unstaged_required=0
+n_staged=186114
+SINGLE_PROJECT_roots=README.md,.gitignore,Dual_Target_Docking/**
+JNK1_Selectivity_Project=0
+forbidden_inputs_staged=0
+metrics_rows=120/32
+ligands=785+785

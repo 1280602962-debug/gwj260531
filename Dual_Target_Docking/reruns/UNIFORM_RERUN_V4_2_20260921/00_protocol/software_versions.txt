@@ -1,0 +1,12 @@
+RUN_ID=UNIFORM_RERUN_V4_2_20260921
+recorded_utc=2026-09-20T18:31:00Z
+predecessor=UNIFORM_RERUN_V4_1_20260921
+python	path=/home/gwj/miniconda3/bin/python3	version=Python 3.13.2
+rdkit	path=/home/gwj/miniconda3/lib/python3.13/site-packages/rdkit/__init__.py	version=2025.09.6
+meeko	path=/home/gwj/miniconda3/lib/python3.13/site-packages/meeko/__init__.py	version=0.7.1
+pdbfixer	path=/home/gwj/miniconda3/lib/python3.13/site-packages/pdbfixer/__init__.py	version=1.12.0
+openmm	path=/home/gwj/miniconda3/lib/python3.13/site-packages/openmm/__init__.py	version=8.6.1
+mk_prepare_receptor.py	path=/home/gwj/miniconda3/bin/mk_prepare_receptor.py	version=0.7.1
+Reduce2	path=NOT_USED	version=NOT_USED	V4.2 receptor prep does not run Reduce2
+AutoDock_Vina	path=/home/gwj/miniconda3/bin/vina	version=AutoDock Vina v1.2.7	recorded_not_run
+ligand_assets	path=../UNIFORM_RERUN_V4_1_20260921/02_ligands	count=785	reused

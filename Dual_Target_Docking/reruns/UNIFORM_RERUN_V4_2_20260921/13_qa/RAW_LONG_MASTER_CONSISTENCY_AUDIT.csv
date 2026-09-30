@@ -1,0 +1,7 @@
+method,raw,long,master,raw_n,long_n,master_n,id_seed_mode_score_checked,new_v2_included
+M0,06_vina_fiveseed/jobs/*/out.pdbqt,phase7_fiveseed_master,official_primary_seed42_score_master_8pair.csv,see VINA_RAW_PARSE_MASTER_AUDIT,8070,1614,YES_FULL,NO
+OLD_M1,09_secondary_scoring/gnina_rescore,GNINA_VINA_POSE_RESCORE_POSE_LONG.csv,GNINA_VINA_POSE_RESCORE_MASTER.csv,,14250,1592,YES_OLD_LAYER,NO
+M2,rtmscore/jobs,RTMSCORE_VINA_POSE_RESCORE_POSE_LONG.csv,RTMSCORE_VINA_POSE_RESCORE_MASTER.csv,,14250,1592,YES,NO
+OLD_M3,10_gnina_independent_docking/jobs/*/out.pdbqt MODEL1,n/a,GNINA_SEED42_PRODUCTION_MASTER_REPARSED.csv,1592,,1592,YES_OLD_LAYER,NO
+NEW_M1,09_secondary_scoring/gnina_rescore_representation_v2/*/vina_mode1.gnina.log,GNINA_VINA_POSE_RESCORE_POSE_LONG_VERIFIED.csv,GNINA_VINA_POSE_RESCORE_MASTER_VERIFIED.csv,,14097,1592,YES_NEW_LAYER,YES
+NEW_M3,jobs_topology_repair_v2/*/out.pdbqt MODEL1 + original jobs for unrepaired,n/a,GNINA_SEED42_PRODUCTION_MASTER_TOPOLOGY_VERIFIED.csv,1592,,1592,YES_NEW_LAYER,YES

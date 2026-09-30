@@ -1,0 +1,135 @@
+# FORMAL_METRICS_ANALYSIS_FREEZE_FINAL
+# Written by pre_metrics_readiness_audit_v42.py. No SHA gate. No auto-rescue.
+
+protocol: FORMAL_METRICS_ANALYSIS_FREEZE_FINAL
+run_id: UNIFORM_RERUN_V4_2_20260921
+metrics_execution_unlocked: false
+
+formal_methods: [M0, M1, M1b, M2, M3]
+forbidden_methods: [OLD_M1, OLD_M3, LEGACY]
+
+files:
+  authority_paths: 00_protocol/FORMAL_AUTHORITY_PATHS.yaml
+  activity: 00_protocol/pair_ligand_mapping.csv
+  alias: 00_protocol/parent_alias_registry.csv
+  holdout: 00_protocol/holdout_membership_freeze.csv
+  fold: /tmp/pr39_fiveseed/Dual_Target_Docking/results/canonical/model_fold_assignments.csv
+  m0: 13_qa/official_primary_seed42_score_master_8pair.csv
+  m1: 09_secondary_scoring/GNINA_VINA_POSE_RESCORE_MASTER_VERIFIED.csv
+  m1_long: 09_secondary_scoring/GNINA_VINA_POSE_RESCORE_POSE_LONG_VERIFIED.csv
+  m2: 09_secondary_scoring/RTMSCORE_VINA_POSE_RESCORE_MASTER.csv
+  m3: 10_gnina_independent_docking/GNINA_SEED42_PRODUCTION_MASTER_TOPOLOGY_VERIFIED.csv
+  implementation: scripts/rerun_v4_2/formal_metrics_lib.py
+
+identity_keys:
+  pair_observation: [pair, global_ligand_entity_id]
+  physical: [pdb_id, global_ligand_entity_id]
+  pose: [pdb_id, global_ligand_entity_id, vina_mode]
+
+ab_map:
+  EGFR/HER2: {A: 3POZ, B: 3RCD}
+  JAK1/JAK2: {A: 6N7A, B: 8BXH}
+  JAK1/TYK2: {A: 6N7A, B: 3LXP}
+  PIK3CA/mTOR: {A: 4L23, B: 4JT6}
+  AChE/BChE: {A: 4EY7, B: 4BDS}
+  F2/F10: {A: 4UDW, B: 2JKH}
+  PPARG/PPARA: {A: 9V8H, B: 6LXA}
+  PPARA/PPARD: {A: 6LXA, B: 5U3Q}
+
+labels:
+  source: 00_protocol/pair_ligand_mapping.csv
+  theta_primary: 6.0
+  sensitivity_only: [5.5, 6.5, strict_6.5_5.5]
+  activity_eligible_0_in_fourclass: forbidden
+  missing_activity_is_inactive: false
+  AB_040: alias_of_AB_046_not_observation
+
+score_orientation: higher_better
+method_definitions:
+  M0: vina_seed42_mode1; score=-minimizedAffinity
+  M1: same vina_seed42_mode1 pose; GNINA CNNscore
+  M1b: max CNNscore on same vina saved pose set
+  M2: same vina_seed42_mode1 pose; RTMScore model1
+  M3: GNINA independent dock seed42; formal mode1 CNNscore
+
+missingness_kept:
+  M1_ATOM_MAPPING_FAILURE: 17
+  M1_MISSING_NO_VINA_POSE: 6
+  M3_repair_TIMEOUT: 4
+  M3_AB001_TIMEOUT: 2
+  M0_TIMEOUT_pair_expanded: 6
+  imputation: forbidden
+
+directional:
+  dual_vs_A_only: score_B
+  dual_vs_B_only: score_A
+  summary_min: min(AUC_B, AUC_A)
+  forbidden: AUROC_of_min(score_A, score_B)
+  auroc_tie: 0.5
+  auroc_definition: Mann-Whitney; ties contribute 0.5
+
+delta_sign: |
+  Δ(A−B) = summary_min(A) − summary_min(B)
+  Primary this round: M1−M0, M1b−M1, M2−M0, M3−M0.
+  Secondary remain secondary and are not computed this round: M3−M1b, M3−M1.
+
+summary_min_shared_dual_universe: |
+  For one method M and one pair:
+  Dual set D_M = ligands with class=dual, activity_eligible=1,
+    M_score_A valid AND M_score_B valid.
+  A_only set A_M = class=A_only, eligible=1, M_score_B valid.
+  B_only set B_M = class=B_only, eligible=1, M_score_A valid.
+  AUC_B = AUROC(scores_B of D_M, scores_B of A_M)
+  AUC_A = AUROC(scores_A of D_M, scores_A of B_M)
+  summary_min = min(AUC_B, AUC_A)
+  Bootstrap: resample D_M once per replicate and reuse that draw for both
+  directions; resample A_M and B_M independently; take min inside replicate.
+  Point estimate is from the original sets, not the bootstrap mean.
+
+delta_summary_min_four_sided: |
+  For methods X and Y and one pair:
+  Dual set D_XY = class=dual, eligible=1, and all four of
+    X_score_A, X_score_B, Y_score_A, Y_score_B valid.
+  A_only set A_XY = class=A_only, eligible=1, X_score_B and Y_score_B valid.
+  B_only set B_XY = class=B_only, eligible=1, X_score_A and Y_score_A valid.
+  Primary deltas: M1-M0, M1b-M1, M2-M0, M3-M0.
+  Secondary (not computed now): M3-M1b, M3-M1.
+  Delta sign: Δ(A−B) = summary_min(A) − summary_min(B).
+
+paired_bootstrap: |
+  B=10000
+  seed=271828
+  numpy.random.default_rng
+  rng_policy: reset default_rng(271828) at the start of every analysis unit
+    (each pair×method single-method block; each pair×primary-delta block).
+  One dual index draw shared by X and Y and by both directions.
+  One A_only index draw shared by X and Y (AUC_B).
+  One B_only index draw shared by X and Y (AUC_A).
+  Inside replicate:
+    sm_X = min(AUC_B_X, AUC_A_X)
+    sm_Y = min(AUC_B_Y, AUC_A_Y)
+    delta = sm_X - sm_Y
+  Forbidden: bootstrap X and Y independently then subtract CIs.
+  CI: numpy.percentile(replicates, [2.5, 97.5], method="linear")
+  Silent drop of NaN/Inf replicates is forbidden.
+  A legal analysis unit that starts bootstrap must produce 10000 finite replicates.
+  Any NaN or Inf in those replicates is POST QA FAIL.
+  If the original shared-dual or four-sided population is insufficient
+  (n_dual=0 or the required negative class is empty), write NA + reason
+  and do not start bootstrap.
+
+reproducibility: |
+  Run the full PRIMARY compute twice.
+  Sort both outputs by fixed keys and compare every field.
+  Do not use a hash of the second run as the consistency check.
+
+single_method_valid: a method may use its own shared-dual universe (not the intersection of all methods)
+primary_seed: 42
+five_seed: sensitivity_only
+alternative_receptor_authority: 00_protocol/ALTERNATIVE_RECEPTOR_EXPERIMENT_FREEZE_FINAL.yaml
+alternative_receptor_in_primary_population: false
+wrong_pocket: sensitivity_only
+chemistry_folds: results/canonical/model_fold_assignments.csv filtered by parent_alias_registry
+sha_gate: forbidden
+auto_rescue: forbidden
+auto_parameter_selection: forbidden

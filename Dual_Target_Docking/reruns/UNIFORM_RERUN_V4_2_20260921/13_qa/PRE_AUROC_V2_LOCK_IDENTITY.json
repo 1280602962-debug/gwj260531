@@ -1,0 +1,132 @@
+{
+  "M0": {
+    "level": "pair-expanded",
+    "rows": 1614,
+    "SUCCESS": 1608,
+    "TIMEOUT": 6,
+    "timeouts": [
+      [
+        "AB_001",
+        "4BDS"
+      ],
+      [
+        "AB_001",
+        "4EY7"
+      ],
+      [
+        "AB_053",
+        "4BDS"
+      ],
+      [
+        "AB_053",
+        "4EY7"
+      ],
+      [
+        "AB_054",
+        "4BDS"
+      ],
+      [
+        "AB_054",
+        "4EY7"
+      ]
+    ],
+    "timeouts_exact_expected": true,
+    "score_is_neg_vina_mode1_affinity": true,
+    "imputation_column": true,
+    "parent_independent_all_1": true,
+    "bad_examples": [],
+    "M0_LOCKED": true
+  },
+  "M2": {
+    "level": "physical",
+    "master_rows": 1592,
+    "SUCCESS": 1586,
+    "MISSING_NO_VINA_POSE": 12,
+    "status_counts": {
+      "SUCCESS": 1586,
+      "MISSING_NO_VINA_POSE": 6
+    },
+    "long_rows": 14250,
+    "expected_long_rows": 14250,
+    "pose_job_hist": {
+      "9": 1562,
+      "8": 24
+    },
+    "pockets_present": [
+      "2JKH",
+      "3LXP",
+      "3POZ",
+      "3RCD",
+      "4BDS",
+      "4EY7",
+      "4JT6",
+      "4L23",
+      "4UDW",
+      "5U3Q",
+      "6LXA",
+      "6N7A",
+      "8BXH",
+      "9V8H"
+    ],
+    "n_pockets": 14,
+    "all_14_pockets": true,
+    "checkpoint": "/home/gwj/software/RTMScore/trained_models/rtmscore_model1.pth",
+    "checkpoint_is_model1": true,
+    "mode1_master_matches_long": true,
+    "mode1_mismatch_n": 0,
+    "M2_LOCKED": true
+  },
+  "identity": {
+    "mapping_rows_in_8_pairs": 808,
+    "independent_pair_level_rows": 807,
+    "independent_pair_level_parents": 807,
+    "global_unique_parents_independent": 785,
+    "pair_expanded_m0": 1614,
+    "unique_physical_jobs": 1592,
+    "shared_physical_jobs": 22,
+    "shared_6N7A": 13,
+    "shared_6LXA": 9,
+    "AB_040_mapping_rows": 1,
+    "AB_040_parent_independent_values": [
+      "0"
+    ],
+    "AB_046_mapping_rows": 2,
+    "AB_040_in_m0_official": 0,
+    "AB_040_not_independent_observation": true,
+    "m0_reuse_conflicts": 0,
+    "reuse_conflict_examples": [],
+    "expected": {
+      "historical_records": 808,
+      "independent_pair_level_parents": 807,
+      "global_unique_parents": 785,
+      "pair_expanded": 1614,
+      "unique_physical": 1592
+    }
+  },
+  "activity": {
+    "mapping_activity_eligible_0": 2,
+    "m0_activity_eligible_0": 4,
+    "eligible0_mapped_to_neither": 0,
+    "EH120_059_AB_087": [
+      {
+        "pair": "EGFR/HER2",
+        "panel_id": "EH120_059",
+        "canonical_ligand_id": "EH120_059",
+        "class": "",
+        "activity_eligible": "0",
+        "parent_independent": "1"
+      },
+      {
+        "pair": "AChE/BChE",
+        "panel_id": "AB_087",
+        "canonical_ligand_id": "AB_087",
+        "class": "",
+        "activity_eligible": "0",
+        "parent_independent": "1"
+      }
+    ],
+    "fourclass_must_exclude_eligible0": true,
+    "GATE_FAIL_if_eligible0_became_neither": false
+  },
+  "AUROC": "NOT_COMPUTED"
+}

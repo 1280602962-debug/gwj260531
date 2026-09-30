@@ -1,0 +1,4356 @@
+{
+  "RUN_ID": "UNIFORM_RERUN_V4_2_20260921",
+  "meeko_allowance": 1.2,
+  "meeko_covalent_radius_C_N_O_S": {
+    "C": 0.76,
+    "N": 0.71,
+    "O": 0.66,
+    "S": 1.05
+  },
+  "meeko_thresholds": {
+    "C-N": 1.764,
+    "C-O": 1.704,
+    "N-O": 1.644
+  },
+  "holds": {
+    "6N7A": {
+      "primary_auth": [
+        "A",
+        "B"
+      ],
+      "altloc_choices_for_query_residues": {
+        "A:1024:LEU": "",
+        "A:1041:ARG": ""
+      },
+      "stages": {
+        "frozen_cif_all_altlocs": {
+          "res1": {
+            "chain": "A",
+            "seq": 1024,
+            "prev_seq": 1023,
+            "next_seq": 1025,
+            "prev_CN": 1.355,
+            "next_CN": 1.336,
+            "is_internal_gap_prev": false,
+            "is_internal_gap_next": false,
+            "present_atoms": [
+              "N",
+              "CA",
+              "C",
+              "O",
+              "CB",
+              "CG",
+              "CD1",
+              "CD2"
+            ]
+          },
+          "res2": {
+            "chain": "A",
+            "seq": 1041,
+            "prev_seq": 1040,
+            "next_seq": 1042,
+            "prev_CN": 1.342,
+            "next_CN": 1.348,
+            "is_internal_gap_prev": false,
+            "is_internal_gap_next": false,
+            "present_atoms": [
+              "N",
+              "CA",
+              "C",
+              "O",
+              "CB"
+            ]
+          },
+          "named_pair": null,
+          "closest_pair": {
+            "a": {
+              "chain": "A",
+              "seq": 1024,
+              "ins": "",
+              "comp": "LEU",
+              "name": "CD2",
+              "alt": ".",
+              "occ": 1.0,
+              "elem": "C",
+              "xyz": [
+                -0.161,
+                -14.153,
+                13.735
+              ]
+            },
+            "b": {
+              "chain": "A",
+              "seq": 1041,
+              "ins": "",
+              "comp": "ARG",
+              "name": "CB",
+              "alt": ".",
+              "occ": 1.0,
+              "elem": "C",
+              "xyz": [
+                -0.039,
+                -7.898,
+                15.275
+              ]
+            },
+            "distance": 6.443,
+            "meeko_threshold": 1.824,
+            "meeko_covalent_hit": false
+          },
+          "meeko_would_bond_named": null,
+          "meeko_would_bond_closest": false
+        },
+        "protein_raw": {
+          "res1": {
+            "chain": "A",
+            "seq": 1024,
+            "prev_seq": 1023,
+            "next_seq": 1025,
+            "prev_CN": 1.355,
+            "next_CN": 1.336,
+            "is_internal_gap_prev": false,
+            "is_internal_gap_next": false,
+            "present_atoms": [
+              "N",
+              "CA",
+              "C",
+              "O",
+              "CB",
+              "CG",
+              "CD1",
+              "CD2"
+            ]
+          },
+          "res2": {
+            "chain": "A",
+            "seq": 1041,
+            "prev_seq": 1040,
+            "next_seq": 1042,
+            "prev_CN": 1.342,
+            "next_CN": 1.348,
+            "is_internal_gap_prev": false,
+            "is_internal_gap_next": false,
+            "present_atoms": [
+              "N",
+              "CA",
+              "C",
+              "O",
+              "CB"
+            ]
+          },
+          "named_pair": null,
+          "closest_pair": {
+            "a": {
+              "chain": "A",
+              "seq": 1024,
+              "ins": "",
+              "comp": "LEU",
+              "name": "CD2",
+              "alt": ".",
+              "occ": 1.0,
+              "elem": "C",
+              "xyz": [
+                -0.161,
+                -14.153,
+                13.735
+              ]
+            },
+            "b": {
+              "chain": "A",
+              "seq": 1041,
+              "ins": "",
+              "comp": "ARG",
+              "name": "CB",
+              "alt": ".",
+              "occ": 1.0,
+              "elem": "C",
+              "xyz": [
+                -0.039,
+                -7.898,
+                15.275
+              ]
+            },
+            "distance": 6.443,
+            "meeko_threshold": 1.824,
+            "meeko_covalent_hit": false
+          },
+          "meeko_would_bond_named": null,
+          "meeko_would_bond_closest": false
+        },
+        "fixer_openmm": {
+          "res1": {
+            "chain": "A",
+            "seq": 1024,
+            "prev_seq": 1023,
+            "next_seq": 1025,
+            "prev_CN": 1.355,
+            "next_CN": 1.336,
+            "is_internal_gap_prev": false,
+            "is_internal_gap_next": false,
+            "present_atoms": [
+              "N",
+              "CA",
+              "C",
+              "O",
+              "CB",
+              "CG",
+              "CD1",
+              "CD2"
+            ]
+          },
+          "res2": {
+            "chain": "A",
+            "seq": 1041,
+            "prev_seq": 1040,
+            "next_seq": 1042,
+            "prev_CN": 1.342,
+            "next_CN": 1.348,
+            "is_internal_gap_prev": false,
+            "is_internal_gap_next": false,
+            "present_atoms": [
+              "N",
+              "CA",
+              "C",
+              "O",
+              "CB",
+              "CG",
+              "CD",
+              "NE",
+              "CZ",
+              "NH1",
+              "NH2"
+            ]
+          },
+          "named_pair": {
+            "a": {
+              "chain": "A",
+              "seq": 1024,
+              "ins": "",
+              "comp": "LEU",
+              "name": "CD1",
+              "alt": ".",
+              "occ": 1.0,
+              "elem": "C",
+              "xyz": [
+                1.948,
+                -14.246,
+                12.362
+              ]
+            },
+            "b": {
+              "chain": "A",
+              "seq": 1041,
+              "ins": "",
+              "comp": "ARG",
+              "name": "NH2",
+              "alt": ".",
+              "occ": 1.0,
+              "elem": "N",
+              "xyz": [
+                1.6,
+                -12.623,
+                12.043
+              ]
+            },
+            "distance": 1.69,
+            "meeko_threshold": 1.764,
+            "meeko_covalent_hit": true
+          },
+          "closest_pair": {
+            "a": {
+              "chain": "A",
+              "seq": 1024,
+              "ins": "",
+              "comp": "LEU",
+              "name": "CD1",
+              "alt": ".",
+              "occ": 1.0,
+              "elem": "C",
+              "xyz": [
+                1.948,
+                -14.246,
+                12.362
+              ]
+            },
+            "b": {
+              "chain": "A",
+              "seq": 1041,
+              "ins": "",
+              "comp": "ARG",
+              "name": "NH2",
+              "alt": ".",
+              "occ": 1.0,
+              "elem": "N",
+              "xyz": [
+                1.6,
+                -12.623,
+                12.043
+              ]
+            },
+            "distance": 1.69,
+            "meeko_threshold": 1.764,
+            "meeko_covalent_hit": true
+          },
+          "meeko_would_bond_named": true,
+          "meeko_would_bond_closest": true
+        },
+        "fixer_cleaned": {
+          "res1": {
+            "chain": "A",
+            "seq": 1024,
+            "prev_seq": 1023,
+            "next_seq": 1025,
+            "prev_CN": 1.355,
+            "next_CN": 1.336,
+            "is_internal_gap_prev": false,
+            "is_internal_gap_next": false,
+            "present_atoms": [
+              "N",
+              "CA",
+              "C",
+              "O",
+              "CB",
+              "CG",
+              "CD1",
+              "CD2"
+            ]
+          },
+          "res2": {
+            "chain": "A",
+            "seq": 1041,
+            "prev_seq": 1040,
+            "next_seq": 1042,
+            "prev_CN": 1.342,
+            "next_CN": 1.348,
+            "is_internal_gap_prev": false,
+            "is_internal_gap_next": false,
+            "present_atoms": [
+              "N",
+              "CA",
+              "C",
+              "O",
+              "CB",
+              "CG",
+              "CD",
+              "NE",
+              "CZ",
+              "NH1",
+              "NH2"
+            ]
+          },
+          "named_pair": {
+            "a": {
+              "chain": "A",
+              "seq": 1024,
+              "ins": "",
+              "comp": "LEU",
+              "name": "CD1",
+              "alt": ".",
+              "occ": 1.0,
+              "elem": "C",
+              "xyz": [
+                1.948,
+                -14.246,
+                12.362
+              ]
+            },
+            "b": {
+              "chain": "A",
+              "seq": 1041,
+              "ins": "",
+              "comp": "ARG",
+              "name": "NH2",
+              "alt": ".",
+              "occ": 1.0,
+              "elem": "N",
+              "xyz": [
+                1.6,
+                -12.623,
+                12.043
+              ]
+            },
+            "distance": 1.69,
+            "meeko_threshold": 1.764,
+            "meeko_covalent_hit": true
+          },
+          "closest_pair": {
+            "a": {
+              "chain": "A",
+              "seq": 1024,
+              "ins": "",
+              "comp": "LEU",
+              "name": "CD1",
+              "alt": ".",
+              "occ": 1.0,
+              "elem": "C",
+              "xyz": [
+                1.948,
+                -14.246,
+                12.362
+              ]
+            },
+            "b": {
+              "chain": "A",
+              "seq": 1041,
+              "ins": "",
+              "comp": "ARG",
+              "name": "NH2",
+              "alt": ".",
+              "occ": 1.0,
+              "elem": "N",
+              "xyz": [
+                1.6,
+                -12.623,
+                12.043
+              ]
+            },
+            "distance": 1.69,
+            "meeko_threshold": 1.764,
+            "meeko_covalent_hit": true
+          },
+          "meeko_would_bond_named": true,
+          "meeko_would_bond_closest": true
+        },
+        "ptr_fallback": {
+          "res1": {
+            "chain": "A",
+            "seq": 1024,
+            "prev_seq": 1023,
+            "next_seq": 1025,
+            "prev_CN": 1.355,
+            "next_CN": 1.336,
+            "is_internal_gap_prev": false,
+            "is_internal_gap_next": false,
+            "present_atoms": [
+              "N",
+              "CA",
+              "C",
+              "O",
+              "CB",
+              "CG",
+              "CD1",
+              "CD2"
+            ]
+          },
+          "res2": {
+            "chain": "A",
+            "seq": 1041,
+            "prev_seq": 1040,
+            "next_seq": 1042,
+            "prev_CN": 1.342,
+            "next_CN": 1.348,
+            "is_internal_gap_prev": false,
+            "is_internal_gap_next": false,
+            "present_atoms": [
+              "N",
+              "CA",
+              "C",
+              "O",
+              "CB",
+              "CG",
+              "CD",
+              "NE",
+              "CZ",
+              "NH1",
+              "NH2"
+            ]
+          },
+          "named_pair": {
+            "a": {
+              "chain": "A",
+              "seq": 1024,
+              "ins": "",
+              "comp": "LEU",
+              "name": "CD1",
+              "alt": ".",
+              "occ": 1.0,
+              "elem": "C",
+              "xyz": [
+                1.948,
+                -14.246,
+                12.362
+              ]
+            },
+            "b": {
+              "chain": "A",
+              "seq": 1041,
+              "ins": "",
+              "comp": "ARG",
+              "name": "NH2",
+              "alt": ".",
+              "occ": 1.0,
+              "elem": "N",
+              "xyz": [
+                1.6,
+                -12.623,
+                12.043
+              ]
+            },
+            "distance": 1.69,
+            "meeko_threshold": 1.764,
+            "meeko_covalent_hit": true
+          },
+          "closest_pair": {
+            "a": {
+              "chain": "A",
+              "seq": 1024,
+              "ins": "",
+              "comp": "LEU",
+              "name": "CD1",
+              "alt": ".",
+              "occ": 1.0,
+              "elem": "C",
+              "xyz": [
+                1.948,
+                -14.246,
+                12.362
+              ]
+            },
+            "b": {
+              "chain": "A",
+              "seq": 1041,
+              "ins": "",
+              "comp": "ARG",
+              "name": "NH2",
+              "alt": ".",
+              "occ": 1.0,
+              "elem": "N",
+              "xyz": [
+                1.6,
+                -12.623,
+                12.043
+              ]
+            },
+            "distance": 1.69,
+            "meeko_threshold": 1.764,
+            "meeko_covalent_hit": true
+          },
+          "meeko_would_bond_named": true,
+          "meeko_would_bond_closest": true
+        },
+        "prepared": {
+          "res1": {
+            "chain": "A",
+            "seq": 1024,
+            "prev_seq": 1023,
+            "next_seq": 1025,
+            "prev_CN": 1.355,
+            "next_CN": 1.336,
+            "is_internal_gap_prev": false,
+            "is_internal_gap_next": false,
+            "present_atoms": [
+              "N",
+              "CA",
+              "C",
+              "O",
+              "CB",
+              "CG",
+              "CD1",
+              "CD2"
+            ]
+          },
+          "res2": {
+            "chain": "A",
+            "seq": 1041,
+            "prev_seq": 1040,
+            "next_seq": 1042,
+            "prev_CN": 1.342,
+            "next_CN": 1.348,
+            "is_internal_gap_prev": false,
+            "is_internal_gap_next": false,
+            "present_atoms": [
+              "N",
+              "CA",
+              "C",
+              "O",
+              "CB",
+              "CG",
+              "CD",
+              "NE",
+              "CZ",
+              "NH1",
+              "NH2"
+            ]
+          },
+          "named_pair": {
+            "a": {
+              "chain": "A",
+              "seq": 1024,
+              "ins": "",
+              "comp": "LEU",
+              "name": "CD1",
+              "alt": ".",
+              "occ": 1.0,
+              "elem": "C",
+              "xyz": [
+                1.948,
+                -14.246,
+                12.362
+              ]
+            },
+            "b": {
+              "chain": "A",
+              "seq": 1041,
+              "ins": "",
+              "comp": "ARG",
+              "name": "NH2",
+              "alt": ".",
+              "occ": 1.0,
+              "elem": "N",
+              "xyz": [
+                1.6,
+                -12.623,
+                12.043
+              ]
+            },
+            "distance": 1.69,
+            "meeko_threshold": 1.764,
+            "meeko_covalent_hit": true
+          },
+          "closest_pair": {
+            "a": {
+              "chain": "A",
+              "seq": 1024,
+              "ins": "",
+              "comp": "LEU",
+              "name": "CD1",
+              "alt": ".",
+              "occ": 1.0,
+              "elem": "C",
+              "xyz": [
+                1.948,
+                -14.246,
+                12.362
+              ]
+            },
+            "b": {
+              "chain": "A",
+              "seq": 1041,
+              "ins": "",
+              "comp": "ARG",
+              "name": "NH2",
+              "alt": ".",
+              "occ": 1.0,
+              "elem": "N",
+              "xyz": [
+                1.6,
+                -12.623,
+                12.043
+              ]
+            },
+            "distance": 1.69,
+            "meeko_threshold": 1.764,
+            "meeko_covalent_hit": true
+          },
+          "meeko_would_bond_named": true,
+          "meeko_would_bond_closest": true
+        }
+      },
+      "origin": {
+        "contact_in_frozen_cif": false,
+        "min_named_distance_cif": null,
+        "named_distance_prepared": 1.69,
+        "introduced_by_preparation": false,
+        "is_disulfide": false,
+        "is_polymer_break": false,
+        "is_real_covalent_chemistry": false,
+        "template_or_boundary_can_represent_true_chemistry": false,
+        "reason": "Meeko 0.7.1 find_inter_mols_bonds treats this non-canonical close contact as a covalent inter-residue bond (allowance 1.2 * covalent radii). It is not a disulfide and not a polymer break. CYX / blunt-end / standard residue templates cannot represent a false C\u2013N/C\u2013O sidechain bond."
+      },
+      "query": {
+        "res1": "A:1024:CD1",
+        "res2": "A:1041:NH2"
+      },
+      "cif_all_altlocs": {
+        "residue_comps": [
+          "ARG",
+          "LEU"
+        ],
+        "named_pair_all_altlocs": [],
+        "closest_contacts_any_atom": [
+          {
+            "a": {
+              "chain": "A",
+              "seq": 1024,
+              "ins": "",
+              "comp": "LEU",
+              "name": "CD2",
+              "alt": ".",
+              "occ": 1.0,
+              "elem": "C",
+              "xyz": [
+                -0.161,
+                -14.153,
+                13.735
+              ]
+            },
+            "b": {
+              "chain": "A",
+              "seq": 1041,
+              "ins": "",
+              "comp": "ARG",
+              "name": "CB",
+              "alt": ".",
+              "occ": 1.0,
+              "elem": "C",
+              "xyz": [
+                -0.039,
+                -7.898,
+                15.275
+              ]
+            },
+            "distance": 6.443,
+            "meeko_covalent_hit": false
+          },
+          {
+            "a": {
+              "chain": "A",
+              "seq": 1024,
+              "ins": "",
+              "comp": "LEU",
+              "name": "CD1",
+              "alt": ".",
+              "occ": 1.0,
+              "elem": "C",
+              "xyz": [
+                1.948,
+                -14.246,
+                12.362
+              ]
+            },
+            "b": {
+              "chain": "A",
+              "seq": 1041,
+              "ins": "",
+              "comp": "ARG",
+              "name": "CB",
+              "alt": ".",
+              "occ": 1.0,
+              "elem": "C",
+              "xyz": [
+                -0.039,
+                -7.898,
+                15.275
+              ]
+            },
+            "distance": 7.262,
+            "meeko_covalent_hit": false
+          },
+          {
+            "a": {
+              "chain": "A",
+              "seq": 1024,
+              "ins": "",
+              "comp": "LEU",
+              "name": "CG",
+              "alt": ".",
+              "occ": 1.0,
+              "elem": "C",
+              "xyz": [
+                0.797,
+                -15.053,
+                12.99
+              ]
+            },
+            "b": {
+              "chain": "A",
+              "seq": 1041,
+              "ins": "",
+              "comp": "ARG",
+              "name": "CB",
+              "alt": ".",
+              "occ": 1.0,
+              "elem": "C",
+              "xyz": [
+                -0.039,
+                -7.898,
+                15.275
+              ]
+            },
+            "distance": 7.557,
+            "meeko_covalent_hit": false
+          },
+          {
+            "a": {
+              "chain": "A",
+              "seq": 1024,
+              "ins": "",
+              "comp": "LEU",
+              "name": "CD2",
+              "alt": ".",
+              "occ": 1.0,
+              "elem": "C",
+              "xyz": [
+                -0.161,
+                -14.153,
+                13.735
+              ]
+            },
+            "b": {
+              "chain": "A",
+              "seq": 1041,
+              "ins": "",
+              "comp": "ARG",
+              "name": "CA",
+              "alt": ".",
+              "occ": 1.0,
+              "elem": "C",
+              "xyz": [
+                0.661,
+                -6.535,
+                15.382
+              ]
+            },
+            "distance": 7.837,
+            "meeko_covalent_hit": false
+          },
+          {
+            "a": {
+              "chain": "A",
+              "seq": 1024,
+              "ins": "",
+              "comp": "LEU",
+              "name": "CD2",
+              "alt": ".",
+              "occ": 1.0,
+              "elem": "C",
+              "xyz": [
+                -0.161,
+                -14.153,
+                13.735
+              ]
+            },
+            "b": {
+              "chain": "A",
+              "seq": 1041,
+              "ins": "",
+              "comp": "ARG",
+              "name": "C",
+              "alt": ".",
+              "occ": 1.0,
+              "elem": "C",
+              "xyz": [
+                2.084,
+                -6.626,
+                14.829
+              ]
+            },
+            "distance": 7.93,
+            "meeko_covalent_hit": false
+          },
+          {
+            "a": {
+              "chain": "A",
+              "seq": 1024,
+              "ins": "",
+              "comp": "LEU",
+              "name": "CD1",
+              "alt": ".",
+              "occ": 1.0,
+              "elem": "C",
+              "xyz": [
+                1.948,
+                -14.246,
+                12.362
+              ]
+            },
+            "b": {
+              "chain": "A",
+              "seq": 1041,
+              "ins": "",
+              "comp": "ARG",
+              "name": "C",
+              "alt": ".",
+              "occ": 1.0,
+              "elem": "C",
+              "xyz": [
+                2.084,
+                -6.626,
+                14.829
+              ]
+            },
+            "distance": 8.011,
+            "meeko_covalent_hit": false
+          },
+          {
+            "a": {
+              "chain": "A",
+              "seq": 1024,
+              "ins": "",
+              "comp": "LEU",
+              "name": "CD1",
+              "alt": ".",
+              "occ": 1.0,
+              "elem": "C",
+              "xyz": [
+                1.948,
+                -14.246,
+                12.362
+              ]
+            },
+            "b": {
+              "chain": "A",
+              "seq": 1041,
+              "ins": "",
+              "comp": "ARG",
+              "name": "O",
+              "alt": ".",
+              "occ": 1.0,
+              "elem": "O",
+              "xyz": [
+                2.32,
+                -6.292,
+                13.668
+              ]
+            },
+            "distance": 8.069,
+            "meeko_covalent_hit": false
+          },
+          {
+            "a": {
+              "chain": "A",
+              "seq": 1024,
+              "ins": "",
+              "comp": "LEU",
+              "name": "CD2",
+              "alt": ".",
+              "occ": 1.0,
+              "elem": "C",
+              "xyz": [
+                -0.161,
+                -14.153,
+                13.735
+              ]
+            },
+            "b": {
+              "chain": "A",
+              "seq": 1041,
+              "ins": "",
+              "comp": "ARG",
+              "name": "O",
+              "alt": ".",
+              "occ": 1.0,
+              "elem": "O",
+              "xyz": [
+                2.32,
+                -6.292,
+                13.668
+              ]
+            },
+            "distance": 8.243,
+            "meeko_covalent_hit": false
+          }
+        ],
+        "res1_altlocs": [
+          "."
+        ],
+        "res2_altlocs": [
+          "."
+        ],
+        "res1_atoms": [
+          {
+            "chain": "A",
+            "seq": 1024,
+            "ins": "",
+            "comp": "LEU",
+            "name": "N",
+            "alt": ".",
+            "occ": 1.0,
+            "elem": "N",
+            "xyz": [
+              -1.036,
+              -17.633,
+              13.288
+            ]
+          },
+          {
+            "chain": "A",
+            "seq": 1024,
+            "ins": "",
+            "comp": "LEU",
+            "name": "CA",
+            "alt": ".",
+            "occ": 1.0,
+            "elem": "C",
+            "xyz": [
+              -1.226,
+              -16.595,
+              12.268
+            ]
+          },
+          {
+            "chain": "A",
+            "seq": 1024,
+            "ins": "",
+            "comp": "LEU",
+            "name": "C",
+            "alt": ".",
+            "occ": 1.0,
+            "elem": "C",
+            "xyz": [
+              -1.874,
+              -17.151,
+              11.011
+            ]
+          },
+          {
+            "chain": "A",
+            "seq": 1024,
+            "ins": "",
+            "comp": "LEU",
+            "name": "O",
+            "alt": ".",
+            "occ": 1.0,
+            "elem": "O",
+            "xyz": [
+              -1.997,
+              -16.416,
+              10.02
+            ]
+          },
+          {
+            "chain": "A",
+            "seq": 1024,
+            "ins": "",
+            "comp": "LEU",
+            "name": "CB",
+            "alt": ".",
+            "occ": 1.0,
+            "elem": "C",
+            "xyz": [
+              0.093,
+              -15.917,
+              11.904
+            ]
+          },
+          {
+            "chain": "A",
+            "seq": 1024,
+            "ins": "",
+            "comp": "LEU",
+            "name": "CG",
+            "alt": ".",
+            "occ": 1.0,
+            "elem": "C",
+            "xyz": [
+              0.797,
+              -15.053,
+              12.99
+            ]
+          },
+          {
+            "chain": "A",
+            "seq": 1024,
+            "ins": "",
+            "comp": "LEU",
+            "name": "CD1",
+            "alt": ".",
+            "occ": 1.0,
+            "elem": "C",
+            "xyz": [
+              1.948,
+              -14.246,
+              12.362
+            ]
+          },
+          {
+            "chain": "A",
+            "seq": 1024,
+            "ins": "",
+            "comp": "LEU",
+            "name": "CD2",
+            "alt": ".",
+            "occ": 1.0,
+            "elem": "C",
+            "xyz": [
+              -0.161,
+              -14.153,
+              13.735
+            ]
+          }
+        ],
+        "res2_atoms": [
+          {
+            "chain": "A",
+            "seq": 1041,
+            "ins": "",
+            "comp": "ARG",
+            "name": "N",
+            "alt": ".",
+            "occ": 1.0,
+            "elem": "N",
+            "xyz": [
+              -0.149,
+              -5.502,
+              14.74
+            ]
+          },
+          {
+            "chain": "A",
+            "seq": 1041,
+            "ins": "",
+            "comp": "ARG",
+            "name": "CA",
+            "alt": ".",
+            "occ": 1.0,
+            "elem": "C",
+            "xyz": [
+              0.661,
+              -6.535,
+              15.382
+            ]
+          },
+          {
+            "chain": "A",
+            "seq": 1041,
+            "ins": "",
+            "comp": "ARG",
+            "name": "C",
+            "alt": ".",
+            "occ": 1.0,
+            "elem": "C",
+            "xyz": [
+              2.084,
+              -6.626,
+              14.829
+            ]
+          },
+          {
+            "chain": "A",
+            "seq": 1041,
+            "ins": "",
+            "comp": "ARG",
+            "name": "O",
+            "alt": ".",
+            "occ": 1.0,
+            "elem": "O",
+            "xyz": [
+              2.32,
+              -6.292,
+              13.668
+            ]
+          },
+          {
+            "chain": "A",
+            "seq": 1041,
+            "ins": "",
+            "comp": "ARG",
+            "name": "CB",
+            "alt": ".",
+            "occ": 1.0,
+            "elem": "C",
+            "xyz": [
+              -0.039,
+              -7.898,
+              15.275
+            ]
+          }
+        ]
+      },
+      "coord_drift_raw_to_prepared": {
+        "A:1024:CD1": {
+          "dx": 0.0,
+          "dy": 0.0,
+          "dz": 0.0,
+          "d": 0.0
+        },
+        "A:1041:NH2": null
+      }
+    },
+    "8BXH": {
+      "primary_auth": [
+        "A"
+      ],
+      "altloc_choices_for_query_residues": {
+        "A:839:MET": "",
+        "A:918:TYR": ""
+      },
+      "stages": {
+        "frozen_cif_all_altlocs": {
+          "res1": {
+            "chain": "A",
+            "seq": 839,
+            "prev_seq": 838,
+            "next_seq": 840,
+            "prev_CN": 1.33,
+            "next_CN": 1.327,
+            "is_internal_gap_prev": false,
+            "is_internal_gap_next": false,
+            "present_atoms": [
+              "N",
+              "CA",
+              "C",
+              "O",
+              "CB",
+              "H",
+              "HA"
+            ]
+          },
+          "res2": {
+            "chain": "A",
+            "seq": 918,
+            "prev_seq": 917,
+            "next_seq": 919,
+            "prev_CN": 1.325,
+            "next_CN": 1.329,
+            "is_internal_gap_prev": false,
+            "is_internal_gap_next": false,
+            "present_atoms": [
+              "N",
+              "CA",
+              "C",
+              "O",
+              "CB",
+              "CG",
+              "CD1",
+              "CD2",
+              "CE1",
+              "CE2",
+              "CZ",
+              "OH",
+              "H",
+              "HA",
+              "HB2",
+              "HB3",
+              "HD1",
+              "HD2",
+              "HE1",
+              "HE2",
+              "HH"
+            ]
+          },
+          "named_pair": null,
+          "closest_pair": {
+            "a": {
+              "chain": "A",
+              "seq": 839,
+              "ins": "",
+              "comp": "MET",
+              "name": "CB",
+              "alt": ".",
+              "occ": 1.0,
+              "elem": "C",
+              "xyz": [
+                -28.893,
+                -1.108,
+                27.885
+              ]
+            },
+            "b": {
+              "chain": "A",
+              "seq": 918,
+              "ins": "",
+              "comp": "TYR",
+              "name": "OH",
+              "alt": ".",
+              "occ": 1.0,
+              "elem": "O",
+              "xyz": [
+                -27.398,
+                1.516,
+                28.367
+              ]
+            },
+            "distance": 3.058,
+            "meeko_threshold": 1.704,
+            "meeko_covalent_hit": false
+          },
+          "meeko_would_bond_named": null,
+          "meeko_would_bond_closest": false
+        },
+        "protein_raw": {
+          "res1": {
+            "chain": "A",
+            "seq": 839,
+            "prev_seq": 838,
+            "next_seq": 840,
+            "prev_CN": 1.33,
+            "next_CN": 1.326,
+            "is_internal_gap_prev": false,
+            "is_internal_gap_next": false,
+            "present_atoms": [
+              "N",
+              "CA",
+              "C",
+              "O",
+              "CB"
+            ]
+          },
+          "res2": {
+            "chain": "A",
+            "seq": 918,
+            "prev_seq": 917,
+            "next_seq": 919,
+            "prev_CN": 1.324,
+            "next_CN": 1.329,
+            "is_internal_gap_prev": false,
+            "is_internal_gap_next": false,
+            "present_atoms": [
+              "N",
+              "CA",
+              "C",
+              "O",
+              "CB",
+              "CG",
+              "CD1",
+              "CD2",
+              "CE1",
+              "CE2",
+              "CZ",
+              "OH"
+            ]
+          },
+          "named_pair": null,
+          "closest_pair": {
+            "a": {
+              "chain": "A",
+              "seq": 839,
+              "ins": "",
+              "comp": "MET",
+              "name": "CB",
+              "alt": ".",
+              "occ": 1.0,
+              "elem": "C",
+              "xyz": [
+                -28.893,
+                -1.108,
+                27.885
+              ]
+            },
+            "b": {
+              "chain": "A",
+              "seq": 918,
+              "ins": "",
+              "comp": "TYR",
+              "name": "OH",
+              "alt": ".",
+              "occ": 1.0,
+              "elem": "O",
+              "xyz": [
+                -27.398,
+                1.516,
+                28.367
+              ]
+            },
+            "distance": 3.058,
+            "meeko_threshold": 1.704,
+            "meeko_covalent_hit": false
+          },
+          "meeko_would_bond_named": null,
+          "meeko_would_bond_closest": false
+        },
+        "fixer_openmm": {
+          "res1": {
+            "chain": "A",
+            "seq": 839,
+            "prev_seq": 838,
+            "next_seq": 840,
+            "prev_CN": 1.33,
+            "next_CN": 1.326,
+            "is_internal_gap_prev": false,
+            "is_internal_gap_next": false,
+            "present_atoms": [
+              "N",
+              "CA",
+              "C",
+              "O",
+              "CB",
+              "CG",
+              "SD",
+              "CE"
+            ]
+          },
+          "res2": {
+            "chain": "A",
+            "seq": 918,
+            "prev_seq": 917,
+            "next_seq": 919,
+            "prev_CN": 1.324,
+            "next_CN": 1.329,
+            "is_internal_gap_prev": false,
+            "is_internal_gap_next": false,
+            "present_atoms": [
+              "N",
+              "CA",
+              "C",
+              "O",
+              "CB",
+              "CG",
+              "CD1",
+              "CD2",
+              "CE1",
+              "CE2",
+              "CZ",
+              "OH"
+            ]
+          },
+          "named_pair": {
+            "a": {
+              "chain": "A",
+              "seq": 839,
+              "ins": "",
+              "comp": "MET",
+              "name": "CE",
+              "alt": ".",
+              "occ": 1.0,
+              "elem": "C",
+              "xyz": [
+                -28.456,
+                2.142,
+                27.486
+              ]
+            },
+            "b": {
+              "chain": "A",
+              "seq": 918,
+              "ins": "",
+              "comp": "TYR",
+              "name": "OH",
+              "alt": ".",
+              "occ": 1.0,
+              "elem": "O",
+              "xyz": [
+                -27.398,
+                1.516,
+                28.367
+              ]
+            },
+            "distance": 1.512,
+            "meeko_threshold": 1.704,
+            "meeko_covalent_hit": true
+          },
+          "closest_pair": {
+            "a": {
+              "chain": "A",
+              "seq": 839,
+              "ins": "",
+              "comp": "MET",
+              "name": "CE",
+              "alt": ".",
+              "occ": 1.0,
+              "elem": "C",
+              "xyz": [
+                -28.456,
+                2.142,
+                27.486
+              ]
+            },
+            "b": {
+              "chain": "A",
+              "seq": 918,
+              "ins": "",
+              "comp": "TYR",
+              "name": "OH",
+              "alt": ".",
+              "occ": 1.0,
+              "elem": "O",
+              "xyz": [
+                -27.398,
+                1.516,
+                28.367
+              ]
+            },
+            "distance": 1.512,
+            "meeko_threshold": 1.704,
+            "meeko_covalent_hit": true
+          },
+          "meeko_would_bond_named": true,
+          "meeko_would_bond_closest": true
+        },
+        "fixer_cleaned": {
+          "res1": {
+            "chain": "A",
+            "seq": 839,
+            "prev_seq": 838,
+            "next_seq": 840,
+            "prev_CN": 1.33,
+            "next_CN": 1.326,
+            "is_internal_gap_prev": false,
+            "is_internal_gap_next": false,
+            "present_atoms": [
+              "N",
+              "CA",
+              "C",
+              "O",
+              "CB",
+              "CG",
+              "SD",
+              "CE"
+            ]
+          },
+          "res2": {
+            "chain": "A",
+            "seq": 918,
+            "prev_seq": 917,
+            "next_seq": 919,
+            "prev_CN": 1.324,
+            "next_CN": 1.329,
+            "is_internal_gap_prev": false,
+            "is_internal_gap_next": false,
+            "present_atoms": [
+              "N",
+              "CA",
+              "C",
+              "O",
+              "CB",
+              "CG",
+              "CD1",
+              "CD2",
+              "CE1",
+              "CE2",
+              "CZ",
+              "OH"
+            ]
+          },
+          "named_pair": {
+            "a": {
+              "chain": "A",
+              "seq": 839,
+              "ins": "",
+              "comp": "MET",
+              "name": "CE",
+              "alt": ".",
+              "occ": 1.0,
+              "elem": "C",
+              "xyz": [
+                -28.456,
+                2.142,
+                27.486
+              ]
+            },
+            "b": {
+              "chain": "A",
+              "seq": 918,
+              "ins": "",
+              "comp": "TYR",
+              "name": "OH",
+              "alt": ".",
+              "occ": 1.0,
+              "elem": "O",
+              "xyz": [
+                -27.398,
+                1.516,
+                28.367
+              ]
+            },
+            "distance": 1.512,
+            "meeko_threshold": 1.704,
+            "meeko_covalent_hit": true
+          },
+          "closest_pair": {
+            "a": {
+              "chain": "A",
+              "seq": 839,
+              "ins": "",
+              "comp": "MET",
+              "name": "CE",
+              "alt": ".",
+              "occ": 1.0,
+              "elem": "C",
+              "xyz": [
+                -28.456,
+                2.142,
+                27.486
+              ]
+            },
+            "b": {
+              "chain": "A",
+              "seq": 918,
+              "ins": "",
+              "comp": "TYR",
+              "name": "OH",
+              "alt": ".",
+              "occ": 1.0,
+              "elem": "O",
+              "xyz": [
+                -27.398,
+                1.516,
+                28.367
+              ]
+            },
+            "distance": 1.512,
+            "meeko_threshold": 1.704,
+            "meeko_covalent_hit": true
+          },
+          "meeko_would_bond_named": true,
+          "meeko_would_bond_closest": true
+        },
+        "ptr_fallback": {
+          "res1": {
+            "chain": "A",
+            "seq": 839,
+            "prev_seq": 838,
+            "next_seq": 840,
+            "prev_CN": 1.33,
+            "next_CN": 1.326,
+            "is_internal_gap_prev": false,
+            "is_internal_gap_next": false,
+            "present_atoms": [
+              "N",
+              "CA",
+              "C",
+              "O",
+              "CB",
+              "CG",
+              "SD",
+              "CE"
+            ]
+          },
+          "res2": {
+            "chain": "A",
+            "seq": 918,
+            "prev_seq": 917,
+            "next_seq": 919,
+            "prev_CN": 1.324,
+            "next_CN": 1.329,
+            "is_internal_gap_prev": false,
+            "is_internal_gap_next": false,
+            "present_atoms": [
+              "N",
+              "CA",
+              "C",
+              "O",
+              "CB",
+              "CG",
+              "CD1",
+              "CD2",
+              "CE1",
+              "CE2",
+              "CZ",
+              "OH"
+            ]
+          },
+          "named_pair": {
+            "a": {
+              "chain": "A",
+              "seq": 839,
+              "ins": "",
+              "comp": "MET",
+              "name": "CE",
+              "alt": ".",
+              "occ": 1.0,
+              "elem": "C",
+              "xyz": [
+                -28.456,
+                2.142,
+                27.486
+              ]
+            },
+            "b": {
+              "chain": "A",
+              "seq": 918,
+              "ins": "",
+              "comp": "TYR",
+              "name": "OH",
+              "alt": ".",
+              "occ": 1.0,
+              "elem": "O",
+              "xyz": [
+                -27.398,
+                1.516,
+                28.367
+              ]
+            },
+            "distance": 1.512,
+            "meeko_threshold": 1.704,
+            "meeko_covalent_hit": true
+          },
+          "closest_pair": {
+            "a": {
+              "chain": "A",
+              "seq": 839,
+              "ins": "",
+              "comp": "MET",
+              "name": "CE",
+              "alt": ".",
+              "occ": 1.0,
+              "elem": "C",
+              "xyz": [
+                -28.456,
+                2.142,
+                27.486
+              ]
+            },
+            "b": {
+              "chain": "A",
+              "seq": 918,
+              "ins": "",
+              "comp": "TYR",
+              "name": "OH",
+              "alt": ".",
+              "occ": 1.0,
+              "elem": "O",
+              "xyz": [
+                -27.398,
+                1.516,
+                28.367
+              ]
+            },
+            "distance": 1.512,
+            "meeko_threshold": 1.704,
+            "meeko_covalent_hit": true
+          },
+          "meeko_would_bond_named": true,
+          "meeko_would_bond_closest": true
+        },
+        "prepared": {
+          "res1": {
+            "chain": "A",
+            "seq": 839,
+            "prev_seq": 838,
+            "next_seq": 840,
+            "prev_CN": 1.33,
+            "next_CN": 1.326,
+            "is_internal_gap_prev": false,
+            "is_internal_gap_next": false,
+            "present_atoms": [
+              "N",
+              "CA",
+              "C",
+              "O",
+              "CB",
+              "CG",
+              "SD",
+              "CE"
+            ]
+          },
+          "res2": {
+            "chain": "A",
+            "seq": 918,
+            "prev_seq": 917,
+            "next_seq": 919,
+            "prev_CN": 1.324,
+            "next_CN": 1.329,
+            "is_internal_gap_prev": false,
+            "is_internal_gap_next": false,
+            "present_atoms": [
+              "N",
+              "CA",
+              "C",
+              "O",
+              "CB",
+              "CG",
+              "CD1",
+              "CD2",
+              "CE1",
+              "CE2",
+              "CZ",
+              "OH"
+            ]
+          },
+          "named_pair": {
+            "a": {
+              "chain": "A",
+              "seq": 839,
+              "ins": "",
+              "comp": "MET",
+              "name": "CE",
+              "alt": ".",
+              "occ": 1.0,
+              "elem": "C",
+              "xyz": [
+                -28.456,
+                2.142,
+                27.486
+              ]
+            },
+            "b": {
+              "chain": "A",
+              "seq": 918,
+              "ins": "",
+              "comp": "TYR",
+              "name": "OH",
+              "alt": ".",
+              "occ": 1.0,
+              "elem": "O",
+              "xyz": [
+                -27.398,
+                1.516,
+                28.367
+              ]
+            },
+            "distance": 1.512,
+            "meeko_threshold": 1.704,
+            "meeko_covalent_hit": true
+          },
+          "closest_pair": {
+            "a": {
+              "chain": "A",
+              "seq": 839,
+              "ins": "",
+              "comp": "MET",
+              "name": "CE",
+              "alt": ".",
+              "occ": 1.0,
+              "elem": "C",
+              "xyz": [
+                -28.456,
+                2.142,
+                27.486
+              ]
+            },
+            "b": {
+              "chain": "A",
+              "seq": 918,
+              "ins": "",
+              "comp": "TYR",
+              "name": "OH",
+              "alt": ".",
+              "occ": 1.0,
+              "elem": "O",
+              "xyz": [
+                -27.398,
+                1.516,
+                28.367
+              ]
+            },
+            "distance": 1.512,
+            "meeko_threshold": 1.704,
+            "meeko_covalent_hit": true
+          },
+          "meeko_would_bond_named": true,
+          "meeko_would_bond_closest": true
+        }
+      },
+      "origin": {
+        "contact_in_frozen_cif": false,
+        "min_named_distance_cif": null,
+        "named_distance_prepared": 1.512,
+        "introduced_by_preparation": false,
+        "is_disulfide": false,
+        "is_polymer_break": false,
+        "is_real_covalent_chemistry": false,
+        "template_or_boundary_can_represent_true_chemistry": false,
+        "reason": "Meeko 0.7.1 find_inter_mols_bonds treats this non-canonical close contact as a covalent inter-residue bond (allowance 1.2 * covalent radii). It is not a disulfide and not a polymer break. CYX / blunt-end / standard residue templates cannot represent a false C\u2013N/C\u2013O sidechain bond."
+      },
+      "query": {
+        "res1": "A:839:CE",
+        "res2": "A:918:OH"
+      },
+      "cif_all_altlocs": {
+        "residue_comps": [
+          "MET",
+          "TYR"
+        ],
+        "named_pair_all_altlocs": [],
+        "closest_contacts_any_atom": [
+          {
+            "a": {
+              "chain": "A",
+              "seq": 839,
+              "ins": "",
+              "comp": "MET",
+              "name": "CB",
+              "alt": ".",
+              "occ": 1.0,
+              "elem": "C",
+              "xyz": [
+                -28.893,
+                -1.108,
+                27.885
+              ]
+            },
+            "b": {
+              "chain": "A",
+              "seq": 918,
+              "ins": "",
+              "comp": "TYR",
+              "name": "OH",
+              "alt": ".",
+              "occ": 1.0,
+              "elem": "O",
+              "xyz": [
+                -27.398,
+                1.516,
+                28.367
+              ]
+            },
+            "distance": 3.058,
+            "meeko_covalent_hit": false
+          },
+          {
+            "a": {
+              "chain": "A",
+              "seq": 839,
+              "ins": "",
+              "comp": "MET",
+              "name": "CB",
+              "alt": ".",
+              "occ": 1.0,
+              "elem": "C",
+              "xyz": [
+                -28.893,
+                -1.108,
+                27.885
+              ]
+            },
+            "b": {
+              "chain": "A",
+              "seq": 918,
+              "ins": "",
+              "comp": "TYR",
+              "name": "HH",
+              "alt": ".",
+              "occ": 1.0,
+              "elem": "H",
+              "xyz": [
+                -28.013,
+                2.083,
+                28.286
+              ]
+            },
+            "distance": 3.335,
+            "meeko_covalent_hit": false
+          },
+          {
+            "a": {
+              "chain": "A",
+              "seq": 839,
+              "ins": "",
+              "comp": "MET",
+              "name": "CB",
+              "alt": ".",
+              "occ": 1.0,
+              "elem": "C",
+              "xyz": [
+                -28.893,
+                -1.108,
+                27.885
+              ]
+            },
+            "b": {
+              "chain": "A",
+              "seq": 918,
+              "ins": "",
+              "comp": "TYR",
+              "name": "CZ",
+              "alt": ".",
+              "occ": 1.0,
+              "elem": "C",
+              "xyz": [
+                -26.715,
+                1.725,
+                29.545
+              ]
+            },
+            "distance": 3.94,
+            "meeko_covalent_hit": false
+          },
+          {
+            "a": {
+              "chain": "A",
+              "seq": 839,
+              "ins": "",
+              "comp": "MET",
+              "name": "CB",
+              "alt": ".",
+              "occ": 1.0,
+              "elem": "C",
+              "xyz": [
+                -28.893,
+                -1.108,
+                27.885
+              ]
+            },
+            "b": {
+              "chain": "A",
+              "seq": 918,
+              "ins": "",
+              "comp": "TYR",
+              "name": "HE2",
+              "alt": ".",
+              "occ": 1.0,
+              "elem": "H",
+              "xyz": [
+                -25.448,
+                0.186,
+                29.321
+              ]
+            },
+            "distance": 3.95,
+            "meeko_covalent_hit": false
+          },
+          {
+            "a": {
+              "chain": "A",
+              "seq": 839,
+              "ins": "",
+              "comp": "MET",
+              "name": "CB",
+              "alt": ".",
+              "occ": 1.0,
+              "elem": "C",
+              "xyz": [
+                -28.893,
+                -1.108,
+                27.885
+              ]
+            },
+            "b": {
+              "chain": "A",
+              "seq": 918,
+              "ins": "",
+              "comp": "TYR",
+              "name": "CE2",
+              "alt": ".",
+              "occ": 1.0,
+              "elem": "C",
+              "xyz": [
+                -25.68,
+                0.891,
+                29.881
+              ]
+            },
+            "distance": 4.278,
+            "meeko_covalent_hit": false
+          },
+          {
+            "a": {
+              "chain": "A",
+              "seq": 839,
+              "ins": "",
+              "comp": "MET",
+              "name": "CA",
+              "alt": ".",
+              "occ": 1.0,
+              "elem": "C",
+              "xyz": [
+                -28.797,
+                -2.353,
+                26.998
+              ]
+            },
+            "b": {
+              "chain": "A",
+              "seq": 918,
+              "ins": "",
+              "comp": "TYR",
+              "name": "OH",
+              "alt": ".",
+              "occ": 1.0,
+              "elem": "O",
+              "xyz": [
+                -27.398,
+                1.516,
+                28.367
+              ]
+            },
+            "distance": 4.336,
+            "meeko_covalent_hit": false
+          },
+          {
+            "a": {
+              "chain": "A",
+              "seq": 839,
+              "ins": "",
+              "comp": "MET",
+              "name": "HA",
+              "alt": ".",
+              "occ": 1.0,
+              "elem": "H",
+              "xyz": [
+                -28.516,
+                -2.053,
+                26.12
+              ]
+            },
+            "b": {
+              "chain": "A",
+              "seq": 918,
+              "ins": "",
+              "comp": "TYR",
+              "name": "OH",
+              "alt": ".",
+              "occ": 1.0,
+              "elem": "O",
+              "xyz": [
+                -27.398,
+                1.516,
+                28.367
+              ]
+            },
+            "distance": 4.363,
+            "meeko_covalent_hit": false
+          },
+          {
+            "a": {
+              "chain": "A",
+              "seq": 839,
+              "ins": "",
+              "comp": "MET",
+              "name": "C",
+              "alt": ".",
+              "occ": 1.0,
+              "elem": "C",
+              "xyz": [
+                -27.786,
+                -3.333,
+                27.57
+              ]
+            },
+            "b": {
+              "chain": "A",
+              "seq": 918,
+              "ins": "",
+              "comp": "TYR",
+              "name": "HE2",
+              "alt": ".",
+              "occ": 1.0,
+              "elem": "H",
+              "xyz": [
+                -25.448,
+                0.186,
+                29.321
+              ]
+            },
+            "distance": 4.573,
+            "meeko_covalent_hit": false
+          }
+        ],
+        "res1_altlocs": [
+          "."
+        ],
+        "res2_altlocs": [
+          "."
+        ],
+        "res1_atoms": [
+          {
+            "chain": "A",
+            "seq": 839,
+            "ins": "",
+            "comp": "MET",
+            "name": "N",
+            "alt": ".",
+            "occ": 1.0,
+            "elem": "N",
+            "xyz": [
+              -30.066,
+              -3.056,
+              26.911
+            ]
+          },
+          {
+            "chain": "A",
+            "seq": 839,
+            "ins": "",
+            "comp": "MET",
+            "name": "CA",
+            "alt": ".",
+            "occ": 1.0,
+            "elem": "C",
+            "xyz": [
+              -28.797,
+              -2.353,
+              26.998
+            ]
+          },
+          {
+            "chain": "A",
+            "seq": 839,
+            "ins": "",
+            "comp": "MET",
+            "name": "C",
+            "alt": ".",
+            "occ": 1.0,
+            "elem": "C",
+            "xyz": [
+              -27.786,
+              -3.333,
+              27.57
+            ]
+          },
+          {
+            "chain": "A",
+            "seq": 839,
+            "ins": "",
+            "comp": "MET",
+            "name": "O",
+            "alt": ".",
+            "occ": 1.0,
+            "elem": "O",
+            "xyz": [
+              -28.149,
+              -4.264,
+              28.292
+            ]
+          },
+          {
+            "chain": "A",
+            "seq": 839,
+            "ins": "",
+            "comp": "MET",
+            "name": "CB",
+            "alt": ".",
+            "occ": 1.0,
+            "elem": "C",
+            "xyz": [
+              -28.893,
+              -1.108,
+              27.885
+            ]
+          },
+          {
+            "chain": "A",
+            "seq": 839,
+            "ins": "",
+            "comp": "MET",
+            "name": "H",
+            "alt": ".",
+            "occ": 1.0,
+            "elem": "H",
+            "xyz": [
+              -30.178,
+              -3.639,
+              27.533
+            ]
+          },
+          {
+            "chain": "A",
+            "seq": 839,
+            "ins": "",
+            "comp": "MET",
+            "name": "HA",
+            "alt": ".",
+            "occ": 1.0,
+            "elem": "H",
+            "xyz": [
+              -28.516,
+              -2.053,
+              26.12
+            ]
+          }
+        ],
+        "res2_atoms": [
+          {
+            "chain": "A",
+            "seq": 918,
+            "ins": "",
+            "comp": "TYR",
+            "name": "N",
+            "alt": ".",
+            "occ": 1.0,
+            "elem": "N",
+            "xyz": [
+              -22.447,
+              2.856,
+              32.08
+            ]
+          },
+          {
+            "chain": "A",
+            "seq": 918,
+            "ins": "",
+            "comp": "TYR",
+            "name": "CA",
+            "alt": ".",
+            "occ": 1.0,
+            "elem": "C",
+            "xyz": [
+              -23.401,
+              3.327,
+              33.08
+            ]
+          },
+          {
+            "chain": "A",
+            "seq": 918,
+            "ins": "",
+            "comp": "TYR",
+            "name": "C",
+            "alt": ".",
+            "occ": 1.0,
+            "elem": "C",
+            "xyz": [
+              -22.626,
+              3.477,
+              34.385
+            ]
+          },
+          {
+            "chain": "A",
+            "seq": 918,
+            "ins": "",
+            "comp": "TYR",
+            "name": "O",
+            "alt": ".",
+            "occ": 1.0,
+            "elem": "O",
+            "xyz": [
+              -22.609,
+              2.592,
+              35.239
+            ]
+          },
+          {
+            "chain": "A",
+            "seq": 918,
+            "ins": "",
+            "comp": "TYR",
+            "name": "CB",
+            "alt": ".",
+            "occ": 1.0,
+            "elem": "C",
+            "xyz": [
+              -24.565,
+              2.349,
+              33.204
+            ]
+          },
+          {
+            "chain": "A",
+            "seq": 918,
+            "ins": "",
+            "comp": "TYR",
+            "name": "CG",
+            "alt": ".",
+            "occ": 1.0,
+            "elem": "C",
+            "xyz": [
+              -25.321,
+              2.135,
+              31.911
+            ]
+          },
+          {
+            "chain": "A",
+            "seq": 918,
+            "ins": "",
+            "comp": "TYR",
+            "name": "CD1",
+            "alt": ".",
+            "occ": 1.0,
+            "elem": "C",
+            "xyz": [
+              -26.363,
+              2.971,
+              31.543
+            ]
+          },
+          {
+            "chain": "A",
+            "seq": 918,
+            "ins": "",
+            "comp": "TYR",
+            "name": "CD2",
+            "alt": ".",
+            "occ": 1.0,
+            "elem": "C",
+            "xyz": [
+              -24.986,
+              1.1,
+              31.053
+            ]
+          },
+          {
+            "chain": "A",
+            "seq": 918,
+            "ins": "",
+            "comp": "TYR",
+            "name": "CE1",
+            "alt": ".",
+            "occ": 1.0,
+            "elem": "C",
+            "xyz": [
+              -27.061,
+              2.767,
+              30.372
+            ]
+          },
+          {
+            "chain": "A",
+            "seq": 918,
+            "ins": "",
+            "comp": "TYR",
+            "name": "CE2",
+            "alt": ".",
+            "occ": 1.0,
+            "elem": "C",
+            "xyz": [
+              -25.68,
+              0.891,
+              29.881
+            ]
+          },
+          {
+            "chain": "A",
+            "seq": 918,
+            "ins": "",
+            "comp": "TYR",
+            "name": "CZ",
+            "alt": ".",
+            "occ": 1.0,
+            "elem": "C",
+            "xyz": [
+              -26.715,
+              1.725,
+              29.545
+            ]
+          },
+          {
+            "chain": "A",
+            "seq": 918,
+            "ins": "",
+            "comp": "TYR",
+            "name": "OH",
+            "alt": ".",
+            "occ": 1.0,
+            "elem": "O",
+            "xyz": [
+              -27.398,
+              1.516,
+              28.367
+            ]
+          },
+          {
+            "chain": "A",
+            "seq": 918,
+            "ins": "",
+            "comp": "TYR",
+            "name": "H",
+            "alt": ".",
+            "occ": 1.0,
+            "elem": "H",
+            "xyz": [
+              -22.337,
+              2.003,
+              32.078
+            ]
+          },
+          {
+            "chain": "A",
+            "seq": 918,
+            "ins": "",
+            "comp": "TYR",
+            "name": "HA",
+            "alt": ".",
+            "occ": 1.0,
+            "elem": "H",
+            "xyz": [
+              -23.766,
+              4.189,
+              32.826
+            ]
+          },
+          {
+            "chain": "A",
+            "seq": 918,
+            "ins": "",
+            "comp": "TYR",
+            "name": "HB2",
+            "alt": ".",
+            "occ": 1.0,
+            "elem": "H",
+            "xyz": [
+              -24.22,
+              1.489,
+              33.491
+            ]
+          },
+          {
+            "chain": "A",
+            "seq": 918,
+            "ins": "",
+            "comp": "TYR",
+            "name": "HB3",
+            "alt": ".",
+            "occ": 1.0,
+            "elem": "H",
+            "xyz": [
+              -25.192,
+              2.691,
+              33.86
+            ]
+          },
+          {
+            "chain": "A",
+            "seq": 918,
+            "ins": "",
+            "comp": "TYR",
+            "name": "HD1",
+            "alt": ".",
+            "occ": 1.0,
+            "elem": "H",
+            "xyz": [
+              -26.595,
+              3.682,
+              32.096
+            ]
+          },
+          {
+            "chain": "A",
+            "seq": 918,
+            "ins": "",
+            "comp": "TYR",
+            "name": "HD2",
+            "alt": ".",
+            "occ": 1.0,
+            "elem": "H",
+            "xyz": [
+              -24.279,
+              0.536,
+              31.272
+            ]
+          },
+          {
+            "chain": "A",
+            "seq": 918,
+            "ins": "",
+            "comp": "TYR",
+            "name": "HE1",
+            "alt": ".",
+            "occ": 1.0,
+            "elem": "H",
+            "xyz": [
+              -27.764,
+              3.332,
+              30.143
+            ]
+          },
+          {
+            "chain": "A",
+            "seq": 918,
+            "ins": "",
+            "comp": "TYR",
+            "name": "HE2",
+            "alt": ".",
+            "occ": 1.0,
+            "elem": "H",
+            "xyz": [
+              -25.448,
+              0.186,
+              29.321
+            ]
+          },
+          {
+            "chain": "A",
+            "seq": 918,
+            "ins": "",
+            "comp": "TYR",
+            "name": "HH",
+            "alt": ".",
+            "occ": 1.0,
+            "elem": "H",
+            "xyz": [
+              -28.013,
+              2.083,
+              28.286
+            ]
+          }
+        ]
+      },
+      "coord_drift_raw_to_prepared": {
+        "A:839:CE": null,
+        "A:918:OH": {
+          "dx": 0.0,
+          "dy": 0.0,
+          "dz": 0.0,
+          "d": 0.0
+        }
+      }
+    },
+    "4UDW": {
+      "primary_auth": [
+        "H",
+        "I",
+        "L"
+      ],
+      "altloc_choices_for_query_residues": {
+        "I:565:GLN": ""
+      },
+      "stages": {
+        "frozen_cif_all_altlocs": {
+          "continuity": {
+            "chain": "I",
+            "seq": 565,
+            "prev_seq": 564,
+            "next_seq": 2001,
+            "prev_CN": 1.326,
+            "is_internal_gap_prev": false,
+            "is_internal_gap_next": true,
+            "present_atoms": [
+              "N",
+              "CA",
+              "C",
+              "O",
+              "CB",
+              "CG"
+            ]
+          },
+          "rdkit_meeko_like": {
+            "n_atoms": 6,
+            "atoms": [
+              {
+                "chain": "I",
+                "seq": 565,
+                "ins": "",
+                "comp": "GLN",
+                "name": "N",
+                "alt": ".",
+                "occ": 1.0,
+                "elem": "N",
+                "xyz": [
+                  133.048,
+                  -1.608,
+                  136.507
+                ]
+              },
+              {
+                "chain": "I",
+                "seq": 565,
+                "ins": "",
+                "comp": "GLN",
+                "name": "CA",
+                "alt": ".",
+                "occ": 1.0,
+                "elem": "C",
+                "xyz": [
+                  134.174,
+                  -1.376,
+                  135.61
+                ]
+              },
+              {
+                "chain": "I",
+                "seq": 565,
+                "ins": "",
+                "comp": "GLN",
+                "name": "C",
+                "alt": ".",
+                "occ": 1.0,
+                "elem": "C",
+                "xyz": [
+                  135.405,
+                  -0.961,
+                  136.409
+                ]
+              },
+              {
+                "chain": "I",
+                "seq": 565,
+                "ins": "",
+                "comp": "GLN",
+                "name": "O",
+                "alt": ".",
+                "occ": 1.0,
+                "elem": "O",
+                "xyz": [
+                  135.338,
+                  -0.841,
+                  137.637
+                ]
+              },
+              {
+                "chain": "I",
+                "seq": 565,
+                "ins": "",
+                "comp": "GLN",
+                "name": "CB",
+                "alt": ".",
+                "occ": 1.0,
+                "elem": "C",
+                "xyz": [
+                  133.817,
+                  -0.321,
+                  134.557
+                ]
+              },
+              {
+                "chain": "I",
+                "seq": 565,
+                "ins": "",
+                "comp": "GLN",
+                "name": "CG",
+                "alt": ".",
+                "occ": 1.0,
+                "elem": "C",
+                "xyz": [
+                  132.734,
+                  -0.765,
+                  133.578
+                ]
+              }
+            ],
+            "determine_bonds": [
+              {
+                "a": "CA",
+                "b": "N",
+                "d": 1.458
+              },
+              {
+                "a": "C",
+                "b": "CA",
+                "d": 1.525
+              },
+              {
+                "a": "O",
+                "b": "C",
+                "d": 1.236
+              },
+              {
+                "a": "CB",
+                "b": "CA",
+                "d": 1.533
+              },
+              {
+                "a": "CG",
+                "b": "CB",
+                "d": 1.526
+              }
+            ],
+            "valences": [
+              {
+                "idx": 0,
+                "name": "N",
+                "elem": "N",
+                "degree": 1,
+                "neighbors": [
+                  "CA"
+                ]
+              },
+              {
+                "idx": 1,
+                "name": "CA",
+                "elem": "C",
+                "degree": 3,
+                "neighbors": [
+                  "N",
+                  "C",
+                  "CB"
+                ]
+              },
+              {
+                "idx": 2,
+                "name": "C",
+                "elem": "C",
+                "degree": 2,
+                "neighbors": [
+                  "CA",
+                  "O"
+                ]
+              },
+              {
+                "idx": 3,
+                "name": "O",
+                "elem": "O",
+                "degree": 1,
+                "neighbors": [
+                  "C"
+                ]
+              },
+              {
+                "idx": 4,
+                "name": "CB",
+                "elem": "C",
+                "degree": 2,
+                "neighbors": [
+                  "CA",
+                  "CG"
+                ]
+              },
+              {
+                "idx": 5,
+                "name": "CG",
+                "elem": "C",
+                "degree": 1,
+                "neighbors": [
+                  "CB"
+                ]
+              }
+            ],
+            "sanitize_error": null
+          }
+        },
+        "protein_raw": {
+          "continuity": {
+            "chain": "I",
+            "seq": 565,
+            "prev_seq": 564,
+            "next_seq": null,
+            "prev_CN": 1.326,
+            "is_internal_gap_prev": false,
+            "is_internal_gap_next": false,
+            "present_atoms": [
+              "N",
+              "CA",
+              "C",
+              "O",
+              "CB",
+              "CG"
+            ]
+          },
+          "rdkit_meeko_like": {
+            "n_atoms": 6,
+            "atoms": [
+              {
+                "chain": "I",
+                "seq": 565,
+                "ins": "",
+                "comp": "GLN",
+                "name": "N",
+                "alt": ".",
+                "occ": 1.0,
+                "elem": "N",
+                "xyz": [
+                  133.048,
+                  -1.608,
+                  136.507
+                ]
+              },
+              {
+                "chain": "I",
+                "seq": 565,
+                "ins": "",
+                "comp": "GLN",
+                "name": "CA",
+                "alt": ".",
+                "occ": 1.0,
+                "elem": "C",
+                "xyz": [
+                  134.174,
+                  -1.376,
+                  135.61
+                ]
+              },
+              {
+                "chain": "I",
+                "seq": 565,
+                "ins": "",
+                "comp": "GLN",
+                "name": "C",
+                "alt": ".",
+                "occ": 1.0,
+                "elem": "C",
+                "xyz": [
+                  135.405,
+                  -0.961,
+                  136.409
+                ]
+              },
+              {
+                "chain": "I",
+                "seq": 565,
+                "ins": "",
+                "comp": "GLN",
+                "name": "O",
+                "alt": ".",
+                "occ": 1.0,
+                "elem": "O",
+                "xyz": [
+                  135.338,
+                  -0.841,
+                  137.637
+                ]
+              },
+              {
+                "chain": "I",
+                "seq": 565,
+                "ins": "",
+                "comp": "GLN",
+                "name": "CB",
+                "alt": ".",
+                "occ": 1.0,
+                "elem": "C",
+                "xyz": [
+                  133.817,
+                  -0.321,
+                  134.557
+                ]
+              },
+              {
+                "chain": "I",
+                "seq": 565,
+                "ins": "",
+                "comp": "GLN",
+                "name": "CG",
+                "alt": ".",
+                "occ": 1.0,
+                "elem": "C",
+                "xyz": [
+                  132.734,
+                  -0.765,
+                  133.578
+                ]
+              }
+            ],
+            "determine_bonds": [
+              {
+                "a": "CA",
+                "b": "N",
+                "d": 1.458
+              },
+              {
+                "a": "C",
+                "b": "CA",
+                "d": 1.525
+              },
+              {
+                "a": "O",
+                "b": "C",
+                "d": 1.236
+              },
+              {
+                "a": "CB",
+                "b": "CA",
+                "d": 1.533
+              },
+              {
+                "a": "CG",
+                "b": "CB",
+                "d": 1.526
+              }
+            ],
+            "valences": [
+              {
+                "idx": 0,
+                "name": "N",
+                "elem": "N",
+                "degree": 1,
+                "neighbors": [
+                  "CA"
+                ]
+              },
+              {
+                "idx": 1,
+                "name": "CA",
+                "elem": "C",
+                "degree": 3,
+                "neighbors": [
+                  "N",
+                  "C",
+                  "CB"
+                ]
+              },
+              {
+                "idx": 2,
+                "name": "C",
+                "elem": "C",
+                "degree": 2,
+                "neighbors": [
+                  "CA",
+                  "O"
+                ]
+              },
+              {
+                "idx": 3,
+                "name": "O",
+                "elem": "O",
+                "degree": 1,
+                "neighbors": [
+                  "C"
+                ]
+              },
+              {
+                "idx": 4,
+                "name": "CB",
+                "elem": "C",
+                "degree": 2,
+                "neighbors": [
+                  "CA",
+                  "CG"
+                ]
+              },
+              {
+                "idx": 5,
+                "name": "CG",
+                "elem": "C",
+                "degree": 1,
+                "neighbors": [
+                  "CB"
+                ]
+              }
+            ],
+            "sanitize_error": null
+          }
+        },
+        "fixer_openmm": {
+          "continuity": {
+            "chain": "I",
+            "seq": 565,
+            "prev_seq": 564,
+            "next_seq": null,
+            "prev_CN": 1.326,
+            "is_internal_gap_prev": false,
+            "is_internal_gap_next": false,
+            "present_atoms": [
+              "N",
+              "CA",
+              "C",
+              "O",
+              "CB",
+              "CG",
+              "CD",
+              "OE1",
+              "NE2",
+              "OXT"
+            ]
+          },
+          "rdkit_meeko_like": {
+            "n_atoms": 10,
+            "atoms": [
+              {
+                "chain": "I",
+                "seq": 565,
+                "ins": "",
+                "comp": "GLN",
+                "name": "N",
+                "alt": ".",
+                "occ": 1.0,
+                "elem": "N",
+                "xyz": [
+                  133.048,
+                  -1.608,
+                  136.507
+                ]
+              },
+              {
+                "chain": "I",
+                "seq": 565,
+                "ins": "",
+                "comp": "GLN",
+                "name": "CA",
+                "alt": ".",
+                "occ": 1.0,
+                "elem": "C",
+                "xyz": [
+                  134.174,
+                  -1.376,
+                  135.61
+                ]
+              },
+              {
+                "chain": "I",
+                "seq": 565,
+                "ins": "",
+                "comp": "GLN",
+                "name": "C",
+                "alt": ".",
+                "occ": 1.0,
+                "elem": "C",
+                "xyz": [
+                  135.405,
+                  -0.961,
+                  136.409
+                ]
+              },
+              {
+                "chain": "I",
+                "seq": 565,
+                "ins": "",
+                "comp": "GLN",
+                "name": "O",
+                "alt": ".",
+                "occ": 1.0,
+                "elem": "O",
+                "xyz": [
+                  135.338,
+                  -0.841,
+                  137.637
+                ]
+              },
+              {
+                "chain": "I",
+                "seq": 565,
+                "ins": "",
+                "comp": "GLN",
+                "name": "CB",
+                "alt": ".",
+                "occ": 1.0,
+                "elem": "C",
+                "xyz": [
+                  133.817,
+                  -0.321,
+                  134.557
+                ]
+              },
+              {
+                "chain": "I",
+                "seq": 565,
+                "ins": "",
+                "comp": "GLN",
+                "name": "CG",
+                "alt": ".",
+                "occ": 1.0,
+                "elem": "C",
+                "xyz": [
+                  132.734,
+                  -0.765,
+                  133.578
+                ]
+              },
+              {
+                "chain": "I",
+                "seq": 565,
+                "ins": "",
+                "comp": "GLN",
+                "name": "CD",
+                "alt": ".",
+                "occ": 1.0,
+                "elem": "C",
+                "xyz": [
+                  133.421,
+                  0.433,
+                  133.095
+                ]
+              },
+              {
+                "chain": "I",
+                "seq": 565,
+                "ins": "",
+                "comp": "GLN",
+                "name": "OE1",
+                "alt": ".",
+                "occ": 1.0,
+                "elem": "O",
+                "xyz": [
+                  133.216,
+                  -0.67,
+                  132.679
+                ]
+              },
+              {
+                "chain": "I",
+                "seq": 565,
+                "ins": "",
+                "comp": "GLN",
+                "name": "NE2",
+                "alt": ".",
+                "occ": 1.0,
+                "elem": "N",
+                "xyz": [
+                  134.198,
+                  0.543,
+                  131.856
+                ]
+              },
+              {
+                "chain": "I",
+                "seq": 565,
+                "ins": "",
+                "comp": "GLN",
+                "name": "OXT",
+                "alt": ".",
+                "occ": 1.0,
+                "elem": "O",
+                "xyz": [
+                  134.325,
+                  -1.183,
+                  136.968
+                ]
+              }
+            ],
+            "determine_bonds": [
+              {
+                "a": "CA",
+                "b": "N",
+                "d": 1.458
+              },
+              {
+                "a": "C",
+                "b": "CA",
+                "d": 1.525
+              },
+              {
+                "a": "O",
+                "b": "C",
+                "d": 1.236
+              },
+              {
+                "a": "CB",
+                "b": "CA",
+                "d": 1.533
+              },
+              {
+                "a": "CG",
+                "b": "CB",
+                "d": 1.526
+              },
+              {
+                "a": "CD",
+                "b": "CG",
+                "d": 1.463
+              },
+              {
+                "a": "CD",
+                "b": "CB",
+                "d": 1.692
+              },
+              {
+                "a": "OE1",
+                "b": "CD",
+                "d": 1.197
+              },
+              {
+                "a": "OE1",
+                "b": "CG",
+                "d": 1.024
+              },
+              {
+                "a": "NE2",
+                "b": "OE1",
+                "d": 1.764
+              },
+              {
+                "a": "NE2",
+                "b": "CD",
+                "d": 1.467
+              },
+              {
+                "a": "OXT",
+                "b": "CA",
+                "d": 1.38
+              },
+              {
+                "a": "OXT",
+                "b": "O",
+                "d": 1.261
+              },
+              {
+                "a": "OXT",
+                "b": "C",
+                "d": 1.236
+              },
+              {
+                "a": "OXT",
+                "b": "N",
+                "d": 1.423
+              }
+            ],
+            "valences": [
+              {
+                "idx": 0,
+                "name": "N",
+                "elem": "N",
+                "degree": 2,
+                "neighbors": [
+                  "CA",
+                  "OXT"
+                ]
+              },
+              {
+                "idx": 1,
+                "name": "CA",
+                "elem": "C",
+                "degree": 4,
+                "neighbors": [
+                  "N",
+                  "C",
+                  "CB",
+                  "OXT"
+                ]
+              },
+              {
+                "idx": 2,
+                "name": "C",
+                "elem": "C",
+                "degree": 3,
+                "neighbors": [
+                  "CA",
+                  "O",
+                  "OXT"
+                ]
+              },
+              {
+                "idx": 3,
+                "name": "O",
+                "elem": "O",
+                "degree": 2,
+                "neighbors": [
+                  "C",
+                  "OXT"
+                ]
+              },
+              {
+                "idx": 4,
+                "name": "CB",
+                "elem": "C",
+                "degree": 3,
+                "neighbors": [
+                  "CA",
+                  "CG",
+                  "CD"
+                ]
+              },
+              {
+                "idx": 5,
+                "name": "CG",
+                "elem": "C",
+                "degree": 3,
+                "neighbors": [
+                  "CB",
+                  "CD",
+                  "OE1"
+                ]
+              },
+              {
+                "idx": 6,
+                "name": "CD",
+                "elem": "C",
+                "degree": 4,
+                "neighbors": [
+                  "CG",
+                  "CB",
+                  "OE1",
+                  "NE2"
+                ]
+              },
+              {
+                "idx": 7,
+                "name": "OE1",
+                "elem": "O",
+                "degree": 3,
+                "neighbors": [
+                  "CD",
+                  "CG",
+                  "NE2"
+                ]
+              },
+              {
+                "idx": 8,
+                "name": "NE2",
+                "elem": "N",
+                "degree": 2,
+                "neighbors": [
+                  "OE1",
+                  "CD"
+                ]
+              },
+              {
+                "idx": 9,
+                "name": "OXT",
+                "elem": "O",
+                "degree": 4,
+                "neighbors": [
+                  "CA",
+                  "O",
+                  "C",
+                  "N"
+                ]
+              }
+            ],
+            "sanitize_error": "Explicit valence for atom # 7 O, 3, is greater than permitted"
+          }
+        },
+        "fixer_cleaned": {
+          "continuity": {
+            "chain": "I",
+            "seq": 565,
+            "prev_seq": 564,
+            "next_seq": null,
+            "prev_CN": 1.326,
+            "is_internal_gap_prev": false,
+            "is_internal_gap_next": false,
+            "present_atoms": [
+              "N",
+              "CA",
+              "C",
+              "O",
+              "CB",
+              "CG",
+              "CD",
+              "OE1",
+              "NE2"
+            ]
+          },
+          "rdkit_meeko_like": {
+            "n_atoms": 9,
+            "atoms": [
+              {
+                "chain": "I",
+                "seq": 565,
+                "ins": "",
+                "comp": "GLN",
+                "name": "N",
+                "alt": ".",
+                "occ": 1.0,
+                "elem": "N",
+                "xyz": [
+                  133.048,
+                  -1.608,
+                  136.507
+                ]
+              },
+              {
+                "chain": "I",
+                "seq": 565,
+                "ins": "",
+                "comp": "GLN",
+                "name": "CA",
+                "alt": ".",
+                "occ": 1.0,
+                "elem": "C",
+                "xyz": [
+                  134.174,
+                  -1.376,
+                  135.61
+                ]
+              },
+              {
+                "chain": "I",
+                "seq": 565,
+                "ins": "",
+                "comp": "GLN",
+                "name": "C",
+                "alt": ".",
+                "occ": 1.0,
+                "elem": "C",
+                "xyz": [
+                  135.405,
+                  -0.961,
+                  136.409
+                ]
+              },
+              {
+                "chain": "I",
+                "seq": 565,
+                "ins": "",
+                "comp": "GLN",
+                "name": "O",
+                "alt": ".",
+                "occ": 1.0,
+                "elem": "O",
+                "xyz": [
+                  135.338,
+                  -0.841,
+                  137.637
+                ]
+              },
+              {
+                "chain": "I",
+                "seq": 565,
+                "ins": "",
+                "comp": "GLN",
+                "name": "CB",
+                "alt": ".",
+                "occ": 1.0,
+                "elem": "C",
+                "xyz": [
+                  133.817,
+                  -0.321,
+                  134.557
+                ]
+              },
+              {
+                "chain": "I",
+                "seq": 565,
+                "ins": "",
+                "comp": "GLN",
+                "name": "CG",
+                "alt": ".",
+                "occ": 1.0,
+                "elem": "C",
+                "xyz": [
+                  132.734,
+                  -0.765,
+                  133.578
+                ]
+              },
+              {
+                "chain": "I",
+                "seq": 565,
+                "ins": "",
+                "comp": "GLN",
+                "name": "CD",
+                "alt": ".",
+                "occ": 1.0,
+                "elem": "C",
+                "xyz": [
+                  133.421,
+                  0.433,
+                  133.095
+                ]
+              },
+              {
+                "chain": "I",
+                "seq": 565,
+                "ins": "",
+                "comp": "GLN",
+                "name": "OE1",
+                "alt": ".",
+                "occ": 1.0,
+                "elem": "O",
+                "xyz": [
+                  133.216,
+                  -0.67,
+                  132.679
+                ]
+              },
+              {
+                "chain": "I",
+                "seq": 565,
+                "ins": "",
+                "comp": "GLN",
+                "name": "NE2",
+                "alt": ".",
+                "occ": 1.0,
+                "elem": "N",
+                "xyz": [
+                  134.198,
+                  0.543,
+                  131.856
+                ]
+              }
+            ],
+            "determine_bonds": [
+              {
+                "a": "CA",
+                "b": "N",
+                "d": 1.458
+              },
+              {
+                "a": "C",
+                "b": "CA",
+                "d": 1.525
+              },
+              {
+                "a": "O",
+                "b": "C",
+                "d": 1.236
+              },
+              {
+                "a": "CB",
+                "b": "CA",
+                "d": 1.533
+              },
+              {
+                "a": "CG",
+                "b": "CB",
+                "d": 1.526
+              },
+              {
+                "a": "CD",
+                "b": "CG",
+                "d": 1.463
+              },
+              {
+                "a": "CD",
+                "b": "CB",
+                "d": 1.692
+              },
+              {
+                "a": "OE1",
+                "b": "CD",
+                "d": 1.197
+              },
+              {
+                "a": "OE1",
+                "b": "CG",
+                "d": 1.024
+              },
+              {
+                "a": "NE2",
+                "b": "OE1",
+                "d": 1.764
+              },
+              {
+                "a": "NE2",
+                "b": "CD",
+                "d": 1.467
+              }
+            ],
+            "valences": [
+              {
+                "idx": 0,
+                "name": "N",
+                "elem": "N",
+                "degree": 1,
+                "neighbors": [
+                  "CA"
+                ]
+              },
+              {
+                "idx": 1,
+                "name": "CA",
+                "elem": "C",
+                "degree": 3,
+                "neighbors": [
+                  "N",
+                  "C",
+                  "CB"
+                ]
+              },
+              {
+                "idx": 2,
+                "name": "C",
+                "elem": "C",
+                "degree": 2,
+                "neighbors": [
+                  "CA",
+                  "O"
+                ]
+              },
+              {
+                "idx": 3,
+                "name": "O",
+                "elem": "O",
+                "degree": 1,
+                "neighbors": [
+                  "C"
+                ]
+              },
+              {
+                "idx": 4,
+                "name": "CB",
+                "elem": "C",
+                "degree": 3,
+                "neighbors": [
+                  "CA",
+                  "CG",
+                  "CD"
+                ]
+              },
+              {
+                "idx": 5,
+                "name": "CG",
+                "elem": "C",
+                "degree": 3,
+                "neighbors": [
+                  "CB",
+                  "CD",
+                  "OE1"
+                ]
+              },
+              {
+                "idx": 6,
+                "name": "CD",
+                "elem": "C",
+                "degree": 4,
+                "neighbors": [
+                  "CG",
+                  "CB",
+                  "OE1",
+                  "NE2"
+                ]
+              },
+              {
+                "idx": 7,
+                "name": "OE1",
+                "elem": "O",
+                "degree": 3,
+                "neighbors": [
+                  "CD",
+                  "CG",
+                  "NE2"
+                ]
+              },
+              {
+                "idx": 8,
+                "name": "NE2",
+                "elem": "N",
+                "degree": 2,
+                "neighbors": [
+                  "OE1",
+                  "CD"
+                ]
+              }
+            ],
+            "sanitize_error": "Explicit valence for atom # 7 O, 3, is greater than permitted"
+          }
+        },
+        "ptr_fallback": {
+          "missing": true
+        },
+        "prepared": {
+          "continuity": {
+            "chain": "I",
+            "seq": 565,
+            "prev_seq": 564,
+            "next_seq": null,
+            "prev_CN": 1.326,
+            "is_internal_gap_prev": false,
+            "is_internal_gap_next": false,
+            "present_atoms": [
+              "N",
+              "CA",
+              "C",
+              "O",
+              "CB",
+              "CG",
+              "CD",
+              "OE1",
+              "NE2"
+            ]
+          },
+          "rdkit_meeko_like": {
+            "n_atoms": 9,
+            "atoms": [
+              {
+                "chain": "I",
+                "seq": 565,
+                "ins": "",
+                "comp": "GLN",
+                "name": "N",
+                "alt": ".",
+                "occ": 1.0,
+                "elem": "N",
+                "xyz": [
+                  133.048,
+                  -1.608,
+                  136.507
+                ]
+              },
+              {
+                "chain": "I",
+                "seq": 565,
+                "ins": "",
+                "comp": "GLN",
+                "name": "CA",
+                "alt": ".",
+                "occ": 1.0,
+                "elem": "C",
+                "xyz": [
+                  134.174,
+                  -1.376,
+                  135.61
+                ]
+              },
+              {
+                "chain": "I",
+                "seq": 565,
+                "ins": "",
+                "comp": "GLN",
+                "name": "C",
+                "alt": ".",
+                "occ": 1.0,
+                "elem": "C",
+                "xyz": [
+                  135.405,
+                  -0.961,
+                  136.409
+                ]
+              },
+              {
+                "chain": "I",
+                "seq": 565,
+                "ins": "",
+                "comp": "GLN",
+                "name": "O",
+                "alt": ".",
+                "occ": 1.0,
+                "elem": "O",
+                "xyz": [
+                  135.338,
+                  -0.841,
+                  137.637
+                ]
+              },
+              {
+                "chain": "I",
+                "seq": 565,
+                "ins": "",
+                "comp": "GLN",
+                "name": "CB",
+                "alt": ".",
+                "occ": 1.0,
+                "elem": "C",
+                "xyz": [
+                  133.817,
+                  -0.321,
+                  134.557
+                ]
+              },
+              {
+                "chain": "I",
+                "seq": 565,
+                "ins": "",
+                "comp": "GLN",
+                "name": "CG",
+                "alt": ".",
+                "occ": 1.0,
+                "elem": "C",
+                "xyz": [
+                  132.734,
+                  -0.765,
+                  133.578
+                ]
+              },
+              {
+                "chain": "I",
+                "seq": 565,
+                "ins": "",
+                "comp": "GLN",
+                "name": "CD",
+                "alt": ".",
+                "occ": 1.0,
+                "elem": "C",
+                "xyz": [
+                  133.421,
+                  0.433,
+                  133.095
+                ]
+              },
+              {
+                "chain": "I",
+                "seq": 565,
+                "ins": "",
+                "comp": "GLN",
+                "name": "OE1",
+                "alt": ".",
+                "occ": 1.0,
+                "elem": "O",
+                "xyz": [
+                  133.216,
+                  -0.67,
+                  132.679
+                ]
+              },
+              {
+                "chain": "I",
+                "seq": 565,
+                "ins": "",
+                "comp": "GLN",
+                "name": "NE2",
+                "alt": ".",
+                "occ": 1.0,
+                "elem": "N",
+                "xyz": [
+                  134.198,
+                  0.543,
+                  131.856
+                ]
+              }
+            ],
+            "determine_bonds": [
+              {
+                "a": "CA",
+                "b": "N",
+                "d": 1.458
+              },
+              {
+                "a": "C",
+                "b": "CA",
+                "d": 1.525
+              },
+              {
+                "a": "O",
+                "b": "C",
+                "d": 1.236
+              },
+              {
+                "a": "CB",
+                "b": "CA",
+                "d": 1.533
+              },
+              {
+                "a": "CG",
+                "b": "CB",
+                "d": 1.526
+              },
+              {
+                "a": "CD",
+                "b": "CG",
+                "d": 1.463
+              },
+              {
+                "a": "CD",
+                "b": "CB",
+                "d": 1.692
+              },
+              {
+                "a": "OE1",
+                "b": "CD",
+                "d": 1.197
+              },
+              {
+                "a": "OE1",
+                "b": "CG",
+                "d": 1.024
+              },
+              {
+                "a": "NE2",
+                "b": "OE1",
+                "d": 1.764
+              },
+              {
+                "a": "NE2",
+                "b": "CD",
+                "d": 1.467
+              }
+            ],
+            "valences": [
+              {
+                "idx": 0,
+                "name": "N",
+                "elem": "N",
+                "degree": 1,
+                "neighbors": [
+                  "CA"
+                ]
+              },
+              {
+                "idx": 1,
+                "name": "CA",
+                "elem": "C",
+                "degree": 3,
+                "neighbors": [
+                  "N",
+                  "C",
+                  "CB"
+                ]
+              },
+              {
+                "idx": 2,
+                "name": "C",
+                "elem": "C",
+                "degree": 2,
+                "neighbors": [
+                  "CA",
+                  "O"
+                ]
+              },
+              {
+                "idx": 3,
+                "name": "O",
+                "elem": "O",
+                "degree": 1,
+                "neighbors": [
+                  "C"
+                ]
+              },
+              {
+                "idx": 4,
+                "name": "CB",
+                "elem": "C",
+                "degree": 3,
+                "neighbors": [
+                  "CA",
+                  "CG",
+                  "CD"
+                ]
+              },
+              {
+                "idx": 5,
+                "name": "CG",
+                "elem": "C",
+                "degree": 3,
+                "neighbors": [
+                  "CB",
+                  "CD",
+                  "OE1"
+                ]
+              },
+              {
+                "idx": 6,
+                "name": "CD",
+                "elem": "C",
+                "degree": 4,
+                "neighbors": [
+                  "CG",
+                  "CB",
+                  "OE1",
+                  "NE2"
+                ]
+              },
+              {
+                "idx": 7,
+                "name": "OE1",
+                "elem": "O",
+                "degree": 3,
+                "neighbors": [
+                  "CD",
+                  "CG",
+                  "NE2"
+                ]
+              },
+              {
+                "idx": 8,
+                "name": "NE2",
+                "elem": "N",
+                "degree": 2,
+                "neighbors": [
+                  "OE1",
+                  "CD"
+                ]
+              }
+            ],
+            "sanitize_error": "Explicit valence for atom # 7 O, 3, is greater than permitted"
+          }
+        }
+      },
+      "origin": {
+        "valence_error_in_frozen_cif_residue": false,
+        "valence_error_in_prepared": true,
+        "introduced_by_preparation": true,
+        "is_disulfide": false,
+        "is_polymer_break": false,
+        "component": "I hirudin variant-2 RETAIN",
+        "template_or_boundary_can_represent_true_chemistry": false,
+        "reason": "RDKit DetermineConnectivity + SanitizeMol on GLN I:565 (Meeko per-residue path). Not a disulfide. Not a polymer-boundary fact that a CYX/blunt-end template can correct. Deleting RETAIN I is forbidden."
+      },
+      "query": {
+        "res": "I:565"
+      },
+      "cif_residue_all_altlocs": [
+        {
+          "chain": "I",
+          "seq": 565,
+          "ins": "",
+          "comp": "GLN",
+          "name": "N",
+          "alt": ".",
+          "occ": 1.0,
+          "elem": "N",
+          "xyz": [
+            133.048,
+            -1.608,
+            136.507
+          ]
+        },
+        {
+          "chain": "I",
+          "seq": 565,
+          "ins": "",
+          "comp": "GLN",
+          "name": "CA",
+          "alt": ".",
+          "occ": 1.0,
+          "elem": "C",
+          "xyz": [
+            134.174,
+            -1.376,
+            135.61
+          ]
+        },
+        {
+          "chain": "I",
+          "seq": 565,
+          "ins": "",
+          "comp": "GLN",
+          "name": "C",
+          "alt": ".",
+          "occ": 1.0,
+          "elem": "C",
+          "xyz": [
+            135.405,
+            -0.961,
+            136.409
+          ]
+        },
+        {
+          "chain": "I",
+          "seq": 565,
+          "ins": "",
+          "comp": "GLN",
+          "name": "O",
+          "alt": ".",
+          "occ": 1.0,
+          "elem": "O",
+          "xyz": [
+            135.338,
+            -0.841,
+            137.637
+          ]
+        },
+        {
+          "chain": "I",
+          "seq": 565,
+          "ins": "",
+          "comp": "GLN",
+          "name": "CB",
+          "alt": ".",
+          "occ": 1.0,
+          "elem": "C",
+          "xyz": [
+            133.817,
+            -0.321,
+            134.557
+          ]
+        },
+        {
+          "chain": "I",
+          "seq": 565,
+          "ins": "",
+          "comp": "GLN",
+          "name": "CG",
+          "alt": ".",
+          "occ": 1.0,
+          "elem": "C",
+          "xyz": [
+            132.734,
+            -0.765,
+            133.578
+          ]
+        }
+      ],
+      "cif_altlocs": [
+        "."
+      ],
+      "cif_comps": [
+        "GLN"
+      ],
+      "cif_intraresidue_le_2.4A": [
+        {
+          "a": {
+            "chain": "I",
+            "seq": 565,
+            "ins": "",
+            "comp": "GLN",
+            "name": "C",
+            "alt": ".",
+            "occ": 1.0,
+            "elem": "C",
+            "xyz": [
+              135.405,
+              -0.961,
+              136.409
+            ]
+          },
+          "b": {
+            "chain": "I",
+            "seq": 565,
+            "ins": "",
+            "comp": "GLN",
+            "name": "O",
+            "alt": ".",
+            "occ": 1.0,
+            "elem": "O",
+            "xyz": [
+              135.338,
+              -0.841,
+              137.637
+            ]
+          },
+          "distance": 1.236
+        },
+        {
+          "a": {
+            "chain": "I",
+            "seq": 565,
+            "ins": "",
+            "comp": "GLN",
+            "name": "N",
+            "alt": ".",
+            "occ": 1.0,
+            "elem": "N",
+            "xyz": [
+              133.048,
+              -1.608,
+              136.507
+            ]
+          },
+          "b": {
+            "chain": "I",
+            "seq": 565,
+            "ins": "",
+            "comp": "GLN",
+            "name": "CA",
+            "alt": ".",
+            "occ": 1.0,
+            "elem": "C",
+            "xyz": [
+              134.174,
+              -1.376,
+              135.61
+            ]
+          },
+          "distance": 1.458
+        },
+        {
+          "a": {
+            "chain": "I",
+            "seq": 565,
+            "ins": "",
+            "comp": "GLN",
+            "name": "CA",
+            "alt": ".",
+            "occ": 1.0,
+            "elem": "C",
+            "xyz": [
+              134.174,
+              -1.376,
+              135.61
+            ]
+          },
+          "b": {
+            "chain": "I",
+            "seq": 565,
+            "ins": "",
+            "comp": "GLN",
+            "name": "C",
+            "alt": ".",
+            "occ": 1.0,
+            "elem": "C",
+            "xyz": [
+              135.405,
+              -0.961,
+              136.409
+            ]
+          },
+          "distance": 1.525
+        },
+        {
+          "a": {
+            "chain": "I",
+            "seq": 565,
+            "ins": "",
+            "comp": "GLN",
+            "name": "CB",
+            "alt": ".",
+            "occ": 1.0,
+            "elem": "C",
+            "xyz": [
+              133.817,
+              -0.321,
+              134.557
+            ]
+          },
+          "b": {
+            "chain": "I",
+            "seq": 565,
+            "ins": "",
+            "comp": "GLN",
+            "name": "CG",
+            "alt": ".",
+            "occ": 1.0,
+            "elem": "C",
+            "xyz": [
+              132.734,
+              -0.765,
+              133.578
+            ]
+          },
+          "distance": 1.526
+        },
+        {
+          "a": {
+            "chain": "I",
+            "seq": 565,
+            "ins": "",
+            "comp": "GLN",
+            "name": "CA",
+            "alt": ".",
+            "occ": 1.0,
+            "elem": "C",
+            "xyz": [
+              134.174,
+              -1.376,
+              135.61
+            ]
+          },
+          "b": {
+            "chain": "I",
+            "seq": 565,
+            "ins": "",
+            "comp": "GLN",
+            "name": "CB",
+            "alt": ".",
+            "occ": 1.0,
+            "elem": "C",
+            "xyz": [
+              133.817,
+              -0.321,
+              134.557
+            ]
+          },
+          "distance": 1.533
+        },
+        {
+          "a": {
+            "chain": "I",
+            "seq": 565,
+            "ins": "",
+            "comp": "GLN",
+            "name": "CA",
+            "alt": ".",
+            "occ": 1.0,
+            "elem": "C",
+            "xyz": [
+              134.174,
+              -1.376,
+              135.61
+            ]
+          },
+          "b": {
+            "chain": "I",
+            "seq": 565,
+            "ins": "",
+            "comp": "GLN",
+            "name": "O",
+            "alt": ".",
+            "occ": 1.0,
+            "elem": "O",
+            "xyz": [
+              135.338,
+              -0.841,
+              137.637
+            ]
+          },
+          "distance": 2.398
+        }
+      ],
+      "nearby_to_OE1_prepared": [
+        [
+          1.024,
+          {
+            "chain": "I",
+            "seq": 565,
+            "ins": "",
+            "comp": "GLN",
+            "name": "CG",
+            "alt": ".",
+            "occ": 1.0,
+            "elem": "C",
+            "xyz": [
+              132.734,
+              -0.765,
+              133.578
+            ]
+          }
+        ],
+        [
+          1.197,
+          {
+            "chain": "I",
+            "seq": 565,
+            "ins": "",
+            "comp": "GLN",
+            "name": "CD",
+            "alt": ".",
+            "occ": 1.0,
+            "elem": "C",
+            "xyz": [
+              133.421,
+              0.433,
+              133.095
+            ]
+          }
+        ],
+        [
+          1.764,
+          {
+            "chain": "I",
+            "seq": 565,
+            "ins": "",
+            "comp": "GLN",
+            "name": "NE2",
+            "alt": ".",
+            "occ": 1.0,
+            "elem": "N",
+            "xyz": [
+              134.198,
+              0.543,
+              131.856
+            ]
+          }
+        ],
+        [
+          2.002,
+          {
+            "chain": "I",
+            "seq": 565,
+            "ins": "",
+            "comp": "GLN",
+            "name": "CB",
+            "alt": ".",
+            "occ": 1.0,
+            "elem": "C",
+            "xyz": [
+              133.817,
+              -0.321,
+              134.557
+            ]
+          }
+        ]
+      ]
+    }
+  }
+}

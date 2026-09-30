@@ -1,0 +1,35 @@
+{
+  "RUN_ID": "UNIFORM_RERUN_V4_2_20260921",
+  "human_adjudication_required": false,
+  "resolution": "PDBFixer-invented atoms dropped; crystal-observed-atom templates applied; 14/14 PREPARED",
+  "holds": [
+    {
+      "pdb_id": "6N7A",
+      "status": "RESOLVED",
+      "origin": "preparation_introduced",
+      "stage_introduced": "PDBFixer.addMissingAtoms",
+      "crystal_contact": "LEU A:1024 CD2 to ARG A:1041 CB = 6.443 A",
+      "fixer_contact": "LEU A:1024 CD1 to ARG A:1041 NH2 = 1.690 A",
+      "action": "dropped fixer-added CG,CD,NE,CZ,NH1,NH2; set_template A:1041=OBS_BB_CB"
+    },
+    {
+      "pdb_id": "8BXH",
+      "status": "RESOLVED",
+      "origin": "preparation_introduced",
+      "stage_introduced": "PDBFixer.addMissingAtoms",
+      "crystal_contact": "MET A:839 CB to TYR A:918 OH = 3.058 A",
+      "fixer_contact": "MET A:839 CE to TYR A:918 OH = 1.512 A",
+      "action": "dropped fixer-added CG,SD,CE; set_template A:839=OBS_BB_CB"
+    },
+    {
+      "pdb_id": "4UDW",
+      "status": "RESOLVED",
+      "origin": "preparation_introduced",
+      "stage_introduced": "PDBFixer.addMissingAtoms",
+      "crystal_residue": "GLN I:565 N,CA,C,O,CB,CG sanitizes",
+      "fixer_error": "OE1 valence 3; OE1-CG = 1.024 A",
+      "component_policy": "RETAIN",
+      "action": "dropped fixer-added CD,OE1,NE2; set_template I:565=OBS_BB_CB_CG"
+    }
+  ]
+}

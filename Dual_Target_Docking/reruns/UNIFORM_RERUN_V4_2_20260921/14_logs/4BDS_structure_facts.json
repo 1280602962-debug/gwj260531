@@ -1,0 +1,43 @@
+{
+  "disulfides": [
+    {
+      "a": "A:65",
+      "b": "A:92",
+      "sg_sg_A": 2.045,
+      "fact": "crystal_SG-SG_distance_in_disulfide_range",
+      "template": "CYX"
+    },
+    {
+      "a": "A:252",
+      "b": "A:263",
+      "sg_sg_A": 2.044,
+      "fact": "crystal_SG-SG_distance_in_disulfide_range",
+      "template": "CYX"
+    },
+    {
+      "a": "A:400",
+      "b": "A:519",
+      "sg_sg_A": 2.055,
+      "fact": "crystal_SG-SG_distance_in_disulfide_range",
+      "template": "CYX"
+    }
+  ],
+  "polymer_breaks": [
+    {
+      "res": "A:377",
+      "atom_index": 2,
+      "atom": "C",
+      "fact": "auth_seq_gap_377_to_380+C-N_7.10A"
+    },
+    {
+      "res": "A:380",
+      "atom_index": 0,
+      "atom": "N",
+      "fact": "auth_seq_gap_377_to_380+C-N_7.10A"
+    }
+  ],
+  "templates": "A:252=CYX,A:263=CYX,A:400=CYX,A:519=CYX,A:65=CYX,A:92=CYX",
+  "observed_templates": "",
+  "add_templates": "",
+  "blunt": "A:380=0,A:377=2"
+}

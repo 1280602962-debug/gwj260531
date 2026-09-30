@@ -1,0 +1,32 @@
+{
+  "n_fixer_added_atoms_total": 35,
+  "n_residues_reverted_to_raw": 1,
+  "reverted": [
+    {
+      "res": "A:1041",
+      "comp": "ARG",
+      "dropped_fixer_atoms": [
+        "CG",
+        "CD",
+        "NE",
+        "CZ",
+        "NH1",
+        "NH2"
+      ],
+      "observed_heavy": [
+        "C",
+        "CA",
+        "CB",
+        "N",
+        "O"
+      ],
+      "template": "OBS_BB_CB",
+      "reasons": [
+        "new_interresidue_meeko_covalent NH2-A:1024:CD1=1.690A"
+      ]
+    }
+  ],
+  "moved_atoms": false,
+  "deleted_residues": false,
+  "deleted_retain_components": false
+}

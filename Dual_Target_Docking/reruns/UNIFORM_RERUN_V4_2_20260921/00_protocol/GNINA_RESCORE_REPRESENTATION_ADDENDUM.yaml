@@ -1,0 +1,85 @@
+protocol:
+  name: GNINA_RESCORE_REPRESENTATION_ADDENDUM
+  run_id: UNIFORM_RERUN_V4_2_20260921
+  task: PRE_AUROC_METHOD_ABLATION_INTEGRITY_AND_LIGAND_REPRESENTATION_AUDIT_V2
+  written_before_rescoring: true
+  modifies_M1_science_definition: false
+  auroc_used: false
+  performance_used: false
+
+authority:
+  science: 00_protocol/SCORING_DOCKING_ABLATION_FREEZE_FINAL.yaml
+  analysis_freeze_old_fields: STALE_PROVENANCE_ONLY
+  current_runners_read_analysis_freeze_method_fields: false
+  meeko_help_confirmed_before_this_file: true
+
+meeko:
+  executable: /home/gwj/miniconda3/bin/mk_prepare_ligand.py
+  python: /home/gwj/miniconda3/bin/python
+  version: "0.7.1"
+  upgrade_forbidden: true
+  flag_confirmed: --rigid_macrocycles
+  help_text: keep macrocycles rigid in input conformation
+  charge_model: default_gasteiger_unchanged
+  forbidden: [--hydrate, ETKDG, MMFF, UFF, minimize]
+
+unchanged_science:
+  M1: vina_seed42_mode1_pose + GNINA_CNNscore
+  M1b: max_CNNscore_among_same_vina_seed42_saved_poses
+  search: vina
+  no_redocking: true
+  no_minimize: true
+
+representation_rule:
+  applies_to: all_1586_physical_jobs_with_vina_seed42_pose
+  not_only_the_original_61_failures: true
+  reason: forbid_mixed_representation_1525_vs_61
+  chemistry_source: 02_ligands/sdf/{eid}.sdf
+  coordinate_source: vina_seed42_saved_pose_only
+  mapping: frozen_meeko_REMARK_SMILES_IDX
+  expected_physical_pose_rows: 14250
+  expected_formula: "1562*9 + 24*8"
+
+cgn_vs_gn:
+  CGn: real_atom_macrocycle_specific_type_never_discard
+  Gn: glue_pseudoatom_exclude_from_real_graph
+  observed_in_frozen_assets: {CG0: 29_ligands, G0: 29_ligands, other_CGn_Gn: none}
+  CG0_must_map_to_frozen_SDF_carbon: true
+  G0_must_not_be_in_SMILES_IDX: true
+  do_not_infer_ring_closure_from_cartesian_distance: true
+
+workflow:
+  - copy frozen SDF molecular graph
+  - write Vina real-atom coordinates onto mapped frozen-SDF atoms
+  - exclude only Gn from the real-atom set
+  - include every CGn as the corresponding real carbon
+  - do not re-protonate / tautomerize / stereo-enumerate / minimize / move coords
+  - hydrogens: chemical graph from frozen SDF; explicit PDBQT hydrogens follow Meeko parameterization
+  - mk_prepare_ligand.py -i pose.sdf -o pose.pdbqt --rigid_macrocycles --add_index_map
+  - validate: no CGn/Gn; heavy-atom count; formal charge; stereo; ring closure from frozen SDF; coord RMS vs Vina real atoms
+
+output_dir:
+  new: 09_secondary_scoring/gnina_rescore_representation_v2/
+  do_not_overwrite: 09_secondary_scoring/gnina_rescore/
+
+gnina_score_only:
+  version: v1.3.2 master:f23dd2b
+  activate: "/mnt/d/CADD paper exercise/gnina/activate.sh"
+  flags: [--score_only, --no_gpu, --scoring, vina, --cnn_scoring, rescore]
+  forbidden: [--minimize, redock, autobox, cnn_change, ensemble_change]
+  retry: one_identical_parameter_retry_for_technical_failure_only
+  no_score_based_retry: true
+
+hard_gates:
+  unique_real_heavy_atom_mapping: required
+  frozen_SDF_graph_unchanged: required
+  formal_charge_unchanged: required
+  stereochemistry_unchanged: required
+  ring_closure_unchanged: required
+  coord_rms_vs_vina_real_atoms_A_max: 0.001
+  ATOM_MAPPING_FAILURE_if_not_unique: true
+  no_guessing: true
+
+verified_tables_only:
+  - 09_secondary_scoring/GNINA_VINA_POSE_RESCORE_POSE_LONG_VERIFIED.csv
+  - 09_secondary_scoring/GNINA_VINA_POSE_RESCORE_MASTER_VERIFIED.csv

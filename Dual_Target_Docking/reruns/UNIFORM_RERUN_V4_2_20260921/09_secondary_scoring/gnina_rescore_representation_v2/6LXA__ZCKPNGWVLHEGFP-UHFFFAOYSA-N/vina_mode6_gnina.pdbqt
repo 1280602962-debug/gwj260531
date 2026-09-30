@@ -1,0 +1,74 @@
+REMARK SMILES CCC#CCOc1cc(COC2CCOCC2)ccc1Sc1ccc(OCC(=O)O)c2c1CCCC2
+REMARK SMILES IDX 22 1 23 2 24 3 25 4 31 5 32 6 33 7 34 8 35 9 36 10 21 11
+REMARK SMILES IDX 20 12 7 13 8 14 9 15 19 16 18 17 6 18 5 19 4 20 3 21 2 22
+REMARK SMILES IDX 1 23 10 24 11 25 12 26 13 27 17 28 14 29 16 30 15 31 26 32
+REMARK SMILES IDX 27 33 28 34 29 35 30 36
+REMARK H PARENT 30 37
+REMARK INDEX MAP 22 1 23 2 24 3 25 4 31 5 32 6 33 7 34 8 35 9 36 10 21 11
+REMARK INDEX MAP 20 12 7 13 8 14 9 15 19 16 18 17 6 18 5 19 4 20 3 21 2 22
+REMARK INDEX MAP 1 23 10 24 11 25 12 26 13 27 17 28 14 29 16 30 15 31 26 32
+REMARK INDEX MAP 27 33 28 34 29 35 30 36 62 37
+ROOT
+ATOM      1  C   UNL     1       9.328   2.677  -5.264  1.00  0.00     0.016 A 
+ATOM      2  C   UNL     1      10.513   1.976  -5.523  1.00  0.00     0.019 A 
+ATOM      3  C   UNL     1      11.423   1.708  -4.500  1.00  0.00     0.048 A 
+ATOM      4  C   UNL     1      11.163   2.138  -3.200  1.00  0.00     0.123 A 
+ATOM      5  C   UNL     1       9.991   2.875  -2.923  1.00  0.00    -0.002 A 
+ATOM      6  C   UNL     1       9.042   3.111  -3.950  1.00  0.00    -0.027 A 
+ATOM      7  C   UNL     1       7.763   3.869  -3.650  1.00  0.00     0.037 C 
+ATOM      8  C   UNL     1       7.430   3.980  -2.165  1.00  0.00     0.005 C 
+ATOM      9  C   UNL     1       8.658   4.408  -1.385  1.00  0.00     0.005 C 
+ATOM     10  C   UNL     1       9.744   3.344  -1.501  1.00  0.00     0.040 C 
+ENDROOT
+BRANCH   1  11
+ATOM     11  S   UNL     1       8.207   2.971  -6.636  1.00  0.00    -0.086 SA
+BRANCH  11  12
+ATOM     12  C   UNL     1       8.681   4.618  -7.151  1.00  0.00     0.054 A 
+ATOM     13  C   UNL     1       7.844   5.722  -6.931  1.00  0.00     0.135 A 
+ATOM     14  C   UNL     1       8.229   7.005  -7.331  1.00  0.00     0.053 A 
+ATOM     15  C   UNL     1       9.477   7.219  -7.933  1.00  0.00    -0.019 A 
+ATOM     16  C   UNL     1       9.931   4.833  -7.745  1.00  0.00     0.020 A 
+ATOM     17  C   UNL     1      10.325   6.120  -8.133  1.00  0.00     0.007 A 
+BRANCH  13  18
+ATOM     18  O   UNL     1       6.603   5.573  -6.365  1.00  0.00    -0.480 OA
+BRANCH  18  19
+ATOM     19  C   UNL     1       6.001   6.849  -6.103  1.00  0.00     0.319 C 
+ATOM     20  C   UNL     1       4.934   6.697  -5.103  1.00  0.00    -0.062 C 
+BRANCH  20  21
+ATOM     21  C   UNL     1       4.066   6.554  -4.284  1.00  0.00    -0.100 C 
+ATOM     22  C   UNL     1       2.990   6.407  -3.295  1.00  0.00     0.086 C 
+ATOM     23  C   UNL     1       2.943   4.995  -2.734  1.00  0.00     0.018 C 
+ENDBRANCH  20  21
+ENDBRANCH  18  19
+ENDBRANCH  13  18
+BRANCH  15  24
+ATOM     24  C   UNL     1       9.901   8.610  -8.328  1.00  0.00     0.196 C 
+BRANCH  24  25
+ATOM     25  O   UNL     1       9.430   8.873  -9.647  1.00  0.00    -0.373 OA
+BRANCH  25  26
+ATOM     26  C   UNL     1      10.467   8.993 -10.622  1.00  0.00     0.123 C 
+ATOM     27  C   UNL     1      10.418   7.739 -11.498  1.00  0.00     0.060 C 
+ATOM     28  C   UNL     1      10.290  10.242 -11.487  1.00  0.00     0.060 C 
+ATOM     29  C   UNL     1      11.383   7.859 -12.664  1.00  0.00     0.163 C 
+ATOM     30  C   UNL     1      11.263  10.225 -12.654  1.00  0.00     0.163 C 
+ATOM     31  O   UNL     1      11.112   9.035 -13.425  1.00  0.00    -0.381 OA
+ENDBRANCH  25  26
+ENDBRANCH  24  25
+ENDBRANCH  15  24
+ENDBRANCH  11  12
+ENDBRANCH   1  11
+BRANCH   4  32
+ATOM     32  O   UNL     1      11.993   1.908  -2.134  1.00  0.00    -0.482 OA
+BRANCH  32  33
+ATOM     33  C   UNL     1      13.199   1.197  -2.391  1.00  0.00     0.351 C 
+BRANCH  33  34
+ATOM     34  C   UNL     1      14.378   1.947  -1.801  1.00  0.00     0.341 C 
+ATOM     35  O   UNL     1      14.727   3.096  -2.015  1.00  0.00    -0.248 OA
+BRANCH  34  36
+ATOM     36  O   UNL     1      15.083   1.178  -0.938  1.00  0.00    -0.479 OA
+ATOM     37  H   UNL     1      15.880   1.549  -0.482  1.00  0.00     0.296 HD
+ENDBRANCH  34  36
+ENDBRANCH  33  34
+ENDBRANCH  32  33
+ENDBRANCH   4  32
+TORSDOF 12

@@ -1,0 +1,155 @@
+run_id: UNIFORM_RERUN_V4_2_20260921
+document: ALTERNATIVE_RECEPTOR_EXPERIMENT_FREEZE
+status: DESIGN_FROZEN_AWAITING_HUMAN_CONFIRMATION
+docking_authorized: false
+auroc_authorized: false
+primary_receptors_may_be_modified: false
+predicted_structures_allowed: false
+performance_used_for_selection: false
+phase5_rmsd_used_for_selection: false
+legacy_or_v42_scores_opened: false
+
+purpose: >
+  Pre-register which primary targets have scientifically comparable
+  experimental holo alternatives, and freeze a one-receptor-at-a-time
+  sensitivity design. This is not a search for a receptor that improves
+  AUROC.
+
+sources_used:
+  - 00_protocol/receptor_registry.csv
+  - 00_protocol/analysis_freeze.yaml (identity / component policy only)
+  - RCSB Search API + GraphQL (2026-09-25)
+  - Representative experimental CIFs under 13_qa/alt_cif
+  - 00_protocol/alternative_receptor_manifest.csv (ID list only; score files not opened)
+
+sources_forbidden_and_not_opened:
+  - any AUROC / summary_min / Top-K / EF table
+  - Phase 5 redocking RMSD audit
+  - Phase 7 affinities as selection input
+  - LEGACY current_score_master scores
+  - deposited alternative score CSVs named in the prior manifest
+
+uniprot:
+  EGFR: P00533
+  HER2: P04626
+  JAK1: P23458
+  JAK2: O60674
+  TYK2: P29597
+  PIK3CA: P42336
+  mTOR: P42345
+  AChE: P22303
+  BChE: P06276
+  F2: P00734
+  F10: P00742
+  PPARG: P37231
+  PPARA: Q07869
+  PPARD: Q03181
+
+primary_unchanged:
+  EGFR: 3POZ
+  HER2: 3RCD
+  JAK1: 6N7A
+  JAK2: 8BXH
+  TYK2: 3LXP
+  PIK3CA: 4L23
+  mTOR: 4JT6
+  AChE: 4EY7
+  BChE: 4BDS
+  F2: 4UDW
+  F10: 2JKH
+  PPARG: 9V8H
+  PPARA: 6LXA
+  PPARD: 5U3Q   # copy B only
+
+low_perturbation_alternatives:
+  EGFR: {pdb: 1XKK, ccd: FMM, chain: A, doi: "10.1158/0008-5472.CAN-04-1168"}
+  HER2: {pdb: 3PP0, ccd: 03Q, chain: B, doi: "10.1074/jbc.M110.206193"}
+  JAK1: {pdb: 4EI4, ccd: 0Q2, chain: A, role: evaluated_not_in_primary_four}
+  JAK2: {pdb: 8BM2, ccd: QQC, chain: A, role: evaluated_not_in_primary_four}
+  TYK2: {pdb: 3NZ0, ccd: IZA, chain: A, role: evaluated_not_in_primary_four}
+  PIK3CA: {pdb: 4JPS, ccd: 1LT, chain: A, role: evaluated_optional_second_kinase_pair, prior_manifest_overlap: true}
+  mTOR: {pdb: 4JSV, ccd: ADP, chain: A, role: evaluated_optional_second_kinase_pair, note: "same Nature 2013 series as 4JT6; 4JSX equally LOW but not chosen"}
+  AChE: {pdb: 4EY6, ccd: GNT, chain: A, doi: "10.1021/jm300871x"}
+  BChE: {pdb: 1P0M, ccd: CHT, chain: A, doi: "10.1074/jbc.M210241200"}
+  F2: {pdb: 3SHC, ccd: B01, chain: H, partner: hirudin_variant_2_retained}
+  F10: {pdb: 2Y5F, ccd: XWG, chain: A, note: "same cation-inhibitor series as 2JKH"}
+  PPARA: {pdb: 6KAX, ccd: PLM, chain: A, note: "same LBD campaign as 6LXA"}
+  PPARD: {pdb: 5U46, ccd: 7T1, chain: A, note: "same PNAS 2017 series as 5U3Q; use copy consistent with holo occupancy, not 5U3Q-A"}
+
+intermediate_only:
+  PPARG:
+    pdb: 7AWC
+    ccd: BRL
+    reason: binary_rosiglitazone_lacks_PG08NL_peptide_retained_in_9V8H
+
+not_suitable_as_low:
+  - predicted_or_alphafold_models
+  - "5U3Q copy A (same entry as primary; LEGACY_ONLY)"
+  - EGFR_HER2_extracellular_domain
+  - JAK_TYK2_JH2_pseudokinase
+  - mTOR_cryoEM_mTORC1_mTORC2_partner_backgrounds
+  - AChE_1B41_fasciculin_complex
+  - HER2_exon20_insertion_or_covalent_holos
+
+selected_pairs:
+  - pair: EGFR/HER2
+    family: kinase_ATP_RTK
+    primary: {A: 3POZ, B: 3RCD}
+    A2_B1: {A: 1XKK, B: 3RCD}
+    A1_B2: {A: 3POZ, B: 3PP0}
+    A2_B2: deferred_until_single_swaps_accounted
+    why_selected: only_RTK_ATP_site_pair_with_a_fair_HER2_kinase_holo
+  - pair: AChE/BChE
+    family: cholinesterase_gorge
+    primary: {A: 4EY7, B: 4BDS}
+    A2_B1: {A: 4EY6, B: 4BDS}
+    A1_B2: {A: 4EY7, B: 1P0M}
+    A2_B2: deferred_until_single_swaps_accounted
+    why_selected: same_human_construct_series_and_gorge_site
+  - pair: F2/F10
+    family: S1_serine_protease
+    primary: {A: 4UDW, B: 2JKH}
+    A2_B1: {A: 3SHC, B: 2JKH}
+    A1_B2: {A: 4UDW, B: 2Y5F}
+    A2_B2: deferred_until_single_swaps_accounted
+    why_selected: hirudin_retained_on_F2_and_same_FXa_crystal_series
+  - pair: PPARA/PPARD
+    family: PPAR_NR_LBD
+    primary: {A: 6LXA, B: 5U3Q}
+    A2_B1: {A: 6KAX, B: 5U3Q}
+    A1_B2: {A: 6LXA, B: 5U46}
+    A2_B2: deferred_until_single_swaps_accounted
+    why_selected: peptide_free_LBD_primaries_with_same_campaign_alternatives
+
+not_selected_pairs:
+  JAK1/JAK2: LOW_exists_but_kinase_family_already_represented_by_EGFR_HER2
+  JAK1/TYK2: LOW_exists_but_kinase_family_already_represented_by_EGFR_HER2
+  PIK3CA/mTOR: LOW_exists_optional_add_on_only_not_in_primary_four
+  PPARG/PPARA: PPARG_has_no_LOW_alternative_under_peptide_background
+
+optional_later_amendment:
+  pair: PIK3CA/mTOR
+  A2_B1: {A: 4JPS, B: 4JT6}
+  A1_B2: {A: 4L23, B: 4JSV}
+  condition: human_authorization_and_family_balance_review
+  prior_manifest_overlap: 4JPS
+  de_taint_option: replace_4JPS_with_5XGH
+
+experiment_rules_if_later_authorized:
+  replace_one_receptor_per_design: true
+  forbid_direct_A1B1_vs_A2B2_as_the_only_contrast: true
+  reuse_v4_2_prep: PDBFixer_heavy_then_Meeko_0.7.1_no_Reduce2
+  forbidden_meeko_flags_remain_forbidden: true
+  box_from_alternative_cognate_only: true
+  box_pad_rule: frozen_v4_2_pad
+  vina_params: {scoring: vina, exhaustiveness: 16, num_modes: 9, energy_range: 6, cpu: 1}
+  seeds: [17, 29, 42, 71, 101]
+  primary_score: seed42_mode1
+  no_result_driven_rescue: true
+  no_mixing_LOW_with_HIGH_in_one_estimand: true
+
+human_confirmation_required_before:
+  - alternative_receptor_preparation
+  - alternative_docking
+  - AUROC
+  - adding_any_PDB_to_production_primary_set

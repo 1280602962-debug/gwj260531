@@ -1,0 +1,55 @@
+selected 28 calibration ligands
+1 6N7A medium OK 104.345
+2 3RCD medium OK 111.851
+3 3POZ medium OK 141.154
+4 8BXH medium OK 117.259
+5 3LXP medium OK 121.516
+6 3RCD higher OK 280.713
+7 3POZ higher OK 316.555
+8 6N7A higher OK 330.568
+9 4L23 medium OK 72.582
+10 8BXH higher OK 262.185
+11 4JT6 medium OK 71.827
+12 3LXP higher OK 183.505
+13 4EY7 medium OK 91.325
+14 4BDS medium OK 151.457
+15 4L23 higher OK 277.38
+16 4JT6 higher OK 298.147
+17 4UDW medium OK 257.759
+18 2JKH medium OK 220.909
+19 4EY7 higher OK 537.355
+20 9V8H medium OK 295.729
+21 2JKH higher OK 404.177
+22 4UDW higher OK 512.996
+23 6LXA medium OK 204.273
+24 9V8H higher OK 390.865
+25 4BDS higher OK 814.431
+26 5U3Q higher OK 175.21
+27 5U3Q medium OK 195.383
+28 6LXA higher OK 381.327
+{
+  "RUN_ID": "UNIFORM_RERUN_V4_2_20260921",
+  "PHASE": 6,
+  "jobs": 28,
+  "OK": 28,
+  "FAIL_OR_TIMEOUT": 0,
+  "systematic_error": false,
+  "AUROC_computed": "NO",
+  "receptor_box_ptr_his_exhaustiveness_changed": "NO",
+  "JOB_TIMEOUT_FREEZE": {
+    "n_ok_runtimes": 28,
+    "p50_s": 239.334,
+    "p95_s": 528.829,
+    "three_p95_s": 1586.488,
+    "JOB_TIMEOUT_s": 1586,
+    "JOB_TIMEOUT_min": 26.43,
+    "formula": "clamp(3*P95, 15min, 30min)",
+    "max_concurrent": 6,
+    "concurrency_reduced_for_memory": false,
+    "timeout_frozen": true,
+    "auroc_used": false
+  },
+  "PHASE_7_GO": "YES",
+  "STOP_IF_SYSTEMATIC": false
+}
+PHASE6_DONE

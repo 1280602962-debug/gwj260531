@@ -1,0 +1,30 @@
+{
+  "n_fixer_added_atoms_total": 34,
+  "n_residues_reverted_to_raw": 1,
+  "reverted": [
+    {
+      "res": "I:565",
+      "comp": "GLN",
+      "dropped_fixer_atoms": [
+        "CD",
+        "OE1",
+        "NE2"
+      ],
+      "observed_heavy": [
+        "C",
+        "CA",
+        "CB",
+        "CG",
+        "N",
+        "O"
+      ],
+      "template": "OBS_BB_CB_CG",
+      "reasons": [
+        "intraresidue_valence:Explicit valence for atom # 7 O, 3, is greater than permitted"
+      ]
+    }
+  ],
+  "moved_atoms": false,
+  "deleted_residues": false,
+  "deleted_retain_components": false
+}

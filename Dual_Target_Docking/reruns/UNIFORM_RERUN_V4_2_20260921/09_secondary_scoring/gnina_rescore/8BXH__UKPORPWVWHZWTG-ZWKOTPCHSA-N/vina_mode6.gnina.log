@@ -1,0 +1,23 @@
+              _             
+             (_)            
+   __ _ _ __  _ _ __   __ _ 
+  / _` | '_ \| | '_ \ / _` |
+ | (_| | | | | | | | | (_| |
+  \__, |_| |_|_|_| |_|\__,_|
+   __/ |                    
+  |___/                     
+
+gnina v1.3.2 master:f23dd2b   Built Jul  8 2025.
+gnina is based on smina and AutoDock Vina.
+Please cite appropriately.
+
+Commandline: /mnt/d/CADD paper exercise/gnina/bin/gnina --receptor /tmp/pr39_fiveseed/Dual_Target_Docking/reruns/UNIFORM_RERUN_V4_2_20260921/01_receptors/8BXH_receptor.pdbqt --ligand /tmp/pr39_fiveseed/Dual_Target_Docking/reruns/UNIFORM_RERUN_V4_2_20260921/09_secondary_scoring/gnina_rescore/8BXH__UKPORPWVWHZWTG-ZWKOTPCHSA-N/vina_mode6.pdbqt --score_only --no_gpu --scoring vina --cnn_scoring rescore
+## Name gauss(o=0,_w=0.5,_c=8) gauss(o=3,_w=2,_c=8) repulsion(o=0,_c=8) hydrophobic(g=0.5,_b=1.5,_c=8) non_dir_h_bond(g=-0.7,_b=0,_c=8) num_tors_div
+Affinity: -9.78880 (kcal/mol)
+CNNscore: 0.25132 
+CNNaffinity: 7.40496
+CNNvariance: 0.32577
+Intramolecular energy: -0.63992
+Term values, before weighting:
+##  99.29037 2028.11292 1.99855 34.46666 0.46905 0.00000
+
