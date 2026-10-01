@@ -12,7 +12,10 @@ import sys
 from collections import Counter, defaultdict
 from pathlib import Path
 
-ROOT = Path("/tmp/pr39_fiveseed/Dual_Target_Docking")
+_SCRIPTS = Path(__file__).resolve().parent
+sys.path.insert(0, str(_SCRIPTS.parent))
+from rerun_v4_2.formal_metrics_lib import resolve_project_root  # noqa: E402
+ROOT = resolve_project_root()
 sys.path.insert(0, str(ROOT / "scripts"))
 
 from rerun_v4_2.ablation_config import GIND, PROTO, QA, REC, RECEPTORS, RUN, SEC, UNIQUE_14  # noqa: E402
@@ -40,8 +43,8 @@ REG = QA / "HISTORICAL_ERROR_REGISTRY.csv"
 VINA_JOBS = RUN / "06_vina_fiveseed" / "jobs"
 SEEDS = (17, 29, 42, 71, 101)
 FORBIDDEN_PDB = {"2WXF", "4JPS", "5DXT", "4JSX"}
-OLD_ANALYSIS = Path("/tmp/pr39_fiveseed/Dual_Target_Docking/scripts/analysis")
-CANON = Path("/tmp/pr39_fiveseed/Dual_Target_Docking/results/canonical")
+OLD_ANALYSIS = ROOT / "scripts" / "analysis"
+CANON = ROOT / "results" / "canonical"
 
 
 def load(path: Path) -> list[dict]:
@@ -250,7 +253,7 @@ def regression(paths: dict, pop: list[dict], pop_meta: dict, p7s: dict) -> list[
     jak_ok = all(rec_qa.get(p, {}).get("issues") in {"", "OK", None} for p in ("6N7A", "8BXH", "3LXP"))
     add("HER-TGT-010", "PASS" if jak_ok else "FAIL", "JAK PTR QA issues none", "JAK prepared receptors match freeze")
     v42_rec = all((REC / f"{p}_receptor.pdbqt").is_file() for p in UNIQUE_14)
-    v41 = Path("/tmp/pr39_fiveseed/Dual_Target_Docking/reruns/UNIFORM_RERUN_V4_1_20260921/01_receptors")
+    v41 = ROOT / "reruns" / "UNIFORM_RERUN_V4_1_20260921" / "01_receptors"
     add("HER-TGT-011", "PASS" if v42_rec else "FAIL",
         f"v42_receptors={v42_rec}; v41_dir_exists={v41.is_dir()} (isolated)", "formal receptors only V4.2")
 
@@ -455,7 +458,7 @@ files:
   activity: 00_protocol/pair_ligand_mapping.csv
   alias: 00_protocol/parent_alias_registry.csv
   holdout: 00_protocol/holdout_membership_freeze.csv
-  fold: /tmp/pr39_fiveseed/Dual_Target_Docking/results/canonical/model_fold_assignments.csv
+  fold: results/canonical/model_fold_assignments.csv
   m0: 13_qa/official_primary_seed42_score_master_8pair.csv
   m1: 09_secondary_scoring/GNINA_VINA_POSE_RESCORE_MASTER_VERIFIED.csv
   m1_long: 09_secondary_scoring/GNINA_VINA_POSE_RESCORE_POSE_LONG_VERIFIED.csv

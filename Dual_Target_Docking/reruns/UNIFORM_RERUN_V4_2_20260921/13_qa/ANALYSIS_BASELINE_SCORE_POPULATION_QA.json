@@ -1,0 +1,65 @@
+{
+  "population": {
+    "n_rows": 807,
+    "n_pairs": 8,
+    "pairs": [
+      "AChE/BChE",
+      "EGFR/HER2",
+      "F2/F10",
+      "JAK1/JAK2",
+      "JAK1/TYK2",
+      "PIK3CA/mTOR",
+      "PPARA/PPARD",
+      "PPARG/PPARA"
+    ],
+    "class_counts": {
+      "dual": 234,
+      "A_only": 238,
+      "": 2,
+      "B_only": 232,
+      "neither": 101
+    },
+    "n_activity_eligible_0": 2,
+    "n_eligible0_class_neither": 0,
+    "n_AB_040": 0,
+    "n_unique_pair_ligand": 807,
+    "duplicate_keys": 0
+  },
+  "M0": {
+    "n": 1614,
+    "has_other_seed_column_used": false,
+    "orientation_mismatch": 0,
+    "best_of_9_used": false
+  },
+  "M1": {
+    "n": 1592,
+    "status": {
+      "SUCCESS": 1569,
+      "ATOM_MAPPING_FAILURE": 17,
+      "MISSING_NO_VINA_POSE": 6
+    },
+    "n_success_checked": 1569,
+    "mode1_mismatch": 0,
+    "m1b_max_mismatch": 0
+  },
+  "M2": {
+    "n": 1592,
+    "status": {
+      "SUCCESS": 1586,
+      "MISSING_NO_VINA_POSE": 6
+    },
+    "mode1_mismatch": 0,
+    "formal_column_is_max_saved": 0
+  },
+  "M3": {
+    "n": 1592,
+    "status": {
+      "SUCCESS": 1586,
+      "TIMEOUT": 6
+    },
+    "ok_1586_6": true
+  },
+  "static": [],
+  "issues": [],
+  "PASS": true
+}

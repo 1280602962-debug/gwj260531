@@ -8,7 +8,17 @@ import sys
 from collections import defaultdict
 from pathlib import Path
 
-ROOT = Path("/tmp/pr39_fiveseed/Dual_Target_Docking")
+_SCRIPTS_DIR = Path(__file__).resolve().parent
+if str(_SCRIPTS_DIR) not in sys.path:
+    sys.path.insert(0, str(_SCRIPTS_DIR))
+import formal_metrics_lib as F  # noqa: E402
+from run_primary_metrics_v42 import (  # noqa: E402
+    DELTA_FIELDS, DELTA_KEYS, DIR_FIELDS, DIR_KEYS, MEM_FIELDS,
+    _bind_root, compute, load_csv, rows_equal, sort_rows,
+)
+
+ROOT = F.resolve_project_root()
+_bind_root(ROOT)
 RUN = ROOT / "reruns" / "UNIFORM_RERUN_V4_2_20260921"
 QA = RUN / "13_qa"
 PROTO = RUN / "00_protocol"
@@ -16,13 +26,6 @@ OUT = ROOT / "results" / "formal_metrics"
 SCRIPTS = ROOT / "scripts" / "rerun_v4_2"
 SEC = RUN / "09_secondary_scoring"
 M3P = RUN / "10_gnina_independent_docking"
-
-sys.path.insert(0, str(SCRIPTS))
-import formal_metrics_lib as F  # noqa: E402
-from run_primary_metrics_v42 import (  # noqa: E402
-    DELTA_FIELDS, DELTA_KEYS, DIR_FIELDS, DIR_KEYS, MEM_FIELDS,
-    compute, load_csv, rows_equal, sort_rows,
-)
 
 ISSUES: list[str] = []
 
@@ -71,6 +74,12 @@ FORBIDDEN_NAME = {
     "GNINA_VINA_POSE_RESCORE_MASTER.csv",
     "GNINA_VINA_POSE_RESCORE_POSE_LONG.csv",
     "GNINA_SEED42_PRODUCTION_MASTER.csv",
+    "HISTORICAL_NON_FORMAL_GNINA_VINA_POSE_RESCORE_MASTER.csv",
+    "HISTORICAL_NON_FORMAL_GNINA_VINA_POSE_RESCORE_POSE_LONG.csv",
+    "HISTORICAL_NON_FORMAL_GNINA_SEED42_PRODUCTION_MASTER.csv",
+    "HISTORICAL_NON_FORMAL_GNINA_SEED42_PRODUCTION_MASTER_REPARSED.csv",
+    "HISTORICAL_NON_FORMAL_GNINA_SEED42_PRODUCTION_LEDGER.csv",
+    "HISTORICAL_NON_FORMAL_official_primary_seed42_score_master_formal4.csv",
     "current_score_master.csv",
 }
 
@@ -133,7 +142,21 @@ def ast_no_old_analysis(*paths: Path) -> None:
                     fail(f"import_sklearn {p.name}")
 
 
-def main() -> int:
+def main(argv=None) -> int:
+    import argparse
+    p = argparse.ArgumentParser()
+    F.add_project_root_arg(p)
+    args = p.parse_args(argv)
+    global ROOT, RUN, QA, PROTO, OUT, SCRIPTS, SEC, M3P
+    ROOT = F.resolve_project_root(args.project_root)
+    _bind_root(ROOT)
+    RUN = ROOT / "reruns" / "UNIFORM_RERUN_V4_2_20260921"
+    QA = RUN / "13_qa"
+    PROTO = RUN / "00_protocol"
+    OUT = ROOT / "results" / "formal_metrics"
+    SCRIPTS = ROOT / "scripts" / "rerun_v4_2"
+    SEC = RUN / "09_secondary_scoring"
+    M3P = RUN / "10_gnina_independent_docking"
     dir_path = OUT / "PRIMARY_DIRECTIONAL_METRICS.csv"
     delta_path = OUT / "PRIMARY_METHOD_DELTA_METRICS.csv"
     mem_path = QA / "PRIMARY_METRICS_UNIVERSE_MEMBERSHIP.csv"

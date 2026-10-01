@@ -9,9 +9,26 @@ This module must not import scripts/analysis/*.
 from __future__ import annotations
 
 import ast
+import argparse
 from pathlib import Path
 
 import numpy as np
+
+
+def resolve_project_root(cli_root: str | None = None) -> Path:
+    """Dual_Target_Docking directory. Never use process cwd alone."""
+    if cli_root:
+        return Path(cli_root).expanduser().resolve()
+    return Path(__file__).resolve().parents[2]
+
+
+def add_project_root_arg(parser: argparse.ArgumentParser) -> argparse.ArgumentParser:
+    parser.add_argument(
+        "--project-root",
+        default=None,
+        help="Dual_Target_Docking PROJECT_ROOT. Default: directory two levels above this script.",
+    )
+    return parser
 
 METRICS_EXECUTION_UNLOCKED = False
 BOOT_B = 10000

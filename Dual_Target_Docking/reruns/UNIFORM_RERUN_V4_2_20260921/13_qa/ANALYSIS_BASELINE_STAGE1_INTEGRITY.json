@@ -1,0 +1,76 @@
+{
+  "stage0": "OK",
+  "stops": [],
+  "ligands": {
+    "02_ligands_git_mode": "040000",
+    "02_ligands_is_tree": true,
+    "n_sdf": 785,
+    "n_pdbqt": 785,
+    "only_sdf": 0,
+    "only_pdbqt": 0,
+    "only_sdf_ids": [],
+    "only_pdbqt_ids": []
+  },
+  "receptors": {
+    "n_formal": 14,
+    "receptor_pdbqt_present": 14,
+    "box_json_present": 14
+  },
+  "redocking": {
+    "n_job_dirs": 70,
+    "seeds": [
+      17,
+      29,
+      42,
+      71,
+      101
+    ]
+  },
+  "five_seed_tree": {
+    "n_pair_expanded_job_seed": 8070,
+    "seeds": [
+      17,
+      29,
+      42,
+      71,
+      101
+    ]
+  },
+  "M0": {
+    "n_pair_expanded_seed42": 1614,
+    "pair_expanded_SUCCESS": 1608,
+    "pair_expanded_TIMEOUT": 6,
+    "n_unique_physical_jobs": 1592,
+    "physical_SUCCESS": 1586,
+    "physical_TIMEOUT": 6,
+    "physical_MIXED": 0,
+    "n_physical_job_seed": 7960,
+    "n_pair_expanded_job_seed": 8070
+  },
+  "M3": {
+    "expected": 1592,
+    "accounted": 1592,
+    "SUCCESS": 1586,
+    "TIMEOUT": 6,
+    "other": {},
+    "n_unique_physical_jobs_keys": 1592
+  },
+  "repair_affected": {
+    "n_job_ids_in_addendum": 61,
+    "missing_in_m3_master": [],
+    "missing_in_gnina_job_tree": [],
+    "n_gnina_job_dirs": 1592
+  },
+  "population_nrows": 807,
+  "population_pairs": [
+    "AChE/BChE",
+    "EGFR/HER2",
+    "F2/F10",
+    "JAK1/JAK2",
+    "JAK1/TYK2",
+    "PIK3CA/mTOR",
+    "PPARA/PPARD",
+    "PPARG/PPARA"
+  ],
+  "STAGE1": "PASS"
+}

@@ -6,29 +6,45 @@ Does not import scripts/analysis/*. Does not read forbidden score masters.
 """
 from __future__ import annotations
 
+import argparse
 import ast
 import csv
 import sys
 from collections import defaultdict
 from pathlib import Path
 
-ROOT = Path("/tmp/pr39_fiveseed/Dual_Target_Docking")
-RUN = ROOT / "reruns" / "UNIFORM_RERUN_V4_2_20260921"
-QA = RUN / "13_qa"
-PROTO = RUN / "00_protocol"
-OUT = ROOT / "results" / "formal_metrics"
-SCRIPTS = ROOT / "scripts" / "rerun_v4_2"
-
-sys.path.insert(0, str(SCRIPTS))
+_SCRIPTS_DIR = Path(__file__).resolve().parent
+if str(_SCRIPTS_DIR) not in sys.path:
+    sys.path.insert(0, str(_SCRIPTS_DIR))
 import formal_metrics_lib as F  # noqa: E402
+
+
+def _bind_root(root: Path) -> None:
+    global ROOT, RUN, QA, PROTO, OUT, SCRIPTS
+    ROOT = root
+    RUN = ROOT / "reruns" / "UNIFORM_RERUN_V4_2_20260921"
+    QA = RUN / "13_qa"
+    PROTO = RUN / "00_protocol"
+    OUT = ROOT / "results" / "formal_metrics"
+    SCRIPTS = ROOT / "scripts" / "rerun_v4_2"
+
+
+_bind_root(F.resolve_project_root())
 
 OPENED: list[str] = []
 FORBIDDEN_READ_SUBSTR = (
     "scripts/analysis",
+    "HISTORICAL_NON_FORMAL_GNINA_VINA_POSE_RESCORE_MASTER.csv",
+    "HISTORICAL_NON_FORMAL_GNINA_VINA_POSE_RESCORE_POSE_LONG.csv",
+    "HISTORICAL_NON_FORMAL_GNINA_SEED42_PRODUCTION_MASTER.csv",
+    "HISTORICAL_NON_FORMAL_GNINA_SEED42_PRODUCTION_MASTER_REPARSED.csv",
+    "HISTORICAL_NON_FORMAL_GNINA_SEED42_PRODUCTION_LEDGER.csv",
+    "HISTORICAL_NON_FORMAL_official_primary_seed42_score_master_formal4.csv",
     "GNINA_VINA_POSE_RESCORE_MASTER.csv",
     "GNINA_VINA_POSE_RESCORE_POSE_LONG.csv",
     "GNINA_SEED42_PRODUCTION_MASTER.csv",
     "current_score_master.csv",
+    "/tmp/pr39_fiveseed",
 )
 ALLOWED_READS = {
     str(QA / "PRIMARY_DIRECTIONAL_ANALYSIS_POPULATION.csv"),
@@ -68,10 +84,16 @@ def _track_read(path: Path) -> Path:
     OPENED.append(p)
     for bad in FORBIDDEN_READ_SUBSTR:
         if bad in p.replace("\\", "/") and "VERIFIED" not in Path(p).name and "TOPOLOGY" not in Path(p).name:
-            if bad == "scripts/analysis" or Path(p).name in {
+            if bad == "scripts/analysis" or "/tmp/pr39_fiveseed" in p.replace("\\", "/") or Path(p).name in {
                 "GNINA_VINA_POSE_RESCORE_MASTER.csv",
                 "GNINA_VINA_POSE_RESCORE_POSE_LONG.csv",
                 "GNINA_SEED42_PRODUCTION_MASTER.csv",
+                "HISTORICAL_NON_FORMAL_GNINA_VINA_POSE_RESCORE_MASTER.csv",
+                "HISTORICAL_NON_FORMAL_GNINA_VINA_POSE_RESCORE_POSE_LONG.csv",
+                "HISTORICAL_NON_FORMAL_GNINA_SEED42_PRODUCTION_MASTER.csv",
+                "HISTORICAL_NON_FORMAL_GNINA_SEED42_PRODUCTION_MASTER_REPARSED.csv",
+                "HISTORICAL_NON_FORMAL_GNINA_SEED42_PRODUCTION_LEDGER.csv",
+                "HISTORICAL_NON_FORMAL_official_primary_seed42_score_master_formal4.csv",
                 "current_score_master.csv",
             }:
                 raise RuntimeError(f"forbidden_read:{p}")
@@ -265,7 +287,21 @@ def write_manifest(dir_rows, delta_rows, mem_rows, cmp_issues) -> None:
     wcsv(QA / "PRIMARY_METRICS_EXECUTION_MANIFEST.csv", rows, ["key", "value"])
 
 
-def main() -> int:
+def parse_args(argv: list[str] | None = None):
+    p = argparse.ArgumentParser()
+    F.add_project_root_arg(p)
+    p.add_argument(
+        "--compare-only",
+        action="store_true",
+        help="Recompute and compare to existing PRIMARY CSVs. Do not overwrite them.",
+    )
+    p.add_argument("--qa-out-dir", default=None, help="Write compare-only outputs here.")
+    return p.parse_args(argv)
+
+
+def main(argv: list[str] | None = None) -> int:
+    args = parse_args(argv)
+    _bind_root(F.resolve_project_root(args.project_root))
     assert_gates()
     pop = load_csv(QA / "PRIMARY_DIRECTIONAL_ANALYSIS_POPULATION.csv")
     if len(pop) != 807:
@@ -312,6 +348,30 @@ def main() -> int:
     d1 = sort_rows(d1, DIR_KEYS)
     g1 = sort_rows(g1, DELTA_KEYS)
     m1 = sort_rows(m1, ("pair", "universe_type", "method_or_delta", "class", "global_ligand_entity_id"))
+    if args.compare_only:
+        qa_dir = Path(args.qa_out_dir) if args.qa_out_dir else QA
+        qa_dir.mkdir(parents=True, exist_ok=True)
+        published_d = load_csv(OUT / "PRIMARY_DIRECTIONAL_METRICS.csv")
+        published_g = load_csv(OUT / "PRIMARY_METHOD_DELTA_METRICS.csv")
+        pub_issues = []
+        pub_issues += rows_equal(d1, published_d, DIR_KEYS, DIR_FIELDS)
+        pub_issues += rows_equal(g1, published_g, DELTA_KEYS, DELTA_FIELDS)
+        wcsv(qa_dir / "PRIMARY_DIRECTIONAL_METRICS_RECOMPUTE_QA.csv", d1, DIR_FIELDS)
+        wcsv(qa_dir / "PRIMARY_METHOD_DELTA_METRICS_RECOMPUTE_QA.csv", g1, DELTA_FIELDS)
+        (qa_dir / "PRIMARY_METRICS_RECOMPUTE_COMPARE.md").write_text(
+            "PRIMARY_METRICS_RECOMPUTE_COMPARE = "
+            + ("PASS" if not pub_issues else "FAIL")
+            + "\n\n"
+            + ("\n".join(pub_issues[:50]) if pub_issues else "120/32 scientific fields match published PRIMARY CSVs.\nPRIMARY files were not overwritten.\n"),
+            encoding="utf-8",
+        )
+        print("PRIMARY_COMPARE_ONLY_DONE")
+        print(f"directional={len(d1)} deltas={len(g1)} membership={len(m1)}")
+        print("TWO_RUN_FIELD_COMPARE=PASS")
+        print("PUBLISHED_COMPARE=" + ("PASS" if not pub_issues else "FAIL"))
+        if pub_issues:
+            raise RuntimeError("published_compare_mismatch:" + ";".join(pub_issues[:10]))
+        return 0
     OUT.mkdir(parents=True, exist_ok=True)
     wcsv(OUT / "PRIMARY_DIRECTIONAL_METRICS.csv", d1, DIR_FIELDS)
     wcsv(OUT / "PRIMARY_METHOD_DELTA_METRICS.csv", g1, DELTA_FIELDS)

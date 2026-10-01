@@ -3,7 +3,10 @@ from __future__ import annotations
 
 from pathlib import Path
 
-ROOT = Path("/tmp/pr39_fiveseed/Dual_Target_Docking")
+# PROJECT_ROOT = Dual_Target_Docking, derived from this file (not cwd).
+# GNINA_* and RTM_* below are LOCAL_ENVIRONMENT_ONLY records of the
+# original execution machine. Formal metrics must not use them.
+ROOT = Path(__file__).resolve().parents[2]
 RUN_ID = "UNIFORM_RERUN_V4_2_20260921"
 RUN = ROOT / "reruns" / RUN_ID
 
