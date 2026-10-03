@@ -144,6 +144,103 @@ Module-level readiness:
 - if at least one `pair × arm` is executable, the chemistry module is not globally BLOCKED;
 - blocked units are listed in notes.
 
+## Frozen-fold coverage mismatch policy
+
+Rule type: TYPE B (`NEW_PRE_SPECIFIED_BEFORE_ANALYSIS`). Frozen before any chemistry model performance, OOF AUROC, or docking-increment result is computed. Not historical preregistration.
+
+`fold-unassigned` is only the technical state “this formal directional ligand has no frozen cross-validation fold in `model_fold_assignments.csv` for that `pair × arm`”. It is not a judgment that the ligand has poor data quality, unreliable activity, or should be removed from the primary evaluation set.
+
+Join key (fixed):
+
+- formal population: `pair` + `canonical_ligand_id`
+- fold file: `pair` + `arm` + `ligand_id`
+- match when `canonical_ligand_id == ligand_id`
+- `dual vs A_only` uses `arm = D_vs_A`
+- `dual vs B_only` uses `arm = D_vs_B`
+- `activity_eligible=1` only; AB_040 is not an independent observation
+
+### No new fold assignment
+
+If a formal directional ligand is absent from `model_fold_assignments.csv` for that `pair × arm`:
+
+- do not regenerate a scaffold split;
+- do not assign a temporary fold;
+- do not randomly assign a fold;
+- do not place the ligand into the nearest scaffold’s fold;
+- do not recompute all folds to increase n.
+
+`model_fold_assignments.csv` remains the unique frozen fold authority.
+
+### Exclusion scope is chemistry OOF only
+
+Ligands that belong to the formal directional population but lack a frozen fold assignment are excluded **only** from chemistry analyses that require an OOF fold assignment:
+
+- physchem + L2 logistic regression;
+- ECFP4 + L2 logistic regression;
+- ECFP4 + relevant M0 score + L2 logistic regression;
+- OOF comparisons among those models.
+
+D1 composition description (no model) still uses the formal directional population and must list `fold_unassigned_ligand_ids`. Those ligands are not dropped from D1.
+
+### Primary docking population is unchanged
+
+Chemistry-fold absence must not change:
+
+- `PRIMARY_DIRECTIONAL_ANALYSIS_POPULATION`;
+- formal M0 AUROC in `PRIMARY_DIRECTIONAL_METRICS.csv`;
+- M1 / M1b / M2 / M3;
+- negative-class, wrong-pocket, five-seed, receptor sensitivity;
+- joint-ranking population;
+
+unless those modules already have their own independent missingness rule.
+
+### CHEMISTRY_OOF_POPULATION
+
+For each `pair × arm`:
+
+```
+CHEMISTRY_OOF_POPULATION
+= formal directional eligible ligands
+∩ has frozen fold assignment
+∩ parsable canonical_smiles
+∩ not alias
+∩ required M0 score finite
+```
+
+Required M0 score:
+
+- `dual vs A_only` / `D_vs_A`: `M0_score_B` finite;
+- `dual vs B_only` / `D_vs_B`: `M0_score_A` finite.
+
+Current SMILES parse is 808/808, so SMILES does not add extra loss, but the intersection rule remains.
+
+The three chemistry models, and any official increment among them, use this **same** `CHEMISTRY_OOF_POPULATION`. Forbidden: physchem, ECFP4, and ECFP4+M0 using different ligand sets and then comparing AUROCs.
+
+### Supporting chemistry-matched M0
+
+If a later phase compares M0 docking-only numerically with physchem, ECFP4, or ECFP4+M0, recompute a supporting AUROC on exactly `CHEMISTRY_OOF_POPULATION` and label it `SUPPORTING_CHEMISTRY_MATCHED_M0`.
+
+That value is not primary M0. It must not overwrite `PRIMARY_DIRECTIONAL_METRICS.csv`.
+
+Forbidden: subtracting a reduced-population chemistry AUROC from the full-population primary M0 AUROC and calling the difference a chemistry-vs-docking increment. Official chemistry-vs-docking numbers must be population-matched.
+
+### Required reporting when chemistry is later run
+
+Each `pair × arm` must report:
+
+- `n_formal_population`
+- `n_with_frozen_fold`
+- `n_fold_unassigned`
+- `n_final_chemistry_oof`
+- `fold_unassigned_ligand_ids`
+
+Silent deletion is forbidden.
+
+Verified coverage gap used to write this policy (recounted; not copied from memory):
+
+- 10 `pair × arm` records
+- 7 unique ligands: `AB_001`, `AB_053`, `AB_054`, `EH40_31`, `F2F10_080`, `J1TYK2_092`, `PGPA_030`
+
 ## D4. Docking incremental model
 
 Only one increment:
@@ -184,4 +281,4 @@ OOF merged class counts are two-class for every `pair × arm`. `OOF_SINGLE_CLASS
 
 Module `data_readiness = READY_ZERO_DOCKING`.
 
-Note (not a blocker): some fold OOF n values are 1 below the formal population (example: F2/F10 dual 31 in folds vs 32 in the population). Stage 1 does not resplit and does not treat this as `TRAIN_SINGLE_CLASS`. A later compute phase must join folds to the formal directional population and report any unmatched ligand; it must not invent a new split.
+Note (not a blocker): 10 formal `pair × arm` records (7 unique ligands) lack a frozen fold assignment. They are handled by the Frozen-fold coverage mismatch policy above. They are not a `TRAIN_SINGLE_CLASS` event and do not block the chemistry module.

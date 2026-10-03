@@ -232,6 +232,8 @@ Blocking granularity is `pair × arm`, not the whole module:
 
 `TEST_SINGLE_CLASS` is a warning only. Formal chemistry AUROC, when later permitted, is one OOF-merged AUROC per `pair × arm`, never a training AUROC and never a per-fold AUROC.
 
+Frozen fold coverage is incomplete for 10 formal `pair × arm` records (7 unique ligands). Do not resplit. `fold-unassigned` is only the technical absence of a frozen CV fold; it is not poor data quality, unreliable activity, or a reason to drop the ligand from the primary docking evaluation set. Those ligands are excluded only from chemistry OOF models. D1 description still includes them. All chemistry models, and any chemistry-vs-docking supporting comparison, use the same `CHEMISTRY_OOF_POPULATION` (fold-assigned, parsable SMILES, not alias, required M0 score finite). Primary docking populations stay unchanged. A chemistry-matched M0 AUROC, if computed, is `SUPPORTING_CHEMISTRY_MATCHED_M0` only.
+
 Manuscript role: main-text layer 2.
 
 ## 14. Module E — five-seed sensitivity (M0 only)
@@ -355,7 +357,7 @@ Adversarial answers (Stage 5):
 7. NO — M0 remains primary; M1–M3 stay ablation plus the ranking challenge.
 8. NO — no future-application pair is selected.
 9. NO — the design contracted (M0-only sensitivities; Top 10% only; two chemistry models plus one increment).
-10. NO — remaining execution details required by later compute are written in this directory (pair×arm chemistry blocks, wrong-pocket both-score population, ranking midrank/ties/random expectation, five-seed `mode1_affinity` vs `primary_score`).
+10. NO — remaining execution details required by later compute are written in this directory (pair×arm chemistry blocks, wrong-pocket both-score population, ranking midrank/ties/random expectation, five-seed `mode1_affinity` vs `primary_score`). `CHEMISTRY_FOLD_UNASSIGNED_POLICY = FROZEN_BEFORE_COMPUTE` and is no longer an execution-time free parameter.
 
 Data gaps are recorded in `DATA_READINESS_AUDIT.csv` and do not change this PASS.
 
