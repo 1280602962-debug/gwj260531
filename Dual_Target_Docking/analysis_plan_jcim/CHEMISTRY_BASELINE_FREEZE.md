@@ -35,6 +35,8 @@ AB_040 is `DUPLICATE_PARENT_ALIAS` of AB_046. It is not an independent observati
 
 ## D1. Composition description (no model)
 
+D1 uses **layer 1** `LABELED_DIRECTIONAL_POPULATION` (938 directional records). It does **not** use layer 2 `M0_DIRECTIONAL_POPULATION` or layer 3 `CHEMISTRY_OOF_POPULATION`. Fold-unassigned ligands remain in D1 and must be listed.
+
 Eight descriptors, all recomputed from the same RDKit Mol built from `canonical_smiles`:
 
 - MolWt
@@ -180,7 +182,7 @@ Ligands that belong to the formal directional population but lack a frozen fold 
 - ECFP4 + relevant M0 score + L2 logistic regression;
 - OOF comparisons among those models.
 
-D1 composition description (no model) still uses the formal directional population and must list `fold_unassigned_ligand_ids`. Those ligands are not dropped from D1.
+D1 composition description (no model) uses `LABELED_DIRECTIONAL_POPULATION` and must list `fold_unassigned_ligand_ids`. Those ligands are not dropped from D1.
 
 ### Primary docking population is unchanged
 
@@ -194,27 +196,43 @@ Chemistry-fold absence must not change:
 
 unless those modules already have their own independent missingness rule.
 
-### CHEMISTRY_OOF_POPULATION
+### Three named chemistry-adjacent populations
 
-For each `pair × arm`:
+These layers are named before any chemistry model is trained. Counts below were recounted from `PRIMARY_DIRECTIONAL_ANALYSIS_POPULATION.csv`, `model_fold_assignments.csv`, and `parent_alias_registry.csv`. The per-`pair × arm` table is `CHEMISTRY_POPULATION_LAYERS.csv`.
+
+Join key (same as above): `pair` + `canonical_ligand_id` ↔ `pair` + `arm` + `ligand_id`.
+
+Required M0 score (layers 2 and 3):
+
+- dual: both `M0_score_A` and `M0_score_B` finite (shared-dual);
+- `dual vs A_only` / `D_vs_A` negatives: `M0_score_B` finite;
+- `dual vs B_only` / `D_vs_B` negatives: `M0_score_A` finite.
 
 ```
-CHEMISTRY_OOF_POPULATION
-= formal directional eligible ligands
+LABELED_DIRECTIONAL_POPULATION          (layer 1, n=938)
+= activity_eligible=1
+∩ class in {dual, A_only} for D_vs_A, or {dual, B_only} for D_vs_B
+∩ not alias
+
+M0_DIRECTIONAL_POPULATION               (layer 2, n=934)
+= layer 1 ∩ required M0 score finite
+
+CHEMISTRY_OOF_POPULATION                (layer 3, n=928)
+= layer 2
 ∩ has frozen fold assignment
 ∩ parsable canonical_smiles
 ∩ not alias
-∩ required M0 score finite
 ```
 
-Required M0 score:
+Layer 1 → 2 drops 4 records, all AChE/BChE M0 TIMEOUT: `AB_001` dual on both arms; `AB_053` and `AB_054` A_only on `D_vs_A`.
 
-- `dual vs A_only` / `D_vs_A`: `M0_score_B` finite;
-- `dual vs B_only` / `D_vs_B`: `M0_score_A` finite.
+Layer 1 fold-unassigned: 10 records / 7 unique ligands (`AB_001`, `AB_053`, `AB_054`, `EH40_31`, `F2F10_080`, `J1TYK2_092`, `PGPA_030`).
+
+Layer 2 fold-unassigned remaining after the M0 filter: 6 records / 4 unique ligands (`EH40_31`, `J1TYK2_092` both arms, `F2F10_080` both arms, `PGPA_030`). `AB_001` / `AB_053` / `AB_054` leave layer 2 because of TIMEOUT, not because fold absence is treated as poor quality.
 
 Current SMILES parse is 808/808, so SMILES does not add extra loss, but the intersection rule remains.
 
-The three chemistry models, and any official increment among them, use this **same** `CHEMISTRY_OOF_POPULATION`. Forbidden: physchem, ECFP4, and ECFP4+M0 using different ligand sets and then comparing AUROCs.
+D1 uses layer 1. The three chemistry models, the official increment among them, and `SUPPORTING_CHEMISTRY_MATCHED_M0` use the **same** layer 3. Forbidden: physchem, ECFP4, and ECFP4+M0 using different ligand sets and then comparing AUROCs.
 
 ### Supporting chemistry-matched M0
 
@@ -228,18 +246,14 @@ Forbidden: subtracting a reduced-population chemistry AUROC from the full-popula
 
 Each `pair × arm` must report:
 
-- `n_formal_population`
-- `n_with_frozen_fold`
-- `n_fold_unassigned`
+- `n_labeled_population`
+- `n_m0_directional_population`
+- `n_fold_unassigned_in_labeled_population`
+- `n_fold_unassigned_after_m0_filter`
 - `n_final_chemistry_oof`
 - `fold_unassigned_ligand_ids`
 
 Silent deletion is forbidden.
-
-Verified coverage gap used to write this policy (recounted; not copied from memory):
-
-- 10 `pair × arm` records
-- 7 unique ligands: `AB_001`, `AB_053`, `AB_054`, `EH40_31`, `F2F10_080`, `J1TYK2_092`, `PGPA_030`
 
 ## D4. Docking incremental model
 

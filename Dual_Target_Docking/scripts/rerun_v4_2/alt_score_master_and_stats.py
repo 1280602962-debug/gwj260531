@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
 """Completeness audit, independent alternative score master, paired Δ statistics.
 
+HISTORICAL_NON_FORMAL_ENTRY — documentary banner only.
+This file is not a Stage 2 scientific input. Do not import it from
+jcim_stage2_*. See 13_qa/HISTORICAL_NON_FORMAL_FILES.md.
+Compute logic below is unchanged.
+
 Official stats only on the common complete-case population with identical
 labels, directional definition, and paired bootstrap indices.
 Unreplaced direction is the internal negative control.

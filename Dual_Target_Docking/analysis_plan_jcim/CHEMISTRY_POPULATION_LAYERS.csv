@@ -1,0 +1,17 @@
+pair,arm,n_labeled_population,n_m0_directional_population,n_m0_missing,n_fold_unassigned_in_labeled_population,n_fold_unassigned_after_m0_filter,n_final_chemistry_oof,fold_unassigned_in_labeled,fold_unassigned_after_m0,m0_missing_ids
+EGFR/HER2,D_vs_A,65,65,0,0,0,65,,,
+EGFR/HER2,D_vs_B,60,60,0,1,1,59,EH40_31:B_only,EH40_31:B_only,
+JAK1/JAK2,D_vs_A,64,64,0,0,0,64,,,
+JAK1/JAK2,D_vs_B,64,64,0,0,0,64,,,
+JAK1/TYK2,D_vs_A,64,64,0,1,1,63,J1TYK2_092:dual,J1TYK2_092:dual,
+JAK1/TYK2,D_vs_B,64,64,0,1,1,63,J1TYK2_092:dual,J1TYK2_092:dual,
+PIK3CA/mTOR,D_vs_A,32,32,0,0,0,32,,,
+PIK3CA/mTOR,D_vs_B,30,30,0,0,0,30,,,
+AChE/BChE,D_vs_A,55,52,3,3,0,52,AB_001:dual;AB_053:A_only;AB_054:A_only,,AB_001:dual:TIMEOUT/TIMEOUT;AB_053:A_only:TIMEOUT/TIMEOUT;AB_054:A_only:TIMEOUT/TIMEOUT
+AChE/BChE,D_vs_B,56,55,1,1,0,55,AB_001:dual,,AB_001:dual:TIMEOUT/TIMEOUT
+F2/F10,D_vs_A,64,64,0,1,1,63,F2F10_080:dual,F2F10_080:dual,
+F2/F10,D_vs_B,64,64,0,1,1,63,F2F10_080:dual,F2F10_080:dual,
+PPARG/PPARA,D_vs_A,64,64,0,1,1,63,PGPA_030:A_only,PGPA_030:A_only,
+PPARG/PPARA,D_vs_B,64,64,0,0,0,64,,,
+PPARA/PPARD,D_vs_A,64,64,0,0,0,64,,,
+PPARA/PPARD,D_vs_B,64,64,0,0,0,64,,,

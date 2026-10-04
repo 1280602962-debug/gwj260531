@@ -44,3 +44,17 @@ See also `HISTORICAL_PATH_MAPPING.csv`. Historical audit documents still cite th
 - Reports 1590 SUCCESS / 2 TIMEOUT. That is pre-repair. Final authority is `GNINA_INDEPENDENT_COMPLETENESS_AUDIT_FINAL.md` generated from the topology-verified master: 1586 / 6.
 
 Formal statistics must not read any HISTORICAL_NON_FORMAL file.
+
+## Historical alternative-receptor stats entry points
+
+These scripts remain in the tree as provenance. Stage 2 must not import them. Isolation is by this list and script banners only. Historical compute logic is not rewritten and no new runtime guard is added.
+
+- `scripts/rerun_v4_2/alt_score_master_and_stats.py`
+  - Why not a Stage 2 input: imports `analysis.bootstrap_metrics`; reads the historical 4-pair subset `official_primary_seed42_score_master_formal4.csv`; can rewrite alt masters/stats.
+  - Formal replacement for later Module F: `jcim_stage2_compute.py` reading `13_qa/alt_score_master_independent.csv` and the formal 8-pair M0 master.
+
+- `scripts/rerun_v4_2/alt_identity_test.py`
+  - Why not a Stage 2 input: historical identity-test path; not the frozen Stage 2 receptor-sensitivity implementation.
+  - Formal replacement: same Stage 2 compute entry as above.
+
+Do not use `analysis.bootstrap_metrics`, `analysis.uniform_protocol_config`, or any `HISTORICAL_NON_FORMAL_*` table as a Stage 2 scientific input.

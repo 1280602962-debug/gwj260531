@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
 """Build official A1/B1 seed42 master for the four formal pairs and replay
 the receptor-sensitivity analysis path twice. Identity test only; no new science.
+
+HISTORICAL_NON_FORMAL_ENTRY — documentary banner only.
+This file is not a Stage 2 scientific input. Do not import it from
+jcim_stage2_*. See 13_qa/HISTORICAL_NON_FORMAL_FILES.md.
+Compute logic below is unchanged.
 """
 from __future__ import annotations
 

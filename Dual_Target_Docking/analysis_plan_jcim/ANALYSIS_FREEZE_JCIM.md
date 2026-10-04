@@ -211,6 +211,7 @@ Population is stricter than the primary directional A_only/B_only rule because b
 - relevant negatives: `activity_eligible=1` and **both** M0 score_A and M0 score_B finite;
 - correct and wrong AUCs use this identical ligand set;
 - if this drops ligands relative to the primary directional table, record the n change and do not revise the primary table.
+- AChE/BChE `D_vs_A` A_only: labeled n=27; M0-valid n=25 because `AB_053` and `AB_054` are M0 TIMEOUT. The both-finite wrong-pocket rule adds **no extra drop** (`extra_drop=0`; 25→25). Do not attribute 27→25 to wrong-pocket missingness.
 
 `delta_pocket = AUC_correct − AUC_wrong`.
 
@@ -232,7 +233,7 @@ Blocking granularity is `pair × arm`, not the whole module:
 
 `TEST_SINGLE_CLASS` is a warning only. Formal chemistry AUROC, when later permitted, is one OOF-merged AUROC per `pair × arm`, never a training AUROC and never a per-fold AUROC.
 
-Frozen fold coverage is incomplete for 10 formal `pair × arm` records (7 unique ligands). Do not resplit. `fold-unassigned` is only the technical absence of a frozen CV fold; it is not poor data quality, unreliable activity, or a reason to drop the ligand from the primary docking evaluation set. Those ligands are excluded only from chemistry OOF models. D1 description still includes them. All chemistry models, and any chemistry-vs-docking supporting comparison, use the same `CHEMISTRY_OOF_POPULATION` (fold-assigned, parsable SMILES, not alias, required M0 score finite). Primary docking populations stay unchanged. A chemistry-matched M0 AUROC, if computed, is `SUPPORTING_CHEMISTRY_MATCHED_M0` only.
+Three named layers (recounted; see `CHEMISTRY_POPULATION_LAYERS.csv`): `LABELED_DIRECTIONAL_POPULATION` n=938; `M0_DIRECTIONAL_POPULATION` n=934; `CHEMISTRY_OOF_POPULATION` n=928. D1 uses layer 1. Chemistry models and `SUPPORTING_CHEMISTRY_MATCHED_M0` use layer 3. Do not resplit. `fold-unassigned` is only the technical absence of a frozen CV fold. Layer-1 fold-unassigned: 10 records / 7 ligands. After the M0 filter: 6 records / 4 ligands. Primary docking populations stay unchanged.
 
 Manuscript role: main-text layer 2.
 
@@ -251,7 +252,7 @@ Count names (TYPE A):
 
 `13_qa/phase7_fiveseed_master.csv` is a candidate master, not authority, until Stage 4 closure. `primary_score` must not be treated as a docking score until its historical meaning is documented. The candidate raw affinity field is `mode1_affinity`. Future M0 score, if the master closes, is `-mode1_affinity` after SUCCESS/TIMEOUT provenance is confirmed. This Stage 1 file does not compute that AUROC.
 
-Future pair×seed outputs: `AUC_B`, `AUC_A`, `summary_min`. Per pair: seed42, median, min, max, IQR. Forbidden: best seed, mean-of-five-scores as a new primary, t-tests, treating five seeds as five independent experiments.
+Future pair×seed outputs: `AUC_B`, `AUC_A`, `summary_min`, and the seed-specific directional n. Per-seed n may differ from seed42 when a job is TIMEOUT. Documented example that must be reported, not imputed: AChE/BChE `AB_046` seed17 `4BDS` is TIMEOUT; the same ligand×pocket is SUCCESS at seed42. Per pair: seed42, median, min, max, IQR. Forbidden: best seed, mean-of-five-scores as a new primary, t-tests, treating five seeds as five independent experiments.
 
 Manuscript role: SI tables; short main-text robustness summary.
 
@@ -304,7 +305,7 @@ See `JOINT_RANKING_FREEZE.md`.
 
 This is the only new primary analysis that uses all of M0–M3. It translates directional AUROC into candidate-list composition. It is not external validation, not independent replication, and not a natural-library prevalence simulation.
 
-Connection to benchmark: within each pair, for M0→M1, M0→M1b, M0→M2, M0→M3, describe whether `delta_summary_min` and `delta_top10_single_target_fraction` move in the expected direction (higher `summary_min` with lower top-10 single-target fraction). Outputs are a paired/linked plot and concordant/discordant counts. Spearman or Pearson correlation is not computed.
+Connection to benchmark: within each pair, for M0→M1, M0→M1b, M0→M2, M0→M3, describe whether `delta_summary_min` and `delta_top10_single_target_fraction` move in the expected direction (higher `summary_min` with lower top-10 single-target fraction). Zero on either delta is `NO_CHANGE`, not discordant. M1b−M0 may be added as a supporting point-estimate comparison only after four-sided membership identity with M1−M0 is verified; do not add a new bootstrap CI and do not write it into PRIMARY. Outputs are a paired/linked plot and concordant / discordant / no-change counts. Spearman or Pearson correlation is not computed.
 
 Manuscript role: main-text layer 3.
 

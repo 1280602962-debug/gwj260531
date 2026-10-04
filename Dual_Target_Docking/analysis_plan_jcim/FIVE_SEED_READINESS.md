@@ -67,9 +67,22 @@ Future M0 five-seed score, if a later phase is approved: `-mode1_affinity` (high
 
 No raw PDBQT reparse is required for a later M0 five-seed AUROC, provided that later phase uses `mode1_affinity` and the formal class rules.
 
+## Seed-specific n change (document, do not impute)
+
+Per-seed directional n is allowed to differ from seed42 when a job is TIMEOUT. This is missingness, not a reason to average seeds or drop the pair.
+
+Documented example that later compute must report:
+
+- pair `AChE/BChE`, ligand `AB_046`, seed17, pdb `4BDS`: `TIMEOUT` / `JOB_TIMEOUT`
+- same ligand × pocket at seed42: `SUCCESS` (`mode1_affinity = -8.556`)
+- the other AChE/BChE pocket `4EY7` is SUCCESS at both seed17 and seed42
+
+Do not impute the missing seed17 4BDS score. Do not reuse the seed42 score for seed17.
+
 ## Still required before later compute (not done now)
 
 - Join master rows to the formal pair-observation population / class labels.
 - Keep pair-expanded vs physical-job identities distinct.
+- Report per-seed n, including the AB_046 seed17/4BDS TIMEOUT effect.
 - Do not average five seed scores.
 - Do not replace official seed-42 M0 with a five-seed consensus.

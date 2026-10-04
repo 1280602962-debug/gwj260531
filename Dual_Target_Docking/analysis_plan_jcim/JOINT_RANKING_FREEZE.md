@@ -125,7 +125,15 @@ Within each pair, for M0→M1, M0→M1b, M0→M2, M0→M3, compare:
 
 Expected descriptive direction: positive `delta_summary_min` with negative `delta_top10_single_target_fraction`.
 
-Allowed later outputs: paired/linked plot and concordant/discordant counts.
+Concordance coding (TYPE B, frozen before ranking results):
+
+- `CONCORDANT` if `delta_summary_min > 0` and `delta_top10_single_target_fraction < 0`;
+- `NO_CHANGE` if either delta is exactly 0 (zero is not discordant);
+- `DISCORDANT` otherwise.
+
+M1b−M0 supporting rule: first verify that the four-sided common-complete membership of M1b−M0 equals that of M1−M0 for every pair. Only after that identity check may a supporting point estimate be added. Do not add a new bootstrap CI for this supporting comparison. Do not write it into `PRIMARY_DIRECTIONAL_METRICS.csv` or `PRIMARY_METHOD_DELTA_METRICS.csv`.
+
+Allowed later outputs: paired/linked plot and concordant / discordant / no-change counts.
 
 Forbidden: Spearman or Pearson correlation; calling this an independent validation of AUROC.
 
