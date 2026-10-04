@@ -47,8 +47,8 @@ from jcim_stage2_lib import (
     finite,
     five_seed_iqr,
     fold_keyset,
-    four_sided_membership_identical,
     four_sided_membership_sets,
+    m1b_link_membership,
     joint_rank_rows,
     load_stage2_tables,
     mapping_smiles,
@@ -332,11 +332,24 @@ def module_d(tables) -> tuple[list[dict], list[dict]]:
 
             def oof_ecfp_m0():
                 pred = np.full(len(y), np.nan)
+                probe = tables.get("scaler_probe")
                 for fid in uniq:
                     tr, te = fold_arr != fid, fold_arr == fid
                     scaler = StandardScaler()
                     m0_tr = scaler.fit_transform(m0s[tr])
                     m0_te = scaler.transform(m0s[te])
+                    if probe is not None:
+                        probe.append({
+                            "pair": pair,
+                            "arm": arm,
+                            "fold_id": int(fid),
+                            "train_ids": [ids[i] for i, flag in enumerate(tr) if flag],
+                            "train_m0": [float(m0s[i, 0]) for i, flag in enumerate(tr) if flag],
+                            "test_ids": [ids[i] for i, flag in enumerate(te) if flag],
+                            "test_m0": [float(m0s[i, 0]) for i, flag in enumerate(te) if flag],
+                            "scaler_mean": float(scaler.mean_[0]),
+                            "scaler_scale": float(scaler.scale_[0]),
+                        })
                     Xt = np.hstack([fps[tr], m0_tr])
                     Xe = np.hstack([fps[te], m0_te])
                     pred[te] = fit_lr(Xt, y[tr]).predict_proba(Xe)[:, 1]
@@ -566,9 +579,7 @@ def module_i(pop, primary_delta) -> tuple[list[dict], list[dict], list[dict]]:
             ranked = joint_rank_rows(pool, method)
             desc.append(_desc_record(pair, method, "method_specific", ranked))
             ligs.extend(_lig_records(pair, method, "method_specific", ranked))
-        ident = four_sided_membership_identical(rows, "M1b", "M1", "M0")
-        m1b_sets = four_sided_membership_sets(rows, "M1b", "M0")
-        m1_sets = four_sided_membership_sets(rows, "M1", "M0")
+        link_mem = m1b_link_membership(rows)
         for method in ("M1", "M1b", "M2", "M3"):
             common = pairwise_ranking_pool(rows, "M0", method)
             ranked_m0 = joint_rank_rows(common, "M0")
@@ -593,12 +604,13 @@ def module_i(pop, primary_delta) -> tuple[list[dict], list[dict], list[dict]]:
             )
             if method == "M1b":
                 rec["supporting_only"] = "YES"
-                if not ident:
+                rec["bootstrap_ci_added"] = "NO"
+                if not link_mem["identical"]:
                     rec["link_source"] = "STOPPED"
-                    rec["link_reason"] = (
-                        "M1b-M0_MEMBERSHIP_NE_M1-M0:"
-                        f"dual {sorted(m1b_sets['dual'] ^ m1_sets['dual'])[:6]}"
-                    )
+                    rec["link_reason"] = "M1b_LINK_MEMBERSHIP_NE:" + ";".join(link_mem["diffs"])
+                    rec["delta_summary_min"] = NA
+                    rec["delta_top10_single_target_fraction"] = NA
+                    rec["concordance"] = NA
                     cmps.append(rec)
                     continue
                 d1 = delta_lookup.get((pair, "M1-M0"))

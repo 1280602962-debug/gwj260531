@@ -132,7 +132,17 @@ Concordance coding (TYPE B, amended before any ranking result is computed). This
 - `DISCORDANT` (不一致): both deltas nonzero and the same sign
 - `NO_CHANGE` (无变化): either delta is exactly 0 (zero is not discordant)
 
-M1b−M0 supporting rule: first verify that the four-sided common-complete membership of M1b−M0 equals that of M1−M0 for every pair (compare the three class member sets, not only counts). Only after that identity check may a supporting point estimate be formed by adding the existing PRIMARY paired point estimates `(M1b−M1) + (M1−M0)`. Do not add a new bootstrap CI. Do not write it into `PRIMARY_DIRECTIONAL_METRICS.csv` or `PRIMARY_METHOD_DELTA_METRICS.csv`. If membership is not identical, stop that link unit and report the reason; do not emit a delta after a NO flag.
+M1b−M0 supporting rule (TYPE B clarification before compute): before adding any supporting point, compare the four-sided common-complete **member sets** of all three pairs:
+
+- M1b−M0
+- M1−M0
+- M1b−M1
+
+for `dual`, `A_only`, and `B_only` separately. Count equality is not enough. The three class sets must be identical across those three pairwise populations.
+
+Only then may a supporting point estimate be formed by adding the existing PRIMARY paired point estimates `(M1b−M1) + (M1−M0)`. Do not add a new bootstrap CI. Do not change the ranking or directional population to force a match. Do not write the supporting value into `PRIMARY_DIRECTIONAL_METRICS.csv` or `PRIMARY_METHOD_DELTA_METRICS.csv`.
+
+If any class set differs, stop that link unit, write the mismatched members, and emit no delta. A ligand present in M1b−M1 but missing M0 is a membership failure even when M1b−M0 and M1−M0 already match.
 
 Allowed later outputs: paired/linked plot and four-state counts.
 

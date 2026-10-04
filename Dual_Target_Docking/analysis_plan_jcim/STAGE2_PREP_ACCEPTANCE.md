@@ -24,6 +24,7 @@ SECOND_STAGE_COMPUTE_EXECUTED=NO
 | alt_primary_scores_match_formal_m0 | PASS | mismatches=0 |
 | alt_pdbs_frozen | PASS | ['1P0M', '2Y5F', '3SHC', '4EY6', '4JT5', '4L2Y', '5U46', '6KAX'] |
 | m1b_m0_membership_equals_m1_m0 | PASS |  |
+| m1b_three_pairwise_membership_identical | PASS | all_pairs_identical |
 | fold_keys_unique | PASS | [] |
 | scaffold_not_split_across_folds | PASS | [] |
 | smiles_parse_808 | PASS | 808/808 |
@@ -37,7 +38,7 @@ SECOND_STAGE_COMPUTE_EXECUTED=NO
 | authority_files_unchanged_vs_d365c901 | PASS |  |
 | valid_flag_matches_finite_score | PASS | 0 |
 | fold_class_matches_population | PASS | 0 |
-| mapping_pair_id_parent_listed | PASS | 808 |
+| mapping_pair_id_unique_among_independent | PASS | [] |
 
 Independent layer totals: labeled=938 m0=934 chemistry_oof=928
 Labeled fold-unassigned records/ligands: 10/7 (AB_001, AB_053, AB_054, EH40_31, F2F10_080, J1TYK2_092, PGPA_030)
@@ -47,6 +48,7 @@ Population members were recounted in this audit file from the raw CSVs.
 The audit does not call `jcim_stage2_lib.build_layer_members`.
 
 A second raw-CSV recount that imported neither `jcim_stage2_lib` nor the audit helpers also returned 938/934/928.
+Official eight pairs currently have identical dual / A_only / B_only members across M1b−M0, M1−M0, and M1b−M1. That is a read-only observation, not a ranking result.
 
 Prep checks are not implementation evidence. See STAGE2_IMPL_ACCEPTANCE.md.
 

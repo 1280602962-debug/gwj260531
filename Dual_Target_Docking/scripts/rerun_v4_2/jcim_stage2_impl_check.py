@@ -176,7 +176,7 @@ def test_d(rows):
     mapping.append({"pair": pair_y, "canonical_ligand_id": "DYA0", "canonical_smiles": "CCCCCCCC", "parent_independent": "1"})
     folds.append({"pair": pair_y, "arm": "D_vs_A", "ligand_id": "DXD0", "fold_id": "1", "class": "dual", "scaffold": "u"})
     folds.append({"pair": pair_y, "arm": "D_vs_A", "ligand_id": "DYA0", "fold_id": "1", "class": "A_only", "scaffold": "v"})
-    tables = {"population": pop, "mapping": mapping, "alias": [], "folds": folds}
+    tables = {"population": pop, "mapping": mapping, "alias": [], "folds": folds, "scaler_probe": []}
     units, oof = module_d(tables)
     unit = next(r for r in units if r["pair"] == pair_x and r["arm"] == "D_vs_A")
     check("D_test_single_class_warning", "5" in str(unit["test_single_class_folds"]) and unit["blocking_reason"] in ("", NA), unit["test_single_class_folds"], rows)
@@ -209,12 +209,34 @@ def test_d(rows):
     b_units, b_oof = module_d({"population": block_pop, "mapping": block_map, "alias": [], "folds": block_fold})
     bu = next(r for r in b_units if r["pair"] == "SYN/BL")
     check("D_train_single_class_blocks", bu["blocking_reason"] == "TRAIN_SINGLE_CLASS" and not b_oof, bu["blocking_reason"], rows)
-    # scaler isolation: train mean != test-influenced
-    from sklearn.preprocessing import StandardScaler
-    train = np.array([[0.0], [2.0]])
-    test = np.array([[100.0]])
-    sc = StandardScaler().fit(train)
-    check("D_scaler_train_only", abs(float(sc.mean_[0]) - 1.0) < 1e-12 and abs(float(sc.transform(test)[0, 0]) - (100 - 1) / 1.0) < 1e-9, str(sc.mean_), rows)
+    probe = tables["scaler_probe"]
+    check("D_scaler_probe_from_module_d", bool(probe), str(len(probe)), rows)
+    scaler_ok = True
+    detail = ""
+    for item in probe:
+        if item["pair"] != pair_x:
+            continue
+        train = np.asarray(item["train_m0"], dtype=float)
+        test = np.asarray(item["test_m0"], dtype=float)
+        if train.size == 0:
+            scaler_ok = False
+            detail = "empty_train"
+            break
+        expected_mean = float(train.mean())
+        if abs(item["scaler_mean"] - expected_mean) > 1e-12:
+            scaler_ok = False
+            detail = f"mean {item['scaler_mean']} != {expected_mean}"
+            break
+        if test.size and np.isclose(test, expected_mean).all() is False:
+            if abs(float(test.mean()) - expected_mean) > 1e-12 and abs(item["scaler_mean"] - float(test.mean())) < 1e-12:
+                scaler_ok = False
+                detail = "scaler_used_test_mean"
+                break
+        if set(item["test_ids"]) & set(item["train_ids"]):
+            scaler_ok = False
+            detail = "train_test_id_overlap"
+            break
+    check("D_scaler_uses_module_d_train_m0", scaler_ok, detail or f"n_probe={len(probe)}", rows)
 
 
 def test_e(rows):
@@ -293,7 +315,6 @@ def test_f(rows):
     check("F_dropped_timeout_dual", rec["n_dual_common"] == 3 and "FD3" not in rec["common_dual_ids"], rec["common_dual_ids"], rows)
     check("F_unreplaced_zero_when_A_unchanged", abs(float(rec["delta_AUC_unreplaced"])) < 1e-12, rec["delta_AUC_unreplaced"], rows)
     check("F_affected_can_change", float(rec["delta_AUC_affected"]) != 0.0, rec["delta_AUC_affected"], rows)
-    check("F_unreplaced_not_hardcoded_field", rec["delta_AUC_unreplaced"] != 0 or True, "", rows)
 
 
 def test_i(rows):
@@ -356,7 +377,21 @@ def test_i(rows):
     _d, _l, cmps2 = module_i(pop2, primary)
     m1b2 = next(r for r in cmps2 if r["method"] == "M1b")
     check("I_m1b_stops_if_membership_differs", m1b2["link_source"] == "STOPPED" and m1b2["delta_summary_min"] == NA, m1b2["link_reason"], rows)
-    check("I_ligand_ranks_present", any(r["table"] == "ligand_ranks" or True for r in ligs) and len(ligs) > 0, str(len(ligs)), rows)
+    # Third pairwise population differs: extra dual has M1b+M1 but no M0.
+    pop3 = [dict(r) for r in pop]
+    extra = _row(pair, "ID_EXTRA", "dual")
+    _valid(_valid(extra, "M1", "A", 4), "M1", "B", 4)
+    _valid(_valid(extra, "M1b", "A", 4), "M1b", "B", 4)
+    pop3.append(extra)
+    _d, _l, cmps3 = module_i(pop3, primary)
+    m1b3 = next(r for r in cmps3 if r["method"] == "M1b")
+    check(
+        "I_m1b_stops_if_m1b_m1_third_group_differs",
+        m1b3["link_source"] == "STOPPED" and m1b3["delta_summary_min"] == NA and "dual" in m1b3["link_reason"] and "ID_EXTRA" in m1b3["link_reason"],
+        m1b3["link_reason"],
+        rows,
+    )
+    check("I_ligand_ranks_present", len(ligs) > 0 and all(r.get("canonical_ligand_id") and r.get("rank_A") != "" for r in ligs), str(len(ligs)), rows)
     check("I_descriptive_counts", any(r["n_A_only_top"] != "" for r in desc), "", rows)
 
 

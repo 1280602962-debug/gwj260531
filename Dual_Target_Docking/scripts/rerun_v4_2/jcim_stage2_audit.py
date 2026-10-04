@@ -21,6 +21,7 @@ from jcim_stage2_lib import (
     FORBIDDEN_IMPORT_SUBSTRINGS,
     PATHS,
     four_sided_membership_identical,
+    m1b_link_membership,
     read_csv,
     resolve_project_root,
     synthetic_self_check,
@@ -250,6 +251,9 @@ def main() -> int:
         by_pair[row["pair"]].append(row)
     ident = all(four_sided_membership_identical(rows, "M1b", "M1", "M0") for rows in by_pair.values())
     add("m1b_m0_membership_equals_m1_m0", ident, "")
+    three = {pair: m1b_link_membership(rows) for pair, rows in by_pair.items()}
+    three_fail = [f"{pair}:{';'.join(v['diffs'])}" for pair, v in three.items() if not v["identical"]]
+    add("m1b_three_pairwise_membership_identical", not three_fail, ",".join(three_fail) if three_fail else "all_pairs_identical")
 
     fold_dups = [k for k, n in Counter((r["pair"], r["arm"], r["ligand_id"]) for r in folds).items() if n > 1]
     add("fold_keys_unique", not fold_dups, str(fold_dups[:3]))
@@ -319,8 +323,14 @@ def main() -> int:
     pop_cls = {(r["pair"], r["canonical_ligand_id"]): r["class"] for r in pop}
     fold_cls_mismatch = sum(1 for r in folds if pop_cls.get((r["pair"], r["ligand_id"]), r["class"]) != r["class"])
     add("fold_class_matches_population", fold_cls_mismatch == 0, str(fold_cls_mismatch))
-    map_keys = [(r["pair"], r["canonical_ligand_id"], r.get("parent_independent")) for r in mapping]
-    add("mapping_pair_id_parent_listed", len(map_keys) == len(mapping), str(len(mapping)))
+    indep_map = [
+        r for r in mapping
+        if r["canonical_ligand_id"] not in alias_ids
+        and str(r.get("parent_independent", "1")) not in {"0", "false", "False"}
+    ]
+    map_counts = Counter((r["pair"], r["canonical_ligand_id"]) for r in indep_map)
+    map_dups = [k for k, n in map_counts.items() if n > 1]
+    add("mapping_pair_id_unique_among_independent", not map_dups, str(map_dups[:5]))
 
     failed = [c for c in checks if c["ok"] != "PASS"]
     report_path = root / "analysis_plan_jcim" / "STAGE2_PREP_ACCEPTANCE.md"

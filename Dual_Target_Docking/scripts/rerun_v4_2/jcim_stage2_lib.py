@@ -316,6 +316,32 @@ def four_sided_membership_identical(rows: list[dict], left: str, right: str, vs:
     return a["dual"] == b["dual"] and a["A_only"] == b["A_only"] and a["B_only"] == b["B_only"]
 
 
+def m1b_link_membership(rows: list[dict]) -> dict:
+    """Compare M1b-M0, M1-M0, and M1b-M1 class sets separately.
+
+    Adding PRIMARY(M1b-M1)+PRIMARY(M1-M0) is allowed only if all three
+    four-sided populations have identical dual, A_only, and B_only members.
+    """
+    m1b_m0 = four_sided_membership_sets(rows, "M1b", "M0")
+    m1_m0 = four_sided_membership_sets(rows, "M1", "M0")
+    m1b_m1 = four_sided_membership_sets(rows, "M1b", "M1")
+    diffs = []
+    identical = True
+    for grp in ("dual", "A_only", "B_only"):
+        sets = (m1b_m0[grp], m1_m0[grp], m1b_m1[grp])
+        if not (sets[0] == sets[1] == sets[2]):
+            identical = False
+            xor = (sets[0] ^ sets[1]) | (sets[0] ^ sets[2]) | (sets[1] ^ sets[2])
+            diffs.append(f"{grp}:{sorted(xor)[:8]}")
+    return {
+        "identical": identical,
+        "diffs": diffs,
+        "M1b-M0": m1b_m0,
+        "M1-M0": m1_m0,
+        "M1b-M1": m1b_m1,
+    }
+
+
 def paired_negative_class_bootstrap(dual, single, neither, score_key: str,
                                     n_boot: int = BOOT_B, seed: int = BOOT_SEED,
                                     rng=None, record=None) -> dict:

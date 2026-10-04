@@ -10,9 +10,9 @@ This file records checks of the **actual module functions** and writers. It does
 
 ## What was run
 
-- `jcim_stage2_impl_check.py` on artificial tables only: **58/58 PASS**
+- `jcim_stage2_impl_check.py` on artificial tables only: **59/59 PASS**
 - Temporary output directory `/tmp/jcim_stage2_impl_*` (not `results/jcim_stage2`)
-- `jcim_stage2_audit.py --write-report` read-only prep: **31/31 PASS**
+- `jcim_stage2_audit.py --write-report` read-only prep: **32/32 PASS**
 - Independent raw-CSV recount (no stage2 filter import): **938 / 934 / 928**
 - `jcim_stage2_compute.py` with no flag: refused, `COMPUTE_EXECUTED=NO`
 - `--dry-run`: no write
@@ -32,12 +32,13 @@ This file records checks of the **actual module functions** and writers. It does
 | C extra_drop | computed from member sets, not hardcoded |
 | D test fold | single-class test fold still receives OOF predictions; unit not blocked |
 | D train fold | single-class train fold → `TRAIN_SINGLE_CLASS`, no partial OOF table |
-| D scaler | StandardScaler mean comes from train only |
+| D scaler | `module_d` probe: scaler mean equals that fold's train M0 values; train/test IDs disjoint |
 | D members | three models and supporting M0 share the same ligand IDs |
 | D1 | layer-1 descriptors; acyclic Murcko `""`; pair+id join prevents cross-pair SMILES overwrite |
 | E | TIMEOUT listed, not imputed; incomplete seeds → reason, no IQR; 5 finite seeds → IQR written |
 | F | TIMEOUT dual dropped from common set; unreplaced AUC delta is 0 when A scores are identical; affected delta changes when B alt scores change |
-| I | M1/M2/M3 read PRIMARY paired points; M1b sums two PRIMARY points only after membership identity; mismatch stops the unit with no delta |
+| I | M1/M2/M3 read PRIMARY paired points; M1b requires identical dual/A_only/B_only members across M1b−M0, M1−M0, and M1b−M1; a third-group-only extra dual (`ID_EXTRA`, M1b+M1 valid, M0 missing) yields STOP and no delta |
+| D scaler | `module_d` `scaler_probe` mean equals the fold's actual train M0 values; train/test IDs disjoint |
 | I states | CONCORDANT_IMPROVE, CONCORDANT_WORSEN, DISCORDANT, NO_CHANGE |
 | CSV | first NA row plus later delta row keeps all schema fields; empty table keeps header; B–I path reread matches fixed schemas |
 | Manifest | E/D/H/I bootstrap_B is null, not a false B=10000 claim |
