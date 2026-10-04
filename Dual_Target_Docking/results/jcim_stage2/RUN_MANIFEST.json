@@ -1,0 +1,47 @@
+{
+  "executable_modules": [
+    "B",
+    "C",
+    "D",
+    "E",
+    "F",
+    "H",
+    "I"
+  ],
+  "blocked_modules": [
+    "G",
+    "J",
+    "K"
+  ],
+  "module_statistics": {
+    "B": {
+      "bootstrap_B": 10000,
+      "seed": 271828
+    },
+    "C": {
+      "bootstrap_B": 10000,
+      "seed": 271828
+    },
+    "D": {
+      "bootstrap_B": null,
+      "note": "no chemistry bootstrap"
+    },
+    "E": {
+      "bootstrap_B": null,
+      "note": "five-seed point estimates only; IQR is not bootstrap"
+    },
+    "F": {
+      "bootstrap_B": 10000,
+      "seed": 271828
+    },
+    "H": {
+      "bootstrap_B": null,
+      "note": "counts only"
+    },
+    "I": {
+      "bootstrap_B": null,
+      "note": "ranking point estimates; directional deltas read from PRIMARY"
+    }
+  },
+  "primary_overwritten": false
+}
