@@ -1,6 +1,7 @@
 # STAGE2_PREP_ACCEPTANCE
 
-This report is prep/acceptance only. No real AUROC, bootstrap, model, or joint rank was computed.
+This report is read-only prep/acceptance only. It does not prove module implementations.
+Implementation evidence is `jcim_stage2_impl_check.py` on artificial data.
 
 SECOND_STAGE_COMPUTE_EXECUTED=NO
 
@@ -32,7 +33,11 @@ SECOND_STAGE_COMPUTE_EXECUTED=NO
 | synthetic_unit_checks | PASS |  |
 | blocked_modules_gjk | PASS | ('G', 'J', 'K') |
 | executable_modules_bcdefhi | PASS | ('B', 'C', 'D', 'E', 'F', 'H', 'I') |
-| authority_files_present_unedited_this_audit | PASS | presence_only |
+| authority_files_present | PASS | presence_only_not_an_edit_check |
+| authority_files_unchanged_vs_d365c901 | PASS |  |
+| valid_flag_matches_finite_score | PASS | 0 |
+| fold_class_matches_population | PASS | 0 |
+| mapping_pair_id_parent_listed | PASS | 808 |
 
 Independent layer totals: labeled=938 m0=934 chemistry_oof=928
 Labeled fold-unassigned records/ligands: 10/7 (AB_001, AB_053, AB_054, EH40_31, F2F10_080, J1TYK2_092, PGPA_030)
@@ -41,6 +46,8 @@ After-M0 fold-unassigned records/ligands: 6/4 (EH40_31, F2F10_080, J1TYK2_092, P
 Population members were recounted in this audit file from the raw CSVs.
 The audit does not call `jcim_stage2_lib.build_layer_members`.
 
-A second raw-CSV recount that imported neither `jcim_stage2_lib` nor the audit helpers also returned 938/934/928 and matched every published `pair × arm` count (928 chemistry members).
+A second raw-CSV recount that imported neither `jcim_stage2_lib` nor the audit helpers also returned 938/934/928.
+
+Prep checks are not implementation evidence. See STAGE2_IMPL_ACCEPTANCE.md.
 
 Blocked modules remain G, J, K.

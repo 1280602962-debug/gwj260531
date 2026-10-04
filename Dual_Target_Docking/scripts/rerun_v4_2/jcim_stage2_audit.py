@@ -260,7 +260,10 @@ def main() -> int:
     add("scaffold_not_split_across_folds", not leak, str(leak[:3]))
 
     parse_ok, parse_n = smiles_ok(mapping)
-    add("smiles_parse_808", parse_ok == parse_n == 808 or parse_ok == -1, f"{parse_ok}/{parse_n}")
+    if parse_ok < 0:
+        add("smiles_parse_808", False, "DEPENDENCY_MISSING/NOT_VERIFIED")
+    else:
+        add("smiles_parse_808", parse_ok == parse_n == 808, f"{parse_ok}/{parse_n}")
 
     for name in ("jcim_stage2_lib.py", "jcim_stage2_audit.py", "jcim_stage2_compute.py"):
         hits = forbidden_imports(script_dir / name)
@@ -271,19 +274,53 @@ def main() -> int:
     add("blocked_modules_gjk", BLOCKED_MODULES == ("G", "J", "K"), str(BLOCKED_MODULES))
     add("executable_modules_bcdefhi", EXECUTABLE_MODULES == ("B", "C", "D", "E", "F", "H", "I"), str(EXECUTABLE_MODULES))
 
-    yaml_ok = True
-    for rel in (
+    import subprocess
+
+    repo = root.parent
+    base = "d365c90183473c566162552fff1483006519195a"
+    authority = [
         PATHS["primary_metrics"],
         PATHS["primary_delta"],
         PATHS["population"],
+        PATHS["m0_master"],
+        PATHS["fiveseed"],
+        PATHS["alt_independent"],
+        PATHS["folds"],
+        PATHS["mapping"],
         Path("reruns/UNIFORM_RERUN_V4_2_20260921/00_protocol/SCORING_DOCKING_ABLATION_FREEZE_FINAL.yaml"),
         Path("reruns/UNIFORM_RERUN_V4_2_20260921/00_protocol/FORMAL_METRICS_ANALYSIS_FREEZE_FINAL.yaml"),
         Path("reruns/UNIFORM_RERUN_V4_2_20260921/00_protocol/FORMAL_AUTHORITY_PATHS.yaml"),
         Path("reruns/UNIFORM_RERUN_V4_2_20260921/00_protocol/ALTERNATIVE_RECEPTOR_EXPERIMENT_FREEZE_FINAL.yaml"),
-    ):
-        if not (root / rel).exists():
-            yaml_ok = False
-    add("authority_files_present_unedited_this_audit", yaml_ok, "presence_only")
+    ]
+    present = all((root / rel).exists() for rel in authority)
+    add("authority_files_present", present, "presence_only_not_an_edit_check")
+    dirty = []
+    for rel in authority:
+        repo_rel = Path("Dual_Target_Docking") / rel
+        diff = subprocess.check_output(["git", "diff", "--name-only", base, "--", str(repo_rel)], cwd=repo, text=True).strip()
+        work = subprocess.check_output(["git", "diff", "--name-only", "--", str(repo_rel)], cwd=repo, text=True).strip()
+        if diff or work:
+            dirty.append(str(rel))
+    add("authority_files_unchanged_vs_d365c901", not dirty, ",".join(dirty))
+
+    valid_finite = 0
+    for row in pop:
+        for method in ("M0", "M1", "M1b", "M2", "M3"):
+            for side in ("A", "B"):
+                flag = row.get(f"{method}_{side}_valid") == "1"
+                try:
+                    val = row.get(f"{method}_score_{side}")
+                    is_f = val not in (None, "") and float(val) == float(val) and abs(float(val)) != float("inf")
+                except (TypeError, ValueError):
+                    is_f = False
+                if flag != is_f:
+                    valid_finite += 1
+    add("valid_flag_matches_finite_score", valid_finite == 0, str(valid_finite))
+    pop_cls = {(r["pair"], r["canonical_ligand_id"]): r["class"] for r in pop}
+    fold_cls_mismatch = sum(1 for r in folds if pop_cls.get((r["pair"], r["ligand_id"]), r["class"]) != r["class"])
+    add("fold_class_matches_population", fold_cls_mismatch == 0, str(fold_cls_mismatch))
+    map_keys = [(r["pair"], r["canonical_ligand_id"], r.get("parent_independent")) for r in mapping]
+    add("mapping_pair_id_parent_listed", len(map_keys) == len(mapping), str(len(mapping)))
 
     failed = [c for c in checks if c["ok"] != "PASS"]
     report_path = root / "analysis_plan_jcim" / "STAGE2_PREP_ACCEPTANCE.md"
@@ -291,9 +328,10 @@ def main() -> int:
         lines = [
             "# STAGE2_PREP_ACCEPTANCE",
             "",
-            "This report is prep/acceptance only. No real AUROC, bootstrap, model, or joint rank was computed.",
+            "This report is read-only prep/acceptance only. It does not prove module implementations.",
+            "Implementation evidence is `jcim_stage2_impl_check.py` on artificial data.",
             "",
-            f"SECOND_STAGE_COMPUTE_EXECUTED=NO",
+            "SECOND_STAGE_COMPUTE_EXECUTED=NO",
             "",
             "| check | result | detail |",
             "|---|---|---|",

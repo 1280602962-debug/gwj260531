@@ -79,6 +79,20 @@ Documented example that later compute must report:
 
 Do not impute the missing seed17 4BDS score. Do not reuse the seed42 score for seed17.
 
+## Five-seed summary quantiles (TYPE B, before compute)
+
+Per pair, `median`, `min`, `max`, and `IQR` are computed on the five seed **point estimates** of a named metric (`AUC_B`, `AUC_A`, or `summary_min`).
+
+Fixed definition:
+
+- require five finite point estimates;
+- `P25, P75 = numpy.percentile(values, [25, 75], method="linear")`;
+- `IQR = P75 − P25`.
+
+If fewer than five finite point estimates exist, do not report median/min/max/IQR for that metric. Write the reason. Do not use `nanpercentile` or any other silent drop of missing seeds. Do not try alternative quantile definitions after seeing results.
+
+This five-seed summary is not a B=10000 bootstrap. Bootstrap, if any, is recorded per module.
+
 ## Still required before later compute (not done now)
 
 - Join master rows to the formal pair-observation population / class labels.
