@@ -14,7 +14,7 @@ This is the **only** human-readable entry for later statistics, sensitivity, fig
 `V4_2_ANALYSIS_BASELINE` is recorded in `reruns/UNIFORM_RERUN_V4_2_20260921/13_qa/V4_2_ANALYSIS_BASELINE.md` after QA.
 
 PRIMARY seed42 formal metrics exist.
-Five-seed sensitivity has **not** been run.
+Five-seed sensitivity 已完成并验收。结果见 `results/jcim_stage2/` 模块 E，验收见 `analysis_plan_jcim/STAGE2_RESULT_ACCEPTANCE.md`，文稿见 `manuscript/`。
 
 ## 3. Formal target pairs (exactly 8)
 
@@ -114,7 +114,7 @@ Final M3 is **not** 1590/2. That number is pre-topology-repair only.
 ## 18–19. Five-seed data vs sensitivity
 
 - FIVE-SEED RAW DOCKING = PRESENT (seeds 17, 29, 42, 71, 101; `n_pair_expanded_job_seed=8070`)
-- FIVE-SEED SENSITIVITY ANALYSIS = **NOT YET RUN**
+- FIVE-SEED SENSITIVITY ANALYSIS = **已完成并验收**。结果见 `results/jcim_stage2/module_E_five_seed.csv` 与 `module_E_five_seed_summary.csv`；验收见 `analysis_plan_jcim/STAGE2_RESULT_ACCEPTANCE.md`；文稿见 `manuscript/`。
 
 Raw jobs existing does not mean sensitivity is complete.
 

@@ -1,0 +1,15 @@
+source_id,source_type,path,coverage,gap,used_for
+NUM-PRIMARY,结果数值,Dual_Target_Docking/results/formal_metrics/PRIMARY_DIRECTIONAL_METRICS.csv,120 行；pair+method+contrast,无逐实验端点,Figure 1a；Figure S4；Table S3
+NUM-DELTA,结果数值,Dual_Target_Docking/results/formal_metrics/PRIMARY_METHOD_DELTA_METRICS.csv,32 行；M1-M0、M1b-M1、M2-M0、M3-M0,不含 M1b-M0 区间,Figure 1b；Table S4
+NUM-STAGE2,结果数值,Dual_Target_Docking/results/jcim_stage2/,B16 C16 D16 D1 938 OOF 928 E40/24 F8 H320 I104/32/9058,不重算,Figures 2–6 与 S1–S3、S5–S8；Tables S5–S16
+NUM-CONCORDANCE,结果数值,Dual_Target_Docking/results/jcim_stage2_figures/module_I_concordance_counts.csv,4 行既有计数；本轮只读,不覆盖该文件,Figure S8；Table S17
+ID-POPULATION,身份与成员,Dual_Target_Docking/reruns/UNIFORM_RERUN_V4_2_20260921/13_qa/PRIMARY_DIRECTIONAL_ANALYSIS_POPULATION.csv,807 行；805 条有类别合格观察；EH120_059 与 AB_087 不合格且无类别,不是 807 个独立分子,Table 1
+ID-MAPPING,身份与标签,Dual_Target_Docking/reruns/UNIFORM_RERUN_V4_2_20260921/00_protocol/pair_ligand_mapping.csv,808 行，含 AB_040 alias,没有逐条连续 pA/pB、assay 端点或完整文献出处,Table S1；来源范围说明
+ID-ALIAS,身份,Dual_Target_Docking/reruns/UNIFORM_RERUN_V4_2_20260921/00_protocol/parent_alias_registry.csv,AB_040 指向 AB_046,不重建标签,SI 身份说明
+ID-FOLD,分折,Dual_Target_Docking/results/canonical/model_fold_assignments.csv,冻结五折；fold_id 可为 0,不是外部测试集证明,化学 OOF 来源说明
+ID-LAYERS,成员层,Dual_Target_Docking/analysis_plan_jcim/CHEMISTRY_POPULATION_LAYERS.csv,16 臂；938/934/928,缺 fold 不是活性不可信,Table S2
+LABEL-AUDIT,标签边界审计,Dual_Target_Docking/reruns/UNIFORM_RERUN_V4_2_20260921/13_qa/ACTIVITY_LABEL_SEMANTICS_AUDIT.csv,少量特殊行检查,不能写成 805 条标签均已逐条回溯原始实验,SI 来源覆盖
+SCORE-M0,评分来源,Dual_Target_Docking/reruns/UNIFORM_RERUN_V4_2_20260921/13_qa/official_primary_seed42_score_master_8pair.csv,seed42 mode1 正式 M0,本轮不重算 AUROC,来源索引
+SCORE-SEED,评分来源,Dual_Target_Docking/reruns/UNIFORM_RERUN_V4_2_20260921/13_qa/phase7_fiveseed_master.csv,五种子原始主表,本轮不重算五种子 AUROC,来源索引
+SCORE-ALT,评分来源,Dual_Target_Docking/reruns/UNIFORM_RERUN_V4_2_20260921/13_qa/alt_score_master_independent.csv,替代受体原始主表,不用历史 alt 统计表,来源索引
+FREEZE-YAML,定义,Dual_Target_Docking/reruns/UNIFORM_RERUN_V4_2_20260921/00_protocol/ 四份权威 YAML,冻结路径与方案,不改参数,Methods 对齐
