@@ -1,0 +1,22 @@
+row_type,pair,panel_id,endpoint,n_observations,n_tied_rows,assay_type,standard_type,confidence_score,data_validity_comment,assay_organism,n_variant_tied_rows,n_potential_duplicate_tied_rows,top_documents,top_document_share,issue
+pair_summary,EGFR/HER2,,,109,260,B:242; F:18,IC50:238; Ki:12; Kd:10,9:160; 8:100,空白:260,Homo sapiens:168; 空白:92,6,30,CHEMBL5728076:12; CHEMBL5506072:12; CHEMBL3994595:12,0.046,
+pair_summary,JAK1/JAK2,,,110,334,B:326; A:7; F:1,IC50:308; Ki:17; Kd:5; EC50:4,9:255; 8:79,空白:334,Homo sapiens:257; 空白:77,0,106,CHEMBL5727865:32; CHEMBL5728516:32; CHEMBL5726221:29,0.096,
+pair_summary,JAK1/TYK2,,,110,296,B:294; F:2,IC50:253; Ki:26; EC50:13; Kd:4,9:267; 8:29,空白:296,Homo sapiens:277; 空白:19,0,74,CHEMBL5728369:32; CHEMBL5728991:32; CHEMBL5727865:18,0.108,
+pair_summary,PIK3CA/mTOR,,,48,133,B:132; A:1,IC50:96; Ki:21; Kd:15; EC50:1,9:106; 8:27,空白:133,Homo sapiens:106; 空白:27,3,28,CHEMBL1240340:8; CHEMBL5346869:7; CHEMBL3638541:7,0.060,
+pair_summary,AChE/BChE,,,98,203,B:199; A:4,IC50:189; Ki:14,9:186; 8:17,空白:203,Homo sapiens:190; 空白:13,0,5,CHEMBL3870312:8; CHEMBL1157624:6; CHEMBL1146079:6,0.039,
+pair_summary,F2/F10,,,110,232,B:232,Ki:171; IC50:61,8:139; 9:93,空白:232,空白:139; Homo sapiens:93,0,12,CHEMBL1138903:12; CHEMBL5352455:8; CHEMBL6182938:8,0.052,
+pair_summary,PPARG/PPARA,,,110,266,B:134; F:132,EC50:173; IC50:75; Ki:16; Kd:2,9:180; 8:86,空白:266,Homo sapiens:181; 空白:85,0,43,CHEMBL2034870:30; CHEMBL1140686:12; CHEMBL1143644:8,0.113,
+pair_summary,PPARA/PPARD,,,110,295,F:169; B:126,EC50:180; IC50:110; Ki:3; Kd:2,9:194; 8:101,空白:295,Homo sapiens:194; 空白:100; Mesocricetus auratus:1,0,72,CHEMBL2034870:52; CHEMBL1142242:22; CHEMBL1141686:19,0.176,
+exception,EGFR/HER2,EH40_27,A,,,,,,,,,,,,决定最大值的是 EGFR G719C 结合常数 6.28。同端不低于 6 的另一条是 L858R/T790M 6.12。未写突变的记录最高为激酶域结合常数 5.43，该条未核实是否为野生型。若只保留未写突变的记录，假设类别由 A_only 变为 neither。正式类别未改。
+exception,PPARA/PPARD,PAPD_015,A,,,,,,,,,,,,A 端最大值 7.11 的测定描述明确为 human PPAR-alpha 拮抗剂，冻结类别 A_only。这不是数值抄录错误。B 端 5.22 的测定描述只写 Inhibition of human PPAR-delta，作用方式未核实；同一文档标题是 PPARα antagonist。
+exception,PPARA/PPARD,PAPD_082,A,,,,,,,,,,,,A 端最大值 6.87 是叙利亚金黄仓鼠 PPAR alpha 激动实验。同端人源 GAL4 转激活为 6.82，仍不低于 6，冻结 dual 不变。最大值本身不是人源实验。
+exception,EGFR/HER2,EH120_046,A,,,,,,,,,,,,并列最大值 10.28 来自 L858R 和 D770-N771 ins NPG。同端野生型 EGFR 抑制为 9.47，仍不低于 6，dual 不变。
+exception,EGFR/HER2,EH120_047,A,,,,,,,,,,,,L858R 与未写突变的 EGFR 激酶域抑制同为 10.7，dual 不变。
+exception,EGFR/HER2,EH120_053,A,,,,,,,,,,,,最大值是 L858R/T790M 8.89。同端未写突变的 EGFR 为 8.09，仍不低于 6，dual 不变。
+exception,PIK3CA/mTOR,PM48_01,A,,,,,,,,,,,,最大值是 PIK3CA C420R 8.89。同端未写突变的激酶域结合为 8.82，仍不低于 6，dual 不变。
+exception,PIK3CA/mTOR,PM48_10,A,,,,,,,,,,,,I800L 与未写突变的结合同为 7.85，dual 不变。
+exception,PIK3CA/mTOR,PM48_28,A,,,,,,,,,,,,最大值是 E545K 8.76。同端未写突变的细胞 AKT 磷酸化抑制为 8.28，仍不低于 6，A_only 不变。
+exception,PPARG/PPARA,PGPA_067;PGPA_068;PGPA_069,A|B,,,,,,,,,,,,三条 dual 的两端最大值都只来自 Activity against PPAR by FRET。DOI 10.1016/j.bmcl.2005.10.008 的摘要只称 PPAR 配体，没有 FRET 方法，全文未获得。作用方式未核实。没有其他活性行。正式类别未改。
+exception,PPARG/PPARA,PGPA_015,A|B,,,,,,,,,,,,测定名称以 Kinase Activity Assay 开头，正文是荧光素酶和β-半乳糖苷酶转染对照，专利标题为 PPAR 亚型激活。不把这条当成蛋白激酶实验。A 端 7.05、B 端 5.26，类别 A_only。
+exception,PPARA/PPARD,PAPD_052,A|B,,,,,,,,,,,,与 PGPA_015 使用同一套被误命名的荧光素酶测定。A 端 5.28、B 端 8.22，类别 B_only。
+exception,EGFR/HER2,EH40_33,A,,,,,,,,,,,,A 端最大值 5.69 是 Ba/F3 细胞中 EGFR L858R/T790M 的生长抑制，不是直接酶活。该端低于 6，B 端 HER2 为 7.72，冻结类别 B_only。细胞表型不改变当前类别，但限制 A 端解释。
