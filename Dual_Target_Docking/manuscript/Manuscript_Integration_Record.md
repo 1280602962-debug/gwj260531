@@ -36,7 +36,7 @@
 
 ## 来源缺口
 
-`Source_Register.csv`、补充信息第 1 节和可采用的 Methods 文字都写明：805 条标签可以回溯到正式表，但没有逐条核对原始实验，也没有同一测定平台或逐条文献端点。`ACTIVITY_LABEL_SEMANTICS_AUDIT.csv` 只覆盖少量特殊行。SHA256 只核对数据包字节。
+`Source_Register.csv`、补充信息第 1 节和可采用的 Methods 文字都写明：805 条标签可以回溯到正式表，但没有逐条核对原始实验，也没有同一测定平台或逐条文献端点。`ACTIVITY_LABEL_SEMANTICS_AUDIT.csv` 只覆盖少量特殊行。SHA256 只核对数据包字节。以上是本次文稿整合当时的来源边界。现行附件 `Dual_Target_Docking/activity_label_source_audit_20261008/` 是其后恢复的 ChEMBL 37 活性来源，不能把本段改写成当时已经恢复了原库。
 
 ## 核对与未验证项
 

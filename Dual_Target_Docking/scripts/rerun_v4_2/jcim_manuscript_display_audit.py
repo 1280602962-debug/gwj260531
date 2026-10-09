@@ -35,6 +35,73 @@ def f4(value: str) -> str:
     return f"{float(value):.4f}"
 
 
+def activity_source_status(si: str) -> tuple[bool, str]:
+    """Check the restored ChEMBL 37 attachment against the current source wording."""
+    attach = ROOT / "activity_label_source_audit_20261008"
+    problems = []
+    wide = read_csv(attach / "chembl37_dual_endpoint_crosswalk_805.csv")
+    long_rows = read_csv(attach / "chembl37_activity_rows_long.csv")
+    cover = read_csv(attach / "document_identifier_coverage_805.csv")
+    diff = read_csv(attach / "historical_adjudication_differences.csv")
+    keys = [(row["pair"], row["panel_id"]) for row in wide]
+    if len(wide) != 805 or len(set(keys)) != 805:
+        problems.append(f"wide {len(wide)} unique {len(set(keys))}")
+    if any(int(row["n_rows_A"]) < 1 or int(row["n_rows_B"]) < 1 for row in wide):
+        problems.append("missing endpoint")
+    if len(long_rows) != 3555:
+        problems.append(f"long {len(long_rows)}")
+    if any(row["class_matches_frozen"] != "YES" for row in wide):
+        problems.append("class replay")
+    if any(float(row["delta_vs_panel_A"]) != 0 or float(row["delta_vs_panel_B"]) != 0 for row in wide):
+        problems.append("panel delta")
+    both = sum(row["tie_literature_A"] == "present" and row["tie_literature_B"] == "present" for row in wide)
+    if both != 794:
+        problems.append(f"wide literature {both}")
+    if len(cover) != 805:
+        problems.append(f"cover {len(cover)}")
+    cover_yes = [row for row in cover if row["all_tied_maxima_both_ends"] == "YES"]
+    cover_no = [row for row in cover if row["all_tied_maxima_both_ends"] == "NO"]
+    if len(cover_yes) != 794 or len(cover_no) != 11:
+        problems.append(f"cover split {len(cover_yes)}/{len(cover_no)}")
+    if any("全部并列" not in row["coverage_rule"] for row in cover):
+        problems.append("coverage rule")
+    if any(row["raw_activity_present_both_ends"] != "YES" or "原始活性存在" not in row["judgment"] or not row["dataset_titles"] or not row["document_urls"] for row in cover_no):
+        problems.append("dataset gap rows")
+    if any("缺少原始活性" in row["judgment"] for row in cover_no):
+        problems.append("dataset gap misstated")
+    expected = {
+        "PM48_04": ("8.85", "9.35", "8.4", "9.35", "dual"),
+        "PM48_05": ("10", "8.52", "9.12", "7.32", "dual"),
+        "PM48_22": ("8.77", "5.83", "8.77", "5.52", "A_only"),
+    }
+    for ligand, values in expected.items():
+        rows = [row for row in diff if row["ligand"] == ligand]
+        if not rows or any((row["dump_panel_max_A"], row["dump_panel_max_B"], row["audit_aggregate_max_A"], row["audit_aggregate_max_B"], row["frozen_class"]) != values for row in rows):
+            problems.append(f"diff {ligand}")
+        elif any(row["substantive_reason"] != "排除步骤可追溯；实质审核理由待核实；冻结类别一致。" or row["raw_record_called_unreliable"] != "NO" for row in rows):
+            problems.append(f"diff reason {ligand}")
+    phrases = [
+        "805 条合格观察均已与恢复的 ChEMBL 37 原始活性记录建立对应",
+        "阈值 6.0 回放类别与冻结类别 805/805 一致",
+        "该核对不等同于逐篇人工核查原始论文",
+        "也不表示所有记录来自统一测定平台",
+        "11 条数据集文档缺少指定文献标识",
+        "三条后续审核差异的实质理由尚待核实",
+        "Dual_Target_Docking/activity_label_source_audit_20261008/",
+    ]
+    for phrase in phrases:
+        if phrase not in si:
+            problems.append("SI missing " + phrase)
+    if "不能写成 805 条标签都已逐条核对" in si:
+        problems.append("old SI sentence")
+    register = (MAN / "Source_Register.csv").read_text()
+    if "ACTIVITY-CHEMBL37" not in register or "activity_label_source_audit_20261008" not in register:
+        problems.append("register attachment")
+    if "不能写成 805 条标签均已逐条回溯" in register:
+        problems.append("old register sentence")
+    return (not problems, "; ".join(problems))
+
+
 def main() -> int:
     results = (MAN / "Results_CN.md").read_text()
     captions = (MAN / "Figure_Captions_CN.md").read_text()
@@ -100,7 +167,7 @@ def main() -> int:
     for token in required_prefixes:
         add(f"prefix_{token}", token in joined, token)
     add("bare_s6_not_used_for_pocket", "及S6" not in joined and "在S6" not in joined, "")
-    add("label_gap_in_si", "不能写成 805 条标签都已逐条核对" in si, "")
+    add("activity_source_attachment", *activity_source_status(si))
     add("figure5a_scope", "Figure 5a 只显示 summary_min" in results and "两个方向的完整结果在 Figure S5" in results, "")
 
     stems = [

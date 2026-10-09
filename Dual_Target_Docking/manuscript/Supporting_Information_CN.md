@@ -6,7 +6,7 @@
 
 primary 阈值为 6.0。activity_eligible=0 不是 neither。AB_040 是 AB_046 的 alias，不作为独立观察进入 807 行人群表。pair 内观察可以跨靶点对共享 global ligand entity，所以 805 不是 805 个独立分子。
 
-原 mapping 有标签、结构和身份字段，没有逐条连续 pA/pB、assay 端点或完整文献出处。ACTIVITY_LABEL_SEMANTICS_AUDIT.csv 只检查少量特殊行。因此，本文结果数值可以回溯到正式表，但不能写成 805 条标签都已逐条核对原始实验记录，也不能写成所有标签来自同一测定平台。已核对的来源和缺口列在 Source_Register.csv。
+原 mapping 有标签、结构和身份字段，本身不含逐条连续 pA/pB、assay 端点或完整文献出处。这些实验来源见 Dual_Target_Docking/activity_label_source_audit_20261008/。805 条合格观察均已与恢复的 ChEMBL 37 原始活性记录建立对应，未取整的两端最大 pChEMBL 与历史面板一致，阈值 6.0 回放类别与冻结类别 805/805 一致。文档标识覆盖和三条历史审核差异见该来源附件。该核对不等同于逐篇人工核查原始论文，也不表示所有记录来自统一测定平台。11 条数据集文档缺少指定文献标识，三条后续审核差异的实质理由尚待核实。ACTIVITY_LABEL_SEMANTICS_AUDIT.csv 仍只检查少量特殊行。已核对的来源和缺口列在 Source_Register.csv。
 
 ## 2. 成员和缺失
 
@@ -42,8 +42,8 @@ Table S12 和 Figure S6 覆盖四对、八个替代条件。未替换端差值�
 
 科学实现与正式计算基准为 3f3e0d26052178c38ccb43dec637683a60f97a9d。已验收结果参考为 319375f10cb468d3a36e9cd0cf3e420bb5aa9632。正式统计环境为 Python 3.11.15、NumPy 2.4.6、RDKit 2025.09.5 和 scikit-learn 1.9.0。本轮绘图环境另行记录在整合记录中，二者不混用。版面几何和碰撞的专用检查工具本轮没有运行，该项为 NOT_VERIFIED；替代检查是正式图 PDF 页宽测量，以及实际查看最终图和两份审阅 PDF。该替代不能代替专用碰撞检查。运行日志中的 RDKit 与 scikit-learn 弃用警告被记录后继续执行；ConvergenceWarning 为 0。这些警告不是性能结论，本轮也不为消除警告改接口、solver 或 max_iter。
 
-数据包 Supplementary_Source_Data.zip 按原字节收录结果 CSV、manifest、人群、alias、fold、四份权威 YAML 和三份指定评分主表，并附 SHA256 清单。SHA256 只核对文件字节，不证明标签已经逐条实验复核，也不表示稿件可以投稿。仓库为 https://github.com/1280602962-debug/gwj260531 ，分支 cursor/v4-2-final-audited-results-20260930。本材料没有 DOI。其他方法的评分主表由 FORMAL_AUTHORITY_PATHS.yaml 指向固定版本，不在包内另造统计来源。
+数据包 Supplementary_Source_Data.zip 按原字节收录结果 CSV、manifest、人群、alias、fold、四份权威 YAML 和三份指定评分主表，并附 SHA256 清单。该 SHA256 只核对包内文件字节，不包含 ChEMBL 37 原库，也不表示稿件可以投稿。805 条合格观察均已与恢复的 ChEMBL 37 原始活性记录建立对应，未取整的两端最大 pChEMBL 与历史面板一致，阈值 6.0 回放类别与冻结类别 805/805 一致。对照表、3555 行原始活性、文档标识覆盖和三条历史审核差异在 Dual_Target_Docking/activity_label_source_audit_20261008/。该核对不等同于逐篇人工核查原始论文，也不表示所有记录来自统一测定平台。11 条数据集文档缺少指定文献标识，三条后续审核差异的实质理由尚待核实。仓库为 https://github.com/1280602962-debug/gwj260531 ，分支 cursor/v4-2-final-audited-results-20260930。本材料没有 DOI。其他方法的评分主表由 FORMAL_AUTHORITY_PATHS.yaml 指向固定版本，不在包内另造统计来源。
 
 ## 可采用的 Methods 对齐
 
-若下一轮写入全文 Methods，应保持下列已执行事实。M0 为 Vina seed 42、mode 1，higher-better 分数是亲和力的相反数。M1 为同一 mode 1 姿势的 GNINA CNNscore。M1b 为已保存姿势的最大 CNNscore。M2 为同一姿势的 RTMScore model1，列名 M2_RTMScore，不使用 max_saved_RTMScore。M3 为独立 GNINA docking 的正式 mode 1 CNNscore。AUROC、summary_min、bootstrap、化学模型、五种子 IQR 和联合排名的定义见上文第 3、4、7 节。没有证据支持把全部标签写成同一实验平台，也没有证据支持把冻结五折写成严格无骨架泄漏的外部测试。四态规则是计算前补记，不是历史预注册。
+若下一轮写入全文 Methods，应保持下列已执行事实。M0 为 Vina seed 42、mode 1，higher-better 分数是亲和力的相反数。M1 为同一 mode 1 姿势的 GNINA CNNscore。M1b 为已保存姿势的最大 CNNscore。M2 为同一姿势的 RTMScore model1，列名 M2_RTMScore，不使用 max_saved_RTMScore。M3 为独立 GNINA docking 的正式 mode 1 CNNscore。AUROC、summary_min、bootstrap、化学模型、五种子 IQR 和联合排名的定义见上文第 3、4、7 节。标签来源：805 条合格观察均已与恢复的 ChEMBL 37 原始活性记录建立对应，未取整的两端最大 pChEMBL 与历史面板一致，阈值 6.0 回放类别与冻结类别 805/805 一致。文档标识覆盖和三条历史审核差异见 Dual_Target_Docking/activity_label_source_audit_20261008/。该核对不等同于逐篇人工核查原始论文，也不表示所有记录来自统一测定平台。11 条数据集文档缺少指定文献标识，三条后续审核差异的实质理由尚待核实。没有证据支持把冻结五折写成严格无骨架泄漏的外部测试。四态规则是计算前补记，不是历史预注册。

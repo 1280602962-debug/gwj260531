@@ -4,11 +4,12 @@ NUM-DELTA,结果数值,Dual_Target_Docking/results/formal_metrics/PRIMARY_METHOD
 NUM-STAGE2,结果数值,Dual_Target_Docking/results/jcim_stage2/,B16 C16 D16 D1 938 OOF 928 E40/24 F8 H320 I104/32/9058,不重算,Figures 2–6 与 S1–S3、S5–S8；Tables S5–S16
 NUM-CONCORDANCE,结果数值,Dual_Target_Docking/results/jcim_stage2_figures/module_I_concordance_counts.csv,4 行既有计数；本轮只读,不覆盖该文件,Figure S8；Table S17
 ID-POPULATION,身份与成员,Dual_Target_Docking/reruns/UNIFORM_RERUN_V4_2_20260921/13_qa/PRIMARY_DIRECTIONAL_ANALYSIS_POPULATION.csv,807 行；805 条有类别合格观察；EH120_059 与 AB_087 不合格且无类别,不是 807 个独立分子,Table 1
-ID-MAPPING,身份与标签,Dual_Target_Docking/reruns/UNIFORM_RERUN_V4_2_20260921/00_protocol/pair_ligand_mapping.csv,808 行，含 AB_040 alias,没有逐条连续 pA/pB、assay 端点或完整文献出处,Table S1；来源范围说明
+ID-MAPPING,身份与标签,Dual_Target_Docking/reruns/UNIFORM_RERUN_V4_2_20260921/00_protocol/pair_ligand_mapping.csv,808 行，含 AB_040 alias,mapping 本身不含逐条 pA/pB、assay 或文献出处；实验来源见 ACTIVITY-CHEMBL37,Table S1；来源范围说明
 ID-ALIAS,身份,Dual_Target_Docking/reruns/UNIFORM_RERUN_V4_2_20260921/00_protocol/parent_alias_registry.csv,AB_040 指向 AB_046,不重建标签,SI 身份说明
 ID-FOLD,分折,Dual_Target_Docking/results/canonical/model_fold_assignments.csv,冻结五折；fold_id 可为 0,不是外部测试集证明,化学 OOF 来源说明
 ID-LAYERS,成员层,Dual_Target_Docking/analysis_plan_jcim/CHEMISTRY_POPULATION_LAYERS.csv,16 臂；938/934/928,缺 fold 不是活性不可信,Table S2
-LABEL-AUDIT,标签边界审计,Dual_Target_Docking/reruns/UNIFORM_RERUN_V4_2_20260921/13_qa/ACTIVITY_LABEL_SEMANTICS_AUDIT.csv,少量特殊行检查,不能写成 805 条标签均已逐条回溯原始实验,SI 来源覆盖
+LABEL-AUDIT,标签边界审计,Dual_Target_Docking/reruns/UNIFORM_RERUN_V4_2_20260921/13_qa/ACTIVITY_LABEL_SEMANTICS_AUDIT.csv,少量特殊行检查,不覆盖 805 条实验来源；完整对照见 ACTIVITY-CHEMBL37,SI 特殊行
+ACTIVITY-CHEMBL37,活性来源附件,Dual_Target_Docking/activity_label_source_audit_20261008/,805/805 两端 STANDARD_OK；3555 行；类别回放 805/805；文献标识 794/805,11 条数据集文档无 DOI/PubMed/专利号；3 条审核差异实质理由待核实,SI 来源说明
 SCORE-M0,评分来源,Dual_Target_Docking/reruns/UNIFORM_RERUN_V4_2_20260921/13_qa/official_primary_seed42_score_master_8pair.csv,seed42 mode1 正式 M0,本轮不重算 AUROC,来源索引
 SCORE-SEED,评分来源,Dual_Target_Docking/reruns/UNIFORM_RERUN_V4_2_20260921/13_qa/phase7_fiveseed_master.csv,五种子原始主表,本轮不重算五种子 AUROC,来源索引
 SCORE-ALT,评分来源,Dual_Target_Docking/reruns/UNIFORM_RERUN_V4_2_20260921/13_qa/alt_score_master_independent.csv,替代受体原始主表,不用历史 alt 统计表,来源索引
