@@ -22,7 +22,7 @@ branch; none is quoted from an earlier report.
 | Unique compounds | 513 |
 | Unique assays | 39 |
 | Unique Bemis-Murcko scaffolds | 255 |
-| Records per molecule | mean 1.19, max 15; 55 molecules have >1 record |
+| Records per molecule | mean 1.19, max 15; 80 molecules have >1 record |
 | Record-level active rate | 0.591 |
 | Molecule-level active rate | 0.604 (310 active / 203 inactive) |
 
@@ -33,13 +33,20 @@ with RDKit (`MolFromSmiles` → `SanitizeMol` → `MolToSmiles`); `active =
 pActivity >= 6.0`; scaffolds from `MurckoScaffoldSmiles(includeChirality=False)`.
 
 Molecule-level aggregation is `max` over records, i.e. a molecule counts as
-active if any assay called it active. 23 molecules carry discordant records
+active if any assay called it active. 32 molecules carry discordant records
 (both an active and an inactive measurement); they are listed in
 `results/nlrp3_model_v2/data_label_audit.json`. **This label definition was kept
 unchanged**, as instructed. It is a real methodological weakness worth a
 sensitivity analysis later — `max` aggregation is optimistic for compounds
 measured in several assays of unequal stringency — but changing it at the same
 time as fixing the calibration would have made the two effects inseparable.
+
+An earlier draft of this paragraph said 55 multi-record molecules and 23
+conflicts. Those two figures were a transcription error in the prose. They do
+not match a count by canonical SMILES, Molecule ChEMBL ID or raw SMILES, and
+they were already contradicted by `data_label_audit.json` in the same result
+set, which recorded 80 and 32. The recount is in
+`results/nlrp3_model_v2/stage2/label_recount.json`.
 
 Per-assay active counts are in the same JSON. Several assays are strongly
 unbalanced (single-class assays exist), which is the original motivation for the

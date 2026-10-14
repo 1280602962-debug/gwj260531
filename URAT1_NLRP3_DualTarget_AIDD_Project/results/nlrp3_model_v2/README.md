@@ -35,6 +35,16 @@ Both `.joblib` bundles are dicts with keys `model`, `calibrators`
 (`none` / `platt` / `isotonic`) and `prediction_rule`; the classes live in
 `scripts/nlrp3_v2_lib.py`, which must be importable when loading them.
 
+## Stage 2
+
+`stage2/` and `nlrp3_v2_structure_only_n513_production.joblib` are the
+follow-up. The 392-molecule bundle above is unchanged. The production model is
+the 513-molecule file: same hyperparameters, no calibration, historical max
+label. It scores 1525 of 8319 clinical compounds at probability 0.5 (Jaccard
+0.670 with the frozen 1588). Interpretation, the 80/32 recount, candidate
+retention and the 39-molecule docking gap are in
+`docs/NLRP3_MODEL_V2_STAGE2_20261014.md`.
+
 ## Headline result
 
 On 5-fold scaffold-grouped outer folds with calibration fitted on scaffolds the

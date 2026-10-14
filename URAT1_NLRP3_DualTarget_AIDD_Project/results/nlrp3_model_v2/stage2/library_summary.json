@@ -1,0 +1,68 @@
+{
+  "n_manifest_rows": 8319,
+  "n_unparsed_smiles": 0,
+  "n_scored": 8319,
+  "threshold": 0.5,
+  "formal_model": "nlrp3_v2_structure_only_n513_production.joblib",
+  "label_rule": "max(pActivity) >= 6.0",
+  "ad_rule": "in domain if max Morgan-r2 Tanimoto to the 513 training molecules >= the 5th percentile of leave-one-out nearest-neighbour Tanimoto inside that training set (the rule in scripts/12_ml_rigor_validation.py)",
+  "ad_threshold": 0.5672473867595819,
+  "training_loo_nn_tanimoto": {
+    "p05": 0.5672473867595819,
+    "median": 0.7777777777777778,
+    "p25": 0.7164179104477612
+  },
+  "v2_pool": {
+    "n": 1525,
+    "n_acid_equivalent": 267,
+    "n_chemistry_soft_pass": 157,
+    "n_in_applicability_domain": 3,
+    "n_in_deposited_docking_set": 118,
+    "n_both_target_scores_all_three_seeds": 83,
+    "median_max_tanimoto": 0.2127659574468085
+  },
+  "historical_pool_rescored": {
+    "n": 1588,
+    "n_acid_equivalent": 304,
+    "n_chemistry_soft_pass": 156,
+    "n_in_applicability_domain": 3,
+    "n_in_deposited_docking_set": 156,
+    "n_both_target_scores_all_three_seeds": 110,
+    "median_max_tanimoto": 0.21140303358613216
+  },
+  "n_historical_pool_file": 1588,
+  "overlap": {
+    "n_both": 1249,
+    "n_entered": 276,
+    "n_left": 339,
+    "jaccard": 0.6700643776824035,
+    "historical_retained_fraction": 0.7865239294710328
+  },
+  "n392_pool_n": 1690,
+  "n392_vs_n513_jaccard": 0.6303245436105477,
+  "library_in_training_set": 3,
+  "v2_pool_tanimoto": {
+    "median": 0.2127659574468085,
+    "p05": 0.16666666666666666,
+    "frac_below_0_4": 0.9947540983606558,
+    "frac_in_domain": 0.0019672131147540984
+  },
+  "new_entrants": {
+    "n": 276,
+    "n_acid_equivalent": 51,
+    "n_chemistry_soft_pass": 39,
+    "n_in_applicability_domain": 0,
+    "n_in_deposited_docking_set": 0,
+    "n_both_target_scores_all_three_seeds": 0,
+    "median_max_tanimoto": 0.21428571428571427
+  },
+  "new_entrants_chemistry_pass_never_docked": 39,
+  "vecabrutinib_name_hits_in_v2_pool": 2,
+  "name_exclusion_applied": false,
+  "supplementary_docking": {
+    "needed": true,
+    "n": 39,
+    "n_beta_lactam_annotated": 4,
+    "reason": "These molecules are outside the frozen 1588, pass the existing acid-equivalent and soft-chemistry gates, and are absent from the deposited 156-ligand A2 docking campaign. That campaign is what the historical funnel docked. No docking was run in this stage. A null score inside the deposited 156 is a geometry-gate miss (a2_no_geometry_pass), not a missing calculation, and those ligands are not in this list."
+  }
+}

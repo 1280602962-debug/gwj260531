@@ -1,0 +1,137 @@
+{
+  "groups": [
+    {
+      "group": "primary",
+      "n": 12,
+      "n_retained_n513": 9,
+      "n_retained_n392": 6,
+      "n_in_domain": 0,
+      "n_in_training_set": 0,
+      "min_p_n513": 0.1638544201850891,
+      "median_p_n513": 0.7859969139099121
+    },
+    {
+      "group": "reserve",
+      "n": 21,
+      "n_retained_n513": 14,
+      "n_retained_n392": 14,
+      "n_in_domain": 0,
+      "n_in_training_set": 0,
+      "min_p_n513": 0.09876138716936111,
+      "median_p_n513": 0.7241634726524353
+    }
+  ],
+  "pf_03882845": [
+    {
+      "comparison_group": "primary",
+      "repurposing_id": "REP_07580",
+      "chembl_id": "CHEMBL1215331",
+      "name": "PF-03882845",
+      "canonical_smiles": "N#Cc1ccc(N2N=C3c4ccc(C(=O)O)cc4CC[C@@H]3[C@@H]2C2CCCC2)cc1Cl",
+      "max_phase": 1.0,
+      "p_historical": 1.0,
+      "p_n392": 0.9847164154052734,
+      "p_n513": 0.9410887360572815,
+      "in_historical_pool": true,
+      "in_v2_pool": true,
+      "in_n392_pool": true,
+      "max_tanimoto_train": 0.21568627450980393,
+      "ad_threshold": 0.5672473867595819,
+      "in_applicability_domain": false,
+      "in_training_set": false,
+      "acid_equivalent": true,
+      "acid_reject_reason": NaN,
+      "has_carboxylate": true,
+      "has_tetrazole": false,
+      "has_acyl_sulfonamide": false,
+      "pass_veber": true,
+      "pass_ro5_hb": true,
+      "pass_mw_200_550": true,
+      "pass_chemistry_soft": true,
+      "in_deposited_a2_docking_set": true,
+      "docking_complete_a2_three_seed": true,
+      "historical_name_exclusion_vecabrutinib": false,
+      "p_recorded_on_frozen_candidate_table": 1.0,
+      "is_pf_03882845": true
+    }
+  ],
+  "primary_not_retained": [
+    {
+      "repurposing_id": "REP_00950",
+      "name": "TONAPOFYLLINE",
+      "p_historical": 0.9166667,
+      "p_n392": 0.37413907051086426,
+      "p_n513": 0.4639982581138611
+    },
+    {
+      "repurposing_id": "REP_05302",
+      "name": "SPIROGLUMIDE",
+      "p_historical": 0.78337806,
+      "p_n392": 0.3625900447368622,
+      "p_n513": 0.3712187707424164
+    },
+    {
+      "repurposing_id": "REP_07704",
+      "name": "PSI-697",
+      "p_historical": 0.9166667,
+      "p_n392": 0.19156958162784576,
+      "p_n513": 0.1638544201850891
+    }
+  ],
+  "reserve_not_retained": [
+    {
+      "repurposing_id": "REP_06583",
+      "name": "POSENACAFTOR",
+      "p_historical": 0.9166667,
+      "p_n392": 0.6094334125518799,
+      "p_n513": 0.49583306908607483
+    },
+    {
+      "repurposing_id": "REP_02143",
+      "name": "ABITESARTAN",
+      "p_historical": 0.9166667,
+      "p_n392": 0.4649919271469116,
+      "p_n513": 0.4584273099899292
+    },
+    {
+      "repurposing_id": "REP_00207",
+      "name": "LESINURAD",
+      "p_historical": 0.59704274,
+      "p_n392": 0.4934750497341156,
+      "p_n513": 0.40651389956474304
+    },
+    {
+      "repurposing_id": "REP_01178",
+      "name": "ALEGLITAZAR",
+      "p_historical": 0.9166667,
+      "p_n392": 0.4764796495437622,
+      "p_n513": 0.3842994272708893
+    },
+    {
+      "repurposing_id": "REP_00697",
+      "name": "TERUTROBAN",
+      "p_historical": 0.91666675,
+      "p_n392": 0.49483516812324524,
+      "p_n513": 0.35568004846572876
+    },
+    {
+      "repurposing_id": "REP_04990",
+      "name": "GW590735",
+      "p_historical": 0.61791027,
+      "p_n392": 0.1539926677942276,
+      "p_n513": 0.16899612545967102
+    },
+    {
+      "repurposing_id": "REP_08103",
+      "name": "AGG-523",
+      "p_historical": 0.7615863,
+      "p_n392": 0.10274826735258102,
+      "p_n513": 0.09876138716936111
+    }
+  ],
+  "library": {
+    "v2_pool_n": 1525,
+    "jaccard_vs_historical": 0.6700643776824035,
+    "supplementary_docking_n": 39
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "criterion": "Keep max unless AUROC(max-trained scores, median labels) - AUROC(max-trained scores, max labels) has its 95% CI entirely below -0.02. Median is the only fallback. Candidate identity is not an input.",
+  "auroc_drop_bar": 0.02,
+  "cross_label_delta_vs_max": {
+    "min": {
+      "delta_auroc": -0.051404284945413714,
+      "ci95_low": -0.07605625638820791,
+      "ci95_high": -0.029115420351947776,
+      "n_bootstrap": 2000
+    },
+    "median": {
+      "delta_auroc": -0.019286100752648028,
+      "ci95_low": -0.03661044264031549,
+      "ci95_high": -0.004696050437868782,
+      "n_bootstrap": 2000
+    },
+    "mean": {
+      "delta_auroc": -0.019286100752648028,
+      "ci95_low": -0.03661044264031549,
+      "ci95_high": -0.004696050437868782,
+      "n_bootstrap": 2000
+    }
+  },
+  "label_flips_vs_max": {
+    "min": {
+      "n_molecules_relabelled_vs_max": 32,
+      "n_max_active_lost": 32,
+      "n_max_inactive_gained": 0
+    },
+    "median": {
+      "n_molecules_relabelled_vs_max": 13,
+      "n_max_active_lost": 13,
+      "n_max_inactive_gained": 0
+    },
+    "mean": {
+      "n_molecules_relabelled_vs_max": 13,
+      "n_max_active_lost": 13,
+      "n_max_inactive_gained": 0
+    }
+  },
+  "active_counts": {
+    "max": 310,
+    "min": 278,
+    "median": 297,
+    "mean": 297
+  },
+  "reject_max": false,
+  "production_label_rule": "max",
+  "reason": "The drop from the max label to the median label stays inside the pre-set bar, so the historical max rule remains the production label."
+}

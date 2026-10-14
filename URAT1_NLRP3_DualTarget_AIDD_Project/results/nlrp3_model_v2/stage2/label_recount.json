@@ -1,0 +1,50 @@
+{
+  "source": "data/processed/nlrp3_records.csv",
+  "n_records": 609,
+  "n_molecules": 513,
+  "by_canonical_smiles": {
+    "n_groups": 513,
+    "n_multi_record": 80,
+    "n_label_conflicts": 32,
+    "extra_records": 96
+  },
+  "by_molecule_chembl_id": {
+    "n_groups": 513,
+    "n_multi_record": 80,
+    "n_label_conflicts": 32,
+    "extra_records": 96
+  },
+  "by_raw_smiles": {
+    "n_groups": 513,
+    "n_multi_record": 80,
+    "n_label_conflicts": 32,
+    "extra_records": 96
+  },
+  "multi_record_size_distribution": {
+    "2": 76,
+    "3": 3,
+    "15": 1
+  },
+  "multi_record_molecules_spanning_more_than_one_assay": 80,
+  "multi_record_molecules_with_a_single_assay": 0,
+  "within_assay_label_conflicts": 0,
+  "conflict_pactivity_gap": {
+    "n": 32,
+    "min": 0.07000000000000028,
+    "median": 1.3900000000000001,
+    "max": 2.83
+  },
+  "definitions_checked_for_55_and_23": {
+    "multi_and_pactivity_range_gt_0.0": 78,
+    "conflict_and_range_gt_0.0": 32,
+    "multi_and_pactivity_range_gt_0.3": 72,
+    "conflict_and_range_gt_0.3": 31,
+    "multi_and_pactivity_range_gt_0.5": 67,
+    "conflict_and_range_gt_0.5": 29,
+    "multi_and_pactivity_range_gt_1.0": 37,
+    "conflict_and_range_gt_1.0": 22,
+    "multi_and_pactivity_range_gt_1.5": 16,
+    "conflict_and_range_gt_1.5": 14
+  },
+  "resolution": "80 multi-record molecules and 32 cross-assay label conflicts, under canonical SMILES, Molecule ChEMBL ID and the raw SMILES column alike. No within-assay conflict. The figures 55 and 23 in the stage-1 narrative do not match any of these groupings or the pActivity-gap thresholds checked here; the machine-readable stage-1 audit already recorded 80 and 32."
+}
