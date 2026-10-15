@@ -1,0 +1,56 @@
+{
+  "n_panel": 157,
+  "cohorts": {
+    "deposited_118": {
+      "n": 118,
+      "n_carboxylate": 103,
+      "n_noncarboxylate": 15,
+      "n_beta_lactam": 7,
+      "n_pains": 2,
+      "n_brenk": 28,
+      "n_nih": 10,
+      "n_alert_clean_pains_brenk": 90,
+      "n_in_training_set": 2,
+      "acid_class_counts": {
+        "carboxylate": 103,
+        "acyl_sulfonamide": 11,
+        "tetrazole": 4
+      },
+      "historical_urat1_status_among_noncarboxylate": {
+        "a2_no_geometry_pass": 15
+      }
+    },
+    "new_39": {
+      "n": 39,
+      "n_carboxylate": 32,
+      "n_noncarboxylate": 7,
+      "n_beta_lactam": 4,
+      "n_pains": 3,
+      "n_brenk": 10,
+      "n_nih": 7,
+      "n_alert_clean_pains_brenk": 28,
+      "n_in_training_set": 0,
+      "acid_class_counts": {
+        "carboxylate": 32,
+        "acyl_sulfonamide": 6,
+        "tetrazole": 1
+      },
+      "historical_urat1_status_among_noncarboxylate": {
+        "not_docked": 7
+      }
+    }
+  },
+  "alert_reproduction_on_frozen_primary": {
+    "n_primary_in_panel": 9,
+    "pains_matches_frozen_table": true,
+    "brenk_matches_frozen_table": true
+  },
+  "noncarboxylate_rule": "Report as outside the current carboxylate-Arg477 method. Do not interpret a missing carboxylate match as absent URAT1 activity, and do not invent a tetrazole or acyl-sulfonamide distance threshold in this phase.",
+  "beta_lactam_rule": "Flag with SMARTS [#6]1[#6][#7][#6]1=O. Carboxylate beta-lactams stay on the docking list because the historical 156 were docked before this flag removed them from the reportable reserve. The flag is applied at nomination, with the same threshold-free structural rule.",
+  "dock": {
+    "n_dock": 32,
+    "n_exclude": 7,
+    "n_dock_beta_lactam": 4,
+    "gnina_jobs_if_three_seeds_two_targets": 192
+  }
+}

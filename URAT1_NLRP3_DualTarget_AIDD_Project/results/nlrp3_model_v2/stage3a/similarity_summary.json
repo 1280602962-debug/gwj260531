@@ -1,0 +1,37 @@
+{
+  "protocol": "5-fold Murcko GroupKFold; each fold trains on the full outer-train set; no calibration",
+  "similarity": "max Morgan radius-2 Tanimoto (2048 bits) to molecules in that fold's outer-training set",
+  "existing_ad_rule": "5th percentile of leave-one-out nearest-neighbour Tanimoto inside the 513 training molecules",
+  "ad_threshold_recomputed": 0.5672473867595819,
+  "ad_threshold_adjusted": false,
+  "training_loo_nn": {
+    "p05": 0.5672473867595819,
+    "p25": 0.7164179104477612,
+    "median": 0.7777777777777778,
+    "p75": 0.828125
+  },
+  "oof_nn": {
+    "min": 0.20967741935483872,
+    "p05": 0.4297619047619048,
+    "median": 0.6923076923076923,
+    "frac_below_0_30": 0.025341130604288498,
+    "frac_below_ad_threshold": 0.15789473684210525,
+    "n_below_0_30": 13
+  },
+  "why_threshold_excludes_clinical_candidates": "The 0.567 line is the left tail of similarity among training-set analogues, not an estimate of where predictive performance collapses. A congeneric series still has a high 5th percentile. Clinical molecules sit near 0.2 because they are not members of that series. The threshold was not lowered.",
+  "clinical_library_nn": {
+    "n": 8319,
+    "median": 0.2077922077922078,
+    "p95": 0.2857142857142857,
+    "frac_below_0_30": 0.9648996273590575,
+    "frac_ge_ad": 0.0006010337780983291,
+    "n_ge_ad": 5
+  },
+  "chemistry_pass_157_nn": {
+    "n": 157,
+    "median": 0.2272727272727272,
+    "max": 1.0,
+    "n_ge_ad": 2,
+    "frac_below_0_30": 0.9363057324840764
+  }
+}

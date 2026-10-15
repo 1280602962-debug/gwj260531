@@ -35,6 +35,15 @@ Both `.joblib` bundles are dicts with keys `model`, `calibrators`
 (`none` / `platt` / `isotonic`) and `prediction_rule`; the classes live in
 `scripts/nlrp3_v2_lib.py`, which must be importable when loading them.
 
+## Stage 3A
+
+`stage3a/` is the pre-docking audit. The 0.567 applicability line is unchanged.
+Cross-validation has no active molecules below Tanimoto 0.30, which is where
+96.5% of the clinical library sits. Of the 39 undocked chemistry-pass molecules,
+32 carboxylates are listed for a later gnina block (192 jobs) after a 7-job
+reference redock; 7 non-carboxylate acids stay outside the Arg477 rule. No
+docking was run. See `docs/NLRP3_MODEL_V2_STAGE3A_20261015.md`.
+
 ## Stage 2
 
 `stage2/` and `nlrp3_v2_structure_only_n513_production.joblib` are the
