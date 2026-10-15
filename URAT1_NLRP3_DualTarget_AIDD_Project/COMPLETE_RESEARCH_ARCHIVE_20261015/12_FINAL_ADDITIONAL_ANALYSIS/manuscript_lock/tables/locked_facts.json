@@ -1,0 +1,227 @@
+{
+  "ad_threshold": 0.5672473867595819,
+  "n_clinical_in_domain": 5,
+  "n_primary_in_domain": 0,
+  "n_backup_in_domain": 0,
+  "n_new_in_domain": 0,
+  "pc_variance": [
+    0.05904408122426588,
+    0.05000164640913161
+  ],
+  "murcko": [
+    {
+      "group": "primary_12",
+      "n_molecules": 12,
+      "n_murcko": 12,
+      "n_shared_with_frozen_33": 12
+    },
+    {
+      "group": "backup_21",
+      "n_molecules": 21,
+      "n_murcko": 20,
+      "n_shared_with_frozen_33": 20
+    },
+    {
+      "group": "stage3b_13",
+      "n_molecules": 13,
+      "n_murcko": 11,
+      "n_shared_with_frozen_33": 0
+    }
+  ],
+  "tanimoto": [
+    {
+      "contrast": "new13_vs_frozen33",
+      "n_pairs": 429,
+      "median": 0.13725490196078433,
+      "max": 0.35555555555555557,
+      "min": 0.058823529411764705
+    },
+    {
+      "contrast": "within_backup_21",
+      "n_pairs": 210,
+      "median": 0.13293172690763053,
+      "max": 0.7164179104477612,
+      "min": 0.061224489795918366
+    },
+    {
+      "contrast": "within_primary_12",
+      "n_pairs": 66,
+      "median": 0.14359351988217967,
+      "max": 0.25,
+      "min": 0.08333333333333333
+    },
+    {
+      "contrast": "within_stage3b_13",
+      "n_pairs": 78,
+      "median": 0.1529623477297896,
+      "max": 0.6415094339622641,
+      "min": 0.06896551724137931
+    }
+  ],
+  "sample_size": [
+    {
+      "parent": "clinical_8319",
+      "n": 13,
+      "mean_murcko": 12.8,
+      "min_murcko": 12,
+      "max_murcko": 13,
+      "n_seeds": 5
+    },
+    {
+      "parent": "clinical_8319",
+      "n": 21,
+      "mean_murcko": 18.8,
+      "min_murcko": 16,
+      "max_murcko": 21,
+      "n_seeds": 5
+    },
+    {
+      "parent": "clinical_8319",
+      "n": 33,
+      "mean_murcko": 31.0,
+      "min_murcko": 30,
+      "max_murcko": 32,
+      "n_seeds": 5
+    },
+    {
+      "parent": "clinical_8319",
+      "n": 54,
+      "mean_murcko": 47.8,
+      "min_murcko": 45,
+      "max_murcko": 50,
+      "n_seeds": 5
+    },
+    {
+      "parent": "clinical_8319",
+      "n": 156,
+      "mean_murcko": 138.0,
+      "min_murcko": 133,
+      "max_murcko": 144,
+      "n_seeds": 5
+    },
+    {
+      "parent": "pool_1588",
+      "n": 13,
+      "mean_murcko": 13.0,
+      "min_murcko": 13,
+      "max_murcko": 13,
+      "n_seeds": 5
+    },
+    {
+      "parent": "pool_1588",
+      "n": 21,
+      "mean_murcko": 20.8,
+      "min_murcko": 20,
+      "max_murcko": 21,
+      "n_seeds": 5
+    },
+    {
+      "parent": "pool_1588",
+      "n": 33,
+      "mean_murcko": 32.6,
+      "min_murcko": 32,
+      "max_murcko": 33,
+      "n_seeds": 5
+    },
+    {
+      "parent": "pool_1588",
+      "n": 54,
+      "mean_murcko": 53.6,
+      "min_murcko": 52,
+      "max_murcko": 54,
+      "n_seeds": 5
+    },
+    {
+      "parent": "pool_1588",
+      "n": 156,
+      "mean_murcko": 151.6,
+      "min_murcko": 149,
+      "max_murcko": 154,
+      "n_seeds": 5
+    }
+  ],
+  "pf_urat1_cnnscore_mean": 0.643316229,
+  "pf_arg": [
+    3.2377540054797214,
+    3.232865447246448,
+    3.237253465516712
+  ],
+  "pf_centroid": [
+    1.3326498073491757,
+    1.332024429883158,
+    1.3334575475994617
+  ],
+  "stage3b_status_counts": {
+    "stage3b_new_structural_and_chemistry_pass": 13,
+    "stage3b_new_not_structural_pass": 11,
+    "stage3b_new_structural_pass_chemistry_fail": 8
+  },
+  "stage3b_names": [
+    {
+      "repurposing_id": "REP_06153",
+      "name": "ARONIXIL",
+      "unified_dual_pass_seeds": 3.0
+    },
+    {
+      "repurposing_id": "REP_03766",
+      "name": "BENFURODIL HEMISUCCINATE",
+      "unified_dual_pass_seeds": 3.0
+    },
+    {
+      "repurposing_id": "REP_04062",
+      "name": "BROXITALAMIC ACID",
+      "unified_dual_pass_seeds": 3.0
+    },
+    {
+      "repurposing_id": "REP_06887",
+      "name": "CEDIROGANT",
+      "unified_dual_pass_seeds": 3.0
+    },
+    {
+      "repurposing_id": "REP_00025",
+      "name": "FEBUXOSTAT",
+      "unified_dual_pass_seeds": 2.0
+    },
+    {
+      "repurposing_id": "REP_07890",
+      "name": "GSK-065",
+      "unified_dual_pass_seeds": 3.0
+    },
+    {
+      "repurposing_id": "REP_07657",
+      "name": "GSK-625433",
+      "unified_dual_pass_seeds": 3.0
+    },
+    {
+      "repurposing_id": "REP_01548",
+      "name": "INDEGLITAZAR",
+      "unified_dual_pass_seeds": 3.0
+    },
+    {
+      "repurposing_id": "REP_01934",
+      "name": "MEBROFENIN",
+      "unified_dual_pass_seeds": 3.0
+    },
+    {
+      "repurposing_id": "REP_03072",
+      "name": "METANIXIN",
+      "unified_dual_pass_seeds": 3.0
+    },
+    {
+      "repurposing_id": "REP_05371",
+      "name": "PIRINIXIC ACID",
+      "unified_dual_pass_seeds": 3.0
+    },
+    {
+      "repurposing_id": "REP_01012",
+      "name": "RECOFLAVONE",
+      "unified_dual_pass_seeds": 3.0
+    },
+    {
+      "repurposing_id": "REP_00834",
+      "name": "TETOMILAST",
+      "unified_dual_pass_seeds": 3.0
+    }
+  ],
+  "frozen_overlap_with_stage3b": 0
+}
