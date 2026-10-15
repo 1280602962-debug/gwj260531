@@ -1,0 +1,13 @@
+protocol,readout,benchmark,coverage_scored,n_benchmark,hits_at_1pct,EF1pct,EF1pct_ci95_low,EF1pct_ci95_high,EF5pct,EF5pct_ci95_low,EF5pct_ci95_high,AUC,AUC_ci95_low,AUC_ci95_high,hypergeom_p_1pct,higher_is_better
+P0,gnina CNNscore (negative control),true,5156,5156,9/51,1.94,0.8906,3.3262,2.3955,1.8163,2.9571,0.6467,0.6191,0.6714,0.038213,True
+P0,gnina CNNscore (negative control),random,5152,5152,9/51,1.9385,0.9163,3.232,2.0944,1.5453,2.548,0.6315,0.6082,0.6565,0.038377,True
+P1,Vina affinity,true,5149,5156,2/51,0.4305,0.0,1.2118,0.5553,0.2557,0.8144,0.5306,0.5082,0.553,0.953886,False
+P1,Vina affinity,random,5070,5152,4/50,0.8648,0.0,1.5533,0.8118,0.4897,1.1712,0.6303,0.6091,0.6516,0.692429,False
+P2,gnina CNNaffinity,true,5156,5156,12/51,2.5867,1.3099,4.0696,1.8822,1.4297,2.4458,0.58,0.5482,0.6088,0.001638,True
+P2,gnina CNNaffinity,random,5152,5152,1/51,0.2154,0.0,1.0436,0.7694,0.4238,1.1209,0.5395,0.5125,0.5661,0.992499,True
+P3,gnina minimizedAffinity,true,5156,5156,2/51,0.4311,0.0,1.1573,0.5133,0.2397,0.8269,0.5027,0.4795,0.527,0.953621,False
+P3,gnina minimizedAffinity,random,5152,5152,3/51,0.6462,0.0,1.2981,0.6412,0.3517,0.9716,0.5637,0.541,0.5861,0.855996,False
+P4,RTMScore (Vina pose),true,5044,5156,3/50,0.6467,0.0,1.3332,1.0265,0.6339,1.3939,0.6249,0.6027,0.648,0.855899,True
+P4,RTMScore (Vina pose),random,4407,5152,0/44,0.0,0.0,0.0,0.214,0.0453,0.4413,0.5618,0.5389,0.5827,1.0,True
+P5,RTMScore (gnina pose),true,5148,5156,13/51,2.8039,1.5128,4.3605,2.4397,1.9356,3.0154,0.5898,0.5628,0.6171,0.000463,True
+P5,RTMScore (gnina pose),random,5147,5152,0/51,0.0,0.0,0.0,1.1982,0.7417,1.5742,0.5527,0.5259,0.5781,1.0,True

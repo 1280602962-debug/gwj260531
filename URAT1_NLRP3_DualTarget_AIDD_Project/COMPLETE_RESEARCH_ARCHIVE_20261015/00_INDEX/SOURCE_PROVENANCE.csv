@@ -1,0 +1,13 @@
+archive_file,derivation,source_files,recomputed
+00_INDEX/FILE_INVENTORY.csv,git ls-files classified by path rules in build_file_inventory.py,repository tree,no
+03_MACHINE_LEARNING/ALL_MODEL_SCORES_AND_RANKS.csv,join of deposited v1 scores and v2 rescore; ranks recomputed with competition ranking,docking_export phase2 nlrp3_ml_scores_clinical_all.csv; stage2/clinical_library_scores.csv,ranks only
+03_MACHINE_LEARNING/MODEL_PERFORMANCE.csv,copied from training_report.json and performance_summary.csv,data/models/training_report.json; results/nlrp3_model_v2/performance_summary.csv,no
+05_DOCKING/ALL_POSE_LEVEL_RESULTS.csv,CNNscore CNNaffinity minimizedAffinity read from deposited SDF properties,acid campaign SDFs; stage3b SDFs; reference7 SDFs,no
+05_DOCKING/RANKING_METHOD_COMPARISON.csv,copied from protocol_metrics.csv plus a production-use label,docking_export phase1 metrics/protocol_metrics.csv,no
+06_STAGE3/ALL_STRUCTURAL_GATE_RESULTS.csv,copied from the historical per-seed gate tables,acid_dual_a2 acid_pose_metrics and nlrp3_structural_metrics,no
+06_STAGE3/UNIFIED_CANDIDATE_EVALUATION.csv,copied from the stage3b analysis that reapplied the locked functions,stage3b_local/analysis,no
+06_STAGE3/HISTORICAL_VS_RETROSPECTIVE_GATE.csv,outer join of the two gate tables above,the two files above,agreement flags only
+07_RANKING_AND_SELECTION/ALL_COMPOUNDS_MASTER_INDEX.csv,join of library scores pool membership freeze flags and stage3b states,see build_master_tables.py,status labels only
+07_RANKING_AND_SELECTION/ALL_SCREENING_DECISIONS.csv,one row per molecule per stage from the master index,master index,yes as labels
+08_ADMET_AND_MD/ADMET_SA_RESULTS.csv,median summary of the deposited rank-track ADMET table,data/repurposing/p2/admet_pool.csv,medians only
+08_ADMET_AND_MD/MD_SOURCE_INVENTORY.csv,index of git locks and the local viz pack,config/md_protocol.yaml; local viz_pack,no

@@ -1,0 +1,12 @@
+claim,kind,supported,not_the_same_as,evidence
+NLRP3 classifier mean-of-fold AUROC is 0.8934,machine_learning_metric,yes_for_v1_mean_of_folds,"v2 pooled outer-test AUROC 0.8896, and not a probability of true activity",data/models/training_report.json
+1588 clinical compounds passed p>=0.5,deposited_membership,yes_the_table_exists,a regenerable score; SI retrain gave 1377,data/repurposing/screening/docking_pool_p05.csv
+URAT1 regression ranked the clinical library,process_claim,no,,scripts/02_train_asymmetric_models.py header; no URAT1 column in clinical scores
+Production docking retrieves URAT1 actives,docking_claim,no_rank_track_was_closed,P2 EF@1% 2.54 on a decoy benchmark is not clinical retrieval,config/campaign_c1.yaml rank_track_status closed
+Lesinurad production self-dock is native-like at top-1,reference_redock,no,seed 42 best-of-9 RMSD 1.18 A shows search can succeed while scoring selects 4.30 A,data/manuscript/tables/urat1_redocking_summary.csv
+NP3-146 self-dock is native-like at top-1,reference_redock,yes_all_three_seeds,,data/manuscript/tables/nlrp3_selfdocking_summary.csv
+A2 geometry gate enriches URAT1 actives,gate_validation,no_lr_plus_about_1,A1 LR+ 2.20 is weak-to-moderate and was not the final admissibility rule,data/manuscript/tables/urat1_gate_validation.csv
+Frozen 12 and 21 still pass the unified structural rule,retrospective_rescore,yes_33_of_33,a new nomination; membership was not changed,results/nlrp3_model_v2/stage3b_local/analysis/counts.json
+13 new molecules are additional structural-and-chemistry passes,stage3b_result,yes_under_the_unified_rule,"membership of the frozen 12/21, and not experimental activity",results/nlrp3_model_v2/stage3b_local/analysis/new32_summary.csv
+Any nominated molecule inhibits URAT1 and NLRP3,biological_activity,no_direct_evidence,pocket compatibility under a declared geometry rule,no wet-lab table exists
+PF-03882845 MD proves a stable dual-target complex,md_observation,not_as_stated,local replica-1 analysis exists but is not in git; URAT1 control fails the pre-registered salt-bridge occupancy rule,config/md_protocol.yaml and local viz_pack summary.json
