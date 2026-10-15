@@ -1,4 +1,8 @@
-results/
+results/*
+# NLRP3 v2 model rebuild: validation artefacts must be version-controlled so the
+# corrected model, its splits and its metrics are reproducible (see
+# docs/NLRP3_MODEL_V2_AUDIT_20261014.md).
+!results/nlrp3_model_v2/
 data/libraries/
 *.pyc
 __pycache__/

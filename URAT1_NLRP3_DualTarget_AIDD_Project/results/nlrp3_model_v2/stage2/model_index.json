@@ -1,0 +1,25 @@
+{
+  "formal_production_model": {
+    "path": "results/nlrp3_model_v2/nlrp3_v2_structure_only_n513_production.joblib",
+    "n_train_molecules": 513,
+    "molecules": "all unique training molecules",
+    "calibration": "none",
+    "label_rule": "max(pActivity) >= 6.0",
+    "threshold": 0.5,
+    "hyperparameters_match_stage1": true
+  },
+  "stage1_holdout_model": {
+    "path": "results/nlrp3_model_v2/nlrp3_v2_structure_only.joblib",
+    "n_train_molecules": 392,
+    "molecules": "scaffold holdout removed 121 molecules that stage 1 reserved for a calibration that was not used",
+    "calibration": "none",
+    "retained": "not overwritten"
+  },
+  "software": {
+    "python": "3.12.3",
+    "numpy": "2.5.4",
+    "pandas": "3.0.6",
+    "scikit_learn": "1.9.1",
+    "xgboost": "3.4.1"
+  }
+}

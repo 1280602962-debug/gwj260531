@@ -1,0 +1,131 @@
+{
+  "engine_config": "config/docking_c1_cpu.yaml",
+  "gnina": {
+    "binary": "gnina",
+    "no_gpu": true,
+    "exhaustiveness": 32,
+    "num_modes": 9,
+    "cpu": 4,
+    "cnn_scoring": "rescore",
+    "score_mode": "cnnaff",
+    "extra_args": [
+      "--seed",
+      "42"
+    ]
+  },
+  "documented_selfdock_binary": "gnina v1.3.2 master:f23dd2b Built Jul 8 2025, from data/campaigns/c1/02_selfdock/urat1_9dkb/seed42/lesinurad_out_stdout.txt",
+  "clinical_sdf_openbabel_headers": {
+    "seed42": "OpenBabel08262613303D",
+    "seed43_and_44": "OpenBabel08272609403D"
+  },
+  "sdf_counts": {
+    "urat1_seed42": 156,
+    "nlrp3_seed42": 156,
+    "urat1_seed43": 156,
+    "urat1_seed44": 156,
+    "nlrp3_seed43": 155,
+    "nlrp3_seed44": 155,
+    "clinical_logs_deposited": 0,
+    "gnina_binary_in_repo": false
+  },
+  "missing_nlrp3_sdf_seeds_43_44": [
+    "REP_07837"
+  ],
+  "ligand_prep": {
+    "script": "scripts/prepare_ligands_c1.py",
+    "protonation": "Dimorphite-DL pH 7.4",
+    "embed_seed": 12648430,
+    "prefer_deprotonated_carboxylate": true,
+    "writer": "Meeko PDBQTWriterLegacy",
+    "existing_pdbqt_for_chemistry_pass": 156,
+    "existing_pdbqt_for_the_39": 0
+  },
+  "receptors": {
+    "urat1_9dkb": {
+      "prepared_receptor": "data/structures/prepared/9DKB_receptor.pdbqt",
+      "exists": true,
+      "bytes": 620900,
+      "center": [
+        99.966,
+        102.967,
+        105.699
+      ],
+      "size": [
+        22,
+        22,
+        22
+      ],
+      "qc_center": [
+        99.966,
+        102.967,
+        105.699
+      ],
+      "qc_size": [
+        22,
+        22,
+        22
+      ]
+    },
+    "nlrp3_7alv": {
+      "prepared_receptor": "data/structures/prepared/7ALV_receptor.pdbqt",
+      "exists": true,
+      "bytes": 1480113,
+      "center": [
+        16.756,
+        35.449,
+        125.714
+      ],
+      "size": [
+        20,
+        20,
+        20
+      ],
+      "qc_center": [
+        16.756,
+        35.449,
+        125.714
+      ],
+      "qc_size": [
+        20,
+        20,
+        20
+      ]
+    }
+  },
+  "locked_gates_not_to_be_retuned": {
+    "urat1_carboxylate_arg477_A": 7.7027,
+    "pocket_centroid_A": 6.0,
+    "nlrp3_cnn_min": 0.5,
+    "nlrp3_overlap_min": 0.5,
+    "nlrp3_ifp_jaccard_min": 0.5,
+    "nlrp3_key_recovery_min": "5/7",
+    "seeds": [
+      42,
+      43,
+      44
+    ],
+    "stability": "dual_geometry_pass_in_ge_2_of_3_seeds",
+    "urat1_pose_selection": "geometry_first_then_cnnscore"
+  },
+  "reference_redock_before_any_new_molecule": {
+    "purpose": "Same seed should reproduce deposited CNNscore values if the binary, receptor and ligand PDBQT match. A mismatch means the new block cannot be merged with the historical scores.",
+      "jobs": [
+        "lesinurad at 9DKB, seed 42 (stdout already lists the nine CNN scores)",
+        "NP3-146 at 7ALV, seed 42 (deposited self-dock stdout)",
+        "lowest repurposing_id among deposited carboxylates with a2_geometry_then_cnnscore: REP_00015, both targets, seed 42",
+        "lowest repurposing_id among deposited carboxylates with a2_no_geometry_pass: REP_00300, 9DKB, seed 42",
+        "REP_00015 and REP_00300 at 9DKB, seed 43, because the seed 43/44 SDF headers are from the next calendar day"
+      ],
+    "accept_if": "all nine deposited CNNscore values match to 1e-4; otherwise keep the new block separate",
+    "n_reference_jobs": 7
+  },
+  "software_present_in_this_environment": {
+    "python": "3.12.3",
+    "rdkit_via_stage2": "used for this audit",
+    "scikit_learn": "1.9.1",
+    "xgboost": "3.4.1",
+    "dimorphite_dl": false,
+    "meeko": false,
+    "gnina_binary": false
+  }
+}

@@ -1,0 +1,792 @@
+{
+  "n_records": 609,
+  "n_unique_compounds": 513,
+  "n_unique_assays": 39,
+  "n_unique_scaffolds": 255,
+  "endpoint": "pChEMBL Value (IL-1beta release assays, Assay Type B, relation '=')",
+  "label_rule": "record active = pActivity >= 6.0; molecule active = max over records (historical rule, unchanged)",
+  "record_active_rate": 0.5911330049261084,
+  "molecule_active_rate": 0.6042884990253411,
+  "n_molecules_active": 310,
+  "n_molecules_inactive": 203,
+  "records_per_molecule": {
+    "mean": 1.1871345029239766,
+    "max": 15,
+    "n_molecules_with_multiple_records": 80
+  },
+  "n_molecules_with_discordant_records": 32,
+  "discordant_molecules": [
+    {
+      "canonical_smiles": "CC(=O)N1CCCN(S(=O)(=O)NC(=O)c2coc(Nc3cc(C(F)(F)F)ccc3C)n2)CC1",
+      "n_records": 2,
+      "labels": [
+        1,
+        0
+      ],
+      "pactivity": [
+        7.18,
+        5.92
+      ]
+    },
+    {
+      "canonical_smiles": "CC(C)(O)c1coc(S(=O)(=O)NC(=O)Nc2c3c(cc4c2CCC4)CCC3)c1",
+      "n_records": 15,
+      "labels": [
+        0,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        0,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "pactivity": [
+        5.89,
+        7.89,
+        7.52,
+        8.3,
+        7.54,
+        8.1,
+        8.1,
+        7.22,
+        7.92,
+        5.54,
+        8.01,
+        6.64,
+        7.72,
+        6.12,
+        7.57
+      ]
+    },
+    {
+      "canonical_smiles": "CC(C)(O)c1nn(CC(=O)Nc2cccnc2)c(=O)c2cc3sccc3n12",
+      "n_records": 2,
+      "labels": [
+        0,
+        1
+      ],
+      "pactivity": [
+        5.95,
+        7.07
+      ]
+    },
+    {
+      "canonical_smiles": "CC(C)c1ccc2c(c1Nc1nc(C(=O)NS(=O)(=O)N(C)C)co1)CCC2",
+      "n_records": 2,
+      "labels": [
+        1,
+        0
+      ],
+      "pactivity": [
+        6.58,
+        5.24
+      ]
+    },
+    {
+      "canonical_smiles": "CC(C)c1nn(CC(=O)NC2CCOCC2)c(=O)c2cc3sc(Cl)cc3n12",
+      "n_records": 3,
+      "labels": [
+        0,
+        1,
+        1
+      ],
+      "pactivity": [
+        5.52,
+        6.78,
+        7.3
+      ]
+    },
+    {
+      "canonical_smiles": "CC(C)c1nn(CC(=O)N[C@@H]2CCCNC2)c(=O)c2cc3sc(Cl)cc3n12",
+      "n_records": 2,
+      "labels": [
+        1,
+        0
+      ],
+      "pactivity": [
+        6.97,
+        5.99
+      ]
+    },
+    {
+      "canonical_smiles": "CC(C)c1nn(CC(=O)Nc2cccnc2)c(=O)c2cc3sc(Cl)cc3n12",
+      "n_records": 2,
+      "labels": [
+        0,
+        1
+      ],
+      "pactivity": [
+        5.01,
+        6.84
+      ]
+    },
+    {
+      "canonical_smiles": "CC(C)c1nn(CC(=O)Nc2cccnc2)c(=O)c2cc3sc(F)cc3n12",
+      "n_records": 2,
+      "labels": [
+        1,
+        0
+      ],
+      "pactivity": [
+        6.64,
+        5.06
+      ]
+    },
+    {
+      "canonical_smiles": "CC(C)c1nn(CC(=O)Nc2cccnc2)c(=O)c2cc3sccc3n12",
+      "n_records": 2,
+      "labels": [
+        0,
+        1
+      ],
+      "pactivity": [
+        5.7,
+        7.16
+      ]
+    },
+    {
+      "canonical_smiles": "CC(C)n1ccc(S(=O)(=O)NC(=O)Nc2c3c(cc4c2CCC4)CCC3)n1",
+      "n_records": 2,
+      "labels": [
+        1,
+        0
+      ],
+      "pactivity": [
+        7.4,
+        5.76
+      ]
+    },
+    {
+      "canonical_smiles": "CCOC(=O)C(Cc1ncccn1)OC(=O)Nc1c(C)cccc1C",
+      "n_records": 2,
+      "labels": [
+        0,
+        1
+      ],
+      "pactivity": [
+        5.85,
+        6.57
+      ]
+    },
+    {
+      "canonical_smiles": "CCOC(=O)C(Cn1cccn1)OC(=O)Nc1c(C)cccc1C",
+      "n_records": 2,
+      "labels": [
+        0,
+        1
+      ],
+      "pactivity": [
+        5.77,
+        6.72
+      ]
+    },
+    {
+      "canonical_smiles": "CCOC(=O)COC(=O)Nc1c(C)cc(C)cc1C",
+      "n_records": 2,
+      "labels": [
+        0,
+        1
+      ],
+      "pactivity": [
+        5.41,
+        6.23
+      ]
+    },
+    {
+      "canonical_smiles": "CCOC(=O)COC(=O)Nc1c(C)cccc1C",
+      "n_records": 2,
+      "labels": [
+        0,
+        1
+      ],
+      "pactivity": [
+        5.96,
+        6.03
+      ]
+    },
+    {
+      "canonical_smiles": "CCOC(=O)COC(=O)Nc1c(C)cccc1C(C)C",
+      "n_records": 2,
+      "labels": [
+        0,
+        1
+      ],
+      "pactivity": [
+        5.89,
+        6.36
+      ]
+    },
+    {
+      "canonical_smiles": "CCOC(=O)COC(=O)Nc1c(CC)cccc1CC",
+      "n_records": 2,
+      "labels": [
+        1,
+        0
+      ],
+      "pactivity": [
+        6.09,
+        4.89
+      ]
+    },
+    {
+      "canonical_smiles": "CCOC(=O)COC(=O)Nc1c(Cl)cccc1Cl",
+      "n_records": 2,
+      "labels": [
+        0,
+        1
+      ],
+      "pactivity": [
+        5.04,
+        6.0
+      ]
+    },
+    {
+      "canonical_smiles": "CCOC(=O)COC(=O)Nc1cc(C)ccc1C",
+      "n_records": 2,
+      "labels": [
+        0,
+        1
+      ],
+      "pactivity": [
+        5.54,
+        6.01
+      ]
+    },
+    {
+      "canonical_smiles": "CCc1nn(CC(=O)Nc2cccnc2)c(=O)c2cc3sccc3n12",
+      "n_records": 2,
+      "labels": [
+        1,
+        0
+      ],
+      "pactivity": [
+        6.6,
+        5.42
+      ]
+    },
+    {
+      "canonical_smiles": "CN(C)S(=O)(=O)NC(=O)c1coc(Nc2c3c(cc4c2CCC4)CCC3)n1",
+      "n_records": 2,
+      "labels": [
+        1,
+        0
+      ],
+      "pactivity": [
+        7.32,
+        5.11
+      ]
+    },
+    {
+      "canonical_smiles": "Cc1cc(C(F)(F)F)cc(O)c1-c1ccc(N[C@H]2CCCN(C)C2)nn1",
+      "n_records": 2,
+      "labels": [
+        0,
+        1
+      ],
+      "pactivity": [
+        5.54,
+        6.38
+      ]
+    },
+    {
+      "canonical_smiles": "Cc1ccc(C(C)(C)C)cc1Nc1nc(C(=O)NS(=O)(=O)N(C)C)co1",
+      "n_records": 2,
+      "labels": [
+        0,
+        1
+      ],
+      "pactivity": [
+        5.11,
+        7.18
+      ]
+    },
+    {
+      "canonical_smiles": "Cc1ccc(C(C)C)cc1Nc1nc(C(=O)NS(=O)(=O)N(C)C)co1",
+      "n_records": 2,
+      "labels": [
+        1,
+        0
+      ],
+      "pactivity": [
+        6.85,
+        5.17
+      ]
+    },
+    {
+      "canonical_smiles": "Cc1ccc(C(F)(F)F)cc1Nc1nc(C(=O)NS(=O)(=O)N(C)C)co1",
+      "n_records": 2,
+      "labels": [
+        0,
+        1
+      ],
+      "pactivity": [
+        5.75,
+        7.28
+      ]
+    },
+    {
+      "canonical_smiles": "Cc1ccc(C(F)(F)F)cc1Nc1nc(C(=O)NS(=O)(=O)N2CCCCC2)co1",
+      "n_records": 2,
+      "labels": [
+        1,
+        0
+      ],
+      "pactivity": [
+        7.38,
+        4.55
+      ]
+    },
+    {
+      "canonical_smiles": "Cc1ccc(C(F)(F)F)cc1Nc1nc(C(=O)NS(=O)(=O)N2CCOCC2)co1",
+      "n_records": 2,
+      "labels": [
+        0,
+        1
+      ],
+      "pactivity": [
+        5.1,
+        7.42
+      ]
+    },
+    {
+      "canonical_smiles": "Cc1ccc(C(F)(F)F)nc1Nc1nc(C(=O)NS(=O)(=O)N(C)C)co1",
+      "n_records": 2,
+      "labels": [
+        0,
+        1
+      ],
+      "pactivity": [
+        5.33,
+        6.26
+      ]
+    },
+    {
+      "canonical_smiles": "Cc1ccc(C)c(Nc2nc(C(=O)NS(=O)(=O)N(C)C)co2)c1",
+      "n_records": 2,
+      "labels": [
+        0,
+        1
+      ],
+      "pactivity": [
+        4.96,
+        6.29
+      ]
+    },
+    {
+      "canonical_smiles": "Cc1ccc2c(c1Nc1nc(C(=O)NS(=O)(=O)N(C)C)co1)CCC2",
+      "n_records": 2,
+      "labels": [
+        0,
+        1
+      ],
+      "pactivity": [
+        4.75,
+        6.82
+      ]
+    },
+    {
+      "canonical_smiles": "O=C(Cn1nc(C2CC2)n2c(cc3sccc32)c1=O)Nc1cccnc1",
+      "n_records": 2,
+      "labels": [
+        0,
+        1
+      ],
+      "pactivity": [
+        5.5,
+        6.94
+      ]
+    },
+    {
+      "canonical_smiles": "O=C(Nc1c2c(cc3c1CCC3)CCC2)NS(=O)(=O)c1ccccc1",
+      "n_records": 2,
+      "labels": [
+        1,
+        0
+      ],
+      "pactivity": [
+        7.46,
+        5.75
+      ]
+    },
+    {
+      "canonical_smiles": "O=C(Nc1c2c(cc3c1CCC3)CCC2)O[C@H](Cc1ncccn1)C(=O)O",
+      "n_records": 2,
+      "labels": [
+        0,
+        1
+      ],
+      "pactivity": [
+        5.33,
+        7.18
+      ]
+    }
+  ],
+  "scaffold_sizes": {
+    "n_singleton_scaffolds": 183,
+    "largest_scaffold_n_molecules": 16,
+    "scaffold_definition": "Bemis-Murcko (RDKit MurckoScaffoldSmiles, includeChirality=False)"
+  },
+  "per_assay": [
+    {
+      "assay_chembl_id": "CHEMBL5549264",
+      "n_records": 35,
+      "n_compounds": 35,
+      "n_active": 8,
+      "n_inactive": 27,
+      "active_rate": 0.22857142857142856,
+      "cell_type": "THP-1"
+    },
+    {
+      "assay_chembl_id": "CHEMBL5149834",
+      "n_records": 34,
+      "n_compounds": 34,
+      "n_active": 4,
+      "n_inactive": 30,
+      "active_rate": 0.11764705882352941,
+      "cell_type": "PBMC"
+    },
+    {
+      "assay_chembl_id": "CHEMBL5374758",
+      "n_records": 31,
+      "n_compounds": 31,
+      "n_active": 23,
+      "n_inactive": 8,
+      "active_rate": 0.7419354838709677,
+      "cell_type": "PBMC"
+    },
+    {
+      "assay_chembl_id": "CHEMBL6157329",
+      "n_records": 31,
+      "n_compounds": 31,
+      "n_active": 30,
+      "n_inactive": 1,
+      "active_rate": 0.967741935483871,
+      "cell_type": "PBMC"
+    },
+    {
+      "assay_chembl_id": "CHEMBL5374759",
+      "n_records": 29,
+      "n_compounds": 29,
+      "n_active": 12,
+      "n_inactive": 17,
+      "active_rate": 0.41379310344827586,
+      "cell_type": "unknown"
+    },
+    {
+      "assay_chembl_id": "CHEMBL5369907",
+      "n_records": 27,
+      "n_compounds": 27,
+      "n_active": 21,
+      "n_inactive": 6,
+      "active_rate": 0.7777777777777778,
+      "cell_type": "THP-1"
+    },
+    {
+      "assay_chembl_id": "CHEMBL5217806",
+      "n_records": 24,
+      "n_compounds": 24,
+      "n_active": 13,
+      "n_inactive": 11,
+      "active_rate": 0.5416666666666666,
+      "cell_type": "PBMC"
+    },
+    {
+      "assay_chembl_id": "CHEMBL5358951",
+      "n_records": 24,
+      "n_compounds": 24,
+      "n_active": 20,
+      "n_inactive": 4,
+      "active_rate": 0.8333333333333334,
+      "cell_type": "THP-1"
+    },
+    {
+      "assay_chembl_id": "CHEMBL5583272",
+      "n_records": 24,
+      "n_compounds": 24,
+      "n_active": 7,
+      "n_inactive": 17,
+      "active_rate": 0.2916666666666667,
+      "cell_type": "THP-1"
+    },
+    {
+      "assay_chembl_id": "CHEMBL4702271",
+      "n_records": 23,
+      "n_compounds": 23,
+      "n_active": 4,
+      "n_inactive": 19,
+      "active_rate": 0.17391304347826086,
+      "cell_type": "PBMC"
+    },
+    {
+      "assay_chembl_id": "CHEMBL6118453",
+      "n_records": 22,
+      "n_compounds": 22,
+      "n_active": 19,
+      "n_inactive": 3,
+      "active_rate": 0.8636363636363636,
+      "cell_type": "THP-1"
+    },
+    {
+      "assay_chembl_id": "CHEMBL5539793",
+      "n_records": 21,
+      "n_compounds": 21,
+      "n_active": 16,
+      "n_inactive": 5,
+      "active_rate": 0.7619047619047619,
+      "cell_type": "THP-1"
+    },
+    {
+      "assay_chembl_id": "CHEMBL6095601",
+      "n_records": 21,
+      "n_compounds": 21,
+      "n_active": 21,
+      "n_inactive": 0,
+      "active_rate": 1.0,
+      "cell_type": "THP-1"
+    },
+    {
+      "assay_chembl_id": "CHEMBL5580427",
+      "n_records": 19,
+      "n_compounds": 19,
+      "n_active": 19,
+      "n_inactive": 0,
+      "active_rate": 1.0,
+      "cell_type": "THP-1"
+    },
+    {
+      "assay_chembl_id": "CHEMBL4628081",
+      "n_records": 18,
+      "n_compounds": 18,
+      "n_active": 0,
+      "n_inactive": 18,
+      "active_rate": 0.0,
+      "cell_type": "unknown"
+    },
+    {
+      "assay_chembl_id": "CHEMBL4671767",
+      "n_records": 18,
+      "n_compounds": 18,
+      "n_active": 17,
+      "n_inactive": 1,
+      "active_rate": 0.9444444444444444,
+      "cell_type": "THP-1"
+    },
+    {
+      "assay_chembl_id": "CHEMBL6076313",
+      "n_records": 16,
+      "n_compounds": 16,
+      "n_active": 13,
+      "n_inactive": 3,
+      "active_rate": 0.8125,
+      "cell_type": "THP-1"
+    },
+    {
+      "assay_chembl_id": "CHEMBL5122649",
+      "n_records": 14,
+      "n_compounds": 14,
+      "n_active": 12,
+      "n_inactive": 2,
+      "active_rate": 0.8571428571428571,
+      "cell_type": "THP-1"
+    },
+    {
+      "assay_chembl_id": "CHEMBL5358952",
+      "n_records": 14,
+      "n_compounds": 14,
+      "n_active": 2,
+      "n_inactive": 12,
+      "active_rate": 0.14285714285714285,
+      "cell_type": "unknown"
+    },
+    {
+      "assay_chembl_id": "CHEMBL5539794",
+      "n_records": 14,
+      "n_compounds": 14,
+      "n_active": 4,
+      "n_inactive": 10,
+      "active_rate": 0.2857142857142857,
+      "cell_type": "unknown"
+    },
+    {
+      "assay_chembl_id": "CHEMBL6121754",
+      "n_records": 13,
+      "n_compounds": 13,
+      "n_active": 13,
+      "n_inactive": 0,
+      "active_rate": 1.0,
+      "cell_type": "THP-1"
+    },
+    {
+      "assay_chembl_id": "CHEMBL5504345",
+      "n_records": 12,
+      "n_compounds": 12,
+      "n_active": 0,
+      "n_inactive": 12,
+      "active_rate": 0.0,
+      "cell_type": "THP-M"
+    },
+    {
+      "assay_chembl_id": "CHEMBL4605569",
+      "n_records": 11,
+      "n_compounds": 11,
+      "n_active": 11,
+      "n_inactive": 0,
+      "active_rate": 1.0,
+      "cell_type": "THP-1"
+    },
+    {
+      "assay_chembl_id": "CHEMBL5392136",
+      "n_records": 10,
+      "n_compounds": 10,
+      "n_active": 10,
+      "n_inactive": 0,
+      "active_rate": 1.0,
+      "cell_type": "PBMC"
+    },
+    {
+      "assay_chembl_id": "CHEMBL6076320",
+      "n_records": 10,
+      "n_compounds": 10,
+      "n_active": 8,
+      "n_inactive": 2,
+      "active_rate": 0.8,
+      "cell_type": "unknown"
+    },
+    {
+      "assay_chembl_id": "CHEMBL5392108",
+      "n_records": 9,
+      "n_compounds": 9,
+      "n_active": 9,
+      "n_inactive": 0,
+      "active_rate": 1.0,
+      "cell_type": "THP-1"
+    },
+    {
+      "assay_chembl_id": "CHEMBL6118454",
+      "n_records": 9,
+      "n_compounds": 9,
+      "n_active": 9,
+      "n_inactive": 0,
+      "active_rate": 1.0,
+      "cell_type": "Whole blood cell"
+    },
+    {
+      "assay_chembl_id": "CHEMBL4125669",
+      "n_records": 8,
+      "n_compounds": 8,
+      "n_active": 0,
+      "n_inactive": 8,
+      "active_rate": 0.0,
+      "cell_type": "unknown"
+    },
+    {
+      "assay_chembl_id": "CHEMBL5392140",
+      "n_records": 8,
+      "n_compounds": 8,
+      "n_active": 5,
+      "n_inactive": 3,
+      "active_rate": 0.625,
+      "cell_type": "THP-1"
+    },
+    {
+      "assay_chembl_id": "CHEMBL5517289",
+      "n_records": 8,
+      "n_compounds": 8,
+      "n_active": 0,
+      "n_inactive": 8,
+      "active_rate": 0.0,
+      "cell_type": "THP-M"
+    },
+    {
+      "assay_chembl_id": "CHEMBL4727731",
+      "n_records": 7,
+      "n_compounds": 7,
+      "n_active": 1,
+      "n_inactive": 6,
+      "active_rate": 0.14285714285714285,
+      "cell_type": "Primary neuron"
+    },
+    {
+      "assay_chembl_id": "CHEMBL4221123",
+      "n_records": 6,
+      "n_compounds": 6,
+      "n_active": 0,
+      "n_inactive": 6,
+      "active_rate": 0.0,
+      "cell_type": "unknown"
+    },
+    {
+      "assay_chembl_id": "CHEMBL4775286",
+      "n_records": 6,
+      "n_compounds": 6,
+      "n_active": 0,
+      "n_inactive": 6,
+      "active_rate": 0.0,
+      "cell_type": "THP-1"
+    },
+    {
+      "assay_chembl_id": "CHEMBL5365232",
+      "n_records": 6,
+      "n_compounds": 6,
+      "n_active": 6,
+      "n_inactive": 0,
+      "active_rate": 1.0,
+      "cell_type": "unknown"
+    },
+    {
+      "assay_chembl_id": "CHEMBL5392138",
+      "n_records": 6,
+      "n_compounds": 6,
+      "n_active": 6,
+      "n_inactive": 0,
+      "active_rate": 1.0,
+      "cell_type": "PBMC"
+    },
+    {
+      "assay_chembl_id": "CHEMBL6185649",
+      "n_records": 6,
+      "n_compounds": 6,
+      "n_active": 6,
+      "n_inactive": 0,
+      "active_rate": 1.0,
+      "cell_type": "unknown"
+    },
+    {
+      "assay_chembl_id": "CHEMBL3864034",
+      "n_records": 5,
+      "n_compounds": 5,
+      "n_active": 1,
+      "n_inactive": 4,
+      "active_rate": 0.2,
+      "cell_type": "unknown"
+    },
+    {
+      "assay_chembl_id": "CHEMBL4187544",
+      "n_records": 5,
+      "n_compounds": 5,
+      "n_active": 5,
+      "n_inactive": 0,
+      "active_rate": 1.0,
+      "cell_type": "unknown"
+    },
+    {
+      "assay_chembl_id": "CHEMBL5392143",
+      "n_records": 5,
+      "n_compounds": 5,
+      "n_active": 5,
+      "n_inactive": 0,
+      "active_rate": 1.0,
+      "cell_type": "THP-1"
+    }
+  ],
+  "standardisation": "RDKit MolFromSmiles -> SanitizeMol -> MolToSmiles; duplicates collapsed per canonical SMILES",
+  "features": "Morgan radius-2 2048 bits + 12 RDKit descriptors (+ top-25 assay one-hot for the assay-conditioned model)"
+}
