@@ -1,0 +1,21 @@
+item,value,applies_to
+fingerprint,"Morgan radius 2, 2048 bits, RDKit GetMorganFingerprintAsBitVect",v2 AD and v1 stored max Tanimoto
+distance,Tanimoto similarity; in-domain if max similarity to training set >= threshold,v2 AD
+neighbor_count,1 (maximum similarity). Not a k>1 vote.,v2 AD
+training_molecules,unique canonical_smiles in data/processed/nlrp3_records.csv = 513; records = 609,v1 annotation and v2 AD share this file
+threshold_rule,5th percentile of leave-one-out nearest-neighbour Tanimoto inside the training set,v2 only
+threshold_recomputed,0.5672473868,v2
+threshold_deposited,0.5672473868,v2 library_summary.json
+threshold_abs_diff,0.000e+00,v2
+loo_vs_positional_exclusion_n_differ,0,"diagnostic; production uses sorted-sims[1], not a rewritten rule"
+training_identical_fp_pairs,21,diagnostic
+training_fp_failures,0,v2
+training_recanonicalize_changed,0,v2 training SMILES were used as stored
+v2_query_standardization,"utils_ml.canonicalize = MolFromSmiles, SanitizeMol, MolToSmiles; salts are not stripped",v2
+v2_vs_deposited_max_abs_diff,9.71445e-17,v2 clinical library
+v2_n_abs_diff_gt_1e-6,0,v2
+v1_vs_recomputed_max_abs_diff_after_round3,not computable: nlrp3_ml_scores_clinical_all.max_tanimoto_nlrp3_train and the archive historical column are entirely empty (8319/8319 missing),v1 stored column was rounded to 3 decimals
+v1_pool_rule,"Pool membership was p_active_nlrp3 >= 0.5. The Tanimoto column was created but never filled, so v1 had no applied applicability-domain threshold.",v1 historical screen
+v2_ad_on_v1_candidates,retrospective. The v2 threshold was not the v1 screening rule and is not used here to change the 1588 membership.,interpretation
+model_feature_space,Morgan 2048 + 12 RDKit descriptors. v1 also used assay one-hot. AD uses Morgan only.,v1 and v2 models differ from the AD feature space
+rdkit_version,2025.09.6,this recomputation

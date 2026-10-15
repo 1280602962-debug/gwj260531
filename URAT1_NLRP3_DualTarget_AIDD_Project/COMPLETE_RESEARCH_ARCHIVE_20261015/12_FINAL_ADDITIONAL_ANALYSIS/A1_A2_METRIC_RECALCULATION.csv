@@ -1,0 +1,3 @@
+gate,n_molecules,n_rows_before_dedup,n_active,n_decoy,tp,fn,fp,tn,sensitivity,specificity,lr_plus,coverage,interpretation
+a1,292,292,228,64,102,126,13,51,0.4473684210526316,0.796875,2.2024291497975708,1.0,A1 selects the top CNNscore pose and then applies geometry. Not the nomination rule.
+a2,292,292,228,64,217,11,61,3,0.9517543859649122,0.046875,0.998561978717285,1.0,Geometry accessibility. LR+ near 1 is not URAT1 activity enrichment.

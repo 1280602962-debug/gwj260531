@@ -1,0 +1,27 @@
+item,observed,claimed,consistent,source
+clinical_library,8319,8319,True,master.in_clinical_library_8319
+master_rows,8319,8319,True,ALL_COMPOUNDS_MASTER_INDEX.csv
+v1_pool_1588,1588,1588,True,master.in_nlrp3_pool_1588
+acid_equivalent_303,303,303,True,master.in_acid_pool_303
+chemistry_soft_156,156,156,True,master.in_chemistry_soft_156
+deposited_a2_docking_set,156,156,True,master.in_deposited_a2_docking_set
+historical_structural_ge2,54,54,True,acid_dual_keep_structural keep_dual_acid_structural >=2/3
+historical_chemistry_eligible_40,40,40,True,acid_a2_eligible_audited.csv
+intersection_37,37,37,True,structural_ge2 AND chemistry-eligible 40
+tier_pool,37,37,True,tier_pool_w2_annotated.csv
+tier_equals_intersection,1,1,True,set equality of tier pool and 37
+frozen_primary_12,12,12,True,primary_candidates.csv
+frozen_backup_21,21,21,True,backup_candidates.csv
+frozen_reportable_33,33,33,True,reportable_candidates.csv
+master_primary_flag,12,12,True,master
+master_backup_flag,21,21,True,master
+master_reportable_flag,33,33,True,master
+stage3b_molecules,32,32,True,master
+stage3b_dock_runs,194,194,True,ALL_DOCKING_RUNS protocol P_STAGE3B_NEW32
+archive_generator_scripts,5,4,False,FINAL_ARCHIVE_ACCEPTANCE says 四个; observed file count is the true value
+reference7_runs,7,7,True,ALL_DOCKING_RUNS protocol_id P_REFERENCE7_REPRODUCTION
+final_status::stage3b_new_structural_and_chemistry_pass,13,13,True,master.final_status
+final_status::stage3b_new_structural_pass_chemistry_fail,8,8,True,master.final_status
+final_status::stage3b_new_not_structural_pass,11,11,True,master.final_status
+final_status::stage3a_excluded_rule_not_applicable,7,7,True,master.final_status
+archive_text_says_four_scripts,5,4,False,FINAL_ARCHIVE_ACCEPTANCE.md says 四个生成脚本; directory has 5 python files. Text not edited.

@@ -1,0 +1,12 @@
+figure_id,file,claim_it_can_support,claim_it_must_not_support
+figure1,figures/figure1_study_flow.png,v1 历史路径与第三阶段 B 是两个来源,一条连续漏斗从 8319 筛到 13
+figure2,figures/figure2_docking_and_scores.png,参照 RMSD 与六种评分的早期富集不同,URAT1 评分选择已经复现晶体姿势；P5 显著优于 P2
+figure3,figures/figure3_candidate_strata.png,冻结 12/21 与新增 13 分开计数,13 人已经进入历史冻结名单
+figure4,figures/figure4_scaffold_diversity.png,13 人相对旧对接集有 11 个新 Murcko,骨架数量超过同样样本量的随机对照
+figure5,figures/figure5_gate_bias.png,URAT1 A2 之后羧酸比例为 1,羧酸比例升高等于活性富集
+figure6,未生成,不适用,PF 动力学是正面验证
+table_scores,AUROC_PRAUC_EF_ALL.csv,各方法在自身人群和共同人群上的指标,真诱饵是实验阴性
+table_bootstrap,P2_P5_PAIRED_BOOTSTRAP.csv,五个随机数种子下配对区间包含 0,五个种子是五次独立实验
+table_ad,AD_TRAIN_CLINICAL_SIMILARITY.csv,最终候选最大相似度低于 v2 阈值,v2 阈值是 v1 当年的筛选规则
+table_candidates,CANDIDATE_GROUPS_FINAL.csv,各组人数,分析优先级等于正式提名
+table_md,MD_PRESPECIFIED_GATE_AUDIT.csv,lesinurad 盐桥占有率 0.001 未达 30%,PF 的 URAT1 结合已被动力学验证
