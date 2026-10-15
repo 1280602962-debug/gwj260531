@@ -1,0 +1,33 @@
+              _             
+             (_)            
+   __ _ _ __  _ _ __   __ _ 
+  / _` | '_ \| | '_ \ / _` |
+ | (_| | | | | | | | | (_| |
+  \__, |_| |_|_|_| |_|\__,_|
+   __/ |                    
+  |___/                     
+
+gnina v1.3.2 master:f23dd2b   Built Jul  8 2025.
+gnina is based on smina and AutoDock Vina.
+Please cite appropriately.
+
+Commandline: /mnt/d/CADD paper exercise/gnina/bin/gnina -r /home/gwj/work/stage3b-refdock/URAT1_NLRP3_DualTarget_AIDD_Project/data/structures/prepared/9DKB_receptor.pdbqt -l /home/gwj/work/stage3b-refdock/URAT1_NLRP3_DualTarget_AIDD_Project/results/nlrp3_model_v2/stage3b_local/new32/ligand_prep/pdbqt/REP_00293.pdbqt --center_x 99.966 --center_y 102.967 --center_z 105.699 --size_x 22 --size_y 22 --size_z 22 --exhaustiveness 32 --num_modes 9 --cpu 4 --cnn_scoring rescore --seed 42 --no_gpu -o /home/gwj/work/stage3b-refdock/URAT1_NLRP3_DualTarget_AIDD_Project/results/nlrp3_model_v2/stage3b_local/new32/poses/urat1_9dkb/seed42/REP_00293/poses_out.sdf --log /home/gwj/work/stage3b-refdock/URAT1_NLRP3_DualTarget_AIDD_Project/results/nlrp3_model_v2/stage3b_local/new32/poses/urat1_9dkb/seed42/REP_00293/gnina.log
+Using random seed: 42
+
+0%   10   20   30   40   50   60   70   80   90   100%
+|----|----|----|----|----|----|----|----|----|----|
+***************************************************
+ | pose 0 | initial pose not within box
+
+mode |  affinity  |  intramol  |    CNN     |   CNN
+     | (kcal/mol) | (kcal/mol) | pose score | affinity
+-----+------------+------------+------------+----------
+    1       -6.94       -0.87       0.6625      5.817
+    2       -7.57       -0.87       0.6156      5.480
+    3       -7.90       -0.85       0.5865      5.017
+    4       -7.75       -0.86       0.5836      4.959
+    5       -7.62       -0.59       0.5666      5.316
+    6       -7.53       -0.91       0.5526      4.736
+    7       -6.94       -0.57       0.5337      5.349
+    8       -6.78       -0.66       0.5253      5.402
+    9       -7.08       -0.84       0.5123      5.840

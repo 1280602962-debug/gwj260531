@@ -1,0 +1,33 @@
+              _             
+             (_)            
+   __ _ _ __  _ _ __   __ _ 
+  / _` | '_ \| | '_ \ / _` |
+ | (_| | | | | | | | | (_| |
+  \__, |_| |_|_|_| |_|\__,_|
+   __/ |                    
+  |___/                     
+
+gnina v1.3.2 master:f23dd2b   Built Jul  8 2025.
+gnina is based on smina and AutoDock Vina.
+Please cite appropriately.
+
+Commandline: /mnt/d/CADD paper exercise/gnina/bin/gnina -r /home/gwj/work/stage3b-refdock/URAT1_NLRP3_DualTarget_AIDD_Project/data/structures/prepared/9DKB_receptor.pdbqt -l /home/gwj/work/stage3b-refdock/URAT1_NLRP3_DualTarget_AIDD_Project/data/campaigns/c1/01_ligand_prep/acid_clinical_chemistry_pass/pdbqt/REP_00015.pdbqt --center_x 99.966 --center_y 102.967 --center_z 105.699 --size_x 22 --size_y 22 --size_z 22 --exhaustiveness 32 --num_modes 9 --cpu 4 --cnn_scoring rescore --seed 42 --no_gpu -o /home/gwj/work/stage3b-refdock/URAT1_NLRP3_DualTarget_AIDD_Project/results/nlrp3_model_v2/stage3b_local/reference7/03_REP_00015_9DKB_seed42/poses_out.sdf --log /home/gwj/work/stage3b-refdock/URAT1_NLRP3_DualTarget_AIDD_Project/results/nlrp3_model_v2/stage3b_local/reference7/03_REP_00015_9DKB_seed42/gnina.log
+Using random seed: 42
+
+0%   10   20   30   40   50   60   70   80   90   100%
+|----|----|----|----|----|----|----|----|----|----|
+***************************************************
+ | pose 0 | initial pose not within box
+
+mode |  affinity  |  intramol  |    CNN     |   CNN
+     | (kcal/mol) | (kcal/mol) | pose score | affinity
+-----+------------+------------+------------+----------
+    1       -6.84       -0.12       0.7152      5.368
+    2       -6.61       -0.47       0.7053      5.598
+    3       -7.69       -0.14       0.6946      5.713
+    4       -7.89       -0.49       0.6589      5.370
+    5       -6.73       -0.49       0.6492      5.079
+    6       -6.78       -0.49       0.6184      5.607
+    7       -8.62       -0.15       0.5715      5.602
+    8       -6.94       -0.16       0.4516      5.310
+    9       -7.40       -0.43       0.4312      5.021
