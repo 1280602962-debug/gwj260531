@@ -1,0 +1,12 @@
+item,n,note
+observations,867,"pair + panel_id; 757 reused seven-pair rows, 9 reused Q110 overlap rows, 101 new Q110 rows"
+both_ends_raw_activity,867,Raw STANDARD_OK rows exist on both targets. This is not same-assay validation.
+literature_complete,855,"Every tied maximum on both ends has a DOI, PubMed ID, or patent ID."
+document_identifier_missing,12,Includes the historical dataset-document observations and any new Q110 gap.
+cross_source_or_endpoint_mix,168,"Different documents at the two maxima, or more than one STANDARD_OK type."
+replicate_threshold_discordance,35,At least one endpoint contains STANDARD_OK values on both sides of 6.0.
+cross_source_aggregation,81,Tied-maximum document sets differ between the two targets. Counted from the stored 805 long file for 766 reused rows plus Q110_ASSAY_HETEROGENEITY_AUDIT.csv for 101 new rows. Not mutually exclusive with endpoint heterogeneity.
+endpoint_heterogeneity,123,"More than one STANDARD_OK type on an endpoint, or the tied-maximum types differ between targets. Same sources as cross_source_aggregation. Union with cross-source aggregation is cross_source_or_endpoint_mix."
+value_or_label_mismatch,0,Frozen maximum or theta=6 class differs from the declared source value.
+reused_20261008,766,757 + 9
+new_q110_20261023,101,101

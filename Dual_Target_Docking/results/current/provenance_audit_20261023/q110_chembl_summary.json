@@ -1,0 +1,166 @@
+{
+  "database_status": "CONFIRMED",
+  "new_rows": 238,
+  "new_molecules": 101,
+  "exact_both": 101,
+  "class_match": 101,
+  "exceptions": 20,
+  "summary": [
+    {
+      "item": "observations",
+      "n": 867,
+      "note": "pair + panel_id; 757 reused seven-pair rows, 9 reused Q110 overlap rows, 101 new Q110 rows"
+    },
+    {
+      "item": "both_ends_raw_activity",
+      "n": 867,
+      "note": "Raw STANDARD_OK rows exist on both targets. This is not same-assay validation."
+    },
+    {
+      "item": "literature_complete",
+      "n": 855,
+      "note": "Every tied maximum on both ends has a DOI, PubMed ID, or patent ID."
+    },
+    {
+      "item": "document_identifier_missing",
+      "n": 12,
+      "note": "Includes the historical dataset-document observations and any new Q110 gap."
+    },
+    {
+      "item": "cross_source_or_endpoint_mix",
+      "n": 168,
+      "note": "Different documents at the two maxima, or more than one STANDARD_OK type."
+    },
+    {
+      "item": "replicate_threshold_discordance",
+      "n": 35,
+      "note": "At least one endpoint contains STANDARD_OK values on both sides of 6.0."
+    },
+    {
+      "item": "cross_source_aggregation",
+      "n": 81,
+      "note": "Tied-maximum document sets differ between the two targets. Counted from the stored 805 long file for 766 reused rows plus Q110_ASSAY_HETEROGENEITY_AUDIT.csv for 101 new rows. Not mutually exclusive with endpoint heterogeneity."
+    },
+    {
+      "item": "endpoint_heterogeneity",
+      "n": 123,
+      "note": "More than one STANDARD_OK type on an endpoint, or the tied-maximum types differ between targets. Same sources as cross_source_aggregation. Union with cross-source aggregation is cross_source_or_endpoint_mix."
+    },
+    {
+      "item": "value_or_label_mismatch",
+      "n": 0,
+      "note": "Frozen maximum or theta=6 class differs from the declared source value."
+    },
+    {
+      "item": "reused_20261008",
+      "n": 766,
+      "note": "757 + 9"
+    },
+    {
+      "item": "new_q110_20261023",
+      "n": 101,
+      "note": "101"
+    }
+  ],
+  "targets": {
+    "EGFR": {
+      "tid": 9,
+      "chembl": "CHEMBL203",
+      "uniprot": "P00533",
+      "pref_name": "Epidermal growth factor receptor",
+      "n_candidate_tids": 1
+    },
+    "ERBB2": {
+      "tid": 188,
+      "chembl": "CHEMBL1824",
+      "uniprot": "P04626",
+      "pref_name": "Receptor tyrosine-protein kinase erbB-2",
+      "n_candidate_tids": 1
+    },
+    "ACHE": {
+      "tid": 93,
+      "chembl": "CHEMBL220",
+      "uniprot": "P22303",
+      "pref_name": "Acetylcholinesterase",
+      "n_candidate_tids": 1
+    },
+    "BCHE": {
+      "tid": 10532,
+      "chembl": "CHEMBL1914",
+      "uniprot": "P06276",
+      "pref_name": "Cholinesterase",
+      "n_candidate_tids": 1
+    },
+    "PIK3CA": {
+      "tid": 11362,
+      "chembl": "CHEMBL4005",
+      "uniprot": "P42336",
+      "pref_name": "Phosphatidylinositol 4,5-bisphosphate 3-kinase catalytic subunit alpha isoform",
+      "n_candidate_tids": 1
+    },
+    "MTOR": {
+      "tid": 11400,
+      "chembl": "CHEMBL2842",
+      "uniprot": "P42345",
+      "pref_name": "Serine/threonine-protein kinase mTOR",
+      "n_candidate_tids": 1
+    },
+    "F2": {
+      "tid": 11,
+      "chembl": "CHEMBL204",
+      "uniprot": "P00734",
+      "pref_name": "Prothrombin",
+      "n_candidate_tids": 1
+    },
+    "F10": {
+      "tid": 194,
+      "chembl": "CHEMBL244",
+      "uniprot": "P00742",
+      "pref_name": "Coagulation factor X",
+      "n_candidate_tids": 1
+    },
+    "JAK1": {
+      "tid": 10919,
+      "chembl": "CHEMBL2835",
+      "uniprot": "P23458",
+      "pref_name": "Tyrosine-protein kinase JAK1",
+      "n_candidate_tids": 1
+    },
+    "JAK2": {
+      "tid": 10938,
+      "chembl": "CHEMBL2971",
+      "uniprot": "O60674",
+      "pref_name": "Tyrosine-protein kinase JAK2",
+      "n_candidate_tids": 1
+    },
+    "TYK2": {
+      "tid": 12694,
+      "chembl": "CHEMBL3553",
+      "uniprot": "P29597",
+      "pref_name": "Non-receptor tyrosine-protein kinase TYK2",
+      "n_candidate_tids": 1
+    },
+    "PPARG": {
+      "tid": 133,
+      "chembl": "CHEMBL235",
+      "uniprot": "P37231",
+      "pref_name": "Peroxisome proliferator-activated receptor gamma",
+      "n_candidate_tids": 1
+    },
+    "PPARA": {
+      "tid": 163,
+      "chembl": "CHEMBL239",
+      "uniprot": "Q07869",
+      "pref_name": "Peroxisome proliferator-activated receptor alpha",
+      "n_candidate_tids": 1
+    },
+    "PPARD": {
+      "tid": 12227,
+      "chembl": "CHEMBL3979",
+      "uniprot": "Q03181",
+      "pref_name": "Peroxisome proliferator-activated receptor delta",
+      "n_candidate_tids": 1
+    }
+  },
+  "missing_molecules": []
+}

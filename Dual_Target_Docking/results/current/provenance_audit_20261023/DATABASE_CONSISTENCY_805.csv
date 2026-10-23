@@ -1,0 +1,7 @@
+check,expected,observed,result,note
+tarball_sha256,33c203740555f96067710cdfc1c3c55d890660e5908ec5cbf5817492c290d281,33c203740555f96067710cdfc1c3c55d890660e5908ec5cbf5817492c290d281,PASS,Official chembl_37_sqlite.tar.gz hash was verified before this run.
+sqlite_internal_version,ChEMBL_37 / final chembl_release CHEMBL_37,True / CHEMBL_37,PASS,Internal names alone do not prove byte identity. The tarball hash and the 805-row recomputation are the identity evidence.
+stored_long_row_count,3555; A 2076; B 1479; distinct activity_id 3506,3555; A 2076; B 1479; distinct activity_id 3506,PASS,"Counts are from the stored 2026-10-08 file, not a new export."
+recomputed_versus_stored_rows,"same pair, panel, endpoint, activity_id and pChEMBL",recomputed_rows=3555; missing=0; extra=0; value_mismatch=0; distinct_recomputed_activity_id=3506,PASS,Current read-only SQLite was queried with STANDARD_OK. The stored audit file was not rewritten.
+recomputed_versus_stored_maxima,805 x 2 maxima exact,mismatches=0,PASS,Exact means absolute difference below 1e-9. The historical 0.015 tolerance was not used to pass this check.
+database_provenance,CONFIRMED,CONFIRMED,PASS,The unpacked 29 GB SQLite file was not re-extracted from the tarball in this round.

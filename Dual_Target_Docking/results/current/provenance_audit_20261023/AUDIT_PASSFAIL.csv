@@ -1,0 +1,16 @@
+check_id,result,evidence,note
+current_867_have_source_audit,PASS,CURRENT_867_ACTIVITY_SOURCE_CROSSWALK.csv,"867 unique pair+panel_id rows; 766 REUSED_20261008_AUDIT and 101 NEW_Q110_20261023_AUDIT"
+seven_757_map_to_20261008,PASS,chembl37_dual_endpoint_crosswalk_805.csv,"Current eligible EGFR/HER2 109, AChE/BChE 98 and five Track B pairs of 110 match the non-PM48 keys in the 805-row audit. Their stored values were not re-exported."
+q110_overlap9_mapping,PASS,Q110_SOURCE_EXCEPTIONS.csv,"Nine Q110/PM48 molecules keep the ChEMBL 37 maxima and frozen classes. Q110_A24 / PM48_22 retains the unresolved adjudication note and was not relabelled."
+q110_101_both_ends_and_labels,PASS,Q110_CHEMBL37_DUAL_ENDPOINT_CROSSWALK_101.csv,"101/101 have both endpoints. Maxima match the frozen values below absolute difference 1e-9. Theta 6.0 classes match 101/101."
+q110_membership_hash_unchanged,PASS,PIK3CA_MTOR_Q110_MEMBERSHIP.csv,SHA-256 remains 1e85e8c25af4dbe14e756f7042993ae86ac7f89ae06f810379372d739246b550
+formal_mapping_population_folds_metrics_unchanged,PASS,git diff,This audit writes only provenance_audit_20261023. Mapping, population, folds, PRIMARY, Stage 2 and manuscript files were not edited.
+missing_identifier_rows_retained,PASS,CURRENT_867_SOURCE_COVERAGE_SUMMARY.csv,"12 observations lack a specified document identifier and remain in the frozen set."
+multi_source_rows_not_declared_invalid,PASS,CURRENT_867_SOURCE_COVERAGE_SUMMARY.csv,"168 observations have cross-source aggregation or endpoint heterogeneity. None was removed or relabelled."
+max_pchembl_rule_unchanged,PASS,audit_q110_chembl37.py,"Aggregation remains the unrounded maximum of STANDARD_OK pChEMBL. No mean, median or keep=1 rule was applied."
+selection_gaps_marked_honestly,PASS,SEVEN_PAIR_EXACT_REPLAY_RESULTS.csv,"All seven pairs are DOCUMENTED_NOT_REPLAYED. None is labelled EXACT_REPLAY."
+no_outcome_based_reselection,PASS,Q110 membership and seven-pair identity counts,"No molecule was added or removed from a frozen evaluation set."
+database_805_and_3555_consistency,PASS,DATABASE_CONSISTENCY_805.csv,"Tarball SHA-256 matches. Recomputed 3555 rows and 1610 maxima match the stored 2026-10-08 audit with zero value mismatches."
+track_b_independent_redraw,NOT_VERIFIABLE,extract_track_b_panels_v1.py at d824eb6b,"The script says the intersection sort was added after the deposited panels and must not be rerun to replace them. The molecule-level candidate cache is not in git."
+egfr_independent_redraw,NOT_VERIFIABLE,build_egfr_her2_panel120.py at d824eb6b,"A full redraw can request the ChEMBL molecule API. This round did not call it."
+confirmed_label_or_target_error,PASS,value_or_label_mismatch=0,"No confirmed error in target identity, frozen maximum or theta=6.0 class was found."
