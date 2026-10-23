@@ -12,7 +12,7 @@
 
 ## Figure 2
 
-单靶与 neither 负类的方向判别。a，同一 pair×方向上，dual 对单靶负类和 dual 对 neither 的 AUROC，连线只连接同一单元。b，neither−single 的配对差值及 95% 区间。纵轴注明 n_dual/n_single/n_neither。PIK3CA/mTOR 的 neither 每臂为 4。重采样共享 dual 索引，两种负类分别抽取。完整数值见 Table S5。
+单靶与 neither 负类的方向判别。a，同一 pair×方向上，dual 对单靶负类和 dual 对 neither 的 AUROC，连线只连接同一单元。b，neither−single 的配对差值及 95% 区间。纵轴注明 n_dual/n_single/n_neither。PIK3CA/mTOR 的 neither 每臂为 14。重采样共享 dual 索引，两种负类分别抽取。完整数值见 Table S5。
 
 ## Figure 3
 
@@ -24,7 +24,7 @@
 
 ## Figure 5
 
-五种子与替代受体的核心敏感性。a 只显示 summary_min 的五个已存种子点。竖线为该行已存最小值到最大值，短横线为已存中位数，轴下 IQR 属于 summary_min，不是置信区间。两个方向的完整结果在 Figure S5 和 Tables S10–S11。AChE/BChE 的 seed 17 比其他种子少 1 个 A_only。b，四对八个替代条件的受影响端差值和 summary_min 差值及已有配对区间，顺序为固定靶点对顺序和 A 端然后 B 端。未替换端见 Figure S6 和 Table S12。summary_min 先在各条件内取两方向较小值，再相减。
+五种子与替代受体的核心敏感性。a 只显示 summary_min 的五个已存种子点。竖线为该行已存最小值到最大值，短横线为已存中位数，轴下 IQR 属于 summary_min，不是置信区间。两个方向的完整结果在 Figure S5 和 Tables S10–S11。AChE/BChE 的 seed 17 比其他种子少 1 个 A_only。b，三对六个替代条件的受影响端差值和 summary_min 差值及已有配对区间，顺序为固定靶点对顺序和 A 端然后 B 端。未替换端见 Figure S6 和 Table S12。summary_min 先在各条件内取两方向较小值，再相减。
 
 ## Figure 6
 
@@ -52,7 +52,7 @@ D_vs_B 的同八个描述符，比较 dual 与 B_only。变量、单位和纵轴
 
 ## Figure S6
 
-四对、八个替代受体条件的受影响端、未替换端和 summary_min 差值及已有 95% 区间。未替换端八行均为 0，区间也为 0，这是只替换指定一端的构造核对。共同成员和替换侧见 Table S12。
+三对、六个替代受体条件的受影响端、未替换端和 summary_min 差值及已有 95% 区间。未替换端六行均为 0，区间也为 0，这是只替换指定一端的构造核对。共同成员和替换侧见 Table S12。
 
 ## Figure S7
 
@@ -64,7 +64,7 @@ D_vs_B 的同八个描述符，比较 dual 与 B_only。变量、单位和纵轴
 
 ## Table 1
 
-八对靶点及实验标签构成。人数来自 activity_eligible=1 且类别为 dual、A_only、B_only 或 neither 的人群记录。合计 805 条合格分类观察。807 行人群表另有 EH120_059 和 AB_087 两条不合格、无类别记录。原 mapping 因 AB_040 alias 而为 808 行。这些人数早于 M0 有效性筛选。dual 进入两个方向，跨靶点对可以共享实体。938、934 和 928 的关系见 Table S2。
+八对靶点及实验标签构成。人数来自 activity_eligible=1 且类别为 dual、A_only、B_only 或 neither 的人群记录。合计 867 条合格分类观察。869 行人群表另有 EH120_059 和 AB_087 两条不合格、无类别记录。当前 mapping 因 AB_040 alias 而为 870 行。这些人数早于 M0 有效性筛选。dual 进入两个方向，跨靶点对可以共享实体。1004、1000 和 994 的关系见 Table S2。
 
 ## Table 2
 
@@ -72,4 +72,8 @@ D_vs_B 的同八个描述符，比较 dual 与 B_only。变量、单位和纵轴
 
 ## Tables S1–S17
 
-S1 为 mapping 的 808 行，保留 alias、无类别和 eligibility。S2 为 16 臂三层人数及缺失名单。S3、S4 为 PRIMARY 的 120 行和 32 行。S5–S7 为负类、口袋和化学单元。S8 为 938 条第 1 层描述符，Murcko 空字符串表示无环。S9 为 928 条 OOF。S10、S11 为五种子原点和汇总。S12 为八个替代条件及共同 ID。S13 为 320 行缺失计数。S14–S16 为排名描述、32 个比较和 9058 条名次，in_topk 为 YES/NO。S17 为四行既有四态计数。工作表首行保留原字段名，完整精度以数据包中的原 CSV 为准。
+S1 为 当前 mapping 的 870 行，保留 alias、无类别和 eligibility。S2 为 16 臂三层人数及缺失名单。S3、S4 为 PRIMARY 的 120 行和 32 行。S5–S7 为负类、口袋和化学单元。S8 为 1004 条第 1 层描述符，Murcko 空字符串表示无环。S9 为 994 条 OOF。S10、S11 为五种子原点和汇总。S12 为六个替代条件及共同 ID。S13 为 320 行缺失计数。S14–S16 为排名描述、32 个比较和 9734 条名次，in_topk 为 YES/NO。S17 为四行当前四态计数。工作表首行保留原字段名，完整精度以数据包中的原 CSV 为准。
+
+## Table S18
+
+PIK3CA/mTOR 严格 6.5/5.5 同类子集的支持分析。56 个分子分别为 dual 25、A_only 12、B_only 14、neither 5；该子集不替换 Q110 主评价集。

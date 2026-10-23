@@ -1,151 +1,66 @@
-# V4.2 formal analysis baseline
+# Current analysis baseline (2026-10-23)
 
-This is the **only** human-readable entry for later statistics, sensitivity, figures, tables, and writing.
+This is the current entry for statistics, figures, tables and manuscript writing.
+Branch: `cursor/v4-2-final-audited-results-20260930`.
+Source commit: `dc028b3350e804cbf8f40acea08261ed4f89c4fa`.
+Paths below are relative to `Dual_Target_Docking/`.
 
-## 1. Branch and freeze
+## Current population and authorities
 
-- Branch: `cursor/v4-2-final-audited-results-20260930`
-- Cleanup-before commit: `37355a50`
-- Worktree used for this cleanup: `/tmp/v4_2_final_audited_release_20260930`
-- Do not use `/tmp/pr39_fiveseed` as a future execution root.
+PIK3CA/mTOR uses accepted Q110: 110 observations (dual/A_only/B_only/neither =
+32/32/32/14). Other seven pairs retain frozen V4.2 rows.
 
-## 2. Baseline status
+- `CURRENT_RESULT_AUTHORITIES.json`: current machine-readable authority.
+- `results/current/PRIMARY_DIRECTIONAL_ANALYSIS_POPULATION.csv`: 869 rows,
+  including 867 eligible observations (248/256/252/111).
+- `results/current/pair_ligand_mapping.csv`: 870 rows including AB_040 alias.
+- `results/canonical/model_fold_assignments.csv`: other seven frozen folds plus Q110 folds.
+- `results/formal_metrics/PRIMARY_DIRECTIONAL_METRICS.csv`: 120 current rows.
+- `results/formal_metrics/PRIMARY_METHOD_DELTA_METRICS.csv`: 32 current paired deltas.
+- `results/jcim_stage2/`: current B/C/D/D1/E/H/I tables; F has three pairs/six conditions.
+- `analysis_plan_jcim/CHEMISTRY_POPULATION_LAYERS.csv`: 1004/1000/994 directional records.
+- `results/current/RESULT_SYNC_REPORT.json`: merge checks and population totals.
+- `manuscript/`: synchronized text, tables, review PDFs and source-data package.
 
-`V4_2_ANALYSIS_BASELINE` is recorded in `reruns/UNIFORM_RERUN_V4_2_20260921/13_qa/V4_2_ANALYSIS_BASELINE.md` after QA.
+PIK3CA/mTOR Q110 primary and supporting source files are in
+`extension_jcim_validation/pik3ca_mtor_q110_v42/`.
+The strict 6.5/5.5 subset has 56 members and is SI only.
+Q110 alternative-receptor calculations were not performed. The old PM48 F rows
+are excluded from the current F table, figures and manuscript.
 
-PRIMARY seed42 formal metrics exist.
-Five-seed sensitivity 已完成并验收。结果见 `results/jcim_stage2/` 模块 E，验收见 `analysis_plan_jcim/STAGE2_RESULT_ACCEPTANCE.md`，文稿见 `manuscript/`。
+## Definitions
 
-## 3. Formal target pairs (exactly 8)
+M0: Vina seed42 mode1, score = minus affinity. M1: GNINA CNNscore on the same pose.
+M1b: maximum CNNscore on saved Vina poses (reranking). M2: mode1 RTMScore model1,
+not maximum saved RTMScore. M3: independent GNINA seed42 mode1 CNNscore.
+`summary_min = min(AUC_B, AUC_A)`, not AUROC of per-ligand minimum scores.
+D_vs_A uses score_B; D_vs_B uses score_A. Activity-ineligible rows are not neither.
+AB_040 is an alias of AB_046, not an observation.
+Bootstrap definitions and docking parameters are unchanged.
 
-- EGFR/HER2
-- JAK1/JAK2
-- JAK1/TYK2
-- PIK3CA/mTOR
-- AChE/BChE
-- F2/F10
-- PPARG/PPARA
-- PPARA/PPARD
+## Reproduction and historical material
 
-## 4. Formal receptors (exactly 14)
+`python Dual_Target_Docking/scripts/rerun_v4_2/sync_current_q110_results.py`
+rebuilds current CSVs from the immutable source commit and accepted Q110 files.
+It checks that other-seven-pair rows are unchanged and does not run docking,
+AUROC, bootstrap or model fitting. Run in a Git checkout containing the source commit.
 
-3POZ, 3RCD, 6N7A, 8BXH, 3LXP, 4L23, 4JT6, 4EY7, 4BDS, 4UDW, 2JKH, 9V8H, 6LXA, 5U3Q
+Raw V4.2 receptor, box, ligand, score and protocol files under `reruns/` remain
+provenance and score sources for the other seven pairs and the nine reused Q110
+ligands. Their historical counts and old PM48 rows do not describe the current
+population. Old freeze/acceptance/audit documents remain dated records, not
+current-result entry points. Re-run the historical PM48 regression only at the
+source commit. Its accepted report is retained under `regression_pm48/`.
 
-Authority: V4.2 `01_receptors` + `03_boxes` + `00_protocol/SCORING_DOCKING_ABLATION_FREEZE_FINAL.yaml`.
+Superseded PM48 derived rows, redundant regression result copies and obsolete
+non-formal score summaries are removed from the current tree. Full historical
+files remain available through Git at the source commit. Do not restore them as
+current results. Do not import old AUROC files as current inputs.
 
-`00_protocol/receptor_registry.csv` still has `run_id=UNIFORM_RERUN_V4_1_20260921`. That string is historical metadata. It does **not** mean receptors should be re-selected from V4.1.
+## Evidence scope
 
-## 5. Ligand universe
-
-- SDF = 785
-- PDBQT = 785
-- ID sets identical
-- `02_ligands` is a real Git tree, not a symlink
-
-## 6–11. Unique formal score authorities
-
-| Method | Definition | Authority file |
-|---|---|---|
-| M0 | Vina seed=42 mode=1; higher-better = `-vina affinity` | `reruns/UNIFORM_RERUN_V4_2_20260921/13_qa/official_primary_seed42_score_master_8pair.csv` |
-| M1 | Same Vina seed42 mode1 pose; GNINA CNNscore | `.../09_secondary_scoring/GNINA_VINA_POSE_RESCORE_MASTER_VERIFIED.csv` |
-| M1b | max CNNscore on the **same** saved Vina poses; rerank only; not independent docking | same verified M1 master (`M1b_CNNscore`) + verified pose-long |
-| M2 | Same Vina seed42 mode1 pose; RTMScore model1 column `M2_RTMScore` | `.../09_secondary_scoring/RTMSCORE_VINA_POSE_RESCORE_MASTER.csv` |
-| M3 | Independent GNINA dock seed42; topology-verified official rows | `.../10_gnina_independent_docking/GNINA_SEED42_PRODUCTION_MASTER_TOPOLOGY_VERIFIED.csv` |
-
-M2 must **not** use `max_saved_RTMScore`.
-M0 must **not** use seeds 17/29/71/101 or best-of-9.
-M1b is not independent GNINA docking.
-
-## 12–14. Population and published metrics
-
-- Population: `reruns/UNIFORM_RERUN_V4_2_20260921/13_qa/PRIMARY_DIRECTIONAL_ANALYSIS_POPULATION.csv` (807 rows)
-- Primary metrics: `results/formal_metrics/PRIMARY_DIRECTIONAL_METRICS.csv` (120 rows)
-- Method deltas: `results/formal_metrics/PRIMARY_METHOD_DELTA_METRICS.csv` (32 rows)
-- `summary_min = min(AUC_B, AUC_A)` inside a method. Forbidden: `AUROC(min(score_A, score_B))`
-- dual vs A_only uses score_B; dual vs B_only uses score_A
-- `activity_eligible=0` is not `neither`
-- AB_040 is an alias of AB_046, not an independent observation
-
-## 15. Historical / non-formal
-
-See `reruns/UNIFORM_RERUN_V4_2_20260921/13_qa/HISTORICAL_NON_FORMAL_FILES.md` and `HISTORICAL_PATH_MAPPING.csv`.
-
-## 16. Stale metadata
-
-- `00_protocol/analysis_freeze.yaml`: `STALE_PROVENANCE_ONLY` / `NOT_FORMAL_METHOD_AUTHORITY`
-- `receptor_registry.csv` V4.1 `run_id`: historical only
-- `13_qa/FORMAL_AUTHORITY_PATHS_RESOLVED.json` and `FORMAL_ANALYSIS_INPUT_MANIFEST.csv`: `LOCAL_ENVIRONMENT_PROVENANCE_ONLY` (original `/tmp/pr39_fiveseed` resolution). Not future execution entry.
-
-## 17. Formal missingness (from final tables)
-
-Count names are fixed:
-
-- `n_pair_expanded_seed42 = 1614`
-- `n_unique_physical_jobs = 1592`
-- `n_pair_expanded_job_seed = 8070`
-- `n_physical_job_seed = 7960` (= 1592 × 5)
-
-### M0
-
-- pair-expanded seed42: 1614 accounted; 1608 SUCCESS; 6 TIMEOUT
-- unique physical jobs: 1592 expected; 1586 SUCCESS; 6 TIMEOUT
-
-### M1
-
-- unique physical jobs expected 1592
-- SUCCESS 1569
-- ATOM_MAPPING_FAILURE 17
-- MISSING_NO_VINA_POSE 6
-
-### M2
-
-- unique physical jobs expected 1592
-- SUCCESS 1586
-- MISSING_NO_VINA_POSE 6
-
-### M3
-
-- unique physical jobs expected 1592
-- SUCCESS 1586
-- TIMEOUT 6
-
-Final M3 is **not** 1590/2. That number is pre-topology-repair only.
-
-## 18–19. Five-seed data vs sensitivity
-
-- FIVE-SEED RAW DOCKING = PRESENT (seeds 17, 29, 42, 71, 101; `n_pair_expanded_job_seed=8070`)
-- FIVE-SEED SENSITIVITY ANALYSIS = **已完成并验收**。结果见 `results/jcim_stage2/module_E_five_seed.csv` 与 `module_E_five_seed_summary.csv`；验收见 `analysis_plan_jcim/STAGE2_RESULT_ACCEPTANCE.md`；文稿见 `manuscript/`。
-
-Raw jobs existing does not mean sensitivity is complete.
-
-## 20. Allowed for later formal analysis
-
-- This README and `ANALYSIS_BASELINE_MANIFEST.csv`
-- Formal freeze / authority YAMLs listed in the manifest
-- Formal score tables listed above
-- Formal population and PRIMARY metric CSVs
-- `scripts/rerun_v4_2/formal_metrics_lib.py` and the primary/post QA runners
-- V4.2 `01_receptors`, `03_boxes`, `02_ligands`
-- Five-seed raw jobs **only when a later approved sensitivity protocol says so**
-
-## 21. Forbidden for later formal analysis
-
-- Any `HISTORICAL_NON_FORMAL_*` file
-- `09_secondary_scoring/gnina_rescore/`
-- `scripts/analysis/*` (absent on this branch; do not restore)
-- `results/canonical/current_score_master.csv` (absent; do not restore)
-- `analysis_freeze.yaml` as method authority
-- V4.1 `run_id` in `receptor_registry.csv` as a receptor selector
-- `/tmp/pr39_fiveseed/...`
-- Historical AUROC tables as inputs
-- `max_saved_RTMScore` as formal M2
-- Pre-repair M3 1590/2 audit as final status
-
-## 22. Local software paths
-
-GNINA and RTMScore paths in `SCORING_DOCKING_ABLATION_FREEZE_FINAL.yaml` and `scripts/rerun_v4_2/ablation_config.py` (`/mnt/d/...`, `/home/gwj/...`) are `LOCAL_ENVIRONMENT_ONLY`. They record the original run. Formal statistics do not call those binaries.
-
-## Path resolution
-
-`00_protocol/FORMAL_AUTHORITY_PATHS.yaml` stores PROJECT_ROOT-relative paths.
-`PROJECT_ROOT` is the `Dual_Target_Docking` directory, from `--project-root` or from the script file location. Do not rely on process cwd.
+The old ChEMBL source audit covers its original 805 observations, not all 867
+current observations. Q110 membership provides two-end pChEMBL and ChEMBL IDs;
+a full per-assay source export for Q110 is not present. Seven pairs use their
+original frozen folds; Q110 uses its documented pre-score Murcko-group fold rule.
+These are not external independent validation results. G/J/K remain unexecuted.

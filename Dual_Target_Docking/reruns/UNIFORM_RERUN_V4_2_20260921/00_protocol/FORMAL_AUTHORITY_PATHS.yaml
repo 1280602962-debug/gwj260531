@@ -1,3 +1,7 @@
+# Current result routing updated 2026-10-23; raw score masters below apply to seven original pairs and historical reuse only.
+current_result_authority: CURRENT_RESULT_AUTHORITIES.json
+current_population: results/current/PRIMARY_DIRECTIONAL_ANALYSIS_POPULATION.csv
+q110_score_authority: extension_jcim_validation/pik3ca_mtor_q110_v42/Q110_CURRENT_RESULT_AUTHORITIES.json
 # Parsed and frozen BEFORE any historical-error regression test.
 # Do not refer to these as "the adjudicated table". Use these paths only.
 # Path strings are relative to PROJECT_ROOT = Dual_Target_Docking/.
@@ -12,7 +16,7 @@ path_form: PROJECT_ROOT_relative
 PROJECT_ROOT_definition: Dual_Target_Docking directory
 
 # --- labels / identity (V4.2 formal) ---
-activity_fourclass_and_eligibility: reruns/UNIFORM_RERUN_V4_2_20260921/00_protocol/pair_ligand_mapping.csv
+activity_fourclass_and_eligibility: results/current/pair_ligand_mapping.csv
 activity_columns_used: [pair, panel_id, global_ligand_entity_id, canonical_ligand_id, parent_independent, parent_role, analysis_set, class, activity_eligible, holdout_eligible, prepare_3d]
 alias_registry: reruns/UNIFORM_RERUN_V4_2_20260921/00_protocol/parent_alias_registry.csv
 holdout_membership: reruns/UNIFORM_RERUN_V4_2_20260921/00_protocol/holdout_membership_freeze.csv

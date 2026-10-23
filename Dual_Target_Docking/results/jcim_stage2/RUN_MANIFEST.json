@@ -1,47 +1,15 @@
 {
-  "executable_modules": [
-    "B",
-    "C",
-    "D",
-    "E",
-    "F",
-    "H",
-    "I"
-  ],
+  "state": "synchronized_from_accepted_results",
+  "source_commit": "dc028b3350e804cbf8f40acea08261ed4f89c4fa",
+  "pair_override": {
+    "PIK3CA/mTOR": "extension_jcim_validation/pik3ca_mtor_q110_v42/q110_stage2"
+  },
+  "other_seven_pairs": "unchanged",
+  "scientific_recomputation": false,
+  "PIK3CA_mTOR_module_F": "not_computed_for_Q110; excluded",
   "blocked_modules": [
     "G",
     "J",
     "K"
-  ],
-  "module_statistics": {
-    "B": {
-      "bootstrap_B": 10000,
-      "seed": 271828
-    },
-    "C": {
-      "bootstrap_B": 10000,
-      "seed": 271828
-    },
-    "D": {
-      "bootstrap_B": null,
-      "note": "no chemistry bootstrap"
-    },
-    "E": {
-      "bootstrap_B": null,
-      "note": "five-seed point estimates only; IQR is not bootstrap"
-    },
-    "F": {
-      "bootstrap_B": 10000,
-      "seed": 271828
-    },
-    "H": {
-      "bootstrap_B": null,
-      "note": "counts only"
-    },
-    "I": {
-      "bootstrap_B": null,
-      "note": "ranking point estimates; directional deltas read from PRIMARY"
-    }
-  },
-  "primary_overwritten": false
+  ]
 }

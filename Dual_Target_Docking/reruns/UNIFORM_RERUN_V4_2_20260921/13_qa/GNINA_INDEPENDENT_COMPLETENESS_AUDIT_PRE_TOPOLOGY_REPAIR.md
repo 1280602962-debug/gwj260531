@@ -1,7 +1,0 @@
-# GNINA INDEPENDENT COMPLETENESS AUDIT
-
-- expected: **1592**
-- accounted: **1592**
-- SUCCESS: **1590**
-- TIMEOUT: **2**
-- AUROC: **NOT_COMPUTED**

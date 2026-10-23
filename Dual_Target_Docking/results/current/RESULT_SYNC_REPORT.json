@@ -1,0 +1,92 @@
+{
+  "state": "current_results_synchronized",
+  "source_commit": "dc028b3350e804cbf8f40acea08261ed4f89c4fa",
+  "population_rows": 869,
+  "eligible_observations": 867,
+  "classes": {
+    "dual": 248,
+    "A_only": 256,
+    "B_only": 252,
+    "neither": 111
+  },
+  "mapping_rows": 870,
+  "layer_counts": {
+    "n_labeled_population": 1004,
+    "n_m0_directional_population": 1000,
+    "n_final_chemistry_oof": 994
+  },
+  "alt_receptor_pairs": [
+    "AChE/BChE",
+    "F2/F10",
+    "PPARA/PPARD"
+  ],
+  "alt_receptor_conditions": 6,
+  "table_checks": [
+    {
+      "table": "results/formal_metrics/PRIMARY_DIRECTIONAL_METRICS.csv",
+      "rows": 120,
+      "other_seven_pairs_unchanged": true
+    },
+    {
+      "table": "results/formal_metrics/PRIMARY_METHOD_DELTA_METRICS.csv",
+      "rows": 32,
+      "other_seven_pairs_unchanged": true
+    },
+    {
+      "table": "results/jcim_stage2/module_B_negative_class.csv",
+      "rows": 16,
+      "other_seven_pairs_unchanged": true
+    },
+    {
+      "table": "results/jcim_stage2/module_C_wrong_pocket.csv",
+      "rows": 16,
+      "other_seven_pairs_unchanged": true
+    },
+    {
+      "table": "results/jcim_stage2/module_D1_composition.csv",
+      "rows": 1004,
+      "other_seven_pairs_unchanged": true
+    },
+    {
+      "table": "results/jcim_stage2/module_D_chemistry_oof_ligands.csv",
+      "rows": 994,
+      "other_seven_pairs_unchanged": true
+    },
+    {
+      "table": "results/jcim_stage2/module_D_chemistry_units.csv",
+      "rows": 16,
+      "other_seven_pairs_unchanged": true
+    },
+    {
+      "table": "results/jcim_stage2/module_E_five_seed.csv",
+      "rows": 40,
+      "other_seven_pairs_unchanged": true
+    },
+    {
+      "table": "results/jcim_stage2/module_E_five_seed_summary.csv",
+      "rows": 24,
+      "other_seven_pairs_unchanged": true
+    },
+    {
+      "table": "results/jcim_stage2/module_H_missingness.csv",
+      "rows": 320,
+      "other_seven_pairs_unchanged": true
+    },
+    {
+      "table": "results/jcim_stage2/module_I_descriptive.csv",
+      "rows": 104,
+      "other_seven_pairs_unchanged": true
+    },
+    {
+      "table": "results/jcim_stage2/module_I_ligand_ranks.csv",
+      "rows": 9734,
+      "other_seven_pairs_unchanged": true
+    },
+    {
+      "table": "results/jcim_stage2/module_I_method_compare.csv",
+      "rows": 32,
+      "other_seven_pairs_unchanged": true
+    }
+  ],
+  "scientific_recomputation": false
+}

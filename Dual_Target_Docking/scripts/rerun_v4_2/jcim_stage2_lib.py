@@ -63,9 +63,9 @@ NA = "NA"
 
 RERUN = Path("reruns/UNIFORM_RERUN_V4_2_20260921")
 PATHS = {
-    "population": RERUN / "13_qa" / "PRIMARY_DIRECTIONAL_ANALYSIS_POPULATION.csv",
+    "population": Path("results/current/PRIMARY_DIRECTIONAL_ANALYSIS_POPULATION.csv"),
     "m0_master": RERUN / "13_qa" / "official_primary_seed42_score_master_8pair.csv",
-    "mapping": RERUN / "00_protocol" / "pair_ligand_mapping.csv",
+    "mapping": Path("results/current/pair_ligand_mapping.csv"),
     "alias": RERUN / "00_protocol" / "parent_alias_registry.csv",
     "holdout": RERUN / "00_protocol" / "holdout_membership_freeze.csv",
     "folds": Path("results/canonical/model_fold_assignments.csv"),
@@ -634,6 +634,20 @@ def load_stage2_tables(project_root: Path) -> dict:
         path = project_root / rel
         tables[name] = read_csv(path) if path.exists() else None
         tables[f"{name}_path"] = path
+    # Current eight-pair routing: Q110 replaces PM48, including raw seed rows.
+    # Historical regression must be run at its original Git commit.
+    q110 = project_root / "extension_jcim_validation/pik3ca_mtor_q110_v42/q110_vina_master.csv"
+    if q110.exists() and tables.get("population") and any(
+        r.get("analysis_set") == "q110_primary" for r in tables["population"]
+    ):
+        raw = read_csv(q110)
+        pair = "PIK3CA/mTOR"
+        for name in ("fiveseed", "m0_master"):
+            if tables.get(name) is not None:
+                new_rows = raw if name == "fiveseed" else [r for r in raw if int(r["seed"]) == 42]
+                tables[name] = [r for r in tables[name] if r["pair"] != pair] + new_rows
+        if tables.get("alt_independent") is not None:
+            tables["alt_independent"] = [r for r in tables["alt_independent"] if r["pair"] != pair]
     return tables
 
 

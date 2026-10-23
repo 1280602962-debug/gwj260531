@@ -1,11 +1,15 @@
-# Dual_Target_Docking V4.2 audited results
+# Dual-target docking: current eight-pair results
 
-Branch `cursor/v4-2-final-audited-results-20260930`.
-Cleanup-before freeze: `37355a50`.
+Branch: `cursor/v4-2-final-audited-results-20260930`.
 
-Formal later analysis must start from
-`Dual_Target_Docking/ANALYSIS_BASELINE_README.md`.
+Current authority: [ANALYSIS_BASELINE_README.md](Dual_Target_Docking/ANALYSIS_BASELINE_README.md).
+Machine-readable paths: [CURRENT_RESULT_AUTHORITIES.json](Dual_Target_Docking/CURRENT_RESULT_AUTHORITIES.json).
 
-PRIMARY seed42 metrics exist.
-FIVE-SEED RAW DOCKING = PRESENT.
-FIVE-SEED SENSITIVITY ANALYSIS = 已完成并验收。结果见 `Dual_Target_Docking/results/jcim_stage2/module_E_five_seed.csv` 与 `module_E_five_seed_summary.csv`；验收见 `Dual_Target_Docking/analysis_plan_jcim/STAGE2_RESULT_ACCEPTANCE.md`；文稿见 `Dual_Target_Docking/manuscript/`。
+PIK3CA/mTOR uses accepted Q110 (110 observations; 32/32/32/14).
+The other seven pairs retain their frozen V4.2 results.
+The current population has 869 rows, including 867 eligible observations.
+
+Current results are in `Dual_Target_Docking/results/formal_metrics/`,
+`results/jcim_stage2/`, and `manuscript/`.
+Superseded PM48 derived results are removed from current outputs and remain
+recoverable from commit `dc028b3350e804cbf8f40acea08261ed4f89c4fa`.
