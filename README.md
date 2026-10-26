@@ -10,6 +10,11 @@ Use Tables 1–2 and S1–S10 in that directory for submission numbering. Comple
 ligand-level and supporting data are in its Supplementary_Data.zip. Earlier
 S1–S31 workbook numbers are working-source references, not submission numbers.
 
+Publication figure update (2026-10-27): the submission directory now contains
+main Figures 1–9, supplementary Figures S1–S9 and Scheme S1, with PDF/SVG/PNG
+exports, a figure review PDF, source data, and Results citation/audit guides.
+Table S9D directly supports the CAP5 chemistry sensitivity statement.
+
 PIK3CA/mTOR uses accepted Q110 (110 observations; 32/32/32/14).
 The other seven pairs retain their frozen V4.2 results.
 The current population has 869 rows, including 867 eligible observations.

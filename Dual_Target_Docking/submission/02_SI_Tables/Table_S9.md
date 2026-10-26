@@ -38,5 +38,26 @@
 | PIK3CA/mTOR | S4 | 25 | 12 | 14 | 0.6267 | 0.4267 | 0.8167 | 0.6057 | 0.4143 | 0.7829 | 0.6057 | 0.3867 | 0.7229 |
 | PIK3CA/mTOR | S5 | 25 | 12 | 14 | 0.5933 | 0.4033 | 0.7833 | 0.6686 | 0.4828 | 0.8371 | 0.5933 | 0.4000 | 0.7367 |
 
+## D. Chemistry-model sensitivity to CAP5
+
+| Target pair | Direction | Original OOF n | CAP5 OOF n | Original ECFP4 AUROC | CAP5 ECFP4 AUROC | ECFP4 AUROC change | Original Vina increment | CAP5 Vina increment |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| EGFR/HER2 | D_vs_A | 65 | 65 | 0.8002 | 0.8002 | 0.0000 | -0.0164 | -0.0164 |
+| EGFR/HER2 | D_vs_B | 59 | 59 | 0.8790 | 0.8790 | 0.0000 | -0.0023 | -0.0023 |
+| JAK1/JAK2 | D_vs_A | 64 | 61 | 0.9185 | 0.9079 | -0.0106 | 0.0015 | 0.0048 |
+| JAK1/JAK2 | D_vs_B | 64 | 64 | 0.9678 | 0.9678 | 0.0000 | 0.0029 | 0.0029 |
+| JAK1/TYK2 | D_vs_A | 63 | 63 | 0.8488 | 0.8488 | 0.0000 | -0.0050 | -0.0050 |
+| JAK1/TYK2 | D_vs_B | 63 | 63 | 0.9042 | 0.9042 | 0.0000 | -0.0010 | -0.0010 |
+| PIK3CA/mTOR | D_vs_A | 64 | 64 | 0.8213 | 0.8213 | 0.0000 | 0.0215 | 0.0215 |
+| PIK3CA/mTOR | D_vs_B | 64 | 64 | 0.7285 | 0.7285 | 0.0000 | -0.0029 | -0.0029 |
+| AChE/BChE | D_vs_A | 52 | 52 | 0.8993 | 0.8993 | 0.0000 | -0.0044 | -0.0044 |
+| AChE/BChE | D_vs_B | 55 | 55 | 0.8201 | 0.8201 | 0.0000 | -0.0053 | -0.0053 |
+| F2/F10 | D_vs_A | 63 | 63 | 0.9405 | 0.9405 | 0.0000 | -0.0071 | -0.0071 |
+| F2/F10 | D_vs_B | 63 | 63 | 0.6633 | 0.6633 | 0.0000 | 0.0363 | 0.0363 |
+| PPARG/PPARA | D_vs_A | 63 | 63 | 0.8206 | 0.8206 | 0.0000 | -0.0141 | -0.0141 |
+| PPARG/PPARA | D_vs_B | 64 | 64 | 0.6670 | 0.6670 | 0.0000 | -0.0059 | -0.0059 |
+| PPARA/PPARD | D_vs_A | 64 | 63 | 0.9316 | 0.9345 | 0.0028 | -0.0029 | -0.0030 |
+| PPARA/PPARD | D_vs_B | 64 | 62 | 0.8740 | 0.8688 | -0.0053 | 0.0049 | 0.0042 |
+
 
 CAP5 is post hoc supporting sensitivity: at most five ligands per nonempty Murcko scaffold within pair and activity class; acyclic ligands are exempt. Six ligands are excluded without replacement. Complete CAP5 method comparisons, chemical models, controls and ranking outputs are retained in Supplementary_Data.zip. The PPARA/PPARD S5 dual-versus-A-only CI changes from [0.4921875, 0.767578125] to [0.5030241935, 0.7772177419]; this boundary change is retained, without a general significance claim. The strict Q110 subset has 56 members (25 dual, 12 A-only, 14 B-only, 5 neither). Main and subset populations differ; no new paired CI for their difference is calculated.

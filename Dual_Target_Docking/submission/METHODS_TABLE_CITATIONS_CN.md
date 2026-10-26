@@ -18,6 +18,7 @@
 | 2.7 随机种子 | Table S8A | 五种子分布 |
 | 2.7 替代受体 | Tables S2、S8B | 结构参数与六种替换结果 |
 | 2.7 CAP5 | Tables S9A,B；Supplementary Data | 人数、Vina 汇总变化及全部支持分析 |
+| 2.7 CAP5 化学模型 | Table S9D | 化学模型重训练后的 ECFP4 表现及加入 Vina 的点估计增量 |
 | 2.7 严格活性子集 | Table S9C | PIK3CA/mTOR 的 56 分子严格子集 |
 | 2.8 联合排序 | Table S10；Supplementary Data | 候选组成、配对变化及全排名 |
 | 联合排序 Results | Table 2 | 共同成员的 dual 检出与召回 |
@@ -28,3 +29,5 @@
 “此外，在 PIK3CA/mTOR 评价集中按 6.5/5.5 条件形成严格子集，使用已有评分进行支持性评价（Table S9C）。”
 
 评分方案名称按 `SCORING_SCHEMES.csv` 使用。正式差值为 S2−S1、S3−S1、S4−S2、S5−S1；联合排序另有 S4−S1 支持性点估计。方法差值采用各自共同成员，不能直接用 Table S5A 中不同人群的两个 summary_min 相减。
+
+图片引用：2.3 的重对接可引 Figure S1，2.5 的评分可用性可引 Figure S2；评分工作流改用补充 Scheme S1。正文结果 Figure 1 从 Results 3.1 开始，不为流程图额外占用一个正文 Figure 编号。

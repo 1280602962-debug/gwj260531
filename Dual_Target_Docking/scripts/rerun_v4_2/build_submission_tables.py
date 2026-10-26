@@ -222,10 +222,17 @@ def main():
         capsummary.append([pair,*[a[k] for k in ['auroc','ci_lo','ci_hi']],*[b[k] for k in ['auroc','ci_lo','ci_hi']],float(b['auroc'])-float(a['auroc'])])
     check('CAP5 membership totals',sum(int(r['n_cap5']) for r in capcount)==861 and sum(int(r['n_excluded']) for r in capcount)==6)
     strict=rows(Q+'Q110_STRICT_SUBSET_METRICS.csv')
+    capchem=rows(CAP+'CAP5_MODULE_D_CHEMISTRY_UNITS.csv')
+    original_chem={(r['pair'],r['arm']):r for r in chem}
+    chem_sensitivity=[]
+    for r in sortrows(capchem):
+        a=original_chem[r['pair'],r['arm']]
+        chem_sensitivity.append([r['pair'],r['arm'],a['n_final_chemistry_oof'],r['n_final_chemistry_oof'],a['auroc_ecfp4'],r['auroc_ecfp4'],float(r['auroc_ecfp4'])-float(a['auroc_ecfp4']),a['delta_ecfp4_plus_m0'],r['delta_ecfp4_plus_m0']])
     table('S9','Chemical-diversity and activity-threshold sensitivity','化学多样性与活性阈值敏感性','Methods 2.7',[
         panel('A','CAP5 membership',['Target pair','Original n','CAP5 n','Excluded n','Excluded dual','Excluded A-only','Excluded B-only','Excluded neither'],counts),
         panel('B','Vina summary min before and after CAP5',['Target pair','Primary summary min','Primary CI lower','Primary CI upper','CAP5 summary min','CAP5 CI lower','CAP5 CI upper','Point change'],capsummary),
-        panel('C','PIK3CA/mTOR strict 6.5/5.5 subset',metric_headers,metric_matrix(strict))],
+        panel('C','PIK3CA/mTOR strict 6.5/5.5 subset',metric_headers,metric_matrix(strict)),
+        panel('D','Chemistry-model sensitivity to CAP5',['Target pair','Direction','Original OOF n','CAP5 OOF n','Original ECFP4 AUROC','CAP5 ECFP4 AUROC','ECFP4 AUROC change','Original Vina increment','CAP5 Vina increment'],chem_sensitivity)],
         'CAP5 is post hoc supporting sensitivity: at most five ligands per nonempty Murcko scaffold within pair and activity class; acyclic ligands are exempt. Six ligands are excluded without replacement. Complete CAP5 method comparisons, chemical models, controls and ranking outputs are retained in Supplementary_Data.zip. The PPARA/PPARD S5 dual-versus-A-only CI changes from [0.4921875, 0.767578125] to [0.5030241935, 0.7772177419]; this boundary change is retained, without a general significance claim. The strict Q110 subset has 56 members (25 dual, 12 A-only, 14 B-only, 5 neither). Main and subset populations differ; no new paired CI for their difference is calculated.')
     concord=rows('results/jcim_stage2_figures/module_I_concordance_counts.csv')
     descriptive=[r for r in desc if r['population_kind']=='method_specific']
@@ -281,6 +288,7 @@ def main():
         'S9A':[CAP+'CAP5_CLASS_COUNTS.csv'],
         'S9B':['results/formal_metrics/PRIMARY_DIRECTIONAL_METRICS.csv',CAP+'CAP5_PRIMARY_DIRECTIONAL_METRICS.csv'],
         'S9C':[Q+'Q110_STRICT_SUBSET_METRICS.csv'],
+        'S9D':['results/jcim_stage2/module_D_chemistry_units.csv',CAP+'CAP5_MODULE_D_CHEMISTRY_UNITS.csv'],
         'S10A':['results/jcim_stage2/module_I_descriptive.csv'],
         'S10B':['results/jcim_stage2/module_I_method_compare.csv'],
         'S10C':['results/jcim_stage2_figures/module_I_concordance_counts.csv'],
@@ -333,7 +341,7 @@ def main():
     with zipfile.ZipFile(out/'03_Supplementary_Data/Supplementary_Data.zip','w',compression=zipfile.ZIP_DEFLATED) as z:
         for name,content in sorted(archive.items()):
             info=zipfile.ZipInfo(name,date_time=(2026,10,26,0,0,0)); info.compress_type=zipfile.ZIP_DEFLATED; z.writestr(info,content)
-    old_to_new={1:('Data','pair_ligand_mapping.csv'),2:('S4A','Population layers'),3:('S5A','Directional estimates'),4:('S5B','Paired differences'),5:('S6A','Negative classes'),6:('S6B','Pocket correspondence'),7:('S7','Chemistry OOF summary'),8:('Data','module_D1_composition.csv'),9:('Data','module_D_chemistry_oof_ligands.csv'),10:('Data; S8A summary','module_E_five_seed.csv'),11:('S8A','Seed summaries'),12:('S8B','Six current alternative conditions'),13:('S4B; Data class details','module_H_missingness.csv'),14:('S10A; Table 2; Data','Own-method and matched ranking populations'),15:('S10B','Directional and top-list change'),16:('Data','module_I_ligand_ranks.csv'),17:('S10C','Concordance counts'),18:('S9C','Strict Q110 subset'),19:('S1B; Data','Source coverage'),20:('Data; S1B summary','CURRENT_867_ACTIVITY_SOURCE_CROSSWALK.csv'),21:('Data','Q110_CHEMBL37_ACTIVITY_ROWS_LONG.csv'),22:('S1A; Data','Selection evidence plus Q110 membership'),23:('S9A; Data class details','CAP5_CLASS_COUNTS.csv'),24:('Data','CAP5_EXCLUDED_LIGANDS.csv'),25:('S9B; Data complete methods','CAP5_PRIMARY_DIRECTIONAL_METRICS.csv'),26:('Data','CAP5_PRIMARY_METHOD_DELTAS.csv'),27:('Data','CAP5_MODULE_B_NEGATIVE_CLASS.csv'),28:('Data','CAP5_MODULE_C_POCKET_CORRESPONDENCE.csv'),29:('Data','CAP5_MODULE_D_CHEMISTRY_UNITS.csv'),30:('Data','CAP5_MODULE_I_TOPK.csv'),31:('S9B summary; Data complete','CAP5_PRIMARY_VS_ORIGINAL.csv')}
+    old_to_new={1:('Data','pair_ligand_mapping.csv'),2:('S4A','Population layers'),3:('S5A','Directional estimates'),4:('S5B','Paired differences'),5:('S6A','Negative classes'),6:('S6B','Pocket correspondence'),7:('S7','Chemistry OOF summary'),8:('Data','module_D1_composition.csv'),9:('Data','module_D_chemistry_oof_ligands.csv'),10:('Data; S8A summary','module_E_five_seed.csv'),11:('S8A','Seed summaries'),12:('S8B','Six current alternative conditions'),13:('S4B; Data class details','module_H_missingness.csv'),14:('S10A; Table 2; Data','Own-method and matched ranking populations'),15:('S10B','Directional and top-list change'),16:('Data','module_I_ligand_ranks.csv'),17:('S10C','Concordance counts'),18:('S9C','Strict Q110 subset'),19:('S1B; Data','Source coverage'),20:('Data; S1B summary','CURRENT_867_ACTIVITY_SOURCE_CROSSWALK.csv'),21:('Data','Q110_CHEMBL37_ACTIVITY_ROWS_LONG.csv'),22:('S1A; Data','Selection evidence plus Q110 membership'),23:('S9A; Data class details','CAP5_CLASS_COUNTS.csv'),24:('Data','CAP5_EXCLUDED_LIGANDS.csv'),25:('S9B; Data complete methods','CAP5_PRIMARY_DIRECTIONAL_METRICS.csv'),26:('Data','CAP5_PRIMARY_METHOD_DELTAS.csv'),27:('Data','CAP5_MODULE_B_NEGATIVE_CLASS.csv'),28:('Data','CAP5_MODULE_C_POCKET_CORRESPONDENCE.csv'),29:('S9D; Data','CAP5_MODULE_D_CHEMISTRY_UNITS.csv'),30:('Data','CAP5_MODULE_I_TOPK.csv'),31:('S9B summary; Data complete','CAP5_PRIMARY_VS_ORIGINAL.csv')}
     (out/'RENUMBERING.csv').write_bytes(csv_bytes(['previous_workbook_table','submission_destination','content'],[['S'+str(i),*old_to_new[i]] for i in range(1,32)]))
     with tempfile.TemporaryDirectory(prefix='submission_tables_') as tmp:
         runtime_modules=os.environ.get('CODEX_PRIMARY_RUNTIME_NODE_MODULES')

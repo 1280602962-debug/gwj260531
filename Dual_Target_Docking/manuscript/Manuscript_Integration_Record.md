@@ -15,3 +15,11 @@ CAP5 保留 861 条、排除 6 条，仅作支持分析。更新 Results R1/R8�
 以本次证据整合后的提交 1090ed86 为来源，新增独立 `submission/` 分类：正文 Tables 1–2、补充 Tables S1–S10 和完整补充数据。逐分子长表以数据文件提供，原 S1–S31 全部建立去向对照。新增受体及共晶重对接汇总使用既有配置和记录，未重新计算姿态。
 
 投稿展示使用 S1=M0、S2=M1、S3=M2、S4=M1b、S5=M3。既有正文工作稿、图版和审阅 PDF 暂保留原编号，最终全文引用按新目录对齐。全部科学来源及既有工作文件保留原字节，投稿目录由单独的生成程序和核对报告管理。
+
+## 2026-10-27 Results 核对与投稿图版
+
+以 a7b9d752 为来源，对本轮 Results 文稿完成 205 项数值与汇总核对。正文结果图重新组织为 Figures 1–9，补充图为 Figures S1–S9，评分流程为补充 Scheme S1。所有新图由脚本读取既有数据绘制，提供矢量 PDF、SVG 及 600 dpi PNG。
+
+Table S9 增加 D 面板，直接列出 CAP5 化学模型及 Vina 评分增量；其余投稿表号不变。补充工作簿与数据包同步更新。正式成员、标签、原始评分、分折、PRIMARY/Stage 2 统计及原始图版不变。本轮未重算对接、重评分、RMSD、bootstrap 或化学模型。
+
+原 Results 文稿仍由作者随后修改；具体句子、共晶重对接结果的补充建议及图表引用映射保存在 `submission/04_Editorial_Checks/RESULTS_AND_FIGURE_AUDIT_CN.md` 和 `submission/RESULTS_CITATION_MAP_CN.md`。

@@ -51,6 +51,14 @@ S4=M1b, S5=M3. See `submission/RENUMBERING.csv` for every old S1–S31 table.
 Existing manuscript drafts and figures retain their working labels pending
 full-text editorial alignment; their old table numbers are not submission numbers.
 
+`submission/05_Main_Figures/` and `submission/06_SI_Figures/` contain the current
+script-drawn publication graphics: main Figures 1–9, supplementary Figures S1–S9
+and Scheme S1. `submission/FIGURE_INDEX.csv` is the figure-numbering authority.
+`build_submission_figures.py` reads accepted CSVs and does not recompute docking,
+AUROC, bootstrap, ranks or models. The new Table S9D tabulates CAP5 chemistry
+sensitivity. The submitted Results draft has 205 checked numerical items;
+editorial corrections and reference replacements are in the submission audit.
+
 `python Dual_Target_Docking/scripts/rerun_v4_2/jcim_manuscript_integrate.py --supporting-update`
 updates the earlier working supplementary tables and review copies from already
 accepted files. It does not build the submission-numbered tables.

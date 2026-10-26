@@ -9,6 +9,12 @@
 | 正文表格 | [Main_Tables.xlsx](01_Main_Tables/Main_Tables.xlsx) | Table 1：靶点对及四类人数；Table 2：共同成员上的双靶配体检出 |
 | SI 汇总表 | [Supplementary_Tables.xlsx](02_SI_Tables/Supplementary_Tables.xlsx) | Tables S1–S10，每个表号对应一个工作表 |
 | 完整补充数据 | [Supplementary_Data.zip](03_Supplementary_Data/Supplementary_Data.zip) | 原始来源 CSV、当前完整评分、活性来源、化学预测、完整排名及 CAP5 输出 |
+| 正文图 | [05_Main_Figures](05_Main_Figures/) | Figures 1–9，按 Results 首次出现顺序编号 |
+| 补充图 | [06_SI_Figures](06_SI_Figures/) | Figures S1–S9 与 Scheme S1 |
+| 图像审阅 | [Figure_Review.pdf](Figure_Review.pdf) | 19 页矢量图册，书签对应图号；完整图注另见 FIGURE_CAPTIONS.md |
+| 图片目录 | [FIGURE_INDEX.csv](FIGURE_INDEX.csv) | 图片、引用位置、数据来源和表格的对应 |
+| Results 核对 | [RESULTS_AND_FIGURE_AUDIT_CN.md](04_Editorial_Checks/RESULTS_AND_FIGURE_AUDIT_CN.md) | 205 项数值核对及需要修改的具体句子 |
+| Results 引用 | [RESULTS_CITATION_MAP_CN.md](RESULTS_CITATION_MAP_CN.md) | 本轮 Results 原引用与新图表编号对照 |
 | 表格目录 | [TABLE_INDEX.csv](TABLE_INDEX.csv) | 表号、面板、首次引用位置、工作簿和数据包内 CSV 位置 |
 | 编号对照 | [RENUMBERING.csv](RENUMBERING.csv) | 原工作材料 S1–S31 的完整去向 |
 | 来源对应 | [TABLE_SOURCES.csv](TABLE_SOURCES.csv) | 每个表及面板对应的已验收源文件 |
@@ -31,7 +37,7 @@
 | Table S6 | A，负类替换；B，对应与非对应口袋 |
 | Table S7 | 描述符、ECFP4、ECFP4＋Vina 的折外表现及评分增量 |
 | Table S8 | A，五种子分布；B，六种单端受体替换 |
-| Table S9 | A，CAP5 人数；B，Vina 主指标变化；C，PIK3CA/mTOR 严格子集 |
+| Table S9 | A，CAP5 人数；B，Vina 主指标变化；C，PIK3CA/mTOR 严格子集；D，CAP5 化学模型与评分增量 |
 | Table S10 | A，方法自身候选组成；B，共同人群上的方向性与入选组成变化；C，四状态计数 |
 
 表格同时提供 Markdown 预览。Markdown 中小数显示到四位，Excel 保留源数值；完整 CSV 保留来源精度。人数和比例的分母见表注。原始长表移至补充数据，不按逐分子文件另设正式 Table S 编号。
@@ -55,3 +61,9 @@
 运行 `python scripts/rerun_v4_2/build_submission_tables.py --project-root .`，工作目录为 `Dual_Target_Docking/`，并提供已安装 artifact-tool 的 Node 环境。`CODEX_PRIMARY_RUNTIME_NODE` 和 `CODEX_PRIMARY_RUNTIME_NODE_MODULES` 可指定该环境。生成程序不运行任何统计或对接模块。
 
 数值、人数、评分映射、工作簿单元格和压缩包来源字节的核对结果见 [Validation_Report.json](04_Editorial_Checks/Validation_Report.json)。已有工作文稿、图版和历史核查文件继续保留其来源身份；投稿表格编号以本目录为准。
+
+## 投稿图片
+
+`build_submission_figures.py` 使用 Matplotlib 从既有结果 CSV 绘图，输出 7 in 宽的 PDF、SVG 和 600 dpi PNG；`07_Figure_Source_Data/` 中提供每图读入的数值。图内评分名称统一为 S1–S5，图注见 [FIGURE_CAPTIONS.md](FIGURE_CAPTIONS.md)，旧图去向见 [FIGURE_RENUMBERING.csv](FIGURE_RENUMBERING.csv)。
+
+原 `results/jcim_stage2_figures/` 与 `manuscript/` 图文保留为工作来源，投稿图号以本目录为准。Results 原稿由作者后续修改，本次提供逐节引用对照与核对意见，未将原稿替换为新的完整 Results。
