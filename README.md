@@ -5,6 +5,11 @@ Branch: `cursor/v4-2-final-audited-results-20260930`.
 Current authority: [ANALYSIS_BASELINE_README.md](Dual_Target_Docking/ANALYSIS_BASELINE_README.md).
 Machine-readable paths: [CURRENT_RESULT_AUTHORITIES.json](Dual_Target_Docking/CURRENT_RESULT_AUTHORITIES.json).
 
+Submission tables and data: [submission/](Dual_Target_Docking/submission/README.md).
+Use Tables 1–2 and S1–S10 in that directory for submission numbering. Complete
+ligand-level and supporting data are in its Supplementary_Data.zip. Earlier
+S1–S31 workbook numbers are working-source references, not submission numbers.
+
 PIK3CA/mTOR uses accepted Q110 (110 observations; 32/32/32/14).
 The other seven pairs retain their frozen V4.2 results.
 The current population has 869 rows, including 867 eligible observations.

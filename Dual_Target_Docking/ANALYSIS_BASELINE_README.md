@@ -22,6 +22,8 @@ PIK3CA/mTOR uses accepted Q110: 110 observations (dual/A_only/B_only/neither =
 - `analysis_plan_jcim/CHEMISTRY_POPULATION_LAYERS.csv`: 1004/1000/994 directional records.
 - `results/current/RESULT_SYNC_REPORT.json`: merge checks and population totals.
 - `manuscript/`: synchronized text, tables, review PDFs and source-data package.
+- `submission/`: current submission table numbering and packaged data; Tables
+  1–2 and S1–S10, with full long-form data in Supplementary_Data.zip.
 
 PIK3CA/mTOR Q110 primary and supporting source files are in
 `extension_jcim_validation/pik3ca_mtor_q110_v42/`.
@@ -41,8 +43,17 @@ Bootstrap definitions and docking parameters are unchanged.
 
 ## Reproduction and historical material
 
+Submission table preparation uses
+`python Dual_Target_Docking/scripts/rerun_v4_2/build_submission_tables.py`.
+It copies accepted results into the numbered submission views and does not
+recompute scientific results. Scoring labels are S1=M0, S2=M1, S3=M2,
+S4=M1b, S5=M3. See `submission/RENUMBERING.csv` for every old S1–S31 table.
+Existing manuscript drafts and figures retain their working labels pending
+full-text editorial alignment; their old table numbers are not submission numbers.
+
 `python Dual_Target_Docking/scripts/rerun_v4_2/jcim_manuscript_integrate.py --supporting-update`
-updates supplementary tables and review copies from already accepted files.
+updates the earlier working supplementary tables and review copies from already
+accepted files. It does not build the submission-numbered tables.
 The historical `sync_current_q110_results.py` is the original Q110 promotion
 helper, not the current evidence-integration entry; run it only at its source
 commit when reproducing that historical stage.
@@ -71,7 +82,9 @@ current results. Do not import old AUROC files as current inputs.
 - Primary population remains 867 eligible observations. Q110 remains 110.
 - Seven historical selection procedures remain DOCUMENTED_NOT_REPLAYED.
 - Figures and main tables retain the primary population. CAP5 is reported in
-  Results R8, SI sections 10–11 and Tables S23–S31. Source evidence is in S19–S22.
+  Results R8 and SI sections 10–11. In the submission layout, provenance is in
+  Table S1, CAP5 summaries are in Table S9, and complete supporting outputs are
+  data files. The earlier working workbook uses S19–S22 and S23–S31 respectively.
 - G/J/K remain unexecuted. Q110 alternative-receptor results remain unavailable.
 
 The old 805-observation activity export remains a provenance source for reused
