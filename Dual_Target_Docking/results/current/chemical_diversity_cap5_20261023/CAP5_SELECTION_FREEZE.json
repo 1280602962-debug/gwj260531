@@ -1,0 +1,39 @@
+{
+  "rule": "BM5_SENSITIVITY_20261023_V1",
+  "murcko": "jcim_stage2_compute._murcko",
+  "hash_fields": [
+    "BM5_SENSITIVITY_20261023_V1",
+    "pair",
+    "class",
+    "global_ligand_entity_id",
+    "panel_id"
+  ],
+  "hash_encoding": "utf-8",
+  "hash_separator": "|",
+  "hash_order": "ascending hex digest, then panel_id",
+  "cap": 5,
+  "cap_scope": "pair x class x nonempty Murcko scaffold",
+  "acyclic_policy": "not subject to the nonempty-scaffold cap",
+  "scores_read": false,
+  "membership_sha256": "9a9af4acb3c517c28b49fb88c8bfd1277e66c9f7992f08facaa16c45d58418bc",
+  "n_eligible": 867,
+  "n_retained": 861,
+  "n_excluded": 6,
+  "n_acyclic": 4,
+  "script_version": "cap5_freeze.py/1",
+  "descriptive_thresholds": {
+    "point_band": 0.02,
+    "auroc_null": 0.5,
+    "delta_null": 0.0,
+    "point_change_class": [
+      "STABLE",
+      "ATTENUATED",
+      "AMPLIFIED",
+      "REVERSED",
+      "NEAR_NULL",
+      "NOT_ESTIMABLE"
+    ],
+    "role": "descriptive labels only; not a significance or equivalence test"
+  },
+  "sensitivity_statistics": "not_run_in_this_script"
+}

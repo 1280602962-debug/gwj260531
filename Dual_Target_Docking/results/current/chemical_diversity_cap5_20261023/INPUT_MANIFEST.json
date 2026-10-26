@@ -1,0 +1,74 @@
+{
+  "head": "196639e9c5c407c3656f93eee0d14fb26be1b784",
+  "remote_checked": "196639e9c5c407c3656f93eee0d14fb26be1b784",
+  "script_version": "cap5_freeze.py/1",
+  "rdkit": "2025.09.6",
+  "numpy": "2.3.5",
+  "sklearn": "1.8.0",
+  "python": "3.13.2",
+  "files": {
+    "population": {
+      "path": "Dual_Target_Docking/results/current/PRIMARY_DIRECTIONAL_ANALYSIS_POPULATION.csv",
+      "sha256": "659223fc22096b4870d2993aa8b3f0f15c2dac20280b38b484a6b26575cd80e1"
+    },
+    "mapping": {
+      "path": "Dual_Target_Docking/results/current/pair_ligand_mapping.csv",
+      "sha256": "ed55404855ad10592e1bc27562a8203f396643d2c8456f4cc1899e3d1bd7c378"
+    },
+    "folds": {
+      "path": "Dual_Target_Docking/results/canonical/model_fold_assignments.csv",
+      "sha256": "7d259715cea09f94e57bbe149d8886f7fc376929bbe4002318d8092b45c2ea34"
+    },
+    "primary": {
+      "path": "Dual_Target_Docking/results/formal_metrics/PRIMARY_DIRECTIONAL_METRICS.csv",
+      "sha256": "1f89858e4e40f0b1a244619e8fd13cf3d1fb21e20f6ee4ac0e423fd9361777f7"
+    },
+    "primary_deltas": {
+      "path": "Dual_Target_Docking/results/formal_metrics/PRIMARY_METHOD_DELTA_METRICS.csv",
+      "sha256": "de3031918d937e068533aaf865407a2a60d67f17c1b17b1d45864e2e643ac202"
+    },
+    "q110_membership": {
+      "path": "Dual_Target_Docking/extension_jcim_validation/pik3ca_mtor_q110_v42/PIK3CA_MTOR_Q110_MEMBERSHIP.csv",
+      "sha256": "1e85e8c25af4dbe14e756f7042993ae86ac7f89ae06f810379372d739246b550"
+    },
+    "stage2_B": {
+      "path": "Dual_Target_Docking/results/jcim_stage2/module_B_negative_class.csv",
+      "sha256": "6e76bb1fa465e9114eac4b6e05422fab6f564766715b98611e7de80c35e89fb8"
+    },
+    "stage2_C": {
+      "path": "Dual_Target_Docking/results/jcim_stage2/module_C_wrong_pocket.csv",
+      "sha256": "1878811204baeefee8c44069f3e9e56408ead88db1cbbdf50a80078f9e99cb97"
+    },
+    "stage2_D_units": {
+      "path": "Dual_Target_Docking/results/jcim_stage2/module_D_chemistry_units.csv",
+      "sha256": "6966734ec76a57e2c60be46c9136a042b9c2c9e487a5a760a56c3e82f05b4a86"
+    },
+    "stage2_D_oof": {
+      "path": "Dual_Target_Docking/results/jcim_stage2/module_D_chemistry_oof_ligands.csv",
+      "sha256": "34e1ef414bcca6ee6b13c1f20f8ce804255e11bf164fd3a2891995aad2cb9c3c"
+    },
+    "stage2_I_desc": {
+      "path": "Dual_Target_Docking/results/jcim_stage2/module_I_descriptive.csv",
+      "sha256": "584d0755cc82666d2a15c7b455895044d3df6f4c3de22d25c03779c6076021c2"
+    },
+    "stage2_I_lig": {
+      "path": "Dual_Target_Docking/results/jcim_stage2/module_I_ligand_ranks.csv",
+      "sha256": "891386f02da8673b4cb73d4538001a35e6ab12433e49e82ac9d2a7feab744d0a"
+    }
+  },
+  "murcko": "jcim_stage2_compute._murcko = MolToSmiles(GetScaffoldForMol)",
+  "descriptive_thresholds_frozen_before_sensitivity": {
+    "point_band": 0.02,
+    "auroc_null": 0.5,
+    "delta_null": 0.0,
+    "point_change_class": [
+      "STABLE",
+      "ATTENUATED",
+      "AMPLIFIED",
+      "REVERSED",
+      "NEAR_NULL",
+      "NOT_ESTIMABLE"
+    ],
+    "role": "descriptive labels only; not a significance or equivalence test"
+  }
+}

@@ -1,0 +1,13 @@
+check,result,observed,expected
+MODULE_B,PASS,,exact formal table
+MODULE_C,PASS,,exact formal table
+MODULE_D,PASS,,exact formal table
+MODULE_D_OOF,PASS,,exact formal table
+MODULE_D_OOF_IDS,PASS,,exact formal table
+MODULE_I_COMPARE,PASS,,exact formal table
+MODULE_I_TOPK,PASS,,exact formal table
+PRIMARY,PASS,,exact formal table
+PRIMARY_DELTA,PASS,,exact formal table
+membership_sha_unchanged,PASS,9a9af4acb3c517c28b49fb88c8bfd1277e66c9f7992f08facaa16c45d58418bc,9a9af4acb3c517c28b49fb88c8bfd1277e66c9f7992f08facaa16c45d58418bc
+new_fold_join_failures,PASS,0,0
+cap5_analysis,PASS,PRIMARY、方法差值、Module B、Module C、Module D OOF 和 Module I Top-k 成员均与正式表一致,regression pass and no new fold-join failure

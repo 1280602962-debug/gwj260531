@@ -1,0 +1,13 @@
+check,result,observed,expected
+population_rows,PASS,869,869
+eligible_rows,PASS,867,867
+class_dual,PASS,248,248
+class_A_only,PASS,256,256
+class_B_only,PASS,252,252
+class_neither,PASS,111,111
+q110_n,PASS,110,110
+q110_classes,PASS,"{'dual': 32, 'A_only': 32, 'B_only': 32, 'neither': 14}",32/32/32/14
+unique_eligible_keys,PASS,867,867
+ab040_not_eligible_observation,PASS,checked,alias excluded
+authority_population,PASS,results/current/PRIMARY_DIRECTIONAL_ANALYSIS_POPULATION.csv,results/current population
+authority_q110,PASS,{'PIK3CA/mTOR': 'extension_jcim_validation/pik3ca_mtor_q110_v42'},Q110 override

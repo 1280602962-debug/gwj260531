@@ -1,0 +1,39 @@
+{
+  "parent_head": "196639e9c5c407c3656f93eee0d14fb26be1b784",
+  "membership_sha256": "9a9af4acb3c517c28b49fb88c8bfd1277e66c9f7992f08facaa16c45d58418bc",
+  "calls": [
+    "q110_stats.single_method",
+    "q110_stats.paired_delta",
+    "module_b",
+    "module_c",
+    "module_d",
+    "module_i"
+  ],
+  "not_called": [
+    "execute",
+    "run_stage2_modules",
+    "run_primary_metrics_v42",
+    "module_d1",
+    "module_e",
+    "module_h"
+  ],
+  "regression": {
+    "MODULE_B": true,
+    "MODULE_C": true,
+    "MODULE_D": true,
+    "MODULE_D_OOF": true,
+    "MODULE_D_OOF_IDS": true,
+    "MODULE_I_COMPARE": true,
+    "MODULE_I_TOPK": true,
+    "PRIMARY": true,
+    "PRIMARY_DELTA": true
+  },
+  "audit": "PASS",
+  "n_comparison_rows": 336,
+  "point_change_counts": {
+    "STABLE": 278,
+    "NEAR_NULL": 42,
+    "AMPLIFIED": 9,
+    "ATTENUATED": 7
+  }
+}
