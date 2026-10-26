@@ -8,10 +8,12 @@ ID-MAPPING,身份与标签,Dual_Target_Docking/results/current/pair_ligand_mappi
 ID-ALIAS,身份,Dual_Target_Docking/reruns/UNIFORM_RERUN_V4_2_20260921/00_protocol/parent_alias_registry.csv,AB_040 指向 AB_046,不重建标签,SI 身份说明
 ID-FOLD,分折,Dual_Target_Docking/results/canonical/model_fold_assignments.csv,七对原冻结五折；Q110 预先写定的骨架分组五折,不是外部独立验证,化学 OOF 来源说明
 ID-LAYERS,成员层,Dual_Target_Docking/analysis_plan_jcim/CHEMISTRY_POPULATION_LAYERS.csv,16 臂；1004/1000/994,缺 fold 不是活性不可信,Table S2
-LABEL-AUDIT,标签边界审计,Dual_Target_Docking/reruns/UNIFORM_RERUN_V4_2_20260921/13_qa/ACTIVITY_LABEL_SEMANTICS_AUDIT.csv,少量特殊行检查,不覆盖 805 条实验来源；完整对照见 ACTIVITY-CHEMBL37,SI 特殊行
-ACTIVITY-CHEMBL37,活性来源附件,Dual_Target_Docking/activity_label_source_audit_20261008/,原 805/805；当前七对沿用其中 757 条,不能声称覆盖当前全部 867 条；Q110 未提供完整逐 assay 来源导出,SI 来源说明
+LABEL-AUDIT,标签边界审计,Dual_Target_Docking/reruns/UNIFORM_RERUN_V4_2_20260921/13_qa/ACTIVITY_LABEL_SEMANTICS_AUDIT.csv,少量特殊行检查,早期特殊行检查；当前完整活性来源见 ACTIVITY-CURRENT-867,SI 特殊行
+ACTIVITY-CHEMBL37,活性来源附件,Dual_Target_Docking/activity_label_source_audit_20261008/,原 805 条来源导出；当前 766 条由来源总表关联,与当前 101 条 Q110 导出共同覆盖 867 条,SI 来源说明
 SCORE-M0,评分来源,Dual_Target_Docking/reruns/UNIFORM_RERUN_V4_2_20260921/13_qa/official_primary_seed42_score_master_8pair.csv,其他七对正式 M0；Q110 见 Q110_PRIMARY 来源,旧主表的 PM48 行不作当前输入,来源索引
 SCORE-SEED,评分来源,Dual_Target_Docking/reruns/UNIFORM_RERUN_V4_2_20260921/13_qa/phase7_fiveseed_master.csv,其他七对五种子；Q110 见独立目录,旧主表的 PM48 行不作当前输入,来源索引
 SCORE-ALT,评分来源,Dual_Target_Docking/reruns/UNIFORM_RERUN_V4_2_20260921/13_qa/alt_score_master_independent.csv,当前仅三对六条件,Q110 未计算替代受体,来源索引
 FREEZE-YAML,定义,Dual_Target_Docking/reruns/UNIFORM_RERUN_V4_2_20260921/00_protocol/ 四份权威 YAML,冻结路径与方案,不改参数,Methods 对齐
-Q110-PRIMARY,当前 PIK3CA/mTOR 来源,Dual_Target_Docking/extension_jcim_validation/pik3ca_mtor_q110_v42/,110；32/32/32/14；PRIMARY、B/C/D/D1/E/H/I、严格子集,无替代受体计算；无完整逐 assay 来源导出,当前 PIK3CA/mTOR 全部结果
+Q110-PRIMARY,当前 PIK3CA/mTOR 来源,Dual_Target_Docking/extension_jcim_validation/pik3ca_mtor_q110_v42/,110；32/32/32/14；PRIMARY、B/C/D/D1/E/H/I、严格子集,无替代受体计算；两端活性来源已补齐，见 ACTIVITY-CURRENT-867,当前 PIK3CA/mTOR 全部结果
+ACTIVITY-CURRENT-867,当前活性来源,Dual_Target_Docking/results/current/provenance_audit_20261023/,867 双端可追溯；855 文献标识完整；12 缺失；0 冻结值或类别不一致,跨文档 81；终点混合 123；并集 168；阈值跨越 35；不代表同平台或外部验证,Results R1；SI 1、10；Tables S19–S22
+CAP5-SUPPORTING,骨架重复支持分析,Dual_Target_Docking/results/current/chemical_diversity_cap5_20261023/,867 中保留 861、排除 6；336 行对照,事后敏感性；不替换主集或原始选样规则；未重评种子与替代受体,Results R8；SI 11；Tables S23–S31

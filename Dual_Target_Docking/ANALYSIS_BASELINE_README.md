@@ -1,8 +1,9 @@
-# Current analysis baseline (2026-10-23)
+# Current analysis baseline (2026-10-26)
 
 This is the current entry for statistics, figures, tables and manuscript writing.
 Branch: `cursor/v4-2-final-audited-results-20260930`.
-Source commit: `dc028b3350e804cbf8f40acea08261ed4f89c4fa`.
+Integration input: `7ef3b25fddb32b3d7089db90974fdfccb405847f`.
+Primary score/statistics source: `dc028b3350e804cbf8f40acea08261ed4f89c4fa`.
 Paths below are relative to `Dual_Target_Docking/`.
 
 ## Current population and authorities
@@ -40,10 +41,11 @@ Bootstrap definitions and docking parameters are unchanged.
 
 ## Reproduction and historical material
 
-`python Dual_Target_Docking/scripts/rerun_v4_2/sync_current_q110_results.py`
-rebuilds current CSVs from the immutable source commit and accepted Q110 files.
-It checks that other-seven-pair rows are unchanged and does not run docking,
-AUROC, bootstrap or model fitting. Run in a Git checkout containing the source commit.
+`python Dual_Target_Docking/scripts/rerun_v4_2/jcim_manuscript_integrate.py --supporting-update`
+updates supplementary tables and review copies from already accepted files.
+The historical `sync_current_q110_results.py` is the original Q110 promotion
+helper, not the current evidence-integration entry; run it only at its source
+commit when reproducing that historical stage.
 
 Raw V4.2 receptor, box, ligand, score and protocol files under `reruns/` remain
 provenance and score sources for the other seven pairs and the nine reused Q110
@@ -57,10 +59,21 @@ non-formal score summaries are removed from the current tree. Full historical
 files remain available through Git at the source commit. Do not restore them as
 current results. Do not import old AUROC files as current inputs.
 
-## Evidence scope
+## Current provenance and CAP5 evidence
 
-The old ChEMBL source audit covers its original 805 observations, not all 867
-current observations. Q110 membership provides two-end pChEMBL and ChEMBL IDs;
-a full per-assay source export for Q110 is not present. Seven pairs use their
-original frozen folds; Q110 uses its documented pre-score Murcko-group fold rule.
-These are not external independent validation results. G/J/K remain unexecuted.
+- `results/current/provenance_audit_20261023/`: 867 observations have both-end raw
+  activity records; 855 have complete specified document identifiers, 12 do not.
+  Frozen maxima and theta6 classes have zero mismatches. Source traceability
+  does not establish a common assay platform or external independent validation.
+- `results/current/chemical_diversity_cap5_20261023/`: supporting sensitivity,
+  retaining 861 and excluding six observations. It does not replace the primary
+  population, scores, folds, PRIMARY tables, Stage 2 tables, or original sampling rules.
+- Primary population remains 867 eligible observations. Q110 remains 110.
+- Seven historical selection procedures remain DOCUMENTED_NOT_REPLAYED.
+- Figures and main tables retain the primary population. CAP5 is reported in
+  Results R8, SI sections 10–11 and Tables S23–S31. Source evidence is in S19–S22.
+- G/J/K remain unexecuted. Q110 alternative-receptor results remain unavailable.
+
+The old 805-observation activity export remains a provenance source for reused
+records, joined through the current 867-observation crosswalk. The current source
+audit supersedes earlier statements that Q110 has no per-assay source export.

@@ -1,6 +1,6 @@
 {
   "state": "current_primary",
-  "source_commit": "dc028b3350e804cbf8f40acea08261ed4f89c4fa",
+  "source_commit": "7ef3b25fddb32b3d7089db90974fdfccb405847f",
   "pair_override": {
     "PIK3CA/mTOR": "extension_jcim_validation/pik3ca_mtor_q110_v42"
   },
@@ -12,5 +12,25 @@
   "primary_deltas": "results/formal_metrics/PRIMARY_METHOD_DELTA_METRICS.csv",
   "stage2": "results/jcim_stage2",
   "historical_pm48": "git:dc028b3350e804cbf8f40acea08261ed4f89c4fa",
-  "PIK3CA_mTOR_alt_receptor": "not_computed_for_Q110; excluded_from_current_results"
+  "PIK3CA_mTOR_alt_receptor": "not_computed_for_Q110; excluded_from_current_results",
+  "primary_score_source_commit": "dc028b3350e804cbf8f40acea08261ed4f89c4fa",
+  "primary_integration_commit": "5d992b95ea121b482a9144f6ea7543f71422e975",
+  "provenance": {
+    "role": "current_activity_source_evidence",
+    "source_commit": "196639e9c5c407c3656f93eee0d14fb26be1b784",
+    "directory": "results/current/provenance_audit_20261023",
+    "crosswalk": "results/current/provenance_audit_20261023/CURRENT_867_ACTIVITY_SOURCE_CROSSWALK.csv",
+    "summary": "results/current/provenance_audit_20261023/CURRENT_867_SOURCE_COVERAGE_SUMMARY.csv",
+    "n_observations": 867
+  },
+  "cap5": {
+    "role": "supporting_sensitivity_only",
+    "source_commit": "7ef3b25fddb32b3d7089db90974fdfccb405847f",
+    "directory": "results/current/chemical_diversity_cap5_20261023",
+    "membership": "results/current/chemical_diversity_cap5_20261023/CAP5_MEMBERSHIP_867.csv",
+    "primary_metrics": "results/current/chemical_diversity_cap5_20261023/CAP5_PRIMARY_DIRECTIONAL_METRICS.csv",
+    "n_retained": 861,
+    "n_excluded": 6,
+    "replaces_primary": false
+  }
 }

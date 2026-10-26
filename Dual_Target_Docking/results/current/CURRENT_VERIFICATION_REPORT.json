@@ -1,221 +1,763 @@
 {
-  "source_commit": "dc028b3350e804cbf8f40acea08261ed4f89c4fa",
-  "n_checks": 46,
-  "n_pass": 46,
+  "source_commit": "7ef3b25fddb32b3d7089db90974fdfccb405847f",
+  "scientific_recomputation": false,
+  "n_checks": 157,
+  "n_pass": 157,
   "n_fail": 0,
+  "source_audit_not_verifiable": 2,
   "checks": [
     {
-      "check": "population",
+      "check": "protected_bytes:results/formal_metrics/PRIMARY_DIRECTIONAL_METRICS.csv",
       "status": "PASS",
       "detail": ""
     },
     {
-      "check": "classes",
+      "check": "protected_bytes:results/formal_metrics/PRIMARY_METHOD_DELTA_METRICS.csv",
       "status": "PASS",
       "detail": ""
     },
     {
-      "check": "Q110_population_exact",
+      "check": "protected_bytes:results/jcim_stage2/RUN_MANIFEST.json",
       "status": "PASS",
       "detail": ""
     },
     {
-      "check": "Q110_finite_scores",
+      "check": "protected_bytes:results/jcim_stage2/module_I_ligand_ranks.csv",
       "status": "PASS",
       "detail": ""
     },
     {
-      "check": "seven_pairs_unchanged:PRIMARY_DIRECTIONAL_METRICS.csv",
+      "check": "protected_bytes:results/jcim_stage2/module_I_method_compare.csv",
       "status": "PASS",
       "detail": ""
     },
     {
-      "check": "seven_pairs_unchanged:PRIMARY_METHOD_DELTA_METRICS.csv",
+      "check": "protected_bytes:results/jcim_stage2/module_D1_composition.csv",
       "status": "PASS",
       "detail": ""
     },
     {
-      "check": "seven_pairs_unchanged:module_B_negative_class.csv",
+      "check": "protected_bytes:results/jcim_stage2/module_D_chemistry_oof_ligands.csv",
       "status": "PASS",
       "detail": ""
     },
     {
-      "check": "seven_pairs_unchanged:module_C_wrong_pocket.csv",
+      "check": "protected_bytes:results/jcim_stage2/module_E_five_seed_summary.csv",
       "status": "PASS",
       "detail": ""
     },
     {
-      "check": "seven_pairs_unchanged:module_D1_composition.csv",
+      "check": "protected_bytes:results/jcim_stage2/module_E_five_seed.csv",
       "status": "PASS",
       "detail": ""
     },
     {
-      "check": "seven_pairs_unchanged:module_D_chemistry_oof_ligands.csv",
+      "check": "protected_bytes:results/jcim_stage2/module_F_alt_receptor.csv",
       "status": "PASS",
       "detail": ""
     },
     {
-      "check": "seven_pairs_unchanged:module_D_chemistry_units.csv",
+      "check": "protected_bytes:results/jcim_stage2/module_C_wrong_pocket.csv",
       "status": "PASS",
       "detail": ""
     },
     {
-      "check": "seven_pairs_unchanged:module_E_five_seed.csv",
+      "check": "protected_bytes:results/jcim_stage2/module_I_descriptive.csv",
       "status": "PASS",
       "detail": ""
     },
     {
-      "check": "seven_pairs_unchanged:module_E_five_seed_summary.csv",
+      "check": "protected_bytes:results/jcim_stage2/module_B_negative_class.csv",
       "status": "PASS",
       "detail": ""
     },
     {
-      "check": "seven_pairs_unchanged:module_F_alt_receptor.csv",
+      "check": "protected_bytes:results/jcim_stage2/module_H_missingness.csv",
       "status": "PASS",
       "detail": ""
     },
     {
-      "check": "seven_pairs_unchanged:module_H_missingness.csv",
+      "check": "protected_bytes:results/jcim_stage2/module_D_chemistry_units.csv",
       "status": "PASS",
       "detail": ""
     },
     {
-      "check": "seven_pairs_unchanged:module_I_descriptive.csv",
+      "check": "protected_bytes:results/current/provenance_audit_20261023/SEVEN_PAIR_EXACT_REPLAY_RESULTS.csv",
       "status": "PASS",
       "detail": ""
     },
     {
-      "check": "seven_pairs_unchanged:module_I_ligand_ranks.csv",
+      "check": "protected_bytes:results/current/provenance_audit_20261023/Q110_ACTIVITY_SOURCE_AUDIT_FINAL_zh.md",
       "status": "PASS",
       "detail": ""
     },
     {
-      "check": "seven_pairs_unchanged:module_I_method_compare.csv",
+      "check": "protected_bytes:results/current/provenance_audit_20261023/Q110_CHEMBL37_ACTIVITY_ROWS_LONG.csv",
       "status": "PASS",
       "detail": ""
     },
     {
-      "check": "Q110_fields_exact:PRIMARY_DIRECTIONAL_METRICS.csv",
+      "check": "protected_bytes:results/current/provenance_audit_20261023/Q110_CHEMBL37_DUAL_ENDPOINT_CROSSWALK_101.csv",
       "status": "PASS",
       "detail": ""
     },
     {
-      "check": "Q110_fields_exact:PRIMARY_METHOD_DELTA_METRICS.csv",
+      "check": "protected_bytes:results/current/provenance_audit_20261023/AUDIT_PASSFAIL.csv",
       "status": "PASS",
       "detail": ""
     },
     {
-      "check": "Q110_AUROC:M0:B",
+      "check": "protected_bytes:results/current/provenance_audit_20261023/Q110_SOURCE_EXCEPTIONS.csv",
       "status": "PASS",
       "detail": ""
     },
     {
-      "check": "Q110_AUROC:M0:A",
+      "check": "protected_bytes:results/current/provenance_audit_20261023/README_AUDIT_RUN.md",
       "status": "PASS",
       "detail": ""
     },
     {
-      "check": "Q110_AUROC:M1:B",
+      "check": "protected_bytes:results/current/provenance_audit_20261023/CURRENT_867_ACTIVITY_SOURCE_CROSSWALK.csv",
       "status": "PASS",
       "detail": ""
     },
     {
-      "check": "Q110_AUROC:M1:A",
+      "check": "protected_bytes:results/current/provenance_audit_20261023/q110_chembl_summary.json",
       "status": "PASS",
       "detail": ""
     },
     {
-      "check": "Q110_AUROC:M1b:B",
+      "check": "protected_bytes:results/current/provenance_audit_20261023/AUDIT_INPUT_MANIFEST.csv",
       "status": "PASS",
       "detail": ""
     },
     {
-      "check": "Q110_AUROC:M1b:A",
+      "check": "protected_bytes:results/current/provenance_audit_20261023/CURRENT_867_SOURCE_COVERAGE_SUMMARY.csv",
       "status": "PASS",
       "detail": ""
     },
     {
-      "check": "Q110_AUROC:M2:B",
+      "check": "protected_bytes:results/current/provenance_audit_20261023/EIGHT_PAIR_PROVENANCE_FINAL_ASSESSMENT_zh.md",
       "status": "PASS",
       "detail": ""
     },
     {
-      "check": "Q110_AUROC:M2:A",
+      "check": "protected_bytes:results/current/provenance_audit_20261023/DATABASE_CONSISTENCY_805.csv",
       "status": "PASS",
       "detail": ""
     },
     {
-      "check": "Q110_AUROC:M3:B",
+      "check": "protected_bytes:results/current/provenance_audit_20261023/audit_q110_chembl37.py",
       "status": "PASS",
       "detail": ""
     },
     {
-      "check": "Q110_AUROC:M3:A",
+      "check": "protected_bytes:results/current/provenance_audit_20261023/audit_seven_pair_selection.py",
       "status": "PASS",
       "detail": ""
     },
     {
-      "check": "population_layers",
+      "check": "protected_bytes:results/current/provenance_audit_20261023/SEVEN_PAIR_SELECTION_EXCEPTIONS.csv",
       "status": "PASS",
       "detail": ""
     },
     {
-      "check": "Q110_no_alt_rows",
+      "check": "protected_bytes:results/current/provenance_audit_20261023/SEVEN_PAIR_SAMPLING_REPLAY_AUDIT_zh.md",
       "status": "PASS",
       "detail": ""
     },
     {
-      "check": "concordance_counts",
+      "check": "protected_bytes:results/current/provenance_audit_20261023/SEVEN_PAIR_SELECTION_PROVENANCE.csv",
       "status": "PASS",
       "detail": ""
     },
     {
-      "check": "rank_count",
+      "check": "protected_bytes:results/current/provenance_audit_20261023/MANUSCRIPT_SOURCE_AND_SELECTION_REVISION_GUIDE_zh.md",
       "status": "PASS",
       "detail": ""
     },
     {
-      "check": "Table1_Q110",
+      "check": "protected_bytes:results/current/provenance_audit_20261023/Q110_CHEMBL37_DOCUMENT_COVERAGE_101.csv",
       "status": "PASS",
       "detail": ""
     },
     {
-      "check": "workbook_matches_csv:S3_PRIMARY_Metrics",
+      "check": "protected_bytes:results/current/provenance_audit_20261023/Q110_ASSAY_HETEROGENEITY_AUDIT.csv",
       "status": "PASS",
       "detail": ""
     },
     {
-      "check": "workbook_matches_csv:S4_PRIMARY_Deltas",
+      "check": "protected_bytes:results/current/chemical_diversity_cap5_20261023/CAP5_SCIENTIFIC_ASSESSMENT_zh.md",
       "status": "PASS",
       "detail": ""
     },
     {
-      "check": "workbook_matches_csv:S12_Alt_Receptors",
+      "check": "protected_bytes:results/current/chemical_diversity_cap5_20261023/CAP5_MODULE_D_FOLD_AUDIT.csv",
       "status": "PASS",
       "detail": ""
     },
     {
-      "check": "workbook_matches_csv:S16_Ligand_Ranks",
+      "check": "protected_bytes:results/current/chemical_diversity_cap5_20261023/CAP5_MODULE_C_POCKET_CORRESPONDENCE.csv",
       "status": "PASS",
       "detail": ""
     },
     {
-      "check": "workbook_matches_csv:S17_Concordance_Counts",
+      "check": "protected_bytes:results/current/chemical_diversity_cap5_20261023/CAP5_METHOD_AND_SELECTION_zh.md",
       "status": "PASS",
       "detail": ""
     },
     {
-      "check": "workbook_matches_csv:S18_Q110_Strict_Subset",
+      "check": "protected_bytes:results/current/chemical_diversity_cap5_20261023/CAP5_PRIMARY_VS_ORIGINAL.csv",
       "status": "PASS",
       "detail": ""
     },
     {
-      "check": "package_sha256",
+      "check": "protected_bytes:results/current/chemical_diversity_cap5_20261023/CAP5_PRIMARY_DIRECTIONAL_METRICS.csv",
       "status": "PASS",
       "detail": ""
     },
     {
-      "check": "package_current_files",
+      "check": "protected_bytes:results/current/chemical_diversity_cap5_20261023/CAP5_MODULE_B_NEGATIVE_CLASS.csv",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "protected_bytes:results/current/chemical_diversity_cap5_20261023/INPUT_ACCEPTANCE.csv",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "protected_bytes:results/current/chemical_diversity_cap5_20261023/CAP5_SCAFFOLD_DIVERSITY_SUMMARY.csv",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "protected_bytes:results/current/chemical_diversity_cap5_20261023/CAP5_RESULTS_COMPARISON_zh.md",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "protected_bytes:results/current/chemical_diversity_cap5_20261023/CAP5_PRIMARY_METHOD_DELTAS.csv",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "protected_bytes:results/current/chemical_diversity_cap5_20261023/INPUT_MANIFEST.json",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "protected_bytes:results/current/chemical_diversity_cap5_20261023/CAP5_SELECTION_FREEZE.json",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "protected_bytes:results/current/chemical_diversity_cap5_20261023/SCAFFOLD_ASSIGNMENTS_867.csv",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "protected_bytes:results/current/chemical_diversity_cap5_20261023/CAP5_AUDIT_PASSFAIL.csv",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "protected_bytes:results/current/chemical_diversity_cap5_20261023/CAP5_MODULE_I_RANKS.csv",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "protected_bytes:results/current/chemical_diversity_cap5_20261023/CAP5_MODULE_I_METHOD_COMPARISON.csv",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "protected_bytes:results/current/chemical_diversity_cap5_20261023/CAP5_MODULE_D_CHEMISTRY_OOF.csv",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "protected_bytes:results/current/chemical_diversity_cap5_20261023/CAP5_MEMBERSHIP_867.csv",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "protected_bytes:results/current/chemical_diversity_cap5_20261023/CAP5_CLASS_COUNTS.csv",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "protected_bytes:results/current/chemical_diversity_cap5_20261023/CAP5_EXECUTION_MANIFEST.json",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "protected_bytes:results/current/chemical_diversity_cap5_20261023/cap5_freeze.py",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "protected_bytes:results/current/chemical_diversity_cap5_20261023/CAP5_MODULE_D_CHEMISTRY_UNITS.csv",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "protected_bytes:results/current/chemical_diversity_cap5_20261023/CAP5_MODULE_I_TOPK.csv",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "protected_bytes:results/current/chemical_diversity_cap5_20261023/cap5_stats.py",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "protected_bytes:results/current/chemical_diversity_cap5_20261023/CAP5_EXCLUDED_LIGANDS.csv",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "protected_bytes:results/current/chemical_diversity_cap5_20261023/SCAFFOLD_CONCORDANCE_AUDIT.csv",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "protected_bytes:results/current/chemical_diversity_cap5_20261023/CAP5_MANUSCRIPT_REVISION_GUIDE_zh.md",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "protected_bytes:results/current/chemical_diversity_cap5_20261023/UNFILTERED_REGRESSION.csv",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "protected_bytes:activity_label_source_audit_20261008/ChEMBL37\u6765\u6e90\u6062\u590d\u8bf4\u660e.md",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "protected_bytes:activity_label_source_audit_20261008/export_chembl37_activity_rows.py",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "protected_bytes:activity_label_source_audit_20261008/document_identifier_coverage_805.csv",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "protected_bytes:activity_label_source_audit_20261008/historical_adjudication_differences.csv",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "protected_bytes:activity_label_source_audit_20261008/chembl37_dual_endpoint_crosswalk_805.csv",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "protected_bytes:activity_label_source_audit_20261008/chembl37_activity_rows_long.csv",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "protected_bytes:results/current/PRIMARY_DIRECTIONAL_ANALYSIS_POPULATION.csv",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "protected_bytes:results/current/pair_ligand_mapping.csv",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "protected_bytes:results/canonical/model_fold_assignments.csv",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "protected_bytes:analysis_plan_jcim/CHEMISTRY_POPULATION_LAYERS.csv",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "protected_bytes:manuscript/Main_Tables.xlsx",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "protected_bytes:results/jcim_stage2_figures/Fig01_Primary_Directional_and_Deltas.png",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "protected_bytes:results/jcim_stage2_figures/Fig02_Negative_Class_Contrast.png",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "protected_bytes:results/jcim_stage2_figures/Fig03_Chemistry_and_Docking_Increment.png",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "protected_bytes:results/jcim_stage2_figures/Fig04_Pocket_Contrast.png",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "protected_bytes:results/jcim_stage2_figures/Fig05_Seed_and_Receptor_Sensitivity.png",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "protected_bytes:results/jcim_stage2_figures/Fig06_Directional_and_Topk_Changes.png",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "protected_bytes:results/jcim_stage2_figures/FigS01_Descriptors_D_vs_A.png",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "protected_bytes:results/jcim_stage2_figures/FigS02_Descriptors_D_vs_B.png",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "protected_bytes:results/jcim_stage2_figures/FigS03_Cross_Class_Similarity.png",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "protected_bytes:results/jcim_stage2_figures/FigS04_All_Method_AUROC.png",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "protected_bytes:results/jcim_stage2_figures/FigS05_Five_Seeds.png",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "protected_bytes:results/jcim_stage2_figures/FigS06_Alternative_Receptors.png",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "protected_bytes:results/jcim_stage2_figures/FigS07_Missingness.png",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "protected_bytes:results/jcim_stage2_figures/FigS08_Topk_and_Concordance.png",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "protected_bytes:results/jcim_stage2_figures/Scheme01_Study_Design.png",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "main_population_867",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "main_classes_unchanged",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "source_covers_exact_main_members",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "source_both_ends",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "source_classes_match_main",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "source_flag:literature_complete",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "source_flag:document_identifier_missing",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "source_flag:cross_source_or_endpoint_mix",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "source_flag:replicate_threshold_discordance",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "source_flag:value_or_label_mismatch",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "source_no_fail",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "selection_unverifiable_retained",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "seven_selection_statuses",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "CAP5_membership",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "CAP5_exclusions",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "CAP5_neither_111",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "CAP5_acyclic_four_retained",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "CAP5_max_repeat",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "CAP5_no_failure",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "comparison_336",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "comparison_point_classes",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "CAP5_M0_summary:JAK1/JAK2",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "CAP5_M0_summary:PPARA/PPARD",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "CAP5_M0_summary:PIK3CA/mTOR",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "ECFP4_all_changes_under_002",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "existing_sheet_values:S1_Mapping",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "existing_sheet_values:S2_Population_Layers",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "existing_sheet_values:S3_PRIMARY_Metrics",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "existing_sheet_values:S4_PRIMARY_Deltas",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "existing_sheet_values:S5_Negative_Class",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "existing_sheet_values:S6_Wrong_Pocket",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "existing_sheet_values:S7_Chemistry_Units",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "existing_sheet_values:S8_Composition",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "existing_sheet_values:S9_Chemistry_OOF",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "existing_sheet_values:S10_Five_Seeds",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "existing_sheet_values:S11_Seed_Summaries",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "existing_sheet_values:S12_Alt_Receptors",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "existing_sheet_values:S13_Missingness",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "existing_sheet_values:S14_Ranking_Descriptive",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "existing_sheet_values:S15_Ranking_Comparison",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "existing_sheet_values:S16_Ligand_Ranks",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "existing_sheet_values:S17_Concordance_Counts",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "existing_sheet_values:S18_Q110_Strict_Subset",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "supporting_sheet_matches_csv:S19_Source_Coverage",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "supporting_sheet_matches_csv:S20_Source_Crosswalk",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "supporting_sheet_matches_csv:S21_Q110_Activity_Rows",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "supporting_sheet_matches_csv:S22_Selection_Provenance",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "supporting_sheet_matches_csv:S23_CAP5_Class_Counts",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "supporting_sheet_matches_csv:S24_CAP5_Excluded",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "supporting_sheet_matches_csv:S25_CAP5_PRIMARY",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "supporting_sheet_matches_csv:S26_CAP5_Method_Deltas",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "supporting_sheet_matches_csv:S27_CAP5_Negative_Class",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "supporting_sheet_matches_csv:S28_CAP5_Pocket",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "supporting_sheet_matches_csv:S29_CAP5_Chemistry",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "supporting_sheet_matches_csv:S30_CAP5_Topk",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "supporting_sheet_matches_csv:S31_CAP5_Vs_Primary",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "supplementary_sheet_count",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "package_checksums",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "package_current_bytes",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "package_all_new_evidence",
       "status": "PASS",
       "detail": ""
     },
@@ -225,12 +767,27 @@
       "detail": ""
     },
     {
-      "check": "PDF_nonempty:Results_Review.pdf",
+      "check": "CAP5_not_promoted",
       "status": "PASS",
       "detail": ""
     },
     {
-      "check": "PDF_nonempty:Supporting_Information_Review.pdf",
+      "check": "no_stale_missing_export:Supporting_Information_CN.md",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "no_stale_missing_export:Source_Register.csv",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "PDF_evidence_updated:Results_Review.pdf",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "PDF_evidence_updated:Supporting_Information_Review.pdf",
       "status": "PASS",
       "detail": ""
     }
