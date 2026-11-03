@@ -12,13 +12,13 @@ primary 阈值为 6.0。activity_eligible=0 不是 neither。AB_040 是 AB_046 �
 
 全部 867 条合格观察已与两端原始活性建立对应。855 条的两端全部并列最大值均带有 DOI、PubMed 或专利号；12 条缺少指定标识，包含 Q110_A21 的 mTOR 数据集文档。81 条存在跨文档聚合，123 条存在终点类型混合，并集为 168 条；35 条存在同一端跨越 6.0 的重复测定。冻结最大值及类别不一致为 0 条。上述标记可重叠，不能将各项人数相加作为独立观察数。
 
-当前来源总表见 Table S20。101 个 Q110 分子的 238 条 ChEMBL 37 原始活性见 Table S21；其余观察通过来源总表关联已有原始记录。Q110_A24 的 mTOR 冻结最大值保持 5.83；后续审核表曾以 source_adjudication 排除该记录，具体理由仍未解决，但两种汇总下的类别均为 A_only。活性来源追溯不代表同一测定条件，也不属于外部独立验证。
+来源覆盖汇总见 Table S1B，当前来源总表见 Supplementary Data 中的 `CURRENT_867_ACTIVITY_SOURCE_CROSSWALK.csv`。101 个 Q110 分子的 238 条 ChEMBL 37 原始活性见数据文件 `Q110_CHEMBL37_ACTIVITY_ROWS_LONG.csv`；其余观察通过来源总表关联已有原始记录。Q110_A24 的 mTOR 冻结最大值保持 5.83；后续审核表曾以 source_adjudication 排除该记录，具体理由仍未解决，但两种汇总下的类别均为 A_only。活性来源追溯不代表同一测定条件，也不属于外部独立验证。
 
 ## 2. 成员和缺失
 
-第 1 层 1004 条标签方向记录供 D1 使用。第 2 层 1000 条是正式 M0 方向记录，少掉的 4 条来自 AChE/BChE 的 M0 超时。第 3 层 994 条是化学共同 OOF，在 1000 上再排除 6 条缺少冻结 fold 的方向记录。标签层缺 fold 为 10 条、7 个配体：AB_001、AB_053、AB_054、EH40_31、F2F10_080、J1TYK2_092、PGPA_030。M0 之后仍缺 fold 的是后四个配体的 6 条记录。AB_001、AB_053 和 AB_054 仍在 D1 中；它们离开第 2 层是因为超时，不是因为缺 fold。缺 fold 是没有冻结交叉验证分折，不是活性不可信。
+第 1 层 1004 条标签方向记录供 D1 使用。第 2 层 1000 条是正式 S1 方向记录，少掉的 4 条来自 AChE/BChE 的 S1 超时。第 3 层 994 条是化学共同 OOF，在 1000 上再排除 6 条缺少冻结 fold 的方向记录。标签层缺 fold 为 10 条、7 个配体：AB_001、AB_053、AB_054、EH40_31、F2F10_080、J1TYK2_092、PGPA_030。S1 之后仍缺 fold 的是后四个配体的 6 条记录。AB_001、AB_053 和 AB_054 仍在 D1 中；它们离开第 2 层是因为超时，不是因为缺 fold。缺 fold 是没有冻结交叉验证分折，不是活性不可信。
 
-fold_id 使用 0、1、2、3、4。0 是一个实际折号，不是缺失。AChE/BChE D_vs_A 的 A_only 由 27 到 25 发生在 M0 筛选，错口袋额外减员为 0。Table S2 给出每臂人数和名单。Table S13 中 expected = valid + missing。pair 展开记录数不等于物理 docking job 数。
+fold_id 使用 0、1、2、3、4。0 是一个实际折号，不是缺失。AChE/BChE D_vs_A 的 A_only 由 27 到 25 发生在 S1 筛选，错口袋额外减员为 0。Table S4A 给出每臂人数，名单见 Supplementary Data。Table S4B 及其类别明细中 expected = valid + missing。pair 展开记录数不等于物理 docking job 数。
 
 ## 3. PRIMARY 与配对统计
 
@@ -26,38 +26,40 @@ AUROC 按 higher-better 分数计算，ties=0.5。summary_min 是两个方向 AU
 
 ## 4. 化学模型与 D1
 
-化学模型使用八个描述符、ECFP4，或 ECFP4 加相应方向的 M0。ECFP4 为 radius 2、2048 bit、useChirality=false、useFeatures=false。逻辑回归为 L2、C=1、liblinear、class_weight=None、max_iter=1000、random_state=271828。标准化只在训练折拟合；加入的 M0 列不使用测试折的均值和标准差。其他七对沿用原五个冻结折。Q110 使用读取分数前写定的分折：规范 Murcko 骨架去重排序后，按 0–4 循环分配，同一骨架进入同一折，共 105 个骨架。两种分折分别记录来源，均拼接折外预测得到 OOF，没有在本轮重新拟合模型。OOF 不是外部独立验证。正式输出不含 scaler_probe，训练折缩放的实现证据留在既有人工验收，不在本轮补造。
+化学模型使用八个描述符、ECFP4，或 ECFP4 加相应方向的 S1。ECFP4 为 radius 2、2048 bit、useChirality=false、useFeatures=false。逻辑回归为 L2、C=1、liblinear、class_weight=None、max_iter=1000、random_state=271828。标准化只在训练折拟合；加入的 S1 列不使用测试折的均值和标准差。其他七对沿用原五个冻结折。Q110 使用读取分数前写定的分折：规范 Murcko 骨架去重排序后，按 0–4 循环分配，同一骨架进入同一折，共 105 个骨架。两种分折分别记录来源，均拼接折外预测得到 OOF，没有在本轮重新拟合模型。OOF 不是外部独立验证。正式输出不含 scaler_probe，训练折缩放的实现证据留在既有人工验收，不在本轮补造。
 
-D1 在第 1 层、同一 canonical Mol 上记录八个描述符和 Murcko 字符串。空 Murcko 表示无环，不是解析失败。最大异类 ECFP4 Tanimoto 只在同一 pair×arm 内相对另一标签类计算。CAP5 的骨架定义与一致性检查见第 11 节。
+D1 在第 1 层、同一 canonical Mol 上记录八个描述符和 Murcko 字符串。空 Murcko 表示无环，不是解析失败。最大异类 ECFP4 Tanimoto 只在同一 pair×arm 内相对另一标签类计算，见 Figure S6 及 Supplementary Data 中的 `module_D1_composition.csv`。该结果不表示测试折配体相对于训练折的最近邻相似性。CAP5 的骨架定义与一致性检查见第 11 节。
+
+GNINA 原始记录中另保存了 CNNaffinity，但未将其纳入正式评价；正式的固定姿态、保存姿态重排及独立对接方案均使用 CNNscore，见补充方法第 4 节及 `submission/SCORING_SCHEMES.csv`。
 
 ## 5. 负类与口袋的完整结果
 
-Table S5 和 Figure 2 给出 16 个臂的单靶负类、neither、差值和区间。Table S6 和 Figure 4 给出正确口袋、对侧口袋、差值和额外减员。反向点、零点和含 0 的区间都保留。
+Table S6A 和 Figure 4 给出 16 个臂的单靶负类、neither、差值和差值区间，各条件 AUROC 区间见补充数据。Table S6B 和 Figure 6 给出对应口袋、非对应口袋、差值和额外减员。反向点、零点和含 0 的区间都保留。
 
 ## 6. 五种子与替代受体
 
-Table S10 为 40 个 pair×seed 原点，Table S11 为 24 个汇总。Figure S5 同时显示 auc_B、auc_A 和 summary_min。Figure 5a 只显示 summary_min。IQR 按各自 metric 的 linear P75−P25 读取。七对的五种子人数不变。AChE/BChE 仅 seed 17 因 AB_046 在 4BDS 超时而少 1 个 A_only。
+Supplementary Data 中的 `module_E_five_seed.csv` 保留 40 个 pair×seed 原点，Table S8A 为 24 个汇总。Figure S7 同时显示 auc_B、auc_A 和 summary_min。Figure 7a 只显示 summary_min。IQR 按各自 metric 的 linear P75−P25 读取。七对的五种子人数不变。AChE/BChE 仅 seed 17 因 AB_046 在 4BDS 超时而少 1 个 A_only。
 
-Table S12 和 Figure S6 覆盖 AChE/BChE、F2/F10 和 PPARA/PPARD 三对、六个替代条件。未替换端差值为 0 是构造核对。Q110 没有替代受体计算，因此当前材料不采用 PM48 的替代受体统计。
+Table S8B 和 Figure 7b 覆盖 AChE/BChE、F2/F10 和 PPARA/PPARD 三对、六个替代条件。未替换端差值为 0 是构造核对。Q110 没有替代受体计算，因此当前材料不采用 PM48 的替代受体统计。
 
 ## 7. 联合排序
 
-方法自身描述和与 M0 的共同比较分开。共同比较中，新方法使用 pairwise_common_vs_M0，M0 使用 pairwise_common_vs_该方法，不用 method_specific 的 M0 行充当全部方法的基线。名次为 average midrank，联合名次为两端名次的 worst rank。并列先按 rank_A+rank_B，再按 global ID。k=ceil(0.10×N)。in_topk 取 YES 或 NO。Table S16 保留全部 9734 行，不在本 PDF 中逐行排印。M1、M2、M3 的方向差值读取 PRIMARY。M1b−M0 只在三组 dual、A_only、B_only 成员分别一致后，把已有的 M1b−M1 与 M1−M0 点估计相加，不加新区间。四态定义使用舍入前点值：x>0 且 y<0 为一致改善，x<0 且 y>0 为一致变差，两项同号且都非零为不一致，至少一项恰为 0 为无变化。Table S17 的四行与 Table S15 的 32 行计数一致。M2 和 M3 的无变化计数均为 0。
+方法自身描述和与 S1 的共同比较分开。共同比较中，新方法使用 `pairwise_common_vs_M0`，S1 使用 `pairwise_common_vs_该方法`（该方法的内部标识仍采用来源 M 名称），不用 method_specific 的 S1 行充当全部方法的基线。名次为 average midrank，联合名次为两端名次的 worst rank。并列先按 rank_A+rank_B，再按 global ID。k=ceil(0.10×N)。in_topk 取 YES 或 NO。Supplementary Data 中的 `module_I_ligand_ranks.csv` 保留全部 9734 行，不在正文中逐行排印。S2、S3、S5 的方向差值读取 PRIMARY。S4−S1 只在三组 dual、A_only、B_only 成员分别一致后，把已有的 S4−S2 与 S2−S1 点估计相加，不加新区间。四态定义使用舍入前点值：x>0 且 y<0 为一致改善，x<0 且 y>0 为一致变差，两项同号且都非零为不一致，至少一项恰为 0 为无变化。Table S10C 的四行与 Table S10B 的 32 行计数一致。S3 和 S5 的无变化计数均为 0。
 
 ## 8. 复现、环境和数据可用性
 
 主评价分数与统计的来源提交为 dc028b3350e804cbf8f40acea08261ed4f89c4fa，当前八对的主结果由 5d992b95 汇总。来源追溯见提交 196639e9，CAP5 支持分析见提交 7ef3b25f。本次整合读取上述已验收文件，更新文稿、补充表及数据包，不重新对接、拟合模型或计算 bootstrap。
 原 V4.2 正式统计环境为 Python 3.11.15、NumPy 2.4.6、RDKit 2025.09.5 和 scikit-learn 1.9.0。Q110 配体准备记录为 RDKit 2025.09.6、Meeko 0.7.1、Vina 1.2.7，使用 ETKDGv3、randomSeed 20260727、单构象和最多 200 步 MMFF。Q110 统计程序在正式计算前通过 5649 项 PM48 回归；回归报告保留，旧 PM48 派生统计表通过 Git 历史查询。
 
-Supplementary_Source_Data.zip 收录当前八对的主结果、人群、分折、来源对照、逐条活性证据，以及 CAP5 的保留名单、统计、折外预测和排名。原 805 条来源附件按来源记录保留，由当前 867 条总表映射到本次评价成员。包内 SHA256 清单只用于校验文件字节，包内不含 ChEMBL 数据库原库。来源与支持分析的逐表对应见 Source_Register.csv。仓库为 https://github.com/1280602962-debug/gwj260531，分支 cursor/v4-2-final-audited-results-20260930。
+投稿数据包 `submission/03_Supplementary_Data/Supplementary_Data.zip` 收录当前八对的主结果、人群、分折、来源对照、逐条活性证据，以及 CAP5 的保留名单、统计、折外预测和排名。原 805 条来源附件按来源记录保留，由当前 867 条总表映射到本次评价成员。包内 `Data_Index.csv` 列出文件路径、字节数和数据行数，包内不含 ChEMBL 数据库原库。投稿表格与来源对应见 `submission/TABLE_SOURCES.csv`，数据包内另有 `Data_Index.csv` 和 `Numbered_tables/`。仓库为 https://github.com/1280602962-debug/gwj260531，分支 cursor/v4-2-final-audited-results-20260930。
 
 ## 9. 严格阈值支持分析
 
-严格 6.5/5.5 同类子集共 56 个分子：dual 25、A_only 12、B_only 14、neither 5。M0 的 summary_min 为 0.4571，M2 为 0.6286。完整结果见 Table S18。这是 Q110 内的支持分析，不替换主评价人群。
+严格 6.5/5.5 同类子集共 56 个分子：dual 25、A_only 12、B_only 14、neither 5。S1 的 summary_min 为 0.4571，S3 为 0.6286。完整结果见 Figure 8b 和 Table S9C。这是 Q110 内的支持分析，不替换主评价人群。
 
 ## 10. 选样证据及其覆盖范围
 
-七对靶点的沉积名单、脚本记录及当前身份核对见 Table S22。它们均记为 DOCUMENTED_NOT_REPLAYED，不能写成原始抽样程序已完整独立重现。F2/F10、JAK1/JAK2、JAK1/TYK2、PPARG/PPARA 和 PPARA/PPARD 的构建记录使用严格 6.5/5.5 条件，正式标签按 θ=6.0。EGFR/HER2 的构建记录包含具名参照分子和负类优先选择。AChE/BChE 的旧脚本使用 ChEMBL ID 前缀作多样性键，不能称为 Bemis–Murcko 骨架限制。其一次只读重放与沉积名单有 1 个成员不同；当前 98 条合格观察仍可从沉积名单经别名和不合格记录处理闭合。PIK3CA/mTOR 采用冻结 Q110 名单。
+七对靶点的选样证据汇总见 Table S1A，沉积名单、脚本记录及当前身份核对见 Supplementary Data 中的选样来源文件。它们均记为 DOCUMENTED_NOT_REPLAYED，不能写成原始抽样程序已完整独立重现。F2/F10、JAK1/JAK2、JAK1/TYK2、PPARG/PPARA 和 PPARA/PPARD 的构建记录使用严格 6.5/5.5 条件，正式标签按 θ=6.0。EGFR/HER2 的构建记录包含具名参照分子和负类优先选择。AChE/BChE 的旧脚本使用 ChEMBL ID 前缀作多样性键，不能称为 Bemis–Murcko 骨架限制。其一次只读重放与沉积名单有 1 个成员不同；当前 98 条合格观察仍可从沉积名单经别名和不合格记录处理闭合。PIK3CA/mTOR 采用冻结 Q110 名单。
 
 CAP5 不改变这些选样记录，也不把八对原有的构建条件改写为同一种抽样规则。
 
@@ -65,10 +67,10 @@ CAP5 不改变这些选样记录，也不把八对原有的构建条件改写为
 
 CAP5 是在正式评价集冻结后开展的事后敏感性分析。结构取自当前 mapping 的 canonical_smiles，使用 jcim_stage2_compute._murcko，即 MurckoScaffold.GetScaffoldForMol 后转换为 SMILES。在同一靶点对、同一实验类别内，同一非空骨架最多保留 5 个分子。无环分子不占非空骨架名额，同一骨架在不同类别中分别计数，不回补被排除的名额。
 
-超额组按固定字段生成的 SHA-256 升序保留前 5 个，哈希相同再按 panel_id 排序；字段、分隔符和描述性带宽在敏感性统计前写入 CAP5_SELECTION_FREEZE.json。保留规则不读取对接分数。全部 867 条中保留 861 条、排除 6 条，4 条无环记录及 111 条 neither 均保留，见 Tables S23–S24。
+超额组按固定字段生成的 SHA-256 升序保留前 5 个，哈希相同再按 panel_id 排序；字段、分隔符和描述性带宽在敏感性统计前写入 CAP5_SELECTION_FREEZE.json。保留规则不读取对接分数。全部 867 条中保留 861 条、排除 6 条，4 条无环记录及 111 条 neither 均保留，见 Table S9A，以及 Supplementary Data 中的 `CAP5_CLASS_COUNTS.csv` 和 `CAP5_EXCLUDED_LIGANDS.csv`。
 
-方向性 AUROC、方法配对差、负类对照、口袋对照及联合排名使用原统计定义；化学模型在 CAP5 成员上重新拟合，排除成员既不训练也不测试，沿用原冻结 fold。保留成员中的原有缺 fold 情况仍按原规则处理，没有新的 fold 连接失败。完整统计和与主分析的对照见 Tables S25–S31。折外逐分子预测、全排名及分折检查随 CSV 数据包提供。
+方向性 AUROC、方法配对差、负类对照、口袋对照及联合排名使用原统计定义；化学模型在 CAP5 成员上重新拟合，排除成员既不训练也不测试，沿用原冻结 fold。保留成员中的原有缺 fold 情况仍按原规则处理，没有新的 fold 连接失败。Vina 汇总与化学模型见 Table S9B,D；全部评分的方向性比较见 Figure S8，完整统计和与主分析的对照见 Supplementary Data 中的 CAP5 文件。折外逐分子预测、全排名及分折检查随 CSV 数据包提供。
 
-点变化的 0.02 带宽只用于描述，不是显著性或等效性界值。完整点估计、区间和人数同时保留。PPARA/PPARD 的 M3 在 dual 对 A_only 方向有区间边界变化：主分析为 0.4922–0.7676，CAP5 为 0.5030–0.7772。该边界变化单独列出，不以总体稳定概括掩盖。
+点变化的 0.02 带宽只用于描述，不是显著性或等效性界值。完整点估计、区间和人数同时保留。PPARA/PPARD 的 S5 在 dual 对 A_only 方向有区间边界变化：主分析为 0.4922–0.7676，CAP5 为 0.5030–0.7772。该边界变化单独列出，不以总体稳定概括掩盖。
 
 CAP5 没有重评五随机种子和替代受体，也没有重新对接或重评分。CAP5 排名使用自身的共同成员和 k=ceil(0.10×N)，不能把其中 k=9 的名单称为原 Top-10。主分析继续采用 867 条合格观察，PIK3CA/mTOR 的 Q110 及其主结果不变。

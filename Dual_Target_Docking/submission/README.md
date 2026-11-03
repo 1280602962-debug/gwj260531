@@ -66,4 +66,6 @@
 
 `build_submission_figures.py` 使用 Matplotlib 从既有结果 CSV 绘图，输出 7 in 宽的 PDF、SVG 和 600 dpi PNG；`07_Figure_Source_Data/` 中提供每图读入的数值。图内评分名称统一为 S1–S5，图注见 [FIGURE_CAPTIONS.md](FIGURE_CAPTIONS.md)，旧图去向见 [FIGURE_RENUMBERING.csv](FIGURE_RENUMBERING.csv)。
 
-原 `results/jcim_stage2_figures/` 与 `manuscript/` 图文保留为工作来源，投稿图号以本目录为准。Results 原稿由作者后续修改，本次提供逐节引用对照与核对意见，未将原稿替换为新的完整 Results。
+原 `results/jcim_stage2_figures/`、旧工作簿、旧图注及审阅 PDF 保留为来源版本，投稿图号以本目录为准。2026-11-03 已将 `manuscript/Results_CN.md` 和 `Supporting_Information_CN.md` 的图表引用及评分显示名对齐本目录，科学结果未作重写。
+
+英译前文字核查见 [PRETRANSLATION_METHODS_SI_AUDIT_20261103_CN.md](04_Editorial_Checks/PRETRANSLATION_METHODS_SI_AUDIT_20261103_CN.md)。补充方法已修正 S1–S5 并说明 CNNaffinity 未纳入评价。上一轮核查基于 d1ca1751，当时未取得跨折最近邻原始结果和脚本，故未新增 Table S7 Panel B。合并时原分支已包含支持性诊断提交 485ff1bf，`analysis/posthoc_diagnostics_20261103/outputs/A_TEST_NEAREST_TRAIN.csv` 及对应 `scripts/analysis_a.py` 已可访问；此前“未取得”的结论仅对应旧基线。本次仅合并并记录文件可用性，未重新核查该分析的科学结果，也未将其编入 Table S7。当前材料不含可核查的 Discussion 正文，该部分仍未完成逐句核查。
