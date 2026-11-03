@@ -1,0 +1,563 @@
+{
+  "date": "2026-11-03",
+  "base_commit": "d1ca17512eabe5c9d102ebe75c3f9c59668452dc",
+  "scientific_recomputation": false,
+  "checks": [
+    {
+      "check": "tracked mutations are limited to five authorized Markdown files",
+      "status": "PASS",
+      "detail": [
+        "Dual_Target_Docking/manuscript/README.md",
+        "Dual_Target_Docking/manuscript/Results_CN.md",
+        "Dual_Target_Docking/manuscript/Supporting_Information_CN.md",
+        "Dual_Target_Docking/submission/README.md",
+        "Dual_Target_Docking/submission/Supplementary_Methods_CN.md"
+      ]
+    },
+    {
+      "check": "no scientific result, raw record, script, table, figure, workbook or ZIP has changed",
+      "status": "PASS",
+      "detail": [
+        "Dual_Target_Docking/manuscript/README.md",
+        "Dual_Target_Docking/manuscript/Results_CN.md",
+        "Dual_Target_Docking/manuscript/Supporting_Information_CN.md",
+        "Dual_Target_Docking/submission/README.md",
+        "Dual_Target_Docking/submission/Supplementary_Methods_CN.md"
+      ]
+    },
+    {
+      "check": "unchanged bytes: results/current/PRIMARY_DIRECTIONAL_ANALYSIS_POPULATION.csv",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "unchanged bytes: results/current/pair_ligand_mapping.csv",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "unchanged bytes: results/canonical/model_fold_assignments.csv",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "unchanged bytes: results/formal_metrics/PRIMARY_DIRECTIONAL_METRICS.csv",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "unchanged bytes: results/formal_metrics/PRIMARY_METHOD_DELTA_METRICS.csv",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "unchanged bytes: results/jcim_stage2/module_D_chemistry_oof_ligands.csv",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "unchanged bytes: results/jcim_stage2/module_D_chemistry_units.csv",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "unchanged bytes: results/jcim_stage2/module_D1_composition.csv",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "unchanged bytes: reruns/UNIFORM_RERUN_V4_2_20260921/13_qa/redocking_master.csv",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "unchanged bytes: submission/SCORING_SCHEMES.csv",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "unchanged bytes: submission/02_SI_Tables/Table_S7.md",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "unchanged bytes: submission/02_SI_Tables/Supplementary_Tables.xlsx",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "unchanged bytes: submission/03_Supplementary_Data/Supplementary_Data.zip",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "unchanged bytes: manuscript/Supplementary_Source_Data.zip",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "unchanged bytes: submission/TABLE_INDEX.csv",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "unchanged bytes: submission/FIGURE_INDEX.csv",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "unchanged bytes: CURRENT_RESULT_AUTHORITIES.json",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "S1-S5 scoring authority preserved",
+      "status": "PASS",
+      "detail": [
+        [
+          "S1",
+          "M0",
+          "Vina mode 1"
+        ],
+        [
+          "S2",
+          "M1",
+          "GNINA fixed-pose CNNscore"
+        ],
+        [
+          "S3",
+          "M2",
+          "RTMScore fixed pose"
+        ],
+        [
+          "S4",
+          "M1b",
+          "GNINA best saved CNNscore"
+        ],
+        [
+          "S5",
+          "M3",
+          "GNINA independent docking"
+        ]
+      ]
+    },
+    {
+      "check": "incorrect S2 = Vina mode1 wording removed",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "CNNaffinity non-evaluation statement present",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "D_vs_A/B target and bootstrap summary definitions explicit",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "no retired Table S11-S31 citations: manuscript/Results_CN.md",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "all existing decimal scientific values retained: manuscript/Results_CN.md",
+      "status": "PASS",
+      "detail": {
+        "removed": {},
+        "added": {
+          "0.5": 1
+        }
+      }
+    },
+    {
+      "check": "no retired Table S11-S31 citations: manuscript/Supporting_Information_CN.md",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "all existing decimal scientific values retained: manuscript/Supporting_Information_CN.md",
+      "status": "PASS",
+      "detail": {
+        "removed": {},
+        "added": {}
+      }
+    },
+    {
+      "check": "source population_kind identifier preserved",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "main Figure 1 cited",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "main Figure 2 cited",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "main Figure 3 cited",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "main Figure 4 cited",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "main Figure 5 cited",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "main Figure 6 cited",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "main Figure 7 cited",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "main Figure 8 cited",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "main Figure 9 cited",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "current Figure S4-S6 descriptor/similarity range cited",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "Figure S1 cited",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "Figure S2 cited",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "Figure S3 cited",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "Figure S7 cited",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "Figure S8 cited",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "Figure S9 cited",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "current numbered table/panel citations resolve: submission/Supplementary_Methods_CN.md",
+      "status": "PASS",
+      "detail": [
+        [
+          "Table S1",
+          true
+        ],
+        [
+          "Table S2",
+          true
+        ],
+        [
+          "Table S3",
+          true
+        ],
+        [
+          "Table S9",
+          true
+        ]
+      ]
+    },
+    {
+      "check": "current numbered table/panel citations resolve: manuscript/Results_CN.md",
+      "status": "PASS",
+      "detail": [
+        [
+          "Table 1",
+          true
+        ],
+        [
+          "Table S4A",
+          true
+        ],
+        [
+          "Table S4B",
+          true
+        ],
+        [
+          "Table S1B",
+          true
+        ],
+        [
+          "Table S3",
+          true
+        ],
+        [
+          "Table S5A",
+          true
+        ],
+        [
+          "Table S5B",
+          true
+        ],
+        [
+          "Table S6A",
+          true
+        ],
+        [
+          "Table S7",
+          true
+        ],
+        [
+          "Table S6B",
+          true
+        ],
+        [
+          "Table S8A",
+          true
+        ],
+        [
+          "Table S8B",
+          true
+        ],
+        [
+          "Table 2",
+          true
+        ],
+        [
+          "Table S10A,C",
+          true
+        ],
+        [
+          "Table S10B",
+          true
+        ],
+        [
+          "Table S9A,B,D",
+          true
+        ],
+        [
+          "Table S9C",
+          true
+        ]
+      ]
+    },
+    {
+      "check": "current numbered table/panel citations resolve: manuscript/Supporting_Information_CN.md",
+      "status": "PASS",
+      "detail": [
+        [
+          "Table S1B",
+          true
+        ],
+        [
+          "Table S4A",
+          true
+        ],
+        [
+          "Table S4B",
+          true
+        ],
+        [
+          "Table S6A",
+          true
+        ],
+        [
+          "Table S6B",
+          true
+        ],
+        [
+          "Table S8A",
+          true
+        ],
+        [
+          "Table S8B",
+          true
+        ],
+        [
+          "Table S10C",
+          true
+        ],
+        [
+          "Table S10B",
+          true
+        ],
+        [
+          "Table S9C",
+          true
+        ],
+        [
+          "Table S1A",
+          true
+        ],
+        [
+          "Table S9A",
+          true
+        ],
+        [
+          "Table S9B,D",
+          true
+        ]
+      ]
+    },
+    {
+      "check": "explicit supplemental data filenames exist in current ZIP",
+      "status": "PASS",
+      "detail": {
+        "checked": [
+          "CAP5_CLASS_COUNTS.csv",
+          "CAP5_EXCLUDED_LIGANDS.csv",
+          "CURRENT_867_ACTIVITY_SOURCE_CROSSWALK.csv",
+          "Data_Index.csv",
+          "Q110_CHEMBL37_ACTIVITY_ROWS_LONG.csv",
+          "module_D1_composition.csv",
+          "module_D_chemistry_oof_ligands.csv",
+          "module_E_five_seed.csv",
+          "module_I_ligand_ranks.csv"
+        ],
+        "missing": []
+      }
+    },
+    {
+      "check": "Table S7 Panel B not introduced",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "Data_Index fields match revised description",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "no empirical cocrystal 2D similarity claim in accessible active text: manuscript/Results_CN.md",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "no empirical cocrystal 2D similarity claim in accessible active text: manuscript/Supporting_Information_CN.md",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "check": "no new scientific analysis script is added",
+      "status": "PASS",
+      "detail": "This verification uses only text, file hashes, CSV metadata and archive filenames. No RDKit, model, AUROC or bootstrap routines are imported or executed."
+    }
+  ],
+  "protected_files": [
+    {
+      "path": "results/current/PRIMARY_DIRECTIONAL_ANALYSIS_POPULATION.csv",
+      "before_sha256": "659223fc22096b4870d2993aa8b3f0f15c2dac20280b38b484a6b26575cd80e1",
+      "after_sha256": "659223fc22096b4870d2993aa8b3f0f15c2dac20280b38b484a6b26575cd80e1"
+    },
+    {
+      "path": "results/current/pair_ligand_mapping.csv",
+      "before_sha256": "ed55404855ad10592e1bc27562a8203f396643d2c8456f4cc1899e3d1bd7c378",
+      "after_sha256": "ed55404855ad10592e1bc27562a8203f396643d2c8456f4cc1899e3d1bd7c378"
+    },
+    {
+      "path": "results/canonical/model_fold_assignments.csv",
+      "before_sha256": "7d259715cea09f94e57bbe149d8886f7fc376929bbe4002318d8092b45c2ea34",
+      "after_sha256": "7d259715cea09f94e57bbe149d8886f7fc376929bbe4002318d8092b45c2ea34"
+    },
+    {
+      "path": "results/formal_metrics/PRIMARY_DIRECTIONAL_METRICS.csv",
+      "before_sha256": "1f89858e4e40f0b1a244619e8fd13cf3d1fb21e20f6ee4ac0e423fd9361777f7",
+      "after_sha256": "1f89858e4e40f0b1a244619e8fd13cf3d1fb21e20f6ee4ac0e423fd9361777f7"
+    },
+    {
+      "path": "results/formal_metrics/PRIMARY_METHOD_DELTA_METRICS.csv",
+      "before_sha256": "de3031918d937e068533aaf865407a2a60d67f17c1b17b1d45864e2e643ac202",
+      "after_sha256": "de3031918d937e068533aaf865407a2a60d67f17c1b17b1d45864e2e643ac202"
+    },
+    {
+      "path": "results/jcim_stage2/module_D_chemistry_oof_ligands.csv",
+      "before_sha256": "34e1ef414bcca6ee6b13c1f20f8ce804255e11bf164fd3a2891995aad2cb9c3c",
+      "after_sha256": "34e1ef414bcca6ee6b13c1f20f8ce804255e11bf164fd3a2891995aad2cb9c3c"
+    },
+    {
+      "path": "results/jcim_stage2/module_D_chemistry_units.csv",
+      "before_sha256": "6966734ec76a57e2c60be46c9136a042b9c2c9e487a5a760a56c3e82f05b4a86",
+      "after_sha256": "6966734ec76a57e2c60be46c9136a042b9c2c9e487a5a760a56c3e82f05b4a86"
+    },
+    {
+      "path": "results/jcim_stage2/module_D1_composition.csv",
+      "before_sha256": "c49cccb278e39685b5173ebf22655607d5fc44002c35632e15484ca77c530631",
+      "after_sha256": "c49cccb278e39685b5173ebf22655607d5fc44002c35632e15484ca77c530631"
+    },
+    {
+      "path": "reruns/UNIFORM_RERUN_V4_2_20260921/13_qa/redocking_master.csv",
+      "before_sha256": "ad0b33b92c64a67ded51b9ede14b717ed7ec776c9a7bab9375063a3c0bf73cab",
+      "after_sha256": "ad0b33b92c64a67ded51b9ede14b717ed7ec776c9a7bab9375063a3c0bf73cab"
+    },
+    {
+      "path": "submission/SCORING_SCHEMES.csv",
+      "before_sha256": "13a7ae0e7a9868408dc32bb760e90abeb8d7935819eb8be21d3992782b904161",
+      "after_sha256": "13a7ae0e7a9868408dc32bb760e90abeb8d7935819eb8be21d3992782b904161"
+    },
+    {
+      "path": "submission/02_SI_Tables/Table_S7.md",
+      "before_sha256": "e2131c994ab87f4d58725df7f1e89d06ec61f2226624673717e797a8c4fd3d93",
+      "after_sha256": "e2131c994ab87f4d58725df7f1e89d06ec61f2226624673717e797a8c4fd3d93"
+    },
+    {
+      "path": "submission/02_SI_Tables/Supplementary_Tables.xlsx",
+      "before_sha256": "db0b6cc71d17108a40839d4626b6ae6f3628985f7a75f3be2a511f35eb94878b",
+      "after_sha256": "db0b6cc71d17108a40839d4626b6ae6f3628985f7a75f3be2a511f35eb94878b"
+    },
+    {
+      "path": "submission/03_Supplementary_Data/Supplementary_Data.zip",
+      "before_sha256": "170762aea11ea6002067b331937a1ee4eb28b5ebeb08e1b800b4ba3dc5bb3490",
+      "after_sha256": "170762aea11ea6002067b331937a1ee4eb28b5ebeb08e1b800b4ba3dc5bb3490"
+    },
+    {
+      "path": "manuscript/Supplementary_Source_Data.zip",
+      "before_sha256": "2e72cb721bcd90e2b36c97218d95dfedc582173edce3f774b3544a124400f30d",
+      "after_sha256": "2e72cb721bcd90e2b36c97218d95dfedc582173edce3f774b3544a124400f30d"
+    },
+    {
+      "path": "submission/TABLE_INDEX.csv",
+      "before_sha256": "8aa049cb0196d6eb62367b8eb5b8c2fda2ccb66fd742048d153c97a02116b064",
+      "after_sha256": "8aa049cb0196d6eb62367b8eb5b8c2fda2ccb66fd742048d153c97a02116b064"
+    },
+    {
+      "path": "submission/FIGURE_INDEX.csv",
+      "before_sha256": "e921ecc0195fe816ababf2af1578c1fb1fde1edbd3a15681befaf766d4efc775",
+      "after_sha256": "e921ecc0195fe816ababf2af1578c1fb1fde1edbd3a15681befaf766d4efc775"
+    },
+    {
+      "path": "CURRENT_RESULT_AUTHORITIES.json",
+      "before_sha256": "f849c49aa96686f219f7792f8306dbde8177c0f3c54b12d3fbce349787736c84",
+      "after_sha256": "f849c49aa96686f219f7792f8306dbde8177c0f3c54b12d3fbce349787736c84"
+    }
+  ],
+  "scope_limits": [
+    "No stage-A cross-fold nearest-neighbor raw results or script obtained; Panel B not added.",
+    "Current Discussion body is unavailable; no claim of completed Discussion cleanup.",
+    "Word document was read as a Methods reference only and was not modified.",
+    "Historical review PDFs, workbooks and old captions remain source versions."
+  ]
+}

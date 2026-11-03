@@ -20,17 +20,19 @@ PDBFixer 1.12.0 用于已有残基缺失重原子处理，Meeko 0.7.1 用于受�
 
 ## 4. 对接与评分工作流
 
-Vina 1.2.7 使用 vina 评分函数、exhaustiveness=16、num_modes=9、energy_range=6 kcal/mol、cpu=1。主要读数为 seed 42 的 mode 1，并取原始评分相反数。其他四个种子仅作敏感性分析，不挑选最佳种子。
+Vina 1.2.7 使用 vina 评分函数、exhaustiveness=16、num_modes=9、energy_range=6 kcal/mol、cpu=1。S1 为 seed 42 的 Vina mode 1 评分，并取原始评分相反数。其他四个种子仅作敏感性分析，不挑选最佳种子。
 
-GNINA 版本记录为 1.3.2 master:f23dd2b。固定姿态重评分使用 score_only、vina 经验评分与 CNNscore；S2 为 Vina mode 1，S4 为同次保存姿态中的最高 CNNscore。重评分坐标通过冻结 SDF 化学图及 Meeko 原子索引对应，不从空间距离猜测大环闭环。独立 GNINA 对接使用 seed 42、exhaustiveness=16、num_modes=9，以 CNNscore 排序，读取第一姿态。大环输入及原子映射的原始补充配置随包提供。
+GNINA 版本记录为 1.3.2 master:f23dd2b。固定姿态重评分使用 score_only 和 vina 经验评分设置；S2 为对 S1 所用 Vina mode 1 姿态计算的 GNINA CNNscore，S4 为同次 Vina 对接全部保存姿态中的最高 GNINA CNNscore。重评分坐标通过冻结 SDF 化学图及 Meeko 原子索引对应，不从空间距离猜测大环闭环。S5 为 GNINA 独立对接，使用 seed 42、exhaustiveness=16、num_modes=9，以 CNNscore 排序，读取第一姿态的 CNNscore。大环输入及原子映射的原始补充配置随包提供。
 
-RTMScore 使用 `rtmscore_model1.pth`，固定 Vina mode 1，口袋截取距离为 10 Å，不进行模型集成。冻结环境记录为 Python 3.10.20、PyTorch 2.6.0。不同计算阶段环境分别记录，不将某个分析环境版本推定为全部历史准备环境版本。
+S3 为 RTMScore，使用 `rtmscore_model1.pth` 对 S1 所用 Vina mode 1 姿态评分，口袋截取距离为 10 Å，不进行模型集成。冻结环境记录为 Python 3.10.20、PyTorch 2.6.0。不同计算阶段环境分别记录，不将某个分析环境版本推定为全部历史准备环境版本。
+
+GNINA 原始记录中另保存了 CNNaffinity，但未将其纳入本研究的正式评价。S2、S4 和 S5 的评价读数均为 CNNscore。五种评分方案的关系见 Scheme S1，正式编号见 `SCORING_SCHEMES.csv`。
 
 ## 5. 统计、人群与联合排序
 
-方向性指标、置信区间、方法差值均从已验收结果复制。bootstrap 为 10,000 次、NumPy default_rng seed 271828，每个单元重置；dual 与两类单靶配体分层抽样，两个方向共用 dual 抽样。summary_min 在每次重采样中取较小方向。方法比较保留同一成员的配对关系，不通过两个独立区间是否重叠判断差异。
+方向性指标、置信区间、方法差值均从已验收结果复制。bootstrap 为 10,000 次、NumPy default_rng seed 271828，每个单元重置；dual 与两类单靶配体分层抽样，两个方向共用 dual 抽样。D_vs_A 使用靶点 B 的评分比较 dual 与 A-only，D_vs_B 使用靶点 A 的评分比较 dual 与 B-only。summary_min 的点估计取两个方向 AUROC 的较小值；在每次重采样内部也取两个方向 AUROC 的较小值，再由该重采样分布给出区间。方法比较保留同一成员的配对关系，不通过两个独立区间是否重叠判断差异。
 
-化学模型使用八项描述符、ECFP4 或 ECFP4＋Vina；指纹为 radius 2、2048 bit、useChirality=False、useFeatures=False。逻辑回归采用 L2、C=1、liblinear、max_iter=1000，缩放参数只在训练折拟合。既有固定五折分配和 Q110 的规范骨架排序循环分配均按当前文件保留。本次表格整理不拟合模型。
+化学模型使用八项描述符、ECFP4 或 ECFP4＋Vina；指纹为 radius 2、2048 bit、useChirality=False、useFeatures=False。逻辑回归采用 L2、C=1、liblinear、max_iter=1000，缩放参数只在训练折拟合。既有固定五折分配和 Q110 的规范骨架排序循环分配均按当前文件保留。本次文字与 SI 修订不拟合模型。配体化学组成文件中的 `max_ecfp4_tanimoto_other_class` 为同一靶点对、同一方向内相对于另一活性类别的最大 ECFP4 Tanimoto 相似性（Figure S6；Supplementary Data）。该字段描述标签层的跨类别相似性，不表示测试折配体相对于训练折的最近邻相似性。
 
 联合排名取两个靶点名次的较大值。单靶并列使用平均名次，联合并列按名次之和、全局分子 ID 排序，k=ceil(0.10N)。方法自身组成与相对 Vina 的共同成员比较分别展示。S4−S1 仅为支持性方向点估计，不新增置信区间；完整来源和成员关系随数据包保留。
 
