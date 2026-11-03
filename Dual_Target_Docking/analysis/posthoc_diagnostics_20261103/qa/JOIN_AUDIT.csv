@@ -1,0 +1,7 @@
+join,left_n,right_n,matched_n,unmatched_left_n,duplicate_key_n,one_to_many,note
+mapping_raw_duplicate_keys,870,870,869,0,1,YES,AB_040 is the parent_independent=0 alias of AB_046; canonical SMILES and global entity match the retained row. Analysis uses parent_independent=1 only.
+oof_to_fold_assignments,994,1087,994,0,0,NO,fold_id in the OOF file matched the stored fold_id for every joined row
+oof_to_parent_independent_mapping,994,869,994,0,0,NO,alias rows excluded before join: 1
+egfr_primary_to_D1,60,60,60,0,0,NO,pair + canonical_ligand_id + class; arm fixed to D_vs_B
+egfr_primary_to_activity_crosswalk_805,60,109,60,0,0,NO,"chembl37_dual_endpoint_crosswalk_805 historical_panel endpoint maxima; accepted only when dump_max, historical_panel and historical_aggregate_max agree exactly and class_matches_frozen is YES"
+egfr_primary_and_neither_to_provenance_867,72,867,72,0,0,NO,pair + panel_id; class columns were not used as the join key

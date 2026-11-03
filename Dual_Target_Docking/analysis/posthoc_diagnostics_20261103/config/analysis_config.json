@@ -1,0 +1,66 @@
+{
+  "analysis_id": "posthoc_diagnostics_20261103",
+  "baseline_branch": "cursor/v4-2-final-audited-results-20260930",
+  "baseline_commit": "d1ca17512eabe5c9d102ebe75c3f9c59668452dc",
+  "work_branch": "cursor/jcim-posthoc-diagnostics-20261103",
+  "pair_order": [
+    "EGFR/HER2",
+    "JAK1/JAK2",
+    "JAK1/TYK2",
+    "PIK3CA/mTOR",
+    "AChE/BChE",
+    "F2/F10",
+    "PPARG/PPARA",
+    "PPARA/PPARD"
+  ],
+  "seven_pairs_for_conditional_scaffold_cv": [
+    "EGFR/HER2",
+    "JAK1/JAK2",
+    "JAK1/TYK2",
+    "AChE/BChE",
+    "F2/F10",
+    "PPARG/PPARA",
+    "PPARA/PPARD"
+  ],
+  "random_seed": 271828,
+  "ecfp": {"radius": 2, "n_bits": 2048, "use_chirality": false, "use_features": false},
+  "logistic_regression": {
+    "penalty": "l2",
+    "C": 1.0,
+    "solver": "liblinear",
+    "class_weight": null,
+    "max_iter": 1000,
+    "random_state": 271828
+  },
+  "tanimoto_descriptive_cutoffs": [0.7, 0.85],
+  "topk_fractions": [0.05, 0.1, 0.2],
+  "formal_topk_fraction": 0.1,
+  "k_rule": "ceil(p * N)",
+  "score_direction": "higher_better_as_stored",
+  "auroc_tie": 0.5,
+  "egfr_formal_d_vs_b_auroc": 0.2466517857,
+  "egfr_expected_n_dual": 28,
+  "egfr_expected_n_b_only": 32,
+  "activity_bins_b_only_egfr": ["<5.0", "5.0_to_<5.5", "5.5_to_<6.0", ">=6.0"],
+  "descriptors": [
+    "MolWt",
+    "MolLogP",
+    "TPSA",
+    "NumHDonors",
+    "NumHAcceptors",
+    "NumRotatableBonds",
+    "RingCount",
+    "FormalCharge"
+  ],
+  "expected_counts": {
+    "eligible_observations": 867,
+    "global_entities": 845,
+    "dual": 248,
+    "A_only": 256,
+    "B_only": 252,
+    "neither": 111,
+    "labeled_directional": 1004,
+    "m0_directional": 1000,
+    "chemistry_oof": 994
+  }
+}
