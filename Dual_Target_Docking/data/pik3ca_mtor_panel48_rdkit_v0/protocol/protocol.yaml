@@ -10,5 +10,7 @@ targets:
   PIK3CA: {pdb: 4L23, receptor: receptors/4L23_receptor.pdbqt}
   MTOR: {pdb: 4JT6, receptor: receptors/4JT6_receptor.pdbqt}
 note: >
-  Same receptors/boxes/E as LigPrep panel48; only ligand prep changed to RDKit
-  for cross-pair unity with EGFR EH110 / M4.
+  Same frozen receptors, boxes, and exhaustiveness as the predecessor panel;
+  ligands in the current primary panel were prepared with RDKit/Meeko.
+  A local LigPrep job log exists for an earlier panel48 campaign; that is
+  not evidence that current primary scores used LigPrep coordinates.

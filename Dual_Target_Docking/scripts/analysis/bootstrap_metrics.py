@@ -24,11 +24,7 @@ import math
 
 import numpy as np
 
-N_BOOT = 2000
-SEED = 20260729
-THETA_PRIMARY = 6.0
-STRICT_HI = 6.5
-STRICT_LO = 5.5
+from analysis.analysis_config import N_BOOT, SEED, STRICT_HI, STRICT_LO, THETA_PRIMARY  # noqa: E402
 
 
 def auroc(pos, neg) -> float:

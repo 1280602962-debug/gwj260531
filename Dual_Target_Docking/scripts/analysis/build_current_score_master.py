@@ -1,48 +1,38 @@
 #!/usr/bin/env python3
 """Build the unique current per-ligand score master (zero-dock).
 
-EGFR/HER2: corrected-box ablation scores (not review_scored_membership).
+EGFR/HER2: uniform RDKit/Meeko Vina (seed 20260727) when that table exists;
+otherwise historical corrected-box ablation scores.
 AChE/BChE: corrected panel + scores.
 PIK3CA/mTOR: PM48 rdkit production scores.
 Track B five pairs: scores_vina_mode1_v1.csv.
 
 Writes:
-  data/processed/current_score_master.csv
-  results/canonical/current_score_master.csv
+  results/canonical/current_score_master.csv  (current authority)
+  data/processed/CURRENT_SCORE_MASTER.md     (pointer only)
   results/canonical/score_master_migration_diff.md
 """
 from __future__ import annotations
 
 import csv
-import math
 import sys
 from collections import Counter, defaultdict
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "scripts"))
-from analysis.bootstrap_metrics import assign_fourclass  # noqa: E402
-
-PRIMARY_PAIRS = (
-    "EGFR/HER2",
-    "JAK1/JAK2",
-    "JAK1/TYK2",
-    "PIK3CA/mTOR",
-    "AChE/BChE",
-    "F2/F10",
-    "PPARG/PPARA",
-    "PPARA/PPARD",
+from analysis.analysis_config import (  # noqa: E402
+    EGFR_PRODUCTION_SEED,
+    EGFR_UNIFORM_VINA_CSV,
+    PRIMARY_PAIRS,
+    RECEPTORS,
+    add_io_args,
+    current_egfr_score_source,
+    egfr_uniform_ready,
+    io_paths,
+    parse_finite,
 )
-RECEPTORS = {
-    "EGFR/HER2": ("3POZ", "3RCD"),
-    "JAK1/JAK2": ("6N7A", "8BXH"),
-    "JAK1/TYK2": ("6N7A", "3LXP"),
-    "PIK3CA/mTOR": ("4L23", "4JT6"),
-    "AChE/BChE": ("4EY7", "4BDS"),
-    "F2/F10": ("4UDW", "2JKH"),
-    "PPARG/PPARA": ("9V8H", "6LXA"),
-    "PPARA/PPARD": ("6LXA", "5U3Q"),
-}
+from analysis.bootstrap_metrics import assign_fourclass  # noqa: E402
 FIELDS = [
     "pair",
     "ligand_id",
@@ -64,23 +54,23 @@ FIELDS = [
     "postfix_status",
     "activity_eligible",
     "activity_status",
+    "activity_source_kind",
+    "activity_source_file",
     "historical_pA",
     "historical_pB",
     "n_act_A",
     "n_act_B",
 ]
+ADJUDICATION_FILE = "data/processed/activity_adjudication/ligand_activity_aggregate_v1.csv"
+ADJUDICATED_PANEL_FILES = {
+    "EGFR/HER2": "data/egfr_her2_panel120_v0/tables/panel_v0_120.csv",
+    "AChE/BChE": "data/ache_bche_panel_v0/tables/panel_v0_strict.csv",
+    "PIK3CA/mTOR": "data/pik3ca_mtor_panel48_rdkit_v0/tables/panel_v0_48.csv",
+}
 
 
 def fnum(v):
-    if v is None or v == "":
-        return None
-    try:
-        x = float(v)
-    except (TypeError, ValueError):
-        return None
-    if not math.isfinite(x):
-        return None
-    return x
+    return parse_finite(v)
 
 
 def read_csv(path: Path) -> list[dict]:
@@ -109,6 +99,8 @@ def row_of(**kwargs) -> dict:
     rec["complete_case"] = int(sa is not None and sb is not None)
     rec["activity_eligible"] = rec.get("activity_eligible") if rec.get("activity_eligible") not in ("", None) else 1
     rec["activity_status"] = rec.get("activity_status") or "panel_default"
+    rec["activity_source_kind"] = rec.get("activity_source_kind") or ""
+    rec["activity_source_file"] = rec.get("activity_source_file") or ""
     rec["historical_pA"] = rec.get("historical_pA") if rec.get("historical_pA") not in ("", None) else rec["pA"]
     rec["historical_pB"] = rec.get("historical_pB") if rec.get("historical_pB") not in ("", None) else rec["pB"]
     rec["n_act_A"] = rec.get("n_act_A") if rec.get("n_act_A") not in ("", None) else ""
@@ -123,13 +115,44 @@ def row_of(**kwargs) -> dict:
 
 
 def load_egfr() -> list[dict]:
-    scores = {r["ligand"]: r for r in read_csv(ROOT / "data/egfr_her2_panel120_v0/tables/ablation_ligand_scores.csv")}
     panel = {r["panel_id"]: r for r in read_csv(ROOT / "data/egfr_her2_panel120_v0/tables/panel_v0_120.csv")}
+    source = current_egfr_score_source()
+    scores: dict[str, dict] = {}
+    if egfr_uniform_ready():
+        postfix = "uniform_rdkit_meeko"
+        for r in read_csv(EGFR_UNIFORM_VINA_CSV):
+            if str(r.get("seed")) != str(EGFR_PRODUCTION_SEED):
+                continue
+            if r.get("status") not in {"ok", "success"}:
+                continue
+            energy = fnum(r.get("vina_mode1"))
+            if energy is None:
+                continue
+            lig = r["ligand"]
+            rec = scores.setdefault(lig, {})
+            if r.get("pdb") == "3POZ":
+                rec["affinity_A"] = energy
+                rec["score_A"] = -energy
+            elif r.get("pdb") == "3RCD":
+                rec["affinity_B"] = energy
+                rec["score_B"] = -energy
+        ligands = list(panel.keys())
+    else:
+        postfix = "corrected_box"
+        for r in read_csv(ROOT / "data/egfr_her2_panel120_v0/tables/ablation_ligand_scores.csv"):
+            scores[r["ligand"]] = {
+                "score_A": fnum(r.get("vina_3POZ_hb")),
+                "score_B": fnum(r.get("vina_3RCD_hb")),
+                "affinity_A": fnum(r.get("3POZ_affinity")),
+                "affinity_B": fnum(r.get("3RCD_affinity")),
+                "molecule_chembl_id": r.get("molecule_chembl_id"),
+                "class": r.get("class"),
+            }
+        ligands = list(scores.keys())
     out = []
-    for lig, s in scores.items():
+    for lig in ligands:
         p = panel.get(lig, {})
-        sa = fnum(s.get("vina_3POZ_hb"))
-        sb = fnum(s.get("vina_3RCD_hb"))
+        s = scores.get(lig, {})
         out.append(
             row_of(
                 pair="EGFR/HER2",
@@ -139,13 +162,13 @@ def load_egfr() -> list[dict]:
                 construction_class=s.get("class") or p.get("class", ""),
                 pA=p.get("pchembl_EGFR"),
                 pB=p.get("pchembl_HER2"),
-                score_A=sa,
-                score_B=sb,
-                affinity_A=fnum(s.get("3POZ_affinity")),
-                affinity_B=fnum(s.get("3RCD_affinity")),
+                score_A=s.get("score_A"),
+                score_B=s.get("score_B"),
+                affinity_A=s.get("affinity_A"),
+                affinity_B=s.get("affinity_B"),
                 analysis_set="main",
-                score_source="data/egfr_her2_panel120_v0/tables/ablation_ligand_scores.csv",
-                postfix_status="corrected_box",
+                score_source=source,
+                postfix_status=postfix,
             )
         )
     return out
@@ -414,33 +437,64 @@ def compare_membership(master: list[dict]) -> str:
     return "\n".join(lines) + "\n"
 
 
+def _tag_activity_provenance(rec: dict, adj: dict | None) -> dict:
+    """Label source of activity values. Does not change pChEMBL or class."""
+    pair = rec["pair"]
+    if adj is not None and rec.get("analysis_set") == "main":
+        if adj.get("activity_status") == "panel_pchembl_no_audit_rows":
+            rec["activity_source_kind"] = "panel_pchembl_no_audit_rows"
+            rec["activity_source_file"] = ADJUDICATED_PANEL_FILES.get(pair, "")
+        else:
+            rec["activity_source_kind"] = "chembl_assay_adjudicated"
+            rec["activity_source_file"] = ADJUDICATION_FILE
+        return rec
+    if pair in TRACK_B_PANELS:
+        rec["activity_source_kind"] = "chembl37_dump_panel"
+        if rec.get("analysis_set") == "holdout":
+            rec["activity_source_file"] = TRACK_B_HOLDOUT.get(pair, "")
+        else:
+            rec["activity_source_file"] = TRACK_B_PANELS[pair]
+        return rec
+    return rec
+
+
 def apply_adjudication(rows: list[dict]) -> list[dict]:
-    path = ROOT / "data/processed/activity_adjudication/ligand_activity_aggregate_v1.csv"
+    path = ROOT / ADJUDICATION_FILE
     if not path.is_file():
         raise SystemExit("missing activity adjudication table; run scripts/analysis/adjudicate_activity_records.py first")
     by = {(r["pair"], r["ligand"]): r for r in read_csv(path)}
     out = []
     for rec in rows:
-        adj = by.get((rec["pair"], rec["ligand_id"]))
-        if adj is None or rec.get("analysis_set") != "main":
-            out.append(rec)
-            continue
         rec = dict(rec)
-        rec["historical_pA"] = adj.get("historical_pA", rec["pA"])
-        rec["historical_pB"] = adj.get("historical_pB", rec["pB"])
-        rec["n_act_A"] = adj.get("n_act_A", "")
-        rec["n_act_B"] = adj.get("n_act_B", "")
-        rec["activity_eligible"] = int(adj.get("activity_eligible") or 0)
-        rec["activity_status"] = adj.get("activity_status") or rec.get("activity_status") or ""
-        pa, pb = fnum(adj.get("max_A")), fnum(adj.get("max_B"))
-        rec["pA"] = "" if pa is None else pa
-        rec["pB"] = "" if pb is None else pb
-        rec["primary_class_theta6"] = assign_fourclass(pa, pb) or ""
-        out.append(rec)
+        adj = by.get((rec["pair"], rec["ligand_id"]))
+        if adj is not None and rec.get("analysis_set") == "main":
+            rec["historical_pA"] = adj.get("historical_pA", rec["pA"])
+            rec["historical_pB"] = adj.get("historical_pB", rec["pB"])
+            rec["n_act_A"] = adj.get("n_act_A", "")
+            rec["n_act_B"] = adj.get("n_act_B", "")
+            rec["activity_eligible"] = int(adj.get("activity_eligible") or 0)
+            rec["activity_status"] = adj.get("activity_status") or rec.get("activity_status") or ""
+            pa, pb = fnum(adj.get("max_A")), fnum(adj.get("max_B"))
+            rec["pA"] = "" if pa is None else pa
+            rec["pB"] = "" if pb is None else pb
+            rec["primary_class_theta6"] = assign_fourclass(pa, pb) or ""
+        out.append(_tag_activity_provenance(rec, adj))
     return out
 
 
 def main() -> int:
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Build the unique current per-ligand score master (zero-dock).")
+    add_io_args(parser)
+    parser.add_argument(
+        "--also-canonical",
+        action="store_true",
+        help="Also write data/processed and results/canonical (default freeze rebuild writes only --outdir).",
+    )
+    args = parser.parse_args()
+    outdir, _master = io_paths(args.outdir, args.master)
+
     rows = []
     rows.extend(load_egfr())
     rows.extend(load_ache())
@@ -449,7 +503,6 @@ def main() -> int:
     rows.extend(load_holdout_ab_pm())
     rows.extend(load_holdout_track_b())
     rows = apply_adjudication(rows)
-    # uniqueness
     seen = set()
     for r in rows:
         key = (r["pair"], r["ligand_id"], r["analysis_set"])
@@ -457,15 +510,25 @@ def main() -> int:
             raise SystemExit(f"duplicate master key {key}")
         seen.add(key)
     rows.sort(key=lambda r: (PRIMARY_PAIRS.index(r["pair"]) if r["pair"] in PRIMARY_PAIRS else 99, r["analysis_set"], r["ligand_id"]))
-    dests = [
-        ROOT / "data/processed/current_score_master.csv",
-        ROOT / "results/canonical/current_score_master.csv",
-    ]
+    dests = [outdir / "current_score_master.csv"]
+    if args.also_canonical or args.outdir is None:
+        dests.append(ROOT / "results/canonical/current_score_master.csv")
+    written = []
     for dest in dests:
+        dest.parent.mkdir(parents=True, exist_ok=True)
         write_csv(dest, rows)
-        print("wrote", dest.relative_to(ROOT), len(rows))
+        written.append(str(dest))
+        print("wrote", dest, len(rows))
+    pointer = ROOT / "data/processed/CURRENT_SCORE_MASTER.md"
+    pointer.parent.mkdir(parents=True, exist_ok=True)
+    pointer.write_text(
+        "# Current score master (pointer)\n\n"
+        "Authority: `results/canonical/current_score_master.csv`.\n"
+        "This directory does not hold a second authoritative copy.\n",
+        encoding="utf-8",
+    )
     report = compare_membership(rows)
-    rep = ROOT / "results/canonical/score_master_migration_diff.md"
+    rep = outdir / "score_master_migration_diff.md"
     rep.parent.mkdir(parents=True, exist_ok=True)
     rep.write_text(report, encoding="utf-8")
     print(report)

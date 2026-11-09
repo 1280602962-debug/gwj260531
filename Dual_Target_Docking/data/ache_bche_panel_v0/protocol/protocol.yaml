@@ -7,6 +7,12 @@ exhaustiveness: 8
 ligand_prep: rdkit_etkdg_meeko
 rtm: best-of-9
 label_rule: strict_6.5_5.5
+label_rule_scope: panel_construction_quota_only
+primary_evaluation_theta: 6.0
+note: >
+  strict_6.5_5.5 is the panel-construction quota. Primary Table 2 uses
+  theta=6.0 four-class labels after assay adjudication. These are not two
+  competing current class definitions.
 targets:
   ACHE: {pdb: 4EY7, cognate: E20, cognate_rmsd: 0.339, receptor: receptors/ACHE_receptor.pdbqt}
   BCHE: {pdb: 4BDS, cognate: THA, cognate_rmsd: 0.386, receptor: receptors/BCHE_receptor.pdbqt}

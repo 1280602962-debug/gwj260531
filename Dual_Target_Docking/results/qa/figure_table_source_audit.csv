@@ -1,0 +1,36 @@
+item,displayed,canonical_or_frozen_source,row_or_key,generating_script,status
+Table 1,pair quotas / PDB / exhaustiveness / n_scored,results/canonical/class_counts.csv + panel CSVs + analysis_config.RECEPTORS,eight PRIMARY_PAIRS,scripts/analysis/compute_canonical_results.py,canonical_exists; lock previously named unspecified panel tables
+Table 2,directional AUROC + summary_min + n_scored,results/canonical/primary_directional_auroc.csv; primary_summary_min.csv; class_counts.csv,pair,scripts/analysis/compute_canonical_results.py,canonical_exists; historical unified_threshold_sensitivity_v2.csv superseded
+Table 3,two-pocket mean D-vs-neither; Top10%; EF,results/canonical/two_pocket_mean_ranking.csv; top10_operating_points.csv,pair,scripts/analysis/compute_canonical_results.py,canonical_exists
+Table S1,computational settings,scripts/analysis/analysis_config.py; requirements-analysis.txt; data/jcim_strengthen_t0t1_v0/ENV_PIN.md,constants,n/a (typeset from config),config_exists; analysis freeze Python 3.12.3
+Table S2,receptors/boxes/RMSD,results/canonical/cognate_rmsd.csv copied from all14_cognate_rmsd_calcrrms_v1.csv; pair box json,14 pdb slots,scripts/analysis/compute_canonical_results.py,canonical_exists; receptor prep method not in S2
+Table S3,threshold / max-vs-median,results/canonical/label_aggregation_sensitivity.csv; max_vs_median_sensitivity.csv,pair,scripts/analysis/compute_canonical_results.py,canonical_exists
+Table S4,fixed-score Δ; cluster bootstrap; detectable-effect,results/canonical/fixed_score_negative_class_delta.csv; cluster_bootstrap_sensitivity.csv; detectable_effect_simulation.csv,pair/contrast,compute_canonical_results.py; compute_detectable_effect.py,canonical_exists
+Table S5,descriptor / ECFP / incremental,results/canonical/descriptor_baselines.csv; descriptor_nested_scaffold_cv.csv; ecfp4_incremental_information.csv; ecfp4_scaler_sensitivity.csv,pair/arm/model,compute_descriptor_baselines.py; fit_ecfp4_models.py,canonical_exists
+Table S6,matched vs mismatched main+holdout,results/canonical/matched_mismatched_pocket.csv; matched_minus_mismatched.csv; holdout_metrics.csv,pair,scripts/analysis/compute_canonical_results.py,canonical_exists
+Table S7,GNINA / receptor swap / RTM/CNN / five-seed,results/canonical/computational_robustness.csv; receptor_substitution.csv; five_seed_summary_min.csv,pair/channel,scripts/analysis/compute_canonical_results.py,canonical_exists
+Table S8,external eligibility,results/canonical/external_eligibility.csv from external_slice_summary_v1.csv,pair,scripts/analysis/compute_canonical_results.py,canonical_exists
+Table S9,pair eligibility,data/jcim_chembl_universe_v0/tables/pair_eligibility_audit_s14_v1.csv,pair,frozen audit table,exists; TIER1/FEASIBLE md cited but missing
+Table S10,ranking operating points + AND filter,results/canonical/top10_operating_points.csv; and_filter_operating_points.csv,pair,scripts/analysis/compute_canonical_results.py,canonical_exists
+Figure 1A,four-state schematic,schematic,n/a,figures/jcim_article/scripts/update_figures_pr32.py,schematic
+Figure 1B,directional schematic,schematic,n/a,update_figures_pr32.py,schematic
+Figure 1C,universe census counts,data/jcim_chembl_universe_v0/tables/universe_census_summary_v1.csv,census rows,update_figures_pr32.py,exists
+Figure 2A,fixed-score ΔAUROC,results/canonical/fixed_score_negative_class_delta.csv,pair × direction,update_figures_pr32.py,canonical; lock historical name superseded
+Figure 2B,two directional AUROCs,results/canonical/primary_directional_auroc.csv,pair,update_figures_pr32.py,canonical
+Figure 2C,summary_min vs two-pocket mean,results/canonical/primary_summary_min.csv; two_pocket_mean_ranking.csv; class_counts.csv,pair,update_figures_pr32.py,canonical
+Figure 2D,top-10% stacked bars,results/canonical/top10_operating_points.csv,pair,update_figures_pr32.py,canonical
+Figure 3A,Vina vs ECFP4 OOF,results/canonical/ecfp4_incremental_information.csv,pair/arm,fit_ecfp4_models.py; update_figures_pr32.py,canonical
+Figure 3B,ΔAUROC ECFP4+docking − ECFP4,results/canonical/ecfp4_incremental_information.csv,max |Δ|=0.0234 PPARA/PPARD D vs B,fit_ecfp4_models.py; update_figures_pr32.py,canonical; 0.0112 superseded
+Figure 4A,main matched−mismatched,results/canonical/matched_mismatched_pocket.csv,pair main_panel,update_figures_pr32.py,canonical
+Figure 4B,holdout matched−mismatched,results/canonical/holdout_metrics.csv,pair holdout,update_figures_pr32.py,canonical
+Figure 5A,independent GNINA,results/canonical/computational_robustness.csv,EGFR/PIK3CA/JAK1-TYK2,update_figures_pr32.py,canonical; EGFR ligand-prep chain broken
+Figure 5B,PIK3CA receptor substitution,results/canonical/receptor_substitution.csv,alt pdb,update_figures_pr32.py,canonical
+Figure 5C,five-seed summary_min range,results/canonical/five_seed_summary_min.csv,pair × seed,update_figures_pr32.py,canonical; EGFR inputs not_recoverable
+Figure S1A,best descriptor vs Vina,results/canonical/descriptor_baselines.csv,pair,update_figures_pr32.py,canonical
+Figure S1B,AChE TPSA jitter,results/canonical/current_score_master.csv,AChE/BChE ligands,update_figures_pr32.py,canonical; lock assembled_AChE_BChE.csv superseded
+Figure S2A,PM48 vs PM110,results/canonical/protocol_sensitivity.csv,PIK3CA/mTOR,update_figures_pr32.py,canonical
+Figure S2B,E16 vs E8,results/canonical/protocol_sensitivity.csv,PIK3CA/mTOR,update_figures_pr32.py,canonical
+Figure S3,14-slot cognate RMSD,results/canonical/cognate_rmsd.csv,pdb,update_figures_pr32.py,canonical
+Figure S4A,theta sensitivity,results/canonical/label_aggregation_sensitivity.csv,pair/theta,update_figures_pr32.py,canonical; lock historical name superseded
+Figure S4B,cluster bootstrap,results/canonical/cluster_bootstrap_sensitivity.csv,pair,update_figures_pr32.py,canonical
+Figure S5A/B,external eligibility,results/canonical/external_eligibility.csv,pair,update_figures_pr32.py,canonical

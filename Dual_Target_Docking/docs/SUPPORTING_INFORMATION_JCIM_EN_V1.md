@@ -1,8 +1,8 @@
 # Supporting Information (English, merged submission draft)
 
 **Article companion:** `MANUSCRIPT_JCIM_EN.md`  
-**Numeric rule:** cells below are read from frozen CSVs. Displayed values are three-decimal rounded from the CSV string (half-up or, where already typeset, half-even / banker's). A trailing digit of exactly 5 can therefore appear as either neighbor (for example 0.5045 as 0.504 or 0.505). The CSV is authoritative. EGFR/HER2 Table 2 TPSA is 0.4275 → 0.428.  
-**Scope:** typeset Tables S1–S10 answer four questions: how data and docking were done; where the core fixed-channel results come from; whether ligand chemistry and pocket correspondence support attribution; and whether the main conclusions are obviously unstable to labels, sample, or computational realization. Table S10 reports the eight-pair candidate-ranking operating points that correspond to Figure 2D. Historical coordinate-assignment RMSD, five-seed long tables, fixed-membership intersections, non-stratified bootstrap sensitivity, the eight-pair detectable-effect simulation summarized after Table S4 (`results/canonical/detectable_effect_simulation.csv`), raw BindingDB/PubChem supply counts, literature-year splits, and per-ligand or exploratory slices remain in the public repository with SHA-256 checksums. They are not repeated as typeset tables.  
+**Numeric rule:** cells below are read from frozen CSVs. Displayed values are three-decimal rounded from the CSV string (half-up or, where already typeset, half-even / banker's). A trailing digit of exactly 5 can therefore appear as either neighbor (for example 0.5045 as 0.504 or 0.505). The CSV is authoritative. EGFR/HER2 full-panel TPSA `summary_min` is 0.4389 → 0.439 (a descriptor AUROC, not a Table 2 docking AUROC).  
+**Scope:** typeset Tables S1–S10 answer four questions: how data and docking were done; where the core fixed-channel results come from; whether ligand chemistry and pocket correspondence support attribution; and whether the main conclusions are obviously unstable to labels, sample, or computational realization. Table S10 reports the eight-pair candidate-ranking operating points that correspond to Figure 2D. Historical coordinate-assignment RMSD, five-seed long tables, fixed-membership intersections, non-stratified bootstrap sensitivity, the eight-pair detectable-effect simulation summarized after Table S4 (`results/canonical/detectable_effect_simulation.csv`), raw BindingDB/PubChem supply counts, literature-year splits, and per-ligand or exploratory slices remain in the public repository. Archive checksum manifests are integrity records, not scientific PASS/FAIL authority. They are not repeated as typeset tables.  
 **Legacy maps:** former 54-table numbering is `data/manuscript_lock/SI_TABLE_MERGE_MAP_v1.csv`. The immediately previous typeset set was Tables S1–S14; the remap is listed after Table S10.
 
 **Main-text tables (not repeated here):** Table 1 panel composition; Table 2 eight-pair directional AUROC; Table 3 candidate-ranking consequence (two-pocket mean D-versus-neither, Top 10%, \(\mathrm{EF}_{\mathrm{dual},10\%}\)).
@@ -11,23 +11,26 @@
 
 ## Table S1. Computational settings and statistical definitions
 
+Analysis freeze and docking/preparation are separate environments. Analysis versions are the writing-freeze pin. Docking versions are written only when a yaml, ENV_PIN snapshot, or script records them. The analysis RDKit pin is not back-dated onto historical ligand PDBQT.
+
 | Item | Value |
 |------|------|
-| Production Python / RDKit / Meeko | Frozen local env; RDKit 2026.3.1; Meeko 0.7.1 |
-| Zero-dock reanalysis | Python 3.12.13; RDKit 2026.3.5; NumPy 2.5.2; pandas 3.0.5; SciPy 1.18.1; scikit-learn 1.9.0 (`requirements-analysis.txt`) |
+| Analysis freeze | Python 3.12.3; NumPy 2.5.2; pandas 3.0.5; SciPy 1.18.1; scikit-learn 1.9.0; RDKit 2026.03.5 (`requirements-analysis.txt`) |
+| Docking / preparation (direct evidence only) | AutoDock Vina 1.2.7 (`track_b_local_run_v1.yaml`; vina binary). Meeko 0.7.1 (Track-B yaml). Local docking-machine snapshot 2026-07-29 in `data/jcim_strengthen_t0t1_v0/ENV_PIN.md`: RDKit 2026.3.1 from `pip show rdkit` on that machine; this is not proof that every deposited ligand PDBQT was generated under that pin |
 | AutoDock Vina | 1.2.7; default `vina`; n_modes = 9; energy_range = 3 kcal mol⁻¹ |
-| GNINA | 1.3.2; CPU `--no_gpu` |
+| GNINA | 1.3.2; CPU `--no_gpu` (ENV_PIN + independent-dock yaml) |
 | RTMScore | `rtmscore_model1` |
-| Ligand prep | Desalt (largest organic) → AddHs → ETKDGv3 (seed 20260727) → MMFF ≤200 → Meeko PDBQT |
+| Ligand prep (Track-B, PIK3CA, AChE recovered scripts) | Desalt (largest organic) → AddHs → ETKDGv3 (seed 20260727) → MMFF ≤200 → Meeko PDBQT. Exact production ligand PDBQT for those packs are not deposited. EGFR original ligand PDBQT are not recoverable; the uniform RDKit/Meeko rebuild is documented separately |
+| Receptor prep | Frozen deposited PDBQT; 14-slot registry `data/provenance/receptor_input_registry.csv`. Not a uniform Meeko or Protein Preparation Wizard campaign |
 | Panel / holdout seeds | 20260729 / 20260731 |
 | Vina production seed | 20260727; five-seed archive adds 20260811–20260814 |
-| Exhaustiveness | PIK3CA/mTOR = 16; all other primary panels and holdouts = 8 |
+| Exhaustiveness | PRIMARY: PIK3CA/mTOR = 16; all other primary panels and holdouts = 8. SENSITIVITY: PIK3CA E=8, PM110, 4JPS/5DXT/4JSX |
 | Bootstrap | B = 2000. Table 2 reports pointwise directional intervals and a replicate-wise `summary_min` interval from the class-stratified nonparametric percentile bootstrap (B = 2000, seed 20260729). Dual ligands are shared across the two directional AUROCs inside each replicate. Dual-versus-neither uses the same class-stratified protocol; matched-minus-mismatched uses paired ligand resampling. A non-stratified ligand bootstrap is archived as sensitivity (`non_stratified_bootstrap_sensitivity.csv`) and does not replace Table 2 |
 | GroupKFold / logistic | splits = min(5, n_scaffolds, class counts); C = 1.0; max_iter = 4000; default non-shuffled GroupKFold |
 | Box | Cognate AABB + 5 Å; minimum edge 20 Å |
 | Cognate gate | lowest heavy-atom RMSD among all saved poses < 2.0 Å (search coverage, not top-1 ranking) |
 
-Ligands need both-end scores for directional AUROC; n_scored may be below n_panel (Table 1). Source: `ENV_PIN.md`; `docking_failure_census_v1.csv`.
+Ligands need both-end scores for directional AUROC; n_scored may be below n_panel (Table 1). Source: `data/jcim_strengthen_t0t1_v0/ENV_PIN.md`; `docs/PROTOCOL_LEVELS.md`; `requirements-analysis.txt`. Archive checksum manifests are integrity records, not scientific PASS/FAIL authority.
 
 ---
 
@@ -85,10 +88,10 @@ Relabeling on frozen Vina scores. Primary analysis is θ = 6.0 (Table 2). The ta
 
 | Pair | Label rule | n (D / A / B) | summary_min | 95% CI |
 |------|----------|--------------:|------------:|--------|
-| EGFR/HER2 | θ = 5.5 | 69 / 21 / 10 | 0.380 | [0.193, 0.603] |
-| EGFR/HER2 | θ = 6.0 | 28 / 37 / 32 | 0.324 | [0.195, 0.474] |
-| EGFR/HER2 | θ = 6.5 | 26 / 28 / 29 | 0.346 | [0.200, 0.501] |
-| EGFR/HER2 | strict 6.5/5.5 | 26 / 16 / 7 | 0.176 | [0.033, 0.346] |
+| EGFR/HER2 | θ = 5.5 | 68 / 21 / 10 | 0.379 | [0.185, 0.591] |
+| EGFR/HER2 | θ = 6.0 | 28 / 37 / 31 | 0.334 | [0.197, 0.471] |
+| EGFR/HER2 | θ = 6.5 | 26 / 28 / 28 | 0.363 | [0.213, 0.522] |
+| EGFR/HER2 | strict 6.5/5.5 | 26 / 16 / 7 | 0.203 | [0.055, 0.363] |
 | JAK1/JAK2 | θ = 6.0 | 32 / 32 / 32 | 0.588 | [0.448, 0.716] |
 | JAK1/TYK2 | θ = 6.0 | 31 / 32 / 32 | 0.365 | [0.233, 0.505] |
 | PIK3CA/mTOR | θ = 5.5 | 33 / 9 / 5 | 0.502 | [0.273, 0.620] |
@@ -110,8 +113,8 @@ The pocket score is held fixed. Dual ligands are resampled once; selective and n
 
 | Pair | Score channel | dual vs selective | dual vs neither | Δ | 95% CI | neither underpowered |
 |------|----------|---------------:|----------------:|--:|--------|:----------------:|
-| EGFR/HER2 | pocket A (vs B-only) | 0.324 | 0.786 | 0.462 | [0.260, 0.641] | no |
-| EGFR/HER2 | pocket B (vs A-only) | 0.656 | 0.738 | 0.082 | [−0.117, 0.268] | no |
+| EGFR/HER2 | pocket A (vs B-only) | 0.334 | 0.780 | 0.446 | [0.259, 0.632] | no |
+| EGFR/HER2 | pocket B (vs A-only) | 0.663 | 0.750 | 0.087 | [−0.112, 0.270] | no |
 | AChE/BChE | pocket A | 0.606 | 0.606 | 0.000 | [−0.130, 0.138] | no |
 | AChE/BChE | pocket B | 0.652 | 0.717 | 0.065 | [−0.091, 0.211] | no |
 | PIK3CA/mTOR | pocket A | 0.692 | 0.472 | −0.220 | [−0.505, 0.032] | yes |
@@ -131,9 +134,9 @@ The pocket score is held fixed. Dual ligands are resampled once; selective and n
 
 | Pair | Resampling unit | Δ point | 95% CI | CI excludes 0 |
 |------|-----------------|--------:|--------|:-------------:|
-| EGFR/HER2 | ligand-level (primary) | 0.462 | [0.260, 0.641] | yes |
-| EGFR/HER2 | scaffold cluster | 0.462 | [0.235, 0.665] | yes |
-| EGFR/HER2 | document cluster | 0.462 | [0.125, 0.644] | yes |
+| EGFR/HER2 | ligand-level (primary) | 0.446 | [0.259, 0.632] | yes |
+| EGFR/HER2 | scaffold cluster | 0.446 | [0.232, 0.637] | yes |
+| EGFR/HER2 | document cluster | 0.446 | [0.117, 0.636] | yes |
 | JAK1/TYK2 | ligand-level (primary) | 0.444 | [0.261, 0.630] | yes |
 | JAK1/TYK2 | scaffold cluster | 0.444 | [0.220, 0.631] | yes |
 | JAK1/TYK2 | document cluster | 0.444 | not recomputed | — |
@@ -144,14 +147,14 @@ Source: `results/canonical/fixed_score_negative_class_delta.csv`; `results/canon
 
 | Pair | n (D / A / B) | 0.55 | 0.60 | 0.65 | 0.70 | 0.75 |
 |------|--------------:|-----:|-----:|-----:|-----:|-----:|
-| EGFR/HER2 | 28 / 37 / 32 | 0.040 | 0.063 | 0.255 | 0.646 | 0.906 |
-| JAK1/JAK2 | 32 / 32 / 32 | 0.020 | 0.070 | 0.308 | 0.619 | 0.917 |
-| JAK1/TYK2 | 31 / 32 / 32 | 0.030 | 0.060 | 0.284 | 0.633 | 0.912 |
-| PIK3CA/mTOR | 18 / 14 / 12 | 0.042 | 0.033 | 0.088 | 0.240 | 0.460 |
-| AChE/BChE | 27 / 26 / 28 | 0.027 | 0.048 | 0.217 | 0.538 | 0.835 |
-| F2/F10 | 31 / 32 / 32 | 0.025 | 0.071 | 0.270 | 0.602 | 0.917 |
-| PPARG/PPARA | 32 / 31 / 32 | 0.024 | 0.050 | 0.271 | 0.630 | 0.900 |
-| PPARA/PPARD | 32 / 32 / 32 | 0.027 | 0.069 | 0.260 | 0.673 | 0.907 |
+| EGFR/HER2 | 28 / 37 / 31 | 0.026 | 0.071 | 0.259 | 0.624 | 0.877 |
+| JAK1/JAK2 | 32 / 32 / 32 | 0.023 | 0.057 | 0.262 | 0.647 | 0.893 |
+| JAK1/TYK2 | 31 / 32 / 32 | 0.029 | 0.059 | 0.282 | 0.620 | 0.886 |
+| PIK3CA/mTOR | 18 / 14 / 12 | 0.032 | 0.022 | 0.075 | 0.204 | 0.466 |
+| AChE/BChE | 27 / 26 / 28 | 0.019 | 0.060 | 0.203 | 0.521 | 0.813 |
+| F2/F10 | 31 / 32 / 32 | 0.021 | 0.062 | 0.260 | 0.646 | 0.913 |
+| PPARG/PPARA | 32 / 31 / 32 | 0.026 | 0.070 | 0.285 | 0.635 | 0.904 |
+| PPARA/PPARD | 32 / 32 / 32 | 0.028 | 0.059 | 0.260 | 0.675 | 0.924 |
 
 Source: `results/canonical/detectable_effect_simulation.csv`.
 
@@ -159,53 +162,66 @@ Source: `results/canonical/detectable_effect_simulation.csv`.
 
 ## Table S5. Ligand-chemistry baselines and incremental docking information
 
-ECFP4 and ECFP4+docking AUROCs are out-of-fold predictions under the same scaffold-grouped cross-validation. The last column is the raw Vina ranking AUROC from Table 2, shown as a descriptive reference. Δ = (ECFP4+docking) − ECFP4. Across 16 arms the largest |Δ| is 0.011. These primary values use unscaled logistic regression.
+ECFP4 and ECFP4+docking AUROCs are out-of-fold predictions under the same scaffold-grouped cross-validation. The last column is the raw Vina ranking AUROC from Table 2, shown as a descriptive reference. Δ = (ECFP4+docking) − ECFP4. Across 16 arms the largest |Δ| is 0.023. These primary values use unscaled logistic regression.
 
 | Pair | Arm | ECFP4 | ECFP4+docking | Δ | Vina ranking AUROC (Table 2) |
 |------|------|------:|--------------:|--:|--------------------------:|
-| EGFR/HER2 | D vs A | 0.799 | 0.793 | −0.007 | 0.656 |
-| EGFR/HER2 | D vs B | 0.853 | 0.845 | −0.008 | 0.324 |
-| JAK1/JAK2 | D vs A | 0.890 | 0.879 | −0.011 | 0.588 |
-| JAK1/JAK2 | D vs B | 0.966 | 0.967 | +0.001 | 0.728 |
-| JAK1/TYK2 | D vs A | 0.853 | 0.843 | −0.010 | 0.575 |
-| JAK1/TYK2 | D vs B | 0.888 | 0.887 | −0.001 | 0.365 |
-| PIK3CA/mTOR | D vs A | 0.782 | 0.774 | −0.008 | 0.714 |
-| PIK3CA/mTOR | D vs B | 0.889 | 0.889 | 0.000 | 0.692 |
-| AChE/BChE | D vs A | 0.897 | 0.890 | −0.007 | 0.652 |
-| AChE/BChE | D vs B | 0.843 | 0.832 | −0.011 | 0.606 |
-| F2/F10 | D vs A | 0.947 | 0.950 | +0.003 | 0.413 |
-| F2/F10 | D vs B | 0.757 | 0.765 | +0.008 | 0.345 |
-| PPARG/PPARA | D vs A | 0.857 | 0.853 | −0.004 | 0.649 |
-| PPARG/PPARA | D vs B | 0.734 | 0.740 | +0.006 | 0.706 |
-| PPARA/PPARD | D vs A | 0.945 | 0.944 | −0.001 | 0.647 |
-| PPARA/PPARD | D vs B | 0.747 | 0.738 | −0.009 | 0.446 |
+| EGFR/HER2 | D vs A | 0.822 | 0.807 | −0.015 | 0.663 |
+| EGFR/HER2 | D vs B | 0.879 | 0.870 | −0.009 | 0.334 |
+| JAK1/JAK2 | D vs A | 0.915 | 0.916 | +0.002 | 0.588 |
+| JAK1/JAK2 | D vs B | 0.968 | 0.969 | +0.001 | 0.728 |
+| JAK1/TYK2 | D vs A | 0.846 | 0.840 | −0.006 | 0.575 |
+| JAK1/TYK2 | D vs B | 0.902 | 0.903 | +0.001 | 0.365 |
+| PIK3CA/mTOR | D vs A | 0.762 | 0.742 | −0.020 | 0.714 |
+| PIK3CA/mTOR | D vs B | 0.889 | 0.898 | +0.009 | 0.692 |
+| AChE/BChE | D vs A | 0.895 | 0.890 | −0.004 | 0.652 |
+| AChE/BChE | D vs B | 0.821 | 0.808 | −0.013 | 0.606 |
+| F2/F10 | D vs A | 0.943 | 0.937 | −0.006 | 0.413 |
+| F2/F10 | D vs B | 0.693 | 0.707 | +0.014 | 0.345 |
+| PPARG/PPARA | D vs A | 0.833 | 0.813 | −0.020 | 0.649 |
+| PPARG/PPARA | D vs B | 0.668 | 0.676 | +0.008 | 0.706 |
+| PPARA/PPARD | D vs A | 0.932 | 0.928 | −0.004 | 0.647 |
+| PPARA/PPARD | D vs B | 0.858 | 0.835 | −0.023 | 0.446 |
 
-**Paired Δ of Vina `summary_min` minus the best single descriptor.** The four single-descriptor matrices are archived; only the per-pair best descriptor is typeset. AChE/BChE TPSA directional AUROCs are 0.742 / 0.801. 5 of eight 95% CIs include 0; JAK1/TYK2, PIK3CA/mTOR, F2/F10 exclude 0. Figure S1 plots Vina CIs and descriptor points, not the difference CIs.
+**Paired Δ of Vina `summary_min` minus the best single descriptor.** The four single-descriptor matrices (TPSA, cLogP, heavy-atom count, MW) are reported in `results/canonical/descriptor_baselines.csv`. The per-pair “best” descriptor is a **full-panel descriptive univariate screen**, not a selection-adjusted predictive estimate. The chemistry-control predictive number is nested scaffold-GroupKFold inner-CV descriptor selection followed by train-only StandardScaler + univariate logistic regression; pooled AUROC uses held-out P(dual) (`nested_scaffold_cv_oof_summary_min`; OOF table `descriptor_nested_oof_predictions.csv`). The `summary_min` interval is a ligand-level shared-dual bootstrap of those fixed OOF probabilities. ECFP4 GroupKFold is unchanged. AChE/BChE TPSA directional AUROCs are 0.742 / 0.801 on the full panel. 5 of eight 95% CIs for Vina minus full-panel-best include 0; JAK1/TYK2, PIK3CA/mTOR, F2/F10 exclude 0. Figure S1 plots Vina CIs and descriptor points, not the difference CIs.
 
 | Pair | Best descriptor | Descriptor summary_min | Δ | 95% CI | CI excludes 0 |
 |------|-----------------|-----------------------:|--:|--------|:-------------:|
-| EGFR/HER2 | cLogP | 0.482 | −0.159 | [−0.304, 0.017] | no |
+| EGFR/HER2 | cLogP | 0.474 | −0.139 | [−0.287, 0.029] | no |
 | JAK1/JAK2 | heavy | 0.578 | 0.010 | [−0.081, 0.158] | no |
-| JAK1/TYK2 | cLogP | 0.581 | −0.216 | [−0.376, −0.010] | yes |
+| JAK1/TYK2 | cLogP | 0.580 | −0.215 | [−0.376, −0.009] | yes |
 | PIK3CA/mTOR | heavy | 0.463 | 0.229 | [0.009, 0.437] | yes |
 | AChE/BChE | TPSA | 0.742 | −0.136 | [−0.313, 0.039] | no |
 | F2/F10 | cLogP | 0.509 | −0.164 | [−0.318, −0.005] | yes |
 | PPARG/PPARA | TPSA | 0.627 | 0.022 | [−0.167, 0.181] | no |
 | PPARA/PPARD | cLogP | 0.564 | −0.117 | [−0.326, 0.099] | no |
 
-Source: `results/canonical/descriptor_baselines.csv`; `results/canonical/ecfp4_incremental_information.csv`.
+**Nested scaffold-GroupKFold single-descriptor baseline.** Each pair × arm uses independent outer scaffold GroupKFold. The descriptor is selected by inner scaffold CV on outer-training data only, then a train-only StandardScaler + univariate logistic regression emits held-out P(dual). Pooled AUROC uses those probabilities, not raw TPSA/cLogP/MW/heavy values. `summary_min` CI is a ligand-level shared-dual bootstrap of the min of the two directional OOF AUROCs on fixed OOF probabilities; it is not a re-run of model selection.
 
-**Feature-scaling sensitivity.** The same GroupKFold splits were repeated with `StandardScaler` fitted on each training fold only. Across the 16 arms the largest |Δ| was 0.008 (PIK3CA/mTOR D vs A). Scaling does not replace the unscaled 0.011 primary result. Source: `ecfp4_docking_scaler_sensitivity_v1.csv`.
+| Pair | D vs A OOF AUROC [95% CI] | D vs B OOF AUROC [95% CI] | summary_min [95% CI] | Descriptors by fold (A / B) |
+|------|---------------------------:|---------------------------:|----------------------|-----------------------------|
+| EGFR/HER2 | 0.642 [0.501, 0.774] | 0.633 [0.486, 0.769] | 0.633 [0.467, 0.693] | heavy / heavy |
+| JAK1/JAK2 | 0.438 [0.294, 0.592] | 0.720 [0.591, 0.837] | 0.438 [0.294, 0.591] | heavy / TPSA |
+| JAK1/TYK2 | 0.459 [0.309, 0.607] | 0.482 [0.342, 0.632] | 0.459 [0.302, 0.539] | cLogP / heavy |
+| PIK3CA/mTOR | 0.708 [0.504, 0.893] | 0.389 [0.194, 0.602] | 0.389 [0.194, 0.593] | TPSA / cLogP |
+| AChE/BChE | 0.650 [0.497, 0.803] | 0.771 [0.644, 0.886] | 0.650 [0.497, 0.796] | TPSA / TPSA |
+| F2/F10 | 0.354 [0.228, 0.493] | 0.587 [0.443, 0.729] | 0.354 [0.228, 0.493] | heavy / TPSA |
+| PPARG/PPARA | 0.693 [0.561, 0.828] | 0.358 [0.227, 0.499] | 0.358 [0.227, 0.499] | TPSA / TPSA |
+| PPARA/PPARD | 0.444 [0.303, 0.583] | 0.516 [0.371, 0.660] | 0.444 [0.301, 0.541] | cLogP / TPSA |
+
+Source: `results/canonical/descriptor_baselines.csv`; `results/canonical/descriptor_nested_scaffold_cv.csv`; `results/canonical/descriptor_nested_oof_predictions.csv`; `results/canonical/ecfp4_incremental_information.csv`.
+
+**Feature-scaling sensitivity.** The same GroupKFold splits were repeated with `StandardScaler` fitted on each training fold only. Across the 16 arms the largest |Δ| was 0.008 (PIK3CA/mTOR D vs A). Scaling does not replace the unscaled 0.023 primary result. Source: `results/canonical/ecfp4_scaler_sensitivity.csv`.
 
 ---
 
 ## Table S6. Matched versus mismatched pocket and unused-pool holdout
 
-Δ = matched `summary_min` − mismatched `summary_min`. Positive Δ means the weaker matched arm is higher. On the main panels only AChE/BChE has a 95% CI excluding 0; EGFR/HER2 includes 0 and is not interpreted as having a matched-pocket advantage. All seven scored holdouts include 0. An interval that includes 0 does not prove that no advantage exists. EGFR/HER2 has no holdout. `weaker arm switched = yes` means the weaker directional arm differs between matched and mismatched scoring, so Δ`summary_min` cannot represent both directions.
+Δ = matched `summary_min` − mismatched `summary_min`. Positive Δ means the weaker matched arm is higher. On the main panels, AChE/BChE (0.177 [0.053, 0.291]) and EGFR/HER2 (0.107 [0.006, 0.220]) have 95% intervals that exclude 0. The other six main-panel intervals include 0 and are not generalized as a matched-pocket advantage. All seven scored holdouts include 0. An interval that includes 0 does not prove that no advantage exists. EGFR/HER2 has no holdout. `weaker arm switched = yes` means the weaker directional arm differs between matched and mismatched scoring, so Δ`summary_min` cannot represent both directions.
 
 | Pair | Set | Δ | 95% CI | CI excludes 0 | Weaker arm switched |
 |------|------|--:|--------|:---------:|:-------------------:|
-| EGFR/HER2 | main | 0.056 | [−0.037, 0.155] | no | no |
+| EGFR/HER2 | main | 0.107 | [0.006, 0.220] | yes | no |
 | JAK1/JAK2 | main | −0.019 | [−0.090, 0.053] | no | no |
 | JAK1/TYK2 | main | −0.065 | [−0.156, 0.032] | no | no |
 | PIK3CA/mTOR | main | 0.090 | [−0.115, 0.264] | no | no |
@@ -239,16 +255,16 @@ Source: `results/canonical/matched_mismatched_pocket.csv`; `results/canonical/ho
 
 ## Table S7. Computational realization: receptor substitution, independent GNINA, and PPARG rescoring
 
-Independent GNINA searches new poses; it is not a Vina rescore. Scope is EGFR/HER2, PIK3CA/mTOR, and JAK1/TYK2. Independent GNINA did not return both-end scores for every ligand (EGFR/HER2 EH120_109; PIK3CA/mTOR PM48_19; JAK1/TYK2 one dual and three B-only). EGFR/HER2 dual-versus-neither therefore uses n_neither = 11 versus 12 in the primary Vina Table 3. Independent-GNINA `summary_min` intervals below use the same class-stratified shared-dual protocol as Table 2. Five-seed Vina ranges, fixed-membership intersections, and complete-case seed tables are archived in the repository. Across those seeds the numerical values fluctuated, but the main task and pair-level patterns did not change. The EGFR/HER2 task difference was positive on all five Vina seeds.
+Independent GNINA searches new poses; it is not a Vina rescore. Scope is EGFR/HER2, PIK3CA/mTOR, and JAK1/TYK2. Independent GNINA did not return both-end scores for every ligand (EGFR/HER2 EH120_109; PIK3CA/mTOR PM48_19; JAK1/TYK2 one dual and three B-only). EGFR/HER2 dual-versus-neither therefore uses n_neither = 10 versus 12 in the primary Vina Table 3 (33 timeout_skipped; EH120_109 fail). Independent-GNINA `summary_min` intervals below use the same class-stratified shared-dual protocol as Table 2. Five-seed Vina used the same boxes as the primary analysis, including the corrected EGFR/HER2 cognate-heavy-atom boxes. Production seed 20260727 matches Table 2; the other four seeds were redocked. EGFR/HER2 activity-eligible complete-case counts are 28 / 37 / 31 / 12 on all five seeds (EH40_31 timeout_skipped). The EGFR/HER2 fixed-score task difference (dual-versus-neither minus dual-versus-B-only on pocket A) was positive on all five seeds.
 
 **S7a. Independent GNINA pose generation**
 
 | Pair | Engine | n_dual / n_A / n_B / n_neither | summary_min | Weaker-arm AUROC [95% CI] | Dual vs neither |
 |------|------|------|------------:|---------------------------|----------------:|
-| EGFR/HER2 | Vina primary | 28 / 37 / 32 / 12 | 0.324 [0.195, 0.474] | dual–B-only (pocket A) 0.324 [0.195, 0.474] | 0.759 [0.554, 0.926] |
-| EGFR/HER2 | GNINA independent | 28 / 37 / 32 / 11 | 0.265 [0.142, 0.402] | dual–B-only (pocket A) 0.265 [0.142, 0.402] | 0.737 [0.529, 0.919] |
+| EGFR/HER2 | Vina primary | 28 / 37 / 31 / 12 | 0.334 [0.197, 0.471] | dual–B-only (pocket A) 0.334 [0.197, 0.471] | 0.759 [0.551, 0.926] |
+| EGFR/HER2 | GNINA independent | 20 / 33 / 26 / 10 | 0.227 [0.104, 0.373] | dual–B-only (pocket A) 0.227 [0.104, 0.373] | 0.705 [0.465, 0.910] |
 | PIK3CA/mTOR | Vina primary | 18 / 14 / 12 / 4 | 0.692 [0.480, 0.802] | dual–B-only (pocket A) 0.692 [0.491, 0.868] | 0.514 [0.222, 0.806] |
-| PIK3CA/mTOR | GNINA independent | 18 / 13 / 12 / 4 | 0.633 [0.410, 0.769] | dual–A-only (pocket B) 0.633 [0.410, 0.769] | 0.569 [0.236, 0.889] |
+| PIK3CA/mTOR | GNINA independent | 18 / 13 / 12 / 4 | 0.633 [0.410, 0.769] | dual–A-only (pocket B) 0.633 [0.419, 0.825] | 0.569 [0.236, 0.889] |
 | JAK1/TYK2 | Vina primary | 31 / 32 / 32 / 14 | 0.365 [0.233, 0.505] | dual–B-only (pocket A) 0.365 [0.233, 0.508] | 0.770 [0.613, 0.906] |
 | JAK1/TYK2 | GNINA independent | 30 / 32 / 29 / 14 | 0.317 [0.187, 0.455] | dual–B-only (pocket A) 0.317 [0.187, 0.455] | 0.705 [0.524, 0.872] |
 
@@ -257,8 +273,8 @@ Independent GNINA searches new poses; it is not a Vina rescore. Scope is EGFR/HE
 | Channel | summary_min [95% CI] | Dual vs neither |
 |------|----------------------|----------------:|
 | Vina primary | 0.649 [0.511, 0.746] | 0.685 [0.498, 0.859] |
-| RTMScore (all saved poses) | 0.369 [0.233, 0.475] | 0.817 |
-| GNINA CNN affinity | 0.500 [0.356, 0.623] | 0.884 |
+| RTMScore (all saved poses) | 0.369 [0.237, 0.478] | 0.817 |
+| GNINA CNN affinity | 0.500 [0.347, 0.632] | 0.884 |
 | unused-pool holdout | 0.535 [0.360, 0.705] | — |
 
 **S7c. PIK3CA/mTOR crystal substitution**
@@ -272,7 +288,22 @@ One pocket at a time: the other pocket keeps frozen main-panel scores. Only this
 | PIK3CA → 5DXT | A | 0.714 | 0.505 | 0.505 [0.296, 0.713] |
 | mTOR → 4JSX | B | 0.639 | 0.692 | 0.639 [0.435, 0.783] |
 
-Source: `independent_dock_formulation_v1.csv`; `table2_comparable_by_channel_v1.csv`; `pocket_matched_PM48_alt4JPS_v1.csv`, `..._alt5DXT_v1.csv`, `..._alt4JSX_v1.csv`. Rigid Cα superposition was exploratory and is archived in the repository.
+Source: `results/canonical/computational_robustness.csv`; `results/canonical/receptor_substitution.csv`. Historical filenames `independent_dock_formulation_v1.csv` and `table2_comparable_by_channel_v1.csv` are git-history only. Rigid Cα superposition was exploratory and is archived in the repository.
+
+**S7d. Five-seed Vina `summary_min` (activity-eligible labels; same boxes as Table 2)**
+
+| Pair | Production seed | Five-seed min | Five-seed max | Median |
+|------|----------------:|-------------:|-------------:|-------:|
+| EGFR/HER2 | 0.324 | 0.324 | 0.350 | 0.330 |
+| JAK1/JAK2 | 0.588 | 0.574 | 0.592 | 0.588 |
+| JAK1/TYK2 | 0.365 | 0.365 | 0.381 | 0.377 |
+| PIK3CA/mTOR | 0.692 | 0.676 | 0.726 | 0.704 |
+| AChE/BChE | 0.606 | 0.553 | 0.606 | 0.599 |
+| F2/F10 | 0.345 | 0.345 | 0.385 | 0.366 |
+| PPARG/PPARA | 0.649 | 0.649 | 0.691 | 0.651 |
+| PPARA/PPARD | 0.446 | 0.446 | 0.469 | 0.454 |
+
+Source: `results/canonical/five_seed_summary_min.csv`. EGFR/HER2 per-seed scores: `data/egfr_her2_uniform_rdkit_v1/tables/scores_vina_mode1_fiveseed.csv`.
 
 ---
 
@@ -297,23 +328,23 @@ Source: `external_slice_summary_v1.csv`. This table is an eligibility screen, no
 
 ## Table S9. Final target-pair eligibility audit
 
-Seven pairs reached the G5 protocol-compatibility gate and were included because each has conventional noncovalent pockets representable under the common rigid-receptor Vina protocol: PIK3CA/mTOR, AChE/BChE, F2/F10, JAK1/TYK2, JAK1/JAK2, PPARG/PPARA, and PPARA/PPARD. The table lists the supply-limited EGFR/HER2 exception and the pairs that failed the final structure- or protocol-compatibility gates. It is an audit of pair selection, not a docking-performance table. Source: `pair_eligibility_audit_s14_v1.csv`; `FEASIBLE_PAIR_LADDER_V1.md`; `TIER1_DOCKING_ROSTER_V1.md`; `pair_ligand_identity_qc_v1.csv`.
+Seven pairs reached the G5 protocol-compatibility gate and were included because each has conventional noncovalent pockets representable under the common rigid-receptor Vina protocol: PIK3CA/mTOR, AChE/BChE, F2/F10, JAK1/TYK2, JAK1/JAK2, PPARG/PPARA, and PPARA/PPARD. The table lists the supply-limited EGFR/HER2 exception and the pairs that failed the final structure- or protocol-compatibility gates. It is an audit of pair selection, not a docking-performance table. Source: `data/jcim_chembl_universe_v0/tables/pair_eligibility_audit_s14_v1.csv`; `data/jcim_chembl_universe_v0/tables/pair_ligand_identity_qc_v1.csv`; `docs/TARGET_SELECTION_NO_OUTCOME_LEAKAGE_CHECK.md`. Historical filenames `TIER1_DOCKING_ROSTER_V1.md` and `FEASIBLE_PAIR_LADDER_V1.md` are git-history only and are not current instructions.
 
 | Pair | Last gate reached | Included/excluded | Reason | Evidence used |
 |------|-------------------|-------------------|--------|---------------|
-| EGFR/HER2 | supply-limited exception | included | Did not meet the strict 6.5/5.5 selective-supply criterion (minimum selective-class count = 7) but had suitable human holo structures, a cognate-defined docking site, and sufficient dual, A-only, and B-only ligands at \(\theta=6.0\) for directional evaluation. | `TIER1_DOCKING_ROSTER_V1.md`; Table 1 |
-| CTSK/CTSS | G4 ligand identity | excluded | Both holos are reversible-covalent cysteine-protease complexes and therefore require treatment outside the common noncovalent rigid-receptor Vina protocol. | `TIER1_DOCKING_ROSTER_V1.md`; `FEASIBLE_PAIR_LADDER_V1.md` |
-| CREBBP/BRD4 | G4 ligand identity | excluded | CREBBP has both a HAT catalytic site and a bromodomain; the intended docking domain is not uniquely defined under the common protocol. | `TIER1_DOCKING_ROSTER_V1.md`; `FEASIBLE_PAIR_LADDER_V1.md` |
-| F2/PRSS1 | G4 ligand identity | excluded | Trypsin (PRSS1) is a pharmacological antitarget rather than a designed dual-target partner under the common protocol. | `TIER1_DOCKING_ROSTER_V1.md`; `FEASIBLE_PAIR_LADDER_V1.md` |
-| CNR1/CNR2 | G4 ligand identity | excluded | Membrane GPCR pair requiring construct and conformational-state treatment outside the common soluble rigid-receptor Vina protocol. | `TIER1_DOCKING_ROSTER_V1.md`; `FEASIBLE_PAIR_LADDER_V1.md` |
-| HCRTR1/HCRTR2 | G4 ligand identity | excluded | Membrane GPCR pair requiring construct and conformational-state treatment outside the common soluble rigid-receptor Vina protocol. | `TIER1_DOCKING_ROSTER_V1.md`; `FEASIBLE_PAIR_LADDER_V1.md` |
-| OPRM1/OPRD1 | G4 ligand identity | excluded | Membrane GPCR pair requiring construct and conformational-state treatment outside the common soluble rigid-receptor Vina protocol. | `TIER1_DOCKING_ROSTER_V1.md`; `FEASIBLE_PAIR_LADDER_V1.md` |
-| OPRD1/OPRK1 | G4 ligand identity | excluded | Membrane GPCR pair requiring construct and conformational-state treatment outside the common soluble rigid-receptor Vina protocol. | `TIER1_DOCKING_ROSTER_V1.md`; `FEASIBLE_PAIR_LADDER_V1.md` |
-| S1PR3/S1PR1 | G4 ligand identity | excluded | Membrane GPCR pair requiring construct and conformational-state treatment outside the common soluble rigid-receptor Vina protocol. | `TIER1_DOCKING_ROSTER_V1.md`; `FEASIBLE_PAIR_LADDER_V1.md` |
-| SLC6A4/SLC6A3 | G4 ligand identity | excluded | Membrane SLC6 transporter pair requiring treatment outside the common soluble rigid-receptor Vina protocol. | `TIER1_DOCKING_ROSTER_V1.md`; `FEASIBLE_PAIR_LADDER_V1.md` |
-| SLC6A2/SLC6A4 | G4 ligand identity | excluded | Membrane SLC6 transporter pair requiring treatment outside the common soluble rigid-receptor Vina protocol. | `TIER1_DOCKING_ROSTER_V1.md`; `FEASIBLE_PAIR_LADDER_V1.md` |
-| OPRM1/OPRK1 | G3 human holo supply | excluded | Drug-like small-molecule filter reduced the minimum strict selective-class count from 56 to 46; the pair therefore failed the G4 ligand-identity gate. | `pair_ligand_identity_qc_v1.csv`; `FEASIBLE_PAIR_LADDER_V1.md` |
-| JAK3/TYK2 | G3 human holo supply | excluded | Drug-like small-molecule filter reduced the minimum strict selective-class count from 51 to 48; the pair therefore failed the G4 ligand-identity gate. | `pair_ligand_identity_qc_v1.csv`; `FEASIBLE_PAIR_LADDER_V1.md` |
+| EGFR/HER2 | supply-limited exception | included | Did not meet the strict 6.5/5.5 selective-supply criterion (minimum selective-class count = 7) but had suitable human holo structures, a cognate-defined docking site, and sufficient dual, A-only, and B-only ligands at \(\theta=6.0\) for directional evaluation. | `pair_eligibility_audit_s14_v1.csv`; Table 1 |
+| CTSK/CTSS | G4 ligand identity | excluded | Both holos are reversible-covalent cysteine-protease complexes and therefore require treatment outside the common noncovalent rigid-receptor Vina protocol. | `pair_eligibility_audit_s14_v1.csv` (historical TIER1/FEASIBLE markdowns are git-history only) |
+| CREBBP/BRD4 | G4 ligand identity | excluded | CREBBP has both a HAT catalytic site and a bromodomain; the intended docking domain is not uniquely defined under the common protocol. | `pair_eligibility_audit_s14_v1.csv` (historical TIER1/FEASIBLE markdowns are git-history only) |
+| F2/PRSS1 | G4 ligand identity | excluded | Trypsin (PRSS1) is a pharmacological antitarget rather than a designed dual-target partner under the common protocol. | `pair_eligibility_audit_s14_v1.csv` (historical TIER1/FEASIBLE markdowns are git-history only) |
+| CNR1/CNR2 | G4 ligand identity | excluded | Membrane GPCR pair requiring construct and conformational-state treatment outside the common soluble rigid-receptor Vina protocol. | `pair_eligibility_audit_s14_v1.csv` (historical TIER1/FEASIBLE markdowns are git-history only) |
+| HCRTR1/HCRTR2 | G4 ligand identity | excluded | Membrane GPCR pair requiring construct and conformational-state treatment outside the common soluble rigid-receptor Vina protocol. | `pair_eligibility_audit_s14_v1.csv` (historical TIER1/FEASIBLE markdowns are git-history only) |
+| OPRM1/OPRD1 | G4 ligand identity | excluded | Membrane GPCR pair requiring construct and conformational-state treatment outside the common soluble rigid-receptor Vina protocol. | `pair_eligibility_audit_s14_v1.csv` (historical TIER1/FEASIBLE markdowns are git-history only) |
+| OPRD1/OPRK1 | G4 ligand identity | excluded | Membrane GPCR pair requiring construct and conformational-state treatment outside the common soluble rigid-receptor Vina protocol. | `pair_eligibility_audit_s14_v1.csv` (historical TIER1/FEASIBLE markdowns are git-history only) |
+| S1PR3/S1PR1 | G4 ligand identity | excluded | Membrane GPCR pair requiring construct and conformational-state treatment outside the common soluble rigid-receptor Vina protocol. | `pair_eligibility_audit_s14_v1.csv` (historical TIER1/FEASIBLE markdowns are git-history only) |
+| SLC6A4/SLC6A3 | G4 ligand identity | excluded | Membrane SLC6 transporter pair requiring treatment outside the common soluble rigid-receptor Vina protocol. | `pair_eligibility_audit_s14_v1.csv` (historical TIER1/FEASIBLE markdowns are git-history only) |
+| SLC6A2/SLC6A4 | G4 ligand identity | excluded | Membrane SLC6 transporter pair requiring treatment outside the common soluble rigid-receptor Vina protocol. | `pair_eligibility_audit_s14_v1.csv` (historical TIER1/FEASIBLE markdowns are git-history only) |
+| OPRM1/OPRK1 | G3 human holo supply | excluded | Drug-like small-molecule filter reduced the minimum strict selective-class count from 56 to 46; the pair therefore failed the G4 ligand-identity gate. | `pair_ligand_identity_qc_v1.csv` |
+| JAK3/TYK2 | G3 human holo supply | excluded | Drug-like small-molecule filter reduced the minimum strict selective-class count from 51 to 48; the pair therefore failed the G4 ligand-identity gate. | `pair_ligand_identity_qc_v1.csv` |
 
 ---
 
@@ -323,7 +354,7 @@ All eight primary panels were ranked by the two-pocket mean Vina score \(S_{\mat
 
 | Pair | n_ranked (D / A / B / N) | k | Top 10% D / A / B / N | dual / k | n_dual / n | EF_dual,10% | AND input → pass (D / A / B) | AND dual precision |
 |------|-------------------------:|--:|----------------------:|---------:|-----------:|------------:|------------------------------:|-------------------:|
-| EGFR/HER2 | 109 (28 / 37 / 32 / 12) | 11 | 1 / 5 / 5 / 0 | 0.091 | 0.257 | 0.354 | 97 → 47 (14 / 9 / 24) | 0.298 |
+| EGFR/HER2 | 108 (28 / 37 / 31 / 12) | 11 | 1 / 4 / 6 / 0 | 0.091 | 0.259 | 0.351 | 97 → 47 (14 / 9 / 24) | 0.298 |
 | JAK1/JAK2 | 110 (32 / 32 / 32 / 14) | 11 | 6 / 5 / 0 / 0 | 0.545 | 0.291 | 1.875 | 96 → 35 (16 / 13 / 6) | 0.457 |
 | JAK1/TYK2 | 109 (31 / 32 / 32 / 14) | 11 | 1 / 3 / 7 / 0 | 0.091 | 0.284 | 0.320 | 95 → 50 (16 / 12 / 22) | 0.320 |
 | PIK3CA/mTOR | 48 (18 / 14 / 12 / 4) | 5 | 4 / 1 / 0 / 0 | 0.800 | 0.375 | 2.133 | 44 → 17 (9 / 4 / 4) | 0.529 |

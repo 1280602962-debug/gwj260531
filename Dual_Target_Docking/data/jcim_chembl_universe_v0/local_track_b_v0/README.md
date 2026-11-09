@@ -1,18 +1,17 @@
 # Track B local Vina pack (`local_track_b_v0`)
 
-Layer-3 cognate QC (8/8 PASS at E=8) and production AutoDock Vina 1.2.7 on five pairs (~1100 jobs).
+Frozen AutoDock Vina 1.2.7 production scores for five pairs (F2/F10, JAK1/JAK2, JAK1/TYK2, PPARG/PPARA, PPARA/PPARD). Production pose PDBQT files remain under `poses/`. Input `ligands_pdbqt/` is not in this pack. Vina logs are not required for the zero-dock statistical chain.
 
-- Protocol: `../analysis/DOCKING_PLAN_V1.md`, lock `../tables/track_b_local_run_v1.yaml`
-- Results: `analysis/TRACK_B_DIRECTIONAL_AUROC_V1.md`
-- Descriptor reference: `analysis/TRACK_B_DESCRIPTOR_REFERENCE_V1.md`
-- Scores: `tables/scores_vina_mode1_v1.csv` (1094 successes; 6 timeout skips)
-- Poses / full Vina logs are gitignored (regenerate with `scripts/dock_track_b_production_v1.py`)
+**Protocol (exists):** `data/jcim_chembl_universe_v0/tables/track_b_local_run_v1.yaml`
 
-Does **not** replace Table 2. Count three systems (coagulation, JAK, PPAR).
+**Production scores (exists):** `tables/scores_vina_mode1_v1.csv`
 
-Zero-dock stack on production Vina: `tables/five_pair_stack_v1/` and
-`analysis/FIVE_PAIR_STACK_V1.md` (Table-2-comparable non-stratified CIs).
-Dump-gated + BindingDB/PubChem count-only: `tables/five_pair_dump_gated_v1/`,
-`tables/five_pair_crossdb_v1/`, `analysis/FIVE_PAIR_DUMP_GATED_V1.md`,
-`analysis/FIVE_PAIR_CROSSDB_V1.md`. Holdout IDs frozen (JAK1/JAK2 = 20/20/18).
-Local docking / rescoring still to submit: `../analysis/LOCAL_RECOMPUTE_PACK_V1.md`.
+**Current statistical truth is not this folder.** Use:
+
+- `results/canonical/current_score_master.csv`
+- `results/canonical/primary_directional_auroc.csv`
+- `results/canonical/primary_summary_min.csv`
+- `results/canonical/five_seed_summary_min.csv`
+- `results/canonical/computational_robustness.csv`
+
+This pack does not replace Table 2. Do not regenerate from deleted scripts (`dock_track_b_production_v1.py`, `DOCKING_PLAN_V1.md`, `LOCAL_RECOMPUTE_PACK_V1.md` and the old analysis markdowns are git history only).

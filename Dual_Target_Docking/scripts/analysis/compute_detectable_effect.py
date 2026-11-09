@@ -22,33 +22,30 @@ import numpy as np
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "scripts"))
+from analysis.analysis_config import (  # noqa: E402
+    DETECTABLE_TRUE_AUCS,
+    N_MC_DETECTABLE,
+    PRIMARY_PAIRS,
+    add_io_args,
+    io_paths,
+    is_primary_row,
+)
 from analysis.bootstrap_metrics import N_BOOT, SEED  # noqa: E402
 
 CANON = ROOT / "results" / "canonical"
 MASTER = CANON / "current_score_master.csv"
-PAIRS = (
-    "EGFR/HER2",
-    "JAK1/JAK2",
-    "JAK1/TYK2",
-    "PIK3CA/mTOR",
-    "AChE/BChE",
-    "F2/F10",
-    "PPARG/PPARA",
-    "PPARA/PPARD",
-)
-TRUE_AUCS = (0.50, 0.55, 0.60, 0.65, 0.70, 0.75)
-N_MC_DEFAULT = 1000
 
 
 def load_class_sizes() -> dict[str, dict[str, int]]:
     with MASTER.open(encoding="utf-8-sig", newline="") as handle:
         rows = list(csv.DictReader(handle))
     sizes: dict[str, dict[str, int]] = {}
-    for pair in PAIRS:
+    for pair in PRIMARY_PAIRS:
         recs = [
             r
             for r in rows
-            if r["pair"] == pair and r.get("analysis_set") == "main" and r.get("complete_case") == "1" and str(r.get("activity_eligible", "1")) in ("1", "True")
+            if is_primary_row(r)
+            and r["pair"] == pair
         ]
         counts = Counter(r.get("primary_class_theta6") or "" for r in recs)
         sizes[pair] = {
@@ -159,17 +156,22 @@ def fmt(stats: dict) -> dict:
 
 def main() -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--n-mc", type=int, default=N_MC_DEFAULT)
+    add_io_args(ap)
+    ap.add_argument("--n-mc", type=int, default=N_MC_DETECTABLE)
     ap.add_argument("--n-boot", type=int, default=N_BOOT)
     ap.add_argument("--seed", type=int, default=SEED)
     args = ap.parse_args()
 
+    global CANON, MASTER
+    CANON, MASTER = io_paths(args.outdir, args.master)
+    CANON.mkdir(parents=True, exist_ok=True)
+
     sizes = load_class_sizes()
     rng = np.random.default_rng(args.seed)
     rows = []
-    for pair in PAIRS:
+    for pair in PRIMARY_PAIRS:
         n = sizes[pair]
-        for true_auc in TRUE_AUCS:
+        for true_auc in DETECTABLE_TRUE_AUCS:
             print(f"{pair} true={true_auc:.2f} n={n['n_dual']}/{n['n_a']}/{n['n_b']}/{n['n_neither']}", flush=True)
             for contrast, n_pos, n_neg in (
                 ("dual_vs_A_only", n["n_dual"], n["n_a"]),
@@ -208,7 +210,7 @@ def main() -> int:
         writer = csv.DictWriter(handle, fieldnames=list(rows[0].keys()), lineterminator="\n")
         writer.writeheader()
         writer.writerows(rows)
-    print("wrote", out.relative_to(ROOT))
+    print("wrote", out)
     return 0
 
 

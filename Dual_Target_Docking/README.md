@@ -12,7 +12,7 @@ This directory is the current article, analysis, and reproduction tree for an ev
 
 | What | Path |
 |------|------|
-| Per-ligand scores and classes | `results/canonical/current_score_master.csv` (copy: `data/processed/current_score_master.csv`) |
+| Per-ligand scores and classes | `results/canonical/current_score_master.csv` (pointer: `data/processed/CURRENT_SCORE_MASTER.md`) |
 | Canonical result tables | `results/canonical/` |
 | Detectable-effect simulation | `results/canonical/detectable_effect_simulation.csv` |
 | English / Chinese manuscripts | `docs/MANUSCRIPT_JCIM_EN.md`, `docs/MANUSCRIPT_JCIM_ZH.md` |
@@ -43,7 +43,7 @@ python3 scripts/analysis/rebuild_submission_pack.py
 python3 scripts/qa/check_current_chain.py
 ```
 
-`compute_canonical_results.py` rebuilds Table 2 / Table 3 / Figure 2 sources (`primary_directional_auroc.csv`, `primary_summary_min.csv`, `fixed_score_negative_class_delta.csv`, `two_pocket_mean_ranking.csv`, `top10_operating_points.csv`). Figure 3 uses `ecfp4_oof_predictions.csv` / `ecfp4_incremental_information.csv`. Figure 4 uses `matched_mismatched_pocket.csv`. Figure 5 uses `computational_robustness.csv`, receptor-substitution CSVs, and five-seed tables under `data/jcim_multiseed_v0/`.
+`compute_canonical_results.py` rebuilds Table 2 / Table 3 / Figure 2 sources (`primary_directional_auroc.csv`, `primary_summary_min.csv`, `fixed_score_negative_class_delta.csv`, `two_pocket_mean_ranking.csv`, `top10_operating_points.csv`). Figure 3 uses `ecfp4_oof_predictions.csv` / `ecfp4_incremental_information.csv`. Figure 4 uses `matched_mismatched_pocket.csv`. Figure 5 uses `computational_robustness.csv`, receptor-substitution CSVs, `five_seed_summary_min.csv`, and `five_seed_fixed_membership_sensitivity.csv`.
 
 Python dependencies: `requirements-analysis.txt`.
 

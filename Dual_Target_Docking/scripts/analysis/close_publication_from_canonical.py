@@ -2,6 +2,11 @@
 """Derive figure/manuscript CSVs from results/canonical and finish remaining estimands.
 
 Zero-dock. No new pairs. Scheme B: class-stratified B=2000 seed=20260729.
+
+Retired. Current Figure 3 / Table S5 numbers come from
+`results/canonical/ecfp4_incremental_information.csv` and
+`results/canonical/descriptor_baselines.csv`. Historical publication CSVs
+are not rewritten.
 """
 from __future__ import annotations
 
@@ -580,7 +585,6 @@ def descriptors(packs, desc):
                 "note": "best_single_descriptor from current score master; scheme-B Vina comparison in descriptor_baselines.csv",
             }
         )
-    write_csv(ROOT / "data/jcim_novelty_v0/tables/descriptor_all_four_directional_v1.csv", out)
     return out
 
 
@@ -829,12 +833,6 @@ def export_core(packs, hold):
                 "note": "primary_no_scaffold_overlap_across_folds; from results/canonical",
             }
         )
-    write_csv(ROOT / "data/jcim_novelty_v0/tables/incremental_information_v1.csv", inc_out)
-    write_csv(
-        ROOT / "data/jcim_chembl_universe_v0/local_track_b_v0/tables/five_pair_stack_v1/ecfp4_incremental_s20s24_v1.csv",
-        five_ecfp,
-    )
-    write_csv(ROOT / "data/jcim_strengthen_t0t1_v0/tables/ligand_ml_baseline_scaffold_cv_v1.csv", ml)
 
     master = read_csv(CANON / "current_score_master.csv")
     memb = []
@@ -855,9 +853,17 @@ def export_core(packs, hold):
             }
         )
     write_csv(ROOT / "data/jcim_novelty_v0/tables/review_scored_membership_v1.csv", memb)
-    dest = ROOT / "data/processed/current_score_master.csv"
-    dest.parent.mkdir(parents=True, exist_ok=True)
-    shutil.copy2(CANON / "current_score_master.csv", dest)
+    pointer = ROOT / "data/processed/CURRENT_SCORE_MASTER.md"
+    pointer.parent.mkdir(parents=True, exist_ok=True)
+    pointer.write_text(
+        "# Current score master (pointer)\n\n"
+        "Authority: `results/canonical/current_score_master.csv`.\n"
+        "This directory does not hold a second authoritative copy.\n",
+        encoding="utf-8",
+    )
+    stale_copy = ROOT / "data/processed/current_score_master.csv"
+    if stale_copy.is_file():
+        stale_copy.unlink()
 
     hold_out = []
     hold_metrics = {r["pair"]: r for r in read_csv(CANON / "holdout_metrics.csv")}
@@ -909,36 +915,8 @@ def overlay_fiveseed():
 
 
 def main() -> int:
-    print("loading packs")
-    packs = load_main()
-    hold = load_holdout()
-    print("export core + two-pocket CI")
-    export_core(packs, hold)
-    print("GNINA")
-    gnina, robust = gnina_formulation(packs)
-    write_csv(ROOT / "data/jcim_independent_dock_v0/tables/independent_dock_formulation_v1.csv", gnina)
-    print("receptor substitution")
-    rec_sub = receptor_sub(packs)
-    overlay_fiveseed()
-    extra = []
-    for r in rec_sub:
-        extra.append(
-            {
-                "pair": "PIK3CA/mTOR",
-                "engine": f"vina_alt_{r['replacement']}",
-                "n": r["n"],
-                "summary_min": r["summary_min"],
-                "summary_min_ci_lo": r["summary_min_ci_lo"],
-                "summary_min_ci_hi": r["summary_min_ci_hi"],
-                "auroc_D_vs_A_pocketB": r["auroc_D_vs_A"],
-                "auroc_D_vs_B_pocketA": r["auroc_D_vs_B"],
-                "auroc_D_vs_neither_mean": "",
-                "source": f"data/jcim_structure_robust_v0/tables/scores_vina_mode1_PM48_alt{r['replacement']}.csv",
-                "note": r["note"],
-            }
-        )
-    write_csv(CANON / "computational_robustness.csv", robust + extra)
-    print("wrote figure-facing CSVs from canonical")
+    print("close_publication_from_canonical.py is retired.")
+    print("Figures and tables read results/canonical. Historical publication CSVs are not rewritten.")
     return 0
 
 

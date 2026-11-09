@@ -1,7 +1,7 @@
 # MANIFEST — pik3ca_mtor_panel48_rdkit_v0
 
 ## Role
-JCIM K=4 development pair. Same 48 ligands as LigPrep panel48; **RDKit ETKDG + meeko** reprep for primary tables.
+JCIM K=4 development pair. Same 48 ligand IDs as the predecessor panel48; **RDKit ETKDG + meeko** is the current primary ligand prep. Historical LigPrep scores are sensitivity-only.
 
 ## Dock
 - Receptors: 4L23 (PIK3CA), 4JT6 (mTOR) — frozen from prior pack
@@ -23,4 +23,4 @@ JCIM K=4 development pair. Same 48 ligands as LigPrep panel48; **RDKit ETKDG + m
 | rdkit_new | vina_mean | 0.722 | 0.671 | **0.671** |
 | rdkit_new | rtm_min_z | 0.520 | 0.671 | **0.520** |
 
-LigPrep poses remain sensitivity-only; not mixed into primary RDKit tables.
+Predecessor LigPrep pose scores remain sensitivity-only; they are not mixed into primary RDKit tables and are not current evidence for ligand coordinates.

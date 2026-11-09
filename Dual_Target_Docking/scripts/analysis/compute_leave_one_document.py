@@ -14,6 +14,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "scripts"))
+from analysis.analysis_config import add_io_args, io_paths, is_primary_row, parse_finite  # noqa: E402
 from analysis.bootstrap_metrics import auroc  # noqa: E402
 
 CANON = ROOT / "results" / "canonical"
@@ -23,13 +24,7 @@ PAIRS = ("EGFR/HER2", "JAK1/TYK2")
 
 
 def fnum(v):
-    if v is None or v == "":
-        return None
-    try:
-        x = float(v)
-        return x if math.isfinite(x) else None
-    except (TypeError, ValueError):
-        return None
+    return parse_finite(v)
 
 
 def read_csv(path: Path) -> list[dict]:
@@ -54,11 +49,7 @@ def r4(x) -> str:
 def load_eligible(pair: str) -> list[dict]:
     out = []
     for r in read_csv(MASTER):
-        if r["pair"] != pair or r.get("analysis_set") != "main":
-            continue
-        if r.get("complete_case") not in ("1", "True"):
-            continue
-        if str(r.get("activity_eligible", "1")) not in ("1", "True"):
+        if r["pair"] != pair or not is_primary_row(r):
             continue
         rec = dict(r)
         rec["score_A"] = float(r["score_A"])
@@ -90,6 +81,15 @@ def directional(recs):
 
 
 def main() -> int:
+    import argparse
+
+    global CANON, MASTER
+    parser = argparse.ArgumentParser(description="Leave-one-document-group Δ on deposited maps.")
+    add_io_args(parser)
+    args = parser.parse_args()
+    CANON, MASTER = io_paths(args.outdir, args.master)
+    CANON.mkdir(parents=True, exist_ok=True)
+
     groups = defaultdict(dict)
     if GROUPS.is_file():
         for r in read_csv(GROUPS):
@@ -153,7 +153,7 @@ def main() -> int:
             )
     out = CANON / "leave_one_document_delta.csv"
     write_csv(out, rows)
-    print("wrote", out.relative_to(ROOT), "n=", len(rows))
+    print("wrote", out, "n=", len(rows))
     return 0
 
 

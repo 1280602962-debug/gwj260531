@@ -1,0 +1,41 @@
+{
+  "n_replay_rows": 192,
+  "n_replay_p0": 0,
+  "n_primary": {
+    "EGFR/HER2": 108,
+    "JAK1/JAK2": 110,
+    "JAK1/TYK2": 109,
+    "PIK3CA/mTOR": 48,
+    "AChE/BChE": 95,
+    "F2/F10": 107,
+    "PPARG/PPARA": 109,
+    "PPARA/PPARD": 110
+  },
+  "n_membership_rows": 83,
+  "n_table_cells": 208,
+  "n_figure_records": 347,
+  "n_text_claims": 69,
+  "n_new_issues": 0,
+  "new_issues": [],
+  "ecfp_max_abs_delta": 0.0234,
+  "score_sample_mismatches": 0,
+  "theta_mismatch_primary": 0,
+  "silent_except": [],
+  "canonical_writers": [
+    "scripts/qa/run_final_forensic_audit.py",
+    "scripts/qa/run_scientific_traceability_audit.py",
+    "scripts/qa/verify_freeze_rebuild.py",
+    "scripts/analysis/rebuild_submission_pack.py",
+    "scripts/analysis/compute_class_chemistry.py",
+    "scripts/analysis/close_publication_from_canonical.py",
+    "scripts/analysis/build_current_score_master.py",
+    "scripts/analysis/patch_publication_text.py",
+    "scripts/analysis/compute_detectable_effect.py",
+    "scripts/analysis/compute_canonical_results.py",
+    "scripts/analysis/fit_ecfp4_models.py",
+    "scripts/analysis/analysis_config.py",
+    "scripts/analysis/rebuild_freeze.py",
+    "scripts/analysis/compute_leave_one_document.py",
+    "scripts/analysis/compute_descriptor_baselines.py"
+  ]
+}
