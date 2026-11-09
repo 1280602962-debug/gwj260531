@@ -70,8 +70,17 @@ PRIMARY_PAIRS = [
     "PPARG/PPARA",
     "PPARA/PPARD",
 ]
-UNIFIED_THRESHOLD_PAIRS = ["EGFR/HER2", "AChE/BChE", "PIK3CA/mTOR"]
-COMPARABLE_THETA6_PAIRS = ["F2/F10", "JAK1/TYK2", "JAK1/JAK2", "PPARG/PPARA", "PPARA/PPARD"]
+UNIFIED_THRESHOLD_PAIRS = [
+    "EGFR/HER2",
+    "JAK1/JAK2",
+    "JAK1/TYK2",
+    "PIK3CA/mTOR",
+    "AChE/BChE",
+    "F2/F10",
+    "PPARG/PPARA",
+    "PPARA/PPARD",
+]
+COMPARABLE_THETA6_PAIRS = []
 HOLDOUT_PAIRS = [p for p in PRIMARY_PAIRS if p != "EGFR/HER2"]
 PAIR_SHORT = {
     "EGFR/HER2": "EGFR/HER2",
@@ -107,6 +116,7 @@ DESC_LABEL = {
 def _arial_search_dirs() -> list[Path]:
     return [
         Path(r"C:\Windows\Fonts"),
+        Path("/mnt/c/Windows/Fonts"),
         Path("/usr/share/fonts/truetype/msttcorefonts"),
         Path("/usr/share/fonts/truetype/msttcore"),
         Path.home() / ".local" / "share" / "fonts",

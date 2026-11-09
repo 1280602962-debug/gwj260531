@@ -3,33 +3,8 @@
   "n_boot": 2000,
   "seed": 20260729,
   "score_model": "binormal_equal_variance",
-  "bootstrap": "ligand-level class-preserving percentile 95% CI; fixed class sizes differ from the non-stratified empirical Table 2 bootstrap",
+  "bootstrap": "class_stratified_shared_dual percentile 95% CI; same protocol as Table 2",
   "not": "observed/post-hoc power",
-  "pairs": {
-    "EGFR/HER2": {
-      "n_dual": 28,
-      "n_a": 38,
-      "n_b": 32,
-      "n_neither": 12
-    },
-    "AChE/BChE": {
-      "n_dual": 27,
-      "n_a": 25,
-      "n_b": 28,
-      "n_neither": 15
-    },
-    "PIK3CA/PIK3CB": {
-      "n_dual": 28,
-      "n_a": 27,
-      "n_b": 28,
-      "n_neither": 16
-    },
-    "PIK3CA/mTOR": {
-      "n_dual": 18,
-      "n_a": 14,
-      "n_b": 12,
-      "n_neither": 4
-    }
-  },
-  "source_csv": "data/jcim_novelty_v0/tables/detectable_effect_simulation_v1.csv"
+  "pairs": "current eight primary pairs from current_score_master",
+  "source_csv": "results/canonical/detectable_effect_simulation.csv"
 }

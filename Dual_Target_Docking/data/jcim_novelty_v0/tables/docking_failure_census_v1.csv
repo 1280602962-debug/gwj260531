@@ -1,6 +1,6 @@
 set,pair,n_attempted,n_success_pocket_A,n_success_pocket_B,n_success_both_ends,n_fail_pocket_A,n_fail_pocket_B,n_fail_either_end,fail_rate_either,fail_rate_pocket_A,fail_rate_pocket_B,failed_ligands,note
 main_panel,EGFR/HER2,110,110,110,110,0,0,0,0.0,0.0,0.0,,"AUROC tables condition on both-end scores; failures are engine/prep coverage, not silent missingness"
-main_panel,AChE/BChE,100,96,95,95,4,5,5,0.05,0.04,0.05,AB_001:dual:A=fail:B=fail;AB_053:A_only:A=fail:B=fail;AB_054:A_only:A=fail:B=fail;AB_056:A_only:A=fail:B=fail;AB_097:neither:A=ok:B=fail,"AUROC tables condition on both-end scores; failures are engine/prep coverage, not silent missingness"
+main_panel,AChE/BChE,100,97,96,96,3,4,4,0.04,0.03,0.04,AB_001:dual:A=fail:B=fail;AB_053:A_only:A=fail:B=fail;AB_054:A_only:A=fail:B=fail;AB_097:neither:A=ok:B=fail,"AUROC tables condition on both-end scores; failures are engine/prep coverage, not silent missingness"
 main_panel,PIK3CA/mTOR,48,48,48,48,0,0,0,0.0,0.0,0.0,,"AUROC tables condition on both-end scores; failures are engine/prep coverage, not silent missingness"
 holdout,AChE/BChE,60,60,60,60,0,0,0,0.0,0.0,0.0,,All attempted holdout ligands yielded both-end scores
 holdout,PIK3CA/mTOR,60,60,60,60,0,0,0,0.0,0.0,0.0,,All attempted holdout ligands yielded both-end scores
