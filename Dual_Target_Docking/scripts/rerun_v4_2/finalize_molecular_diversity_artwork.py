@@ -18,7 +18,7 @@ def main():
     for p,digest in protected.items():
         assert hashlib.sha256((ROOT/p).read_bytes()).hexdigest()==digest,p
     assert nums['checks_failed']==tables['source_cell_checks_failed']==0
-    assert len(qa['figures'])==19
+    assert len(qa['figures'])==21
     n_main=sum(not r['figure'].startswith(('S','Scheme')) for r in qa['figures'])
     n_si=sum(r['figure'].startswith('S') and not r['figure'].startswith('Scheme') for r in qa['figures'])
     assert n_main+2<=10, 'Molecular Diversity main-text display-item limit'
@@ -40,7 +40,7 @@ def main():
                 for span in line['spans']:
                     if span['text'].strip():assert span['size']>=7.99,(stem,span)
         assets.append(stem)
-    review=fitz.open(OUT/'Figures_Review.pdf');assert len(review)==19
+    review=fitz.open(OUT/'Figures_Review.pdf');assert len(review)==len(qa['figures'])
     tableproof=fitz.open(OUT/'Tables_Review.pdf');assert len(tableproof)==tables['review_pages']
     for p in tableproof:
         for block in p.get_text('dict')['blocks']:
@@ -66,7 +66,7 @@ def main():
         'figure_width_mm':174,'minimum_figure_font_pt':8,'raster_mode':'RGB','png_dpi':600,
         'vector_font_embedding':'PDF and EPS verified','table_review_pages':len(tableproof),
         'figure_review_pages':len(review),'main_display_items':n_main+2,'outside_page_table_text':[],
-        'new_docking_model_or_bootstrap_runs':False,'visual_review':'all 19 figures and all table proof pages inspected'}
+        'new_docking_model_or_bootstrap_runs':False,'visual_review':'all 21 figures and all table proof pages inspected'}
     (OUT/'Checks/Release_QA.json').write_text(json.dumps(report,indent=2)+'\n')
     files=[p for p in OUT.rglob('*') if p.is_file() and p.suffix!='.png' and p.name!='SHA256SUMS.csv']
     files += [p for f in ['Main_Figures','Supplementary_Figures'] for p in (OUT/f).glob('*.png')]

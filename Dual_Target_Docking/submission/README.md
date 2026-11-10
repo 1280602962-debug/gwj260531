@@ -73,5 +73,5 @@
 
 Use [Molecular_Diversity/README.md](Molecular_Diversity/README.md) for the revised
 figures, editable main and supplementary tables, captions, source CSVs and
-review PDFs. The main text now has eight figures and two tables; former Figure 8 is Figure S10, and former Figure 9 is Figure 8. Table numbers are retained. The earlier files in
+review PDFs. The main text now has eight figures and two tables; former Figure 8 is Figure S10, and former Figure 9 is Figure 8. Table numbers are retained. Full scoring and pocket-control interval displays are retained in Figures S11 and S12. The earlier files in
 this directory remain the accepted source exports and provenance.

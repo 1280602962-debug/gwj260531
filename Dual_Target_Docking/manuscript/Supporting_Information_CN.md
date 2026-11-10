@@ -34,7 +34,7 @@ GNINA 原始记录中另保存了 CNNaffinity，但未将其纳入正式评价�
 
 ## 5. 负类与口袋的完整结果
 
-Table S6A 和 Figure 4 给出 16 个臂的单靶负类、neither、差值和差值区间，各条件 AUROC 区间见补充数据。Table S6B 和 Figure 6 给出对应口袋、非对应口袋、差值和额外减员。反向点、零点和含 0 的区间都保留。
+Table S6A 和 Figure 4 给出 16 个臂的单靶负类、neither、差值和差值区间，各条件 AUROC 区间见补充数据。Figure 6 显示对应与非对应口袋 AUROC 的坐标关系，Figure S12 完整显示原始估计和成对差值区间；Table S6B 同时列出额外减员情况。反向点、零点和含 0 的区间都保留。
 
 ## 6. 五种子与替代受体
 

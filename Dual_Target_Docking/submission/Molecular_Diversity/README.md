@@ -7,7 +7,7 @@ This is the current presentation package prepared for Molecular Diversity on 10 
 | Content | Location |
 | --- | --- |
 | Main figures 1–8 | `Main_Figures/Fig1`–`Fig8` |
-| Supplementary figures S1–S10 and Scheme S1 | `Supplementary_Figures/` |
+| Supplementary figures S1–S12 and Scheme S1 | `Supplementary_Figures/` |
 | All figures in one PDF | [Figures_Review.pdf](Figures_Review.pdf) |
 | Paginated table proof | [Tables_Review.pdf](Tables_Review.pdf) |
 | Editable main tables | [Tables/Main_Tables.xlsx](Tables/Main_Tables.xlsx) |
@@ -19,6 +19,7 @@ This is the current presentation package prepared for Molecular Diversity on 10 
 | Numeric, source-cell and export verification | `Checks/` |
 | Figure-by-figure chart-selection rationale | [Visualization_Review_CN.md](Visualization_Review_CN.md) |
 | Previous and revised encodings for four figures | [Visualization_Comparison.pdf](Visualization_Comparison.pdf) |
+| Previous and revised main Figures 3 and 6 | [Visual_Diversity_Comparison.pdf](Visual_Diversity_Comparison.pdf) |
 | Numbering changes | [Figure_Renumbering.csv](Figure_Renumbering.csv) |
 
 EPS is the preferred submission vector export; the package also includes embedded-font PDF, editable-text SVG and RGB 600-dpi PNG. Figures are 174 mm wide, with lettering of at least 8 pt. Insert the full captions in the manuscript; the individual artwork files contain panel labels and plot annotations. The tables remain editable. Their PDF is a layout proof rather than a replacement for native table cells.
@@ -28,6 +29,8 @@ EPS is the preferred submission vector export; the package also includes embedde
 Direction labels separate the target pair from the single-target negative class. The two tasks remain dual versus A-only using target B and dual versus B-only using target A. Method-specific estimates, paired method differences and joint-ranking populations retain their separate denominators. Minimum AUROC denotes the smaller directional AUROC; its bootstrap value is recalculated within each resample.
 
 Figure 5 now separates the model matrix from signed, labelled score increments. Figure 7a shows changes from seed 42 with absolute baseline values in row labels; the full absolute results remain in Figure S7. Figure S2 uses unavailable-score counts for color and retains every valid/expected annotation. Figure S6 has separate class-specific distribution summaries. All four source-data exports are byte-identical to the preceding presentation version. These changes improve specific reading tasks; they do not establish a universally optimal chart type.
+
+Figure 3 uses a signed 8-by-4 paired-difference matrix with a symmetric scale centered at zero. Figure 6 places corresponding and noncorresponding pocket AUROCs on equal-scale identity plots. Interval-status borders and symbols summarize whether existing paired intervals include zero; they do not encode interval width or multiplicity-adjusted tests. The full original interval displays remain in Figures S11 and S12. Both new main figures retain byte-identical source-data exports. Figures 2 and 4 retain their interval displays because their primary reading tasks require direct uncertainty comparisons.
 
 Table 2 retains all 32 matched comparisons in one page. Counts and recall are shown as S1 → comparison scheme; recall is displayed as a percentage. S4 versus S1 is marked as a supporting comparison. Supplementary tables combine estimates with their own 95% confidence intervals, separate receptor identity from box geometry, and keep each target-pair group on one continuation page. Display rounding does not replace the full-precision source CSVs.
 

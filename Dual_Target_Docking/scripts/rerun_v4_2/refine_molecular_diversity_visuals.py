@@ -9,6 +9,8 @@ import xml.etree.ElementTree as ET
 import fitz
 import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
+from matplotlib.colors import LinearSegmentedColormap
+from matplotlib.patches import Rectangle, Patch
 import numpy as np
 from matplotlib.collections import PathCollection
 
@@ -19,7 +21,9 @@ spec.loader.exec_module(md)
 b = md.b
 OUT = md.OUT
 PREVIOUS = OUT/'Comparison_Baseline'
+PREVIOUS_V2 = OUT/'Comparison_Baseline_v2'
 original_finish = md.finish
+original_scoring_intervals = b.fig3
 
 
 def finish(fig, number, name, section, table, sources, records, caption, caption_cn, si=False):
@@ -90,6 +94,117 @@ def chemistry():
     fig.text(.23,.955,'Negative class',fontsize=8,fontweight='bold')
     finish(fig,'5','','Results 3.4','Table S7',[source],data,
       'Ligand chemistry and the incremental contribution of Vina. (a) Matched-population AUROC for physicochemical descriptor (Physchem), ECFP4, ECFP4-plus-S1 models and direct Vina S1 scores. Cells show two-decimal estimates on a common 0-1 color scale. The three learned models use five-fold out-of-fold predictions. (b) AUROC(ECFP4 plus S1) minus AUROC(ECFP4); stems start at zero and labels show signed three-decimal differences. The two panels use different numeric scales. Confidence intervals were not calculated for these chemistry comparisons. Dual is the positive class; A-only and B-only rows use target B and A scores, respectively','')
+
+
+def scoring_matrix():
+    data=b.read(b.DELTA)
+    contrasts=['M1-M0','M2-M0','M1b-M1','M3-M0']
+    by={(r['pair'],r['delta']):r for r in data}
+    values=np.array([[b.f(by[p,d],'delta_summary_min') for d in contrasts] for p in b.ORDER])
+    scale=np.ceil(np.max(np.abs(values))/.05)*.05
+    cmap=LinearSegmentedColormap.from_list('paired_change',[b.ORANGE,'#FFFFFF',b.BLUE])
+    fig,ax=plt.subplots(figsize=(md.WIDTH,4.6))
+    fig.subplots_adjust(left=.22,right=.965,bottom=.32,top=.92)
+    im=ax.imshow(values,vmin=-scale,vmax=scale,cmap=cmap,aspect='auto',interpolation='none')
+    for i,p in enumerate(b.ORDER):
+        for j,d in enumerate(contrasts):
+            r=by[p,d];value=values[i,j]
+            ax.text(j,i,f'{value:+.3f}',ha='center',va='center',fontsize=9,
+                    color=md.contrast_text(im.cmap(im.norm(value))[:3]))
+            excludes_zero=b.f(r,'ci_lo')>0 or b.f(r,'ci_hi')<0
+            if excludes_zero:ax.add_patch(Rectangle((j-.46,i-.43),.92,.86,fill=False,edgecolor='black',lw=1.25))
+    ax.set_xticks(range(4),['S2 − S1','S3 − S1','S4 − S2','S5 − S1'])
+    ax.set_yticks(range(8),b.ORDER);ax.tick_params(length=0,pad=7)
+    for spine in ax.spines.values():spine.set_visible(False)
+    cb=fig.colorbar(im,cax=fig.add_axes([.32,.17,.50,.025]),orientation='horizontal')
+    cb.set_ticks([-.3,-.15,0,.15,.3]);cb.set_label('Change in minimum AUROC',fontsize=8)
+    fig.legend(handles=[Patch(facecolor='white',edgecolor='black',linewidth=1.25,
+                              label='95% paired CI excludes 0')],loc='lower center',
+               bbox_to_anchor=(.59,.015),frameon=False)
+    assert_legend_clear(fig)
+    finish(fig,'3','','Results 3.2, scoring workflow paragraphs','Table S5B',[b.DELTA],data,
+      'Paired changes in minimum AUROC across target pairs and scoring workflows. Cells show signed three-decimal differences on a common symmetric color scale centered at zero: S2-S1, fixed-pose GNINA versus Vina; S3-S1, fixed-pose RTMScore versus Vina; S4-S2, saved-pose reranking; and S5-S1, independent GNINA docking versus Vina. Each contrast uses its own complete-case paired population. A black border indicates that the 95% paired bootstrap interval excludes zero; an unbordered cell does not imply equivalence. Border status does not encode interval width and is not adjusted for multiple comparisons. Full estimates and intervals are retained in Figure S11 and Table S5B. No across-pair pooled estimate is calculated','')
+
+
+def assert_legend_clear(fig):
+    fig.canvas.draw();renderer=fig.canvas.get_renderer()
+    for legend in fig.legends:
+        box=legend.get_window_extent(renderer)
+        for ax in fig.axes:
+            for label in [ax.xaxis.label,ax.yaxis.label]:
+                if label.get_text():assert not box.overlaps(label.get_window_extent(renderer)),label.get_text()
+
+
+def pocket_labels(ax,points):
+    from matplotlib.transforms import Bbox
+    ax.figure.canvas.draw();renderer=ax.figure.canvas.get_renderer()
+    occupied=[];point_boxes=[]
+    for _,x,y in points:
+        px,py=ax.transData.transform((x,y));point_boxes.append(Bbox.from_bounds(px-5,py-5,10,10))
+    candidates=[(9,9),(-9,9),(9,-11),(-9,-11),(18,6),(-18,6),(6,20),(-6,-20),
+                (25,15),(-25,15),(25,-16),(-25,-16),(0,29),(0,-29),(33,0),(-33,0)]
+    for label,x,y in points:
+        for dx,dy in candidates:
+            t=ax.annotate(str(label),(x,y),xytext=(dx,dy),textcoords='offset points',
+                          fontsize=8,ha='center',va='center',zorder=5)
+            bb=t.get_window_extent(renderer).expanded(1.2,1.2)
+            if not any(bb.overlaps(z) for z in occupied+point_boxes) and ax.bbox.contains(bb.x0,bb.y0) and ax.bbox.contains(bb.x1,bb.y1):
+                occupied.append(bb)
+                if abs(dx)+abs(dy)>23:
+                    ax.annotate('',(x,y),xytext=(dx*.75,dy*.75),textcoords='offset points',
+                                arrowprops={'arrowstyle':'-','color':'#777777','lw':.5},zorder=2)
+                break
+            t.remove()
+        else:raise ValueError('No collision-free pocket label '+str(label))
+
+
+def pocket_scatter():
+    source=b.ST+'module_C_wrong_pocket.csv';data=b.read(source)
+    by={(r['pair'],r['arm']):r for r in data}
+    fig,axs=plt.subplots(1,2,figsize=(md.WIDTH,5.0),sharex=True,sharey=True)
+    fig.subplots_adjust(left=.12,right=.975,bottom=.36,top=.90,wspace=.20)
+    for ax,arm,letter,task in zip(axs,b.ARMS,'ab',['dual vs A-only (target B)','dual vs B-only (target A)']):
+        ax.set_xlim(0,1);ax.set_ylim(0,1);ax.set_aspect('equal',adjustable='box')
+        ax.plot([0,1],[0,1],color='#777777',ls=(0,(3,3)),lw=.8,zorder=1)
+        labels=[]
+        for k,p in enumerate(b.ORDER,1):
+            r=by[p,arm];x=b.f(r,'auc_wrong');y=b.f(r,'auc_correct')
+            excludes_zero=b.f(r,'delta_pocket_ci_lo')>0 or b.f(r,'delta_pocket_ci_hi')<0
+            ax.scatter([x],[y],s=42,marker='s' if excludes_zero else 'o',
+                       facecolors=b.BLUE if excludes_zero else 'white',edgecolors=b.BLUE,
+                       linewidths=1,zorder=3)
+            labels.append((k,x,y))
+        pocket_labels(ax,labels)
+        ax.set_xticks([0,.25,.5,.75,1]);ax.set_yticks([0,.25,.5,.75,1])
+        ax.set_xlabel('Noncorresponding-pocket AUROC')
+        md.title(ax,letter,task)
+    axs[0].set_ylabel('Corresponding-pocket AUROC')
+    handles=[Line2D([],[],marker='o',linestyle='none',color=b.BLUE,markerfacecolor='white',
+                    label='95% paired difference CI includes 0'),
+             Line2D([],[],marker='s',linestyle='none',color=b.BLUE,
+                    label='95% paired difference CI excludes 0')]
+    fig.legend(handles=handles,loc='lower center',bbox_to_anchor=(.55,.14),frameon=False,ncol=1)
+    b.pair_key(fig,bottom=.035)
+    assert_legend_clear(fig)
+    finish(fig,'6','','Results 3.5','Table S6B',[source],data,
+      'Corresponding versus noncorresponding pocket AUROC. Each numbered point identifies a target pair on the same complete-case directional population. (a) Dual versus A-only, with target B as the corresponding pocket. (b) Dual versus B-only, with target A as the corresponding pocket. The dashed identity line marks equal AUROC; points above it have higher corresponding-pocket AUROC. Filled squares indicate that the 95% paired bootstrap interval for corresponding minus noncorresponding AUROC excludes zero; open circles indicate that it includes zero. Symbols summarize interval status, not a simultaneous confidence region or a multiplicity-adjusted test. All scores are Vina S1. Full original estimates, paired differences and interval widths are retained in Figure S12 and Table S6B','')
+
+
+def full_interval_supplements():
+    # Keep every original interval visible in SI after the main-text encoding changes.
+    def supp_finish(fig,number,name,section,table,sources,records,caption,caption_cn,si=False):
+        target={'3':'S11','6':'S12'}[number]
+        caption=('Full paired scoring-workflow intervals underlying Figure 3. ' if number=='3'
+                 else 'Full pocket-control estimates and paired intervals underlying Figure 6. ')+caption
+        finish(fig,target,name,section,table,sources,records,caption,caption_cn,True)
+    save_b,save_md=b.finish,md.finish
+    b.finish=md.finish=supp_finish
+    original_scoring_intervals()
+    md.control(6,True)
+    b.finish,md.finish=save_b,save_md
+    qa=json.loads((md.QA/'Artwork_QA.json').read_text())
+    qa['figures']=md.audit
+    (md.QA/'Artwork_QA.json').write_text(json.dumps(qa,indent=2)+'\n')
 
 
 def seeds_receptors():
@@ -188,8 +303,9 @@ def postprocess():
     (OUT/'Figure_Captions_EN.md').write_text('\n'.join(caps),encoding='utf8')
     # Figure-specific machine data must remain the same apart from renumbering.
     encoding_audit=[]
-    for name in ['Fig5','Fig7','FigS6','FigS2']:
-        p=OUT/'Source_Data'/(name+'.csv');q=PREVIOUS/(name+'.csv')
+    for name in ['Fig5','Fig7','FigS6','FigS2','Fig3','Fig6']:
+        previous=PREVIOUS_V2 if name in ['Fig3','Fig6'] else PREVIOUS
+        p=OUT/'Source_Data'/(name+'.csv');q=previous/(name+'.csv')
         assert p.read_bytes()==q.read_bytes(),name+' source rows changed'
         encoding_audit.append({'figure':name,'source_rows_byte_identical':True})
     vectors=[]
@@ -199,7 +315,7 @@ def postprocess():
         text_nodes=tree.findall('.//{http://www.w3.org/2000/svg}text')
         assert text_nodes,p
         vectors.append({'figure':r['number'],'svg_text_nodes':len(text_nodes)})
-    qa={'main_figures':8,'main_tables':2,'main_display_items':10,'supplementary_figures':10,
+    qa={'main_figures':8,'main_tables':2,'main_display_items':10,'supplementary_figures':12,
         'supplementary_schemes':1,'retained_scientific_estimates':True,'scatter_centers_within_axes':True,
         'data_checks':encoding_audit,'editable_svg':vectors,
         'renumbering':{'previous Figure 8':'Figure S10','previous Figure 9':'Figure 8'},
@@ -216,18 +332,49 @@ def postprocess():
             page.insert_text((10,16),name+' - '+version,fontsize=10)
             page.show_pdf_page(fitz.Rect(0,24,page.rect.width,page.rect.height),doc,0)
     comparison.save(OUT/'Visualization_Comparison.pdf');comparison.close()
+    comparison=fitz.open()
+    for name in ['Fig3','Fig6']:
+        for version,p in [('Previous',PREVIOUS_V2/(name+'.pdf')),('Revised',md.MAIN/(name+'.pdf'))]:
+            doc=fitz.open(p);page=comparison.new_page(width=doc[0].rect.width,height=doc[0].rect.height+24)
+            page.insert_text((10,16),name+' - '+version,fontsize=10)
+            page.show_pdf_page(fitz.Rect(0,24,page.rect.width,page.rect.height),doc,0)
+    comparison.save(OUT/'Visual_Diversity_Comparison.pdf');comparison.close()
+    # Validate the actual exported labels and the retained full-interval data.
+    rows=list(csv.DictReader((OUT/'Source_Data/Fig3.csv').open(newline='',encoding='utf8')))
+    texts=[t.text for t in ET.parse(md.MAIN/'Fig3.svg').findall('.//{http://www.w3.org/2000/svg}text') if t.text]
+    actual=sorted(t for t in texts if len(t)==6 and t[0] in '+-' and t[2]=='.')
+    expected=sorted(format(float(r['delta_summary_min']),'+.3f') for r in rows)
+    assert actual==expected
+    for main,supp in [('Fig3','FigS11'),('Fig6','FigS12')]:
+        assert (OUT/'Source_Data'/(main+'.csv')).read_bytes()==(OUT/'Source_Data'/(supp+'.csv')).read_bytes()
+    pocket=list(csv.DictReader((OUT/'Source_Data/Fig6.csv').open(newline='',encoding='utf8')))
+    checks={'matrix_labels_verified':len(actual),
+        'matrix_intervals_excluding_zero':sum(float(r['ci_lo'])>0 or float(r['ci_hi'])<0 for r in rows),
+        'pocket_points':len(pocket),
+        'pocket_intervals_excluding_zero':sum(float(r['delta_pocket_ci_lo'])>0 or float(r['delta_pocket_ci_hi'])<0 for r in pocket),
+        'full_interval_source_exports_identical':True,'method_estimates_recomputed':False}
+    (md.QA/'Visual_Diversity_QA.json').write_text(json.dumps(checks,indent=2)+'\n')
     print(json.dumps(qa))
 
 
 def main():
     PREVIOUS.mkdir(parents=True,exist_ok=True)
+    PREVIOUS_V2.mkdir(parents=True,exist_ok=True)
+    for name in ['Fig3','Fig6']:
+        for ext,folder in [('pdf',md.MAIN),('csv',md.DATA)]:
+            target=PREVIOUS_V2/(name+'.'+ext)
+            if not target.exists():shutil.copyfile(folder/(name+'.'+ext),target)
     for name in ['Fig5','Fig7','FigS6','FigS2']:
         for ext,folder in [('pdf',md.SI if 'S' in name else md.MAIN),('csv',md.DATA)]:
             target=PREVIOUS/(name+'.'+ext)
             if not target.exists():shutil.copyfile(folder/(name+'.'+ext),target)
     md.finish=finish;b.finish=finish
-    b.fig5=chemistry;b.fig7=seeds_receptors;b.si6=similarity
+    old_control=b.control
+    def control(number,pocket=False):
+        return pocket_scatter() if pocket else old_control(number,pocket)
+    b.fig3=scoring_matrix;b.fig5=chemistry;b.fig7=seeds_receptors;b.si6=similarity;b.control=control
     md.main()
+    full_interval_supplements()
     postprocess()
 
 
