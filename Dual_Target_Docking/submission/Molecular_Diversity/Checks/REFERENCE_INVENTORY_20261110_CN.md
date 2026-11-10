@@ -49,6 +49,8 @@
 
 ## 四、正式引用排序建议
 
-中文第6版使用作者–年份制，当前编号只是核查清单，不等于已排好的正式References。若期刊采用文中数字编号方式，应在最终英文稿内按首次出现顺序为全部**实际引用**文献重新编号，包含添加的方法/软件文献；不要直接沿用此表编号而在插入引文后产生跳号或无引用文献。新增/删除引文后需重新生成References，并核对作者、年份、题名、刊名、卷期页码、DOI。
+中文第6版使用作者–年份制，当前编号只是核查清单，不等于已排好的正式References。Molecular Diversity官方明确要求正文使用方括号数字引用，所以正式英文稿须按首次出现顺序统一改为[1]、[2]等。若采用数字编号方式，应在最终英文稿内按首次出现顺序为全部**实际引用**文献重新编号，包含添加的方法/软件文献；不要直接沿用此表编号而在插入引文后产生跳号或无引用文献。新增/删除引文后需重新生成References，并核对作者、年份、题名、刊名、卷期页码、DOI。
 
 Molecular Diversity官方：https://link.springer.com/journal/11030/submission-guidelines。核对日期：2026-11-10。
+
+补充核实：官方指南Reference citations in the text should be identified by numbers in square brackets，References连续编号，DOI建议使用完整https://doi.org/链接。第6版目前仍为作者–年份制，不能直接作为投稿最终引文格式。Molecular Diversity还明确规定Research Article参考文献不超过80篇，没有最低30篇要求。
