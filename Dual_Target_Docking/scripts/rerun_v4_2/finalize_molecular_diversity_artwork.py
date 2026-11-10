@@ -19,6 +19,9 @@ def main():
         assert hashlib.sha256((ROOT/p).read_bytes()).hexdigest()==digest,p
     assert nums['checks_failed']==tables['source_cell_checks_failed']==0
     assert len(qa['figures'])==19
+    n_main=sum(not r['figure'].startswith(('S','Scheme')) for r in qa['figures'])
+    n_si=sum(r['figure'].startswith('S') and not r['figure'].startswith('Scheme') for r in qa['figures'])
+    assert n_main+2<=10, 'Molecular Diversity main-text display-item limit'
     assets=[]
     for row in qa['figures']:
         stem='SchemeS1' if row['figure']=='Scheme_S1' else 'Fig'+row['figure']
@@ -55,14 +58,14 @@ def main():
         members=[x for x in pop if x['pair']==r['Target pair']]
         assert {(x['pdb_A'],x['pdb_B']) for x in members}=={(r['PDB A'],r['PDB B'])}
         for cls,col in [('dual','Dual (n)'),('A_only','A-only (n)'),('B_only','B-only (n)'),('neither','Neither (n)')]:assert sum(x['class']==cls for x in members)==int(r[col])
-    report={'base_commit':nums['base_commit'],'main_figures':9,'supplementary_figures':9,
+    report={'base_commit':nums['base_commit'],'main_figures':n_main,'supplementary_figures':n_si,
         'supplementary_schemes':1,'main_tables':2,'supplementary_tables':10,
         'numeric_checks_passed':nums['checks_passed'],'table_source_cell_checks_passed':tables['source_cell_checks_passed'],
         'scientific_input_files_unchanged':len(protected),'redocking_records_checked':70,
         'top1_rmsd_below_2A':42,'best_saved_rmsd_below_2A':66,
         'figure_width_mm':174,'minimum_figure_font_pt':8,'raster_mode':'RGB','png_dpi':600,
         'vector_font_embedding':'PDF and EPS verified','table_review_pages':len(tableproof),
-        'figure_review_pages':len(review),'outside_page_table_text':[],
+        'figure_review_pages':len(review),'main_display_items':n_main+2,'outside_page_table_text':[],
         'new_docking_model_or_bootstrap_runs':False,'visual_review':'all 19 figures and all table proof pages inspected'}
     (OUT/'Checks/Release_QA.json').write_text(json.dumps(report,indent=2)+'\n')
     files=[p for p in OUT.rglob('*') if p.is_file() and p.suffix!='.png' and p.name!='SHA256SUMS.csv']

@@ -38,7 +38,7 @@ Figure 6 在同一组成员上比较对应口袋和非对应口袋。D_vs_A 的�
 
 ## R6. 种子与受体条件的敏感性
 
-Figure 7a 只显示 summary_min 的五个种子。种子为 17、29、42、71 和 101，24 个汇总都有 5 个有限点。图中的竖线是已保存的最小值到最大值，标注的 IQR 是该指标自己的 linear P75−P25，不是置信区间。两个方向的完整结果在 Figure S7，汇总在 Table S8A，逐种子记录见 Supplementary Data。
+Figure 7a 显示最小方向 AUROC 相对种子 42 的变化，行标签给出种子 42 的绝对值。种子为 17、29、42、71 和 101，24 个汇总都有 5 个有限点。图中的横线表示五种子相对变化的最小值到最大值，黑色短线标出中位数；观察范围不是置信区间。两个方向的完整结果在 Figure S7，汇总在 Table S8A，逐种子记录见 Supplementary Data。
 
 PIK3CA/mTOR 的 summary_min 为 0.5596 至 0.5869，IQR 为 0.0190，五个种子的方向人数均为 dual 32、A_only 32、B_only 32。EGFR/HER2 的 summary_min 为 0.2305 至 0.2467，F2/F10 为 0.3594 至 0.3682；这两对的低表现没有因为更换种子而明显抬高。
 
@@ -48,7 +48,7 @@ PIK3CA/mTOR 的 summary_min 为 0.5596 至 0.5869，IQR 为 0.0190，五个种�
 
 ## R7. 方向判别变化与联合名单组成可一致或背离
 
-联合名单来自 dual、A_only 和 B_only 构成的挑战集。名次使用两端 average midrank 的 worst rank，k 为 ceil(0.10×N)。Figure 9 的每个面板使用该方法与 S1 自己的共同成员。横轴是已有 summary_min 差值，纵轴是 Top-k 中单靶占比的变化，图中以百分点显示。预期同时有利的方向是横轴为正、纵轴为负。
+联合名单来自 dual、A_only 和 B_only 构成的挑战集。名次使用两端 average midrank 的 worst rank，k 为 ceil(0.10×N)。Figure 8 的每个面板使用该方法与 S1 自己的共同成员。横轴是已有 summary_min 差值，纵轴是 Top-k 中单靶占比的变化，图中以百分点显示。预期同时有利的方向是横轴为正、纵轴为负。
 
 S3 在 F2/F10 的 summary_min 差值为 0.2471，共同 Top-10 的 dual 数由 4 增至 7。PPARA/PPARD 为 0.1582，dual 由 3 增至 6。PPARG/PPARA 为 −0.2915，dual 由 6 降至 4。这三对的方向差值和名单变化同向。PIK3CA/mTOR 中，S3 的 summary_min 差值为 0.1240，共同 Top-10 的 dual 数由 4 增至 7；S2 的 summary_min 差值为 −0.0049，但 Top-10 的 dual 数由 4 增至 6。方向判别与名单组成可以背离。k 较小的名单里，一个分子就会带来较大的比例变化。
 
@@ -56,8 +56,8 @@ S3 在 F2/F10 的 summary_min 差值为 0.2471，共同 Top-10 的 dual 数由 4
 
 ## R8. 限制同类骨架重复后的敏感性分析
 
-在全部 867 条合格观察上，将同一靶点对、同一类别内的同一非空 Bemis–Murcko 骨架限制为最多 5 个分子后，保留 861 条、排除 6 条（Figure 8a）。排除发生在 JAK1/JAK2 的 3 条 A_only，以及 PPARA/PPARD 的 1 条 A_only 和 2 条 B_only。111 条 neither 均保留。CAP5 用于支持分析，主要评价仍采用未过滤的 867 条观察。
+在全部 867 条合格观察上，将同一靶点对、同一类别内的同一非空 Bemis–Murcko 骨架限制为最多 5 个分子后，保留 861 条、排除 6 条（Figure S10a）。排除发生在 JAK1/JAK2 的 3 条 A_only，以及 PPARA/PPARD 的 1 条 A_only 和 2 条 B_only。111 条 neither 均保留。CAP5 用于支持分析，主要评价仍采用未过滤的 867 条观察。
 
 其余六对的 S1 summary_min 及区间不变。JAK1/JAK2 的点估计由 0.5908 变为 0.6315（CAP5 95% 区间 0.4871 至 0.7597）；PPARA/PPARD 由 0.5107 变为 0.4969（0.3427 至 0.6354）。两对的原始区间和 CAP5 区间均包含 0.5。16 个方向的 ECFP4 折外 AUROC 点变化绝对值均小于 0.02。
 
-PPARA/PPARD 的 S5 在 dual 与 A_only 比较中的区间由包含 0.5 变为不包含 0.5，点估计由 0.6338 变为 0.6431。部分 Top-k 名单的成员和 k 值随排序池改变，不能直接沿用原 Top-10 的描述。人数、Vina 汇总及化学模型见 Table S9A,B,D，全部评分的方向性比较另见 Figure S8；完整方法结果、区间、排除成员及名单变化见 Supplementary Data 中的 CAP5 文件。PIK3CA/mTOR 的严格活性子集结果见 Figure 8b 和 Table S9C。
+PPARA/PPARD 的 S5 在 dual 与 A_only 比较中的区间由包含 0.5 变为不包含 0.5，点估计由 0.6338 变为 0.6431。部分 Top-k 名单的成员和 k 值随排序池改变，不能直接沿用原 Top-10 的描述。人数、Vina 汇总及化学模型见 Table S9A,B,D，全部评分的方向性比较另见 Figure S8；完整方法结果、区间、排除成员及名单变化见 Supplementary Data 中的 CAP5 文件。PIK3CA/mTOR 的严格活性子集结果见 Figure S10b 和 Table S9C。

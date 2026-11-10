@@ -112,8 +112,9 @@ def finish(fig,number,name,section,table,sources,records,caption,caption_cn,si=F
     if number=='S2':
         fig.subplots_adjust(bottom=.19)
         cb=fig.colorbar(fig.axes[0].images[0],cax=fig.add_axes([.31,.11,.50,.012]),orientation='horizontal')
-        cb.set_ticks([0,.5,1]);cb.ax.tick_params(labelsize=8)
-        cb.set_label('Valid / expected score fraction',fontsize=8)
+        maximum=getattr(fig,'_missing_count_scale',None)
+        cb.set_ticks(range(maximum+1) if maximum is not None else [0,.5,1]);cb.ax.tick_params(labelsize=8)
+        cb.set_label('Unavailable scores (n)' if maximum is not None else 'Valid / expected score fraction',fontsize=8)
     for t in fig.findobj(Text):
         if t.get_text().strip():
             t.set_text(t.get_text().replace('summary_min','Minimum AUROC').replace('AUROC_B','AUROC B').replace('AUROC_A','AUROC A').replace('square angstrom','Å²').replace('(angstrom)','(Å)'))

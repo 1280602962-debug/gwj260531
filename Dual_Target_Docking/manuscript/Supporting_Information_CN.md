@@ -55,7 +55,7 @@ Table S8B 和 Figure 7b 覆盖 AChE/BChE、F2/F10 和 PPARA/PPARD 三对、六�
 
 ## 9. 严格阈值支持分析
 
-严格 6.5/5.5 同类子集共 56 个分子：dual 25、A_only 12、B_only 14、neither 5。S1 的 summary_min 为 0.4571，S3 为 0.6286。完整结果见 Figure 8b 和 Table S9C。这是 Q110 内的支持分析，不替换主评价人群。
+严格 6.5/5.5 同类子集共 56 个分子：dual 25、A_only 12、B_only 14、neither 5。S1 的 summary_min 为 0.4571，S3 为 0.6286。完整结果见 Figure S10b 和 Table S9C。这是 Q110 内的支持分析，不替换主评价人群。
 
 ## 10. 选样证据及其覆盖范围
 
