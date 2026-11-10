@@ -1,0 +1,30 @@
+{
+  "date": "2026-11-10",
+  "source_commit": "2017a5d7f9815715f5203a7b4e413c9719e9e032",
+  "source_path": "results/current/PRIMARY_DIRECTIONAL_ANALYSIS_POPULATION.csv",
+  "source_sha256_before": "659223fc22096b4870d2993aa8b3f0f15c2dac20280b38b484a6b26575cd80e1",
+  "source_sha256_after": "659223fc22096b4870d2993aa8b3f0f15c2dac20280b38b484a6b26575cd80e1",
+  "source_rows": 869,
+  "activity_eligible_rows": 867,
+  "Python": "3.12.14",
+  "NumPy": "2.3.5",
+  "bootstrap_B": 10000,
+  "bootstrap_seed": 271828,
+  "score_column": "M0_score_A or M0_score_B",
+  "scoring_scheme": "S1 Vina higher-better, docking seed 42",
+  "replication_status": "new_reproduction_of_exploratory_control_from_frozen_scores",
+  "original_bootstrap_output_recovered": false,
+  "protocol": "S1 is the frozen higher-is-better Vina score (negative docking energy; search seed 42). Positive class: the single-target class active at the scored target. Panel A uses neither negatives; panel B uses the opposite single-target class. Dual ligands are excluded. Counts include only activity-eligible observations with a valid S1 score at the scored target. CI: 95% class-stratified percentile bootstrap, 10,000 resamples, NumPy default_rng seed 271828 reset for each pair and score target; linear 2.5th and 97.5th percentiles. Within each replicate, positive, opposite-single-target, then neither indices are drawn; the same positive resample is shared between panels. Input row order is retained. Ties count as 0.5. These exploratory intervals are unadjusted for multiple comparisons and are not simultaneous intervals. They were reproduced from frozen scores on 10 November 2026; an original archived bootstrap output for this comparison was not recovered.",
+  "npz_columns": [
+    "opposite_single_target_AUROC",
+    "neither_AUROC"
+  ],
+  "npz_keys": "01..08 in fixed pair order, suffix A/B = score side",
+  "summary": {
+    "panel_A_point_above_0_5": 16,
+    "panel_A_ci_above_0_5": 4,
+    "panel_B_point_above_0_5": 11,
+    "panel_B_ci_below_0_5": 2
+  },
+  "script_sha256": "e3f5bc135095a50138ea8cddfabce394747d7665bb606d194ec069769db75049"
+}

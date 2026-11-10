@@ -24,6 +24,8 @@ Figure 4 在同一 dual 集合上比较单靶负类和 neither。差值为 neith
 
 PIK3CA/mTOR 的 neither 在两个臂都是 14 人；两个方向的 neither−single 差值分别为 0.0315 和 0.1164，区间均包含 0。完整人数和差值区间见 Table S6A，各条件 AUROC 区间见 Supplementary Data。
 
+探索性单靶对照中，使用本靶S1评分区分本靶单靶活性配体与neither时，16个评分通道的AUROC点估计均高于0.5，其中4个95%置信区间完全高于0.5（Table S11A）。以对侧靶点单靶活性配体为负类时，11个通道的AUROC点估计高于0.5。EGFR评分区分EGFR-only与HER2-only、JAK1评分区分JAK1-only与TYK2-only的AUROC分别为0.1807（95% CI 0.0845–0.2914）和0.3125（0.1865–0.4512），上述两个评分通道的区间完全低于0.5（Table S11B）。
+
 ## R4. 化学标签可预测性与有限的 S1 增量
 
 Figure 5 的三个化学模型和 chemistry-matched S1 使用同一第 3 层成员，共 994 条方向记录。ECFP4 的折外 AUROC 为 0.6633 至 0.9678，16 个臂都高于同成员 matched S1 的点估计。加入 S1 后的增量是 ECFP4+S1−ECFP4：11 个为负、5 个为正，没有零点，范围 −0.0164 至 0.0363。最大正点在 F2/F10 的 D_vs_B。PIK3CA/mTOR 两方向的增量分别为 0.0215 和 −0.0029。

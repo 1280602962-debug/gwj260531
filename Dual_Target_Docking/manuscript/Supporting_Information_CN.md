@@ -36,6 +36,8 @@ GNINA 原始记录中另保存了 CNNaffinity，但未将其纳入正式评价�
 
 Table S6A 和 Figure 4 给出 16 个臂的单靶负类、neither、差值和差值区间，各条件 AUROC 区间见补充数据。Figure 6 显示对应与非对应口袋 AUROC 的坐标关系，Figure S12 完整显示原始估计和成对差值区间；Table S6B 同时列出额外减员情况。反向点、零点和含 0 的区间都保留。
 
+Table S11给出探索性单靶对照：以本靶单靶活性配体为正类，A部分以neither为负类，B部分以对侧单靶活性配体为负类，均使用本靶S1评分。该分析仅要求所用评分通道有效，dual不参与；按类别分层进行10,000次bootstrap（seed=271828），两种比较共享正类抽样，区间取linear 2.5和97.5百分位。区间为逐通道探索性结果，未作多重比较校正。完整成员、全精度结果、重采样值与复现协议见`analysis/single_target_controls_20261110/`。
+
 ## 6. 五种子与替代受体
 
 Supplementary Data 中的 `module_E_five_seed.csv` 保留 40 个 pair×seed 原点，Table S8A 为 24 个汇总。Figure S7 同时显示 auc_B、auc_A 和 summary_min。Figure 7a 只显示 summary_min。IQR 按各自 metric 的 linear P75−P25 读取。七对的五种子人数不变。AChE/BChE 仅 seed 17 因 AB_046 在 4BDS 超时而少 1 个 A_only。
