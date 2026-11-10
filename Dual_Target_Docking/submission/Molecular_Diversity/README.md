@@ -64,3 +64,14 @@ python Dual_Target_Docking/scripts/rerun_v4_2/finalize_molecular_diversity_artwo
 ```
 
 Dependencies: Python, Matplotlib, NumPy, PyMuPDF, Pillow and openpyxl. The existing figure builder supplies the accepted joins and figure-specific source definitions. New workbook authoring uses openpyxl because the artifact-tool runtime was unavailable in this session.
+
+## Manuscript integration audit (10 November 2026)
+
+This review branch contains three additional text-only deliverables and one reference-order CSV:
+
+- [Final figure/table numbering and v6 manuscript crosswalk](Checks/MANUSCRIPT_FIGURE_TABLE_ALIGNMENT_20261110_CN.md)
+- [Inventory of 12 existing citations and recommended primary methods references](Checks/REFERENCE_INVENTORY_20261110_CN.md)
+- [First-occurrence order of the 12 currently cited papers](Checks/REFERENCE_CITATION_ORDER_12.csv)
+- [Chinese abstract, keywords and conclusion for pretranslation](Abstract_Conclusion_CN_20261110.md)
+
+These documents preserve the accepted numeric and artwork files. The Chinese manuscript v6 still needs its old Figure 8/9 references updated to Figure S10/Figure 8. The exploratory single-target comparison has a Table Sx placeholder and cannot be treated as a verified, published supplementary table without its source analysis. The journal also asks for a separate graphical abstract, not included in this figure package. This review did not regenerate any figure, table or bootstrap estimate.
