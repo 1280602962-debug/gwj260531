@@ -5,6 +5,15 @@ Branch: `cursor/v4-2-final-audited-results-20260930`.
 Current authority: [ANALYSIS_BASELINE_README.md](Dual_Target_Docking/ANALYSIS_BASELINE_README.md).
 Machine-readable paths: [CURRENT_RESULT_AUTHORITIES.json](Dual_Target_Docking/CURRENT_RESULT_AUTHORITIES.json).
 
+Molecular Diversity presentation update (2026-11-10): use
+[the revised artwork and editable tables](Dual_Target_Docking/submission/Molecular_Diversity/README.md).
+It contains Figures 1–9, Figures S1–S9, Scheme S1, Tables 1–2 and S1–S10,
+embedded-font EPS/PDF exports, RGB 600-dpi PNGs, English/Chinese captions,
+full-precision source CSVs, and figure/table review PDFs. The release includes
+1,566 independent numeric checks and 3,764 source-table cell checks. Scientific
+results and study populations are unchanged. Earlier exports below are retained
+as provenance; the current presentation paths are registered in the authority JSON.
+
 Submission tables and data: [submission/](Dual_Target_Docking/submission/README.md).
 Use Tables 1–2 and S1–S10 in that directory for submission numbering. Complete
 ligand-level and supporting data are in its Supplementary_Data.zip. Earlier
