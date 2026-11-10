@@ -66,3 +66,7 @@
 
 Molecular Diversity官方：https://link.springer.com/journal/11030/submission-guidelines（Research Article正文图表合计≤10；References≤80；摘要150–250英文单词；关键词4–6个）。
 Zhou等（2013）已报道双靶激酶筛选的单靶抑制剂假阳性；Chaput等（2016）讨论评价集与对照组成；Truchon和Bayly（2007）讨论ROC与早期识别。因而新增图表应服务于方向性评价、负类影响及Top-k，而不是重复展示已有AUROC。
+
+## 期刊额外提交文件核查
+
+Molecular Diversity指南明确要求Graphical Abstract图片（至少531×1328像素，高×宽，或同比例更高尺寸）及少于20个英文单词的说明。当前Molecular_Diversity投稿目录的文件清单中未发现明确命名的Graphical Abstract成品，应在正式投稿前另行准备并检查版权/画面科学准确性；本次没有自行生成。期刊还要求图注在稿件文本文件中、Fig.及数字加粗、按先后顺序引用，图注结尾不加标点。第6版尚未整体应用图表最终编号，需同步正文后再做一次完整交叉引用扫描。
