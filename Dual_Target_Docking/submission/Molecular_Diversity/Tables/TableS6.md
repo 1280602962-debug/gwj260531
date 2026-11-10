@@ -42,4 +42,4 @@
 | PPARA/PPARD | Dual vs A-only | 32 / 32 | 0.6787 | 0.4434 | 0.2354 [0.0693, 0.4043] | 0 |
 | PPARA/PPARD | Dual vs B-only | 32 / 32 | 0.5107 | 0.4561 | 0.0547 [-0.1436, 0.2441] | 0 |
 
-Panel A difference = neither minus single-target negative class. Panel B difference = corresponding minus noncorresponding pocket. All estimates use S1. Individual AUROC confidence intervals and ligand identifiers are retained in the complete source CSVs. Corresp., corresponding pocket; noncorresp., noncorresponding pocket. Grouped counts follow the class order in the column heading
+Panel A difference = neither minus single-target negative class. Panel B difference = corresponding minus noncorresponding pocket. All estimates use S1. Individual AUROC confidence intervals and ligand identifiers are retained in the complete source CSVs. Corresp., corresponding pocket; noncorresp., noncorresponding pocket. Grouped counts follow the class order in the column heading.

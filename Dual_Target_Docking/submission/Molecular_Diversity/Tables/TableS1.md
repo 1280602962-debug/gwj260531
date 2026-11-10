@@ -26,4 +26,4 @@
 | PPARG/PPARA | 110 | 110 | 110 | 0 | 42 | 9 | 0 |
 | PPARA/PPARD | 110 | 110 | 110 | 0 | 40 | 4 | 0 |
 
-All final labels use pChEMBL >= 6.0. Provenance flags overlap. Complete identifiers require DOI, PubMed or patent identifiers for all tied maxima at both endpoints. Across all pairs, cross-document aggregation is present in 81 observations and endpoint heterogeneity in 123 (union 168). The full source crosswalk, raw activity rows, selection evidence and exceptions are included in Supplementary_Data.zip. CAP5 is a post hoc sensitivity analysis and does not redefine initial selection
+All final labels use pChEMBL >= 6.0. Provenance flags overlap. Complete identifiers require DOI, PubMed or patent identifiers for all tied maxima at both endpoints. Across all pairs, cross-document aggregation is present in 81 observations and endpoint heterogeneity in 123 (union 168). The full source crosswalk, raw activity rows, selection evidence and exceptions are included in Supplementary_Data.zip. CAP5 is a post hoc sensitivity analysis and does not redefine initial selection.

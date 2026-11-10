@@ -5,7 +5,7 @@ import json
 from pathlib import Path
 import re
 import fitz
-from PIL import Image
+import struct
 
 ROOT=Path(__file__).resolve().parents[2]
 OUT=ROOT/'submission/Molecular_Diversity'
@@ -29,9 +29,17 @@ def main():
         for ext in ['eps','pdf','svg','png']:assert (folder/(stem+'.'+ext)).is_file()
         eps=(folder/(stem+'.eps')).read_text(encoding='latin1')
         assert re.search(r'/FontType\s+42',eps),stem+' EPS font embedding'
-        with Image.open(folder/(stem+'.png')) as image:
-            assert image.mode=='RGB'
-            assert all(abs(x-600)<.1 for x in image.info['dpi'])
+        png=(folder/(stem+'.png')).read_bytes()
+        assert png[:8]==b'\x89PNG\r\n\x1a\n'
+        offset=8; density=None; rgb=False
+        while offset<len(png):
+            length=struct.unpack('>I',png[offset:offset+4])[0]
+            kind=png[offset+4:offset+8]; payload=png[offset+8:offset+8+length]
+            if kind==b'IHDR':rgb=payload[8]==8 and payload[9]==2
+            if kind==b'pHYs':
+                x,y,unit=struct.unpack('>IIB',payload);density=(x*.0254,y*.0254) if unit==1 else None
+            offset+=12+length
+        assert rgb and density and all(abs(x-600)<.1 for x in density)
         doc=fitz.open(folder/(stem+'.pdf'));page=doc[0]
         assert abs(page.rect.width*25.4/72-174)<.01
         assert page.rect.height*25.4/72<=234

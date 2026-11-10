@@ -2,7 +2,7 @@
 
 ## A. Method-specific estimates
 
-| Target pair | Scheme | n (dual / A-only / B-only) | AUROC, target B (95% CI) | AUROC, target A (95% CI) | Minimum AUROC (95% CI) |
+| Target pair | Scheme | n (dual/A/B) | AUROC B [95% CI] | AUROC A [95% CI] | Min. AUROC [95% CI] |
 | --- | --- | --- | --- | --- | --- |
 | EGFR/HER2 | S1 | 28 / 37 / 32 | 0.6274 [0.4865, 0.7645] | 0.2467 [0.1328, 0.3783] | 0.2467 [0.1328, 0.3783] |
 | EGFR/HER2 | S2 | 28 / 37 / 32 | 0.3731 [0.2355, 0.5150] | 0.2210 [0.0993, 0.3538] | 0.2210 [0.0993, 0.3516] |
@@ -47,7 +47,7 @@
 
 ## B. Paired differences in minimum AUROC
 
-| Target pair | Contrast | n (dual / A-only / B-only) | Comparison minimum AUROC | Reference minimum AUROC | Difference (95% CI) |
+| Target pair | Contrast | n (dual/A/B) | Comparison minimum AUROC | Reference minimum AUROC | Difference (95% CI) |
 | --- | --- | --- | --- | --- | --- |
 | EGFR/HER2 | S2-S1 | 28 / 37 / 32 | 0.2210 | 0.2467 | -0.0257 [-0.1775, 0.1283] |
 | EGFR/HER2 | S3-S1 | 28 / 37 / 32 | 0.2634 | 0.2467 | 0.0167 [-0.1340, 0.1685] |
@@ -82,4 +82,4 @@
 | PPARA/PPARD | S4-S2 | 27 / 32 / 32 | 0.5625 | 0.6817 | -0.1192 [-0.2616, 0.0868] |
 | PPARA/PPARD | S5-S1 | 32 / 32 / 32 | 0.6338 | 0.5107 | 0.1230 [-0.0762, 0.2754] |
 
-AUROC, target B compares dual with A-only; AUROC, target A compares dual with B-only. S1 Vina; S2 fixed-pose GNINA; S3 fixed-pose RTMScore; S4 maximum saved-pose CNNscore; S5 independent GNINA. All scores have higher-better direction. Each paired contrast is recalculated on its own shared members; it need not equal subtraction of the method-specific estimates in panel A. CI: 95% class-stratified percentile bootstrap, 10,000 resamples, seed 271828. S4-S2 isolates saved-pose reranking; the supporting S4-S1 link in Table S10 has no added confidence interval
+AUROC, target B: dual versus A-only; AUROC, target A: dual versus B-only. Counts: dual/A-only/B-only. S1, Vina; S2, fixed-pose GNINA; S3, fixed-pose RTMScore; S4, maximum saved-pose CNNscore; S5, independent GNINA. Higher scores are favorable. Paired contrasts use their own shared members and need not equal differences between estimates in panel A. CI: 95% class-stratified percentile bootstrap (10,000 resamples; seed 271828). S4-S2: saved-pose reranking. Supporting S4-S1 in Table S10 has no added CI.

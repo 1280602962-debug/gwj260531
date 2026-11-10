@@ -11,4 +11,4 @@
 | PPARG/PPARA | 9V8H | 6LXA | 32 | 32 | 32 | 14 | 110 |
 | PPARA/PPARD | 6LXA | 5U3Q | 32 | 32 | 32 | 14 | 110 |
 
-Counts are target-pair–ligand observations; the 867 observations represent 845 distinct ligand entities. Target A and target B follow the order in each pair name. Activity is defined by pChEMBL ≥ 6.0. PDB identifiers refer to the receptors used in the primary analysis
+Counts are target-pair–ligand observations; the 867 observations represent 845 distinct ligand entities. Target A and target B follow the order in each pair name. Activity is defined by pChEMBL ≥ 6.0. PDB identifiers refer to the receptors used in the primary analysis.

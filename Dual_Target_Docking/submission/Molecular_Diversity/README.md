@@ -13,7 +13,10 @@ This is the current presentation package prepared for Molecular Diversity on 10 
 | Editable main tables | [Tables/Main_Tables.xlsx](Tables/Main_Tables.xlsx) |
 | Editable supplementary tables | [Tables/Supplementary_Tables.xlsx](Tables/Supplementary_Tables.xlsx) |
 | Native HTML tables for copying into a manuscript editor | [Tables/Editable_Tables.html](Tables/Editable_Tables.html) |
-| English figure captions | [Figure_Captions_EN.md](Figure_Captions_EN.md) |
+| English review captions, with final periods | [Figure_Captions_EN.md](Figure_Captions_EN.md) |
+| Journal-style submission captions | [Figure_Captions_EN_Submission.md](Figure_Captions_EN_Submission.md) |
+| Captioned figure proof | [Figures_With_Captions_Review.pdf](Figures_With_Captions_Review.pdf) |
+| Physical layout review | [Layout_Corrections_CN.md](Layout_Corrections_CN.md) |
 | Chinese figure captions | [Figure_Captions_CN.md](Figure_Captions_CN.md) |
 | Figure-specific data and full-precision numbered-table CSVs | `Source_Data/` |
 | Numeric, source-cell and export verification | `Checks/` |
@@ -56,6 +59,7 @@ Run the following from a checkout containing the accepted source data:
 python Dual_Target_Docking/scripts/rerun_v4_2/refine_molecular_diversity_visuals.py
 python Dual_Target_Docking/scripts/rerun_v4_2/build_molecular_diversity_tables.py
 python Dual_Target_Docking/scripts/rerun_v4_2/audit_molecular_diversity_artwork.py
+python Dual_Target_Docking/scripts/rerun_v4_2/audit_molecular_diversity_layout.py
 python Dual_Target_Docking/scripts/rerun_v4_2/finalize_molecular_diversity_artwork.py
 ```
 

@@ -132,6 +132,8 @@ def finish(fig,number,name,section,table,sources,records,caption,caption_cn,si=F
                     colors[:,3]=1
                     setter(colors)
             c.set_alpha(1)
+    hook=globals().get('publication_layout_hook')
+    if hook is not None:hook(fig,number)
     fig.canvas.draw()
     renderer=fig.canvas.get_renderer()
     fw,fh=fig.canvas.get_width_height()
@@ -179,7 +181,7 @@ def finish(fig,number,name,section,table,sources,records,caption,caption_cn,si=F
     caption=caption.replace('summary_min','minimum AUROC').replace('paired directional minimum AUROC change','paired change in minimum AUROC').replace('AUROC_B','AUROC B').replace('AUROC_A','AUROC A')
     caption=caption.replace('No new confidence interval is added. ','')
     caption=caption.replace('no additional member is lost','no additional member is excluded')
-    caption=caption.rstrip('.')
+    caption=caption.replace('(b) minimum AUROC','(b) Minimum AUROC').rstrip('.')
     figures.append({'number':number,'stem':stem,'group':'SI' if si else 'Main',
         'section':section,'table':table,'sources':sources,'caption':caption})
     audit.append({'figure':number,'width_mm':174,'height_mm':round(fig.get_figheight()*25.4,2),

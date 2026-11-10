@@ -13,6 +13,7 @@ from pathlib import Path
 import re
 import textwrap
 import zipfile
+import sys
 from decimal import Decimal,ROUND_HALF_UP
 
 import fitz
@@ -113,6 +114,8 @@ def transform(key,panel,raw):
     if key=='S10' and panel.startswith('C.'):
         headers=[h.replace('Concordant improvement','Concordant\nimprovement').replace('Concordant worsening','Concordant\nworsening') for h in headers]
     headers=[clean(h) for h in headers];rows=[[clean(c) for c in r] for r in rows]
+    if key=='S5':
+        headers=[h.replace('n (dual / A-only / B-only)','n (dual/A/B)').replace('AUROC, target B (95% CI)','AUROC B [95% CI]').replace('AUROC, target A (95% CI)','AUROC A [95% CI]').replace('Minimum AUROC (95% CI)','Min. AUROC [95% CI]') for h in headers]
     if key=='S8' and panel.startswith('A.'):
         j=headers.index('Metric')
         for r in rows:r[j]=r[j].replace('AUROC, target B','AUROC B').replace('AUROC, target A','AUROC A').replace('minimum AUROC','Minimum AUROC')
@@ -160,7 +163,7 @@ def col_weights(h,rows):
     physical_pt=174/25.4*72*.97
     minimum={}
     for i,header in enumerate(h):
-        if header in ['Target pair','Target','PDB','Scheme','Role','Contrast','Metric','Seeds','Modes','Side','Jobs']:
+        if header in ['Target pair','Target','PDB','Scheme','Role','Contrast','Metric','Seeds','Modes','Side','Jobs','n (dual/A/B)']:
             value=max([MEASURE.text_length(header,fontsize=8)]+[MEASURE.text_length(r[i],fontsize=8) for r in rows])+16
             minimum[i]=value/physical_pt
     fixed={}
@@ -184,8 +187,7 @@ def render_table(pdf,label,title,panel,headers,rows,footnote,checks):
     headpt=max(x.count('\n')+1 for x in wrapped_head)*9+10
     rowpts=[max(c.count('\n')+1 for c in r)*9+5 for r in wrapped_rows]
     # Split only between records. Repeated header and continued caption on each page.
-    footer=' '.join(footnote.split())
-    footerlines=textwrap.wrap(footer,115,break_long_words=False)
+    footerlines=[line for paragraph in footnote.splitlines() for line in textwrap.wrap(' '.join(paragraph.split()),115,break_long_words=False)]
     footpt=9*len(footerlines)+9
     bodylimit=min(450,663-headpt-footpt-82)
     groups=[]
@@ -201,8 +203,7 @@ def render_table(pdf,label,title,panel,headers,rows,footnote,checks):
         batch.extend(group);pts+=rp
     if batch:pages.append(batch)
     for pi,idxs in enumerate(pages):
-        footer=' '.join(footnote.split())
-        footerlines=textwrap.wrap(footer,115,break_long_words=False)
+        footerlines=[line for paragraph in footnote.splitlines() for line in textwrap.wrap(' '.join(paragraph.split()),115,break_long_words=False)]
         footpt=9*len(footerlines)+9
         tablept=headpt+sum(rowpts[i] for i in idxs)
         heightpt=max(220,tablept+footpt+82)
@@ -270,6 +271,7 @@ def add_sheet(wb,name,title,headers,rows,note):
     return ws
 
 def main():
+    update_workbooks='--no-workbooks' not in sys.argv
     for p in [TABLES,CHECKS]:p.mkdir(parents=True,exist_ok=True)
     plt.rcParams.update({'font.family':'Arial','font.size':8,'pdf.fonttype':42})
     mainwb=Workbook();mainwb.remove(mainwb.active)
@@ -285,7 +287,7 @@ def main():
         label='Table '+key
         title,note=captions[label]
         if key=='2':
-            panels,raw=main_table2();note='Each row uses its own common two-target complete-case population. N, common population size; k = ceil(0.10 N). Arrows show S1 → comparison scheme. Dual recall is the fraction of all dual ligands recovered, expressed as a percentage. Counts and recall retain comparison-specific S1 baselines. Full class composition is given in Table S10. ᵃ Supporting comparison against S1'
+            panels,raw=main_table2();note='Each row uses its own common two-target complete-case population (N); k = ceil(0.10 N). Arrows show S1 → comparison scheme. Dual recall (%) is the fraction of all dual ligands recovered. Counts and recall retain comparison-specific S1 baselines. Full class composition: Table S10.\nᵃ Supporting comparison against S1.'
             provenance.append({'table':key,'source':str(path.relative_to(ROOT)),'source_csv':raw})
         else:
             parsed=parse(path);panels=[]
@@ -308,20 +310,22 @@ def main():
         if key=='S7':note+=' OOF refers to the learned chemistry models; S1 is a direct docking score'
         if key=='S8':note+=' AUROC B compares dual with A-only; AUROC A compares dual with B-only. Minimum AUROC is the smaller directional AUROC'
         if key=='S3':note+=' CCD denotes the cognate ligand Chemical Component Dictionary identifier; jobs denotes successful docking jobs; modes denotes saved poses per job'
-        note=clean(note).rstrip('.')
+        if key=='S5':note='AUROC B: dual versus A-only; AUROC A: dual versus B-only. Counts: dual/A-only/B-only. S1, Vina; S2, fixed-pose GNINA; S3, fixed-pose RTMScore; S4, maximum saved-pose CNNscore; S5, independent GNINA. Higher scores are favorable. Paired contrasts use their own shared members and need not equal differences between estimates in panel A. CI: 95% class-stratified percentile bootstrap (10,000 resamples; seed 271828). S4-S2: saved-pose reranking. Supporting S4-S1 in Table S10 has no added CI.'
+        note=clean(note).rstrip().rstrip('.')+'.'
         md=['# '+label+' '+title,'']
         for j,(panel,h,rows) in enumerate(panels):
             if panel:md+=['## '+panel,'']
             md += [md_table(h,rows),'']
             allpanels.append((label,title,panel,h,rows,note))
             wb=mainwb if key in ['1','2'] else siwb
-            add_sheet(wb,key+('_'+str(j+1) if len(panels)>1 else ''),label+' '+title+((' — '+panel) if panel else ''),h,rows,note)
+            if update_workbooks:add_sheet(wb,key+('_'+str(j+1) if len(panels)>1 else ''),label+' '+title+((' — '+panel) if panel else ''),h,rows,note)
         md += [note,'']
         (TABLES/('Table'+key+'.md')).write_text('\n'.join(md),encoding='utf8')
     # Preserve machine-readable main data exactly, separately from formatting.
     for f in (SOURCE/'01_Main_Tables').glob('*.csv'):(TABLES/f.name).write_bytes(f.read_bytes())
-    mainwb.save(TABLES/'Main_Tables.xlsx');siwb.save(TABLES/'Supplementary_Tables.xlsx')
-    for name,original in [('Main_Tables.xlsx',mainwb),('Supplementary_Tables.xlsx',siwb)]:
+    if update_workbooks:
+        mainwb.save(TABLES/'Main_Tables.xlsx');siwb.save(TABLES/'Supplementary_Tables.xlsx')
+    for name,original in ([('Main_Tables.xlsx',mainwb),('Supplementary_Tables.xlsx',siwb)] if update_workbooks else []):
         reloaded=load_workbook(TABLES/name,data_only=False)
         assert reloaded.sheetnames==original.sheetnames
         for a,bb in zip(original,reloaded):
@@ -340,7 +344,7 @@ def main():
         if panel:body.append('<h3>'+html.escape(panel)+'</h3>')
         body.append('<table><thead><tr>'+''.join('<th>'+html.escape(x)+'</th>' for x in h)+'</tr></thead><tbody>')
         for row in rows:body.append('<tr>'+''.join('<td>'+html.escape(x)+'</td>' for x in row)+'</tr>')
-        body.append('</tbody></table><p class="note">'+html.escape(note)+'</p></section>')
+        body.append('</tbody></table><p class="note">'+html.escape(note).replace('\n','<br>')+'</p></section>')
     page='<!doctype html><html lang="en"><meta charset="utf-8"><title>Molecular Diversity tables</title><style>body{font:10pt Arial;color:#000;max-width:1100px;margin:30px auto}h2{font-size:12pt}h3{font-size:10pt}table{border-collapse:collapse;width:100%;font-size:9pt}th{border-top:1.5px solid #000;border-bottom:1px solid #000;padding:7px}td{padding:6px;text-align:center}td:first-child{text-align:left}tbody tr:last-child td{border-bottom:1.5px solid #000}.note{font-size:9pt;line-height:1.4}section{margin-bottom:45px}thead{display:table-header-group}@media print{section{break-before:page}}</style>'+''.join(body)+'</html>'
     (TABLES/'Editable_Tables.html').write_text(page,encoding='utf8')
     print(json.dumps({'tables':12,'panels':len(allpanels),'pages':len(checks),'workbooks':2}))

@@ -24,6 +24,9 @@ PREVIOUS = OUT/'Comparison_Baseline'
 PREVIOUS_V2 = OUT/'Comparison_Baseline_v2'
 original_finish = md.finish
 original_scoring_intervals = b.fig3
+layout_spec=importlib.util.spec_from_file_location('publication_layout',HERE/'polish_molecular_diversity_layout.py')
+layout=importlib.util.module_from_spec(layout_spec)
+layout_spec.loader.exec_module(layout)
 
 
 def finish(fig, number, name, section, table, sources, records, caption, caption_cn, si=False):
@@ -51,6 +54,8 @@ def finish(fig, number, name, section, table, sources, records, caption, caption
     elif number == '9':
         number = '8'
     plt.rcParams['svg.fonttype'] = 'none'
+    if number=='S1':
+        caption+=' Seed markers have small fixed vertical offsets for visibility; offsets do not change RMSD values.'
     original_finish(fig, number, name, section, table, sources, records, caption, caption_cn, si)
 
 
@@ -279,6 +284,31 @@ def similarity():
       'Structural similarity between the two experimental classes within each directional task. Each point is the maximum ECFP4 Tanimoto similarity to any ligand in the other class of the same target pair and direction. Fingerprints use radius 2, 2048 bits, useChirality=False and useFeatures=False. Dual and single-target classes have separate boxes and vertically separated points. Boxes show the median and interquartile range; whiskers extend to the most extreme values within 1.5 IQR. All observations, including those beyond the whiskers, are shown. These are descriptive class-conditioned nearest-neighbor similarities, not independent replicate measurements or a cross-validation leakage test','',si=True)
 
 
+def scoring_scheme():
+    from matplotlib.patches import FancyBboxPatch
+    fig,ax=plt.subplots(figsize=(md.WIDTH,4.2));fig.subplots_adjust(left=.04,right=.96,bottom=.07,top=.94)
+    ax.set_xlim(0,10);ax.set_ylim(0,5);ax.axis('off')
+    def box(x,y,w,h,text,color):
+        ax.add_patch(FancyBboxPatch((x,y),w,h,boxstyle='round,pad=.025',facecolor=color,edgecolor='#455365',lw=.7))
+        ax.text(x+w/2,y+h/2,text,ha='center',va='center',fontsize=8)
+    def arrow(x,y,xx,yy):ax.annotate('',(xx,yy),xytext=(x,y),arrowprops={'arrowstyle':'->','lw':.8,'color':'#455365'})
+    box(.1,3.9,2.2,.8,'Prepared receptor\nand ligand inputs','#E7EEF5')
+    box(2.8,3.9,2.2,.8,'Vina search\nseed 42','#E7EEF5')
+    box(5.6,3.9,3.9,.8,'S1: sign-inverted\nVina affinity (mode 1)','#E7EEF5')
+    arrow(2.35,4.3,2.75,4.3);arrow(5.05,4.3,5.55,4.3)
+    box(5.6,2.9,3.9,.65,'S2: mode-1 CNNscore','#FFF0E7')
+    box(5.6,1.95,3.9,.65,'S3: mode-1 RTMScore','#E5F2EB')
+    ax.plot([5.6,5.3,5.3],[3.95,3.95,2.275],color='#455365',lw=.8)
+    arrow(5.3,3.225,5.55,3.225);arrow(5.3,2.275,5.55,2.275)
+    box(2.8,2.0,2.2,1.1,'All saved\nVina poses','#F0E8F7');arrow(3.9,3.85,3.9,3.15)
+    box(5.6,1.0,3.9,.65,'S4: maximum saved CNNscore','#F0E8F7');arrow(5.05,2.55,5.55,1.325)
+    box(.1,.15,4.9,.95,'Independent GNINA search\nS5: top CNNscore-ranked pose','#E5F2FA')
+    arrow(1.2,3.85,1.2,1.15)
+    finish(fig,'Scheme_S1','','Methods 2.4','Scoring definitions',
+      ['reruns/UNIFORM_RERUN_V4_2_20260921/00_protocol/SCORING_DOCKING_ABLATION_FREEZE_FINAL.yaml'],[],
+      'Scoring workflows S1-S5. Prepared receptor and ligand inputs feed either Vina search (seed 42) or the independent GNINA search. S1 uses sign-inverted Vina affinity from mode 1. S2 and S3 rescore that same mode-1 pose with CNNscore and RTMScore. S4 selects the highest CNNscore among all saved Vina poses. S5 uses independent GNINA docking and selects the top CNNscore-ranked pose. S4-S2 tests saved-pose reranking, whereas S5-S1 compares complete docking workflows','',si=True)
+
+
 def postprocess():
     # Remove superseded exports only in this explicitly scoped artwork folder.
     for ext in ['eps','pdf','png','svg']:
@@ -301,6 +331,11 @@ def postprocess():
         label='Scheme S1' if r['number']=='Scheme_S1' else 'Fig. '+r['number']
         caps+=['**'+label+'** '+r['caption'],'']
     (OUT/'Figure_Captions_EN.md').write_text('\n'.join(caps),encoding='utf8')
+    # Review punctuation follows the user's preference; retain journal-style copy.
+    journal='\n'.join(caps)
+    (OUT/'Figure_Captions_EN_Submission.md').write_text(journal,encoding='utf8')
+    review_caps=[s.rstrip().rstrip('.')+'.' if s.startswith('**') else s for s in caps]
+    (OUT/'Figure_Captions_EN.md').write_text('\n'.join(review_caps),encoding='utf8')
     # Figure-specific machine data must remain the same apart from renumbering.
     encoding_audit=[]
     for name in ['Fig5','Fig7','FigS6','FigS2','Fig3','Fig6']:
@@ -355,6 +390,7 @@ def postprocess():
         'full_interval_source_exports_identical':True,'method_estimates_recomputed':False}
     (md.QA/'Visual_Diversity_QA.json').write_text(json.dumps(checks,indent=2)+'\n')
     print(json.dumps(qa))
+    layout.save_report(OUT)
 
 
 def main():
@@ -369,10 +405,11 @@ def main():
             target=PREVIOUS/(name+'.'+ext)
             if not target.exists():shutil.copyfile(folder/(name+'.'+ext),target)
     md.finish=finish;b.finish=finish
+    md.publication_layout_hook=layout.polish
     old_control=b.control
     def control(number,pocket=False):
         return pocket_scatter() if pocket else old_control(number,pocket)
-    b.fig3=scoring_matrix;b.fig5=chemistry;b.fig7=seeds_receptors;b.si6=similarity;b.control=control
+    b.fig3=scoring_matrix;b.fig5=chemistry;b.fig7=seeds_receptors;b.si6=similarity;b.control=control;b.scheme=scoring_scheme
     md.main()
     full_interval_supplements()
     postprocess()

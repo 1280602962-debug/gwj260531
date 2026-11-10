@@ -40,4 +40,4 @@
 | PPARA/PPARD | 5U46 | B | 32 / 32 / 32 | 0.5107 | 0.5107 | 0 [-0.0225, 0] | -0.0181 | 0 |
 | PPARA/PPARD | 6KAX | A | 32 / 32 / 32 | 0.5107 | 0.4438 | -0.0669 [-0.1484, 0.0044] | -0.0669 | 0 |
 
-Five Vina seeds: 17, 29, 42, 71 and 101. Each seed uses its own valid population. Receptor comparisons use paired common members and replace only one target. Full direction-specific estimates, confidence intervals and members are in the source data. PIK3CA/mTOR Q110 has no alternative-receptor calculation. AUROC, target B compares dual with A-only; AUROC, target A compares dual with B-only. Minimum AUROC is the smaller directional AUROC
+Five Vina seeds: 17, 29, 42, 71 and 101. Each seed uses its own valid population. Receptor comparisons use paired common members and replace only one target. Full direction-specific estimates, confidence intervals and members are in the source data. PIK3CA/mTOR Q110 has no alternative-receptor calculation. AUROC, target B compares dual with A-only; AUROC, target A compares dual with B-only. Minimum AUROC is the smaller directional AUROC.
