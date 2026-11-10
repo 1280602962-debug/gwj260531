@@ -109,6 +109,11 @@ def relabel_numbers(ax,minimum_gap_mm=2.0):
 
 def polish(fig,number):
     before=margins(fig);extra={};heat=[]
+    numbered=number in ['6','8','S2','S4','S5']
+    if numbered:
+        for t in list(fig.texts):
+            if t.get_text().startswith(('1 EGFR','5 AChE')):t.remove()
+        extra['target_pair_key_location']='external caption'
     if number in ['4','5','S12']:
         for t in fig.texts:
             if t.get_text()=='Negative class':t.set_x(.21)
@@ -121,13 +126,6 @@ def polish(fig,number):
         bottom=min(t.get_window_extent(rr).y0 for t in fig.axes[0].get_xticklabels() if t.get_visible())
         p=cb.get_position();new_top=(bottom-3.8*fig.dpi/25.4)/(fig.get_figheight()*fig.dpi)
         cb.set_position([p.x0,new_top-p.height,p.width,p.height])
-    if number=='6':
-        fig.canvas.draw();rr=fig.canvas.get_renderer()
-        key=[t for t in fig.texts if t.get_text().startswith(('1 EGFR','5 AChE'))]
-        top=max(t.get_window_extent(rr).y1 for t in key)
-        bottom=min(l.get_window_extent(rr).y0 for l in fig.legends)
-        d=(bottom-top-2.8*fig.dpi/25.4)/(fig.get_figheight()*fig.dpi)
-        for t in key:x,y=t.get_position();t.set_position((x,y+d))
     if number=='8':
         leg=fig.legends[0];handles=list(leg.legend_handles);labels=[t.get_text() for t in leg.get_texts()];leg.remove()
         handles.append(Line2D([],[],marker='o',linestyle='none',color='#555555',markerfacecolor='white',
@@ -165,6 +163,17 @@ def polish(fig,number):
     pad_canvas(fig)
     if number in ['6','8']:
         extra['numeric_labels']=[relabel_numbers(ax) for ax in fig.axes]
+    if numbered:
+        # Remove the blank strip left by the externalized key without scaling text.
+        cut=max(0,margins(fig)['bottom']-4.6)/25.4
+        oldh=fig.get_figheight();newh=oldh-cut
+        positions=[a.get_position().frozen() for a in fig.axes]
+        anchors=[l.get_bbox_to_anchor().transformed(fig.transFigure.inverted()).frozen() for l in fig.legends]
+        fig.set_figheight(newh)
+        for ax,p in zip(fig.axes,positions):ax.set_position([p.x0,(p.y0*oldh-cut)/newh,p.width,p.height*oldh/newh])
+        for t in fig.texts:
+            x,y=t.get_position();t.set_position((x,(y*oldh-cut)/newh))
+        for leg,p in zip(fig.legends,anchors):leg.set_bbox_to_anchor((p.x0,(p.y0*oldh-cut)/newh),transform=fig.transFigure)
     after=margins(fig)
     for item in heat:
         ax=fig.axes[item['axes_index']];x,y=ax.transData.transform((item['column']+.35,item['row']+.35))
@@ -181,11 +190,6 @@ def polish(fig,number):
         header=next(t for t in fig.texts if t.get_text()=='Negative class').get_window_extent(rr)
         title=fig.axes[0].title.get_window_extent(rr) if fig.axes[0].title.get_text() else fig.axes[0]._left_title.get_window_extent(rr)
         assert not header.overlaps(title),(number,'header/title overlap')
-    if number=='6':
-        fig.canvas.draw();rr=fig.canvas.get_renderer()
-        key=[t for t in fig.texts if t.get_text().startswith(('1 EGFR','5 AChE'))]
-        extra['legend_key_gap_mm']=(min(l.get_window_extent(rr).y0 for l in fig.legends)-max(t.get_window_extent(rr).y1 for t in key))*25.4/fig.dpi
-        assert 2<=extra['legend_key_gap_mm']<=3.2,extra
     REPORT.append({'figure':number,'before_margin_mm':before,'after_margin_mm':after,
                    'heatmap_labels':heat,**extra})
 

@@ -53,6 +53,9 @@ def finish(fig, number, name, section, table, sources, records, caption, caption
         number, si = 'S10', True
     elif number == '9':
         number = '8'
+    if number in ['6','8','S2','S4','S5']:
+        caption=caption.replace('Pair numbers are identified in the figure. ','')
+        caption=caption.rstrip('.')+'. Target-pair codes: 1, EGFR/HER2; 2, JAK1/JAK2; 3, JAK1/TYK2; 4, PIK3CA/mTOR; 5, AChE/BChE; 6, F2/F10; 7, PPARG/PPARA; 8, PPARA/PPARD'
     plt.rcParams['svg.fonttype'] = 'none'
     if number=='S1':
         caption+=' Seed markers have small fixed vertical offsets for visibility; offsets do not change RMSD values.'

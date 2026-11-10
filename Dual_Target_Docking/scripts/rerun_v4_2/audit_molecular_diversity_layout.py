@@ -43,6 +43,15 @@ def main():
     review_text=(OUT/'Figure_Captions_EN.md').read_text(encoding='utf8')
     captions=[p.strip() for p in review_text.split('\n\n') if p.strip()]
     assert len(captions)==len(index)==21
+    externalized=['6','8','S2','S4','S5']
+    for row,caption in zip(index,captions):
+        if row['figure'] in externalized:
+            assert 'Target-pair codes: 1, EGFR/HER2;' in caption
+            assert '8, PPARA/PPARD' in caption
+            page=fitz.open(OUT/(row['file']+'.pdf'))[0]
+            assert '1 EGFR/HER2' not in page.get_text()
+            assert '5 AChE/BChE' not in page.get_text()
+    report['target_pair_keys_in_external_captions']=externalized
     assert all(p.endswith('.') for p in captions)
     submission=(OUT/'Figure_Captions_EN_Submission.md').read_text(encoding='utf8')
     assert all(not p.strip().endswith('.') for p in submission.split('\n\n') if p.strip())

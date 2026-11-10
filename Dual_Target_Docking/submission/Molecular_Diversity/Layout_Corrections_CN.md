@@ -13,7 +13,7 @@
 | 图S3色标、图6右端及其他页边距 | 全部21图文字四边最小净距 4.066 mm |
 | 图2、图4图例 | 轴标题与图例净距分别约3.63、3.80 mm |
 | 图5色标 | 抬至a面板列名正下方，目标净距3.8 mm |
-| 图6编号键 | 上移，距符号图例约2.8 mm |
+| 图6等图的编号键 | 编号—靶点对对应关系移入各自中英文图注，图内仅保留编号；移除遗留空白 |
 | 图6与图8编号 | 标签间留白按2 mm控制，增加引导线 |
 | 图8空心符号 | 图例增加Open symbols: S4–S1 (supporting) |
 | 图S8脚注 | 改为lower bound of the 95% CI changes from 0.4922 to 0.5030 |
@@ -33,3 +33,5 @@ Molecular Diversity当前官方指南的Figure Captions段明确要求图注末�
 ## 审阅文件与检查范围
 
 Figures_Review.pdf仍为21页纯图汇总。新增Figures_With_Captions_Review.pdf将每幅矢量图与完整Arial 9 pt图注同页呈现，图下沿到图注约5.001 mm。Tables_Review.pdf仍29页。工作簿4664个单元格按预期表头、脚注修改逐项比对，无其他值变化。数值检查、源表对照与冻结输入校验继续保留。新增检查记录为Publication_Layout_QA.json、Exported_Layout_QA.json和Workbook_Layout_QA.json；不将已扩充的检查表述为对所有可能缺陷的绝对保证。
+
+本轮补充：图6、图8、图S2、图S4、图S5的编号键统一移至各自图注；每幅图均完整列出1–8对应关系，不要求读者查另一幅图。统计数值和编号顺序均不变。
