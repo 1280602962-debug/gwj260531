@@ -88,3 +88,7 @@ Table S11 closes the v6 manuscript placeholder. [Panel A and B](Tables/TableS11.
 
 The original exploratory bootstrap output was not recovered. These intervals are a newly archived reproduction from the unchanged frozen S1 scores (10,000 class-stratified resamples; seed 271828). All 32 AUROC points agree with an independent scikit-learn calculation. The 16/16, 4/16, 11/16 and two below-0.5 interval statements in the v6 paragraph are reproduced. The manuscript citation is Table S11A for neither controls and Table S11B for opposite-single-target controls. [Protocol, membership and full numeric archive](../../analysis/single_target_controls_20261110/README.md). No existing primary or control estimates are recomputed or replaced.
 
+
+## Wording corrections (11 November 2026)
+
+Current publication files include the corrections to Figure S1, Figure 8 and Tables S2, S3, S8 and S9, plus the Table S9 reference in Main_Tables.xlsx. See [the correction log](Checks/Wording_Corrections_20261111.md) and [validation results](Checks/Wording_QA_20261111.json). Numeric results, formulas and current figure/table numbering are preserved.

@@ -50,4 +50,5 @@
 | Alternative | PPARA | 6KAX | 12.0005, 6.0880, -7.6585 | 20, 20, 22.6890 |
 | Alternative | PPARD | 5U46 | 45.4215, -1.7525, 135.5685 | 20, 20, 20.4870 |
 
-Coordinates and dimensions are in angstrom. Waters and cocrystal ligands are removed from the receptor. Box centers are bounding-box midpoints; padding is 5 Å with minimum edge 20 Å. Chain identifiers are author chain identifiers. Formal prepared files and preparation exceptions, including observed-fragment templates, are documented in the accompanying source files. Alternative structures cover only the six conditions used in the current analysis; no Q110 alternative-receptor result is included.
+Coordinates and dimensions are given in Å. Waters and cocrystal ligands are removed from the receptor. Box centers are bounding-box midpoints; padding is 5 Å with minimum edge 20 Å. Chain identifiers are author chain identifiers. Formal prepared files and preparation exceptions, including observed-fragment templates, are documented in the accompanying source files. Alternative structures cover only the six conditions used in the current analysis; no Q110 alternative-receptor result is included.
+

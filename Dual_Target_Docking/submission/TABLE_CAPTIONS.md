@@ -20,7 +20,7 @@ All final labels use pChEMBL >= 6.0. Provenance flags overlap. Complete identifi
 
 受体结构与对接盒参数
 
-Coordinates and dimensions are in angstrom. Waters and cocrystal ligands are removed from the receptor. Box centers are bounding-box midpoints; padding is 5 A with minimum edge 20 A. Chain identifiers are author chain identifiers. Formal prepared files and preparation exceptions, including observed-fragment templates, are documented in the accompanying source files. Alternative structures cover only the six conditions used in the current analysis; no Q110 alternative-receptor result is included.
+Coordinates and dimensions are given in Å. Waters and cocrystal ligands are removed from the receptor. Box centers are bounding-box midpoints; padding is 5 A with minimum edge 20 A. Chain identifiers are author chain identifiers. Formal prepared files and preparation exceptions, including observed-fragment templates, are documented in the accompanying source files. Alternative structures cover only the six conditions used in the current analysis; no Q110 alternative-receptor result is included.
 
 ## Table S3. Cocrystal-ligand redocking across five random seeds
 
@@ -56,13 +56,13 @@ Five Vina seeds: 17, 29, 42, 71 and 101. Each seed uses its own valid population
 
 化学多样性与活性阈值敏感性
 
-CAP5 is post hoc supporting sensitivity: at most five ligands per nonempty Murcko scaffold within pair and activity class; acyclic ligands are exempt. Six ligands are excluded without replacement. Complete CAP5 method comparisons, chemical models, controls and ranking outputs are retained in Supplementary_Data.zip. The PPARA/PPARD S5 dual-versus-A-only CI changes from [0.4921875, 0.767578125] to [0.5030241935, 0.7772177419]; this boundary change is retained, without a general significance claim. The strict Q110 subset has 56 members (25 dual, 12 A-only, 14 B-only, 5 neither). Main and subset populations differ; no new paired CI for their difference is calculated.
+CAP5 is a post hoc sensitivity analysis: at most five ligands per nonempty Murcko scaffold within pair and activity class; acyclic ligands are exempt. Six ligands are excluded without replacement. Complete CAP5 method comparisons, chemical models, controls and ranking outputs are retained in Supplementary_Data.zip. The PPARA/PPARD S5 dual-versus-A-only CI changes from [0.4921875, 0.767578125] to [0.5030241935, 0.7772177419]; this boundary change is retained, without a general significance claim. The strict Q110 subset has 56 members (25 dual, 12 A-only, 14 B-only, 5 neither). Main and subset populations differ; no new paired CI for their difference is calculated.
 
 ## Table S9. Joint-ranking composition and directional concordance
 
 联合排序候选组成与方向性变化关系
 
-Panel A uses each method's own members and is descriptive. Table 2 and panel B use separate matched populations for every comparison. Joint rank = max(rank A, rank B), with average single-target ranks; ties are resolved by rank sum then global molecular ID. Both differences are new scheme minus S1. Opposite signs define concordant improvement or worsening; equal nonzero signs are discordant; either exact zero defines no change. S4-S1 is supporting, using verified identical directional members and no additional CI. Complete paired composition, per-ligand ranks and all CAP5 ranking results are supplied as data files.
+Panel A uses each method's own members and is descriptive. Table 2 and panel B use separate matched populations for every comparison. Joint rank = max(rank A, rank B), with average single-target ranks; ties are resolved by rank sum then global molecular ID. Both differences are new scheme minus S1. Opposite signs define concordant improvement or worsening; equal nonzero signs are discordant; a zero value for either difference indicates that at least one metric is unchanged. S4-S1 is supporting, using verified identical directional members and no additional CI. Complete paired composition, per-ligand ranks and all CAP5 ranking results are supplied as data files.
 
 ## Table S10. Directional discrimination and paired scoring-workflow comparisons
 

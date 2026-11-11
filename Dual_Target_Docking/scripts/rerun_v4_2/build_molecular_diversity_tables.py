@@ -75,7 +75,7 @@ def parse(path):
 
 def clean(s):
     s=s.replace('Summary minuend','Comparison minimum AUROC').replace('Summary subtrahend','Reference minimum AUROC').replace('Summary difference','Minimum AUROC difference').replace('summary_min','minimum AUROC').replace('auc_B','AUROC B').replace('auc_A','AUROC A').replace('Physicochemical AUROC','Descriptor AUROC').replace('Alternative PDB','Alt. PDB').replace('Replaced side','Side')
-    return s.replace('Summary min','Minimum AUROC').replace('summary min','minimum AUROC').replace('D_vs_A','Dual vs A-only').replace('D_vs_B','Dual vs B-only').replace('AUROC B','AUROC, target B').replace('AUROC A','AUROC, target A').replace(' (A)',' (Å)').replace('<2 A','<2 Å').replace('CONCORDANT_IMPROVE','Concordant improvement').replace('CONCORDANT_WORSEN','Concordant worsening').replace('NO_CHANGE','No change').replace('DISCORDANT','Discordant').replace('DOCUMENTED_NOT_REPLAYED','Documented; not replayed').replace('+A_only:', ' / A-only: ').replace('+B_only:', ' / B-only: ').replace('+neither:', ' / neither: ').replace('dual/A_only/B_only/neither','dual / A-only / B-only / neither').replace('Threshold-discordant repeats','Threshold crossing (n)').replace('Observations','n').replace('5 A ','5 Å ').replace('20 A.','20 Å.')
+    return s.replace('Summary min','Minimum AUROC').replace('summary min','minimum AUROC').replace('D_vs_A','Dual vs A-only').replace('D_vs_B','Dual vs B-only').replace('AUROC B','AUROC, target B').replace('AUROC A','AUROC, target A').replace(' (A)',' (Å)').replace('<2 A','<2 Å').replace('CONCORDANT_IMPROVE','Concordant improvement').replace('CONCORDANT_WORSEN','Concordant worsening').replace('NO_CHANGE','At least one metric unchanged').replace('DISCORDANT','Discordant').replace('DOCUMENTED_NOT_REPLAYED','Documented; not replayed').replace('+A_only:', ' / A-only: ').replace('+B_only:', ' / B-only: ').replace('+neither:', ' / neither: ').replace('dual/A_only/B_only/neither','dual / A-only / B-only / neither').replace('Threshold-discordant repeats','Threshold crossing (n)').replace('Observations','n').replace('5 A ','5 Å ').replace('20 A.','20 Å.')
 
 def typed(s):
     if re.fullmatch(r'-?\d+',s):return int(s)
@@ -309,7 +309,7 @@ def main():
         if key=='S6':note+=' Corresp., corresponding pocket; noncorresp., noncorresponding pocket. Grouped counts follow the class order in the column heading'
         if key=='S7':note+=' OOF refers to the learned chemistry models; S1 is a direct docking score'
         if key=='S8':note+=' AUROC B compares dual with A-only; AUROC A compares dual with B-only. Minimum AUROC is the smaller directional AUROC'
-        if key=='S3':note+=' CCD denotes the cognate ligand Chemical Component Dictionary identifier; jobs denotes successful docking jobs; modes denotes saved poses per job'
+        if key=='S3':note+=' CCD denotes the cognate ligand Chemical Component Dictionary identifier. The "Jobs" and "Modes" columns report the number of successful docking jobs and the number of saved poses per job, respectively'
         if key=='S5':note='AUROC B: dual versus A-only; AUROC A: dual versus B-only. Counts: dual/A-only/B-only. S1, Vina; S2, fixed-pose GNINA; S3, fixed-pose RTMScore; S4, maximum saved-pose CNNscore; S5, independent GNINA. Higher scores are favorable. Paired contrasts use their own shared members and need not equal differences between estimates in panel A. CI: 95% class-stratified percentile bootstrap (10,000 resamples; seed 271828). S4-S2: saved-pose reranking. Supporting S4-S1 in Table S10 has no added CI.'
         note=clean(note).rstrip().rstrip('.')+'.'
         md=['# '+label+' '+title,'']
@@ -350,3 +350,4 @@ def main():
     print(json.dumps({'tables':12,'panels':len(allpanels),'pages':len(checks),'workbooks':2}))
 
 if __name__=='__main__':main()
+

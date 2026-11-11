@@ -29,7 +29,7 @@ ARMS=['D_vs_A','D_vs_B']; CONTRAST=['dual_vs_A_only','dual_vs_B_only','summary_m
 BLUE='#0072B2'; ORANGE='#D55E00'; GREEN='#009E73'; PURPLE='#9B59B6'; GREY='#6B7280'
 MC={'M0':GREY,'M1':ORANGE,'M2':GREEN,'M1b':PURPLE,'M3':BLUE}
 MK={'M0':'o','M1':'s','M2':'^','M1b':'D','M3':'v'}
-STATE={'CONCORDANT_IMPROVE':(BLUE,'o','Concordant improvement'),'CONCORDANT_WORSEN':(ORANGE,'s','Concordant worsening'),'DISCORDANT':(PURPLE,'D','Discordant'),'NO_CHANGE':(GREY,'^','No change')}
+STATE={'CONCORDANT_IMPROVE':(BLUE,'o','Concordant improvement'),'CONCORDANT_WORSEN':(ORANGE,'s','Concordant worsening'),'DISCORDANT':(PURPLE,'D','Discordant'),'NO_CHANGE':(GREY,'^','At least one metric unchanged')}
 ST='results/jcim_stage2/'; CAP='results/current/chemical_diversity_cap5_20261023/'
 PR='results/formal_metrics/PRIMARY_DIRECTIONAL_METRICS.csv'; DELTA='results/formal_metrics/PRIMARY_METHOD_DELTA_METRICS.csv'
 FIGURES=[]; QUALITY=[]; SOURCE={}
@@ -224,7 +224,7 @@ def fig9():
     handles=[Line2D([],[],color=c,marker=mk,linestyle='none',label=label,markersize=5)for c,mk,label in STATE.values()];fig.legend(handles=handles,loc='lower center',bbox_to_anchor=(.55,.12),ncol=2,frameon=False)
     fig.text(.12,.065,'1 EGFR/HER2   2 JAK1/JAK2   3 JAK1/TYK2   4 PIK3CA/mTOR',fontsize=7.5)
     fig.text(.12,.035,'5 AChE/BChE   6 F2/F10   7 PPARG/PPARA   8 PPARA/PPARD',fontsize=7.5)
-    finish(fig,'9','Directional_and_Joint_Ranking','Results 3.7','Tables 2, S10B,C',[source],data,'Relationship between directional discrimination and candidate-list composition. Each point is one target pair. Both axes show the new scheme minus S1. The horizontal axis is the paired directional summary_min change; the vertical axis is the change in single-target-selective fraction among the top 10% of joint ranks, expressed in percentage points. Ranking and directional changes use their respective complete-case populations, as defined in Methods. Colors and symbols identify the four change categories. Open symbols identify the supporting S4-S1 comparison. No new confidence interval is added. Matched top-list counts are shown in Table 2 and Figure S9.','方向性指标变化与联合名单组成变化的关系。纵轴为百分点，不是相对百分比；每个方法比较分别使用自己的共同成员。空心点表示 S4 对 S1 的支持性比较。')
+    finish(fig,'9','Directional_and_Joint_Ranking','Results 3.7','Tables 2, S10B,C',[source],data,'Relationship between directional discrimination and candidate-list composition. Each point is one target pair. Both axes show the new scheme minus S1. The horizontal axis is the paired directional summary_min change; the vertical axis is the change in single-target-selective fraction among the top 10% of joint ranks, expressed in percentage points. Ranking and directional changes use their respective complete-case populations, as defined in Methods. Colors and symbols identify the four change categories. A comparison is classified as "At least one metric unchanged" when either axis difference is exactly zero. Open symbols identify the supporting S4-S1 comparison. No new confidence interval is added. Matched top-list counts are shown in Table 2 and Figure S9.','方向性指标变化与联合名单组成变化的关系。纵轴为百分点，不是相对百分比；每个方法比较分别使用自己的共同成员。空心点表示 S4 对 S1 的支持性比较。')
 
 def pair_key(fig,bottom=.015):
     fig.text(.12,bottom+.025,'1 EGFR/HER2   2 JAK1/JAK2   3 JAK1/TYK2   4 PIK3CA/mTOR',fontsize=7.5)
@@ -240,7 +240,7 @@ def si1():
             a.scatter([f(r,key)for r in rr],yy+off,s=20,color=c,marker=m,label=str(seed))
         a.set_xlim((0,11.8)if key=='top1_rmsd_A'else(0,3));a.set_ylim(-.6,13.6);a.set_xlabel('Heavy-atom RMSD (angstrom)');axes_style(a,reference=2);title(a,letter,label)
     ax[0].set_yticks(yy,[r['target']+' '+r['pdb_id']for r in reg]);fig.legend(*ax[0].get_legend_handles_labels(),ncol=5,frameon=False,loc='lower center',bbox_to_anchor=(.58,.025))
-    finish(fig,'S1','Cocrystal_Redocking','Methods 2.3','Table S3',[source],data,'Cocrystal-ligand redocking for 14 primary receptors and five search seeds. (a) Top-ranked-pose RMSD. (b) Minimum RMSD among all saved poses. RMSDs are symmetry-aware heavy-atom distances computed in the receptor frame. The dashed line marks 2 angstrom. Each point is a recorded seed result; no coordinate or RMSD is recomputed for this figure. Axes differ between panels to preserve visibility of large top-ranked-pose errors.','14 个正式受体的五种子重对接，分别展示首位姿态及保存姿态中的最佳 RMSD。两个面板的横轴范围不同。',si=True)
+    finish(fig,'S1','Cocrystal_Redocking','Methods 2.3','Table S3',[source],data,'Cocrystal-ligand redocking for 14 primary receptors and five search seeds. (a) Top-ranked-pose RMSD. (b) Minimum RMSD among all saved poses. RMSDs are symmetry-aware heavy-atom distances computed in the receptor frame. The dashed line marks 2 Å. Each point is a recorded seed result; no coordinate or RMSD is recomputed for this figure. Axes differ between panels to preserve visibility of large top-ranked-pose errors.','14 个正式受体的五种子重对接，分别展示首位姿态及保存姿态中的最佳 RMSD。两个面板的横轴范围不同。',si=True)
 
 def si2():
     source=ST+'module_H_missingness.csv';data=read(source);by={(r['pair'],r['method'],r['class'],r['target']):r for r in data}
@@ -368,3 +368,4 @@ def main():
     print(json.dumps({'main':9,'SI':9,'scheme':1,'font':family,'outside_canvas_figures':outside,'min_font_pt':min(r['smallest_visible_font_pt']for r in QUALITY)}))
 
 if __name__=='__main__':main()
+

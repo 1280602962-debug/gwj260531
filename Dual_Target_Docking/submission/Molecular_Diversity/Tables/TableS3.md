@@ -17,4 +17,5 @@
 | PPARA | 6LXA | EPA | 5 | 5 | 7.7870 [7.7100, 7.8410] | 1.1250 [0.5970, 1.6120] | 0 | 5 | 9 |
 | PPARD | 5U3Q | 7UJ | 5 | 5 | 0.4840 [0.4460, 0.7780] | 0.4840 [0.4460, 0.7780] | 5 | 5 | 9 |
 
-Seeds: 17, 29, 42, 71 and 101. Symmetry-aware heavy-atom RMSD is calculated in the receptor coordinate frame. Top-ranked-pose success and success among saved poses are separate outcomes. The summary uses recorded RMSDs without recomputing coordinates; every seed-level record is in Supplementary_Data.zip. CCD denotes the cognate ligand Chemical Component Dictionary identifier; jobs denotes successful docking jobs; modes denotes saved poses per job.
+Seeds: 17, 29, 42, 71 and 101. Symmetry-aware heavy-atom RMSD is calculated in the receptor coordinate frame. Top-ranked-pose success and success among saved poses are separate outcomes. The summary uses recorded RMSDs without recomputing coordinates; every seed-level record is in Supplementary_Data.zip. CCD denotes the cognate ligand Chemical Component Dictionary identifier. The "Jobs" and "Modes" columns report the number of successful docking jobs and the number of saved poses per job, respectively.
+

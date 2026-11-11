@@ -114,7 +114,7 @@
 | AChE/BChE | S3 | 80 | 27 | -0.1433 | 0.3750 | Concordant worsening | NO |
 | AChE/BChE | S4 | 79 | 27 | -0.2431 | 0.3750 | Concordant worsening | YES |
 | AChE/BChE | S5 | 80 | 27 | -0.1830 | 0.3750 | Concordant worsening | NO |
-| F2/F10 | S2 | 95 | 31 | 0.1643 | 0 | No change | NO |
+| F2/F10 | S2 | 95 | 31 | 0.1643 | 0 | At least one metric unchanged | NO |
 | F2/F10 | S3 | 96 | 32 | 0.2471 | -0.3000 | Concordant improvement | NO |
 | F2/F10 | S4 | 95 | 31 | 0.1956 | -0.1000 | Concordant improvement | YES |
 | F2/F10 | S5 | 95 | 31 | 0.1815 | -0.2000 | Concordant improvement | NO |
@@ -124,17 +124,17 @@
 | PPARG/PPARA | S5 | 96 | 32 | -0.1558 | 0.5000 | Concordant worsening | NO |
 | PPARA/PPARD | S2 | 91 | 27 | 0.1192 | -0.2000 | Concordant improvement | NO |
 | PPARA/PPARD | S3 | 96 | 32 | 0.1582 | -0.3000 | Concordant improvement | NO |
-| PPARA/PPARD | S4 | 91 | 27 | 0 | -0.1000 | No change | YES |
+| PPARA/PPARD | S4 | 91 | 27 | 0 | -0.1000 | At least one metric unchanged | YES |
 | PPARA/PPARD | S5 | 96 | 32 | 0.1230 | -0.2000 | Concordant improvement | NO |
 
 ## C. Concordance counts
 
-| Scheme vs S1 | Pairs | Concordant improvement | Concordant worsening | Discordant | No change |
+| Scheme vs S1 | Pairs | Concordant improvement | Concordant worsening | Discordant | At least one metric unchanged |
 | --- | --- | --- | --- | --- | --- |
 | S2 | 8 | 2 | 2 | 3 | 1 |
 | S3 | 8 | 5 | 3 | 0 | 0 |
 | S4 | 8 | 3 | 3 | 1 | 1 |
 | S5 | 8 | 4 | 2 | 2 | 0 |
 
-Panel A uses each method's own members and is descriptive. Table 2 and panel B use separate matched populations for every comparison. Joint rank = max(rank A, rank B), with average single-target ranks; ties are resolved by rank sum then global molecular ID. Both differences are new scheme minus S1. Opposite signs define concordant improvement or worsening; equal nonzero signs are discordant; either exact zero defines no change. S4-S1 is supporting, using verified identical directional members and no additional CI. Complete paired composition, per-ligand ranks and all CAP5 ranking results are supplied as data files.
+Panel A uses each method's own members and is descriptive. Table 2 and panel B use separate matched populations for every comparison. Joint rank = max(rank A, rank B), with average single-target ranks; ties are resolved by rank sum then global molecular ID. Both differences are new scheme minus S1. Opposite signs define concordant improvement or worsening; equal nonzero signs are discordant; a zero value for either difference indicates that at least one metric is unchanged. S4-S1 is supporting, using verified identical directional members and no additional CI. Complete paired composition, per-ligand ranks and all CAP5 ranking results are supplied as data files.
 
