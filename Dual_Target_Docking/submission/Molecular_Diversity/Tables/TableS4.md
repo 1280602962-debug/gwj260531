@@ -66,4 +66,5 @@
 | PPARA/PPARD | S4 | 110 | 105 | 5 | 110 | 105 | 5 |
 | PPARA/PPARD | S5 | 110 | 110 | 0 | 110 | 110 | 0 |
 
-Panel A counts ligand-direction records. Panel B aggregates the four activity classes; class-specific missingness, exclusions and ligand identifiers remain in the complete source files. Dual vs A-only means dual versus A-only using target B; Dual vs B-only uses target A. Missing fold assignments are excluded from chemistry evaluation. Paired method comparisons use their own complete-case populations, reported in Table S5B.
+Panel A counts ligand-direction records. Panel B aggregates the four activity classes; class-specific missingness, exclusions and ligand identifiers remain in the complete source files. Dual vs A-only means dual versus A-only using target B; Dual vs B-only uses target A. Missing fold assignments are excluded from chemistry evaluation. Paired method comparisons use their own complete-case populations, reported in Table S10B.
+

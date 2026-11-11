@@ -35,5 +35,6 @@
 | PPARA/PPARD | S4ᵃ | 91 | 10 | 3 → 4 | 11.11 → 14.81 |
 | PPARA/PPARD | S5 | 96 | 10 | 3 → 5 | 9.38 → 15.63 |
 
-Each row uses its own common two-target complete-case population (N); k = ceil(0.10 N). Arrows show S1 → comparison scheme. Dual recall (%) is the fraction of all dual ligands recovered. Counts and recall retain comparison-specific S1 baselines. Full class composition: Table S10.
+Each row uses its own common two-target complete-case population (N); k = ceil(0.10 N). Arrows show S1 → comparison scheme. Dual recall (%) is the fraction of all dual ligands recovered. Counts and recall retain comparison-specific S1 baselines. Full class composition: Table S9.
 ᵃ Supporting comparison against S1.
+

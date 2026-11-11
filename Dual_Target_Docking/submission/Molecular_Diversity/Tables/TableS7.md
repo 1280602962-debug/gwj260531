@@ -1,22 +1,44 @@
-# Table S7 Out-of-fold performance of ligand-chemistry models
+# Table S7 Random-seed and receptor-structure sensitivity
 
-| Target pair | Direction | Common OOF n | Descriptor AUROC | ECFP4 AUROC | ECFP4 + S1 AUROC | Matched S1 AUROC | ECFP4 + S1 increment |
+## A. Five-seed distributions
+
+| Target pair | Metric | Seed 42 | Median | Minimum | Maximum | IQR | Finite seeds |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| EGFR/HER2 | Dual vs A-only | 65 | 0.6757 | 0.8002 | 0.7838 | 0.6274 | -0.0164 |
-| EGFR/HER2 | Dual vs B-only | 59 | 0.7592 | 0.8790 | 0.8767 | 0.2408 | -0.0023 |
-| JAK1/JAK2 | Dual vs A-only | 64 | 0.6030 | 0.9185 | 0.9199 | 0.5908 | 0.0015 |
-| JAK1/JAK2 | Dual vs B-only | 64 | 0.9014 | 0.9678 | 0.9707 | 0.7485 | 0.0029 |
-| JAK1/TYK2 | Dual vs A-only | 63 | 0.5655 | 0.8488 | 0.8438 | 0.6371 | -0.0050 |
-| JAK1/TYK2 | Dual vs B-only | 63 | 0.8407 | 0.9042 | 0.9032 | 0.4032 | -0.0010 |
-| PIK3CA/mTOR | Dual vs A-only | 64 | 0.6094 | 0.8213 | 0.8428 | 0.7363 | 0.0215 |
-| PIK3CA/mTOR | Dual vs B-only | 64 | 0.2939 | 0.7285 | 0.7256 | 0.5801 | -0.0029 |
-| AChE/BChE | Dual vs A-only | 52 | 0.6815 | 0.8993 | 0.8948 | 0.6341 | -0.0044 |
-| AChE/BChE | Dual vs B-only | 55 | 0.7884 | 0.8201 | 0.8148 | 0.6442 | -0.0053 |
-| F2/F10 | Dual vs A-only | 63 | 0.6139 | 0.9405 | 0.9335 | 0.4204 | -0.0071 |
-| F2/F10 | Dual vs B-only | 63 | 0.4889 | 0.6633 | 0.6996 | 0.3740 | 0.0363 |
-| PPARG/PPARA | Dual vs A-only | 63 | 0.7198 | 0.8206 | 0.8065 | 0.6764 | -0.0141 |
-| PPARG/PPARA | Dual vs B-only | 64 | 0.7158 | 0.6670 | 0.6611 | 0.6021 | -0.0059 |
-| PPARA/PPARD | Dual vs A-only | 64 | 0.4375 | 0.9316 | 0.9287 | 0.6787 | -0.0029 |
-| PPARA/PPARD | Dual vs B-only | 64 | 0.3115 | 0.8740 | 0.8789 | 0.5107 | 0.0049 |
+| EGFR/HER2 | AUROC B | 0.6274 | 0.6375 | 0.6274 | 0.6477 | 0.0111 | 5 |
+| EGFR/HER2 | AUROC A | 0.2467 | 0.2388 | 0.2305 | 0.2467 | 0.0089 | 5 |
+| EGFR/HER2 | Minimum AUROC | 0.2467 | 0.2388 | 0.2305 | 0.2467 | 0.0089 | 5 |
+| JAK1/JAK2 | AUROC B | 0.5908 | 0.5840 | 0.5684 | 0.5908 | 0.0093 | 5 |
+| JAK1/JAK2 | AUROC A | 0.7485 | 0.7485 | 0.7422 | 0.7573 | 0.0112 | 5 |
+| JAK1/JAK2 | Minimum AUROC | 0.5908 | 0.5840 | 0.5684 | 0.5908 | 0.0093 | 5 |
+| JAK1/TYK2 | AUROC B | 0.6475 | 0.6475 | 0.6328 | 0.6631 | 0.0156 | 5 |
+| JAK1/TYK2 | AUROC A | 0.4219 | 0.4229 | 0.4121 | 0.4302 | 0.0015 | 5 |
+| JAK1/TYK2 | Minimum AUROC | 0.4219 | 0.4229 | 0.4121 | 0.4302 | 0.0015 | 5 |
+| PIK3CA/mTOR | AUROC B | 0.7363 | 0.7354 | 0.6997 | 0.7402 | 0.0029 | 5 |
+| PIK3CA/mTOR | AUROC A | 0.5801 | 0.5752 | 0.5596 | 0.5869 | 0.0190 | 5 |
+| PIK3CA/mTOR | Minimum AUROC | 0.5801 | 0.5752 | 0.5596 | 0.5869 | 0.0190 | 5 |
+| AChE/BChE | AUROC B | 0.6341 | 0.6422 | 0.6049 | 0.6533 | 0.0163 | 5 |
+| AChE/BChE | AUROC A | 0.6442 | 0.6442 | 0.6356 | 0.6448 | 0.0026 | 5 |
+| AChE/BChE | Minimum AUROC | 0.6341 | 0.6356 | 0.6049 | 0.6448 | 0.0075 | 5 |
+| F2/F10 | AUROC B | 0.4082 | 0.4062 | 0.3955 | 0.4082 | 0.0015 | 5 |
+| F2/F10 | AUROC A | 0.3623 | 0.3647 | 0.3594 | 0.3682 | 0.0029 | 5 |
+| F2/F10 | Minimum AUROC | 0.3623 | 0.3647 | 0.3594 | 0.3682 | 0.0029 | 5 |
+| PPARG/PPARA | AUROC B | 0.6553 | 0.6553 | 0.6465 | 0.6680 | 0.0127 | 5 |
+| PPARG/PPARA | AUROC A | 0.6021 | 0.6313 | 0.6021 | 0.6406 | 0.0225 | 5 |
+| PPARG/PPARA | Minimum AUROC | 0.6021 | 0.6313 | 0.6021 | 0.6406 | 0.0225 | 5 |
+| PPARA/PPARD | AUROC B | 0.6787 | 0.6929 | 0.6787 | 0.6953 | 0.0039 | 5 |
+| PPARA/PPARD | AUROC A | 0.5107 | 0.5088 | 0.4800 | 0.5151 | 0.0146 | 5 |
+| PPARA/PPARD | Minimum AUROC | 0.5107 | 0.5088 | 0.4800 | 0.5151 | 0.0146 | 5 |
 
-All models and S1 are evaluated on identical members within each direction. The increment is AUROC(ECFP4 + S1) minus AUROC(ECFP4). Existing frozen five-fold assignments are retained; Q110 uses sorted canonical Murcko scaffolds assigned cyclically to folds 0-4. Standardization is fitted in training folds. Full descriptors, scaffolds, similarities, folds and OOF predictions are supplied as data files; no new model is fitted during table preparation. OOF refers to the learned chemistry models; S1 is a direct docking score.
+## B. One-receptor substitutions
+
+| Target pair | Alt. PDB | Side | n (dual / A-only / B-only) | Original minimum AUROC | Alternative minimum AUROC | Minimum AUROC difference (95% CI) | Affected AUROC difference | Unreplaced AUROC difference |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| AChE/BChE | 1P0M | B | 26 / 23 / 26 | 0.6037 | 0.6003 | -0.0033 [-0.0803, 0.0836] | -0.0033 | 0 |
+| AChE/BChE | 4EY6 | A | 27 / 23 / 26 | 0.6184 | 0.5670 | -0.0514 [-0.1852, 0] | -0.0940 | 0 |
+| F2/F10 | 2Y5F | B | 30 / 32 / 31 | 0.3828 | 0.3828 | 0 [-0.0469, 0.0229] | -0.0146 | 0 |
+| F2/F10 | 3SHC | A | 30 / 32 / 31 | 0.3828 | 0.4333 | 0.0505 [0, 0.1441] | 0.0780 | 0 |
+| PPARA/PPARD | 5U46 | B | 32 / 32 / 32 | 0.5107 | 0.5107 | 0 [-0.0225, 0] | -0.0181 | 0 |
+| PPARA/PPARD | 6KAX | A | 32 / 32 / 32 | 0.5107 | 0.4438 | -0.0669 [-0.1484, 0.0044] | -0.0669 | 0 |
+
+Five Vina seeds: 17, 29, 42, 71 and 101. Each seed uses its own valid population. Receptor comparisons use paired common members and replace only one target. Full direction-specific estimates, confidence intervals and members are in the source data. PIK3CA/mTOR Q110 has no alternative-receptor calculation. AUROC, target B compares dual with A-only; AUROC, target A compares dual with B-only. Minimum AUROC is the smaller directional AUROC.
+

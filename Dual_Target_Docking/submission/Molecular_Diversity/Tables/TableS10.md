@@ -1,139 +1,86 @@
-# Table S10 Joint-ranking composition and directional concordance
+# Table S10 Directional discrimination and paired scoring-workflow comparisons
 
-## A1. Method-specific top-10% counts
+## A. Method-specific estimates
 
-| Target pair | Scheme | N | k | Dual in population | Dual selected | A-only selected | B-only selected |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| EGFR/HER2 | S1 | 97 | 10 | 28 | 1 | 4 | 5 |
-| EGFR/HER2 | S2 | 97 | 10 | 28 | 2 | 1 | 7 |
-| EGFR/HER2 | S3 | 97 | 10 | 28 | 2 | 4 | 4 |
-| EGFR/HER2 | S4 | 97 | 10 | 28 | 2 | 2 | 6 |
-| EGFR/HER2 | S5 | 97 | 10 | 28 | 2 | 0 | 8 |
-| JAK1/JAK2 | S1 | 96 | 10 | 32 | 6 | 3 | 1 |
-| JAK1/JAK2 | S2 | 96 | 10 | 32 | 7 | 3 | 0 |
-| JAK1/JAK2 | S3 | 96 | 10 | 32 | 4 | 4 | 2 |
-| JAK1/JAK2 | S4 | 96 | 10 | 32 | 4 | 3 | 3 |
-| JAK1/JAK2 | S5 | 96 | 10 | 32 | 7 | 3 | 0 |
-| JAK1/TYK2 | S1 | 96 | 10 | 32 | 3 | 1 | 6 |
-| JAK1/TYK2 | S2 | 96 | 10 | 32 | 6 | 2 | 2 |
-| JAK1/TYK2 | S3 | 96 | 10 | 32 | 5 | 0 | 5 |
-| JAK1/TYK2 | S4 | 96 | 10 | 32 | 5 | 3 | 2 |
-| JAK1/TYK2 | S5 | 96 | 10 | 32 | 5 | 4 | 1 |
-| PIK3CA/mTOR | S1 | 96 | 10 | 32 | 4 | 0 | 6 |
-| PIK3CA/mTOR | S2 | 96 | 10 | 32 | 6 | 3 | 1 |
-| PIK3CA/mTOR | S3 | 96 | 10 | 32 | 7 | 1 | 2 |
-| PIK3CA/mTOR | S4 | 96 | 10 | 32 | 5 | 3 | 2 |
-| PIK3CA/mTOR | S5 | 96 | 10 | 32 | 7 | 1 | 2 |
-| AChE/BChE | S1 | 80 | 8 | 27 | 6 | 0 | 2 |
-| AChE/BChE | S2 | 79 | 8 | 27 | 3 | 2 | 3 |
-| AChE/BChE | S3 | 80 | 8 | 27 | 3 | 3 | 2 |
-| AChE/BChE | S4 | 79 | 8 | 27 | 3 | 3 | 2 |
-| AChE/BChE | S5 | 82 | 9 | 27 | 3 | 1 | 5 |
-| F2/F10 | S1 | 96 | 10 | 32 | 4 | 4 | 2 |
-| F2/F10 | S2 | 95 | 10 | 31 | 4 | 3 | 3 |
-| F2/F10 | S3 | 96 | 10 | 32 | 7 | 1 | 2 |
-| F2/F10 | S4 | 95 | 10 | 31 | 5 | 5 | 0 |
-| F2/F10 | S5 | 95 | 10 | 31 | 6 | 3 | 1 |
-| PPARG/PPARA | S1 | 96 | 10 | 32 | 6 | 3 | 1 |
-| PPARG/PPARA | S2 | 94 | 10 | 30 | 2 | 4 | 4 |
-| PPARG/PPARA | S3 | 96 | 10 | 32 | 4 | 3 | 3 |
-| PPARG/PPARA | S4 | 94 | 10 | 30 | 3 | 4 | 3 |
-| PPARG/PPARA | S5 | 96 | 10 | 32 | 1 | 4 | 5 |
-| PPARA/PPARD | S1 | 96 | 10 | 32 | 3 | 2 | 5 |
-| PPARA/PPARD | S2 | 91 | 10 | 27 | 5 | 2 | 3 |
-| PPARA/PPARD | S3 | 96 | 10 | 32 | 6 | 2 | 2 |
-| PPARA/PPARD | S4 | 91 | 10 | 27 | 4 | 1 | 5 |
-| PPARA/PPARD | S5 | 96 | 10 | 32 | 5 | 1 | 4 |
-
-## A2. Method-specific top-10% fractions
-
-| Target pair | Scheme | Dual fraction | Single-target fraction | Dual recall | Population dual fraction |
+| Target pair | Scheme | n (dual/A/B) | AUROC B [95% CI] | AUROC A [95% CI] | Min. AUROC [95% CI] |
 | --- | --- | --- | --- | --- | --- |
-| EGFR/HER2 | S1 | 0.1000 | 0.9000 | 0.0357 | 0.2887 |
-| EGFR/HER2 | S2 | 0.2000 | 0.8000 | 0.0714 | 0.2887 |
-| EGFR/HER2 | S3 | 0.2000 | 0.8000 | 0.0714 | 0.2887 |
-| EGFR/HER2 | S4 | 0.2000 | 0.8000 | 0.0714 | 0.2887 |
-| EGFR/HER2 | S5 | 0.2000 | 0.8000 | 0.0714 | 0.2887 |
-| JAK1/JAK2 | S1 | 0.6000 | 0.4000 | 0.1875 | 0.3333 |
-| JAK1/JAK2 | S2 | 0.7000 | 0.3000 | 0.2188 | 0.3333 |
-| JAK1/JAK2 | S3 | 0.4000 | 0.6000 | 0.1250 | 0.3333 |
-| JAK1/JAK2 | S4 | 0.4000 | 0.6000 | 0.1250 | 0.3333 |
-| JAK1/JAK2 | S5 | 0.7000 | 0.3000 | 0.2188 | 0.3333 |
-| JAK1/TYK2 | S1 | 0.3000 | 0.7000 | 0.0938 | 0.3333 |
-| JAK1/TYK2 | S2 | 0.6000 | 0.4000 | 0.1875 | 0.3333 |
-| JAK1/TYK2 | S3 | 0.5000 | 0.5000 | 0.1562 | 0.3333 |
-| JAK1/TYK2 | S4 | 0.5000 | 0.5000 | 0.1562 | 0.3333 |
-| JAK1/TYK2 | S5 | 0.5000 | 0.5000 | 0.1562 | 0.3333 |
-| PIK3CA/mTOR | S1 | 0.4000 | 0.6000 | 0.1250 | 0.3333 |
-| PIK3CA/mTOR | S2 | 0.6000 | 0.4000 | 0.1875 | 0.3333 |
-| PIK3CA/mTOR | S3 | 0.7000 | 0.3000 | 0.2188 | 0.3333 |
-| PIK3CA/mTOR | S4 | 0.5000 | 0.5000 | 0.1562 | 0.3333 |
-| PIK3CA/mTOR | S5 | 0.7000 | 0.3000 | 0.2188 | 0.3333 |
-| AChE/BChE | S1 | 0.7500 | 0.2500 | 0.2222 | 0.3375 |
-| AChE/BChE | S2 | 0.3750 | 0.6250 | 0.1111 | 0.3418 |
-| AChE/BChE | S3 | 0.3750 | 0.6250 | 0.1111 | 0.3375 |
-| AChE/BChE | S4 | 0.3750 | 0.6250 | 0.1111 | 0.3418 |
-| AChE/BChE | S5 | 0.3333 | 0.6667 | 0.1111 | 0.3293 |
-| F2/F10 | S1 | 0.4000 | 0.6000 | 0.1250 | 0.3333 |
-| F2/F10 | S2 | 0.4000 | 0.6000 | 0.1290 | 0.3263 |
-| F2/F10 | S3 | 0.7000 | 0.3000 | 0.2188 | 0.3333 |
-| F2/F10 | S4 | 0.5000 | 0.5000 | 0.1613 | 0.3263 |
-| F2/F10 | S5 | 0.6000 | 0.4000 | 0.1935 | 0.3263 |
-| PPARG/PPARA | S1 | 0.6000 | 0.4000 | 0.1875 | 0.3333 |
-| PPARG/PPARA | S2 | 0.2000 | 0.8000 | 0.0667 | 0.3191 |
-| PPARG/PPARA | S3 | 0.4000 | 0.6000 | 0.1250 | 0.3333 |
-| PPARG/PPARA | S4 | 0.3000 | 0.7000 | 0.1000 | 0.3191 |
-| PPARG/PPARA | S5 | 0.1000 | 0.9000 | 0.0312 | 0.3333 |
-| PPARA/PPARD | S1 | 0.3000 | 0.7000 | 0.0938 | 0.3333 |
-| PPARA/PPARD | S2 | 0.5000 | 0.5000 | 0.1852 | 0.2967 |
-| PPARA/PPARD | S3 | 0.6000 | 0.4000 | 0.1875 | 0.3333 |
-| PPARA/PPARD | S4 | 0.4000 | 0.6000 | 0.1481 | 0.2967 |
-| PPARA/PPARD | S5 | 0.5000 | 0.5000 | 0.1562 | 0.3333 |
+| EGFR/HER2 | S1 | 28 / 37 / 32 | 0.6274 [0.4865, 0.7645] | 0.2467 [0.1328, 0.3783] | 0.2467 [0.1328, 0.3783] |
+| EGFR/HER2 | S2 | 28 / 37 / 32 | 0.3731 [0.2355, 0.5150] | 0.2210 [0.0993, 0.3538] | 0.2210 [0.0993, 0.3516] |
+| EGFR/HER2 | S3 | 28 / 37 / 32 | 0.5241 [0.3793, 0.6641] | 0.2634 [0.1339, 0.4051] | 0.2634 [0.1339, 0.4051] |
+| EGFR/HER2 | S4 | 28 / 37 / 32 | 0.4204 [0.2760, 0.5690] | 0.2812 [0.1551, 0.4208] | 0.2812 [0.1551, 0.4163] |
+| EGFR/HER2 | S5 | 28 / 37 / 32 | 0.4344 [0.2896, 0.5820] | 0.2455 [0.1239, 0.3806] | 0.2455 [0.1239, 0.3806] |
+| JAK1/JAK2 | S1 | 32 / 32 / 32 | 0.5908 [0.4512, 0.7275] | 0.7485 [0.6235, 0.8604] | 0.5908 [0.4512, 0.7246] |
+| JAK1/JAK2 | S2 | 32 / 32 / 32 | 0.4385 [0.2979, 0.5791] | 0.7402 [0.6055, 0.8623] | 0.4385 [0.2979, 0.5791] |
+| JAK1/JAK2 | S3 | 32 / 32 / 32 | 0.4736 [0.3291, 0.6211] | 0.7480 [0.6162, 0.8623] | 0.4736 [0.3291, 0.6201] |
+| JAK1/JAK2 | S4 | 32 / 32 / 32 | 0.4443 [0.2988, 0.5898] | 0.6846 [0.5430, 0.8184] | 0.4443 [0.2988, 0.5898] |
+| JAK1/JAK2 | S5 | 32 / 32 / 32 | 0.5137 [0.3682, 0.6592] | 0.7012 [0.5605, 0.8311] | 0.5137 [0.3682, 0.6592] |
+| JAK1/TYK2 | S1 | 32 / 32 / 32 | 0.6475 [0.5049, 0.7812] | 0.4219 [0.2812, 0.5654] | 0.4219 [0.2812, 0.5635] |
+| JAK1/TYK2 | S2 | 32 / 32 / 32 | 0.6631 [0.5225, 0.7940] | 0.5596 [0.4102, 0.7021] | 0.5596 [0.4102, 0.6836] |
+| JAK1/TYK2 | S3 | 32 / 32 / 32 | 0.7090 [0.5742, 0.8271] | 0.4873 [0.3379, 0.6338] | 0.4873 [0.3379, 0.6309] |
+| JAK1/TYK2 | S4 | 32 / 32 / 32 | 0.7637 [0.6348, 0.8779] | 0.6758 [0.5254, 0.8164] | 0.6758 [0.5254, 0.7998] |
+| JAK1/TYK2 | S5 | 32 / 32 / 32 | 0.6689 [0.5322, 0.8067] | 0.6846 [0.5430, 0.8115] | 0.6689 [0.5176, 0.7666] |
+| PIK3CA/mTOR | S1 | 32 / 32 / 32 | 0.7363 [0.6074, 0.8486] | 0.5801 [0.4346, 0.7188] | 0.5801 [0.4346, 0.7129] |
+| PIK3CA/mTOR | S2 | 32 / 32 / 32 | 0.5752 [0.4297, 0.7168] | 0.6592 [0.5195, 0.7871] | 0.5752 [0.4287, 0.6982] |
+| PIK3CA/mTOR | S3 | 32 / 32 / 32 | 0.7041 [0.5674, 0.8281] | 0.7305 [0.5986, 0.8467] | 0.7041 [0.5596, 0.7998] |
+| PIK3CA/mTOR | S4 | 32 / 32 / 32 | 0.5166 [0.3730, 0.6602] | 0.6641 [0.5263, 0.7910] | 0.5166 [0.3730, 0.6523] |
+| PIK3CA/mTOR | S5 | 32 / 32 / 32 | 0.5977 [0.4492, 0.7344] | 0.7148 [0.5801, 0.8350] | 0.5977 [0.4482, 0.7285] |
+| AChE/BChE | S1 | 27 / 25 / 28 | 0.6341 [0.4756, 0.7867] | 0.6442 [0.4907, 0.7871] | 0.6341 [0.4607, 0.7540] |
+| AChE/BChE | S2 | 27 / 25 / 27 | 0.5052 [0.3392, 0.6667] | 0.4925 [0.3333, 0.6502] | 0.4925 [0.3141, 0.5867] |
+| AChE/BChE | S3 | 27 / 25 / 28 | 0.6474 [0.4903, 0.7881] | 0.4907 [0.3360, 0.6468] | 0.4907 [0.3360, 0.6296] |
+| AChE/BChE | S4 | 27 / 25 / 27 | 0.5437 [0.3822, 0.6978] | 0.3909 [0.2401, 0.5528] | 0.3909 [0.2401, 0.5336] |
+| AChE/BChE | S5 | 27 / 27 / 28 | 0.6228 [0.4650, 0.7668] | 0.4511 [0.2923, 0.6111] | 0.4511 [0.2923, 0.5967] |
+| F2/F10 | S1 | 32 / 32 / 32 | 0.4082 [0.2656, 0.5557] | 0.3623 [0.2363, 0.5049] | 0.3623 [0.2305, 0.4805] |
+| F2/F10 | S2 | 31 / 32 / 32 | 0.5383 [0.3911, 0.6774] | 0.5675 [0.4194, 0.7067] | 0.5383 [0.3821, 0.6300] |
+| F2/F10 | S3 | 32 / 32 / 32 | 0.6094 [0.4668, 0.7490] | 0.6230 [0.4785, 0.7568] | 0.6094 [0.4531, 0.7021] |
+| F2/F10 | S4 | 31 / 32 / 32 | 0.6341 [0.4919, 0.7641] | 0.5696 [0.4173, 0.7127] | 0.5696 [0.4163, 0.6855] |
+| F2/F10 | S5 | 31 / 32 / 32 | 0.5625 [0.4133, 0.7107] | 0.5554 [0.4062, 0.7026] | 0.5554 [0.3921, 0.6633] |
+| PPARG/PPARA | S1 | 32 / 32 / 32 | 0.6553 [0.5117, 0.7861] | 0.6021 [0.4614, 0.7402] | 0.6021 [0.4561, 0.7051] |
+| PPARG/PPARA | S2 | 30 / 32 / 32 | 0.6583 [0.5177, 0.7885] | 0.2802 [0.1573, 0.4156] | 0.2802 [0.1573, 0.4156] |
+| PPARG/PPARA | S3 | 32 / 32 / 32 | 0.6455 [0.5029, 0.7744] | 0.3105 [0.1748, 0.4492] | 0.3105 [0.1748, 0.4492] |
+| PPARG/PPARA | S4 | 30 / 32 / 32 | 0.5781 [0.4313, 0.7229] | 0.3312 [0.2000, 0.4719] | 0.3312 [0.2000, 0.4698] |
+| PPARG/PPARA | S5 | 32 / 32 / 32 | 0.5146 [0.3701, 0.6543] | 0.4463 [0.3066, 0.5957] | 0.4463 [0.3037, 0.5596] |
+| PPARA/PPARD | S1 | 32 / 32 / 32 | 0.6787 [0.5430, 0.8047] | 0.5107 [0.3652, 0.6543] | 0.5107 [0.3652, 0.6475] |
+| PPARA/PPARD | S2 | 27 / 32 / 32 | 0.7002 [0.5590, 0.8287] | 0.6817 [0.5417, 0.8113] | 0.6817 [0.5255, 0.7546] |
+| PPARA/PPARD | S3 | 32 / 32 / 32 | 0.7520 [0.6240, 0.8653] | 0.6689 [0.5332, 0.7979] | 0.6689 [0.5322, 0.7725] |
+| PPARA/PPARD | S4 | 27 / 32 / 32 | 0.7581 [0.6296, 0.8738] | 0.5625 [0.4144, 0.7118] | 0.5625 [0.4144, 0.7025] |
+| PPARA/PPARD | S5 | 32 / 32 / 32 | 0.6338 [0.4922, 0.7676] | 0.6670 [0.5264, 0.7998] | 0.6338 [0.4844, 0.7197] |
 
-## B. Paired changes versus Vina
+## B. Paired differences in minimum AUROC
 
-| Target pair | Scheme vs S1 | Ranking common n | Directional common dual n | Minimum AUROC difference | Single-target fraction difference | Concordance | Supporting comparison |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| EGFR/HER2 | S2 | 97 | 28 | -0.0257 | -0.1000 | Discordant | NO |
-| EGFR/HER2 | S3 | 97 | 28 | 0.0167 | -0.1000 | Concordant improvement | NO |
-| EGFR/HER2 | S4 | 97 | 28 | 0.0346 | -0.1000 | Concordant improvement | YES |
-| EGFR/HER2 | S5 | 97 | 28 | -0.0011 | -0.1000 | Discordant | NO |
-| JAK1/JAK2 | S2 | 96 | 32 | -0.1523 | -0.1000 | Discordant | NO |
-| JAK1/JAK2 | S3 | 96 | 32 | -0.1172 | 0.2000 | Concordant worsening | NO |
-| JAK1/JAK2 | S4 | 96 | 32 | -0.1465 | 0.2000 | Concordant worsening | YES |
-| JAK1/JAK2 | S5 | 96 | 32 | -0.0771 | -0.1000 | Discordant | NO |
-| JAK1/TYK2 | S2 | 96 | 32 | 0.1377 | -0.3000 | Concordant improvement | NO |
-| JAK1/TYK2 | S3 | 96 | 32 | 0.0654 | -0.2000 | Concordant improvement | NO |
-| JAK1/TYK2 | S4 | 96 | 32 | 0.2539 | -0.2000 | Concordant improvement | YES |
-| JAK1/TYK2 | S5 | 96 | 32 | 0.2471 | -0.2000 | Concordant improvement | NO |
-| PIK3CA/mTOR | S2 | 96 | 32 | -0.0049 | -0.2000 | Discordant | NO |
-| PIK3CA/mTOR | S3 | 96 | 32 | 0.1240 | -0.3000 | Concordant improvement | NO |
-| PIK3CA/mTOR | S4 | 96 | 32 | -0.0635 | -0.1000 | Discordant | YES |
-| PIK3CA/mTOR | S5 | 96 | 32 | 0.0176 | -0.3000 | Concordant improvement | NO |
-| AChE/BChE | S2 | 79 | 27 | -0.1416 | 0.3750 | Concordant worsening | NO |
-| AChE/BChE | S3 | 80 | 27 | -0.1433 | 0.3750 | Concordant worsening | NO |
-| AChE/BChE | S4 | 79 | 27 | -0.2431 | 0.3750 | Concordant worsening | YES |
-| AChE/BChE | S5 | 80 | 27 | -0.1830 | 0.3750 | Concordant worsening | NO |
-| F2/F10 | S2 | 95 | 31 | 0.1643 | 0 | No change | NO |
-| F2/F10 | S3 | 96 | 32 | 0.2471 | -0.3000 | Concordant improvement | NO |
-| F2/F10 | S4 | 95 | 31 | 0.1956 | -0.1000 | Concordant improvement | YES |
-| F2/F10 | S5 | 95 | 31 | 0.1815 | -0.2000 | Concordant improvement | NO |
-| PPARG/PPARA | S2 | 94 | 30 | -0.3089 | 0.4000 | Concordant worsening | NO |
-| PPARG/PPARA | S3 | 96 | 32 | -0.2915 | 0.2000 | Concordant worsening | NO |
-| PPARG/PPARA | S4 | 94 | 30 | -0.2578 | 0.3000 | Concordant worsening | YES |
-| PPARG/PPARA | S5 | 96 | 32 | -0.1558 | 0.5000 | Concordant worsening | NO |
-| PPARA/PPARD | S2 | 91 | 27 | 0.1192 | -0.2000 | Concordant improvement | NO |
-| PPARA/PPARD | S3 | 96 | 32 | 0.1582 | -0.3000 | Concordant improvement | NO |
-| PPARA/PPARD | S4 | 91 | 27 | 0 | -0.1000 | No change | YES |
-| PPARA/PPARD | S5 | 96 | 32 | 0.1230 | -0.2000 | Concordant improvement | NO |
-
-## C. Concordance counts
-
-| Scheme vs S1 | Pairs | Concordant improvement | Concordant worsening | Discordant | No change |
+| Target pair | Contrast | n (dual/A/B) | Comparison minimum AUROC | Reference minimum AUROC | Difference (95% CI) |
 | --- | --- | --- | --- | --- | --- |
-| S2 | 8 | 2 | 2 | 3 | 1 |
-| S3 | 8 | 5 | 3 | 0 | 0 |
-| S4 | 8 | 3 | 3 | 1 | 1 |
-| S5 | 8 | 4 | 2 | 2 | 0 |
+| EGFR/HER2 | S2-S1 | 28 / 37 / 32 | 0.2210 | 0.2467 | -0.0257 [-0.1775, 0.1283] |
+| EGFR/HER2 | S3-S1 | 28 / 37 / 32 | 0.2634 | 0.2467 | 0.0167 [-0.1340, 0.1685] |
+| EGFR/HER2 | S4-S2 | 28 / 37 / 32 | 0.2812 | 0.2210 | 0.0603 [-0.0536, 0.1797] |
+| EGFR/HER2 | S5-S1 | 28 / 37 / 32 | 0.2455 | 0.2467 | -0.0011 [-0.1629, 0.1596] |
+| JAK1/JAK2 | S2-S1 | 32 / 32 / 32 | 0.4385 | 0.5908 | -0.1523 [-0.3672, 0.0605] |
+| JAK1/JAK2 | S3-S1 | 32 / 32 / 32 | 0.4736 | 0.5908 | -0.1172 [-0.2861, 0.0498] |
+| JAK1/JAK2 | S4-S2 | 32 / 32 / 32 | 0.4443 | 0.4385 | 0.0059 [-0.1328, 0.1406] |
+| JAK1/JAK2 | S5-S1 | 32 / 32 / 32 | 0.5137 | 0.5908 | -0.0771 [-0.2920, 0.1396] |
+| JAK1/TYK2 | S2-S1 | 32 / 32 / 32 | 0.5596 | 0.4219 | 0.1377 [-0.0371, 0.2969] |
+| JAK1/TYK2 | S3-S1 | 32 / 32 / 32 | 0.4873 | 0.4219 | 0.0654 [-0.0791, 0.2109] |
+| JAK1/TYK2 | S4-S2 | 32 / 32 / 32 | 0.6758 | 0.5596 | 0.1162 [-0.0127, 0.2539] |
+| JAK1/TYK2 | S5-S1 | 32 / 32 / 32 | 0.6689 | 0.4219 | 0.2471 [0.0312, 0.4082] |
+| PIK3CA/mTOR | S2-S1 | 32 / 32 / 32 | 0.5752 | 0.5801 | -0.0049 [-0.1924, 0.1680] |
+| PIK3CA/mTOR | S3-S1 | 32 / 32 / 32 | 0.7041 | 0.5801 | 0.1240 [-0.0469, 0.2607] |
+| PIK3CA/mTOR | S4-S2 | 32 / 32 / 32 | 0.5166 | 0.5752 | -0.0586 [-0.1660, 0.0547] |
+| PIK3CA/mTOR | S5-S1 | 32 / 32 / 32 | 0.5977 | 0.5801 | 0.0176 [-0.1807, 0.2178] |
+| AChE/BChE | S2-S1 | 27 / 25 / 27 | 0.4925 | 0.6341 | -0.1416 [-0.3676, 0.0489] |
+| AChE/BChE | S3-S1 | 27 / 25 / 28 | 0.4907 | 0.6341 | -0.1433 [-0.2608, 0.0172] |
+| AChE/BChE | S4-S2 | 27 / 25 / 27 | 0.3909 | 0.4925 | -0.1015 [-0.2215, 0.0923] |
+| AChE/BChE | S5-S1 | 27 / 25 / 28 | 0.4511 | 0.6341 | -0.1830 [-0.4026, 0.0715] |
+| F2/F10 | S2-S1 | 31 / 32 / 32 | 0.5383 | 0.3740 | 0.1643 [-0.0141, 0.3054] |
+| F2/F10 | S3-S1 | 32 / 32 / 32 | 0.6094 | 0.3623 | 0.2471 [0.0654, 0.3896] |
+| F2/F10 | S4-S2 | 31 / 32 / 32 | 0.5696 | 0.5383 | 0.0312 [-0.0796, 0.1724] |
+| F2/F10 | S5-S1 | 31 / 32 / 32 | 0.5554 | 0.3740 | 0.1815 [-0.0071, 0.3357] |
+| PPARG/PPARA | S2-S1 | 30 / 32 / 32 | 0.2802 | 0.5891 | -0.3089 [-0.4688, -0.1313] |
+| PPARG/PPARA | S3-S1 | 32 / 32 / 32 | 0.3105 | 0.6021 | -0.2915 [-0.4380, -0.1104] |
+| PPARG/PPARA | S4-S2 | 30 / 32 / 32 | 0.3312 | 0.2802 | 0.0510 [-0.0719, 0.1740] |
+| PPARG/PPARA | S5-S1 | 32 / 32 / 32 | 0.4463 | 0.6021 | -0.1558 [-0.3457, 0.0459] |
+| PPARA/PPARD | S2-S1 | 27 / 32 / 32 | 0.6817 | 0.5625 | 0.1192 [-0.0706, 0.2697] |
+| PPARA/PPARD | S3-S1 | 32 / 32 / 32 | 0.6689 | 0.5107 | 0.1582 [0.0059, 0.2979] |
+| PPARA/PPARD | S4-S2 | 27 / 32 / 32 | 0.5625 | 0.6817 | -0.1192 [-0.2616, 0.0868] |
+| PPARA/PPARD | S5-S1 | 32 / 32 / 32 | 0.6338 | 0.5107 | 0.1230 [-0.0762, 0.2754] |
 
-Panel A uses each method's own members and is descriptive. Table 2 and panel B use separate matched populations for every comparison. Joint rank = max(rank A, rank B), with average single-target ranks; ties are resolved by rank sum then global molecular ID. Both differences are new scheme minus S1. Opposite signs define concordant improvement or worsening; equal nonzero signs are discordant; either exact zero defines no change. S4-S1 is supporting, using verified identical directional members and no additional CI. Complete paired composition, per-ligand ranks and all CAP5 ranking results are supplied as data files.
+AUROC, target B: dual versus A-only; AUROC, target A: dual versus B-only. Counts: dual/A-only/B-only. S1, Vina; S2, fixed-pose GNINA; S3, fixed-pose RTMScore; S4, maximum saved-pose CNNscore; S5, independent GNINA. Higher scores are favorable. Paired contrasts use their own shared members and need not equal differences between estimates in panel A. CI: 95% class-stratified percentile bootstrap (10,000 resamples; seed 271828). S4-S2: saved-pose reranking. Supporting S4-S1 in Table S9 has no added CI.
+

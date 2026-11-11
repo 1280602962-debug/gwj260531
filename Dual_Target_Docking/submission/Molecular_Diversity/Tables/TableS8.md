@@ -1,43 +1,61 @@
-# Table S8 Random-seed and receptor-structure sensitivity
+# Table S8 Chemical-diversity and activity-threshold sensitivity
 
-## A. Five-seed distributions
+## A. CAP5 membership
 
-| Target pair | Metric | Seed 42 | Median | Minimum | Maximum | IQR | Finite seeds |
+| Target pair | Original n | CAP5 n | Excluded n | Excluded dual | Excluded A-only | Excluded B-only | Excluded neither |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| EGFR/HER2 | AUROC B | 0.6274 | 0.6375 | 0.6274 | 0.6477 | 0.0111 | 5 |
-| EGFR/HER2 | AUROC A | 0.2467 | 0.2388 | 0.2305 | 0.2467 | 0.0089 | 5 |
-| EGFR/HER2 | Minimum AUROC | 0.2467 | 0.2388 | 0.2305 | 0.2467 | 0.0089 | 5 |
-| JAK1/JAK2 | AUROC B | 0.5908 | 0.5840 | 0.5684 | 0.5908 | 0.0093 | 5 |
-| JAK1/JAK2 | AUROC A | 0.7485 | 0.7485 | 0.7422 | 0.7573 | 0.0112 | 5 |
-| JAK1/JAK2 | Minimum AUROC | 0.5908 | 0.5840 | 0.5684 | 0.5908 | 0.0093 | 5 |
-| JAK1/TYK2 | AUROC B | 0.6475 | 0.6475 | 0.6328 | 0.6631 | 0.0156 | 5 |
-| JAK1/TYK2 | AUROC A | 0.4219 | 0.4229 | 0.4121 | 0.4302 | 0.0015 | 5 |
-| JAK1/TYK2 | Minimum AUROC | 0.4219 | 0.4229 | 0.4121 | 0.4302 | 0.0015 | 5 |
-| PIK3CA/mTOR | AUROC B | 0.7363 | 0.7354 | 0.6997 | 0.7402 | 0.0029 | 5 |
-| PIK3CA/mTOR | AUROC A | 0.5801 | 0.5752 | 0.5596 | 0.5869 | 0.0190 | 5 |
-| PIK3CA/mTOR | Minimum AUROC | 0.5801 | 0.5752 | 0.5596 | 0.5869 | 0.0190 | 5 |
-| AChE/BChE | AUROC B | 0.6341 | 0.6422 | 0.6049 | 0.6533 | 0.0163 | 5 |
-| AChE/BChE | AUROC A | 0.6442 | 0.6442 | 0.6356 | 0.6448 | 0.0026 | 5 |
-| AChE/BChE | Minimum AUROC | 0.6341 | 0.6356 | 0.6049 | 0.6448 | 0.0075 | 5 |
-| F2/F10 | AUROC B | 0.4082 | 0.4062 | 0.3955 | 0.4082 | 0.0015 | 5 |
-| F2/F10 | AUROC A | 0.3623 | 0.3647 | 0.3594 | 0.3682 | 0.0029 | 5 |
-| F2/F10 | Minimum AUROC | 0.3623 | 0.3647 | 0.3594 | 0.3682 | 0.0029 | 5 |
-| PPARG/PPARA | AUROC B | 0.6553 | 0.6553 | 0.6465 | 0.6680 | 0.0127 | 5 |
-| PPARG/PPARA | AUROC A | 0.6021 | 0.6313 | 0.6021 | 0.6406 | 0.0225 | 5 |
-| PPARG/PPARA | Minimum AUROC | 0.6021 | 0.6313 | 0.6021 | 0.6406 | 0.0225 | 5 |
-| PPARA/PPARD | AUROC B | 0.6787 | 0.6929 | 0.6787 | 0.6953 | 0.0039 | 5 |
-| PPARA/PPARD | AUROC A | 0.5107 | 0.5088 | 0.4800 | 0.5151 | 0.0146 | 5 |
-| PPARA/PPARD | Minimum AUROC | 0.5107 | 0.5088 | 0.4800 | 0.5151 | 0.0146 | 5 |
+| EGFR/HER2 | 109 | 109 | 0 | 0 | 0 | 0 | 0 |
+| JAK1/JAK2 | 110 | 107 | 3 | 0 | 3 | 0 | 0 |
+| JAK1/TYK2 | 110 | 110 | 0 | 0 | 0 | 0 | 0 |
+| PIK3CA/mTOR | 110 | 110 | 0 | 0 | 0 | 0 | 0 |
+| AChE/BChE | 98 | 98 | 0 | 0 | 0 | 0 | 0 |
+| F2/F10 | 110 | 110 | 0 | 0 | 0 | 0 | 0 |
+| PPARG/PPARA | 110 | 110 | 0 | 0 | 0 | 0 | 0 |
+| PPARA/PPARD | 110 | 107 | 3 | 0 | 1 | 2 | 0 |
 
-## B. One-receptor substitutions
+## B. Vina minimum AUROC before and after CAP5
 
-| Target pair | Alt. PDB | Side | n (dual / A-only / B-only) | Original minimum AUROC | Alternative minimum AUROC | Minimum AUROC difference (95% CI) | Affected AUROC difference | Unreplaced AUROC difference |
+| Target pair | Primary minimum AUROC (95% CI) | CAP5 minimum AUROC (95% CI) | Point change |
+| --- | --- | --- | --- |
+| EGFR/HER2 | 0.2467 [0.1328, 0.3783] | 0.2467 [0.1328, 0.3783] | 0.0000 |
+| JAK1/JAK2 | 0.5908 [0.4512, 0.7246] | 0.6315 [0.4871, 0.7597] | 0.0406 |
+| JAK1/TYK2 | 0.4219 [0.2812, 0.5635] | 0.4219 [0.2812, 0.5635] | 0.0000 |
+| PIK3CA/mTOR | 0.5801 [0.4346, 0.7129] | 0.5801 [0.4346, 0.7129] | 0.0000 |
+| AChE/BChE | 0.6341 [0.4607, 0.7540] | 0.6341 [0.4607, 0.7540] | 0.0000 |
+| F2/F10 | 0.3623 [0.2305, 0.4805] | 0.3623 [0.2305, 0.4805] | 0.0000 |
+| PPARG/PPARA | 0.6021 [0.4561, 0.7051] | 0.6021 [0.4561, 0.7051] | 0.0000 |
+| PPARA/PPARD | 0.5107 [0.3652, 0.6475] | 0.4969 [0.3427, 0.6354] | -0.0139 |
+
+## C. PIK3CA/mTOR strict 6.5/5.5 subset
+
+| Target pair | Scheme | n (dual / A-only / B-only) | AUROC, target B (95% CI) | AUROC, target A (95% CI) | Minimum AUROC (95% CI) |
+| --- | --- | --- | --- | --- | --- |
+| PIK3CA/mTOR | S1 | 25 / 12 / 14 | 0.7900 [0.6200, 0.9300] | 0.4571 [0.2743, 0.6429] | 0.4571 [0.2743, 0.6429] |
+| PIK3CA/mTOR | S2 | 25 / 12 / 14 | 0.6200 [0.4133, 0.8133] | 0.5343 [0.3429, 0.7229] | 0.5343 [0.3343, 0.6829] |
+| PIK3CA/mTOR | S3 | 25 / 12 / 14 | 0.7500 [0.5767, 0.8933] | 0.6286 [0.4457, 0.7971] | 0.6286 [0.4429, 0.7800] |
+| PIK3CA/mTOR | S4 | 25 / 12 / 14 | 0.6267 [0.4267, 0.8167] | 0.6057 [0.4143, 0.7829] | 0.6057 [0.3867, 0.7229] |
+| PIK3CA/mTOR | S5 | 25 / 12 / 14 | 0.5933 [0.4033, 0.7833] | 0.6686 [0.4828, 0.8371] | 0.5933 [0.4000, 0.7367] |
+
+## D. Chemistry-model sensitivity to CAP5
+
+| Target pair | Direction | Original OOF n | CAP5 OOF n | Original ECFP4 AUROC | CAP5 ECFP4 AUROC | ECFP4 AUROC change | Original Vina increment | CAP5 Vina increment |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| AChE/BChE | 1P0M | B | 26 / 23 / 26 | 0.6037 | 0.6003 | -0.0033 [-0.0803, 0.0836] | -0.0033 | 0 |
-| AChE/BChE | 4EY6 | A | 27 / 23 / 26 | 0.6184 | 0.5670 | -0.0514 [-0.1852, 0] | -0.0940 | 0 |
-| F2/F10 | 2Y5F | B | 30 / 32 / 31 | 0.3828 | 0.3828 | 0 [-0.0469, 0.0229] | -0.0146 | 0 |
-| F2/F10 | 3SHC | A | 30 / 32 / 31 | 0.3828 | 0.4333 | 0.0505 [0, 0.1441] | 0.0780 | 0 |
-| PPARA/PPARD | 5U46 | B | 32 / 32 / 32 | 0.5107 | 0.5107 | 0 [-0.0225, 0] | -0.0181 | 0 |
-| PPARA/PPARD | 6KAX | A | 32 / 32 / 32 | 0.5107 | 0.4438 | -0.0669 [-0.1484, 0.0044] | -0.0669 | 0 |
+| EGFR/HER2 | Dual vs A-only | 65 | 65 | 0.8002 | 0.8002 | 0.0000 | -0.0164 | -0.0164 |
+| EGFR/HER2 | Dual vs B-only | 59 | 59 | 0.8790 | 0.8790 | 0.0000 | -0.0023 | -0.0023 |
+| JAK1/JAK2 | Dual vs A-only | 64 | 61 | 0.9185 | 0.9079 | -0.0106 | 0.0015 | 0.0048 |
+| JAK1/JAK2 | Dual vs B-only | 64 | 64 | 0.9678 | 0.9678 | 0.0000 | 0.0029 | 0.0029 |
+| JAK1/TYK2 | Dual vs A-only | 63 | 63 | 0.8488 | 0.8488 | 0.0000 | -0.0050 | -0.0050 |
+| JAK1/TYK2 | Dual vs B-only | 63 | 63 | 0.9042 | 0.9042 | 0.0000 | -0.0010 | -0.0010 |
+| PIK3CA/mTOR | Dual vs A-only | 64 | 64 | 0.8213 | 0.8213 | 0.0000 | 0.0215 | 0.0215 |
+| PIK3CA/mTOR | Dual vs B-only | 64 | 64 | 0.7285 | 0.7285 | 0.0000 | -0.0029 | -0.0029 |
+| AChE/BChE | Dual vs A-only | 52 | 52 | 0.8993 | 0.8993 | 0.0000 | -0.0044 | -0.0044 |
+| AChE/BChE | Dual vs B-only | 55 | 55 | 0.8201 | 0.8201 | 0.0000 | -0.0053 | -0.0053 |
+| F2/F10 | Dual vs A-only | 63 | 63 | 0.9405 | 0.9405 | 0.0000 | -0.0071 | -0.0071 |
+| F2/F10 | Dual vs B-only | 63 | 63 | 0.6633 | 0.6633 | 0.0000 | 0.0363 | 0.0363 |
+| PPARG/PPARA | Dual vs A-only | 63 | 63 | 0.8206 | 0.8206 | 0.0000 | -0.0141 | -0.0141 |
+| PPARG/PPARA | Dual vs B-only | 64 | 64 | 0.6670 | 0.6670 | 0.0000 | -0.0059 | -0.0059 |
+| PPARA/PPARD | Dual vs A-only | 64 | 63 | 0.9316 | 0.9345 | 0.0028 | -0.0029 | -0.0030 |
+| PPARA/PPARD | Dual vs B-only | 64 | 62 | 0.8740 | 0.8688 | -0.0053 | 0.0049 | 0.0042 |
 
-Five Vina seeds: 17, 29, 42, 71 and 101. Each seed uses its own valid population. Receptor comparisons use paired common members and replace only one target. Full direction-specific estimates, confidence intervals and members are in the source data. PIK3CA/mTOR Q110 has no alternative-receptor calculation. AUROC, target B compares dual with A-only; AUROC, target A compares dual with B-only. Minimum AUROC is the smaller directional AUROC.
+CAP5 is post hoc supporting sensitivity: at most five ligands per nonempty Murcko scaffold within pair and activity class; acyclic ligands are exempt. Six ligands are excluded without replacement. Complete CAP5 method comparisons, chemical models, controls and ranking outputs are retained in Supplementary_Data.zip. The PPARA/PPARD S5 dual-versus-A-only CI changes from [0.4921875, 0.767578125] to [0.5030241935, 0.7772177419]; this boundary change is retained, without a general significance claim. The strict Q110 subset has 56 members (25 dual, 12 A-only, 14 B-only, 5 neither). Main and subset populations differ; no new paired CI for their difference is calculated.
+

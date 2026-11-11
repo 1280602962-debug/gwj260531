@@ -1,3 +1,9 @@
+# Current numbering from manuscript first citation
+
+The supplied Chinese v6 manuscript is the ordering authority. Numbering was updated on 11 November 2026 across the Word manuscript, current Markdown text, figures, captions, tables, workbooks, PDF reviews and source-data filenames. Main figures 1-8, main tables 1-2 and Scheme S1 are unchanged. See [old-to-new mapping](Numbering_Changes_20261111_CN.md) and [full numbered manuscript](../../manuscript/Manuscript_CN_Numbered_20261111.docx).
+
+This is a presentation-only change. Scientific source files and analysis archives retain their original identities. Earlier dated reports in Checks and Comparison_Baseline describe the numbering at their recorded commits. Current checks are in Checks/Numbering_QA_20261111.json.
+
 # Molecular Diversity figures and tables
 
 This is the current presentation package prepared for Molecular Diversity on 10 November 2026 and refined from presentation commit `41d48a0a6cf7d112b805b299bf2618d74654ab63`. Scientific estimates, analysis membership and confidence intervals come from the accepted branch at `ce81b011bab449c6cf5e2b9664626ed808be5857`. The main text has eight figures and two tables, meeting the journal's ten-item display limit. Previous Figure 8 is now Figure S10; previous Figure 9 is now Figure 8. Table numbering is unchanged.
@@ -74,10 +80,11 @@ This review branch contains three additional text-only deliverables and one refe
 - [First-occurrence order of the 12 currently cited papers](Checks/REFERENCE_CITATION_ORDER_12.csv)
 - [Chinese abstract, keywords and conclusion for pretranslation](Abstract_Conclusion_CN_20261110.md)
 
-These documents preserve the accepted numeric and artwork files. The Chinese manuscript v6 still needs its old Figure 8/9 references updated to Figure S10/Figure 8. The exploratory single-target comparison is now archived as Table S11; see the addendum below for its source and reproduction status. The journal also asks for a separate graphical abstract, not included in this figure package. This review did not regenerate any figure, table or bootstrap estimate.
+These documents preserve the accepted numeric and artwork files. The exploratory single-target comparison is now archived as Table S11; see the addendum below for its source and reproduction status. The journal also asks for a separate graphical abstract, not included in this figure package. This review did not regenerate any figure, table or bootstrap estimate.
 
 ## Table S11 single-target control addendum (10 November 2026)
 
-Table S11 closes the v6 manuscript placeholder. [Panel A and B](Tables/TableS11.md), the [standalone PDF](Tables/Table_S11.pdf), and [editable workbook](Tables/Table_S11.xlsx) report all 16 score channels under two negative-class definitions. The existing Supplementary_Tables.xlsx retains S1-S10; Table_S11.xlsx is the additional S11 workbook. Tables_Review.pdf and Editable_Tables.html include both S11 panels.
+Table S11 closes the v6 manuscript placeholder. [Panel A and B](Tables/TableS11.md), the [standalone PDF](Tables/Table_S11.pdf), and [editable workbook](Tables/Table_S11.xlsx) report all 16 score channels under two negative-class definitions. Supplementary_Tables.xlsx now includes Tables S1-S11 in the new order; Table_S11.xlsx remains available as the original standalone S11 workbook. Tables_Review.pdf and Editable_Tables.html include both S11 panels.
 
-The original exploratory bootstrap output was not recovered. These intervals are a newly archived reproduction from the unchanged frozen S1 scores (10,000 class-stratified resamples; seed 271828). All 32 AUROC points agree with an independent scikit-learn calculation. The 16/16, 4/16, 11/16 and two below-0.5 interval statements in the v6 paragraph are reproduced. The manuscript citation is Table S11A for neither controls and Table S11B for opposite-single-target controls. [Protocol, membership and full numeric archive](../../analysis/single_target_controls_20261110/README.md). No existing primary or Table S6 estimates are recomputed or replaced.
+The original exploratory bootstrap output was not recovered. These intervals are a newly archived reproduction from the unchanged frozen S1 scores (10,000 class-stratified resamples; seed 271828). All 32 AUROC points agree with an independent scikit-learn calculation. The 16/16, 4/16, 11/16 and two below-0.5 interval statements in the v6 paragraph are reproduced. The manuscript citation is Table S11A for neither controls and Table S11B for opposite-single-target controls. [Protocol, membership and full numeric archive](../../analysis/single_target_controls_20261110/README.md). No existing primary or control estimates are recomputed or replaced.
+

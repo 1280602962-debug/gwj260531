@@ -28,25 +28,25 @@ AUROC 按 higher-better 分数计算，ties=0.5。summary_min 是两个方向 AU
 
 化学模型使用八个描述符、ECFP4，或 ECFP4 加相应方向的 S1。ECFP4 为 radius 2、2048 bit、useChirality=false、useFeatures=false。逻辑回归为 L2、C=1、liblinear、class_weight=None、max_iter=1000、random_state=271828。标准化只在训练折拟合；加入的 S1 列不使用测试折的均值和标准差。其他七对沿用原五个冻结折。Q110 使用读取分数前写定的分折：规范 Murcko 骨架去重排序后，按 0–4 循环分配，同一骨架进入同一折，共 105 个骨架。两种分折分别记录来源，均拼接折外预测得到 OOF，没有在本轮重新拟合模型。OOF 不是外部独立验证。正式输出不含 scaler_probe，训练折缩放的实现证据留在既有人工验收，不在本轮补造。
 
-D1 在第 1 层、同一 canonical Mol 上记录八个描述符和 Murcko 字符串。空 Murcko 表示无环，不是解析失败。最大异类 ECFP4 Tanimoto 只在同一 pair×arm 内相对另一标签类计算，见 Figure S6 及 Supplementary Data 中的 `module_D1_composition.csv`。该结果不表示测试折配体相对于训练折的最近邻相似性。CAP5 的骨架定义与一致性检查见第 11 节。
+D1 在第 1 层、同一 canonical Mol 上记录八个描述符和 Murcko 字符串。空 Murcko 表示无环，不是解析失败。最大异类 ECFP4 Tanimoto 只在同一 pair×arm 内相对另一标签类计算，见 Figure S7 及 Supplementary Data 中的 `module_D1_composition.csv`。该结果不表示测试折配体相对于训练折的最近邻相似性。CAP5 的骨架定义与一致性检查见第 11 节。
 
 GNINA 原始记录中另保存了 CNNaffinity，但未将其纳入正式评价；正式的固定姿态、保存姿态重排及独立对接方案均使用 CNNscore，见补充方法第 4 节及 `submission/SCORING_SCHEMES.csv`。
 
 ## 5. 负类与口袋的完整结果
 
-Table S6A 和 Figure 4 给出 16 个臂的单靶负类、neither、差值和差值区间，各条件 AUROC 区间见补充数据。Figure 6 显示对应与非对应口袋 AUROC 的坐标关系，Figure S12 完整显示原始估计和成对差值区间；Table S6B 同时列出额外减员情况。反向点、零点和含 0 的区间都保留。
+Table S5A 和 Figure 4 给出 16 个臂的单靶负类、neither、差值和差值区间，各条件 AUROC 区间见补充数据。Figure 6 显示对应与非对应口袋 AUROC 的坐标关系，Figure S8 完整显示原始估计和成对差值区间；Table S5B 同时列出额外减员情况。反向点、零点和含 0 的区间都保留。
 
 Table S11给出探索性单靶对照：以本靶单靶活性配体为正类，A部分以neither为负类，B部分以对侧单靶活性配体为负类，均使用本靶S1评分。该分析仅要求所用评分通道有效，dual不参与；按类别分层进行10,000次bootstrap（seed=271828），两种比较共享正类抽样，区间取linear 2.5和97.5百分位。区间为逐通道探索性结果，未作多重比较校正。完整成员、全精度结果、重采样值与复现协议见`analysis/single_target_controls_20261110/`。
 
 ## 6. 五种子与替代受体
 
-Supplementary Data 中的 `module_E_five_seed.csv` 保留 40 个 pair×seed 原点，Table S8A 为 24 个汇总。Figure S7 同时显示 auc_B、auc_A 和 summary_min。Figure 7a 只显示 summary_min。IQR 按各自 metric 的 linear P75−P25 读取。七对的五种子人数不变。AChE/BChE 仅 seed 17 因 AB_046 在 4BDS 超时而少 1 个 A_only。
+Supplementary Data 中的 `module_E_five_seed.csv` 保留 40 个 pair×seed 原点，Table S7A 为 24 个汇总。Figure S9 同时显示 auc_B、auc_A 和 summary_min。Figure 7a 只显示 summary_min。IQR 按各自 metric 的 linear P75−P25 读取。七对的五种子人数不变。AChE/BChE 仅 seed 17 因 AB_046 在 4BDS 超时而少 1 个 A_only。
 
-Table S8B 和 Figure 7b 覆盖 AChE/BChE、F2/F10 和 PPARA/PPARD 三对、六个替代条件。未替换端差值为 0 是构造核对。Q110 没有替代受体计算，因此当前材料不采用 PM48 的替代受体统计。
+Table S7B 和 Figure 7b 覆盖 AChE/BChE、F2/F10 和 PPARA/PPARD 三对、六个替代条件。未替换端差值为 0 是构造核对。Q110 没有替代受体计算，因此当前材料不采用 PM48 的替代受体统计。
 
 ## 7. 联合排序
 
-方法自身描述和与 S1 的共同比较分开。共同比较中，新方法使用 `pairwise_common_vs_M0`，S1 使用 `pairwise_common_vs_该方法`（该方法的内部标识仍采用来源 M 名称），不用 method_specific 的 S1 行充当全部方法的基线。名次为 average midrank，联合名次为两端名次的 worst rank。并列先按 rank_A+rank_B，再按 global ID。k=ceil(0.10×N)。in_topk 取 YES 或 NO。Supplementary Data 中的 `module_I_ligand_ranks.csv` 保留全部 9734 行，不在正文中逐行排印。S2、S3、S5 的方向差值读取 PRIMARY。S4−S1 只在三组 dual、A_only、B_only 成员分别一致后，把已有的 S4−S2 与 S2−S1 点估计相加，不加新区间。四态定义使用舍入前点值：x>0 且 y<0 为一致改善，x<0 且 y>0 为一致变差，两项同号且都非零为不一致，至少一项恰为 0 为无变化。Table S10C 的四行与 Table S10B 的 32 行计数一致。S3 和 S5 的无变化计数均为 0。
+方法自身描述和与 S1 的共同比较分开。共同比较中，新方法使用 `pairwise_common_vs_M0`，S1 使用 `pairwise_common_vs_该方法`（该方法的内部标识仍采用来源 M 名称），不用 method_specific 的 S1 行充当全部方法的基线。名次为 average midrank，联合名次为两端名次的 worst rank。并列先按 rank_A+rank_B，再按 global ID。k=ceil(0.10×N)。in_topk 取 YES 或 NO。Supplementary Data 中的 `module_I_ligand_ranks.csv` 保留全部 9734 行，不在正文中逐行排印。S2、S3、S5 的方向差值读取 PRIMARY。S4−S1 只在三组 dual、A_only、B_only 成员分别一致后，把已有的 S4−S2 与 S2−S1 点估计相加，不加新区间。四态定义使用舍入前点值：x>0 且 y<0 为一致改善，x<0 且 y>0 为一致变差，两项同号且都非零为不一致，至少一项恰为 0 为无变化。Table S9C 的四行与 Table S9B 的 32 行计数一致。S3 和 S5 的无变化计数均为 0。
 
 ## 8. 复现、环境和数据可用性
 
@@ -57,7 +57,7 @@ Table S8B 和 Figure 7b 覆盖 AChE/BChE、F2/F10 和 PPARA/PPARD 三对、六�
 
 ## 9. 严格阈值支持分析
 
-严格 6.5/5.5 同类子集共 56 个分子：dual 25、A_only 12、B_only 14、neither 5。S1 的 summary_min 为 0.4571，S3 为 0.6286。完整结果见 Figure S10b 和 Table S9C。这是 Q110 内的支持分析，不替换主评价人群。
+严格 6.5/5.5 同类子集共 56 个分子：dual 25、A_only 12、B_only 14、neither 5。S1 的 summary_min 为 0.4571，S3 为 0.6286。完整结果见 Figure S10b 和 Table S8C。这是 Q110 内的支持分析，不替换主评价人群。
 
 ## 10. 选样证据及其覆盖范围
 
@@ -69,10 +69,11 @@ CAP5 不改变这些选样记录，也不把八对原有的构建条件改写为
 
 CAP5 是在正式评价集冻结后开展的事后敏感性分析。结构取自当前 mapping 的 canonical_smiles，使用 jcim_stage2_compute._murcko，即 MurckoScaffold.GetScaffoldForMol 后转换为 SMILES。在同一靶点对、同一实验类别内，同一非空骨架最多保留 5 个分子。无环分子不占非空骨架名额，同一骨架在不同类别中分别计数，不回补被排除的名额。
 
-超额组按固定字段生成的 SHA-256 升序保留前 5 个，哈希相同再按 panel_id 排序；字段、分隔符和描述性带宽在敏感性统计前写入 CAP5_SELECTION_FREEZE.json。保留规则不读取对接分数。全部 867 条中保留 861 条、排除 6 条，4 条无环记录及 111 条 neither 均保留，见 Table S9A，以及 Supplementary Data 中的 `CAP5_CLASS_COUNTS.csv` 和 `CAP5_EXCLUDED_LIGANDS.csv`。
+超额组按固定字段生成的 SHA-256 升序保留前 5 个，哈希相同再按 panel_id 排序；字段、分隔符和描述性带宽在敏感性统计前写入 CAP5_SELECTION_FREEZE.json。保留规则不读取对接分数。全部 867 条中保留 861 条、排除 6 条，4 条无环记录及 111 条 neither 均保留，见 Table S8A，以及 Supplementary Data 中的 `CAP5_CLASS_COUNTS.csv` 和 `CAP5_EXCLUDED_LIGANDS.csv`。
 
-方向性 AUROC、方法配对差、负类对照、口袋对照及联合排名使用原统计定义；化学模型在 CAP5 成员上重新拟合，排除成员既不训练也不测试，沿用原冻结 fold。保留成员中的原有缺 fold 情况仍按原规则处理，没有新的 fold 连接失败。Vina 汇总与化学模型见 Table S9B,D；全部评分的方向性比较见 Figure S8，完整统计和与主分析的对照见 Supplementary Data 中的 CAP5 文件。折外逐分子预测、全排名及分折检查随 CSV 数据包提供。
+方向性 AUROC、方法配对差、负类对照、口袋对照及联合排名使用原统计定义；化学模型在 CAP5 成员上重新拟合，排除成员既不训练也不测试，沿用原冻结 fold。保留成员中的原有缺 fold 情况仍按原规则处理，没有新的 fold 连接失败。Vina 汇总与化学模型见 Table S8B,D；全部评分的方向性比较见 Figure S11，完整统计和与主分析的对照见 Supplementary Data 中的 CAP5 文件。折外逐分子预测、全排名及分折检查随 CSV 数据包提供。
 
 点变化的 0.02 带宽只用于描述，不是显著性或等效性界值。完整点估计、区间和人数同时保留。PPARA/PPARD 的 S5 在 dual 对 A_only 方向有区间边界变化：主分析为 0.4922–0.7676，CAP5 为 0.5030–0.7772。该边界变化单独列出，不以总体稳定概括掩盖。
 
 CAP5 没有重评五随机种子和替代受体，也没有重新对接或重评分。CAP5 排名使用自身的共同成员和 k=ceil(0.10×N)，不能把其中 k=9 的名单称为原 Top-10。主分析继续采用 867 条合格观察，PIK3CA/mTOR 的 Q110 及其主结果不变。
+
