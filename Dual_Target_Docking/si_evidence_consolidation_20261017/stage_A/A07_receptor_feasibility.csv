@@ -1,0 +1,9 @@
+pair,pdb_A,pdb_B,frozen_receptor,component_policy_read,ligand_prep_if_new,macrocycle_rule,software,docking_run,new_box_needed
+EGFR/HER2,3POZ,3RCD,YES,no extra row in receptor_component_policy.csv,not required; no E2 set,not applied; no new ligands prepared,Vina 1.2.7 present; Meeko 0.7.1 present; GNINA absent; Open Babel absent,NO,NO for these frozen receptors
+JAK1/JAK2,6N7A,8BXH,YES,no extra row,not required,not applied,same,NO,NO
+JAK1/TYK2,6N7A,3LXP,YES,no extra row,not required,not applied,same,NO,NO
+PIK3CA/mTOR,4L23,4JT6,YES,4L23 p85-alpha niSH2 REMOVE; 4JT6 second copy and mLST8 REMOVE; mTOR chain A RETAIN,not required,not applied,same,NO,NO
+AChE/BChE,4EY7,4BDS,YES,4EY7 dimer RETAIN; E20 A:604 BOX_DEFINING; E20 B:605 NON_PRIMARY,not required,historical M3 addendum uses Meeko 0.7.1 --rigid_macrocycles; real atoms are kept and glue pseudoatoms are not a license to open the ring,same,NO,NO
+F2/F10,4UDW,2JKH,YES,4UDW hirudin variant-2 RETAIN; 2JKH FXa light chain RETAIN,not required,not applied,same,NO,NO
+PPARG/PPARA,9V8H,6LXA,YES,9V8H PG08-NL peptide RETAIN,not required,not applied,same,NO,NO
+PPARA/PPARD,6LXA,5U3Q,YES,5U3Q PPARD copy B RETAIN_PRIMARY; copy A LEGACY_ONLY,not required,not applied,same,NO,NO
